@@ -113,7 +113,8 @@ function-scenario = function-call?,
 ## element defines the template call and the parameters passed to it and the
 ## <assertion> elements test the result of the template call. Child scenarios
 ## can override the parameters in the template call.
-named-scenario = template-call?, 
+named-scenario = context?,
+                 template-call?, 
                  like*,
                  (pending | assertion)*,
                  (pending | 
