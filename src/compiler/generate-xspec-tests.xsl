@@ -48,7 +48,7 @@
   
 <xsl:template match="x:description" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
-  <stylesheet version="2.0"
+  <stylesheet version="{( @xslt-version, '2.0' )[1]}"
 	      exclude-result-prefixes="pkg impl">
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
   	<import href="{$stylesheet-uri}" />

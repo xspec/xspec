@@ -6,45 +6,33 @@
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
 <!--
     Test only the XSLT version.  It is very difficult to test the (textual)
     XQuery output.  Unless, of course, we use XQueryX...
 -->
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               stylesheet="../generate-xspec-tests.xsl">
-
-   <!--
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" stylesheet="../src/compiler/generate-xspec-tests.xsl">
+  <!--
        <t:expect/>
        
        TODO: Track down how it is transformed (named templated, rule
        in a mode, etc.) and test it explicitely...
    -->
-   <t:scenario label="pending call">
-      <t:context mode="t:compile">
-         <t:param tunnel="yes" name="context"/>
-         <t:param tunnel="yes" name="call"/>
-         <t:expect test="false()"/>
-      </t:context>
-      <t:expect label="is a template"
-                test="$t:result instance of element(xsl:template)"/>
-      <t:expect label="@test must be transformed to @select"
-                test="$t:result/xsl:variable[@name eq 'impl:test-result']/*/xsl:otherwise/*">
-         <xsl:sequence select="false()" version="..."/>
-      </t:expect>
-      <t:expect label="is a template"
-                assert="$t:result instance of element(xsl:template)"/>
-      <t:expect label="@test must be transformed to @select"
-                context="$t:result/xsl:variable[@name eq 'impl:test-result']/*/xsl:otherwise/*">
-         <xsl:sequence select="false()" version="..."/>
-      </t:expect>
-   </t:scenario>
-
+  <t:scenario label="pending call">
+    <t:context mode="t:compile">
+      <t:param tunnel="yes" name="context"/>
+      <t:param tunnel="yes" name="call"/>
+      <t:expect test="false()"/>
+    </t:context>
+    <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
+    <t:expect label="@test must be transformed to @select" test="$t:result/xsl:variable[@name eq 'impl:test-result']/*/xsl:otherwise/*">
+      <xsl:sequence select="false()" version="..."/>
+    </t:expect>
+    <t:expect label="is a template" assert="$t:result instance of element(xsl:template)"/>
+    <t:expect label="@test must be transformed to @select" context="$t:result/xsl:variable[@name eq 'impl:test-result']/*/xsl:otherwise/*">
+      <xsl:sequence select="false()" version="..."/>
+    </t:expect>
+  </t:scenario>
 </t:description>
-
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->
