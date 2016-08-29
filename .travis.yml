@@ -3,7 +3,7 @@ before_script:
     - mkdir -p /tmp/local
     - bash /tmp/bats/install.sh /tmp/local
     - export PATH=$PATH:/tmp/local/bin
-    - git clone -b feature/xslt3-support https://github.com/cirulls/xspec.git /tmp/xspec
+    - git clone -b develop https://github.com/cirulls/xspec.git /tmp/xspec
     - export SAXON_CP=/tmp/xspec/saxon9he.jar
 
 script:
