@@ -1,1 +1,0 @@
-The Saxon processor is a product of [Saxonica](http://www.saxonica.com). From version 9.5, the open-source Saxon-HE product is offered under the [Mozilla Public License version 2.0](https://www.mozilla.org/en-US/MPL/2.0/).
