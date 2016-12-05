@@ -4,13 +4,13 @@ before_script:
     - mkdir -p /tmp/local
     - bash /tmp/bats/install.sh /tmp/local
     - export PATH=$PATH:/tmp/local/bin
-    # install saxon
-    - mkdir -p /tmp/saxon 
-    - wget -O /tmp/saxon/saxon9he.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar
-    - chmod +x /tmp/saxon/saxon9he.jar
-    - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
     # install xspec
     - git clone -b feature/saxon https://github.com/xspec/xspec.git /tmp/xspec
+    # install saxon
+    - mkdir -p /tmp/xspec/saxon 
+    - wget -O /tmp/xspec/saxon/saxon9he.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar
+    - chmod +x /tmp/xspec/saxon/saxon9he.jar
+    - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
 
 script:
     - cd test
