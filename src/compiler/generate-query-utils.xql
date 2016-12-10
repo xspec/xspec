@@ -64,7 +64,7 @@ declare function test:node-deep-equal($node1 as node(), $node2 as node()) as xs:
       let $atts2 as attribute()* := test:sort-named-nodes($node2/@*)
         return
           if ( test:deep-equal($atts1, $atts2) ) then
-            if ( $node1/text() = '...' and fn:count($node1/node()) = 1 ) then
+            if ( fn:count($node1/node()) = 1 and $node1/text() = '...' ) then
               fn:true()
             else
               test:deep-equal(test:sorted-children($node1), test:sorted-children($node2))
@@ -80,9 +80,9 @@ declare function test:node-deep-equal($node1 as node(), $node2 as node()) as xs:
             or ( $node1 instance of processing-instruction()
                  and $node2 instance of processing-instruction()) ) then
     fn:node-name($node1) eq fn:node-name($node2)
-      and ( $node1 = '...' or fn:string($node1) eq fn:string($node2) )
+      and ( fn:string($node1) eq fn:string($node2) or $node1 = '...' )
   else if ( $node1 instance of comment() and $node2 instance of comment() ) then
-    $node1 = '...' or fn:string($node1) eq fn:string($node2)
+    fn:string($node1) eq fn:string($node2) or $node1 = '...' 
   else
     fn:false()
 };
