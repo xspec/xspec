@@ -80,9 +80,9 @@ declare function test:node-deep-equal($node1 as node(), $node2 as node()) as xs:
             or ( $node1 instance of processing-instruction()
                  and $node2 instance of processing-instruction()) ) then
     fn:node-name($node1) eq fn:node-name($node2)
-      and ( fn:string($node1) eq fn:string($node2) or $node1 = '...' )
+      and ( fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' )
   else if ( $node1 instance of comment() and $node2 instance of comment() ) then
-    fn:string($node1) eq fn:string($node2) or $node1 = '...' 
+    fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' 
   else
     fn:false()
 };

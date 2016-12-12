@@ -450,12 +450,12 @@
                     ($node1 instance of processing-instruction() and
                      $node2 instance of processing-instruction())">
       <xsl:sequence select="node-name($node1) eq node-name($node2) and
-                            (string($node1) eq string($node2) or $node1 = '...')" />      
+                            (string($node1) eq string($node2) or string($node1) = '...')" />      
 
     </xsl:when>
     <xsl:when test="$node1 instance of comment() and
                     $node2 instance of comment()">
-      <xsl:sequence select="string($node1) eq string($node2) or $node1 = '...'" />
+      <xsl:sequence select="string($node1) eq string($node2) or string($node1) = '...'" />
     </xsl:when>
     <xsl:otherwise>
       <xsl:sequence select="false()" />
