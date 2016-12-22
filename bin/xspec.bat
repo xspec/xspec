@@ -73,7 +73,7 @@ rem ##
 
 :win_xslt_trace
     rem
-    rem Redirect:
+    rem Inner Redirect:
     rem    By swapping stdout and stderr, send stderr to pipe (as stdout)
     rem    while allowing original stdout to survive (as stderr)
     rem
@@ -82,7 +82,10 @@ rem ##
     rem    that don't look like XML element, assuming %COVERAGE_CLASS%
     rem    emits every required line in this format
     rem
-    java -cp "%CP%" net.sf.saxon.Transform %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$"
+    rem Outer Redirect:
+    rem    To restore the original direction, swap stdout and stderr again 
+    rem
+    ( java -cp "%CP%" net.sf.saxon.Transform %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
     goto :EOF
 
 :xquery
@@ -93,7 +96,7 @@ rem ##
     rem
     rem As for redirect and pipe, see :win_xslt_trace
     rem
-    java -cp "%CP%" net.sf.saxon.Query %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$"
+    ( java -cp "%CP%" net.sf.saxon.Query %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
     goto :EOF
 
 :win_reset_options
@@ -388,7 +391,7 @@ if defined XSLT (
         echo Collecting test coverage data; suppressing progress report...
         call :win_xslt_trace -T:%COVERAGE_CLASS% ^
             -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
-            -it:{http://www.jenitennison.com/xslt/xspec}main > "%COVERAGE_XML%" ^
+            -it:{http://www.jenitennison.com/xslt/xspec}main 2> "%COVERAGE_XML%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xslt -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
@@ -402,7 +405,7 @@ if defined XSLT (
     if defined COVERAGE (
         echo Collecting test coverage data; suppressing progress report...
         call :win_xquery_trace -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" > "%COVERAGE_XML%" ^
+            -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" 2> "%COVERAGE_XML%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xquery -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" ^
