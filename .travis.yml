@@ -3,7 +3,7 @@ before_script:
     - mkdir -p /tmp/local
     - bash /tmp/bats/install.sh /tmp/local
     - export PATH=$PATH:/tmp/local/bin
-    - git clone -b master https://github.com/xspec/xspec.git /tmp/xspec
+    - git clone -b bugfix/30 https://github.com/xspec/xspec.git /tmp/xspec
     - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
 
 script:
