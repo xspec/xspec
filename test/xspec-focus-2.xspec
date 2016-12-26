@@ -6,89 +6,60 @@
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
 <?oxygen RNGSchema="http://xspec.googlecode.com/svn/trunk/xspec.rnc" type="compact"?>
-
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               xmlns:my="http://example.org/ns/my"
-               query="http://example.org/ns/my"
-               query-at="xspec-tested.xql"
-               stylesheet="xspec-tested.xsl">
-
-   <!--
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="xspec-tested.xql" stylesheet="xspec-tested.xsl">
+  <!--
        Test @focus and pending toghether (both @pending and t:pending).
    -->
-
-   <!--
+  <!--
        Test x:pending.
    -->
-   <t:pending label="testing pending element">
-
-      <t:scenario label="pending call (element)">
-         <t:call function="my:square">
-            <t:param select="3"/>
-         </t:call>
-         <t:expect label="the result" test="$x:result eq 9"/>
-         <t:expect label="the result" assert="$x:result eq 9"/>
-      </t:scenario>
-
-      <t:scenario label="pending call (element) + focus" focus="focus">
-         <t:call function="my:square">
-            <t:param select="3"/>
-         </t:call>
-         <t:expect label="the result" test="$x:result eq 9"/>
-         <t:expect label="the result" assert="$x:result eq 9"/>
-      </t:scenario>
-
-   </t:pending>
-
-   <!--
+  <t:pending label="testing pending element">
+    <t:scenario label="pending call (element)">
+      <t:call function="my:square">
+        <t:param select="3"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq 9"/>
+    </t:scenario>
+    <t:scenario label="pending call (element) + focus" focus="focus">
+      <t:call function="my:square">
+        <t:param select="3"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq 9"/>
+    </t:scenario>
+  </t:pending>
+  <!--
        Non-pending scenarios.
    -->
-   <t:scenario label="call">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result eq 9"/>
-      <t:expect label="the result" assert="$x:result eq 9"/>
-   </t:scenario>
-
-   <t:scenario label="call + focus" focus="focus">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result eq 9"/>
-      <t:expect label="the result" assert="$x:result eq 9"/>
-   </t:scenario>
-
-   <!--
+  <t:scenario label="call">
+    <t:call function="my:square">
+      <t:param select="3"/>
+    </t:call>
+    <t:expect label="the result" test="$x:result eq 9"/>
+  </t:scenario>
+  <t:scenario label="call + focus" focus="focus">
+    <t:call function="my:square">
+      <t:param select="3"/>
+    </t:call>
+    <t:expect label="the result" test="$x:result eq 9"/>
+  </t:scenario>
+  <!--
        Test @pending.
    -->
-   <t:scenario label="pending call (attribute)"
-               pending="testing pending attribute">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result eq 9"/>
-      <t:expect label="the result" assert="$x:result eq 9"/>
-   </t:scenario>
-
-   <!-- does not make sense, really, but to see how the implem reacts -->
-   <t:scenario label="pending call (attribute) + focus"
-               pending="testing pending attribute"
-               focus="focus">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result eq 9"/>
-      <t:expect label="the result" assert="$x:result eq 9"/>
-   </t:scenario>
-
+  <t:scenario label="pending call (attribute)" pending="testing pending attribute">
+    <t:call function="my:square">
+      <t:param select="3"/>
+    </t:call>
+    <t:expect label="the result" test="$x:result eq 9"/>
+  </t:scenario>
+  <!-- does not make sense, really, but to see how the implem reacts -->
+  <t:scenario label="pending call (attribute) + focus" pending="testing pending attribute" focus="focus">
+    <t:call function="my:square">
+      <t:param select="3"/>
+    </t:call>
+    <t:expect label="the result" test="$x:result eq 9"/>
+  </t:scenario>
 </t:description>
-
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->

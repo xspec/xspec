@@ -20,14 +20,12 @@
         <t:param select="3"/>
       </t:call>
       <t:expect label="the result" test="$x:result eq 9"/>
-      <t:expect label="the result" assert="$x:result eq 9"/>
     </t:scenario>
     <t:scenario label="pending must fail (element)">
       <t:call function="my:square">
         <t:param select="2"/>
       </t:call>
       <t:expect label="the type" test="$x:result instance of xs:string"/>
-      <t:expect label="the type" assert="$x:result instance of xs:string"/>
     </t:scenario>
   </t:pending>
   <!--
@@ -38,14 +36,12 @@
       <t:param select="3"/>
     </t:call>
     <t:expect label="the result" test="$x:result eq 9"/>
-    <t:expect label="the result" assert="$x:result eq 9"/>
   </t:scenario>
   <t:scenario label="must fail">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
     <t:expect label="the type" test="$x:result instance of xs:string"/>
-    <t:expect label="the type" assert="$x:result instance of xs:string"/>
   </t:scenario>
   <!--
        Test @pending.
@@ -55,14 +51,12 @@
       <t:param select="3"/>
     </t:call>
     <t:expect label="the result" test="$x:result eq 9"/>
-    <t:expect label="the result" assert="$x:result eq 9"/>
   </t:scenario>
   <t:scenario label="pending must fail (attribute)" pending="testing pending attribute">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
     <t:expect label="the type" test="$x:result instance of xs:string"/>
-    <t:expect label="the type" assert="$x:result instance of xs:string"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

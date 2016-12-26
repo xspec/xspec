@@ -8,101 +8,83 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <?oxygen RNGSchema="http://xspec.googlecode.com/svn/trunk/xspec.rnc" type="compact"?>
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:test="http://www.jenitennison.com/xslt/unit-test" query="http://www.jenitennison.com/xslt/unit-test" query-at="../src/compiler/generate-query-utils.xql" stylesheet="../src/compiler/generate-tests-utils.xsl">
-	<!--
+  <!--
 	   Test the source files generate-tests-utils.xsl and generate-query-utils.xql.
    -->
   <!--
 	   Function test:deep-equal($seq1, $seq2).
    -->
   <t:scenario label="test:deep-equal($seq1, $seq2)">
-
-	  <t:scenario label="Identical Sequences">
-		  <t:call function="test:deep-equal">
-			  <t:param select="1, 2"/>
-			  <t:param select="1, 2"/>
-		  </t:call>
-		  <t:expect label="the result" test="$x:result eq true()"/>
-		  <t:expect label="the result" assert="$x:result eq true()"/>
-	  </t:scenario>
-
-	  <t:scenario label="Non-Identical Sequences">
-		  <t:call function="test:deep-equal">
-			  <t:param select="1, 2"/>
-			  <t:param select="1, 3"/>
-		  </t:call>
-		  <t:expect label="the result" test="$x:result eq false()"/>
-		  <t:expect label="the result" assert="$x:result eq false()"/>
-	  </t:scenario>
-
-	  <t:scenario label="Sequences with Same Items in Different Orders">
-		  <t:call function="test:deep-equal">
-			  <t:param select="1, 2"/>
-			  <t:param select="2, 1"/>
-		  </t:call>
-		  <t:expect label="the result" test="$x:result eq false()"/>
-		  <t:expect label="the result" assert="$x:result eq false()"/>
-	  </t:scenario>
-
-	  <t:scenario label="Empty Sequences">
-		  <t:call function="test:deep-equal">
-			  <t:param select="()"/>
-			  <t:param select="()"/>
-		  </t:call>
-		  <t:expect label="the result" test="$x:result eq true()"/>
-		  <t:expect label="the result" assert="$x:result eq true()"/>
-	  </t:scenario>
-
-	  <t:scenario label="One empty sequence">
-		  <t:call function="test:deep-equal">
-			  <t:param select="()"/>
-			  <t:param select="1"/>
-		  </t:call>
-		  <t:expect label="the result" test="$x:result eq false()"/>
-		  <t:expect label="the result" assert="$x:result eq false()"/>
-	  </t:scenario>
-
-	  <t:scenario label="A text node and several text nodes">
-		  <t:variable name="elems" as="element()+">
-			  <e>foo</e>
-			  <e>bar</e>
-		  </t:variable>
-		  <t:call function="test:deep-equal">
-			  <t:param as="text()">foobar</t:param>
-			  <t:param select="$elems/text()"/>
-		  </t:call>
-		  <t:expect label="the result" test="$x:result eq true()"/>
-		  <t:expect label="the result" assert="$x:result eq true()"/>
-	  </t:scenario>
-
+    <t:scenario label="Identical Sequences">
+      <t:call function="test:deep-equal">
+        <t:param select="1, 2"/>
+        <t:param select="1, 2"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq true()"/>
+    </t:scenario>
+    <t:scenario label="Non-Identical Sequences">
+      <t:call function="test:deep-equal">
+        <t:param select="1, 2"/>
+        <t:param select="1, 3"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq false()"/>
+    </t:scenario>
+    <t:scenario label="Sequences with Same Items in Different Orders">
+      <t:call function="test:deep-equal">
+        <t:param select="1, 2"/>
+        <t:param select="2, 1"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq false()"/>
+    </t:scenario>
+    <t:scenario label="Empty Sequences">
+      <t:call function="test:deep-equal">
+        <t:param select="()"/>
+        <t:param select="()"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq true()"/>
+    </t:scenario>
+    <t:scenario label="One empty sequence">
+      <t:call function="test:deep-equal">
+        <t:param select="()"/>
+        <t:param select="1"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq false()"/>
+    </t:scenario>
+    <t:scenario label="A text node and several text nodes">
+      <t:variable name="elems" as="element()+">
+        <e>foo</e>
+        <e>bar</e>
+      </t:variable>
+      <t:call function="test:deep-equal">
+        <t:param as="text()">foobar</t:param>
+        <t:param select="$elems/text()"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq true()"/>
+    </t:scenario>
   </t:scenario>
-
   <!--
 	   Function test:node-deep-equal($seq1, $seq2).
    -->
   <t:scenario label="test:node-deep-equal($seq1, $seq2)">
-
-	  <t:scenario label="Identical Element Sequences">
-		  <t:call function="test:node-deep-equal">
-			  <t:param name="node1">foobar</t:param>
-			  <t:param name="node2">foobar</t:param>
-		  </t:call>
-		  <t:expect label="the result" test="$x:result eq true()"/>
-	  </t:scenario>
-
-	  <t:scenario label="Identical Attribute Sequences">
-		  <t:call function="test:node-deep-equal">
-			  <t:param name="node1" select="/node/@attribute" as="node()">
-				  <node attribute="foobar"/>
-			  </t:param>
-			  <t:param name="node2" select="/node/@attribute" as="node()">
-				  <node attribute="foobar"/>
-			  </t:param>
-		  </t:call>
-		  <t:expect label="the result" test="$x:result eq true()"/>
-	  </t:scenario>
-
+    <t:scenario label="Identical Element Sequences">
+      <t:call function="test:node-deep-equal">
+        <t:param name="node1">foobar</t:param>
+        <t:param name="node2">foobar</t:param>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq true()"/>
+    </t:scenario>
+    <t:scenario label="Identical Attribute Sequences">
+      <t:call function="test:node-deep-equal">
+        <t:param name="node1" select="/node/@attribute" as="node()">
+          <node attribute="foobar"/>
+        </t:param>
+        <t:param name="node2" select="/node/@attribute" as="node()">
+          <node attribute="foobar"/>
+        </t:param>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq true()"/>
+    </t:scenario>
   </t:scenario>
-
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->

@@ -13,14 +13,12 @@
       <t:param select="3"/>
     </t:call>
     <t:expect label="the result" test="$x:result eq 9"/>
-    <t:expect label="the result" assert="$x:result eq 9"/>
   </t:scenario>
   <t:scenario label="must fail">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
     <t:expect label="wrong result" test="$x:result eq 42"/>
-    <t:expect label="wrong result" assert="$x:result eq 42"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

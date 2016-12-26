@@ -18,14 +18,12 @@
       <t:param select="3"/>
     </t:call>
     <t:expect label="the result" test="$x:result eq 9"/>
-    <t:expect label="the result" assert="$x:result eq 9"/>
   </t:scenario>
   <t:scenario label="pending must fail">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
     <t:expect label="the type" test="$x:result instance of xs:string"/>
-    <t:expect label="the type" assert="$x:result instance of xs:string"/>
   </t:scenario>
   <!--
        Focused on scenarios.
@@ -35,14 +33,12 @@
       <t:param select="3"/>
     </t:call>
     <t:expect label="the result" test="$x:result eq 9"/>
-    <t:expect label="the result" assert="$x:result eq 9"/>
   </t:scenario>
   <t:scenario label="focus must fail">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
     <t:expect label="the type" test="$x:result instance of xs:string"/>
-    <t:expect label="the type" assert="$x:result instance of xs:string"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
