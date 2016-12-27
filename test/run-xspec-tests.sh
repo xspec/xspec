@@ -18,7 +18,7 @@
 #  DEPENDENCIES:  This script must be run from the current directory (i.e. the test directory)
 #
 #       AUTHORS:  Sandro Cirulli, github.com/cirulls
-#                 Tobias, github.com/tofi86
+#                 Tobias Fischer, github.com/tofi86
 #
 #       LICENSE:  MIT License
 #
