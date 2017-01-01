@@ -22,15 +22,8 @@
       <t:expect test="false()"/>
     </t:context>
     <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
-    <!-- 
     <t:expect label="@test must be transformed to @select" test="$t:result/xsl:variable[@name eq 'impl:test-result']/*/xsl:otherwise/*"> 
       <xsl:sequence select="false()" version="..."/>
     </t:expect> 
-    -->
-    <t:expect label="is a template" assert="$t:result instance of element(xsl:template)"/>
-    <!-- 
-    <t:expect label="@test must be transformed to @select" context="$t:result/xsl:variable[@name eq 'impl:test-result']/*/xsl:otherwise/*">
-    <xsl:sequence select="false()" version="..."/>
-    </t:expect> -->
   </t:scenario>
 </t:description>

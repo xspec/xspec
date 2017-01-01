@@ -11,6 +11,7 @@
        Test the source file generate-xspec-tests.xsl.
    -->
   <t:scenario label="test:deep-equal($seq1, $seq2)">
+    <!--
     <t:scenario label="FIRST TEST.......">
       <t:variable name="ctxt" as="document-node()">
         <t:description>
@@ -20,6 +21,7 @@
       <t:apply select="$ctxt"/>
       <t:expect label="the result" test="$t:result instance of document-node()"/>
     </t:scenario>
+    -->
     <t:scenario label="FIRST TEST.......">
       <t:context mode="t:compile">
         <t:scenario label="my label"/>
