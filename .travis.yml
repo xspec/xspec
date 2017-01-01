@@ -5,7 +5,7 @@ before_script:
     - bash /tmp/bats/install.sh /tmp/local
     - export PATH=$PATH:/tmp/local/bin
     # install xspec
-    - git clone -b master https://github.com/xspec/xspec.git /tmp/xspec
+    - git clone -b bugfix/30 https://github.com/xspec/xspec.git /tmp/xspec
     # install saxon
     - mkdir -p /tmp/xspec/saxon 
     - wget -O /tmp/xspec/saxon/saxon9he.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar
