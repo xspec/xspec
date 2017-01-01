@@ -17,15 +17,16 @@
 #
 #  DEPENDENCIES:  This script must be run from the current directory (i.e. the test directory)
 #
-#        AUTHOR:  Sandro Cirulli, github.com/cirulls
+#       AUTHORS:  Sandro Cirulli, github.com/cirulls
+#                 Tobias Fischer, github.com/tofi86
 #
 #       LICENSE:  MIT License
 #
 #===============================================================================
 for xspectest in *.xspec; 
-	do ../bin/xspec.sh $xspectest &> result.log; 
-	if grep -q ".*failed:\s[1-9]" result.log || grep -q "*\sError\srunning\sthe\stest\ssuite" result.log; 
-		then echo "$xspectest failed" && exit 1; 
-		else echo "ok $xspectest";
-	fi	
+do ../bin/xspec.sh $xspectest &> result.log; 
+    if grep -q ".*failed:\s[1-9]" result.log || grep -q -E "\*+\sError\s(running|compiling)\sthe\stest\ssuite" result.log;
+        then echo "FAILED: $xspectest" && exit 1;
+        else echo "OK: $xspectest";
+    fi
 done
