@@ -81,7 +81,13 @@
     </xsl:template>
     
     <xsl:template match="x:expect">
-        <xsl:value-of select="fn:serialize(.)"></xsl:value-of>
+        <xsl:variable as="element(output:serialization-parameters)" name="serialization-parameters"
+            xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+            <output:serialization-parameters>
+                <output:omit-xml-declaration value="yes"/>
+            </output:serialization-parameters>
+        </xsl:variable>
+        <xsl:value-of select="fn:serialize(., $serialization-parameters)"></xsl:value-of>
     </xsl:template>
     
 </xsl:stylesheet>
