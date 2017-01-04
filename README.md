@@ -1,4 +1,5 @@
 ![Travis Build Status](https://api.travis-ci.org/xspec/xspec.svg?branch=master "Travis Build Status")
+[![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/github/xspec/xspec?branch=master&svg=true "AppVeyor Build Status")](https://ci.appveyor.com/project/xspec/xspec/branch/master)
 
 ## XSpec
 

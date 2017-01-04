@@ -60,7 +60,7 @@ rem ##
 
 :die
     echo:
-    echo *** %* >&2
+    echo *** %~1 >&2
     rem
     rem Now, to exit the batch file, you must go to :win_main_error_exit from
     rem the main code flow.
@@ -160,8 +160,15 @@ verify other 2> NUL
 setlocal enableextensions
 if errorlevel 1 (
     echo Unable to enable extensions
-    exit /b
+    exit /b %ERRORLEVEL%
 )
+
+rem
+rem To be compatible with xspec.sh, do not omit this message. It makes the
+rem test automation easier.
+rem
+echo Saxon script not found, invoking JVM directly instead.
+echo:
 
 rem
 rem ##
@@ -506,7 +513,7 @@ rem Error exit #################################################################
 rem 
 :win_main_error_exit
 if errorlevel 1 (
-    exit /b
+    exit /b %ERRORLEVEL%
 ) else (
     exit /b 1
 )

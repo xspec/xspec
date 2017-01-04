@@ -1,0 +1,18 @@
+environment:
+  SAXON_CP: '%APPVEYOR_BUILD_FOLDER%\saxon\saxon9he.jar'
+install:
+- ps: >-
+    mkdir -Name "saxon"
+
+    Invoke-WebRequest "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar" -OutFile "saxon\saxon9he.jar"
+build: off
+test_script:
+- cmd: >-
+    rem execute xspec.bat unit tests
+
+    test\xspec-bat.cmd
+
+    rem execute XSpec unit tests
+
+    test\run-xspec-tests.cmd
+deploy: off
