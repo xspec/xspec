@@ -1,16 +1,30 @@
 environment:
   SAXON_CP: '%APPVEYOR_BUILD_FOLDER%\saxon\saxon9he.jar'
+  matrix:
+  - SAXON_VER: 9.7.0-14
+  - SAXON_VER: 9.6.0-7
 install:
 - ps: >-
     mkdir -Name "saxon"
 
-    Invoke-WebRequest "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar" -OutFile "saxon\saxon9he.jar"
+    Invoke-WebRequest "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VER}/Saxon-HE-${env:SAXON_VER}.jar" -OutFile "saxon\saxon9he.jar"
 build: off
 test_script:
 - cmd: >-
+    rem Print Java version
+
+    java -version
+
+
+    rem Print Saxon version
+
+    java -cp "%SAXON_CP%" net.sf.saxon.Transform 2>&1 | find /i "saxon-"
+
+
     rem execute xspec.bat unit tests
 
     test\xspec-bat.cmd
+
 
     rem execute XSpec unit tests
 
