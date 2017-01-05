@@ -20,7 +20,7 @@ env:
 
 script:
     - cd test
-    - echo "execute bats unit tests"
+    - echo "execute bats unit tests on branch $TRAVIS_BRANCH with $SAXON_CP"
     - bats --tap xspec.bats
-    - echo "execute XSpec unit tests"
+    - echo "execute XSpec unit tests on branch $TRAVIS_BRANCH with $SAXON_CP"
     - ./run-xspec-tests.sh
