@@ -6,11 +6,17 @@ before_script:
     - export PATH=$PATH:/tmp/local/bin
     # install xspec
     - git clone -b $TRAVIS_BRANCH https://github.com/xspec/xspec.git /tmp/xspec
-    # install saxon
+    # install Saxon 9.7.0-14 and 9.6.0-7 
     - mkdir -p /tmp/xspec/saxon 
-    - wget -O /tmp/xspec/saxon/saxon9he.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar
-    - chmod +x /tmp/xspec/saxon/saxon9he.jar
-    - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
+    - wget -O /tmp/xspec/saxon/saxon-he-9.7.0-14.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar
+    - chmod +x /tmp/xspec/saxon/saxon-he-9.7.0-14.jar
+    - wget -O /tmp/xspec/saxon/saxon-he-9.6.0-7.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.6.0-7/Saxon-HE-9.6.0-7.jar
+    - chmod +x /tmp/xspec/saxon/saxon-he-9.6.0-7.jar
+
+env:
+    matrix:
+        - SAXON_CP=/tmp/xspec/saxon/saxon-he-9.7.0-14.jar
+        - SAXON_CP=/tmp/xspec/saxon/saxon-he-9.6.0-7.jar
 
 script:
     - cd test
