@@ -90,14 +90,14 @@
 
 
 @test "invoking xspec generates XML report file" {
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     run stat ../tutorial/xspec/escape-for-regex-result.xml
 	echo $output
     [ "$status" -eq 0 ]
 }
 
 @test "invoking xspec generates HTML report file" {
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     run stat ../tutorial/xspec/escape-for-regex-result.html
 	echo $output
     [ "$status" -eq 0 ]
