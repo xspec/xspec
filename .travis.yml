@@ -10,6 +10,7 @@ before_script:
     - bash /tmp/bats/install.sh /tmp/local
     - export PATH=$PATH:/tmp/local/bin
     # install Saxon
+    - mkdir -p /tmp/xspec/saxon 
     - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
     - wget -O ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
     - chmod +x ${SAXON_CP}
