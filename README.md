@@ -1,39 +1,26 @@
 [![Travis Build Status](https://api.travis-ci.org/xspec/xspec.svg?branch=master "Travis Build Status")](https://travis-ci.org/xspec/xspec)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/github/xspec/xspec?branch=master&svg=true "AppVeyor Build Status")](https://ci.appveyor.com/project/xspec/xspec/branch/master)
 
-## XSpec
+## XSpec [![Release](https://img.shields.io/github/release/xspec/xspec.svg)](https://github.com/xspec/xspec/releases/latest)
 
-Version 0.4.0.
+XSpec is a unit test and [behaviour driven development](http://en.wikipedia.org/wiki/Behavior_Driven_Development) (BDD) framework for XSLT and XQuery.  It is based on the Spec framework of [RSpec](http://rspec.info/), which is a BDD framework for Ruby.
 
-XSpec is a [Behaviour Driven Development](http://en.wikipedia.org/wiki/Behavior_Driven_Development)
-(BDD) framework for XSLT and XQuery.  It is based on the Spec
-framework of [RSpec](http://rspec.info/), which is a BDD framework for
-Ruby.
+XSpec consists of a syntax for describing the behaviour of XSLT or XQuery code and some code that enables to test the code against those descriptions.
 
-XSpec consists of a syntax for describing the behaviour of your XSLT
-or XQuery code, and some code that enables you to test your code
-against those descriptions.
+## Getting Started
 
-Maven plugins for running XSpec tests as part of a build are available from [adamretter](http://github.com/adamretter/xspec-maven-plugin) and [daisy](http://github.com/daisy/xspec-maven-plugin).
+To get started, check out the installation instructions for [MacOS/Linux](https://github.com/xspec/xspec/wiki/Installation-on-Mac-and-Linux) and [Windows](https://github.com/xspec/xspec/wiki/Installation-on-Windows) and how to [write your first XSpec test](https://github.com/xspec/xspec/wiki/Getting-Started). 
 
-An external project, [jxsl](http://code.google.com/p/jxsl/), provides
-a Maven archetype for XSpec (Ant is expected soon). The goal is to
-provide everything needed to integrate with Continuous Integration
-tools for Java (like Hudson, Cruise Control, etc.) See Benoit's
-[presentation at Balisage 2011](http://www.balisage.net/Proceedings/vol7/html/Mercier01/BalisageVol7-Mercier01.html)
-in Montreal for more info.
+## Support
 
-The project owners are Jeni Tennison and Florent Georges.
+Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/wiki) before raising an issue or ask a question. If you have any question which is not answered in the wiki, feel free to [raise an issue](https://github.com/xspec/xspec/issues) or post it in the [XSpec discussion list](http://groups.google.com/group/xspec-users). 
 
-### Usage:
+## Contribute
 
-For more information about using XSpec, visit the project wiki at
-<https://github.com/expath/xspec/wiki>. If you have any questions,
-you can also join (or search the archives of) the XSpec discussion
-list: <http://groups.google.com/group/xspec-users>.
+XSpec is an open source project originally written by [Jeni Tennison](https://github.com/JeniT). It was maintained in the past years by [Florent Georges](https://github.com/fgeorges). Active development of XSpec restarted in 2016 and the project is currently maintained by [Sandro Cirulli](https://github.com/cirulls) with the help of the XSpec community. 
 
+If you wish to contribute to XSpec, [raise or pick up an issue](https://github.com/xspec/xspec/issues) and [send us your pull requests](https://github.com/xspec/xspec/pulls). Please document any issue with examples of your XSpec code.  
 
-### License:
+## License
 
-XSpec is released under the MIT license.  For a copy of this license,
-see [LICENSE](LICENSE), or go to <http://www.opensource.org/licenses/mit-license.php>.
+XSpec is released under the [MIT License](LICENSE). [Few parts of the codebase](https://github.com/xspec/xspec/blob/master/java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java) are released under the [Mozilla Public License](http://www.mozilla.org/MPL/).  
