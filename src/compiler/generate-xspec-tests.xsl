@@ -349,7 +349,7 @@
           <variable name="impl:boolean-test" as="xs:boolean"
             select="$impl:test-result instance of xs:boolean" />
           <variable name="impl:successful" as="xs:boolean"
-            select="if ($impl:boolean-test) then $impl:test-result
+            select="if ($impl:boolean-test) then $impl:test-result cast as xs:boolean
                     else test:deep-equal($impl:expected, $impl:test-result, {$version})" />
         </xsl:when>
         <xsl:otherwise>

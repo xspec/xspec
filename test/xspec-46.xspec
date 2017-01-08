@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" stylesheet="xspec-46.xsl">
+  <x:scenario label="Scenario-1">
+    <x:context>
+      <foo/>
+    </x:context>
+    <x:expect label="Expect-1" select="1" test="count(foo)"/>
+  </x:scenario>
+</x:description>

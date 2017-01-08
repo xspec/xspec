@@ -1,16 +1,19 @@
+env:
+    matrix:
+        - SAXON_VERSION=9.7.0-14
+        - SAXON_VERSION=9.6.0-7
+
 before_script:
     # install bats
     - git clone https://github.com/sstephenson/bats.git /tmp/bats
     - mkdir -p /tmp/local
     - bash /tmp/bats/install.sh /tmp/local
     - export PATH=$PATH:/tmp/local/bin
-    # install xspec
-    - git clone -b master https://github.com/xspec/xspec.git /tmp/xspec
-    # install saxon
+    # install Saxon
     - mkdir -p /tmp/xspec/saxon 
-    - wget -O /tmp/xspec/saxon/saxon9he.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar
-    - chmod +x /tmp/xspec/saxon/saxon9he.jar
     - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
+    - wget -O ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
+    - chmod +x ${SAXON_CP}
 
 script:
     - cd test
