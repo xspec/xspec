@@ -152,7 +152,7 @@ setlocal
     set EXPECTED_REPORT=..\tutorial\xspec\escape-for-regex-result.xml
     call :del "%EXPECTED_REPORT%"
 
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_exist "%EXPECTED_REPORT%"
 
     call :end
@@ -164,7 +164,7 @@ setlocal
     set EXPECTED_REPORT=..\tutorial\xspec\escape-for-regex-result.html
     call :del "%EXPECTED_REPORT%"
 
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_exist "%EXPECTED_REPORT%"
 
     call :end
