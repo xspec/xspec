@@ -1,26 +1,22 @@
+env:
+    matrix:
+        - SAXON_VERSION=9.7.0-14
+        - SAXON_VERSION=9.6.0-7
+
 before_script:
     # install bats
     - git clone https://github.com/sstephenson/bats.git /tmp/bats
     - mkdir -p /tmp/local
     - bash /tmp/bats/install.sh /tmp/local
     - export PATH=$PATH:/tmp/local/bin
-    # install xspec
-    - git clone -b $TRAVIS_BRANCH https://github.com/xspec/xspec.git /tmp/xspec
-    # install Saxon 9.7.0-14 and 9.6.0-7 
-    - mkdir -p /tmp/xspec/saxon 
-    - wget -O /tmp/xspec/saxon/saxon-he-9.7.0-14.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.7.0-14/Saxon-HE-9.7.0-14.jar
-    - chmod +x /tmp/xspec/saxon/saxon-he-9.7.0-14.jar
-    - wget -O /tmp/xspec/saxon/saxon-he-9.6.0-7.jar http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/9.6.0-7/Saxon-HE-9.6.0-7.jar
-    - chmod +x /tmp/xspec/saxon/saxon-he-9.6.0-7.jar
-
-env:
-    matrix:
-        - SAXON_CP=/tmp/xspec/saxon/saxon-he-9.7.0-14.jar
-        - SAXON_CP=/tmp/xspec/saxon/saxon-he-9.6.0-7.jar
+    # install Saxon
+    - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
+    - wget -O ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
+    - chmod +x ${SAXON_CP}
 
 script:
     - cd test
-    - echo "execute bats unit tests on branch $TRAVIS_BRANCH with $SAXON_CP"
+    - echo "execute bats unit tests"
     - bats --tap xspec.bats
-    - echo "execute XSpec unit tests on branch $TRAVIS_BRANCH with $SAXON_CP"
+    - echo "execute XSpec unit tests"
     - ./run-xspec-tests.sh
