@@ -659,13 +659,46 @@
 <xsl:function name="test:atom-type" as="xs:string">
   <xsl:param name="value" as="xs:anyAtomicType" />
   <xsl:choose>
+    <!-- Grouped as the spec does.
+         Groups are in the reversed order so that the derived types are before the primitive types,
+         otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. -->
+
+    <!-- http://www.w3.org/TR/xslt20/#built-in-types
+            Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: -->
+
+    <!--    * The following types defined in [XPath 2.0] -->
+    <xsl:when test="$value instance of xs:yearMonthDuration">xs:yearMonthDuration</xsl:when>
+    <xsl:when test="$value instance of xs:dayTimeDuration">xs:dayTimeDuration</xsl:when>
+    <!-- xs:anyAtomicType: Abstract -->
+    <!-- xs:untyped: Not atomic -->
+    <xsl:when test="$value instance of xs:untypedAtomic">xs:untypedAtomic</xsl:when>
+
+    <!--    * The types xs:anyType and xs:anySimpleType. -->
+    <!-- Not atomic -->
+
+    <!--    * The derived atomic type xs:integer defined in [XML Schema Part 2]. -->
+    <xsl:when test="$value instance of xs:integer">xs:integer</xsl:when>
+
+    <!--    * All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION. -->
     <xsl:when test="$value instance of xs:string">xs:string</xsl:when>
     <xsl:when test="$value instance of xs:boolean">xs:boolean</xsl:when>
+    <xsl:when test="$value instance of xs:decimal">xs:decimal</xsl:when>
     <xsl:when test="$value instance of xs:double">xs:double</xsl:when>
-    <xsl:when test="$value instance of xs:anyURI">xs:anyURI</xsl:when>
-    <xsl:when test="$value instance of xs:dateTime">xs:dateTime</xsl:when>
+    <xsl:when test="$value instance of xs:float">xs:float</xsl:when>
     <xsl:when test="$value instance of xs:date">xs:date</xsl:when>
     <xsl:when test="$value instance of xs:time">xs:time</xsl:when>
+    <xsl:when test="$value instance of xs:dateTime">xs:dateTime</xsl:when>
+    <xsl:when test="$value instance of xs:duration">xs:duration</xsl:when>
+    <xsl:when test="$value instance of xs:QName">xs:QName</xsl:when>
+    <xsl:when test="$value instance of xs:anyURI">xs:anyURI</xsl:when>
+    <xsl:when test="$value instance of xs:gDay">xs:gDay</xsl:when>
+    <xsl:when test="$value instance of xs:gMonthDay">xs:gMonthDay</xsl:when>
+    <xsl:when test="$value instance of xs:gMonth">xs:gMonth</xsl:when>
+    <xsl:when test="$value instance of xs:gYearMonth">xs:gYearMonth</xsl:when>
+    <xsl:when test="$value instance of xs:gYear">xs:gYear</xsl:when>
+    <xsl:when test="$value instance of xs:base64Binary">xs:base64Binary</xsl:when>
+    <xsl:when test="$value instance of xs:hexBinary">xs:hexBinary</xsl:when>
+
     <xsl:otherwise>xs:anyAtomicType</xsl:otherwise>
   </xsl:choose>  
 </xsl:function>
