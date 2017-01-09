@@ -635,11 +635,25 @@
                                    replace($value, '''', ''''''),
                                    '''')" />
     </xsl:when>
-    <xsl:when test="$value instance of xs:integer or
-                    $value instance of xs:decimal or
-                    $value instance of xs:double">
+ 
+    <!-- Numeric literals: http://www.w3.org/TR/xpath20/#id-literals -->
+    <!-- Check integer before decimal, because of derivation -->
+    <xsl:when test="$value instance of xs:integer">
       <xsl:value-of select="$value" />
     </xsl:when>
+    <xsl:when test="$value instance of xs:decimal">
+      <xsl:value-of>
+        <xsl:variable as="xs:string" name="decimal-string" select="string($value)"/>
+        <xsl:sequence select="$decimal-string"/>
+        <xsl:sequence select="'.0'[not(contains($decimal-string,'.'))]"/>
+      </xsl:value-of>
+    </xsl:when>
+    <!-- xs:double
+             Just defer it to xsl:otherwise. Justifications below.
+             - Expression is a bit complicated: http://www.w3.org/TR/xpath-functions/#casting-to-string
+             - Not used as frequent as integer
+             - xsl:otherwise will return valid expression. It's just some more verbose then numeric literal. -->
+
     <xsl:when test="$value instance of xs:QName">
       <xsl:value-of 
         select="concat('QName(''', namespace-uri-from-QName($value), 
