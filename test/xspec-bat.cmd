@@ -48,7 +48,7 @@ setlocal
 
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 "Usage: xspec [-t|-q|-c|-j|-h] filename [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-c|-j|-h] filename [coverage]"
 
     call :end
 endlocal
@@ -60,7 +60,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
+    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 
     call :end
 endlocal
@@ -72,7 +72,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
+    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 
     call :end
 endlocal
@@ -84,7 +84,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
+    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 
     call :end
 endlocal
@@ -96,7 +96,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
+    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 
     call :end
 endlocal
@@ -108,7 +108,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
+    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 
     call :end
 endlocal
@@ -129,7 +129,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 3 "Creating Test Stylesheet..."
+    call :verify_line 3 x "Creating Test Stylesheet..."
 
     call :end
 endlocal
@@ -141,7 +141,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Creating Test Stylesheet..."
+    call :verify_line 2 x "Creating Test Stylesheet..."
 
     call :end
 endlocal
@@ -177,7 +177,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Saxon8 detected. JUnit report requires Saxon9."
+    call :verify_line 2 x "Saxon8 detected. JUnit report requires Saxon9."
 
     call :end
 endlocal
@@ -189,7 +189,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Saxon8 detected. JUnit report requires Saxon9."
+    call :verify_line 2 x "Saxon8 detected. JUnit report requires Saxon9."
 
     call :end
 endlocal
@@ -199,7 +199,7 @@ setlocal
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
-    call :verify_line 19 "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-junit.xml"
+    call :verify_line 19 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-junit.xml"
 
     call :end
 endlocal
@@ -235,7 +235,7 @@ setlocal
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 "Creating Test Stylesheet..."
+    call :verify_line 2 x "Creating Test Stylesheet..."
 
     call :end
 endlocal
@@ -248,7 +248,7 @@ setlocal
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
-    call :verify_line 19 "Report available at %TEST_DIR%\escape-for-regex-result.html"
+    call :verify_line 19 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
 
     call :end
 endlocal
@@ -258,7 +258,17 @@ setlocal
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
-    call :verify_line 19 "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-result.html"
+    call :verify_line 19 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-result.html"
+
+    call :end
+endlocal
+
+setlocal
+    call :begin "invoking xspec.sh that passes a non xs:boolean does not raise a warning #46"
+
+    call :run ..\bin\xspec.bat ..\test\xspec-46.xspec
+    call :verify_retval 0
+    call :verify_line 4 r "Testing with"
 
     call :end
 endlocal
@@ -378,18 +388,36 @@ rem
     goto :EOF
 
 :verify_line
+    if defined DEBUG (
+        echo *: %*
+        echo 0: %0
+        echo 1: %1
+        echo 2: %2
+        echo 3: %3
+    )
     rem
     rem Checks to see if the specified line of the output log file matches exactly the specified string
     rem
     rem Parameters:
     rem    1: Line number. Starts with 1, unlike Bats $lines which starts with 0.
-    rem    2: Expected string
+    rem    2: Operator
+    rem        x : Exact match ("=" on Bats)
+    rem        r : Compare with regular expression ("=~" on Bats)
+    rem    3: Expected string
+    rem        For 'r' operator, always evaluated as if the expression started with "^".
     rem
 
     rem
     rem Search the line-numbered output log file
     rem
-    findstr /l /x /c:"[%~1]%~2" "%OUTPUT_LINENUM%" > NUL
+    if        /i "%~2"=="x" (
+        findstr /l /x /c:"[%~1]%~3" "%OUTPUT_LINENUM%" > NUL
+    ) else if /i "%~2"=="r" (
+        findstr /b /r /c:"\[%~1\]%~3" "%OUTPUT_LINENUM%" > NUL
+    ) else (
+        call :failed "Bad operator: %~2"
+        goto :EOF
+    )
     if errorlevel 1 (
         call :failed "Line %~1 does not match the expected string"
         echo ---------- %OUTPUT_LINENUM%
