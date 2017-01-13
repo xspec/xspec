@@ -173,5 +173,5 @@
     run ../bin/xspec.sh ../test/xspec-46.xspec
 	echo $output
     [ "$status" -eq 0 ]
-    [[ "${lines[3]}" =~ "Testing with" ]]
+    [[ "${lines[4]}" =~ "Testing with" ]]
 }
