@@ -5,9 +5,6 @@ rem
 rem    DESCRIPTION:  This script is a Windows version of run-xspec-tests.sh
 rem                  See run-xspec-tests.sh for details
 rem
-rem         OUTPUT:  XSpec outputs are created in .\xspec_win\
-rem                  A log file is created at .\result_win.log
-rem
 rem   DEPENDENCIES:  This script does *not* need to be run from the current directory (i.e. the test directory)
 rem
 rem ============================================================================
@@ -29,14 +26,9 @@ rem
 pushd "%~dp0"
 
 rem
-rem XSpec output directory
-rem
-set TEST_DIR=xspec_win
-
-rem
 rem Result log
 rem
-set RESULT_FILE=result_win.log
+set RESULT_FILE=result.log
 
 rem
 rem Run tests
