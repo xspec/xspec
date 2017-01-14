@@ -17,6 +17,18 @@
 #
 #===============================================================================
 
+setup() {
+	mkdir ../tutorial/xspec
+	mkdir ../test/xspec
+}
+
+
+teardown() {
+	rm -rf ../tutorial/xspec
+	rm -rf ../test/xspec
+}
+
+
 @test "invoking xspec without arguments prints usage" {
     run ../bin/xspec.sh
 	echo $output
@@ -70,13 +82,12 @@
 }
 
 
-# this test must run first to create xspec directory
 @test "invoking code coverage with Saxon9EE creates test stylesheet" {
     export SAXON_CP=/path/to/saxon9ee.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
   	echo $output
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Creating Test Stylesheet..." ]
+    [ "${lines[1]}" = "Creating Test Stylesheet..." ]
 }
 
 
@@ -96,12 +107,14 @@
     [ "$status" -eq 0 ]
 }
 
+
 @test "invoking xspec generates HTML report file" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     run stat ../tutorial/xspec/escape-for-regex-result.html
 	echo $output
     [ "$status" -eq 0 ]
 }
+
 
 @test "invoking xspec with -j option with Saxon8 returns error message" {
     export SAXON_CP=/path/to/saxon8.jar
@@ -128,12 +141,14 @@
     [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
+
 @test "invoking xspec with -j option generates XML report file" {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
     run stat ../tutorial/xspec/escape-for-regex-result.xml
 	echo $output
     [ "$status" -eq 0 ]
 }
+
 
 @test "invoking xspec with -j option generates JUnit report file" {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
@@ -173,5 +188,5 @@
     run ../bin/xspec.sh ../test/xspec-46.xspec
 	echo $output
     [ "$status" -eq 0 ]
-    [[ "${lines[4]}" =~ "Testing with" ]]
+    [[ "${lines[3]}" =~ "Testing with" ]]
 }

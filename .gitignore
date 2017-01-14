@@ -3,3 +3,4 @@ target/
 *.iml
 test/xspec/*
 tutorial/xspec/*
+test/result.log
