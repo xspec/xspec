@@ -1,7 +1,11 @@
 env:
     matrix:
+        # latest Saxon 9.7 version
         - SAXON_VERSION=9.7.0-14
+        # latest Saxon 9.6 version
         - SAXON_VERSION=9.6.0-10
+        # Saxon version used in oXygen
+        - SAXON_VERSION=9.6.0-7
 
 before_script:
     # install bats
@@ -10,7 +14,7 @@ before_script:
     - bash /tmp/bats/install.sh /tmp/local
     - export PATH=$PATH:/tmp/local/bin
     # install Saxon
-    - mkdir -p /tmp/xspec/saxon 
+    - mkdir -p /tmp/xspec/saxon
     - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
     - wget -O ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
     - chmod +x ${SAXON_CP}
