@@ -1,7 +1,7 @@
 env:
     matrix:
         - SAXON_VERSION=9.7.0-14
-        - SAXON_VERSION=9.6.0-7
+        - SAXON_VERSION=9.6.0-10
 
 before_script:
     # install bats
