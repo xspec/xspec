@@ -9,7 +9,7 @@
 			<x:param name="wrapper-name" select="'x:expect'" />
 			<x:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
 		</x:call>
-		<x:expect label="Reports as numeric litaral of decimal" select="'1.0'"
+		<x:expect label="Reports as numeric literal of decimal" select="'1.0'"
 			test="string(x:expect/@select)" />
 	</x:scenario>
 
@@ -29,7 +29,7 @@
 			<x:param name="wrapper-name" select="'x:expect'" />
 			<x:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
 		</x:call>
-		<x:expect label="Reports as numeric litaral of integer" select="'1'"
+		<x:expect label="Reports as numeric literal of integer" select="'1'"
 			test="string(x:expect/@select)" />
 	</x:scenario>
 </x:description>
