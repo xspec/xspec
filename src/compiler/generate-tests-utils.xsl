@@ -447,7 +447,9 @@
     <xsl:when test="($node1 instance of attribute() and
                      $node2 instance of attribute()) or
                     ($node1 instance of processing-instruction() and
-                     $node2 instance of processing-instruction())">
+                     $node2 instance of processing-instruction()) or
+                    (test:instance-of-namespace($node1) and
+                     test:instance-of-namespace($node2))">
       <xsl:sequence select="node-name($node1) eq node-name($node2) and
                             (string($node1) eq string($node2) or string($node1) = '...')" />      
 
@@ -719,6 +721,21 @@
 <xsl:function name="msxsl:node-set" as="item()*">
   <xsl:param name="rtf" as="item()*" />
   <xsl:sequence select="$rtf" />
+</xsl:function>
+
+<!-- Returns true if item is namespace node -->
+<xsl:function name="test:instance-of-namespace" as="xs:boolean">
+  <xsl:param name="item" as="item()?"/>
+
+  <!-- Unfortunately there is no such test as "instance of namespace()":
+         http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/200608/msg00719.html -->
+  <xsl:sequence select="$item instance of node()
+    and not($item instance of attribute()
+      or $item instance of comment()
+      or $item instance of document-node()
+      or $item instance of element()
+      or $item instance of processing-instruction()
+      or $item instance of text())" />
 </xsl:function>
 
 </xsl:stylesheet>
