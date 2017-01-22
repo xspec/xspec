@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+    <x:scenario label="Compare identical namespace">
+        <x:call function="exactly-one">
+            <x:param select="$namespace" />
+        </x:call>
+        <x:expect label="Match" select="$namespace" />
+    </x:scenario>
+
+    <x:scenario label="Compare different namespaces" pending="TODO: xspec/xspec#4: Remove this @pending">
+        <x:call function="exactly-one">
+            <x:param select="$namespace" />
+        </x:call>
+        <x:expect label="Must fail" select="$another-namespace" />
+    </x:scenario>
+</x:description>

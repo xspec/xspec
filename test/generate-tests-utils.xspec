@@ -5,7 +5,7 @@
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:test="http://www.jenitennison.com/xslt/unit-test" query="http://www.jenitennison.com/xslt/unit-test" query-at="../src/compiler/generate-query-utils.xql" stylesheet="../src/compiler/generate-tests-utils.xsl">
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:test="http://www.jenitennison.com/xslt/unit-test" query="http://www.jenitennison.com/xslt/unit-test" query-at="../src/compiler/generate-query-utils.xql" stylesheet="generate-tests-utils.xsl">
   <!--
 	   Test the source files generate-tests-utils.xsl and generate-query-utils.xql.
    -->
@@ -82,6 +82,183 @@
       </t:call>
       <t:expect label="the result" test="$x:result eq true()"/>
     </t:scenario>
+
+    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/a6bb23507e11277d07b06914fc9a5590401e22f7/src/compiler/generate-tests-utils.xsl#L245-L371">
+
+      <t:scenario label="Identical Elements">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result/>
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result/>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Elements with Identical Attributes in Different Orders">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result a="1" b="2" />
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result b="2" a="1" />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Elements with Identical Children">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result><child1/><child2/></result>
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result><child1/><child2/></result>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Attributes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*/@a">
+            <result a="1" />
+          </t:param>
+          <t:param name="node2" select="/*/@a">
+            <result a="1" />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Document Nodes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/">
+            <result />
+          </t:param>
+          <t:param name="node2" select="/">
+            <result />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Text Nodes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*/text()">
+            <result>Test</result>
+          </t:param>
+          <t:param name="node2" select="/*/text()">
+            <result>Test</result>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Comments">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/comment()">
+            <!-- Comment -->
+            <doc />
+          </t:param>
+          <t:param name="node2" select="/comment()">
+            <!-- Comment -->
+            <doc />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Processing Instructions">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/processing-instruction()">
+            <?pi data?>
+            <doc />
+          </t:param>
+          <t:param name="node2" select="/processing-instruction()">
+            <?pi data?>
+            <doc />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing text</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2">
+            <foo>foo</foo>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing mixed content</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2">
+             <foo>foo<bar />foo</foo>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing attribute values</t:label>
+        <t:call function="test:node-deep-equal">
+         <t:param name="node1" select="/foo/@bar">
+           <foo bar="..." />
+         </t:param>
+         <t:param name="node2" select="/foo/@bar">
+           <foo bar="bar" />
+         </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing empty content</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/foo">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2" select="/foo">
+            <foo />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+    </t:scenario>
+
+    <t:scenario label="Namespace Nodes">
+
+      <t:scenario label="Identical">
+        <t:call function="test:node-deep-equal">
+          <t:param select="$namespace" />
+          <t:param select="$namespace" />
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Different">
+        <t:call function="test:node-deep-equal">
+          <t:param select="$namespace" />
+          <t:param select="$another-namespace" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+    </t:scenario>
+
   </t:scenario>
 
   <!--
@@ -424,6 +601,81 @@
     </t:scenario>
 
   </t:scenario>
+
+  <!--
+    Function test:instance-of-namespace
+   -->
+  <t:scenario label="test:instance-of-namespace">
+
+    <t:scenario label="Nodes">
+
+      <t:scenario label="Attribute">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$attribute" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Comment">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$comment" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Document">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$document" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Element">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$element" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Namespace">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$namespace" />
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Processing instruction">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$processing-instruction" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Text">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$text" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+    </t:scenario>
+
+    <t:scenario label="Value">
+      <t:call function="test:instance-of-namespace">
+        <t:param select="$integer" />
+      </t:call>
+      <t:expect label="False" select="false()" />
+    </t:scenario>
+
+    <t:scenario label="Empty">
+      <t:call function="test:instance-of-namespace">
+        <t:param select="()" />
+      </t:call>
+      <t:expect label="False" select="false()" />
+    </t:scenario>
+
+  </t:scenario>
+
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
