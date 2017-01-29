@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ===================================================================== -->
-<!--  File:       test/xspec-function.xspec                                -->
-<!--  Author:     Florent Georges                                          -->
-<!--  Tags:                                                                -->
-<!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- ====================================================================== -->
+<!--  File:        test/xspec-function.xspec                                -->
+<!--  Author:      Florent Georges                                          -->
+<!--  Contributor: Sandro Cirulli, github.com/cirulls                       -->
+<!--  Copyright (c) 2010 Jeni Tennison (see end of file.)                   -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="xspec-tested.xql" stylesheet="xspec-tested.xsl">
-  <t:scenario label="call" focus="focus">
-    <t:call function="my:square">
-      <t:param select="3"/>
-    </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
-    <t:expect label="the type" test="$x:result instance of xs:integer"/>
-  </t:scenario>
-  <t:scenario label="must fail">
-    <t:call function="my:square">
-      <t:param select="2"/>
-    </t:call>
-    <t:expect label="wrong result" test="$x:result eq 42"/>
-  </t:scenario>
+
+	<t:scenario label="when calling a square function with a parameter">
+		<t:call function="my:square">
+			<t:param select="3"/>
+		</t:call>
+		<t:expect label="the result is correct" test="$x:result eq 9"/>
+		<t:expect label="the type is correct" test="$x:result instance of xs:integer"/>
+	</t:scenario>
+
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->
-<!-- Copyright (c) 2010 Jeni Tennsion                                      -->
+<!-- Copyright (c) 2010 Jeni Tennison                                      -->
 <!--                                                                       -->
 <!-- The contents of this file are subject to the MIT License (see the URI -->
 <!-- http://www.opensource.org/licenses/mit-license.php for details).      -->

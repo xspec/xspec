@@ -1,55 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ===================================================================== -->
-<!--  File:       test/xspec-rule.xspec                                    -->
-<!--  Author:     Florent Georges                                          -->
-<!--  Tags:                                                                -->
-<!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- ====================================================================== -->
+<!--  File:        test/xspec-rule.xspec                                    -->
+<!--  Author:      Florent Georges                                          -->
+<!--  Contributor: Sandro Cirulli, github.com/cirulls                       -->
+<!--  Copyright (c) 2010 Jeni Tennison (see end of file.)                   -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" stylesheet="xspec-tested.xsl">
-  <t:scenario label="context">
-    <t:context>
-      <rule/>
-    </t:context>
-    <t:expect label="the result">
-      <transformed/>
-    </t:expect>
-  </t:scenario>
-  <t:scenario label="context result is wrong: must fail" pending="should be rewritten">
-    <t:context>
-      <rule/>
-    </t:context>
-    <t:expect label="wrong result">
-      <erroneous/>
-    </t:expect>
-  </t:scenario>
-  <!-- TODO: Make two different cases for the base t:apply and with param. -->
-  <t:scenario label="apply" pending="not implemented yet">
-    <t:variable name="ctxt" as="element()">
-      <rule/>
-    </t:variable>
-    <t:apply select="$ctxt">
-      <t:param name="p" select="0"/>
-    </t:apply>
-    <t:expect label="the result">
-      <transformed/>
-    </t:expect>
-  </t:scenario>
-  <t:scenario label="apply result is wrong: must fail" pending="not implemented yet">
-    <t:variable name="ctxt" as="element()">
-      <rule/>
-    </t:variable>
-    <t:apply select="$ctxt">
-      <t:param name="p" select="0"/>
-    </t:apply>
-    <t:expect label="wrong result">
-      <erroneous/>
-    </t:expect>
-  </t:scenario>
+
+    <t:scenario label="when running a scenario with a context">
+        <t:context>
+            <rule/>
+        </t:context>
+        <t:expect label="the element in the context must be converted">
+            <transformed/>
+        </t:expect>
+    </t:scenario>
+
+    <!-- TODO: Make two different cases for the base t:apply and with param. -->
+    <t:scenario label="apply" pending="not implemented yet">
+        <t:variable name="ctxt" as="element()">
+            <rule/>
+        </t:variable>
+        <t:apply select="$ctxt">
+            <t:param name="p" select="0"/>
+        </t:apply>
+        <t:expect label="the result">
+            <transformed/>
+        </t:expect>
+    </t:scenario>
+
+    <t:scenario label="apply result is wrong: must fail" pending="not implemented yet">
+        <t:variable name="ctxt" as="element()">
+            <rule/>
+        </t:variable>
+        <t:apply select="$ctxt">
+            <t:param name="p" select="0"/>
+        </t:apply>
+        <t:expect label="wrong result">
+            <erroneous/>
+        </t:expect>
+    </t:scenario>
+
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->
-<!-- Copyright (c) 2010 Jeni Tennsion                                      -->
+<!-- Copyright (c) 2010 Jeni Tennison                                      -->
 <!--                                                                       -->
 <!-- The contents of this file are subject to the MIT License (see the URI -->
 <!-- http://www.opensource.org/licenses/mit-license.php for details).      -->
