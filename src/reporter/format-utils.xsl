@@ -54,6 +54,11 @@
   </xsl:variable>
   <xsl:variable name="new-namespaces" as="node()*" 
     select="namespace::*[not(. = $omit-namespaces) and ($level = 0 or not(name() = ../../namespace::*/name()))]" />
+
+  <!-- remove all unused namespaces -->
+  <xsl:variable name="new-namespaces" as="node()*"
+    select="$new-namespaces[current()/(self::*|.//(*|@*))/namespace-uri() = .]" />
+
   <xsl:if test="not(namespace::*[name() = '']) and ../namespace::*[name() = '']">
     <xsl:text> xmlns=""</xsl:text>
   </xsl:if>
