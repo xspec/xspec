@@ -14,7 +14,7 @@
     <p>The dir where you unzipped the XSpec archive on your filesystem is passed
         in the option 'xspec-home'.</p>
   </p:documentation>
-  <p:serialization port="result" indent="true"/>
+  <p:serialization port="result" indent="true" method="xhtml" encoding="UTF-8" include-content-type="true" />
   <p:import href="../harness-lib.xpl"/>
   <t:parameters name="params"/>
   <p:group>

@@ -12,7 +12,7 @@
     <p><b>Primary input:</b> A XSpec test suite document.</p>
     <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
   </p:documentation>
-  <p:serialization port="result" indent="true"/>
+  <p:serialization port="result" indent="true" method="xhtml" encoding="UTF-8" include-content-type="true" />
   <p:import href="../harness-lib.xpl"/>
   <!-- TODO: Does not work yet... -->
   <!--t:ensure-input/-->
