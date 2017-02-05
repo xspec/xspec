@@ -32,5 +32,4 @@ script:
     - echo "execute XSpec unit tests"
     # - ./run-xspec-tests.sh
     - echo "execute Saxon XProc harness"
-    - pwd
-    # - java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -D -isource=xspec-55.xspec xspec-home=file:///path ../src/harnesses/saxon/saxon-xslt-harness.xproc 
+    - java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -D -isource=xspec-55.xspec xspec-home=file:///home/travis/build/xspec/xspec/ /home/travis/build/xspec/xspec/src/harnesses/saxon/saxon-xslt-harness.xproc 
