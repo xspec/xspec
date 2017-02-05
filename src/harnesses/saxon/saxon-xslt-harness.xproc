@@ -3,6 +3,7 @@
 <!--  File:       saxon-xslt-harness.xproc                                 -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
+<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -11,14 +12,28 @@
     <p>This pipeline executes an XSpec test suite with the Saxon embedded in Calabash.</p>
     <p><b>Primary input:</b> A XSpec test suite document.</p>
     <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
+    <p>The dir where you unzipped the XSpec archive on your filesystem is passed
+       in the option 'xspec-home'.</p>
   </p:documentation>
-  <p:serialization port="result" indent="true"/>
-  <p:import href="../harness-lib.xpl"/>
-  <!-- TODO: Does not work yet... -->
-  <!--t:ensure-input/-->
-  <!-- compile the suite into a stylesheet -->
-  <t:compile-xslt name="compile"/>
-  <!-- run it on saxon -->
+  <p:serialization port="result" indent="true" method="xhtml" encoding="UTF-8" include-content-type="true"/>
+  <p:option name="xspec-home" required="true" /> 
+  <!-- TODO: Use the absolute URIs through the EXPath Packaging System. -->
+  <p:variable name="compiler" select="resolve-uri('src/compiler/generate-xspec-tests.xsl', $xspec-home)"/>
+  <p:variable name="formatter" select="resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)"/>
+  <p:load name="compiler">
+    <p:with-option name="href" select="$compiler"/>
+  </p:load>
+  <p:xslt name="compile">
+    <p:input port="source">
+      <p:pipe step="saxon-xslt-harness" port="source"/>
+    </p:input>
+    <p:input port="stylesheet">
+      <p:pipe step="compiler" port="result"/>
+    </p:input>
+    <p:input port="parameters">
+      <p:empty/>
+    </p:input>
+  </p:xslt>
   <p:xslt name="run" template-name="t:main">
     <p:input port="source">
       <p:empty/>
@@ -30,13 +45,33 @@
       <p:empty/>
     </p:input>
   </p:xslt>
-  <!-- format the report -->
-  <t:format-report/>
+  <p:choose>
+    <p:when test="exists(/t:report)">
+      <p:load name="formatter">
+        <p:with-option name="href" select="$formatter"/>
+      </p:load>
+      <p:xslt name="format-report">
+        <p:input port="source">
+          <p:pipe step="run" port="result"/>
+        </p:input>
+        <p:input port="stylesheet">
+          <p:pipe step="formatter" port="result"/>
+        </p:input>
+      </p:xslt>
+    </p:when>
+    <p:otherwise>
+      <p:error code="t:ERR001">
+        <p:input port="source">
+          <p:pipe step="run" port="result"/>
+        </p:input>
+      </p:error>
+    </p:otherwise>
+  </p:choose>
 </p:pipeline>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->
-<!-- Copyright (c) 2011 Florent Georges                                    -->
+<!-- Copyright (c) 2008, 2010 Jeni Tennison                                -->
 <!--                                                                       -->
 <!-- The contents of this file are subject to the MIT License (see the URI -->
 <!-- http://www.opensource.org/licenses/mit-license.php for details).      -->

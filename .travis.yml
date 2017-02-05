@@ -18,10 +18,19 @@ before_script:
     - export SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
     - wget -O ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
     - chmod +x ${SAXON_CP}
+    # install XML Calabash
+    - mkdir -p /tmp/xspec/xmlcalabash
+    - export XMLCALABASH_VERSION=1.1.15-97
+    - export XMLCALABASH_CP=/tmp/xspec/xmlcalabash/xmlcalabash-${XMLCALABASH_VERSION}.jar
+    - wget -O ${XMLCALABASH_CP} http://central.maven.org/maven2/com/xmlcalabash/xmlcalabash/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar 
+    - chmod +x ${XMLCALABASH_CP}
 
 script:
     - cd test
     - echo "execute bats unit tests"
-    - bats --tap xspec.bats
+    # - bats --tap xspec.bats
     - echo "execute XSpec unit tests"
-    - ./run-xspec-tests.sh
+    # - ./run-xspec-tests.sh
+    - echo "execute Saxon XProc harness"
+    - pwd
+    # - java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -D -isource=xspec-55.xspec xspec-home=file:///path ../src/harnesses/saxon/saxon-xslt-harness.xproc 
