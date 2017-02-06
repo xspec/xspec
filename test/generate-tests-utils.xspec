@@ -249,6 +249,14 @@
         <t:expect label="True" select="true()" />
       </t:scenario>
 
+      <t:scenario label="Identical default namespace">
+        <t:call function="test:node-deep-equal">
+          <t:param select="$default-namespace" />
+          <t:param select="$default-namespace" />
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
       <t:scenario label="Different">
         <t:call function="test:node-deep-equal">
           <t:param select="$namespace" />

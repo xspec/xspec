@@ -2,7 +2,9 @@
 <xsl:stylesheet version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <!-- All kinds of nodes -->
+    <!--
+        All kinds of nodes
+    -->
     <xsl:variable as="attribute()" name="attribute">
         <xsl:attribute name="attribute-name">attribute-text</xsl:attribute>
     </xsl:variable>
@@ -31,11 +33,19 @@
         <xsl:text>text</xsl:text>
     </xsl:variable>
 
-    <!-- Another namespace node -->
+    <!--
+        Other namespace nodes
+    -->
     <xsl:variable as="node()" name="another-namespace">
         <xsl:namespace name="another-namespace-name">another-namespace-text</xsl:namespace>
     </xsl:variable>
 
-    <!-- Atomic value -->
+    <xsl:variable as="node()" name="default-namespace">
+        <xsl:namespace name="">default-namespace-text</xsl:namespace>
+    </xsl:variable>
+
+    <!--
+        Atomic values
+    -->
     <xsl:variable as="xs:integer" name="integer" select="xs:integer(1)" />
 </xsl:stylesheet>

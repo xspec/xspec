@@ -7,6 +7,13 @@
         <x:expect label="Match" select="$namespace" />
     </x:scenario>
 
+    <x:scenario label="Compare identical default namespace">
+        <x:call function="exactly-one">
+            <x:param select="$default-namespace" />
+        </x:call>
+        <x:expect label="Match" select="$default-namespace" />
+    </x:scenario>
+
     <x:scenario label="Compare different namespaces" pending="TODO: xspec/xspec#4: Remove this @pending">
         <x:call function="exactly-one">
             <x:param select="$namespace" />
