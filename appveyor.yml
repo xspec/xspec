@@ -1,5 +1,5 @@
 environment:
-  SAXON_CP: '%APPVEYOR_BUILD_FOLDER%\saxon\saxon9he.jar'
+  SAXON_CP: '%TEMP%\xspec\saxon\saxon9he.jar'
   matrix:
     # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-14
@@ -10,9 +10,11 @@ environment:
 
 install:
 - ps: >-
-    mkdir -Name "saxon"
+    $saxon_home = Split-Path -Path "${env:SAXON_CP}" -Parent
 
-    Invoke-WebRequest "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar" -OutFile "saxon\saxon9he.jar"
+    mkdir -Path $saxon_home
+
+    Invoke-WebRequest -Uri "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar" -OutFile "${env:SAXON_CP}"
 build: off
 test_script:
 - cmd: >-
