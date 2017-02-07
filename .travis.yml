@@ -1,7 +1,7 @@
 env:
     matrix:
         # latest Saxon 9.7 version
-        - SAXON_VERSION=9.7.0-14
+        - SAXON_VERSION=9.7.0-15
         # latest Saxon 9.6 version
         - SAXON_VERSION=9.6.0-10
         # Saxon version used in oXygen
