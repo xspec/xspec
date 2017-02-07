@@ -2,17 +2,17 @@ environment:
   SAXON_CP: '%APPVEYOR_BUILD_FOLDER%\saxon\saxon9he.jar'
   matrix:
     # latest Saxon 9.7 version
-    - SAXON_VER: 9.7.0-14
+    - SAXON_VERSION: 9.7.0-14
     # latest Saxon 9.6 version
-    - SAXON_VER: 9.6.0-10
+    - SAXON_VERSION: 9.6.0-10
     # Saxon version used in oXygen
-    - SAXON_VER: 9.6.0-7
+    - SAXON_VERSION: 9.6.0-7
 
 install:
 - ps: >-
     mkdir -Name "saxon"
 
-    Invoke-WebRequest "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VER}/Saxon-HE-${env:SAXON_VER}.jar" -OutFile "saxon\saxon9he.jar"
+    Invoke-WebRequest "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar" -OutFile "saxon\saxon9he.jar"
 build: off
 test_script:
 - cmd: >-
