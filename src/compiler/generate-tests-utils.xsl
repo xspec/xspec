@@ -450,7 +450,7 @@
                      $node2 instance of processing-instruction()) or
                     (test:instance-of-namespace($node1) and
                      test:instance-of-namespace($node2))">
-      <xsl:sequence select="node-name($node1) eq node-name($node2) and
+      <xsl:sequence select="deep-equal(node-name($node1), node-name($node2)) and
                             (string($node1) eq string($node2) or string($node1) = '...')" />      
 
     </xsl:when>
