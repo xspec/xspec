@@ -192,7 +192,7 @@ teardown() {
 }
 
 @test "executing the Saxon XProc harness generates a report with UTF-8 encoding" {
-	run bash -c "java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec xspec-home=file:///home/travis/build/xspec/xspec/ -oresult=/home/travis/build/xspec/xspec/test/xspec/xspec-72-report.html /home/travis/build/xspec/xspec/src/harnesses/saxon/saxon-xslt-harness.xproc && grep 'charset=UTF-8' /home/travis/build/xspec/xspec/test/xspec/xspec-72-report.html"
+	run bash -c "java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec xspec-home=file://${TRAVIS_BUILD_DIR}/xspec/xspec/ -oresult=${TRAVIS_BUILD_DIR}/xspec/xspec/test/xspec/xspec-72-report.html ${TRAVIS_BUILD_DIR}/xspec/xspec/src/harnesses/saxon/saxon-xslt-harness.xproc && grep 'charset=UTF-8' ${TRAVIS_BUILD_DIR}/xspec/xspec/test/xspec/xspec-72-report.html"
 	echo $status
 	echo $output
 	[ "$status" -eq 0 ]
