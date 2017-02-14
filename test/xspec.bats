@@ -191,9 +191,10 @@ teardown() {
     [[ "${lines[3]}" =~ "Testing with" ]]
 }
 
+
 @test "executing the Saxon XProc harness generates a report with UTF-8 encoding" {
-	run bash -c "java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec xspec-home=file://${TRAVIS_BUILD_DIR}/ -oresult=${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html ${TRAVIS_BUILD_DIR}/src/harnesses/saxon/saxon-xslt-harness.xproc && sed '3!d' ${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html | grep '<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />' "
-	echo $status
+	run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec xspec-home=file://${TRAVIS_BUILD_DIR}/ -oresult=${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html ${TRAVIS_BUILD_DIR}/src/harnesses/saxon/saxon-xslt-harness.xproc 
+	run java -cp ${SAXON_CP} net.sf.saxon.Query -s:${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; string(html/head/meta[@http-equiv eq 'Content-Type']/@content) = 'text/html; charset=ASCII'"
 	echo $output
-	[ "$status" -eq 0 ]
+    [[ "${lines[0]}" = '<?xml version="1.0" encoding="UTF-8"?>true' ]]
 }
