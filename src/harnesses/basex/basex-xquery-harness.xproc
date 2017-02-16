@@ -8,7 +8,6 @@
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <p:pipeline xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" pkg:import-uri="http://www.jenitennison.com/xslt/xspec/basex/harness/xquery.xproc" name="basex-xquery-harness" type="t:basex-xquery-harness" version="1.0">
-
 	<p:documentation>
 		<p>This pipeline executes an XSpec test suite with BaseX standalone.</p>
 		<p><b>Primary input:</b> A XSpec test suite document.</p>
@@ -27,10 +26,9 @@
 	<!-- TODO: Use a robust way to get a tmp file name from the OS... -->
 	<p:option name="compiled-file" select="'file:/tmp/xspec-basex-compiled-suite.xq'"/>
 	<!-- TODO: Use the absolute URIs through the EXPath Packaging System. -->
-
-	<p:variable name="compiler" select="        resolve-uri('src/compiler/generate-query-tests.xsl', $xspec-home)"/>
-	<p:variable name="formatter" select="        resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)"/>
-	<p:variable name="utils-lib" select="        resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)"/>
+	<p:variable name="compiler" select="resolve-uri('src/compiler/generate-query-tests.xsl', $xspec-home)"/>
+	<p:variable name="formatter" select="resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)"/>
+	<p:variable name="utils-lib" select="resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)"/>
 
 	<p:string-replace match="xsl:import/@href" name="compiler">
 		<p:with-option name="replace" select="concat('''', $compiler, '''')"/>
@@ -70,42 +68,41 @@
 	  <p:input port="source">
 		 <p:empty/>
 	  </p:input>
-   </p:exec-->
-  <p:exec command="java" name="run">
-	  <p:with-option name="args" select="string-join(('-cp', $basex-jar, 'org.basex.BaseX', $compiled-file),' ')"/>
-	  <p:input port="source">
-		  <p:empty/>
-	  </p:input>
-  </p:exec>
+   	</p:exec-->
+	<p:exec command="java" name="run">
+		<p:with-option name="args" select="string-join(('-cp', $basex-jar, 'org.basex.BaseX', $compiled-file),' ')"/>
+		<p:input port="source">
+			<p:empty/>
+		</p:input>
+	</p:exec>
 
-  <p:choose>
-	  <p:when test="exists(/c:result/t:report)">
-		  <p:load name="formatter">
-			  <p:with-option name="href" select="$formatter"/>
-		  </p:load>
-		  <p:unwrap name="unwrap" match="/c:result">
-			  <p:input port="source">
-				  <p:pipe step="run" port="result"/>
-			  </p:input>
-		  </p:unwrap>
-		  <p:xslt name="format-report">
-			  <p:input port="source">
-				  <p:pipe step="unwrap" port="result"/>
-			  </p:input>
-			  <p:input port="stylesheet">
-				  <p:pipe step="formatter" port="result"/>
-			  </p:input>
-		  </p:xslt>
-	  </p:when>
-	  <p:otherwise>
-		  <p:error code="t:ERR001">
-			  <p:input port="source">
-				  <p:pipe step="run" port="result"/>
-			  </p:input>
-		  </p:error>
-	  </p:otherwise>
-  </p:choose>
-
+	<p:choose>
+		<p:when test="exists(/c:result/t:report)">
+			<p:load name="formatter">
+				<p:with-option name="href" select="$formatter"/>
+			</p:load>
+			<p:unwrap name="unwrap" match="/c:result">
+				<p:input port="source">
+					<p:pipe step="run" port="result"/>
+				</p:input>
+			</p:unwrap>
+			<p:xslt name="format-report">
+				<p:input port="source">
+					<p:pipe step="unwrap" port="result"/>
+				</p:input>
+				<p:input port="stylesheet">
+					<p:pipe step="formatter" port="result"/>
+				</p:input>
+			</p:xslt>
+		</p:when>
+		<p:otherwise>
+			<p:error code="t:ERR001">
+				<p:input port="source">
+					<p:pipe step="run" port="result"/>
+				</p:input>
+			</p:error>
+		</p:otherwise>
+	</p:choose>
 </p:pipeline>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
