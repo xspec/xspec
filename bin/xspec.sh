@@ -36,11 +36,12 @@ usage() {
         echo "$1"
         echo;
     fi
-    echo "Usage: xspec [-t|-q|-c|-j|-h] filename [coverage]"
+    echo "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]"
     echo
     echo "  filename   the XSpec document"
     echo "  -t         test an XSLT stylesheet (the default)"
-    echo "  -q         test an XQuery module (mutually exclusive with -t)"
+    echo "  -q         test an XQuery module (mutually exclusive with -t and -s)"
+    echo "  -s         test a Schematron module (mutually exclusive with -t and -q)"
     echo "  -c         output test coverage report"
     echo "  -j         output JUnit report"
     echo "  -h         display this help message"
@@ -158,6 +159,10 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
                 usage "-t and -q are mutually exclusive"
                 exit 1
             fi
+            if test -n "$SCHEMATRON"; then
+                usage "-s and -t are mutually exclusive"
+                exit 1
+            fi
             XSLT=1;;
         # XQuery
         -q)
@@ -165,7 +170,23 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
                 usage "-t and -q are mutually exclusive"
                 exit 1
             fi
+            if test -n "$SCHEMATRON"; then
+                usage "-s and -q are mutually exclusive"
+                exit 1
+            fi
             XQUERY=1;;
+        # Schematron
+        -s)
+            if test -n "$XQUERY"; then
+                usage "-s and -q are mutually exclusive"
+                exit 1
+            fi
+            if test -n "$XSLT"; then
+                usage "-s and -t are mutually exclusive"
+                exit 1
+            fi
+            SCHEMATRON=1;
+            XSLT=1;;
         # Coverage
         -c)
 			if [[ ${SAXON_CP} != *"saxon9pe"* && ${SAXON_CP} != *"saxon9ee"* ]]; then
@@ -228,7 +249,7 @@ if [ -z "$TEST_DIR" ]
 then
     TEST_DIR=$(dirname "$XSPEC")/xspec
 fi
-TARGET_FILE_NAME=$(basename "$XSPEC" | sed 's:\...*$::')
+TARGET_FILE_NAME=$(basename "$XSPEC" | sed 's:\.[^.]*$::')
 
 if test -n "$XSLT"; then
     COMPILED=$TEST_DIR/$TARGET_FILE_NAME.xsl
@@ -251,6 +272,38 @@ fi
 ##
 ## compile the suite #########################################################
 ##
+
+if test -n "$SCHEMATRON"; then
+    echo "Setting up Schematron..."
+    
+    # get URI to Schematron file and phase from the SchUT file
+    # Need to escape dollar sign for sh as \$ in XQuery
+    xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*\$', '\$1'), '/', /*[local-name() = 'description']/@schematron))" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron location"
+    SCH=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    
+    xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; (/*[local-name() = 'description']/@phase/string(), concat(codepoints-to-string(35), 'ALL'))[1]" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron phase"
+    SCH_PHASE=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    
+    SCHUT=$XSPEC-compiled.xspec
+    SCH_COMPILED=$TEST_DIR/$TARGET_FILE_NAME-sch-compiled.xsl
+    
+    echo
+    echo "Compiling the Schematron..."
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl" || die "Error compiling the schematron on step 1"
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl" || die "Error compiling the schematron on step 2"
+    xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" phase=$SCH_PHASE || die "Error compiling the schematron on step 3"
+
+    echo 
+    echo "Converting Schut to XSpec..."
+    # use XQuery to get full URI to compiled Schematron
+    xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"
+    SCH_COMPILED=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    
+    xslt -o:"$SCHUT" -s:"$XSPEC" -xsl:"$XSPEC_HOME/src/schematron/schut-to-xspec.xsl" stylesheet="$SCH_COMPILED" || die "Error converting Schut to XSpec"
+    XSPEC=$SCHUT
+    
+    echo 
+fi
 
 if test -n "$XSLT"; then
     COMPILE_SHEET=generate-xspec-tests.xsl
@@ -323,6 +376,10 @@ elif test -n "$JUNIT"; then
 else
     echo "Report available at $HTML"
     #$OPEN "$HTML"
+fi
+
+if test -n "$SCHEMATRON"; then
+    rm "$SCHUT"
 fi
 
 echo "Done."

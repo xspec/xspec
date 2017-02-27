@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/schut.rnc" type="application/relax-ng-compact-syntax"?>
+<s:description xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" schematron="schut-to-xspec-test.sch">
+    <s:scenario label="Schematron test scenario"/>
+</s:description>

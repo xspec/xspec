@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/schut.rnc" type="application/relax-ng-compact-syntax"?>
+<s:description xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" schematron="demo-02.sch">
+    <s:scenario label="Pattern 4 - example of a second level of imported scenarios">
+        <s:context href="demo-02.xml"/>
+        <s:expect-report id="t4-1" role="warn"/>
+    </s:scenario>
+</s:description>

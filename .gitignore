@@ -3,4 +3,5 @@ target/
 *.iml
 test/xspec/*
 tutorial/xspec/*
+tutorial/schematron/xspec/*
 test/result.log

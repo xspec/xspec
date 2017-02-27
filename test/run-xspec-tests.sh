@@ -4,7 +4,7 @@
 #         USAGE:  ./run-xspec.tests.sh 
 #         
 #   DESCRIPTION:  This script is a runner for XSpec test suite inside test directory
-#		  it runs all the tests with extension .xspec in the test directory
+#		  it runs all the tests with extension .xspec or .schut in the test directory
 #		  it outputs stdout and stderr into a file result.log
 #	          it greps for failing tests in the log file or for compilation errors
 #		  it returns no output if the tests are successful
@@ -23,8 +23,13 @@
 #       LICENSE:  MIT License
 #
 #===============================================================================
-for xspectest in *.xspec; 
-do ../bin/xspec.sh $xspectest &> result.log; 
+for xspectest in *.xspec *.schut; 
+do 
+    if test "${xspectest#.schut}" = "$xspectest"; then
+        ../bin/xspec.sh -s $xspectest &> result.log;
+    else 
+        ../bin/xspec.sh $xspectest &> result.log;
+    fi
     if grep -q ".*failed:\s[1-9]" result.log || grep -q -E "\*+\sError\s(running|compiling)\sthe\stest\ssuite" result.log;
         then
             echo "FAILED: $xspectest";

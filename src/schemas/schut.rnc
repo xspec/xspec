@@ -1,0 +1,72 @@
+datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+default namespace = "http://www.jenitennison.com/xslt/xspec/schematron"
+
+start = description
+
+description = element description {
+    attribute schematron { xs:anyURI },
+    attribute phase { xs:NMTOKEN }?,
+    (scenario | import | pending)+
+}
+
+scenario = element scenario { 
+    label,
+    attribute shared { "yes" | "no" }?,
+    attribute pending { text }?,
+    attribute focus { text }?,
+    context?,
+    like*,
+    ( pending | assertion )*,
+    ( pending | scenario )*
+}
+
+pending = element pending { label?, (scenario | assertion)* }
+
+label = attribute label { text }
+
+like = element like { label }
+
+context = 
+	element context { 
+		node-selection
+	}
+	
+node-selection = attribute href { xs:anyURI }?,
+                 attribute select { xpath }?, 
+                 any-content
+
+any-content = mixed { any-element* }
+any-element = element * { attribute * { text }*, any-content }
+xpath = text
+
+assertion =  
+    expect-assert
+     | expect-not-assert | expect-report | expect-not-report | expect-valid 
+
+expect-assert = element expect-assert {
+    common-expect
+}
+expect-report = element expect-report {
+    common-expect
+}
+
+expect-not-assert = element expect-not-assert {
+    common-expect
+}
+expect-not-report = element expect-not-report {
+    common-expect
+}
+
+
+common-expect = 
+    attribute id { xs:NCName }?,
+    attribute role { text }?,
+    attribute location { xpath }?
+
+expect-valid = element expect-valid { empty }
+
+import = element import { 
+    attribute href { xs:anyURI },
+    attribute type { "schut" | "xspec" }?
+}

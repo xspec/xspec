@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/schut.rnc" type="application/relax-ng-compact-syntax"?>
+<s:description xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" schematron="schut-to-xspec-012.sch">
+    <s:scenario label="expect-valid">
+        <s:context href="schematron/schut-to-xspec-012-01.xml"/>
+        <s:expect-valid/>
+    </s:scenario>
+    <s:scenario label="assertions">
+        <s:scenario label="without attributes">
+            <s:scenario label="not thrown">
+                <s:context href="schematron/schut-to-xspec-012-01.xml"/>
+                <s:expect-not-assert/>
+                <s:expect-not-report/>
+            </s:scenario>
+            <s:scenario label="thrown">
+                <s:context href="schematron/schut-to-xspec-012-02.xml"/>
+                <s:expect-assert/>
+                <s:expect-report/>
+            </s:scenario>
+        </s:scenario>
+        <s:scenario label="with id">
+            <s:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <s:expect-assert id="a1"/>
+            <s:expect-not-assert id="a2"/>
+            <s:expect-report id="r1"/>
+            <s:expect-not-report id="r2"/>
+        </s:scenario>
+        <s:scenario label="with role">
+            <s:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <s:expect-assert role="warn"/>
+            <s:expect-not-assert role="fatal"/>
+            <s:expect-report role="warn"/>
+            <s:expect-not-report role="info"/>
+        </s:scenario>
+        <s:scenario label="with location">
+            <s:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <s:expect-assert location="/article[1]/div[1]"/>
+            <s:expect-not-assert location="/article[1]/div[2]"/>
+            <s:expect-report location="/article[1]/div[3]"/>
+            <s:expect-not-report location="/article[1]/div[4]"/>
+        </s:scenario>
+        <s:scenario label="with id, location">
+            <s:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <s:expect-assert id="a1" location="/article[1]/div[1]"/>
+            <s:expect-not-assert id="a2" location="/article[1]/div[2]"/>
+            <s:expect-report id="r1" location="/article[1]/div[3]"/>
+            <s:expect-not-report id="r2" location="/article[1]/div[4]"/>
+        </s:scenario>
+        <s:scenario label="with id, role, location">
+            <s:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <s:expect-assert id="a1" role="warn" location="/article[1]/div[1]"/>
+            <s:expect-not-assert id="a2" role="error" location="/article[1]/div[2]"/>
+            <s:expect-report id="r1" role="warn" location="/article[1]/div[3]"/>
+            <s:expect-not-report id="r2" role="info" location="/article[1]/div[4]"/>
+        </s:scenario>
+    </s:scenario>
+</s:description>

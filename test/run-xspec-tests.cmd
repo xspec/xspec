@@ -33,13 +33,17 @@ set RESULT_FILE=result.log
 rem
 rem Run tests
 rem
-for %%I in (*.xspec) do (
+for %%I in (*.xspec *.schut) do (
     if /i "%APPVEYOR%"=="True" appveyor AddTest "%%~I" -Framework custom -Filename "%~nx0" -Outcome Running
 
     rem
     rem Run
     rem
-    "%COMSPEC%" /c ..\bin\xspec.bat "%%~I" > "%RESULT_FILE%" 2>&1
+    if "%%~xI" == ".schut" (
+        "%COMSPEC%" /c ..\bin\xspec.bat -s "%%~I" > "%RESULT_FILE%" 2>&1
+    ) else (
+        "%COMSPEC%" /c ..\bin\xspec.bat "%%~I" > "%RESULT_FILE%" 2>&1
+    )
 
     rem
     rem Inspect result

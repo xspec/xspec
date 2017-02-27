@@ -47,11 +47,12 @@ rem ##
         call :win_echo %1
         echo:
     )
-    echo Usage: xspec [-t^|-q^|-c^|-j^|-h] filename [coverage]
+    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-h] filename [coverage]
     echo:
     echo   filename   the XSpec document
     echo   -t         test an XSLT stylesheet (the default)
-    echo   -q         test an XQuery module (mutually exclusive with -t)
+    echo   -q         test an XQuery module (mutually exclusive with -t and -s)
+    echo   -s         test a Schematron module (mutually exclusive with -t and -q)
     echo   -c         output test coverage report
     echo   -j         output JUnit report
     echo   -h         display this help message
@@ -120,6 +121,9 @@ rem ##
         set XSLT=1
     ) else if "%WIN_ARGV%"=="-q" (
         set XQUERY=1
+    ) else if "%WIN_ARGV%"=="-s" (
+        set SCHEMATRON=1
+        set XSLT=1
     ) else if "%WIN_ARGV%"=="-c" (
         set COVERAGE=1
     ) else if "%WIN_ARGV%"=="-j" (
@@ -267,6 +271,15 @@ call :win_reset_options
 call :win_get_options %*
 
 rem
+rem # Schematron
+rem # XQuery
+rem
+if defined SCHEMATRON if defined XQUERY (
+    call :usage "-s and -q are mutually exclusive"
+    exit /b 1
+)
+
+rem
 rem # XSLT
 rem # XQuery
 rem
@@ -378,6 +391,48 @@ rem ##
 rem ## compile the suite #########################################################
 rem ##
 rem
+
+rem # get URI to Schematron file and phase from the SchUT file
+if defined SCHEMATRON (
+    echo Setting up Schematron...
+    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', /*[local-name() = 'description']/@schematron))" -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
+    set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+
+    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; (/*[local-name() = 'description']/@phase/string(), '#ALL')[1]" -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" || ( call :die "Error getting Schematron phase" & goto :win_main_error_exit )
+    set /P SCH_PHASE=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+)
+if defined SCHEMATRON set SCHUT=%XSPEC%-compiled.xspec
+if defined SCHEMATRON set SCH_COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-sch-compiled.xsl
+if defined SCHEMATRON set SCH_COMPILED=%SCH_COMPILED:\=/%
+if defined SCHEMATRON (
+    echo:
+    echo Compiling the Schematron...
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl" ^
+        || ( call :die "Error compiling the schematron on step 1" & goto :win_main_error_exit )
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl" ^
+        || ( call :die "Error compiling the schematron on step 2" & goto :win_main_error_exit )
+    call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" ^
+        phase=%SCH_PHASE% ^
+        || ( call :die "Error compiling the schematron on step 3" & goto :win_main_error_exit )
+
+    rem use XQuery to get full URI to compiled Schematron
+    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" -s:"%SCH_COMPILED%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" || ( call :die "Error getting compiled Schematron location" & goto :win_main_error_exit )
+)
+set /P SCH_COMPILED=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+if defined SCHEMATRON (
+    echo:
+    echo Converting Schut to XSpec...
+    call :xslt -o:"%SCHUT%" -s:"%XSPEC%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
+        stylesheet="%SCH_COMPILED%" ^
+        || ( call :die "Error converting Schut to XSpec" & goto :win_main_error_exit )
+    echo:
+)
+if defined SCHEMATRON set XSPEC=%SCHUT%
+
 
 if defined XSLT (
     set COMPILE_SHEET=generate-xspec-tests.xsl
@@ -511,6 +566,8 @@ if defined COVERAGE (
     call :win_echo "Report available at %HTML%"
     rem %OPEN% "%HTML%"
 )
+
+if defined SCHEMATRON del %SCHUT%
 
 echo Done.
 exit /b
