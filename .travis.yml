@@ -30,3 +30,6 @@ script:
     - bats --tap xspec.bats
     - echo "execute XSpec unit tests"
     - ./run-xspec-tests.sh
+    - echo "execute XSpec end-to-end tests"
+    - cd end-to-end
+    - ./run-e2e-tests.sh
