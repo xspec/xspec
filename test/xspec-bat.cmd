@@ -264,6 +264,23 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "invoking xspec.bat for parentheses dir generates HTML report file #84"
+
+    set PARENTHESES_DIR=%TEMP%\%~n0 (84)
+    call :mkdir "%PARENTHESES_DIR%"
+    copy ..\tutorial\* "%PARENTHESES_DIR%" > NUL
+
+    set EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html
+
+    call :run ..\bin\xspec.bat "%PARENTHESES_DIR%\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line 20 x "Report available at %EXPECTED_REPORT%"
+    call :verify_exist "%EXPECTED_REPORT%"
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
