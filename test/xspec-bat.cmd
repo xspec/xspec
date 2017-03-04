@@ -264,11 +264,7 @@ setlocal
         call :run java -cp "%SAXON_CP%" net.sf.saxon.Query -s:xspec\xspec-72-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8', '&#x0A;')" !method=text
         call :verify_line 1 x "true"
     ) else (
-        rem
-        rem Treat as success
-        rem
-        call :run ver
-        call :verify_retval 0
+        call :skip
     )
 
     call :teardown
@@ -392,6 +388,12 @@ rem
     set CASE_RESULT=1
     (echo %CASE_RESULT%) >> "%RESULTS_FILE%"
     if defined CASE_NAME call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Failed -Duration 0 -ErrorMessage %1
+    goto :EOF
+
+:skip
+    echo ...SKIP
+    set CASE_RESULT=2
+    call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Skipped -Duration 0
     goto :EOF
 
 :run
