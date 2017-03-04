@@ -259,7 +259,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat for parentheses dir generates HTML report file #84"
 
-    set PARENTHESES_DIR=%TEMP%\%~n0 (84)
+    set PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)
     call :mkdir "%PARENTHESES_DIR%"
     copy ..\tutorial\* "%PARENTHESES_DIR%" > NUL
 
