@@ -13,18 +13,23 @@ if errorlevel 1 (
 )
 
 rem
-rem Output log files
+rem Results log file
 rem
-set OUTPUT_RAW=%TEMP%\%~n0_raw.log
-call :del "%OUTPUT_RAW%"
-set OUTPUT_LINENUM=%TEMP%\%~n0_linenum.log
-call :del "%OUTPUT_LINENUM%"
+set RESULTS_FILE=%TEMP%\%~n0_results.log
+call :del "%RESULTS_FILE%"
 
 rem
-rem Result log file
+rem Work directory
+rem  - Created at :setup
+rem  - Removed recursively at :teardown
 rem
-set RESULTS_FILE=%TEMP%\%~n0_result.log
-call :del "%RESULTS_FILE%"
+set WORK_DIR=%TEMP%\%~n0_work
+
+rem
+rem Output log files for :run
+rem
+set OUTPUT_RAW=%WORK_DIR%\run_raw.log
+set OUTPUT_LINENUM=%WORK_DIR%\run_linenum.log
 
 rem
 rem Name and extension of this file
@@ -140,11 +145,8 @@ endlocal
 setlocal
     call :setup "invoking xspec generates XML report file"
 
-    set EXPECTED_REPORT=..\tutorial\xspec\escape-for-regex-result.xml
-    call :del "%EXPECTED_REPORT%"
-
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
-    call :verify_exist "%EXPECTED_REPORT%"
+    call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
     call :teardown
 endlocal
@@ -152,11 +154,8 @@ endlocal
 setlocal
     call :setup "invoking xspec generates HTML report file"
 
-    set EXPECTED_REPORT=..\tutorial\xspec\escape-for-regex-result.html
-    call :del "%EXPECTED_REPORT%"
-
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
-    call :verify_exist "%EXPECTED_REPORT%"
+    call :verify_exist ..\tutorial\xspec\escape-for-regex-result.html
 
     call :teardown
 endlocal
@@ -198,11 +197,8 @@ endlocal
 setlocal
     call :setup "invoking xspec with -j option generates XML report file"
 
-    set EXPECTED_REPORT=..\tutorial\xspec\escape-for-regex-junit.xml
-    call :del "%EXPECTED_REPORT%"
-
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_exist "%EXPECTED_REPORT%"
+    call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
 
     call :teardown
 endlocal
@@ -210,11 +206,8 @@ endlocal
 setlocal
     call :setup "invoking xspec with -j option generates JUnit report file"
 
-    set EXPECTED_REPORT=..\tutorial\xspec\escape-for-regex-junit.xml
-    call :del "%EXPECTED_REPORT%"
-
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_exist "%EXPECTED_REPORT%"
+    call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
 
     call :teardown
 endlocal
@@ -234,8 +227,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with TEST_DIR already set externally generates files inside TEST_DIR"
 
-    set TEST_DIR=%TEMP%\%~n0
-    call :mkdir "%TEST_DIR%"
+    set TEST_DIR=%WORK_DIR%
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
@@ -255,7 +247,7 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec.sh that passes a non xs:boolean does not raise a warning #46"
+    call :setup "invoking xspec.bat that passes a non xs:boolean does not raise a warning #46"
 
     call :run ..\bin\xspec.bat ..\test\xspec-46.xspec
     call :verify_retval 0
@@ -298,26 +290,49 @@ rem Subroutines
 rem
 
 :del
-    if exist %1 del /q %1
+    if exist %1 (
+        del /q %1
+        if errorlevel 1 call :failed "Failed to del: %~1"
+    )
     goto :EOF
 
 :mkdir
-    if not exist %1 mkdir %1
+    mkdir %1
+    if errorlevel 1 call :failed "Failed to mkdir: %~1"
     goto :EOF
 
 :rmdir
-    call :del "%~1\*"
-    if exist %1 rmdir %1
+    if exist %1 (
+        call :del "%~1\*"
+        rmdir %1
+        if errorlevel 1 call :failed "Failed to rmdir: %~1"
+    )
+    goto :EOF
+
+:rmdir-s
+    if exist %1 (
+        rmdir /s /q %1
+        if errorlevel 1 call :failed "Failed to rmdir /s: %~1"
+    )
+    goto :EOF
+
+:appveyor
+    if /i "%APPVEYOR%"=="True" appveyor %*
     goto :EOF
 
 :setup
+    rem
+    rem Report 'Running'
+    rem
     set CASE_NAME=%~1
-
-    if /i "%APPVEYOR%"=="True" appveyor AddTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Running
-
+    call :appveyor AddTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Running
     echo CASE: %CASE_NAME%
-
     (echo # %CASE_NAME%) >> "%RESULTS_FILE%"
+
+    rem
+    rem Create the work directory
+    rem
+    call :mkdir "%WORK_DIR%"
 
     rem
     rem Create the XSpec output directories
@@ -328,24 +343,25 @@ rem
     goto :EOF
 
 :teardown
-    if %CASE_RESULT% EQU 0 (
-        echo ...PASS
-        (echo %CASE_RESULT%) >> "%RESULTS_FILE%"
-        if /i "%APPVEYOR%"=="True" appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Passed -Duration 0
-    )
-
-    rem
-    rem Delete the output log files if any
-    rem
-    call :del "%OUTPUT_RAW%"
-    call :del "%OUTPUT_LINENUM%"
-
     rem
     rem Remove the XSpec output directories
     rem
     call :rmdir ..\test\xspec
     call :rmdir ..\tutorial\xspec
 
+    rem
+    rem Remove the work directory
+    rem
+    call :rmdir-s "%WORK_DIR%"
+
+    rem
+    rem Report 'Passed'
+    rem
+    if %CASE_RESULT% EQU 0 (
+        echo ...PASS
+        (echo %CASE_RESULT%) >> "%RESULTS_FILE%"
+        call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Passed -Duration 0
+    )
     goto :EOF
 
 :verified
@@ -357,7 +373,7 @@ rem
     echo ...FAIL: %~1
     set CASE_RESULT=1
     (echo %CASE_RESULT%) >> "%RESULTS_FILE%"
-    if /i "%APPVEYOR%"=="True" appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Failed -Duration 0 -ErrorMessage %1
+    if defined CASE_NAME call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Failed -Duration 0 -ErrorMessage %1
     goto :EOF
 
 :run
