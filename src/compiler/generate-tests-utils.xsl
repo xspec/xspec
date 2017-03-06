@@ -551,6 +551,7 @@
   <xsl:param name="value" required="yes" />
   <xsl:param name="wrapper-name" select="'t:result'" />
   <xsl:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/unit-testAlias'" />
+  <xsl:param name="compiled-xsl-uri" as="xs:anyURI"/>
   <xsl:element name="{$wrapper-name}" namespace="{$wrapper-ns}">
     <xsl:choose>
       <xsl:when test="$value[1] instance of attribute()">
@@ -574,7 +575,8 @@
 				<xsl:variable name="value-copy">
 					<xsl:copy-of select="$value"/>
 				</xsl:variable>
-				<xsl:variable name="href" as="xs:string" select="concat(generate-id($value-copy[1]), '.xml')" />
+			  <!-- issue #93 -->
+				<xsl:variable name="href" as="xs:anyURI" select="resolve-uri(concat(generate-id($value-copy[1]), '.xml'),$compiled-xsl-uri)" />
 				<xsl:attribute name="href" select="$href" />
       			<xsl:result-document href="{$href}" format="x:report">
       				<xsl:sequence select="$value" />
