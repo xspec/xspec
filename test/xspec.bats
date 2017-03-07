@@ -197,8 +197,8 @@ teardown() {
 		    skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon";
 	  fi 
 
-	  run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec xspec-home=file://${TRAVIS_BUILD_DIR}/ -oresult=${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html ${TRAVIS_BUILD_DIR}/src/harnesses/saxon/saxon-xslt-harness.xproc 
-	  run java -cp ${SAXON_CP} net.sf.saxon.Query -s:${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; /html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8'" !method=text
+	  run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec xspec-home=file:${PWD}/../ -oresult=xspec/xspec-72-result.html ../src/harnesses/saxon/saxon-xslt-harness.xproc
+	  run java -cp ${SAXON_CP} net.sf.saxon.Query -s:xspec/xspec-72-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-7', '&#x0A;')" !method=text
 	  echo $output
     [[ "${lines[0]}" = 'true' ]]
 }
