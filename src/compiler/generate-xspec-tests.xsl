@@ -58,7 +58,7 @@
     <variable name="x:stylesheet-uri" as="xs:string" select="'{$stylesheet-uri}'" />
   	<output name="x:report" method="xml" indent="yes" />
     <!-- issue #93 -->
-    <variable name="x:compiled-xsl-uri" select="static-base-uri()" as="xs:anyURI"/>
+    <variable name="impl:compiled-xsl-uri" select="static-base-uri()" as="xs:anyURI"/>
     <!-- Compile the test suite params (aka global params). -->
     <xsl:call-template name="x:compile-params"/>
     <!-- The main compiled template. -->
@@ -278,7 +278,7 @@
           <with-param name="value" select="$x:result" />
           <with-param name="wrapper-name" select="'x:result'" />
           <with-param name="wrapper-ns" select="'{ $xspec-ns }'"/>
-          <with-param name="compiled-xsl-uri" select="$x:compiled-xsl-uri"/>
+          <with-param name="compiled-xsl-uri" select="$impl:compiled-xsl-uri"/>
         </call-template>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
@@ -387,7 +387,7 @@
                   <with-param name="value"        select="$impl:test-result"/>
                   <with-param name="wrapper-name" select="'x:result'"/>
                   <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
-                 <with-param name="compiled-xsl-uri" select="$x:compiled-xsl-uri"/>
+                 <with-param name="compiled-xsl-uri" select="$impl:compiled-xsl-uri"/>
                </call-template>
             </if>
          </xsl:if>
@@ -395,7 +395,7 @@
             <with-param name="value"        select="$impl:expected"/>
             <with-param name="wrapper-name" select="'x:expect'"/>
             <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
-           <with-param name="compiled-xsl-uri" select="$x:compiled-xsl-uri"/>
+           <with-param name="compiled-xsl-uri" select="$impl:compiled-xsl-uri"/>
          </call-template>
       </xsl:if>
     </x:test>
