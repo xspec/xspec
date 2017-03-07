@@ -3,6 +3,7 @@ environment:
   matrix:
     # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-15
+      XMLCALABASH_VERSION: 1.1.15-97
     # latest Saxon 9.6 version
     - SAXON_VERSION: 9.6.0-10
     # Saxon version used in oXygen
@@ -10,11 +11,27 @@ environment:
 
 install:
 - ps: >-
+    # install Saxon
+
     $saxon_home = Split-Path -Path "${env:SAXON_CP}" -Parent
 
     mkdir -Path $saxon_home
 
     Invoke-WebRequest -Uri "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar" -OutFile "${env:SAXON_CP}"
+
+
+    # install XML Calabash
+
+    if( Test-Path -Path env:\XMLCALABASH_VERSION ) {
+      $xmlcalabash_home = "${env:TEMP}\xspec\xmlcalabash-${env:XMLCALABASH_VERSION}"
+      ${env:XMLCALABASH_CP} = "${xmlcalabash_home}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
+      Invoke-WebRequest -Uri "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip" -OutFile "${xmlcalabash_home}.zip"
+      7z x "${xmlcalabash_home}.zip" -o"${xmlcalabash_home}\..\"
+    }
+
+    else {
+        echo "XMLCalabash will not be installed as it uses a higher version of Saxon"
+    }
 build: off
 test_script:
 - cmd: >-

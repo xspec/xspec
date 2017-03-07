@@ -2,6 +2,7 @@ env:
     matrix:
         # latest Saxon 9.7 version
         - SAXON_VERSION=9.7.0-15
+          XMLCALABASH_VERSION=1.1.15-97          
         # latest Saxon 9.6 version
         - SAXON_VERSION=9.6.0-10
         # Saxon version used in oXygen
@@ -19,10 +20,13 @@ before_script:
     - wget -O ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
     - chmod +x ${SAXON_CP}
     # install XML Calabash
-    - export XMLCALABASH_VERSION=1.1.15-97
-    - wget -O /tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip 
-    - unzip /tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}.zip -d /tmp/xspec
-    - export XMLCALABASH_CP=/tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar
+    - if [ -z ${XMLCALABASH_VERSION} ]; then
+        echo "XMLCalabash will not be installed as it uses a higher version of Saxon";
+      else
+        wget -O /tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip;
+        unzip /tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}.zip -d /tmp/xspec;
+        export XMLCALABASH_CP=/tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar;
+      fi
 
 script:
     - cd test
