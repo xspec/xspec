@@ -193,7 +193,7 @@ teardown() {
 
 
 @test "executing the Saxon XProc harness generates a report with UTF-8 encoding" {
-	if [ -z ${XMLCALABASH_VERSION} ]; then
+	if [ -z ${XMLCALABASH_CP} ]; then
 		skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon";
 	fi 
 
