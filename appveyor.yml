@@ -1,7 +1,7 @@
 environment:
   SAXON_CP: '%TEMP%\xspec\saxon\saxon9he.jar'
   matrix:
-    # latest Saxon 9.7 version and XML Calabash
+    # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-15
       XMLCALABASH_VERSION: 1.1.15-97
     # latest Saxon 9.6 version
@@ -27,6 +27,10 @@ install:
       ${env:XMLCALABASH_CP} = "${xmlcalabash_home}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
       Invoke-WebRequest -Uri "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip" -OutFile "${xmlcalabash_home}.zip"
       7z x "${xmlcalabash_home}.zip" -o"${xmlcalabash_home}\..\"
+    }
+
+    else {
+        echo "XMLCalabash will not be installed as it uses a higher version of Saxon"
     }
 build: off
 test_script:
