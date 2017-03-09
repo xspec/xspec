@@ -570,10 +570,21 @@
                   </choose>
                </variable>
             </xsl:when>
-            <xsl:when test="exists(@test) and exists(node())">
+            <xsl:when test="exists(@test)">
                <variable name="impl:with-context" select="true()"/>
                <variable name="impl:context-tmp" as="item()*">
                   <choose>
+                     <!-- if sequence of nodes, wrap in a document node for backward compatibility -->
+                     <when test="$x:result instance of node()+">
+                        <variable name="doc" as="document-node()">
+                           <document>
+                              <sequence select="$x:result"/>
+                           </document>
+                        </variable>
+                        <for-each select="$doc">
+                           <sequence select="{ @test }"/>
+                        </for-each>
+                     </when>
                      <!-- aka "count($x:result) le 1" (so if empty, context is empty too) -->
                      <when test="empty($x:result[2])">
                         <for-each select="$x:result">
@@ -600,26 +611,6 @@
                   </choose>
                </variable>
             </xsl:when>
-            <xsl:when test="exists(@test)">
-	       <variable name="impl:just-nodes" select="
-		   $x:result instance of node()+"/>
-	       <!-- aka "count($x:result) eq 1 or ..." -->
-	       <variable name="impl:with-context" select="
-		   exists($x:result) and empty($x:result[2]) or $impl:just-nodes"/>
-	       <variable name="impl:context" as="item()?">
-		  <choose>
-		     <when test="$impl:just-nodes">
-			<document>
-			   <sequence select="$x:result"/>
-			</document>
-		     </when>
-		     <when test="$impl:with-context">
-			<sequence select="$x:result"/>
-		     </when>
-		     <otherwise/>
-		  </choose>
-	       </variable>
-	    </xsl:when>
 	    <xsl:otherwise>
 	       <!-- aka "count($x:result) eq 1" -->
 	       <variable name="impl:with-context" select="
@@ -662,11 +653,25 @@
                <xsl:apply-templates select="." mode="test:generate-variable-declarations">
                   <xsl:with-param name="var" select="'impl:expected'"/>
                </xsl:apply-templates>
-               <variable name="impl:successful" as="xs:boolean" select="
-                   test:deep-equal(
-                     $impl:expected,
-                     if ( $impl:with-context ) then $impl:context else $x:result,
-                     { $version })"/>
+               <variable name="impl:successful" as="xs:boolean">
+                  <variable name="expected" as="item()*">
+                     <choose>
+                        <when test="$impl:with-context and $impl:context instance of document-node()">
+                           <document>
+                              <sequence select="$impl:expected"/>
+                           </document>
+                        </when>
+                        <otherwise>
+                           <sequence select="$impl:expected"/>
+                        </otherwise>
+                     </choose>
+                  </variable>
+                  <sequence select="
+                      test:deep-equal(
+                        $expected,
+                        if ( $impl:with-context ) then $impl:context else $x:result,
+                        { $version })"/>
+               </variable>
             </xsl:when>
             <xsl:when test="exists(@assert|@test)">
                <!-- check there is exactly one of @assert|@test -->
