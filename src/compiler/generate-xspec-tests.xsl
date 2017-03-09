@@ -570,7 +570,7 @@
                   </choose>
                </variable>
             </xsl:when>
-            <xsl:when test="exists(@test)">
+            <xsl:when test="exists(@test) and exists(node()|@href|@select)">
                <variable name="impl:with-context" select="true()"/>
                <variable name="impl:context-tmp" as="item()*">
                   <choose>
@@ -611,8 +611,28 @@
                   </choose>
                </variable>
             </xsl:when>
-	    <xsl:otherwise>
-	       <!-- aka "count($x:result) eq 1" -->
+            <xsl:when test="exists(@test)">
+               <variable name="impl:just-nodes" select="
+                   $x:result instance of node()+"/>
+               <!-- aka "count($x:result) eq 1 or ..." -->
+               <variable name="impl:with-context" select="
+                   exists($x:result) and empty($x:result[2]) or $impl:just-nodes"/>
+               <variable name="impl:context" as="item()?">
+                  <choose>
+                     <when test="$impl:just-nodes">
+                        <document>
+                           <sequence select="$x:result"/>
+                        </document>
+                     </when>
+                     <when test="$impl:with-context">
+                        <sequence select="$x:result"/>
+                     </when>
+                     <otherwise/>
+                  </choose>
+               </variable>
+            </xsl:when>
+            <xsl:otherwise>
+               <!-- aka "count($x:result) eq 1" -->
 	       <variable name="impl:with-context" select="
 		   exists($x:result) and empty($x:result[2])"/>
 	       <variable name="impl:context" as="item()?">
