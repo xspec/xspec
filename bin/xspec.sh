@@ -62,6 +62,7 @@ die() {
 if which saxon > /dev/null 2>&1; then
     echo Saxon script found, use it.
     echo
+    SAXON_SCRIPT=true;
     xslt() {
         saxon --add-cp "${XSPEC_HOME}/java/" --xsl "$@"
     }
@@ -71,6 +72,7 @@ if which saxon > /dev/null 2>&1; then
 else
     echo Saxon script not found, invoking JVM directly instead.
     echo
+    SAXON_SCRIPT=false;
     xslt() {
         java -cp "$CP" net.sf.saxon.Transform "$@"
     }
@@ -114,13 +116,11 @@ if test \! -f "${XSPEC_HOME}/src/compiler/generate-common-tests.xsl"; then
 fi
 
 # set SAXON_CP (either it has been by the user, or set it from SAXON_HOME)
-
-if test -z "$SAXON_CP"; then
+if test "$SAXON_SCRIPT" = false -a -z "$SAXON_CP"; then
     # Set this variable in your environment or here, if you don't set SAXON_CP
     # SAXON_HOME=/path/to/saxon/dir
     if test -z "$SAXON_HOME"; then
-    	echo "SAXON_CP and SAXON_HOME both not set!"
-#        die "SAXON_CP and SAXON_HOME both not set!"
+        die "SAXON_CP and SAXON_HOME both not set!"
     fi
     if test -f "${SAXON_HOME}/saxon9ee.jar"; then
 	SAXON_CP="${SAXON_HOME}/saxon9ee.jar";
@@ -139,8 +139,7 @@ if test -z "$SAXON_CP"; then
     elif test -f "${SAXON_HOME}/saxon8.jar"; then
 	SAXON_CP="${SAXON_HOME}/saxon8.jar";
     else
-    	echo "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
-#        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
+        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
     fi
 fi
 
