@@ -1,63 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       saxon-xslt-harness.xproc                                 -->
+<!--  File:       basex-xquery-harness.xproc                               -->
 <!--  Author:     Florent Georges                                          -->
-<!--  Reviewed:   github.com/cirulls                                       -->
-<!--  Copyright (c) 2011 Florent Georges (see end of file.)                -->
+<!--  Date:       2011-08-30                                               -->
+<!--  URI:        http://xspec.googlecode.com/                             -->
+<!--  Tags:                                                                -->
+<!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<p:pipeline xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xslt.xproc" name="saxon-xslt-harness" type="t:saxon-xslt-harness" version="1.0">
+<p:pipeline xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" pkg:import-uri="http://www.jenitennison.com/xslt/xspec/basex/harness/xquery.xproc" name="basex-xquery-harness" type="t:basex-xquery-harness" version="1.0">
 	<p:documentation>
-		<p>This pipeline executes an XSpec test suite with the Saxon embedded in Calabash.</p>
+		<p>This pipeline executes an XSpec test suite with BaseX standalone.</p>
 		<p><b>Primary input:</b> A XSpec test suite document.</p>
 		<p><b>Primary output:</b> A formatted HTML XSpec report.</p>
 		<p>The dir where you unzipped the XSpec archive on your filesystem is passed
-			in the option 'xspec-home'.</p>
+			in the option 'xspec-home'.  The compiled test suite (the XQuery file to be
+			actually evaluated) is saved on the filesystem to be passed to BaseX.  The
+			name of this file is passed in the option 'compiled-file' (it defaults to a
+			file in /tmp).</p>
 	</p:documentation>
 
 	<p:serialization port="result" indent="true" method="xhtml" encoding="UTF-8" include-content-type="true"/>
 
 	<p:option name="xspec-home" required="true"/>
-
+	<p:option name="basex-jar" required="true"/>
+	<!-- TODO: Use a robust way to get a tmp file name from the OS... -->
+	<p:option name="compiled-file" select="'file:/tmp/xspec-basex-compiled-suite.xq'"/>
 	<!-- TODO: Use the absolute URIs through the EXPath Packaging System. -->
-	<p:variable name="compiler" select="resolve-uri('src/compiler/generate-xspec-tests.xsl', $xspec-home)"/>
+	<p:variable name="compiler" select="resolve-uri('src/compiler/generate-query-tests.xsl', $xspec-home)"/>
 	<p:variable name="formatter" select="resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)"/>
+	<p:variable name="utils-lib" select="resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)"/>
 
-	<p:load name="compiler">
-		<p:with-option name="href" select="$compiler"/>
-	</p:load>
+	<p:string-replace match="xsl:import/@href" name="compiler">
+		<p:with-option name="replace" select="concat('''', $compiler, '''')"/>
+		<p:input port="source">
+			<p:inline>
+				<xsl:stylesheet version="2.0">
+					<xsl:import href="..."/>
+					<xsl:template match="/">
+						<c:query>
+							<xsl:call-template name="t:generate-tests"/>
+						</c:query>
+					</xsl:template>
+				</xsl:stylesheet>
+			</p:inline>
+		</p:input>
+	</p:string-replace>
 
 	<p:xslt name="compile">
 		<p:input port="source">
-			<p:pipe step="saxon-xslt-harness" port="source"/>
+			<p:pipe step="basex-xquery-harness" port="source"/>
 		</p:input>
 		<p:input port="stylesheet">
 			<p:pipe step="compiler" port="result"/>
 		</p:input>
-		<p:input port="parameters">
-			<p:empty/>
-		</p:input>
+		<p:with-param name="utils-library-at" select="$utils-lib"/>
 	</p:xslt>
 
-	<p:xslt name="run" template-name="t:main">
+	<p:escape-markup name="escape"/>
+
+	<p:store method="text">
+		<p:with-option name="href" select="$compiled-file"/>
+	</p:store>
+
+	<!-- rely on a script 'basex' being in the PATH -->
+	<!--p:exec command="basex" name="run">
+	  <p:with-option name="args" select="$compiled-file"/>
+	  <p:input port="source">
+		 <p:empty/>
+	  </p:input>
+   	</p:exec-->
+	<p:exec command="java" name="run">
+		<p:with-option name="args" select="string-join(('-cp', $basex-jar, 'org.basex.BaseX', $compiled-file),' ')"/>
 		<p:input port="source">
 			<p:empty/>
 		</p:input>
-		<p:input port="stylesheet">
-			<p:pipe step="compile" port="result"/>
-		</p:input>
-		<p:input port="parameters">
-			<p:empty/>
-		</p:input>
-	</p:xslt>
+	</p:exec>
 
 	<p:choose>
-		<p:when test="exists(/t:report)">
+		<p:when test="exists(/c:result/t:report)">
 			<p:load name="formatter">
 				<p:with-option name="href" select="$formatter"/>
 			</p:load>
-			<p:xslt name="format-report">
+			<p:unwrap name="unwrap" match="/c:result">
 				<p:input port="source">
 					<p:pipe step="run" port="result"/>
+				</p:input>
+			</p:unwrap>
+			<p:xslt name="format-report">
+				<p:input port="source">
+					<p:pipe step="unwrap" port="result"/>
 				</p:input>
 				<p:input port="stylesheet">
 					<p:pipe step="formatter" port="result"/>
@@ -72,7 +103,6 @@
 			</p:error>
 		</p:otherwise>
 	</p:choose>
-
 </p:pipeline>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
