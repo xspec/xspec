@@ -694,16 +694,17 @@
                      </otherwise>
                   </choose>
                </variable>
-               <if test="not($impl:assert instance of xs:boolean)">
+               <if test="not($impl:assert instance of xs:boolean?)">
                   <!-- TODO: For now, generate an error, make the test fails instead? -->
                   <message terminate="yes">
                      <xsl:text>ERROR in scenario "</xsl:text>
                      <xsl:value-of select="x:label(.)"/>
                      <!-- TODO: Generate the SequenceType of $impl:assert. -->
-                     <xsl:text>": @assert|@test did not return a boolean</xsl:text>
+                     <xsl:text>": @assert|@test did not return a xs:boolean?</xsl:text>
                   </message>
                </if>
-               <variable name="impl:successful" as="xs:boolean" select="$impl:assert"/>
+               <variable name="impl:successful" as="xs:boolean"
+                         select="exists($impl:assert) and $impl:assert"/>
             </xsl:when>
             <xsl:otherwise>
                <xsl:message terminate="yes">
