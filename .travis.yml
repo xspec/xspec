@@ -32,8 +32,5 @@ script:
     - cd test
     - echo "execute bats unit tests"
     - bats --tap xspec.bats
-    - echo '[*****]'
-    - cat /tmp/calabash.out
-    - echo '[*****]'
     - echo "execute XSpec unit tests"
     - ./run-xspec-tests.sh
