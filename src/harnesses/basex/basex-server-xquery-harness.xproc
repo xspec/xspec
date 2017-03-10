@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       zorba-xquery-harness.xproc                               -->
+<!--  File:       basex-server-xquery-harness.xproc                        -->
 <!--  Author:     Florent Georges                                          -->
-<!--  Date:       2011-09-18                                               -->
+<!--  Date:       2011-08-30                                               -->
 <!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
@@ -11,26 +11,28 @@
 
 <p:pipeline xmlns:p="http://www.w3.org/ns/xproc"
             xmlns:c="http://www.w3.org/ns/xproc-step"
-            xmlns:cx="http://xmlcalabash.com/ns/extensions"
             xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:t="http://www.jenitennison.com/xslt/xspec"
+            xmlns:rest="http://www.basex.org/rest"
             xmlns:pkg="http://expath.org/ns/pkg"
-            pkg:import-uri="http://www.jenitennison.com/xslt/xspec/zorba/harness/xquery.xproc"
-            name="zorba-xquery-harness"
-            type="t:zorba-xquery-harness"
+            pkg:import-uri="http://www.jenitennison.com/xslt/xspec/basex/harness/server/xquery.xproc"
+            name="basex-server-xquery-harness"
+            type="t:basex-server-xquery-harness"
             version="1.0">
 
    <p:documentation>
-      <p>This pipeline executes an XSpec test suite with Zorba.</p>
+      <p>This pipeline executes an XSpec test suite on a BaseX server instance.</p>
       <p><b>Primary input:</b> A XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
-      <p>The dir where you unzipped the XSpec archive on your filesystem is passed
-        in the option 'xspec-home'.  The compiled test suite (the XQuery file to be
-        actually evaluated) is saved on the filesystem to be passed to Zorba.  The
-        name of this file is passed in the option 'compiled-file' (it defaults to a
-        file in /tmp).  It relies on a script called 'zorba' being available in the
-        system's $PATH.</p>
+      <p>The XQuery library module to test must already be on the BaseX instance
+        (its URI is passed through the option 'query-at').  The instance endpoint
+        is passed in the option 'endpoint'.  The runtime utils library (also known
+        as generate-query-utils.xql) must also be on the instance (its location
+        hint, that is the 'at' clause to use) is passed in the option 'utils-lib'.
+        The dir where you unzipped the XSpec archive on your filesystem is passed
+        in the option 'xspec-home'.  User credentials are passed through options
+        'username' and 'password'.</p>
    </p:documentation>
 
    <p:serialization port="result" indent="true"/>
@@ -43,74 +45,71 @@
       <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-
-      <!-- TODO: Use a robust way to get a tmp file name from the OS... -->
-      <p:variable name="compiled-file" select="
-          ( /c:param-set/c:param[@name eq 'compiled-file']/@value,
-            'file:///tmp/xspec-zorba-compiled-suite.xq' )[1]">
+      <p:variable name="query-at" select="/c:param-set/c:param[@name eq 'query-at']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-
-      <p:variable name="at-param" select="/c:param-set/c:param[@name eq 'query-at']/@value">
+      <p:variable name="endpoint" select="/c:param-set/c:param[@name eq 'endpoint']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <p:variable name="at-attr" select="resolve-uri(/t:description/@query-at, base-uri(/))"/>
-      <p:variable name="at-tmp" select="( $at-param, $at-attr )[.][1]"/>
-      <!-- Saxon's resolve-uri() returns file:/ with only one slashes, which Zorba
-           does not understand. -->
-      <p:variable name="query-at" select="
-          if ( starts-with($at-tmp, 'file:/') and not(starts-with($at-tmp, 'file:///')) ) then
-            concat('file:///', substring($at-tmp, 7))
-          else
-            $at-tmp"/>
-
-      <p:variable name="utils-tmp" select="
-          ( /c:param-set/c:param[@name eq 'utils-library-at']/@value,
-            resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home) )[1]">
+      <p:variable name="username" select="/c:param-set/c:param[@name eq 'username']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <!-- Saxon's resolve-uri() returns file:/ with only one slashes, which Zorba
-           does not understand. -->
-      <p:variable name="utils-lib" select="
-          if ( starts-with($utils-tmp, 'file:/') and not(starts-with($utils-tmp, 'file:///')) ) then
-            concat('file:///', substring($utils-tmp, 7))
-          else
-            $utils-tmp"/>
+      <p:variable name="password" select="/c:param-set/c:param[@name eq 'password']/@value">
+         <p:pipe step="params" port="parameters"/>
+      </p:variable>
+      <p:variable name="auth-method" select="/c:param-set/c:param[@name eq 'auth-method']/@value">
+         <p:pipe step="params" port="parameters"/>
+      </p:variable>
 
       <!-- compile the suite into a query -->
-      <t:compile-xquery>
-         <p:with-param name="query-at"         select="$query-at"/>
-         <p:with-param name="utils-library-at" select="$utils-lib"/>
-      </t:compile-xquery>
+      <t:compile-xquery/>
 
       <!-- escape the query as text -->
-      <p:escape-markup name="escape"/>
+      <p:escape-markup/>
 
-      <!-- store it on disk in order to pass it to zorba -->
-      <p:store method="text" name="store">
-         <p:with-option name="href" select="$compiled-file"/>
-      </p:store>
+      <!-- construct the BaseX REST query element around the query itself -->
+      <p:rename new-name="rest:text" match="/*"/>
+      <p:wrap wrapper="rest:query" match="/*"/>
+      <!-- construct the HTTP request following BaseX REST interface -->
+      <p:wrap wrapper="c:body" match="/*"/>
+      <p:add-attribute attribute-name="content-type" attribute-value="application/xml" match="/*"/>
+      <p:wrap wrapper="c:request" match="/*"/>
+      <p:add-attribute attribute-name="method" attribute-value="POST" match="/*"/>
+      <!-- inject variable values -->
+      <p:add-attribute attribute-name="href" match="/*">
+         <p:with-option name="attribute-value" select="$endpoint"/>
+      </p:add-attribute>
+      <p:add-attribute attribute-name="username" match="/*">
+         <p:with-option name="attribute-value" select="$username"/>
+      </p:add-attribute>
+      <p:add-attribute attribute-name="password" match="/*">
+         <p:with-option name="attribute-value" select="$password"/>
+      </p:add-attribute>
+      <p:add-attribute attribute-name="auth-method" match="/*">
+         <p:with-option name="attribute-value" select="$auth-method"/>
+      </p:add-attribute>
 
-      <!-- run it on zorba, rely on a script 'zorba' being in the PATH -->
-      <p:exec command="zorba" name="run" cx:depends-on="store">
-         <!-- Zorba does not accept a URI, only a file path, so we have to remove
-              the 'file:' part.  TODO: Report it to the Zorba mailing list. -->
-         <p:with-option name="args" select="
-             concat('-f -q ', substring-after($compiled-file, ':'))"/>
-         <p:input port="source">
-            <p:empty/>
+      <!-- log the HTTP request ? -->
+      <t:log if-set="log-http-request">
+         <p:input port="parameters">
+            <p:pipe step="params" port="parameters"/>
          </p:input>
-      </p:exec>
+      </t:log>
 
-      <!-- unwrap the p:exec step wrapper element -->
-      <p:unwrap name="unwrap" match="/c:result">
-         <p:input port="source">
-            <p:pipe step="run" port="result"/>
+      <!-- TODO: Check HTTP return code, etc.? (using @detailed = true) -->
+      <p:http-request name="run"/>
+
+      <!-- log the HTTP request ? -->
+      <t:log if-set="log-http-response">
+         <p:input port="parameters">
+            <p:pipe step="params" port="parameters"/>
          </p:input>
-      </p:unwrap>
+      </t:log>
 
       <!-- format the report -->
-      <t:format-report/>
+      <t:format-report>
+         <p:with-option name="xspec-home" select="$xspec-home"/>
+      </t:format-report>
    </p:group>
 
 </p:pipeline>

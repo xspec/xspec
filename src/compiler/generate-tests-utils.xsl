@@ -174,7 +174,10 @@
            </xsl:variable>
            <xsl:sequence select="test:deep-equal($seq1, $seq2, $version)"/>
         </xsl:when>
-        <xsl:when test="$seq1 instance of node()+ and $seq2 instance of node()+ and empty($seq1[. instance of attribute()]) and empty($seq2[. instance of attribute()])">
+        <xsl:when test="$seq1 instance of node()+ and
+                        $seq2 instance of node()+ and
+                        empty($seq1[. instance of attribute()]) and
+                        empty($seq2[. instance of attribute()])">
            <xsl:variable name="seq1a" as="document-node()">
               <xsl:document>
                  <xsl:sequence select="$seq1"/>

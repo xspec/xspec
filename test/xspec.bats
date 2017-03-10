@@ -138,7 +138,8 @@ teardown() {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
 	  echo $output
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
+    [[ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml"
+    || "${lines[26]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]]
 }
 
 
@@ -172,7 +173,8 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	  echo $output
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at /tmp/escape-for-regex-result.html" ]
+    [[ "${lines[18]}" = "Report available at /tmp/escape-for-regex-result.html"
+    || "${lines[24]}" = "Report available at /tmp/escape-for-regex-result.html" ]]
 }
 
 
@@ -180,7 +182,8 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	  echo $output
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
+    [[ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html"
+    || "${lines[24]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]]
 }
 
 
@@ -188,17 +191,23 @@ teardown() {
     run ../bin/xspec.sh ../test/xspec-46.xspec
 	  echo $output
     [ "$status" -eq 0 ]
-    [[ "${lines[3]}" =~ "Testing with" ]]
+    [[ "${lines[3]}" =~ "Testing with"
+    || "${lines[7]}" =~ "Testing with" ]]
 }
 
 
 @test "executing the Saxon XProc harness generates a report with UTF-8 encoding" {
-    if [ -z ${XMLCALABASH_CP} ]; then
-		    skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon";
-	  fi 
-
-	  run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec xspec-home=file://${TRAVIS_BUILD_DIR}/ -oresult=${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html ${TRAVIS_BUILD_DIR}/src/harnesses/saxon/saxon-xslt-harness.xproc 
-	  run java -cp ${SAXON_CP} net.sf.saxon.Query -s:${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; /html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8'" !method=text
-	  echo $output
-    [[ "${lines[0]}" = 'true' ]]
+    query="declare default element namespace 'http://www.w3.org/1999/xhtml'; /html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8'";
+    if which saxon && which calabash; then
+        run calabash -isource=xspec-72.xspec -oresult=xspec/xspec-72-result.html ../src/harnesses/saxon/saxon-xslt-harness.xproc 
+        run saxon --xquery -s:xspec/xspec-72-result.html -qs:"$query" !method=text
+    elif [ -z ${XMLCALABASH_CP} ]; then
+        skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon";
+    else
+        run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home=file://${TRAVIS_BUILD_DIR}/ -oresult=${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html ${TRAVIS_BUILD_DIR}/src/harnesses/saxon/saxon-xslt-harness.xproc
+        run java -cp ${SAXON_CP} net.sf.saxon.Query -s:${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html -qs:"$query" !method=text
+    fi
+    echo $output
+    [[ "${lines[0]}" = "true"
+    || "${lines[2]}" = "true" ]]
 }
