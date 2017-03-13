@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+	xmlns:deserializer="x-urn:xspec:test:end-to-end:processor:deserializer"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:util="x-urn:xspec:test:end-to-end:processor:util"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This stylesheet normalizes the input document and compares the normalized document with the expected HTML file.
-			Note: Comparison is performed by fn:deep-equal() which may ignore some comments and procesing instructions.
+		This master stylesheet normalizes the input document and compares the normalized document with the expected HTML file.
+			Note: Comparison is performed by fn:deep-equal() which may ignore some comments and processing instructions.
 	-->
 
+	<xsl:include href="_deserializer.xsl" />
 	<xsl:include href="_normalizer.xsl" />
 	<xsl:include href="_util.xsl" />
 
@@ -21,11 +23,12 @@
 			base-uri())" />
 
 	<xsl:template as="text()+" match="document-node()">
-		<xsl:variable as="document-node()" name="expected-doc" select="doc($EXPECTED-HTML)" />
+		<xsl:variable as="document-node()" name="expected-doc"
+			select="deserializer:unindent(doc($EXPECTED-HTML))" />
 
-		<xsl:variable as="document-node()" name="normalized-input-doc">
-			<xsl:call-template name="normalizer:normalize" />
-		</xsl:variable>
+		<xsl:variable as="document-node()" name="input-doc" select="deserializer:unindent(.)" />
+		<xsl:variable as="document-node()" name="normalized-input-doc"
+			select="normalizer:normalize($input-doc)" />
 
 		<xsl:variable as="xs:boolean" name="comparison-result"
 			select="deep-equal($normalized-input-doc, $expected-doc)" />

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:util="x-urn:xspec:test:end-to-end:processor:util"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xpath-default-namespace="http://www.w3.org/1999/xhtml">
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This stylesheet is a collection of utilities.
+		This stylesheet module is a collection of utilities.
 	-->
 
 	<xsl:function as="xs:string" name="util:filename-and-extension">

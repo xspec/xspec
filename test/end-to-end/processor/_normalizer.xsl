@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
-	xmlns:local="x-urn:xspec:test:end-to-end:normalizer:local"
+	xmlns:local="x-urn:xspec:test:end-to-end:processor:normalizer:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:util="x-urn:xspec:test:end-to-end:processor:util"
-	xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xpath-default-namespace="http://www.w3.org/1999/xhtml">
 
 	<!--
-		This stylesheet provides a primitive normalizer for the XSpec report HTML.
-		It normalizes the transient parts of the document such as @href, @id, datetime and file path.
+		This stylesheet module provides a primitive normalizer for the XSpec report HTML.
 	-->
 
-	<xsl:strip-space elements="xhtml:*" />
+	<xsl:function as="document-node()" name="normalizer:normalize">
+		<xsl:param as="document-node()" name="doc" />
 
-	<xsl:output name="normalizer:output" />
-
-	<xsl:template as="document-node()" name="normalizer:normalize">
-		<xsl:apply-templates mode="local:normalize" select="." />
-	</xsl:template>
+		<xsl:apply-templates mode="local:normalize" select="$doc" />
+	</xsl:function>
 
 	<xsl:template as="node()" match="document-node() | attribute() | node()" mode="local:normalize"
 		priority="-1">
@@ -31,8 +27,7 @@
 		mode="local:normalize" />
 
 	<xsl:template as="text()" match="/html/head/title/text()" mode="local:normalize">
-		<xsl:analyze-string regex="^(Test Report for) (.+) (\([0-9/]+\))$"
-			select="normalize-space()">
+		<xsl:analyze-string regex="^(Test Report for) (.+) (\([0-9/]+\))$" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of
 					select="
@@ -60,12 +55,12 @@
 			<xsl:apply-templates mode="#current" select="attribute()" />
 			<xsl:attribute name="href" select="util:filename-and-extension(@href)" />
 
-			<xsl:value-of select="util:filename-and-extension(normalize-space())" />
+			<xsl:value-of select="util:filename-and-extension(.)" />
 		</xsl:copy>
 	</xsl:template>
 
 	<xsl:template as="text()" match="/html/body/p[2]/text()" mode="local:normalize">
-		<xsl:analyze-string regex="^(Tested:) .+$" select="normalize-space()">
+		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of select="regex-group(1), 'ONCE-UPON-A-TIME'" />
 			</xsl:matching-substring>
