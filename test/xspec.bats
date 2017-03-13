@@ -138,7 +138,7 @@ teardown() {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
 	  echo $output
     [ "$status" -eq 0 ]
-    [[ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]]
+    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
 
@@ -172,7 +172,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	  echo $output
     [ "$status" -eq 0 ]
-    [[ "${lines[18]}" = "Report available at /tmp/escape-for-regex-result.html" ]]
+    [ "${lines[18]}" = "Report available at /tmp/escape-for-regex-result.html" ]
 }
 
 
@@ -180,7 +180,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	  echo $output
     [ "$status" -eq 0 ]
-    [[ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]]
+    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 }
 
 
@@ -205,5 +205,5 @@ teardown() {
     fi
 
     echo $output
-    [[ "${lines[0]}" = "true" ]]
+    [ "${lines[0]}" = "true" ]
 }
