@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-47.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<x:scenario label="Set context in *:foo">
+		<x:context select="$test-doc/*:foo" />
+
+		<x:scenario label="Inspect via $x:result">
+			<x:expect label="One attribute exists" select="1" test="count($x:result/@bar)" />
+			<x:expect label="Attribute value consists of three tokens" select="3"
+				test="count(data($x:result/@bar))" />
+			<x:expect label="One of the tokens is 'Alpha'" test="$x:result/@bar = 'Alpha'" />
+		</x:scenario>
+
+		<x:scenario label="Inspect via a wrapper document node">
+			<x:expect label="One attribute exists" select="1" test="count(*:foo/@bar)" />
+			<x:expect label="Attribute value consists of three tokens" select="3"
+				test="count(data(*:foo/@bar))" />
+			<x:expect label="One of the tokens is 'Alpha'" test="*:foo/@bar = 'Alpha'" />
+		</x:scenario>
+	</x:scenario>
+</x:description>

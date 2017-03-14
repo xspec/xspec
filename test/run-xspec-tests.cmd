@@ -26,6 +26,18 @@ rem
 pushd "%~dp0"
 
 rem
+rem Is schema-aware processor?
+rem
+set IS_SCHEMA_AWARE=
+for /f %%I in ('java -cp "%SAXON_CP%" net.sf.saxon.Transform -it:main -xsl:schema-aware\is-schema-aware.xsl 2^> NUL') do set IS_SCHEMA_AWARE=%%I
+
+rem
+rem Test files
+rem
+set XSPEC_FILES=*.xspec
+if "%IS_SCHEMA_AWARE%"=="yes" set XSPEC_FILES=%XSPEC_FILES% schema-aware\*.xspec
+
+rem
 rem Result log
 rem
 set RESULT_FILE=result.log
@@ -33,7 +45,7 @@ set RESULT_FILE=result.log
 rem
 rem Run tests
 rem
-for %%I in (*.xspec) do (
+for %%I in (%XSPEC_FILES%) do (
     if /i "%APPVEYOR%"=="True" appveyor AddTest "%%~I" -Framework custom -Filename "%~nx0" -Outcome Running
 
     rem
