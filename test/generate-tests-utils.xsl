@@ -5,7 +5,6 @@
     <!-- Define variables -->
     <xsl:include href="items.xsl" />
 
-    <!-- Actual test target -->
-    <xsl:include href="../src/compiler/generate-tests-utils.xsl" />
+    <!-- Actual test target ../src/compiler/generate-tests-utils.xsl is included automatically by its nature -->
 
 </xsl:stylesheet>
