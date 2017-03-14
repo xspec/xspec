@@ -103,6 +103,7 @@ rem ##
 :win_reset_options
     set XSLT=
     set XQUERY=
+    set SCHEMATRON=
     set COVERAGE=
     set JUNIT=
     set WIN_HELP=
@@ -123,7 +124,6 @@ rem ##
         set XQUERY=1
     ) else if "%WIN_ARGV%"=="-s" (
         set SCHEMATRON=1
-        set XSLT=1
     ) else if "%WIN_ARGV%"=="-c" (
         set COVERAGE=1
     ) else if "%WIN_ARGV%"=="-j" (
@@ -149,6 +149,48 @@ rem ##
     rem %* doesn't reflect shift. Pass %n individually.
     rem
     call :win_get_options %1 %2 %3 %4 %5 %6 %7 %8 %9
+    goto :EOF
+
+
+:schematron_compile
+    echo Setting up Schematron...
+    rem # get URI to Schematron file and phase from the SchUT file
+    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', /*[local-name() = 'description']/@schematron))" ^
+        -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
+        || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
+    set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; (/*[local-name() = 'description']/@phase/string(), '#ALL')[1]" ^
+        -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
+        || ( call :die "Error getting Schematron phase" & goto :win_main_error_exit )
+    set /P SCH_PHASE=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    set SCHUT=%XSPEC%-compiled.xspec
+    set SCH_COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-sch-compiled.xsl
+    set SCH_COMPILED=%SCH_COMPILED:\=/%
+    echo:
+    echo Compiling the Schematron...
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl" ^
+        || ( call :die "Error compiling the schematron on step 1" & goto :win_main_error_exit )
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl" ^
+        || ( call :die "Error compiling the schematron on step 2" & goto :win_main_error_exit )
+    call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" ^
+        phase=%SCH_PHASE% ^
+        || ( call :die "Error compiling the schematron on step 3" & goto :win_main_error_exit )
+    rem use XQuery to get full URI to compiled Schematron
+    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" ^
+        -s:"%SCH_COMPILED%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
+        || ( call :die "Error getting compiled Schematron location" & goto :win_main_error_exit )
+    set /P SCH_COMPILED=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    echo:
+    echo Converting Schut to XSpec...
+    call :xslt -o:"%SCHUT%" -s:"%XSPEC%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
+        stylesheet="%SCH_COMPILED%" ^
+        || ( call :die "Error converting Schut to XSpec" & goto :win_main_error_exit )
+    set XSPEC=%SCHUT%
+    echo:
     goto :EOF
 
 :win_echo
@@ -272,6 +314,15 @@ call :win_get_options %*
 
 rem
 rem # Schematron
+rem # XSLT
+rem
+if defined SCHEMATRON if defined XSLT (
+    call :usage "-s and -t are mutually exclusive"
+    exit /b 1
+)
+
+rem
+rem # Schematron
 rem # XQuery
 rem
 if defined SCHEMATRON if defined XQUERY (
@@ -392,47 +443,7 @@ rem ## compile the suite #######################################################
 rem ##
 rem
 
-rem # get URI to Schematron file and phase from the SchUT file
-if defined SCHEMATRON (
-    echo Setting up Schematron...
-    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', /*[local-name() = 'description']/@schematron))" -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
-    set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-
-    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; (/*[local-name() = 'description']/@phase/string(), '#ALL')[1]" -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" || ( call :die "Error getting Schematron phase" & goto :win_main_error_exit )
-    set /P SCH_PHASE=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-)
-if defined SCHEMATRON set SCHUT=%XSPEC%-compiled.xspec
-if defined SCHEMATRON set SCH_COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-sch-compiled.xsl
-if defined SCHEMATRON set SCH_COMPILED=%SCH_COMPILED:\=/%
-if defined SCHEMATRON (
-    echo:
-    echo Compiling the Schematron...
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl" ^
-        || ( call :die "Error compiling the schematron on step 1" & goto :win_main_error_exit )
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl" ^
-        || ( call :die "Error compiling the schematron on step 2" & goto :win_main_error_exit )
-    call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" ^
-        phase=%SCH_PHASE% ^
-        || ( call :die "Error compiling the schematron on step 3" & goto :win_main_error_exit )
-
-    rem use XQuery to get full URI to compiled Schematron
-    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" -s:"%SCH_COMPILED%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" || ( call :die "Error getting compiled Schematron location" & goto :win_main_error_exit )
-)
-set /P SCH_COMPILED=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-if defined SCHEMATRON (
-    echo:
-    echo Converting Schut to XSpec...
-    call :xslt -o:"%SCHUT%" -s:"%XSPEC%" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
-        stylesheet="%SCH_COMPILED%" ^
-        || ( call :die "Error converting Schut to XSpec" & goto :win_main_error_exit )
-    echo:
-)
-if defined SCHEMATRON set XSPEC=%SCHUT%
-
+if defined SCHEMATRON call :schematron_compile || goto :win_main_error_exit
 
 if defined XSLT (
     set COMPILE_SHEET=generate-xspec-tests.xsl
@@ -567,7 +578,7 @@ if defined COVERAGE (
     rem %OPEN% "%HTML%"
 )
 
-if defined SCHEMATRON del %SCHUT%
+if defined SCHEMATRON del "%SCHUT%"
 
 echo Done.
 exit /b
