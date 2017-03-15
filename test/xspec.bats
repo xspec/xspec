@@ -33,7 +33,7 @@ teardown() {
     run ../bin/xspec.sh
 	  echo $output
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-c|-j|-h] filename [coverage]" ]
+    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]" ]
 }
 
 
