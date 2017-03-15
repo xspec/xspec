@@ -47,6 +47,9 @@ for %%I in (*.xspec) do (
     ( findstr /r /c:".*failed: [1-9]" "%RESULT_FILE%" || findstr /r /c:"\*\** Error [a-z][a-z]*ing the test suite" "%RESULT_FILE%" ) > NUL
     if not errorlevel 1 (
         echo FAILED: %%~I
+        echo ---------- "%RESULT_FILE%"
+        type "%RESULT_FILE%"
+        echo ----------
         if /i "%APPVEYOR%"=="True" appveyor UpdateTest "%%~I" -Framework custom -Filename "%~nx0" -Outcome Failed -Duration 0
         exit /b 1
     ) else (
