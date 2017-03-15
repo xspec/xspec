@@ -32,7 +32,6 @@
       <t:expect label="the label message" test="$t:result/xsl:message eq 'my label'"/>
       <t:expect label="the scenario" test="exists($t:result/t:scenario)"/>
       <t:expect label="the scenario label" test="$t:result/t:scenario/t:label eq 'my label'"/>
-      <t:expect label="Fail by intention" test="false()" />
     </t:scenario>
   </t:scenario>
 </t:description>
