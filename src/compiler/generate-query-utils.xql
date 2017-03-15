@@ -3,6 +3,7 @@ module namespace test = "http://www.jenitennison.com/xslt/unit-test";
 (::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::)
 (:  File:       generate-query-utils.xql                                    :)
 (:  Author:     Jeni Tennsion                                               :)
+(:  URL:        http://github.com/xspec/xspec                               :)
 (:  Tags:                                                                   :)
 (:    Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)             :)
 (: ------------------------------------------------------------------------ :)
