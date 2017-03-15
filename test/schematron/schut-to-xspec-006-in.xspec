@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schut-to-xspec-test.sch">
+    <x:scenario label="s1" shared="yes">
+        <x:context href="schut-to-xspec-test.sch"/>
+    </x:scenario>
+    <x:scenario label="s2">
+        <x:like label="s1"/>
+        <x:expect-assert/>
+    </x:scenario>
+</x:description>

@@ -33,13 +33,14 @@ set RESULT_FILE=result.log
 rem
 rem Run tests
 rem
-for %%I in (*.xspec *.schut) do (
+for %%I in (*.xspec) do (
     if /i "%APPVEYOR%"=="True" appveyor AddTest "%%~I" -Framework custom -Filename "%~nx0" -Outcome Running
 
     rem
     rem Run
     rem
-    if "%%~xI" == ".schut" (
+    call :is_schematron %%~nI%
+    if errorlevel 1 (
         "%COMSPEC%" /c ..\bin\xspec.bat -s "%%~I" > "%RESULT_FILE%" 2>&1
     ) else (
         "%COMSPEC%" /c ..\bin\xspec.bat "%%~I" > "%RESULT_FILE%" 2>&1
@@ -71,3 +72,12 @@ rem
 rem Exit as success
 rem
 exit /b 0
+
+:is_schematron
+    set var=%1
+    if not "%var%"=="%var:schematron=%" (
+        set IS_SCHEMATRON=1
+    ) else (
+        set IS_SCHEMATRON=0
+    )
+    exit /b %IS_SCHEMATRON%

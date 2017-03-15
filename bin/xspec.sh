@@ -276,7 +276,7 @@ fi
 if test -n "$SCHEMATRON"; then
     echo "Setting up Schematron..."
     
-    # get URI to Schematron file and phase from the SchUT file
+    # get URI to Schematron file and phase from the XSpec file
     # Need to escape dollar sign for sh as \$ in XQuery
     xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*\$', '\$1'), '/', /*[local-name() = 'description']/@schematron))" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron location"
     SCH=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
@@ -292,14 +292,14 @@ if test -n "$SCHEMATRON"; then
     xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl" || die "Error compiling the schematron on step 1"
     xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl" || die "Error compiling the schematron on step 2"
     xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" phase=$SCH_PHASE || die "Error compiling the schematron on step 3"
-
-    echo 
-    echo "Converting Schut to XSpec..."
+    
     # use XQuery to get full URI to compiled Schematron
     xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"
     SCH_COMPILED=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
     
-    xslt -o:"$SCHUT" -s:"$XSPEC" -xsl:"$XSPEC_HOME/src/schematron/schut-to-xspec.xsl" stylesheet="$SCH_COMPILED" || die "Error converting Schut to XSpec"
+    echo 
+    echo "Compiling the Schematron tests..."
+    xslt -o:"$SCHUT" -s:"$XSPEC" -xsl:"$XSPEC_HOME/src/schematron/schut-to-xspec.xsl" stylesheet="$SCH_COMPILED" || die "Error compiling the Schematron tests"
     XSPEC=$SCHUT
     
     echo 

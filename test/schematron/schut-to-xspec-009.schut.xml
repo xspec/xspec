@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../src/schemas/schut.rnc" type="application/relax-ng-compact-syntax"?>
-<s:description xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" schematron="schut-to-xspec-test.sch">
-    <s:import href="schut-to-xspec-009-import.schut.xml"/>
-    <s:scenario label="A"/>
-    <s:import href="schut-to-xspec-009-import.schut.xml" type="schut"/>
-</s:description>

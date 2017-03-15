@@ -154,18 +154,22 @@ rem ##
 
 :schematron_compile
     echo Setting up Schematron...
-    rem # get URI to Schematron file and phase from the SchUT file
+    
+    rem # get URI to Schematron file and phase from the XSpec file
     call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', /*[local-name() = 'description']/@schematron))" ^
         -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
     set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    
     call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; (/*[local-name() = 'description']/@phase/string(), '#ALL')[1]" ^
         -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         || ( call :die "Error getting Schematron phase" & goto :win_main_error_exit )
     set /P SCH_PHASE=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    
     set SCHUT=%XSPEC%-compiled.xspec
     set SCH_COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-sch-compiled.xsl
     set SCH_COMPILED=%SCH_COMPILED:\=/%
+    
     echo:
     echo Compiling the Schematron...
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
@@ -178,17 +182,21 @@ rem ##
         -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" ^
         phase=%SCH_PHASE% ^
         || ( call :die "Error compiling the schematron on step 3" & goto :win_main_error_exit )
+    
     rem use XQuery to get full URI to compiled Schematron
     call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" ^
         -s:"%SCH_COMPILED%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         || ( call :die "Error getting compiled Schematron location" & goto :win_main_error_exit )
     set /P SCH_COMPILED=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    
     echo:
-    echo Converting Schut to XSpec...
+    echo Compiling the Schematron tests...
+    set TEST_DIR_URI=file:///%TEST_DIR:\=/%
     call :xslt -o:"%SCHUT%" -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
         stylesheet="%SCH_COMPILED%" ^
-        || ( call :die "Error converting Schut to XSpec" & goto :win_main_error_exit )
+        test_dir="%TEST_DIR_URI%" ^
+        || ( call :die "Error compiling the Schematron tests" & goto :win_main_error_exit )
     set XSPEC=%SCHUT%
     echo:
     goto :EOF

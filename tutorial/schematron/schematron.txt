@@ -1,4 +1,4 @@
-SchUT = Schematron Unit Test
+Testing Schematron
 ============================
 
 A unit test framework for Schematron based on XSpec.
@@ -13,42 +13,42 @@ Before you begin, you may need to set an environment variable to tell XSpec wher
 
 Using xspec.bat or xspec.sh, use the -s parameter to specify a Schematron Unit Test, and give the path to a Schematron Unit Test file. The demo examples in the tutorial folder can be run by:
 
-    bin\xspec.bat -s tutorial\schematron\demo-01.schut.xml
-    bin\xspec.bat -s tutorial\schematron\demo-02-PhaseA.schut.xml
-    bin\xspec.bat -s tutorial\schematron\demo-02-PhaseB.schut.xml
-    bin\xspec.bat -s tutorial\schematron\demo-03.schut.xml
+    bin\xspec.bat -s tutorial\schematron\demo-01.xspec
+    bin\xspec.bat -s tutorial\schematron\demo-02-PhaseA.xspec
+    bin\xspec.bat -s tutorial\schematron\demo-02-PhaseB.xspec
+    bin\xspec.bat -s tutorial\schematron\demo-03.xspec
 
 Test results will be written to tutorial\schematron\xspec as 
 
-    demo-01.schut-result.html
-    demo-02-PhaseA.schut-result.html
-    demo-02-PhaseB.schut-result.html
-    demo-03.schut-result.html
+    demo-01-result.html
+    demo-02-PhaseA-result.html
+    demo-02-PhaseB-result.html
+    demo-03-result.html
 
 
 
 Writing tests
 -------------
 
-Unit tests are written in an XML document that adheres to the RelaxNG schema schut.rnc. In the Schematron every assert and report element should have an id attribute so that it can be matched to expectations in the test scenarios. It is possible to test Schematrons that do not have an id attribute on every assert and report, however it is helpful if the id attribute is used.
+Unit tests are written in an XML document that adheres to the RelaxNG schema xspec.rnc. In the Schematron every assert and report element should have an id attribute so that it can be matched to expectations in the test scenarios. It is possible to test Schematrons that do not have an id attribute on every assert and report, however it is helpful if the id attribute is used.
 
-The root element of a test file is `description`. The `description` element has one required attribute `schematron` which specifies the path to the Schematron file to test. An optional attribute `phase` can be used to specify a particular Schematron phase to be tested. For example:
+The root element of a test file is `description`. For a Schematron test, the `description` element must have attribute `schematron` which specifies the path to the Schematron file to test. An optional attribute `phase` can be used to specify a particular Schematron phase to be tested. For example:
 
-    <s:description xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" schematron="filename.sch">
+    <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="filename.sch">
 
 Just like in XSpec, tests are written using `scenario` elements. Each scenario should have a label that describes it. As you would expect, scenarios can be nested, shared, focused, and pending.
 
-    <s:scenario label="description"> 
+    <x:scenario label="description"> 
 
 The `context` element is used to provide XML to be validated by the Schematron for a particular test scenario. The context XML can be provided in a separate file that is specified by an href attribute.
 
-    <s:context href="filename.xml">
+    <x:context href="filename.xml">
 
 Alternatively, context given as an XML fragment within the `context` element.
 
-    <s:context>
+    <x:context>
       <example>any XML</example>
-    </s:context>  
+    </x:context>  
 
 Assertions specify the results that are expected when the context XML is validated by the Schematron. Assertions are written using any combination of expect-* elements to specify expected results of running the Schematron on the context XML.
 
@@ -66,14 +66,12 @@ With the exception of `expect-valid`, the expect-* elements all use the same att
 
 For example, say you expect an `assert` with id a0001 to be thrown at XPath location /html[1]/body[1]/div[5]. This assertion would be written as:
 
-    <s:expect-assert id="a0001" location="/html[1]/body[1]/div[5]"/>
+    <x:expect-assert id="a0001" location="/html[1]/body[1]/div[5]"/>
 
 It is possible to import scenarios from a separate file. This allows more flexibility for organizing your test cases. To import scenarios from another file use the `import` element and specify the file to import using the `href` attribute. 
 
-    <s:import href="filename.schut.xml"/>
+    <x:import href="filename.xspec"/>
 
-It is also possible to import XSpec files, which makes it possible to incorporate anything that can be done in XSpec into a Schematron unit test. One of the ways in which this can be used is to test XSLT function definitions (xsl:function) that are embedded in a Schematron. This might also be used to check the SVRL output of Schematron for specific things. To import an XSpec file add attribute `type="xspec"` to the `import` element.
-
-    <s:import href="filename.xspec" type="xspec"/>
+Anything that can be done in XSpec can be done in a Schematron unit test. It is possible to test XSLT function definitions (xsl:function) that are embedded in a Schematron. A test scenario can also check the SVRL output of Schematron for specific things.
 
 When the test is executed, each scenario will be evaluated by using the Schematron to validate the context XML and then checking the validation result to find out if it matches the assertions. 

@@ -2,11 +2,11 @@
 <?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron"
     xmlns:x="http://www.jenitennison.com/xslt/xspec" 
     exclude-result-prefixes="xs" version="2.0">
     
-    <xsl:param name="stylesheet" select="concat(s:description/@schematron, '.xsl')"/>
+    <xsl:param name="stylesheet" select="concat(x:description/@schematron, '.xsl')"/>
+    <xsl:param name="test_dir" select="'xspec'"/>
     
 
     <xsl:variable name="error" select="('error', 'fatal')"/>
@@ -14,31 +14,16 @@
     <xsl:variable name="info" select="('info', 'information')"/>
 
 
-    <xsl:variable name="ns" as="element()">
-        <namespaces>
-            <ns name="XSpec" prefix="x" uri="http://www.jenitennison.com/xslt/xspec"/>
-            <ns name="Schut" prefix="s" uri="http://www.jenitennison.com/xslt/xspec/schematron"/>
-        </namespaces>
-    </xsl:variable>
-
-    <xsl:template match="*[namespace-uri-from-QName(node-name(.)) = $ns/ns[@name = 'Schut']/@uri]" priority="-1">
-        <xsl:element name="{concat('x:', local-name())}" namespace="{$ns/ns[@name='XSpec']/@uri}">
-            <xsl:apply-templates select="@* | node()"/>
-        </xsl:element>
-    </xsl:template>
-
     <xsl:template match="@* | node()" priority="-2">
         <xsl:copy>
             <xsl:apply-templates select="@* | node()"/>
         </xsl:copy>
     </xsl:template>
     
-    <xsl:template match="processing-instruction('xml-model')"/>
-    
-    <xsl:template match="s:description">
+    <xsl:template match="x:description[@schematron]">
         <xsl:element name="x:description">
             <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
-            <xsl:apply-templates select="@*[not(name() = 'phase')]"/>
+            <xsl:apply-templates select="@*[not(name() = ('stylesheet', 'phase'))]"/>
             <xsl:element name="x:scenario">
                 <xsl:attribute name="label">
                     <xsl:text>Schematron: "</xsl:text>
@@ -58,22 +43,29 @@
             <xsl:namespace name="{./@prefix}" select="./@uri"/>
         </xsl:for-each>
     </xsl:template>
-    
-    <xsl:template match="s:import">
-        <xsl:variable name="href" select="iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', @href))"/>
-        <xsl:comment>BEGIN IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
-        <xsl:apply-templates select="doc($href)/s:description/node()"/>
-        <xsl:comment>END IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
-    </xsl:template>
-    
-    <xsl:template match="s:import[@type = 'xspec']">
-        <xsl:element name="x:import">
-            <xsl:attribute name="href" select="@href"/>
-        </xsl:element>
-    </xsl:template>
 
-    <xsl:template match="s:context[not(@href)]">
-        <xsl:variable name="file" select="concat('xspec/', 'context-', generate-id(), '.xml')"/>
+    <xsl:template match="x:import">
+        <xsl:variable name="href" select="iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', @href))"/>
+        <xsl:choose>
+            <xsl:when test="doc($href)//*[ 
+                self::x:expect-assert | self::x:expect-not-assert | 
+                self::x:expect-report | self::x:expect-not-report |
+                self::x:expect-valid | self::x:description[@schematron] ]">
+                <xsl:comment>BEGIN IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
+                <xsl:apply-templates select="doc($href)/x:description/node()"/>
+                <xsl:comment>END IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:next-match/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="x:context[not(@href)][
+        parent::*/x:expect-assert | parent::*/x:expect-not-assert |
+        parent::*/x:expect-report | parent::*/x:expect-not-report |
+        parent::*/x:expect-valid | ancestor::x:description[@schematron] ]">
+        <xsl:variable name="file" select="concat($test_dir, '/', 'context-', generate-id(), '.xml')"/>
         <xsl:result-document href="{$file}">
             <xsl:copy-of select="./node()"/>
         </xsl:result-document>
@@ -82,7 +74,7 @@
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="s:expect-assert">
+    <xsl:template match="x:expect-assert">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
@@ -93,7 +85,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="s:expect-not-assert">
+    <xsl:template match="x:expect-not-assert">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
@@ -104,7 +96,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="s:expect-report">
+    <xsl:template match="x:expect-report">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
@@ -116,7 +108,7 @@
     </xsl:template>
 
 
-    <xsl:template match="s:expect-not-report">
+    <xsl:template match="x:expect-not-report">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
@@ -135,7 +127,7 @@
         <xsl:attribute name="label" select="string-join((tokenize(local-name(),'-')[.=('report','assert','not')], @id, @role, @location), ' ')"/>
     </xsl:template>
 
-    <xsl:template match="s:expect-valid">
+    <xsl:template match="x:expect-valid">
         <xsl:element name="x:expect">
             <xsl:attribute name="label" select="'valid'"/>
             <xsl:attribute name="test" select="concat(
