@@ -2,6 +2,7 @@
 <!-- ===================================================================== -->
 <!--  File:       generate-query-helper.xsl                                -->
 <!--  Author:     Jeni Tennsion                                            -->
+<!--  URL:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)          -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

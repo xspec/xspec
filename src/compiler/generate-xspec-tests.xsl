@@ -322,9 +322,14 @@
                    Have to experiment a bit to see if that really is the case.                   
                    TODO: To remove. Use directly $x:result instead.  See issue 14. -->
               <when test="$x:result instance of node()+">
-                <document>
-                  <copy-of select="$x:result" />
-                </document>
+                <!-- $impl:test-items-doc aims to create an implicit document node as described
+                     in http://www.w3.org/TR/xslt20/#temporary-trees
+                     So its "variable" element must not have @as or @select.
+                     Do not use "document" or "copy-of" element: xspec/xspec#47 -->
+                <variable name="impl:test-items-doc">
+                  <sequence select="$x:result" />
+                </variable>
+                <sequence select="$impl:test-items-doc treat as document-node()" />
               </when>
               <otherwise>
                 <sequence select="$x:result" />

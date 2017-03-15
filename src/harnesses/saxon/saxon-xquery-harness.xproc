@@ -3,51 +3,82 @@
 <!--  File:       saxon-xquery-harness.xproc                               -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
+<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<p:pipeline xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xquery.xproc" name="saxon-xquery-harness" type="t:saxon-xquery-harness" version="1.0">
-  <p:documentation>
-    <p>This pipeline executes an XSpec test suite with the Saxon embedded in Calabash.</p>
-    <p><b>Primary input:</b> A XSpec test suite document.</p>
-    <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
-    <p>The dir where you unzipped the XSpec archive on your filesystem is passed
+
+
+<p:pipeline xmlns:p="http://www.w3.org/ns/xproc"
+            xmlns:c="http://www.w3.org/ns/xproc-step"
+            xmlns:t="http://www.jenitennison.com/xslt/xspec"
+            xmlns:pkg="http://expath.org/ns/pkg"
+            pkg:import-uri="http://www.jenitennison.com/xslt/xspec/saxon/harness/xquery.xproc"
+            name="saxon-xquery-harness"
+            type="t:saxon-xquery-harness"
+            version="1.0">
+	
+   <p:documentation>
+      <p>This pipeline executes an XSpec test suite with the Saxon embedded in Calabash.</p>
+      <p><b>Primary input:</b> A XSpec test suite document.</p>
+      <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
+      <p>The dir where you unzipped the XSpec archive on your filesystem is passed
         in the option 'xspec-home'.</p>
-  </p:documentation>
-  <p:serialization port="result" indent="true"/>
-  <p:import href="../harness-lib.xpl"/>
-  <t:parameters name="params"/>
-  <p:group>
-    <p:variable name="xspec-home" select="           /c:param-set/c:param[@name eq 'xspec-home']/@value">
-      <p:pipe step="params" port="parameters"/>
-    </p:variable>
-    <p:variable name="utils-library-at" select="           /c:param-set/c:param[@name eq 'utils-library-at']/@value">
-      <p:pipe step="params" port="parameters"/>
-    </p:variable>
-    <!-- either no at location hint, or resolved from xspec-home if packaging not supported -->
-    <p:variable name="utils-lib" select="           if ( $utils-library-at ) then             $utils-library-at           else if ( $xspec-home ) then             resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)           else             ''"/>
-    <!-- compile the suite into a query -->
-    <t:compile-xquery>
-      <p:with-param name="utils-library-at" select="$utils-lib"/>
-    </t:compile-xquery>
-    <!-- escape the query as text -->
-    <p:escape-markup name="escape"/>
-    <!-- run it on saxon -->
-    <p:xquery name="run">
-      <p:input port="source">
-        <p:empty/>
-      </p:input>
-      <p:input port="query">
-        <p:pipe step="escape" port="result"/>
-      </p:input>
-      <p:input port="parameters">
-        <p:empty/>
-      </p:input>
-    </p:xquery>
-    <!-- format the report -->
-    <t:format-report/>
-  </p:group>
+   </p:documentation>
+
+   <p:serialization port="result" indent="true"/>
+
+   <p:import href="../harness-lib.xpl"/>
+
+   <t:parameters name="params"/>
+
+   <p:group>
+      <p:variable name="xspec-home" select="
+          /c:param-set/c:param[@name eq 'xspec-home']/@value">
+         <p:pipe step="params" port="parameters"/>
+      </p:variable>
+      <p:variable name="utils-library-at" select="
+          /c:param-set/c:param[@name eq 'utils-library-at']/@value">
+         <p:pipe step="params" port="parameters"/>
+      </p:variable>
+
+      <!-- either no at location hint, or resolved from xspec-home if packaging not supported -->
+      <p:variable name="utils-lib" select="
+          if ( $utils-library-at ) then
+            $utils-library-at
+          else if ( $xspec-home ) then
+            resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)
+          else
+            ''"/>
+
+      <!-- compile the suite into a query -->
+      <t:compile-xquery>
+         <p:with-param name="utils-library-at" select="$utils-lib"/>
+      </t:compile-xquery>
+
+      <!-- escape the query as text -->
+      <p:escape-markup name="escape"/>
+
+      <!-- run it on saxon -->
+      <p:xquery name="run">
+         <p:input port="source">
+            <p:empty/>
+         </p:input>
+         <p:input port="query">
+            <p:pipe step="escape" port="result"/>
+         </p:input>
+         <p:input port="parameters">
+            <p:empty/>
+         </p:input>
+      </p:xquery>
+
+      <!-- format the report -->
+      <t:format-report/>
+   </p:group>
+
 </p:pipeline>
+
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->
