@@ -174,14 +174,14 @@ rem ##
     echo Compiling the Schematron...
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl" ^
-        || ( call :die "Error compiling the schematron on step 1" & goto :win_main_error_exit )
+        || ( call :die "Error compiling the Schematron on step 1" & goto :win_main_error_exit )
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
         -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl" ^
-        || ( call :die "Error compiling the schematron on step 2" & goto :win_main_error_exit )
+        || ( call :die "Error compiling the Schematron on step 2" & goto :win_main_error_exit )
     call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
         -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" ^
         phase=%SCH_PHASE% ^
-        || ( call :die "Error compiling the schematron on step 3" & goto :win_main_error_exit )
+        || ( call :die "Error compiling the Schematron on step 3" & goto :win_main_error_exit )
     
     rem use XQuery to get full URI to compiled Schematron
     call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" ^

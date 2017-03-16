@@ -49,7 +49,7 @@ for %%I in (*.xspec) do (
     rem
     rem Inspect result
     rem
-    ( findstr /r /c:".*failed: [1-9]" "%RESULT_FILE%" || findstr /r /c:"\*\** Error [a-z][a-z]*ing the test suite" "%RESULT_FILE%" ) > NUL
+    ( findstr /r /c:".*failed: [1-9]" "%RESULT_FILE%" || findstr /r /c:"\*\** Error [a-z][a-z]*ing the test suite" "%RESULT_FILE%" || findstr /r /c:"\*\** Error .*Schematron" "%RESULT_FILE%" ) > NUL
     if not errorlevel 1 (
         echo FAILED: %%~I
         echo ---------- "%RESULT_FILE%"
