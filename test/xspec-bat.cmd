@@ -59,6 +59,36 @@ setlocal
 endlocal
 
 setlocal
+    call :setup "invoking xspec with -s and -t prints error message"
+
+    call :run ..\bin\xspec.bat -s -t
+    call :verify_retval 1
+    call :verify_line 2 x "-s and -t are mutually exclusive"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with -s and -q prints error message"
+
+    call :run ..\bin\xspec.bat -s -q
+    call :verify_retval 1
+    call :verify_line 2 x "-s and -q are mutually exclusive"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with -t and -q prints error message"
+
+    call :run ..\bin\xspec.bat -t -q
+    call :verify_retval 1
+    call :verify_line 2 x "-t and -q are mutually exclusive"
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "invoking code coverage with Saxon9HE returns error message"
 
     set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9he.jar

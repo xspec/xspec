@@ -185,8 +185,7 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
                 usage "-s and -t are mutually exclusive"
                 exit 1
             fi
-            SCHEMATRON=1;
-            XSLT=1;;
+            SCHEMATRON=1;;
         # Coverage
         -c)
 			if [[ ${SAXON_CP} != *"saxon9pe"* && ${SAXON_CP} != *"saxon9ee"* ]]; then

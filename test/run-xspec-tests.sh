@@ -4,7 +4,7 @@
 #         USAGE:  ./run-xspec.tests.sh 
 #         
 #   DESCRIPTION:  This script is a runner for XSpec test suite inside test directory
-#		  it runs all the tests with extension .xspec or .schut in the test directory
+#		  it runs all the tests with extension .xspec in the test directory
 #		  it outputs stdout and stderr into a file result.log
 #	          it greps for failing tests in the log file or for compilation errors
 #		  it returns no output if the tests are successful

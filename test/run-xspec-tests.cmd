@@ -39,7 +39,7 @@ for %%I in (*.xspec) do (
     rem
     rem Run
     rem
-    call :is_schematron %%~nI%
+    call :is_schematron "%%~nI%"
     if errorlevel 1 (
         "%COMSPEC%" /c ..\bin\xspec.bat -s "%%~I" > "%RESULT_FILE%" 2>&1
     ) else (
@@ -74,8 +74,8 @@ rem
 exit /b 0
 
 :is_schematron
-    set var=%1
-    if not "%var%"=="%var:schematron=%" (
+    set var=%~1
+    if "%var:~0,10%"=="schematron" (
         set IS_SCHEMATRON=1
     ) else (
         set IS_SCHEMATRON=0

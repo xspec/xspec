@@ -37,6 +37,30 @@ teardown() {
 }
 
 
+@test "invoking xspec with -s and -t prints error message" {
+    run ../bin/xspec.sh -s -t
+	echo $output
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "-s and -t are mutually exclusive" ]
+}
+
+
+@test "invoking xspec with -s and -q prints error message" {
+    run ../bin/xspec.sh -s -q
+	echo $output
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "-s and -q are mutually exclusive" ]
+}
+
+
+@test "invoking xspec with -t and -q prints error message" {
+    run ../bin/xspec.sh -t -q
+	echo $output
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "-t and -q are mutually exclusive" ]
+}
+
+
 @test "invoking code coverage with Saxon9HE returns error message" {
     export SAXON_CP=/path/to/saxon9he.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
