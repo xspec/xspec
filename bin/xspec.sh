@@ -53,31 +53,14 @@ die() {
     exit 1
 }
 
-# If there is a script called "saxon" and returning ok (status code 0)
-# when called with "--help", we assume this is the EXPath Packaging
-# script for Saxon [1].  If it is present, that means the user already
-# configured it, so there is no point to duplicate the logic here.
-# Just use it.
-
-if which saxon > /dev/null 2>&1; then
-    echo Saxon script found, use it.
-    echo
-    xslt() {
-        saxon --add-cp "${XSPEC_HOME}/java/" --xsl "$@"
-    }
-    xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" --xq "$@"
-    }
-else
-    echo Saxon script not found, invoking JVM directly instead.
-    echo
-    xslt() {
-        java -cp "$CP" net.sf.saxon.Transform "$@"
-    }
-    xquery() {
-        java -cp "$CP" net.sf.saxon.Query "$@"
-    }
-fi
+echo Saxon script not found, invoking JVM directly instead.
+echo
+xslt() {
+    java -cp "$CP" net.sf.saxon.Transform "$@"
+}
+xquery() {
+    java -cp "$CP" net.sf.saxon.Query "$@"
+}
 
 ##
 ## some variables ############################################################
