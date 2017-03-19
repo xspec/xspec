@@ -20,7 +20,6 @@ description =
 		attribute version { xs:NMTOKEN }?,		
 		attribute preserve-space { xs:NMTOKENS }?,
 		attribute schematron { xs:anyURI }?,
-		attribute phase { xs:NMTOKEN }?,
 		(global-param | import | scenario | pending)+ }
 
 import = 

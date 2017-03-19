@@ -1,7 +1,7 @@
 target/
 .idea/
 *.iml
-test/xspec/*
-tutorial/xspec/*
-tutorial/schematron/xspec/*
 test/result.log
+**/xspec/*
+*-result.html
+*-report.html

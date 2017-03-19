@@ -32,9 +32,13 @@ Writing tests
 
 Unit tests are written in an XML document that adheres to the RelaxNG schema xspec.rnc. In the Schematron every assert and report element should have an id attribute so that it can be matched to expectations in the test scenarios. It is possible to test Schematrons that do not have an id attribute on every assert and report, however it is helpful if the id attribute is used.
 
-The root element of a test file is `description`. For a Schematron test, the `description` element must have attribute `schematron` which specifies the path to the Schematron file to test. An optional attribute `phase` can be used to specify a particular Schematron phase to be tested. For example:
+The root element of a test file is `description`. For a Schematron test, the `description` element must have attribute `schematron` which specifies the path to the Schematron file to test. For example:
 
     <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="filename.sch">
+
+Parameters that are specified in `param` elements are passed into the Schematron compilation. If you are testing a Schematron that has multiple phases, you can specify a particular Schematron phase to be tested by adding a `param` element with name "phase" and provide the name of the phase. For example:
+
+    <x:param name="phase">thephase</x:param>
 
 Just like in XSpec, tests are written using `scenario` elements. Each scenario should have a label that describes it. As you would expect, scenarios can be nested, shared, focused, and pending.
 

@@ -31,6 +31,10 @@
             <x:context href="schematron/schut-to-xspec-011-in.xspec"/>
             <x:expect label="xspec description" href="schematron/schut-to-xspec-011-out.xspec"/>
         </x:scenario>
+        <x:scenario label="with phase in select">
+            <x:context href="schematron/schut-to-xspec-013-in.xspec"/>
+            <x:expect label="xspec description" href="schematron/schut-to-xspec-013-out.xspec"/>
+        </x:scenario>
     </x:scenario>
     <x:scenario label="namespaces defined in Schematron">
         <x:context href="schematron/schut-to-xspec-002-in.xspec"/>

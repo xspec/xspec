@@ -275,14 +275,14 @@ fi
 if test -n "$SCHEMATRON"; then
     echo "Setting up Schematron..."
     
-    # get URI to Schematron file and phase from the XSpec file
-    # Need to escape dollar sign for sh as \$ in XQuery
+    # get URI to Schematron file and phase/parameters from the XSpec file
+    # Need to escape for sh in XQuery: dollar sign as \$
     xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*\$', '\$1'), '/', /*[local-name() = 'description']/@schematron))" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron location"
     SCH=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
     
-    xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; (/*[local-name() = 'description']/@phase/string(), concat(codepoints-to-string(35), 'ALL'))[1]" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron phase"
-    SCH_PHASE=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
-    
+    xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; declare function local:escape(\$v) { let \$w := if (matches(\$v,codepoints-to-string((91,92,115,93)))) then codepoints-to-string(34) else '' return concat(\$w, replace(\$v,codepoints-to-string((40,91,36,92,92,96,93,41)),codepoints-to-string((92,92,36,49))), \$w)}; string-join(for \$p in /*/*[local-name() = 'param'] return if (\$p/@select) then concat('?',\$p/@name,'=',local:escape(\$p/@select)) else concat(\$p/@name,'=',local:escape(\$p/string())),' ')" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron phase and parameters"
+    SCH_PARAMS=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    echo Parameters: $SCH_PARAMS
     SCHUT=$XSPEC-compiled.xspec
     SCH_COMPILED=$TEST_DIR/$TARGET_FILE_NAME-sch-compiled.xsl
     
@@ -290,7 +290,7 @@ if test -n "$SCHEMATRON"; then
     echo "Compiling the Schematron..."
     xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl" || die "Error compiling the Schematron on step 1"
     xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl" || die "Error compiling the Schematron on step 2"
-    xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" phase=$SCH_PHASE || die "Error compiling the Schematron on step 3"
+    xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" $SCH_PARAMS || die "Error compiling the Schematron on step 3"
     
     # use XQuery to get full URI to compiled Schematron
     xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"

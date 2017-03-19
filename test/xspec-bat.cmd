@@ -331,6 +331,16 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Schematron phase/parameters are passed to Schematron compile"
+
+    call :run ..\bin\xspec.bat -s ../test/schematron/param-001.xspec
+    call :verify_retval 0
+    call :verify_line 3 x "Paramaters: phase=P1 ?selected=codepoints-to-string((80,49))"
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem

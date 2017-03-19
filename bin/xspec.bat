@@ -104,6 +104,7 @@ rem ##
     set XSLT=
     set XQUERY=
     set SCHEMATRON=
+    set SCH_PARAMS=
     set COVERAGE=
     set JUNIT=
     set WIN_HELP=
@@ -155,17 +156,17 @@ rem ##
 :schematron_compile
     echo Setting up Schematron...
     
-    rem # get URI to Schematron file and phase from the XSpec file
+    rem # get URI to Schematron file and phase/parameters from the XSpec file
     call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', /*[local-name() = 'description']/@schematron))" ^
         -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
     set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     
-    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; (/*[local-name() = 'description']/@phase/string(), '#ALL')[1]" ^
+    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; declare function local:escape($v) { let $w := if (matches($v,codepoints-to-string((91,92,115,34,93)))) then codepoints-to-string(34) else '' return concat($w, replace($v,codepoints-to-string(34),codepoints-to-string((34,34))), $w)}; string-join(for $p in /*/*[local-name() = 'param'] return if ($p/@select) then concat('?',$p/@name,'=',local:escape($p/@select)) else concat($p/@name,'=',local:escape($p/string())),' ')" ^
         -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
-        || ( call :die "Error getting Schematron phase" & goto :win_main_error_exit )
-    set /P SCH_PHASE=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    
+        || ( call :die "Error getting Schematron phase and parameters" & goto :win_main_error_exit )
+    set /P SCH_PARAMS=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    echo Paramaters: %SCH_PARAMS%
     set SCHUT=%XSPEC%-compiled.xspec
     set SCH_COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-sch-compiled.xsl
     set SCH_COMPILED=%SCH_COMPILED:\=/%
@@ -180,7 +181,7 @@ rem ##
         || ( call :die "Error compiling the Schematron on step 2" & goto :win_main_error_exit )
     call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
         -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" ^
-        phase=%SCH_PHASE% ^
+        %SCH_PARAMS% ^
         || ( call :die "Error compiling the Schematron on step 3" & goto :win_main_error_exit )
     
     rem use XQuery to get full URI to compiled Schematron
