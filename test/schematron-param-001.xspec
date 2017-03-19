@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schut-to-xspec-test.sch">
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron/schut-to-xspec-test.sch">
     <x:param name="phase">P1</x:param>
     <x:param name="selected" select="codepoints-to-string((80,49))"/>
     <!--x:param name="escape1">AAA BBB CCC</x:param-->
     <!--x:param name="escape2">a"b</x:param-->
     <!--x:param name="escape3">a'b</x:param-->
     <!--x:param name="escape4">A ' " B</x:param-->
-    <x:scenario label="A"/>
+	<x:scenario label="Schematron phase/parameters are passed to Schematron compile"/>
 <!--
 With xspec.bat:
 All of the above examples work properly with xspec.bat.
