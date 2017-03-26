@@ -30,9 +30,9 @@ Test results will be written to tutorial\schematron\xspec as
 Writing tests
 -------------
 
-Unit tests are written in an XML document that adheres to the RelaxNG schema xspec.rnc. In the Schematron every assert and report element should have an id attribute so that it can be matched to expectations in the test scenarios. It is possible to test Schematrons that do not have an id attribute on every assert and report, however it is helpful if the id attribute is used.
+XSpec tests are written in an XML document that adheres to the RelaxNG schema xspec.rnc. 
 
-The root element of a test file is `description`. For a Schematron test, the `description` element must have attribute `schematron` which specifies the path to the Schematron file to test. For example:
+The root element of a test file is `description`. To test a Schematron schema, the `description` element must have attribute `schematron` which specifies the path to the Schematron file to test. For example:
 
     <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="filename.sch">
 
@@ -40,7 +40,7 @@ Parameters that are specified in `param` elements are passed into the Schematron
 
     <x:param name="phase">thephase</x:param>
 
-Just like in XSpec, tests are written using `scenario` elements. Each scenario should have a label that describes it. As you would expect, scenarios can be nested, shared, focused, and pending.
+Tests are defined using `scenario` elements. Each scenario should have a label that describes it. Scenarios can be nested, shared, focused, and pending.
 
     <x:scenario label="description"> 
 
@@ -48,7 +48,7 @@ The `context` element is used to provide XML to be validated by the Schematron f
 
     <x:context href="filename.xml">
 
-Alternatively, context given as an XML fragment within the `context` element.
+Alternatively, context can be given as an XML fragment within the `context` element.
 
     <x:context>
       <example>any XML</example>
@@ -56,13 +56,13 @@ Alternatively, context given as an XML fragment within the `context` element.
 
 Assertions specify the results that are expected when the context XML is validated by the Schematron. Assertions are written using any combination of expect-* elements to specify expected results of running the Schematron on the context XML.
 
-* `expect-valid` - Verify that a Schematron executed and passed validation. In the Schematron an `assert` or `report` can have a `role` attribute specifying that it is a warning or informational message and these are considered to be allowed for a passing validation. 
-* `expect-assert` - Verify that an `assert` will be thrown.
-* `expect-not-assert` - Verify that an `assert` will not be thrown.
-* `expect-report` - Verify that a `report` will be thrown.
-* `expect-not-report` - Verify that a `report` will not be thrown.
+* `expect-valid` - Verify that the Schematron is executed and passes validation. In the Schematron an `assert` or `report` can have a `role` attribute specifying that it is a warning or informational message and these are considered to be allowed for a passing validation. 
+* `expect-assert` - Verify that an `assert` is thrown.
+* `expect-not-assert` - Verify that an `assert` is not thrown.
+* `expect-report` - Verify that a `report` is thrown.
+* `expect-not-report` - Verify that a `report` is not thrown.
 
-With the exception of `expect-valid`, the expect-* elements all use the same attributes to identify an expected `assert` or `report`. These attributes can be used in any combination to specify the expected results of running the Schematron on the context XML: 
+With the exception of `expect-valid`, the expect-* elements all have attributes to identify an expected `assert` or `report`. These attributes can be used in any combination to specify the expected results of running the Schematron on the context XML: 
 
 * `id` - Identify a specific `assert` or `report` using its `id` attribute.
 * `role` - Match a specific `role` attribute value of an `assert` or `report`. Role attribute values are often used to specify 'error', 'fatal', 'warn', 'warning', 'info', 'information'. 
@@ -72,10 +72,12 @@ For example, say you expect an `assert` with id a0001 to be thrown at XPath loca
 
     <x:expect-assert id="a0001" location="/html[1]/body[1]/div[5]"/>
 
-It is possible to import scenarios from a separate file. This allows more flexibility for organizing your test cases. To import scenarios from another file use the `import` element and specify the file to import using the `href` attribute. 
+Although not required, it is helpful if the `assert` and `report` elements in the Schematron being tested have an `id` attribute. Test scenarios can be more specific by using the id attribute to match expectations to `assert` and `report` elements in the Schematron. (The file quickfix.sch included with the demos is a Schematron Quick Fix that can be used in oXygen to quickly add the id attribute to assert and report elements.)
+
+It is possible to import scenarios from a separate file. This allows more flexibility for organizing your test cases. To import scenarios from another file use the `import` element and specify the XSpec file to import using the `href` attribute. 
 
     <x:import href="filename.xspec"/>
 
 Anything that can be done in XSpec can be done in a Schematron unit test. It is possible to test XSLT function definitions (xsl:function) that are embedded in a Schematron. A test scenario can also check the SVRL output of Schematron for specific things.
 
-When the test is executed, each scenario will be evaluated by using the Schematron to validate the context XML and then checking the validation result to find out if it matches the assertions. 
+When the test file is executed by XSpec, each scenario will be evaluated by using the Schematron to validate the context XML and then checking the validation result to find out if the result matches the assertions. 
