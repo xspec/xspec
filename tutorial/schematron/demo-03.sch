@@ -18,6 +18,12 @@
             </sch:report>
         </sch:rule>
         
+        <sch:rule context="document" role="info" id="a0004">
+            <sch:report test="section">
+                the document has at least one section
+            </sch:report>
+        </sch:rule>
+        
     </sch:pattern>
     
 </sch:schema>

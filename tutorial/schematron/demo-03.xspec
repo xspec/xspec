@@ -2,7 +2,7 @@
 <?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="demo-03.sch">
 
-    <x:scenario label="demo 1">
+    <x:scenario label="demo 3">
 
         <x:scenario label="inline context">
             <x:scenario label="valid">
@@ -50,6 +50,11 @@
         <x:scenario label="example" pending="tests marked as pending are not executed">
             <x:context href="demo-03-doc1.xml"/>
             <x:expect-valid/>
+        </x:scenario>
+        
+        <x:scenario label="id or role can be placed on on the rule">
+            <x:context href="demo-03-doc1.xml"/>
+            <x:expect-report id="a0004" role="info"/>
         </x:scenario>
 
     </x:scenario>

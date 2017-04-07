@@ -64,8 +64,8 @@ Assertions specify the results that are expected when the context XML is validat
 
 With the exception of `expect-valid`, the expect-* elements all have attributes to identify an expected `assert` or `report`. These attributes can be used in any combination to specify the expected results of running the Schematron on the context XML: 
 
-* `id` - Identify a specific `assert` or `report` using its `id` attribute.
-* `role` - Match a specific `role` attribute value of an `assert` or `report`. Role attribute values are often used to specify 'error', 'fatal', 'warn', 'warning', 'info', 'information'. 
+* `id` - Identify a specific `assert` or `report` using its `id` attribute or match the `id` attribute of the parent `rule`.
+* `role` - Match a specific `role` attribute value of an `assert` or `report` or the parent `rule`. Role attribute values are often used to specify 'error', 'fatal', 'warn', 'warning', 'info', 'information'. 
 * `location` - XPath of a location in the context XML that the `assert` or `report` is expected to find. 
 
 For example, say you expect an `assert` with id a0001 to be thrown at XPath location /html[1]/body[1]/div[5]. This assertion would be written as:

@@ -121,10 +121,16 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="@id | @role | @location" mode="make-predicate">
+    <xsl:template match="@location" mode="make-predicate">
         <xsl:sequence select="concat('[@', local-name(.), ' = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
 
+    <xsl:template match="@id | @role" mode="make-predicate">
+        <xsl:sequence select="concat('[(@', local-name(.), 
+            ', preceding-sibling::svrl:fired-rule[1]/@',local-name(.), 
+            ')[1] = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
+    </xsl:template>
+    
     <xsl:template name="make-label">
         <xsl:attribute name="label" select="string-join((tokenize(local-name(),'-')[.=('report','assert','not')], @id, @role, @location), ' ')"/>
     </xsl:template>

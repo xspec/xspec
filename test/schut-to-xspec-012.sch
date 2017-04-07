@@ -8,4 +8,15 @@
             <sch:report id="r2" role="warn" test="img">An image was found</sch:report>
         </sch:rule>
     </sch:pattern>
+    <sch:pattern>
+        <sch:rule context="section" id="ru1" role="error">
+            <sch:assert test="title">section should have a title</sch:assert>
+            <sch:assert test="p[2]" role="warn">section should contain at least 2 paragraphs</sch:assert>
+            <sch:assert test="img" id="ru2">section should contain an image</sch:assert>
+        </sch:rule>
+        <sch:rule context="article" id="ru3" role="warn">
+            <sch:assert test="div">article should contain div</sch:assert>
+            <sch:report test="div[2]">article has more than 1 div</sch:report>
+        </sch:rule>
+    </sch:pattern>
 </sch:schema>
