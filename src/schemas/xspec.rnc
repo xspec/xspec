@@ -27,7 +27,9 @@ import =
 	## XSpec will be run on the stylesheet that this XSpec document describes.
 	## Importing is recursive and may be circular (although only one copy of a given
 	## imported document will actually be imported).
-	element import { common-attributes, attribute href { xs:anyURI } }
+	element import { common-attributes,
+	   ## The document URI (location) of the imported document.
+	   attribute href { xs:anyURI } }
 
 pending = 
 	## Anything that is within a <pending> element will remain untested, but will be
@@ -157,7 +159,7 @@ template-call =
 	## parameters passed to it. 
 	element call {
 		common-attributes,
-		##The qualified name of the template which should get called.
+		## The qualified name of the template which should get called.
 		attribute template { xs:QName }?,
 		template-param*
 	}
@@ -183,11 +185,16 @@ as = attribute as { text }
 
 selection = node-selection | value-selection
 
-node-selection = attribute href { xs:anyURI }?,
+node-selection = 
+                 ## The document URI (location) of the imported document.
+                 attribute href { xs:anyURI }?,
+                 ## The XPath expression to access the selected node. 
                  attribute select { xpath }?, 
                  any-content
 
-value-selection = attribute select { xpath }
+value-selection =
+    ## The XPath expression to access the selected node. 
+    attribute select { xpath }
 
 xpath = text
 
