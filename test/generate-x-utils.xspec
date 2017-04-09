@@ -10,7 +10,7 @@
                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                query="http://www.jenitennison.com/xslt/unit-test"
                query-at="../src/compiler/generate-query-utils.xql"
-               stylesheet="../src/compiler/generate-tests-utils.xsl">
+               stylesheet="generate-x-utils.xsl">
 
    <!--
        Test the source files generate-tests-utils.xsl and generate-query-utils.xql.
