@@ -162,27 +162,6 @@
   <xsl:sequence select="$result"/>
 </xsl:function>
 
-<test:tests>
-  <test:title>test:item-deep-equal function</test:title>
-  <test:test id="item-deep-equal.1">
-    <test:title>Identical Integers</test:title>
-    <test:param name="item1" select="1" />
-    <test:param name="item2" select="1" />
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="item-deep-equal.2">
-    <test:title>Non-Identical Strings</test:title>
-    <test:param name="item1" select="'abc'" />
-    <test:param name="item2" select="'def'" />
-    <test:expect select="false()" />
-  </test:test>
-  <test:test id="item-deep-equal.3">
-    <test:title>String and Integer</test:title>
-    <test:param name="item1" select="'1'" />
-    <test:param name="item2" select="1" />
-    <test:expect select="false()" />
-  </test:test>
-</test:tests>
 <xsl:function name="test:item-deep-equal" as="xs:boolean">
   <xsl:param name="item1" as="item()" />
   <xsl:param name="item2" as="item()" />
