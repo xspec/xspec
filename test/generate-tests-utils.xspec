@@ -21,6 +21,9 @@
     </t:scenario>
 
     <t:scenario label="Copy of https://github.com/xspec/xspec/blob/a6bb23507e11277d07b06914fc9a5590401e22f7/src/compiler/generate-tests-utils.xsl#L245-L371">
+      <!-- TODO: Most of these scenarios do not run on XQuery due to these errors:
+            XPDY0002: Axis step cannot be used here: the context item is absent
+            XPDY0050: The root of the tree containing the context item is not a document node -->
 
       <t:scenario label="Identical Elements">
         <t:call function="test:node-deep-equal">
@@ -177,6 +180,8 @@
     </t:scenario>
 
     <t:scenario label="Namespace Nodes">
+      <!-- TODO: These scenarios do not run on XQuery
+          xspec/xspec#69 has not been implemented for XQuery-->
 
       <t:scenario label="Identical">
         <t:call function="test:node-deep-equal">
@@ -548,6 +553,9 @@
     Function test:instance-of-namespace
    -->
   <t:scenario label="test:instance-of-namespace">
+
+    <!-- TODO: These scenarios do not run on XQuery
+        xspec/xspec#69 has not been implemented for XQuery-->
 
     <t:scenario label="Nodes">
 
