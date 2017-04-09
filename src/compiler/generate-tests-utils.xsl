@@ -273,18 +273,6 @@
   </xsl:choose>  
 </xsl:function>
   
-<test:tests>
-  <test:title>test:sorted-children function</test:title>
-  <test:test>
-    <test:title>Original order preserved</test:title>
-    <test:param name="node">
-      <foo><bar /><baz /></foo>
-    </test:param>
-    <test:expect>
-      <bar /><baz />
-    </test:expect>
-  </test:test>
-</test:tests>  
 <xsl:function name="test:sorted-children" as="node()*">
   <xsl:param name="node" as="node()" />
   <xsl:sequence 
