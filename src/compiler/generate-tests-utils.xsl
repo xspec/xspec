@@ -76,48 +76,6 @@
    </xsl:if>
 </xsl:function>
 
-<test:tests>
-  <test:title>test:deep-equal function</test:title>
-  <test:test>
-    <test:title>Identical Sequences</test:title>
-    <test:param name="seq1" select="(1, 2)" />
-    <test:param name="seq2" select="(1, 2)" />
-    <test:expect select="true()" />
-  </test:test>
-  <test:test>
-    <test:title>Non-Identical Sequences</test:title>
-    <test:param name="seq1" select="(1, 2)" />
-    <test:param name="seq2" select="(1, 3)" />
-    <test:expect select="false()" />
-  </test:test>
-  <test:test id="deep-equal.3">
-    <test:title>Sequences with Same Items in Different Orders</test:title>
-    <test:param name="seq1" select="(1, 2)" />
-    <test:param name="seq2" select="(2, 1)" />
-    <test:expect select="false()" />
-  </test:test>
-  <test:test id="deep-equal.4">
-    <test:title>Empty Sequences</test:title>
-    <test:param name="seq1" select="()" />
-    <test:param name="seq2" select="()" />
-    <test:expect select="true()" />
-  </test:test>
-  <test:test>
-    <test:title>One empty sequence</test:title>
-    <test:param name="seq1" select="()" />
-    <test:param name="seq2" select="1" />
-    <test:expect select="false()" />
-  </test:test>
-  <test:test>
-    <test:title>A text node and several text nodes</test:title>
-    <test:param name="seq1" select="text()">foobar</test:param>
-    <test:param name="seq2" select="val/text()">
-      <val>foo</val>
-      <val>bar</val>
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-</test:tests>
 <xsl:function name="test:deep-equal" as="xs:boolean">
   <xsl:param name="seq1" as="item()*" />
   <xsl:param name="seq2" as="item()*" />
