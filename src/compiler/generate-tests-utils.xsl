@@ -619,14 +619,6 @@
   <t:ws><xsl:value-of select="." /></t:ws>
 </xsl:template>
 
-<test:tests>
-  <test:title>test:report-atomic-value function</test:title>
-  <test:test id="report-atomic-value.1">
-    <test:title>String Containing Single Quotes</test:title>
-    <test:param name="value" select="'don''t'" />
-    <test:expect select="'''don''''t'''" />
-  </test:test>
-</test:tests>
 <xsl:function name="test:report-atomic-value" as="xs:string">
   <xsl:param name="value" as="item()" />
   <xsl:choose>
