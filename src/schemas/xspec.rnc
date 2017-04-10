@@ -138,7 +138,7 @@ context =
 	## are applied to it, and any parameters included in the apply templates.
 	element context { 
 		common-attributes,
-		##The mode in which templates are applied to it, and any parameters included in the apply templates.
+		## The mode in which templates are applied to it, and any parameters included in the apply templates.
 		attribute mode { xs:QName }?,
 		template-param*,
 		node-selection
@@ -149,7 +149,7 @@ function-call =
 	## parameters passed to it. 
 	element call {
 		common-attributes,
-		##The qualified name of the function which should get called.
+		## The qualified name of the function which should get called.
 		attribute function { xs:QName }?,
 		function-param*
 	}
