@@ -91,6 +91,41 @@
   </t:scenario>
 
   <!--
+    Function test:item-deep-equal
+  -->
+  <t:scenario label="test:item-deep-equal">
+
+    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L207-L227">
+
+      <t:scenario label="Identical Integers">
+        <t:call function="test:item-deep-equal">
+          <t:param name="item1" select="1" />
+          <t:param name="item2" select="1" />
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Non-Identical Strings">
+        <t:call function="test:item-deep-equal">
+          <t:param name="item1" select="'abc'" />
+          <t:param name="item2" select="'def'" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="String and Integer">
+        <t:call function="test:item-deep-equal">
+          <t:param name="item1" select="'1'" />
+          <t:param name="item2" select="1" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+    </t:scenario>
+
+  </t:scenario>
+
+  <!--
     Function test:report-atomic-value
   -->
   <t:scenario label="test:report-atomic-value">

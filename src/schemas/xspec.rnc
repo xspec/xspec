@@ -27,7 +27,9 @@ import =
 	## XSpec will be run on the stylesheet that this XSpec document describes.
 	## Importing is recursive and may be circular (although only one copy of a given
 	## imported document will actually be imported).
-	element import { common-attributes, attribute href { xs:anyURI } }
+	element import { common-attributes,
+	   ## The document URI (location) of the imported document.
+	   attribute href { xs:anyURI } }
 
 pending = 
 	## Anything that is within a <pending> element will remain untested, but will be
@@ -59,7 +61,17 @@ scenario =
 		  named-scenario ) }
 
 common-scenario-attributes = common-attributes,
+                        	## Anything which has the @pending attribute will remain untested, but will be
+                        	## reported as (eventual) desired behaviour. This is a good way of commenting out
+                        	## a set of behaviours that haven't been implemented yet, or scenarios whose
+                        	## desired behaviour hasn't been determined, or tests for code that you're not
+                        	## currently working on, to make the testing process faster.
+                        	##
+                        	## The attribute value can be used to describe why the scenario or
+                        	## assertion should not be tested.
                              attribute pending { text }?,
+                            ## If any scenario has a focus attribute, any scenarios without a focus 
+	                        ## attribute will be classed as pending.
                              attribute focus { text }?
 
 label = 
@@ -126,6 +138,7 @@ context =
 	## are applied to it, and any parameters included in the apply templates.
 	element context { 
 		common-attributes,
+		## The mode in which templates are applied to it, and any parameters included in the apply templates.
 		attribute mode { xs:QName }?,
 		template-param*,
 		node-selection
@@ -136,6 +149,7 @@ function-call =
 	## parameters passed to it. 
 	element call {
 		common-attributes,
+		## The qualified name of the function which should get called.
 		attribute function { xs:QName }?,
 		function-param*
 	}
@@ -145,6 +159,7 @@ template-call =
 	## parameters passed to it. 
 	element call {
 		common-attributes,
+		## The qualified name of the template which should get called.
 		attribute template { xs:QName }?,
 		template-param*
 	}
@@ -170,11 +185,16 @@ as = attribute as { text }
 
 selection = node-selection | value-selection
 
-node-selection = attribute href { xs:anyURI }?,
+node-selection = 
+                 ## The document URI (location) of the imported document.
+                 attribute href { xs:anyURI }?,
+                 ## The XPath expression to access the selected node. 
                  attribute select { xpath }?, 
                  any-content
 
-value-selection = attribute select { xpath }
+value-selection =
+    ## The XPath expression to access the selected node. 
+    attribute select { xpath }
 
 xpath = text
 
