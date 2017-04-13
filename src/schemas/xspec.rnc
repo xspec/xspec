@@ -227,23 +227,57 @@ schematron-assertion =
     expect-report | expect-not-report | 
     expect-valid 
 
-expect-valid = element expect-valid { empty }
+expect-valid =
+    ## In a Schematron test, verify that the Schematron is executed and the XML 
+    ## that is provided as context passes validation.
+    ## 
+    ## In the Schematron an <assert> or <report> can have a <role> attribute 
+    ## specifying that it is a warning or informational message and these are 
+    ## considered to be allowed for a passing validation.
+    element expect-valid { empty }
 
-expect-assert = element expect-assert {
+expect-assert = 
+    ## In a Schematron test, verify that an <assert> is thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <assert>. 
+    element expect-assert {
     schematron-common-expect
 }
-expect-report = element expect-report {
+expect-report = 
+    ## In a Schematron test, verify that a <report> is thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <report>. 
+    element expect-report {
     schematron-common-expect
 }
 
-expect-not-assert = element expect-not-assert {
+expect-not-assert = 
+    ## In a Schematron test, verify that an <assert> is not thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <assert>. 
+    element expect-not-assert {
     schematron-common-expect
 }
-expect-not-report = element expect-not-report {
+expect-not-report = 
+    ## In a Schematron test, verify that a <report> is not thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <report>. 
+    element expect-not-report {
     schematron-common-expect
 }
 
 schematron-common-expect = 
+    ## Identify a specific <assert> or <report> using its id attribute or 
+    ## the id attribute of the parent <rule>.
     attribute id { xs:NCName }?,
+    ## Match a specific role attribute value of an <assert> or <report> or 
+    ## the parent <rule>. Role attribute values are often used to specify 
+    ## 'error', 'fatal', 'warn', 'warning', 'info', 'information'.
     attribute role { text }?,
+    ## XPath of a location in the context XML that the <assert> or <report> 
+    ## is expected to find.
     attribute location { xpath }?
