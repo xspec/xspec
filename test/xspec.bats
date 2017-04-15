@@ -212,9 +212,9 @@ teardown() {
 @test "invoking xspec.sh with path containing an apostrophe runs successfully #119" {
 	mkdir some\'path
 	cp ../tutorial/escape-for-regex.* some\'path 
-    run ../bin/xspec.sh some\'path/escape-for-regex.xspec
+	run ../bin/xspec.sh some\'path/escape-for-regex.xspec
 	echo $output
-    [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "Report available at some'path/xspec/escape-for-regex-result.html" ]
+	[ "$status" -eq 0 ]
+	[ "${lines[19]}" = "Report available at some'path/xspec/escape-for-regex-result.html" ]
 	rm -rf some\'path
 }
