@@ -275,7 +275,7 @@ setlocal
 
     set PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)
     call :mkdir "%PARENTHESES_DIR%"
-    copy ..\tutorial\* "%PARENTHESES_DIR%" > NUL
+    copy ..\tutorial\escape-for-regex.* "%PARENTHESES_DIR%" > NUL
 
     set EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html
 
