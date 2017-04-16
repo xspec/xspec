@@ -162,8 +162,8 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem</span> /&gt;</pre></td>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem</span> <span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">attrib</span>="..." /&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">elem</span> /&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">elem</span> <span class="diff">attrib</span>="..." /&gt;</pre></td>
                </tr>
             </tbody>
          </table>
@@ -184,8 +184,8 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem</span>&gt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span>&lt;/elem&gt;</pre></td>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem</span>&gt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">text</span>&lt;/elem&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">text</span>&lt;/elem&gt;</pre></td>
                </tr>
             </tbody>
          </table>
@@ -242,8 +242,8 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem</span> <span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">attrib</span>="val" /&gt;</pre></td>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem</span>&gt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span>&lt;/elem&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">elem</span> <span class="diff">attrib</span>="val" /&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre></td>
                </tr>
             </tbody>
          </table>
@@ -321,10 +321,10 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">outer</span>&gt;
-   &lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="same">inner</span> /&gt;
+                  <td><pre>&lt;<span class="diff">outer</span>&gt;
+   &lt;<span class="same">inner</span> /&gt;
 &lt;/outer&gt;</pre></td>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">outer</span>&gt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="same">...</span>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="same">inner</span> /&gt;
+                  <td><pre>&lt;<span class="diff">outer</span>&gt;<span class="same">...</span>&lt;<span class="same">inner</span> /&gt;
 &lt;/outer&gt;</pre></td>
                </tr>
             </tbody>
@@ -416,10 +416,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/*/(@* | node())</code> from:
-                     </p><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">temp</span> <span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">attrib</span>="..." /&gt;</pre></td>
+                     </p><pre>&lt;<span class="diff">temp</span> <span class="diff">attrib</span>="..." /&gt;</pre></td>
                   <td>
                      <p>XPath <code>/*/(@* | node())</code> from:
-                     </p><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">temp</span> <span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">attrib</span>="val" /&gt;</pre></td>
+                     </p><pre>&lt;<span class="diff">temp</span> <span class="diff">attrib</span>="val" /&gt;</pre></td>
                </tr>
             </tbody>
          </table>
@@ -501,7 +501,7 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">text</span></pre></td>
+                     </p><pre><span class="diff">text</span></pre></td>
                   <td><pre>'...'</pre></td>
                </tr>
             </tbody>
@@ -519,10 +519,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="whitespace">\t\n\r.</span></pre></td>
+                     </p><pre><span class="whitespace">\t\n\r.</span></pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">text</span></pre></td>
+                     </p><pre><span class="diff">text</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -539,10 +539,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="whitespace"></span></pre></td>
+                     </p><pre><span class="whitespace"></span></pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">text</span></pre></td>
+                     </p><pre><span class="diff">text</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -559,10 +559,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span></pre></td>
+                     </p><pre><span class="diff">...</span></pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">text</span></pre></td>
+                     </p><pre><span class="diff">text</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -578,7 +578,7 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span></pre></td>
+                     </p><pre><span class="diff">...</span></pre></td>
                   <td><pre>'...'</pre></td>
                </tr>
             </tbody>
@@ -670,10 +670,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">&lt;--...--&gt;</span></pre></td>
+                     </p><pre><span class="diff">&lt;--...--&gt;</span></pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">&lt;--comment--&gt;</span></pre></td>
+                     </p><pre><span class="diff">&lt;--comment--&gt;</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -764,10 +764,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">&lt;?pi ...?&gt;</span></pre></td>
+                     </p><pre><span class="diff">&lt;?pi ...?&gt;</span></pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">&lt;?pi data?&gt;</span></pre></td>
+                     </p><pre><span class="diff">&lt;?pi data?&gt;</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -861,7 +861,7 @@
                   <td><pre>/</pre></td>
                   <td>
                      <p>XPath <code>/</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span></pre></td>
+                     </p><pre><span class="diff">...</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -884,10 +884,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span></pre></td>
+                     </p><pre><span class="diff">...</span></pre></td>
                   <td>
                      <p>XPath <code>/</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">text</span></pre></td>
+                     </p><pre><span class="diff">text</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1098,10 +1098,10 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="same">elem1</span> /&gt;&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem2</span> /&gt;</pre></td>
+                  <td><pre>&lt;<span class="same">elem1</span> /&gt;&lt;<span class="diff">elem2</span> /&gt;</pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="same">...</span></pre></td>
+                     </p><pre><span class="same">...</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1115,10 +1115,10 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem1</span> /&gt;&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem2</span> /&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">elem1</span> /&gt;&lt;<span class="diff">elem2</span> /&gt;</pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">......</span></pre></td>
+                     </p><pre><span class="diff">......</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1132,10 +1132,10 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem1</span> /&gt;&lt;<span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">elem2</span> /&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">elem1</span> /&gt;&lt;<span class="diff">elem2</span> /&gt;</pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">.........</span></pre></td>
+                     </p><pre><span class="diff">.........</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1170,7 +1170,7 @@
                   <td><pre>()</pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span></pre></td>
+                     </p><pre><span class="diff">...</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1233,7 +1233,7 @@
                   <td><pre>'string'</pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span></pre></td>
+                     </p><pre><span class="diff">...</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1266,7 +1266,7 @@
                   <td><pre>'...'</pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...</span></pre></td>
+                     </p><pre><span class="diff">...</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1327,10 +1327,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">item</span></pre></td>
+                     </p><pre><span class="diff">item</span></pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">....</span></pre></td>
+                     </p><pre><span class="diff">....</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1346,10 +1346,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">item</span></pre></td>
+                     </p><pre><span class="diff">item</span></pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">...x</span></pre></td>
+                     </p><pre><span class="diff">...x</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1365,10 +1365,10 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">item</span></pre></td>
+                     </p><pre><span class="diff">item</span></pre></td>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff"> ...</span></pre></td>
+                     </p><pre><span class="diff"> ...</span></pre></td>
                </tr>
             </tbody>
          </table>
@@ -1384,7 +1384,7 @@
                <tr>
                   <td>
                      <p>XPath <code>/node()</code> from:
-                     </p><pre><span xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:pkg="http://expath.org/ns/pkg" class="diff">item</span></pre></td>
+                     </p><pre><span class="diff">item</span></pre></td>
                   <td><pre>'...'</pre></td>
                </tr>
             </tbody>
