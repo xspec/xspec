@@ -41,7 +41,7 @@
 		<xsl:text>: Compared </xsl:text>
 		<xsl:value-of select="base-uri()" />
 		<xsl:text> with </xsl:text>
-		<xsl:value-of select="base-uri($expected-doc)" />
+		<xsl:value-of select="$EXPECTED-HTML" />
 		<xsl:text>&#x0A;</xsl:text>
 	</xsl:template>
 </xsl:stylesheet>
