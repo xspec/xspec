@@ -43,6 +43,7 @@ usage() {
     echo "  -q         test an XQuery module (mutually exclusive with -t)"
     echo "  -c         output test coverage report"
     echo "  -j         output JUnit report"
+    echo "  -i         inline CSS in report HTML"
     echo "  -h         display this help message"
     echo "  coverage   deprecated, use -c instead"
 }
@@ -180,6 +181,9 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
 			    exit 1
 			fi
             JUNIT=1;;
+        # Inline CSS in HTML report
+        -i)
+                        INLINE_CSS="inline-css=true()";;
         # Help!
         -h)
             usage
@@ -303,6 +307,7 @@ echo "Formatting Report..."
 xslt -o:"$HTML" \
     -s:"$RESULT" \
     -xsl:"$XSPEC_HOME/src/reporter/format-xspec-report.xsl" \
+    $INLINE_CSS \
     || die "Error formating the report"
 if test -n "$COVERAGE"; then
     xslt -l:on \
