@@ -270,6 +270,20 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "invoking xspec.bat with path containing an apostrophe runs successfully #119"
+
+    set APOSTROPHE_DIR=%WORK_DIR%\some'path
+    call :mkdir "%APOSTROPHE_DIR%"
+    copy ..\tutorial\escape-for-regex.* "%APOSTROPHE_DIR%" > NUL
+
+    call :run ..\bin\xspec.bat "%APOSTROPHE_DIR%\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line 20 x "Report available at %APOSTROPHE_DIR%\xspec\escape-for-regex-result.html"
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
