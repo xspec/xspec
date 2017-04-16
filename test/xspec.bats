@@ -197,11 +197,11 @@ teardown() {
     if [ -z ${XMLCALABASH_CP} ]; then
         skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon";
     else
-        run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home=file://${TRAVIS_BUILD_DIR}/ -oresult=${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html ${TRAVIS_BUILD_DIR}/src/harnesses/saxon/saxon-xslt-harness.xproc
+        run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home=file:${PWD}/../ -oresult=xspec/xspec-72-result.html ../src/harnesses/saxon/saxon-xslt-harness.xproc
 
-    	query="declare default element namespace 'http://www.w3.org/1999/xhtml'; /html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8'";
+    	query="declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8', '&#x0A;')";
 
-        run java -cp ${SAXON_CP} net.sf.saxon.Query -s:${TRAVIS_BUILD_DIR}/test/xspec/xspec-72-result.html -qs:"$query" !method=text
+        run java -cp ${SAXON_CP} net.sf.saxon.Query -s:xspec/xspec-72-result.html -qs:"$query" !method=text
     fi
 
     echo $output
