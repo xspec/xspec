@@ -218,3 +218,15 @@ teardown() {
 	[ "${lines[19]}" = "Report available at some'path/xspec/escape-for-regex-result.html" ]
 	rm -rf some\'path
 }
+
+
+@test "invoking xspec.sh with saxon script uses the saxon script #121 #122" {
+	echo "echo 'Saxon script with EXPath Packaging System'" > /tmp/saxon
+	chmod +x /tmp/saxon
+	export PATH=$PATH:/tmp
+	run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+	echo $output
+	[ "$status" -eq 0 ]
+	[ "${lines[0]}" = "Saxon script found, use it." ]
+	rm /tmp/saxon
+}

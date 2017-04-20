@@ -59,7 +59,7 @@ die() {
 # configured it, so there is no point to duplicate the logic here.
 # Just use it.
 
-if which saxon > /dev/null 2>&1; then
+if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev/null 2>&1; then
     echo Saxon script found, use it.
     echo
     xslt() {
