@@ -122,7 +122,10 @@
     </xsl:template>
 
     <xsl:template match="@location" mode="make-predicate">
-        <xsl:sequence select="concat('[@', local-name(.), ' = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
+        <xsl:variable name="escaped" select="if (not(contains(., codepoints-to-string(39)))) then 
+            concat(codepoints-to-string(39), ., codepoints-to-string(39)) else 
+            concat('concat(', codepoints-to-string(39), replace(., codepoints-to-string(39), concat(codepoints-to-string(39), ', codepoints-to-string(39), ', codepoints-to-string(39))), codepoints-to-string(39), ')')"/>
+        <xsl:sequence select="concat('[x:schematron-location-compare(', $escaped, ', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]')"/>
     </xsl:template>
 
     <xsl:template match="@id | @role" mode="make-predicate">

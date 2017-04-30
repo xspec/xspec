@@ -40,6 +40,7 @@
                 <x:context href="demo-03-doc2.xml"/>
                 <x:expect-valid/>
                 <x:expect-assert id="a0002" role="warn"/>
+                <x:expect-report id="a0003" role="warn"/>
             </x:scenario>
             <x:scenario label="not valid file">
                 <x:context href="demo-03-doc1.xml"/>

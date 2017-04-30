@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?><x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="schut-to-xspec-test.sch.xsl"><x:scenario label="Schematron: &#34;schut-to-xspec-012.sch&#34;"/>
+<?xml version="1.0" encoding="UTF-8"?><?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?><x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="schut-to-xspec-test.sch.xsl"><x:scenario label="Schematron: &#34;schut-to-xspec-012.sch&#34;"/>
     <x:scenario label="expect-valid">
         <x:context href="schematron/schut-to-xspec-012-01.xml"/>
         <x:expect label="valid" test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or @role = ('error','fatal')]))"/>
@@ -32,24 +32,24 @@
         </x:scenario>
         <x:scenario label="with location">
             <x:context href="schematron/schut-to-xspec-012-02.xml"/>
-            <x:expect label="assert /article[1]/div[1]" test="exists(svrl:schematron-output/svrl:failed-assert[@location = '/article[1]/div[1]'])"/>
-            <x:expect label="not assert /article[1]/div[2]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[@location = '/article[1]/div[2]'])"/>
-            <x:expect label="report /article[1]/div[3]" test="exists(svrl:schematron-output/svrl:successful-report[@location = '/article[1]/div[3]'])"/>
-            <x:expect label="not report /article[1]/div[4]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report[@location = '/article[1]/div[4]'])"/>
+            <x:expect label="assert /article[1]/div[1]" test="exists(svrl:schematron-output/svrl:failed-assert[x:schematron-location-compare('/article[1]/div[1]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="not assert /article[1]/div[2]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[x:schematron-location-compare('/article[1]/div[2]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="report /article[1]/div[3]" test="exists(svrl:schematron-output/svrl:successful-report[x:schematron-location-compare('/article[1]/div[3]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="not report /article[1]/div[4]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report[x:schematron-location-compare('/article[1]/div[4]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
         </x:scenario>
         <x:scenario label="with id, location">
             <x:context href="schematron/schut-to-xspec-012-02.xml"/>
-            <x:expect label="assert a1 /article[1]/div[1]" test="exists(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'a1'][@location = '/article[1]/div[1]'])"/>
-            <x:expect label="not assert a2 /article[1]/div[2]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'a2'][@location = '/article[1]/div[2]'])"/>
-            <x:expect label="report r1 /article[1]/div[3]" test="exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'r1'][@location = '/article[1]/div[3]'])"/>
-            <x:expect label="not report r2 /article[1]/div[4]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'r2'][@location = '/article[1]/div[4]'])"/>
+            <x:expect label="assert a1 /article[1]/div[1]" test="exists(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'a1'][x:schematron-location-compare('/article[1]/div[1]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="not assert a2 /article[1]/div[2]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'a2'][x:schematron-location-compare('/article[1]/div[2]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="report r1 /article[1]/div[3]" test="exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'r1'][x:schematron-location-compare('/article[1]/div[3]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="not report r2 /article[1]/div[4]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'r2'][x:schematron-location-compare('/article[1]/div[4]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
         </x:scenario>
         <x:scenario label="with id, role, location">
             <x:context href="schematron/schut-to-xspec-012-02.xml"/>
-            <x:expect label="assert a1 warn /article[1]/div[1]" test="exists(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'a1'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'warn'][@location = '/article[1]/div[1]'])"/>
-            <x:expect label="not assert a2 error /article[1]/div[2]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'a2'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'error'][@location = '/article[1]/div[2]'])"/>
-            <x:expect label="report r1 warn /article[1]/div[3]" test="exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'r1'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'warn'][@location = '/article[1]/div[3]'])"/>
-            <x:expect label="not report r2 info /article[1]/div[4]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'r2'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'info'][@location = '/article[1]/div[4]'])"/>
+            <x:expect label="assert a1 warn /article[1]/div[1]" test="exists(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'a1'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'warn'][x:schematron-location-compare('/article[1]/div[1]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="not assert a2 error /article[1]/div[2]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'a2'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'error'][x:schematron-location-compare('/article[1]/div[2]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="report r1 warn /article[1]/div[3]" test="exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'r1'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'warn'][x:schematron-location-compare('/article[1]/div[3]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
+            <x:expect label="not report r2 info /article[1]/div[4]" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'r2'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'info'][x:schematron-location-compare('/article[1]/div[4]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
         </x:scenario>
     </x:scenario>
     <x:scenario label="inherrit from rule">
@@ -69,7 +69,7 @@
             <x:context href="schematron/schut-to-xspec-012-02.xml"/>
             <x:expect label="not assert ru3" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'ru3'])"/>
             <x:expect label="not assert ru3 warn" test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'ru3'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'warn'])"/>
-            <x:expect label="report ru3 warn /article[1]" test="exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'ru3'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'warn'][@location = '/article[1]'])"/>
+            <x:expect label="report ru3 warn /article[1]" test="exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id)[1] = 'ru3'][(@role, preceding-sibling::svrl:fired-rule[1]/@role)[1] = 'warn'][x:schematron-location-compare('/article[1]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"/>
         </x:scenario>
     </x:scenario>
 </x:description>

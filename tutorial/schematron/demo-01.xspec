@@ -7,6 +7,7 @@
             <x:expect-not-assert id="a001"/>
         </x:scenario>
         <x:scenario label="section should have a title">
+            <x:expect-not-assert id="a002" location="/article[1]/section[1]"/>
             <x:expect-assert id="a002" location="/article[1]/section[2]"/>
             <x:expect-assert id="a002" location="/article[1]/section[3]"/>
         </x:scenario>

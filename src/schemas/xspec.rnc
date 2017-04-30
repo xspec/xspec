@@ -279,5 +279,6 @@ schematron-common-expect =
     ## 'error', 'fatal', 'warn', 'warning', 'info', 'information'.
     attribute role { text }?,
     ## XPath of a location in the context XML that the <assert> or <report> 
-    ## is expected to find.
+    ## is expected to find. Namespace prefixes that are defined in Schematron 
+    ## using ns elements can be used.
     attribute location { xpath }?

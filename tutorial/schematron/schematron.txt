@@ -17,6 +17,7 @@ Using xspec.bat or xspec.sh, use the -s parameter to specify a Schematron Unit T
     bin\xspec.bat -s tutorial\schematron\demo-02-PhaseA.xspec
     bin\xspec.bat -s tutorial\schematron\demo-02-PhaseB.xspec
     bin\xspec.bat -s tutorial\schematron\demo-03.xspec
+    bin\xspec.bat -s tutorial\schematron\demo-04.xspec
 
 Test results will be written to tutorial\schematron\xspec as 
 
@@ -24,6 +25,7 @@ Test results will be written to tutorial\schematron\xspec as
     demo-02-PhaseA-result.html
     demo-02-PhaseB-result.html
     demo-03-result.html
+    demo-04-result.html
 
 
 
@@ -66,7 +68,7 @@ With the exception of `expect-valid`, the expect-* elements all have attributes 
 
 * `id` - Identify a specific `assert` or `report` using its `id` attribute or match the `id` attribute of the parent `rule`.
 * `role` - Match a specific `role` attribute value of an `assert` or `report` or the parent `rule`. Role attribute values are often used to specify 'error', 'fatal', 'warn', 'warning', 'info', 'information'. 
-* `location` - XPath of a location in the context XML that the `assert` or `report` is expected to find. 
+* `location` - XPath of a location in the context XML that the `assert` or `report` is expected to find. Namespace prefixes that are defined in Schematron using `ns` elements can be used.
 
 For example, say you expect an `assert` with id a0001 to be thrown at XPath location /html[1]/body[1]/div[5]. This assertion would be written as:
 
