@@ -174,13 +174,13 @@ rem ##
     echo:
     echo Compiling the Schematron...
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl" -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 1" & goto :win_main_error_exit )
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl" -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 2" & goto :win_main_error_exit )
     call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" -versionmsg:off ^
         %SCH_PARAMS% ^
         || ( call :die "Error compiling the Schematron on step 3" & goto :win_main_error_exit )
     
@@ -201,6 +201,17 @@ rem ##
     set XSPEC=%SCHUT%
     echo:
     goto :EOF
+
+:cleanup
+	if defined SCHEMATRON (
+		del /q "%SCHUT%" 2>nul
+		del /q "%TEST_DIR%\context-*.xml" 2>nul
+		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
+		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" 2>nul
+		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" 2>nul
+		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-compiled.xsl" 2>nul
+	)
+	goto :EOF
 
 :win_echo
     rem
@@ -587,7 +598,7 @@ if defined COVERAGE (
     rem %OPEN% "%HTML%"
 )
 
-if defined SCHEMATRON del "%SCHUT%"
+call :cleanup
 
 echo Done.
 exit /b

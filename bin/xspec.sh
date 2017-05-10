@@ -288,9 +288,9 @@ if test -n "$SCHEMATRON"; then
     
     echo
     echo "Compiling the Schematron..."
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl" || die "Error compiling the Schematron on step 1"
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl" || die "Error compiling the Schematron on step 2"
-    xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" $SCH_PARAMS || die "Error compiling the Schematron on step 3"
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl" -versionmsg:off || die "Error compiling the Schematron on step 1"
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl" -versionmsg:off || die "Error compiling the Schematron on step 2"
+    xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" -versionmsg:off $SCH_PARAMS || die "Error compiling the Schematron on step 3"
     
     # use XQuery to get full URI to compiled Schematron
     xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"
@@ -377,8 +377,16 @@ else
     #$OPEN "$HTML"
 fi
 
+##
+## cleanup
+##
 if test -n "$SCHEMATRON"; then
-    rm "$SCHUT"
+    rm -f "$SCHUT"
+    rm -f "$TEST_DIR"/context-*.xml
+    rm -f "$TEST_DIR/$TARGET_FILE_NAME-var.txt"
+    rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml"
+    rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml"
+    rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-compiled.xsl"
 fi
 
 echo "Done."
