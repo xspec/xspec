@@ -41,7 +41,7 @@ usage() {
     echo "  filename   the XSpec document"
     echo "  -t         test an XSLT stylesheet (the default)"
     echo "  -q         test an XQuery module (mutually exclusive with -t and -s)"
-    echo "  -s         test a Schematron module (mutually exclusive with -t and -q)"
+    echo "  -s         test a Schematron schema (mutually exclusive with -t and -q)"
     echo "  -c         output test coverage report"
     echo "  -j         output JUnit report"
     echo "  -h         display this help message"
