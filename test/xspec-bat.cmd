@@ -341,6 +341,26 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Schematron phase/parameters are passed to Schematron compile"
+
+    call :run ..\bin\xspec.bat -s ..\test\schematron-param-001.xspec
+    call :verify_retval 0
+    call :verify_line 3 x "Paramaters: phase=P1 ?selected=codepoints-to-string((80,49))"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.sh with the -s option does not display Schematron warnings #129 #131"
+
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :verify_retval 0
+    call :verify_line 5 x "Compiling the Schematron tests..."
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
@@ -424,6 +444,7 @@ rem
     rem
     call :mkdir ..\test\xspec
     call :mkdir ..\tutorial\xspec
+    call :mkdir ..\tutorial\schematron\xspec
 
     goto :EOF
 
@@ -433,6 +454,7 @@ rem
     rem
     call :rmdir ..\test\xspec
     call :rmdir ..\tutorial\xspec
+    call :rmdir ..\tutorial\schematron\xspec
 
     rem
     rem Remove the work directory

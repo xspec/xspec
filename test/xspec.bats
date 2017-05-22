@@ -18,14 +18,16 @@
 #===============================================================================
 
 setup() {
-    mkdir ../tutorial/xspec
+	mkdir ../tutorial/xspec
 	mkdir ../test/xspec
+	mkdir ../tutorial/schematron/xspec
 }
 
 
 teardown() {
-    rm -rf ../tutorial/xspec
-    rm -rf ../test/xspec
+	rm -rf ../tutorial/xspec
+	rm -rf ../test/xspec
+	rm -rf ../tutorial/schematron/xspec
 }
 
 
@@ -261,6 +263,15 @@ teardown() {
 	echo "${lines[2]}"
     [ "$status" -eq 0 ]
     [ "${lines[2]}" == "Parameters: phase=P1 ?selected=codepoints-to-string((80,49))" ]
+}
+
+
+@test "invoking xspec.sh with the -s option does not display Schematron warnings #129 #131" {
+    run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
+	echo "${lines[4]}"
+	echo $output
+    [ "$status" -eq 0 ]
+    [ "${lines[4]}" == "Compiling the Schematron tests..." ]
 }
 
 
