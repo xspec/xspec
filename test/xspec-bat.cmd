@@ -351,6 +351,21 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Cleanup removes temporary files"
+
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
+    call :verify_retval 0
+    call :run dir /on ..\tutorial\schematron\xspec
+    call :verify_line 9 r ".*3 File.*"
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.html
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.xml
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03.xsl
+    call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
@@ -567,5 +582,13 @@ rem
         call :verified "Exist: %~1"
     ) else (
         call :failed "Not exist: %~1"
+    )
+    goto :EOF
+
+:verify_not_exist
+    if exist %1 (
+        call :failed "Exist: %~1"
+    ) else (
+        call :verified "Not exist: %~1"
     )
     goto :EOF
