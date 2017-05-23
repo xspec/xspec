@@ -130,7 +130,7 @@
          </xsl:call-template>
          <xsl:text>)</xsl:text>
       </title>
-      <link rel="stylesheet" type="text/css" href="{ $report-css-uri }"/>
+      <style type="text/css"><xsl:value-of select="unparsed-text($report-css-uri)" disable-output-escaping="yes"/></style>
       <xsl:call-template name="x:html-head-callback"/>
     </head>
     <body>
