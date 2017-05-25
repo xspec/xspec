@@ -265,7 +265,7 @@ teardown() {
     [ "${lines[2]}" == "Parameters: phase=P1 ?selected=codepoints-to-string((80,49))" ]
 }
 
-@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs" {
+@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile" {
     
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
@@ -273,9 +273,9 @@ teardown() {
     
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
 	echo $output
-    [[ "${lines[5]}" =~ "Schematron XSLT include" ]]
-    [[ "${lines[6]}" =~ "Schematron XSLT expand" ]]
-    [[ "${lines[7]}" =~ "Schematron XSLT compile" ]]
+    [ "${lines[4]}" = "Schematron XSLT include" ]
+    [ "${lines[5]}" = "Schematron XSLT expand" ]
+    [ "${lines[6]}" = "Schematron XSLT compile" ]
 }
 
 

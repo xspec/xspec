@@ -342,7 +342,7 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs"
+    call :setup "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile"
     
     set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt-include.xsl
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt-expand.xsl
