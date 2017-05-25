@@ -156,6 +156,10 @@ rem ##
 :schematron_compile
     echo Setting up Schematron...
     
+    if not defined SCHEMATRON_XSLT_INCLUDE set SCHEMATRON_XSLT_INCLUDE="%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl"
+    if not defined SCHEMATRON_XSLT_EXPAND set SCHEMATRON_XSLT_EXPAND="%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl"
+    if not defined SCHEMATRON_XSLT_COMPILE set SCHEMATRON_XSLT_COMPILE="%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl"
+    
     rem # get URI to Schematron file and phase/parameters from the XSpec file
     call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', /*[local-name() = 'description']/@schematron))" ^
         -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
@@ -174,13 +178,13 @@ rem ##
     echo:
     echo Compiling the Schematron...
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl" -versionmsg:off ^
+        -xsl:"%SCHEMATRON_XSLT_INCLUDE%" -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 1" & goto :win_main_error_exit )
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl" -versionmsg:off ^
+        -xsl:"%SCHEMATRON_XSLT_EXPAND%" -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 2" & goto :win_main_error_exit )
     call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl" -versionmsg:off ^
+        -xsl:"%SCHEMATRON_XSLT_COMPILE%" -versionmsg:off ^
         %SCH_PARAMS% ^
         || ( call :die "Error compiling the Schematron on step 3" & goto :win_main_error_exit )
     

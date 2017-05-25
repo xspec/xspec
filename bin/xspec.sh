@@ -275,6 +275,16 @@ fi
 if test -n "$SCHEMATRON"; then
     echo "Setting up Schematron..."
     
+    if test -z "$SCHEMATRON_XSLT_INCLUDE"; then
+        SCHEMATRON_XSLT_INCLUDE="$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl";
+    fi
+    if test -z "$SCHEMATRON_XSLT_EXPAND"; then
+        SCHEMATRON_XSLT_EXPAND="$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl";
+    fi
+    if test -z "$SCHEMATRON_XSLT_COMPILE"; then
+        SCHEMATRON_XSLT_COMPILE="$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl";
+    fi
+    
     # get URI to Schematron file and phase/parameters from the XSpec file
     # Need to escape for sh in XQuery: dollar sign as \$
     xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*\$', '\$1'), '/', /*[local-name() = 'description']/@schematron))" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron location"
@@ -288,9 +298,9 @@ if test -n "$SCHEMATRON"; then
     
     echo
     echo "Compiling the Schematron..."
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl" -versionmsg:off || die "Error compiling the Schematron on step 1"
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl" -versionmsg:off || die "Error compiling the Schematron on step 2"
-    xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" -versionmsg:off $SCH_PARAMS || die "Error compiling the Schematron on step 3"
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$SCHEMATRON_XSLT_INCLUDE" -versionmsg:off || die "Error compiling the Schematron on step 1"
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$SCHEMATRON_XSLT_EXPAND" -versionmsg:off || die "Error compiling the Schematron on step 2"
+    xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$SCHEMATRON_XSLT_COMPILE" -versionmsg:off $SCH_PARAMS || die "Error compiling the Schematron on step 3"
     
     # use XQuery to get full URI to compiled Schematron
     xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"

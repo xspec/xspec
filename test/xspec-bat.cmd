@@ -342,6 +342,21 @@ setlocal
 endlocal
 
 setlocal
+    call :setup "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs"
+    
+    set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt-include.xsl
+    set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt-expand.xsl
+    set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt-compile.xsl
+    
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :verify_line 5 x "Schematron XSLT include"
+    call :verify_line 6 x "Schematron XSLT expand"
+    call :verify_line 7 x "Schematron XSLT compile"
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "invoking xspec.sh with the -s option does not display Schematron warnings #129 #131"
 
     call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
