@@ -362,10 +362,6 @@ h1 {
 	text-transform: uppercase;
 	}
 
-h2, h3 {
-	text-transform: capitalize;
-	}
-
 .question {
 	text-indent: -33px;
 	}
