@@ -46,6 +46,27 @@ usage() {
     echo "  -j         output JUnit report"
     echo "  -h         display this help message"
     echo "  coverage   deprecated, use -c instead"
+    echo
+    echo "The following environment variables can be used to configure XSpec:"
+    echo
+    echo "SAXON_CP    Full classpath containing the Saxon jar file."
+    echo "SAXON_HOME  Location of a folder containing the Saxon jar file."
+    echo "            Either SAXON_CP or SAXON_HOME must be provided."
+    echo "            SAXON_CP has precedence over SAXON_HOME."
+    echo "TEST_DIR    Location for XSpec to save reports and temporary files."
+    echo "            Defaults to 'xspec' folder relative to the XSpec test file."
+    echo "XSPEC_HOME  Location of the XSpec installation. Defaults to the parent"
+    echo "            folder of bin/xspec.sh. If you move xspec.sh you may"
+    echo "            have to set XSPEC_HOME."
+    echo "SCHEMATRON_XSLT_INCLUDE     Location of an XSLT to use for the first"
+    echo "                            step of compiling a Schematron schema."
+    echo "                            The default is iso_dsdl_include.xsl"
+    echo "SCHEMATRON_XSLT_EXPAND      Location of an XSLT to use for the second"
+    echo "                            step of compiling a Schematron schema."
+    echo "                            The default is iso_abstract_expand.xsl"
+    echo "SCHEMATRON_XSLT_COMPILE     Location of an XSLT to use for the third"
+    echo "                            step of compiling a Schematron schema."
+    echo "                            The default is iso_svrl_for_xslt2.xsl"
 }
 
 die() {
