@@ -275,6 +275,18 @@ teardown() {
 }
 
 
+@test "Cleanup removes temporary files" {
+    run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
+    [ "$status" -eq 0 ]
+    [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
+    run ls ../tutorial/schematron/xspec
+    [ "${#lines[@]}" = "3" ]
+    [ "${lines[0]}" = "demo-03-result.html" ]
+    [ "${lines[1]}" = "demo-03-result.xml" ]
+    [ "${lines[2]}" = "demo-03.xsl" ]
+}
+
+
 @test "invoking xspec.sh with -q option runs XSpec test for XQuery" {
     run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
 	echo "${lines[5]}"

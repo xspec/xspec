@@ -356,12 +356,12 @@ setlocal
 
     call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
     call :verify_retval 0
+    call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
     call :run dir /on ..\tutorial\schematron\xspec
     call :verify_line 9 r ".*3 File.*"
     call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.html
     call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.xml
     call :verify_exist ..\tutorial\schematron\xspec\demo-03.xsl
-    call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
 
     call :teardown
 endlocal
