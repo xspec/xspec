@@ -11,7 +11,7 @@
 /* box model */
 
 body {
-	margin-right: 1em;
+	margin-right: 10%;
 	margin-left: 10%;
 	}
 
@@ -382,7 +382,7 @@ a {
 	text-decoration: none;
 	}
 
-table { width: 85%;
+table { width: 95%;
         /* border: collapse; */ }
 
 th { text-align: left; }
