@@ -274,7 +274,7 @@ teardown() {
 
 @test "executing the XProc harness for BaseX generates a report" {
 
-    if [ -z ${XMLCALABASH_CP} && -z ${BASEX_CP} ]; then
+    if [[ -z ${XMLCALABASH_CP} && -z ${BASEX_CP} ]]; then
         skip "test for BaseX skipped as it requires XMLCalabash and a higher version of Saxon";
     else
         run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -i source=../tutorial/xquery-tutorial.xspec -p xspec-home=file:${PWD}/../ -p basex-jar=${BASEX_CP} -o result=xspec/xquery-tutorial-result.html ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
