@@ -32,6 +32,7 @@ before_script:
     - if [ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]; then
         echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
       else
+        mkdir -p /tmp/basex
         wget -O /tmp/basex/basex-${BASEX_VERSION}.jar http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
         export BASEX_CP=/tmp/basex/basex-${BASEX_VERSION}.jar;
       fi
