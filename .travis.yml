@@ -29,7 +29,7 @@ before_script:
         export XMLCALABASH_CP=/tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar;
       fi
     # install BaseX
-    - if [ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]; then
+    - if [[ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]]; then
         echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
       else
         mkdir -p /tmp/basex
