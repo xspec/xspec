@@ -20,6 +20,8 @@
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl</pkg:import-uri>
 
+<xsl:param name="inline-css">false</xsl:param>
+
 <xsl:param name="report-css-uri" select="
     resolve-uri('test-report.css', static-base-uri())"/>
 
@@ -130,7 +132,14 @@
          </xsl:call-template>
          <xsl:text>)</xsl:text>
       </title>
-      <style type="text/css"><xsl:value-of select="unparsed-text($report-css-uri)" disable-output-escaping="yes"/></style>
+      <xsl:if test="$inline-css = 'false'">
+        <link rel="stylesheet" type="text/css" href="{ $report-css-uri }"/>
+      </xsl:if>
+      <xsl:if test="not($inline-css = 'false')">
+        <style type="text/css">
+          <xsl:value-of select="unparsed-text($report-css-uri)" disable-output-escaping="yes"/>
+        </style>
+      </xsl:if>
       <xsl:call-template name="x:html-head-callback"/>
     </head>
     <body>
