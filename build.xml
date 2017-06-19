@@ -8,26 +8,45 @@
 
 
 <project name="xspec" default="xspec">
-	<description>XSpec is a Behavior Driven Development (BDD) framework for XSLT and XQuery.
-
-Usage:
-
-ant -Dxspec.xml=filename
-
-where:
-
-  filename          XSpec tests XML file
-
-
-</description>
-
+  <description>XSpec is a Behavior Driven Development (BDD) framework for XSLT and XQuery.
+    
+    Usage:
+    
+    ant -Dxspec.xml=filename
+    
+    where:
+    
+    filename          XSpec tests XML file
+    
+    ---
+    
+    OUP patch for running XSpec 0.6.0 as an Oxygen XSLT transformation scenario
+    
+    This file is an updated copy of Oxygen's ${frameworksDir}/xspec/build.xml 
+    
+    Setup:
+    
+    - Duplicate Oxygen's default XSpec scenario
+    - Under Options tab:
+      - Working directory: C:\Git\xspec
+      - Build file: [this file]
+    - Under Parameters tab:
+      - New parameter test.type (values "t" for testing XSLT and "s" for testing Schematron)
+      - Parameter xspec.project.dir value C:\Git\xspec
+      - New parameter xspec.compiled.xsl.dir (location to put XSLT file generated from Schematron file)
+    - Download xmltask.jar to C:\Git\xspec\bin\ (from http://www.oopsconsultancy.com/software/xmltask/)
+    - Add xmltask.jar under "Libraries"
+    
+  </description>
+  
   <dirname property="xspec.project.dir" file="${ant.file.xspec}"/>
-
+  
   <!-- File of properties determining or describing local
        configuration. -->
   <property name="xspec.properties" location="${xspec.project.dir}/xspec.properties"/>
   <property file="${xspec.properties}"/>
-
+  
+  
   <!-- saxon.jar location depends on OS. -->
   <condition property="saxon.jar" value="${saxon.jar.windows}">
     <os family="windows" />
@@ -38,17 +57,17 @@ where:
   <condition property="saxon.jar" value="${saxon.jar.unix}">
     <os family="unix" />
   </condition>
-
+  
   <property name="saxon.home" location="/Library/Application Support/saxonb9" />
   <property name="saxon.jar" location="${saxon.home}/saxon9.jar" />
-
+  
   <dirname property="xspec.base.dir" file="${xspec.xml}" />
   <basename property="xspec.xml.base" file="${xspec.xml}" suffix=".xml" />
   <basename property="xspec.base" file="${xspec.xml.base}" suffix=".xspec" />
-
+  
   <property name="xspec.dir"
     value="${xspec.base.dir}/xspec" />
-
+  
   <property name="xspec.xsl"
     value="${xspec.dir}/${xspec.base}.xsl" />
   <property name="xspec.result.xml"
@@ -56,71 +75,240 @@ where:
   <property name="xspec.result.html"
     value="${xspec.dir}/${xspec.base}-result.html" />
   
-	<macrodef name="xspec"
-						description="Run XSpec tests">
-		<attribute name="xspec.xml" description="XSpec tests file" />
-		<sequential>
-			<local name="xspec.base.dir" />
-			<dirname property="xspec.base.dir" file="@{xspec.xml}" />
-			<local name="xspec.xml.base" />
-			<basename property="xspec.xml.base" file="@{xspec.xml}" suffix=".xml" />
-			<local name="xspec.base" />
-			<basename property="xspec.base" file="${xspec.xml.base}" suffix=".xspec" />
-			<antcall target="xspec.xspec" inheritall="false">
-				<param name="xspec.xml"
-							 location="@{xspec.xml}" />
-				<param name="xspec.base.dir"
-							 location="${xspec.base.dir}" />
-				<param name="xspec.dir"
-							 location="${xspec.base.dir}/xspec" />
-				<param name="xspec.base"
-							 value="${xspec.base}" />
-			</antcall>
-		</sequential>
-	</macrodef>
+  <!-- OXYGEN PATCH needed to create a custom Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
+  <property name="saxon.custom.options" value=""/>
+  <!-- OXYGEN PATCH END -->
+  
+  <!-- OXYGEN PATCH needed to control the cleanup of all intermediate files -->
+  <property name="clean.output.dir" value="false"/>
+  <!-- OXYGEN PATCH END -->
+  
+  <!-- OXYGEN PATCH needed to customize the HTML result. -->
+  <property name="format.xspec.report" value="${xspec.project.dir}/src/reporter/format-xspec-report.xsl"/>
+  <!-- OXYGEN PATCH END -->
+  
+  <!-- OXYGEN PATCH needed to control the cleanup of all intermediate files -->  
+  <condition property="can.delete">
+    <and>
+      <equals arg1="${clean.output.dir}" arg2="true"/>
+    </and>
+  </condition>
+  <!-- OXYGEN PATCH END -->
+  
+  
+  <!-- OUP PATCH -->
+  
+  <!-- 
+    xmltask
+    download: http://www.oopsconsultancy.com/software/xmltask/
+    help: http://www.planetgeek.ch/2009/05/17/perform-xpath-queries-inside-ant/ 
+    
+  -->
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+  
+  <property name="test.type" value="t"/>
+  <condition property="test.xslt">
+    <equals arg1="${test.type}" arg2="t"/>
+  </condition>
+  <condition property="test.schematron">
+    <equals arg1="${test.type}" arg2="s"/>
+  </condition>
+  
+  <!-- Copy of original XSpec file
+  will be overwritten if XSpec applies to Schematron -->
+  <property name="xspec.compiled.xml" location="${xspec.base.dir}/${xspec.base}-compiled-oxygen.xspec"/>
+  
+  <!-- Location of compiled Schematron XSL file 
+    Can be overridden, e.g. if original Schematron references helper files at relative paths, 
+    the compiled XSL file will need to go in the same folder as the original Schematron
+   -->
+  <property name="xspec.compiled.xsl.dir" value="${xspec.dir}"/>
+  <property name="xspec.compiled.xsl" value="${xspec.compiled.xsl.dir}/${xspec.base}-sch-compiled.xsl"/>
+  <!-- for passing as a parameter to the script that generates the XSpec with @stylesheet 
+  from the XSpec with @schematron -->
+  <property name="xspec.compiled.xsl.param" value="file:/${xspec.compiled.xsl}"/>
+  <propertyregex override="true" property="xspec.compiled.xsl.param" input="${xspec.compiled.xsl.param}" regexp="\\" replace="/"/>  
+  
+  <target name="copyXSpec">
+    <copy file="${xspec.xml}" tofile="${xspec.compiled.xml}"/>
+  </target>
+  
+  <target name="locateSchematron">
+    <xmltask source="${xspec.xml}">
+      <copy path="/x:description/@schematron" property="xspec.schematron" />
+      
+      <!-- There MUST be a x:param element with name="phase" 
+      If the Schematron does not use phases, set the content of the x:param to '#ALL'
+      -->
+      <copy path="/x:description/x:param[@name = 'phase'][1]/text()" property="xspec.phase" />
+    </xmltask>
+    <property name="xspec.schematron.absolute" location="${xspec.base.dir}/${xspec.schematron}"/>
+    
+    <echo message="Location of Schematron file to compile: '${xspec.schematron.absolute}'"/>
+    <echo message="Schematron phase set in XSpec: '${xspec.phase}'"/>
+    
+  </target>
+  
+  
+  <target name="compileSchematron" depends="locateSchematron" if="${test.schematron}">
+    <echo message="START COMPILING SCHEMATRON FILE '${xspec.schematron.absolute}'"/>
+    
+    <echo message="   STEP 1: Including modules"/>
+    
+    <xslt in="${xspec.schematron.absolute}" 
+      out="${xspec.dir}/${xspec.base}_dsdl_included.sch" 
+      style="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" 
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+    </xslt>
+    
+    <echo message="   STEP 2: Expanding abstracts"/>
+    <xslt in="${xspec.dir}/${xspec.base}_dsdl_included.sch" 
+      out="${xspec.dir}/${xspec.base}.sch" 
+      style="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" 
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+    </xslt>
+    
+    <echo message="   STEP 3: Convert Schematron to XSL"/>    
+    <xslt 
+      in="${xspec.dir}/${xspec.base}.sch"
+      out="${xspec.compiled.xsl}" 
+      style="${xspec.project.dir}/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" 
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="allow-foreign" expression="true"/>
+      <param name="phase" expression="${xspec.phase}"/>
+    </xslt>
+    
+    <echo message="   STEP 4: Convert XSpec (into a format that references the XSL generated from the Schematron)"/>    
+    <xslt 
+      in="${xspec.xml}"
+      out="${xspec.compiled.xml}" 
+      style="${xspec.project.dir}/src/schematron/schut-to-xspec.xsl" 
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="stylesheet" expression="${xspec.compiled.xsl.param}"/>
+    </xslt>
 
+    <echo message="COMPILATION COMPLETE"/>
+    
+   </target>
+
+  <!-- OUP PATCH END -->
+  
+   
+
+  
   <target name="xspec"
-    description="Runs the XSpec unit tests in ${xspec.xml}">
-    <xslt in="${xspec.xml}" 
+    description="Runs the XSpec unit tests in ${xspec.compiled.xml}" depends="copyXSpec,compileSchematron">
+    
+    <echo message="Creating Test Stylesheet..."/>
+    <xslt in="${xspec.compiled.xml}" 
       out="${xspec.xsl}"
       style="${xspec.project.dir}/src/compiler/generate-xspec-tests.xsl"
-      classpath="${saxon.jar}">
-			<factory name="net.sf.saxon.TransformerFactoryImpl" />
-		</xslt>
-		<!-- Can't specify initial template with <xslt> task so have to
-		     fall back to running Saxon as Java app. -->
-		<java classname="net.sf.saxon.Transform"
-					classpath="${saxon.jar}"
-					fork="true">
-			<arg value="-ext:on" />
-			<arg value="-s:${xspec.xml}" />
-			<arg value="-o:${xspec.result.xml}" />
-			<arg value="-xsl:${xspec.xsl}" />
-			<arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
-		</java>
+      force="true"
+      >
+      <!-- OXYGEN PATCH  We specify saxon together with our patches directly in the classpath-->
+      <classpath>
+        <pathelement path="${saxon.jar}"/>
+        <pathelement path="${java.class.path}"/>
+      </classpath>
+      <!-- OXYGEN PATCH END -->
+      
+      <factory name="net.sf.saxon.TransformerFactoryImpl" />
+      
+      <!-- OXYGEN PATCH  Pass a catalog to Saxon. -->
+      <xmlcatalog>
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+      <!-- OXYGEN PATCH END -->
+      
+    </xslt>
+    
+    <echo message="Running Tests..."/>
+    
+    <!-- OUP PATCH: Use Ant xslt task with Saxon initial template -->
+    <xslt in="${xspec.compiled.xml}" 
+      out="${xspec.result.xml}"
+      style="${xspec.xsl}"
+      force="true">
+      <factory name="net.sf.saxon.TransformerFactoryImpl" >
+        <attribute 
+          name="http://saxon.sf.net/feature/initialTemplate" 
+          value="{http://www.jenitennison.com/xslt/xspec}main"/>
+        <attribute
+          name="http://saxon.sf.net/feature/allow-external-functions" 
+          value="true"/>
+      </factory>
+    </xslt>
+    <!-- OUP PATCH END -->
+    
     <xslt in="${xspec.result.xml}"
       out="${xspec.result.html}"
-      style="${xspec.project.dir}/src/reporter/format-xspec-report.xsl"
-      classpath="${saxon.jar}">
-			<factory name="net.sf.saxon.TransformerFactoryImpl">
-				<attribute
-						name="http://saxon.sf.net/feature/allow-external-functions" 
-						value="true"/>
-			</factory>
-		</xslt>
+      style="${format.xspec.report}">
+      <!-- OXYGEN PATCH  We specify saxon together with our patches directly in the classpath-->
+      <classpath>
+        <pathelement path="${saxon.jar}"/>
+        <pathelement path="${java.class.path}"/>
+      </classpath>
+      <!-- OXYGEN PATCH END -->
+      
+      <factory name="net.sf.saxon.TransformerFactoryImpl">
+        <attribute
+          name="http://saxon.sf.net/feature/allow-external-functions" 
+          value="true"/>
+      </factory>
+      
+      <!-- OXYGEN PATCH  Pass a catalog to Saxon. -->
+      <xmlcatalog>
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+      <!-- OXYGEN PATCH END -->
+    </xslt>
     <loadfile srcfile="${xspec.result.xml}"
       property="xspec.result" />
-    <fail message="XSpec tests failed. See ${xspec.result.html} for a report">
+    
+    <!-- OXYGEN PATCH the result will be opened and the user can inspect it. A fail is too much -->
+    <!--<fail message="XSpec tests failed. See ${xspec.result.html} for a report">
       <condition>
         <contains string="${xspec.result}" substring='successful="false"' />
       </condition>
-    </fail>
+    </fail>-->
+    <!-- OXYGEN PATCH the result will be opened and the user can inspect it. A fail is too much -->
+    
+    <!-- OXYGEN PATCH copy the result to the user location and clean up if required.-->
+    
+    <antcall target="cleanup"/>
+    <!-- OXYGEN PATCH copy the result to the user location and clean up if required.-->
   </target>
-
-	<target name="echoproperties">
-		<echoproperties />
-	</target>
-
+  
+  
+  <target name="echoproperties">
+    <echoproperties />
+  </target>
+  
+  <!-- OXYGEN PATCH copy the result to the user location and clean up if required.-->
+  <target name="cleanup" if="can.delete">
+    <echo>Clean up</echo>
+    <delete dir="${xspec.dir}"/>
+    
+    <!-- OUP PATCH delete updated XSPec (with @stylesheet pointing to the compiled Schematron file) -->
+    <delete file="${xspec.compiled.xml}"/>
+    <!-- OUP PATCH END -->
+    
+  </target>
+  <!-- OXYGEN PATCH copy the result to the user location and clean up if required.-->
+  
 </project>
 
 
