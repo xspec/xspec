@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="xspec-xslt3.xsl" xslt-version="3.0">
+  <x:scenario label="When testing the string concatenation operator in XPath 3.0">
+    <x:call template="supportXPath3"/>
+    <x:expect label="concatenate strings">
+      <root>
+        <question>Does XSpec support XPath 3.0?</question>
+        <answer>Yes it does</answer>
+      </root>
+    </x:expect>
+  </x:scenario>
+</x:description>

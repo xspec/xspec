@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:fn="http://www.w3.org/2005/xpath-functions" stylesheet="xspec-72.xsl">
+  <x:scenario label="When processing text in UTF-8">
+    <x:context>
+      <text>
+        <p>Überprüfung von Umlauten</p>
+        <p>Œ, œ, Ÿ</p>
+        <p>Бесы</p>
+      </text>
+    </x:context>
+    <x:expect label="the encoding is correct">
+      <text>
+        <p>Überprüfung von Umlauten</p>
+        <p>Œ, œ, Ÿ</p>
+        <p>Бесы</p>
+      </text>
+    </x:expect>
+  </x:scenario>
+</x:description>

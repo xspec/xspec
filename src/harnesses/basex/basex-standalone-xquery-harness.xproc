@@ -9,27 +9,22 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<p:pipeline xmlns:p="http://www.w3.org/ns/xproc"
-            xmlns:c="http://www.w3.org/ns/xproc-step"
-            xmlns:cx="http://xmlcalabash.com/ns/extensions"
-            xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-            xmlns:t="http://www.jenitennison.com/xslt/xspec"
-            xmlns:pkg="http://expath.org/ns/pkg"
-            pkg:import-uri="http://www.jenitennison.com/xslt/xspec/basex/harness/standalone/xquery.xproc"
-            name="basex-standalone-xquery-harness"
-            type="t:basex-standalone-xquery-harness"
-            version="1.0">
+<p:pipeline xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step"
+   xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:t="http://www.jenitennison.com/xslt/xspec"
+   xmlns:pkg="http://expath.org/ns/pkg"
+   pkg:import-uri="http://www.jenitennison.com/xslt/xspec/basex/harness/standalone/xquery.xproc"
+   name="basex-standalone-xquery-harness" type="t:basex-standalone-xquery-harness" version="1.0">
 
    <p:documentation>
       <p>This pipeline executes an XSpec test suite with BaseX standalone.</p>
       <p><b>Primary input:</b> A XSpec test suite document.</p>
       <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
-      <p>The dir where you unzipped the XSpec archive on your filesystem is passed
-        in the option 'xspec-home'.  The compiled test suite (the XQuery file to be
-        actually evaluated) is saved on the filesystem to be passed to BaseX.  The
-        name of this file is passed in the option 'compiled-file' (it defaults to a
-        file in /tmp).  The BaseX JAR file is passed through 'basex-jar'.</p>
+      <p>The dir where you unzipped the XSpec archive on your filesystem is passed in the option
+         'xspec-home'. The compiled test suite (the XQuery file to be actually evaluated) is saved
+         on the filesystem to be passed to BaseX. The name of this file is passed in the option
+         'compiled-file' (it defaults to a file in /tmp). The BaseX JAR file is passed through
+         'basex-jar'.</p>
    </p:documentation>
 
    <p:serialization port="result" indent="true"/>
@@ -39,27 +34,25 @@
    <t:parameters name="params"/>
 
    <p:group>
-      <p:variable name="xspec-home" select="
-          /c:param-set/c:param[@name eq 'xspec-home']/@value">
+      <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <p:variable name="basex-jar" select="
-          /c:param-set/c:param[@name eq 'basex-jar']/@value">
+      <p:variable name="basex-jar" select="/c:param-set/c:param[@name eq 'basex-jar']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
       <!-- TODO: Use a robust way to get a tmp file name from the OS... -->
-      <p:variable name="compiled-file" select="
-          ( /c:param-set/c:param[@name eq 'compiled-file']/@value,
+      <p:variable name="compiled-file"
+         select="( /c:param-set/c:param[@name eq 'compiled-file']/@value,
             'file:/tmp/xspec-basex-compiled-suite.xq' )[1]">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <p:variable name="utils-library-at" select="
-          /c:param-set/c:param[@name eq 'utils-library-at']/@value">
+      <p:variable name="utils-library-at"
+         select="/c:param-set/c:param[@name eq 'utils-library-at']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
       <!-- either no at location hint, or resolved from xspec-home if packaging not supported -->
-      <p:variable name="utils-lib" select="
-          if ( $utils-library-at ) then
+      <p:variable name="utils-lib"
+         select="if ( $utils-library-at ) then
             $utils-library-at
           else if ( $xspec-home ) then
             resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)
@@ -68,7 +61,7 @@
 
       <!-- compile the suite into a query -->
       <t:compile-xquery>
-         <p:with-param  name="utils-library-at" select="$utils-lib"/>
+         <p:with-param name="utils-library-at" select="$utils-lib"/>
       </t:compile-xquery>
 
       <!-- escape the query as text -->
@@ -84,7 +77,8 @@
          <p:when test="p:value-available('basex-jar')">
             <!-- use Java directly, rely on 'basex-jar' -->
             <p:exec command="java">
-               <p:with-option name="args" select="
+               <p:with-option name="args"
+                  select="
                    string-join(
                      ('-cp', $basex-jar, 'org.basex.BaseX', $compiled-file),
                      ' ')"/>
@@ -112,8 +106,6 @@
    </p:group>
 
 </p:pipeline>
-
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->

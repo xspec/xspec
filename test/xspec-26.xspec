@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- full description at https://github.com/xspec/xspec/26 -->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="xspec-26.xsl">
+  <x:scenario label="When converting heading element">
+    <x:context>
+      <document>
+        <heading>Some Text</heading>
+      </document>
+    </x:context>
+    <x:expect label="Wrap it in a container element">
+      <container>...</container>
+    </x:expect>
+    <x:expect label="With a child" test="container/child[1]">
+      <child>Some Text</child>
+    </x:expect>
+  </x:scenario>
+</x:description>

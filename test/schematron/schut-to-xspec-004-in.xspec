@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schut-to-xspec-test.sch">
+    <x:scenario label="Schematron test scenario">
+        <x:scenario label="pending via attribute" pending="test"></x:scenario>
+    </x:scenario>
+    <x:pending>
+        <x:scenario label="pending via element"></x:scenario>
+    </x:pending>
+    <x:scenario label="pending nested scenario">
+        <x:pending>
+            <x:scenario label="nested"></x:scenario>
+        </x:pending>
+    </x:scenario>
+    <x:scenario label="pending assertions">
+        <x:pending>
+            <x:expect-assert/>
+        </x:pending>
+    </x:scenario>
+</x:description>

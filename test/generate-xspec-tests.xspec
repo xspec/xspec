@@ -2,64 +2,39 @@
 <!-- ===================================================================== -->
 <!--  File:       test/generate-xspec-tests.xspec                          -->
 <!--  Author:     Florent Georges                                          -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-               stylesheet="../src/compiler/generate-xspec-tests.xsl">
-
-   <!--
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" stylesheet="../src/compiler/generate-xspec-tests.xsl">
+  <!--
        Test the source file generate-xspec-tests.xsl.
    -->
-
-   <t:scenario label="test:deep-equal($seq1, $seq2)">
-
-      <!--t:scenario label="FIRST TEST.......">
-         <t:variable name="ctxt" as="document-node()">
-            <t:description>
-               <t:scenario/>
-            </t:description>
-         </t:variable>
-         <t:apply select="$ctxt"/>
-         <t:expect label="the result" test="$t:result instance of document-node()"/>
-         <t:expect label="the result" assert="$t:result instance of document-node()"/>
-      </t:scenario-->
-
-      <t:scenario label="FIRST TEST.......">
-         <t:context mode="t:compile">
-            <t:scenario label="my label"/>
-         </t:context>
-         <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
-         <!-- test also it is a QName in the namespace x:* -->
-         <t:expect label="the name" test="exists($t:result/@name)"/>
-         <t:expect label="the name is a QName" test="
-             namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result))
-               eq 'http://www.jenitennison.com/xslt/xspec'"/>
-         <t:expect label="the label message" test="$t:result/xsl:message eq 'my label'"/>
-         <t:expect label="the scenario" test="exists($t:result/t:scenario)"/>
-         <t:expect label="the scenario label" test="$t:result/t:scenario/t:label eq 'my label'"/>
-         <!-- TODO: Use @assert instead of @test... -->
-         <t:expect label="is a template" assert="$t:result instance of element(xsl:template)"/>
-         <!-- test also it is a QName in the namespace x:* -->
-         <t:expect label="the name" assert="exists($t:result/@name)"/>
-         <t:expect label="the name is a QName" assert="
-             namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result))
-               eq 'http://www.jenitennison.com/xslt/xspec'"/>
-         <t:expect label="the label message" assert="$t:result/xsl:message eq 'my label'"/>
-         <t:expect label="the scenario" assert="exists($t:result/t:scenario)"/>
-         <t:expect label="the scenario label" assert="$t:result/t:scenario/t:label eq 'my label'"/>
-      </t:scenario>
-
-   </t:scenario>
-
+  <t:scenario label="test:deep-equal($seq1, $seq2)">
+    <!--
+    <t:scenario label="FIRST TEST.......">
+      <t:variable name="ctxt" as="document-node()">
+        <t:description>
+          <t:scenario/>
+        </t:description>
+      </t:variable>
+      <t:apply select="$ctxt"/>
+      <t:expect label="the result" test="$t:result instance of document-node()"/>
+    </t:scenario>
+    -->
+    <t:scenario label="FIRST TEST.......">
+      <t:context mode="t:compile">
+        <t:scenario label="my label"/>
+      </t:context>
+      <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
+      <!-- test also it is a QName in the namespace x:* -->
+      <t:expect label="the name" test="exists($t:result/@name)"/>
+      <t:expect label="the name is a QName" test="              namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result))                eq 'http://www.jenitennison.com/xslt/xspec'"/>
+      <t:expect label="the label message" test="$t:result/xsl:message eq 'my label'"/>
+      <t:expect label="the scenario" test="exists($t:result/t:scenario)"/>
+      <t:expect label="the scenario label" test="$t:result/t:scenario/t:label eq 'my label'"/>
+    </t:scenario>
+  </t:scenario>
 </t:description>
-
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->

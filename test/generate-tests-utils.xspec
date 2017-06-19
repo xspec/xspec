@@ -1,118 +1,636 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ===================================================================== -->
-<!--  File:       test/generate-tests-utils.xspec                          -->
-<!--  Author:     Florent Georges                                          -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
-<!--  Tags:                                                                -->
-<!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
-<?oxygen RNGSchema="http://xspec.googlecode.com/svn/trunk/xspec.rnc" type="compact"?>
-
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-               query="http://www.jenitennison.com/xslt/unit-test"
-               query-at="../src/compiler/generate-query-utils.xql"
-               stylesheet="../src/compiler/generate-tests-utils.xsl">
-
-   <!--
-       Test the source files generate-tests-utils.xsl and generate-query-utils.xql.
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:test="http://www.jenitennison.com/xslt/unit-test" stylesheet="../src/compiler/generate-tests-utils.xsl">
+  <!--
+	   Test the source file generate-tests-utils.xsl.
    -->
-
-   <!--
-       Function test:deep-equal($seq1, $seq2).
+  <!--
+	   Function test:node-deep-equal($seq1, $seq2).
    -->
-   <t:scenario label="test:deep-equal($seq1, $seq2)">
+  <t:scenario label="test:node-deep-equal($seq1, $seq2)">
+    <t:scenario label="Identical Attribute Sequences">
+      <!-- TODO: This scenario does not run on XQuery: xspec/xspec#82 -->
+      <t:call function="test:node-deep-equal">
+        <t:param name="node1" select="/node/@attribute" as="node()">
+          <node attribute="foobar"/>
+        </t:param>
+        <t:param name="node2" select="/node/@attribute" as="node()">
+          <node attribute="foobar"/>
+        </t:param>
+      </t:call>
+      <t:expect label="the result" test="$x:result eq true()"/>
+    </t:scenario>
 
-      <t:scenario label="Identical Sequences">
-         <t:call function="test:deep-equal">
-            <t:param select="1, 2"/>
-            <t:param select="1, 2"/>
-         </t:call>
-         <t:expect label="the result" test="$x:result eq true()"/>
-         <t:expect label="the result" assert="$x:result eq true()"/>
+    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L246-L372">
+      <!-- TODO: Most of these scenarios do not run on XQuery (error XPDY0002 and XPDY0050) -->
+
+      <t:scenario label="Identical Elements">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result/>
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result/>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
       </t:scenario>
 
-      <t:scenario label="Non-Identical Sequences">
-         <t:call function="test:deep-equal">
-            <t:param select="1, 2"/>
-            <t:param select="1, 3"/>
-         </t:call>
-         <t:expect label="the result" test="$x:result eq false()"/>
-         <t:expect label="the result" assert="$x:result eq false()"/>
+      <t:scenario label="Elements with Identical Attributes in Different Orders">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result a="1" b="2" />
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result b="2" a="1" />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
       </t:scenario>
 
-      <t:scenario label="Sequences with Same Items in Different Orders">
-         <t:call function="test:deep-equal">
-            <t:param select="1, 2"/>
-            <t:param select="2, 1"/>
-         </t:call>
-         <t:expect label="the result" test="$x:result eq false()"/>
-         <t:expect label="the result" assert="$x:result eq false()"/>
+      <t:scenario label="Elements with Identical Children">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result><child1/><child2/></result>
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result><child1/><child2/></result>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
       </t:scenario>
 
-      <t:scenario label="Empty Sequences">
-         <t:call function="test:deep-equal">
-            <t:param select="()"/>
-            <t:param select="()"/>
-         </t:call>
-         <t:expect label="the result" test="$x:result eq true()"/>
-         <t:expect label="the result" assert="$x:result eq true()"/>
+      <t:scenario label="Identical Attributes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*/@a">
+            <result a="1" />
+          </t:param>
+          <t:param name="node2" select="/*/@a">
+            <result a="1" />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
       </t:scenario>
 
-      <t:scenario label="One empty sequence">
-         <t:call function="test:deep-equal">
-            <t:param select="()"/>
-            <t:param select="1"/>
-         </t:call>
-         <t:expect label="the result" test="$x:result eq false()"/>
-         <t:expect label="the result" assert="$x:result eq false()"/>
+      <t:scenario label="Identical Document Nodes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/">
+            <result />
+          </t:param>
+          <t:param name="node2" select="/">
+            <result />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
       </t:scenario>
 
-      <t:scenario label="A text node and several text nodes">
-         <t:variable name="elems" as="element()+">
-            <e>foo</e>
-            <e>bar</e>
-         </t:variable>
-         <t:call function="test:deep-equal">
-            <t:param as="text()">foobar</t:param>
-            <t:param select="$elems/text()"/>
-         </t:call>
-         <t:expect label="the result" test="$x:result eq true()"/>
-         <t:expect label="the result" assert="$x:result eq true()"/>
+      <t:scenario label="Identical Text Nodes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*/text()">
+            <result>Test</result>
+          </t:param>
+          <t:param name="node2" select="/*/text()">
+            <result>Test</result>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
       </t:scenario>
 
-   </t:scenario>
+      <t:scenario label="Identical Comments">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/comment()">
+            <!-- Comment -->
+            <doc />
+          </t:param>
+          <t:param name="node2" select="/comment()">
+            <!-- Comment -->
+            <doc />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
 
+      <t:scenario label="Identical Processing Instructions">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/processing-instruction()">
+            <?pi data?>
+            <doc />
+          </t:param>
+          <t:param name="node2" select="/processing-instruction()">
+            <?pi data?>
+            <doc />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing text</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2">
+            <foo>foo</foo>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing mixed content</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2">
+             <foo>foo<bar />foo</foo>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing attribute values</t:label>
+        <t:call function="test:node-deep-equal">
+         <t:param name="node1" select="/foo/@bar">
+           <foo bar="..." />
+         </t:param>
+         <t:param name="node2" select="/foo/@bar">
+           <foo bar="bar" />
+         </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing empty content</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/foo">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2" select="/foo">
+            <foo />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+    </t:scenario>
+
+  </t:scenario>
+
+  <!--
+    Function test:sorted-children
+  -->
+  <t:scenario label="test:sorted-children">
+
+    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L466-L477">
+
+      <t:scenario label="Original order preserved">
+        <!-- TODO: This scenario does not run on XQuery (error XPST0003) -->
+        <t:call function="test:sorted-children">
+          <t:param name="node">
+            <foo><bar /><baz /></foo>
+          </t:param>
+        </t:call>
+        <t:expect label="bar baz">
+          <bar /><baz />
+        </t:expect>
+      </t:scenario>
+
+    </t:scenario>
+
+  </t:scenario>
+
+  <!--
+    Template test:report-value
+  -->
+  <t:scenario label="test:report-value">
+
+    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L486-L550">
+      <!-- TODO: These scenarios do not run on XQuery (x:call/@template not supported for XQuery) -->
+
+      <t:scenario label="Integer">
+        <t:call template="test:report-value">
+          <t:param name="value" select="1" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of integer">
+          <t:result select="1" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="Empty Sequence">
+        <t:call template="test:report-value">
+          <t:param name="value" select="()" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of empty sequence">
+          <t:result select="()" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="String">
+        <t:call template="test:report-value">
+          <t:param name="value" select="'test'" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of string">
+          <t:result select="'test'" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="URI">
+        <t:call template="test:report-value">
+          <t:param name="value" select="xs:anyURI('test.xml')" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of xs:anyURI">
+          <t:result select="xs:anyURI('test.xml')" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="QName">
+        <t:call template="test:report-value">
+          <t:param name="value" select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of QName">
+          <t:result select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="Attributes">
+        <t:call template="test:report-value">
+          <t:param name="value" select="/*/@*" >
+            <doc a="1" b="2" />
+          </t:param>
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result containing attributes">
+          <t:result select="/*/(@* | node())">
+            <t:temp a="1" b="2" />
+          </t:result>
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="Attributes and content">
+        <t:call template="test:report-value">
+          <t:param name="value" select="/*/@*, /*/foo" >
+            <doc a="1" b="2">
+              <foo />
+            </doc>
+          </t:param>
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result containing attributes and content">
+          <t:result select="/*/(@* | node())">
+            <t:temp a="1" b="2">
+              <foo />
+            </t:temp>
+          </t:result>
+        </t:expect>
+      </t:scenario>
+
+    </t:scenario>
+
+  </t:scenario>
+
+  <!--
+    Function test:report-atomic-value
+  -->
+  <t:scenario label="test:report-atomic-value">
+
+    <!-- TODO: Many of these scenarios fail on XQuery
+        xspec/xspec#58 has not been implemented for XQuery -->
+
+    <t:scenario label="xs:integer">
+      <t:scenario label="Max of xs:unsignedLong (a subtype of xs:integer)">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:integer(18446744073709551615)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'18446744073709551615'" />
+      </t:scenario>
+
+      <t:scenario label="0">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:integer(0)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'0'" />
+      </t:scenario>
+
+      <t:scenario label="-1">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:integer(-1)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'-1'" />
+      </t:scenario>
+    </t:scenario>
+
+    <t:scenario label="xs:decimal">
+      <t:scenario label="1.2">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:decimal(1.2)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'1.2'" />
+      </t:scenario>
+
+      <t:scenario label="1">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:decimal(1)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'1.0'" />
+      </t:scenario>
+
+      <t:scenario label="0.1">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:decimal(0.1)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'0.1'" />
+      </t:scenario>
+
+      <t:scenario label="0">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:decimal(0)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'0.0'" />
+      </t:scenario>
+
+      <t:scenario label="-0.1">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:decimal(-0.1)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'-0.1'" />
+      </t:scenario>
+
+      <t:scenario label="-1">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:decimal(-1)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'-1.0'" />
+      </t:scenario>
+
+      <t:scenario label="-1.2">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:decimal(-1.2)" />
+        </t:call>
+        <t:expect label="Numeric literal" select="'-1.2'" />
+      </t:scenario>
+
+    </t:scenario>
+
+    <t:scenario label="xs:double">
+      <t:scenario label="1.234e56">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:double(1.234e56)" />
+        </t:call>
+        <t:expect label="Constructor" test="matches($x:result, 'xs:double\(''.+E.+''\)')" />
+      </t:scenario>
+
+      <t:scenario label="1">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:double(1)" />
+        </t:call>
+        <t:expect label="Constructor" select="'xs:double(''1'')'" />
+      </t:scenario>
+
+      <t:scenario label="NaN">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:double('NaN')" />
+        </t:call>
+        <t:expect label="Constructor" select="'xs:double(''NaN'')'" />
+      </t:scenario>
+
+      <t:scenario label="INF">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:double('INF')" />
+        </t:call>
+        <t:expect label="Constructor" select="'xs:double(''INF'')'" />
+      </t:scenario>
+
+      <t:scenario label="-INF">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:double('-INF')" />
+        </t:call>
+        <t:expect label="Constructor" select="'xs:double(''-INF'')'" />
+      </t:scenario>
+
+    </t:scenario>
+
+    <t:scenario label="xs:QName">
+      <t:scenario label="No namespace">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:QName('foo')" />
+        </t:call>
+        <t:expect label="Function" select="'QName('''', ''foo'')'" />
+      </t:scenario>
+
+      <t:scenario label="In namespace, with prefix">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:QName('x:foo')" />
+        </t:call>
+        <t:expect label="Function" select="'QName(''http://www.jenitennison.com/xslt/xspec'', ''x:foo'')'" />
+      </t:scenario>
+
+      <t:scenario label="In namespace, without prefix">
+        <t:call function="test:report-atomic-value">
+          <t:param select="QName('x-urn:test:report-atomic-value', 'foo')" />
+        </t:call>
+        <t:expect label="Function" select="'QName(''x-urn:test:report-atomic-value'', ''foo'')'" />
+      </t:scenario>
+    </t:scenario>
+
+    <t:scenario label="Other types that enters xsl:otherwise branch of the function">
+      <t:scenario label="xs:untypedAtomic">
+        <t:call function="test:report-atomic-value">
+          <t:param select="xs:untypedAtomic('foo')" />
+        </t:call>
+        <t:expect label="Constructor" select="'xs:untypedAtomic(''foo'')'" />
+      </t:scenario>
+    </t:scenario>
+
+ </t:scenario>
+
+  <!--
+    Function test:atom-type
+        http://www.w3.org/TR/xslt20/#built-in-types
+   -->
+  <t:scenario label="test:atom-type">
+
+    <!-- TODO: Most of these scenarios fail on XQuery
+        xspec/xspec#58 has not been implemented for XQuery -->
+
+    <t:scenario label="All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION">
+
+      <t:scenario label="xs:string">
+        <t:call function="test:atom-type">
+          <t:param select="xs:string('foo')" />
+        </t:call>
+        <t:expect label="xs:string" select="'xs:string'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:boolean">
+        <t:call function="test:atom-type">
+          <t:param select="xs:boolean('true')" />
+        </t:call>
+        <t:expect label="xs:boolean" select="'xs:boolean'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:decimal">
+        <t:call function="test:atom-type">
+          <t:param select="xs:decimal(1)" />
+        </t:call>
+        <t:expect label="xs:decimal" select="'xs:decimal'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:double">
+        <t:call function="test:atom-type">
+          <t:param select="xs:double(1)" />
+        </t:call>
+        <t:expect label="xs:double" select="'xs:double'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:float">
+        <t:call function="test:atom-type">
+          <t:param select="xs:float(1)" />
+        </t:call>
+        <t:expect label="xs:float" select="'xs:float'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:date">
+        <t:call function="test:atom-type">
+          <t:param select="xs:date('1111-11-11')" />
+        </t:call>
+        <t:expect label="xs:date" select="'xs:date'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:time">
+        <t:call function="test:atom-type">
+          <t:param select="xs:time('11:11:11')" />
+        </t:call>
+        <t:expect label="xs:time" select="'xs:time'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:dateTime">
+        <t:call function="test:atom-type">
+          <t:param select="xs:dateTime('1111-11-11T11:11:11')" />
+        </t:call>
+        <t:expect label="xs:dateTime" select="'xs:dateTime'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:duration">
+        <t:call function="test:atom-type">
+          <t:param select="xs:duration('PT1S')" />
+        </t:call>
+        <t:expect label="xs:duration" select="'xs:duration'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:QName">
+        <t:call function="test:atom-type">
+          <t:param select="xs:QName('foo')" />
+        </t:call>
+        <t:expect label="xs:QName" select="'xs:QName'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:anyURI">
+        <t:call function="test:atom-type">
+          <t:param select="xs:anyURI('foo')" />
+        </t:call>
+        <t:expect label="xs:anyURI" select="'xs:anyURI'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:gDay">
+        <t:call function="test:atom-type">
+          <t:param select="xs:gDay('---11')" />
+        </t:call>
+        <t:expect label="xs:gDay" select="'xs:gDay'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:gMonthDay">
+        <t:call function="test:atom-type">
+          <t:param select="xs:gMonthDay('--11-11')" />
+        </t:call>
+        <t:expect label="xs:gMonthDay" select="'xs:gMonthDay'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:gMonth">
+        <t:call function="test:atom-type">
+          <t:param select="xs:gMonth('--11')" />
+        </t:call>
+        <t:expect label="xs:gMonth" select="'xs:gMonth'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:gYearMonth">
+        <t:call function="test:atom-type">
+          <t:param select="xs:gYearMonth('1111-11')" />
+        </t:call>
+        <t:expect label="xs:gYearMonth" select="'xs:gYearMonth'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:gYear">
+        <t:call function="test:atom-type">
+          <t:param select="xs:gYear('1111')" />
+        </t:call>
+        <t:expect label="xs:gYear" select="'xs:gYear'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:base64Binary">
+        <t:call function="test:atom-type">
+          <t:param select="xs:base64Binary(xs:hexBinary('11'))" />
+        </t:call>
+        <t:expect label="xs:base64Binary" select="'xs:base64Binary'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:hexBinary">
+        <t:call function="test:atom-type">
+          <t:param select="xs:hexBinary('11')" />
+        </t:call>
+        <t:expect label="xs:hexBinary" select="'xs:hexBinary'"/>
+      </t:scenario>
+
+    </t:scenario>
+
+    <t:scenario label="The derived atomic type xs:integer defined in [XML Schema Part 2]">
+
+      <t:scenario label="xs:integer">
+        <t:call function="test:atom-type">
+          <t:param select="xs:integer(1)" />
+        </t:call>
+        <t:expect label="xs:integer" select="'xs:integer'"/>
+      </t:scenario>
+
+    </t:scenario>
+
+    <!-- The types xs:anyType and xs:anySimpleType: Not atomic -->
+
+    <t:scenario label="The following types defined in [XPath 2.0]">
+
+      <t:scenario label="xs:yearMonthDuration">
+        <t:call function="test:atom-type">
+          <t:param select="xs:yearMonthDuration('P1M')" />
+        </t:call>
+        <t:expect label="xs:yearMonthDuration" select="'xs:yearMonthDuration'"/>
+      </t:scenario>
+
+      <t:scenario label="xs:dayTimeDuration">
+        <t:call function="test:atom-type">
+          <t:param select="xs:dayTimeDuration('PT1S')" />
+        </t:call>
+        <t:expect label="xs:dayTimeDuration" select="'xs:dayTimeDuration'"/>
+      </t:scenario>
+
+      <!-- xs:anyAtomicType: Abstract -->
+
+      <!-- xs:untyped: Not atomic -->
+
+      <t:scenario label="xs:untypedAtomic">
+        <t:call function="test:atom-type">
+          <t:param select="xs:untypedAtomic('foo')" />
+        </t:call>
+        <t:expect label="xs:untypedAtomic" select="'xs:untypedAtomic'"/>
+      </t:scenario>
+
+    </t:scenario>
+
+  </t:scenario>
 </t:description>
-
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
-<!--                                                                       -->
-<!-- Copyright (c) 2010 Jeni Tennsion                                      -->
-<!--                                                                       -->
-<!-- The contents of this file are subject to the MIT License (see the URI -->
-<!-- http://www.opensource.org/licenses/mit-license.php for details).      -->
-<!--                                                                       -->
-<!-- Permission is hereby granted, free of charge, to any person obtaining -->
-<!-- a copy of this software and associated documentation files (the       -->
-<!-- "Software"), to deal in the Software without restriction, including   -->
-<!-- without limitation the rights to use, copy, modify, merge, publish,   -->
-<!-- distribute, sublicense, and/or sell copies of the Software, and to    -->
-<!-- permit persons to whom the Software is furnished to do so, subject to -->
-<!-- the following conditions:                                             -->
-<!--                                                                       -->
-<!-- The above copyright notice and this permission notice shall be        -->
-<!-- included in all copies or substantial portions of the Software.       -->
-<!--                                                                       -->
-<!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       -->
-<!-- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF    -->
-<!-- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.-->
-<!-- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  -->
-<!-- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,  -->
-<!-- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE     -->
-<!-- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

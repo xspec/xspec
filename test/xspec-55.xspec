@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/compiler/generate-tests-utils.xsl"
+	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="test:report-value with xs:decimal">
+		<x:call template="test:report-value">
+			<x:param name="value" select="xs:decimal('1')" />
+			<x:param name="wrapper-name" select="'x:expect'" />
+			<x:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+		</x:call>
+		<x:expect label="Reports as numeric literal of decimal" select="'1.0'"
+			test="string(x:expect/@select)" />
+	</x:scenario>
+
+	<x:scenario label="test:report-value with xs:double">
+		<x:call template="test:report-value">
+			<x:param name="value" select="xs:double('1')" />
+			<x:param name="wrapper-name" select="'x:expect'" />
+			<x:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+		</x:call>
+		<x:expect label="Reports as constructor of double" select="'xs:double(''1'')'"
+			test="string(x:expect/@select)" />
+	</x:scenario>
+
+	<x:scenario label="test:report-value with xs:integer">
+		<x:call template="test:report-value">
+			<x:param name="value" select="xs:integer('1')" />
+			<x:param name="wrapper-name" select="'x:expect'" />
+			<x:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+		</x:call>
+		<x:expect label="Reports as numeric literal of integer" select="'1'"
+			test="string(x:expect/@select)" />
+	</x:scenario>
+</x:description>

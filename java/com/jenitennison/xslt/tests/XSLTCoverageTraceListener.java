@@ -1,17 +1,18 @@
 /****************************************************************************/
 /*  File:       XSLTCoverageTraceListener.java                              */
-/*  Author:     Jeni Tennsion                                               */
-/*  URI:        http://xspec.googlecode.com/                                */
+/*  Author:     Jeni Tennison                                               */
+/*  URI:        https://github.com/expath/xspec/                            */
 /*  Tags:                                                                   */
-/*    Copyright (c) 2008, 2010 (see end of file.)                           */
+/*  Copyright (c) 2008-2016 (see end of file.)                              */
 /* ------------------------------------------------------------------------ */
 
 
 package com.jenitennison.xslt.tests;
 
-import net.sf.saxon.trace.TraceListener;
+import net.sf.saxon.lib.TraceListener;
 import net.sf.saxon.trace.InstructionInfo;
-import net.sf.saxon.trace.Location;
+import net.sf.saxon.trace.LocationKind;
+import net.sf.saxon.Controller;
 import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.om.Item;
 import net.sf.saxon.om.StandardNames;
@@ -19,6 +20,7 @@ import java.lang.String;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.io.PrintStream;
+import net.sf.saxon.lib.Logger;
 
 /**
  * A Simple trace listener for XSLT that writes messages (by default) to System.err
@@ -29,16 +31,27 @@ public class XSLTCoverageTraceListener implements TraceListener {
   private PrintStream out = System.err;
   private String xspecStylesheet = null;
   private String utilsStylesheet = null;
-  private HashMap modules = new HashMap();
-  private HashSet constructs = new HashSet();
+  private HashMap<String, Integer> modules = new HashMap<String, Integer>();
+  private HashSet<Integer> constructs = new HashSet<Integer>();
   private int moduleCount = 0;
+  
+  public XSLTCoverageTraceListener() {
+	System.out.println("****************************************");
+  }
 
   /**
   * Method called at the start of execution, that is, when the run-time transformation starts
   */
 
-  public void open() {
+  public void open(Controller c) {
     out.println("<trace>");
+	System.out.println("controller="+c);
+  }
+
+  /**  
+  * Method that implements the output destination for SaxonEE/PE 9.7
+  */
+  public void setOutputDestination(Logger logger) {
   }
 
   /**
@@ -85,40 +98,37 @@ public class XSLTCoverageTraceListener implements TraceListener {
           construct = StandardNames.getClarkName(constructType);
         } else {
           switch (constructType) {
-            case Location.LITERAL_RESULT_ELEMENT:
+            case LocationKind.LITERAL_RESULT_ELEMENT:
               construct = "LITERAL_RESULT_ELEMENT";
               break;
-            case Location.LITERAL_RESULT_ATTRIBUTE:
+            case LocationKind.LITERAL_RESULT_ATTRIBUTE:
               construct = "LITERAL_RESULT_ATTRIBUTE";
               break;
-            case Location.EXTENSION_INSTRUCTION:
+            case LocationKind.EXTENSION_INSTRUCTION:
               construct = "EXTENSION_INSTRUCTION";
               break;
-            case Location.TEMPLATE:
+            case LocationKind.TEMPLATE:
               construct = "TEMPLATE";
               break;
-            case Location.FUNCTION_CALL:
+            case LocationKind.FUNCTION_CALL:
               construct = "FUNCTION_CALL";
               break;
-            case Location.BUILT_IN_TEMPLATE:
-              construct = "BUILT_IN_TEMPLATE";
-              break;
-            case Location.XPATH_IN_XSLT:
+            case LocationKind.XPATH_IN_XSLT:
               construct = "XPATH_IN_XSLT";
               break;
-            case Location.LET_EXPRESSION:
+            case LocationKind.LET_EXPRESSION:
               construct = "LET_EXPRESSION";
               break;
-            case Location.TRACE_CALL:
+            case LocationKind.TRACE_CALL:
               construct = "TRACE_CALL";
               break;
-            case Location.SAXON_EVALUATE:
+            case LocationKind.SAXON_EVALUATE:
               construct = "SAXON_EVALUATE";
               break;
-            case Location.FUNCTION:
+            case LocationKind.FUNCTION:
               construct = "FUNCTION";
               break;
-            case Location.XPATH_EXPRESSION:
+            case LocationKind.XPATH_EXPRESSION:
               construct = "XPATH_EXPRESSION";
               break;
             default:
@@ -196,4 +206,4 @@ public class XSLTCoverageTraceListener implements TraceListener {
 //
 // Contributor(s): Heavily modified by Michael Kay
 //                 Methods implemented by Jeni Tennison
-//
+//                 Extended for Saxon 9.7 by Sandro Cirulli, github.com/cirulls

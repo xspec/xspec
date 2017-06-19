@@ -2,7 +2,6 @@
 <!-- ===================================================================== -->
 <!--  File:       format-utils.xsl                                         -->
 <!--  Author:     Jeni Tennsion                                            -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)          -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -15,7 +14,7 @@
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                exclude-result-prefixes="test xs">
+                exclude-result-prefixes="test xs x pkg">
 
 <xsl:import href="../compiler/generate-tests-utils.xsl" />
 

@@ -1,7 +1,6 @@
 (::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::)
 (:  File:       test/xspec-tested.xql                                       :)
 (:  Author:     Jeni Tennsion                                               :)
-(:  URI:        http://xspec.googlecode.com/                                :)
 (:  Tags:                                                                   :)
 (:    Copyright (c) 2010 Jeni Tennsion (see end of file.)                   :)
 (: ------------------------------------------------------------------------ :)

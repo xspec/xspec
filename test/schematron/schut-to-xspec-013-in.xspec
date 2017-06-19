@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schut-to-xspec-test.sch">
+    <x:param name="phase" select="concat('P','1')"/>
+    <x:scenario label="Schematron test scenario"/>
+</x:description>

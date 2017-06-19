@@ -2,7 +2,6 @@
 <!-- ===================================================================== -->
 <!--  File:       generate-xspec-tests.xsl                                 -->
 <!--  Author:     Jeni Tennsion                                            -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)          -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -33,8 +32,9 @@
 
 <xsl:variable name="xspec-ns" select="'http://www.jenitennison.com/xslt/xspec'"/>
 
+<xsl:variable name="apostrophe">'</xsl:variable>
 <xsl:variable name="stylesheet-uri" as="xs:anyURI" 
-  select="resolve-uri(/x:description/@stylesheet, base-uri(/x:description))" />  
+  select="resolve-uri(/x:description/@stylesheet, replace(base-uri(/x:description), $apostrophe, '%27'))" />  
 
 <xsl:variable name="stylesheet" as="document-node()" 
   select="doc($stylesheet-uri)" />
@@ -48,11 +48,12 @@
   
 <xsl:template match="x:description" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
-  <stylesheet version="2.0"
+  <stylesheet version="{( @xslt-version, '2.0' )[1]}"
 	      exclude-result-prefixes="pkg impl">
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
   	<import href="{$stylesheet-uri}" />
   	<import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
+    <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
     <!-- This namespace alias is used for when the testing process needs to test
          the generation of XSLT! -->
     <namespace-alias stylesheet-prefix="__x" result-prefix="xsl" />
@@ -208,7 +209,11 @@
                   <!-- Set up the $context variable -->
                   <xsl:apply-templates select="$context" mode="x:setup-context"/>
                   <!-- Switch to the context and call the template -->
+<<<<<<< HEAD
                   <for-each select="$impl:context"><!-- MJD 2015-11-25: changed from $context to fix https://github.com/expath/xspec/issues/66 -->
+=======
+                  <for-each select="$impl:context">
+>>>>>>> upstream/master
                     <xsl:copy-of select="$template-call" />
                   </for-each>
                 </xsl:when>
@@ -285,123 +290,8 @@
   <xsl:call-template name="x:compile-scenarios"/>
 </xsl:template>
 
-<!--
-    Generate the following:
-        
-        TODO: Review if it is still ok, regarding the below new description...
 
-        <template name="x:...">
-           <param name="x:result" required="yes"/>       # if not pending
-           <message>
-              Running (pending?) assertion...
-           </message>
-           # if not pending
-              <variable name="impl:expected" ...>   # depend on content, @href and @select
-              # if @context, change the context to the result of evaluating it
-              #   if no @context, the result is the context (if exactly one item)
-              # if @assert, evaluate it, the result must be boolean
-              # if @test, evaluate it with result as context node then
-              #   if it is not a boolean, compare it to $impl:expected
-              # if no @test, compare result to $impl:expected
-           # fi
-           <x:test>
-              ...
-           </x:test>
-        </template>
-    
-    By assertion
-    @assert
-    @assert, @context
-
-    By comparing nodes
-    content
-    content, @context
-
-    By comparing atomic values
-    @select
-    @select, @context
-
-    Old-school (result wrapped into doc node)
-    @test             (= @assert)
-    @test, @context   (= @assert, @context)
-    content, @test    (= content, @context)
-      -> actually, that's not exctly what has been implemented
-         now we evaluate @test, and if it results to one boolean,
-         then that's an assert, if not it is compared to content
-
-    Context: if multiple items, loop as current item ($x:result still full result)
-      - with @assert, assertion eval'd once for each
-      - with content, compare the whole sequence
-      - with @select, compare the whole sequence
-    
-    IF @context
-      set context (@context)
-    ELIF @test AND content
-      set context (@test)
-    ELSE
-      set context ($result)
-    
-    IF @assert
-      assert (@assert)
-    ELIF content
-      compare (content)
-    ELIF @select
-      compare (@select)
-    ELIF @test AND content
-      compare (content)
-    ELIF @test
-      assert (@test)
-    
-    set context (@context):
-      variable with-context := true
-      variable context
-        if count($result) <= 1
-          eval @context with $result as context
-        else
-          eval @context without any context
-        -> must be ONE item
-    
-    set context (@test):
-      variable with-context := true
-      variable context
-        like set context (@context), but if node()+, then wrap in doc node
-    
-    set context ($result):
-      variable with-context := true
-      variable context
-        no context                  if count($result) ne 1
-        like set context (@context) if no @test
-        like set context (@test)    if @test
-
-    no context:
-      variable with-context := false
-      variable context      := ()
-    
-    assert (@assert):
-      if $with-context
-        evaluate assert with $context
-      else
-        evaluate assert without context
-    
-    compare (content):
-      if $with-context
-        compare $context to content
-      else
-        compare $result to content
-    
-    compare (@select):
-      if $with-context
-        compare $context to content
-      else
-        compare $result to content
-    
-    assert (@test):
-      if $with-context
-        evaluate @test with $context
-      else
-        evaluate @test without context
--->
-<xsl:template name="x:output-expect-FIXME-TOREMOVE">
+<xsl:template name="x:output-expect">
   <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
   <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
   <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
@@ -438,9 +328,14 @@
                    Have to experiment a bit to see if that really is the case.                   
                    TODO: To remove. Use directly $x:result instead.  See issue 14. -->
               <when test="$x:result instance of node()+">
-                <document>
-                  <copy-of select="$x:result" />
-                </document>
+                <!-- $impl:test-items-doc aims to create an implicit document node as described
+                     in http://www.w3.org/TR/xslt20/#temporary-trees
+                     So its "variable" element must not have @as or @select.
+                     Do not use "document" or "copy-of" element: xspec/xspec#47 -->
+                <variable name="impl:test-items-doc">
+                  <sequence select="$x:result" />
+                </variable>
+                <sequence select="$impl:test-items-doc treat as document-node()" />
               </when>
               <otherwise>
                 <sequence select="$x:result" />
@@ -464,7 +359,7 @@
           <variable name="impl:boolean-test" as="xs:boolean"
             select="$impl:test-result instance of xs:boolean" />
           <variable name="impl:successful" as="xs:boolean"
-            select="if ($impl:boolean-test) then $impl:test-result
+            select="if ($impl:boolean-test) then $impl:test-result cast as xs:boolean
                     else test:deep-equal($impl:expected, $impl:test-result, {$version})" />
         </xsl:when>
         <xsl:otherwise>
@@ -508,248 +403,6 @@
  </template>
 </xsl:template>
 
- <xsl:template name="x:output-expect">
-   <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
-   <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
-   <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
-   <xsl:param name="params"  required="yes"              as="element(param)*"/>
-   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
-   <template name="x:{generate-id()}">
-      <xsl:for-each select="$params">
-         <param name="{ @name }" required="{ @required }"/>
-      </xsl:for-each>
-      <message>
-         <xsl:if test="$pending-p">
-            <xsl:text>PENDING: </xsl:text>
-            <xsl:if test="normalize-space($pending) != ''">
-               <xsl:text>(</xsl:text>
-               <xsl:value-of select="normalize-space($pending)"/>
-               <xsl:text>) </xsl:text>
-            </xsl:if>
-         </xsl:if>
-         <xsl:value-of select="normalize-space(x:label(.))"/>
-      </message>
-      <xsl:variable name="is-assert" select="empty(node()|@select)"/>
-      <xsl:if test="not($pending-p)">
-         <xsl:variable name="version" as="xs:double" select="
-             ( ancestor-or-self::*[@xslt-version]/@xslt-version, 2.0 )[1]"/>
-
-         <!--
-             CONTEXT
-             
-             IF @context
-               set context (@context)
-             ELIF @test AND content
-               set context (@test)
-             ELIF count($result) = 1
-               set context ($result)
-             ELSE
-               no context
-         -->
-         <xsl:choose>
-            <xsl:when test="exists(@context)">
-               <variable name="impl:with-context" select="true()"/>
-               <variable name="impl:context" as="item()?">
-                  <choose>
-                     <!-- aka "count($x:result) le 1" (so if empty, context is empty too) -->
-                     <when test="empty($x:result[2])">
-                        <for-each select="$x:result">
-                           <sequence select="{ @context }"/>
-                        </for-each>
-                     </when>
-                     <!-- when count($x:result) ge 2 -->
-                     <otherwise>
-                        <!-- no context node set here -->
-                        <sequence select="{ @context }"/>
-                     </otherwise>
-                  </choose>
-               </variable>
-            </xsl:when>
-            <xsl:when test="exists(@test) and exists(node())">
-               <variable name="impl:with-context" select="true()"/>
-               <variable name="impl:context-tmp" as="item()*">
-                  <choose>
-                     <!-- aka "count($x:result) le 1" (so if empty, context is empty too) -->
-                     <when test="empty($x:result[2])">
-                        <for-each select="$x:result">
-                           <sequence select="{ @test }"/>
-                        </for-each>
-                     </when>
-                     <!-- when count($x:result) ge 2 -->
-                     <otherwise>
-                        <!-- no context node set here -->
-                        <sequence select="{ @test }"/>
-                     </otherwise>
-                  </choose>
-               </variable>
-               <variable name="impl:context" as="item()?">
-                  <choose>
-                     <when test="$impl:context-tmp instance of node()+">
-                        <document>
-                           <sequence select="$impl:context-tmp"/>
-                        </document>
-                     </when>
-                     <otherwise>
-                        <sequence select="$impl:context-tmp"/>
-                     </otherwise>
-                  </choose>
-               </variable>
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:choose>
-                  <xsl:when test="exists(@test)">
-                     <variable name="impl:just-nodes" select="
-                         $x:result instance of node()+"/>
-                     <!-- aka "count($x:result) eq 1 or ..." -->
-                     <variable name="impl:with-context" select="
-                         exists($x:result) and empty($x:result[2]) or $impl:just-nodes"/>
-                     <variable name="impl:context" as="item()?">
-                        <choose>
-                           <when test="$impl:just-nodes">
-                              <document>
-                                 <sequence select="$x:result"/>
-                              </document>
-                           </when>
-                           <when test="$impl:with-context">
-                              <sequence select="$x:result"/>
-                           </when>
-                           <otherwise/>
-                        </choose>
-                     </variable>
-                  </xsl:when>
-                  <xsl:otherwise>
-                     <!-- aka "count($x:result) eq 1" -->
-                     <variable name="impl:with-context" select="
-                         exists($x:result) and empty($x:result[2])"/>
-                     <variable name="impl:context" as="item()?">
-                        <choose>
-                           <when test="$impl:with-context">
-                              <sequence select="$x:result"/>
-                           </when>
-                           <otherwise/>
-                        </choose>
-                     </variable>
-                  </xsl:otherwise>
-               </xsl:choose>
-            </xsl:otherwise>
-         </xsl:choose>
-
-         <!--
-             ASSERT & COMPARE
-             
-             IF content|@select
-               compare (content|@select)
-             ELIF @assert|@test
-               assert (@assert|@test)
-             ELSE
-               compilation error
-
-             every branch of this xsl:choose generates the variable $impl:successful,
-             which is a boolean with the outcome of the test case (either passed or
-             failed), and which is used later on in the generated code
-         -->
-         <xsl:choose>
-            <xsl:when test="not($is-assert)">
-               <!-- check there is exactly one of node()|@select -->
-               <xsl:if test="exists(node()) and exists(@select)">
-                  <xsl:message terminate="yes">
-                     <xsl:text>ERROR in scenario "</xsl:text>
-                     <xsl:value-of select="x:label(.)"/>
-                     <xsl:text>": can't have both @select and context at the same time</xsl:text>
-                  </xsl:message>
-               </xsl:if>
-               <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-                  <xsl:with-param name="var" select="'impl:expected'"/>
-               </xsl:apply-templates>
-               <variable name="impl:successful" as="xs:boolean" select="
-                   test:deep-equal(
-                     $impl:expected,
-                     if ( $impl:with-context ) then $impl:context else $x:result,
-                     { $version })"/>
-            </xsl:when>
-            <xsl:when test="exists(@assert|@test)">
-               <!-- check there is exactly one of @assert|@test -->
-               <xsl:if test="exists(@assert) and exists(@test)">
-                  <xsl:message terminate="yes">
-                     <xsl:text>ERROR in scenario "</xsl:text>
-                     <xsl:value-of select="x:label(.)"/>
-                     <xsl:text>": can't have both @context and @test at the same time</xsl:text>
-                  </xsl:message>
-               </xsl:if>
-               <variable name="impl:assert" as="item()*">
-                  <choose>
-                     <when test="$impl:with-context">
-                        <for-each select="$impl:context">
-                           <sequence select="{ @assert|@test }"/>
-                        </for-each>
-                     </when>
-                     <otherwise>
-                        <sequence select="{ @assert|@test }"/>
-                     </otherwise>
-                  </choose>
-               </variable>
-               <if test="not($impl:assert instance of xs:boolean)">
-                  <!-- TODO: For now, generate an error, make the test fails instead? -->
-                  <message terminate="yes">
-                     <xsl:text>ERROR in scenario "</xsl:text>
-                     <xsl:value-of select="x:label(.)"/>
-                     <!-- TODO: Generate the SequenceType of $impl:assert. -->
-                     <xsl:text>": @assert|@test did not return a boolean</xsl:text>
-                  </message>
-               </if>
-               <variable name="impl:successful" as="xs:boolean" select="$impl:assert"/>
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:message terminate="yes">
-                  <xsl:text>ERROR in scenario "</xsl:text>
-                  <xsl:value-of select="x:label(.)"/>
-                  <xsl:text>": unknown expect combination</xsl:text>
-                  <xsl:text>&#10;    content : </xsl:text>
-                  <xsl:value-of select="exists(node())"/>
-                  <xsl:text>&#10;    @context: </xsl:text>
-                  <xsl:value-of select="exists(@context)"/>
-                  <xsl:text>&#10;    @assert : </xsl:text>
-                  <xsl:value-of select="exists(@assert)"/>
-                  <xsl:text>&#10;    @select : </xsl:text>
-                  <xsl:value-of select="exists(@select)"/>
-                  <xsl:text>&#10;    @test   : </xsl:text>
-                  <xsl:value-of select="exists(@test)"/>
-               </xsl:message>
-            </xsl:otherwise>
-         </xsl:choose>
-         <if test="not($impl:successful)">
-            <message>
-               <xsl:text>      FAILED</xsl:text>
-            </message>
-         </if>
-      </xsl:if>
-      <x:test>
-         <xsl:choose>
-            <xsl:when test="$pending-p">
-               <xsl:attribute name="pending" select="$pending"/>
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:attribute name="successful" select="'{ $impl:successful }'"/>
-            </xsl:otherwise>
-         </xsl:choose>
-         <xsl:sequence select="x:label(.)"/>
-         <xsl:if test="not($pending-p)">
-            <call-template name="test:report-value">
-               <with-param name="value"        select="$x:result"/>
-               <with-param name="wrapper-name" select="'x:result'"/>
-               <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
-            </call-template>
-            <xsl:if test="not($is-assert)">
-               <call-template name="test:report-value">
-                  <with-param name="value"        select="$impl:expected"/>
-                  <with-param name="wrapper-name" select="'x:expect'"/>
-                  <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
-               </call-template>
-            </xsl:if>
-         </xsl:if>
-      </x:test>
-   </template>
-</xsl:template>
 
 <!-- *** x:generate-declarations *** -->
 <!-- Code to generate parameter declarations -->

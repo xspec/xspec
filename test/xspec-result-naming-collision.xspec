@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xspec-17="https://github.com/xspec/xspec/pull/17" stylesheet="xspec-result-naming-collision.xslt">
+  <!-- https://github.com/expath/xspec/issues/67
+       test result naming collision when a function which reads a document containing more than 1000 node -->
+  <x:scenario label="scenario 1">
+    <x:call function="xspec-17:read-document"/>
+    <x:expect>...</x:expect>
+  </x:scenario>
+  <x:scenario label="scenario 2">
+    <x:call function="xspec-17:read-document"/>
+    <x:expect>...</x:expect>
+  </x:scenario>
+</x:description>

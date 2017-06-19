@@ -2,7 +2,6 @@
 <!-- ===================================================================== -->
 <!--  File:       coverage-report.xsl                                      -->
 <!--  Author:     Jeni Tennsion                                            -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)          -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

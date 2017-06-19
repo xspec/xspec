@@ -2,18 +2,12 @@
 <!-- ===================================================================== -->
 <!--  File:       find-examples.xml                                        -->
 <!--  Author:     Jeni Tennsion                                            -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)          -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
-<?oxygen RNGSchema="find-examples.rnc" type="compact"?>
 <x:scan xmlns:x="http://www.jenitennison.com/xslt/xspec">
   <x:collection>?select=*.xml&amp;recurse=yes&amp;strip-space=yes</x:collection>
 </x:scan>
-
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->

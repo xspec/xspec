@@ -237,42 +237,56 @@
       <p:input  port="source"     primary="true"/>
       <p:input  port="parameters" kind="parameter"/>
       <p:output port="result"     primary="true"/>
-      <!-- if xspec-home is not passed, then use packaging public URI -->
-      <p:option name="xspec-home" select="''"/>
-      <!-- either the public URI, or resolved from xspec-home if packaging not supported -->
-      <p:variable name="formatter" select="
-          if ( $xspec-home ) then
-            resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)
-          else
-            'http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl'"/>
-      <!-- log the report? -->
-      <t:log if-set="log-xml-report">
-         <p:input port="parameters">
-            <p:pipe step="format" port="parameters"/>
-         </p:input>
-      </t:log>
-      <!-- if there is a report, format it, or it is an error -->
-      <p:choose>
-         <p:when test="exists(/t:report)">
-            <p:load name="formatter" pkg:kind="xslt">
-               <p:with-option name="href" select="$formatter"/>
-            </p:load>
-            <p:xslt name="format-report">
-               <p:input port="source">
-                  <p:pipe step="format" port="source"/>
-               </p:input>
-               <p:input port="stylesheet">
-                  <p:pipe step="formatter" port="result"/>
-               </p:input>
-               <p:input port="parameters">
-                  <p:empty/>
-               </p:input>
-            </p:xslt>
-         </p:when>
-         <p:otherwise>
-            <p:error code="t:ERR001"/>
-         </p:otherwise>
-      </p:choose>
+      <!-- retrieve the params -->
+      <t:parameters name="params"/>
+      <p:group>
+        <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
+             is not supported -->
+         <p:variable name="xspec-home" select="
+             /c:param-set/c:param[@name eq 'xspec-home']/@value">
+            <p:pipe step="params" port="parameters"/>
+         </p:variable>
+         <!-- either the public URI, or resolved from xspec-home if packaging not supported -->
+         <p:variable name="formatter" select="
+             if ( $xspec-home ) then
+               resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)
+             else
+               'http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl'"/>
+         <!-- log the report? -->
+         <t:log if-set="log-xml-report">
+            <p:input port="parameters">
+               <p:pipe step="format" port="parameters"/>
+            </p:input>
+         </t:log>
+         <!-- if there is a report, format it, or it is an error -->
+         <p:choose>
+            <p:when test="exists(/t:report)">
+               <p:load name="formatter" pkg:kind="xslt">
+                  <p:with-option name="href" select="$formatter"/>
+               </p:load>
+               <p:xslt name="format-report">
+                  <p:input port="source">
+                     <p:pipe step="format" port="source"/>
+                  </p:input>
+                  <p:input port="stylesheet">
+                     <p:pipe step="formatter" port="result"/>
+                  </p:input>
+                  <p:input port="parameters">
+                     <p:empty/>
+                  </p:input>
+               </p:xslt>
+            </p:when>
+            <p:otherwise>
+               <p:error code="t:ERR001">
+                  <p:input port="source">
+                     <p:inline>
+                        <message>Not a t:report document</message>
+                     </p:inline>
+                  </p:input>
+               </p:error>
+            </p:otherwise>
+         </p:choose>
+      </p:group>
       <!-- log the report? -->
       <t:log if-set="log-report">
          <p:input port="parameters">

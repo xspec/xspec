@@ -1,0 +1,7 @@
+target/
+.idea/
+*.iml
+test/result.log
+**/xspec/*
+*-result.html
+*-report.html

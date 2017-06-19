@@ -2,51 +2,33 @@
 <!-- ===================================================================== -->
 <!--  File:       test/xspec-variable.xspec                                -->
 <!--  Author:     Florent Georges                                          -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
-<?oxygen RNGSchema="http://xspec.googlecode.com/svn/trunk/xspec.rnc" type="compact"?>
-
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               xmlns:my="http://example.org/ns/my"
-               query="http://example.org/ns/my"
-               query-at="xspec-tested.xql"
-               stylesheet="xspec-tested.xsl">
-
-   <t:variable name="test-data" href="xspec-variable.xml"/>
-   <t:variable name="test-3"    select="$test-data/*/test[xs:integer(@num) eq 3]"/>
-
-   <t:scenario label="call global var">
-      <t:call function="my:square">
-         <t:param select="$test-3/@num"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result eq $test-3/xs:integer(@value)"/>
-      <t:expect label="the result" assert="$x:result eq $test-3/xs:integer(@value)"/>
-   </t:scenario>
-
-   <!--
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="xspec-tested.xql" stylesheet="xspec-tested.xsl">
+  <t:variable name="test-data" href="xspec-variable.xml"/>
+  <t:variable name="test-3" select="$test-data/*/test[xs:integer(@num) eq 3]"/>
+  <t:scenario label="call global var">
+    <t:call function="my:square">
+      <t:param select="$test-3/@num"/>
+    </t:call>
+    <t:expect label="the result" test="$x:result eq $test-3/xs:integer(@value)"/>
+  </t:scenario>
+  <!--
        TODO: For now, x:call and x:context are pulled first, then
        templates are applied to other x:scenario/*.  So the order is
        not respected, and the variable declaration is compiled after
        the call/appling!
    -->
-   <t:scenario label="call local var">
-      <t:variable name="param" select="$test-3/@num"/>
-      <t:call function="my:square">
-         <t:param select="$param"/>
-      </t:call>
-      <t:variable name="result" select="$test-3/@value"/>
-      <t:expect label="the result" test="$x:result eq xs:integer($result)"/>
-      <t:expect label="the result" assert="$x:result eq xs:integer($result)"/>
-   </t:scenario>
-
+  <t:scenario label="call local var">
+    <t:variable name="param" select="$test-3/@num"/>
+    <t:call function="my:square">
+      <t:param select="$param"/>
+    </t:call>
+    <t:variable name="result" select="$test-3/@value"/>
+    <t:expect label="the result" test="$x:result eq xs:integer($result)"/>
+  </t:scenario>
 </t:description>
-
-
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/compiler/generate-tests-utils.xsl"
+	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="test:report-value with xs:untypedAtomic">
+		<x:call template="test:report-value">
+			<x:param name="value" select="xs:untypedAtomic('0123')" />
+			<x:param name="wrapper-name" select="'x:result'" />
+			<x:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+		</x:call>
+		<x:expect label="Reports xs:untypedAtomic" select="'xs:untypedAtomic(''0123'')'"
+			test="string(x:result/@select)" />
+	</x:scenario>
+
+	<x:scenario label="test:report-value with xs:hexBinary">
+		<x:call template="test:report-value">
+			<x:param name="value" select="xs:hexBinary('0123')" />
+			<x:param name="wrapper-name" select="'x:expect'" />
+			<x:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+		</x:call>
+		<x:expect label="Reports xs:hexBinary" select="'xs:hexBinary(''0123'')'"
+			test="string(x:expect/@select)" />
+	</x:scenario>
+</x:description>

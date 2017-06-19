@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="xspec-33.xsl">
+  <x:scenario label="When context contains descendant">
+    <x:context>
+      <foo>
+        <bar>
+          <baz>original-text</baz>
+        </bar>
+      </foo>
+    </x:context>
+    <x:expect label="descendant is picked up correctly using XPath in @test" test="descendant::baz">
+      <baz>original-text</baz>
+    </x:expect>
+  </x:scenario>
+</x:description>
