@@ -209,12 +209,8 @@
                   <!-- Set up the $context variable -->
                   <xsl:apply-templates select="$context" mode="x:setup-context"/>
                   <!-- Switch to the context and call the template -->
-<<<<<<< HEAD
-                  <for-each select="$impl:context"><!-- MJD 2015-11-25: changed from $context to fix https://github.com/expath/xspec/issues/66 -->
-=======
                   <for-each select="$impl:context">
->>>>>>> upstream/master
-                    <xsl:copy-of select="$template-call" />
+                  <xsl:copy-of select="$template-call" />
                   </for-each>
                 </xsl:when>
                 <xsl:otherwise>
