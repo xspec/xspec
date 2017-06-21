@@ -437,6 +437,7 @@ THE SOFTWARE.
     xmlns:exsl="http://exslt.org/common" 
     xmlns:xhtml="http://www.w3.org/1999/xhtml" 
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:oup="http://www.oup.com/schematron"
     extension-element-prefixes="exsl"
     version="2.0"
 	 >
@@ -516,7 +517,7 @@ which require a preprocess.
   which I find a bit surprising but anyway I'll use the longr faster version.
 -->
 <xsl:variable name="context-xpath">
-  <xsl:if test="$attributes='true' and parent::node() ">@*|</xsl:if>
+  <xsl:if test="$attributes='true'">@*|</xsl:if>
   <xsl:choose>
     <xsl:when test="$only-child-elements='true'">*</xsl:when>
     <xsl:when test="$visit-text='true'">node()</xsl:when>
@@ -1556,7 +1557,7 @@ which require a preprocess.
 		  </axsl:template>
 		  
 		  <!-- DPC introduce context-xpath variable -->
-		  <axsl:template match="@*|node()"
+		  <axsl:template match="*"
 				 priority="-2"
 				 mode="M{ count(preceding-sibling::*) }">
 		    <axsl:apply-templates select="{$context-xpath}" mode="M{count(preceding-sibling::*)}"/>
@@ -1680,6 +1681,9 @@ which require a preprocess.
 		</xsl:call-template>
 	</xsl:template>
 
+    <!-- OUP elements no longer required -->
+	<xsl:template match="oup:*" mode="#all"/>
+	
 	<!-- ISO TITLE -->
 	
 	<xsl:template match="iso:schema/iso:title"  priority="1">
