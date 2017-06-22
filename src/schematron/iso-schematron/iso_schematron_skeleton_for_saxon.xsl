@@ -2267,11 +2267,14 @@ which require a preprocess.
 		<xsl:variable name="attributeName" as="xs:string?" select="substring-after($xpath-without-predicates,'@')"/>
 		
 		<xsl:choose>
-			<xsl:when test="not($attributeName)">
-				<xsl:value-of select="false()"/>
+			<xsl:when test="$attributeName 
+				or matches($xpath-without-predicates, 'processing-instruction\(') 
+				or matches($xpath-without-predicates, 'text\(') 
+				or matches($xpath-without-predicates, 'comment\(')">
+				<xsl:value-of select="true()"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="true()"/>
+				<xsl:value-of select="false()"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:function>
