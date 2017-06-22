@@ -1650,23 +1650,9 @@ which require a preprocess.
 			<xsl:apply-templates/>
 			<!-- DPC introduce context-xpath and select-contexts variables -->
 			<xsl:variable name="isContextAnAttribute" as="xs:boolean">
-			  <xsl:variable name="attributeName" as="xs:string?">
-					<xsl:analyze-string select="@context" regex="^[^@\[]*?@([^\[]+)(\[.+|)$">
-						<xsl:matching-substring>
-							<xsl:value-of select="regex-group(1)"/>
-						</xsl:matching-substring>
-					</xsl:analyze-string>
-				</xsl:variable>
+			  <xsl:variable name="contexts" select="tokenize(@context,'\|')"/>
 			<xsl:choose>
-					<xsl:when test="not($attributeName)">
-						<xsl:value-of select="false()"/>
-					</xsl:when>
-					<!-- 
-						'xlink:href castable as xs:QName' returns false in Saxon 9.7  
-						Requires XSLT 3.0?
-						So instead strip out ':' and cast as xs:NCName
-					-->
-					<xsl:when test="translate($attributeName,':','') castable as xs:NCName">
+					<xsl:when test="every $c in $contexts satisfies oup:isAttribute($c)">
 						<xsl:value-of select="true()"/>
 					</xsl:when>
 					<xsl:otherwise>
@@ -2274,6 +2260,41 @@ which require a preprocess.
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	
+<xsl:function name="oup:isAttribute" as="xs:boolean">
+		<xsl:param name="xpath-expression" as="xs:string"/>
+		<xsl:variable name="xpath-without-predicates" select="oup:stripPredicates($xpath-expression)" as="xs:string?"/>
+		<xsl:variable name="attributeName" as="xs:string?" select="substring-after($xpath-without-predicates,'@')"/>
+		
+		<xsl:choose>
+			<xsl:when test="not($attributeName)">
+				<xsl:value-of select="false()"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="true()"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+	
+	<xsl:function name="oup:stripPredicates" as="xs:string?">
+		<xsl:param name="xpath-expression" as="xs:string?"/>
+		<xsl:variable name="new-xpath-expression">
+			<xsl:analyze-string select="$xpath-expression" regex="\[[^\[\]]*\]">
+				<xsl:matching-substring/>
+				<xsl:non-matching-substring>
+					<xsl:value-of select="."/>
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>	
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="contains($new-xpath-expression,'[')">
+				<xsl:value-of select="oup:stripPredicates($new-xpath-expression)"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$new-xpath-expression"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
 	
 <xhtml:div class="ErrorMessages">	
 	<!-- Where the error message contains dynamic information, the message has been split into an "a" and a "b" section.
