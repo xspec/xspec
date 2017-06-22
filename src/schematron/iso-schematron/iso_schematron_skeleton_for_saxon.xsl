@@ -2290,7 +2290,8 @@ which require a preprocess.
 			</xsl:analyze-string>	
 		</xsl:variable>
 		<xsl:choose>
-			<xsl:when test="contains($new-xpath-expression,'[')">
+			<!-- handle nested predicates -->
+			<xsl:when test="matches($new-xpath-expression,'\[[^\[\]]*\]')">
 				<xsl:value-of select="oup:stripPredicates($new-xpath-expression)"/>
 			</xsl:when>
 			<xsl:otherwise>
