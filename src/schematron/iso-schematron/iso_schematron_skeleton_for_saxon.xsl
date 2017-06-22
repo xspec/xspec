@@ -1649,7 +1649,33 @@ which require a preprocess.
 				
 			<xsl:apply-templates/>
 			<!-- DPC introduce context-xpath and select-contexts variables -->
-			<xsl:if test="not($select-contexts)">
+			<xsl:variable name="isContextAnAttribute" as="xs:boolean">
+			  <xsl:variable name="attributeName" as="xs:string?">
+					<xsl:analyze-string select="@context" regex="^[^@\[]*?@([^\[]+)(\[.+|)$">
+						<xsl:matching-substring>
+							<xsl:value-of select="regex-group(1)"/>
+						</xsl:matching-substring>
+					</xsl:analyze-string>
+				</xsl:variable>
+			<xsl:choose>
+					<xsl:when test="not($attributeName)">
+						<xsl:value-of select="false()"/>
+					</xsl:when>
+					<!-- 
+						'xlink:href castable as xs:QName' returns false in Saxon 9.7  
+						Requires XSLT 3.0?
+						So instead strip out ':' and cast as xs:NCName
+					-->
+					<xsl:when test="translate($attributeName,':','') castable as xs:NCName">
+						<xsl:value-of select="true()"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="false()"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+		<xsl:if test="not($select-contexts) 
+				and not($isContextAnAttribute)">
 			  <axsl:apply-templates select="{$context-xpath}" mode="M{count(../preceding-sibling::*)}"/>
 			</xsl:if>
 		</axsl:template>
