@@ -179,10 +179,10 @@
       <tr>
         <xsl:variable name="totals" select="x:totals(//x:scenario/x:test)"/>
         <th/>
-        <th class="totals">passed:<xsl:value-of select="$totals[1]"/></th>
-        <th class="totals">pending:<xsl:value-of select="$totals[2]"/></th>
-        <th class="totals">failed:<xsl:value-of select="$totals[3]"/></th>
-        <th class="totals">total:<xsl:value-of select="$totals[4]"/></th>
+        <th class="totals">passed:&#xa0;<xsl:value-of select="$totals[1]"/></th>
+        <th class="totals">pending:&#xa0;<xsl:value-of select="$totals[2]"/></th>
+        <th class="totals">failed:&#xa0;<xsl:value-of select="$totals[3]"/></th>
+        <th class="totals">total:&#xa0;<xsl:value-of select="$totals[4]"/></th>
       </tr>
     </thead>
     <tbody>
@@ -350,19 +350,19 @@
   <xsl:param name="labels" as="xs:boolean" select="false()" />
   <xsl:if test="$tests">
     <xsl:variable name="counts" select="x:totals($tests)"/>
-    <xsl:if test="$labels">passed:</xsl:if>
+    <xsl:if test="$labels">passed: </xsl:if>
     <xsl:value-of select="$counts[1]"/>
     <xsl:if test="$labels"><xsl:text> </xsl:text></xsl:if>
     <xsl:text>/</xsl:text>
-    <xsl:if test="$labels"> pending:</xsl:if>
+    <xsl:if test="$labels"> pending: </xsl:if>
     <xsl:value-of select="$counts[2]"/>
     <xsl:if test="$labels"><xsl:text> </xsl:text></xsl:if>
     <xsl:text>/</xsl:text>
-    <xsl:if test="$labels"> failed:</xsl:if>
+    <xsl:if test="$labels"> failed: </xsl:if>
     <xsl:value-of select="$counts[3]"/>
     <xsl:if test="$labels"><xsl:text> </xsl:text></xsl:if>
     <xsl:text>/</xsl:text>
-    <xsl:if test="$labels"> total:</xsl:if>
+    <xsl:if test="$labels"> total: </xsl:if>
     <xsl:value-of select="$counts[4]"/>
   </xsl:if>
 </xsl:template>

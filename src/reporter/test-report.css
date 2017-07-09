@@ -384,7 +384,7 @@ table { width: 95%;
 
 th { text-align: left; }
 
-th.totals { text-align: center; }
+th.totals { text-align: center; font-weight: normal; }
 
 div > table > tbody > tr > th:first-child {
     font-weight:bold;
