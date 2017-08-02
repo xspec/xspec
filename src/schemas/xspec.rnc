@@ -242,7 +242,8 @@ expect-assert =
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <assert>. 
     element expect-assert {
-    schematron-common-expect
+    schematron-common-expect,
+    schematron-count-expect
 }
 expect-report = 
     ## In a Schematron test, verify that a <report> is thrown.
@@ -250,7 +251,8 @@ expect-report =
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <report>. 
     element expect-report {
-    schematron-common-expect
+    schematron-common-expect,
+    schematron-count-expect
 }
 
 expect-not-assert = 
@@ -282,3 +284,7 @@ schematron-common-expect =
     ## is expected to find. Namespace prefixes that are defined in Schematron 
     ## using ns elements can be used.
     attribute location { xpath }?
+
+schematron-count-expect = 
+    ## Number of times an <assert> or <report> is expected to be thrown.
+    attribute count { xs:nonNegativeInteger }?
