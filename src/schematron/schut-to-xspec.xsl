@@ -84,7 +84,7 @@
                 <xsl:sequence select="'(svrl:schematron-output/svrl:failed-assert'"/>
                 <xsl:apply-templates select="@*" mode="make-predicate"/>
                 <xsl:sequence select="')'"/>
-                <xsl:sequence select="if (@count) then concat(' = ', @count) else ()"/>
+                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -108,7 +108,7 @@
                 <xsl:sequence select="'(svrl:schematron-output/svrl:successful-report'"/>
                 <xsl:apply-templates select="@*" mode="make-predicate"/>
                 <xsl:sequence select="')'"/>
-                <xsl:sequence select="if (@count) then concat(' = ', @count) else ()"/>
+                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -141,7 +141,7 @@
     <xsl:template match="@count" mode="make-predicate"/>
     
     <xsl:template name="make-label">
-        <xsl:attribute name="label" select="string-join((tokenize(local-name(),'-')[.=('report','assert','not')], @id, @role, @location), ' ')"/>
+        <xsl:attribute name="label" select="string-join((tokenize(local-name(),'-')[.=('report','assert','not')], @id, @role, @location, current()[@count]/string('count:'), @count), ' ')"/>
     </xsl:template>
 
     <xsl:template match="x:expect-valid">
