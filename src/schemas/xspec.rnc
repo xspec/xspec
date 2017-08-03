@@ -217,7 +217,7 @@ any-element = element * { attribute * { text }*, any-content }
 
 schematron-scenario = context?,
                     like*,
-                    (pending | schematron-assertion)*, 
+                    (pending | schematron-assertion | assertion)*, 
                     (pending | 
                      element scenario { common-scenario-attributes, 
                                         label, schematron-scenario })*
@@ -273,6 +273,8 @@ expect-not-report =
 }
 
 schematron-common-expect = 
+    ## Optional label to include a description of the expectation.
+    attribute label { text }?,
     ## Identify a specific <assert> or <report> using its id attribute or 
     ## the id attribute of the parent <rule>.
     attribute id { xs:NCName }?,

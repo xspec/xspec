@@ -138,10 +138,10 @@
             ')[1] = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
     
-    <xsl:template match="@count" mode="make-predicate"/>
+    <xsl:template match="@count | @label" mode="make-predicate"/>
     
     <xsl:template name="make-label">
-        <xsl:attribute name="label" select="string-join((tokenize(local-name(),'-')[.=('report','assert','not')], @id, @role, @location, current()[@count]/string('count:'), @count), ' ')"/>
+        <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not')], @id, @role, @location, current()[@count]/string('count:'), @count), ' ')"/>
     </xsl:template>
 
     <xsl:template match="x:expect-valid">
