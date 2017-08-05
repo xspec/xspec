@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="schematron/schematron-017.sch">
+    
+    <x:scenario label="Schematron with dependency using relative path">
+        <x:scenario label="item in list">
+            <x:context>
+                <example>
+                    <standard>XML</standard>
+                </example>
+            </x:context>
+            <x:expect-not-assert id="t1"/>
+        </x:scenario>
+        <x:scenario label="item not in list">
+            <x:context>
+                <example>
+                    <standard>Markdown</standard>
+                </example>
+            </x:context>
+            <x:expect-assert id="t1"/>
+        </x:scenario>
+    </x:scenario>
+    
+    
+</x:description>
