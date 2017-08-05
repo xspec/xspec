@@ -138,6 +138,11 @@
             ')[1] = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
     
+    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" mode="make-predicate">
+        <xsl:sequence select="concat('[@', local-name(.), 
+            ' = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
+    </xsl:template>
+    
     <xsl:template match="@count | @label" mode="make-predicate"/>
     
     <xsl:template name="make-label">
@@ -154,6 +159,19 @@
                 string-join(for $e in $error return concat(codepoints-to-string(39), $e, codepoints-to-string(39)), ','),
                 ')]))'
                 )"/>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:expect-rule">
+        <xsl:element name="x:expect">
+            <xsl:call-template name="make-label"/>
+            <xsl:attribute name="test">
+                <xsl:sequence select="if (@count) then 'count' else 'exists'"/>
+                <xsl:sequence select="'(svrl:schematron-output/svrl:fired-rule'"/>
+                <xsl:apply-templates select="@*" mode="make-predicate"/>
+                <xsl:sequence select="')'"/>
+                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
+            </xsl:attribute>
         </xsl:element>
     </xsl:template>
     

@@ -225,7 +225,7 @@ schematron-scenario = context?,
 schematron-assertion =  
     expect-assert | expect-not-assert | 
     expect-report | expect-not-report | 
-    expect-valid 
+    expect-valid | expect-rule
 
 expect-valid =
     ## In a Schematron test, verify that the Schematron is executed and the XML 
@@ -272,8 +272,20 @@ expect-not-report =
     schematron-common-expect
 }
 
+expect-rule = 
+    ## In a Schematron test, verify that a <rule> is fired.
+    element expect-rule {
+    ## Optional label to describe the expectation.
+    attribute label { text }?,
+    ## Identify a specific <rule> using its id attribute.
+    attribute id { xs:NCName }?,
+    ## Match a specific context attribute value of a <rule>.
+    attribute context { text }?,
+    schematron-count-expect
+}
+
 schematron-common-expect = 
-    ## Optional label to include a description of the expectation.
+    ## Optional label to describe the expectation.
     attribute label { text }?,
     ## Identify a specific <assert> or <report> using its id attribute or 
     ## the id attribute of the parent <rule>.
