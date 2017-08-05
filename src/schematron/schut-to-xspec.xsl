@@ -146,7 +146,7 @@
     <xsl:template match="@count | @label" mode="make-predicate"/>
     
     <xsl:template name="make-label">
-        <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not')], @id, @role, @location, current()[@count]/string('count:'), @count), ' ')"/>
+        <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not','rule')], @id, @role, @location, @context, current()[@count]/string('count:'), @count), ' ')"/>
     </xsl:template>
 
     <xsl:template match="x:expect-valid">
