@@ -23,8 +23,11 @@
     
     where:
     
-    test.type          value "t" if XSpec describes an XSLT file, "s" if XSpec describes a Schematron file
-    xspec.phase        required if XSpec describes a Schematron file, with value "#ALL" 
+    test.type                  Value "t" if XSpec describes an XSLT file, "s" if XSpec describes a Schematron file
+                               [Optional; the default value is "t"]
+    xspec.phase                Required if XSpec describes a Schematron file, with value "#ALL" 
+    xspec.compiled.xsl.dir     Folder in which to place the compiled XSLT file generated from a Schematron file
+                               [Optional; the default is a subfolder "xspec" of the folder containing the XSpec file]
     
     
     ---
@@ -42,7 +45,7 @@
     - Under Parameters tab:
       - New parameter test.type (values "t" for testing XSLT and "s" for testing Schematron)
       - Parameter xspec.project.dir value C:\Git\xspec
-      - New parameter xspec.compiled.xsl.dir (location to put XSLT file generated from Schematron file)
+      - New parameter xspec.compiled.xsl.dir (location to put XSLT file generated from a Schematron file)
       - New parameter xspec.phase with value "#ALL" 
     - Download xmltask.jar to C:\Git\xspec\bin\ (from http://www.oopsconsultancy.com/software/xmltask/)
     - Add xmltask.jar under "Libraries"
