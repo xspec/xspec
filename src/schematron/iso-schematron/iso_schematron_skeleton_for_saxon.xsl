@@ -516,7 +516,7 @@ which require a preprocess.
   which I find a bit surprising but anyway I'll use the longr faster version.
 -->
 <xsl:variable name="context-xpath">
-  <xsl:if test="$attributes='true'">@*|</xsl:if>
+  <xsl:if test="$attributes='true' and parent::node() ">@*|</xsl:if>
   <xsl:choose>
     <xsl:when test="$only-child-elements='true'">*</xsl:when>
     <xsl:when test="$visit-text='true'">node()</xsl:when>
@@ -1556,15 +1556,12 @@ which require a preprocess.
 		  </axsl:template>
 		  
 		  <!-- DPC introduce context-xpath variable -->
-		  <axsl:template match="*"
+		  <axsl:template match="@*|node()"
 				 priority="-2"
 				 mode="M{ count(preceding-sibling::*) }">
 		    <axsl:apply-templates select="{$context-xpath}" mode="M{count(preceding-sibling::*)}"/>
 		  </axsl:template>
-			<axsl:template match="@*|comment()|text()|processing-instruction()"
-				priority="-2"
-				mode="M{ count(preceding-sibling::*) }"/>
-		</xsl:if>
+			</xsl:if>
       </xsl:if>
 	</xsl:template>
 
@@ -1651,19 +1648,7 @@ which require a preprocess.
 				
 			<xsl:apply-templates/>
 			<!-- DPC introduce context-xpath and select-contexts variables -->
-			<xsl:variable name="isContextAnAttribute" as="xs:boolean">
-			  <xsl:variable name="contexts" select="tokenize(@context,'\|')"/>
-			<xsl:choose>
-					<xsl:when test="every $c in $contexts satisfies oup:isAttribute($c)">
-						<xsl:value-of select="true()"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="false()"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-		<xsl:if test="not($select-contexts) 
-				and not($isContextAnAttribute)">
+			<xsl:if test="not($select-contexts)">
 			  <axsl:apply-templates select="{$context-xpath}" mode="M{count(../preceding-sibling::*)}"/>
 			</xsl:if>
 		</axsl:template>
@@ -1696,10 +1681,6 @@ which require a preprocess.
 	</xsl:template>
 
     <!-- OUP elements no longer required -->
-	<xsl:template match="oup:*" mode="#all"/>
-	
-	<!-- ISO TITLE -->
-	
 	<xsl:template match="iso:schema/iso:title"  priority="1">
 	     <xsl:call-template name="process-schema-title" />
 	</xsl:template>
@@ -2262,45 +2243,6 @@ which require a preprocess.
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
-<xsl:function name="oup:isAttribute" as="xs:boolean">
-		<xsl:param name="xpath-expression" as="xs:string"/>
-		<xsl:variable name="xpath-without-predicates" select="oup:stripPredicates($xpath-expression)" as="xs:string?"/>
-		<xsl:variable name="attributeName" as="xs:string?" select="substring-after($xpath-without-predicates,'@')"/>
-		
-		<xsl:choose>
-			<xsl:when test="$attributeName 
-				or matches($xpath-without-predicates, 'processing-instruction\(') 
-				or matches($xpath-without-predicates, 'text\(') 
-				or matches($xpath-without-predicates, 'comment\(')">
-				<xsl:value-of select="true()"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="false()"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
-	
-	<xsl:function name="oup:stripPredicates" as="xs:string?">
-		<xsl:param name="xpath-expression" as="xs:string?"/>
-		<xsl:variable name="new-xpath-expression">
-			<xsl:analyze-string select="$xpath-expression" regex="\[[^\[\]]*\]">
-				<xsl:matching-substring/>
-				<xsl:non-matching-substring>
-					<xsl:value-of select="."/>
-				</xsl:non-matching-substring>
-			</xsl:analyze-string>	
-		</xsl:variable>
-		<xsl:choose>
-			<!-- handle nested predicates -->
-			<xsl:when test="matches($new-xpath-expression,'\[[^\[\]]*\]')">
-				<xsl:value-of select="oup:stripPredicates($new-xpath-expression)"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$new-xpath-expression"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
 	
 <xhtml:div class="ErrorMessages">	
 	<!-- Where the error message contains dynamic information, the message has been split into an "a" and a "b" section.
