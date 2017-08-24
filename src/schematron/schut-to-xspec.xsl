@@ -9,13 +9,13 @@
     <xsl:param name="test_dir" select="'xspec'"/>
     
 
-    <xsl:variable name="filePrefix" as="xs:string">
+    <xsl:variable name="filePrefix" as="xs:string?">
         <xsl:choose>
             <xsl:when test="contains(system-property('os.name'), 'Windows')">
                 <xsl:text>file:/</xsl:text>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:text>file://</xsl:text>
+                <!--<xsl:text>file://</xsl:text>-->
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>

@@ -122,7 +122,7 @@
   <property name="xspec.compiled.xsl" value="${xspec.compiled.xsl.dir}/${xspec.base}-sch-compiled.xsl"/>
   <!-- for passing as a parameter to the script that generates the XSpec with @stylesheet 
   from the XSpec with @schematron -->
-  <property name="xspec.compiled.xsl.param" value="file://${xspec.compiled.xsl}"/>
+  <property name="xspec.compiled.xsl.param" value="${xspec.compiled.xsl}"/>
   <propertyregex override="true" property="xspec.compiled.xsl.param" input="${xspec.compiled.xsl.param}" regexp="\\" replace="/"/>  
   
   <target name="copyXSpec">
@@ -206,18 +206,8 @@
       out="${xspec.xsl}"
       style="${xspec.project.dir}/src/compiler/generate-xspec-tests.xsl"
       force="true"
-      >
-      
-      <factory name="net.sf.saxon.TransformerFactoryImpl" />
-      
-      <!-- OXYGEN PATCH  Pass a catalog to Saxon. -->
-      <xmlcatalog>
-        <catalogpath>
-          <pathelement location="${catalog}"/>
-        </catalogpath>
-      </xmlcatalog>
-      <!-- OXYGEN PATCH END -->
-      
+      >     
+      <factory name="net.sf.saxon.TransformerFactoryImpl" />     
     </xslt>
     
     <echo message="Running Tests..."/>
@@ -238,21 +228,12 @@
     
     <xslt in="${xspec.result.xml}"
       out="${xspec.result.html}"
-      style="${format.xspec.report}">
-      
+      style="${format.xspec.report}">    
       <factory name="net.sf.saxon.TransformerFactoryImpl">
         <attribute
           name="http://saxon.sf.net/feature/allow-external-functions" 
           value="true"/>
       </factory>
-      
-      <!-- OXYGEN PATCH  Pass a catalog to Saxon. -->
-      <xmlcatalog>
-        <catalogpath>
-          <pathelement location="${catalog}"/>
-        </catalogpath>
-      </xmlcatalog>
-      <!-- OXYGEN PATCH END -->
     </xslt>
     <loadfile srcfile="${xspec.result.xml}"
       property="xspec.result" />
