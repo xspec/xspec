@@ -16,6 +16,10 @@
 
 	<xsl:output method="text" />
 
+	<!--
+		URI of the expected HTML file
+			Its content must be already normalized by the 'normalizer:normalize' template.
+	-->
 	<xsl:param as="xs:anyURI" name="EXPECTED-HTML"
 		select="
 			resolve-uri(
@@ -23,16 +27,20 @@
 			base-uri())" />
 
 	<xsl:template as="text()+" match="document-node()">
+		<!-- Load the expected HTML -->
 		<xsl:variable as="document-node()" name="expected-doc"
 			select="deserializer:unindent(doc($EXPECTED-HTML))" />
 
+		<!-- Normalize the input document -->
 		<xsl:variable as="document-node()" name="input-doc" select="deserializer:unindent(.)" />
 		<xsl:variable as="document-node()" name="normalized-input-doc"
 			select="normalizer:normalize($input-doc)" />
 
+		<!-- Compare the normalized input document with the expected document -->
 		<xsl:variable as="xs:boolean" name="comparison-result"
 			select="deep-equal($normalized-input-doc, $expected-doc)" />
 
+		<!-- Output the comparison result -->
 		<xsl:value-of select="
 				if ($comparison-result) then
 					'OK'

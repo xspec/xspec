@@ -7,12 +7,24 @@
 		This stylesheet module is a collection of utilities.
 	-->
 
+	<!--
+		Extracts filename (with extension) from slash-delimited path
+			Example:
+				in:		"file:/path/to/foo.bar.baz" or "/path/to/foo.bar.baz"
+				out:	"foo.bar.baz"
+	-->
 	<xsl:function as="xs:string" name="util:filename-and-extension">
 		<xsl:param as="xs:string" name="uri" />
 
 		<xsl:sequence select="tokenize($uri, '/')[last()]" />
 	</xsl:function>
 
+	<!--
+		Extracts filename (without extension) from slash-delimited path
+			Example:
+				in:		"file:/path/to/foo.bar.baz" or "/path/to/foo.bar.baz"
+				out:	"foo.bar"
+	-->
 	<xsl:function as="xs:string" name="util:filename-without-extension">
 		<xsl:param as="xs:string" name="uri" />
 
