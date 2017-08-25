@@ -8,7 +8,7 @@ First you need to set up the expected HTML files. This is a manual operation whi
 
 1. Put `*.xspec` files into the `cases` directory.
 
-1. Run `./generate-expected.sh`.
+1. Run `./generate-expected.sh` (or `.cmd`).
 
 	The script executes the `cases/*.xspec` files.
 	
@@ -29,7 +29,7 @@ First you need to set up the expected HTML files. This is a manual operation whi
 
 ## Running the regular tests
 
-Once the expected HTML files are prepared, you can run tests regularly by executing `./run-e2e-tests.sh`.
+Once the expected HTML files are prepared, you can run tests regularly by executing `./run-e2e-tests.sh` (or `.cmd`).
 
 The script performs these tasks in sequence:
 

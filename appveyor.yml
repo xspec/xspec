@@ -53,4 +53,9 @@ test_script:
     rem execute XSpec unit tests
 
     test\run-xspec-tests.cmd
+
+
+    rem execute XSpec end-to-end tests
+
+    test\end-to-end\run-e2e-tests.cmd
 deploy: off
