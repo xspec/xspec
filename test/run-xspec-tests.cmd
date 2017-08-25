@@ -39,12 +39,17 @@ for %%I in (*.xspec) do (
     rem
     rem Run
     rem
-    "%COMSPEC%" /c ..\bin\xspec.bat "%%~I" > "%RESULT_FILE%" 2>&1
+    call :is_schematron "%%~nI"
+    if errorlevel 1 (
+        "%COMSPEC%" /c ..\bin\xspec.bat -s "%%~I" > "%RESULT_FILE%" 2>&1
+    ) else (
+        "%COMSPEC%" /c ..\bin\xspec.bat "%%~I" > "%RESULT_FILE%" 2>&1
+    )
 
     rem
     rem Inspect result
     rem
-    ( findstr /r /c:".*failed: [1-9]" "%RESULT_FILE%" || findstr /r /c:"\*\** Error [a-z][a-z]*ing the test suite" "%RESULT_FILE%" ) > NUL
+    ( findstr /r /c:".*failed: [1-9]" "%RESULT_FILE%" || findstr /r /c:"\*\** Error [a-z][a-z]*ing the test suite" "%RESULT_FILE%" || findstr /r /c:"\*\** Error .*Schematron" "%RESULT_FILE%" ) > NUL
     if not errorlevel 1 (
         echo FAILED: %%~I
         echo ---------- "%RESULT_FILE%"
@@ -67,3 +72,12 @@ rem
 rem Exit as success
 rem
 exit /b 0
+
+:is_schematron
+    set var=%~1
+    if "%var:~0,10%"=="schematron" (
+        set IS_SCHEMATRON=1
+    ) else (
+        set IS_SCHEMATRON=0
+    )
+    exit /b %IS_SCHEMATRON%

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="../src/schematron/sch-location-compare.xsl">
+
+    <x:scenario label="schematron-location-compare" xmlns:svrl="http://purl.oclc.org/dsdl/svrl">
+        
+        <x:scenario label="expand xpath2 svrl">
+            <x:scenario label="replace namespace uri with prefix (e.g. 2 namespaces 4 elements)">
+                <x:call function="x:schematron-location-expand-xpath2">
+                    <x:param name="location" select="failed-assert/@location">
+                        <failed-assert location="/root[1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/*:para[namespace-uri()='http://example.com/ns2'][2]/*:para[namespace-uri()='http://example.com/ns2'][3]"/>
+                    </x:param>
+                    <x:param name="namespaces">
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="namespace prefixes applied" select="'/root[1]/ex1:sec[2]/ex2:para[2]/ex2:para[3]'"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="expand xpath1 svrl">
+            <x:scenario label="remove wildcard namespace (e.g. 3 elements)">
+                <x:call function="x:schematron-location-expand-xpath1">
+                    <x:param name="location" select="successful-report/@location">
+                        <successful-report location="/root/*[local-name()='sec'][2]/*[local-name()='para'][2]"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="namespace wildcard removed" select="'/root/sec[2]/para[2]'"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="expand xpath1 expect">
+            <x:scenario label="if no xpath1 style namespace in path return same">
+                <x:call function="x:schematron-location-expand-xpath1-expect">
+                    <x:param name="expect-location">/ex1:section</x:param>
+                    <x:param name="svrl-location">/section[1]</x:param>
+                    <x:param name="namespaces">
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="same" select="'/ex1:section'"/>
+            </x:scenario>
+            <x:scenario label="if xpath1 style namespace in path remove prefixes">
+                <x:call function="x:schematron-location-expand-xpath1-expect">
+                    <x:param name="expect-location">/root/ex1:sec/ex1:sec/ex2:para</x:param>
+                    <x:param name="svrl-location">/root/*[local-name()='sec'][2]/*[local-name()='sec'][2]/*[local-name()='para'][2]</x:param>
+                    <x:param name="namespaces">
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="namespace prefixes removed" select="'/root/sec/sec/para'"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="expand attributes">
+            <x:call function="x:schematron-location-expand-attributes">
+                <x:param name="location">@*[namespace-uri()='http://example.com/ns2' and local-name()='type']</x:param>
+                <x:param name="namespaces">
+                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                </x:param>
+            </x:call>
+            <x:expect label="namespace prefix applied" select="'@ex2:type'"/>
+        </x:scenario>
+        
+        <x:scenario label="compare">
+            
+            <x:scenario label="match exact">
+                <x:call function="x:schematron-location-compare">
+                    <x:param name="expect-location">/article[1]/section[2]</x:param>
+                    <x:param name="svrl-location">/article[1]/section[2]</x:param>
+                    <x:param name="namespaces"/>
+                </x:call>
+                <x:expect label="true" select="true()"/>
+            </x:scenario>
+            
+            <x:scenario label="match ignoring [1]">
+                <x:call function="x:schematron-location-compare">
+                    <x:param name="expect-location">/article/section[2]</x:param>
+                    <x:param name="svrl-location">/article[1]/section[2]</x:param>
+                    <x:param name="namespaces"/>
+                </x:call>
+                <x:expect label="true" select="true()"/>
+            </x:scenario>
+            
+            <x:scenario label="match ignoring leading /">
+                <x:call function="x:schematron-location-compare">
+                    <x:param name="expect-location">article[1]/section[2]</x:param>
+                    <x:param name="svrl-location">/article[1]/section[2]</x:param>
+                    <x:param name="namespaces"/>
+                </x:call>
+                <x:expect label="true" select="true()"/>
+            </x:scenario>
+            
+            <x:scenario label="match with namespaces xpath1">
+                <x:call function="x:schematron-location-compare">
+                    <x:param name="expect-location">/root/ex1:sec[2]/ex2:para[2]</x:param>
+                    <x:param name="svrl-location">/root/*[local-name()='sec'][2]/*[local-name()='para'][2]</x:param>
+                    <x:param name="namespaces">
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="true" select="true()"/>
+            </x:scenario>
+            
+            <x:scenario label="match with namespaces xpath2">
+                <x:call function="x:schematron-location-compare">
+                    <x:param name="expect-location">/root/ex1:sec[2]/ex2:para[2]</x:param>
+                    <x:param name="svrl-location">/root[1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/*:para[namespace-uri()='http://example.com/ns2'][2]</x:param>
+                    <x:param name="namespaces">
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="true" select="true()"/>
+            </x:scenario>
+            
+            <x:scenario label="match with attribute (note: outside of oXygen, Schematron does not appear to fire on rules that have an attribute node as context)">
+                <x:scenario label="not in namespace">
+                    <x:call function="x:schematron-location-compare">
+                        <x:param name="expect-location">/article/section[1]/@type</x:param>
+                        <x:param name="svrl-location">/article[1]/section[1]/@type</x:param>
+                        <x:param name="namespaces"/>
+                    </x:call>
+                    <x:expect label="true" select="true()"/>
+                </x:scenario>
+                <x:scenario label="in namespace">
+                    <x:call function="x:schematron-location-compare">
+                        <x:param name="expect-location">/ex1:article[1]/ex1:sec[2]/@ex2:type</x:param>
+                        <x:param name="svrl-location">/*:article[namespace-uri()='http://example.com/ns1'][1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/@*[namespace-uri()='http://example.com/ns2' and local-name()='type']</x:param>
+                        <x:param name="namespaces">
+                            <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                            <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                        </x:param>
+                    </x:call>
+                    <x:expect label="true" select="true()"/>
+                </x:scenario>
+            </x:scenario>
+            
+            <x:scenario label="not match">
+                <x:call function="x:schematron-location-compare">
+                    <x:param name="expect-location">/root/body/div/para</x:param>
+                    <x:param name="svrl-location">/root[1]/div[1]/para[1]</x:param>
+                    <x:param name="namespaces"/>
+                </x:call>
+                <x:expect label="false" select="false()"/>
+            </x:scenario>
+            
+            <x:scenario label="not match with namespaces xpath1">
+                <x:call function="x:schematron-location-compare">
+                    <x:param name="expect-location">/root/ex1:sec[2]/ex2:para</x:param>
+                    <x:param name="svrl-location">/root/*[local-name()='sec'][2]</x:param>
+                    <x:param name="namespaces">
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="false" select="false()"/>
+            </x:scenario>
+            
+            <x:scenario label="not match with namespaces xpath2">
+                <x:call function="x:schematron-location-compare">
+                    <x:param name="expect-location">/root/ex1:sec[2]/ex1:sec[1]/ex2:para[2]</x:param>
+                    <x:param name="svrl-location">/root[1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/*:para[namespace-uri()='http://example.com/ns2'][2]</x:param>
+                    <x:param name="namespaces">
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                        <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                    </x:param>
+                </x:call>
+                <x:expect label="false" select="false()"/>
+            </x:scenario>
+            
+        </x:scenario>
+        
+    </x:scenario>
+    
+</x:description>

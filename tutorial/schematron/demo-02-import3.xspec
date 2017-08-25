@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:local="local"> 
+    <x:scenario label="XSpec function scenario imported">
+        <x:call function="local:add">
+            <x:param name="a" select="5" as="xs:integer"/>
+            <x:param name="b" select="2" as="xs:integer"/>
+        </x:call>
+        <x:expect label="add 5 + 2" select="xs:integer(7)"/>
+    </x:scenario>
+</x:description>

@@ -19,6 +19,7 @@ description =
 		attribute query-at { xs:anyURI }?,
 		attribute version { xs:NMTOKEN }?,		
 		attribute preserve-space { xs:NMTOKENS }?,
+		attribute schematron { xs:anyURI }?,
 		(global-param | import | scenario | pending)+ }
 
 import = 
@@ -40,7 +41,7 @@ pending =
 	##
 	## An optional label attribute can be used to describe why the scenario or
 	## assertion should not be tested.
-	element pending { common-attributes, label?, (scenario | assertion)* }
+	element pending { common-attributes, label?, (scenario | assertion | schematron-assertion)* }
 
 scenario = 
 	## A scenario defines the environment in which a piece of processing takes place.
@@ -58,7 +59,8 @@ scenario =
 		label,
 		( matching-scenario |
 		  function-scenario |
-		  named-scenario ) }
+		  named-scenario | 
+		  schematron-scenario ) }
 
 common-scenario-attributes = common-attributes,
                         	## Anything which has the @pending attribute will remain untested, but will be
@@ -212,3 +214,71 @@ common-attributes = attribute xml:* { text }*
 
 any-content = mixed { any-element* }
 any-element = element * { attribute * { text }*, any-content }
+
+schematron-scenario = context?,
+                    like*,
+                    (pending | schematron-assertion)*, 
+                    (pending | 
+                     element scenario { common-scenario-attributes, 
+                                        label, schematron-scenario })*
+
+schematron-assertion =  
+    expect-assert | expect-not-assert | 
+    expect-report | expect-not-report | 
+    expect-valid 
+
+expect-valid =
+    ## In a Schematron test, verify that the Schematron is executed and the XML 
+    ## that is provided as context passes validation.
+    ## 
+    ## In the Schematron an <assert> or <report> can have a <role> attribute 
+    ## specifying that it is a warning or informational message and these are 
+    ## considered to be allowed for a passing validation.
+    element expect-valid { empty }
+
+expect-assert = 
+    ## In a Schematron test, verify that an <assert> is thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <assert>. 
+    element expect-assert {
+    schematron-common-expect
+}
+expect-report = 
+    ## In a Schematron test, verify that a <report> is thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <report>. 
+    element expect-report {
+    schematron-common-expect
+}
+
+expect-not-assert = 
+    ## In a Schematron test, verify that an <assert> is not thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <assert>. 
+    element expect-not-assert {
+    schematron-common-expect
+}
+expect-not-report = 
+    ## In a Schematron test, verify that a <report> is not thrown.
+    ## 
+    ## The attributes id, role, and location can be used in combination to 
+    ## identify a specific <report>. 
+    element expect-not-report {
+    schematron-common-expect
+}
+
+schematron-common-expect = 
+    ## Identify a specific <assert> or <report> using its id attribute or 
+    ## the id attribute of the parent <rule>.
+    attribute id { xs:NCName }?,
+    ## Match a specific role attribute value of an <assert> or <report> or 
+    ## the parent <rule>. Role attribute values are often used to specify 
+    ## 'error', 'fatal', 'warn', 'warning', 'info', 'information'.
+    attribute role { text }?,
+    ## XPath of a location in the context XML that the <assert> or <report> 
+    ## is expected to find. Namespace prefixes that are defined in Schematron 
+    ## using ns elements can be used.
+    attribute location { xpath }?
