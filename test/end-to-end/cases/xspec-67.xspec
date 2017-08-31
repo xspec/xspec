@@ -14,7 +14,7 @@
         <x:expect label="must be Success" select="$default-namespace" />
     </x:scenario>
 
-    <x:scenario label="Comparing different namespaces" pending="TODO: xspec/xspec#4: Remove this @pending">
+    <x:scenario label="Comparing different namespaces">
         <x:call function="exactly-one">
             <x:param select="$namespace" />
         </x:call>
