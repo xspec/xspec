@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-50.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Scenario for testing foo">
+		<x:context><foo>0123</foo></x:context>
+		<x:expect label="xs:hexBinary" select="xs:hexBinary('0123')" />
+	</x:scenario>
+</x:description>
