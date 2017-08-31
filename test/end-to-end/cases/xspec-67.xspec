@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-    <x:scenario label="Compare identical namespace">
+    <x:scenario label="Comparing identical namespace">
         <x:call function="exactly-one">
             <x:param select="$namespace" />
         </x:call>
-        <x:expect label="Match" select="$namespace" />
+        <x:expect label="must be Success" select="$namespace" />
     </x:scenario>
 
-    <x:scenario label="Compare identical default namespace">
+    <x:scenario label="Comparing identical default namespace">
         <x:call function="exactly-one">
             <x:param select="$default-namespace" />
         </x:call>
-        <x:expect label="Match" select="$default-namespace" />
+        <x:expect label="must be Success" select="$default-namespace" />
     </x:scenario>
 
-    <x:scenario label="Compare different namespaces" pending="TODO: xspec/xspec#4: Remove this @pending">
+    <x:scenario label="Comparing different namespaces" pending="TODO: xspec/xspec#4: Remove this @pending">
         <x:call function="exactly-one">
             <x:param select="$namespace" />
         </x:call>
-        <x:expect label="Must fail" select="$another-namespace" />
+        <x:expect label="must be Failure" select="$another-namespace" />
     </x:scenario>
 </x:description>
