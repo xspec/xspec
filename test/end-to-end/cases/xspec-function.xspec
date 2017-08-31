@@ -6,18 +6,18 @@
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="../../xspec-tested.xql" stylesheet="../../xspec-tested.xsl">
-  <t:scenario label="call">
+  <t:scenario label="when calling a function and expecting correctly">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
-    <t:expect label="the type" test="$x:result instance of xs:integer"/>
+    <t:expect label="expecting the correct value must return Success" test="$x:result eq 9"/>
+    <t:expect label="expecting the correct type must return Success" test="$x:result instance of xs:integer"/>
   </t:scenario>
-  <t:scenario label="must fail">
+  <t:scenario label="when calling a function and expecting incorrectly">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
-    <t:expect label="wrong result" test="$x:result eq 42"/>
+    <t:expect label="expecting an incorrect value must return Failure" test="$x:result eq 42"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

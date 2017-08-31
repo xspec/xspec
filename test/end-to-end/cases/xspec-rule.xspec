@@ -6,42 +6,43 @@
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" stylesheet="../../xspec-tested.xsl">
-  <t:scenario label="context">
+  <t:scenario label="x:context with correct x:expect">
     <t:context>
       <rule/>
     </t:context>
-    <t:expect label="the result">
+    <t:expect label="must return Success">
       <transformed/>
     </t:expect>
   </t:scenario>
-  <t:scenario label="context result is wrong: must fail">
+  <t:scenario label="x:context with incorrect x:expect">
     <t:context>
       <rule/>
     </t:context>
-    <t:expect label="wrong result">
+    <t:expect label="must return Failure">
       <erroneous/>
     </t:expect>
   </t:scenario>
+
   <!-- TODO: Make two different cases for the base t:apply and with param. -->
-  <t:scenario label="apply" pending="not implemented yet">
+  <t:scenario label="x:apply with correct x:expect" pending="not implemented yet">
     <t:variable name="ctxt" as="element()">
       <rule/>
     </t:variable>
     <t:apply select="$ctxt">
       <t:param name="p" select="0"/>
     </t:apply>
-    <t:expect label="the result">
+    <t:expect label="must return Success">
       <transformed/>
     </t:expect>
   </t:scenario>
-  <t:scenario label="apply result is wrong: must fail" pending="not implemented yet">
+  <t:scenario label="x:apply with incorrect x:expect" pending="not implemented yet">
     <t:variable name="ctxt" as="element()">
       <rule/>
     </t:variable>
     <t:apply select="$ctxt">
       <t:param name="p" select="0"/>
     </t:apply>
-    <t:expect label="wrong result">
+    <t:expect label="must return Failure">
       <erroneous/>
     </t:expect>
   </t:scenario>
