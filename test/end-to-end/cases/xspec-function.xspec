@@ -18,6 +18,7 @@
       <t:param select="2"/>
     </t:call>
     <t:expect label="expecting an incorrect value must return Failure" test="$x:result eq 42"/>
+    <t:expect label="expecting an incorrect type must return Failure" test="$x:result instance of xs:string"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
