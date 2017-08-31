@@ -14,7 +14,7 @@
       <transformed/>
     </t:expect>
   </t:scenario>
-  <t:scenario label="context result is wrong: must fail" pending="should be rewritten">
+  <t:scenario label="context result is wrong: must fail" pending="TODO: xspec/xspec#4: Remove this @pending">
     <t:context>
       <rule/>
     </t:context>

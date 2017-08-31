@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="demo-02.sch">
+    <x:scenario label="Pattern 3 - Shared">
+        <x:context href="demo-02.xml"/>
+        <x:expect-assert id="t3-1"/>
+    </x:scenario>
+    <x:import href="demo-02-import2.xspec"/>
+</x:description>
+    

@@ -29,7 +29,7 @@
   <!--
        Non-pending scenarios.
    -->
-  <t:scenario label="call" focus="focus">
+  <t:scenario label="call" focus="TODO: xspec/xspec#4: Remove this @focus">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>

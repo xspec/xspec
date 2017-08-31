@@ -53,7 +53,37 @@ setlocal
 
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-c|-j|-h] filename [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with -s and -t prints error message"
+
+    call :run ..\bin\xspec.bat -s -t
+    call :verify_retval 1
+    call :verify_line 2 x "-s and -t are mutually exclusive"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with -s and -q prints error message"
+
+    call :run ..\bin\xspec.bat -s -q
+    call :verify_retval 1
+    call :verify_line 2 x "-s and -q are mutually exclusive"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with -t and -q prints error message"
+
+    call :run ..\bin\xspec.bat -t -q
+    call :verify_retval 1
+    call :verify_line 2 x "-t and -q are mutually exclusive"
 
     call :teardown
 endlocal
@@ -198,7 +228,7 @@ setlocal
     call :setup "invoking xspec with -j option generates XML report file"
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
+    call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
     call :teardown
 endlocal
@@ -266,6 +296,87 @@ setlocal
     ) else (
         call :skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon"
     )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat for parentheses dir generates HTML report file #84"
+
+    set PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)
+    call :mkdir "%PARENTHESES_DIR%"
+    copy ..\tutorial\escape-for-regex.* "%PARENTHESES_DIR%" > NUL
+
+    set EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html
+
+    call :run ..\bin\xspec.bat "%PARENTHESES_DIR%\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line 20 x "Report available at %EXPECTED_REPORT%"
+    call :verify_exist "%EXPECTED_REPORT%"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat with path containing an apostrophe runs successfully #119"
+
+    set APOSTROPHE_DIR=%WORK_DIR%\some'path
+    call :mkdir "%APOSTROPHE_DIR%"
+    copy ..\tutorial\escape-for-regex.* "%APOSTROPHE_DIR%" > NUL
+
+    call :run ..\bin\xspec.bat "%APOSTROPHE_DIR%\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line 20 x "Report available at %APOSTROPHE_DIR%\xspec\escape-for-regex-result.html"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schematron phase/parameters are passed to Schematron compile"
+
+    call :run ..\bin\xspec.bat -s ..\test\schematron-param-001.xspec
+    call :verify_retval 0
+    call :verify_line 3 x "Paramaters: phase=P1 ?selected=codepoints-to-string((80,49))"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile"
+    
+    set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt-include.xsl
+    set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt-expand.xsl
+    set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt-compile.xsl
+    
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :verify_line 5 x "Schematron XSLT include"
+    call :verify_line 6 x "Schematron XSLT expand"
+    call :verify_line 7 x "Schematron XSLT compile"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.sh with the -s option does not display Schematron warnings #129 #131"
+
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :verify_retval 0
+    call :verify_line 5 x "Compiling the Schematron tests..."
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Cleanup removes temporary files"
+
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
+    call :verify_retval 0
+    call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+    call :run dir /on ..\tutorial\schematron\xspec
+    call :verify_line 9 r ".*3 File.*"
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.html
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.xml
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03.xsl
 
     call :teardown
 endlocal
@@ -353,6 +464,7 @@ rem
     rem
     call :mkdir ..\test\xspec
     call :mkdir ..\tutorial\xspec
+    call :mkdir ..\tutorial\schematron\xspec
 
     goto :EOF
 
@@ -362,6 +474,7 @@ rem
     rem
     call :rmdir ..\test\xspec
     call :rmdir ..\tutorial\xspec
+    call :rmdir ..\tutorial\schematron\xspec
 
     rem
     rem Remove the work directory
@@ -484,5 +597,13 @@ rem
         call :verified "Exist: %~1"
     ) else (
         call :failed "Not exist: %~1"
+    )
+    goto :EOF
+
+:verify_not_exist
+    if exist %1 (
+        call :failed "Exist: %~1"
+    ) else (
+        call :verified "Not exist: %~1"
     )
     goto :EOF

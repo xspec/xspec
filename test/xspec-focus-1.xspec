@@ -10,9 +10,9 @@
        Test @focus.
    -->
   <!--
-       Normal scenarios (must be pending because of the @focus).
+       Normal scenarios (must be pending because of the @focus in "Focused on scenarios").
    -->
-  <t:scenario label="pending call" focus="focus">
+  <t:scenario label="pending call" focus="TODO: xspec/xspec#4: Remove this @focus">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
@@ -33,7 +33,7 @@
     </t:call>
     <t:expect label="the result" test="$x:result eq 9"/>
   </t:scenario>
-  <t:scenario label="focus must fail">
+  <t:scenario label="focus must fail: TODO: xspec/xspec#4: Restore @focus='focus'">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>

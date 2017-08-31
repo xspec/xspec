@@ -6,7 +6,7 @@
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="xspec-tested.xql" stylesheet="xspec-tested.xsl">
-  <t:scenario label="call" focus="focus">
+  <t:scenario label="call" focus="TODO: xspec/xspec#4: Remove this @focus">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="demo-03.sch">
+
+    <x:scenario label="demo 3">
+
+        <x:scenario label="inline context">
+            <x:scenario label="valid">
+                <x:context>
+                    <document>
+                        <title>Introduction</title>
+                        <p>some paragraph text</p>
+                    </document>
+                </x:context>
+                <x:expect-not-assert id="a0001"/>
+                <x:expect-valid/>
+            </x:scenario>
+            <x:scenario label="not valid">
+                <x:context>
+                    <document>
+                        <title>Introduction</title>
+                    </document>
+                </x:context>
+                <x:expect-assert id="a0001"/>
+            </x:scenario>
+            <x:scenario label="valid with warning">
+                <x:context>
+                    <document>
+                        <title>Introduction</title>
+                        <p>Hello!</p>
+                    </document>
+                </x:context>
+                <x:expect-valid/>
+                <x:expect-report id="a0003"/>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="file as context">
+            <x:scenario label="valid file with warning">
+                <x:context href="demo-03-doc2.xml"/>
+                <x:expect-valid/>
+                <x:expect-assert id="a0002" role="warn"/>
+                <x:expect-report id="a0003" role="warn"/>
+            </x:scenario>
+            <x:scenario label="not valid file">
+                <x:context href="demo-03-doc1.xml"/>
+                <x:expect-assert id="a0001"/>
+            </x:scenario>
+        </x:scenario>
+
+        <x:scenario label="example" pending="tests marked as pending are not executed">
+            <x:context href="demo-03-doc1.xml"/>
+            <x:expect-valid/>
+        </x:scenario>
+        
+        <x:scenario label="id or role can be placed on on the rule">
+            <x:context href="demo-03-doc1.xml"/>
+            <x:expect-report id="a0004" role="info"/>
+        </x:scenario>
+
+    </x:scenario>
+
+</x:description>
