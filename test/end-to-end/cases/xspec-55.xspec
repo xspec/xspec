@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-55.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Scenario for testing numeric type report">
+		<x:context />
+		<x:expect label="xs:decimal" select="xs:decimal(1)" />
+		<x:expect label="xs:double" select="xs:double(1)" />
+		<x:expect label="xs:integer" select="xs:integer(1)" />
+	</x:scenario>
+</x:description>
