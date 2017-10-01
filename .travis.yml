@@ -9,6 +9,9 @@ env:
         # Saxon version used in oXygen
         - SAXON_VERSION=9.7.0-15
 
+before_install:
+    - unset _JAVA_OPTIONS
+
 before_script:
     # install bats
     - git clone https://github.com/sstephenson/bats.git /tmp/bats
