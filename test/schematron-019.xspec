@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="schematron/schematron-019.sch">
+    
+    <x:scenario label="XSLT Function in Schematrion">
+        <x:scenario label="XSLT function test">
+            <x:call function="e:add" xmlns:e="example">
+                <x:param name="a" select="5" as="xs:integer"/>
+                <x:param name="b" select="2" as="xs:integer"/>
+            </x:call>
+            <x:expect label="add 5 + 2" select="xs:integer(7)"/>
+        </x:scenario>        
+    </x:scenario>
+    
+</x:description>
