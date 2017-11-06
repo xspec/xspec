@@ -60,22 +60,19 @@
 	</xsl:template>
 
 	<!--
-		Normalizes the link to CSS
-			Example:
-				in:		href="file:/xspec/src/reporter/test-report.css"
-				out:	href="../../../../src/reporter/test-report.css"
+		Replaces the embedded CSS with the link to its source
+			For brevity. The details of style are not critical anyway.
 	-->
-	<xsl:template as="attribute(href)" match="/html/head/link/@href" mode="local:normalize">
-		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}">
-			<!-- Relative path to XSPEC_HOME from XSPEC_HOME/test/end-to-end/cases/*/*.html -->
-			<xsl:text>../../../../</xsl:text>
+	<xsl:template as="element(link)" match="/html/head/style" mode="local:normalize">
+		<link rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/xhtml">
+			<xsl:attribute name="href">
+				<!-- Relative path to XSPEC_HOME from XSPEC_HOME/test/end-to-end/cases/*/*.html -->
+				<xsl:text>../../../../</xsl:text>
 
-			<!-- Last 3 components of path -->
-			<xsl:variable as="xs:string+" name="path-components"
-				select="tokenize(., '/')[position() ge (last() - 2)]" />
-
-			<xsl:sequence select="string-join($path-components, '/')" />
-		</xsl:attribute>
+				<!-- and down to the CSS source -->
+				<xsl:text>src/reporter/test-report.css</xsl:text>
+			</xsl:attribute>
+		</link>
 	</xsl:template>
 
 	<!--
