@@ -43,11 +43,11 @@
 	<!--
 		Normalizes the title text
 			Example:
-				in:		<title>Test Report for /path/to/tested.xsl (2/0/1/3)</title>
-				out:	<title>Test Report for tested.xsl (2/0/1/3)</title>
+				in:		<title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
+				out:	<title>Test Report for tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
 	-->
 	<xsl:template as="text()" match="/html/head/title/text()" mode="local:normalize">
-		<xsl:analyze-string regex="^(Test Report for) (.+) (\([0-9/]+\))$" select=".">
+		<xsl:analyze-string regex="^(Test Report for) (.+) (\([a-z0-9/: ]+\))$" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of
 					select="
