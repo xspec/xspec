@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for xspec-tested.xsl (2/0/2/4)</title>
+      <title>Test Report for xspec-tested.xsl (passed: 2 / pending: 0 / failed: 2 / total: 4)</title>
       <link rel="stylesheet" type="text/css" href="../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -10,34 +10,46 @@
       <p>Tested: ONCE-UPON-A-TIME</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="85%" />
-         <col width="15%" />
+         <col width="75%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
          <thead>
             <tr>
-               <th style="text-align: right; font-weight: normal; ">passed/pending/failed/total</th>
-               <th>2/0/2/4</th>
+               <th></th>
+               <th class="totals">passed: 2</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 2</th>
+               <th class="totals">total: 4</th>
             </tr>
          </thead>
          <tbody>
             <tr class="successful">
-               <th><a href="#ELEM-26">when calling a function and expecting correctly</a></th>
-               <th>2/0/0/2</th>
+               <th><a href="#ELEM-38">when calling a function and expecting correctly</a></th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-42">when calling a function and expecting incorrectly</a></th>
-               <th>0/0/2/2</th>
+               <th><a href="#ELEM-54">when calling a function and expecting incorrectly</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">2</th>
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-26">
-         <h2 class="successful">when calling a function and expecting correctly<span class="scenario-totals">2/0/0/2</span></h2>
-         <table class="xspec" id="ELEM-28">
-            <col width="85%" />
-            <col width="15%" />
+      <div id="ELEM-38">
+         <h2 class="successful">when calling a function and expecting correctly<span class="scenario-totals">passed: 2 / pending: 0 / failed: 0 / total: 2</span></h2>
+         <table class="xspec" id="ELEM-40">
+            <col width="75%" />
+            <col width="25%" />
             <tbody>
                <tr class="successful">
                   <th>when calling a function and expecting correctly</th>
-                  <th>2/0/0/2</th>
+                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
                </tr>
                <tr class="successful">
                   <td>expecting the correct value must return Success</td>
@@ -50,28 +62,28 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-42">
-         <h2 class="failed">when calling a function and expecting incorrectly<span class="scenario-totals">0/0/2/2</span></h2>
-         <table class="xspec" id="ELEM-44">
-            <col width="85%" />
-            <col width="15%" />
+      <div id="ELEM-54">
+         <h2 class="failed">when calling a function and expecting incorrectly<span class="scenario-totals">passed: 0 / pending: 0 / failed: 2 / total: 2</span></h2>
+         <table class="xspec" id="ELEM-56">
+            <col width="75%" />
+            <col width="25%" />
             <tbody>
                <tr class="failed">
                   <th>when calling a function and expecting incorrectly</th>
-                  <th>0/0/2/2</th>
+                  <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-60">expecting an incorrect value must return Failure</a></td>
+                  <td><a href="#ELEM-72">expecting an incorrect value must return Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-72">expecting an incorrect type must return Failure</a></td>
+                  <td><a href="#ELEM-84">expecting an incorrect type must return Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-42">when calling a function and expecting incorrectly</h3>
-         <h4 id="ELEM-60">expecting an incorrect value must return Failure</h4>
+         <h3 id="ELEM-54">when calling a function and expecting incorrectly</h3>
+         <h4 id="ELEM-72">expecting an incorrect value must return Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -86,7 +98,7 @@
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-72">expecting an incorrect type must return Failure</h4>
+         <h4 id="ELEM-84">expecting an incorrect type must return Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>

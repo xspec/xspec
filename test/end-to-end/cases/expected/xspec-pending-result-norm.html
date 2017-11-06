@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for xspec-tested.xsl (1/4/1/6)</title>
+      <title>Test Report for xspec-tested.xsl (passed: 1 / pending: 4 / failed: 1 / total: 6)</title>
       <link rel="stylesheet" type="text/css" href="../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -10,50 +10,74 @@
       <p>Tested: ONCE-UPON-A-TIME</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="85%" />
-         <col width="15%" />
+         <col width="75%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
          <thead>
             <tr>
-               <th style="text-align: right; font-weight: normal; ">passed/pending/failed/total</th>
-               <th>1/4/1/6</th>
+               <th></th>
+               <th class="totals">passed: 1</th>
+               <th class="totals">pending: 4</th>
+               <th class="totals">failed: 1</th>
+               <th class="totals">total: 6</th>
             </tr>
          </thead>
          <tbody>
             <tr class="pending">
-               <th>(<strong>testing x:pending</strong>) <a href="#PENDING_ELEM-17">a correct scenario in x:pending must be Pending</a></th>
-               <th>0/1/0/1</th>
+               <th>(<strong>testing x:pending</strong>) <a href="#PENDING_ELEM-23">a correct scenario in x:pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
             </tr>
             <tr class="pending">
-               <th>(<strong>testing x:pending</strong>) <a href="#PENDING_ELEM-22">an incorrect scenario in x:pending must be Pending</a></th>
-               <th>0/1/0/1</th>
+               <th>(<strong>testing x:pending</strong>) <a href="#PENDING_ELEM-31">an incorrect scenario in x:pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-46">a non-pending correct scenario alongside a pending scenario</a></th>
-               <th>1/0/0/1</th>
+               <th><a href="#ELEM-70">a non-pending correct scenario alongside a pending scenario</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-59">a non-pending incorrect scenario alongside a pending scenario</a></th>
-               <th>0/0/1/1</th>
+               <th><a href="#ELEM-83">a non-pending incorrect scenario alongside a pending scenario</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
             </tr>
             <tr class="pending">
-               <th>(<strong>testing @pending</strong>) <a href="#PENDING_ELEM-35">a correct scenario with @pending must be Pending</a></th>
-               <th>0/1/0/1</th>
+               <th>(<strong>testing @pending</strong>) <a href="#PENDING_ELEM-53">a correct scenario with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
             </tr>
             <tr class="pending">
-               <th>(<strong>testing @pending</strong>) <a href="#PENDING_ELEM-40">an incorrect scenario with @pending must be Pending</a></th>
-               <th>0/1/0/1</th>
+               <th>(<strong>testing @pending</strong>) <a href="#PENDING_ELEM-61">an incorrect scenario with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-46">
-         <h2 class="successful">a non-pending correct scenario alongside a pending scenario<span class="scenario-totals">1/0/0/1</span></h2>
-         <table class="xspec" id="ELEM-48">
-            <col width="85%" />
-            <col width="15%" />
+      <div id="ELEM-70">
+         <h2 class="successful">a non-pending correct scenario alongside a pending scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-72">
+            <col width="75%" />
+            <col width="25%" />
             <tbody>
                <tr class="successful">
                   <th>a non-pending correct scenario alongside a pending scenario</th>
-                  <th>1/0/0/1</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
                   <td>must execute the test and return Success</td>
@@ -62,24 +86,24 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-59">
-         <h2 class="failed">a non-pending incorrect scenario alongside a pending scenario<span class="scenario-totals">0/0/1/1</span></h2>
-         <table class="xspec" id="ELEM-61">
-            <col width="85%" />
-            <col width="15%" />
+      <div id="ELEM-83">
+         <h2 class="failed">a non-pending incorrect scenario alongside a pending scenario<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-85">
+            <col width="75%" />
+            <col width="25%" />
             <tbody>
                <tr class="failed">
                   <th>a non-pending incorrect scenario alongside a pending scenario</th>
-                  <th>0/0/1/1</th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-73">must execute the test and return Failure</a></td>
+                  <td><a href="#ELEM-97">must execute the test and return Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-59">a non-pending incorrect scenario alongside a pending scenario</h3>
-         <h4 id="ELEM-73">must execute the test and return Failure</h4>
+         <h3 id="ELEM-83">a non-pending incorrect scenario alongside a pending scenario</h3>
+         <h4 id="ELEM-97">must execute the test and return Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
