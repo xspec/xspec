@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for xspec-tested.xsl (1/2/1/4)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Stylesheet: <a href="xspec-tested.xsl">xspec-tested.xsl</a></p>
+      <p>Tested: ONCE-UPON-A-TIME</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <col width="85%" />
+         <col width="15%" />
+         <thead>
+            <tr>
+               <th style="text-align: right; font-weight: normal; ">passed/pending/failed/total</th>
+               <th>1/2/1/4</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="pending">
+               <th>(<strong>testing @focus</strong>) <a href="#PENDING_ELEM-17">an unfocused correct scenario must be Pending</a></th>
+               <th>0/1/0/1</th>
+            </tr>
+            <tr class="pending">
+               <th>(<strong>testing @focus</strong>) <a href="#PENDING_ELEM-22">an unfocused incorrect scenario must be Pending</a></th>
+               <th>0/1/0/1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#ELEM-36">a focused correct scenario</a></th>
+               <th>1/0/0/1</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#ELEM-49">a focused incorrect scenario</a></th>
+               <th>0/0/1/1</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="ELEM-36">
+         <h2 class="successful">a focused correct scenario<span class="scenario-totals">1/0/0/1</span></h2>
+         <table class="xspec" id="ELEM-38">
+            <col width="85%" />
+            <col width="15%" />
+            <tbody>
+               <tr class="successful">
+                  <th>a focused correct scenario</th>
+                  <th>1/0/0/1</th>
+               </tr>
+               <tr class="successful">
+                  <td>must execute the test and return Success</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="ELEM-49">
+         <h2 class="failed">a focused incorrect scenario<span class="scenario-totals">0/0/1/1</span></h2>
+         <table class="xspec" id="ELEM-51">
+            <col width="85%" />
+            <col width="15%" />
+            <tbody>
+               <tr class="failed">
+                  <th>a focused incorrect scenario</th>
+                  <th>0/0/1/1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-63">must execute the test and return Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <h3 id="ELEM-49">a focused incorrect scenario</h3>
+         <h4 id="ELEM-63">must execute the test and return Failure</h4>
+         <table class="xspecResult">
+            <thead>
+               <tr>
+                  <th>Result</th>
+                  <th>Expected Result</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td><pre>4</pre></td>
+                  <td><pre>()</pre></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </body>
+</html>

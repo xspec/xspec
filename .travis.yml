@@ -1,13 +1,16 @@
 env:
     matrix:
         # latest Saxon 9.7 version
-        - SAXON_VERSION=9.7.0-18
+        - SAXON_VERSION=9.7.0-20
           XMLCALABASH_VERSION=1.1.16-97
           BASEX_VERSION=8.6.4
         # latest Saxon 9.6 version
         - SAXON_VERSION=9.6.0-10
         # Saxon version used in oXygen
         - SAXON_VERSION=9.7.0-15
+
+before_install:
+    - unset _JAVA_OPTIONS
 
 before_script:
     # install bats
@@ -43,3 +46,6 @@ script:
     - bats --tap xspec.bats
     - echo "execute XSpec unit tests"
     - ./run-xspec-tests.sh
+    - echo "execute XSpec end-to-end tests"
+    - cd end-to-end
+    - ./run-e2e-tests.sh

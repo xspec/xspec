@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-55.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="In a failure report HTML">
+		<x:context />
+		<x:expect select="xs:decimal(1)">
+			<x:label>[Expected Result] must represent xs:decimal(1) by "1.0" (numeric literal of
+				decimal)</x:label>
+		</x:expect>
+		<x:expect select="xs:double(1)">
+			<x:label>[Expected Result] must represent xs:double(1) by "xs:double('1')" (constructor
+				of double)</x:label>
+		</x:expect>
+		<x:expect select="xs:integer(1)">
+			<x:label>[Expected Result] must represent xs:integer(1) by "1" (numeric literal of
+				integer)</x:label>
+		</x:expect>
+	</x:scenario>
+</x:description>
