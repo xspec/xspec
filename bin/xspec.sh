@@ -294,7 +294,7 @@ if test -n "$SCHEMATRON"; then
     SCH_PARAMS=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
     echo Parameters: $SCH_PARAMS
     SCHUT=$XSPEC-compiled.xspec
-    SCH_COMPILED=$SCH-compiled.xsl
+    SCH_COMPILED=$(echo "$SCH" | sed 's:^file\:::')-compiled.xsl
     
     echo
     echo "Compiling the Schematron..."
