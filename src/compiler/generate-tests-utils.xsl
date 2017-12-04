@@ -319,6 +319,23 @@
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
+      <xsl:when test="$value[. instance of node()]">
+        <!-- $value is a mixture of nodes and atomic values. Wrap each of them. -->
+        <xsl:attribute name="select">/*/(@* | node())</xsl:attribute>
+        <xsl:for-each select="$value">
+          <xsl:element name="temp" namespace="{$wrapper-ns}">
+            <xsl:choose>
+              <xsl:when test="empty(.)">()</xsl:when>
+              <xsl:when test=". instance of node()">
+                <xsl:apply-templates select="." mode="test:report-value" />
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="test:report-atomic-value(.)" />
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:element>
+        </xsl:for-each>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:attribute name="select">
           <xsl:choose>
