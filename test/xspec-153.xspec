@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-153.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="When a function returns a local date time string">
+		<x:call function="exactly-one">
+			<x:param select="string(xs:dateTime('2000-01-01T12:00:00+12:00'))" />
+		</x:call>
+		<x:expect
+			label="Comparing the function result with the same date time in UTC will report Success"
+			select="xs:dateTime('2000-01-01T00:00:00Z')" test="xs:dateTime($x:result)" />
+		<!--<x:expect
+			label="Comparing the function result with a different date time will report Failure"
+			select="xs:dateTime('1234-01-01T00:00:00Z')" test="xs:dateTime($x:result)" />-->
+	</x:scenario>
+</x:description>
