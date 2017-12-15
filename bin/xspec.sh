@@ -294,7 +294,7 @@ if test -n "$SCHEMATRON"; then
     SCH_PARAMS=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
     echo Parameters: $SCH_PARAMS
     SCHUT=$XSPEC-compiled.xspec
-    SCH_COMPILED=$TEST_DIR/$TARGET_FILE_NAME-sch-compiled.xsl
+    SCH_COMPILED=$(echo "$SCH" | sed 's:^file\:::')-compiled.xsl
     
     echo
     echo "Compiling the Schematron..."
@@ -303,8 +303,8 @@ if test -n "$SCHEMATRON"; then
     xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$SCHEMATRON_XSLT_COMPILE" -versionmsg:off $SCH_PARAMS || die "Error compiling the Schematron on step 3"
     
     # use XQuery to get full URI to compiled Schematron
-    xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(document-uri(/))" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"
-    SCH_COMPILED=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"
+    # SCH_COMPILED=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
     
     echo 
     echo "Compiling the Schematron tests..."
@@ -396,7 +396,7 @@ if test -n "$SCHEMATRON"; then
     rm -f "$TEST_DIR/$TARGET_FILE_NAME-var.txt"
     rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml"
     rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-compiled.xsl"
+    rm -f "$SCH_COMPILED"
 fi
 
 echo "Done."
