@@ -1,13 +1,13 @@
 environment:
   SAXON_CP: '%TEMP%\xspec\saxon\saxon9he.jar'
   matrix:
+    # latest Saxon 9.8 version
+    - SAXON_VERSION: 9.8.0-7
     # latest Saxon 9.7 version
-    - SAXON_VERSION: 9.7.0-20
+    - SAXON_VERSION: 9.7.0-21
       XMLCALABASH_VERSION: 1.1.16-97
-    # latest Saxon 9.6 version
-    - SAXON_VERSION: 9.6.0-10
     # Saxon version used in oXygen
-    - SAXON_VERSION: 9.7.0-15
+    - SAXON_VERSION: 9.7.0-19
 
 install:
 - ps: >-
