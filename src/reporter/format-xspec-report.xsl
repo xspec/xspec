@@ -23,6 +23,8 @@
 <xsl:param name="report-css-uri" select="
     resolve-uri('test-report.css', static-base-uri())"/>
 
+<xsl:param name="inline-css" select="false()"/>
+
 <xsl:function name="x:pending-callback" as="node()*">
   <!-- returns formatted output for $pending. -->
   <xsl:param name="pending" as="xs:string?"/>
@@ -130,7 +132,10 @@
          </xsl:call-template>
          <xsl:text>)</xsl:text>
       </title>
-      <link rel="stylesheet" type="text/css" href="{ $report-css-uri }"/>
+      <xsl:choose>
+        <xsl:when test="$inline-css"><style><xsl:value-of select="unparsed-text( $report-css-uri )" disable-output-escaping="yes"/></style></xsl:when>
+        <xsl:otherwise><link rel="stylesheet" type="text/css" href="{ $report-css-uri }"/></xsl:otherwise>
+      </xsl:choose>
       <xsl:call-template name="x:html-head-callback"/>
     </head>
     <body>
