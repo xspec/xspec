@@ -319,3 +319,10 @@ teardown() {
     echo $output
     [[ "${output}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 }
+
+
+@test "HTML report contains CSS inline and not as an external file #135" {
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+	grep '<style type="text/css">' ../tutorial/xspec/escape-for-regex-result.html
+	grep 'margin-right:' ../tutorial/xspec/escape-for-regex-result.html
+}
