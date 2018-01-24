@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="schematron/schematron-021.sch">
+    
+    <x:scenario label="abstract pattern">
+        <x:scenario label="implementation 1">
+            <x:context>
+                <div/>
+            </x:context>
+            <x:expect-assert id="rule1"/>
+        </x:scenario>
+        <x:scenario label="implementation 2">
+            <x:context>
+                <para/>
+            </x:context>
+            <x:expect-assert id="rule1"/>
+        </x:scenario>
+        <x:scenario label="id on pattern">
+            <x:context>
+                <figure/>
+            </x:context>
+            <x:expect-assert id="pattern5"/>
+        </x:scenario>
+    </x:scenario>
+    
+</x:description>

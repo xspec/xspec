@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       test/xspec-function.xspec                                -->
+<!--  File:       test/xspec-imported.xspec                                -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="xspec-tested.xql" stylesheet="xspec-tested.xsl">
-  <t:scenario label="call" focus="TODO: xspec/xspec#4: Remove this @focus">
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="../../xspec-tested.xql" stylesheet="../../xspec-tested.xsl">
+  <t:scenario label="a correct scenario in an imported file">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
-    <t:expect label="the type" test="$x:result instance of xs:integer"/>
+    <t:expect label="must return Success" test="$x:result eq 9"/>
   </t:scenario>
-  <t:scenario label="must fail">
+  <t:scenario label="an incorrect scenario in an imported file">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
-    <t:expect label="wrong result" test="$x:result eq 42"/>
+    <t:expect label="must return Failure" test="$x:result eq 42"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

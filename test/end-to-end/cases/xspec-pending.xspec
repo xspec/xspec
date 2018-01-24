@@ -2,61 +2,62 @@
 <!-- ===================================================================== -->
 <!--  File:       test/xspec-pending.xspec                                 -->
 <!--  Author:     Florent Georges                                          -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<?oxygen RNGSchema="http://xspec.googlecode.com/svn/trunk/xspec.rnc" type="compact"?>
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="../../xspec-tested.xql" stylesheet="../../xspec-tested.xsl">
   <!--
        Test pending features (x:pending and @pending).
    -->
+
   <!--
        Test x:pending.
    -->
-  <t:pending label="testing pending element">
-    <t:scenario label="pending call (element)">
+  <t:pending label="testing x:pending">
+    <t:scenario label="a correct scenario in x:pending must be Pending">
       <t:call function="my:square">
         <t:param select="3"/>
       </t:call>
-      <t:expect label="the result" test="$x:result eq 9"/>
+      <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
     </t:scenario>
-    <t:scenario label="pending must fail (element)">
+    <t:scenario label="an incorrect scenario in x:pending must be Pending">
       <t:call function="my:square">
         <t:param select="2"/>
       </t:call>
-      <t:expect label="the type" test="$x:result instance of xs:string"/>
+      <t:expect label="it would return Failure if it were not Pending" test="$x:result instance of xs:string"/>
     </t:scenario>
   </t:pending>
+
   <!--
        Non-pending scenarios.
    -->
-  <t:scenario label="call">
+  <t:scenario label="a non-pending correct scenario alongside a pending scenario">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+    <t:expect label="must execute the test and return Success" test="$x:result eq 9"/>
   </t:scenario>
-  <t:scenario label="must fail">
+  <t:scenario label="a non-pending incorrect scenario alongside a pending scenario">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
-    <t:expect label="the type" test="$x:result instance of xs:string"/>
+    <t:expect label="must execute the test and return Failure" test="$x:result instance of xs:string"/>
   </t:scenario>
+
   <!--
        Test @pending.
    -->
-  <t:scenario label="pending call (attribute)" pending="testing pending attribute">
+  <t:scenario label="a correct scenario with @pending must be Pending" pending="testing @pending">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+    <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
   </t:scenario>
-  <t:scenario label="pending must fail (attribute)" pending="testing pending attribute">
+  <t:scenario label="an incorrect scenario with @pending must be Pending" pending="testing @pending">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
-    <t:expect label="the type" test="$x:result instance of xs:string"/>
+    <t:expect label="it would return Failure if it were not Pending" test="$x:result instance of xs:string"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

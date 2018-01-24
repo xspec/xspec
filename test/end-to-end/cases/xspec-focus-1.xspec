@@ -2,7 +2,6 @@
 <!-- ===================================================================== -->
 <!--  File:       test/xspec-pending.xspec                                 -->
 <!--  Author:     Florent Georges                                          -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -10,35 +9,37 @@
   <!--
        Test @focus.
    -->
+
   <!--
        Normal scenarios (must be pending because of the @focus in "Focused on scenarios").
    -->
-  <t:scenario label="pending call">
+  <t:scenario label="an unfocused correct scenario must be Pending">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+    <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
   </t:scenario>
-  <t:scenario label="pending must fail">
+  <t:scenario label="an unfocused incorrect scenario must be Pending">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
-    <t:expect label="the type" test="$x:result instance of xs:string"/>
+    <t:expect label="it would return Failure if it were not Pending" test="$x:result instance of xs:string"/>
   </t:scenario>
+
   <!--
        Focused on scenarios.
    -->
-  <t:scenario label="focus call" focus="focus">
+  <t:scenario label="a focused correct scenario" focus="testing @focus">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+    <t:expect label="must execute the test and return Success" test="$x:result eq 9"/>
   </t:scenario>
-  <t:scenario label="focus must fail" focus="focus">
+  <t:scenario label="a focused incorrect scenario" focus="testing @focus">
     <t:call function="my:square">
       <t:param select="2"/>
     </t:call>
-    <t:expect label="the type" test="$x:result instance of xs:string"/>
+    <t:expect label="must execute the test and return Failure" test="$x:result instance of xs:string"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

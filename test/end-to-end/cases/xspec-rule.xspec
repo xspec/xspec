@@ -1,22 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       test/xspec-imported.xspec                                -->
+<!--  File:       test/xspec-rule.xspec                                    -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="xspec-tested.xql" stylesheet="xspec-tested.xsl">
-  <t:scenario label="call" focus="TODO: xspec/xspec#4: Remove this @focus">
-    <t:call function="my:square">
-      <t:param select="3"/>
-    </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" stylesheet="../../xspec-tested.xsl">
+  <t:scenario label="x:context with correct x:expect">
+    <t:context>
+      <rule/>
+    </t:context>
+    <t:expect label="must return Success">
+      <transformed/>
+    </t:expect>
   </t:scenario>
-  <t:scenario label="must fail">
-    <t:call function="my:square">
-      <t:param select="2"/>
-    </t:call>
-    <t:expect label="wrong result" test="$x:result eq 42"/>
+  <t:scenario label="x:context with incorrect x:expect">
+    <t:context>
+      <rule/>
+    </t:context>
+    <t:expect label="must return Failure">
+      <erroneous/>
+    </t:expect>
+  </t:scenario>
+
+  <!-- TODO: Make two different cases for the base t:apply and with param. -->
+  <t:scenario label="x:apply with correct x:expect" pending="not implemented yet">
+    <t:variable name="ctxt" as="element()">
+      <rule/>
+    </t:variable>
+    <t:apply select="$ctxt">
+      <t:param name="p" select="0"/>
+    </t:apply>
+    <t:expect label="must return Success">
+      <transformed/>
+    </t:expect>
+  </t:scenario>
+  <t:scenario label="x:apply with incorrect x:expect" pending="not implemented yet">
+    <t:variable name="ctxt" as="element()">
+      <rule/>
+    </t:variable>
+    <t:apply select="$ctxt">
+      <t:param name="p" select="0"/>
+    </t:apply>
+    <t:expect label="must return Failure">
+      <erroneous/>
+    </t:expect>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

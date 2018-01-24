@@ -2,7 +2,7 @@
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:deserializer="x-urn:xspec:test:end-to-end:processor:deserializer"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:deserializer:local"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xpath-default-namespace="http://www.w3.org/1999/xhtml">
 
 	<!--
@@ -40,7 +40,10 @@
 		<xsl:choose>
 			<xsl:when test="normalize-space()">
 				<!-- Remove whitespace-only tail line -->
-				<xsl:value-of select="replace(., '\n +$', '')" />
+				<xsl:variable as="xs:string" name="tail-removed" select="replace(., '\n +$', '')" />
+
+				<!-- Compress whitespace -->
+				<xsl:value-of select="replace($tail-removed, '[ \n\t]+', ' ')" />
 			</xsl:when>
 			<xsl:otherwise>
 				<!-- Remove whitespace-only text node -->
