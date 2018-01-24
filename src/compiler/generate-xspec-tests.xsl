@@ -210,7 +210,7 @@
                   <xsl:apply-templates select="$context" mode="x:setup-context"/>
                   <!-- Switch to the context and call the template -->
                   <for-each select="$impl:context">
-                    <xsl:copy-of select="$template-call" />
+                  <xsl:copy-of select="$template-call" />
                   </for-each>
                 </xsl:when>
                 <xsl:otherwise>

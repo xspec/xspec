@@ -9,6 +9,17 @@
     <xsl:param name="test_dir" select="'xspec'"/>
     
 
+    <xsl:variable name="filePrefix" as="xs:string?">
+        <xsl:choose>
+            <xsl:when test="contains(system-property('os.name'), 'Windows')">
+                <xsl:text>file:/</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <!--<xsl:text>file://</xsl:text>-->
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+    
     <xsl:variable name="error" select="('error', 'fatal')"/>
     <xsl:variable name="warn" select="('warn', 'warning')"/>
     <xsl:variable name="info" select="('info', 'information')"/>
@@ -39,7 +50,7 @@
     </xsl:template>
 
     <xsl:template match="@schematron">
-        <xsl:attribute name="stylesheet" select="$stylesheet"/>
+        <xsl:attribute name="stylesheet" select="concat($filePrefix,$stylesheet)"/>
         <xsl:variable name="path" select="iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', string()))"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
             <xsl:namespace name="{./@prefix}" select="./@uri"/>

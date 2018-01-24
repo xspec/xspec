@@ -1,7 +1,6 @@
 <?xml version="1.0"?><?xar XSLT?>
 
 <!-- 
-   OVERVIEW
    
    ASCC/Schematron.com Skeleton Module for ISO Schematron (for XSLT2 systems)
    
@@ -437,6 +436,7 @@ THE SOFTWARE.
     xmlns:exsl="http://exslt.org/common" 
     xmlns:xhtml="http://www.w3.org/1999/xhtml" 
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:oup="http://www.oup.com/schematron"
     extension-element-prefixes="exsl"
     version="2.0"
 	 >
@@ -1561,7 +1561,7 @@ which require a preprocess.
 				 mode="M{ count(preceding-sibling::*) }">
 		    <axsl:apply-templates select="{$context-xpath}" mode="M{count(preceding-sibling::*)}"/>
 		  </axsl:template>
-		</xsl:if>
+			</xsl:if>
       </xsl:if>
 	</xsl:template>
 
@@ -1680,8 +1680,7 @@ which require a preprocess.
 		</xsl:call-template>
 	</xsl:template>
 
-	<!-- ISO TITLE -->
-	
+    <!-- OUP elements no longer required -->
 	<xsl:template match="iso:schema/iso:title"  priority="1">
 	     <xsl:call-template name="process-schema-title" />
 	</xsl:template>
