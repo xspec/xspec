@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for xspec-three-dots.xsl (passed: 42 / pending: 0 / failed: 30 / total:
+      <title>Test Report for xspec-three-dots.xsl (passed: 45 / pending: 0 / failed: 27 / total:
          72)
       </title>
       <link rel="stylesheet" type="text/css" href="../../../../src/reporter/test-report.css" />
@@ -20,9 +20,9 @@
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 42</th>
+               <th class="totals">passed: 45</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 30</th>
+               <th class="totals">failed: 27</th>
                <th class="totals">total: 72</th>
             </tr>
          </thead>
@@ -84,35 +84,35 @@
                <th class="totals">7</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-685">For resultant namespace node (TODO: xspec/xspec#67)</a></th>
-               <th class="totals">3</th>
+               <th><a href="#ELEM-685">For resultant namespace node</a></th>
+               <th class="totals">6</th>
                <th class="totals">0</th>
-               <th class="totals">4</th>
+               <th class="totals">1</th>
                <th class="totals">7</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-783">For resultant sequence of multiple nodes</a></th>
+               <th><a href="#ELEM-740">For resultant sequence of multiple nodes</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">3</th>
                <th class="totals">5</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-867">When result is empty sequence</a></th>
+               <th><a href="#ELEM-824">When result is empty sequence</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-897">For resultant atomic value</a></th>
+               <th><a href="#ELEM-854">For resultant atomic value</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">4</th>
                <th class="totals">6</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-993">For any resultant item</a></th>
+               <th><a href="#ELEM-950">For any resultant item</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">4</th>
@@ -771,112 +771,59 @@
          </table>
       </div>
       <div id="ELEM-685">
-         <h2 class="successful">For resultant namespace node (TODO: xspec/xspec#67)<span class="scenario-totals">passed: 3 / pending: 0 / failed: 4 / total: 7</span></h2>
+         <h2 class="successful">For resultant namespace node<span class="scenario-totals">passed: 6 / pending: 0 / failed: 1 / total: 7</span></h2>
          <table class="xspec" id="ELEM-687">
             <col width="75%" />
             <col width="25%" />
             <tbody>
                <tr class="successful">
-                  <th>For resultant namespace node (TODO: xspec/xspec#67)</th>
-                  <th>passed: 3 / pending: 0 / failed: 4 / total: 7</th>
+                  <th>For resultant namespace node</th>
+                  <th>passed: 6 / pending: 0 / failed: 1 / total: 7</th>
                </tr>
-               <tr class="failed">
-                  <th><a href="#ELEM-731">When result is xmlns:prefix="namespace-uri" </a></th>
-                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               <tr class="successful">
+                  <th>When result is xmlns:prefix="namespace-uri" </th>
+                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
                </tr>
-               <tr class="failed">
-                  <td><a href="#ELEM-732">expecting xmlns:prefix="..." should be Success</a></td>
-                  <td>Failure</td>
+               <tr class="successful">
+                  <td>expecting xmlns:prefix="..." should be Success</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>expecting ... should be Success</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <th>When result is xmlns="namespace-uri" </th>
+                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <td>expecting xmlns="..." should be Success</td>
+                  <td>Success</td>
                </tr>
                <tr class="successful">
                   <td>expecting ... should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-744">When result is xmlns="namespace-uri" </a></th>
-                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+                  <th><a href="#ELEM-726">When result is xmlns:prefix="..." </a></th>
+                  <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
-               <tr class="failed">
-                  <td><a href="#ELEM-745">expecting xmlns="..." should be Success</a></td>
-                  <td>Failure</td>
+               <tr class="successful">
+                  <td>expecting xmlns:prefix="..." should be Success</td>
+                  <td>Success</td>
                </tr>
                <tr class="successful">
                   <td>expecting ... should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-757">When result is xmlns:prefix="..." </a></th>
-                  <th>passed: 1 / pending: 0 / failed: 2 / total: 3</th>
-               </tr>
-               <tr class="failed">
-                  <td><a href="#ELEM-758">expecting xmlns:prefix="..." should be Success</a></td>
-                  <td>Failure</td>
-               </tr>
-               <tr class="successful">
-                  <td>expecting ... should be Success</td>
-                  <td>Success</td>
-               </tr>
-               <tr class="failed">
-                  <td><a href="#ELEM-770">expecting xmlns:prefix="namespace-uri" should be Failure</a></td>
+                  <td><a href="#ELEM-727">expecting xmlns:prefix="namespace-uri" should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-731">For resultant namespace node (TODO: xspec/xspec#67) When result is xmlns:prefix="namespace-uri"
-            
-         </h3>
-         <h4 id="ELEM-732">expecting xmlns:prefix="..." should be Success</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>/node()</pre></td>
-                  <td><pre>/node()</pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-744">For resultant namespace node (TODO: xspec/xspec#67) When result is xmlns="namespace-uri"
-            
-         </h3>
-         <h4 id="ELEM-745">expecting xmlns="..." should be Success</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>/node()</pre></td>
-                  <td><pre>/node()</pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-757">For resultant namespace node (TODO: xspec/xspec#67) When result is xmlns:prefix="..."
-            
-         </h3>
-         <h4 id="ELEM-758">expecting xmlns:prefix="..." should be Success</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>/node()</pre></td>
-                  <td><pre>/node()</pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-770">expecting xmlns:prefix="namespace-uri" should be Failure</h4>
+         <h3 id="ELEM-726">For resultant namespace node When result is xmlns:prefix="..." </h3>
+         <h4 id="ELEM-727">expecting xmlns:prefix="namespace-uri" should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -892,9 +839,9 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-783">
+      <div id="ELEM-740">
          <h2 class="successful">For resultant sequence of multiple nodes<span class="scenario-totals">passed: 2 / pending: 0 / failed: 3 / total: 5</span></h2>
-         <table class="xspec" id="ELEM-785">
+         <table class="xspec" id="ELEM-742">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -903,7 +850,7 @@
                   <th>passed: 2 / pending: 0 / failed: 3 / total: 5</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-814">When result is sequence of &lt;elem1 /&gt;&lt;elem2 /&gt; </a></th>
+                  <th><a href="#ELEM-771">When result is sequence of &lt;elem1 /&gt;&lt;elem2 /&gt; </a></th>
                   <th>passed: 2 / pending: 0 / failed: 3 / total: 5</th>
                </tr>
                <tr class="successful">
@@ -915,23 +862,23 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-815">expecting ... should be Failure</a></td>
+                  <td><a href="#ELEM-772">expecting ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-832">expecting ...... should be Failure</a></td>
+                  <td><a href="#ELEM-789">expecting ...... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-849">expecting sequence of three ... should be Failure</a></td>
+                  <td><a href="#ELEM-806">expecting sequence of three ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-814">For resultant sequence of multiple nodes When result is sequence of &lt;elem1 /&gt;&lt;elem2
+         <h3 id="ELEM-771">For resultant sequence of multiple nodes When result is sequence of &lt;elem1 /&gt;&lt;elem2
             /&gt; 
          </h3>
-         <h4 id="ELEM-815">expecting ... should be Failure</h4>
+         <h4 id="ELEM-772">expecting ... should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -948,7 +895,7 @@
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-832">expecting ...... should be Failure</h4>
+         <h4 id="ELEM-789">expecting ...... should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -965,7 +912,7 @@
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-849">expecting sequence of three ... should be Failure</h4>
+         <h4 id="ELEM-806">expecting sequence of three ... should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -983,9 +930,9 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-867">
+      <div id="ELEM-824">
          <h2 class="failed">When result is empty sequence<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-869">
+         <table class="xspec" id="ELEM-826">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -994,13 +941,13 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-881">expecting ... should be Failure</a></td>
+                  <td><a href="#ELEM-838">expecting ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-867">When result is empty sequence</h3>
-         <h4 id="ELEM-881">expecting ... should be Failure</h4>
+         <h3 id="ELEM-824">When result is empty sequence</h3>
+         <h4 id="ELEM-838">expecting ... should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -1018,9 +965,9 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-897">
+      <div id="ELEM-854">
          <h2 class="successful">For resultant atomic value<span class="scenario-totals">passed: 2 / pending: 0 / failed: 4 / total: 6</span></h2>
-         <table class="xspec" id="ELEM-899">
+         <table class="xspec" id="ELEM-856">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -1029,7 +976,7 @@
                   <th>passed: 2 / pending: 0 / failed: 4 / total: 6</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-936">When result is 'string'</a></th>
+                  <th><a href="#ELEM-893">When result is 'string'</a></th>
                   <th>passed: 1 / pending: 0 / failed: 2 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -1037,15 +984,15 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-937">expecting ... should be Failure</a></td>
+                  <td><a href="#ELEM-894">expecting ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-952">expecting '...' should be Failure</a></td>
+                  <td><a href="#ELEM-909">expecting '...' should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-964">When result is '...'</a></th>
+                  <th><a href="#ELEM-921">When result is '...'</a></th>
                   <th>passed: 1 / pending: 0 / failed: 2 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -1053,17 +1000,17 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-965">expecting ... should be Failure</a></td>
+                  <td><a href="#ELEM-922">expecting ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-980">expecting 'string' should be Failure</a></td>
+                  <td><a href="#ELEM-937">expecting 'string' should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-936">For resultant atomic value When result is 'string'</h3>
-         <h4 id="ELEM-937">expecting ... should be Failure</h4>
+         <h3 id="ELEM-893">For resultant atomic value When result is 'string'</h3>
+         <h4 id="ELEM-894">expecting ... should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -1080,7 +1027,7 @@
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-952">expecting '...' should be Failure</h4>
+         <h4 id="ELEM-909">expecting '...' should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -1095,8 +1042,8 @@
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-964">For resultant atomic value When result is '...'</h3>
-         <h4 id="ELEM-965">expecting ... should be Failure</h4>
+         <h3 id="ELEM-921">For resultant atomic value When result is '...'</h3>
+         <h4 id="ELEM-922">expecting ... should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -1113,7 +1060,7 @@
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-980">expecting 'string' should be Failure</h4>
+         <h4 id="ELEM-937">expecting 'string' should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -1129,9 +1076,9 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-993">
+      <div id="ELEM-950">
          <h2 class="failed">For any resultant item<span class="scenario-totals">passed: 0 / pending: 0 / failed: 4 / total: 4</span></h2>
-         <table class="xspec" id="ELEM-995">
+         <table class="xspec" id="ELEM-952">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -1140,25 +1087,25 @@
                   <th>passed: 0 / pending: 0 / failed: 4 / total: 4</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-1019">expecting .... (four dots) should be Failure</a></td>
+                  <td><a href="#ELEM-976">expecting .... (four dots) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-1037">expecting ...x (three dots with extra character) should be Failure</a></td>
+                  <td><a href="#ELEM-994">expecting ...x (three dots with extra character) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-1055">expecting ... with surrounding whitespace should be Failure</a></td>
+                  <td><a href="#ELEM-1012">expecting ... with surrounding whitespace should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-1073">expecting '...' (xs:string) should be Failure</a></td>
+                  <td><a href="#ELEM-1030">expecting '...' (xs:string) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-993">For any resultant item</h3>
-         <h4 id="ELEM-1019">expecting .... (four dots) should be Failure</h4>
+         <h3 id="ELEM-950">For any resultant item</h3>
+         <h4 id="ELEM-976">expecting .... (four dots) should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -1177,7 +1124,7 @@
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-1037">expecting ...x (three dots with extra character) should be Failure</h4>
+         <h4 id="ELEM-994">expecting ...x (three dots with extra character) should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -1196,7 +1143,7 @@
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-1055">expecting ... with surrounding whitespace should be Failure</h4>
+         <h4 id="ELEM-1012">expecting ... with surrounding whitespace should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -1215,7 +1162,7 @@
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-1073">expecting '...' (xs:string) should be Failure</h4>
+         <h4 id="ELEM-1030">expecting '...' (xs:string) should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
