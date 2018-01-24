@@ -80,9 +80,11 @@
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:sequence select="'exists(svrl:schematron-output/svrl:failed-assert'"/>
+                <xsl:sequence select="if (@count) then 'count' else 'exists'"/>
+                <xsl:sequence select="'(svrl:schematron-output/svrl:failed-assert'"/>
                 <xsl:apply-templates select="@*" mode="make-predicate"/>
                 <xsl:sequence select="')'"/>
+                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -102,9 +104,11 @@
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:sequence select="'exists(svrl:schematron-output/svrl:successful-report'"/>
+                <xsl:sequence select="if (@count) then 'count' else 'exists'"/>
+                <xsl:sequence select="'(svrl:schematron-output/svrl:successful-report'"/>
                 <xsl:apply-templates select="@*" mode="make-predicate"/>
                 <xsl:sequence select="')'"/>
+                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -131,11 +135,19 @@
     <xsl:template match="@id | @role" mode="make-predicate">
         <xsl:sequence select="concat('[(@', local-name(.), 
             ', preceding-sibling::svrl:fired-rule[1]/@',local-name(.), 
+            ', preceding-sibling::svrl:active-pattern[1]/@',local-name(.), 
             ')[1] = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
     
+    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" mode="make-predicate">
+        <xsl:sequence select="concat('[@', local-name(.), 
+            ' = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
+    </xsl:template>
+    
+    <xsl:template match="@count | @label" mode="make-predicate"/>
+    
     <xsl:template name="make-label">
-        <xsl:attribute name="label" select="string-join((tokenize(local-name(),'-')[.=('report','assert','not')], @id, @role, @location), ' ')"/>
+        <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not','rule')], @id, @role, @location, @context, current()[@count]/string('count:'), @count), ' ')"/>
     </xsl:template>
 
     <xsl:template match="x:expect-valid">
@@ -148,6 +160,19 @@
                 string-join(for $e in $error return concat(codepoints-to-string(39), $e, codepoints-to-string(39)), ','),
                 ')]))'
                 )"/>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:expect-rule">
+        <xsl:element name="x:expect">
+            <xsl:call-template name="make-label"/>
+            <xsl:attribute name="test">
+                <xsl:sequence select="if (@count) then 'count' else 'exists'"/>
+                <xsl:sequence select="'(svrl:schematron-output/svrl:fired-rule'"/>
+                <xsl:apply-templates select="@*" mode="make-predicate"/>
+                <xsl:sequence select="')'"/>
+                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
+            </xsl:attribute>
         </xsl:element>
     </xsl:template>
     

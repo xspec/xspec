@@ -74,4 +74,10 @@
             <x:expect-report id="ru3" role="warn" location="/article[1]"/>
         </x:scenario>
     </x:scenario>
+    <x:scenario label="inherrit from pattern">
+        <x:scenario label="id from pattern">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="pattern3"/>
+        </x:scenario>
+    </x:scenario>
 </x:description>

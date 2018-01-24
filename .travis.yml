@@ -49,4 +49,3 @@ script:
     - echo "execute XSpec end-to-end tests"
     - cd end-to-end
     - ./run-e2e-tests.sh
-

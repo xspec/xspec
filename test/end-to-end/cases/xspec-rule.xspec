@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       test/xspec-pending.xspec                                 -->
+<!--  File:       test/xspec-rule.xspec                                    -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="xspec-tested.xql" stylesheet="xspec-tested.xsl">
-  <!--
-       Test @focus.
-   -->
-  <!--
-       Normal scenarios (must be pending because of the @focus).
-   -->
-  <t:scenario label="pending call" focus="focus">
-    <t:call function="my:square">
-      <t:param select="3"/>
-    </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" stylesheet="../../xspec-tested.xsl">
+  <t:scenario label="x:context with correct x:expect">
+    <t:context>
+      <rule/>
+    </t:context>
+    <t:expect label="must return Success">
+      <transformed/>
+    </t:expect>
   </t:scenario>
-  <t:scenario label="pending must fail">
-    <t:call function="my:square">
-      <t:param select="2"/>
-    </t:call>
-    <t:expect label="the type" test="$x:result instance of xs:string"/>
+  <t:scenario label="x:context with incorrect x:expect">
+    <t:context>
+      <rule/>
+    </t:context>
+    <t:expect label="must return Failure">
+      <erroneous/>
+    </t:expect>
   </t:scenario>
-  <!--
-       Focused on scenarios.
-   -->
-  <t:scenario label="focus call" focus="focus">
-    <t:call function="my:square">
-      <t:param select="3"/>
-    </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+
+  <!-- TODO: Make two different cases for the base t:apply and with param. -->
+  <t:scenario label="x:apply with correct x:expect" pending="not implemented yet">
+    <t:variable name="ctxt" as="element()">
+      <rule/>
+    </t:variable>
+    <t:apply select="$ctxt">
+      <t:param name="p" select="0"/>
+    </t:apply>
+    <t:expect label="must return Success">
+      <transformed/>
+    </t:expect>
   </t:scenario>
-  <t:scenario label="focus must fail">
-    <t:call function="my:square">
-      <t:param select="2"/>
-    </t:call>
-    <t:expect label="the type" test="$x:result instance of xs:string"/>
+  <t:scenario label="x:apply with incorrect x:expect" pending="not implemented yet">
+    <t:variable name="ctxt" as="element()">
+      <rule/>
+    </t:variable>
+    <t:apply select="$ctxt">
+      <t:param name="p" select="0"/>
+    </t:apply>
+    <t:expect label="must return Failure">
+      <erroneous/>
+    </t:expect>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

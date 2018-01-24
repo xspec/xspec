@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron-016.sch">
+
+    <x:scenario label="count">
+        <x:scenario label="0">
+            <x:scenario label="assert">
+                <x:context>
+                    <root/>
+                </x:context>
+                <x:expect-assert count="0"/>
+            </x:scenario>
+            <x:scenario label="report">
+                <x:context>
+                    <root/>
+                </x:context>
+                <x:expect-report count="0"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="1">
+            <x:scenario label="assert">
+                <x:context>
+                    <root>
+                        <do-assert/>
+                    </root>
+                </x:context>
+                <x:expect-assert count="1"/>
+            </x:scenario>
+            <x:scenario label="report">
+                <x:context>
+                    <root>
+                        <do-report/>
+                    </root>
+                </x:context>
+                <x:expect-report count="1"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="2">
+            <x:scenario label="assert">
+                <x:context>
+                    <root>
+                        <do-assert/>
+                        <do-assert/>
+                    </root>
+                </x:context>
+                <x:expect-assert count="2"/>
+            </x:scenario>
+            <x:scenario label="report">
+                <x:context>
+                    <root>
+                        <do-report/>
+                        <do-report/>
+                    </root>
+                </x:context>
+                <x:expect-report count="2"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="15">
+            <x:scenario label="assert">
+                <x:context>
+                    <root>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                        <do-assert/>
+                    </root>
+                </x:context>
+                <x:expect-assert count="15"/>
+            </x:scenario>
+            <x:scenario label="report">
+                <x:context>
+                    <root>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                        <do-report/>
+                    </root>
+                </x:context>
+                <x:expect-report count="15"/>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+    
+    <x:scenario label="check specific and count totals">
+        <x:scenario label="location and totals">
+            <x:scenario label="assert">
+                <x:context>
+                    <root>
+                        <do-assert/>
+                        <do-report/>
+                        <do-assert/>
+                    </root>
+                </x:context>
+                <x:expect-assert location="/root/do-assert[2]"/>
+                <x:expect-assert count="2"/>
+                <x:expect-report count="1"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="id and totals">
+            <x:scenario label="assert">
+                <x:context>
+                    <root>
+                        <do-assert/>
+                        <do-report/>
+                        <do-assert/>
+                        <do-report/>
+                    </root>
+                </x:context>
+                <x:expect-assert id="t1" count="2"/>
+                <x:expect-report id="t2" count="2"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="role and totals">
+            <x:context>
+                <root>
+                    <do-assert/>
+                    <do-report/>
+                    <do-assert-warn/>
+                    <do-assert-warn/>
+                    <do-report-warn/>
+                    <do-report-warn/>
+                </root>
+            </x:context>
+            <x:expect-assert role="warn" count="2"/>
+            <x:expect-assert count="3"/>
+            <x:expect-report role="warn" count="2"/>
+            <x:expect-report count="3"/>
+        </x:scenario>
+        <x:scenario label="id, role, location, count">
+            <x:context>
+                <root>
+                    <do-assert/>
+                    <do-assert-warn/>
+                    <do-assert-warn/>
+                    <do-report/>
+                    <do-report-warn/>
+                    <do-report-warn/>
+                </root>
+            </x:context>
+            <x:expect-assert location="/root/do-assert-warn[1]" role="warn" id="t3" count="1" />
+            <x:expect-assert location="/root/do-assert-warn[2]" role="warn" id="t3" count="1" />
+            <x:expect-report location="/root/do-report-warn[1]" role="warn" id="t4" count="1"/>
+            <x:expect-report location="/root/do-report-warn[2]" role="warn" id="t4" count="1"/>
+            <x:expect-assert count="3"/>
+            <x:expect-report count="3"/>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

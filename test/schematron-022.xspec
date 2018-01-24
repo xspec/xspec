@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="schematron/schematron-022.sch">
+    
+    <x:scenario label="abstract rule">
+        <x:context>
+            <body/>
+        </x:context>
+        <x:expect-assert id="assert1"/>
+        <x:expect-assert id="rule3"/>
+        <x:expect-assert id="assert3"/>
+    </x:scenario>
+    
+</x:description>

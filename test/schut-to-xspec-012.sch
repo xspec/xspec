@@ -19,4 +19,9 @@
             <sch:report test="div[2]">article has more than 1 div</sch:report>
         </sch:rule>
     </sch:pattern>
+    <sch:pattern id="pattern3">
+        <sch:rule context="section">
+            <sch:assert test="title">section should have a title</sch:assert>
+        </sch:rule>
+    </sch:pattern>
 </sch:schema>
