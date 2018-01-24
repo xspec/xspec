@@ -39,6 +39,10 @@ before_script:
         wget -O /tmp/basex/basex-${BASEX_VERSION}.jar http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
         export BASEX_CP=/tmp/basex/basex-${BASEX_VERSION}.jar;
       fi
+    # install ant libraries
+    - mkdir -p /tmp/ant/lib
+    - wget -O /tmp/ant/lib/xmltask.jar https://maven.atlassian.com/3rdparty/com/oopsconsultancy/xmltask/1.16/xmltask-1.16.jar
+    - wget -O /tmp/ant/lib/ant-contrib.jar http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar
 
 script:
     - cd test

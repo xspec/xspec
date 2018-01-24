@@ -319,3 +319,19 @@ teardown() {
     echo $output
     [[ "${output}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 }
+
+
+@test "running XSpec via ant for XSLT support" {
+    run ant -buildfile ../build.xml -Dxspec.xml=tutorial/escape-for-regex.xspec -lib /tmp/xspec/saxon/saxon9he.jar -lib /tmp/ant/lib/xmltask.jar -lib /tmp/ant/lib/ant-contrib.jar 
+	echo $output
+    [ "$status" -eq 0 ]
+    [ "${lines[30]}" = "BUILD SUCCESSFUL" ]
+}
+
+
+@test "running XSpec via ant for Schematron support" {
+    run ant -buildfile ../build.xml -Dxspec.xml=tutorial/schematron/demo-03.xspec -lib /tmp/xspec/saxon/saxon9he.jar -lib /tmp/ant/lib/xmltask.jar -lib /tmp/ant/lib/ant-contrib.jar -Dtest.type=s -Dxspec.compiled.xsl.dir=./ -Dxspec.project.dir=./ -Dxspec.phase=#ALL
+	echo $output
+    [ "$status" -eq 0 ]
+    [ "${lines[54]}" = "BUILD SUCCESSFUL" ]
+}
