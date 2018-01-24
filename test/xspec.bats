@@ -321,6 +321,13 @@ teardown() {
 }
 
 
+@test "HTML report contains CSS inline and not as an external file #135" {
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+	grep '<style type="text/css">' ../tutorial/xspec/escape-for-regex-result.html
+	grep 'margin-right:' ../tutorial/xspec/escape-for-regex-result.html
+}
+
+
 @test "running XSpec via ant for XSLT support" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib /tmp/xspec/saxon/saxon9he.jar -lib /tmp/ant/lib/xmltask.jar -lib /tmp/ant/lib/ant-contrib.jar 
 	echo $output
