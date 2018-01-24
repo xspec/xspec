@@ -381,6 +381,16 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "HTML report contains CSS inline and not as an external file #135"
+
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Query -s:..\tutorial\xspec\escape-for-regex-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head[not(link[@type = 'text/css'])]/style[@type = 'text/css']/contains(., 'margin-right:'), '&#x0A;')" !method=text
+    call :verify_line 1 x "true"
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
