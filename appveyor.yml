@@ -32,6 +32,22 @@ install:
     else {
         echo "XMLCalabash will not be installed as it uses a higher version of Saxon"
     }
+
+
+    # install Ant without installing JDK
+
+    choco install ant --ignore-dependencies
+
+
+    # install ant libraries
+
+    ${env:XSPEC_ANT_LIB} = "${env:TEMP}\ant\lib"
+
+    mkdir -Path ${env:XSPEC_ANT_LIB}
+
+    Invoke-WebRequest -Uri "https://maven.atlassian.com/3rdparty/com/oopsconsultancy/xmltask/1.16/xmltask-1.16.jar" -OutFile "${env:XSPEC_ANT_LIB}\xmltask.jar"
+
+    Invoke-WebRequest -Uri "http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar" -OutFile "${env:XSPEC_ANT_LIB}\ant-contrib.jar"
 build: off
 test_script:
 - cmd: >-
