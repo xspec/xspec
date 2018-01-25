@@ -329,7 +329,7 @@ teardown() {
 
 
 @test "running XSpec via ant for XSLT support" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib /tmp/xspec/saxon/saxon9he.jar -lib /tmp/ant/lib/xmltask.jar -lib /tmp/ant/lib/ant-contrib.jar 
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP} -lib /tmp/ant/lib 
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -338,7 +338,7 @@ teardown() {
 
 @test "running XSpec via ant for Schematron support" {
     echo ${PWD}
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib /tmp/xspec/saxon/saxon9he.jar -lib /tmp/ant/lib/xmltask.jar -lib /tmp/ant/lib/ant-contrib.jar -Dtest.type=s -Dxspec.project.dir=${PWD}/../ -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -lib /tmp/ant/lib -Dtest.type=s -Dxspec.project.dir=${PWD}/../ -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dclean.output.dir=true
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
