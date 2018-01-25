@@ -391,6 +391,34 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "running XSpec via ant for XSLT support"
+
+    if defined XSPEC_ANT_LIB (
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%"
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+    ) else (
+        call :skip "test for XSLT ant skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "running XSpec via ant for Schematron support"
+
+    if defined XSPEC_ANT_LIB (
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%" -Dtest.type=s -Dxspec.project.dir="%PARENT_DIR_ABS%" -Dxspec.compiled.xsl.dir="%PARENT_DIR_ABS%\tutorial\schematron" -Dxspec.phase=#ALL
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+    ) else (
+        call :skip "test for Schematron ant skipped"
+    )
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
@@ -574,6 +602,7 @@ rem
     rem
     rem Parameters:
     rem    1: Line number. Starts with 1, unlike Bats $lines which starts with 0.
+    rem        Negative values indicate the reverse order. -1 is the last line. -2 is the line before the last line, and so on.
     rem    2: Operator
     rem        x : Exact match ("=" on Bats)
     rem        r : Compare with regular expression ("=~" on Bats)
@@ -581,24 +610,27 @@ rem
     rem        For 'r' operator, always evaluated as if the expression started with "^".
     rem
 
+    set LINE_NUMBER=%~1
+    if %LINE_NUMBER% LSS 0 for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set /a LINE_NUMBER+=%%I+1
+
     rem
     rem Search the line-numbered output log file
     rem
     if        /i "%~2"=="x" (
-        findstr /l /x /c:"[%~1]%~3" "%OUTPUT_LINENUM%" > NUL
+        findstr /l /x /c:"[%LINE_NUMBER%]%~3" "%OUTPUT_LINENUM%" > NUL
     ) else if /i "%~2"=="r" (
-        findstr /b /r /c:"\[%~1\]%~3" "%OUTPUT_LINENUM%" > NUL
+        findstr /b /r /c:"\[%LINE_NUMBER%\]%~3" "%OUTPUT_LINENUM%" > NUL
     ) else (
         call :failed "Bad operator: %~2"
         goto :EOF
     )
     if errorlevel 1 (
-        call :failed "Line %~1 does not match the expected string"
+        call :failed "Line %LINE_NUMBER% does not match the expected string"
         echo ---------- %OUTPUT_LINENUM%
         type "%OUTPUT_LINENUM%"
         echo ----------
     ) else (
-        call :verified "Line %~1"
+        call :verified "Line %LINE_NUMBER%"
     )
     goto :EOF
 
