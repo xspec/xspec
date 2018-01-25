@@ -24,15 +24,15 @@
 
     where:
     
-	xspec.xml				   XSpec test file
+	  xspec.xml				           XSpec test file
     test.type                  Value "t" if XSpec describes an XSLT file, "s" if XSpec describes a Schematron file
                                [Optional; the default value is "t"]
     xspec.compiled.xsl.dir     Folder in which to place the compiled XSLT file generated from a Schematron file
                                [Optional; the default is a subfolder "xspec" of the folder containing the XSpec file]
-    xspec.project.dir		   Folder in which XSpec is installed
+    xspec.project.dir		       Folder in which XSpec is installed
     xspec.phase                Required if XSpec describes a Schematron file, with value "#ALL" 
-	lib						   Folder where additional jar libraries are localted (saxon, ant-contrib, xmltask) 
-	clean.output.dir		   Value true to delete temporary files, value false to keep them 
+	  lib						             Folder where additional jar libraries are localted (saxon, ant-contrib, xmltask) 
+	  clean.output.dir		       Value true to delete temporary files, value false to keep them 
     
     ---
     
@@ -210,24 +210,42 @@
       force="true"
       >     
       <factory name="net.sf.saxon.TransformerFactoryImpl" />     
+
+	  <!-- Pass a catalog to Saxon -->
+      <xmlcatalog>
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+
     </xslt>
     
     <echo message="Running Tests..."/>
     
-    <xslt in="${xspec.compiled.xml}" 
-      out="${xspec.result.xml}"
-      style="${xspec.xsl}"
-      force="true">
-      <factory name="net.sf.saxon.TransformerFactoryImpl" >
-        <attribute 
-          name="http://saxon.sf.net/feature/initialTemplate" 
-          value="{http://www.jenitennison.com/xslt/xspec}main"/>
-        <attribute
-          name="http://saxon.sf.net/feature/allow-external-functions" 
-          value="true"/>
-      </factory>
-    </xslt>
-    
+    <!-- Can't specify initial template with <xslt> task so have to
+		     fall back to running Saxon as Java app. -->
+    <java classname="net.sf.saxon.Transform"
+      fork="true">
+      <!-- We specify saxon together with our patches directly in the classpath-->
+      <classpath>
+        <pathelement path="${saxon.jar}"/>
+        <pathelement path="${java.class.path}"/>
+      </classpath>
+      
+      <!-- Pass a catalog to Saxon. -->
+      <arg value="-catalog:${catalog}"/>
+      
+      <!-- Pass custom options to Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
+      <arg line="${saxon.custom.options}"/>
+      
+      <arg value="-ext:on" />
+      <arg value="-s:${xspec.compiled.xml}" />
+      <arg value="-o:${xspec.result.xml}" />
+      <arg value="-xsl:${xspec.xsl}" />
+      <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
+    </java>
+
+
     <xslt in="${xspec.result.xml}"
       out="${xspec.result.html}"
       style="${format.xspec.report}">    
@@ -236,6 +254,12 @@
           name="http://saxon.sf.net/feature/allow-external-functions" 
           value="true"/>
       </factory>
+
+      <xmlcatalog>
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
     </xslt>
     <loadfile srcfile="${xspec.result.xml}"
       property="xspec.result" />

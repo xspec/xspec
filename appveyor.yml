@@ -48,6 +48,8 @@ install:
     Invoke-WebRequest -Uri "https://maven.atlassian.com/3rdparty/com/oopsconsultancy/xmltask/1.16/xmltask-1.16.jar" -OutFile "${env:XSPEC_ANT_LIB}\xmltask.jar"
 
     Invoke-WebRequest -Uri "http://central.maven.org/maven2/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar" -OutFile "${env:XSPEC_ANT_LIB}\ant-contrib.jar"
+
+    Invoke-WebRequest -Uri "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar" -OutFile "${env:XSPEC_ANT_LIB}\xml-resolver.jar"
 build: off
 test_script:
 - cmd: >-
