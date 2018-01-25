@@ -74,26 +74,21 @@
   <property name="xspec.result.html"
     value="${xspec.dir}/${xspec.base}-result.html" />
   
-  <!-- OXYGEN PATCH needed to create a custom Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
+  <!-- property needed to create a custom Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
   <property name="saxon.custom.options" value=""/>
-  <!-- OXYGEN PATCH END -->
   
-  <!-- OXYGEN PATCH needed to control the cleanup of all intermediate files -->
+  <!-- property needed to control the cleanup of all intermediate files -->
   <property name="clean.output.dir" value="false"/>
-  <!-- OXYGEN PATCH END -->
   
-  <!-- OXYGEN PATCH needed to customize the HTML result. -->
+  <!-- property needed to customize the HTML result. -->
   <property name="format.xspec.report" value="${xspec.project.dir}/src/reporter/format-xspec-report.xsl"/>
-  <!-- OXYGEN PATCH END -->
   
-  <!-- OXYGEN PATCH needed to control the cleanup of all intermediate files -->  
+  <!-- property needed to control the cleanup of all intermediate files -->  
   <condition property="can.delete">
     <and>
       <equals arg1="${clean.output.dir}" arg2="true"/>
     </and>
   </condition>
-  <!-- OXYGEN PATCH END -->
-  
   
   
   <!-- 
@@ -115,7 +110,7 @@
   
   <!-- Copy of original XSpec file
   will be overwritten if XSpec applies to Schematron -->
-  <property name="xspec.compiled.xml" location="${xspec.base.dir}/${xspec.base}-compiled-oxygen.xspec"/>
+  <property name="xspec.compiled.xml" location="${xspec.base.dir}/${xspec.base}-compiled.xspec"/>
   
   <!-- Location of compiled Schematron XSL file 
     Can be overridden, e.g. if original Schematron references helper files at relative paths, 
@@ -241,18 +236,7 @@
     <loadfile srcfile="${xspec.result.xml}"
       property="xspec.result" />
     
-    <!-- OXYGEN PATCH the result will be opened and the user can inspect it. A fail is too much -->
-    <!--<fail message="XSpec tests failed. See ${xspec.result.html} for a report">
-      <condition>
-        <contains string="${xspec.result}" substring='successful="false"' />
-      </condition>
-    </fail>-->
-    <!-- OXYGEN PATCH the result will be opened and the user can inspect it. A fail is too much -->
-    
-    <!-- OXYGEN PATCH copy the result to the user location and clean up if required.-->
-    
     <antcall target="cleanup"/>
-    <!-- OXYGEN PATCH copy the result to the user location and clean up if required.-->
   </target>
   
   
@@ -260,15 +244,13 @@
     <echoproperties />
   </target>
   
-  <!-- OXYGEN PATCH copy the result to the user location and clean up if required.-->
+  <!-- copy the result to the user location and clean up if required.-->
   <target name="cleanup" if="can.delete">
     <echo>Clean up</echo>
     <delete dir="${xspec.dir}"/>
-    
     <delete file="${xspec.compiled.xml}"/>
-    
+    <delete file="${xspec.compiled.xsl}"/>
   </target>
-  <!-- OXYGEN PATCH copy the result to the user location and clean up if required.-->
   
 </project>
 
