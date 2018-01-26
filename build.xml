@@ -96,14 +96,6 @@
   </condition>
   
   
-  <!-- 
-    xmltask
-    download: http://www.oopsconsultancy.com/software/xmltask/
-    help: http://www.planetgeek.ch/2009/05/17/perform-xpath-queries-inside-ant/ 
-    
-  -->
-  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" onerror="report"/>
-  
   <property name="test.type" value="t"/>
   <condition property="test.xslt">
     <equals arg1="${test.type}" arg2="t"/>
@@ -128,6 +120,13 @@
   </target>
   
   <target name="locateSchematron" if="${test.schematron}">
+    <!-- 
+      xmltask
+      download: http://www.oopsconsultancy.com/software/xmltask/
+      help: http://www.planetgeek.ch/2009/05/17/perform-xpath-queries-inside-ant/ 
+    -->
+    <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+    
     <xmltask source="${xspec.xml}">
       <copy path="/x:description/@schematron" property="xspec.schematron" />
       
