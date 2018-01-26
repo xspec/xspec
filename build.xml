@@ -19,7 +19,6 @@
     -Dxspec.phase=#ALL
     -lib /path/to/saxon.jar 
     -lib /path/to/xmltask-1.16.jar 
-    -lib /path/to/ant-contrib-1.0b3.jar 
     -Dclean.output.dir=true|false
 
     where:
@@ -32,7 +31,7 @@
     xspec.project.dir          Folder in which XSpec is installed
                                [Optional; the default is the folder containing this build file]
     xspec.phase                Required if XSpec describes a Schematron file, with value "#ALL" 
-    lib                        Additional jar libraries (saxon, ant-contrib, xml-resolver, xmltask)
+    lib                        Additional jar libraries (saxon, xml-resolver, xmltask)
                                or folder where they are located
     clean.output.dir           Value true to delete temporary files, value false to keep them 
     
@@ -104,7 +103,6 @@
     
   -->
   <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
-  <taskdef resource="net/sf/antcontrib/antlib.xml"/>
   
   <property name="test.type" value="t"/>
   <condition property="test.xslt">
