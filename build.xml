@@ -48,10 +48,8 @@
       - Working directory: C:\Git\xspec
       - Build file: [this file]
     - Under Parameters tab:
-      - New parameter test.type (values "t" for testing XSLT and "s" for testing Schematron)
+      - New parameters test.type, xspec.compiled.xsl.dir and xspec.phase if required. (See the usage above)
       - Parameter xspec.project.dir value C:\Git\xspec
-      - New parameter xspec.compiled.xsl.dir (location to put XSLT file generated from a Schematron file)
-      - New parameter xspec.phase with value "#ALL" 
 
     If you are testing Schematron:
     - Download xmltask.jar to C:\Git\xspec\bin\ (from http://www.oopsconsultancy.com/software/xmltask/)
