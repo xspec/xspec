@@ -271,7 +271,7 @@
     <echoproperties />
   </target>
   
-  <!-- copy the result to the user location and clean up if required.-->
+  <!-- clean up if required.-->
   <target name="cleanup" if="can.delete">
     <echo>Clean up</echo>
     <delete dir="${xspec.dir}"/>
