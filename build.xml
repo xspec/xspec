@@ -222,7 +222,7 @@
     
     <echo message="Running Tests..."/>
     
-    <!-- Can't specify initial template with <xslt> task so have to
+    <!-- Can't specify saxon.custom.options with <xslt> task so have to
 		     fall back to running Saxon as Java app. -->
     <java classname="net.sf.saxon.Transform"
       fork="true">
