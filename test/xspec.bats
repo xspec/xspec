@@ -336,6 +336,14 @@ teardown() {
 }
 
 
+@test "running XSpec via ant for XSLT support with catalog" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160.xspec -Dcatalog=${PWD}/catalog/catalog-160.xml -lib ${SAXON_CP} -lib /tmp/ant/lib/xml-resolver.jar -Dclean.output.dir=true
+	echo $output
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+}
+
+
 @test "running XSpec via ant for Schematron support" {
     echo ${PWD}
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -lib /tmp/ant/lib/xmltask.jar -Dtest.type=s -Dxspec.project.dir=${PWD}/../ -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dclean.output.dir=true

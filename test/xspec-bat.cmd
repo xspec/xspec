@@ -406,6 +406,20 @@ setlocal
 endlocal
 
 setlocal
+    call :setup "running XSpec via ant for XSLT support with catalog"
+
+    if defined XSPEC_ANT_LIB (
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160.xspec" -Dcatalog=%CD%\catalog\catalog-160.xml -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%\xml-resolver.jar" -Dclean.output.dir=true
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+    ) else (
+        call :skip "test for XSLT ant skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "running XSpec via ant for Schematron support"
 
     if defined XSPEC_ANT_LIB (
