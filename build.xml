@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<project name="xspec" default="xspec">
+<project name="xspec" default="xspec" xmlns:if="ant:if">
   <description>XSpec is a Behavior Driven Development (BDD) framework for XSLT and XQuery.
     
     Usage (command-line):
@@ -209,7 +209,7 @@
       <factory name="net.sf.saxon.TransformerFactoryImpl" />     
 
 	  <!-- Pass a catalog to Saxon -->
-      <xmlcatalog>
+      <xmlcatalog if:set="catalog">
         <catalogpath>
           <pathelement location="${catalog}"/>
         </catalogpath>
@@ -229,7 +229,7 @@
       </classpath>
       
       <!-- Pass a catalog to Saxon. -->
-      <arg value="-catalog:${catalog}"/>
+      <arg value="-catalog:${catalog}" if:set="catalog"/>
       
       <!-- Pass custom options to Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
       <arg line="${saxon.custom.options}"/>
@@ -251,7 +251,7 @@
           value="true"/>
       </factory>
 
-      <xmlcatalog>
+      <xmlcatalog if:set="catalog">
         <catalogpath>
           <pathelement location="${catalog}"/>
         </catalogpath>
