@@ -219,6 +219,9 @@
     
     <echo message="Running Tests..."/>
     
+    <!-- oXygen 19 default transformation scenario sets catalog even when file does not exist. Hence validate=false. -->
+    <makeurl property="catalog.url" file="${catalog}" validate="false" if:set="catalog"/>
+
     <!-- Can't specify saxon.custom.options with <xslt> task so have to
 		     fall back to running Saxon as Java app. -->
     <java classname="net.sf.saxon.Transform"
@@ -228,8 +231,10 @@
         <pathelement path="${java.class.path}"/>
       </classpath>
       
-      <!-- Pass a catalog to Saxon. -->
-      <arg value="-catalog:${catalog}" if:set="catalog"/>
+      <!-- Pass a catalog to Saxon.
+      To work around a Saxon bug, it must be URL: https://saxonica.plan.io/issues/3025#note-8
+      To debug catalog resolution, -Dsaxon.custom.options=-t would help. -->
+      <arg value="-catalog:${catalog.url}" if:set="catalog"/>
       
       <!-- Pass custom options to Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
       <arg line="${saxon.custom.options}"/>
