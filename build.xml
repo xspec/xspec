@@ -32,7 +32,8 @@
     xspec.project.dir          Folder in which XSpec is installed
                                [Optional; the default is the folder containing this build file]
     xspec.phase                Required if XSpec describes a Schematron file, with value "#ALL" 
-    lib                        Folder where additional jar libraries are localted (saxon, ant-contrib, xmltask) 
+    lib                        Additional jar libraries (saxon, ant-contrib, xml-resolver, xmltask)
+                               or folder where they are located
     clean.output.dir           Value true to delete temporary files, value false to keep them 
     
     ---
