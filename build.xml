@@ -122,9 +122,6 @@
    -->
   <property name="xspec.compiled.xsl.dir" value="${xspec.dir}"/>
   <property name="xspec.compiled.xsl" value="${xspec.compiled.xsl.dir}/${xspec.base}-sch-compiled.xsl"/>
-  <!-- for passing as a parameter to the script that generates the XSpec with @stylesheet 
-  from the XSpec with @schematron -->
-  <makeurl property="xspec.compiled.xsl.param" file="${xspec.compiled.xsl}"/>
   
   <target name="copyXSpec">
     <copy file="${xspec.xml}" tofile="${xspec.compiled.xml}"/>
@@ -181,6 +178,8 @@
       <param name="phase" expression="${xspec.phase}"/>
     </xslt>
     
+    <makeurl property="xspec.compiled.xsl.url" file="${xspec.compiled.xsl}"/>
+
     <echo message="   STEP 4: Convert XSpec (into a format that references the XSL generated from the Schematron)"/>    
     <xslt 
       in="${xspec.xml}"
@@ -189,7 +188,7 @@
       force="true"
       >
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
-      <param name="stylesheet" expression="${xspec.compiled.xsl.param}"/>
+      <param name="stylesheet" expression="${xspec.compiled.xsl.url}"/>
     </xslt>
 
     <echo message="COMPILATION COMPLETE"/>
