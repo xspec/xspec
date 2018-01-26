@@ -52,6 +52,8 @@
       - Parameter xspec.project.dir value C:\Git\xspec
       - New parameter xspec.compiled.xsl.dir (location to put XSLT file generated from a Schematron file)
       - New parameter xspec.phase with value "#ALL" 
+
+    If you are testing Schematron:
     - Download xmltask.jar to C:\Git\xspec\bin\ (from http://www.oopsconsultancy.com/software/xmltask/)
     - Add xmltask.jar under "Libraries"
     
@@ -102,7 +104,7 @@
     help: http://www.planetgeek.ch/2009/05/17/perform-xpath-queries-inside-ant/ 
     
   -->
-  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
+  <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" onerror="report"/>
   
   <property name="test.type" value="t"/>
   <condition property="test.xslt">
@@ -127,7 +129,7 @@
     <copy file="${xspec.xml}" tofile="${xspec.compiled.xml}"/>
   </target>
   
-  <target name="locateSchematron">
+  <target name="locateSchematron" if="${test.schematron}">
     <xmltask source="${xspec.xml}">
       <copy path="/x:description/@schematron" property="xspec.schematron" />
       
