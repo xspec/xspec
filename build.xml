@@ -124,8 +124,7 @@
   <property name="xspec.compiled.xsl" value="${xspec.compiled.xsl.dir}/${xspec.base}-sch-compiled.xsl"/>
   <!-- for passing as a parameter to the script that generates the XSpec with @stylesheet 
   from the XSpec with @schematron -->
-  <property name="xspec.compiled.xsl.param" value="${xspec.compiled.xsl}"/>
-  <propertyregex override="true" property="xspec.compiled.xsl.param" input="${xspec.compiled.xsl.param}" regexp="\\" replace="/"/>  
+  <makeurl property="xspec.compiled.xsl.param" file="${xspec.compiled.xsl}"/>
   
   <target name="copyXSpec">
     <copy file="${xspec.xml}" tofile="${xspec.compiled.xml}"/>
