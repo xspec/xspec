@@ -24,15 +24,15 @@
 
     where:
     
-	  xspec.xml				           XSpec test file
+    xspec.xml                  XSpec test file
     test.type                  Value "t" if XSpec describes an XSLT file, "s" if XSpec describes a Schematron file
                                [Optional; the default value is "t"]
     xspec.compiled.xsl.dir     Folder in which to place the compiled XSLT file generated from a Schematron file
                                [Optional; the default is a subfolder "xspec" of the folder containing the XSpec file]
-    xspec.project.dir		       Folder in which XSpec is installed
+    xspec.project.dir          Folder in which XSpec is installed
     xspec.phase                Required if XSpec describes a Schematron file, with value "#ALL" 
-	  lib						             Folder where additional jar libraries are localted (saxon, ant-contrib, xmltask) 
-	  clean.output.dir		       Value true to delete temporary files, value false to keep them 
+    lib                        Folder where additional jar libraries are localted (saxon, ant-contrib, xmltask) 
+    clean.output.dir           Value true to delete temporary files, value false to keep them 
     
     ---
     
