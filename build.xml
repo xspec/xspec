@@ -226,9 +226,8 @@
 		     fall back to running Saxon as Java app. -->
     <java classname="net.sf.saxon.Transform"
       fork="true">
-      <!-- We specify saxon together with our patches directly in the classpath-->
+      <!-- Saxon should be included in the classpath -->
       <classpath>
-        <pathelement path="${saxon.jar}"/>
         <pathelement path="${java.class.path}"/>
       </classpath>
       
