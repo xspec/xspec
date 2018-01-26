@@ -104,9 +104,11 @@
     <equals arg1="${test.type}" arg2="s"/>
   </condition>
   
-  <!-- Copy of original XSpec file
-  will be overwritten if XSpec applies to Schematron -->
-  <property name="xspec.compiled.xml" location="${xspec.base.dir}/${xspec.base}-compiled.xspec"/>
+  <!-- .xpec file.
+    If testing Schematron, it is created at "STEP 4" and deleted by cleanup. -->
+  <condition property="xspec.compiled.xml" value="${xspec.base.dir}/${xspec.base}-compiled.xspec" else="${xspec.xml}">
+    <istrue value="${test.schematron}"/>
+  </condition>
   
   <!-- Location of compiled Schematron XSL file 
     Can be overridden, e.g. if original Schematron references helper files at relative paths, 
@@ -114,10 +116,6 @@
    -->
   <property name="xspec.compiled.xsl.dir" value="${xspec.dir}"/>
   <property name="xspec.compiled.xsl" value="${xspec.compiled.xsl.dir}/${xspec.base}-sch-compiled.xsl"/>
-  
-  <target name="copyXSpec">
-    <copy file="${xspec.xml}" tofile="${xspec.compiled.xml}"/>
-  </target>
   
   <target name="locateSchematron" if="${test.schematron}">
     <!-- 
@@ -198,7 +196,7 @@
 
   
   <target name="xspec"
-    description="Runs the XSpec unit tests in ${xspec.compiled.xml}" depends="copyXSpec,compileSchematron">
+    description="Runs the XSpec unit tests in ${xspec.compiled.xml}" depends="compileSchematron">
     
     <echo message="Creating Test Stylesheet..."/>
     <xslt in="${xspec.compiled.xml}" 
@@ -277,7 +275,7 @@
   <target name="cleanup" if="can.delete">
     <echo>Clean up</echo>
     <delete dir="${xspec.dir}"/>
-    <delete file="${xspec.compiled.xml}"/>
+    <delete file="${xspec.compiled.xml}" if:true="${test.schematron}"/>
     <delete file="${xspec.compiled.xsl}"/>
   </target>
   
