@@ -395,7 +395,7 @@ setlocal
     call :setup "running XSpec via ant for XSLT support"
 
     if defined XSPEC_ANT_LIB (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%"
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%" -Dclean.output.dir=true
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
@@ -409,7 +409,7 @@ setlocal
     call :setup "running XSpec via ant for Schematron support"
 
     if defined XSPEC_ANT_LIB (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%" -Dtest.type=s -Dxspec.project.dir="%PARENT_DIR_ABS%" -Dxspec.compiled.xsl.dir="%PARENT_DIR_ABS%\tutorial\schematron" -Dxspec.phase=#ALL
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%" -Dtest.type=s -Dxspec.project.dir="%PARENT_DIR_ABS%" -Dxspec.compiled.xsl.dir="%PARENT_DIR_ABS%\tutorial\schematron" -Dxspec.phase=#ALL -Dclean.output.dir=true
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
