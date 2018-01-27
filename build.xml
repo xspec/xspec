@@ -30,7 +30,8 @@
                                [Optional; the default is a subfolder "xspec" of the folder containing the XSpec file]
     xspec.project.dir          Folder in which XSpec is installed
                                [Optional; the default is the folder containing this build file]
-    xspec.phase                Required if XSpec describes a Schematron file, with value "#ALL" 
+    xspec.phase                Schematron phase. Used only for testing Schematron. Can be "#ALL".
+                               [Optional; the default is taken from "phase" parameter in XSpec file]
     lib                        Additional jar libraries (saxon, xml-resolver, xmltask)
                                or folder where they are located
     clean.output.dir           Value true to delete temporary files, value false to keep them 
