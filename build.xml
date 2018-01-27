@@ -153,6 +153,11 @@
       force="true"
       >
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
     </xslt>
     
     <echo message="   STEP 2: Expanding abstracts"/>
@@ -162,6 +167,11 @@
       force="true"
       >
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
     </xslt>
     
     <echo message="   STEP 3: Convert Schematron to XSL"/>    
@@ -174,6 +184,11 @@
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
       <param name="allow-foreign" expression="true"/>
       <param name="phase" expression="${xspec.phase}"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
     </xslt>
     
     <makeurl property="xspec.compiled.xsl.url" file="${xspec.compiled.xsl}"/>
@@ -187,6 +202,11 @@
       >
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
       <param name="stylesheet" expression="${xspec.compiled.xsl.url}"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
     </xslt>
 
     <echo message="COMPILATION COMPLETE"/>
