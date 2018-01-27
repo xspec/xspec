@@ -18,7 +18,7 @@
     -Dxspec.project.dir=/path/to/folder/containing/buildfile 
     -Dxspec.phase=#ALL
     -lib /path/to/saxon.jar 
-    -lib /path/to/xmltask-1.16.jar 
+    -lib /path/to/xml-resolver.jar 
     -Dclean.output.dir=true|false
 
     where:
@@ -32,7 +32,7 @@
                                [Optional; the default is the folder containing this build file]
     xspec.phase                Schematron phase. Used only for testing Schematron. Can be "#ALL".
                                [Optional; the default is taken from "phase" parameter in XSpec file]
-    lib                        Additional jar libraries (saxon, xml-resolver, xmltask)
+    lib                        Additional jar libraries (saxon, xml-resolver)
                                or folder where they are located
     clean.output.dir           Value true to delete temporary files, value false to keep them 
     
@@ -51,10 +51,6 @@
     - Under Parameters tab:
       - New parameters test.type, xspec.compiled.xsl.dir and xspec.phase if required. (See the usage above)
       - Parameter xspec.project.dir value C:\Git\xspec
-
-    If you are testing Schematron:
-    - Download xmltask.jar to C:\Git\xspec\bin\ (from http://www.oopsconsultancy.com/software/xmltask/)
-    - Add xmltask.jar under "Libraries"
     
   </description>
   
@@ -140,19 +136,14 @@
   </target>
   
   <target name="getSchematronPhase" if="${test.schematron}" unless="xspec.phase">
-    <!-- 
-      xmltask
-      download: http://www.oopsconsultancy.com/software/xmltask/
-      help: http://www.planetgeek.ch/2009/05/17/perform-xpath-queries-inside-ant/ 
-    -->
-    <taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
-    
-    <xmltask source="${xspec.xml}">
-      <!-- There MUST be a x:param element with name="phase" 
-      If the Schematron does not use phases, set the content of the x:param to '#ALL'
-      -->
-      <copy path="/x:description/x:param[@name = 'phase'][1]/text()" property="xspec.phase" />
-    </xmltask>
+    <java classname="net.sf.saxon.Query" failonerror="true">
+      <arg value="-catalog:${catalog.url}" if:set="catalog"/>
+      <arg value="-s:${xspec.xml}"/>
+      <arg value="-o:${xspec.schematron.temp.var}"/>
+      <arg value="-qs:declare namespace x = 'http://www.jenitennison.com/xslt/xspec'; /x:description/x:param[@name = 'phase'][1]"/>
+      <arg value="!method=text"/>
+    </java>
+    <loadfile srcfile="${xspec.schematron.temp.var}" property="xspec.phase"/>
     <echo message="Schematron phase set in XSpec: '${xspec.phase}'"/>
     
   </target>
@@ -189,7 +180,7 @@
       </xmlcatalog>
     </xslt>
     
-    <echo message="   STEP 3: Convert Schematron to XSL"/>    
+    <echo message="   STEP 3: Convert Schematron to XSL (Phase: ${xspec.phase})"/>
     <xslt 
       in="${xspec.dir}/${xspec.base}.sch"
       out="${xspec.compiled.xsl}" 

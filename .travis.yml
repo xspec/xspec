@@ -41,7 +41,6 @@ before_script:
       fi
     # install ant libraries
     - mkdir -p /tmp/ant/lib
-    - wget -O /tmp/ant/lib/xmltask.jar https://maven.atlassian.com/3rdparty/com/oopsconsultancy/xmltask/1.16/xmltask-1.16.jar
     - wget -O /tmp/ant/lib/xml-resolver.jar http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
 
 script:

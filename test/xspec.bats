@@ -346,7 +346,7 @@ teardown() {
 
 @test "running XSpec via ant for Schematron support with various properties" {
     echo ${PWD}
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -lib /tmp/ant/lib/xmltask.jar -Dtest.type=s -Dxspec.project.dir=${PWD}/../ -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dclean.output.dir=true
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/../ -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dclean.output.dir=true
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -355,7 +355,7 @@ teardown() {
 
 @test "running XSpec via ant for Schematron support with minimum properties" {
     echo ${PWD}
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-02-PhaseA.xspec -lib ${SAXON_CP} -lib /tmp/ant/lib/xmltask.jar -Dtest.type=s
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-02-PhaseA.xspec -lib ${SAXON_CP} -Dtest.type=s
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -365,7 +365,7 @@ teardown() {
 
 @test "running XSpec via ant for Schematron support with catalog" {
     echo ${PWD}
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${SAXON_CP} -lib /tmp/ant/lib -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${SAXON_CP} -lib /tmp/ant/lib/xml-resolver.jar -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
