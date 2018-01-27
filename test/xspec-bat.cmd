@@ -395,7 +395,7 @@ setlocal
     call :setup "running XSpec via ant for XSLT support"
 
     if defined XSPEC_ANT_LIB (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -Dclean.output.dir=true
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%"
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
@@ -409,7 +409,7 @@ setlocal
     call :setup "running XSpec via ant for XSLT support with catalog"
 
     if defined XSPEC_ANT_LIB (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160.xspec" -Dcatalog="%CD%\catalog\catalog-160.xml" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%\xml-resolver.jar" -Dclean.output.dir=true
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160.xspec" -Dcatalog="%CD%\catalog\catalog-160.xml" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%\xml-resolver.jar"
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (

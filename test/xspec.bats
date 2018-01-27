@@ -329,7 +329,7 @@ teardown() {
 
 
 @test "running XSpec via ant for XSLT support" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP} -Dclean.output.dir=true
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP}
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -337,7 +337,7 @@ teardown() {
 
 
 @test "running XSpec via ant for XSLT support with catalog" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160.xspec -Dcatalog=${PWD}/catalog/catalog-160.xml -lib ${SAXON_CP} -lib /tmp/ant/lib/xml-resolver.jar -Dclean.output.dir=true
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160.xspec -Dcatalog=${PWD}/catalog/catalog-160.xml -lib ${SAXON_CP} -lib /tmp/ant/lib/xml-resolver.jar
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
