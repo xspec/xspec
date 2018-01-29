@@ -392,71 +392,117 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "running XSpec via ant for XSLT support"
+    call :setup "Ant for XSLT with default properties fails on test failure"
 
     if defined ANT_VERSION (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%"
-        call :verify_retval 0
-        call :verify_line -2 x "BUILD SUCCESSFUL"
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%"
+        call :verify_retval 1
+        call :verify_line -4 x "BUILD FAILED"
     ) else (
-        call :skip "test for XSLT ant skipped"
+        call :skip "test for XSLT Ant with default properties skipped"
     )
 
     call :teardown
 endlocal
 
 setlocal
-    call :setup "running XSpec via ant for XSLT support with catalog"
+    call :setup "Ant for XSLT with xspec.fail=false continues on test failure"
 
     if defined ANT_VERSION (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_xslt.xspec" -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%SAXON_CP%" -lib "%XML_RESOLVER_CP%"
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -Dxspec.fail=false
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
-        call :skip "test for XSLT ant with catalog skipped"
+        call :skip "test for XSLT Ant with xspec.fail=false skipped"
     )
 
     call :teardown
 endlocal
 
 setlocal
-    call :setup "running XSpec via ant for Schematron support with various properties"
+    call :setup "Ant for XSLT with catalog resolves URI"
 
     if defined ANT_VERSION (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%PARENT_DIR_ABS%" -Dxspec.compiled.xsl.dir="%PARENT_DIR_ABS%\tutorial\schematron" -Dxspec.phase=#ALL -Dclean.output.dir=true
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_xslt.xspec" -lib "%SAXON_CP%" -Dxspec.fail=false -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%"
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
-        call :skip "test for Schematron ant with various properties skipped"
+        call :skip "test for XSLT Ant with catalog skipped"
     )
 
     call :teardown
 endlocal
 
 setlocal
-    call :setup "running XSpec via ant for Schematron support with minimum properties"
+    call :setup "Ant for Schematron with minimum properties"
 
     if defined ANT_VERSION (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\schematron\demo-02-PhaseA.xspec" -lib "%SAXON_CP%" -Dtest.type=s
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-02-PhaseA.xspec" -lib "%SAXON_CP%" -Dtest.type=s
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
-        call :del "%PARENT_DIR_ABS%\tutorial\schematron\demo-02-PhaseA-compiled.xspec"
+
+        rem Verify default clean.output.dir is false
+        call :verify_exist ..\tutorial\schematron\xspec\
+        call :verify_exist ..\tutorial\schematron\demo-02-PhaseA-compiled.xspec
+
+        rem Delete temp file
+        call :del          ..\tutorial\schematron\demo-02-PhaseA-compiled.xspec
     ) else (
-        call :skip "test for Schematron ant with minimum properties skipped"
+        call :skip "test for Schematron Ant with minimum properties skipped"
     )
 
     call :teardown
 endlocal
 
 setlocal
-    call :setup "running XSpec via ant for Schematron support with catalog"
+    call :setup "Ant for Schematron with various properties except catalog"
 
     if defined ANT_VERSION (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%SAXON_CP%" -lib "%XML_RESOLVER_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.compiled.xsl.dir="%CD%\..\tutorial\schematron" -Dxspec.phase=#ALL -Dclean.output.dir=true
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+
+        rem Verify clean.output.dir=true
+        call :verify_not_exist ..\tutorial\schematron\xspec\
+        call :verify_not_exist ..\tutorial\schematron\demo-03-compiled.xspec
+        call :verify_not_exist ..\tutorial\schematron\demo-03-sch-compiled.xsl
+    ) else (
+        call :skip "test for Schematron Ant with various properties except catalog skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for Schematron with catalog and default xspec.fail fails on test failure"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%"
+        call :verify_retval 1
+        call :verify_line -4 x "BUILD FAILED"
+
+        rem Verify the build fails before cleanup
+        call :verify_exist catalog\xspec\
+        call :verify_exist catalog\xspec-160_schematron-compiled.xspec
+
+        rem Delete temp file
+        call :del          catalog\xspec-160_schematron-compiled.xspec
+    ) else (
+        call :skip "test for Schematron Ant with catalog and default xspec.fail skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for Schematron with catalog and xspec.fail=false continues on test failure"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%" -Dxspec.fail=false
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
-        call :skip "test for Schematron ant with catalog skipped"
+        call :skip "test for Schematron Ant with catalog and xspec.fail=false skipped"
     )
 
     call :teardown

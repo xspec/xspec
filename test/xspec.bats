@@ -328,44 +328,75 @@ teardown() {
 }
 
 
-@test "running XSpec via ant for XSLT support" {
+@test "Ant for XSLT with default properties fails on test failure" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP}
 	echo $output
-    [ "$status" -eq 0 ]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~  "BUILD FAILED" ]]
 }
 
 
-@test "running XSpec via ant for XSLT support with catalog" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_xslt.xspec -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${SAXON_CP} -lib ${XML_RESOLVER_CP}
+@test "Ant for XSLT with xspec.fail=false continues on test failure" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP} -Dxspec.fail=false
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 }
 
 
-@test "running XSpec via ant for Schematron support with various properties" {
-    echo ${PWD}
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/../ -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dclean.output.dir=true
+@test "Ant for XSLT with catalog resolves URI" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_xslt.xspec -lib ${SAXON_CP} -Dxspec.fail=false -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${XML_RESOLVER_CP}
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 }
 
 
-@test "running XSpec via ant for Schematron support with minimum properties" {
-    echo ${PWD}
+@test "Ant for Schematron with minimum properties" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-02-PhaseA.xspec -lib ${SAXON_CP} -Dtest.type=s
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
-	rm -f "${PWD}/../tutorial/schematron/demo-02-PhaseA-compiled.xspec"
+
+    # Verify default clean.output.dir is false
+    [  -d "../tutorial/schematron/xspec/" ]
+    [  -f "../tutorial/schematron/demo-02-PhaseA-compiled.xspec" ]
+
+    # Delete temp file
+    rm -f "../tutorial/schematron/demo-02-PhaseA-compiled.xspec"
 }
 
 
-@test "running XSpec via ant for Schematron support with catalog" {
-    echo ${PWD}
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${SAXON_CP} -lib ${XML_RESOLVER_CP} -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true
+@test "Ant for Schematron with various properties except catalog" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dclean.output.dir=true
+	echo $output
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+
+    # Verify clean.output.dir=true
+    [ ! -d "../tutorial/schematron/xspec/" ]
+    [ ! -f "../tutorial/schematron/demo-03-compiled.xspec" ]
+    [ ! -f "../tutorial/schematron/demo-03-sch-compiled.xsl" ]
+}
+
+
+@test "Ant for Schematron with catalog and default xspec.fail fails on test failure" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${XML_RESOLVER_CP}
+	echo $output
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~  "BUILD FAILED" ]]
+
+    # Verify the build fails before cleanup
+    [  -d "catalog/xspec/" ]
+    [  -f "catalog/xspec-160_schematron-compiled.xspec" ]
+
+    # Delete temp file
+    rm -f "catalog/xspec-160_schematron-compiled.xspec"
+}
+
+
+@test "Ant for Schematron with catalog and xspec.fail=false continues on test failure" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${XML_RESOLVER_CP} -Dxspec.fail=false
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
