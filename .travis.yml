@@ -1,3 +1,4 @@
+language: generic
 env:
     global:
         # Ant version used in oXygen
