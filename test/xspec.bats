@@ -337,7 +337,7 @@ teardown() {
 
 
 @test "running XSpec via ant for XSLT support with catalog" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_xslt.xspec -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${SAXON_CP} -lib ${XSPEC_ANT_LIB}/xml-resolver.jar
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_xslt.xspec -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${SAXON_CP} -lib ${XML_RESOLVER_CP}
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -365,7 +365,7 @@ teardown() {
 
 @test "running XSpec via ant for Schematron support with catalog" {
     echo ${PWD}
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${SAXON_CP} -lib ${XSPEC_ANT_LIB}/xml-resolver.jar -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${SAXON_CP} -lib ${XML_RESOLVER_CP} -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]

@@ -1,9 +1,11 @@
 environment:
   global:
+    # full path to Saxon jar
     SAXON_CP: '%TEMP%\xspec\saxon\saxon9he.jar'
     # Ant version used in oXygen
     ANT_VERSION: 1.9.8
-    XSPEC_ANT_LIB: '%TEMP%\ant\lib'
+    # full path to XML Resolver jar
+    XML_RESOLVER_CP: '%TEMP%\xspec\xml-resolver\xml-resolver.jar'
   matrix:
     # latest Saxon 9.8 version
     - SAXON_VERSION: 9.8.0-7
@@ -22,15 +24,14 @@ install:
 
     # install XML Calabash
 
-    if( Test-Path -Path env:\XMLCALABASH_VERSION ) {
-      $xmlcalabash_home = "${env:TEMP}\xspec\xmlcalabash-${env:XMLCALABASH_VERSION}"
-      ${env:XMLCALABASH_CP} = "${xmlcalabash_home}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
-      curl.exe -fsSL --create-dirs -o "${xmlcalabash_home}.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
-      7z x "${xmlcalabash_home}.zip" -o"${xmlcalabash_home}\..\"
+    if( -Not( Test-Path -Path env:\XMLCALABASH_VERSION ) ) {
+        echo "XMLCalabash will not be installed as it uses a higher version of Saxon"
     }
 
     else {
-        echo "XMLCalabash will not be installed as it uses a higher version of Saxon"
+        curl.exe -fsSL --create-dirs -o "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
+        7z x "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" -o"${env:TEMP}\xspec\xmlcalabash"
+        ${env:XMLCALABASH_CP} = "${env:TEMP}\xspec\xmlcalabash\xmlcalabash-${env:XMLCALABASH_VERSION}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
     }
 
 
@@ -39,9 +40,9 @@ install:
     choco install ant --ignore-dependencies --no-progress --version "${env:ANT_VERSION}"
 
 
-    # install ant libraries
+    # install XML Resolver
 
-    curl.exe -fsSL --create-dirs -o "${env:XSPEC_ANT_LIB}\xml-resolver.jar" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+    curl.exe -fsSL --create-dirs -o "${env:XML_RESOLVER_CP}" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
 build: off
 test_script:
 - cmd: >-

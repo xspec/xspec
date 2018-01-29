@@ -394,7 +394,7 @@ endlocal
 setlocal
     call :setup "running XSpec via ant for XSLT support"
 
-    if defined XSPEC_ANT_LIB (
+    if defined ANT_VERSION (
         call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%"
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
@@ -408,8 +408,8 @@ endlocal
 setlocal
     call :setup "running XSpec via ant for XSLT support with catalog"
 
-    if defined XSPEC_ANT_LIB (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_xslt.xspec" -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%\xml-resolver.jar"
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_xslt.xspec" -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%SAXON_CP%" -lib "%XML_RESOLVER_CP%"
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
@@ -422,7 +422,7 @@ endlocal
 setlocal
     call :setup "running XSpec via ant for Schematron support with various properties"
 
-    if defined XSPEC_ANT_LIB (
+    if defined ANT_VERSION (
         call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%PARENT_DIR_ABS%" -Dxspec.compiled.xsl.dir="%PARENT_DIR_ABS%\tutorial\schematron" -Dxspec.phase=#ALL -Dclean.output.dir=true
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
@@ -436,7 +436,7 @@ endlocal
 setlocal
     call :setup "running XSpec via ant for Schematron support with minimum properties"
 
-    if defined XSPEC_ANT_LIB (
+    if defined ANT_VERSION (
         call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%PARENT_DIR_ABS%\tutorial\schematron\demo-02-PhaseA.xspec" -lib "%SAXON_CP%" -Dtest.type=s
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
@@ -451,8 +451,8 @@ endlocal
 setlocal
     call :setup "running XSpec via ant for Schematron support with catalog"
 
-    if defined XSPEC_ANT_LIB (
-        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%SAXON_CP%" -lib "%XSPEC_ANT_LIB%\xml-resolver.jar" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%PARENT_DIR_ABS%\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%SAXON_CP%" -lib "%XML_RESOLVER_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
