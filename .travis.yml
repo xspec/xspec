@@ -18,11 +18,6 @@ before_install:
     - unset _JAVA_OPTIONS
 
 before_script:
-    # install bats
-    - git clone https://github.com/sstephenson/bats.git /tmp/bats
-    - mkdir -p /tmp/local
-    - bash /tmp/bats/install.sh /tmp/local
-    - export PATH=$PATH:/tmp/local/bin
     # install Saxon
     - curl -fsSL --create-dirs -o ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
     # install XML Calabash
