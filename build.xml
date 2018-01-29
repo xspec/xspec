@@ -102,7 +102,7 @@
     <equals arg1="${test.type}" arg2="s"/>
   </condition>
   
-  <!-- .xpec file.
+  <!-- .xspec file.
     If testing Schematron, it is created at "STEP 4" and deleted by cleanup. -->
   <condition property="xspec.compiled.xml" value="${xspec.base.dir}/${xspec.base}-compiled.xspec" else="${xspec.xml}">
     <istrue value="${test.schematron}"/>
