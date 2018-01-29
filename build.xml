@@ -51,6 +51,7 @@
     - Under Parameters tab:
       - New parameters test.type, xspec.compiled.xsl.dir and xspec.phase if required. (See the usage above)
       - Parameter xspec.project.dir value C:\Git\xspec
+      - If parameter catalog uses ${pdu}, replace it with ${pd}
     
   </description>
   
