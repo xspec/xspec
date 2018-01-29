@@ -3,6 +3,7 @@ environment:
     SAXON_CP: '%TEMP%\xspec\saxon\saxon9he.jar'
     # Ant version used in oXygen
     ANT_VERSION: 1.9.8
+    XSPEC_ANT_LIB: '%TEMP%\ant\lib'
   matrix:
     # latest Saxon 9.8 version
     - SAXON_VERSION: 9.8.0-7
@@ -16,11 +17,7 @@ install:
 - ps: >-
     # install Saxon
 
-    $saxon_home = Split-Path -Path "${env:SAXON_CP}" -Parent
-
-    mkdir -Path $saxon_home
-
-    Invoke-WebRequest -Uri "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar" -OutFile "${env:SAXON_CP}"
+    curl.exe -fsSL --create-dirs -o "${env:SAXON_CP}" "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar"
 
 
     # install XML Calabash
@@ -43,8 +40,6 @@ install:
 
 
     # install ant libraries
-
-    ${env:XSPEC_ANT_LIB} = "${env:TEMP}\ant\lib"
 
     mkdir -Path ${env:XSPEC_ANT_LIB}
 
