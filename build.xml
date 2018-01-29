@@ -190,30 +190,30 @@
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
       <param name="allow-foreign" expression="true"/>
       <param name="phase" expression="${xspec.phase}"/>
-      
-      <!-- Somehow this xmlcatalog gets a warning on Travis:
-        "Warning: XML resolver not found; external catalogs will be ignored"
-        so have to disable it -->
-      <!--<xmlcatalog if:set="catalog">
+      <xmlcatalog if:set="catalog">
         <catalogpath>
           <pathelement location="${catalog}"/>
         </catalogpath>
-      </xmlcatalog>-->
+      </xmlcatalog>
     </xslt>
     
     <makeurl property="xspec.compiled.xsl.url" file="${xspec.compiled.xsl}"/>
 
-    <echo message="   STEP 4: Convert XSpec (into a format that references the XSL generated from the Schematron)"/>
-    <!-- Somehow <xslt> task with <xmlcatalog> fails on Travis with a warning
-      "Warning: XML resolver not found; external catalogs will be ignored"
-      so have to fall back to <java> -->
-    <java classname="net.sf.saxon.Transform" failonerror="true">
-      <arg value="-catalog:${catalog.url}" if:set="catalog"/>
-      <arg value="-s:${xspec.xml}" />
-      <arg value="-o:${xspec.compiled.xml}" />
-      <arg value="-xsl:${xspec.project.dir}/src/schematron/schut-to-xspec.xsl" />
-      <arg value="stylesheet=${xspec.compiled.xsl.url}"/>
-    </java>
+    <echo message="   STEP 4: Convert XSpec (into a format that references the XSL generated from the Schematron)"/>    
+    <xslt 
+      in="${xspec.xml}"
+      out="${xspec.compiled.xml}" 
+      style="${xspec.project.dir}/src/schematron/schut-to-xspec.xsl" 
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="stylesheet" expression="${xspec.compiled.xsl.url}"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+    </xslt>
 
     <echo message="COMPILATION COMPLETE"/>
     
