@@ -29,7 +29,7 @@ before_script:
     - if [ -z ${XMLCALABASH_VERSION} ]; then
         echo "XMLCalabash will not be installed as it uses a higher version of Saxon";
       else
-        wget -O /tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip;
+        curl -fsSL --create-dirs -o /tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip;
         unzip /tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}.zip -d /tmp/xspec;
         export XMLCALABASH_CP=/tmp/xspec/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar;
       fi
@@ -37,8 +37,7 @@ before_script:
     - if [[ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]]; then
         echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
       else
-        mkdir -p /tmp/basex;
-        wget -O /tmp/basex/basex-${BASEX_VERSION}.jar http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
+        curl -fsSL --create-dirs -o /tmp/basex/basex-${BASEX_VERSION}.jar http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
         export BASEX_CP=/tmp/basex/basex-${BASEX_VERSION}.jar;
       fi
     # install ant
@@ -46,8 +45,7 @@ before_script:
     - tar xf /tmp/ant/apache-ant-${ANT_VERSION}-bin.tar.gz -C /tmp/ant;
     - export PATH=/tmp/ant/apache-ant-${ANT_VERSION}/bin:{$PATH}
     # install ant libraries
-    - mkdir -p ${XSPEC_ANT_LIB}
-    - wget -O ${XSPEC_ANT_LIB}/xml-resolver.jar http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
+    - curl -fsSL --create-dirs -o ${XSPEC_ANT_LIB}/xml-resolver.jar http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
 
 script:
     - ant -version

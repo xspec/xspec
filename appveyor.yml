@@ -25,7 +25,7 @@ install:
     if( Test-Path -Path env:\XMLCALABASH_VERSION ) {
       $xmlcalabash_home = "${env:TEMP}\xspec\xmlcalabash-${env:XMLCALABASH_VERSION}"
       ${env:XMLCALABASH_CP} = "${xmlcalabash_home}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
-      Invoke-WebRequest -Uri "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip" -OutFile "${xmlcalabash_home}.zip"
+      curl.exe -fsSL --create-dirs -o "${xmlcalabash_home}.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
       7z x "${xmlcalabash_home}.zip" -o"${xmlcalabash_home}\..\"
     }
 
@@ -41,9 +41,7 @@ install:
 
     # install ant libraries
 
-    mkdir -Path ${env:XSPEC_ANT_LIB}
-
-    Invoke-WebRequest -Uri "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar" -OutFile "${env:XSPEC_ANT_LIB}\xml-resolver.jar"
+    curl.exe -fsSL --create-dirs -o "${env:XSPEC_ANT_LIB}\xml-resolver.jar" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
 build: off
 test_script:
 - cmd: >-
