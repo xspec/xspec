@@ -1,4 +1,7 @@
 env:
+    global:
+        # Ant version used in oXygen
+        - ANT_VERSION=1.9.8
     matrix:
         # latest Saxon 9.8 version
         - SAXON_VERSION=9.8.0-7
@@ -39,11 +42,16 @@ before_script:
         wget -O /tmp/basex/basex-${BASEX_VERSION}.jar http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
         export BASEX_CP=/tmp/basex/basex-${BASEX_VERSION}.jar;
       fi
+    # install ant
+    - curl -fsSL --create-dirs -o /tmp/ant/apache-ant-${ANT_VERSION}-bin.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
+    - tar xf /tmp/ant/apache-ant-${ANT_VERSION}-bin.tar.gz -C /tmp/ant;
+    - export PATH=/tmp/ant/apache-ant-${ANT_VERSION}/bin:{$PATH}
     # install ant libraries
     - mkdir -p /tmp/ant/lib
     - wget -O /tmp/ant/lib/xml-resolver.jar http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
 
 script:
+    - ant -version
     - cd test
     - echo "execute bats unit tests"
     - bats --tap xspec.bats

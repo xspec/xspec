@@ -1,5 +1,8 @@
 environment:
-  SAXON_CP: '%TEMP%\xspec\saxon\saxon9he.jar'
+  global:
+    SAXON_CP: '%TEMP%\xspec\saxon\saxon9he.jar'
+    # Ant version used in oXygen
+    ANT_VERSION: 1.9.8
   matrix:
     # latest Saxon 9.8 version
     - SAXON_VERSION: 9.8.0-7
@@ -36,7 +39,7 @@ install:
 
     # install Ant without installing JDK
 
-    choco install ant --ignore-dependencies
+    choco install ant --ignore-dependencies --no-progress --version "${env:ANT_VERSION}"
 
 
     # install ant libraries
@@ -52,6 +55,11 @@ test_script:
     rem Print Java version
 
     java -version
+
+
+    rem Print Ant version
+
+    ant -version
 
 
     rem Print Saxon version
