@@ -443,10 +443,10 @@ setlocal
 
         rem Verify default clean.output.dir is false
         call :verify_exist ..\tutorial\schematron\xspec\
-        call :verify_exist ..\tutorial\schematron\demo-02-PhaseA-compiled.xspec
+        call :verify_exist ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
 
         rem Delete temp file
-        call :del          ..\tutorial\schematron\demo-02-PhaseA-compiled.xspec
+        call :del          ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
     ) else (
         call :skip "test for Schematron Ant with minimum properties skipped"
     )
@@ -470,7 +470,7 @@ setlocal
 
         rem Verify clean.output.dir=true
         call :verify_not_exist xspec-temp\
-        call :verify_not_exist ..\tutorial\schematron\demo-03-compiled.xspec
+        call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
         call :verify_not_exist ..\tutorial\schematron\demo-03-sch-compiled.xsl
     ) else (
         call :skip "test for Schematron Ant with various properties except catalog skipped"
@@ -489,10 +489,12 @@ setlocal
 
         rem Verify the build fails before cleanup
         call :verify_exist catalog\xspec\
-        call :verify_exist catalog\xspec-160_schematron-compiled.xspec
+        
+        rem Verify the build fails after Schematron setup
+        call :verify_exist catalog\xspec-160_schematron.xspec-compiled.xspec
 
         rem Delete temp file
-        call :del          catalog\xspec-160_schematron-compiled.xspec
+        call :del          catalog\xspec-160_schematron.xspec-compiled.xspec
     ) else (
         call :skip "test for Schematron Ant with catalog and default xspec.fail skipped"
     )

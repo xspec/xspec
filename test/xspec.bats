@@ -360,10 +360,10 @@ teardown() {
 
     # Verify default clean.output.dir is false
     [  -d "../tutorial/schematron/xspec/" ]
-    [  -f "../tutorial/schematron/demo-02-PhaseA-compiled.xspec" ]
+    [  -f "../tutorial/schematron/demo-02-PhaseA.xspec-compiled.xspec" ]
 
     # Delete temp file
-    rm -f "../tutorial/schematron/demo-02-PhaseA-compiled.xspec"
+    rm -f "../tutorial/schematron/demo-02-PhaseA.xspec-compiled.xspec"
 }
 
 
@@ -381,7 +381,7 @@ teardown() {
 
     # Verify clean.output.dir=true
     [ ! -d "xspec-temp/" ]
-    [ ! -f "../tutorial/schematron/demo-03-compiled.xspec" ]
+    [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
     [ ! -f "../tutorial/schematron/demo-03-sch-compiled.xsl" ]
 }
 
@@ -394,10 +394,12 @@ teardown() {
 
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
-    [  -f "catalog/xspec-160_schematron-compiled.xspec" ]
+
+    # Verify the build fails after Schematron setup
+    [  -f "catalog/xspec-160_schematron.xspec-compiled.xspec" ]
 
     # Delete temp file
-    rm -f "catalog/xspec-160_schematron-compiled.xspec"
+    rm -f "catalog/xspec-160_schematron.xspec-compiled.xspec"
 }
 
 

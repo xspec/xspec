@@ -113,7 +113,7 @@
 
   <!-- .xspec file.
     If testing Schematron, it is created at "STEP 4" and deleted by cleanup. -->
-  <condition property="xspec.compiled.xml" value="${xspec.base.dir}/${xspec.base}-compiled.xspec" else="${xspec.xml}">
+  <condition property="xspec.compiled.xml" value="${xspec.xml}-compiled.xspec" else="${xspec.xml}">
     <istrue value="${test.schematron}"/>
   </condition>
   
