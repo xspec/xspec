@@ -207,6 +207,7 @@
     </xslt>
     
     <makeurl property="xspec.compiled.xsl.url" file="${xspec.compiled.xsl}"/>
+    <makeurl property="xspec.dir.url" file="${xspec.dir}"/>
 
     <echo message="   STEP 4: Convert XSpec (into a format that references the XSL generated from the Schematron)"/>    
     <xslt 
@@ -217,6 +218,7 @@
       >
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
       <param name="stylesheet" expression="${xspec.compiled.xsl.url}"/>
+      <param name="test_dir" expression="${xspec.dir.url}"/>
       <xmlcatalog if:set="catalog">
         <catalogpath>
           <pathelement location="${catalog}"/>
