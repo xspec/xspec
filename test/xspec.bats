@@ -368,13 +368,19 @@ teardown() {
 
 
 @test "Ant for Schematron with various properties except catalog" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dclean.output.dir=true
+    # Remove a temp dir created by setup
+    rm -r ../tutorial/schematron/xspec
+
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 
-    # Verify clean.output.dir=true
+    # Verify that -Dxspec-dir was honered and the default dir was not created
     [ ! -d "../tutorial/schematron/xspec/" ]
+
+    # Verify clean.output.dir=true
+    [ ! -d "xspec-temp/" ]
     [ ! -f "../tutorial/schematron/demo-03-compiled.xspec" ]
     [ ! -f "../tutorial/schematron/demo-03-sch-compiled.xsl" ]
 }
