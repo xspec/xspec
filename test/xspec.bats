@@ -361,9 +361,11 @@ teardown() {
     # Verify default clean.output.dir is false
     [  -d "../tutorial/schematron/xspec/" ]
     [  -f "../tutorial/schematron/demo-02-PhaseA.xspec-compiled.xspec" ]
+    [  -f "../tutorial/schematron/demo-02.sch-compiled.xsl" ]
 
     # Delete temp file
     rm -f "../tutorial/schematron/demo-02-PhaseA.xspec-compiled.xspec"
+    rm -f "../tutorial/schematron/demo-02.sch-compiled.xsl"
 }
 
 
@@ -371,7 +373,7 @@ teardown() {
     # Remove a temp dir created by setup
     rm -r ../tutorial/schematron/xspec
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.compiled.xsl.dir=${PWD}/../tutorial/schematron -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -382,7 +384,7 @@ teardown() {
     # Verify clean.output.dir=true
     [ ! -d "xspec-temp/" ]
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
-    [ ! -f "../tutorial/schematron/demo-03-sch-compiled.xsl" ]
+    [ ! -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
 }
 
 
@@ -397,9 +399,11 @@ teardown() {
 
     # Verify the build fails after Schematron setup
     [  -f "catalog/xspec-160_schematron.xspec-compiled.xspec" ]
+    [  -f "../tutorial/schematron/demo-04.sch-compiled.xsl" ]
 
     # Delete temp file
     rm -f "catalog/xspec-160_schematron.xspec-compiled.xspec"
+    rm -f "../tutorial/schematron/demo-04.sch-compiled.xsl"
 }
 
 

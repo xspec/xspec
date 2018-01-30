@@ -444,9 +444,11 @@ setlocal
         rem Verify default clean.output.dir is false
         call :verify_exist ..\tutorial\schematron\xspec\
         call :verify_exist ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
+        call :verify_exist ..\tutorial\schematron\demo-02.sch-compiled.xsl
 
         rem Delete temp file
         call :del          ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
+        call :del          ..\tutorial\schematron\demo-02.sch-compiled.xsl
     ) else (
         call :skip "test for Schematron Ant with minimum properties skipped"
     )
@@ -461,7 +463,7 @@ setlocal
         rem Remove a temp dir created by setup
         call :rmdir ..\tutorial\schematron\xspec
 
-        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.compiled.xsl.dir="%CD%\..\tutorial\schematron" -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
@@ -471,7 +473,7 @@ setlocal
         rem Verify clean.output.dir=true
         call :verify_not_exist xspec-temp\
         call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
-        call :verify_not_exist ..\tutorial\schematron\demo-03-sch-compiled.xsl
+        call :verify_not_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
     ) else (
         call :skip "test for Schematron Ant with various properties except catalog skipped"
     )
@@ -492,9 +494,11 @@ setlocal
         
         rem Verify the build fails after Schematron setup
         call :verify_exist catalog\xspec-160_schematron.xspec-compiled.xspec
+        call :verify_exist ..\tutorial\schematron\demo-04.sch-compiled.xsl
 
         rem Delete temp file
         call :del          catalog\xspec-160_schematron.xspec-compiled.xspec
+        call :del          ..\tutorial\schematron\demo-04.sch-compiled.xsl
     ) else (
         call :skip "test for Schematron Ant with catalog and default xspec.fail skipped"
     )
