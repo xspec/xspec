@@ -32,7 +32,8 @@
                                [Optional; the default is taken from "phase" parameter in XSpec file]
     lib                        Additional jar libraries (saxon, xml-resolver)
                                or folder where they are located
-    clean.output.dir           Value true to delete temporary files, value false to keep them 
+    clean.output.dir           Value true to delete temporary files, value false to keep them
+                               [Optional; the default is false]
     xspec.fail                 Value true makes the build fail when one or more tests failed
                                [Optional; the default is true]
     
@@ -46,7 +47,6 @@
     
     - Duplicate Oxygen's default XSpec scenario
     - Under Options tab:
-      - Working directory: C:\Git\xspec
       - Build file: [this file]
     - Under Parameters tab:
       - New parameters if required (See the usage above):
@@ -146,7 +146,6 @@
       <arg value="!method=text"/>
     </java>
     <loadfile srcfile="${xspec.temp.var}" property="xspec.schematron.uri" />
-    <echo message="URI of Schematron file to compile: '${xspec.schematron.uri}'"/>
 
     <makepath url="${xspec.schematron.uri}" property="xspec.schematron.path"/>
     <echo message="Path of Schematron file to compile: ${xspec.schematron.path}"/> 
@@ -167,7 +166,7 @@
       <arg value="!method=text"/>
     </java>
     <loadfile srcfile="${xspec.temp.var}" property="xspec.phase"/>
-    <echo message="Schematron phase set in XSpec: '${xspec.phase}'"/>
+    <echo message="Schematron phase set in XSpec: '${xspec.phase}'" if:set="xspec.phase"/>
   </target>
   
   
@@ -202,7 +201,8 @@
       </xmlcatalog>
     </xslt>
     
-    <echo message="   STEP 3: Convert Schematron to XSL (Phase: ${xspec.phase})"/>
+    <echo message="   STEP 3: Convert Schematron to XSL"/>
+    <echo message="           phase=${xspec.phase}" if:set="xspec.phase"/>
     <xslt 
       in="${xspec.dir}/${xspec.base}.sch"
       out="${xspec.compiled.xsl}" 
@@ -211,7 +211,7 @@
       >
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
       <param name="allow-foreign" expression="true"/>
-      <param name="phase" expression="${xspec.phase}"/>
+      <param name="phase" expression="${xspec.phase}" if:set="xspec.phase"/>
       <xmlcatalog if:set="catalog">
         <catalogpath>
           <pathelement location="${catalog}"/>
