@@ -373,7 +373,10 @@ teardown() {
     # Remove a temp dir created by setup
     rm -r ../tutorial/schematron/xspec
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
+    # For testing -Dxspec.project.dir
+    cp ../build.xml /tmp/
+
+    run ant -buildfile /tmp/build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -385,6 +388,8 @@ teardown() {
     [ ! -d "xspec-temp/" ]
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
     [ ! -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
+
+    rm /tmp/build.xml
 }
 
 

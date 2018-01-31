@@ -459,11 +459,16 @@ endlocal
 setlocal
     call :setup "Ant for Schematron with various properties except catalog"
 
+    set BUILD_XML=%WORK_DIR%\build.xml
+
     if defined ANT_VERSION (
         rem Remove a temp dir created by setup
         call :rmdir ..\tutorial\schematron\xspec
 
-        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
+        rem For testing -Dxspec.project.dir
+        copy ..\build.xml "%BUILD_XML%" > NUL
+
+        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
