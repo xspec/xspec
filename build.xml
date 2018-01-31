@@ -113,39 +113,46 @@
     <istrue value="${test.schematron}"/>
   </condition>
   
-  <!-- Temporary file for getting values -->
-  <property name="xspec.temp.var" value="${xspec.dir}/${xspec.base}-var.txt"/>
-
   <!-- Catalog URL
     To work around a Saxon bug, it must be URL: https://saxonica.plan.io/issues/3025#note-8
     To debug catalog resolution, -Dsaxon.custom.options=-t would help.
     oXygen 19 default transformation scenario sets catalog even when file does not exist. Hence validate=false. -->
   <makeurl property="catalog.url" file="${catalog}" validate="false" if:set="catalog"/>
 
-  <scriptdef name="makepath" language="javascript">
+  <scriptdef name="makepath" language="javascript" src="${xspec.project.dir}/src/ant/make-path.js">
     <attribute name="url"/>
     <attribute name="property"/>
-    <![CDATA[
-      var javaURL = new java.net.URL(attributes.get("url"));
-      var javaFile = new java.io.File(javaURL.toURI());
-      var path = javaFile.toString();
-      self.project.setProperty(attributes.get("property"), path);
-    ]]>
   </scriptdef>
 
+  <!-- Transforms input xml and loads output xml as properties -->
+  <macrodef name="xml-to-properties">
+    <attribute name="in"/>
+    <attribute name="style"/>
+
+    <sequential>
+      <!-- <tempfile deleteonexit=false> accumulates temp files. <tempfile deleteonexit=true> makes
+        debugging a bit harder. Hence a fixed path. -->
+      <property name="xspec.xml-to-properties.temp" value="${xspec.dir}/${xspec.base}_xml-to-properties.xml"/>
+
+      <xslt in="@{in}"
+        out="${xspec.xml-to-properties.temp}"
+        style="${xspec.project.dir}/src/ant/@{style}"
+        force="true"
+        >
+        <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+        <xmlcatalog if:set="catalog">
+          <catalogpath>
+            <pathelement location="${catalog}"/>
+          </catalogpath>
+        </xmlcatalog>
+      </xslt>
+
+      <xmlproperty file="${xspec.xml-to-properties.temp}"/>
+    </sequential>
+  </macrodef>
+
   <target name="locateSchematron" if="${test.schematron}">
-    <java classname="net.sf.saxon.Query" failonerror="true">
-      <arg value="-catalog:${catalog.url}" if:set="catalog"/>
-      <arg value="-s:${xspec.xml}"/>
-      <arg value="-o:${xspec.temp.var}"/>
-      
-      <!-- Inner resolve-uri() resolves @schematron with node base URI.
-        Outer doc()/base-uri() resolves it with catalog. -->
-      <arg value="-qs:declare namespace x = 'http://www.jenitennison.com/xslt/xspec'; doc(/x:description/@schematron/resolve-uri(., base-uri()))/base-uri()"/>
-      
-      <arg value="!method=text"/>
-    </java>
-    <loadfile srcfile="${xspec.temp.var}" property="xspec.schematron.uri" />
+    <xml-to-properties in="${xspec.xml}" style="locate-schematron.xsl"/>
 
     <makepath url="${xspec.schematron.uri}" property="xspec.schematron.path"/>
     <echo message="Path of Schematron file to compile: ${xspec.schematron.path}"/> 
@@ -158,14 +165,7 @@
   </target>
   
   <target name="getSchematronPhase" if="${test.schematron}" unless="xspec.phase">
-    <java classname="net.sf.saxon.Query" failonerror="true">
-      <arg value="-catalog:${catalog.url}" if:set="catalog"/>
-      <arg value="-s:${xspec.xml}"/>
-      <arg value="-o:${xspec.temp.var}"/>
-      <arg value="-qs:declare namespace x = 'http://www.jenitennison.com/xslt/xspec'; /x:description/x:param[@name = 'phase'][1]"/>
-      <arg value="!method=text"/>
-    </java>
-    <loadfile srcfile="${xspec.temp.var}" property="xspec.phase"/>
+    <xml-to-properties in="${xspec.xml}" style="get-schematron-phase.xsl"/>
     <echo message="Schematron phase set in XSpec: '${xspec.phase}'" if:set="xspec.phase"/>
   </target>
   
@@ -310,18 +310,12 @@
   </target>
   
   <target name="fail" if="${xspec.fail}">
-    <java classname="net.sf.saxon.Query" failonerror="true">
-      <arg value="-catalog:${catalog.url}" if:set="catalog"/>
-      <arg value="-s:${xspec.result.xml}"/>
-      <arg value="-o:${xspec.temp.var}"/>
-      <arg value="-qs:declare namespace x = 'http://www.jenitennison.com/xslt/xspec'; empty(//x:*[@successful = 'false'])"/>
-      <arg value="!method=text"/>
-    </java>
-    <loadfile srcfile="${xspec.temp.var}" property="xspec.passed"/>
-    
+    <xml-to-properties in="${xspec.result.xml}" style="find-test-failure.xsl"/>
     <fail message="XSpec tests failed. See ${xspec.result.html} for a report">
       <condition>
-        <isfalse value="${xspec.passed}"/>
+        <not>
+          <istrue value="${xspec.passed}"/>
+        </not>
       </condition>
     </fail>
   </target>
