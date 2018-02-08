@@ -24,7 +24,7 @@
   <developers>
     <developer>
       <name>Jeni Tennison</name>
-      <email>jeni.@jenitennison.com</email>
+      <email>jeni@jenitennison.com</email>
       <roles>
         <role>creator</role>
       </roles>
@@ -38,7 +38,7 @@
     </developer>
     <developer>
       <name>Florent George</name>
-      <email>info@fgeorges.org</email>
+      <email>fgeorges@fgeorges.org</email>
       <roles>
         <role>former maintainer</role>
       </roles>
