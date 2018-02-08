@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for Xsl, XQuery and Schematron</description>
@@ -24,7 +24,7 @@
   <developers>
     <developer>
       <name>Jeni Tennison</name>
-      <email>jeni.@jenitennison.com</email>
+      <email>jeni@jenitennison.com</email>
       <roles>
         <role>creator</role>
       </roles>
@@ -38,7 +38,7 @@
     </developer>
     <developer>
       <name>Florent George</name>
-      <email>info@fgeorges.org</email>
+      <email>fgeorges@fgeorges.org</email>
       <roles>
         <role>former maintainer</role>
       </roles>
