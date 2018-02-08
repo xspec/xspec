@@ -40,14 +40,14 @@
 
     <xsl:template match="@schematron">
         <xsl:attribute name="stylesheet" select="$stylesheet"/>
-        <xsl:variable name="path" select="iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', string()))"/>
+        <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
             <xsl:namespace name="{./@prefix}" select="./@uri"/>
         </xsl:for-each>
     </xsl:template>
 
     <xsl:template match="x:import">
-        <xsl:variable name="href" select="iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', @href))"/>
+        <xsl:variable name="href" select="resolve-uri(@href, base-uri())"/>
         <xsl:choose>
             <xsl:when test="doc($href)//*[ 
                 self::x:expect-assert | self::x:expect-not-assert | 
