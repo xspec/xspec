@@ -36,8 +36,6 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]" ]
-    # Fail deliberately
-    false
 }
 
 
