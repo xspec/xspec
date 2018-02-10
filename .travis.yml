@@ -9,7 +9,7 @@ env:
         - XML_RESOLVER_CP=/tmp/xspec/xml-resolver/xml-resolver.jar
     matrix:
         # latest Saxon 9.8 version
-        - SAXON_VERSION=9.8.0-7
+        - SAXON_VERSION=9.8.0-8
         # latest Saxon 9.7 version
         - SAXON_VERSION=9.7.0-21
           XMLCALABASH_VERSION=1.1.16-97
