@@ -18,6 +18,8 @@
 #===============================================================================
 
 setup() {
+	work_dir=${BATS_TMPDIR}/xspec/bats
+	mkdir ${work_dir}
 	mkdir ../tutorial/xspec
 	mkdir ../test/xspec
 	mkdir ../tutorial/schematron/xspec
@@ -25,6 +27,7 @@ setup() {
 
 
 teardown() {
+	rm -rf ${work_dir}
 	rm -rf ../tutorial/xspec
 	rm -rf ../test/xspec
 	rm -rf ../tutorial/schematron/xspec
@@ -182,11 +185,11 @@ teardown() {
 
 
 @test "invoking xspec.sh with TEST_DIR already set externally generates files inside TEST_DIR" {
-    export TEST_DIR=/tmp
+    export TEST_DIR=${work_dir}
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at /tmp/escape-for-regex-result.html" ]
+    [ "${lines[18]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 }
 
 
@@ -216,25 +219,28 @@ teardown() {
 
 
 @test "invoking xspec.sh with path containing an apostrophe runs successfully #119" {
-	mkdir some\'path
-	cp ../tutorial/escape-for-regex.* some\'path 
-	run ../bin/xspec.sh some\'path/escape-for-regex.xspec
+	apostrophe_dir="${work_dir}/some'path"
+	mkdir "${apostrophe_dir}"
+	cp ../tutorial/escape-for-regex.* "${apostrophe_dir}"
+
+	expected_report="${apostrophe_dir}/xspec/escape-for-regex-result.html"
+
+	run ../bin/xspec.sh "${apostrophe_dir}/escape-for-regex.xspec"
 	echo "$output"
 	[ "$status" -eq 0 ]
-	[ "${lines[19]}" = "Report available at some'path/xspec/escape-for-regex-result.html" ]
-	rm -rf some\'path
+	[ "${lines[19]}" = "Report available at ${expected_report}" ]
+	[ -f "${expected_report}" ]
 }
 
 
 @test "invoking xspec.sh with saxon script uses the saxon script #121 #122" {
-	echo "echo 'Saxon script with EXPath Packaging System'" > /tmp/saxon
-	chmod +x /tmp/saxon
-	export PATH=$PATH:/tmp
+	echo "echo 'Saxon script with EXPath Packaging System'" > ${work_dir}/saxon
+	chmod +x ${work_dir}/saxon
+	export PATH=$PATH:${work_dir}
 	run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[0]}" = "Saxon script found, use it." ]
-	rm /tmp/saxon
 }
 
 
@@ -348,13 +354,15 @@ teardown() {
 
 
 @test "Ant for Schematron with various properties except catalog" {
+    build_xml=${work_dir}/build.xml
+
     # Remove a temp dir created by setup
     rm -r ../tutorial/schematron/xspec
 
     # For testing -Dxspec.project.dir
-    cp ../build.xml /tmp/
+    cp ../build.xml ${build_xml}
 
-    run ant -buildfile /tmp/build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
+    run ant -buildfile ${build_xml} -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -366,8 +374,6 @@ teardown() {
     [ ! -d "xspec-temp/" ]
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
     [ ! -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
-
-    rm /tmp/build.xml
 }
 
 
