@@ -132,7 +132,7 @@ rem ##
     ) else if "%WIN_ARGV%"=="-h" (
         set WIN_HELP=1
     ) else if "%WIN_ARGV:~0,1%"=="-" (
-        set WIN_UNKNOWN_OPTION=%WIN_ARGV%
+        set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
     ) else if defined XSPEC (
         if "%WIN_ARGV%"=="coverage" (
             set WIN_DEPRECATED_COVERAGE=1
