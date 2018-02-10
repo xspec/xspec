@@ -262,6 +262,10 @@ teardown() {
     [ "${lines[4]}" = "Schematron XSLT include" ]
     [ "${lines[5]}" = "Schematron XSLT expand" ]
     [ "${lines[6]}" = "Schematron XSLT compile" ]
+
+    # This test leaves compiled files. Delete them.
+    rm -f "../tutorial/schematron/demo-01.sch-compiled.xsl"
+    rm -f "../tutorial/schematron/demo-01.xspec-compiled.xspec"
 }
 
 
