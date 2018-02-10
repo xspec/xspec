@@ -335,7 +335,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with the -s option does not display Schematron warnings #129 #131"
 
-    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
     call :verify_retval 0
     call :verify_line 5 x "Compiling the Schematron tests..."
 
