@@ -382,6 +382,16 @@ setlocal
 endlocal
 
 setlocal
+    call :setup "invoking xspec.bat with -q option runs XSpec test for XQuery"
+
+    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    call :verify_retval 0
+    call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "HTML report contains CSS inline and not as an external file #135"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
