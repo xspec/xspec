@@ -19,7 +19,7 @@
 					<xsl:variable as="xs:anyURI" name="schematron-uri"
 						select="doc($schematron-uri)/base-uri()" />
 
-					<!-- Can be 'file:C:/...' for some reason. Fix it. -->
+					<!-- Can be 'file:C:/...' for some reason (maybe https://issues.apache.org/jira/browse/XMLCOMMONS-24). Fix it. -->
 					<xsl:value-of select="replace($schematron-uri, '^(file:)([^/])', '$1/$2')" />
 				</uri>
 			</schematron>
