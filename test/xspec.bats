@@ -160,27 +160,17 @@ teardown() {
 }
 
 
-@test "invoking xspec with -j option generates message with JUnit report location" {
+@test "invoking xspec with -j option generates message with JUnit report location and creates report files" {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
 	echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
-}
 
+    # XML report file
+    [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
 
-@test "invoking xspec with -j option generates XML report file" {
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-    run stat ../tutorial/xspec/escape-for-regex-result.xml
-	echo "$output"
-    [ "$status" -eq 0 ]
-}
-
-
-@test "invoking xspec with -j option generates JUnit report file" {
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-    run stat ../tutorial/xspec/escape-for-regex-junit.xml
-	echo "$output"
-    [ "$status" -eq 0 ]
+    # JUnit report file
+    [ -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
 

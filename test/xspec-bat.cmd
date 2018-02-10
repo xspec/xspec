@@ -215,28 +215,16 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec with -j option generates message with JUnit report location"
+    call :setup "invoking xspec with -j option generates message with JUnit report location and creates report files"
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
     call :verify_line 19 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-junit.xml"
 
-    call :teardown
-endlocal
-
-setlocal
-    call :setup "invoking xspec with -j option generates XML report file"
-
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
+    rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
-    call :teardown
-endlocal
-
-setlocal
-    call :setup "invoking xspec with -j option generates JUnit report file"
-
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
+    rem JUnit report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
 
     call :teardown
