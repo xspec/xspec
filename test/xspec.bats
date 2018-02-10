@@ -259,19 +259,18 @@ teardown() {
 }
 
 
-@test "invoking xspec.sh with the -s option does not display Schematron warnings #129 #131" {
+@test "invoking xspec.sh with the -s option does not display Schematron warnings #129 #131 and removes temporary files" {
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
 	echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[4]}" == "Compiling the Schematron tests..." ]
-}
 
-
-@test "Cleanup removes temporary files" {
-    run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
-    [ "$status" -eq 0 ]
+    # Cleanup removes compiled .xspec
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
+
+    # Cleanup removes temporary files in TEST_DIR
     run ls ../tutorial/schematron/xspec
+	echo "$output"
     [ "${#lines[@]}" = "3" ]
     [ "${lines[0]}" = "demo-03-result.html" ]
     [ "${lines[1]}" = "demo-03-result.xml" ]

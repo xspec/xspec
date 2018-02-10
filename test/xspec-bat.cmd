@@ -333,26 +333,21 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec.bat with the -s option does not display Schematron warnings #129 #131"
+    call :setup "invoking xspec.bat with the -s option does not display Schematron warnings #129 #131 and removes temporary files"
 
     call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
     call :verify_retval 0
     call :verify_line 5 x "Compiling the Schematron tests..."
 
-    call :teardown
-endlocal
-
-setlocal
-    call :setup "Cleanup removes temporary files"
-
-    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
-    call :verify_retval 0
+    rem Cleanup removes compiled .xspec
     call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
-    call :run dir /on ..\tutorial\schematron\xspec
-    call :verify_line 9 r ".*3 File.*"
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.html
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.xml
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03.xsl
+
+    rem Cleanup removes temporary files in TEST_DIR
+    call :run dir /b /o:n ..\tutorial\schematron\xspec
+    call :verify_line  1 x demo-03.xsl
+    call :verify_line  2 x demo-03-result.html
+    call :verify_line  3 x demo-03-result.xml
+    call :verify_line -1 x demo-03-result.xml
 
     call :teardown
 endlocal
