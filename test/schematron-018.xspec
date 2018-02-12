@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="schematron/schematron-018.sch">
+
+    <x:scenario label="expect-rule">
+        <x:scenario label="no attributes">
+            <x:scenario label="fired-rule">
+                <x:context>
+                    <para/>
+                </x:context>
+                <x:expect-rule/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="id">
+            <x:scenario label="r1">
+                <x:context>
+                    <para/>
+                </x:context>
+                <x:expect-rule id="r1"/>
+            </x:scenario>
+            <x:scenario label="r2">
+                <x:context>
+                    <section/>
+                </x:context>
+                <x:expect-rule id="r2"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="context">
+            <x:scenario label="element">
+                <x:context>
+                    <para/>
+                </x:context>
+                <x:expect-rule context="para"/>
+            </x:scenario>
+            <x:scenario label="element with predicate">
+                <x:context>
+                    <section>
+                        <title/>
+                        <para/>
+                        <title/>
+                    </section>
+                </x:context>
+                <x:expect-rule context="title[position() gt 1]"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="count">
+            <x:scenario label="0">
+                <x:context>
+                    <article/>
+                </x:context>
+                <x:expect-rule label="verify that a rule does not fire" count="0"/>
+            </x:scenario>
+            <x:scenario label="1">
+                <x:context>
+                    <section/>
+                </x:context>
+                <x:expect-rule count="1"/>
+            </x:scenario>
+            <x:scenario label="2">
+                <x:context>
+                    <article>
+                        <section/>
+                        <section/>
+                    </article>
+                </x:context>
+                <x:expect-rule count="2"/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="id and context">
+            <x:context>
+                <article>
+                    <title/>
+                </article>
+            </x:context>
+            <x:expect-rule context="title[position() eq 1]" id="r3"/>
+        </x:scenario>
+        <x:scenario label="id and count">
+            <x:context>
+                <article>
+                    <para/>
+                    <para/>
+                    <para/>
+                </article>
+            </x:context>
+            <x:expect-rule id="r1" count="3"/>
+        </x:scenario>
+        <x:scenario label="context and count">
+            <x:context>
+                <article>
+                    <para/>
+                    <para/>
+                    <para/>
+                    <para/>
+                </article>
+            </x:context>
+            <x:expect-rule context="para" count="4"/>
+        </x:scenario>
+        <x:scenario label="id, context, and count">
+            <x:context>
+                <article>
+                    <para/>
+                    <para/>
+                    <para/>
+                    <para/>
+                    <para/>
+                </article>
+            </x:context>
+            <x:expect-rule id="r1" context="para" count="5"/>
+        </x:scenario>
+        <x:scenario label="specific rules fire or do not fire">
+            <x:context>
+                <section/>
+            </x:context>
+            <x:expect-rule label="verify that a specific rule does not fire" id="r1" count="0"/>
+            <x:expect-rule label="verify that a specific rule does fire" id="r2" count="1"/>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>

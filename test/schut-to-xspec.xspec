@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" stylesheet="../src/schematron/schut-to-xspec.xsl">
+    <x:param name="stylesheet" select="'schut-to-xspec-test.sch.xsl'"/>
+    <x:scenario label="templates">
+        <x:scenario label="identity">
+            <x:context>
+                <example attr="1">
+                    <!-- comment -->
+                    <?pi?>
+                    <p>this is a <i>mixed</i> text <b> example</b>.</p>
+                    <other xmlns="other">foreign</other>
+                </example>
+            </x:context>
+            <x:expect label="copied">
+                <example attr="1">
+                    <!-- comment -->
+                    <?pi?>
+                    <p>this is a <i>mixed</i> text <b> example</b>.</p>
+                    <other xmlns="other">foreign</other>
+                </example>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>    
+    <x:scenario label="description">
+        <x:scenario label="no phase">
+            <x:context href="schematron/schut-to-xspec-001-in.xspec"/>
+            <x:expect label="xspec description" href="schematron/schut-to-xspec-001-out.xspec"/>
+        </x:scenario>
+        <x:scenario label="with phase">
+            <x:context href="schematron/schut-to-xspec-011-in.xspec"/>
+            <x:expect label="xspec description" href="schematron/schut-to-xspec-011-out.xspec"/>
+        </x:scenario>
+        <x:scenario label="with phase in select">
+            <x:context href="schematron/schut-to-xspec-013-in.xspec"/>
+            <x:expect label="xspec description" href="schematron/schut-to-xspec-013-out.xspec"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="namespaces defined in Schematron">
+        <x:context href="schematron/schut-to-xspec-002-in.xspec"/>
+        <x:expect label="copied from sch:ns to x:description" href="schematron/schut-to-xspec-002-out.xspec"/>
+    </x:scenario>
+    <x:scenario label="scenario">
+        <x:scenario label="nested">
+            <x:context href="schematron/schut-to-xspec-003-in.xspec"/>
+            <x:expect label="nested scenarios" href="schematron/schut-to-xspec-003-out.xspec"/>
+        </x:scenario>
+        <x:scenario label="pending">
+            <x:context href="schematron/schut-to-xspec-004-in.xspec"/>
+            <x:expect label="pending scenarios" href="schematron/schut-to-xspec-004-out.xspec"/>
+        </x:scenario>
+        <x:scenario label="focus">
+            <x:context href="schematron/schut-to-xspec-005-in.xspec"/>
+            <x:expect label="focused scenario" href="schematron/schut-to-xspec-005-out.xspec"/>
+        </x:scenario>
+        <x:scenario label="shared">
+            <x:context href="schematron/schut-to-xspec-006-in.xspec"/>
+            <x:expect label="shared scenarios" href="schematron/schut-to-xspec-006-out.xspec"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="context">
+        <x:scenario label="file">
+            <x:context href="schematron/schut-to-xspec-007-in.xspec"/>
+            <x:expect label="context href" href="schematron/schut-to-xspec-007-out.xspec"/>
+        </x:scenario>
+        <x:scenario label="inline" pending="Can't test inline context because of error: &#34;XTDE1480: Cannot execute xsl:result-document while evaluating xsl:variable&#34;">
+            <x:context href="schematron/schut-to-xspec-008-in.xspec"/>
+            <x:expect label="context href to generated file" href="schematron/schut-to-xspec-008-out.xspec"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="import">
+        <x:scenario label="type schut (default)">
+            <x:context href="schematron/schut-to-xspec-009-in.xspec"/>
+            <x:expect label="copy contents of imported file" href="schematron/schut-to-xspec-009-out.xspec"/>
+        </x:scenario>
+        <x:scenario label="type xspec">
+            <x:context href="schematron/schut-to-xspec-010-in.xspec"/>
+            <x:expect label="import href" href="schematron/schut-to-xspec-010-out.xspec"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="assertions">
+        <x:context href="schematron-012.xspec" select="x:description"/>
+        <x:expect label="expect elements with correct label and test" href="schematron/schut-to-xspec-012-out.xspec" select="x:description"/>
+    </x:scenario>
+</x:description>

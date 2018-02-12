@@ -32,8 +32,9 @@
 
 <xsl:variable name="xspec-ns" select="'http://www.jenitennison.com/xslt/xspec'"/>
 
+<xsl:variable name="apostrophe">'</xsl:variable>
 <xsl:variable name="stylesheet-uri" as="xs:anyURI" 
-  select="resolve-uri(/x:description/@stylesheet, base-uri(/x:description))" />  
+  select="resolve-uri(/x:description/@stylesheet, replace(base-uri(/x:description), $apostrophe, '%27'))" />  
 
 <xsl:variable name="stylesheet" as="document-node()" 
   select="doc($stylesheet-uri)" />
@@ -52,6 +53,7 @@
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
   	<import href="{$stylesheet-uri}" />
   	<import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
+    <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
     <!-- This namespace alias is used for when the testing process needs to test
          the generation of XSLT! -->
     <namespace-alias stylesheet-prefix="__x" result-prefix="xsl" />

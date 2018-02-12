@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schut-to-xspec-012.sch">
+    <x:scenario label="expect-valid">
+        <x:context href="schematron/schut-to-xspec-012-01.xml"/>
+        <x:expect-valid/>
+    </x:scenario>
+    <x:scenario label="assertions">
+        <x:scenario label="without attributes">
+            <x:scenario label="not thrown">
+                <x:context href="schematron/schut-to-xspec-012-01.xml"/>
+                <x:expect-not-assert/>
+                <x:expect-not-report/>
+            </x:scenario>
+            <x:scenario label="thrown">
+                <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+                <x:expect-assert/>
+                <x:expect-report/>
+            </x:scenario>
+        </x:scenario>
+        <x:scenario label="with id">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="a1"/>
+            <x:expect-not-assert id="a2"/>
+            <x:expect-report id="r1"/>
+            <x:expect-not-report id="r2"/>
+        </x:scenario>
+        <x:scenario label="with role">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert role="warn"/>
+            <x:expect-not-assert role="fatal"/>
+            <x:expect-report role="warn"/>
+            <x:expect-not-report role="info"/>
+        </x:scenario>
+        <x:scenario label="with location">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert location="/article[1]/div[1]"/>
+            <x:expect-not-assert location="/article[1]/div[2]"/>
+            <x:expect-report location="/article[1]/div[3]"/>
+            <x:expect-not-report location="/article[1]/div[4]"/>
+        </x:scenario>
+        <x:scenario label="with id, location">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="a1" location="/article[1]/div[1]"/>
+            <x:expect-not-assert id="a2" location="/article[1]/div[2]"/>
+            <x:expect-report id="r1" location="/article[1]/div[3]"/>
+            <x:expect-not-report id="r2" location="/article[1]/div[4]"/>
+        </x:scenario>
+        <x:scenario label="with id, role, location">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="a1" role="warn" location="/article[1]/div[1]"/>
+            <x:expect-not-assert id="a2" role="error" location="/article[1]/div[2]"/>
+            <x:expect-report id="r1" role="warn" location="/article[1]/div[3]"/>
+            <x:expect-not-report id="r2" role="info" location="/article[1]/div[4]"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="inherrit from rule">
+        <x:scenario label="id and role from rule">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="ru1" role="error"/>
+        </x:scenario>
+        <x:scenario label="id from rule and role from assertion">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="ru1" role="warn"/>
+        </x:scenario>
+        <x:scenario label="role from rule and id from assertion">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="ru2" role="error"/>
+        </x:scenario>
+        <x:scenario label="match only current rule">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-not-assert id="ru3"/>
+            <x:expect-not-assert id="ru3" role="warn"/>
+            <x:expect-report id="ru3" role="warn" location="/article[1]"/>
+        </x:scenario>
+    </x:scenario>
+    <x:scenario label="inherrit from pattern">
+        <x:scenario label="id from pattern">
+            <x:context href="schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect-assert id="pattern3"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

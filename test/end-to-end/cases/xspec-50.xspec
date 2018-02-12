@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-50.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Expecting xs:hexBinary('0123') when $x:result is xs:untypedAtomic('0123')">
+		<x:context><foo>0123</foo></x:context>
+		<x:expect select="xs:hexBinary('0123')">
+			<x:label>must generate a failure report HTML which reads [Result] =
+				"xs:untypedAtomic('0123')" and [Expected Result] = "xs:hexBinary('0123')"</x:label>
+		</x:expect>
+	</x:scenario>
+</x:description>

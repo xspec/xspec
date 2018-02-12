@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-three-dots.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="For resultant element (simple)">
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<elem>text</elem>
+				]]></x:label>
+			<x:context>
+				<elem>text</elem>
+			</x:context>
+			<x:expect select="elem">
+				<x:label>expecting<![CDATA[
+				<elem>...</elem>
+				]]>should be Success</x:label>
+				<elem>...</elem>
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<elem />
+				]]></x:label>
+			<x:context>
+				<elem />
+			</x:context>
+			<x:expect select="elem">
+				<x:label>expecting<![CDATA[
+				<elem>...</elem>
+				]]>should be Success</x:label>
+				<elem>...</elem>
+			</x:expect>
+
+			<x:expect select="elem">
+				<x:label>expecting<![CDATA[
+				<elem attrib="..." />
+				]]>should be Failure</x:label>
+				<elem attrib="..." />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<elem>...</elem>
+				]]></x:label>
+			<x:context>
+				<elem>...</elem>
+			</x:context>
+			<x:expect select="elem">
+				<x:label>expecting<![CDATA[
+				<elem>...</elem>
+				]]>should be Success</x:label>
+				<elem>...</elem>
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect select="elem">
+				<x:label>expecting<![CDATA[
+				<elem>text</elem>
+				]]>should be Failure</x:label>
+				<elem>text</elem>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant element (with attribute)">
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<elem attrib="val" />
+				]]></x:label>
+			<x:context>
+				<elem attrib="val" />
+			</x:context>
+			<x:expect select="elem">
+				<x:label>expecting<![CDATA[
+				<elem attrib="..." />
+				]]>should be Success</x:label>
+				<elem attrib="..." />
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect select="elem">
+				<x:label>expecting<![CDATA[
+				<elem>...</elem>
+				]]>should be Failure</x:label>
+				<elem>...</elem>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant element (with mixed content)">
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<outer>text<inner1 /><inner2 /></outer>
+				]]></x:label>
+			<x:context>
+				<outer>text<inner1 /><inner2 /></outer>
+			</x:context>
+			<x:expect select="outer">
+				<x:label>expecting<![CDATA[
+				<outer>...</outer>
+				]]>should be Success</x:label>
+				<outer>...</outer>
+			</x:expect>
+			<x:expect select="outer">
+				<x:label>expecting<![CDATA[
+				<outer>...<inner1 />...</outer>
+				]]>should be Success</x:label>
+				<outer>...<inner1 />...</outer>
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<outer><inner /></outer>
+				]]></x:label>
+			<x:context>
+				<outer><inner /></outer>
+			</x:context>
+			<x:expect select="outer">
+				<x:label>expecting<![CDATA[
+				<outer>...</outer>
+				]]>should be Success</x:label>
+				<outer>...</outer>
+			</x:expect>
+
+			<x:expect select="outer">
+				<x:label>expecting<![CDATA[
+				<outer>...<inner /></outer>
+				]]>should be Failure</x:label>
+				<outer>...<inner /></outer>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant attribute">
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+					 @attrib="val"
+				]]></x:label>
+			<x:context select="elem/@*">
+				<elem attrib="val" />
+			</x:context>
+			<x:expect select="elem/@*">
+				<x:label>expecting<![CDATA[
+					 @attrib="..."
+					]]>should be Success</x:label>
+				<elem attrib="..." />
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+					 @attrib=""
+				]]></x:label>
+			<x:context select="elem/@*">
+				<elem attrib="" />
+			</x:context>
+			<x:expect select="elem/@*">
+				<x:label>expecting<![CDATA[
+					 @attrib="..."
+					]]>should be Success</x:label>
+				<elem attrib="..." />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+					 @attrib="..."
+				]]></x:label>
+			<x:context select="elem/@*">
+				<elem attrib="..." />
+			</x:context>
+			<x:expect select="elem/@*">
+				<x:label>expecting<![CDATA[
+					 @attrib="..."
+					]]>should be Success</x:label>
+				<elem attrib="..." />
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect select="elem/@*">
+				<x:label>expecting<![CDATA[
+					 @attrib="val"
+					]]>should be Failure</x:label>
+				<elem attrib="val" />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant text node">
+		<x:scenario label="When result is usual text node">
+			<x:call function="exactly-one">
+				<x:param as="text()" select="$text-node_usual" />
+			</x:call>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect label="expecting '...' should be Failure" select="'...'" />
+		</x:scenario>
+
+		<x:scenario label="When result is whitespace-only text node">
+			<x:call function="exactly-one">
+				<x:param as="text()" select="$text-node_whitespace-only" />
+			</x:call>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect label="expecting usual text node should be Failure" select="$text-node_usual"
+			 />
+		</x:scenario>
+
+		<x:scenario label="When result is zero-length text node">
+			<x:call function="exactly-one">
+				<x:param as="text()" select="$text-node_zero-length" />
+			</x:call>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect label="expecting usual text node should be Failure" select="$text-node_usual"
+			 />
+		</x:scenario>
+
+		<x:scenario label="When result is three-dot text node">
+			<x:call function="exactly-one">
+				<x:param as="text()" select="$text-node_three-dots" />
+			</x:call>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect label="expecting usual text node should be Failure" select="$text-node_usual" />
+			<x:expect label="expecting '...' should be Failure" select="'...'" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant comment">
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<!--comment-->
+				]]></x:label>
+			<x:context>
+				<!--comment-->
+			</x:context>
+			<x:expect select="comment()">
+				<x:label>expecting<![CDATA[
+				<!--...-->
+				]]>should be Success</x:label>
+				<!--...-->
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<!---->
+				]]></x:label>
+			<x:context>
+				<!---->
+			</x:context>
+			<x:expect select="comment()">
+				<x:label>expecting<![CDATA[
+				<!--...-->
+				]]>should be Success</x:label>
+				<!--...-->
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<!--...-->
+				]]></x:label>
+			<x:context>
+				<!--...-->
+			</x:context>
+			<x:expect select="comment()">
+				<x:label>expecting<![CDATA[
+				<!--...-->
+				]]>should be Success</x:label>
+				<!--...-->
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect select="comment()">
+				<x:label>expecting<![CDATA[
+				<!--comment-->
+				]]>should be Failure</x:label>
+				<!--comment-->
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant processing instruction">
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<?pi data?>
+				]]></x:label>
+			<x:context>
+				<?pi data?>
+			</x:context>
+			<x:expect select="processing-instruction()">
+				<x:label>expecting<![CDATA[
+				<?pi ...?>
+				]]>should be Success</x:label>
+				<?pi ...?>
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<?pi?>
+				]]></x:label>
+			<x:context>
+				<?pi?>
+			</x:context>
+			<x:expect select="processing-instruction()">
+				<x:label>expecting<![CDATA[
+				<?pi ...?>
+				]]>should be Success</x:label>
+				<?pi ...?>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<?pi ...?>
+				]]></x:label>
+			<x:context>
+				<?pi ...?>
+			</x:context>
+			<x:expect select="processing-instruction()">
+				<x:label>expecting<![CDATA[
+				<?pi ...?>
+				]]>should be Success</x:label>
+				<?pi ...?>
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect select="processing-instruction()">
+				<x:label>expecting<![CDATA[
+				<?pi data?>
+				]]>should be Failure</x:label>
+				<?pi data?>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant document node">
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<xsl:document><?pi?><!--comment--><elem /></xsl:document>
+				]]></x:label>
+			<x:call function="exactly-one">
+				<x:param as="document-node()" select="$document-node_multiple-nodes" />
+			</x:call>
+			<x:expect select="$document-node_three-dots">
+				<x:label>expecting<![CDATA[
+					<xsl:document>...</xsl:document>
+					]]>should be Success</x:label>
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<xsl:document />
+				]]></x:label>
+			<x:call function="exactly-one">
+				<x:param as="document-node()" select="$document-node_empty" />
+			</x:call>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect select="$document-node_three-dots">
+				<x:label>expecting<![CDATA[
+					<xsl:document>...</xsl:document>
+					]]>should be Failure</x:label>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+				<xsl:document>...</xsl:document>
+				]]></x:label>
+			<x:call function="exactly-one">
+				<x:param as="document-node()" select="$document-node_three-dots" />
+			</x:call>
+			<x:expect select="$document-node_three-dots">
+				<x:label>expecting<![CDATA[
+					<xsl:document>...</xsl:document>
+					]]>should be Success</x:label>
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect select="$document-node_text">
+				<x:label>expecting<![CDATA[
+					<xsl:document>text</xsl:document>
+					]]>should be Failure</x:label>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant namespace node (TODO: xspec/xspec#67)">
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+						  xmlns:prefix="namespace-uri"
+				]]></x:label>
+			<x:call function="exactly-one">
+				<x:param as="node()" select="elem/namespace::prefix">
+					<elem xmlns:prefix="namespace-uri" />
+				</x:param>
+			</x:call>
+			<x:expect select="elem/namespace::prefix">
+				<x:label>expecting<![CDATA[
+					  xmlns:prefix="..."
+					]]>should be Success</x:label>
+				<elem xmlns:prefix="..." />
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+						  xmlns="namespace-uri"
+				]]></x:label>
+			<x:call function="exactly-one">
+				<x:param as="node()" select="*:elem/namespace::*[not(name())]">
+					<elem xmlns="namespace-uri" />
+				</x:param>
+			</x:call>
+			<x:expect select="*:elem/namespace::*[not(name())]">
+				<x:label>expecting<![CDATA[
+					  xmlns="..."
+					]]>should be Success</x:label>
+				<elem xmlns="..." />
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When result is<![CDATA[
+						  xmlns:prefix="..."
+				]]></x:label>
+			<x:call function="exactly-one">
+				<x:param as="node()" select="elem/namespace::prefix">
+					<elem xmlns:prefix="..." />
+				</x:param>
+			</x:call>
+			<x:expect select="elem/namespace::prefix">
+				<x:label>expecting<![CDATA[
+					  xmlns:prefix="..."
+					]]>should be Success</x:label>
+				<elem xmlns:prefix="..." />
+			</x:expect>
+			<x:expect label="expecting ... should be Success">...</x:expect>
+
+			<x:expect select="elem/namespace::prefix">
+				<x:label>expecting<![CDATA[
+					  xmlns:prefix="namespace-uri"
+					]]>should be Failure</x:label>
+				<elem xmlns:prefix="namespace-uri" />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For resultant sequence of multiple nodes">
+		<x:scenario>
+			<x:label>When result is sequence of<![CDATA[
+				<elem1 /><elem2 />
+				]]></x:label>
+			<x:context>
+				<elem1 /><elem2 />
+			</x:context>
+			<x:expect select="wrap/node()">
+				<x:label>expecting<![CDATA[
+					  ...<elem2 />
+					]]>should be Success</x:label>
+				<wrap>...<elem2 /></wrap>
+			</x:expect>
+			<x:expect label="expecting sequence of two ... should be Success" select="wrap/text()">
+				<wrap>...</wrap>
+				<wrap>...</wrap>
+			</x:expect>
+
+			<x:expect label="expecting ... should be Failure">...</x:expect>
+			<x:expect label="expecting ...... should be Failure">......</x:expect>
+			<x:expect label="expecting sequence of three ... should be Failure" select="wrap/text()">
+				<wrap>...</wrap>
+				<wrap>...</wrap>
+				<wrap>...</wrap>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="When result is empty sequence">
+		<x:context select="()" />
+		<x:expect label="expecting ... should be Failure">...</x:expect>
+	</x:scenario>
+
+	<x:scenario label="For resultant atomic value">
+		<x:scenario label="When result is 'string'">
+			<x:call function="exactly-one">
+				<x:param as="xs:string" select="'string'" />
+			</x:call>
+			<x:expect label="expecting 'string' should be Success" select="'string'" />
+
+			<x:expect label="expecting ... should be Failure">...</x:expect>
+			<x:expect label="expecting '...' should be Failure" select="'...'" />
+		</x:scenario>
+
+		<x:scenario label="When result is '...'">
+			<x:call function="exactly-one">
+				<x:param as="xs:string" select="'...'" />
+			</x:call>
+			<x:expect label="expecting '...' should be Success" select="'...'" />
+
+			<x:expect label="expecting ... should be Failure">...</x:expect>
+			<x:expect label="expecting 'string' should be Failure" select="'string'" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="For any resultant item">
+		<x:context>item</x:context>
+		<x:expect label="expecting .... (four dots) should be Failure">....</x:expect>
+		<x:expect label="expecting ...x (three dots with extra character) should be Failure"
+			>...x</x:expect>
+		<x:expect label="expecting ... with surrounding whitespace should be Failure" xml:space="preserve"> ...</x:expect>
+		<x:expect label="expecting '...' (xs:string) should be Failure" select="'...'" />
+	</x:scenario>
+</x:description>

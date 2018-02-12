@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron/schut-to-xspec-test.sch">
+    <x:param name="phase">P1</x:param>
+    <x:param name="selected" select="codepoints-to-string((80,49))"/>
+    <!--x:param name="escape1">AAA BBB CCC</x:param-->
+    <!--x:param name="escape2">a"b</x:param-->
+    <!--x:param name="escape3">a'b</x:param-->
+    <!--x:param name="escape4">A ' " B</x:param-->
+	<x:scenario label="Schematron phase/parameters are passed to Schematron compile"/>
+<!--
+With xspec.bat:
+All of the above examples work properly with xspec.bat.
+Have not been able to make them all work in xspec-bat.cmd test.
+
+With xspec.sh:
+With xspec.sh escaping spaces (escape1, escape4) is not working.
+Have not been able to make them all work in xspec.bats test.
+
+Tested manually by modifying iso_svrl_for_xslt2.xsl to add inside xsl:stylesheet:
+
+	<xsl:param name="selected"/>
+	<xsl:param name="escape1"/>
+	<xsl:param name="escape2"/>
+	<xsl:param name="escape3"/>
+	<xsl:param name="escape4"/>
+
+And inside <xsl:template name="process-root">
+
+	<xsl:message>
+		Phase 
+		<xsl:value-of select="$phase"/>
+		Selected 
+		<xsl:value-of select="$selected"/>
+		Escape1 
+		<xsl:value-of select="$escape1"/>
+		Escape2 
+		<xsl:value-of select="$escape2"/>
+		Escape3 
+		<xsl:value-of select="$escape3"/>
+		Escape4 
+		<xsl:value-of select="$escape4"/>
+	</xsl:message>
+
+Then running: 
+bin\xspec.bat -s test\schematron\param-001.xspec
+bin\xspec.sh -s test\schematron\param-001.xspec
+
+-->
+</x:description>
