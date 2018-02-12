@@ -22,6 +22,18 @@ rem
 set CASES_DIR=cases
 
 rem
+rem Is schema-aware processor?
+rem
+set IS_SCHEMA_AWARE=
+for /f %%I in ('java -cp "%SAXON_CP%" net.sf.saxon.Transform -it:main -xsl:..\schema-aware\is-schema-aware.xsl 2^> NUL') do set IS_SCHEMA_AWARE=%%I
+
+rem
+rem Test files
+rem
+set XSPEC_FILES="%CASES_DIR%\*.xspec"
+if "%IS_SCHEMA_AWARE%"=="yes" set XSPEC_FILES=%XSPEC_FILES% "%CASES_DIR%\schema-aware\*.xspec"
+
+rem
 rem XSpec output directory
 rem
 set TEST_DIR=%CASES_DIR%\expected
@@ -29,7 +41,7 @@ set TEST_DIR=%CASES_DIR%\expected
 rem
 rem Process .xspec files
 rem
-for %%I in ("%CASES_DIR%\*.xspec") do (
+for %%I in (%XSPEC_FILES%) do (
     echo:
     echo ----------
     echo Processing "%%~I"...

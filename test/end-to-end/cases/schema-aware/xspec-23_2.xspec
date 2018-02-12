@@ -4,7 +4,7 @@
 
 	<!-- https://github.com/xspec/xspec/issues/23#issuecomment-266236525 -->
 
-	<x:scenario label="Test" pending="TODO: xspec/xspec#4: Remove this @pending">
+	<x:scenario label="Test">
 		<x:context href="xspec-23_2_context.xml" />
 		<x:expect label="Result" select="$expect" />
 	</x:scenario>
