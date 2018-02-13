@@ -700,9 +700,10 @@
   <t:scenario label="test:wrap-nodes">
     <!-- TODO: Add some scenarios for Saxon-EE: xspec/xspec#47 -->
 
+    <!-- TODO: These scenarios do not run on XQuery
+        xspec/xspec#106 has not been implemented for XQuery -->
+
     <t:scenario label="All nodes that can be wrapped">
-      <!-- TODO: This scenario does not run on XQuery
-          xspec/xspec#106 has not been implemented for XQuery -->
       <t:call function="test:wrap-nodes">
         <t:param select="$wrappable-nodes" />
       </t:call>
@@ -711,6 +712,15 @@
       <t:expect label="Wraps all nodes while unwrapping document node"
         test="$x:result/node()" select="for $node in $wrappable-nodes return
           if ($node instance of document-node()) then $node/node() else $node" />
+    </t:scenario>
+
+    <t:scenario label="Empty sequence">
+      <t:call function="test:wrap-nodes">
+        <t:param />
+      </t:call>
+      <t:expect label="Result is document node" test="$x:result instance of document-node()" />
+      <t:expect label="Only one instance" test="count($x:result)" select="1" />
+      <t:expect label="No child node" test="empty($x:result/node())" />
     </t:scenario>
 
   </t:scenario>

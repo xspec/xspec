@@ -460,7 +460,7 @@
 
 <!-- Wraps nodes in document node with their type annotations kept -->
 <xsl:function name="test:wrap-nodes" as="document-node()">
-  <xsl:param name="nodes" as="node()+" />
+  <xsl:param name="nodes" as="node()*" />
 
   <!-- $wrap aims to create an implicit document node as described
        in http://www.w3.org/TR/xslt20/#temporary-trees
