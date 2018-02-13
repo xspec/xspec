@@ -19,6 +19,281 @@
       </t:call>
       <t:expect label="the result" test="$x:result eq true()"/>
     </t:scenario>
+
+    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L246-L372">
+      <!-- TODO: Most of these scenarios do not run on XQuery (error XPDY0002 and XPDY0050) -->
+
+      <t:scenario label="Identical Elements">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result/>
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result/>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Elements with Identical Attributes in Different Orders">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result a="1" b="2" />
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result b="2" a="1" />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Elements with Identical Children">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*">
+            <result><child1/><child2/></result>
+          </t:param>
+          <t:param name="node2" select="/*">
+            <result><child1/><child2/></result>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Attributes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*/@a">
+            <result a="1" />
+          </t:param>
+          <t:param name="node2" select="/*/@a">
+            <result a="1" />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Document Nodes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/">
+            <result />
+          </t:param>
+          <t:param name="node2" select="/">
+            <result />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Text Nodes">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/*/text()">
+            <result>Test</result>
+          </t:param>
+          <t:param name="node2" select="/*/text()">
+            <result>Test</result>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Comments">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/comment()">
+            <!-- Comment -->
+            <doc />
+          </t:param>
+          <t:param name="node2" select="/comment()">
+            <!-- Comment -->
+            <doc />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical Processing Instructions">
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/processing-instruction()">
+            <?pi data?>
+            <doc />
+          </t:param>
+          <t:param name="node2" select="/processing-instruction()">
+            <?pi data?>
+            <doc />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing text</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2">
+            <foo>foo</foo>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing mixed content</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2">
+             <foo>foo<bar />foo</foo>
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing attribute values</t:label>
+        <t:call function="test:node-deep-equal">
+         <t:param name="node1" select="/foo/@bar">
+           <foo bar="..." />
+         </t:param>
+         <t:param name="node2" select="/foo/@bar">
+           <foo bar="bar" />
+         </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario>
+        <t:label>Using "..." to indicate missing empty content</t:label>
+        <t:call function="test:node-deep-equal">
+          <t:param name="node1" select="/foo">
+            <foo>...</foo>
+          </t:param>
+          <t:param name="node2" select="/foo">
+            <foo />
+          </t:param>
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+    </t:scenario>
+
+  </t:scenario>
+
+  <!--
+    Function test:sorted-children
+  -->
+  <t:scenario label="test:sorted-children">
+
+    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L466-L477">
+
+      <t:scenario label="Original order preserved">
+        <!-- TODO: This scenario does not run on XQuery (error XPST0003) -->
+        <t:call function="test:sorted-children">
+          <t:param name="node">
+            <foo><bar /><baz /></foo>
+          </t:param>
+        </t:call>
+        <t:expect label="bar baz">
+          <bar /><baz />
+        </t:expect>
+      </t:scenario>
+
+    </t:scenario>
+
+  </t:scenario>
+
+  <!--
+    Template test:report-value
+  -->
+  <t:scenario label="test:report-value">
+
+    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L486-L550">
+      <!-- TODO: These scenarios do not run on XQuery (x:call/@template not supported for XQuery) -->
+
+      <t:scenario label="Integer">
+        <t:call template="test:report-value">
+          <t:param name="value" select="1" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of integer">
+          <t:result select="1" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="Empty Sequence">
+        <t:call template="test:report-value">
+          <t:param name="value" select="()" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of empty sequence">
+          <t:result select="()" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="String">
+        <t:call template="test:report-value">
+          <t:param name="value" select="'test'" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of string">
+          <t:result select="'test'" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="URI">
+        <t:call template="test:report-value">
+          <t:param name="value" select="xs:anyURI('test.xml')" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of xs:anyURI">
+          <t:result select="xs:anyURI('test.xml')" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="QName">
+        <t:call template="test:report-value">
+          <t:param name="value" select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result with @select of QName">
+          <t:result select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="Attributes">
+        <t:call template="test:report-value">
+          <t:param name="value" select="/*/@*" >
+            <doc a="1" b="2" />
+          </t:param>
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result containing attributes">
+          <t:result select="/*/(@* | node())">
+            <t:temp a="1" b="2" />
+          </t:result>
+        </t:expect>
+      </t:scenario>
+
+      <t:scenario label="Attributes and content">
+        <t:call template="test:report-value">
+          <t:param name="value" select="/*/@*, /*/foo" >
+            <doc a="1" b="2">
+              <foo />
+            </doc>
+          </t:param>
+          <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
+        </t:call>
+        <t:expect label="t:result containing attributes and content">
+          <t:result select="/*/(@* | node())">
+            <t:temp a="1" b="2">
+              <foo />
+            </t:temp>
+          </t:result>
+        </t:expect>
+      </t:scenario>
+
+    </t:scenario>
+
   </t:scenario>
 
   <!--

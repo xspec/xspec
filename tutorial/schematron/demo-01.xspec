@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="demo-01.sch">
+    <x:scenario label="demo-01">
+        <x:context href="demo-01.xml"/>
+        <x:scenario label="article should have a title">
+            <x:expect-not-assert id="a001"/>
+        </x:scenario>
+        <x:scenario label="section should have a title">
+            <x:expect-not-assert id="a002" location="/article[1]/section[1]"/>
+            <x:expect-assert id="a002" location="/article[1]/section[2]"/>
+        </x:scenario>
+    </x:scenario>
+</x:description>

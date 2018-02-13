@@ -7,48 +7,72 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<project name="xspec" default="xspec">
-	<description>XSpec is a Behavior Driven Development (BDD) framework for XSLT and XQuery.
+<project name="xspec" default="xspec" xmlns:if="ant:if">
+  <description>XSpec is a Behavior Driven Development (BDD) framework for XSLT and XQuery.
+    
+    Usage (command-line):
+    
+    ant -Dxspec.xml=/path/to/xspec/file
+    -Dtest.type=t|s
+    -Dxspec.project.dir=/path/to/folder/where/xspec/is/installed
+    -Dxspec.phase=#ALL
+    -lib /path/to/saxon.jar 
+    -lib /path/to/xml-resolver.jar 
+    -Dclean.output.dir=true|false
+    -Dxspec.fail=true|false
 
-Usage:
-
-ant -Dxspec.xml=filename
-
-where:
-
-  filename          XSpec tests XML file
-
-
-</description>
-
+    where:
+    
+    xspec.xml                  XSpec test file
+    test.type                  Value "t" if XSpec describes an XSLT file, "s" if XSpec describes a Schematron file
+                               [Optional; the default value is "t"]
+    xspec.project.dir          Folder in which XSpec is installed
+                               [Optional; the default is the folder containing this build file]
+    xspec.phase                Schematron phase. Used only for testing Schematron. Can be "#ALL".
+                               [Optional; the default is taken from "phase" parameter in XSpec file]
+    lib                        Additional jar libraries (saxon, xml-resolver)
+                               or folder where they are located
+    clean.output.dir           Value true to delete temporary files, value false to keep them
+                               [Optional; the default is false]
+    xspec.fail                 Value true makes the build fail when one or more tests failed
+                               [Optional; the default is true]
+    
+    ---
+    
+    Usage (Oxygen XSLT transformation scenario):
+    
+    This file is an updated copy of Oxygen's ${frameworksDir}/xspec/build.xml 
+    
+    Setup:
+    
+    - Duplicate Oxygen's default XSpec scenario
+    - Under Options tab:
+      - Build file: [this file]
+    - Under Parameters tab:
+      - New parameters if required (See the usage above):
+        - test.type
+        - xspec.phase
+        - xspec.fail
+      - Parameter xspec.project.dir value C:\Git\xspec
+      - If parameter catalog uses ${pdu}, replace it with ${pd}
+    
+  </description>
+  
   <dirname property="xspec.project.dir" file="${ant.file.xspec}"/>
-
+  
   <!-- File of properties determining or describing local
        configuration. -->
   <property name="xspec.properties" location="${xspec.project.dir}/xspec.properties"/>
   <property file="${xspec.properties}"/>
-
-  <!-- saxon.jar location depends on OS. -->
-  <condition property="saxon.jar" value="${saxon.jar.windows}">
-    <os family="windows" />
-  </condition>
-  <condition property="saxon.jar" value="${saxon.jar.mac}">
-    <os family="mac" />
-  </condition>
-  <condition property="saxon.jar" value="${saxon.jar.unix}">
-    <os family="unix" />
-  </condition>
-
-  <property name="saxon.home" location="/Library/Application Support/saxonb9" />
-  <property name="saxon.jar" location="${saxon.home}/saxon9.jar" />
-
+  
+    
   <dirname property="xspec.base.dir" file="${xspec.xml}" />
   <basename property="xspec.xml.base" file="${xspec.xml}" suffix=".xml" />
   <basename property="xspec.base" file="${xspec.xml.base}" suffix=".xspec" />
-
+  
   <property name="xspec.dir"
     value="${xspec.base.dir}/xspec" />
-
+  
   <property name="xspec.xsl"
     value="${xspec.dir}/${xspec.base}.xsl" />
   <property name="xspec.result.xml"
@@ -56,71 +80,263 @@ where:
   <property name="xspec.result.html"
     value="${xspec.dir}/${xspec.base}-result.html" />
   
-	<macrodef name="xspec"
-						description="Run XSpec tests">
-		<attribute name="xspec.xml" description="XSpec tests file" />
-		<sequential>
-			<local name="xspec.base.dir" />
-			<dirname property="xspec.base.dir" file="@{xspec.xml}" />
-			<local name="xspec.xml.base" />
-			<basename property="xspec.xml.base" file="@{xspec.xml}" suffix=".xml" />
-			<local name="xspec.base" />
-			<basename property="xspec.base" file="${xspec.xml.base}" suffix=".xspec" />
-			<antcall target="xspec.xspec" inheritall="false">
-				<param name="xspec.xml"
-							 location="@{xspec.xml}" />
-				<param name="xspec.base.dir"
-							 location="${xspec.base.dir}" />
-				<param name="xspec.dir"
-							 location="${xspec.base.dir}/xspec" />
-				<param name="xspec.base"
-							 value="${xspec.base}" />
-			</antcall>
-		</sequential>
-	</macrodef>
+  <!-- property needed to create a custom Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
+  <property name="saxon.custom.options" value=""/>
+  
+  <!-- property needed to control the cleanup of all intermediate files -->
+  <property name="clean.output.dir" value="false"/>
+  
+  <!-- property needed to customize the HTML result. -->
+  <property name="format.xspec.report" value="${xspec.project.dir}/src/reporter/format-xspec-report.xsl"/>
+  
+  <!-- property needed to control the cleanup of all intermediate files -->  
+  <condition property="can.delete">
+    <and>
+      <equals arg1="${clean.output.dir}" arg2="true"/>
+    </and>
+  </condition>
+  
+  
+  <property name="test.type" value="t"/>
+  <condition property="test.xslt">
+    <equals arg1="${test.type}" arg2="t"/>
+  </condition>
+  <condition property="test.schematron">
+    <equals arg1="${test.type}" arg2="s"/>
+  </condition>
+  
+  <property name="xspec.fail" value="true"/>
 
+  <!-- .xspec file.
+    If testing Schematron, it is created at "STEP 4" and deleted by cleanup. -->
+  <condition property="xspec.compiled.xml" value="${xspec.xml}-compiled.xspec" else="${xspec.xml}">
+    <istrue value="${test.schematron}"/>
+  </condition>
+  
+  <!-- Catalog URL
+    To work around a Saxon bug, it must be URL: https://saxonica.plan.io/issues/3025#note-8
+    To debug catalog resolution, -Dsaxon.custom.options=-t would help.
+    oXygen 19 default transformation scenario sets catalog even when file does not exist. Hence validate=false. -->
+  <makeurl property="catalog.url" file="${catalog}" validate="false" if:set="catalog"/>
+
+  <scriptdef name="makepath" language="javascript" src="${xspec.project.dir}/src/ant/make-path.js">
+    <attribute name="url"/>
+    <attribute name="property"/>
+  </scriptdef>
+
+  <!-- Transforms input xml and loads output xml as properties -->
+  <macrodef name="xml-to-properties">
+    <attribute name="in"/>
+    <attribute name="style"/>
+
+    <sequential>
+      <!-- <tempfile deleteonexit=false> accumulates temp files. <tempfile deleteonexit=true> makes
+        debugging a bit harder. Hence a fixed path. -->
+      <property name="xspec.xml-to-properties.temp" value="${xspec.dir}/${xspec.base}_xml-to-properties.xml"/>
+
+      <xslt in="@{in}"
+        out="${xspec.xml-to-properties.temp}"
+        style="${xspec.project.dir}/src/ant/@{style}"
+        force="true"
+        >
+        <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+        <xmlcatalog if:set="catalog">
+          <catalogpath>
+            <pathelement location="${catalog}"/>
+          </catalogpath>
+        </xmlcatalog>
+      </xslt>
+
+      <xmlproperty file="${xspec.xml-to-properties.temp}"/>
+    </sequential>
+  </macrodef>
+
+  <target name="locateSchematron" if="${test.schematron}">
+    <xml-to-properties in="${xspec.xml}" style="locate-schematron.xsl"/>
+
+    <makepath url="${xspec.schematron.uri}" property="xspec.schematron.path"/>
+    <echo message="Path of Schematron file to compile: ${xspec.schematron.path}"/> 
+
+    <!-- Location of compiled Schematron XSL file 
+      Since original Schematron may reference helper files at relative paths, the compiled XSL file
+      needs to go in the same folder as the original Schematron
+     -->
+    <property name="xspec.compiled.xsl" value="${xspec.schematron.path}-compiled.xsl"/>
+  </target>
+  
+  <target name="getSchematronPhase" if="${test.schematron}" unless="xspec.phase">
+    <xml-to-properties in="${xspec.xml}" style="get-schematron-phase.xsl"/>
+    <echo message="Schematron phase set in XSpec: '${xspec.phase}'" if:set="xspec.phase"/>
+  </target>
+  
+  
+  <target name="compileSchematron" depends="locateSchematron,getSchematronPhase" if="${test.schematron}">
+    <echo message="START COMPILING SCHEMATRON FILE '${xspec.schematron.path}'"/>
+    
+    <echo message="   STEP 1: Including modules"/>
+    <xslt in="${xspec.schematron.path}"
+      out="${xspec.dir}/${xspec.base}_dsdl_included.sch"
+      style="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl"
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+    </xslt>
+    
+    <echo message="   STEP 2: Expanding abstracts"/>
+    <xslt in="${xspec.dir}/${xspec.base}_dsdl_included.sch" 
+      out="${xspec.dir}/${xspec.base}.sch" 
+      style="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" 
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+    </xslt>
+    
+    <echo message="   STEP 3: Convert Schematron to XSL"/>
+    <echo message="           phase=${xspec.phase}" if:set="xspec.phase"/>
+    <xslt 
+      in="${xspec.dir}/${xspec.base}.sch"
+      out="${xspec.compiled.xsl}" 
+      style="${xspec.project.dir}/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" 
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="allow-foreign" expression="true"/>
+      <param name="phase" expression="${xspec.phase}" if:set="xspec.phase"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+    </xslt>
+    
+    <makeurl property="xspec.compiled.xsl.url" file="${xspec.compiled.xsl}"/>
+    <makeurl property="xspec.dir.url" file="${xspec.dir}"/>
+
+    <echo message="   STEP 4: Convert XSpec (into a format that references the XSL generated from the Schematron)"/>    
+    <xslt 
+      in="${xspec.xml}"
+      out="${xspec.compiled.xml}" 
+      style="${xspec.project.dir}/src/schematron/schut-to-xspec.xsl" 
+      force="true"
+      >
+      <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <param name="stylesheet" expression="${xspec.compiled.xsl.url}"/>
+      <param name="test_dir" expression="${xspec.dir.url}"/>
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+    </xslt>
+
+    <echo message="COMPILATION COMPLETE"/>
+    
+   </target>
+  
+   
+
+  
   <target name="xspec"
-    description="Runs the XSpec unit tests in ${xspec.xml}">
-    <xslt in="${xspec.xml}" 
+    description="Runs the XSpec unit tests in ${xspec.compiled.xml}" depends="compileSchematron">
+    
+    <echo message="Creating Test Stylesheet..."/>
+    <xslt in="${xspec.compiled.xml}" 
       out="${xspec.xsl}"
       style="${xspec.project.dir}/src/compiler/generate-xspec-tests.xsl"
-      classpath="${saxon.jar}">
-			<factory name="net.sf.saxon.TransformerFactoryImpl" />
-		</xslt>
-		<!-- Can't specify initial template with <xslt> task so have to
+      force="true"
+      >     
+      <factory name="net.sf.saxon.TransformerFactoryImpl" />     
+
+	  <!-- Pass a catalog to Saxon -->
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+
+    </xslt>
+    
+    <echo message="Running Tests..."/>
+    
+    <!-- Can't specify saxon.custom.options with <xslt> task so have to
 		     fall back to running Saxon as Java app. -->
-		<java classname="net.sf.saxon.Transform"
-					classpath="${saxon.jar}"
-					fork="true">
-			<arg value="-ext:on" />
-			<arg value="-s:${xspec.xml}" />
-			<arg value="-o:${xspec.result.xml}" />
-			<arg value="-xsl:${xspec.xsl}" />
-			<arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
-		</java>
+    <java classname="net.sf.saxon.Transform"
+      fork="true">
+      <!-- Saxon should be included in the classpath -->
+      <classpath>
+        <pathelement path="${java.class.path}"/>
+      </classpath>
+      
+      <arg value="-catalog:${catalog.url}" if:set="catalog"/>
+      
+      <!-- Pass custom options to Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
+      <arg line="${saxon.custom.options}"/>
+      
+      <arg value="-ext:on" />
+      <arg value="-s:${xspec.compiled.xml}" />
+      <arg value="-o:${xspec.result.xml}" />
+      <arg value="-xsl:${xspec.xsl}" />
+      <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
+    </java>
+
+
     <xslt in="${xspec.result.xml}"
       out="${xspec.result.html}"
-      style="${xspec.project.dir}/src/reporter/format-xspec-report.xsl"
-      classpath="${saxon.jar}">
-			<factory name="net.sf.saxon.TransformerFactoryImpl">
-				<attribute
-						name="http://saxon.sf.net/feature/allow-external-functions" 
-						value="true"/>
-			</factory>
-		</xslt>
-    <loadfile srcfile="${xspec.result.xml}"
-      property="xspec.result" />
+      style="${format.xspec.report}">    
+      <factory name="net.sf.saxon.TransformerFactoryImpl">
+        <attribute
+          name="http://saxon.sf.net/feature/allow-external-functions" 
+          value="true"/>
+      </factory>
+
+      <xmlcatalog if:set="catalog">
+        <catalogpath>
+          <pathelement location="${catalog}"/>
+        </catalogpath>
+      </xmlcatalog>
+    </xslt>
+    <antcall target="fail"/>
+    <antcall target="cleanup"/>
+  </target>
+  
+  <target name="fail" if="${xspec.fail}">
+    <xml-to-properties in="${xspec.result.xml}" style="find-test-failure.xsl"/>
     <fail message="XSpec tests failed. See ${xspec.result.html} for a report">
       <condition>
-        <contains string="${xspec.result}" substring='successful="false"' />
+        <not>
+          <istrue value="${xspec.passed}"/>
+        </not>
       </condition>
     </fail>
   </target>
-
-	<target name="echoproperties">
-		<echoproperties />
-	</target>
-
+  
+  <target name="echoproperties">
+    <echoproperties />
+  </target>
+  
+  <!-- clean up if required.-->
+  <target name="cleanup" if="can.delete">
+    <echo>Clean up</echo>
+    
+    <!-- Need to retry, for someone may still hold a file, which tends to happen on AppVeyor. -->
+    <retry retrycount="1" retrydelay="1000">
+      <delete dir="${xspec.dir}"/>
+    </retry>
+    
+    <delete file="${xspec.compiled.xml}" if:true="${test.schematron}"/>
+    <delete file="${xspec.compiled.xsl}"/>
+  </target>
+  
 </project>
 
 

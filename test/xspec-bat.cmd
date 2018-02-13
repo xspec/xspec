@@ -53,7 +53,37 @@ setlocal
 
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-c|-j|-h] filename [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with -s and -t prints error message"
+
+    call :run ..\bin\xspec.bat -s -t
+    call :verify_retval 1
+    call :verify_line 2 x "-s and -t are mutually exclusive"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with -s and -q prints error message"
+
+    call :run ..\bin\xspec.bat -s -q
+    call :verify_retval 1
+    call :verify_line 2 x "-s and -q are mutually exclusive"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with -t and -q prints error message"
+
+    call :run ..\bin\xspec.bat -t -q
+    call :verify_retval 1
+    call :verify_line 2 x "-t and -q are mutually exclusive"
 
     call :teardown
 endlocal
@@ -198,7 +228,7 @@ setlocal
     call :setup "invoking xspec with -j option generates XML report file"
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
+    call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
     call :teardown
 endlocal
@@ -265,6 +295,231 @@ setlocal
         call :verify_line 1 x "true"
     ) else (
         call :skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat for parentheses dir generates HTML report file #84"
+
+    set PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)
+    call :mkdir "%PARENTHESES_DIR%"
+    copy ..\tutorial\escape-for-regex.* "%PARENTHESES_DIR%" > NUL
+
+    set EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html
+
+    call :run ..\bin\xspec.bat "%PARENTHESES_DIR%\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line 20 x "Report available at %EXPECTED_REPORT%"
+    call :verify_exist "%EXPECTED_REPORT%"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat with path containing an apostrophe runs successfully #119"
+
+    set APOSTROPHE_DIR=%WORK_DIR%\some'path
+    call :mkdir "%APOSTROPHE_DIR%"
+    copy ..\tutorial\escape-for-regex.* "%APOSTROPHE_DIR%" > NUL
+
+    call :run ..\bin\xspec.bat "%APOSTROPHE_DIR%\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line 20 x "Report available at %APOSTROPHE_DIR%\xspec\escape-for-regex-result.html"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schematron phase/parameters are passed to Schematron compile"
+
+    call :run ..\bin\xspec.bat -s ..\test\schematron-param-001.xspec
+    call :verify_retval 0
+    call :verify_line 3 x "Paramaters: phase=P1 ?selected=codepoints-to-string((80,49))"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile"
+    
+    set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt-include.xsl
+    set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt-expand.xsl
+    set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt-compile.xsl
+    
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :verify_line 5 x "Schematron XSLT include"
+    call :verify_line 6 x "Schematron XSLT expand"
+    call :verify_line 7 x "Schematron XSLT compile"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat with the -s option does not display Schematron warnings #129 #131"
+
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :verify_retval 0
+    call :verify_line 5 x "Compiling the Schematron tests..."
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Cleanup removes temporary files"
+
+    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
+    call :verify_retval 0
+    call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+    call :run dir /on ..\tutorial\schematron\xspec
+    call :verify_line 9 r ".*3 File.*"
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.html
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.xml
+    call :verify_exist ..\tutorial\schematron\xspec\demo-03.xsl
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "HTML report contains CSS inline and not as an external file #135"
+
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Query -s:..\tutorial\xspec\escape-for-regex-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head[not(link[@type = 'text/css'])]/style[@type = 'text/css']/contains(., 'margin-right:'), '&#x0A;')" !method=text
+    call :verify_line 1 x "true"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for XSLT with default properties fails on test failure"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%"
+        call :verify_retval 1
+        call :verify_line -4 x "BUILD FAILED"
+    ) else (
+        call :skip "test for XSLT Ant with default properties skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for XSLT with xspec.fail=false continues on test failure"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -Dxspec.fail=false
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+    ) else (
+        call :skip "test for XSLT Ant with xspec.fail=false skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for XSLT with catalog resolves URI"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_xslt.xspec" -lib "%SAXON_CP%" -Dxspec.fail=false -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%"
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+    ) else (
+        call :skip "test for XSLT Ant with catalog skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for Schematron with minimum properties"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-02-PhaseA.xspec" -lib "%SAXON_CP%" -Dtest.type=s
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+
+        rem Verify default clean.output.dir is false
+        call :verify_exist ..\tutorial\schematron\xspec\
+        call :verify_exist ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
+        call :verify_exist ..\tutorial\schematron\demo-02.sch-compiled.xsl
+
+        rem Delete temp file
+        call :del          ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
+        call :del          ..\tutorial\schematron\demo-02.sch-compiled.xsl
+    ) else (
+        call :skip "test for Schematron Ant with minimum properties skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for Schematron with various properties except catalog"
+
+    set BUILD_XML=%WORK_DIR%\build.xml
+
+    if defined ANT_VERSION (
+        rem Remove a temp dir created by setup
+        call :rmdir ..\tutorial\schematron\xspec
+
+        rem For testing -Dxspec.project.dir
+        copy ..\build.xml "%BUILD_XML%" > NUL
+
+        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+
+        rem Verify that -Dxspec-dir was honered and the default dir was not created
+        call :verify_not_exist ..\tutorial\schematron\xspec\
+
+        rem Verify clean.output.dir=true
+        call :verify_not_exist xspec-temp\
+        call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+        call :verify_not_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
+    ) else (
+        call :skip "test for Schematron Ant with various properties except catalog skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for Schematron with catalog and default xspec.fail fails on test failure"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%"
+        call :verify_retval 1
+        call :verify_line -4 x "BUILD FAILED"
+
+        rem Verify the build fails before cleanup
+        call :verify_exist catalog\xspec\
+        
+        rem Verify the build fails after Schematron setup
+        call :verify_exist catalog\xspec-160_schematron.xspec-compiled.xspec
+        call :verify_exist ..\tutorial\schematron\demo-04.sch-compiled.xsl
+
+        rem Delete temp file
+        call :del          catalog\xspec-160_schematron.xspec-compiled.xspec
+        call :del          ..\tutorial\schematron\demo-04.sch-compiled.xsl
+    ) else (
+        call :skip "test for Schematron Ant with catalog and default xspec.fail skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for Schematron with catalog and xspec.fail=false continues on test failure"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%" -Dxspec.fail=false
+        call :verify_retval 0
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+    ) else (
+        call :skip "test for Schematron Ant with catalog and xspec.fail=false skipped"
     )
 
     call :teardown
@@ -353,6 +608,7 @@ rem
     rem
     call :mkdir ..\test\xspec
     call :mkdir ..\tutorial\xspec
+    call :mkdir ..\tutorial\schematron\xspec
 
     goto :EOF
 
@@ -362,6 +618,7 @@ rem
     rem
     call :rmdir ..\test\xspec
     call :rmdir ..\tutorial\xspec
+    call :rmdir ..\tutorial\schematron\xspec
 
     rem
     rem Remove the work directory
@@ -451,6 +708,7 @@ rem
     rem
     rem Parameters:
     rem    1: Line number. Starts with 1, unlike Bats $lines which starts with 0.
+    rem        Negative values indicate the reverse order. -1 is the last line. -2 is the line before the last line, and so on.
     rem    2: Operator
     rem        x : Exact match ("=" on Bats)
     rem        r : Compare with regular expression ("=~" on Bats)
@@ -458,24 +716,27 @@ rem
     rem        For 'r' operator, always evaluated as if the expression started with "^".
     rem
 
+    set LINE_NUMBER=%~1
+    if %LINE_NUMBER% LSS 0 for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set /a LINE_NUMBER+=%%I+1
+
     rem
     rem Search the line-numbered output log file
     rem
     if        /i "%~2"=="x" (
-        findstr /l /x /c:"[%~1]%~3" "%OUTPUT_LINENUM%" > NUL
+        findstr /l /x /c:"[%LINE_NUMBER%]%~3" "%OUTPUT_LINENUM%" > NUL
     ) else if /i "%~2"=="r" (
-        findstr /b /r /c:"\[%~1\]%~3" "%OUTPUT_LINENUM%" > NUL
+        findstr /b /r /c:"\[%LINE_NUMBER%\]%~3" "%OUTPUT_LINENUM%" > NUL
     ) else (
         call :failed "Bad operator: %~2"
         goto :EOF
     )
     if errorlevel 1 (
-        call :failed "Line %~1 does not match the expected string"
+        call :failed "Line %LINE_NUMBER% does not match the expected string"
         echo ---------- %OUTPUT_LINENUM%
         type "%OUTPUT_LINENUM%"
         echo ----------
     ) else (
-        call :verified "Line %~1"
+        call :verified "Line %LINE_NUMBER%"
     )
     goto :EOF
 
@@ -484,5 +745,13 @@ rem
         call :verified "Exist: %~1"
     ) else (
         call :failed "Not exist: %~1"
+    )
+    goto :EOF
+
+:verify_not_exist
+    if exist %1 (
+        call :failed "Exist: %~1"
+    ) else (
+        call :verified "Not exist: %~1"
     )
     goto :EOF

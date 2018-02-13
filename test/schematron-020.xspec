@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="schematron/schematron-020.sch">
+    
+    <x:scenario label="match id attribute">
+        <x:context>
+            <para/>
+        </x:context>
+        
+        <x:scenario label="in schema">
+            <x:scenario label="on assertion">
+                <x:expect-assert id="assert1"/>
+            </x:scenario>
+            <x:scenario label="on rule">
+                <x:expect-assert id="rule2"/>
+            </x:scenario>
+            <x:scenario label="on pattern">
+                <x:expect-assert id="pattern3"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="in imported pattern">
+            <x:scenario label="on assertion">
+                <x:expect-assert id="include1-assert1"/>
+            </x:scenario>
+            <x:scenario label="on rule">
+                <x:expect-assert id="include1-rule2"/>
+            </x:scenario>
+            <x:scenario label="on pattern">
+                <x:expect-assert id="include1-pattern3"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="in imported rule">
+            <x:scenario label="on assertion">
+                <x:expect-assert id="include1-assert4"/>
+            </x:scenario>
+            <x:scenario label="on rule">
+                <x:expect-assert id="include1-rule5"/>
+            </x:scenario>
+        </x:scenario>
+        
+        <x:scenario label="in imported assertion">
+            <x:scenario label="on assertion">
+                <x:expect-assert id="include1-assert6"/>
+            </x:scenario>
+        </x:scenario>
+        
+    </x:scenario>
+
+    
+</x:description>

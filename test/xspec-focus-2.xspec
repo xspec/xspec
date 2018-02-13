@@ -7,55 +7,59 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="xspec-tested.xql" stylesheet="xspec-tested.xsl">
   <!--
-       Test @focus and pending toghether (both @pending and t:pending).
+       Test @focus and pending together (both @pending and t:pending).
    -->
+
   <!--
        Test x:pending.
    -->
-  <t:pending label="testing pending element">
-    <t:scenario label="pending call (element)">
+  <t:pending label="testing x:pending">
+    <t:scenario label="an unfocused correct scenario in x:pending must be Pending">
       <t:call function="my:square">
         <t:param select="3"/>
       </t:call>
-      <t:expect label="the result" test="$x:result eq 9"/>
+      <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
     </t:scenario>
-    <t:scenario label="pending call (element) + focus" focus="focus">
+    <t:scenario label="a focused correct scenario in x:pending" focus="testing @focus">
       <t:call function="my:square">
         <t:param select="3"/>
       </t:call>
-      <t:expect label="the result" test="$x:result eq 9"/>
+      <t:expect label="must execute the test and return Success" test="$x:result eq 9"/>
     </t:scenario>
   </t:pending>
+
   <!--
        Non-pending scenarios.
    -->
-  <t:scenario label="call">
+  <t:scenario label="a non-pending correct scenario alongside a focused scenario must be Pending">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+    <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
   </t:scenario>
-  <t:scenario label="call + focus" focus="focus">
+  <t:scenario label="a focused correct scenario alongside another focused scenario" focus="testing @focus">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+    <t:expect label="must execute the test and return Success" test="$x:result eq 9"/>
   </t:scenario>
+
   <!--
        Test @pending.
    -->
-  <t:scenario label="pending call (attribute)" pending="testing pending attribute">
+  <t:scenario label="a correct scenario with @pending must be Pending" pending="testing @pending">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+    <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
   </t:scenario>
+
   <!-- does not make sense, really, but to see how the implem reacts -->
-  <t:scenario label="pending call (attribute) + focus" pending="testing pending attribute" focus="focus">
+  <t:scenario label="a correct scenario with both @pending and @focus (not recommended as ambiguous)" pending="testing @pending" focus="testing @focus">
     <t:call function="my:square">
       <t:param select="3"/>
     </t:call>
-    <t:expect label="the result" test="$x:result eq 9"/>
+    <t:expect label="must execute the test and return Success" test="$x:result eq 9"/>
   </t:scenario>
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

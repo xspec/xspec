@@ -76,48 +76,6 @@
    </xsl:if>
 </xsl:function>
 
-<test:tests>
-  <test:title>test:deep-equal function</test:title>
-  <test:test>
-    <test:title>Identical Sequences</test:title>
-    <test:param name="seq1" select="(1, 2)" />
-    <test:param name="seq2" select="(1, 2)" />
-    <test:expect select="true()" />
-  </test:test>
-  <test:test>
-    <test:title>Non-Identical Sequences</test:title>
-    <test:param name="seq1" select="(1, 2)" />
-    <test:param name="seq2" select="(1, 3)" />
-    <test:expect select="false()" />
-  </test:test>
-  <test:test id="deep-equal.3">
-    <test:title>Sequences with Same Items in Different Orders</test:title>
-    <test:param name="seq1" select="(1, 2)" />
-    <test:param name="seq2" select="(2, 1)" />
-    <test:expect select="false()" />
-  </test:test>
-  <test:test id="deep-equal.4">
-    <test:title>Empty Sequences</test:title>
-    <test:param name="seq1" select="()" />
-    <test:param name="seq2" select="()" />
-    <test:expect select="true()" />
-  </test:test>
-  <test:test>
-    <test:title>One empty sequence</test:title>
-    <test:param name="seq1" select="()" />
-    <test:param name="seq2" select="1" />
-    <test:expect select="false()" />
-  </test:test>
-  <test:test>
-    <test:title>A text node and several text nodes</test:title>
-    <test:param name="seq1" select="text()">foobar</test:param>
-    <test:param name="seq2" select="val/text()">
-      <val>foo</val>
-      <val>bar</val>
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-</test:tests>
 <xsl:function name="test:deep-equal" as="xs:boolean">
   <xsl:param name="seq1" as="item()*" />
   <xsl:param name="seq2" as="item()*" />
@@ -204,27 +162,6 @@
   <xsl:sequence select="$result"/>
 </xsl:function>
 
-<test:tests>
-  <test:title>test:item-deep-equal function</test:title>
-  <test:test id="item-deep-equal.1">
-    <test:title>Identical Integers</test:title>
-    <test:param name="item1" select="1" />
-    <test:param name="item2" select="1" />
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="item-deep-equal.2">
-    <test:title>Non-Identical Strings</test:title>
-    <test:param name="item1" select="'abc'" />
-    <test:param name="item2" select="'def'" />
-    <test:expect select="false()" />
-  </test:test>
-  <test:test id="item-deep-equal.3">
-    <test:title>String and Integer</test:title>
-    <test:param name="item1" select="'1'" />
-    <test:param name="item2" select="1" />
-    <test:expect select="false()" />
-  </test:test>
-</test:tests>
 <xsl:function name="test:item-deep-equal" as="xs:boolean">
   <xsl:param name="item1" as="item()" />
   <xsl:param name="item2" as="item()" />
@@ -243,133 +180,6 @@
   </xsl:choose>
 </xsl:function>  
   
-<test:tests>
-  <test:title>test:node-deep-equal function</test:title>
-  <test:test id="node-deep-equal.1">
-    <test:title>Identical Elements</test:title>
-    <test:param name="node1" select="/*">
-      <result/>
-    </test:param>
-    <test:param name="node2" select="/*">
-      <result/>
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="node-deep-equal.2">
-    <test:title>Elements with Identical Attributes in Different Orders</test:title>
-    <test:param name="node1" select="/*">
-      <result a="1" b="2" />
-    </test:param>
-    <test:param name="node2" select="/*">
-      <result b="2" a="1" />
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="node-deep-equal.3">
-    <test:title>Elements with Identical Children</test:title>
-    <test:param name="node1" select="/*">
-      <result><child1/><child2/></result>
-    </test:param>
-    <test:param name="node2" select="/*">
-      <result><child1/><child2/></result>
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="node-deep-equal.4">
-    <test:title>Identical Attributes</test:title>
-    <test:param name="node1" select="/*/@a">
-      <result a="1" />
-    </test:param>
-    <test:param name="node2" select="/*/@a">
-      <result a="1" />
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="node-deep-equal.5">
-    <test:title>Identical Document Nodes</test:title>
-    <test:param name="node1" select="/">
-      <result />
-    </test:param>
-    <test:param name="node2" select="/">
-      <result />
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="node-deep-equal.6">
-    <test:title>Identical Text Nodes</test:title>
-    <test:param name="node1" select="/*/text()">
-      <result>Test</result>
-    </test:param>
-    <test:param name="node2" select="/*/text()">
-      <result>Test</result>
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="node-deep-equal.7">
-    <test:title>Identical Comments</test:title>
-    <test:param name="node1" select="/comment()">
-      <!-- Comment -->
-      <doc />
-    </test:param>
-    <test:param name="node2" select="/comment()">
-      <!-- Comment -->
-      <doc />
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test id="node-deep-equal.8">
-    <test:title>Identical Processing Instructions</test:title>
-    <test:param name="node1" select="/processing-instruction()">
-      <?pi data?>
-      <doc />
-    </test:param>
-    <test:param name="node2" select="/processing-instruction()">
-      <?pi data?>
-      <doc />
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test>
-    <test:title>Using "..." to indicate missing text</test:title>
-    <test:param name="node1">
-      <foo>...</foo>
-    </test:param>
-    <test:param name="node2">
-      <foo>foo</foo>
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test>
-    <test:title>Using "..." to indicate missing mixed content</test:title>
-    <test:param name="node1">
-      <foo>...</foo>
-    </test:param>
-    <test:param name="node2">
-      <foo>foo<bar />foo</foo>
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test>
-    <test:title>Using "..." to indicate missing attribute values</test:title>
-    <test:param name="node1" select="/foo/@bar">
-      <foo bar="..." />
-    </test:param>
-    <test:param name="node2" select="/foo/@bar">
-      <foo bar="bar" />
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-  <test:test>
-    <test:title>Using "..." to indicate missing empty content</test:title>
-    <test:param name="node1" select="/foo">
-      <foo>...</foo>
-    </test:param>
-    <test:param name="node2" select="/foo">
-      <foo />
-    </test:param>
-    <test:expect select="true()" />
-  </test:test>
-</test:tests>
 <xsl:function name="test:node-deep-equal" as="xs:boolean">
   <xsl:param name="node1" as="node()" />
   <xsl:param name="node2" as="node()" />
@@ -463,18 +273,6 @@
   </xsl:choose>  
 </xsl:function>
   
-<test:tests>
-  <test:title>test:sorted-children function</test:title>
-  <test:test>
-    <test:title>Original order preserved</test:title>
-    <test:param name="node">
-      <foo><bar /><baz /></foo>
-    </test:param>
-    <test:expect>
-      <bar /><baz />
-    </test:expect>
-  </test:test>
-</test:tests>  
 <xsl:function name="test:sorted-children" as="node()*">
   <xsl:param name="node" as="node()" />
   <xsl:sequence 
@@ -483,71 +281,6 @@
                     $node/test:message)" />
 </xsl:function>
   
-<test:tests>
-  <test:title>test:report-value function</test:title>
-  <test:test id="report-value.1">
-    <test:title>Integer</test:title>
-    <test:param name="value" select="1" />
-    <test:expect select="/test:result">
-      <test:result select="1" />
-    </test:expect>
-  </test:test>
-  <test:test id="report-value.2">
-    <test:title>Empty Sequence</test:title>
-    <test:param name="value" select="()" />
-    <test:expect select="/test:result">
-      <test:result select="()" />
-    </test:expect>
-  </test:test>
-  <test:test id="report-value.3">
-    <test:title>String</test:title>
-    <test:param name="value" select="'test'" />
-    <test:expect select="/test:result">
-      <test:result select="'test'" />
-    </test:expect>
-  </test:test>
-  <test:test id="report-value.4">
-    <test:title>URI</test:title>
-    <test:param name="value" select="xs:anyURI('test.xml')" />
-    <test:expect select="/test:result">
-      <test:result select="xs:anyURI('test.xml')" />
-    </test:expect>
-  </test:test>
-  <test:test>
-    <test:title>QName</test:title>
-    <test:param name="value"
-      select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
-    <test:expect select="/test:result">
-      <test:result select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
-    </test:expect>
-  </test:test>
-  <test:test>
-    <test:title>Attributes</test:title>
-    <test:param name="value" select="/*/@*">
-      <doc a="1" b="2" />
-    </test:param>
-    <test:expect select="/test:result">
-      <test:result select="/*/(@* | node())">
-        <test:temp a="1" b="2" />
-      </test:result>
-    </test:expect>
-  </test:test>
-  <test:test>
-    <test:title>Attributes and content</test:title>
-    <test:param name="value" select="/*/@*, /*/foo">
-      <doc a="1" b="2">
-        <foo />
-      </doc>
-    </test:param>
-    <test:expect select="/test:result">
-      <test:result select="/*/(@* | node())">
-        <test:temp a="1" b="2">
-          <foo />
-        </test:temp>
-      </test:result>
-    </test:expect>
-  </test:test>
-</test:tests>
 <xsl:template name="test:report-value">
   <xsl:param name="value" required="yes" />
   <xsl:param name="wrapper-name" select="'t:result'" />
@@ -619,14 +352,6 @@
   <t:ws><xsl:value-of select="." /></t:ws>
 </xsl:template>
 
-<test:tests>
-  <test:title>test:report-atomic-value function</test:title>
-  <test:test id="report-atomic-value.1">
-    <test:title>String Containing Single Quotes</test:title>
-    <test:param name="value" select="'don''t'" />
-    <test:expect select="'''don''''t'''" />
-  </test:test>
-</test:tests>
 <xsl:function name="test:report-atomic-value" as="xs:string">
   <xsl:param name="value" as="item()" />
   <xsl:choose>

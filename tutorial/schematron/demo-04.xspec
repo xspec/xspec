@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="demo-04.sch"
+    xmlns:ex1="http://example.com/ns1" xmlns:ex2="http://example.com/ns2" xmlns:ex3="http://example.com/ns3">
+    
+    <x:scenario label="demo 4">
+        <x:scenario label="XPath location with namespaces">
+            <x:context>
+                <ex1:article>
+                    <ex3:sec>
+                        <ex2:para>paragraph 1</ex2:para>
+                    </ex3:sec>
+                    <ex3:sec ex2:type="3">
+                        <figure><img src="example.png"/></figure>
+                    </ex3:sec>
+                </ex1:article>
+            </x:context>
+            <x:scenario label="using oXygen's Copy XPath">
+                <x:expect-assert location="/ex1:article[1]"/>
+                <x:expect-assert location="/ex1:article[1]/ex3:sec[2]"/>
+                <x:expect-assert location="/ex1:article[1]/ex3:sec[2]/figure[1]"/>
+            </x:scenario>
+            <x:scenario label="using XPath without [1] or leading /">
+                <x:expect-assert location="ex1:article"/>
+                <x:expect-assert location="ex1:article/ex3:sec[2]"/>
+                <x:expect-assert location="ex1:article/ex3:sec[2]/figure"/>
+            </x:scenario>
+            <x:scenario label="expecting no assert should fail">
+                <x:expect-not-assert location="ex1:article"/>
+            </x:scenario>
+        </x:scenario>
+    </x:scenario>
+</x:description>

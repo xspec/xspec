@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:ex1="http://example.com/ns1" xmlns:ex2="http://example.com/ns2">
+    <ex1:sec/>
+    <ex1:sec>
+        <ex2:para/>
+        <ex2:para>
+            <ex2:para/>
+        </ex2:para>
+    </ex1:sec>
+</root>

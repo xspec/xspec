@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
+<x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="schut-to-xspec-test.sch.xsl">
+    <x:scenario label="Schematron: &#34;schut-to-xspec-test.sch&#34;"/>
+    <x:scenario label="Schematron test scenario">
+        <x:context href="xspec/context-d1e6.xml"/>
+    </x:scenario>
+</x:description>
