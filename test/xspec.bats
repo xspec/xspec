@@ -21,7 +21,7 @@ setup() {
 	work_dir=${BATS_TMPDIR}/xspec/bats
 	mkdir ${work_dir}
 	mkdir ../tutorial/xspec
-	mkdir ../test/xspec
+	mkdir xspec
 	mkdir ../tutorial/schematron/xspec
 }
 
@@ -194,7 +194,7 @@ teardown() {
 
 
 @test "invoking xspec.sh that passes a non xs:boolean does not raise a warning #46" {
-    run ../bin/xspec.sh ../test/xspec-46.xspec
+    run ../bin/xspec.sh xspec-46.xspec
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${lines[3]}" =~ "Testing with" ]]
@@ -245,7 +245,7 @@ teardown() {
 
 
 @test "Schematron phase/parameters are passed to Schematron compile" {
-    run ../bin/xspec.sh -s ../test/schematron-param-001.xspec
+    run ../bin/xspec.sh -s schematron-param-001.xspec
 	echo "${lines[2]}"
     [ "$status" -eq 0 ]
     [ "${lines[2]}" == "Parameters: phase=P1 ?selected=codepoints-to-string((80,49))" ]
