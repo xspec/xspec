@@ -431,6 +431,7 @@ setlocal
     call :setup "Ant for Schematron with various properties except catalog"
 
     set BUILD_XML=%WORK_DIR%\build.xml
+    set ANT_TEST_DIR=%WORK_DIR%\ant-temp
 
     if defined ANT_VERSION (
         rem Remove a temp dir created by setup
@@ -439,7 +440,7 @@ setlocal
         rem For testing -Dxspec.project.dir
         copy ..\build.xml "%BUILD_XML%" > NUL
 
-        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
+        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%ANT_TEST_DIR%" -Dclean.output.dir=true
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
@@ -447,7 +448,7 @@ setlocal
         call :verify_not_exist ..\tutorial\schematron\xspec\
 
         rem Verify clean.output.dir=true
-        call :verify_not_exist xspec-temp\
+        call :verify_not_exist "%ANT_TEST_DIR%"
         call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
         call :verify_not_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
     ) else (

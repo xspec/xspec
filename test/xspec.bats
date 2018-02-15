@@ -359,6 +359,7 @@ teardown() {
 
 @test "Ant for Schematron with various properties except catalog" {
     build_xml=${work_dir}/build.xml
+    ant_test_dir=${work_dir}/ant-temp
 
     # Remove a temp dir created by setup
     rm -r ../tutorial/schematron/xspec
@@ -366,7 +367,7 @@ teardown() {
     # For testing -Dxspec.project.dir
     cp ../build.xml ${build_xml}
 
-    run ant -buildfile ${build_xml} -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
+    run ant -buildfile ${build_xml} -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${ant_test_dir} -Dclean.output.dir=true
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
@@ -375,7 +376,7 @@ teardown() {
     [ ! -d "../tutorial/schematron/xspec/" ]
 
     # Verify clean.output.dir=true
-    [ ! -d "xspec-temp/" ]
+    [ ! -d "${ant_test_dir}" ]
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
     [ ! -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
 }
