@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<project name="xspec" default="xspec" xmlns:if="ant:if">
+<project name="xspec" default="xspec" xmlns:if="ant:if" xmlns:unless="ant:unless">
   <description>XSpec is a Behavior Driven Development (BDD) framework for XSLT and XQuery.
     
     Usage (command-line):
@@ -166,7 +166,7 @@
   
   <target name="getSchematronPhase" if="${test.schematron}" unless="xspec.phase">
     <xml-to-properties in="${xspec.xml}" style="get-schematron-phase.xsl"/>
-    <echo message="Schematron phase set in XSpec: '${xspec.phase}'" if:set="xspec.phase"/>
+    <echo message="Schematron phase set in XSpec: '${xspec.phase}'" unless:blank="${xspec.phase}"/>
   </target>
   
   
@@ -202,7 +202,7 @@
     </xslt>
     
     <echo message="   STEP 3: Convert Schematron to XSL"/>
-    <echo message="           phase=${xspec.phase}" if:set="xspec.phase"/>
+    <echo message="           phase=${xspec.phase}" unless:blank="${xspec.phase}"/>
     <xslt 
       in="${xspec.dir}/${xspec.base}.sch"
       out="${xspec.compiled.xsl}" 
@@ -211,7 +211,7 @@
       >
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
       <param name="allow-foreign" expression="true"/>
-      <param name="phase" expression="${xspec.phase}" if:set="xspec.phase"/>
+      <param name="phase" expression="${xspec.phase}" unless:blank="${xspec.phase}"/>
       <xmlcatalog if:set="catalog">
         <catalogpath>
           <pathelement location="${catalog}"/>
