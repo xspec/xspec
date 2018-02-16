@@ -210,6 +210,7 @@
       force="true"
       >
       <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+      <!-- TODO: Parameters should be gathered from .xspec file -->
       <param name="allow-foreign" expression="true"/>
       <param name="phase" expression="${xspec.phase}" unless:blank="${xspec.phase}"/>
       <xmlcatalog if:set="catalog">
