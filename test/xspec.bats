@@ -418,3 +418,25 @@ teardown() {
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 }
+
+
+@test "Schema detects no error in tutorial" {
+    if [ -n "${JING_CP}" ]; then
+        run java -jar ${JING_CP} -c ../src/schemas/xspec.rnc ../tutorial/*.xspec ../tutorial/schematron/*.xspec
+    	echo "$output"
+        [ "$status" -eq 0 ]
+    else
+        skip "Schema validation for tutorial skipped";
+    fi
+}
+
+
+@test "Schema detects no error in known good tests" {
+    if [ -n "${JING_CP}" ]; then
+        run java -jar ${JING_CP} -c ../src/schemas/xspec.rnc ../test/catalog/*.xspec ../test/schematron/*.xspec
+    	echo "$output"
+        [ "$status" -eq 0 ]
+    else
+        skip "Schema validation for known good tests skipped";
+    fi
+}
