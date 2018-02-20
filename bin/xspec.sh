@@ -36,7 +36,7 @@ usage() {
         echo "$1"
         echo;
     fi
-    echo "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]"
+    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog:file|-h] filename [coverage]"
     echo
     echo "  filename   the XSpec document"
     echo "  -t         test an XSLT stylesheet (the default)"
@@ -45,6 +45,7 @@ usage() {
     echo "  -c         output test coverage report"
     echo "  -j         output JUnit report"
     echo "  -h         display this help message"
+    echo "  -catalog:file  use XML Catalog file to locate resources"
     echo "  coverage   deprecated, use -c instead"
 }
 
@@ -64,19 +65,19 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
     echo Saxon script found, use it.
     echo
     xslt() {
-        saxon --add-cp "${XSPEC_HOME}/java/" --xsl "$@"
+        saxon --add-cp "${XSPEC_HOME}/java/" $CATALOG --xsl "$@"
     }
     xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" --xq "$@"
+        saxon --add-cp "${XSPEC_HOME}/java/" $CATALOG --xq "$@"
     }
 else
     echo Saxon script not found, invoking JVM directly instead.
     echo
     xslt() {
-        java -cp "$CP" net.sf.saxon.Transform "$@"
+        java -cp "$CP" net.sf.saxon.Transform $CATALOG "$@"
     }
     xquery() {
-        java -cp "$CP" net.sf.saxon.Query "$@"
+        java -cp "$CP" net.sf.saxon.Query $CATALOG "$@"
     }
 fi
 
@@ -151,6 +152,7 @@ CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
 ## options ###################################################################
 ##
 
+CATALOG=
 while echo "$1" | grep -- ^- >/dev/null 2>&1; do
     case "$1" in
         # XSLT
@@ -200,6 +202,9 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
 			    exit 1
 			fi
             JUNIT=1;;
+        # Catalog
+        -catalog*)
+            CATALOG="$1";;
         # Help!
         -h)
             usage

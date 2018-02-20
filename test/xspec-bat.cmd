@@ -53,7 +53,7 @@ setlocal
 
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog:file|-h] filename [coverage]"
 
     call :teardown
 endlocal

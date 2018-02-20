@@ -47,7 +47,7 @@ rem ##
         call :win_echo %1
         echo:
     )
-    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-h] filename [coverage]
+    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog:file^|-h] filename [coverage]
     echo:
     echo   filename   the XSpec document
     echo   -t         test an XSLT stylesheet (the default)
@@ -56,6 +56,7 @@ rem ##
     echo   -c         output test coverage report
     echo   -j         output JUnit report
     echo   -h         display this help message
+    echo   -catalog:file  use XML Catalog file to locate resources
     echo   coverage   deprecated, use -c instead
     goto :EOF
 
@@ -69,7 +70,7 @@ rem ##
     goto :EOF
 
 :xslt
-    java -cp "%CP%" net.sf.saxon.Transform %*
+    java -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
 :win_xslt_trace
@@ -86,18 +87,18 @@ rem ##
     rem Outer Redirect:
     rem    To restore the original direction, swap stdout and stderr again 
     rem
-    ( java -cp "%CP%" net.sf.saxon.Transform %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    ( java -cp "%CP%" net.sf.saxon.Transform %CATALOG% %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
     goto :EOF
 
 :xquery
-    java -cp "%CP%" net.sf.saxon.Query %*
+    java -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 
 :win_xquery_trace
     rem
     rem As for redirect and pipe, see :win_xslt_trace
     rem
-    ( java -cp "%CP%" net.sf.saxon.Query %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    ( java -cp "%CP%" net.sf.saxon.Query %CATALOG% %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
     goto :EOF
 
 :win_reset_options
@@ -112,6 +113,7 @@ rem ##
     set WIN_DEPRECATED_COVERAGE=
     set WIN_EXTRA_OPTION=
     set XSPEC=
+    set CATALOG=
     goto :EOF
 
 :win_get_options
@@ -131,6 +133,8 @@ rem ##
         set JUNIT=1
     ) else if "%WIN_ARGV%"=="-h" (
         set WIN_HELP=1
+    ) else if "%WIN_ARGV:~0,8%"=="-catalog" (
+        set CATALOG=%WIN_ARGV%
     ) else if "%WIN_ARGV:~0,1%"=="-" (
         set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
     ) else if defined XSPEC (
