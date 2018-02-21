@@ -36,7 +36,7 @@ usage() {
         echo "$1"
         echo;
     fi
-    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog:file|-h] filename [coverage]"
+    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] filename [coverage]"
     echo
     echo "  filename   the XSpec document"
     echo "  -t         test an XSLT stylesheet (the default)"
@@ -45,7 +45,7 @@ usage() {
     echo "  -c         output test coverage report"
     echo "  -j         output JUnit report"
     echo "  -h         display this help message"
-    echo "  -catalog:file  use XML Catalog file to locate resources"
+    echo "  -catalog file  use XML Catalog file to locate resources"
     echo "  coverage   deprecated, use -c instead"
 }
 
@@ -155,7 +155,6 @@ CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
 ## options ###################################################################
 ##
 
-CATALOG=
 while echo "$1" | grep -- ^- >/dev/null 2>&1; do
     case "$1" in
         # XSLT
@@ -206,8 +205,9 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
 			fi
             JUNIT=1;;
         # Catalog
-        -catalog*)
-            CATALOG="$1";;
+        -catalog)
+            shift
+            XML_CATALOG="$1";;
         # Help!
         -h)
             usage
@@ -219,6 +219,13 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
     esac
     shift;
 done
+
+# set CATALOG option for Saxon if XML_CATALOG has been set
+if test -n "$XML_CATALOG"; then
+    CATALOG="-catalog:$XML_CATALOG"
+else
+    CATALOG=
+fi
 
 # set XSLT if XQuery has not been set (that's the default)
 if test -z "$XQUERY"; then

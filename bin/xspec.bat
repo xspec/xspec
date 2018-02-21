@@ -47,7 +47,7 @@ rem ##
         call :win_echo %1
         echo:
     )
-    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog:file^|-h] filename [coverage]
+    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog file^|-h] filename [coverage]
     echo:
     echo   filename   the XSpec document
     echo   -t         test an XSLT stylesheet (the default)
@@ -56,7 +56,7 @@ rem ##
     echo   -c         output test coverage report
     echo   -j         output JUnit report
     echo   -h         display this help message
-    echo   -catalog:file  use XML Catalog file to locate resources
+    echo   -catalog file  use XML Catalog file to locate resources
     echo   coverage   deprecated, use -c instead
     goto :EOF
 
@@ -134,7 +134,9 @@ rem ##
     ) else if "%WIN_ARGV%"=="-h" (
         set WIN_HELP=1
     ) else if "%WIN_ARGV:~0,8%"=="-catalog" (
-        set CATALOG=%WIN_ARGV%
+        set XML_CATALOG=1
+    ) else if "%XML_CATALOG%"=="1" (
+        set XML_CATALOG="%WIN_ARGV%"
     ) else if "%WIN_ARGV:~0,1%"=="-" (
         set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
     ) else if defined XSPEC (
@@ -345,6 +347,13 @@ rem Parse command line
 rem
 call :win_reset_options
 call :win_get_options %*
+
+rem
+rem # set CATALOG option for Saxon if XML_CATALOG has been set
+rem
+if defined XML_CATALOG (
+    set CATALOG="-catalog:%XML_CATALOG%"
+)
 
 rem
 rem # Schematron

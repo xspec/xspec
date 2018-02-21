@@ -53,7 +53,7 @@ setlocal
 
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog:file|-h] filename [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] filename [coverage]"
 
     call :teardown
 endlocal
@@ -529,7 +529,7 @@ setlocal
     call :setup "invoking xspec.bat for XSLT with -catalog uses XML Catalog resolver"
 
     set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
-    call :run ..\bin\xspec.bat -catalog:catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
     call :verify_retval 0
     call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 
@@ -540,9 +540,21 @@ setlocal
     call :setup "invoking xspec.bat for XQuery with -catalog uses XML Catalog resolver"
 
     set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
-    call :run ..\bin\xspec.bat -catalog:catalog\catalog-01-catalog.xml -q catalog\catalog-01-xquery.xspec
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml -q catalog\catalog-01-xquery.xspec
     call :verify_retval 0
     call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat with XML_CATALOG set uses XML Catalog resolver"
+
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set XML_CATALOG=catalog\catalog-01-catalog.xml
+    call :run ..\bin\xspec.bat catalog\catalog-01-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 
     call :teardown
 endlocal
