@@ -321,6 +321,11 @@ if not defined SAXON_CP (
         call :win_echo "Saxon jar cannot be found in SAXON_HOME: %SAXON_HOME%"
     )
 )
+if defined SAXON_HOME (
+    if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
+        set SAXON_CP="%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
+    )
+)
 
 set CP=%SAXON_CP%;%XSPEC_HOME%\java
 

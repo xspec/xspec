@@ -144,6 +144,9 @@ if test -z "$SAXON_CP"; then
     	echo "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
 #        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
     fi
+    if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
+	   SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar";
+	fi
 fi
 
 CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
