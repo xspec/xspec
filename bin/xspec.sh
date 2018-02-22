@@ -36,17 +36,17 @@ usage() {
         echo "$1"
         echo;
     fi
-    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] filename [coverage]"
+    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
     echo
-    echo "  filename   the XSpec document"
-    echo "  -t         test an XSLT stylesheet (the default)"
-    echo "  -q         test an XQuery module (mutually exclusive with -t and -s)"
-    echo "  -s         test a Schematron schema (mutually exclusive with -t and -q)"
-    echo "  -c         output test coverage report"
-    echo "  -j         output JUnit report"
-    echo "  -h         display this help message"
+    echo "  file           the XSpec document"
+    echo "  -t             test an XSLT stylesheet (the default)"
+    echo "  -q             test an XQuery module (mutually exclusive with -t and -s)"
+    echo "  -s             test a Schematron schema (mutually exclusive with -t and -q)"
+    echo "  -c             output test coverage report"
+    echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
-    echo "  coverage   deprecated, use -c instead"
+    echo "  -h             display this help message"
+    echo "  coverage       deprecated, use -c instead"
 }
 
 die() {
