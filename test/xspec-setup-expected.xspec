@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-setup-expected.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Tests the effect of mode="x:setup-expected" in generate-xspec-tests.xsl -->
+
+	<x:scenario label="x:setup-expected excludes x:label from expected. So...">
+		<x:call function="exactly-one">
+			<x:param as="element(foo)">
+				<foo />
+			</x:param>
+		</x:call>
+		<x:expect>
+			<x:label>When x:expect has x:label and another child node, only the non x:label node
+				participates in comparison.</x:label>
+			<foo />
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="x:setup-expected does not affect @href document. So...">
+		<x:call function="exactly-one">
+			<x:param as="document-node(element(x:label))" href="xspec-setup-expected.xml" />
+		</x:call>
+		<x:expect href="xspec-setup-expected.xml"
+			label="When x:expect has @href document containing x:label, the x:label participates in comparison."
+		 />
+	</x:scenario>
+</x:description>
