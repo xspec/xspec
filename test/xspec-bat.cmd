@@ -525,6 +525,18 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Ambiguous @test generates warning"
+
+    call :run ..\bin\xspec.bat end-to-end\cases\xspec-ambiguous-test.xspec
+    call :verify_line 10 r "WARNING: x:expect has boolean @test"
+    call :verify_line 15 r "WARNING: x:expect has boolean @test"
+    call :verify_line 22 r "WARNING: x:expect has boolean @test"
+    call :verify_line 31 x "Formatting Report..."
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
@@ -606,7 +618,8 @@ rem
     rem
     rem Create the XSpec output directories
     rem
-    call :mkdir ..\test\xspec
+    call :mkdir xspec
+    call :mkdir end-to-end\cases\xspec
     call :mkdir ..\tutorial\xspec
     call :mkdir ..\tutorial\schematron\xspec
 
@@ -615,8 +628,10 @@ rem
 :teardown
     rem
     rem Remove the XSpec output directories
+    rem    Keep "..\test\" to minimize accident
     rem
     call :rmdir ..\test\xspec
+    call :rmdir ..\test\end-to-end\cases\xspec
     call :rmdir ..\tutorial\xspec
     call :rmdir ..\tutorial\schematron\xspec
 

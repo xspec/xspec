@@ -18,15 +18,17 @@
 #===============================================================================
 
 setup() {
+	mkdir xspec
+	mkdir end-to-end/cases/xspec
 	mkdir ../tutorial/xspec
-	mkdir ../test/xspec
 	mkdir ../tutorial/schematron/xspec
 }
 
 
 teardown() {
-	rm -rf ../tutorial/xspec
 	rm -rf ../test/xspec
+	rm -rf ../test/end-to-end/cases/xspec
+	rm -rf ../tutorial/xspec
 	rm -rf ../tutorial/schematron/xspec
 }
 
@@ -417,4 +419,14 @@ teardown() {
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+}
+
+
+@test "Ambiguous @test generates warning" {
+    run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-test.xspec
+	echo "$output"
+    [[ "${lines[9]}"  =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[14]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[21]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [  "${lines[30]}" =  "Formatting Report..." ]
 }
