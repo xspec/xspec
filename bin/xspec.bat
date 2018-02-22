@@ -133,10 +133,9 @@ rem ##
         set JUNIT=1
     ) else if "%WIN_ARGV%"=="-h" (
         set WIN_HELP=1
-    ) else if "%WIN_ARGV:~0,8%"=="-catalog" (
-        set XML_CATALOG=1
-    ) else if "%XML_CATALOG%"=="1" (
-        set XML_CATALOG="%WIN_ARGV%"
+    ) else if "%WIN_ARGV%"=="-catalog" (
+        set "XML_CATALOG=%~2"
+        shift
     ) else if "%WIN_ARGV:~0,1%"=="-" (
         set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
     ) else if defined XSPEC (
@@ -162,9 +161,9 @@ rem ##
 :schematron_compile
     echo Setting up Schematron...
     
-    if not defined SCHEMATRON_XSLT_INCLUDE set SCHEMATRON_XSLT_INCLUDE="%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl"
-    if not defined SCHEMATRON_XSLT_EXPAND set SCHEMATRON_XSLT_EXPAND="%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl"
-    if not defined SCHEMATRON_XSLT_COMPILE set SCHEMATRON_XSLT_COMPILE="%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl"
+    if not defined SCHEMATRON_XSLT_INCLUDE set "SCHEMATRON_XSLT_INCLUDE=%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl"
+    if not defined SCHEMATRON_XSLT_EXPAND set "SCHEMATRON_XSLT_EXPAND=%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl"
+    if not defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE=%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl"
     
     rem # get URI to Schematron file and phase/parameters from the XSpec file
     call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', /*[local-name() = 'description']/@schematron)), concat(codepoints-to-string(94), 'file:/'), '')" ^
@@ -325,7 +324,7 @@ if not defined SAXON_CP (
 )
 if defined SAXON_HOME (
     if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
-        set SAXON_CP="%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
+        set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
     )
 )
 
@@ -352,7 +351,7 @@ rem
 rem # set CATALOG option for Saxon if XML_CATALOG has been set
 rem
 if defined XML_CATALOG (
-    set CATALOG="-catalog:%XML_CATALOG%"
+    set CATALOG=-catalog:"%XML_CATALOG%"
 )
 
 rem
