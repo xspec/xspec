@@ -433,7 +433,7 @@ teardown() {
 
 @test "Schema detects no error in known good tests" {
     if [ -n "${JING_CP}" ]; then
-        run java -jar ${JING_CP} -c ../src/schemas/xspec.rnc ../test/catalog/*.xspec ../test/schematron/*.xspec
+        run java -jar ${JING_CP} -c ../src/schemas/xspec.rnc catalog/*.xspec schematron/*.xspec
     	echo "$output"
         [ "$status" -eq 0 ]
     else
