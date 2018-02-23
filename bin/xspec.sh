@@ -222,7 +222,7 @@ done
 
 # set CATALOG option for Saxon if XML_CATALOG has been set
 if test -n "$XML_CATALOG"; then
-    CATALOG="-catalog:$XML_CATALOG"
+    CATALOG="-catalog:${XML_CATALOG// /%20}"
 else
     CATALOG=
 fi
