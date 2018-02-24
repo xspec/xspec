@@ -559,6 +559,39 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "invoking xspec.bat using -catalog with spaces in file path uses XML Catalog resolver"
+
+    call :mkdir "cat a log"
+    call :mkdir "cat a log\xspec"
+    copy catalog\catalog-01* "cat a log"
+    
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    call :run ..\bin\xspec.bat -catalog "cat a log\catalog-01-catalog.xml" "cat a log\catalog-01-xslt.xspec"
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :rmdir-s "cat a log"
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat using XML_CATALOG with spaces in file path uses XML Catalog resolver"
+
+    call :mkdir "cat a log"
+    call :mkdir "cat a log\xspec"
+    copy catalog\catalog-01* "cat a log"
+    
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "XML_CATALOG=cat a log\catalog-01-catalog.xml"
+    call :run ..\bin\xspec.bat "cat a log\catalog-01-xslt.xspec"
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :rmdir-s "cat a log"
+    call :teardown
+endlocal
+
 
 echo === END TEST CASES ==================================================
 

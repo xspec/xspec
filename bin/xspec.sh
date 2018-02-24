@@ -65,19 +65,19 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
     echo Saxon script found, use it.
     echo
     xslt() {
-        saxon --add-cp "${XSPEC_HOME}/java/" $CATALOG --xsl "$@"
+        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" $CATALOG --xq "$@"
+        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
     echo Saxon script not found, invoking JVM directly instead.
     echo
     xslt() {
-        java -cp "$CP" net.sf.saxon.Transform $CATALOG "$@"
+        java -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
-        java -cp "$CP" net.sf.saxon.Query $CATALOG "$@"
+        java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
 
@@ -222,7 +222,7 @@ done
 
 # set CATALOG option for Saxon if XML_CATALOG has been set
 if test -n "$XML_CATALOG"; then
-    CATALOG="-catalog:${XML_CATALOG// /%20}"
+    CATALOG="-catalog:$XML_CATALOG"
 else
     CATALOG=
 fi
