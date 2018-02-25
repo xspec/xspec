@@ -592,6 +592,22 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
+
+    set SAXON_HOME=%WORK_DIR%\saxon
+    call :mkdir %SAXON_HOME%
+    copy %SAXON_CP% %SAXON_HOME%
+    copy %XML_RESOLVER_CP% %SAXON_HOME%
+    set SAXON_CP=
+    
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
 
 echo === END TEST CASES ==================================================
 

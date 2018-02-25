@@ -470,3 +470,16 @@ teardown() {
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 	rm -rf cat\ a\ log
 }
+
+@test "invoking xspec.sh using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
+    mkdir saxon
+    cp $SAXON_CP saxon
+    cp $XML_RESOLVER_CP saxon
+    export SAXON_HOME=saxon
+    export SAXON_CP=
+	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
+	echo $output
+	[ "$status" -eq 0 ]
+	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+	rm -rf saxon
+}
