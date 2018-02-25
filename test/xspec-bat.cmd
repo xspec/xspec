@@ -596,9 +596,13 @@ setlocal
     call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
 
     set "SAXON_HOME=%WORK_DIR%\saxon"
+    echo SAXON_HOME: %SAXON_HOME%
+    echo SAXON_CP: %SAXON_CP%
+    echo XML_RESOLVER_CP: %XML_RESOLVER_CP%
     call :mkdir %SAXON_HOME%
     copy %SAXON_CP% %SAXON_HOME%
     copy %XML_RESOLVER_CP% %SAXON_HOME%
+    dir %SAXON_HOME%
     set SAXON_CP=
     
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
