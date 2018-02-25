@@ -595,7 +595,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
 
-    set SAXON_HOME=%WORK_DIR%\saxon
+    set "SAXON_HOME=%WORK_DIR%\saxon"
     call :mkdir %SAXON_HOME%
     copy %SAXON_CP% %SAXON_HOME%
     copy %XML_RESOLVER_CP% %SAXON_HOME%
