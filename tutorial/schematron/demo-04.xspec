@@ -25,6 +25,9 @@
                 <x:expect-assert location="ex1:article/ex3:sec[2]"/>
                 <x:expect-assert location="ex1:article/ex3:sec[2]/figure"/>
             </x:scenario>
+            <x:scenario label="expecting no assert should fail">
+                <x:expect-not-assert location="ex1:article"/>
+            </x:scenario>
         </x:scenario>
     </x:scenario>
 </x:description>
