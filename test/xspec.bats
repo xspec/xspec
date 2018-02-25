@@ -473,14 +473,10 @@ teardown() {
 
 @test "invoking xspec.sh using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
     export SAXON_HOME="${PWD}/saxon"
-    echo SAXON_HOME: $SAXON_HOME
-    echo SAXON_CP: $SAXON_CP
-    echo XML_RESOLVER_CP: $XML_RESOLVER_CP
     mkdir $SAXON_HOME
     cp $SAXON_CP $SAXON_HOME
     cp $XML_RESOLVER_CP $SAXON_HOME
     export SAXON_CP=
-    ls $SAXON_HOME
 	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
 	echo $output
 	[ "$status" -eq 0 ]
