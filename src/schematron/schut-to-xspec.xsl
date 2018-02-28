@@ -13,6 +13,9 @@
     <xsl:variable name="warn" select="('warn', 'warning')"/>
     <xsl:variable name="info" select="('info', 'information')"/>
 
+    <!-- Fix 'file:C:/...' (https://issues.apache.org/jira/browse/XMLCOMMONS-24) -->
+    <xsl:variable name="base-uri" as="xs:string" select="replace(base-uri(), '^(file:)([^/])', '$1/$2')"/>
+
 
     <xsl:template match="@* | node()" priority="-2">
         <xsl:copy>
@@ -40,7 +43,7 @@
 
     <xsl:template match="@schematron">
         <xsl:copy/>
-        <xsl:attribute name="xspec-original-location" select="base-uri(.)"/>
+        <xsl:attribute name="xspec-original-location" select="$base-uri"/>
         <xsl:attribute name="stylesheet" select="$stylesheet"/>
         <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
