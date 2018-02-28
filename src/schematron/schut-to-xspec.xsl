@@ -39,6 +39,8 @@
     </xsl:template>
 
     <xsl:template match="@schematron">
+        <xsl:copy/>
+        <xsl:attribute name="xspec-original-location" select="base-uri(.)"/>
         <xsl:attribute name="stylesheet" select="$stylesheet"/>
         <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
