@@ -16,12 +16,14 @@
       <x:test successful="true">
          <x:label>Comparing the function result with the same date time in UTC will report Success</x:label>
          <x:result select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
-         <x:expect select="xs:dateTime('2000-01-01T00:00:00Z')"/>
+         <x:expect test="xs:dateTime($x:result)"
+                   select="xs:dateTime('2000-01-01T00:00:00Z')"/>
       </x:test>
       <x:test successful="false">
          <x:label>Comparing the function result with a different date time will report Failure</x:label>
          <x:result select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
-         <x:expect select="xs:dateTime('1234-01-01T00:00:00Z')"/>
+         <x:expect test="xs:dateTime($x:result)"
+                   select="xs:dateTime('1234-01-01T00:00:00Z')"/>
       </x:test>
    </x:scenario>
 </x:report>

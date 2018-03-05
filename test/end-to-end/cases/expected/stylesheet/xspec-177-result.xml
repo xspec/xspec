@@ -24,7 +24,7 @@
 				and
 					"Expecting" = "empty(element(foo))"
 				without diff.</x:label>
-         <x:expect select="()"/>
+         <x:expect test="empty(element(foo))" select="()"/>
       </x:test>
       <x:test successful="false">
          <x:label>When x:expect expects &lt;bar /&gt; and @test is "element(foo)" (i.e. non boolean),
@@ -36,7 +36,7 @@
          <x:result>
             <foo/>
          </x:result>
-         <x:expect>
+         <x:expect test="element(foo)">
             <bar/>
          </x:expect>
       </x:test>

@@ -23,7 +23,7 @@
          </x:test>
          <x:test successful="true">
             <x:label>Expecting document node via @href along with @test=$x:result should be Success</x:label>
-            <x:expect select="/">
+            <x:expect test="$x:result treat as xs:boolean" select="/">
                <foo/>
             </x:expect>
          </x:test>
@@ -43,7 +43,7 @@
          </x:test>
          <x:test successful="false">
             <x:label>Expecting false via @select along with @test=$x:result should be Failure</x:label>
-            <x:expect select="xs:boolean('false')"/>
+            <x:expect test="$x:result treat as xs:boolean" select="xs:boolean('false')"/>
          </x:test>
       </x:scenario>
    </x:scenario>
@@ -63,7 +63,7 @@
          </x:test>
          <x:test successful="true">
             <x:label>Expecting element(foo) via child node along with @test=$x:result should be Success</x:label>
-            <x:expect>
+            <x:expect test="$x:result treat as xs:boolean">
                <foo/>
             </x:expect>
          </x:test>
@@ -87,11 +87,11 @@
          </x:test>
          <x:test successful="true">
             <x:label>Expecting empty sequence (no @href, @select or child node) along with @test=$x:result should be Success</x:label>
-            <x:expect select="()"/>
+            <x:expect test="$x:result treat as xs:boolean" select="()"/>
          </x:test>
          <x:test successful="true">
             <x:label>Ditto using x:label</x:label>
-            <x:expect select="()"/>
+            <x:expect test="$x:result treat as xs:boolean" select="()"/>
          </x:test>
       </x:scenario>
    </x:scenario>
