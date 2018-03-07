@@ -2,7 +2,7 @@
 <x:description preserve-space="pre" stylesheet="xspec-space.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xspec-space="x-urn:test:xspec-space">
 
-	<x:scenario label="Scenario for testing whitespace-only text nodes in x:* elements">
+	<x:scenario label="Scenario for testing whitespace-only text nodes in x:param and x:expect">
 		<x:scenario label="When x:param has a whitespace-only text node">
 			<x:call function="zero-or-one">
 				<x:param>&#x09;&#x0A;&#x0D;&#x20;</x:param>
@@ -23,6 +23,22 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing whitespace-only text nodes in x:context">
+		<x:scenario label="When x:context has a whitespace-only text node">
+			<x:context>&#x09;&#x0A;&#x0D;&#x20;</x:context>
+			<x:call template="context-mirror-template" />
+			<x:expect label="The whitespace-only text node should be removed"
+				test="empty($x:result)" />
+		</x:scenario>
+
+		<x:scenario label="When x:context with @xml:space=preserve has a whitespace-only text node">
+			<x:context xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</x:context>
+			<x:call template="context-mirror-template" />
+			<x:expect label="The whitespace-only text node should be kept"
+				test="xspec-space:is-expected-text-node(node())" />
+		</x:scenario>
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing whitespace-only text nodes in user elements">
 		<x:scenario label="When an element in x:param has a whitespace-only text node">
 			<x:call function="exactly-one">
@@ -34,27 +50,52 @@
 					><p>&#x09;&#x0A;&#x0D;&#x20;</p></x:expect>
 		</x:scenario>
 
-		<x:scenario
-			label="When an element in x:param has @xml:space=preserve and a whitespace-only text node">
-			<x:call function="exactly-one">
-				<x:param><p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</p></x:param>
-			</x:call>
-			<x:expect
-				label="The element, @xml:space and the whitespace-only text node should be kept"
-				test="xspec-space:is-expected-text-node(p[@xml:space = 'preserve']/node())" />
-			<x:expect label="x:expect with the same structure as the x:param should be Success"
-				><p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</p></x:expect>
+		<x:scenario label="When an element in x:param has @xml:space=preserve and">
+			<x:scenario label="a whitespace-only text node">
+				<x:call function="exactly-one">
+					<x:param><p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</p></x:param>
+				</x:call>
+				<x:expect
+					label="The element, @xml:space and the whitespace-only text node should be kept"
+					test="xspec-space:is-expected-text-node(p[@xml:space = 'preserve']/node())" />
+				<x:expect label="x:expect with the same structure as the x:param should be Success"
+					><p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</p></x:expect>
+			</x:scenario>
+
+			<x:scenario label="an element with a whitespace-only text node">
+				<x:call function="exactly-one">
+					<x:param><p xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></p></x:param>
+				</x:call>
+				<x:expect
+					label="The elements, @xml:space and the whitespace-only text node should be kept"
+					test="xspec-space:is-expected-text-node(p[@xml:space = 'preserve']/span/node())" />
+				<x:expect label="x:expect with the same structure as the x:param should be Success"
+					><p xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></p></x:expect>
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario
-			label="When an element in x:param is specified by /x:description/@preserve-space and has a whitespace-only text node">
-			<x:call function="exactly-one">
-				<x:param><pre>&#x09;&#x0A;&#x0D;&#x20;</pre></x:param>
-			</x:call>
-			<x:expect label="The element and the whitespace-only text node should be kept"
-				test="xspec-space:is-expected-text-node(pre/node())" />
-			<x:expect label="x:expect with the same structure as the x:param should be Success"
-				><pre>&#x09;&#x0A;&#x0D;&#x20;</pre></x:expect>
+			label="When an element in x:param is specified by /x:description/@preserve-space and has">
+			<x:scenario label="a whitespace-only text node">
+				<x:call function="exactly-one">
+					<x:param><pre>&#x09;&#x0A;&#x0D;&#x20;</pre></x:param>
+				</x:call>
+				<x:expect label="The element and the whitespace-only text node should be kept"
+					test="xspec-space:is-expected-text-node(pre/node())" />
+				<x:expect label="x:expect with the same structure as the x:param should be Success"
+					><pre>&#x09;&#x0A;&#x0D;&#x20;</pre></x:expect>
+			</x:scenario>
+
+			<x:scenario label="an element with a whitespace-only text node">
+				<x:call function="exactly-one">
+					<x:param><pre><span>&#x09;&#x0A;&#x0D;&#x20;</span></pre></x:param>
+				</x:call>
+				<x:expect label="The elements should be kept" test="exists(pre/span)" />
+				<x:expect label="The whitespace-only text node should be removed"
+					test="empty(pre/span/node())" />
+				<x:expect label="x:expect with the same structure as the x:param should be Success"
+					><pre><span>&#x09;&#x0A;&#x0D;&#x20;</span></pre></x:expect>
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 </x:description>
