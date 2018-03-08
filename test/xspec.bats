@@ -138,8 +138,10 @@ teardown() {
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
 
-    # HTML report file
-    [ -f "../tutorial/xspec/escape-for-regex-result.html" ]
+    # HTML report file is created and contains CSS inline #135
+    run java -cp ${SAXON_CP} net.sf.saxon.Transform -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 
@@ -208,9 +210,7 @@ teardown() {
     else
         run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home=file:${PWD}/../ -oresult=xspec/xspec-72-result.html ../src/harnesses/saxon/saxon-xslt-harness.xproc
 
-    	query="declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8', '&#x0A;')";
-
-        run java -cp ${SAXON_CP} net.sf.saxon.Query -s:xspec/xspec-72-result.html -qs:"$query" !method=text
+        run java -cp ${SAXON_CP} net.sf.saxon.Transform -s:xspec/xspec-72-result.html -xsl:html-charset.xsl
     fi
 
     echo "$output"
@@ -306,13 +306,6 @@ teardown() {
 
     echo "$output"
     [[ "${output}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-}
-
-
-@test "HTML report contains CSS inline and not as an external file #135" {
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-	grep '<style type="text/css">' ../tutorial/xspec/escape-for-regex-result.html
-	grep 'margin-right:' ../tutorial/xspec/escape-for-regex-result.html
 }
 
 

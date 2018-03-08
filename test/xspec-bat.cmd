@@ -182,8 +182,9 @@ setlocal
     rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
-    rem HTML report file
-    call :verify_exist ..\tutorial\xspec\escape-for-regex-result.html
+    rem HTML report file is created and contains CSS inline #135
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:..\tutorial\xspec\escape-for-regex-result.html -xsl:html-css.xsl
+    call :verify_line 1 x "true"
 
     call :teardown
 endlocal
@@ -267,7 +268,7 @@ setlocal
 
     if defined XMLCALABASH_CP (
         call :run java -Xmx1024m -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" -oresult=xspec/xspec-72-result.html ..\src\harnesses\saxon\saxon-xslt-harness.xproc
-        call :run java -cp "%SAXON_CP%" net.sf.saxon.Query -s:xspec\xspec-72-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8', '&#x0A;')" !method=text
+        call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:xspec\xspec-72-result.html -xsl:html-charset.xsl
         call :verify_line 1 x "true"
     ) else (
         call :skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon"
@@ -348,16 +349,6 @@ setlocal
     call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
     call :verify_retval 0
     call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-
-    call :teardown
-endlocal
-
-setlocal
-    call :setup "HTML report contains CSS inline and not as an external file #135"
-
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
-    call :run java -cp "%SAXON_CP%" net.sf.saxon.Query -s:..\tutorial\xspec\escape-for-regex-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head[not(link[@type = 'text/css'])]/style[@type = 'text/css']/contains(., 'margin-right:'), '&#x0A;')" !method=text
-    call :verify_line 1 x "true"
 
     call :teardown
 endlocal
