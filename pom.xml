@@ -69,8 +69,18 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-  
+
+  <dependencies>
+    <dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>Saxon-HE</artifactId>
+      <version>9.7.0-1</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
   <build>
+    <sourceDirectory>java</sourceDirectory>
     <resources>
       <resource>
         <directory>src</directory>
@@ -98,6 +108,8 @@
           <configuration>
             <source>1.7</source>
             <target>1.7</target>
+            <encoding>UTF-8</encoding>
+            <sourceDirectory>java/</sourceDirectory>
           </configuration>
         </plugin>
         <plugin>
@@ -118,6 +130,11 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.code54.mojo</groupId>
         <artifactId>buildversion-plugin</artifactId>
