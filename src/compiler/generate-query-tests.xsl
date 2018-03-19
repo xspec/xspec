@@ -50,6 +50,7 @@
        /x:description/@query-at/resolve-uri(., base-uri(..))"/>
    <!--xsl:param name="query-at" as="xs:string?" select="
        /x:description/@query-at"/-->
+   <xsl:variable name="document-source-uri" as="xs:anyURI" select="document-uri(root(/))"/>
 
    <xsl:template match="/">
       <xsl:call-template name="x:generate-tests"/>
@@ -113,8 +114,8 @@
          <xsl:if test="exists($query-at)">
             <xsl:attribute name="query-at" select="$query-at"/>
          </xsl:if>
-         <attribute name="original-xspec-location" select="{base-uri()}"/>
-         <xsl:text> {&#10;</xsl:text>
+	 <xsl:attribute name="original-xspec-location" select="$document-source-uri"/>
+          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
          <xsl:call-template name="x:call-scenarios"/>
          <xsl:text>&#10;}&#10;</xsl:text>

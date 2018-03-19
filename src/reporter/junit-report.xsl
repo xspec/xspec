@@ -28,11 +28,11 @@
     <xsl:output name="escaped" method="xml" omit-xml-declaration="yes" indent="yes"/>
 
     <xsl:template match="x:report">
-        <testsuites>
-            <xsl:apply-templates select="x:scenario"/>
+       <testsuites x:original-xspec-location="{@original-xspec-location}">
+           <xsl:apply-templates select="x:scenario"/>
         </testsuites>
     </xsl:template>
-    
+
     <xsl:template match="x:scenario">
         <testsuite>
             <xsl:attribute name="name" select="x:label"/>
