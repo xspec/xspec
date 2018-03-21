@@ -59,14 +59,18 @@
       <xsl:param name="visit" as="element(x:description)+"/>
       <xsl:variable name="imports" as="element(x:import)*"
                     select="$visit/x:import"/>
+      <xsl:variable name="imported-docs" as="document-node(element(x:description))*"
+                    select="x:distinct-nodes-stable($imports/document(@href))"/>
       <xsl:variable name="imported" as="element(x:description)*"
-                    select="document($imports/@href)/x:description"/>
+                    select="x:distinct-nodes-stable(for $doc in $imported-docs return $doc/x:description)"/>
+      <xsl:variable name="imported-except-visit" as="element(x:description)*"
+                    select="$imported[empty($visit intersect .)]"/>
       <xsl:choose>
-         <xsl:when test="empty($imported except $visit)">
+         <xsl:when test="empty($imported-except-visit)">
             <xsl:sequence select="$visit"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="x:gather-specs($visit | $imported)"/>
+            <xsl:sequence select="x:gather-specs(($visit, $imported-except-visit))"/>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
@@ -528,6 +532,16 @@
          <xsl:apply-templates mode="x:unshare-scenarios"/>
       </xsl:copy>
    </xsl:template>
+
+   <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
+     in a prior position of the sequence.)
+     This function does not sort nodes in document order.
+     Based on http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable -->
+   <xsl:function name="x:distinct-nodes-stable" as="node()*">
+     <xsl:param name="nodes" as="node()*"/>
+
+     <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
+   </xsl:function>
 
    <!--
        Debugging tool.  Return a human-readable path of a node.
