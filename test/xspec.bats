@@ -18,8 +18,8 @@
 #===============================================================================
 
 setup() {
-	work_dir=${BATS_TMPDIR}/xspec/bats
-	mkdir ${work_dir}
+	work_dir=${BATS_TMPDIR}/xspec/bats_work
+	mkdir -p ${work_dir}
 	mkdir xspec
 	mkdir ../tutorial/xspec
 	mkdir ../tutorial/schematron/xspec
