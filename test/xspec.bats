@@ -583,3 +583,43 @@ teardown() {
 }
 
 
+@test "Import order with xspec.sh #185" {
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    run ../bin/xspec.sh xspec-185/import-1.xspec
+	echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[4]}"  = "Scenario 1-1" ]
+    [ "${lines[5]}"  = "Scenario 1-2" ]
+    [ "${lines[6]}"  = "Scenario 1-3" ]
+    [ "${lines[7]}"  = "Scenario 2a-1" ]
+    [ "${lines[8]}"  = "Scenario 2a-2" ]
+    [ "${lines[9]}"  = "Scenario 2b-1" ]
+    [ "${lines[10]}" = "Scenario 2b-2" ]
+    [ "${lines[11]}" = "Scenario 3" ]
+    [ "${lines[12]}" = "Formatting Report..." ]
+}
+
+
+@test "Import order with Ant #185" {
+    ant_log="${work_dir}/ant.log"
+
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/xspec-185/import-1.xspec -lib ${SAXON_CP} -logfile "${ant_log}"
+	echo "$output"
+    [ "$status" -eq 0 ]
+
+    run grep " Scenario " "${ant_log}"
+	echo "$output"
+    [ "${#lines[@]}" = "8" ]
+    [ "${lines[0]}" = "     [java] Scenario 1-1" ]
+    [ "${lines[1]}" = "     [java] Scenario 1-2" ]
+    [ "${lines[2]}" = "     [java] Scenario 1-3" ]
+    [ "${lines[3]}" = "     [java] Scenario 2a-1" ]
+    [ "${lines[4]}" = "     [java] Scenario 2a-2" ]
+    [ "${lines[5]}" = "     [java] Scenario 2b-1" ]
+    [ "${lines[6]}" = "     [java] Scenario 2b-2" ]
+    [ "${lines[7]}" = "     [java] Scenario 3" ]
+}
+
+
