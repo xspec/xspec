@@ -525,6 +525,53 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Import order with xspec.bat #185"
+
+    rem Make the line numbers predictable by providing an existing output dir
+    set TEST_DIR=%WORK_DIR%
+
+    call :run ..\bin\xspec.bat xspec-185\import-1.xspec
+    call :verify_retval 0
+    call :verify_line  5 x "Scenario 1-1"
+    call :verify_line  6 x "Scenario 1-2"
+    call :verify_line  7 x "Scenario 1-3"
+    call :verify_line  8 x "Scenario 2a-1"
+    call :verify_line  9 x "Scenario 2a-2"
+    call :verify_line 10 x "Scenario 2b-1"
+    call :verify_line 11 x "Scenario 2b-2"
+    call :verify_line 12 x "Scenario 3"
+    call :verify_line 13 x "Formatting Report..."
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Import order with Ant #185"
+
+    set ANT_LOG=%WORK_DIR%\ant.log
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\xspec-185\import-1.xspec" -lib "%SAXON_CP%" -logfile "%ANT_LOG%"
+        call :verify_retval 0
+
+        call :run find " Scenario " "%ANT_LOG%"
+        call :verify_line_count 9
+        call :verify_line  2 x "     [java] Scenario 1-1"
+        call :verify_line  3 x "     [java] Scenario 1-2"
+        call :verify_line  4 x "     [java] Scenario 1-3"
+        call :verify_line  5 x "     [java] Scenario 2a-1"
+        call :verify_line  6 x "     [java] Scenario 2a-2"
+        call :verify_line  7 x "     [java] Scenario 2b-1"
+        call :verify_line  8 x "     [java] Scenario 2b-2"
+        call :verify_line  9 x "     [java] Scenario 3"
+    ) else (
+        call :skip "Import order with Ant #185"
+    )
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
@@ -737,6 +784,18 @@ rem
         echo ----------
     ) else (
         call :verified "Line %LINE_NUMBER%"
+    )
+    goto :EOF
+
+:verify_line_count
+    for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set LINE_COUNT=%%I
+    if %LINE_COUNT% EQU %~1 (
+        call :verified "Line count: %~1"
+    ) else (
+        call :failed "Line count %LINE_COUNT% does not match the expected count %~1"
+        echo ---------- %OUTPUT_LINENUM%
+        type "%OUTPUT_LINENUM%"
+        echo ----------
     )
     goto :EOF
 
