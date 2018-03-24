@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="xspec-test-util">
+	<!-- Accepts file URL and runs XSpec accordingly -->
+	<macrodef name="run-xspec">
+		<attribute name="xspec-file-url" />
+		<attribute name="test-type" />
+
+		<sequential>
+			<local name="xspec-file-path" />
+			<makepath property="xspec-file-path" url="@{xspec-file-url}" />
+
+			<antcall inheritall="false" target="xspec">
+				<param location="${xspec-file-path}" name="xspec.xml" />
+				<param name="test.type" value="@{test-type}" />
+			</antcall>
+		</sequential>
+	</macrodef>
+</project>
