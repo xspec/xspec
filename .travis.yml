@@ -51,7 +51,7 @@ script:
     - echo "execute bats unit tests"
     - bats --tap xspec.bats
     - echo "execute XSpec unit tests"
-    - ./run-xspec-tests.sh
+    - ./run-xspec-tests-ant.sh
     - echo "execute XSpec end-to-end tests"
     - cd end-to-end
     - ./run-e2e-tests.sh
