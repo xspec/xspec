@@ -541,6 +541,21 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Ant for XQuery with default properties"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec" -lib "%SAXON_CP%" -Dtest.type=q
+        call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+    ) else (
+        call :skip "test for XQuery Ant with default properties skipped"
+    )
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
