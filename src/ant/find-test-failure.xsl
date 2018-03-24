@@ -10,7 +10,7 @@
 	<xsl:template as="element(xspec)" match="document-node()">
 		<xspec>
 			<passed>
-				<xsl:value-of select="empty(//x:*[@successful = 'false'])" />
+				<xsl:value-of select="empty(//x:scenario/x:test/@successful[not(xs:boolean(.))])" />
 			</passed>
 		</xspec>
 	</xsl:template>
