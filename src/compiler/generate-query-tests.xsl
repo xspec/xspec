@@ -45,8 +45,6 @@
           in-scope-prefixes($e)[namespace-uri-for-prefix(., $e) eq $u][1]"/>
    </xsl:variable>
 
-   <xsl:variable name="fail-intentionally" select="contains(document-uri(/), 'xspec-focus-2.xspec')"/>
-
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?" select="
        /x:description/@query-at/resolve-uri(., base-uri(..))"/>
@@ -369,12 +367,6 @@
             <xsl:when test="$pending-p">
                <xsl:attribute name="pending" select="$pending"/>
             </xsl:when>
-
-            <!-- Fail intentionally for testing purposes -->
-            <xsl:when test="$fail-intentionally">
-               <xsl:attribute name="successful" select="string(false())"/>
-            </xsl:when>
-
             <xsl:otherwise>
                <xsl:attribute name="successful" select="'{ $local:successful }'"/>
             </xsl:otherwise>
