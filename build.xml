@@ -40,20 +40,19 @@
   <dirname property="xspec.project.dir" file="${ant.file.xspec}" />
 
   <!-- "xspec.properties" property: Documented. DO NOT RENAME.
-    File path of Ant properties file -->
-  <property name="xspec.properties" value="${xspec.project.dir}/xspec.properties" />
+    Absolute path of Ant properties file -->
+  <property name="xspec.properties" location="${xspec.project.dir}/xspec.properties" />
   <property file="${xspec.properties}" />
 
   <!-- "xspec.xml" property: Documented in Wiki. DO NOT RENAME.
+    No default value. This property is always provided by the user.
     This property name is vague. Use the alias property "xspec.xspecfile.original" for internal use. -->
-
-  <!-- "xspec.dir" property: Documented in Wiki. DO NOT RENAME.
-    This property name is vague. Use the alias property "xspec.output.dir" for internal use. -->
 
   <!-- "saxon.custom.options" property: Used by Oxygen default transformation. DO NOT RENAME.
     Optional command-line arguments passed to Saxon when running the tests.
     For example, -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on
-    -outval:fatal -val:lax -->
+    -outval:fatal -val:lax
+    No default value. This property is occasionally provided by the user. -->
 
   <!-- "catalog" property: Documented in Wiki. DO NOT RENAME.
     File path (not URL) of XML catalog file -->
@@ -75,12 +74,12 @@
             file="${xspec.xspecfile.name.without.xml}"
             suffix=".xspec" />
 
+  <!-- "xspec.dir" property: Documented in Wiki. DO NOT RENAME.
+    This property name is vague. Use the alias property "xspec.output.dir" for internal use. -->
+  <property name="xspec.dir" value="${xspec.xspecfile.dir}/xspec" />
+
   <!-- Directory where various output files are created -->
-  <condition property="xspec.output.dir"
-             value="${xspec.dir}"
-             else="${xspec.xspecfile.dir}/xspec">
-    <isset property="xspec.dir" />
-  </condition>
+  <property name="xspec.output.dir" value="${xspec.dir}" />
 
   <!-- File path of the XML report file -->
   <property name="xspec.result.xml"
