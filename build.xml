@@ -40,7 +40,7 @@
   <dirname property="xspec.project.dir" file="${ant.file.xspec}" />
 
   <!-- "xspec.properties" property: Documented. DO NOT RENAME.
-    Absolute path of Ant properties file -->
+    Absolute or relative path of Ant properties file -->
   <property name="xspec.properties" location="${xspec.project.dir}/xspec.properties" />
   <property file="${xspec.properties}" />
 
