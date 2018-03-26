@@ -159,10 +159,16 @@
 
 <xsl:template match="x:report" mode="x:html-report">
   <p>
-     <xsl:value-of select="if ( exists(@query) ) then 'Query: ' else 'Stylesheet: '"/>
-     <a href="{ @stylesheet|@query }">
-        <xsl:value-of select="test:format-URI(@stylesheet|@query)"/>
+     <xsl:value-of select="if ( exists(@schematron) ) then 'Schematron: ' else if ( exists(@query) ) then 'Query: ' else 'Stylesheet: '"/>
+     <a href="{ (@schematron, @stylesheet, @query)[1] }">
+       <xsl:value-of select="test:format-URI((@schematron, @stylesheet, @query)[1])"/>
      </a>
+  </p>
+  <p>
+    <xsl:text>XSpec: </xsl:text>
+    <a href="{@xspec-original-location}">
+      <xsl:value-of select="test:format-URI(@xspec-original-location)"/>
+    </a>
   </p>
   <p>
     <xsl:text>Tested: </xsl:text>
