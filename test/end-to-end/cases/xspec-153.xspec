@@ -7,8 +7,8 @@
 		<x:expect
 			label="Comparing the function result with the same date time in UTC will report Success"
 			select="xs:dateTime('2000-01-01T00:00:00Z')" test="xs:dateTime($x:result)" />
-		<!--<x:expect
+		<x:expect
 			label="Comparing the function result with a different date time will report Failure"
-			select="xs:dateTime('1234-01-01T00:00:00Z')" test="xs:dateTime($x:result)" />-->
+			select="xs:dateTime('1234-01-01T00:00:00Z')" test="xs:dateTime($x:result)" />
 	</x:scenario>
 </x:description>
