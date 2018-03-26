@@ -21,8 +21,8 @@
                 </example>
             </x:expect>
         </x:scenario>
-    </x:scenario>    
-    <x:scenario label="description">
+    </x:scenario>
+    <x:scenario label="parameters">
         <x:scenario label="no phase">
             <x:context href="schematron/schut-to-xspec-001-in.xspec"/>
             <x:expect label="xspec description" href="schematron/schut-to-xspec-001-out.xspec"/>
