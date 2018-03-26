@@ -212,6 +212,12 @@
       </condition>
     </fail>
 
+    <!-- Verify .xspec file existence, to avoid creating a useless output directory -->
+    <available property="xspec.xspecfile.is.available"
+               file="${xspec.xspecfile.original}" type="file" />
+    <fail message="XSpec file not found: '${xspec.xspecfile.original}'"
+          unless="xspec.xspecfile.is.available" />
+
     <!-- Create the output directory.
       Need to retry, for the creation may fail temporarily while running the build repeatedly
       with clean.output.dir=true. -->
