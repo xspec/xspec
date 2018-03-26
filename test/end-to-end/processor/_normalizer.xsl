@@ -81,7 +81,7 @@
 				in:		<a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
 				out:	<a href="tested.xsl">tested.xsl</a>
 	-->
-	<xsl:template as="element(a)" match="/html/body/p[1 or 2]/a" mode="local:normalize">
+	<xsl:template as="element(a)" match="/html/body/p[position() = (1, 2)]/a" mode="local:normalize">
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute()" />
 			<xsl:attribute name="href" select="util:filename-and-extension(@href)" />

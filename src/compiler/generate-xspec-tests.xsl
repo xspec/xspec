@@ -81,7 +81,7 @@
 	        test stylesheet, which can then be picked up by stylesheets that
 	        process *that* to generate a coverage report -->
 	      <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
-	        <xsl:attribute name="xspec-original-location" select="(@xspec-original-location, $base-uri)[1]"/>
+	        <xsl:attribute name="xspec" select="(@xspec-original-location, $base-uri)[1]"/>
 	        <xsl:copy-of select="@schematron"/>
                  <!-- Generate calls to the compiled top-level scenarios. -->
                  <xsl:call-template name="x:call-scenarios"/>

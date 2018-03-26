@@ -166,8 +166,8 @@
   </p>
   <p>
     <xsl:text>XSpec: </xsl:text>
-    <a href="{@xspec-original-location}">
-      <xsl:value-of select="test:format-URI(@xspec-original-location)"/>
+    <a href="{@xspec}">
+      <xsl:value-of select="test:format-URI(@xspec)"/>
     </a>
   </p>
   <p>
