@@ -16,7 +16,13 @@ do
     echo "Processing ${CASE_FILEPATH}..."
 
     # Generate the report HTML
-    ../../bin/xspec.sh ${CASE_FILEPATH}
+    if test "${CASE_FILEPATH:0:10}" = "schematron"; then
+        ../../bin/xspec.sh -s ${CASE_FILEPATH}
+    elif test "${CASE_FILEPATH:0:6}" = "xquery"; then
+        ../../bin/xspec.sh -q ${CASE_FILEPATH}
+    else
+        ../../bin/xspec.sh ${CASE_FILEPATH}
+    fi
 
     # Normalize the report HTML
     CASE_FILENAME=${CASE_FILEPATH##*/}

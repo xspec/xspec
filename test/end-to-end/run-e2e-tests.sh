@@ -12,7 +12,13 @@ export TEST_DIR=${CASES_DIR}/xspec
 for CASE_FILEPATH in ${CASES_DIR}/*.xspec
 do
     # Generate the report HTML
-    ../../bin/xspec.sh ${CASE_FILEPATH} > /dev/null 2>&1
+    if test "${CASE_FILEPATH:0:10}" = "schematron"; then
+        ../../bin/xspec.sh -s ${CASE_FILEPATH} > /dev/null 2>&1
+    elif test "${CASE_FILEPATH:0:6}" = "xquery"; then
+        ../../bin/xspec.sh -q ${CASE_FILEPATH} > /dev/null 2>&1
+    else
+        ../../bin/xspec.sh ${CASE_FILEPATH} > /dev/null 2>&1
+    fi
 
     # Compare with the expected HTML
     CASE_FILENAME=${CASE_FILEPATH##*/}
