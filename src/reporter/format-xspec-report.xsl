@@ -128,7 +128,7 @@
     <head>
       <title>
          <xsl:text>Test Report for </xsl:text>
-         <xsl:value-of select="x:report/test:format-URI(@stylesheet|@query)"/>
+         <xsl:value-of select="x:report/test:format-URI((@schematron,@stylesheet,@query)[1])"/>
          <xsl:text> (</xsl:text>
          <xsl:call-template name="x:totals">
             <xsl:with-param name="tests" select="//x:scenario/x:test"/>
