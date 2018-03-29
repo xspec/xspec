@@ -7,6 +7,8 @@
  /* ------------------------------------------------------------------------ */
 package com.jenitennison.xslt.tests;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import net.sf.saxon.lib.TraceListener;
 import net.sf.saxon.trace.InstructionInfo;
 import net.sf.saxon.trace.LocationKind;
@@ -17,39 +19,87 @@ import net.sf.saxon.om.StandardNames;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import net.sf.saxon.lib.Logger;
 
 /**
  * A Simple trace listener for XSLT that writes messages (by default) to
  * System.err
+ * @author Edwin Glaser
+ * @author Jeni Tenninson
+ * @author Michael Kay
+ * @author Sandro Cirulli
+ * @author Christophe Marchand
  */
 public class XSLTCoverageTraceListener implements TraceListener {
-
+    public static final String DEFAULT_GENERATE_TESTS_UTILS = "generate-tests-utils.xsl";
+    public static final String DEFAULT_IGNORE_DIR = "/xspec/";
+    public static final String SYS_PROP_GENERATE_TESTS_UTILS = "com.jenitennison.xsl.tests.coverage.generate-tests-utils";
+    public static final String SYS_PROP_IGNORE_DIR = "com.jenitennison.xsl.tests.coverage.ignore-dir";
+    public static final String SYS_PROP_OUTPUT = "com.jenitennison.xsl.tests.coverage.output";
+    
     private final PrintStream out;
     private String xspecStylesheet = null;
     private String utilsStylesheet = null;
     private final HashMap<String, Integer> modules;
     private final HashSet<Integer> constructs;
     private int moduleCount = 0;
+    // Added for https://github.com/xspec/xspec/issues/182
+    private String computedGenerateTestUtilsName;
+    private String computedIgnoreDir;
 
     /**
      * @param out The PrintStrem to write to
      */
-    public XSLTCoverageTraceListener(PrintStream out) {
+    public XSLTCoverageTraceListener(PrintStream out) throws Exception {
         super();
         this.out=out;
         this.modules = new HashMap<>();
         this.constructs = new HashSet<>();
+        String sTmp = System.getProperty(SYS_PROP_GENERATE_TESTS_UTILS);
+        if(sTmp!=null && !sTmp.isEmpty()) {
+            computedGenerateTestUtilsName = sTmp;
+        } else {
+            computedGenerateTestUtilsName = DEFAULT_GENERATE_TESTS_UTILS;
+        }
+        sTmp = System.getProperty(SYS_PROP_IGNORE_DIR);
+        if(sTmp!=null && !sTmp.isEmpty()) {
+            try {
+                URL url = new URL(sTmp);
+                throw new Exception(SYS_PROP_IGNORE_DIR+" must be a path, and not a URI. i.e. it must not starts with file:");
+            } catch(MalformedURLException ex) {
+                computedIgnoreDir = sTmp;
+            }
+        } else {
+            computedIgnoreDir = DEFAULT_IGNORE_DIR;
+        }
     }
     /**
-     * For compatibility only.
+     * Constructs a new XSLTCoverageTraceListener.
+     * If a system property call {@link #SYS_PROP_OUTPUT} exists and value is not
+     * null, output will be written to a file. Else, output will be written to
+     * System.err.
      * Prefer use @{link #XSLTCoverageTraceListener(PrintStream)}
-     * @deprecated
+     * @throws java.lang.Exception
      */
-    @Deprecated
-    public XSLTCoverageTraceListener() {
-        this(System.err);
+    public XSLTCoverageTraceListener() throws Exception {
+        this(computeDefaultOutput(System.getProperty(SYS_PROP_OUTPUT)));
         System.out.println("****************************************");
+    }
+    
+    /**
+     * Utility method that computes the output
+     * @param prop
+     * @return
+     * @throws FileNotFoundException 
+     */
+    private static PrintStream computeDefaultOutput(final String prop) throws FileNotFoundException {
+        if(prop!=null && !prop.isEmpty()) {
+            return new PrintStream(new FileOutputStream(prop));
+        } else {
+            return System.err;
+        }
     }
 
     /**
@@ -80,6 +130,9 @@ public class XSLTCoverageTraceListener implements TraceListener {
     @Override
     public void close() {
         out.println("</trace>");
+        // should flush and close, only if it not System.err
+        out.flush();
+        if(out!=System.err) out.close();
     }
 
     /**
@@ -104,7 +157,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
             xspecStylesheet = systemId;
             out.println("<x u=\"" + systemId + "\" />");
         }
-        if (!systemId.equals(xspecStylesheet) && !systemId.equals(utilsStylesheet)) {
+        if (!isXSpecStylesheet(systemId) && !isUtilsStylesheet(systemId)) {
             Integer module;
             if (modules.containsKey(systemId)) {
                 module = modules.get(systemId);
@@ -201,6 +254,64 @@ public class XSLTCoverageTraceListener implements TraceListener {
      */
     @Override
     public void endCurrentItem(Item currentItem) { }
+    
+    /**
+     * If the specified systemId is the XSpec stylesheet (the one produced by
+     * XSpec compilation), must return true.
+     * This method may be overwritten, especially when generated files are not
+     * located in the same locations than with XSpec implementation
+     * @param systemId
+     * @return 
+     */
+    public boolean isXSpecStylesheet(String systemId) {
+        return systemId.equals(xspecStylesheet);
+    }
+    /**
+     * If the specified systemId is the utils stylesheet (usually a file named
+     * {@link #DEFAULT_GENERATE_TESTS_UTILS}), it must return true.
+     * This method may be overwritten, especially if one don't use default
+     * implementation or have a special directory structure.
+     * @param systemId
+     * @return 
+     */
+    public boolean isUtilsStylesheet(String systemId) {
+        return systemId.equals(utilsStylesheet);
+    }
+    
+    /**
+     * Allows to define the name of the generate-tests-utils stylesheet, to be 
+     * able to ignore it.
+     * <ul><li>Default value is {@link #DEFAULT_GENERATE_TESTS_UTILS}</li>
+     * <li>Value can be defined by System property {@link #SYS_PROP_GENERATE_TESTS_UTILS}</li>
+     * <li>If this method is used, {@link #SYS_PROP_GENERATE_TESTS_UTILS} is ignored</li></ul>
+     * @param generateTestsUtilsName 
+     * @since 1.1
+     */
+    public void setGenerateTestsUtilsName(final String generateTestsUtilsName) {
+        computedGenerateTestUtilsName = generateTestsUtilsName;
+    }
+    
+    /**
+     * Allows to define the name of directory that contains compiled files that
+     * should be ignored by coverage.
+     * <ul><li>Default value is {@link #DEFAULT_IGNORE_DIR}</li>
+     * <li>Value can be defined by System property {@link #SYS_PROP_IGNORE_DIR}</li>
+     * <li>If this method is used, {@link #SYS_PROP_IGNORE_DIR} is ignored</li></ul>
+     * @param ignoreDirName 
+     * @since 1.1
+     */
+    public void setXSpecIgnoreDir(final String ignoreDirName) {
+        computedIgnoreDir = ignoreDirName;
+    }
+
+    // for unit tests only
+    String getXSpecIgnoreDir() {
+        return computedIgnoreDir;
+    }
+    // for unit tests only
+    String getGenerateTestsUtilsName() {
+        return computedGenerateTestUtilsName;
+    }
 
 }
 
