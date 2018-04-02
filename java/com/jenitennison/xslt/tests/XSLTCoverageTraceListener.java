@@ -150,10 +150,10 @@ public class XSLTCoverageTraceListener implements TraceListener {
         int lineNumber = info.getLineNumber();
         String systemId = info.getSystemId();
         int constructType = info.getConstructType();
-        if (utilsStylesheet == null && systemId.contains("generate-tests-utils.xsl")) {
+        if (utilsStylesheet == null && systemId.contains(computedGenerateTestUtilsName)) {
             utilsStylesheet = systemId;
             out.println("<u u=\"" + systemId + "\" />");
-        } else if (xspecStylesheet == null && systemId.contains("/xspec/")) {
+        } else if (xspecStylesheet == null && systemId.contains(computedIgnoreDir)) {
             xspecStylesheet = systemId;
             out.println("<x u=\"" + systemId + "\" />");
         }
