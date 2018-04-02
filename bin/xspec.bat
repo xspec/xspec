@@ -69,35 +69,19 @@ rem ##
     goto :EOF
 
 :xslt
-    java -cp "%CP%" net.sf.saxon.Transform %*
-    goto :EOF
-
-:win_xslt_trace
-    rem
-    rem Inner Redirect:
-    rem    By swapping stdout and stderr, send stderr to pipe (as stdout)
-    rem    while allowing original stdout to survive (as stderr)
-    rem
-    rem Pipe:
-    rem    To keep the output XML well-formed, remove the stdout lines
-    rem    that don't look like XML element, assuming %COVERAGE_CLASS%
-    rem    emits every required line in this format
-    rem
-    rem Outer Redirect:
-    rem    To restore the original direction, swap stdout and stderr again 
-    rem
-    ( java -cp "%CP%" net.sf.saxon.Transform %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    java ^
+        -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="%GENERATE_TESTS_UTILS%" ^
+        -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="%TEST_DIR%" ^
+        -Dcom.jenitennison.xsl.tests.coverage.output="%COVERAGE_XML%" ^
+        -cp "%CP%" net.sf.saxon.Transform %*
     goto :EOF
 
 :xquery
-    java -cp "%CP%" net.sf.saxon.Query %*
-    goto :EOF
-
-:win_xquery_trace
-    rem
-    rem As for redirect and pipe, see :win_xslt_trace
-    rem
-    ( java -cp "%CP%" net.sf.saxon.Query %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    java ^
+        -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="%GENERATE_TESTS_UTILS%" ^
+        -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="%TEST_DIR%" ^
+        -Dcom.jenitennison.xsl.tests.coverage.output="%COVERAGE_XML%" ^
+        -cp "%CP%" net.sf.saxon.Query %*
     goto :EOF
 
 :win_reset_options
@@ -455,6 +439,7 @@ set RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-result.xml
 set HTML=%TEST_DIR%\%TARGET_FILE_NAME%-result.html
 set JUNIT_RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-junit.xml
 set COVERAGE_CLASS=com.jenitennison.xslt.tests.XSLTCoverageTraceListener
+set GENERATE_TESTS_UTILS=%XSPEC_HOME%\src\compiler\generate-tests-utils.xsl
 
 if not exist "%TEST_DIR%" (
     call :win_echo "Creating XSpec Directory at %TEST_DIR%..."
@@ -493,10 +478,10 @@ if defined XSLT (
     rem # for XSLT
     rem
     if defined COVERAGE (
-        echo Collecting test coverage data; suppressing progress report...
-        call :win_xslt_trace -T:%COVERAGE_CLASS% ^
+        echo Collecting test coverage data...
+        call :xslt -T:%COVERAGE_CLASS% ^
             -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
-            -it:{http://www.jenitennison.com/xslt/xspec}main 2> "%COVERAGE_XML%" ^
+            -it:{http://www.jenitennison.com/xslt/xspec}main ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xslt -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
@@ -508,9 +493,9 @@ if defined XSLT (
     rem # for XQuery
     rem
     if defined COVERAGE (
-        echo Collecting test coverage data; suppressing progress report...
-        call :win_xquery_trace -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" 2> "%COVERAGE_XML%" ^
+        echo Collecting test coverage data...
+        call :xquery -T:%COVERAGE_CLASS% ^
+            -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xquery -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" ^
