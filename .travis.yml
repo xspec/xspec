@@ -9,13 +9,13 @@ env:
         - XML_RESOLVER_CP=/tmp/xspec/xml-resolver/xml-resolver.jar
     matrix:
         # latest Saxon 9.8 version
-        - SAXON_VERSION=9.8.0-11
+        - SAXON_VERSION=9.8.0-8
         # latest Saxon 9.7 version
         - SAXON_VERSION=9.7.0-21
           XMLCALABASH_VERSION=1.1.19-97
           BASEX_VERSION=8.6.4
         # Saxon version used in oXygen
-        - SAXON_VERSION=9.8.0-8
+        - SAXON_VERSION=9.7.0-19
 
 before_install:
     - unset _JAVA_OPTIONS
