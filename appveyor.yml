@@ -8,12 +8,12 @@ environment:
     XML_RESOLVER_CP: '%TEMP%\xspec\xml-resolver\xml-resolver.jar'
   matrix:
     # latest Saxon 9.8 version
-    - SAXON_VERSION: 9.8.0-8
+    - SAXON_VERSION: 9.8.0-11
     # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-21
       XMLCALABASH_VERSION: 1.1.19-97
     # Saxon version used in oXygen
-    - SAXON_VERSION: 9.7.0-19
+    - SAXON_VERSION: 9.8.0-8
 
 install:
 - ps: >-
