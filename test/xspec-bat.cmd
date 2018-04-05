@@ -542,7 +542,7 @@ setlocal
     call :setup "Schema detects no error in known good tests"
 
     if defined JING_CP (
-        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc catalog\*.xspec schematron\*.xspec
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc catalog\*.xspec end-to-end\cases\*.xspec schematron\*.xspec
         call :verify_retval 0
     ) else (
         call :skip "Schema validation for known good tests skipped"
