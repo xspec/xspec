@@ -23,7 +23,10 @@
     </t:expect>
   </t:scenario>
 
-  <!-- TODO: Make two different cases for the base t:apply and with param. -->
+  <!-- TODO: Make two different cases for the base t:apply and with param.
+       TODO: Uncomment these two scenarios, after defining x:variable and x:apply in the XSpec schema: xspec/xspec#60
+       TODO: Remove pending attributes from these two scenarios, after finishing implementing x:apply. -->
+  <!--
   <t:scenario label="x:apply with correct x:expect" pending="not implemented yet">
     <t:variable name="ctxt" as="element()">
       <rule/>
@@ -46,6 +49,7 @@
       <erroneous/>
     </t:expect>
   </t:scenario>
+  -->
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
