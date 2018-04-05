@@ -35,7 +35,14 @@ for %%I in ("%CASES_DIR%\*.xspec") do (
     rem
     rem Generate the report HTML
     rem
-    "%COMSPEC%" /c ..\..\bin\xspec.bat "%%~I" > NUL 2>&1
+    call :check_test_type "%%~nI"
+    if errorlevel 2 (
+      "%COMSPEC%" /c ..\..\bin\xspec.bat -s "%%~I" > NUL 2>&1
+    ) else if errorlevel 1 (
+      "%COMSPEC%" /c ..\..\bin\xspec.bat -q "%%~I" > NUL 2>&1
+    ) else (
+      "%COMSPEC%" /c ..\..\bin\xspec.bat "%%~I" > NUL 2>&1
+    )
 
     rem
     rem Compare with the expected HTML
@@ -59,3 +66,15 @@ rem
 rem Exit as success
 rem
 exit /b 0
+
+:check_test_type
+    set var=%~1
+    if "%var:~0,6%"=="xquery" (
+        set TEST_TYPE=1
+    ) else if "%var:~0,10%"=="schematron" (
+        set TEST_TYPE=2
+    ) else (
+        set TEST_TYPE=0
+    )
+    exit /b %TEST_TYPE%
+

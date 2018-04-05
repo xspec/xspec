@@ -29,6 +29,7 @@
 
     <xsl:template match="x:report">
         <testsuites>
+            <xsl:attribute name="name" select="@xspec"/>
             <xsl:apply-templates select="x:scenario"/>
         </testsuites>
     </xsl:template>

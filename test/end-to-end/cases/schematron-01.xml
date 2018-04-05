@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article>
+    <title>Example</title>
+    <section>
+        <title>Introduction</title>
+        <p>Welcome to demo 3!</p>
+    </section>
+    <section>
+        <p>This is an example.</p>
+    </section>
+    <section>
+        <p>Scenario excpect's can specify a location in the context XML that an assert or report is expected to identify.</p>
+    </section>
+</article>
