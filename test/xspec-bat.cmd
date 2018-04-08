@@ -151,7 +151,8 @@ endlocal
 setlocal
     call :setup "invoking code coverage with Saxon9EE creates test stylesheet"
 
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar
+    rem Append non-Saxon jar to see if SAXON_CP is parsed correctly
+    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar;%XML_RESOLVER_CP%
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1

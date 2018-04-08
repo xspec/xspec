@@ -111,7 +111,8 @@ teardown() {
 
 
 @test "invoking code coverage with Saxon9EE creates test stylesheet" {
-    export SAXON_CP=/path/to/saxon9ee.jar
+    # Append non-Saxon jar to see if SAXON_CP is parsed correctly
+    export SAXON_CP="/path/to/saxon9ee.jar:$XML_RESOLVER_CP"
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
   	echo $output
     [ "$status" -eq 1 ]
