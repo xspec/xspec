@@ -337,9 +337,9 @@ rem ##
 rem
 
 rem
-rem JAR filename
+rem Saxon jar filename
 rem
-for %%I in ("%SAXON_CP%") do set WIN_SAXON_CP_N=%%~nI
+for %%I in ("%SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set WIN_SAXON_JAR_N=%%~nI
 
 rem
 rem Parse command line
@@ -385,7 +385,7 @@ rem
 rem # Coverage
 rem
 if defined COVERAGE (
-    if /i not "%WIN_SAXON_CP_N%"=="saxon9pe" if /i not "%WIN_SAXON_CP_N%"=="saxon9ee" (
+    if /i not "%WIN_SAXON_JAR_N%"=="saxon9pe" if /i not "%WIN_SAXON_JAR_N%"=="saxon9ee" (
         echo Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE.
         exit /b 1
     )
@@ -395,7 +395,7 @@ rem
 rem # JUnit report
 rem
 if defined JUNIT (
-    if /i "%WIN_SAXON_CP_N:~0,6%"=="saxon8" (
+    if /i "%WIN_SAXON_JAR_N:~0,6%"=="saxon8" (
         echo Saxon8 detected. JUnit report requires Saxon9.
         exit /b 1
     )
@@ -440,7 +440,7 @@ rem Deprecated 'coverage' option
 rem
 if defined WIN_DEPRECATED_COVERAGE (
     echo Long-form option 'coverage' deprecated, use '-c' instead.
-    if /i not "%WIN_SAXON_CP_N%"=="saxon9pe" if /i not "%WIN_SAXON_CP_N%"=="saxon9ee" (
+    if /i not "%WIN_SAXON_JAR_N%"=="saxon9pe" if /i not "%WIN_SAXON_JAR_N%"=="saxon9ee" (
         echo Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE.
         exit /b 1
     )
@@ -450,7 +450,7 @@ if defined WIN_DEPRECATED_COVERAGE (
 rem
 rem Env var no longer necessary
 rem
-set WIN_SAXON_CP_N=
+set WIN_SAXON_JAR_N=
 
 rem
 rem ##
