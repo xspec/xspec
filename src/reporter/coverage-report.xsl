@@ -21,6 +21,9 @@
 
 <xsl:param name="pwd"   as="xs:string" required="yes"/>
 <xsl:param name="tests" as="xs:string" required="yes"/>
+<xsl:param name="report-css-uri" select="
+    resolve-uri('test-report.css', static-base-uri())"/>
+
 
 <xsl:variable name="tests-uri" as="xs:anyURI" select="
     resolve-uri(translate($tests, '\', '/'), $pwd)"/>
@@ -64,7 +67,7 @@
     <head>
       <title>Test Coverage Report for <xsl:value-of select="test:format-URI($stylesheet-uri)" /></title>
       <link rel="stylesheet" type="text/css" 
-        href="{resolve-uri('test-report.css', static-base-uri())}" />
+        href="{$report-css-uri}"/>
     </head>
     <body>
       <h1>Test Coverage Report</h1>
