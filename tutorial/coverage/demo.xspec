@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="demo.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="'iron' element">
+		<x:context>
+			<iron weight="1" />
+		</x:context>
+		<x:expect label="is transformed to 'shield' element">
+			<shield weight="1" />
+		</x:expect>
+	</x:scenario>
+</x:description>
