@@ -22,6 +22,12 @@
 <xsl:param name="pwd"   as="xs:string" required="yes"/>
 <xsl:param name="tests" as="xs:string" required="yes"/>
 
+<xsl:param name="inline-css">false</xsl:param>
+  
+<xsl:param name="report-css-uri" select="
+    resolve-uri('test-report.css', static-base-uri())"/>
+
+
 <xsl:variable name="tests-uri" as="xs:anyURI" select="
     resolve-uri(translate($tests, '\', '/'), $pwd)"/>
 
@@ -63,8 +69,15 @@
   <html>
     <head>
       <title>Test Coverage Report for <xsl:value-of select="test:format-URI($stylesheet-uri)" /></title>
-      <link rel="stylesheet" type="text/css" 
-        href="{resolve-uri('test-report.css', static-base-uri())}" />
+      <xsl:if test="$inline-css = 'false'">
+         <link rel="stylesheet" type="text/css" 
+            href="{$report-css-uri}"/>
+      </xsl:if>
+      <xsl:if test="not($inline-css = 'false')">
+        <style type="text/css">
+          <xsl:value-of select="unparsed-text($report-css-uri)" disable-output-escaping="yes"/>
+        </style>
+      </xsl:if>
     </head>
     <body>
       <h1>Test Coverage Report</h1>

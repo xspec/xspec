@@ -1,0 +1,203 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.xspec</groupId>
+  <artifactId>xspec</artifactId>
+  <version>1.0.0</version>
+  
+  <name>XSpec implementation</name>
+  <description>A unit test framework for Xsl, XQuery and Schematron</description>
+  <inceptionYear>2008</inceptionYear>
+  <url>https://github.com/xspec/xspec</url>
+  
+  <licenses>
+    <license>
+      <name>The MIT License</name>
+      <distribution>repo | manually</distribution>
+      <url>https://opensource.org/licenses/MIT</url>
+      <comments>Copyright (c) 2008-2017 Jeni Tennison</comments>
+    </license>
+  </licenses>
+  
+  <developers>
+    <developer>
+      <name>Jeni Tennison</name>
+      <email>jeni@jenitennison.com</email>
+      <roles>
+        <role>creator</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Sandro Cirulli</name>
+      <email>sandro.cirulli@oup.com</email>
+      <roles>
+        <role>current maintainer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Florent George</name>
+      <email>fgeorges@fgeorges.org</email>
+      <roles>
+        <role>former maintainer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Christophe Marchand</name>
+      <email>christophe@marchand.top</email>
+      <roles>
+        <role>maven maintainer</role>
+      </roles>
+    </developer>
+  </developers>
+  
+  <scm>
+    <connection>scm:git:https://github.com/xspec/xspec.git</connection>
+    <developerConnection>scm:git:https://github.com/xspec/xspec.git</developerConnection>
+    <url>scm:git:https://github.com/xspec/xspec.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>xspec-io.ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>xspec-io.ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+  
+  <build>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <excludes>
+          <exclude>harnesses/**</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.7</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>2.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+          <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>com.code54.mojo</groupId>
+          <artifactId>buildversion-plugin</artifactId>
+          <version>1.0.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.code54.mojo</groupId>
+        <artifactId>buildversion-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>set-properties</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+            <manifestEntries>
+              <Build-Tag>${build-tag}</Build-Tag>
+              <Git-Commit>${build-commit}</Git-Commit>
+              <Git-Commit-Abbrev>${build-commit-abbrev}</Git-Commit-Abbrev>
+              <Build-Version>${build-version}</Build-Version>
+              <Build-Timestamp>${build-tstamp}</Build-Timestamp>
+              <Source-Repository>${project.scm.connection}</Source-Repository>
+              <Description>${project.description}</Description>
+              <Website>${project.url}</Website>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>2.5.3</version>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.7</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>xspec-io.ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+  
+  
+</project>

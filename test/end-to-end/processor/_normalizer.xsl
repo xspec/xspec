@@ -81,7 +81,7 @@
 				in:		<a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
 				out:	<a href="tested.xsl">tested.xsl</a>
 	-->
-	<xsl:template as="element(a)" match="/html/body/p[1]/a" mode="local:normalize">
+	<xsl:template as="element(a)" match="/html/body/p[position() = (1, 2)]/a" mode="local:normalize">
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute()" />
 			<xsl:attribute name="href" select="util:filename-and-extension(@href)" />
@@ -96,7 +96,7 @@
 				in:		<p>Tested: 23 February 2017 at 11:18</p>
 				out:	<p>Tested: ONCE-UPON-A-TIME</p>
 	-->
-	<xsl:template as="text()" match="/html/body/p[2]/text()" mode="local:normalize">
+	<xsl:template as="text()" match="/html/body/p[3]/text()" mode="local:normalize">
 		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
 		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
 			<xsl:matching-substring>
