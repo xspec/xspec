@@ -590,6 +590,7 @@ if defined COVERAGE (
         -xsl:"%XSPEC_HOME%\src\reporter\coverage-report.xsl" ^
         tests="file:/%WIN_XSPEC_ABS:\\=/\\%" ^
         pwd="file:/%CD:\=/%/" ^
+        inline-css=true ^
         || ( call :die "Error formating the coverage report" & goto :win_main_error_exit )
     call :win_echo "Report available at %COVERAGE_HTML%"
     rem %OPEN% "%COVERAGE_HTML%"

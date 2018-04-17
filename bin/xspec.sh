@@ -374,6 +374,7 @@ if test -n "$COVERAGE"; then
         -xsl:"$XSPEC_HOME/src/reporter/coverage-report.xsl" \
         "tests=$XSPEC" \
         "pwd=file:`pwd`/" \
+        inline-css=true \
         || die "Error formating the coverage report"
     echo "Report available at $COVERAGE_HTML"
     #$OPEN "$COVERAGE_HTML"
