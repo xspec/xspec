@@ -15,7 +15,7 @@ description =
 		common-attributes,
 		attribute stylesheet { xs:anyURI }?,
 		attribute query { xs:anyURI }?,
-		attribute xslt-version { xs:NMTOKEN }?,
+		attribute xslt-version { xs:decimal }?,
 		attribute query-at { xs:anyURI }?,
 		attribute version { xs:decimal }?,		
 		attribute preserve-space { xs:NMTOKENS }?,
