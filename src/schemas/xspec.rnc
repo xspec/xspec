@@ -17,7 +17,7 @@ description =
 		attribute query { xs:anyURI }?,
 		attribute xslt-version { xs:NMTOKEN }?,
 		attribute query-at { xs:anyURI }?,
-		attribute version { xs:NMTOKEN }?,		
+		attribute version { xs:decimal }?,		
 		attribute preserve-space { xs:NMTOKENS }?,
 		attribute schematron { xs:anyURI }?,
 		(global-param | import | scenario | pending)+ }
