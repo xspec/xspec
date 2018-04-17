@@ -19,7 +19,7 @@ declare function test:deep-equal($seq1 as item()*, $seq2 as item()*) as xs:boole
 declare function test:deep-equal(
     $seq1 as item()*,
     $seq2 as item()*,
-    $version as xs:double
+    $version as xs:decimal
   ) as xs:boolean
 {
   if ( $version = 1.0 ) then

@@ -74,7 +74,7 @@
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="x:gather-specs">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="
-             ( @xslt-version, '2.0' )[1]"/>
+             ( @xslt-version, 2.0 )[1]"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="
              for $qname in tokenize(@preserve-space, '\s+') return
                resolve-QName($qname, .)"/>
@@ -82,7 +82,7 @@
    </xsl:template>
 
    <xsl:template match="x:scenario" mode="x:gather-specs">
-      <xsl:param name="xslt-version" as="xs:string" tunnel="yes" required="yes"/>
+      <xsl:param name="xslt-version" as="xs:decimal" tunnel="yes" required="yes"/>
       <x:scenario xslt-version="{$xslt-version}">
          <xsl:copy-of select="@*"/>
          <xsl:apply-templates mode="x:gather-specs"/>
