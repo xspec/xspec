@@ -218,8 +218,8 @@ teardown() {
 }
 
 
-@test "invoking xspec.sh with path containing parentheses #84 or an apostrophe #119 runs successfully and generates HTML report file" {
-	special_chars_dir="${work_dir}/some'path (84)"
+@test "invoking xspec.sh with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs successfully and generates HTML report file" {
+	special_chars_dir="${work_dir}/some'path (84) here & there"
 	mkdir "${special_chars_dir}"
 	cp ../tutorial/escape-for-regex.* "${special_chars_dir}"
 

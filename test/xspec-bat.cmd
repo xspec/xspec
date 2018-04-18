@@ -278,13 +278,13 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec.bat with path containing parentheses #84 or an apostrophe #119 runs successfully and generates HTML report file"
+    call :setup "invoking xspec.bat with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs successfully and generates HTML report file"
 
-    set SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84)
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here & there"
     call :mkdir "%SPECIAL_CHARS_DIR%"
     copy ..\tutorial\escape-for-regex.* "%SPECIAL_CHARS_DIR%" > NUL
 
-    set EXPECTED_REPORT=%SPECIAL_CHARS_DIR%\xspec\escape-for-regex-result.html
+    set "EXPECTED_REPORT=%SPECIAL_CHARS_DIR%\xspec\escape-for-regex-result.html"
 
     call :run ..\bin\xspec.bat "%SPECIAL_CHARS_DIR%\escape-for-regex.xspec"
     call :verify_retval 0
