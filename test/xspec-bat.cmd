@@ -606,6 +606,15 @@ rem
 rem Subroutines
 rem
 
+:echo
+    rem
+    rem Prints a message removing its surrounding quotes (")
+    rem
+    set "ECHO_LINE=%~1"
+    setlocal enabledelayedexpansion
+    echo !ECHO_LINE!
+    goto :EOF
+
 :del
     if exist %1 (
         del /q %1
@@ -643,7 +652,7 @@ rem
     rem
     set "CASE_NAME=%~1"
     call :appveyor AddTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Running
-    echo CASE: %CASE_NAME%
+    call :echo "CASE: %CASE_NAME%"
     (echo # "%CASE_NAME%") >> "%RESULTS_FILE%"
 
     rem
@@ -687,19 +696,19 @@ rem
     goto :EOF
 
 :verified
-    echo ...Verified: %~1
+    call :echo "...Verified: %~1"
     if not defined CASE_RESULT set CASE_RESULT=0
     goto :EOF
 
 :failed
-    echo ...FAIL: %~1
+    call :echo "...FAIL: %~1"
     set CASE_RESULT=1
     (echo %CASE_RESULT%) >> "%RESULTS_FILE%"
     if defined CASE_NAME call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Failed -Duration 0 -ErrorMessage %1
     goto :EOF
 
 :skip
-    echo ...SKIP: %~1
+    call :echo "...SKIP: %~1"
     set CASE_RESULT=2
     (echo # %1) >> "%RESULTS_FILE%"
     call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Skipped -Duration 0
