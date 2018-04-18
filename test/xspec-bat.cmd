@@ -15,7 +15,7 @@ if errorlevel 1 (
 rem
 rem Results log file
 rem
-set RESULTS_FILE=%TEMP%\%~n0_results.log
+set "RESULTS_FILE=%TEMP%\%~n0_results.log"
 call :del "%RESULTS_FILE%"
 
 rem
@@ -23,18 +23,18 @@ rem Work directory
 rem  - Created at :setup
 rem  - Removed recursively at :teardown
 rem
-set WORK_DIR=%TEMP%\%~n0_work
+set "WORK_DIR=%TEMP%\%~n0_work"
 
 rem
 rem Output log files for :run
 rem
-set OUTPUT_RAW=%WORK_DIR%\run_raw.log
-set OUTPUT_LINENUM=%WORK_DIR%\run_linenum.log
+set "OUTPUT_RAW=%WORK_DIR%\run_raw.log"
+set "OUTPUT_LINENUM=%WORK_DIR%\run_linenum.log"
 
 rem
 rem Name and extension of this file
 rem
-set THIS_FILE_NX=%~nx0
+set "THIS_FILE_NX=%~nx0"
 
 rem
 rem Go to the directory where this script resides
@@ -44,7 +44,7 @@ pushd "%~dp0"
 rem
 rem Full path to the parent directory
 rem
-for %%I in (..) do set PARENT_DIR_ABS=%%~fI
+for %%I in (..) do set "PARENT_DIR_ABS=%%~fI"
 
 echo === START TEST CASES ================================================
 
@@ -245,7 +245,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with TEST_DIR already set externally generates files inside TEST_DIR"
 
-    set TEST_DIR=%WORK_DIR%
+    set "TEST_DIR=%WORK_DIR%"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
@@ -422,8 +422,8 @@ endlocal
 setlocal
     call :setup "Ant for Schematron with various properties except catalog"
 
-    set BUILD_XML=%WORK_DIR%\build.xml
-    set ANT_TEST_DIR=%WORK_DIR%\ant-temp
+    set "BUILD_XML=%WORK_DIR%\build.xml"
+    set "ANT_TEST_DIR=%WORK_DIR%\ant-temp"
 
     if defined ANT_VERSION (
         rem Remove a temp dir created by setup
@@ -590,7 +590,7 @@ if not defined EXIT_CODE (
     set EXIT_CODE=1
 )
 if %EXIT_CODE% NEQ 0 (
-    echo ---------- %RESULTS_FILE%
+    echo ---------- "%RESULTS_FILE%"
     type "%RESULTS_FILE%"
     echo ----------
 )
@@ -641,10 +641,10 @@ rem
     rem
     rem Report 'Running'
     rem
-    set CASE_NAME=%~1
+    set "CASE_NAME=%~1"
     call :appveyor AddTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Running
     echo CASE: %CASE_NAME%
-    (echo # %CASE_NAME%) >> "%RESULTS_FILE%"
+    (echo # "%CASE_NAME%") >> "%RESULTS_FILE%"
 
     rem
     rem Create the work directory
@@ -701,7 +701,7 @@ rem
 :skip
     echo ...SKIP: %~1
     set CASE_RESULT=2
-    (echo # %~1) >> "%RESULTS_FILE%"
+    (echo # %1) >> "%RESULTS_FILE%"
     call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Skipped -Duration 0
     goto :EOF
 
@@ -740,7 +740,7 @@ rem
         call :verified "Return value: %RETVAL%"
     ) else (
         call :failed "Return value is %RETVAL%. Expected %~1."
-        echo ---------- %OUTPUT_RAW%
+        echo ---------- "%OUTPUT_RAW%"
         type "%OUTPUT_RAW%"
         echo ----------
     )
@@ -783,7 +783,7 @@ rem
     )
     if errorlevel 1 (
         call :failed "Line %LINE_NUMBER% does not match the expected string"
-        echo ---------- %OUTPUT_LINENUM%
+        echo ---------- "%OUTPUT_LINENUM%"
         type "%OUTPUT_LINENUM%"
         echo ----------
     ) else (
@@ -797,7 +797,7 @@ rem
         call :verified "Line count: %~1"
     ) else (
         call :failed "Line count %LINE_COUNT% does not match the expected count %~1"
-        echo ---------- %OUTPUT_LINENUM%
+        echo ---------- "%OUTPUT_LINENUM%"
         type "%OUTPUT_LINENUM%"
         echo ----------
     )
