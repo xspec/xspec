@@ -61,6 +61,11 @@ test_script:
     java -cp "%SAXON_CP%" net.sf.saxon.Transform 2>&1 | find /i "saxon-"
 
 
+    rem Verify class target major version
+
+    javap -classpath java -verbose com.jenitennison.xslt.tests.XSLTCoverageTraceListener | findstr /x /c:"  major version: 5"
+
+
     rem execute xspec.bat unit tests
 
     test\xspec-bat.cmd
