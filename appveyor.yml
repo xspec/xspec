@@ -63,7 +63,7 @@ test_script:
 
     rem Verify class target major version
 
-    javap -classpath java -verbose com.jenitennison.xslt.tests.XSLTCoverageTraceListener | findstr /x /c:"  major version: 5"
+    javap -classpath java -verbose com.jenitennison.xslt.tests.XSLTCoverageTraceListener | findstr /x /c:"  major version: 50"
 
 
     rem execute xspec.bat unit tests

@@ -47,7 +47,7 @@ before_script:
 
 script:
     - ant -version
-    - javap -classpath java -verbose com.jenitennison.xslt.tests.XSLTCoverageTraceListener | grep -x "  major version:\s5"
+    - javap -classpath java -verbose com.jenitennison.xslt.tests.XSLTCoverageTraceListener | grep -x "  major version:\s50"
     - cd test
     - echo "execute bats unit tests"
     - bats --tap xspec.bats
