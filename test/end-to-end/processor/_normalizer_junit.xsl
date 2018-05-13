@@ -6,7 +6,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     
     <!-- output serialization parameters should be in line with XSPEC_HOME/src/reporter/junit-report.xsl -->
-    <xsl:output name="junit" method="xml" omit-xml-declaration="yes" indent="yes"/>
+    <xsl:output name="junit"/>
     
     <xsl:template match="/testsuites/@name" mode="local:normalize">
         <xsl:attribute name="{local-name()}" select="util:filename-and-extension(.)"/>
