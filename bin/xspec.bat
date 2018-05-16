@@ -532,64 +532,12 @@ call :xslt -o:"%HTML%" ^
     inline-css=true ^
     || ( call :die "Error formatting the report" & goto :win_main_error_exit )
 
-rem
-rem Absolute path of the XSPEC env var
-rem
-for %%I in ("%XSPEC%") do set WIN_XSPEC_ABS=%%~fI
-
 if defined COVERAGE (
-    rem
-    rem For $tests and $pwd, convert the native file path to a wannabe-
-    rem URI. The peculiar implementation of Java prefers the following
-    rem forms (if it's absolute).
-    rem
-    rem    For drive: file:/c:/dir/file
-    rem    For UNC:   file:////host/share/dir/file
-    rem
-    rem Note that in terms of the native file path, coverage-report.xsl
-    rem handles $tests and $pwd differently.
-    rem
-    rem    Scheme ('file:')
-    rem
-    rem        $tests
-    rem            The XSPEC env var may be absolute or relative. If
-    rem            relative, we need to omit 'file:' from $tests.
-    rem            For simplicity, we always obtain the absolute path of
-    rem            the XSPEC env var and prefix it with 'file:'.
-    rem
-    rem        $pwd
-    rem            The CD env var is always absolute. So we always prefix
-    rem            it with 'file:'.
-    rem
-    rem    '\' character
-    rem
-    rem        $tests
-    rem            coverage-report.xsl replaces '\' with '/'. You can
-    rem            leave '\' intact here.
-    rem
-    rem        $pwd
-    rem            coverage-report.xsl does nothing. You have to replace
-    rem            '\' with '/' here.
-    rem
-    rem    UNC
-    rem
-    rem        $tests
-    rem            You have to care about UNC.
-    rem
-    rem        $pwd
-    rem            You don't have to care about UNC. By default CMD.EXE
-    rem            does not accept UNC as the current directory.
-    rem
-    rem We don't escape any characters here. Too much for this simple
-    rem batch script. Fortunately Saxon 9.7 seems to be more tolerant of
-    rem space chars than 9.6.
-    rem
     call :xslt -l:on ^
         -o:"%COVERAGE_HTML%" ^
         -s:"%COVERAGE_XML%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\coverage-report.xsl" ^
-        tests="file:/%WIN_XSPEC_ABS:\\=/\\%" ^
-        pwd="file:/%CD:\=/%/" ^
+        tests="%XSPEC%" ^
         inline-css=true ^
         || ( call :die "Error formating the coverage report" & goto :win_main_error_exit )
     call :win_echo "Report available at %COVERAGE_HTML%"
