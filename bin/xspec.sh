@@ -36,16 +36,17 @@ usage() {
         echo "$1"
         echo;
     fi
-    echo "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]"
+    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
     echo
-    echo "  filename   the XSpec document"
-    echo "  -t         test an XSLT stylesheet (the default)"
-    echo "  -q         test an XQuery module (mutually exclusive with -t and -s)"
-    echo "  -s         test a Schematron schema (mutually exclusive with -t and -q)"
-    echo "  -c         output test coverage report"
-    echo "  -j         output JUnit report"
-    echo "  -h         display this help message"
-    echo "  coverage   deprecated, use -c instead"
+    echo "  file           the XSpec document"
+    echo "  -t             test an XSLT stylesheet (the default)"
+    echo "  -q             test an XQuery module (mutually exclusive with -t and -s)"
+    echo "  -s             test a Schematron schema (mutually exclusive with -t and -q)"
+    echo "  -c             output test coverage report"
+    echo "  -j             output JUnit report"
+    echo "  -catalog file  use XML Catalog file to locate resources"
+    echo "  -h             display this help message"
+    echo "  coverage       deprecated, use -c instead"
 }
 
 die() {
@@ -68,14 +69,14 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
             --java -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="${GENERATE_TESTS_UTILS}" \
             --java -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="${TEST_DIR}" \
             --java -Dcom.jenitennison.xsl.tests.coverage.output="${COVERAGE_XML}" \
-            --add-cp "${XSPEC_HOME}/java/" --xsl "$@"
+            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
         saxon \
             --java -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="${GENERATE_TESTS_UTILS}" \
             --java -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="${TEST_DIR}" \
             --java -Dcom.jenitennison.xsl.tests.coverage.output="${COVERAGE_XML}" \
-            --add-cp "${XSPEC_HOME}/java/" --xq "$@"
+            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
     echo Saxon script not found, invoking JVM directly instead.
@@ -85,14 +86,14 @@ else
             -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="${GENERATE_TESTS_UTILS}" \
             -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="${TEST_DIR}" \
             -Dcom.jenitennison.xsl.tests.coverage.output="${COVERAGE_XML}" \
-            -cp "$CP" net.sf.saxon.Transform "$@"
+            -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
         java \
             -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="${GENERATE_TESTS_UTILS}" \
             -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="${TEST_DIR}" \
             -Dcom.jenitennison.xsl.tests.coverage.output="${COVERAGE_XML}" \
-            -cp "$CP" net.sf.saxon.Query "$@"
+            -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
 
@@ -159,6 +160,9 @@ if test -z "$SAXON_CP"; then
     	echo "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
 #        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
     fi
+    if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
+	   SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar";
+	fi
 fi
 
 CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
@@ -216,6 +220,10 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
 			    exit 1
 			fi
             JUNIT=1;;
+        # Catalog
+        -catalog)
+            shift
+            XML_CATALOG="$1";;
         # Help!
         -h)
             usage
@@ -227,6 +235,13 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
     esac
     shift;
 done
+
+# set CATALOG option for Saxon if XML_CATALOG has been set
+if test -n "$XML_CATALOG"; then
+    CATALOG="-catalog:$XML_CATALOG"
+else
+    CATALOG=
+fi
 
 # set XSLT if XQuery has not been set (that's the default)
 if test -z "$XQUERY"; then
@@ -390,7 +405,7 @@ if test -n "$COVERAGE"; then
         -s:"$COVERAGE_XML" \
         -xsl:"$XSPEC_HOME/src/reporter/coverage-report.xsl" \
         "tests=$XSPEC" \
-        "pwd=file:`pwd`/" \
+        inline-css=true \
         || die "Error formating the coverage report"
     echo "Report available at $COVERAGE_HTML"
     #$OPEN "$COVERAGE_HTML"

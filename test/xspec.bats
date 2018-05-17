@@ -21,6 +21,7 @@ setup() {
 	mkdir ../tutorial/xspec
 	mkdir ../test/xspec
 	mkdir ../tutorial/schematron/xspec
+	mkdir ../test/catalog/xspec
 }
 
 
@@ -28,6 +29,7 @@ teardown() {
 	rm -rf ../tutorial/xspec
 	rm -rf ../test/xspec
 	rm -rf ../tutorial/schematron/xspec
+	rm -rf ../test/catalog/xspec
 }
 
 
@@ -35,7 +37,7 @@ teardown() {
     run ../bin/xspec.sh
 	echo $output
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]" ]
+    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]" ]
 }
 
 
@@ -109,7 +111,8 @@ teardown() {
 
 
 @test "invoking code coverage with Saxon9EE creates test stylesheet" {
-    export SAXON_CP=/path/to/saxon9ee.jar
+    # Append non-Saxon jar to see if SAXON_CP is parsed correctly
+    export SAXON_CP="/path/to/saxon9ee.jar:$XML_RESOLVER_CP"
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
   	echo $output
     [ "$status" -eq 1 ]
@@ -417,4 +420,67 @@ teardown() {
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+}
+
+@test "invoking xspec.sh for XSLT with -catalog uses XML Catalog resolver" {
+    export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
+	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
+	echo $output
+	[ "$status" -eq 0 ]
+	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "invoking xspec.sh for XQuery with -catalog uses XML Catalog resolver" {
+    export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
+	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
+	echo $output
+	[ "$status" -eq 0 ]
+	[ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "invoking xspec.sh with XML_CATALOG set uses XML Catalog resolver" {
+    export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
+    export XML_CATALOG=catalog/catalog-01-catalog.xml
+	run ../bin/xspec.sh catalog/catalog-01-xslt.xspec
+	echo $output
+	[ "$status" -eq 0 ]
+	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "invoking xspec.sh using -catalog with spaces in file path uses XML Catalog resolver" {
+    mkdir cat\ a\ log
+    mkdir cat\ a\ log/xspec
+    cp catalog/catalog-01* cat\ a\ log
+    export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
+	run ../bin/xspec.sh -catalog cat\ a\ log/catalog-01-catalog.xml cat\ a\ log/catalog-01-xslt.xspec
+	echo $output
+	[ "$status" -eq 0 ]
+	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+	rm -rf cat\ a\ log
+}
+
+@test "invoking xspec.sh using XML_CATALOG with spaces in file path uses XML Catalog resolver" {
+    mkdir cat\ a\ log
+    mkdir cat\ a\ log/xspec
+    cp catalog/catalog-01* cat\ a\ log
+    export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
+    export XML_CATALOG=cat\ a\ log/catalog-01-catalog.xml
+	run ../bin/xspec.sh cat\ a\ log/catalog-01-xslt.xspec
+	echo $output
+	[ "$status" -eq 0 ]
+	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+	rm -rf cat\ a\ log
+}
+
+@test "invoking xspec.sh using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
+    export SAXON_HOME="${PWD}/saxon"
+    mkdir $SAXON_HOME
+    cp $SAXON_CP $SAXON_HOME
+    cp $XML_RESOLVER_CP $SAXON_HOME
+    export SAXON_CP=
+	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
+	echo $output
+	[ "$status" -eq 0 ]
+	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+	rm -rf $SAXON_HOME
 }

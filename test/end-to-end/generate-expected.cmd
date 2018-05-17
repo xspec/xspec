@@ -37,15 +37,43 @@ for %%I in ("%CASES_DIR%\*.xspec") do (
     rem
     rem Generate the report HTML
     rem
-    "%COMSPEC%" /c ..\..\bin\xspec.bat "%%~I"
+    call :check_test_type "%%~nI"
+    if errorlevel 2 (
+      "%COMSPEC%" /c ..\..\bin\xspec.bat -j -s "%%~I"
+    ) else if errorlevel 1 (
+      "%COMSPEC%" /c ..\..\bin\xspec.bat -j -q "%%~I"
+    ) else (
+      "%COMSPEC%" /c ..\..\bin\xspec.bat -j "%%~I"
+    )
 
     rem
     rem Normalize the report HTML
     rem
     java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-result-norm.html" -s:"%TEST_DIR%\%%~nI-result.html" -xsl:processor\normalize.xsl
+
+    rem
+    rem Normalize the JUnit report
+    rem
+    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-junit-norm.xml" -s:"%TEST_DIR%\%%~nI-junit.xml" -xsl:processor\normalize-junit.xsl
 )
 
 rem
 rem Go back to the initial directory
 rem
 popd
+
+rem
+rem Exit as success
+rem
+exit /b 0
+
+:check_test_type
+    set var=%~1
+    if "%var:~0,6%"=="xquery" (
+        set TEST_TYPE=1
+    ) else if "%var:~0,10%"=="schematron" (
+        set TEST_TYPE=2
+    ) else (
+        set TEST_TYPE=0
+    )
+    exit /b %TEST_TYPE%
