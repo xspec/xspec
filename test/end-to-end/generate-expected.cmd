@@ -39,17 +39,22 @@ for %%I in ("%CASES_DIR%\*.xspec") do (
     rem
     call :check_test_type "%%~nI"
     if errorlevel 2 (
-      "%COMSPEC%" /c ..\..\bin\xspec.bat -s "%%~I"
+      "%COMSPEC%" /c ..\..\bin\xspec.bat -j -s "%%~I"
     ) else if errorlevel 1 (
-      "%COMSPEC%" /c ..\..\bin\xspec.bat -q "%%~I"
+      "%COMSPEC%" /c ..\..\bin\xspec.bat -j -q "%%~I"
     ) else (
-      "%COMSPEC%" /c ..\..\bin\xspec.bat "%%~I"
+      "%COMSPEC%" /c ..\..\bin\xspec.bat -j "%%~I"
     )
 
     rem
     rem Normalize the report HTML
     rem
     java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-result-norm.html" -s:"%TEST_DIR%\%%~nI-result.html" -xsl:processor\normalize.xsl
+
+    rem
+    rem Normalize the JUnit report
+    rem
+    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-junit-norm.xml" -s:"%TEST_DIR%\%%~nI-junit.xml" -xsl:processor\normalize-junit.xsl
 )
 
 rem

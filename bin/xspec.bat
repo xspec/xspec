@@ -47,16 +47,17 @@ rem ##
         call :win_echo %1
         echo:
     )
-    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-h] filename [coverage]
+    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog file^|-h] file [coverage]
     echo:
-    echo   filename   the XSpec document
-    echo   -t         test an XSLT stylesheet (the default)
-    echo   -q         test an XQuery module (mutually exclusive with -t and -s)
-    echo   -s         test a Schematron schema (mutually exclusive with -t and -q)
-    echo   -c         output test coverage report
-    echo   -j         output JUnit report
-    echo   -h         display this help message
-    echo   coverage   deprecated, use -c instead
+    echo   file           the XSpec document
+    echo   -t             test an XSLT stylesheet (the default)
+    echo   -q             test an XQuery module (mutually exclusive with -t and -s)
+    echo   -s             test a Schematron schema (mutually exclusive with -t and -q)
+    echo   -c             output test coverage report
+    echo   -j             output JUnit report
+    echo   -catalog file  use XML Catalog file to locate resources
+    echo   -h             display this help message
+    echo   coverage       deprecated, use -c instead
     goto :EOF
 
 :die
@@ -69,7 +70,7 @@ rem ##
     goto :EOF
 
 :xslt
-    java -cp "%CP%" net.sf.saxon.Transform %*
+    java -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
 :win_xslt_trace
@@ -86,18 +87,18 @@ rem ##
     rem Outer Redirect:
     rem    To restore the original direction, swap stdout and stderr again 
     rem
-    ( java -cp "%CP%" net.sf.saxon.Transform %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    ( java -cp "%CP%" net.sf.saxon.Transform %CATALOG% %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
     goto :EOF
 
 :xquery
-    java -cp "%CP%" net.sf.saxon.Query %*
+    java -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 
 :win_xquery_trace
     rem
     rem As for redirect and pipe, see :win_xslt_trace
     rem
-    ( java -cp "%CP%" net.sf.saxon.Query %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    ( java -cp "%CP%" net.sf.saxon.Query %CATALOG% %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
     goto :EOF
 
 :win_reset_options
@@ -112,6 +113,7 @@ rem ##
     set WIN_DEPRECATED_COVERAGE=
     set WIN_EXTRA_OPTION=
     set XSPEC=
+    set CATALOG=
     goto :EOF
 
 :win_get_options
@@ -131,6 +133,9 @@ rem ##
         set JUNIT=1
     ) else if "%WIN_ARGV%"=="-h" (
         set WIN_HELP=1
+    ) else if "%WIN_ARGV%"=="-catalog" (
+        set "XML_CATALOG=%~2"
+        shift
     ) else if "%WIN_ARGV:~0,1%"=="-" (
         set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
     ) else if defined XSPEC (
@@ -319,6 +324,11 @@ if not defined SAXON_CP (
         call :win_echo "Saxon jar cannot be found in SAXON_HOME: %SAXON_HOME%"
     )
 )
+if defined SAXON_HOME (
+    if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
+        set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
+    )
+)
 
 set "CP=%SAXON_CP%;%XSPEC_HOME%\java"
 
@@ -329,15 +339,22 @@ rem ##
 rem
 
 rem
-rem JAR filename
+rem Saxon jar filename
 rem
-for %%I in ("%SAXON_CP%") do set "WIN_SAXON_CP_N=%%~nI"
+for %%I in ("%SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
 
 rem
 rem Parse command line
 rem
 call :win_reset_options
 call :win_get_options %*
+
+rem
+rem # set CATALOG option for Saxon if XML_CATALOG has been set
+rem
+if defined XML_CATALOG (
+    set CATALOG=-catalog:"%XML_CATALOG%"
+)
 
 rem
 rem # Schematron
@@ -370,7 +387,7 @@ rem
 rem # Coverage
 rem
 if defined COVERAGE (
-    if /i not "%WIN_SAXON_CP_N%"=="saxon9pe" if /i not "%WIN_SAXON_CP_N%"=="saxon9ee" (
+    if /i not "%WIN_SAXON_JAR_N%"=="saxon9pe" if /i not "%WIN_SAXON_JAR_N%"=="saxon9ee" (
         echo Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE.
         exit /b 1
     )
@@ -380,7 +397,7 @@ rem
 rem # JUnit report
 rem
 if defined JUNIT (
-    if /i "%WIN_SAXON_CP_N:~0,6%"=="saxon8" (
+    if /i "%WIN_SAXON_JAR_N:~0,6%"=="saxon8" (
         echo Saxon8 detected. JUnit report requires Saxon9.
         exit /b 1
     )
@@ -425,7 +442,7 @@ rem Deprecated 'coverage' option
 rem
 if defined WIN_DEPRECATED_COVERAGE (
     echo Long-form option 'coverage' deprecated, use '-c' instead.
-    if /i not "%WIN_SAXON_CP_N%"=="saxon9pe" if /i not "%WIN_SAXON_CP_N%"=="saxon9ee" (
+    if /i not "%WIN_SAXON_JAR_N%"=="saxon9pe" if /i not "%WIN_SAXON_JAR_N%"=="saxon9ee" (
         echo Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE.
         exit /b 1
     )
@@ -435,7 +452,7 @@ if defined WIN_DEPRECATED_COVERAGE (
 rem
 rem Env var no longer necessary
 rem
-set WIN_SAXON_CP_N=
+set WIN_SAXON_JAR_N=
 
 rem
 rem ##
@@ -534,64 +551,12 @@ call :xslt -o:"%HTML%" ^
     inline-css=true ^
     || ( call :die "Error formatting the report" & goto :win_main_error_exit )
 
-rem
-rem Absolute path of the XSPEC env var
-rem
-for %%I in ("%XSPEC%") do set "WIN_XSPEC_ABS=%%~fI"
-
 if defined COVERAGE (
-    rem
-    rem For $tests and $pwd, convert the native file path to a wannabe-
-    rem URI. The peculiar implementation of Java prefers the following
-    rem forms (if it's absolute).
-    rem
-    rem    For drive: file:/c:/dir/file
-    rem    For UNC:   file:////host/share/dir/file
-    rem
-    rem Note that in terms of the native file path, coverage-report.xsl
-    rem handles $tests and $pwd differently.
-    rem
-    rem    Scheme ('file:')
-    rem
-    rem        $tests
-    rem            The XSPEC env var may be absolute or relative. If
-    rem            relative, we need to omit 'file:' from $tests.
-    rem            For simplicity, we always obtain the absolute path of
-    rem            the XSPEC env var and prefix it with 'file:'.
-    rem
-    rem        $pwd
-    rem            The CD env var is always absolute. So we always prefix
-    rem            it with 'file:'.
-    rem
-    rem    '\' character
-    rem
-    rem        $tests
-    rem            coverage-report.xsl replaces '\' with '/'. You can
-    rem            leave '\' intact here.
-    rem
-    rem        $pwd
-    rem            coverage-report.xsl does nothing. You have to replace
-    rem            '\' with '/' here.
-    rem
-    rem    UNC
-    rem
-    rem        $tests
-    rem            You have to care about UNC.
-    rem
-    rem        $pwd
-    rem            You don't have to care about UNC. By default CMD.EXE
-    rem            does not accept UNC as the current directory.
-    rem
-    rem We don't escape any characters here. Too much for this simple
-    rem batch script. Fortunately Saxon 9.7 seems to be more tolerant of
-    rem space chars than 9.6.
-    rem
     call :xslt -l:on ^
         -o:"%COVERAGE_HTML%" ^
         -s:"%COVERAGE_XML%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\coverage-report.xsl" ^
-        tests="file:/%WIN_XSPEC_ABS:\\=/\\%" ^
-        pwd="file:/%CD:\=/%/" ^
+        tests="%XSPEC%" ^
         inline-css=true ^
         || ( call :die "Error formating the coverage report" & goto :win_main_error_exit )
     call :win_echo "Report available at %COVERAGE_HTML%"
