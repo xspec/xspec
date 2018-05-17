@@ -53,7 +53,7 @@ setlocal
 
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
 
     call :teardown
 endlocal
@@ -151,7 +151,8 @@ endlocal
 setlocal
     call :setup "invoking code coverage with Saxon9EE creates test stylesheet"
 
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar
+    rem Append non-Saxon jar to see if SAXON_CP is parsed correctly
+    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar;%XML_RESOLVER_CP%
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
@@ -526,6 +527,87 @@ setlocal
 endlocal
 
 setlocal
+    call :setup "invoking xspec.bat for XSLT with -catalog uses XML Catalog resolver"
+
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat for XQuery with -catalog uses XML Catalog resolver"
+
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml -q catalog\catalog-01-xquery.xspec
+    call :verify_retval 0
+    call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat with XML_CATALOG set uses XML Catalog resolver"
+
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set XML_CATALOG=catalog\catalog-01-catalog.xml
+    call :run ..\bin\xspec.bat catalog\catalog-01-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat using -catalog with spaces in file path uses XML Catalog resolver"
+
+    set SPACE_DIR=%WORK_DIR%\cat a log
+    call :mkdir "%SPACE_DIR%\xspec"
+    copy catalog\catalog-01* "%SPACE_DIR%"
+    
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat using XML_CATALOG with spaces in file path uses XML Catalog resolver"
+
+    set SPACE_DIR=%WORK_DIR%\cat a log
+    call :mkdir "%SPACE_DIR%\xspec"
+    copy catalog\catalog-01* "%SPACE_DIR%"
+    
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "XML_CATALOG=%SPACE_DIR%\catalog-01-catalog.xml"
+    call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01-xslt.xspec"
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
+
+    set "SAXON_HOME=%WORK_DIR%\saxon"
+    call :mkdir %SAXON_HOME%
+    copy %SAXON_CP% %SAXON_HOME%
+    copy %XML_RESOLVER_CP% %SAXON_HOME%
+    set SAXON_CP=
+    
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "Import order with xspec.bat #185"
 
     rem Make the line numbers predictable by providing an existing output dir
@@ -656,6 +738,7 @@ rem
     call :mkdir ..\test\xspec
     call :mkdir ..\tutorial\xspec
     call :mkdir ..\tutorial\schematron\xspec
+    call :mkdir ..\test\catalog\xspec
 
     goto :EOF
 
@@ -666,6 +749,7 @@ rem
     call :rmdir ..\test\xspec
     call :rmdir ..\tutorial\xspec
     call :rmdir ..\tutorial\schematron\xspec
+    call :rmdir ..\test\catalog\xspec
 
     rem
     rem Remove the work directory

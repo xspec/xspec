@@ -13,6 +13,9 @@
     <xsl:variable name="warn" select="('warn', 'warning')"/>
     <xsl:variable name="info" select="('info', 'information')"/>
 
+    <!-- Fix 'file:C:/...' (https://issues.apache.org/jira/browse/XMLCOMMONS-24) -->
+    <xsl:variable name="base-uri" as="xs:string" select="replace(base-uri(), '^(file:)([^/])', '$1/$2')"/>
+
 
     <xsl:template match="@* | node()" priority="-2">
         <xsl:copy>
@@ -24,23 +27,15 @@
         <xsl:element name="x:description">
             <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
             <xsl:apply-templates select="@*[not(name() = ('stylesheet'))]"/>
-            <xsl:element name="x:scenario">
-                <xsl:attribute name="label">
-                    <xsl:text>Schematron: "</xsl:text>
-                    <xsl:value-of select="@schematron"/>
-                    <xsl:text>"</xsl:text>
-                    <xsl:if test="x:param[@name='phase']">
-                        <xsl:value-of select="concat(' phase: ', x:param[@name='phase'][1]/(@select,string())[1])"/>
-                    </xsl:if>
-                </xsl:attribute>
-            </xsl:element>
             <xsl:apply-templates select="node()"/>
         </xsl:element>
     </xsl:template>
 
     <xsl:template match="@schematron">
+        <xsl:attribute name="xspec-original-location" select="$base-uri"/>
         <xsl:attribute name="stylesheet" select="$stylesheet"/>
         <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
+        <xsl:attribute name="schematron" select="$path"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
             <xsl:namespace name="{./@prefix}" select="./@uri"/>
         </xsl:for-each>

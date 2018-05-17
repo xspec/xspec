@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuites name="xquery-tutorial.xspec"><testsuite name="Calling function capitalize-first" tests="1" failures="0"><testcase name="should capitalize the first character of the string" status="passed"/></testsuite></testsuites>
