@@ -19,6 +19,10 @@
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
    <xsl:preserve-space elements="x:space"/>
+   
+   <!-- Fix 'file:C:/...' (https://issues.apache.org/jira/browse/XMLCOMMONS-24) -->
+   <xsl:variable name="base-uri" as="xs:string" select="replace(base-uri(), '^(file:)([^/])', '$1/$2')"/>
+   
 
    <!--
        Drive the overall compilation of a suite.  Apply template on

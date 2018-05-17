@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" query-at="catalog-01.xquery" query="catalog/test" xmlns:t="catalog/test">
+    <x:scenario label="catalog test">
+        <x:call function="t:test">
+            <x:param href="catalog-01-doc.xml"/>
+        </x:call>
+        <x:expect label="fixed attribute is set" select="'1.0'"/>
+    </x:scenario>
+</x:description>
