@@ -52,7 +52,7 @@
 		</x:scenario>
 
 		<x:scenario
-			label="But child x:param shouldn't affected. So... In //x:context[x:param][@href], both x:param and @href are used;">
+			label="But child x:param shouldn't be affected. So... In //x:context[x:param][@href], both x:param and @href are used;">
 			<x:context href="xspec-node-selection.xml">
 				<x:param name="param-items">
 					<template-param-child />
