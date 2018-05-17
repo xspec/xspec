@@ -13,13 +13,13 @@
   xmlns:test="http://www.jenitennison.com/xslt/unit-test"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:pkg="http://expath.org/ns/pkg"
-  exclude-result-prefixes="xs">
+  xmlns:file="http://expath.org/ns/file"
+  exclude-result-prefixes="#all">
 
 <xsl:import href="format-utils.xsl" />
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/coverage-report.xsl</pkg:import-uri>
 
-<xsl:param name="pwd"   as="xs:string" required="yes"/>
 <xsl:param name="tests" as="xs:string" required="yes"/>
 
 <xsl:param name="inline-css">false</xsl:param>
@@ -29,7 +29,7 @@
 
 
 <xsl:variable name="tests-uri" as="xs:anyURI" select="
-    resolve-uri(translate($tests, '\', '/'), $pwd)"/>
+    file:path-to-uri($tests)"/>
 
 <xsl:variable name="stylesheet-uri" as="xs:anyURI"
   select="if (doc($tests-uri)/*/@stylesheet)

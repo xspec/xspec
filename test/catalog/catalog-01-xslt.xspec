@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="catalog-01.xslt">
+    <x:scenario label="catalog test">
+        <x:context href="catalog-01-doc.xml"/>
+        <x:expect label="fixed attribute is set" test="root/@dtd-version = '1.0'"/>
+    </x:scenario>
+</x:description>
