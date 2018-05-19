@@ -11,9 +11,9 @@ environment:
     - SAXON_VERSION: 9.8.0-12
     # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-21
-      XMLCALABASH_VERSION: 1.1.19-97
-    # Saxon version used in oXygen
+    # Saxon and XML Calabash version used in oXygen
     - SAXON_VERSION: 9.8.0-8
+      XMLCALABASH_VERSION: 1.1.19-98
 
 install:
 - ps: >-
