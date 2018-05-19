@@ -12,10 +12,10 @@ env:
         - SAXON_VERSION=9.8.0-12
         # latest Saxon 9.7 version
         - SAXON_VERSION=9.7.0-21
+          XMLCALABASH_VERSION=1.1.19-97
           BASEX_VERSION=8.6.4
-        # Saxon and XML Calabash version used in oXygen
+        # Saxon version used in oXygen
         - SAXON_VERSION=9.8.0-8
-          XMLCALABASH_VERSION=1.1.19-98
 
 before_install:
     - unset _JAVA_OPTIONS
