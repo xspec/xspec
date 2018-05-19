@@ -407,7 +407,7 @@ teardown() {
 @test "invoking xspec.sh for XSLT with -catalog uses XML Catalog resolver" {
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
 	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
-	echo $output
+	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
@@ -415,7 +415,7 @@ teardown() {
 @test "invoking xspec.sh for XQuery with -catalog uses XML Catalog resolver" {
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
 	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
-	echo $output
+	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
@@ -424,7 +424,7 @@ teardown() {
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
     export XML_CATALOG=catalog/catalog-01-catalog.xml
 	run ../bin/xspec.sh catalog/catalog-01-xslt.xspec
-	echo $output
+	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
@@ -435,7 +435,7 @@ teardown() {
     cp catalog/catalog-01* cat\ a\ log
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
 	run ../bin/xspec.sh -catalog cat\ a\ log/catalog-01-catalog.xml cat\ a\ log/catalog-01-xslt.xspec
-	echo $output
+	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 	rm -rf cat\ a\ log
@@ -448,7 +448,7 @@ teardown() {
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
     export XML_CATALOG=cat\ a\ log/catalog-01-catalog.xml
 	run ../bin/xspec.sh cat\ a\ log/catalog-01-xslt.xspec
-	echo $output
+	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 	rm -rf cat\ a\ log
@@ -461,7 +461,7 @@ teardown() {
     cp $XML_RESOLVER_CP $SAXON_HOME
     export SAXON_CP=
 	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
-	echo $output
+	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 	rm -rf $SAXON_HOME
