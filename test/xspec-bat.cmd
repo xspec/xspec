@@ -452,7 +452,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s
         call :verify_retval 0
-        call :verify_line  * x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
+        call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
         rem Verify default clean.output.dir is false

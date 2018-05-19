@@ -362,7 +362,7 @@ teardown() {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s
 	echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 4 / pending: 0 / failed: 0 / total: 4" ]]
+    [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
     # Verify default clean.output.dir is false
