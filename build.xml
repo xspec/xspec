@@ -281,6 +281,7 @@
                 out="${xspec.schematron.preprocessed.xsl.file}"
                 style="${xspec.project.dir}/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl">
       <xslt-elements>
+        <!-- TODO: Parameters should be gathered from .xspec file -->
         <param name="allow-foreign" expression="true" />
         <param name="phase" expression="${xspec.phase}" unless:blank="${xspec.phase}" />
       </xslt-elements>

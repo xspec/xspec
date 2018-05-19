@@ -358,8 +358,8 @@ teardown() {
 }
 
 
-@test "Ant for Schematron with minimum properties" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-02-PhaseA.xspec -lib ${SAXON_CP} -Dtest.type=s
+@test "Ant for Schematron with minimum properties #168" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 4 / pending: 0 / failed: 0 / total: 4" ]]
@@ -367,12 +367,12 @@ teardown() {
 
     # Verify default clean.output.dir is false
     [  -d "../tutorial/schematron/xspec/" ]
-    [  -f "../tutorial/schematron/demo-02-PhaseA.xspec-compiled.xspec" ]
-    [  -f "../tutorial/schematron/demo-02.sch-compiled.xsl" ]
+    [  -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
+    [  -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
 
     # Delete temp file
-    rm -f "../tutorial/schematron/demo-02-PhaseA.xspec-compiled.xspec"
-    rm -f "../tutorial/schematron/demo-02.sch-compiled.xsl"
+    rm -f "../tutorial/schematron/demo-03.xspec-compiled.xspec"
+    rm -f "../tutorial/schematron/demo-03.sch-compiled.xsl"
 }
 
 
