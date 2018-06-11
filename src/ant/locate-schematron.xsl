@@ -15,7 +15,10 @@
 					<xsl:variable as="xs:anyURI" name="schematron-uri"
 						select="/x:description/@schematron/resolve-uri(., base-uri())" />
 
-					<!-- Resolve with calalog -->
+					<!-- Resolve with calalog
+						https://sourceforge.net/p/saxon/mailman/message/36339785/
+						"document-uri() returns the (absolutized) requested URI, while base-uri() returns
+						the actual document location after catalog resolution." -->
 					<xsl:variable as="xs:anyURI" name="schematron-uri"
 						select="doc($schematron-uri)/base-uri()" />
 
