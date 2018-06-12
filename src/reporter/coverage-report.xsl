@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0" 
+<xsl:stylesheet version="3.0" 
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -90,8 +90,6 @@
 <xsl:template match="xsl:stylesheet | xsl:transform" mode="test:coverage-report">
   <xsl:variable name="stylesheet-uri" as="xs:anyURI"
     select="base-uri(.)" />
-  <xsl:variable name="stylesheet-tree" as="document-node()"
-    select=".." />
   <xsl:variable name="stylesheet-string" as="xs:string"
     select="unparsed-text($stylesheet-uri)" />
   <xsl:variable name="stylesheet-lines" as="xs:string+" 
@@ -122,11 +120,9 @@
         <xsl:value-of select="format-number(1, $number-format)" />
         <xsl:text>: </xsl:text>
         <xsl:call-template name="test:output-lines">
-          <xsl:with-param name="line-number" select="0" />
           <xsl:with-param name="stylesheet-string" select="$stylesheet-string" />
-          <xsl:with-param name="node" select="." />
-          <xsl:with-param name="number-format" tunnel="yes" select="$number-format" />
-          <xsl:with-param name="module" tunnel="yes" select="$module" />
+          <xsl:with-param name="number-format" select="$number-format" />
+          <xsl:with-param name="module" select="$module" />
         </xsl:call-template>
       </pre>
     </xsl:otherwise>
@@ -150,7 +146,6 @@
 
 <xsl:variable name="construct-regex" as="xs:string">
   <xsl:value-of>
-    ^
     (             <!-- 1: the construct -->
       ([^&lt;]+)    <!-- 2: some text -->
       |
@@ -182,93 +177,106 @@
         >
       )
     )
-    (.*)          <!-- 20: the rest of the string -->
-    $
   </xsl:value-of>
 </xsl:variable>
 
-<xsl:template name="test:output-lines">
-  <xsl:param name="line-number" as="xs:integer" required="yes" />
+<xsl:template name="test:output-lines" as="node()+">
+  <xsl:context-item as="element()" use="required" />
+
   <xsl:param name="stylesheet-string" as="xs:string" required="yes" />
-  <xsl:param name="node" as="node()" required="yes" />
-  <xsl:param name="number-format" tunnel="yes" as="xs:string" required="yes" />
-  <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
-  <xsl:analyze-string select="$stylesheet-string"
-    regex="{$construct-regex}" flags="sx">
-    <xsl:matching-substring>
-      <xsl:variable name="construct" as="xs:string" select="regex-group(1)" />
-      <xsl:variable name="rest" as="xs:string" select="regex-group(20)" />
-      <xsl:variable name="construct-lines" as="xs:string+"
+  <xsl:param name="number-format" as="xs:string" required="yes" />
+  <xsl:param name="module" as="xs:string" required="yes" />
+
+  <xsl:variable name="stylesheet-element" as="element()" select="." />
+
+  <xsl:variable name="regex-groups" as="map(xs:integer, xs:string)+">
+    <xsl:analyze-string select="$stylesheet-string"
+      regex="{$construct-regex}" flags="sx">
+      <xsl:matching-substring>
+        <xsl:map>
+          <xsl:for-each select="1 to 19">
+            <xsl:map-entry key="." select="regex-group(.)" />
+          </xsl:for-each>
+        </xsl:map>
+      </xsl:matching-substring>
+      <xsl:non-matching-substring>
+        <xsl:message terminate="yes">
+          unmatched string: <xsl:value-of select="." />
+        </xsl:message>
+      </xsl:non-matching-substring>
+    </xsl:analyze-string>
+  </xsl:variable>
+
+  <xsl:iterate select="$regex-groups">
+    <xsl:param name="line-number" as="xs:integer" select="0" />
+    <xsl:param name="node" as="node()" select="$stylesheet-element" />
+
+    <xsl:variable name="regex-group" as="map(xs:integer, xs:string)" select="." />
+
+    <xsl:variable name="construct" as="xs:string" select="$regex-group(1)" />
+    <xsl:variable name="construct-lines" as="xs:string+"
       select="tokenize($construct, '\n')" />
-      <xsl:variable name="endTag" as="xs:boolean" select="regex-group(9) != ''" />
-      <xsl:variable name="emptyTag" as="xs:boolean" select="regex-group(19) != ''" />
-      <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(11) != ''" />
-      <xsl:variable name="matches" as="xs:boolean"
-        select="($node instance of text() and
-                 regex-group(2) != '') or
-                ($node instance of element() and
-                 ($startTag or $endTag or $emptyTag) and
-                 name($node) = (regex-group(10), regex-group(12))) or
-                ($node instance of comment() and
-                 regex-group(3) != '') or
-                ($node instance of processing-instruction() and
-                regex-group(5) != '')" />
-      <xsl:variable name="coverage" as="xs:string" 
-        select="if ($matches) then test:coverage($node, $module) else 'ignored'" />
-      <xsl:for-each select="$construct-lines">
-        <xsl:if test="position() != 1">
-          <xsl:text>&#xA;</xsl:text>
-          <xsl:value-of select="format-number($line-number + position(), $number-format)" />
-          <xsl:text>: </xsl:text>
-        </xsl:if>
-        <span class="{$coverage}">
-          <xsl:value-of select="." />
-        </span>
-      </xsl:for-each>
-      <xsl:if test="$rest != ''">
-        <xsl:call-template name="test:output-lines">
-          <xsl:with-param name="line-number" select="$line-number + count($construct-lines) - 1" />
-          <xsl:with-param name="stylesheet-string" select="$rest" />
-          <xsl:with-param name="node" as="node()">
+    <xsl:variable name="endTag" as="xs:boolean" select="$regex-group(9) != ''" />
+    <xsl:variable name="emptyTag" as="xs:boolean" select="$regex-group(19) != ''" />
+    <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and $regex-group(11) != ''" />
+    <xsl:variable name="matches" as="xs:boolean"
+      select="($node instance of text() and
+               $regex-group(2) != '') or
+              ($node instance of element() and
+               ($startTag or $endTag or $emptyTag) and
+               name($node) = ($regex-group(10), $regex-group(12))) or
+              ($node instance of comment() and
+               $regex-group(3) != '') or
+              ($node instance of processing-instruction() and
+               $regex-group(5) != '')" />
+    <xsl:variable name="coverage" as="xs:string" 
+      select="if ($matches) then test:coverage($node, $module) else 'ignored'" />
+    <xsl:for-each select="$construct-lines">
+      <xsl:if test="position() != 1">
+        <xsl:text>&#xA;</xsl:text>
+        <xsl:value-of select="format-number($line-number + position(), $number-format)" />
+        <xsl:text>: </xsl:text>
+      </xsl:if>
+      <span class="{$coverage}">
+        <xsl:value-of select="." />
+      </span>
+    </xsl:for-each>
+
+    <xsl:next-iteration>
+      <xsl:with-param name="line-number" select="$line-number + count($construct-lines) - 1" />
+      <xsl:with-param name="node" as="node()">
+        <xsl:choose>
+          <xsl:when test="$matches">
             <xsl:choose>
-              <xsl:when test="$matches">
+              <xsl:when test="$startTag">
                 <xsl:choose>
-                  <xsl:when test="$startTag">
-                    <xsl:choose>
-                      <xsl:when test="$node/node()">
-                        <xsl:sequence select="$node/node()[1]" />
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <xsl:sequence select="$node" />
-                      </xsl:otherwise>
-                    </xsl:choose>
+                  <xsl:when test="$node/node()">
+                    <xsl:sequence select="$node/node()[1]" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:choose>
-                      <xsl:when test="$node/following-sibling::node()">
-                        <xsl:sequence select="$node/following-sibling::node()[1]" />
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <xsl:sequence select="$node/parent::node()" />
-                      </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:sequence select="$node" />
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:when>
               <xsl:otherwise>
-                <xsl:sequence select="$node" />
+                <xsl:choose>
+                  <xsl:when test="$node/following-sibling::node()">
+                    <xsl:sequence select="$node/following-sibling::node()[1]" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:sequence select="$node/parent::node()" />
+                  </xsl:otherwise>
+                </xsl:choose>
               </xsl:otherwise>
             </xsl:choose>
-          </xsl:with-param> 
-        </xsl:call-template>
-      </xsl:if>
-    </xsl:matching-substring>
-    <xsl:non-matching-substring>
-      <xsl:message terminate="yes">
-        unmatched string: <xsl:value-of select="." />
-      </xsl:message>
-    </xsl:non-matching-substring>
-  </xsl:analyze-string>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:sequence select="$node" />
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:with-param> 
+    </xsl:next-iteration>
+  </xsl:iterate>
 </xsl:template>
 
 <xsl:function name="test:coverage" as="xs:string">
