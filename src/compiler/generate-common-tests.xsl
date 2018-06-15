@@ -60,11 +60,11 @@
       <xsl:variable name="imports" as="element(x:import)*"
                     select="$visit/x:import"/>
       <xsl:variable name="imported-docs" as="document-node(element(x:description))*"
-                    select="x:distinct-nodes($imports/document(@href))"/>
+                    select="x:distinct-nodes-stable($imports/document(@href))"/>
       <xsl:variable name="imported" as="element(x:description)*"
-                    select="x:distinct-nodes(for $doc in $imported-docs return $doc/x:description)"/>
+                    select="x:distinct-nodes-stable(for $doc in $imported-docs return $doc/x:description)"/>
       <xsl:variable name="imported-except-visit" as="element(x:description)*"
-                    select="$imported[not(x:exists-in-nodes(., $visit))]"/>
+                    select="$imported[empty($visit intersect .)]"/>
       <xsl:choose>
          <xsl:when test="empty($imported-except-visit)">
             <xsl:sequence select="$visit"/>
@@ -533,34 +533,14 @@
       </xsl:copy>
    </xsl:template>
 
-   <!--
-     Functions to find identical nodes
-   -->
-
-   <!-- Returns true if a node exists in a sequence of nodes -->
-   <xsl:function name="x:exists-in-nodes" as="xs:boolean">
-     <xsl:param name="node" as="node()?"/>
-     <xsl:param name="nodes" as="node()*"/>
-
-     <xsl:sequence select="exists($nodes[. is $node])"/>
-   </xsl:function>
-
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
      in a prior position of the sequence.)
-     This function does not sort nodes in document order. -->
-   <xsl:function name="x:distinct-nodes" as="node()*">
+     This function does not sort nodes in document order.
+     Based on http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable -->
+   <xsl:function name="x:distinct-nodes-stable" as="node()*">
      <xsl:param name="nodes" as="node()*"/>
 
-     <xsl:for-each select="$nodes">
-       <xsl:variable name="current-node" as="node()" select="."/>
-       <xsl:variable name="current-position" as="xs:integer"
-                     select="position()"/>
-       <xsl:variable name="preceding-nodes" as="node()*"
-                     select="$nodes[position() lt $current-position]" />
-       <xsl:if test="not(x:exists-in-nodes($current-node, $preceding-nodes))">
-         <xsl:sequence select="$current-node"/>
-       </xsl:if>
-     </xsl:for-each>
+     <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
    </xsl:function>
 
    <!--
