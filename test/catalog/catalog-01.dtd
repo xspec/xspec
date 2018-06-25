@@ -1,0 +1,5 @@
+
+<!ELEMENT title ( #PCDATA ) >
+
+<!ELEMENT root ( title )>
+<!ATTLIST root dtd-version CDATA #FIXED "1.0" >
