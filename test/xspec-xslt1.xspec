@@ -3,6 +3,8 @@
 	xslt-version="1.0">
 	<x:scenario label="With 2 text nodes">
 		<x:call template="text-nodes" />
+		<x:expect label="the compiled stylesheet has version=1.0" select="1.0"
+			test="document('')/xsl:stylesheet/@version/number()" />
 		<x:expect label="Result should be text nodes" test="$x:result instance of text()+" />
 		<x:expect label="Result count should be 2" select="2" test="count($x:result)" />
 		<x:scenario
