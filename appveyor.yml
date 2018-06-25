@@ -5,10 +5,11 @@ environment:
     # Ant version used in oXygen
     ANT_VERSION: 1.9.8
     # full path to XML Resolver jar
-    XML_RESOLVER_CP: '%TEMP%\xspec\xml-resolver\xml-resolver.jar'
+    XML_RESOLVER_CP: '%TEMP%\xspec\xml-resolver\xml-resolver-1.2.jar'
   matrix:
-    # latest Saxon 9.8 version
+    # latest Saxon 9.8 version and full path to Jing jar
     - SAXON_VERSION: 9.8.0-7
+      JING_CP: '%TEMP%\xspec\jing\jing.jar'
     # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-21
       XMLCALABASH_VERSION: 1.1.16-97
@@ -43,6 +44,17 @@ install:
     # install XML Resolver
 
     curl.exe -fsSL --create-dirs -o "${env:XML_RESOLVER_CP}" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+
+
+    # install Jing
+
+    if( -Not( Test-Path -Path env:\JING_CP ) ) {
+        echo "Jing will not be installed"
+    }
+
+    else {
+        curl.exe -fsSL --create-dirs -o "${env:JING_CP}" "http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar"
+    }
 build: off
 test_script:
 - cmd: >-
