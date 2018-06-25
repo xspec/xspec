@@ -53,7 +53,7 @@ setlocal
 
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-h] filename [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
 
     call :teardown
 endlocal
@@ -151,7 +151,8 @@ endlocal
 setlocal
     call :setup "invoking code coverage with Saxon9EE creates test stylesheet"
 
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar
+    rem Append non-Saxon jar to see if SAXON_CP is parsed correctly
+    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar;%XML_RESOLVER_CP%
 
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
@@ -434,21 +435,21 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "Ant for Schematron with minimum properties"
+    call :setup "Ant for Schematron with minimum properties #168"
 
     if defined ANT_VERSION (
-        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-02-PhaseA.xspec" -lib "%SAXON_CP%" -Dtest.type=s
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
         rem Verify default clean.output.dir is false
         call :verify_exist ..\tutorial\schematron\xspec\
-        call :verify_exist ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
-        call :verify_exist ..\tutorial\schematron\demo-02.sch-compiled.xsl
+        call :verify_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+        call :verify_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
 
         rem Delete temp file
-        call :del          ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
-        call :del          ..\tutorial\schematron\demo-02.sch-compiled.xsl
+        call :del          ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+        call :del          ..\tutorial\schematron\demo-03.sch-compiled.xsl
     ) else (
         call :skip "test for Schematron Ant with minimum properties skipped"
     )
@@ -520,6 +521,113 @@ setlocal
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
         call :skip "test for Schematron Ant with catalog and xspec.fail=false skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat for XSLT with -catalog uses XML Catalog resolver"
+
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat for XQuery with -catalog uses XML Catalog resolver"
+
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml -q catalog\catalog-01-xquery.xspec
+    call :verify_retval 0
+    call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat with XML_CATALOG set uses XML Catalog resolver"
+
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set XML_CATALOG=catalog\catalog-01-catalog.xml
+    call :run ..\bin\xspec.bat catalog\catalog-01-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat using -catalog with spaces in file path uses XML Catalog resolver"
+
+    set SPACE_DIR=%WORK_DIR%\cat a log
+    call :mkdir "%SPACE_DIR%\xspec"
+    copy catalog\catalog-01* "%SPACE_DIR%"
+    
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat using XML_CATALOG with spaces in file path uses XML Catalog resolver"
+
+    set SPACE_DIR=%WORK_DIR%\cat a log
+    call :mkdir "%SPACE_DIR%\xspec"
+    copy catalog\catalog-01* "%SPACE_DIR%"
+    
+    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "XML_CATALOG=%SPACE_DIR%\catalog-01-catalog.xml"
+    call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01-xslt.xspec"
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
+
+    set "SAXON_HOME=%WORK_DIR%\saxon"
+    call :mkdir %SAXON_HOME%
+    copy %SAXON_CP% %SAXON_HOME%
+    copy %XML_RESOLVER_CP% %SAXON_HOME%
+    set SAXON_CP=
+    
+    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schema detects no error in tutorial"
+
+    if defined JING_CP (
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc ..\tutorial\*.xspec ..\tutorial\schematron\*.xspec
+        call :verify_retval 0
+    ) else (
+        call :skip "Schema validation for tutorial skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schema detects no error in known good tests"
+
+    if defined JING_CP (
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc catalog\*.xspec schematron\*-import.xspec schematron\*-in.xspec
+        call :verify_retval 0
+    ) else (
+        call :skip "Schema validation for known good tests skipped"
     )
 
     call :teardown
@@ -609,6 +717,7 @@ rem
     call :mkdir ..\test\xspec
     call :mkdir ..\tutorial\xspec
     call :mkdir ..\tutorial\schematron\xspec
+    call :mkdir ..\test\catalog\xspec
 
     goto :EOF
 
@@ -619,6 +728,7 @@ rem
     call :rmdir ..\test\xspec
     call :rmdir ..\tutorial\xspec
     call :rmdir ..\tutorial\schematron\xspec
+    call :rmdir ..\test\catalog\xspec
 
     rem
     rem Remove the work directory
