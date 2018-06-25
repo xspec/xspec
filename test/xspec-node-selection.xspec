@@ -15,12 +15,9 @@
 		</x:scenario>
 
 		<x:scenario label="In //x:context/x:param[node()][@href],">
-			<!-- <template-param-child-gray> is not allowed by context template-param, but allowed by context node-selection (xspec/xspec#175).
-				While compiling the scenario, <template-param-child-gray> is ignored by
-				https://github.com/xspec/xspec/blob/63cf95d7eade5678e5c994fae18ff69d3410ac5d/src/compiler/generate-tests-helper.xsl#L51-L66 -->
 			<x:context mode="param-mirror-mode">
 				<x:param href="xspec-node-selection.xml" name="param-items">
-					<template-param-child-gray />
+					<template-param-child-not-allowed />
 				</x:param>
 				<context-child />
 			</x:context>

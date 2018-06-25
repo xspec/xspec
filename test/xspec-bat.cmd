@@ -644,7 +644,8 @@ setlocal
         call :verify_line 2 r ".*-child-not-allowed"
         call :verify_line 3 r ".*-child-not-allowed"
         call :verify_line 4 r ".*-child-not-allowed"
-        call :verify_line 5 r "Elapsed time"
+        call :verify_line 5 r ".*-child-not-allowed"
+        call :verify_line 6 r "Elapsed time"
     ) else (
         call :skip "Schema validation for node-selection test skipped"
     )

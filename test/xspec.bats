@@ -518,7 +518,8 @@ teardown() {
         [[ "${lines[1]}" =~ "-child-not-allowed" ]]
         [[ "${lines[2]}" =~ "-child-not-allowed" ]]
         [[ "${lines[3]}" =~ "-child-not-allowed" ]]
-        [[ "${lines[4]}" =~ "Elapsed time" ]]
+        [[ "${lines[4]}" =~ "-child-not-allowed" ]]
+        [[ "${lines[5]}" =~ "Elapsed time" ]]
     else
         skip "Schema validation for node-selection test skipped";
     fi
