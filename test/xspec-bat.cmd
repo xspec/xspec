@@ -607,6 +607,31 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Schema detects no error in tutorial"
+
+    if defined JING_CP (
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc ..\tutorial\*.xspec ..\tutorial\schematron\*.xspec
+        call :verify_retval 0
+    ) else (
+        call :skip "Schema validation for tutorial skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schema detects no error in known good tests"
+
+    if defined JING_CP (
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc catalog\*.xspec schematron\*-import.xspec schematron\*-in.xspec
+        call :verify_retval 0
+    ) else (
+        call :skip "Schema validation for known good tests skipped"
+    )
+
+    call :teardown
+endlocal
 
 echo === END TEST CASES ==================================================
 
