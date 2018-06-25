@@ -11,6 +11,7 @@
 
 	<xsl:include href="_deserializer.xsl" />
 	<xsl:include href="_normalizer.xsl" />
+	<xsl:include href="_normalizer_html.xsl"/>
 	<xsl:include href="_serializer.xsl" />
 	<xsl:include href="_util.xsl" />
 
