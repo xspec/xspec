@@ -16,15 +16,25 @@ do
 
     # Generate the report HTML
     if test "${CASE_FILENAME:0:10}" = "schematron"; then
-        ../../bin/xspec.sh -s ${CASE_FILEPATH} > /dev/null 2>&1
+        ../../bin/xspec.sh -j -s ${CASE_FILEPATH} > /dev/null 2>&1
     elif test "${CASE_FILENAME:0:6}" = "xquery"; then
-        ../../bin/xspec.sh -q ${CASE_FILEPATH} > /dev/null 2>&1
+        ../../bin/xspec.sh -j -q ${CASE_FILEPATH} > /dev/null 2>&1
     else
-        ../../bin/xspec.sh ${CASE_FILEPATH} > /dev/null 2>&1
+        ../../bin/xspec.sh -j ${CASE_FILEPATH} > /dev/null 2>&1
     fi
 
     # Compare with the expected HTML
     if java -classpath ${SAXON_CP} net.sf.saxon.Transform -s:${TEST_DIR}/${CASE_BASENAME}-result.html -xsl:processor/compare.xsl | grep '^OK: Compared '
+        then
+            # OK, nothing to do
+            :
+        else
+            echo "FAILED: ${CASE_FILEPATH}"
+            exit 1
+    fi
+
+    # Compare with the expected JUnit report
+    if java -classpath ${SAXON_CP} net.sf.saxon.Transform -s:${TEST_DIR}/${CASE_BASENAME}-junit.xml -xsl:processor/compare-junit.xsl | grep '^OK: Compared '
         then
             # OK, nothing to do
             :

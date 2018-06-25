@@ -10,6 +10,7 @@
 	<xsl:template as="element(xspec)" match="document-node()">
 		<xspec>
 			<phase>
+				<!-- TODO: @href and @select should be taken into account -->
 				<xsl:value-of select="/x:description/x:param[@name = 'phase'][1]" />
 			</phase>
 		</xspec>
