@@ -358,20 +358,20 @@ teardown() {
 }
 
 
-@test "Ant for Schematron with minimum properties" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-02-PhaseA.xspec -lib ${SAXON_CP} -Dtest.type=s
+@test "Ant for Schematron with minimum properties #168" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s
 	echo $output
     [ "$status" -eq 0 ]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 
     # Verify default clean.output.dir is false
     [  -d "../tutorial/schematron/xspec/" ]
-    [  -f "../tutorial/schematron/demo-02-PhaseA.xspec-compiled.xspec" ]
-    [  -f "../tutorial/schematron/demo-02.sch-compiled.xsl" ]
+    [  -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
+    [  -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
 
     # Delete temp file
-    rm -f "../tutorial/schematron/demo-02-PhaseA.xspec-compiled.xspec"
-    rm -f "../tutorial/schematron/demo-02.sch-compiled.xsl"
+    rm -f "../tutorial/schematron/demo-03.xspec-compiled.xspec"
+    rm -f "../tutorial/schematron/demo-03.sch-compiled.xsl"
 }
 
 
@@ -486,6 +486,28 @@ teardown() {
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 	rm -rf $SAXON_HOME
+}
+
+
+@test "Schema detects no error in tutorial" {
+    if [ -n "${JING_CP}" ]; then
+        run java -jar ${JING_CP} -c ../src/schemas/xspec.rnc ../tutorial/*.xspec ../tutorial/schematron/*.xspec
+    	echo "$output"
+        [ "$status" -eq 0 ]
+    else
+        skip "Schema validation for tutorial skipped";
+    fi
+}
+
+
+@test "Schema detects no error in known good tests" {
+    if [ -n "${JING_CP}" ]; then
+        run java -jar ${JING_CP} -c ../src/schemas/xspec.rnc catalog/*.xspec schematron/*-import.xspec schematron/*-in.xspec
+    	echo "$output"
+        [ "$status" -eq 0 ]
+    else
+        skip "Schema validation for known good tests skipped";
+    fi
 }
 
 

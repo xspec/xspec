@@ -435,21 +435,21 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "Ant for Schematron with minimum properties"
+    call :setup "Ant for Schematron with minimum properties #168"
 
     if defined ANT_VERSION (
-        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-02-PhaseA.xspec" -lib "%SAXON_CP%" -Dtest.type=s
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s
         call :verify_retval 0
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
         rem Verify default clean.output.dir is false
         call :verify_exist ..\tutorial\schematron\xspec\
-        call :verify_exist ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
-        call :verify_exist ..\tutorial\schematron\demo-02.sch-compiled.xsl
+        call :verify_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+        call :verify_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
 
         rem Delete temp file
-        call :del          ..\tutorial\schematron\demo-02-PhaseA.xspec-compiled.xspec
-        call :del          ..\tutorial\schematron\demo-02.sch-compiled.xsl
+        call :del          ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+        call :del          ..\tutorial\schematron\demo-03.sch-compiled.xsl
     ) else (
         call :skip "test for Schematron Ant with minimum properties skipped"
     )
@@ -603,6 +603,32 @@ setlocal
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
     call :verify_retval 0
     call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schema detects no error in tutorial"
+
+    if defined JING_CP (
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc ..\tutorial\*.xspec ..\tutorial\schematron\*.xspec
+        call :verify_retval 0
+    ) else (
+        call :skip "Schema validation for tutorial skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schema detects no error in known good tests"
+
+    if defined JING_CP (
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc catalog\*.xspec schematron\*-import.xspec schematron\*-in.xspec
+        call :verify_retval 0
+    ) else (
+        call :skip "Schema validation for known good tests skipped"
+    )
 
     call :teardown
 endlocal
