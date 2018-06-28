@@ -80,7 +80,7 @@
    -->
    <t:scenario label="test:deep-equal($seq1, $seq2, $version)">
       <t:scenario label="In version 1.0">
-         <t:scenario label="comparing analogous text nodes with">
+         <t:scenario label="comparing text nodes with analogous">
             <t:scenario label="string">
                <t:call function="test:deep-equal">
                   <t:param select="'12'"/>
@@ -149,8 +149,8 @@
          </t:scenario>
       </t:scenario>
 
-      <t:scenario label="In version 2.0, comparing analogous text nodes with">
-         <t:scenario label="comparing analogous text nodes with">
+      <t:scenario label="In version 2.0">
+         <t:scenario label="comparing text nodes with analogous">
             <t:scenario label="string">
                <t:call function="test:deep-equal">
                   <t:param select="'12'"/>
