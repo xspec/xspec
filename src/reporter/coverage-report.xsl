@@ -181,7 +181,8 @@
 </xsl:variable>
 
 <xsl:template name="test:output-lines" as="node()+">
-  <xsl:context-item as="element()" use="required" />
+  <!-- xsl:context-item is not implemented in Saxon 9.6 -->
+  <!--<xsl:context-item as="element()" use="required" />-->
 
   <xsl:param name="stylesheet-string" as="xs:string" required="yes" />
   <xsl:param name="number-format" as="xs:string" required="yes" />
