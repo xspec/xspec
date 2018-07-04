@@ -381,7 +381,7 @@ xslt -o:"$HTML" \
     -s:"$RESULT" \
     -xsl:"$XSPEC_HOME/src/reporter/format-xspec-report.xsl" \
     inline-css=true \
-    || die "Error formating the report"
+    || die "Error formatting the report"
 if test -n "$COVERAGE"; then
     xslt -l:on \
         -o:"$COVERAGE_HTML" \
@@ -389,14 +389,14 @@ if test -n "$COVERAGE"; then
         -xsl:"$XSPEC_HOME/src/reporter/coverage-report.xsl" \
         "tests=$XSPEC" \
         inline-css=true \
-        || die "Error formating the coverage report"
+        || die "Error formatting the coverage report"
     echo "Report available at $COVERAGE_HTML"
     #$OPEN "$COVERAGE_HTML"
 elif test -n "$JUNIT"; then
 	xslt -o:"$JUNIT_RESULT" \
 		-s:"$RESULT" \
 		-xsl:"$XSPEC_HOME/src/reporter/junit-report.xsl" \
-		|| die "Error formating the JUnit report"
+		|| die "Error formatting the JUnit report"
 	echo "Report available at $JUNIT_RESULT"
 else
     echo "Report available at $HTML"
