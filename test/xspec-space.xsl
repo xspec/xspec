@@ -7,6 +7,16 @@
 		<xsl:sequence select="." />
 	</xsl:template>
 
+	<!-- Inserts $text into <match> -->
+	<xsl:template as="element(match)" match="match">
+		<xsl:param as="text()?" name="text" />
+
+		<xsl:copy>
+			<xsl:sequence select="$text" />
+		</xsl:copy>
+	</xsl:template>
+
+	<!-- Returns true if $items is the known whitespace-only text node -->
 	<xsl:function as="xs:boolean" name="xspec-space:is-expected-text-node">
 		<xsl:param as="item()*" name="items" />
 
