@@ -44,8 +44,7 @@
 			<x:call function="exactly-one">
 				<x:param><p>&#x09;&#x0A;&#x0D;&#x20;</p></x:param>
 			</x:call>
-			<x:expect label="The element should be kept" test="exists(p)" />
-			<x:expect label="The whitespace-only text node should be removed" test="empty(p/node())" />
+			<x:expect label="Only the whitespace-only text node should be removed"><p /></x:expect>
 			<x:expect label="x:expect with the same structure as the x:param should be Success"
 					><p>&#x09;&#x0A;&#x0D;&#x20;</p></x:expect>
 		</x:scenario>
@@ -90,9 +89,8 @@
 				<x:call function="exactly-one">
 					<x:param><pre><span>&#x09;&#x0A;&#x0D;&#x20;</span></pre></x:param>
 				</x:call>
-				<x:expect label="The elements should be kept" test="exists(pre/span)" />
-				<x:expect label="The whitespace-only text node should be removed"
-					test="empty(pre/span/node())" />
+				<x:expect label="Only the whitespace-only text node should be removed"
+					><pre><span /></pre></x:expect>
 				<x:expect label="x:expect with the same structure as the x:param should be Success"
 					><pre><span>&#x09;&#x0A;&#x0D;&#x20;</span></pre></x:expect>
 			</x:scenario>
