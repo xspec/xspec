@@ -42,34 +42,45 @@
 	<x:scenario label="Scenario for testing whitespace-only text nodes in user elements">
 		<x:scenario label="When an element in x:param has a whitespace-only text node">
 			<x:call function="exactly-one">
-				<x:param><p>&#x09;&#x0A;&#x0D;&#x20;</p></x:param>
+				<x:param>
+					<p>&#x09;&#x0A;&#x0D;&#x20;</p>
+				</x:param>
 			</x:call>
-			<x:expect label="Only the whitespace-only text node should be removed"><p /></x:expect>
-			<x:expect label="x:expect with the same structure as the x:param should be Success"
-					><p>&#x09;&#x0A;&#x0D;&#x20;</p></x:expect>
+			<x:expect label="Only the whitespace-only text node should be removed">
+				<p />
+			</x:expect>
+			<x:expect label="x:expect with the same structure as the x:param should be Success">
+				<p>&#x09;&#x0A;&#x0D;&#x20;</p>
+			</x:expect>
 		</x:scenario>
 
 		<x:scenario label="When an element in x:param has @xml:space=preserve and">
 			<x:scenario label="a whitespace-only text node">
 				<x:call function="exactly-one">
-					<x:param><p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</p></x:param>
+					<x:param>
+						<p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</p>
+					</x:param>
 				</x:call>
 				<x:expect
 					label="The element, @xml:space and the whitespace-only text node should be kept"
 					test="xspec-space:is-expected-text-node(p[@xml:space = 'preserve']/node())" />
-				<x:expect label="x:expect with the same structure as the x:param should be Success"
-					><p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</p></x:expect>
+				<x:expect label="x:expect with the same structure as the x:param should be Success">
+					<p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</p>
+				</x:expect>
 			</x:scenario>
 
 			<x:scenario label="an element with a whitespace-only text node">
 				<x:call function="exactly-one">
-					<x:param><p xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></p></x:param>
+					<x:param>
+						<p xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></p>
+					</x:param>
 				</x:call>
 				<x:expect
 					label="The elements, @xml:space and the whitespace-only text node should be kept"
 					test="xspec-space:is-expected-text-node(p[@xml:space = 'preserve']/span/node())" />
-				<x:expect label="x:expect with the same structure as the x:param should be Success"
-					><p xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></p></x:expect>
+				<x:expect label="x:expect with the same structure as the x:param should be Success">
+					<p xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></p>
+				</x:expect>
 			</x:scenario>
 		</x:scenario>
 
@@ -77,22 +88,29 @@
 			label="When an element in x:param is specified by /x:description/@preserve-space and has">
 			<x:scenario label="a whitespace-only text node">
 				<x:call function="exactly-one">
-					<x:param><pre>&#x09;&#x0A;&#x0D;&#x20;</pre></x:param>
+					<x:param>
+						<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+					</x:param>
 				</x:call>
 				<x:expect label="The element and the whitespace-only text node should be kept"
 					test="xspec-space:is-expected-text-node(pre/node())" />
-				<x:expect label="x:expect with the same structure as the x:param should be Success"
-					><pre>&#x09;&#x0A;&#x0D;&#x20;</pre></x:expect>
+				<x:expect label="x:expect with the same structure as the x:param should be Success">
+					<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+				</x:expect>
 			</x:scenario>
 
 			<x:scenario label="an element with a whitespace-only text node">
 				<x:call function="exactly-one">
-					<x:param><pre><span>&#x09;&#x0A;&#x0D;&#x20;</span></pre></x:param>
+					<x:param>
+						<pre><span>&#x09;&#x0A;&#x0D;&#x20;</span></pre>
+					</x:param>
 				</x:call>
-				<x:expect label="Only the whitespace-only text node should be removed"
-					><pre><span /></pre></x:expect>
-				<x:expect label="x:expect with the same structure as the x:param should be Success"
-					><pre><span>&#x09;&#x0A;&#x0D;&#x20;</span></pre></x:expect>
+				<x:expect label="Only the whitespace-only text node should be removed">
+					<pre><span /></pre>
+				</x:expect>
+				<x:expect label="x:expect with the same structure as the x:param should be Success">
+					<pre><span>&#x09;&#x0A;&#x0D;&#x20;</span></pre>
+				</x:expect>
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
