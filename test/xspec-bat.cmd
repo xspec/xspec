@@ -505,7 +505,7 @@ setlocal
 
     set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
-    copy catalog\catalog-01* "%SPACE_DIR%"
+    copy catalog\catalog-01* "%SPACE_DIR%" > NUL
     
     set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
     call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
@@ -520,7 +520,7 @@ setlocal
 
     set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
-    copy catalog\catalog-01* "%SPACE_DIR%"
+    copy catalog\catalog-01* "%SPACE_DIR%" > NUL
     
     set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
     set "XML_CATALOG=%SPACE_DIR%\catalog-01-catalog.xml"
@@ -536,8 +536,8 @@ setlocal
 
     set "SAXON_HOME=%WORK_DIR%\saxon"
     call :mkdir "%SAXON_HOME%"
-    copy "%SAXON_CP%"        "%SAXON_HOME%"
-    copy "%XML_RESOLVER_CP%" "%SAXON_HOME%"
+    copy "%SAXON_CP%"        "%SAXON_HOME%" > NUL
+    copy "%XML_RESOLVER_CP%" "%SAXON_HOME%" > NUL
     set SAXON_CP=
     
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
