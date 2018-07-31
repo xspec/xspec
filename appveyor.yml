@@ -7,8 +7,9 @@ environment:
     # full path to XML Resolver jar
     XML_RESOLVER_CP: '%TEMP%\xspec\xml-resolver\xml-resolver-1.2.jar'
   matrix:
-    # latest Saxon 9.8 version
+    # latest Saxon 9.8 version and full path to Jing jar
     - SAXON_VERSION: 9.8.0-7
+      JING_CP: '%TEMP%\xspec\jing\jing.jar'
     # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-21
       XMLCALABASH_VERSION: 1.1.16-97
@@ -19,7 +20,7 @@ install:
 - ps: >-
     # install Saxon
 
-    curl.exe -fsSL --create-dirs -o "${env:SAXON_CP}" "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar"
+    curl.exe -fsSL --create-dirs --retry 5 -o "${env:SAXON_CP}" "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar"
 
 
     # install XML Calabash
@@ -29,7 +30,7 @@ install:
     }
 
     else {
-        curl.exe -fsSL --create-dirs -o "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
+        curl.exe -fsSL --create-dirs --retry 5 -o "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
         7z x "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" -o"${env:TEMP}\xspec\xmlcalabash"
         ${env:XMLCALABASH_CP} = "${env:TEMP}\xspec\xmlcalabash\xmlcalabash-${env:XMLCALABASH_VERSION}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
     }
@@ -42,7 +43,18 @@ install:
 
     # install XML Resolver
 
-    curl.exe -fsSL --create-dirs -o "${env:XML_RESOLVER_CP}" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+    curl.exe -fsSL --create-dirs --retry 5 -o "${env:XML_RESOLVER_CP}" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+
+
+    # install Jing
+
+    if( -Not( Test-Path -Path env:\JING_CP ) ) {
+        echo "Jing will not be installed"
+    }
+
+    else {
+        curl.exe -fsSL --create-dirs -o "${env:JING_CP}" "http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar"
+    }
 build: off
 test_script:
 - cmd: >-

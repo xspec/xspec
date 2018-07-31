@@ -490,17 +490,6 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec.bat for XSLT with -catalog uses XML Catalog resolver"
-
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
-    call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
-    call :verify_retval 0
-    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-
-    call :teardown
-endlocal
-
-setlocal
     call :setup "invoking xspec.bat for XQuery with -catalog uses XML Catalog resolver"
 
     set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
@@ -512,23 +501,11 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec.bat with XML_CATALOG set uses XML Catalog resolver"
+    call :setup "invoking xspec.bat for XSLT with -catalog uses XML Catalog resolver and does so even with spaces in file path"
 
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
-    set XML_CATALOG=catalog\catalog-01-catalog.xml
-    call :run ..\bin\xspec.bat catalog\catalog-01-xslt.xspec
-    call :verify_retval 0
-    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-
-    call :teardown
-endlocal
-
-setlocal
-    call :setup "invoking xspec.bat using -catalog with spaces in file path uses XML Catalog resolver"
-
-    set SPACE_DIR=%WORK_DIR%\cat a log
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
-    copy catalog\catalog-01* "%SPACE_DIR%"
+    copy catalog\catalog-01* "%SPACE_DIR%" > NUL
     
     set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
     call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
@@ -539,11 +516,11 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec.bat using XML_CATALOG with spaces in file path uses XML Catalog resolver"
+    call :setup "invoking xspec.bat with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path"
 
-    set SPACE_DIR=%WORK_DIR%\cat a log
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
-    copy catalog\catalog-01* "%SPACE_DIR%"
+    copy catalog\catalog-01* "%SPACE_DIR%" > NUL
     
     set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
     set "XML_CATALOG=%SPACE_DIR%\catalog-01-catalog.xml"
@@ -558,9 +535,9 @@ setlocal
     call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
 
     set "SAXON_HOME=%WORK_DIR%\saxon"
-    call :mkdir %SAXON_HOME%
-    copy %SAXON_CP% %SAXON_HOME%
-    copy %XML_RESOLVER_CP% %SAXON_HOME%
+    call :mkdir "%SAXON_HOME%"
+    copy "%SAXON_CP%"        "%SAXON_HOME%" > NUL
+    copy "%XML_RESOLVER_CP%" "%SAXON_HOME%" > NUL
     set SAXON_CP=
     
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
@@ -570,6 +547,31 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Schema detects no error in tutorial"
+
+    if defined JING_CP (
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc ..\tutorial\*.xspec ..\tutorial\schematron\*.xspec
+        call :verify_retval 0
+    ) else (
+        call :skip "Schema validation for tutorial skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schema detects no error in known good tests"
+
+    if defined JING_CP (
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc catalog\*.xspec schematron\*-import.xspec schematron\*-in.xspec
+        call :verify_retval 0
+    ) else (
+        call :skip "Schema validation for known good tests skipped"
+    )
+
+    call :teardown
+endlocal
 
 echo === END TEST CASES ==================================================
 
