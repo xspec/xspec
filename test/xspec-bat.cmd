@@ -846,8 +846,8 @@ rem
     if /i "%~2"=="r"    set "FIND_STRING=\[%LINE_NUMBER%\]%~3"
     if %LINE_NUMBER%==* set "FIND_STRING=%~3"
 
-                        set FIND_FILE=%OUTPUT_LINENUM%
-    if %LINE_NUMBER%==* set FIND_FILE=%OUTPUT_FILTERED%
+                        set "FIND_FILE=%OUTPUT_LINENUM%"
+    if %LINE_NUMBER%==* set "FIND_FILE=%OUTPUT_FILTERED%"
 
     rem
     rem Search the output log file
