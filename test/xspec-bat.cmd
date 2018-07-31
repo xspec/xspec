@@ -850,7 +850,7 @@ rem
     if %LINE_NUMBER%==* set FIND_FILE=%OUTPUT_FILTERED%
 
     rem
-    rem Search the line-numbered output log file
+    rem Search the output log file
     rem
     if        /i "%~2"=="x" (
         findstr /l /x /c:"%FIND_STRING%" "%FIND_FILE%" > NUL
