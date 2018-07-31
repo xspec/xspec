@@ -351,7 +351,7 @@ rem
 rem # set CATALOG option for Saxon if XML_CATALOG has been set
 rem
 if defined XML_CATALOG (
-    set CATALOG=-catalog:"%XML_CATALOG%"
+    set CATALOG=-catalog:%XML_CATALOG%
 )
 
 rem

@@ -74,7 +74,7 @@ else
     echo Saxon script not found, invoking JVM directly instead.
     echo
     xslt() {
-        java -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
+        java -cp "$CP" net.sf.saxon.Transform ${CATALOG} "$@"
     }
     xquery() {
         java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
