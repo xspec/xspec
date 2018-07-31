@@ -404,14 +404,6 @@ teardown() {
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 }
 
-@test "invoking xspec.sh for XSLT with -catalog uses XML Catalog resolver" {
-    export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
-	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
-	echo "$output"
-	[ "$status" -eq 0 ]
-	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-}
-
 @test "invoking xspec.sh for XQuery with -catalog uses XML Catalog resolver" {
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
 	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
@@ -420,42 +412,33 @@ teardown() {
 	[ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
-@test "invoking xspec.sh with XML_CATALOG set uses XML Catalog resolver" {
+@test "invoking xspec.sh for XSLT with -catalog uses XML Catalog resolver and does so even with spaces in file path" {
+    space_dir="${work_dir}/cat a log"
+    mkdir -p "${space_dir}/xspec"
+    cp catalog/catalog-01* "${space_dir}"
+    
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
-    export XML_CATALOG=catalog/catalog-01-catalog.xml
-	run ../bin/xspec.sh catalog/catalog-01-xslt.xspec
+	run ../bin/xspec.sh -catalog "${space_dir}/catalog-01-catalog.xml" "${space_dir}/catalog-01-xslt.xspec"
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
-@test "invoking xspec.sh using -catalog with spaces in file path uses XML Catalog resolver" {
-    mkdir cat\ a\ log
-    mkdir cat\ a\ log/xspec
-    cp catalog/catalog-01* cat\ a\ log
+@test "invoking xspec.sh with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path" {
+    space_dir="${work_dir}/cat a log"
+    mkdir -p "${space_dir}/xspec"
+    cp catalog/catalog-01* "${space_dir}"
+    
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
-	run ../bin/xspec.sh -catalog cat\ a\ log/catalog-01-catalog.xml cat\ a\ log/catalog-01-xslt.xspec
+    export XML_CATALOG="${space_dir}/catalog-01-catalog.xml"
+	run ../bin/xspec.sh "${space_dir}/catalog-01-xslt.xspec"
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-	rm -rf cat\ a\ log
-}
-
-@test "invoking xspec.sh using XML_CATALOG with spaces in file path uses XML Catalog resolver" {
-    mkdir cat\ a\ log
-    mkdir cat\ a\ log/xspec
-    cp catalog/catalog-01* cat\ a\ log
-    export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
-    export XML_CATALOG=cat\ a\ log/catalog-01-catalog.xml
-	run ../bin/xspec.sh cat\ a\ log/catalog-01-xslt.xspec
-	echo "$output"
-	[ "$status" -eq 0 ]
-	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-	rm -rf cat\ a\ log
 }
 
 @test "invoking xspec.sh using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
-    export SAXON_HOME="${PWD}/saxon"
+    export SAXON_HOME="${work_dir}/saxon"
     mkdir $SAXON_HOME
     cp $SAXON_CP $SAXON_HOME
     cp $XML_RESOLVER_CP $SAXON_HOME
@@ -464,7 +447,6 @@ teardown() {
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-	rm -rf $SAXON_HOME
 }
 
 
