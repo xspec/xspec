@@ -281,11 +281,11 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with path containing parentheses #84 or an apostrophe #119 runs successfully and generates HTML report file"
 
-    set SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84)
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84)"
     call :mkdir "%SPECIAL_CHARS_DIR%"
     copy ..\tutorial\escape-for-regex.* "%SPECIAL_CHARS_DIR%" > NUL
 
-    set EXPECTED_REPORT=%SPECIAL_CHARS_DIR%\xspec\escape-for-regex-result.html
+    set "EXPECTED_REPORT=%SPECIAL_CHARS_DIR%\xspec\escape-for-regex-result.html"
 
     call :run ..\bin\xspec.bat "%SPECIAL_CHARS_DIR%\escape-for-regex.xspec"
     call :verify_retval 0
@@ -503,7 +503,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat for XSLT with -catalog uses XML Catalog resolver and does so even with spaces in file path"
 
-    set SPACE_DIR=%WORK_DIR%\cat a log
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
     copy catalog\catalog-01* "%SPACE_DIR%"
     
@@ -518,7 +518,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path"
 
-    set SPACE_DIR=%WORK_DIR%\cat a log
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
     copy catalog\catalog-01* "%SPACE_DIR%"
     
@@ -535,9 +535,9 @@ setlocal
     call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
 
     set "SAXON_HOME=%WORK_DIR%\saxon"
-    call :mkdir %SAXON_HOME%
-    copy %SAXON_CP% %SAXON_HOME%
-    copy %XML_RESOLVER_CP% %SAXON_HOME%
+    call :mkdir "%SAXON_HOME%"
+    copy "%SAXON_CP%"        "%SAXON_HOME%"
+    copy "%XML_RESOLVER_CP%" "%SAXON_HOME%"
     set SAXON_CP=
     
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
