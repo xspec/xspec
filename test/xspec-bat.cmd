@@ -637,7 +637,7 @@ setlocal
     call :setup "Import order with xspec.bat #185"
 
     rem Make the line numbers predictable by providing an existing output dir
-    set TEST_DIR=%WORK_DIR%
+    set "TEST_DIR=%WORK_DIR%"
 
     call :run ..\bin\xspec.bat xspec-185\import-1.xspec
     call :verify_retval 0
@@ -657,7 +657,7 @@ endlocal
 setlocal
     call :setup "Import order with Ant #185"
 
-    set ANT_LOG=%WORK_DIR%\ant.log
+    set "ANT_LOG=%WORK_DIR%\ant.log"
 
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\xspec-185\import-1.xspec" -lib "%SAXON_CP%" -logfile "%ANT_LOG%"
