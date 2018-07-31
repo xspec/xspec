@@ -793,10 +793,11 @@ rem
     set RETVAL=%ERRORLEVEL%
 
     rem
+    rem Normalize CR LF.
     rem Remove the JAVA_TOOL_OPTIONS output, to keep the line numbers predictable.
     rem Remove the empty lines, to be compatible with Bats $lines.
     rem
-    findstr /b /l /v /c:"Picked up JAVA_TOOL_OPTIONS:" "%OUTPUT_RAW%" | findstr /r /v /c:"^$" > "%OUTPUT_FILTERED%"
+    type "%OUTPUT_RAW%" | find /v "" | findstr /b /l /v /c:"Picked up JAVA_TOOL_OPTIONS:" | findstr /r /v /c:"^$" > "%OUTPUT_FILTERED%"
 
     rem
     rem Prefix each line with its line number.
