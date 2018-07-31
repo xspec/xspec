@@ -23,12 +23,12 @@ before_install:
 
 before_script:
     # install Saxon
-    - curl -fsSL --create-dirs -o ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
+    - curl -fsSL --create-dirs --retry 5 -o ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
     # install XML Calabash
     - if [ -z ${XMLCALABASH_VERSION} ]; then
         echo "XMLCalabash will not be installed as it uses a higher version of Saxon";
       else
-        curl -fsSL --create-dirs -o /tmp/xspec/xmlcalabash/xmlcalabash.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip;
+        curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/xmlcalabash/xmlcalabash.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip;
         unzip /tmp/xspec/xmlcalabash/xmlcalabash.zip -d /tmp/xspec/xmlcalabash;
         export XMLCALABASH_CP=/tmp/xspec/xmlcalabash/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar;
       fi
@@ -37,14 +37,14 @@ before_script:
         echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
       else
         export BASEX_CP=/tmp/xspec/basex/basex.jar;
-        curl -fsSL --create-dirs -o ${BASEX_CP} http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
+        curl -fsSL --create-dirs --retry 5 -o ${BASEX_CP} http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
       fi
     # install Ant
-    - curl -fsSL --create-dirs -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
+    - curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
     - tar xf /tmp/xspec/ant/ant.tar.gz -C /tmp/xspec/ant;
     - export PATH=/tmp/xspec/ant/apache-ant-${ANT_VERSION}/bin:{$PATH}
     # install XML Resolver
-    - curl -fsSL --create-dirs -o ${XML_RESOLVER_CP} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
+    - curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_CP} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
     # install Jing
     - if [ -z ${JING_CP} ]; then
         echo "Jing will not be installed";
