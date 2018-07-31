@@ -29,12 +29,21 @@ rem
 rem Output log files for :run
 rem
 set OUTPUT_RAW=%WORK_DIR%\run_raw.log
+set OUTPUT_FILTERED=%WORK_DIR%\run_filtered.log
 set OUTPUT_LINENUM=%WORK_DIR%\run_linenum.log
 
 rem
 rem Name and extension of this file
 rem
 set THIS_FILE_NX=%~nx0
+
+rem
+rem Availability of Ant
+rem
+if not defined ANT_VERSION (
+    where ant > NUL
+    if not errorlevel 1 set ANT_VERSION=1
+)
 
 rem
 rem Go to the directory where this script resides
@@ -398,6 +407,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%"
         call :verify_retval 1
+        call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
         call :verify_line -4 x "BUILD FAILED"
     ) else (
         call :skip "test for XSLT Ant with default properties skipped"
@@ -412,6 +422,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -Dxspec.fail=false
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
         call :skip "test for XSLT Ant with xspec.fail=false skipped"
@@ -426,6 +437,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_xslt.xspec" -lib "%SAXON_CP%" -Dxspec.fail=false -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%"
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
         call :skip "test for XSLT Ant with catalog skipped"
@@ -440,6 +452,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
         rem Verify default clean.output.dir is false
@@ -469,8 +482,9 @@ setlocal
         rem For testing -Dxspec.project.dir
         copy ..\build.xml "%BUILD_XML%" > NUL
 
-        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
+        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dxspec.properties="%CD%\schematron.properties" -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
         rem Verify that -Dxspec-dir was honered and the default dir was not created
@@ -493,6 +507,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%"
         call :verify_retval 1
+        call :verify_line  * x "     [xslt] passed: 6 / pending: 0 / failed: 1 / total: 7"
         call :verify_line -4 x "BUILD FAILED"
 
         rem Verify the build fails before cleanup
@@ -518,9 +533,25 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%" -Dxspec.fail=false
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 6 / pending: 0 / failed: 1 / total: 7"
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
         call :skip "test for Schematron Ant with catalog and xspec.fail=false skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for XQuery with default properties"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec" -lib "%SAXON_CP%" -Dtest.type=q
+        call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+    ) else (
+        call :skip "test for XQuery Ant with default properties skipped"
     )
 
     call :teardown
@@ -781,16 +812,22 @@ rem
 
     rem
     rem Run
+    rem    Launch a child process in order to localize various environment changes
     rem
     "%COMSPEC%" /c %* > "%OUTPUT_RAW%" 2>&1
     set RETVAL=%ERRORLEVEL%
 
     rem
+    rem Normalize CR LF.
     rem Remove the JAVA_TOOL_OPTIONS output, to keep the line numbers predictable.
     rem Remove the empty lines, to be compatible with Bats $lines.
+    rem
+    type "%OUTPUT_RAW%" | find /v "" | findstr /b /l /v /c:"Picked up JAVA_TOOL_OPTIONS:" | findstr /r /v /c:"^$" > "%OUTPUT_FILTERED%"
+
+    rem
     rem Prefix each line with its line number.
     rem
-    findstr /b /l /v /c:"Picked up JAVA_TOOL_OPTIONS:" "%OUTPUT_RAW%" | findstr /r /v /c:"^$" | find /v /n "" > "%OUTPUT_LINENUM%"
+    type "%OUTPUT_FILTERED%" | find /v /n "" > "%OUTPUT_LINENUM%"
 
     goto :EOF
 
@@ -814,11 +851,12 @@ rem
         echo 3: %3
     )
     rem
-    rem Checks to see if the specified line of the output log file matches exactly the specified string
+    rem Checks to see if the specified line of the output log file matches the specified string
     rem
     rem Parameters:
     rem    1: Line number. Starts with 1, unlike Bats $lines which starts with 0.
-    rem        Negative values indicate the reverse order. -1 is the last line. -2 is the line before the last line, and so on.
+    rem        Negative value : Indicates the reverse order. -1 is the last line. -2 is the line before the last line, and so on.
+    rem        * : Don't care. Any line.
     rem    2: Operator
     rem        x : Exact match ("=" on Bats)
     rem        r : Compare with regular expression ("=~" on Bats)
@@ -827,15 +865,22 @@ rem
     rem
 
     set LINE_NUMBER=%~1
-    if %LINE_NUMBER% LSS 0 for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set /a LINE_NUMBER+=%%I+1
+    if not %LINE_NUMBER%==* if %LINE_NUMBER% LSS 0 for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set /a LINE_NUMBER+=%%I+1
+
+                        set "FIND_STRING=[%LINE_NUMBER%]%~3"
+    if /i "%~2"=="r"    set "FIND_STRING=\[%LINE_NUMBER%\]%~3"
+    if %LINE_NUMBER%==* set "FIND_STRING=%~3"
+
+                        set "FIND_FILE=%OUTPUT_LINENUM%"
+    if %LINE_NUMBER%==* set "FIND_FILE=%OUTPUT_FILTERED%"
 
     rem
-    rem Search the line-numbered output log file
+    rem Search the output log file
     rem
     if        /i "%~2"=="x" (
-        findstr /l /x /c:"[%LINE_NUMBER%]%~3" "%OUTPUT_LINENUM%" > NUL
+        findstr /l /x /c:"%FIND_STRING%" "%FIND_FILE%" > NUL
     ) else if /i "%~2"=="r" (
-        findstr /b /r /c:"\[%LINE_NUMBER%\]%~3" "%OUTPUT_LINENUM%" > NUL
+        findstr /b /r /c:"%FIND_STRING%" "%FIND_FILE%" > NUL
     ) else (
         call :failed "Bad operator: %~2"
         goto :EOF

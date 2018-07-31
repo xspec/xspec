@@ -80,7 +80,7 @@ test_script:
 
     rem execute XSpec unit tests
 
-    test\run-xspec-tests.cmd
+    test\run-xspec-tests-ant.cmd -silent
 
 
     rem execute XSpec end-to-end tests
