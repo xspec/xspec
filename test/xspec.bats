@@ -335,7 +335,7 @@ teardown() {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP}
 	echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    [[ "${output}" =~ "TESTpassed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~  "BUILD FAILED" ]]
 }
 
