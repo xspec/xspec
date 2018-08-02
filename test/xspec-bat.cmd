@@ -178,6 +178,8 @@ setlocal
     call :setup "invoking xspec generates XML report file"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+
+    rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
     call :teardown
@@ -187,6 +189,8 @@ setlocal
     call :setup "invoking xspec generates HTML report file"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+
+    rem HTML report file is created
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.html
 
     call :teardown
@@ -230,6 +234,8 @@ setlocal
     call :setup "invoking xspec with -j option generates XML report file"
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
+
+    rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
     call :teardown
@@ -239,6 +245,8 @@ setlocal
     call :setup "invoking xspec with -j option generates JUnit report file"
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
+
+    rem JUnit report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
 
     call :teardown
@@ -373,7 +381,11 @@ setlocal
 
     call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
     call :verify_retval 0
+
+    rem Cleanup removes compiled .xspec
     call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+
+    rem Cleanup removes temporary files in TEST_DIR
     call :run dir /on ..\tutorial\schematron\xspec
     call :verify_line 9 r ".*3 File.*"
     call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.html
@@ -761,6 +773,7 @@ rem
 :teardown
     rem
     rem Remove the XSpec output directories
+    rem    Keep "..\test\" to minimize accident
     rem
     call :rmdir ..\test\xspec
     call :rmdir ..\tutorial\xspec
@@ -818,6 +831,7 @@ rem
 
     rem
     rem Run
+    rem    Launch a child process in order to localize various environment changes
     rem
     "%COMSPEC%" /c %* > "%OUTPUT_RAW%" 2>&1
     set RETVAL=%ERRORLEVEL%
