@@ -18,6 +18,8 @@
 #===============================================================================
 
 setup() {
+	work_dir="${BATS_TMPDIR}/xspec/bats_work"
+	mkdir -p "${work_dir}"
 	mkdir ../tutorial/xspec
 	mkdir ../test/xspec
 	mkdir ../tutorial/schematron/xspec
@@ -26,6 +28,7 @@ setup() {
 
 
 teardown() {
+	rm -rf "${work_dir}"
 	rm -rf ../tutorial/xspec
 	rm -rf ../test/xspec
 	rm -rf ../tutorial/schematron/xspec
@@ -197,11 +200,11 @@ teardown() {
 
 
 @test "invoking xspec.sh with TEST_DIR already set externally generates files inside TEST_DIR" {
-    export TEST_DIR=/tmp
+    export TEST_DIR="${work_dir}"
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at /tmp/escape-for-regex-result.html" ]
+    [ "${lines[18]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 }
 
 
@@ -239,25 +242,27 @@ teardown() {
 
 
 @test "invoking xspec.sh with path containing an apostrophe runs successfully #119" {
-	mkdir some\'path
-	cp ../tutorial/escape-for-regex.* some\'path 
-	run ../bin/xspec.sh some\'path/escape-for-regex.xspec
+	special_chars_dir="${work_dir}/some'path"
+	mkdir "${special_chars_dir}"
+	cp ../tutorial/escape-for-regex.* "${special_chars_dir}"
+
+	expected_report="${special_chars_dir}/xspec/escape-for-regex-result.html"
+
+	run ../bin/xspec.sh "${special_chars_dir}/escape-for-regex.xspec"
 	echo "$output"
 	[ "$status" -eq 0 ]
-	[ "${lines[19]}" = "Report available at some'path/xspec/escape-for-regex-result.html" ]
-	rm -rf some\'path
+	[ "${lines[19]}" = "Report available at ${expected_report}" ]
 }
 
 
 @test "invoking xspec.sh with saxon script uses the saxon script #121 #122" {
-	echo "echo 'Saxon script with EXPath Packaging System'" > /tmp/saxon
-	chmod +x /tmp/saxon
-	export PATH=$PATH:/tmp
+	echo "echo 'Saxon script with EXPath Packaging System'" > "${work_dir}/saxon"
+	chmod +x "${work_dir}/saxon"
+	export PATH="$PATH:${work_dir}"
 	run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[0]}" = "Saxon script found, use it." ]
-	rm /tmp/saxon
 }
 
 
@@ -377,13 +382,16 @@ teardown() {
 
 
 @test "Ant for Schematron with various properties except catalog" {
+    build_xml="${work_dir}/build.xml"
+    ant_test_dir="${work_dir}/ant-temp"
+
     # Remove a temp dir created by setup
     rm -r ../tutorial/schematron/xspec
 
     # For testing -Dxspec.project.dir
-    cp ../build.xml /tmp/
+    cp ../build.xml "${build_xml}"
 
-    run ant -buildfile /tmp/build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
+    run ant -buildfile "${build_xml}" -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir="${ant_test_dir}" -Dclean.output.dir=true
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
@@ -393,11 +401,9 @@ teardown() {
     [ ! -d "../tutorial/schematron/xspec/" ]
 
     # Verify clean.output.dir=true
-    [ ! -d "xspec-temp/" ]
+    [ ! -d "${ant_test_dir}" ]
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
     [ ! -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
-
-    rm /tmp/build.xml
 }
 
 
@@ -455,41 +461,40 @@ teardown() {
 }
 
 @test "invoking xspec.sh using -catalog with spaces in file path uses XML Catalog resolver" {
-    mkdir cat\ a\ log
-    mkdir cat\ a\ log/xspec
-    cp catalog/catalog-01* cat\ a\ log
+    space_dir="${work_dir}/cat a log"
+    mkdir -p "${space_dir}/xspec"
+    cp catalog/catalog-01* "${space_dir}"
+    
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
-	run ../bin/xspec.sh -catalog cat\ a\ log/catalog-01-catalog.xml cat\ a\ log/catalog-01-xslt.xspec
+	run ../bin/xspec.sh -catalog "${space_dir}/catalog-01-catalog.xml" "${space_dir}/catalog-01-xslt.xspec"
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-	rm -rf cat\ a\ log
 }
 
 @test "invoking xspec.sh using XML_CATALOG with spaces in file path uses XML Catalog resolver" {
-    mkdir cat\ a\ log
-    mkdir cat\ a\ log/xspec
-    cp catalog/catalog-01* cat\ a\ log
+    space_dir="${work_dir}/cat a log"
+    mkdir -p "${space_dir}/xspec"
+    cp catalog/catalog-01* "${space_dir}"
+    
     export SAXON_CP="$SAXON_CP:$XML_RESOLVER_CP"
-    export XML_CATALOG=cat\ a\ log/catalog-01-catalog.xml
-	run ../bin/xspec.sh cat\ a\ log/catalog-01-xslt.xspec
+    export XML_CATALOG="${space_dir}/catalog-01-catalog.xml"
+	run ../bin/xspec.sh "${space_dir}/catalog-01-xslt.xspec"
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-	rm -rf cat\ a\ log
 }
 
 @test "invoking xspec.sh using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
-    export SAXON_HOME="${PWD}/saxon"
-    mkdir $SAXON_HOME
-    cp $SAXON_CP $SAXON_HOME
-    cp $XML_RESOLVER_CP $SAXON_HOME/xml-resolver-1.2.jar
+    export SAXON_HOME="${work_dir}/saxon"
+    mkdir "${SAXON_HOME}"
+    cp "${SAXON_CP}"        "${SAXON_HOME}"
+    cp "${XML_RESOLVER_CP}" "${SAXON_HOME}/xml-resolver-1.2.jar"
     export SAXON_CP=
 	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-	rm -rf $SAXON_HOME
 }
 
 
