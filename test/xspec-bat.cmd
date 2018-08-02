@@ -307,7 +307,7 @@ setlocal
 
     set "PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)"
     call :mkdir "%PARENTHESES_DIR%"
-    copy ..\tutorial\escape-for-regex.* "%PARENTHESES_DIR%" > NUL
+    call :copy ..\tutorial\escape-for-regex.* "%PARENTHESES_DIR%"
 
     set "EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html"
 
@@ -324,7 +324,7 @@ setlocal
 
     set "APOSTROPHE_DIR=%WORK_DIR%\some'path"
     call :mkdir "%APOSTROPHE_DIR%"
-    copy ..\tutorial\escape-for-regex.* "%APOSTROPHE_DIR%" > NUL
+    call :copy ..\tutorial\escape-for-regex.* "%APOSTROPHE_DIR%"
 
     call :run ..\bin\xspec.bat "%APOSTROPHE_DIR%\escape-for-regex.xspec"
     call :verify_retval 0
@@ -472,7 +472,7 @@ setlocal
         call :rmdir ..\tutorial\schematron\xspec
 
         rem For testing -Dxspec.project.dir
-        copy ..\build.xml "%BUILD_XML%" > NUL
+        call :copy ..\build.xml "%BUILD_XML%"
 
         call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
         call :verify_retval 0
@@ -573,7 +573,7 @@ setlocal
 
     set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
-    copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
     
     set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
@@ -588,7 +588,7 @@ setlocal
 
     set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
-    copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
     
     set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     set "XML_CATALOG=%SPACE_DIR%\catalog-01-catalog.xml"
@@ -604,8 +604,8 @@ setlocal
 
     set "SAXON_HOME=%WORK_DIR%\saxon"
     call :mkdir "%SAXON_HOME%"
-    copy "%SAXON_CP%"        "%SAXON_HOME%"
-    copy "%XML_RESOLVER_CP%" "%SAXON_HOME%"
+    call :copy "%SAXON_CP%"        "%SAXON_HOME%"
+    call :copy "%XML_RESOLVER_CP%" "%SAXON_HOME%"
     set SAXON_CP=
     
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
@@ -673,6 +673,11 @@ exit /b %EXIT_CODE%
 rem
 rem Subroutines
 rem
+
+:copy
+    copy %1 %2 > NUL
+    if errorlevel 1 call :failed "Failed to copy: %~1 to %~2"
+    goto :EOF
 
 :del
     if exist %1 (
