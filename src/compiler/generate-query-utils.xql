@@ -16,7 +16,7 @@ declare function test:deep-equal($seq1 as item()*, $seq2 as item()*) as xs:boole
   test:deep-equal($seq1, $seq2, 2.0)
 };
 
-declare function test:deep-equalTEST(
+declare function test:deep-equal(
     $seq1 as item()*,
     $seq2 as item()*,
     $version as xs:double
