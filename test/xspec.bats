@@ -483,7 +483,7 @@ teardown() {
     export SAXON_HOME="${PWD}/saxon"
     mkdir $SAXON_HOME
     cp $SAXON_CP $SAXON_HOME
-    cp $XML_RESOLVER_CP $SAXON_HOME
+    cp $XML_RESOLVER_CP $SAXON_HOME/xml-resolver-1.2.jar
     export SAXON_CP=
 	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
 	echo "$output"
