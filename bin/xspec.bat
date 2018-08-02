@@ -137,7 +137,7 @@ rem ##
         set "XML_CATALOG=%~2"
         shift
     ) else if "%WIN_ARGV:~0,1%"=="-" (
-        set WIN_UNKNOWN_OPTION=%WIN_ARGV%
+        set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
     ) else if defined XSPEC (
         if "%WIN_ARGV%"=="coverage" (
             set WIN_DEPRECATED_COVERAGE=1
@@ -324,7 +324,7 @@ if not defined SAXON_CP (
 )
 if defined SAXON_HOME (
     if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
-        set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\TESTxml-resolver-1.2.jar"
+        set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
     )
 )
 
