@@ -360,7 +360,7 @@
     <xsl:value-of select="$counts[1]"/>
     <xsl:if test="$labels"><xsl:text> </xsl:text></xsl:if>
     <xsl:text>/</xsl:text>
-    <xsl:if test="$labels"> pending: </xsl:if>
+    <xsl:if test="$labels">TEST pending: </xsl:if>
     <xsl:value-of select="$counts[2]"/>
     <xsl:if test="$labels"><xsl:text> </xsl:text></xsl:if>
     <xsl:text>/</xsl:text>
