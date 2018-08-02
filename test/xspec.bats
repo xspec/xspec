@@ -204,7 +204,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 	echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+    [ "${lines[18]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.htmlTEST" ]
 }
 
 
@@ -256,7 +256,7 @@ teardown() {
 
 
 @test "invoking xspec.sh with saxon script uses the saxon script #121 #122" {
-	echo "echo 'Saxon script with EXPath Packaging System'" > "${work_dir}/saxon"
+	echo "echo 'Saxon script with EXPath TESTPackaging System'" > "${work_dir}/saxon"
 	chmod +x "${work_dir}/saxon"
 	export PATH="$PATH:${work_dir}"
 	run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec

@@ -330,9 +330,11 @@
     <echo>Clean up</echo>
     
     <!-- Need to retry, for someone may still hold a file, which tends to happen on AppVeyor. -->
+    <!--
     <retry retrycount="1" retrydelay="1000">
       <delete dir="${xspec.dir}"/>
     </retry>
+    -->
     
     <delete file="${xspec.compiled.xml}" if:true="${test.schematron}"/>
     <delete file="${xspec.compiled.xsl}"/>
