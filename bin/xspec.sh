@@ -74,7 +74,7 @@ else
     echo Saxon script not found, invoking JVM directly instead.
     echo
     xslt() {
-        java -cp "$CP" net.sf.saxon.Transform ${CATALOG} "$@"
+        java -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
         java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
@@ -145,7 +145,7 @@ if test -z "$SAXON_CP"; then
 #        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
     fi
     if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
-	   SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jarTEST";
+	   SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar";
 	fi
 fi
 
