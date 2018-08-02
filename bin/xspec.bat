@@ -324,7 +324,7 @@ if not defined SAXON_CP (
 )
 if defined SAXON_HOME (
     if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
-        set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
+        set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\TESTxml-resolver-1.2.jar"
     )
 )
 
