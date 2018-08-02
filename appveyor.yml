@@ -13,6 +13,7 @@ environment:
     # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-21
       XMLCALABASH_VERSION: 1.1.16-97
+      BASEX_VERSION: 8.6.4
     # Saxon version used in oXygen
     - SAXON_VERSION: 9.7.0-19
 
@@ -33,6 +34,18 @@ install:
         curl.exe -fsSL --create-dirs -o "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
         7z x "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" -o"${env:TEMP}\xspec\xmlcalabash"
         ${env:XMLCALABASH_CP} = "${env:TEMP}\xspec\xmlcalabash\xmlcalabash-${env:XMLCALABASH_VERSION}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
+    }
+
+
+    # install BaseX
+
+    if( -Not( Test-Path -Path env:\BASEX_VERSION ) ) {
+        echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
+    }
+
+    else {
+        ${env:BASEX_CP} = "${env:TEMP}\xspec\basex\basex.jar"
+        curl.exe -fsSL --create-dirs -o "${env:BASEX_CP}" "http://files.basex.org/maven/org/basex/basex/${env:BASEX_VERSION}/basex-${env:BASEX_VERSION}.jar"
     }
 
 
