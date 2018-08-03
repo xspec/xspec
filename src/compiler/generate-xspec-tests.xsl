@@ -34,7 +34,7 @@
 
 <xsl:variable name="apostrophe">'</xsl:variable>
 <xsl:variable name="stylesheet-uri" as="xs:anyURI" 
-  select="resolve-uri(/x:description/@stylesheet, base-uri(/x:description))" />  
+  select="resolve-uri(/x:description/@stylesheet, replace(base-uri(/x:description), $apostrophe, '%27'))" />  
 
 <xsl:variable name="stylesheet" as="document-node()" 
   select="doc($stylesheet-uri)" />
