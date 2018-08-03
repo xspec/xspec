@@ -419,7 +419,7 @@ setlocal
     call :setup "executing the XProc harness for BaseX generates a report"
 
     if defined BASEX_CP (
-        call :run java -Xmx1024m -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main -i source=../tutorial/xquery-tutorial.xspec -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" -p basex-jar="%BASEX_CP%" -o result=xspec/xquery-tutorial-result.html ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
+        call :run java -Xmx1024m -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main -i source=../tutorial/xquery-tutorial.xspec -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" -p basex-jar="%BASEX_CP%" -o result=xspec/xquery-tutorial-result.html ..\src\harnesses\basex\basex-standalone-xquery-harness.xproc
         call :verify_line -1 r "..*/src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1"
     ) else (
         call :skip "test for BaseX skipped as it requires XMLCalabash and a higher version of Saxon"
