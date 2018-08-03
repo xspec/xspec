@@ -297,7 +297,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat that passes a non xs:boolean does not raise a warning #46"
 
-    call :run ..\bin\xspec.bat ..\test\xspec-46.xspec
+    call :run ..\bin\xspec.bat xspec-46.xspec
     call :verify_retval 0
     call :verify_line 4 r "Testing with"
 
@@ -352,7 +352,7 @@ endlocal
 setlocal
     call :setup "Schematron phase/parameters are passed to Schematron compile"
 
-    call :run ..\bin\xspec.bat -s ..\test\schematron-param-001.xspec
+    call :run ..\bin\xspec.bat -s schematron-param-001.xspec
     call :verify_retval 0
     call :verify_line 3 x "Paramaters: phase=P1 ?selected=codepoints-to-string((80,49))"
 
