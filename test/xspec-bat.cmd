@@ -771,10 +771,10 @@ rem
     rem
     rem Create the XSpec output directories
     rem
-    call :mkdir ..\test\xspec
-    call :mkdir ..\tutorial\xspec
-    call :mkdir ..\tutorial\schematron\xspec
     call :mkdir ..\test\catalog\xspec
+    call :mkdir ..\test\xspec
+    call :mkdir ..\tutorial\schematron\xspec
+    call :mkdir ..\tutorial\xspec
 
     goto :EOF
 
@@ -783,10 +783,10 @@ rem
     rem Remove the XSpec output directories
     rem    Keep "..\test\" to minimize accident
     rem
-    call :rmdir ..\test\xspec
-    call :rmdir ..\tutorial\xspec
-    call :rmdir ..\tutorial\schematron\xspec
     call :rmdir ..\test\catalog\xspec
+    call :rmdir ..\test\xspec
+    call :rmdir ..\tutorial\schematron\xspec
+    call :rmdir ..\tutorial\xspec
 
     rem
     rem Remove the work directory

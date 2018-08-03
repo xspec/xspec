@@ -20,19 +20,19 @@
 setup() {
 	work_dir="${BATS_TMPDIR}/xspec/bats_work"
 	mkdir -p "${work_dir}"
-	mkdir ../tutorial/xspec
+	mkdir ../test/catalog/xspec
 	mkdir ../test/xspec
 	mkdir ../tutorial/schematron/xspec
-	mkdir ../test/catalog/xspec
+	mkdir ../tutorial/xspec
 }
 
 
 teardown() {
 	rm -rf "${work_dir}"
-	rm -rf ../tutorial/xspec
+	rm -rf ../test/catalog/xspec
 	rm -rf ../test/xspec
 	rm -rf ../tutorial/schematron/xspec
-	rm -rf ../test/catalog/xspec
+	rm -rf ../tutorial/xspec
 }
 
 
