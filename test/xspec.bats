@@ -338,6 +338,9 @@ teardown() {
 
     echo "$output"
     [[ "${output}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+
+    # Default compiled-file
+    [ -f "/tmp/xspec-basex-compiled-suite.xq" ]
 }
 
 
