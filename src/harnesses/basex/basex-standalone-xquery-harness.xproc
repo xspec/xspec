@@ -42,7 +42,7 @@
       </p:variable>
       <!-- TODO: Use a robust way to get a tmp file name from the OS... -->
       <p:variable name="compiled-file"
-         select="( concat(/c:param-set/c:param[@name eq 'compiled-file']/@value, 'TEST'),
+         select="( /c:param-set/c:param[@name eq 'compiled-file']/@value,
             'file:/tmp/xspec-basex-compiled-suite.xq' )[1]">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
