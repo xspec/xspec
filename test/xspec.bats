@@ -353,7 +353,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~  "BUILD FAILED" ]]
+    [[ "${output}" =~ "BUILD FAILED" ]]
 }
 
 
@@ -362,7 +362,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
 
@@ -371,7 +371,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
 
@@ -380,7 +380,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
     # Verify default clean.output.dir is false
     [  -d "../tutorial/schematron/xspec/" ]
@@ -407,7 +407,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
     # Verify that -Dxspec-dir was honered and the default dir was not created
     [ ! -d "../tutorial/schematron/xspec/" ]
@@ -424,7 +424,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
-    [[ "${output}" =~  "BUILD FAILED" ]]
+    [[ "${output}" =~ "BUILD FAILED" ]]
 
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
@@ -444,7 +444,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
 @test "invoking xspec.sh for XSLT with -catalog uses XML Catalog resolver" {
