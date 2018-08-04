@@ -63,7 +63,7 @@
   <!-- File of properties determining or describing local
        configuration. -->
   <property name="xspec.properties" location="${xspec.project.dir}/xspec.properties"/>
-  <property file="${xspec.properties}"/>
+  <property file="${xspec.properties}TEST"/>
   
     
   <dirname property="xspec.base.dir" file="${xspec.xml}" />
