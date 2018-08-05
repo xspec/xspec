@@ -501,12 +501,8 @@ setlocal
         call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
-        rem Verify default clean.output.dir is false
+        rem Verify that the default clean.output.dir is false and leaves temp files. Delete the left files at the same time.
         call :verify_exist ..\tutorial\schematron\xspec\
-        call :verify_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
-        call :verify_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
-
-        rem Delete temp file
         call :del          ..\tutorial\schematron\demo-03.xspec-compiled.xspec
         call :del          ..\tutorial\schematron\demo-03.sch-compiled.xsl
     ) else (
@@ -560,13 +556,9 @@ setlocal
         rem Verify the build fails before cleanup
         call :verify_exist catalog\xspec\
         
-        rem Verify the build fails after Schematron setup
-        call :verify_exist catalog\xspec-160_schematron.xspec-compiled.xspec
-        call :verify_exist ..\tutorial\schematron\demo-04.sch-compiled.xsl
-
-        rem Delete temp file
-        call :del          catalog\xspec-160_schematron.xspec-compiled.xspec
-        call :del          ..\tutorial\schematron\demo-04.sch-compiled.xsl
+        rem Verify that the build fails after Schematron setup and leaves temp files. Delete them at the same time.
+        call :del catalog\xspec-160_schematron.xspec-compiled.xspec
+        call :del ..\tutorial\schematron\demo-04.sch-compiled.xsl
     ) else (
         call :skip "test for Schematron Ant with catalog and default xspec.fail skipped"
     )
