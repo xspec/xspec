@@ -58,6 +58,60 @@ for %%I in (..) do set "PARENT_DIR_ABS=%%~fI"
 echo === START TEST CASES ================================================
 
 setlocal
+    call :setup "del, rmdir and rmdir-s"
+
+    rem
+    rem :del
+    rem
+
+    rem Must succeed
+    echo    > "%WORK_DIR%\not-read-only"
+    call :del "%WORK_DIR%\not-read-only"
+
+    rem Must fail: Read-only file
+    echo    > "%WORK_DIR%\read-only"
+    attrib +r "%WORK_DIR%\read-only"
+    call :del "%WORK_DIR%\read-only"
+
+    rem Must fail: Nonexistent file
+    call :del "%WORK_DIR%\not-exist"
+
+    rem
+    rem :rmdir
+    rem
+
+    rem Must succeed
+    call :mkdir "%WORK_DIR%\shallow-dir"
+    echo      > "%WORK_DIR%\shallow-dir\child-file"
+    call :rmdir "%WORK_DIR%\shallow-dir"
+
+    rem Must fail: Has a child dir
+    call :mkdir "%WORK_DIR%\deep-dir\child-dir"
+    call :rmdir "%WORK_DIR%\deep-dir"
+
+    rem Must fail: Nonexistent dir
+    call :rmdir "%WORK_DIR%\not-exist"
+
+    rem
+    rem :rmdir-s
+    rem
+
+    rem Must succeed
+    call :rmdir-s "%WORK_DIR%\deep-dir"
+
+    rem Must fail: Current dir
+    call :mkdir   "%WORK_DIR%\current-dir"
+    pushd         "%WORK_DIR%\current-dir"
+    call :rmdir-s "%WORK_DIR%\current-dir"
+    popd
+
+    rem Must fail: Nonexistent dir
+    call :rmdir-s "%WORK_DIR%\not-exist"
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "invoking xspec without arguments prints usage"
 
     call :run ..\bin\xspec.bat
