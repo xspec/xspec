@@ -132,16 +132,11 @@ teardown() {
 }
 
 
-@test "invoking xspec generates XML report file" {
+@test "invoking xspec generates XML and HTML report files" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
-}
-
-
-@test "invoking xspec generates HTML report file" {
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 
     # HTML report file is created
     [ -f "../tutorial/xspec/escape-for-regex-result.html" ]

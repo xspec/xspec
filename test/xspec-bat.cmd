@@ -183,20 +183,12 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec generates XML report file"
+    call :setup "invoking xspec generates XML and HTML report files"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
 
     rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
-
-    call :teardown
-endlocal
-
-setlocal
-    call :setup "invoking xspec generates HTML report file"
-
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
 
     rem HTML report file is created
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.html
