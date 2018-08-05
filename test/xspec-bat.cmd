@@ -373,6 +373,10 @@ setlocal
     call :verify_line 6 x "Schematron XSLT expand"
     call :verify_line 7 x "Schematron XSLT compile"
 
+    rem With the provided dummy XSLTs, XSpec leaves temp files. Delete them.
+    call :del ..\tutorial\schematron\demo-01.sch-compiled.xsl
+    call :del ..\tutorial\schematron\demo-01.xspec-compiled.xspec
+
     call :teardown
 endlocal
 

@@ -292,6 +292,10 @@ teardown() {
     [ "${lines[4]}" = "Schematron XSLT include" ]
     [ "${lines[5]}" = "Schematron XSLT expand" ]
     [ "${lines[6]}" = "Schematron XSLT compile" ]
+
+    # With the provided dummy XSLTs, XSpec leaves temp files. Delete them.
+    rm ../tutorial/schematron/demo-01.sch-compiled.xsl
+    rm ../tutorial/schematron/demo-01.xspec-compiled.xspec
 }
 
 
