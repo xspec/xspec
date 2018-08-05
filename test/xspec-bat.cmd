@@ -375,7 +375,7 @@ setlocal
 
     rem With the provided dummy XSLTs, XSpec leaves temp files. Delete them.
     call :del ..\tutorial\schematron\demo-01.sch-compiled.xsl
-    call :del ..\tutorial\schematron\demo-01.xspec-compiled.xspec
+    call :del ..\tutorial\schematron\demo-01.xspec-compiled.xspec_TEST
 
     call :teardown
 endlocal
@@ -504,7 +504,7 @@ setlocal
         rem Verify that the default clean.output.dir is false and leaves temp files. Delete the left files at the same time.
         call :verify_exist ..\tutorial\schematron\xspec\
         call :del          ..\tutorial\schematron\demo-03.xspec-compiled.xspec
-        call :del          ..\tutorial\schematron\demo-03.sch-compiled.xsl
+        call :del          ..\tutorial\schematron\demo-03.sch-compiled.xsl_TEST
     ) else (
         call :skip "test for Schematron Ant with minimum properties skipped"
     )
@@ -558,7 +558,7 @@ setlocal
         
         rem Verify that the build fails after Schematron setup and leaves temp files. Delete them at the same time.
         call :del catalog\xspec-160_schematron.xspec-compiled.xspec
-        call :del ..\tutorial\schematron\demo-04.sch-compiled.xsl
+        call :del ..\tutorial\schematron\demo-04.sch-compiled.xsl_TEST
     ) else (
         call :skip "test for Schematron Ant with catalog and default xspec.fail skipped"
     )
