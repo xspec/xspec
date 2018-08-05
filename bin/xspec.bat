@@ -560,7 +560,7 @@ if defined COVERAGE (
     call :win_echo "Report available at %COVERAGE_HTML%"
     rem %OPEN% "%COVERAGE_HTML%"
 ) else if defined JUNIT (
-    call :xslt -o:"%JUNIT_RESULT%_TEST" ^
+    call :xslt -o:"%JUNIT_RESULT%" ^
         -s:"%RESULT%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\junit-report.xsl" ^
         || ( call :die "Error formating the JUnit report" & goto :win_main_error_exit )
