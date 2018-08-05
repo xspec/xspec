@@ -295,7 +295,7 @@ teardown() {
 
     # With the provided dummy XSLTs, XSpec leaves temp files. Delete them.
     rm ../tutorial/schematron/demo-01.sch-compiled.xsl
-    rm ../tutorial/schematron/demo-01.xspec-compiled.xspec_TEST
+    rm ../tutorial/schematron/demo-01.xspec-compiled.xspec
 }
 
 
@@ -393,7 +393,7 @@ teardown() {
     # Verify that the default clean.output.dir is false and leaves temp files. Delete the left files at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
     rm    "../tutorial/schematron/demo-03.xspec-compiled.xspec"
-    rm    "../tutorial/schematron/demo-03.sch-compiled.xsl_TEST"
+    rm    "../tutorial/schematron/demo-03.sch-compiled.xsl"
 }
 
 
@@ -435,7 +435,7 @@ teardown() {
 
     # Verify that the build fails after Schematron setup and leaves temp files. Delete them at the same time.
     rm "catalog/xspec-160_schematron.xspec-compiled.xspec"
-    rm "../tutorial/schematron/demo-04.sch-compiled.xsl_TEST"
+    rm "../tutorial/schematron/demo-04.sch-compiled.xsl"
 }
 
 
