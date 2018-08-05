@@ -377,7 +377,7 @@ fi
 
 echo
 echo "Formatting Report..."
-xslt -o:"$HTML" \
+xslt -o:"${HTML}_TEST" \
     -s:"$RESULT" \
     -xsl:"$XSPEC_HOME/src/reporter/format-xspec-report.xsl" \
     inline-css=true \

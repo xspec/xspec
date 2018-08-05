@@ -543,7 +543,7 @@ rem
 
 echo:
 echo Formatting Report...
-call :xslt -o:"%HTML%" ^
+call :xslt -o:"%HTML%_TEST" ^
     -s:"%RESULT%" ^
     -xsl:"%XSPEC_HOME%\src\reporter\format-xspec-report.xsl" ^
     inline-css=true ^
