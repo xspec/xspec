@@ -527,6 +527,21 @@ setlocal
 endlocal
 
 setlocal
+    call :setup "invoking xspec.bat for XSLT using -catalog with spaces in file path uses XML Catalog resolver"
+
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
+    call :mkdir "%SPACE_DIR%\xspec"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
+    
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
+    call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
+    call :verify_retval 0
+    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "invoking xspec.bat for XQuery with -catalog uses XML Catalog resolver"
 
     set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
@@ -543,21 +558,6 @@ setlocal
     set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     set XML_CATALOG=catalog\catalog-01-catalog.xml
     call :run ..\bin\xspec.bat catalog\catalog-01-xslt.xspec
-    call :verify_retval 0
-    call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-
-    call :teardown
-endlocal
-
-setlocal
-    call :setup "invoking xspec.bat for XSLT using -catalog with spaces in file path uses XML Catalog resolver"
-
-    set "SPACE_DIR=%WORK_DIR%\cat a log"
-    call :mkdir "%SPACE_DIR%\xspec"
-    call :copy catalog\catalog-01* "%SPACE_DIR%"
-    
-    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
-    call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
     call :verify_retval 0
     call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 
