@@ -399,7 +399,7 @@ elif test -n "$JUNIT"; then
 		|| die "Error formatting the JUnit report"
 	echo "Report available at $JUNIT_RESULT"
 else
-    echo "Report available at $HTML"
+    echo "Report TEST available at $HTML"
     #$OPEN "$HTML"
 fi
 
