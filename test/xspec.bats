@@ -335,6 +335,7 @@ teardown() {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP}
 	echo $output
     [ "$status" -eq 1 ]
+    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~  "BUILD FAILED" ]]
 }
 
@@ -343,6 +344,7 @@ teardown() {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP} -Dxspec.fail=false
 	echo $output
     [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 }
 
@@ -351,6 +353,7 @@ teardown() {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_xslt.xspec -lib ${SAXON_CP} -Dxspec.fail=false -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${XML_RESOLVER_CP}
 	echo $output
     [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 }
 
@@ -359,6 +362,7 @@ teardown() {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s
 	echo $output
     [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 
     # Verify default clean.output.dir is false
@@ -382,6 +386,7 @@ teardown() {
     run ant -buildfile /tmp/build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir=${PWD}/xspec-temp -Dclean.output.dir=true
 	echo $output
     [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 
     # Verify that -Dxspec-dir was honered and the default dir was not created
@@ -400,6 +405,7 @@ teardown() {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${XML_RESOLVER_CP}
 	echo $output
     [ "$status" -eq 1 ]
+    [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
     [[ "${output}" =~  "BUILD FAILED" ]]
 
     # Verify the build fails before cleanup
@@ -419,6 +425,7 @@ teardown() {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib ${SAXON_CP} -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib ${XML_RESOLVER_CP} -Dxspec.fail=false
 	echo $output
     [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
     [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
 }
 
