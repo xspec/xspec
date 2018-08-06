@@ -274,7 +274,6 @@ teardown() {
 
 @test "invoking xspec.sh with the -s option does not display Schematron warnings #129 #131" {
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
-	echo "${lines[4]}"
 	echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[4]}" == "Compiling the Schematron tests..." ]
