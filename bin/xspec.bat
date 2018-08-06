@@ -566,7 +566,7 @@ if defined COVERAGE (
         || ( call :die "Error formating the JUnit report" & goto :win_main_error_exit )
     call :win_echo "Report available at %JUNIT_RESULT%"
 ) else (
-    call :win_echo "Report TEST available at %HTML%"
+    call :win_echo "Report available at %HTML%"
     rem %OPEN% "%HTML%"
 )
 
