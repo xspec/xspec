@@ -433,7 +433,7 @@ teardown() {
 	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
-@test "invoking xspec.sh using -catalog with spaces in file path uses XML Catalog resolver" {
+@test "invoking xspec.sh for XSLT using -catalog with spaces in file path uses XML Catalog resolver" {
     space_dir="${work_dir}/cat a log"
     mkdir -p "${space_dir}/xspec"
     cp catalog/catalog-01* "${space_dir}"

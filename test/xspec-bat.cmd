@@ -550,7 +550,7 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec.bat using -catalog with spaces in file path uses XML Catalog resolver"
+    call :setup "invoking xspec.bat for XSLT using -catalog with spaces in file path uses XML Catalog resolver"
 
     set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
