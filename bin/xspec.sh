@@ -380,7 +380,6 @@ echo "Formatting Report..."
 xslt -o:"$HTML" \
     -s:"$RESULT" \
     -xsl:"$XSPEC_HOME/src/reporter/format-xspec-report.xsl" \
-    inline-css=true \
     || die "Error formatting the report"
 if test -n "$COVERAGE"; then
     xslt -l:on \
