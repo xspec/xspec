@@ -182,7 +182,7 @@ rem ##
     echo:
     echo Compiling the Schematron...
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
-        -xsl:"%SCHEMATRON_XSLT_INCLUDE%" ^
+        -xsl:"%SCHEMATRON_XSLT_INCLUDE%" -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 1" & goto :win_main_error_exit )
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
         -xsl:"%SCHEMATRON_XSLT_EXPAND%" -versionmsg:off ^
