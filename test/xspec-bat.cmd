@@ -614,6 +614,52 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "Ant for XSLT with saxon.custom.options"
+
+    rem Test with a space in file name
+    set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
+
+    if defined ANT_VERSION (
+        call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
+        
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\saxon-custom-options\test.xspec" -lib "%SAXON_CP%" -Dsaxon.custom.options="-config:""%SAXON_CONFIG%"" -t"
+        call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+
+        rem Verify '-t'
+        call :verify_line  * r "     \[java\] Memory used:"
+    ) else (
+        call :skip "test for XSLT Ant with saxon.custom.options skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for XQuery with saxon.custom.options"
+
+    rem Test with a space in file name
+    set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
+
+    if defined ANT_VERSION (
+        call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
+        
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\saxon-custom-options\test.xspec" -lib "%SAXON_CP%" -Dsaxon.custom.options="-config:""%SAXON_CONFIG%"" -t" -Dtest.type=q
+        call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+        call :verify_line -2 x "BUILD SUCCESSFUL"
+
+        rem Verify '-t'
+        call :verify_line  * r "     \[java\] Memory used:"
+    ) else (
+        call :skip "test for XQuery Ant with saxon.custom.options skipped"
+    )
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem

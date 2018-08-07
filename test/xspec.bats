@@ -482,3 +482,45 @@ teardown() {
         skip "Schema validation for known good tests skipped";
     fi
 }
+
+
+@test "Ant for XSLT with saxon.custom.options" {
+    # Test with a space in file name
+    saxon_config="${work_dir}/saxon config.xml"
+    cp saxon-custom-options/config.xml "${saxon_config}"
+    
+    # via properties file, to convey the options in a stable manner...
+    xspec_properties="${work_dir}/xspec.properties"
+    echo "saxon.custom.options=-config:\"${saxon_config}\" -t" > "${xspec_properties}"
+    
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/saxon-custom-options/test.xspec -lib ${SAXON_CP} -Dxspec.properties="${xspec_properties}"
+	echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+
+    # Verify '-t'
+    [[ "${output}" =~ "Memory used:" ]]
+}
+
+
+@test "Ant for XQuery with saxon.custom.options" {
+    # Test with a space in file name
+    saxon_config="${work_dir}/saxon config.xml"
+    cp saxon-custom-options/config.xml "${saxon_config}"
+    
+    # via properties file, to convey the options in a stable manner...
+    xspec_properties="${work_dir}/xspec.properties"
+    echo "saxon.custom.options=-config:\"${saxon_config}\" -t" > "${xspec_properties}"
+    
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/saxon-custom-options/test.xspec -lib ${SAXON_CP} -Dxspec.properties="${xspec_properties}" -Dtest.type=q
+	echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+
+    # Verify '-t'
+    [[ "${output}" =~ "Memory used:" ]]
+}
+
+
