@@ -513,12 +513,14 @@ if defined XSLT (
     rem
     if defined COVERAGE (
         echo Collecting test coverage data; suppressing progress report...
-        call :win_xslt_trace -T:%COVERAGE_CLASS% ^
+        call :win_xslt_trace %SAXON_CUSTOM_OPTIONS% ^
+            -T:%COVERAGE_CLASS% ^
             -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
             -it:{http://www.jenitennison.com/xslt/xspec}main 2> "%COVERAGE_XML%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
-        call :xslt -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
+        call :xslt %SAXON_CUSTOM_OPTIONS% ^
+            -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
             -it:{http://www.jenitennison.com/xslt/xspec}main ^
             || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
@@ -528,11 +530,13 @@ if defined XSLT (
     rem
     if defined COVERAGE (
         echo Collecting test coverage data; suppressing progress report...
-        call :win_xquery_trace -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" 2> "%COVERAGE_XML%" ^
+        call :win_xquery_trace %SAXON_CUSTOM_OPTIONS% ^
+            -T:%COVERAGE_CLASS% ^
+            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" 2> "%COVERAGE_XML%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
-        call :xquery -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" ^
+        call :xquery %SAXON_CUSTOM_OPTIONS% ^
+            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" ^
             || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
 )
