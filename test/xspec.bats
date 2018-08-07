@@ -524,3 +524,35 @@ teardown() {
 }
 
 
+@test "invoking xspec.sh for XSLT with SAXON_CUSTOM_OPTIONS" {
+    # Test with a space in file name
+    saxon_config="${work_dir}/saxon config.xml"
+    cp saxon-custom-options/config.xml "${saxon_config}"
+    
+    export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
+    run ../bin/xspec.sh saxon-custom-options/test.xspec
+	echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+
+    # Verify '-t'
+    [[ "${output}" =~ "Memory used:" ]]
+}
+
+
+@test "invoking xspec.sh for XQuery with SAXON_CUSTOM_OPTIONS" {
+    # Test with a space in file name
+    saxon_config="${work_dir}/saxon config.xml"
+    cp saxon-custom-options/config.xml "${saxon_config}"
+    
+    export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
+    run ../bin/xspec.sh -q saxon-custom-options/test.xspec
+	echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+
+    # Verify '-t'
+    [[ "${output}" =~ "Memory used:" ]]
+}
+
+
