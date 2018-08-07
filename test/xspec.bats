@@ -343,6 +343,15 @@ teardown() {
 }
 
 
+@test "Ant for XQuery with default properties" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/xquery-tutorial.xspec -lib ${SAXON_CP} -Dtest.type=q
+	echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+}
+
+
 @test "Ant for Schematron with minimum properties #168" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib ${SAXON_CP} -Dtest.type=s
 	echo "$output"
