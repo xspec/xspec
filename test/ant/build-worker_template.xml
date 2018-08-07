@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="run-all-xspec-files" name="run-xspec-tests-worker">
+	<!-- Import the core XSpec build file with some properties predefined -->
+	<property name="xspec.properties" value="xspec.properties" />
+	<import file="../../build.xml" />
+
+	<!-- Include util -->
+	<include file="common/build-worker_util.xml" />
+
+	<!-- Main target -->
+	<target name="run-all-xspec-files"><!-- A series of run-xspec will go here --></target>
+</project>
