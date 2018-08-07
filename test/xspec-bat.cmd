@@ -58,7 +58,7 @@ for %%I in (..) do set "PARENT_DIR_ABS=%%~fI"
 echo === START TEST CASES ================================================
 
 setlocal
-    call :setup "invoking xspec without arguments prints usage"
+    call :setup "invoking xspec without arguments prints usage & exit 1"
 
     call :run ..\bin\xspec.bat
     call :verify_retval 1
