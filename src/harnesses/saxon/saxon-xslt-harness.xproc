@@ -27,7 +27,7 @@
    </p:documentation>
 
    <p:serialization port="result" indent="true" method="xhtml"
-                    encoding="UTF-8" include-content-type="true"/>
+                    encoding="US-ASCII" include-content-type="true"/>
 
    <p:import href="../harness-lib.xpl"/>
 
