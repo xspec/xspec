@@ -60,6 +60,16 @@ setlocal
 endlocal
 
 setlocal
+    call :setup "invoking xspec with -h prints usage and does so even when it is 11th argument"
+
+    call :run ..\bin\xspec.bat -t -t -t -t -t -t -t -t -t -t -h
+    call :verify_retval 0
+    call :verify_line 2 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "invoking xspec with -s and -t prints error message"
 
     call :run ..\bin\xspec.bat -s -t
