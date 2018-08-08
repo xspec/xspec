@@ -8,13 +8,13 @@ environment:
     XML_RESOLVER_CP: '%TEMP%\xspec\xml-resolver\xml-resolver-1.2.jar'
   matrix:
     # latest Saxon 9.8 version and full path to Jing jar
-    - SAXON_VERSION: 9.8.0-7
+    - SAXON_VERSION: 9.8.0-14
       JING_CP: '%TEMP%\xspec\jing\jing.jar'
     # latest Saxon 9.7 version
     - SAXON_VERSION: 9.7.0-21
       XMLCALABASH_VERSION: 1.1.16-97
     # Saxon version used in oXygen
-    - SAXON_VERSION: 9.7.0-19
+    - SAXON_VERSION: 9.8.0-12
 
 install:
 - ps: >-
