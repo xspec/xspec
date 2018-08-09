@@ -206,14 +206,14 @@
         <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(11) != ''" />
         <xsl:variable name="matches" as="xs:boolean"
           select="($node instance of text() and
-          regex-group(2) != '') or
-          ($node instance of element() and
-          ($startTag or $endTag or $emptyTag) and
-          name($node) = (regex-group(10), regex-group(12))) or
-          ($node instance of comment() and
-          regex-group(3) != '') or
-          ($node instance of processing-instruction() and
-          regex-group(5) != '')" />
+                   regex-group(2) != '') or
+                  ($node instance of element() and
+                   ($startTag or $endTag or $emptyTag) and
+                   name($node) = (regex-group(10), regex-group(12))) or
+                  ($node instance of comment() and
+                   regex-group(3) != '') or
+                  ($node instance of processing-instruction() and
+                  regex-group(5) != '')" />
         <xsl:variable name="coverage" as="xs:string" 
           select="if ($matches) then test:coverage($node, $module) else 'ignored'" />
         <xsl:for-each select="$construct-lines">
@@ -224,7 +224,7 @@
           </xsl:if>
           <span class="{$coverage}">
             <xsl:value-of select="." />
-          </span>           
+          </span>
         </xsl:for-each>
         <!-- Capture the residue, tagging it for later analysis and processing. -->
         <test:residue matches="{$matches}" startTag="{$startTag}" rest="{$rest}" count="{count($construct-lines)}"/>
@@ -234,7 +234,7 @@
           unmatched string: <xsl:value-of select="." />
         </xsl:message>
       </xsl:non-matching-substring>
-    </xsl:analyze-string>     
+    </xsl:analyze-string>
   </xsl:variable>
   <xsl:copy-of select="$analyzed/node()[not(self::test:residue)]"/>
   <xsl:variable name="residue" select="$analyzed/test:residue"/>
@@ -276,7 +276,7 @@
         </xsl:choose>
       </xsl:with-param> 
     </xsl:call-template>
-  </xsl:if>    
+  </xsl:if>
 </xsl:template>
 
 <xsl:function name="test:coverage" as="xs:string">
