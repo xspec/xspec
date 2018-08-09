@@ -81,22 +81,37 @@
   <!-- Directory where various output files are created -->
   <property name="xspec.output.dir" value="${xspec.dir}" />
 
+  <!-- Whether to create the coverage report or not -->
+  <property name="xspec.coverage.enabled" value="false" />
+
   <!-- File path of the XML report file -->
   <property name="xspec.result.xml"
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-result.xml" />
 
+  <!-- File path of the coverage XML file -->
+  <property name="xspec.coverage.xml"
+            value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-coverage.xml" />
+
   <!-- "xspec.result.html" property: Used by Oxygen default transformation. DO NOT RENAME.
-    File path of the HTML report file -->
+    File path of the test result HTML file. -->
   <property name="xspec.result.html"
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-result.html" />
+
+  <!-- File path of the coverage report HTML file -->
+  <property name="xspec.coverage.html"
+             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-coverage.html" />
 
   <!-- "clean.output.dir" property: Documented in Wiki. DO NOT RENAME.
     Controls whether to delete the output files -->
   <property name="clean.output.dir" value="false" />
 
-  <!-- File path of XSLT file for formatting the HTML report file. -->
-  <property name="xspec.reporter.xsl"
+  <!-- File path of XSLT file for formatting the test result HTML file -->
+  <property name="xspec.html.reporter.xsl"
             value="${xspec.project.dir}/src/reporter/format-xspec-report.xsl" />
+
+  <!-- File path of XSLT file for formatting the coverage report HTML file -->
+  <property name="xspec.coverage.reporter.xsl"
+            value="${xspec.project.dir}/src/reporter/coverage-report.xsl" />
 
   <!-- "test.type" property: Documented in Wiki. DO NOT RENAME.
     Specifies XSLT, XQuery or Schematron -->
@@ -207,6 +222,16 @@
         <and>
           <isfalse value="${xspec.is.schematron}" />
           <isfalse value="${xspec.is.xquery}" />
+          <isfalse value="${xspec.is.xslt}" />
+        </and>
+      </condition>
+    </fail>
+
+    <!-- Verify "xspec.coverage.enabled" -->
+    <fail message="Coverage is supported only for XSLT">
+      <condition>
+        <and>
+          <istrue value="${xspec.coverage.enabled}" />
           <isfalse value="${xspec.is.xslt}" />
         </and>
       </condition>
@@ -345,13 +370,27 @@
     <echo message="Running XSLT Tests..."
           level="info" />
 
+    <echo message="Collecting test coverage data; suppressing progress report..."
+          level="info"
+          if:true="${xspec.coverage.enabled}" />
+
     <!-- Can't specify saxon.custom.options with <xslt> task so have to
       fall back to running Saxon as Java app. -->
     <java classname="net.sf.saxon.Transform" fork="true" failonerror="true">
       <!-- Saxon should be included in the classpath -->
       <classpath>
         <pathelement path="${java.class.path}" />
+        <pathelement location="${xspec.project.dir}/java" if:true="${xspec.coverage.enabled}" />
       </classpath>
+
+      <redirector error="${xspec.coverage.xml}" if:true="${xspec.coverage.enabled}">
+        <!-- Filter out unexpected lines: xspec/xspec#205 -->
+        <errorfilterchain>
+          <linecontainsregexp>
+            <regexp pattern="^&lt;..*>\r?$" />
+          </linecontainsregexp>
+        </errorfilterchain>
+      </redirector>
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
       <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
@@ -360,16 +399,17 @@
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-s:${xspec.xspecfile.preprocessed}" />
       <arg value="-xsl:${xspec.compiled.runner}" />
+      <arg value="-T:com.jenitennison.xslt.tests.XSLTCoverageTraceListener"
+           if:true="${xspec.coverage.enabled}" />
     </java>
   </target>
 
-  <!-- Main target -->
-  <target name="xspec"
-          description="Generates the result of XSpec tests"
+  <!-- Report: Test result HTML -->
+  <target name="report-html"
           depends="run-xquery-test, run-xslt-test">
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.html}"
-                style="${xspec.reporter.xsl}">
+                style="${xspec.html.reporter.xsl}">
       <factory-elements>
         <attribute name="http://saxon.sf.net/feature/allow-external-functions"
                    value="true"/>
@@ -378,7 +418,34 @@
         <param name="inline-css" expression="true" />
       </xslt-elements>
     </saxon-xslt>
+  </target>
 
+  <!-- Report: Coverage HTML -->
+  <target name="report-coverage"
+          depends="run-xslt-test"
+          if="${xspec.coverage.enabled}">
+
+    <!-- Absolute file path of the original XSpec file -->
+    <property name="xspec.xspecfile.absolute" location="${xspec.xspecfile.original}" />
+
+    <saxon-xslt in="${xspec.coverage.xml}"
+                out="${xspec.coverage.html}"
+                style="${xspec.coverage.reporter.xsl}">
+      <factory-elements>
+        <attribute name="http://saxon.sf.net/feature/linenumbering"
+                   value="true"/>
+      </factory-elements>
+      <xslt-elements>
+        <param name="tests" expression="${xspec.xspecfile.absolute}" />
+        <param name="inline-css" expression="true" />
+      </xslt-elements>
+    </saxon-xslt>
+  </target>
+
+  <!-- Main target -->
+  <target name="xspec"
+          description="Generates the result of XSpec tests"
+          depends="report-html, report-coverage">
     <antcall target="fail" />
     <antcall target="cleanup" />
   </target>
