@@ -8,8 +8,9 @@ env:
         # full path to XML Resolver jar
         - XML_RESOLVER_CP=/tmp/xspec/xml-resolver/xml-resolver-1.2.jar
     matrix:
-        # latest Saxon 9.8 version
+        # latest Saxon 9.8 version and full path to Jing jar
         - SAXON_VERSION=9.8.0-7
+          JING_CP=/tmp/xspec/jing/jing.jar
         # latest Saxon 9.7 version
         - SAXON_VERSION=9.7.0-21
           XMLCALABASH_VERSION=1.1.16-97
@@ -44,6 +45,12 @@ before_script:
     - export PATH=/tmp/xspec/ant/apache-ant-${ANT_VERSION}/bin:{$PATH}
     # install XML Resolver
     - curl -fsSL --create-dirs -o ${XML_RESOLVER_CP} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
+    # install Jing
+    - if [ -z ${JING_CP} ]; then
+        echo "Jing will not be installed";
+      else
+        curl -fsSL --create-dirs -o ${JING_CP} http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar;
+      fi
 
 script:
     - ant -version
