@@ -28,8 +28,8 @@ do
     fi
 
     # Normalize the report HTML
-    java -classpath ${SAXON_CP} net.sf.saxon.Transform -o:${TEST_DIR}/${CASE_BASENAME}-result-norm.html -s:${TEST_DIR}/${CASE_BASENAME}-result.html -xsl:processor/normalize.xsl
+    java -classpath ${SAXON_CP} net.sf.saxon.Transform -o:${TEST_DIR}/${CASE_BASENAME}-result-norm.html -s:${TEST_DIR}/${CASE_BASENAME}-result.html -xsl:processor/html/normalize.xsl
     
     # Normalize the JUnit report
-    java -classpath ${SAXON_CP} net.sf.saxon.Transform -o:${TEST_DIR}/${CASE_BASENAME}-junit-norm.xml -s:${TEST_DIR}/${CASE_BASENAME}-junit.xml -xsl:processor/normalize-junit.xsl
+    java -classpath ${SAXON_CP} net.sf.saxon.Transform -o:${TEST_DIR}/${CASE_BASENAME}-junit-norm.xml -s:${TEST_DIR}/${CASE_BASENAME}-junit.xml -xsl:processor/junit/normalize.xsl
 done

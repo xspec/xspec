@@ -47,7 +47,7 @@ for %%I in ("%CASES_DIR%\*.xspec") do (
     rem
     rem Compare with the expected HTML
     rem
-    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -s:"%TEST_DIR%\%%~nI-result.html" -xsl:processor\compare.xsl | findstr /b /l /c:"OK: Compared "
+    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -s:"%TEST_DIR%\%%~nI-result.html" -xsl:processor\html\compare.xsl | findstr /b /l /c:"OK: Compared "
     if errorlevel 1 (
         echo FAILED: %%~I
         if /i "%APPVEYOR%"=="True" appveyor UpdateTest "%%~I" -Framework custom -Filename "%~nx0" -Outcome Failed -Duration 0
@@ -59,7 +59,7 @@ for %%I in ("%CASES_DIR%\*.xspec") do (
     rem
     rem Compare with the expected JUnit report
     rem
-    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -s:"%TEST_DIR%\%%~nI-junit.xml" -xsl:processor\compare-junit.xsl | findstr /b /l /c:"OK: Compared "
+    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -s:"%TEST_DIR%\%%~nI-junit.xml" -xsl:processor\junit\compare.xsl | findstr /b /l /c:"OK: Compared "
     if errorlevel 1 (
         echo FAILED: %%~I
         if /i "%APPVEYOR%"=="True" appveyor UpdateTest "%%~I" -Framework custom -Filename "%~nx0" -Outcome Failed -Duration 0

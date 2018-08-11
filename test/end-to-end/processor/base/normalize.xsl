@@ -6,22 +6,25 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This master stylesheet normalizes the input document.
+		This master stylesheet is a basis for normalizing various reports.
+		
+		The processor must import this stylesheet and provide its own deserializer, normalizer and serializer.
 	-->
 
+	<xsl:include href="../base/_util.xsl" />
 	<xsl:include href="_deserializer.xsl" />
 	<xsl:include href="_normalizer.xsl" />
-	<xsl:include href="_normalizer_html.xsl"/>
 	<xsl:include href="_serializer.xsl" />
-	<xsl:include href="_util.xsl" />
 
 	<xsl:template as="empty-sequence()" match="document-node()">
-		<xsl:message select="'Normalizing', base-uri()" />
+		<xsl:message select="'Normalizing', document-uri(.)" />
 
-		<xsl:variable as="document-node()" name="input-doc" select="deserializer:unindent(.)" />
+		<xsl:variable as="document-node()" name="input-doc">
+			<xsl:apply-templates mode="deserializer:unindent" select="." />
+		</xsl:variable>
 
 		<xsl:result-document format="serializer:output">
-			<xsl:sequence select="normalizer:normalize($input-doc)" />
+			<xsl:apply-templates mode="normalizer:normalize" select="$input-doc" />
 		</xsl:result-document>
 
 		<xsl:message select="'Normalized'" />

@@ -4,43 +4,54 @@
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:saxon="http://saxon.sf.net/"
 	xmlns:serializer="x-urn:xspec:test:end-to-end:processor:serializer"
-	xmlns:util="x-urn:xspec:test:end-to-end:processor:util"
+	xmlns:util="x-urn:xspec:test:end-to-end:processor:base:util"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This master stylesheet normalizes the input document and compares the normalized document with the expected JUnit report file.
-			Note: Comparison is performed by fn:deep-equal() which may ignore some comments and processing instructions.
+		This master stylesheet is a basis for comparing the input document with the expected file.
+			* Before comparing, the input document is normalized.
+			* Comparison is performed by fn:deep-equal() which may ignore some comments and processing instructions.
+		
+		The processor must import this stylesheet and provide its own deserializer, normalizer and serializer.
 	-->
 
-	<xsl:include href="_deserializer.xsl"/>
+	<xsl:include href="../base/_util.xsl" />
+	<xsl:include href="_deserializer.xsl" />
 	<xsl:include href="_normalizer.xsl" />
-	<xsl:include href="_normalizer_junit.xsl" />
-	<xsl:include href="_util.xsl" />
+	<xsl:include href="_serializer.xsl" />
 
 	<xsl:output method="text" />
 
 	<!--
-		URI of the expected HTML file
+		URI of the expected result file
 			Its content must be already normalized by the 'normalizer:normalize' template.
 	-->
-	<xsl:param as="xs:anyURI" name="EXPECTED-JUNIT"
+	<xsl:param as="xs:anyURI" name="EXPECTED-RESULT-URI"
 		select="
 			resolve-uri(
-			concat('../expected/', util:filename-without-extension(base-uri()), '-norm.xml'),
-			base-uri())" />
+			concat('../expected/', util:filename-without-extension(document-uri(/)), '-norm.',
+			if (/testsuites) then
+				'xml'
+			else
+				'html'),
+			document-uri(/))" />
 
 	<xsl:param as="xs:boolean" name="DEBUG" select="false()" />
 
 	<xsl:template as="text()+" match="document-node()">
-		<!-- Load the expected JUnit report -->
-		<xsl:variable as="document-node()" name="expected-doc"
-			select="deserializer:unindent(doc($EXPECTED-JUNIT))" />
-		
+		<!-- Load the expected result -->
+		<xsl:variable as="document-node()" name="expected-doc">
+			<xsl:apply-templates mode="deserializer:unindent" select="doc($EXPECTED-RESULT-URI)" />
+		</xsl:variable>
+
 		<!-- Normalize the input document -->
-		<xsl:variable as="document-node()" name="input-doc" select="deserializer:unindent(.)" />
-		<xsl:variable as="document-node()" name="normalized-input-doc"
-			select="normalizer:normalize($input-doc)" />
-		
+		<xsl:variable as="document-node()" name="input-doc">
+			<xsl:apply-templates mode="deserializer:unindent" select="." />
+		</xsl:variable>
+		<xsl:variable as="document-node()" name="normalized-input-doc">
+			<xsl:apply-templates mode="normalizer:normalize" select="$input-doc" />
+		</xsl:variable>
+
 		<!-- Compare the normalized input document with the expected document -->
 		<xsl:variable as="xs:boolean" name="comparison-result"
 			select="deep-equal($normalized-input-doc, $expected-doc)" />
@@ -48,15 +59,15 @@
 		<!-- Diagnostic output -->
 		<xsl:if test="not($comparison-result) or $DEBUG">
 			<!-- Save the normalized input document -->
-			<xsl:variable as="xs:anyURI" name="normalized-input-html"
+			<xsl:variable as="xs:anyURI" name="save-normalized-input-uri"
 				select="
 					resolve-uri(
-					concat(util:filename-without-extension(base-uri()), '-norm.html'),
-					base-uri())" />
-			<xsl:result-document format="junit" href="{$normalized-input-html}">
+					concat(util:filename-without-extension(document-uri(.)), '-norm.html'),
+					document-uri(.))" />
+			<xsl:result-document format="serializer:output" href="{$save-normalized-input-uri}">
 				<xsl:sequence select="$normalized-input-doc" />
 			</xsl:result-document>
-			<xsl:message select="'Saved the normalized input:', $normalized-input-html" />
+			<xsl:message select="'Saved the normalized input:', $save-normalized-input-uri" />
 
 			<!-- Print the documents -->
 			<xsl:message select="'[NORMALIZED INPUT]', $normalized-input-doc" />
@@ -80,9 +91,9 @@
 				else
 					'FAILED'" />
 		<xsl:text>: Compared </xsl:text>
-		<xsl:value-of select="base-uri()" />
+		<xsl:value-of select="document-uri(.)" />
 		<xsl:text> with </xsl:text>
-		<xsl:value-of select="$EXPECTED-JUNIT" />
+		<xsl:value-of select="$EXPECTED-RESULT-URI" />
 		<xsl:text>&#x0A;</xsl:text>
 	</xsl:template>
 </xsl:stylesheet>
