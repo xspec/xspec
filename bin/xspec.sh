@@ -399,7 +399,7 @@ if test -n "$COVERAGE"; then
     echo "Report available at $COVERAGE_HTML"
     #$OPEN "$COVERAGE_HTML"
 elif test -n "$JUNIT"; then
-	xslt -o:"${JUNIT_RESULT}TEST" \
+	xslt -o:"$JUNIT_RESULT" \
 		-s:"$RESULT" \
 		-xsl:"$XSPEC_HOME/src/reporter/junit-report.xsl" \
 		|| die "Error formatting the JUnit report"
