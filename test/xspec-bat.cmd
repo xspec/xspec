@@ -196,6 +196,9 @@ setlocal
     call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:..\tutorial\xspec\escape-for-regex-result.html -xsl:html-css.xsl
     call :verify_line 1 x "true"
 
+    rem JUnit is disabled by default
+    call :verify_not_exist ..\tutorial\xspec\escape-for-regex-junit.xml
+
     call :teardown
 endlocal
 
@@ -232,6 +235,9 @@ setlocal
 
     rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
+
+    rem HTML report file
+    call :verify_exist ..\tutorial\xspec\escape-for-regex-result.html
 
     rem JUnit report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
@@ -389,6 +395,9 @@ setlocal
         call :verify_retval 1
         call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
         call :verify_line -4 x "BUILD FAILED"
+
+        rem Default xspec.junit.enabled is false
+        call :verify_not_exist ..\tutorial\xspec\escape-for-regex-junit.xml
     ) else (
         call :skip "test for XSLT Ant with default properties skipped"
     )
@@ -692,6 +701,30 @@ setlocal
 
     rem Verify '-t'
     call :verify_line  * r "Memory used:"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Ant for XSLT with JUnit creates report files"
+
+    if defined ANT_VERSION (
+        call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -Dxspec.junit.enabled=true
+        call :verify_retval 1
+        call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
+        call :verify_line -4 x "BUILD FAILED"
+
+        rem XML report file
+        call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
+
+        rem HTML report file
+        call :verify_exist ..\tutorial\xspec\escape-for-regex-result.html
+
+        rem JUnit report file
+        call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
+    ) else (
+        call :skip "test for XSLT Ant with JUnit skipped"
+    )
 
     call :teardown
 endlocal
