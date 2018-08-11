@@ -456,7 +456,7 @@
   <!-- Report: JUnit -->
   <target name="report-junit"
           depends="run-xquery-test, run-xslt-test"
-          if="${xspec.junit.enabled}">
+          if="${xspec.junit.enabledTEST}">
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.junit}"
                 style="${xspec.junit.reporter.xsl}" />
