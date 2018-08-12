@@ -24,7 +24,7 @@
   </x:scenario>
   <!--
        This scenario demonstrates:
-       (1) how to test a function (named templates can be simliarly tested)
+       (1) how to test a function (named templates can be similarly tested)
        (2) that scenarios can be nested
        (3) a test can have multiple expectations.
    -->
