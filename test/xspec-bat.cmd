@@ -15,7 +15,7 @@ if errorlevel 1 (
 rem
 rem Results log file
 rem
-set RESULTS_FILE=%TEMP%\%~n0_results.log
+set "RESULTS_FILE=%TEMP%\%~n0_results.log"
 call :del "%RESULTS_FILE%"
 
 rem
@@ -23,19 +23,19 @@ rem Work directory
 rem  - Created at :setup
 rem  - Removed recursively at :teardown
 rem
-set WORK_DIR=%TEMP%\%~n0_work
+set "WORK_DIR=%TEMP%\%~n0_work"
 
 rem
 rem Output log files for :run
 rem
-set OUTPUT_RAW=%WORK_DIR%\run_raw.log
+set "OUTPUT_RAW=%WORK_DIR%\run_raw.log"
 set "OUTPUT_FILTERED=%WORK_DIR%\run_filtered.log"
-set OUTPUT_LINENUM=%WORK_DIR%\run_linenum.log
+set "OUTPUT_LINENUM=%WORK_DIR%\run_linenum.log"
 
 rem
 rem Name and extension of this file
 rem
-set THIS_FILE_NX=%~nx0
+set "THIS_FILE_NX=%~nx0"
 
 rem
 rem Go to the directory where this script resides
@@ -45,7 +45,7 @@ pushd "%~dp0"
 rem
 rem Full path to the parent directory
 rem
-for %%I in (..) do set PARENT_DIR_ABS=%%~fI
+for %%I in (..) do set "PARENT_DIR_ABS=%%~fI"
 
 echo === START TEST CASES ================================================
 
@@ -259,7 +259,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with TEST_DIR already set externally generates files inside TEST_DIR"
 
-    set TEST_DIR=%WORK_DIR%
+    set "TEST_DIR=%WORK_DIR%"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
@@ -305,11 +305,11 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat for parentheses dir generates HTML report file #84"
 
-    set PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)
+    set "PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)"
     call :mkdir "%PARENTHESES_DIR%"
     copy ..\tutorial\escape-for-regex.* "%PARENTHESES_DIR%" > NUL
 
-    set EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html
+    set "EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html"
 
     call :run ..\bin\xspec.bat "%PARENTHESES_DIR%\escape-for-regex.xspec"
     call :verify_retval 0
@@ -322,7 +322,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with path containing an apostrophe runs successfully #119"
 
-    set APOSTROPHE_DIR=%WORK_DIR%\some'path
+    set "APOSTROPHE_DIR=%WORK_DIR%\some'path"
     call :mkdir "%APOSTROPHE_DIR%"
     copy ..\tutorial\escape-for-regex.* "%APOSTROPHE_DIR%" > NUL
 
@@ -465,7 +465,7 @@ endlocal
 setlocal
     call :setup "Ant for Schematron with various properties except catalog"
 
-    set BUILD_XML=%WORK_DIR%\build.xml
+    set "BUILD_XML=%WORK_DIR%\build.xml"
 
     if defined ANT_VERSION (
         rem Remove a temp dir created by setup
@@ -537,7 +537,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat for XSLT with -catalog uses XML Catalog resolver"
 
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
     call :verify_retval 0
     call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
@@ -548,7 +548,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat for XQuery with -catalog uses XML Catalog resolver"
 
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml -q catalog\catalog-01-xquery.xspec
     call :verify_retval 0
     call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
@@ -559,7 +559,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with XML_CATALOG set uses XML Catalog resolver"
 
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     set XML_CATALOG=catalog\catalog-01-catalog.xml
     call :run ..\bin\xspec.bat catalog\catalog-01-xslt.xspec
     call :verify_retval 0
@@ -571,11 +571,11 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat using -catalog with spaces in file path uses XML Catalog resolver"
 
-    set SPACE_DIR=%WORK_DIR%\cat a log
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
     copy catalog\catalog-01* "%SPACE_DIR%"
     
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
     call :verify_retval 0
     call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
@@ -586,11 +586,11 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat using XML_CATALOG with spaces in file path uses XML Catalog resolver"
 
-    set SPACE_DIR=%WORK_DIR%\cat a log
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
     copy catalog\catalog-01* "%SPACE_DIR%"
     
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     set "XML_CATALOG=%SPACE_DIR%\catalog-01-catalog.xml"
     call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01-xslt.xspec"
     call :verify_retval 0
@@ -603,9 +603,9 @@ setlocal
     call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
 
     set "SAXON_HOME=%WORK_DIR%\saxon"
-    call :mkdir %SAXON_HOME%
-    copy %SAXON_CP% %SAXON_HOME%
-    copy %XML_RESOLVER_CP% %SAXON_HOME%
+    call :mkdir "%SAXON_HOME%"
+    copy "%SAXON_CP%"        "%SAXON_HOME%"
+    copy "%XML_RESOLVER_CP%" "%SAXON_HOME%"
     set SAXON_CP=
     
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
@@ -658,7 +658,7 @@ if not defined EXIT_CODE (
     set EXIT_CODE=1
 )
 if %EXIT_CODE% NEQ 0 (
-    echo ---------- %RESULTS_FILE%
+    echo ---------- "%RESULTS_FILE%"
     type "%RESULTS_FILE%"
     echo ----------
 )
@@ -709,10 +709,10 @@ rem
     rem
     rem Report 'Running'
     rem
-    set CASE_NAME=%~1
+    set "CASE_NAME=%~1"
     call :appveyor AddTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Running
     echo CASE: %CASE_NAME%
-    (echo # %CASE_NAME%) >> "%RESULTS_FILE%"
+    (echo # "%CASE_NAME%") >> "%RESULTS_FILE%"
 
     rem
     rem Create the work directory
@@ -812,7 +812,7 @@ rem
         call :verified "Return value: %RETVAL%"
     ) else (
         call :failed "Return value is %RETVAL%. Expected %~1."
-        echo ---------- %OUTPUT_RAW%
+        echo ---------- "%OUTPUT_RAW%"
         type "%OUTPUT_RAW%"
         echo ----------
     )
@@ -863,7 +863,7 @@ rem
     )
     if errorlevel 1 (
         call :failed "Line %LINE_NUMBER% does not match the expected string"
-        echo ---------- %OUTPUT_LINENUM%
+        echo ---------- "%OUTPUT_LINENUM%"
         type "%OUTPUT_LINENUM%"
         echo ----------
     ) else (
