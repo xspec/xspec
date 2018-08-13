@@ -134,7 +134,7 @@ rem ##
     ) else if "%WIN_ARGV%"=="-h" (
         set WIN_HELP=1
     ) else if "%WIN_ARGV%"=="-catalog" (
-        set "XML_CATALOG=%~2"
+        set "XML_CATALOG=_TEST_"
         shift
     ) else if "%WIN_ARGV:~0,1%"=="-" (
         set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
