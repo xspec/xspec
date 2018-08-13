@@ -59,6 +59,8 @@ rem
 rem Run tests
 rem
 echo === START TEST CASES ================================================
+set CASE_NUM=1
+if not "%~1"=="" set "CASE_NUM=%~1"
 call :run-test-cases
 echo === END TEST CASES ==================================================
 
@@ -157,8 +159,8 @@ rem
     rem
     set "CASE_NAME=%~1"
     call :appveyor AddTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Running
-    call :echo "CASE: %CASE_NAME%"
-    (echo # "%CASE_NAME%") >> "%RESULTS_FILE%"
+    call :echo "CASE #%CASE_NUM%: %CASE_NAME%"
+    (echo # %CASE_NUM%: "%CASE_NAME%") >> "%RESULTS_FILE%"
 
     rem
     rem Create the work directory
@@ -351,6 +353,23 @@ rem
 rem Test cases
 rem
 :run-test-cases
+    call :get-num-cases
+    if %CASE_NUM% GTR %NUM_CASES% goto :EOF
+
+    rem Failsafe
+    if %CASE_NUM% GEQ 100 goto :EOF
+    if not defined NUM_CASES goto :EOF
+
+    rem Run
+    setlocal
+    call :case_%CASE_NUM%
+    call :teardown
+    endlocal
+
+    rem Next case
+    set /a CASE_NUM+=1
+    goto :run-test-cases
+
     rem
     rem Actual test cases will follow
     rem
