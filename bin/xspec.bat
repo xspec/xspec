@@ -562,14 +562,14 @@ if defined COVERAGE (
         -xsl:"%XSPEC_HOME%\src\reporter\coverage-report.xsl" ^
         tests="%XSPEC%" ^
         inline-css=true ^
-        || ( call :die "Error formating the coverage report" & goto :win_main_error_exit )
+        || ( call :die "Error formatting the coverage report" & goto :win_main_error_exit )
     call :win_echo "Report available at %COVERAGE_HTML%"
     rem %OPEN% "%COVERAGE_HTML%"
 ) else if defined JUNIT (
     call :xslt -o:"%JUNIT_RESULT%" ^
         -s:"%RESULT%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\junit-report.xsl" ^
-        || ( call :die "Error formating the JUnit report" & goto :win_main_error_exit )
+        || ( call :die "Error formatting the JUnit report" & goto :win_main_error_exit )
     call :win_echo "Report available at %JUNIT_RESULT%"
 ) else (
     call :win_echo "Report available at %HTML%"
