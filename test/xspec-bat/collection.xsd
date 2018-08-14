@@ -19,6 +19,7 @@
 					<xs:simpleContent>
 						<xs:extension base="xspec-bat:scriptString">
 							<xs:attribute name="name" type="xspec-bat:nameString" use="required" />
+							<xs:attribute name="ifdef" type="xs:NMTOKENS" />
 							<xs:attribute fixed="preserve" ref="xml:space" />
 						</xs:extension>
 					</xs:simpleContent>
