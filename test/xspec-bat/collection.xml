@@ -152,7 +152,7 @@
     call :verify_line 4 r "Testing with"
 	</case>
 
-	<case ifdef="SAXON_CP" name="executing the Saxon XProc harness generates a report with UTF-8 encoding">
+	<case ifdef="XMLCALABASH_CP" name="executing the Saxon XProc harness generates a report with UTF-8 encoding">
     call :run java -Xmx1024m -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" -oresult=xspec/xspec-72-result.html ..\src\harnesses\saxon\saxon-xslt-harness.xproc
     call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:xspec\xspec-72-result.html -xsl:html-charset.xsl
     call :verify_line 1 x "true"
