@@ -15,11 +15,14 @@
 					<xsl:variable as="xs:anyURI" name="schematron-uri"
 						select="/x:description/@schematron/resolve-uri(., base-uri())" />
 
-					<!-- Resolve with calalog -->
+					<!-- Resolve with catalog
+						https://sourceforge.net/p/saxon/mailman/message/36339785/
+						"document-uri() returns the (absolutized) requested URI, while base-uri() returns
+						the actual document location after catalog resolution." -->
 					<xsl:variable as="xs:anyURI" name="schematron-uri"
 						select="doc($schematron-uri)/base-uri()" />
 
-					<!-- Can be 'file:C:/...' for some reason. Fix it. -->
+					<!-- Can be 'file:C:/...' for some reason (maybe https://issues.apache.org/jira/browse/XMLCOMMONS-24). Fix it. -->
 					<xsl:value-of select="replace($schematron-uri, '^(file:)([^/])', '$1/$2')" />
 				</uri>
 			</schematron>
