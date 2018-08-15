@@ -208,14 +208,14 @@ rem
     goto :EOF
 
 :failed
-    call :echo "...FAIL: %~1"
+    call :echo "[91m...FAIL: %~1[0m"
     set CASE_RESULT=1
     (echo %CASE_RESULT%) >> "%RESULTS_FILE%"
     if defined CASE_NAME call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Failed -Duration 0 -ErrorMessage %1
     goto :EOF
 
 :skip
-    call :echo "...SKIP: %~1"
+    call :echo "[33m...SKIP: %~1[0m"
     set CASE_RESULT=2
     (echo # %1) >> "%RESULTS_FILE%"
     call :appveyor UpdateTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Skipped -Duration 0
