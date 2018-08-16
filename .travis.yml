@@ -2,16 +2,18 @@ language: generic
 env:
     global:
         # full path to Saxon jar
-        - SAXON_CP=/tmp/xspec/saxon/saxon9he.jar
+        - SAXON_JAR=/tmp/xspec/saxon/saxon9he.jar
         # Ant version used in oXygen
         - ANT_VERSION=1.9.8
         # full path to XML Resolver jar
-        - XML_RESOLVER_CP=/tmp/xspec/xml-resolver/resolver.jar
+        - XML_RESOLVER_JAR=/tmp/xspec/xml-resolver/resolver.jar
     matrix:
         # latest Saxon 9.8 version and full path to Jing jar
         - SAXON_VERSION=9.8.0-7
-          JING_CP=/tmp/xspec/jing/jing.jar
+          JING_JAR=/tmp/xspec/jing/jing.jar
         # latest Saxon 9.7 version
+        #   * XML Calabash will use Saxon jar in its own lib directory.
+        #   * BaseX test requires XML Calabash.
         - SAXON_VERSION=9.7.0-21
           XMLCALABASH_VERSION=1.1.21-97
           BASEX_VERSION=8.6.4
@@ -23,40 +25,40 @@ before_install:
 
 before_script:
     # install Saxon
-    - curl -fsSL --create-dirs --retry 5 -o ${SAXON_CP} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
+    - curl -fsSL --create-dirs --retry 5 -o ${SAXON_JAR} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
     # install XML Calabash
     - if [ -z ${XMLCALABASH_VERSION} ]; then
         echo "XMLCalabash will not be installed as it uses a higher version of Saxon";
       else
         curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/xmlcalabash/xmlcalabash.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip;
         unzip /tmp/xspec/xmlcalabash/xmlcalabash.zip -d /tmp/xspec/xmlcalabash;
-        export XMLCALABASH_CP=/tmp/xspec/xmlcalabash/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar;
+        export XMLCALABASH_JAR=/tmp/xspec/xmlcalabash/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar;
       fi
     # install BaseX
     - if [[ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]]; then
         echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
       else
-        export BASEX_CP=/tmp/xspec/basex/basex.jar;
-        curl -fsSL --create-dirs --retry 5 -o ${BASEX_CP} http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
+        export BASEX_JAR=/tmp/xspec/basex/basex.jar;
+        curl -fsSL --create-dirs --retry 5 -o ${BASEX_JAR} http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
       fi
     # install Ant
     - curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
     - tar xf /tmp/xspec/ant/ant.tar.gz -C /tmp/xspec/ant;
     - export PATH=/tmp/xspec/ant/apache-ant-${ANT_VERSION}/bin:{$PATH}
     # install XML Resolver
-    - curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_CP} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
+    - curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_JAR} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
     # install Jing
-    - if [ -z ${JING_CP} ]; then
+    - if [ -z ${JING_JAR} ]; then
         echo "Jing will not be installed";
       else
-        curl -fsSL --create-dirs --retry 5 -o ${JING_CP} http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar;
+        curl -fsSL --create-dirs --retry 5 -o ${JING_JAR} http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar;
       fi
 
 script:
     - ant -version
     - cd test
     - echo "execute bats unit tests"
-    - bats --tap xspec.bats
+    - ./run-bats.sh --tap
     - echo "execute XSpec unit tests"
     - ./run-xspec-tests-ant.sh -silent
     - echo "execute XSpec end-to-end tests"

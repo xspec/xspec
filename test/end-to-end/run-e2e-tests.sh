@@ -2,6 +2,10 @@
 
 # This script must be run from the script's directory
 
+# Reset public environment variables
+export SAXON_CP="${SAXON_JAR}"
+unset SAXON_HOME
+
 # .xspec files directory
 CASES_DIR=cases
 
@@ -24,7 +28,7 @@ do
     fi
 
     # Compare with the expected HTML
-    if java -classpath ${SAXON_CP} net.sf.saxon.Transform -s:${TEST_DIR}/${CASE_BASENAME}-result.html -xsl:processor/html/compare.xsl | grep '^OK: Compared '
+    if java -jar "${SAXON_JAR}" -s:${TEST_DIR}/${CASE_BASENAME}-result.html -xsl:processor/html/compare.xsl | grep '^OK: Compared '
         then
             # OK, nothing to do
             :
@@ -34,7 +38,7 @@ do
     fi
 
     # Compare with the expected JUnit report
-    if java -classpath ${SAXON_CP} net.sf.saxon.Transform -s:${TEST_DIR}/${CASE_BASENAME}-junit.xml -xsl:processor/junit/compare.xsl | grep '^OK: Compared '
+    if java -jar "${SAXON_JAR}" -s:${TEST_DIR}/${CASE_BASENAME}-junit.xml -xsl:processor/junit/compare.xsl | grep '^OK: Compared '
         then
             # OK, nothing to do
             :

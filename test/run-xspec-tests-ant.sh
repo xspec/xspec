@@ -1,2 +1,2 @@
 #!/bin/bash
-ant -buildfile ant/build.xml -lib "${SAXON_CP}" "$@"
+ant -buildfile ant/build.xml -lib "${SAXON_JAR}" "$@"

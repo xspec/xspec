@@ -12,6 +12,12 @@ if errorlevel 1 (
 )
 
 rem
+rem Reset public environment variables
+rem
+set "SAXON_CP=%SAXON_JAR%"
+set SAXON_HOME=
+
+rem
 rem Go to the directory where this script resides
 rem
 pushd "%~dp0"
@@ -49,12 +55,12 @@ for %%I in ("%CASES_DIR%\*.xspec") do (
     rem
     rem Normalize the report HTML
     rem
-    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-result-norm.html" -s:"%TEST_DIR%\%%~nI-result.html" -xsl:processor\html\normalize.xsl
+    java -jar "%SAXON_JAR%" -o:"%TEST_DIR%\%%~nI-result-norm.html" -s:"%TEST_DIR%\%%~nI-result.html" -xsl:processor\html\normalize.xsl
 
     rem
     rem Normalize the JUnit report
     rem
-    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-junit-norm.xml" -s:"%TEST_DIR%\%%~nI-junit.xml" -xsl:processor\junit\normalize.xsl
+    java -jar "%SAXON_JAR%" -o:"%TEST_DIR%\%%~nI-junit-norm.xml" -s:"%TEST_DIR%\%%~nI-junit.xml" -xsl:processor\junit\normalize.xsl
 )
 
 rem
