@@ -38,7 +38,7 @@ teardown() {
 
 @test "invoking xspec without arguments prints usage" {
     run ../bin/xspec.sh
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]" ]
 }
@@ -46,7 +46,7 @@ teardown() {
 
 @test "invoking xspec with -s and -t prints error message" {
     run ../bin/xspec.sh -s -t
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "-s and -t are mutually exclusive" ]
 }
@@ -54,7 +54,7 @@ teardown() {
 
 @test "invoking xspec with -s and -q prints error message" {
     run ../bin/xspec.sh -s -q
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "-s and -q are mutually exclusive" ]
 }
@@ -62,7 +62,7 @@ teardown() {
 
 @test "invoking xspec with -t and -q prints error message" {
     run ../bin/xspec.sh -t -q
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "-t and -q are mutually exclusive" ]
 }
@@ -71,7 +71,7 @@ teardown() {
 @test "invoking code coverage with Saxon9HE returns error message" {
     export SAXON_CP=/path/to/saxon9he.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
 }
@@ -80,7 +80,7 @@ teardown() {
 @test "invoking code coverage with Saxon9SA returns error message" {
     export SAXON_CP=/path/to/saxon9sa.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
 }
@@ -89,7 +89,7 @@ teardown() {
 @test "invoking code coverage with Saxon9 returns error message" {
     export SAXON_CP=/path/to/saxon9.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
 }
@@ -98,7 +98,7 @@ teardown() {
 @test "invoking code coverage with Saxon8SA returns error message" {
     export SAXON_CP=/path/to/saxon8sa.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
 }
@@ -107,7 +107,7 @@ teardown() {
 @test "invoking code coverage with Saxon8 returns error message" {
     export SAXON_CP=/path/to/saxon8.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
 }
@@ -117,7 +117,7 @@ teardown() {
     # Append non-Saxon jar to see if SAXON_CP is parsed correctly
     export SAXON_CP="/path/to/saxon9ee.jar:/path/to/another.jar"
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-  	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Creating Test Stylesheet..." ]
 }
@@ -126,7 +126,7 @@ teardown() {
 @test "invoking code coverage with Saxon9PE creates test stylesheet" {
     export SAXON_CP=/path/to/saxon9pe.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Creating Test Stylesheet..." ]
 }
@@ -134,7 +134,7 @@ teardown() {
 
 @test "invoking xspec generates message with default report location and creates report files" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 
@@ -154,7 +154,7 @@ teardown() {
 @test "invoking xspec with -j option with Saxon8 returns error message" {
     export SAXON_CP=/path/to/saxon8.jar
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Saxon8 detected. JUnit report requires Saxon9." ]
 }
@@ -163,7 +163,7 @@ teardown() {
 @test "invoking xspec with -j option with Saxon8-SA returns error message" {
     export SAXON_CP=/path/to/saxon8sa.jar
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Saxon8 detected. JUnit report requires Saxon9." ]
 }
@@ -171,7 +171,7 @@ teardown() {
 
 @test "invoking xspec with -j option generates message with JUnit report location and creates report files" {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
 
@@ -188,25 +188,25 @@ teardown() {
 
 @test "invoking xspec with Saxon-B-9-1-0-8 creates test stylesheet" {
     export SAXON_CP=/path/to/saxonb9-1-0-8.jar
-	run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-	echo "$output"
-	[ "$status" -eq 1 ]
-  	[ "${lines[1]}" = "Creating Test Stylesheet..." ]
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Creating Test Stylesheet..." ]
 }
 
 
-@test "invoking xspec.sh with TEST_DIR already set externally generates files inside TEST_DIR" {
+@test "invoking xspec with TEST_DIR already set externally generates files inside TEST_DIR" {
     export TEST_DIR="${work_dir}"
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 }
 
 
-@test "invoking xspec.sh that passes a non xs:boolean does not raise a warning #46" {
+@test "invoking xspec that passes a non xs:boolean does not raise a warning #46" {
     run ../bin/xspec.sh xspec-46.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${lines[3]}" =~ "Testing with" ]]
 }
@@ -224,47 +224,46 @@ teardown() {
 }
 
 
-@test "invoking xspec.sh with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs successfully and generates HTML report file" {
-	special_chars_dir="${work_dir}/some'path (84) here & there"
-	mkdir "${special_chars_dir}"
-	cp ../tutorial/escape-for-regex.* "${special_chars_dir}"
+@test "invoking xspec with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs successfully and generates HTML report file" {
+    special_chars_dir="${work_dir}/some'path (84) here & there"
+    mkdir "${special_chars_dir}"
+    cp ../tutorial/escape-for-regex.* "${special_chars_dir}"
 
-	expected_report="${special_chars_dir}/xspec/escape-for-regex-result.html"
+    expected_report="${special_chars_dir}/xspec/escape-for-regex-result.html"
 
-	run ../bin/xspec.sh "${special_chars_dir}/escape-for-regex.xspec"
-	echo "$output"
-	[ "$status" -eq 0 ]
-	[ "${lines[19]}" = "Report available at ${expected_report}" ]
-	[ -f "${expected_report}" ]
+    run ../bin/xspec.sh "${special_chars_dir}/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[19]}" = "Report available at ${expected_report}" ]
+    [ -f "${expected_report}" ]
 }
 
 
-@test "invoking xspec.sh with saxon script uses the saxon script #121 #122" {
-	echo "echo 'Saxon script with EXPath Packaging System'" > "${work_dir}/saxon"
-	chmod +x "${work_dir}/saxon"
-	export PATH="$PATH:${work_dir}"
-	run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-	echo "$output"
-	[ "$status" -eq 0 ]
-	[ "${lines[0]}" = "Saxon script found, use it." ]
+@test "invoking xspec with saxon script uses the saxon script #121 #122" {
+    echo "echo 'Saxon script with EXPath Packaging System'" > "${work_dir}/saxon"
+    chmod +x "${work_dir}/saxon"
+    export PATH="$PATH:${work_dir}"
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "Saxon script found, use it." ]
 }
 
 
 @test "Schematron phase/parameters are passed to Schematron compile" {
     run ../bin/xspec.sh -s schematron-param-001.xspec
-	echo "${lines[2]}"
+    echo "${lines[2]}"
     [ "$status" -eq 0 ]
     [ "${lines[2]}" == "Parameters: phase=P1 ?selected=codepoints-to-string((80,49))" ]
 }
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile" {
-    
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
-    
+
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
-	echo "$output"
+    echo "$output"
     [ "${lines[4]}" = "Schematron XSLT include" ]
     [ "${lines[5]}" = "Schematron XSLT expand" ]
     [ "${lines[6]}" = "Schematron XSLT compile" ]
@@ -275,9 +274,9 @@ teardown() {
 }
 
 
-@test "invoking xspec.sh with the -s option does not display Schematron warnings #129 #131 and removes temporary files" {
+@test "invoking xspec with the -s option does not display Schematron warnings #129 #131 and removes temporary files" {
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[4]}" == "Compiling the Schematron tests..." ]
 
@@ -286,7 +285,7 @@ teardown() {
 
     # Cleanup removes temporary files in TEST_DIR
     run ls ../tutorial/schematron/xspec
-	echo "$output"
+    echo "$output"
     [ "${#lines[@]}" = "3" ]
     [ "${lines[0]}" = "demo-03-result.html" ]
     [ "${lines[1]}" = "demo-03-result.xml" ]
@@ -294,9 +293,9 @@ teardown() {
 }
 
 
-@test "invoking xspec.sh with -q option runs XSpec test for XQuery" {
+@test "invoking xspec with -q option runs XSpec test for XQuery" {
     run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
-	echo "${lines[5]}"
+    echo "${lines[5]}"
     [ "$status" -eq 0 ]
     [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
@@ -322,7 +321,7 @@ teardown() {
 
 @test "Ant for XSLT with default properties fails on test failure" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib "${SAXON_JAR}"
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
@@ -334,7 +333,7 @@ teardown() {
 
 @test "Ant for XSLT with xspec.fail=false continues on test failure" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib "${SAXON_JAR}" -Dxspec.fail=false
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
@@ -347,7 +346,7 @@ teardown() {
     fi
 
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_xslt.xspec -lib "${SAXON_JAR}" -Dxspec.fail=false -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}"
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
@@ -356,7 +355,7 @@ teardown() {
 
 @test "Ant for XQuery with default properties" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/xquery-tutorial.xspec -lib "${SAXON_JAR}" -Dtest.type=q
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
@@ -365,7 +364,7 @@ teardown() {
 
 @test "Ant for Schematron with minimum properties #168" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dtest.type=s
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
@@ -388,7 +387,7 @@ teardown() {
     cp ../build.xml "${build_xml}"
 
     run ant -buildfile "${build_xml}" -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dxspec.properties=${PWD}/schematron.properties -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir="${ant_test_dir}" -Dclean.output.dir=true
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
@@ -409,7 +408,7 @@ teardown() {
     fi
 
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}"
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
@@ -429,13 +428,13 @@ teardown() {
     fi
 
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}" -Dxspec.fail=false
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
-@test "invoking xspec.sh for XSLT with -catalog uses XML Catalog resolver and does so even with spaces in file path" {
+@test "invoking xspec for XSLT with -catalog uses XML Catalog resolver and does so even with spaces in file path" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
@@ -443,27 +442,27 @@ teardown() {
     space_dir="${work_dir}/cat a log"
     mkdir -p "${space_dir}/xspec"
     cp catalog/catalog-01* "${space_dir}"
-    
+
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-	run ../bin/xspec.sh -catalog "${space_dir}/catalog-01-catalog.xml" "${space_dir}/catalog-01-xslt.xspec"
-	echo "$output"
-	[ "$status" -eq 0 ]
-	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    run ../bin/xspec.sh -catalog "${space_dir}/catalog-01-catalog.xml" "${space_dir}/catalog-01-xslt.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
-@test "invoking xspec.sh for XQuery with -catalog uses XML Catalog resolver" {
+@test "invoking xspec for XQuery with -catalog uses XML Catalog resolver" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
-	echo "$output"
-	[ "$status" -eq 0 ]
-	[ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
-@test "invoking xspec.sh with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path" {
+@test "invoking xspec with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
@@ -471,16 +470,16 @@ teardown() {
     space_dir="${work_dir}/cat a log"
     mkdir -p "${space_dir}/xspec"
     cp catalog/catalog-01* "${space_dir}"
-    
+
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
     export XML_CATALOG="${space_dir}/catalog-01-catalog.xml"
-	run ../bin/xspec.sh "${space_dir}/catalog-01-xslt.xspec"
-	echo "$output"
-	[ "$status" -eq 0 ]
-	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    run ../bin/xspec.sh "${space_dir}/catalog-01-xslt.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
-@test "invoking xspec.sh using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
+@test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
@@ -490,10 +489,11 @@ teardown() {
     cp "${SAXON_JAR}"        "${SAXON_HOME}"
     cp "${XML_RESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
     unset SAXON_CP
-	run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
-	echo "$output"
-	[ "$status" -eq 0 ]
-	[ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+
+    run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -503,7 +503,7 @@ teardown() {
     fi
 
     run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc ../tutorial/*.xspec ../tutorial/schematron/*.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
 }
 
@@ -514,7 +514,7 @@ teardown() {
     fi
 
     run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc catalog/*.xspec schematron/*-import.xspec schematron/*-in.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
 }
 
@@ -523,13 +523,13 @@ teardown() {
     # Test with a space in file name
     saxon_config="${work_dir}/saxon config.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
-    
+
     # via properties file, to convey the options in a stable manner...
     xspec_properties="${work_dir}/xspec.properties"
     echo "saxon.custom.options=-config:\"${saxon_config}\" -t" > "${xspec_properties}"
-    
+
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/saxon-custom-options/test.xspec -lib "${SAXON_JAR}" -Dxspec.properties="${xspec_properties}"
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
@@ -543,13 +543,13 @@ teardown() {
     # Test with a space in file name
     saxon_config="${work_dir}/saxon config.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
-    
+
     # via properties file, to convey the options in a stable manner...
     xspec_properties="${work_dir}/xspec.properties"
     echo "saxon.custom.options=-config:\"${saxon_config}\" -t" > "${xspec_properties}"
-    
+
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/saxon-custom-options/test.xspec -lib "${SAXON_JAR}" -Dxspec.properties="${xspec_properties}" -Dtest.type=q
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
@@ -559,14 +559,14 @@ teardown() {
 }
 
 
-@test "invoking xspec.sh for XSLT with SAXON_CUSTOM_OPTIONS" {
+@test "invoking xspec for XSLT with SAXON_CUSTOM_OPTIONS" {
     # Test with a space in file name
     saxon_config="${work_dir}/saxon config.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
-    
+
     export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
     run ../bin/xspec.sh saxon-custom-options/test.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
@@ -575,14 +575,14 @@ teardown() {
 }
 
 
-@test "invoking xspec.sh for XQuery with SAXON_CUSTOM_OPTIONS" {
+@test "invoking xspec for XQuery with SAXON_CUSTOM_OPTIONS" {
     # Test with a space in file name
     saxon_config="${work_dir}/saxon config.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
-    
+
     export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
     run ../bin/xspec.sh -q saxon-custom-options/test.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
@@ -593,7 +593,7 @@ teardown() {
 
 @test "Ant for XSLT with JUnit creates report files" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib "${SAXON_JAR}" -Dxspec.junit.enabled=true
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
@@ -609,12 +609,12 @@ teardown() {
 }
 
 
-@test "Import order with xspec.sh #185" {
+@test "Import order #185" {
     # Make the line numbers predictable by providing an existing output dir
     export TEST_DIR="${work_dir}"
 
     run ../bin/xspec.sh xspec-185/import-1.xspec
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[4]}"  = "Scenario 1-1" ]
     [ "${lines[5]}"  = "Scenario 1-2" ]
@@ -632,11 +632,11 @@ teardown() {
     ant_log="${work_dir}/ant.log"
 
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/xspec-185/import-1.xspec -lib "${SAXON_JAR}" -logfile "${ant_log}"
-	echo "$output"
+    echo "$output"
     [ "$status" -eq 0 ]
 
     run grep " Scenario " "${ant_log}"
-	echo "$output"
+    echo "$output"
     [ "${#lines[@]}" = "8" ]
     [ "${lines[0]}" = "     [java] Scenario 1-1" ]
     [ "${lines[1]}" = "     [java] Scenario 1-2" ]
