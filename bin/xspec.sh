@@ -349,9 +349,9 @@ if test -n "$XSLT"; then
     # for XSLT
     if test -n "$COVERAGE"; then
         echo "Collecting test coverage data; suppressing progress report..."
-        xslt -T:$COVERAGE_CLASS \
+        ((xslt -T:$COVERAGE_CLASS \
             -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main 2> "$COVERAGE_XML" \
+            -it:{http://www.jenitennison.com/xslt/xspec}main 3>&2 2>&1 1>&3 | grep "^<..*>$") 3>&2 2>&1 1>&3) 2> "$COVERAGE_XML" \
             || die "Error collecting test coverage data"
     else
         xslt -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
@@ -362,8 +362,8 @@ else
     # for XQuery
     if test -n "$COVERAGE"; then
         echo "Collecting test coverage data; suppressing progress report..."
-        xquery -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" "$COMPILED" 2> "$COVERAGE_XML" \
+        ((xquery -T:$COVERAGE_CLASS \
+            -o:"$RESULT" -s:"$XSPEC" "$COMPILED" 3>&2 2>&1 1>&3 | grep "^<..*>$") 3>&2 2>&1 1>&3) 2> "$COVERAGE_XML" \
             || die "Error collecting test coverage data"
     else
         xquery -o:"$RESULT" -s:"$XSPEC" "$COMPILED" \
