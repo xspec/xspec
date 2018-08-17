@@ -23,7 +23,8 @@
 				in:		<title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
 				out:	<title>Test Report for tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
 	-->
-	<xsl:template as="text()" match="/html/head/title/text()" mode="normalizer:normalize">
+	<xsl:template as="text()" match="/html[not(local:is-xquery-report(.))]/head/title/text()"
+		mode="normalizer:normalize">
 		<xsl:analyze-string regex="^(Test Report for) (.+) (\([a-z0-9/: ]+\))$" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of
@@ -58,7 +59,8 @@
 				in:		<a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
 				out:	<a href="tested.xsl">tested.xsl</a>
 	-->
-	<xsl:template as="element(a)" match="/html/body/p[position() = (1, 2)]/a"
+	<xsl:template as="element(a)"
+		match="/html/body/p[((position() = 1) and not(local:is-xquery-report(.))) or (position() = 2)]/a"
 		mode="normalizer:normalize">
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute()" />
@@ -172,4 +174,13 @@
 		<xsl:sequence select="concat('ELEM-', local:element-index($index-element))" />
 	</xsl:function>
 
+	<!--
+		Returns true if the HTML report is for XQuery
+	-->
+	<xsl:function as="xs:boolean" name="local:is-xquery-report">
+		<xsl:param as="node()" name="context-node" />
+
+		<xsl:variable as="document-node()" name="doc" select="root($context-node)" />
+		<xsl:sequence select="$doc/html/body/starts-with(p[1], 'Query:')" />
+	</xsl:function>
 </xsl:stylesheet>
