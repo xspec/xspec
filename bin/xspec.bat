@@ -175,7 +175,7 @@ rem ##
         -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         || ( call :die "Error getting Schematron phase and parameters" & goto :win_main_error_exit )
     set /P SCH_PARAMS=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    echo Paramaters: %SCH_PARAMS%
+    echo Parameters: %SCH_PARAMS%
     set "SCHUT=%XSPEC%-compiled.xspec"
     set "SCH_COMPILED=%SCH%-compiled.xsl"
     
