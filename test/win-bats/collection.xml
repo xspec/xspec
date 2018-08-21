@@ -8,6 +8,14 @@
     call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
 	</case>
 
+	<case name="invoking xspec without arguments prints usage even if Saxon environment variables are not defined">
+    set SAXON_CP=
+    call :run ..\bin\xspec.bat
+    call :verify_retval 1
+    call :verify_line 2 x "SAXON_CP and SAXON_HOME both not set!"
+    call :verify_line 5 r "Usage: xspec "
+	</case>
+
 	<case name="invoking xspec with -h prints usage and does so even when it is 11th argument">
     call :run ..\bin\xspec.bat -t -t -t -t -t -t -t -t -t -t -h
     call :verify_retval 0
