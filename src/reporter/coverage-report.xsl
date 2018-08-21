@@ -162,7 +162,7 @@
         ([^?]|\?[^>])*  <!-- 6: the content of the PI -->
        \?&gt;)
       |
-      (&lt;\[CDATA\[   <!-- 7: a CDATA section -->
+      (&lt;!\[CDATA\[   <!-- 7: a CDATA section -->
         ([^\]]|\][^\]]|\]\][^>])*  <!-- 8: the content of the CDATA section -->
        \]\]>)
       |
@@ -206,7 +206,7 @@
         <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(11) != ''" />
         <xsl:variable name="matches" as="xs:boolean"
           select="($node instance of text() and
-                   regex-group(2) != '') or
+                   (regex-group(2) != '' or regex-group(7) != '')) or
                   ($node instance of element() and
                    ($startTag or $endTag or $emptyTag) and
                    name($node) = (regex-group(10), regex-group(12))) or
