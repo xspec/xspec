@@ -605,7 +605,7 @@ setlocal
     set "SAXON_HOME=%WORK_DIR%\saxon"
     call :mkdir "%SAXON_HOME%"
     call :copy "%SAXON_CP%"        "%SAXON_HOME%"
-    call :copy "%XML_RESOLVER_CP%" "%SAXON_HOME%"
+    call :copy "%XML_RESOLVER_CP%" "%SAXON_HOME%\xml-resolver-1.2.jar"
     set SAXON_CP=
     
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec

@@ -6,7 +6,7 @@ env:
         # Ant version used in oXygen
         - ANT_VERSION=1.9.8
         # full path to XML Resolver jar
-        - XML_RESOLVER_CP=/tmp/xspec/xml-resolver/xml-resolver-1.2.jar
+        - XML_RESOLVER_CP=/tmp/xspec/xml-resolver/resolver.jar
     matrix:
         # latest Saxon 9.8 version and full path to Jing jar
         - SAXON_VERSION=9.8.0-7
