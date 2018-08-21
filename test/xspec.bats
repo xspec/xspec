@@ -18,16 +18,18 @@
 #===============================================================================
 
 setup() {
+	mkdir xspec
+	mkdir end-to-end/cases/xspec
 	mkdir ../tutorial/xspec
-	mkdir ../test/xspec
 	mkdir ../tutorial/schematron/xspec
 	mkdir ../test/catalog/xspec
 }
 
 
 teardown() {
-	rm -rf ../tutorial/xspec
 	rm -rf ../test/xspec
+	rm -rf ../test/end-to-end/cases/xspec
+	rm -rf ../tutorial/xspec
 	rm -rf ../tutorial/schematron/xspec
 	rm -rf ../test/catalog/xspec
 }
@@ -512,4 +514,14 @@ teardown() {
     else
         skip "Schema validation for known good tests skipped";
     fi
+}
+
+
+@test "Ambiguous @test generates warning" {
+    run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-test.xspec
+	echo "$output"
+    [[ "${lines[9]}"  =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[14]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[21]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [  "${lines[30]}" =  "Formatting Report..." ]
 }
