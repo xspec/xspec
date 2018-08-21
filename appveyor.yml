@@ -103,6 +103,11 @@ test_script:
     test\end-to-end\run-e2e-tests.cmd
 
 
+    rem compile java
+
+    "%ProgramFiles%\Java\jdk1.8.0\bin\javac" -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
+
+
     rem check git status
 
     git status --porcelain | find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
