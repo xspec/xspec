@@ -654,6 +654,7 @@ teardown() {
     [ "${lines[5]}" = "     [java] Scenario 2b-1" ]
     [ "${lines[6]}" = "     [java] Scenario 2b-2" ]
     [ "${lines[7]}" = "     [java] Scenario 3" ]
+    echo "test" > test.txt
 }
 
 

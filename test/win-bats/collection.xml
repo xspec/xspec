@@ -472,5 +472,6 @@
     call :verify_line  7 x "     [java] Scenario 2b-1"
     call :verify_line  8 x "     [java] Scenario 2b-2"
     call :verify_line  9 x "     [java] Scenario 3"
+    echo test > test.txt
 	</case>
 </collection>
