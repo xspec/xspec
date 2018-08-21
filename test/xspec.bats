@@ -41,6 +41,14 @@ teardown() {
 }
 
 
+@test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
+    run ../bin/xspec.sh -t -t -t -t -t -t -t -t -t -t -h
+	echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[1]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]" ]
+}
+
+
 @test "invoking xspec with -s and -t prints error message" {
     run ../bin/xspec.sh -s -t
 	echo "$output"

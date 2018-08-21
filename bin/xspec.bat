@@ -150,12 +150,7 @@ rem ##
     )
 
     shift
-
-    rem
-    rem %* doesn't reflect shift. Pass %n individually.
-    rem
-    call :win_get_options %1 %2 %3 %4 %5 %6 %7 %8 %9
-    goto :EOF
+    goto :win_get_options
 
 
 :schematron_compile
