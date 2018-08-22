@@ -241,6 +241,9 @@
     call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
     call :verify_line -4 x "BUILD FAILED"
 
+    rem Default xspec.coverage.enabled is false
+    call :verify_not_exist ..\tutorial\xspec\escape-for-regex-coverage.xml
+
     rem Default xspec.junit.enabled is false
     call :verify_not_exist ..\tutorial\xspec\escape-for-regex-junit.xml
 	</case>
@@ -429,6 +432,32 @@
 
     rem Verify '-t'
     call :verify_line  * r "Memory used:"
+	</case>
+
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Ant for XSLT with coverage creates report files">
+    call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\coverage\demo.xspec" -lib "%SAXON_JAR%" -Dxspec.coverage.enabled=true
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+
+    rem XML, HTML and coverage report file
+    call :verify_exist ..\tutorial\coverage\xspec\demo-result.xml
+    call :verify_exist ..\tutorial\coverage\xspec\demo-result.html
+    call :verify_exist ..\tutorial\coverage\xspec\demo-coverage.html
+	</case>
+
+	<case name="Ant for XQuery with coverage fails">
+    call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec" -lib "%SAXON_JAR%" -Dtest.type=q -Dxspec.coverage.enabled=true
+    call :verify_retval 1
+    call :verify_line -3 x "BUILD FAILED"
+    call :verify_line -2 r ".*Coverage is supported only for XSLT"
+	</case>
+
+	<case name="Ant for Schematron with coverage fails">
+    call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-01.xspec" -lib "%SAXON_JAR%" -Dtest.type=s -Dxspec.coverage.enabled=true
+    call :verify_retval 1
+    call :verify_line -3 x "BUILD FAILED"
+    call :verify_line -2 r ".*Coverage is supported only for XSLT"
 	</case>
 
 	<case name="Ant for XSLT with JUnit creates report files">

@@ -344,6 +344,9 @@ teardown() {
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
 
+    # Default xspec.coverage.enabled is false
+    [ ! -f "../tutorial/xspec/escape-for-regex-coverage.xml" ]
+
     # Default xspec.junit.enabled is false
     [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
@@ -606,6 +609,42 @@ teardown() {
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
+}
+
+
+@test "Ant for XSLT with coverage creates report files" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec" -lib "${SAXON_JAR}" -Dxspec.coverage.enabled=true
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+
+    # XML, HTML and coverage report file
+    [ -f "../tutorial/coverage/xspec/demo-result.xml" ]
+    [ -f "../tutorial/coverage/xspec/demo-result.html" ]
+    [ -f "../tutorial/coverage/xspec/demo-coverage.html" ]
+}
+
+
+@test "Ant for XQuery with coverage fails" {
+    run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec" -lib "${SAXON_JAR}" -Dtest.type=q -Dxspec.coverage.enabled=true
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "BUILD FAILED" ]]
+    [[ "${output}" =~ "Coverage is supported only for XSLT" ]]
+}
+
+
+@test "Ant for Schematron with coverage fails" {
+    run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec" -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.coverage.enabled=true
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "BUILD FAILED" ]]
+    [[ "${output}" =~ "Coverage is supported only for XSLT" ]]
 }
 
 
