@@ -15,7 +15,8 @@ if not exist "%SAXON_JAR%" (
 )
 
 rem Check capabilities
-rem  TODO: Check if the processor supports coverage and schema
+java -jar "%SAXON_JAR%" -nogo -xsl:"%~dp0..\src\reporter\coverage-report.xsl" 2> NUL
+if not errorlevel 1 set XSLT_SUPPORTS_COVERAGE=1
 
 rem Reset public environment variables
 set "SAXON_CP=%SAXON_JAR%"
