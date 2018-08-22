@@ -82,7 +82,7 @@
   <property name="xspec.output.dir" value="${xspec.dir}" />
 
   <!-- Whether to create the coverage report or not -->
-  <property name="xspec.coverage.enabled" value="false" />
+  <property name="xspec.coverage.enabled" value="true" />
 
   <!-- Whether to create the JUnit report or not -->
   <property name="xspec.junit.enabled" value="false" />
@@ -239,6 +239,7 @@
     </fail>
 
     <!-- Verify "xspec.coverage.enabled" -->
+    <!--
     <fail message="Coverage is supported only for XSLT">
       <condition>
         <and>
@@ -247,6 +248,7 @@
         </and>
       </condition>
     </fail>
+    -->
 
     <!-- Verify .xspec file existence, to avoid creating a useless output directory -->
     <available property="xspec.xspecfile.is.available"
@@ -451,6 +453,12 @@
         <param name="inline-css" expression="true" />
       </xslt-elements>
     </saxon-xslt>
+
+    <fail message="bang">
+      <condition>
+        <equals arg1="${xspec.xspecfile.name}" arg2="demo.xspec" />
+      </condition>
+    </fail>
   </target>
 
   <!-- Report: JUnit -->
