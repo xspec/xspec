@@ -42,7 +42,7 @@ usage() {
     echo "  -t             test an XSLT stylesheet (the default)"
     echo "  -q             test an XQuery module (mutually exclusive with -t and -s)"
     echo "  -s             test a Schematron schema (mutually exclusive with -t and -q)"
-    echo "  -c             output test coverage report"
+    echo "  -c             output test coverage report (XSLT only)"
     echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
     echo "  -h             display this help message"
@@ -219,6 +219,12 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
     esac
     shift;
 done
+
+# Coverage is only for XSLT
+if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}" ]; then
+    usage "Coverage is supported only for XSLT"
+    exit 1
+fi
 
 # set CATALOG option for Saxon if XML_CATALOG has been set
 if test -n "$XML_CATALOG"; then
