@@ -221,10 +221,10 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
 done
 
 # Coverage is only for XSLT
-# if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}" ]; then
-#     usage "Coverage is supported only for XSLT"
-#     exit 1
-# fi
+if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}" ]; then
+    usage "Coverage is supported only for XSLT"
+    exit 1
+fi
 
 # set CATALOG option for Saxon if XML_CATALOG has been set
 if test -n "$XML_CATALOG"; then
