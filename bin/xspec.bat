@@ -412,10 +412,10 @@ if defined WIN_UNKNOWN_OPTION (
 rem
 rem # Coverage is only for XSLT
 rem
-if defined COVERAGE if not ""=="%XQUERY%%SCHEMATRON%" (
-    call :usage "Coverage is supported only for XSLT"
-    exit /b 1
-)
+rem if defined COVERAGE if not ""=="%XQUERY%%SCHEMATRON%" (
+rem     call :usage "Coverage is supported only for XSLT"
+rem     exit /b 1
+rem )
 
 rem
 rem # set CATALOG option for Saxon if XML_CATALOG has been set
