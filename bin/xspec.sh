@@ -271,7 +271,7 @@ else
     COMPILED=$TEST_DIR/$TARGET_FILE_NAME.xq
 fi
 COVERAGE_XML=$TEST_DIR/$TARGET_FILE_NAME-coverage.xml
-COVERAGE_HTML=$TEST_DIR/$TARGET_FILE_NAME-coverage.html_TEST
+COVERAGE_HTML=$TEST_DIR/$TARGET_FILE_NAME-coverage.html
 RESULT=$TEST_DIR/$TARGET_FILE_NAME-result.xml
 HTML=$TEST_DIR/$TARGET_FILE_NAME-result.html
 JUNIT_RESULT=$TEST_DIR/$TARGET_FILE_NAME-junit.xml
@@ -361,7 +361,6 @@ if test -n "$XSLT"; then
             -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
             -it:{http://www.jenitennison.com/xslt/xspec}main \
             || die "Error running the test suite"
-        echo test > "${COVERAGE_XML}"
     fi
 else
     # for XQuery
