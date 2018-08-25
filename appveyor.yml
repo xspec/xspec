@@ -51,7 +51,7 @@ install:
 
     # install Ant without installing JDK
 
-    choco install ant --ignore-dependencies --no-progress --version "${env:ANT_VERSION}"
+    appveyor-retry choco install ant --ignore-dependencies --no-progress --version "${env:ANT_VERSION}"
 
 
     # install XML Resolver
