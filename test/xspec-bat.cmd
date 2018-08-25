@@ -384,6 +384,29 @@ setlocal
 endlocal
 
 setlocal
+    call :setup "invoking xspec.bat with -q option runs XSpec test for XQuery"
+
+    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    call :verify_retval 0
+    call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "executing the XProc harness for BaseX generates a report"
+
+    if defined BASEX_CP (
+        call :run java -Xmx1024m -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main -i source=../tutorial/xquery-tutorial.xspec -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" -p basex-jar="%BASEX_CP%" -o result=xspec/xquery-tutorial-result.html ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
+        call :verify_line -1 r "..*/src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1"
+    ) else (
+        call :skip "test for BaseX skipped as it requires XMLCalabash and a higher version of Saxon"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
     call :setup "HTML report contains CSS inline and not as an external file #135"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
