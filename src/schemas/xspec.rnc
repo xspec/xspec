@@ -187,15 +187,16 @@ as = attribute as { text }
 
 selection = node-selection | value-selection
 
-node-selection = 
-                 ## The document URI (location) of the imported document.
-                 attribute href { xs:anyURI }?,
+node-selection = (
+                 ## The document URI (location) of the selected document.
+                 attribute href { xs:anyURI }
+                 | user-content
+                 ),
                  ## The XPath expression to access the selected node. 
-                 attribute select { xpath }?, 
-                 user-content
+                 attribute select { xpath }?
 
 value-selection =
-    ## The XPath expression to access the selected node. 
+    ## The XPath expression without definitive context.
     attribute select { xpath }
 
 xpath = text
