@@ -6,7 +6,7 @@
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" stylesheet="../../xspec-tested.xsl">
-  <t:scenario label="x:context with correct x:expect" foo="bar">
+  <t:scenario label="x:context with correct x:expect">
     <t:context>
       <rule/>
     </t:context>
