@@ -134,6 +134,8 @@ teardown() {
 
 @test "invoking xspec generates XML report file" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+
+    # XML report file
     run stat ../tutorial/xspec/escape-for-regex-result.xml
 	echo "$output"
     [ "$status" -eq 0 ]
@@ -142,6 +144,8 @@ teardown() {
 
 @test "invoking xspec generates HTML report file" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+
+    # HTML report file is created
     run stat ../tutorial/xspec/escape-for-regex-result.html
 	echo "$output"
     [ "$status" -eq 0 ]
@@ -176,6 +180,8 @@ teardown() {
 
 @test "invoking xspec with -j option generates XML report file" {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
+
+    # XML report file
     run stat ../tutorial/xspec/escape-for-regex-result.xml
 	echo "$output"
     [ "$status" -eq 0 ]
@@ -184,6 +190,8 @@ teardown() {
 
 @test "invoking xspec with -j option generates JUnit report file" {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
+
+    # JUnit report file
     run stat ../tutorial/xspec/escape-for-regex-junit.xml
 	echo "$output"
     [ "$status" -eq 0 ]
@@ -299,7 +307,11 @@ teardown() {
 @test "Cleanup removes temporary files" {
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
     [ "$status" -eq 0 ]
+
+    # Cleanup removes compiled .xspec
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
+
+    # Cleanup removes temporary files in TEST_DIR
     run ls ../tutorial/schematron/xspec
     [ "${#lines[@]}" = "3" ]
     [ "${lines[0]}" = "demo-03-result.html" ]
