@@ -565,7 +565,10 @@ teardown() {
         skip "JING_JAR is not defined"
     fi
 
-    run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc ../tutorial/*.xspec ../tutorial/schematron/*.xspec
+    run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc \
+        ../tutorial/*.xspec \
+        ../tutorial/coverage/*.xspec \
+        ../tutorial/schematron/*.xspec
     echo "$output"
     [ "$status" -eq 0 ]
 }
