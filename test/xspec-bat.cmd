@@ -668,10 +668,34 @@ setlocal
     call :setup "Schema detects no error in known good tests"
 
     if defined JING_CP (
-        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc catalog\*.xspec schematron\*-import.xspec schematron\*-in.xspec
+        call :run java -jar "%JING_CP%" -c ..\src\schemas\xspec.rnc ^
+            catalog\*.xspec ^
+            end-to-end\cases\*.xspec ^
+            schematron\*-import.xspec ^
+            schematron\*-in.xspec
         call :verify_retval 0
     ) else (
         call :skip "Schema validation for known good tests skipped"
+    )
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "Schema detects errors in node-selection test"
+
+    if defined JING_CP (
+        rem -t for identifying the last line
+        call :run java -jar "%JING_CP%" -c -t ..\src\schemas\xspec.rnc xspec-node-selection.xspec
+        call :verify_retval 1
+        call :verify_line 1 r ".*-child-not-allowed"
+        call :verify_line 2 r ".*-child-not-allowed"
+        call :verify_line 3 r ".*-child-not-allowed"
+        call :verify_line 4 r ".*-child-not-allowed"
+        call :verify_line 5 r ".*-child-not-allowed"
+        call :verify_line 6 r "Elapsed time"
+    ) else (
+        call :skip "Schema validation for node-selection test skipped"
     )
 
     call :teardown

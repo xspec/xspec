@@ -523,10 +523,32 @@ teardown() {
 
 @test "Schema detects no error in known good tests" {
     if [ -n "${JING_CP}" ]; then
-        run java -jar ${JING_CP} -c ../src/schemas/xspec.rnc catalog/*.xspec schematron/*-import.xspec schematron/*-in.xspec
+        run java -jar ${JING_CP} -c ../src/schemas/xspec.rnc \
+            catalog/*.xspec \
+            end-to-end/cases/*.xspec \
+            schematron/*-import.xspec \
+            schematron/*-in.xspec
     	echo "$output"
         [ "$status" -eq 0 ]
     else
         skip "Schema validation for known good tests skipped";
+    fi
+}
+
+
+@test "Schema detects errors in node-selection test" {
+    if [ -n "${JING_CP}" ]; then
+        # -t for identifying the last line
+        run java -jar ${JING_CP} -c -t ../src/schemas/xspec.rnc xspec-node-selection.xspec
+    	echo "$output"
+        [ "$status" -eq 1 ]
+        [[ "${lines[0]}" =~ "-child-not-allowed" ]]
+        [[ "${lines[1]}" =~ "-child-not-allowed" ]]
+        [[ "${lines[2]}" =~ "-child-not-allowed" ]]
+        [[ "${lines[3]}" =~ "-child-not-allowed" ]]
+        [[ "${lines[4]}" =~ "-child-not-allowed" ]]
+        [[ "${lines[5]}" =~ "Elapsed time" ]]
+    else
+        skip "Schema validation for node-selection test skipped";
     fi
 }
