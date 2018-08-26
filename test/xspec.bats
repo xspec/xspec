@@ -589,6 +589,24 @@ teardown() {
 }
 
 
+@test "Schema detects errors in node-selection test" {
+    if [ -z "${JING_JAR}" ]; then
+        skip "JING_JAR is not defined"
+    fi
+
+    # -t for identifying the last line
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc xspec-node-selection.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[0]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[1]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[2]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[3]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[4]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[5]}" =~ "Elapsed time" ]]
+}
+
+
 @test "Ant for XSLT with saxon.custom.options" {
     # Test with a space in file name
     saxon_config="${work_dir}/saxon config.xml"

@@ -417,6 +417,18 @@
     call :verify_retval 0
 	</case>
 
+	<case ifdef="JING_JAR" name="Schema detects errors in node-selection test">
+    rem -t for identifying the last line
+    call :run java -jar "%JING_JAR%" -c -t ..\src\schemas\xspec.rnc xspec-node-selection.xspec
+    call :verify_retval 1
+    call :verify_line 1 r ".*-child-not-allowed"
+    call :verify_line 2 r ".*-child-not-allowed"
+    call :verify_line 3 r ".*-child-not-allowed"
+    call :verify_line 4 r ".*-child-not-allowed"
+    call :verify_line 5 r ".*-child-not-allowed"
+    call :verify_line 6 r "Elapsed time"
+	</case>
+
 	<case name="Ant for XSLT with saxon.custom.options">
     rem Test with a space in file name
     set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
