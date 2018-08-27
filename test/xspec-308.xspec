@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="When $x:result is element(foo)">
+		<x:call function="exactly-one">
+			<x:param as="element(foo)">
+				<foo />
+			</x:param>
+		</x:call>
+
+		<x:expect label="Expecting element(foo) with @label should be Success">
+			<foo />
+		</x:expect>
+
+		<x:expect>
+			<x:label>Expecting element(foo) with x:label should be Success, too</x:label>
+			<foo />
+		</x:expect>
+	</x:scenario>
+</x:description>
