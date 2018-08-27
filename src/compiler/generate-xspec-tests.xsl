@@ -48,7 +48,7 @@
   
 <xsl:template match="x:description" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
-  <stylesheet version="{( @xslt-version, '2.0' )[1]}"
+  <stylesheet version="{( @xslt-version, 2.0 )[1]}"
 	      exclude-result-prefixes="pkg impl">
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
   	<import href="{$stylesheet-uri}" />
@@ -307,7 +307,7 @@
       <xsl:value-of select="normalize-space(x:label(.))"/>
     </message>
     <xsl:if test="not($pending-p)">
-      <xsl:variable name="version" as="xs:double" 
+      <xsl:variable name="xslt-version" as="xs:decimal" 
         select="(ancestor-or-self::*[@xslt-version]/@xslt-version, 2.0)[1]" />
       <xsl:apply-templates select="." mode="test:generate-variable-declarations">
         <xsl:with-param name="var" select="'impl:expected'" />
@@ -344,11 +344,11 @@
              <choose>
                 <when test="count($impl:test-items) eq 1">
                    <for-each select="$impl:test-items">
-                      <sequence select="{ @test }" version="{ $version }"/>
+                      <sequence select="{ @test }" version="{ $xslt-version }"/>
                    </for-each>
                 </when>
                 <otherwise>
-                   <sequence select="{ @test }" version="{ $version }"/>
+                   <sequence select="{ @test }" version="{ $xslt-version }"/>
                 </otherwise>
              </choose>
           </variable>
@@ -358,11 +358,11 @@
             select="$impl:test-result instance of xs:boolean" />
           <variable name="impl:successful" as="xs:boolean"
             select="if ($impl:boolean-test) then $impl:test-result cast as xs:boolean
-                    else test:deep-equal($impl:expected, $impl:test-result, {$version})" />
+                    else test:deep-equal($impl:expected, $impl:test-result, {$xslt-version})" />
         </xsl:when>
         <xsl:otherwise>
           <variable name="impl:successful" as="xs:boolean" 
-            select="test:deep-equal($impl:expected, $x:result, {$version})" />
+            select="test:deep-equal($impl:expected, $x:result, {$xslt-version})" />
         </xsl:otherwise>
       </xsl:choose>
       <if test="not($impl:successful)">

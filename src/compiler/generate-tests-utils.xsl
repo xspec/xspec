@@ -85,7 +85,7 @@
 <xsl:function name="test:deep-equal" as="xs:boolean">
   <xsl:param name="seq1" as="item()*"/>
   <xsl:param name="seq2" as="item()*"/>
-  <xsl:param name="version" as="xs:double"/>
+  <xsl:param name="version" as="xs:decimal"/>
   <!-- Using a $param in @use-when does not work.  TODO: What to do? At run time? -->
   <!--xsl:if test="$seq1 instance of node()" use-when="$debug">
      <xsl:message select="'DEEP-EQUAL: SEQ1:', x:node-path($seq1)"/>
