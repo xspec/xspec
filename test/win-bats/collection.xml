@@ -561,4 +561,14 @@
     call :verify_line  8 x "     [java] Scenario 2b-2"
     call :verify_line  9 x "     [java] Scenario 3"
 	</case>
+
+	<case name="Ambiguous x:expect generates warning">
+    rem Provide TEST_DIR with an existing directory to make the output lines predictable
+    set "TEST_DIR=%WORK_DIR%"
+    call :run ..\bin\xspec.bat end-to-end\cases\xspec-ambiguous-expect.xspec
+    call :verify_line 10 r "WARNING: x:expect has boolean @test"
+    call :verify_line 15 r "WARNING: x:expect has boolean @test"
+    call :verify_line 22 r "WARNING: x:expect has boolean @test"
+    call :verify_line 31 x "Formatting Report..."
+	</case>
 </collection>

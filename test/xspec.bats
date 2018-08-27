@@ -773,3 +773,15 @@ teardown() {
 }
 
 
+@test "Ambiguous x:expect generates warning" {
+    # Provide TEST_DIR with an existing directory to make the output lines predictable
+    export TEST_DIR="${work_dir}"
+    run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-expect.xspec
+    echo "$output"
+    [[ "${lines[9]}"  =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[14]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[21]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [  "${lines[30]}" =  "Formatting Report..." ]
+}
+
+
