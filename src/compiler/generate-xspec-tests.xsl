@@ -208,7 +208,7 @@
               </xsl:variable>
               <xsl:choose>
                 <xsl:when test="$context">
-                  <!-- Set up the $context variable -->
+                  <!-- Set up the $impl:context variable -->
                   <xsl:apply-templates select="$context" mode="x:setup-context"/>
                   <!-- Switch to the context and call the template -->
                   <for-each select="$impl:context">
@@ -256,7 +256,7 @@
                </apply-templates>
             </xsl:when>
             <xsl:when test="$context">
-              <!-- Set up the $context variable -->
+              <!-- Set up the $impl:context variable -->
               <xsl:apply-templates select="$context" mode="x:setup-context"/>
               <!-- Set up variables containing the parameter values -->
               <xsl:apply-templates select="$context/x:param[1]" mode="x:compile"/>
@@ -309,9 +309,8 @@
     <xsl:if test="not($pending-p)">
       <xsl:variable name="version" as="xs:double" 
         select="(ancestor-or-self::*[@xslt-version]/@xslt-version, 2.0)[1]" />
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-        <xsl:with-param name="var" select="'impl:expected'" />
-      </xsl:apply-templates>
+      <!-- Set up the $impl:expected variable -->
+      <xsl:apply-templates select="." mode="x:setup-expected"/>
       <xsl:choose>
         <xsl:when test="@test">
           <!-- This variable declaration could be moved from here (the
@@ -437,6 +436,21 @@
       <xsl:with-param name="var" select="'impl:context'" />
    </xsl:apply-templates>
 </xsl:template>  
+
+<xsl:template match="x:expect" mode="x:setup-expected" as="element(xsl:variable)+">
+   <!-- Remove x:label from x:expect -->
+   <xsl:variable name="expect" as="element(x:expect)">
+      <xsl:copy>
+         <xsl:sequence select="@*" />
+         <xsl:sequence select="node() except x:label" />
+      </xsl:copy>
+   </xsl:variable>
+
+   <!-- Generate <xsl:variable name="impl:expected"> representing the expected nodes/values -->
+   <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
+      <xsl:with-param name="var" select="'impl:expected'" />
+   </xsl:apply-templates>
+</xsl:template>
 
 <xsl:template match="x:context | x:param" mode="x:report">
   <xsl:element name="x:{local-name()}">

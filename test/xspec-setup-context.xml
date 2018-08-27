@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:param name="param-items" select="'param-string'" xmlns:x="http://www.jenitennison.com/xslt/xspec" />
