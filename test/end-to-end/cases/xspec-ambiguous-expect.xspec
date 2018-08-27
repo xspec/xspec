@@ -64,7 +64,7 @@
 				label="Expecting empty sequence (no @href, @select or child node) along with @test=$x:result should be Success"
 				test="$x:result treat as xs:boolean" />
 			<x:expect test="$x:result treat as xs:boolean">
-				<x:label>Ditto using x:label (Not actually empty: xspec/xspec#173)</x:label>
+				<x:label>Ditto using x:label</x:label>
 			</x:expect>
 		</x:scenario>
 	</x:scenario>
