@@ -394,11 +394,11 @@ setlocal
     call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
 
     rem Cleanup removes temporary files in TEST_DIR
-    call :run dir /on ..\tutorial\schematron\xspec
-    call :verify_line 9 r ".*3 File.*"
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.html
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.xml
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03.xsl
+    call :run dir /b /o:n ..\tutorial\schematron\xspec
+    call :verify_line_count 3
+    call :verify_line 1 x demo-03.xsl
+    call :verify_line 2 x demo-03-result.html
+    call :verify_line 3 x demo-03-result.xml
 
     call :teardown
 endlocal
@@ -919,6 +919,18 @@ rem
         echo ----------
     ) else (
         call :verified "Line %LINE_NUMBER%"
+    )
+    goto :EOF
+
+:verify_line_count
+    for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set LINE_COUNT=%%I
+    if %LINE_COUNT% EQU %~1 (
+        call :verified "Line count: %~1"
+    ) else (
+        call :failed "Line count %LINE_COUNT% does not match the expected count %~1"
+        echo ---------- "%OUTPUT_LINENUM%"
+        type "%OUTPUT_LINENUM%"
+        echo ----------
     )
     goto :EOF
 
