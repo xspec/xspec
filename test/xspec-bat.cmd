@@ -297,7 +297,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat that passes a non xs:boolean does not raise a warning #46"
 
-    call :run ..\bin\xspec.bat ..\test\xspec-46.xspec
+    call :run ..\bin\xspec.bat xspec-46.xspec
     call :verify_retval 0
     call :verify_line 4 r "Testing with"
 
@@ -338,13 +338,15 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with path containing an apostrophe runs successfully #119"
 
-    set "APOSTROPHE_DIR=%WORK_DIR%\some'path"
-    call :mkdir "%APOSTROPHE_DIR%"
-    call :copy ..\tutorial\escape-for-regex.* "%APOSTROPHE_DIR%"
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path"
+    call :mkdir "%SPECIAL_CHARS_DIR%"
+    call :copy ..\tutorial\escape-for-regex.* "%SPECIAL_CHARS_DIR%"
 
-    call :run ..\bin\xspec.bat "%APOSTROPHE_DIR%\escape-for-regex.xspec"
+    set "EXPECTED_REPORT=%SPECIAL_CHARS_DIR%\xspec\escape-for-regex-result.html"
+
+    call :run ..\bin\xspec.bat "%SPECIAL_CHARS_DIR%\escape-for-regex.xspec"
     call :verify_retval 0
-    call :verify_line 20 x "Report available at %APOSTROPHE_DIR%\xspec\escape-for-regex-result.html"
+    call :verify_line 20 x "Report available at %EXPECTED_REPORT%"
 
     call :teardown
 endlocal
@@ -352,7 +354,7 @@ endlocal
 setlocal
     call :setup "Schematron phase/parameters are passed to Schematron compile"
 
-    call :run ..\bin\xspec.bat -s ..\test\schematron-param-001.xspec
+    call :run ..\bin\xspec.bat -s schematron-param-001.xspec
     call :verify_retval 0
     call :verify_line 3 x "Paramaters: phase=P1 ?selected=codepoints-to-string((80,49))"
 
@@ -771,10 +773,10 @@ rem
     rem
     rem Create the XSpec output directories
     rem
-    call :mkdir ..\test\xspec
-    call :mkdir ..\tutorial\xspec
-    call :mkdir ..\tutorial\schematron\xspec
     call :mkdir ..\test\catalog\xspec
+    call :mkdir ..\test\xspec
+    call :mkdir ..\tutorial\schematron\xspec
+    call :mkdir ..\tutorial\xspec
 
     goto :EOF
 
@@ -783,10 +785,10 @@ rem
     rem Remove the XSpec output directories
     rem    Keep "..\test\" to minimize accident
     rem
-    call :rmdir ..\test\xspec
-    call :rmdir ..\tutorial\xspec
-    call :rmdir ..\tutorial\schematron\xspec
     call :rmdir ..\test\catalog\xspec
+    call :rmdir ..\test\xspec
+    call :rmdir ..\tutorial\schematron\xspec
+    call :rmdir ..\tutorial\xspec
 
     rem
     rem Remove the work directory

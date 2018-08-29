@@ -20,19 +20,19 @@
 setup() {
 	work_dir="${BATS_TMPDIR}/xspec/bats_work"
 	mkdir -p "${work_dir}"
-	mkdir ../tutorial/xspec
+	mkdir ../test/catalog/xspec
 	mkdir ../test/xspec
 	mkdir ../tutorial/schematron/xspec
-	mkdir ../test/catalog/xspec
+	mkdir ../tutorial/xspec
 }
 
 
 teardown() {
 	rm -rf "${work_dir}"
-	rm -rf ../tutorial/xspec
+	rm -rf ../test/catalog/xspec
 	rm -rf ../test/xspec
 	rm -rf ../tutorial/schematron/xspec
-	rm -rf ../test/catalog/xspec
+	rm -rf ../tutorial/xspec
 }
 
 
@@ -225,7 +225,7 @@ teardown() {
 
 
 @test "invoking xspec.sh that passes a non xs:boolean does not raise a warning #46" {
-    run ../bin/xspec.sh ../test/xspec-46.xspec
+    run ../bin/xspec.sh xspec-46.xspec
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${lines[3]}" =~ "Testing with" ]]
@@ -275,7 +275,7 @@ teardown() {
 
 
 @test "Schematron phase/parameters are passed to Schematron compile" {
-    run ../bin/xspec.sh -s ../test/schematron-param-001.xspec
+    run ../bin/xspec.sh -s schematron-param-001.xspec
 	echo "${lines[2]}"
     [ "$status" -eq 0 ]
     [ "${lines[2]}" == "Parameters: phase=P1 ?selected=codepoints-to-string((80,49))" ]
@@ -353,7 +353,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~  "BUILD FAILED" ]]
+    [[ "${output}" =~ "BUILD FAILED" ]]
 }
 
 
@@ -362,7 +362,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
 
@@ -371,7 +371,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
 
@@ -380,7 +380,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
     # Verify default clean.output.dir is false
     [  -d "../tutorial/schematron/xspec/" ]
@@ -407,7 +407,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
     # Verify that -Dxspec-dir was honered and the default dir was not created
     [ ! -d "../tutorial/schematron/xspec/" ]
@@ -424,7 +424,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
-    [[ "${output}" =~  "BUILD FAILED" ]]
+    [[ "${output}" =~ "BUILD FAILED" ]]
 
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
@@ -444,7 +444,7 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
-    [[ "${output}" =~  "BUILD SUCCESSFUL" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
 @test "invoking xspec.sh for XSLT with -catalog uses XML Catalog resolver" {
