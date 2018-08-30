@@ -15,7 +15,7 @@ if errorlevel 1 (
 rem
 rem Results log file
 rem
-set RESULTS_FILE=%TEMP%\%~n0_results.log
+set "RESULTS_FILE=%TEMP%\%~n0_results.log"
 call :del "%RESULTS_FILE%"
 
 rem
@@ -23,18 +23,27 @@ rem Work directory
 rem  - Created at :setup
 rem  - Removed recursively at :teardown
 rem
-set WORK_DIR=%TEMP%\%~n0_work
+set "WORK_DIR=%TEMP%\%~n0_work"
 
 rem
 rem Output log files for :run
 rem
-set OUTPUT_RAW=%WORK_DIR%\run_raw.log
-set OUTPUT_LINENUM=%WORK_DIR%\run_linenum.log
+set "OUTPUT_RAW=%WORK_DIR%\run_raw.log"
+set "OUTPUT_FILTERED=%WORK_DIR%\run_filtered.log"
+set "OUTPUT_LINENUM=%WORK_DIR%\run_linenum.log"
 
 rem
 rem Name and extension of this file
 rem
-set THIS_FILE_NX=%~nx0
+set "THIS_FILE_NX=%~nx0"
+
+rem
+rem Availability of Ant
+rem
+if not defined ANT_VERSION (
+    where ant > NUL
+    if not errorlevel 1 set ANT_VERSION=1
+)
 
 rem
 rem Go to the directory where this script resides
@@ -44,7 +53,7 @@ pushd "%~dp0"
 rem
 rem Full path to the parent directory
 rem
-for %%I in (..) do set PARENT_DIR_ABS=%%~fI
+for %%I in (..) do set "PARENT_DIR_ABS=%%~fI"
 
 echo === START TEST CASES ================================================
 
@@ -177,6 +186,8 @@ setlocal
     call :setup "invoking xspec generates XML report file"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+
+    rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
     call :teardown
@@ -186,6 +197,8 @@ setlocal
     call :setup "invoking xspec generates HTML report file"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+
+    rem HTML report file is created
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.html
 
     call :teardown
@@ -229,6 +242,8 @@ setlocal
     call :setup "invoking xspec with -j option generates XML report file"
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
+
+    rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
     call :teardown
@@ -238,6 +253,8 @@ setlocal
     call :setup "invoking xspec with -j option generates JUnit report file"
 
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
+
+    rem JUnit report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-junit.xml
 
     call :teardown
@@ -258,7 +275,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with TEST_DIR already set externally generates files inside TEST_DIR"
 
-    set TEST_DIR=%WORK_DIR%
+    set "TEST_DIR=%WORK_DIR%"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
@@ -280,7 +297,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat that passes a non xs:boolean does not raise a warning #46"
 
-    call :run ..\bin\xspec.bat ..\test\xspec-46.xspec
+    call :run ..\bin\xspec.bat xspec-46.xspec
     call :verify_retval 0
     call :verify_line 4 r "Testing with"
 
@@ -304,11 +321,11 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat for parentheses dir generates HTML report file #84"
 
-    set PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)
+    set "PARENTHESES_DIR=%WORK_DIR%\%~n0 (84)"
     call :mkdir "%PARENTHESES_DIR%"
-    copy ..\tutorial\escape-for-regex.* "%PARENTHESES_DIR%" > NUL
+    call :copy ..\tutorial\escape-for-regex.* "%PARENTHESES_DIR%"
 
-    set EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html
+    set "EXPECTED_REPORT=%PARENTHESES_DIR%\xspec\escape-for-regex-result.html"
 
     call :run ..\bin\xspec.bat "%PARENTHESES_DIR%\escape-for-regex.xspec"
     call :verify_retval 0
@@ -321,13 +338,15 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with path containing an apostrophe runs successfully #119"
 
-    set APOSTROPHE_DIR=%WORK_DIR%\some'path
-    call :mkdir "%APOSTROPHE_DIR%"
-    copy ..\tutorial\escape-for-regex.* "%APOSTROPHE_DIR%" > NUL
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path"
+    call :mkdir "%SPECIAL_CHARS_DIR%"
+    call :copy ..\tutorial\escape-for-regex.* "%SPECIAL_CHARS_DIR%"
 
-    call :run ..\bin\xspec.bat "%APOSTROPHE_DIR%\escape-for-regex.xspec"
+    set "EXPECTED_REPORT=%SPECIAL_CHARS_DIR%\xspec\escape-for-regex-result.html"
+
+    call :run ..\bin\xspec.bat "%SPECIAL_CHARS_DIR%\escape-for-regex.xspec"
     call :verify_retval 0
-    call :verify_line 20 x "Report available at %APOSTROPHE_DIR%\xspec\escape-for-regex-result.html"
+    call :verify_line 20 x "Report available at %EXPECTED_REPORT%"
 
     call :teardown
 endlocal
@@ -335,7 +354,7 @@ endlocal
 setlocal
     call :setup "Schematron phase/parameters are passed to Schematron compile"
 
-    call :run ..\bin\xspec.bat -s ..\test\schematron-param-001.xspec
+    call :run ..\bin\xspec.bat -s schematron-param-001.xspec
     call :verify_retval 0
     call :verify_line 3 x "Paramaters: phase=P1 ?selected=codepoints-to-string((80,49))"
 
@@ -372,12 +391,39 @@ setlocal
 
     call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
     call :verify_retval 0
+
+    rem Cleanup removes compiled .xspec
     call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
-    call :run dir /on ..\tutorial\schematron\xspec
-    call :verify_line 9 r ".*3 File.*"
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.html
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03-result.xml
-    call :verify_exist ..\tutorial\schematron\xspec\demo-03.xsl
+
+    rem Cleanup removes temporary files in TEST_DIR
+    call :run dir /b /o:n ..\tutorial\schematron\xspec
+    call :verify_line_count 3
+    call :verify_line 1 x demo-03.xsl
+    call :verify_line 2 x demo-03-result.html
+    call :verify_line 3 x demo-03-result.xml
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat with -q option runs XSpec test for XQuery"
+
+    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    call :verify_retval 0
+    call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "executing the XProc harness for BaseX generates a report"
+
+    if defined BASEX_CP (
+        call :run java -Xmx1024m -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main -i source=../tutorial/xquery-tutorial.xspec -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" -p basex-jar="%BASEX_CP%" -o result=xspec/xquery-tutorial-result.html ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
+        call :verify_line -1 r "..*/src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1"
+    ) else (
+        call :skip "test for BaseX skipped as it requires XMLCalabash and a higher version of Saxon"
+    )
 
     call :teardown
 endlocal
@@ -398,6 +444,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%"
         call :verify_retval 1
+        call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
         call :verify_line -4 x "BUILD FAILED"
     ) else (
         call :skip "test for XSLT Ant with default properties skipped"
@@ -412,6 +459,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_CP%" -Dxspec.fail=false
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
         call :skip "test for XSLT Ant with xspec.fail=false skipped"
@@ -426,6 +474,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_xslt.xspec" -lib "%SAXON_CP%" -Dxspec.fail=false -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%"
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
         call :skip "test for XSLT Ant with catalog skipped"
@@ -440,6 +489,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
         rem Verify default clean.output.dir is false
@@ -460,24 +510,26 @@ endlocal
 setlocal
     call :setup "Ant for Schematron with various properties except catalog"
 
-    set BUILD_XML=%WORK_DIR%\build.xml
+    set "BUILD_XML=%WORK_DIR%\build.xml"
+    set "ANT_TEST_DIR=%WORK_DIR%\ant-temp"
 
     if defined ANT_VERSION (
         rem Remove a temp dir created by setup
         call :rmdir ..\tutorial\schematron\xspec
 
         rem For testing -Dxspec.project.dir
-        copy ..\build.xml "%BUILD_XML%" > NUL
+        call :copy ..\build.xml "%BUILD_XML%"
 
-        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%CD%\xspec-temp" -Dclean.output.dir=true
+        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%ANT_TEST_DIR%" -Dclean.output.dir=true
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
         call :verify_line -2 x "BUILD SUCCESSFUL"
 
         rem Verify that -Dxspec-dir was honered and the default dir was not created
         call :verify_not_exist ..\tutorial\schematron\xspec\
 
         rem Verify clean.output.dir=true
-        call :verify_not_exist xspec-temp\
+        call :verify_not_exist "%ANT_TEST_DIR%"
         call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
         call :verify_not_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
     ) else (
@@ -493,6 +545,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%"
         call :verify_retval 1
+        call :verify_line  * x "     [xslt] passed: 6 / pending: 0 / failed: 1 / total: 7"
         call :verify_line -4 x "BUILD FAILED"
 
         rem Verify the build fails before cleanup
@@ -518,6 +571,7 @@ setlocal
     if defined ANT_VERSION (
         call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\xspec-160_schematron.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog="%CD%\catalog\xspec-160_catalog.xml" -lib "%XML_RESOLVER_CP%" -Dxspec.fail=false
         call :verify_retval 0
+        call :verify_line  * x "     [xslt] passed: 6 / pending: 0 / failed: 1 / total: 7"
         call :verify_line -2 x "BUILD SUCCESSFUL"
     ) else (
         call :skip "test for Schematron Ant with catalog and xspec.fail=false skipped"
@@ -529,7 +583,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat for XSLT with -catalog uses XML Catalog resolver"
 
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
     call :verify_retval 0
     call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
@@ -540,7 +594,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat for XQuery with -catalog uses XML Catalog resolver"
 
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml -q catalog\catalog-01-xquery.xspec
     call :verify_retval 0
     call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
@@ -551,7 +605,7 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat with XML_CATALOG set uses XML Catalog resolver"
 
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     set XML_CATALOG=catalog\catalog-01-catalog.xml
     call :run ..\bin\xspec.bat catalog\catalog-01-xslt.xspec
     call :verify_retval 0
@@ -563,11 +617,11 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat using -catalog with spaces in file path uses XML Catalog resolver"
 
-    set SPACE_DIR=%WORK_DIR%\cat a log
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
-    copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
     
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     call :run ..\bin\xspec.bat -catalog "%SPACE_DIR%\catalog-01-catalog.xml" "%SPACE_DIR%\catalog-01-xslt.xspec"
     call :verify_retval 0
     call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
@@ -578,11 +632,11 @@ endlocal
 setlocal
     call :setup "invoking xspec.bat using XML_CATALOG with spaces in file path uses XML Catalog resolver"
 
-    set SPACE_DIR=%WORK_DIR%\cat a log
+    set "SPACE_DIR=%WORK_DIR%\cat a log"
     call :mkdir "%SPACE_DIR%\xspec"
-    copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
     
-    set SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%
+    set "SAXON_CP=%SAXON_CP%;%XML_RESOLVER_CP%"
     set "XML_CATALOG=%SPACE_DIR%\catalog-01-catalog.xml"
     call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01-xslt.xspec"
     call :verify_retval 0
@@ -595,9 +649,9 @@ setlocal
     call :setup "invoking xspec.bat using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar"
 
     set "SAXON_HOME=%WORK_DIR%\saxon"
-    call :mkdir %SAXON_HOME%
-    copy %SAXON_CP% %SAXON_HOME%
-    copy %XML_RESOLVER_CP% %SAXON_HOME%
+    call :mkdir "%SAXON_HOME%"
+    call :copy "%SAXON_CP%"        "%SAXON_HOME%"
+    call :copy "%XML_RESOLVER_CP%" "%SAXON_HOME%\xml-resolver-1.2.jar"
     set SAXON_CP=
     
     call :run ..\bin\xspec.bat -catalog catalog\catalog-01-catalog.xml catalog\catalog-01-xslt.xspec
@@ -650,7 +704,7 @@ if not defined EXIT_CODE (
     set EXIT_CODE=1
 )
 if %EXIT_CODE% NEQ 0 (
-    echo ---------- %RESULTS_FILE%
+    echo ---------- "%RESULTS_FILE%"
     type "%RESULTS_FILE%"
     echo ----------
 )
@@ -665,6 +719,11 @@ exit /b %EXIT_CODE%
 rem
 rem Subroutines
 rem
+
+:copy
+    copy %1 %2 > NUL
+    if errorlevel 1 call :failed "Failed to copy: %~1 to %~2"
+    goto :EOF
 
 :del
     if exist %1 (
@@ -701,10 +760,10 @@ rem
     rem
     rem Report 'Running'
     rem
-    set CASE_NAME=%~1
+    set "CASE_NAME=%~1"
     call :appveyor AddTest "%CASE_NAME%" -Framework custom -Filename "%THIS_FILE_NX%" -Outcome Running
     echo CASE: %CASE_NAME%
-    (echo # %CASE_NAME%) >> "%RESULTS_FILE%"
+    (echo # "%CASE_NAME%") >> "%RESULTS_FILE%"
 
     rem
     rem Create the work directory
@@ -714,21 +773,22 @@ rem
     rem
     rem Create the XSpec output directories
     rem
-    call :mkdir ..\test\xspec
-    call :mkdir ..\tutorial\xspec
-    call :mkdir ..\tutorial\schematron\xspec
     call :mkdir ..\test\catalog\xspec
+    call :mkdir ..\test\xspec
+    call :mkdir ..\tutorial\schematron\xspec
+    call :mkdir ..\tutorial\xspec
 
     goto :EOF
 
 :teardown
     rem
     rem Remove the XSpec output directories
+    rem    Keep "..\test\" to minimize accident
     rem
-    call :rmdir ..\test\xspec
-    call :rmdir ..\tutorial\xspec
-    call :rmdir ..\tutorial\schematron\xspec
     call :rmdir ..\test\catalog\xspec
+    call :rmdir ..\test\xspec
+    call :rmdir ..\tutorial\schematron\xspec
+    call :rmdir ..\tutorial\xspec
 
     rem
     rem Remove the work directory
@@ -781,16 +841,22 @@ rem
 
     rem
     rem Run
+    rem    Launch a child process in order to localize various environment changes
     rem
     "%COMSPEC%" /c %* > "%OUTPUT_RAW%" 2>&1
     set RETVAL=%ERRORLEVEL%
 
     rem
+    rem Normalize CR LF.
     rem Remove the JAVA_TOOL_OPTIONS output, to keep the line numbers predictable.
     rem Remove the empty lines, to be compatible with Bats $lines.
+    rem
+    type "%OUTPUT_RAW%" | find /v "" | findstr /b /l /v /c:"Picked up JAVA_TOOL_OPTIONS:" | findstr /r /v /c:"^$" > "%OUTPUT_FILTERED%"
+
+    rem
     rem Prefix each line with its line number.
     rem
-    findstr /b /l /v /c:"Picked up JAVA_TOOL_OPTIONS:" "%OUTPUT_RAW%" | findstr /r /v /c:"^$" | find /v /n "" > "%OUTPUT_LINENUM%"
+    type "%OUTPUT_FILTERED%" | find /v /n "" > "%OUTPUT_LINENUM%"
 
     goto :EOF
 
@@ -799,7 +865,7 @@ rem
         call :verified "Return value: %RETVAL%"
     ) else (
         call :failed "Return value is %RETVAL%. Expected %~1."
-        echo ---------- %OUTPUT_RAW%
+        echo ---------- "%OUTPUT_RAW%"
         type "%OUTPUT_RAW%"
         echo ----------
     )
@@ -814,11 +880,12 @@ rem
         echo 3: %3
     )
     rem
-    rem Checks to see if the specified line of the output log file matches exactly the specified string
+    rem Checks to see if the specified line of the output log file matches the specified string
     rem
     rem Parameters:
     rem    1: Line number. Starts with 1, unlike Bats $lines which starts with 0.
-    rem        Negative values indicate the reverse order. -1 is the last line. -2 is the line before the last line, and so on.
+    rem        Negative value : Indicates the reverse order. -1 is the last line. -2 is the line before the last line, and so on.
+    rem        * : Don't care. Any line.
     rem    2: Operator
     rem        x : Exact match ("=" on Bats)
     rem        r : Compare with regular expression ("=~" on Bats)
@@ -827,26 +894,45 @@ rem
     rem
 
     set LINE_NUMBER=%~1
-    if %LINE_NUMBER% LSS 0 for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set /a LINE_NUMBER+=%%I+1
+    if not %LINE_NUMBER%==* if %LINE_NUMBER% LSS 0 for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set /a LINE_NUMBER+=%%I+1
+
+                        set "FIND_STRING=[%LINE_NUMBER%]%~3"
+    if /i "%~2"=="r"    set "FIND_STRING=\[%LINE_NUMBER%\]%~3"
+    if %LINE_NUMBER%==* set "FIND_STRING=%~3"
+
+                        set "FIND_FILE=%OUTPUT_LINENUM%"
+    if %LINE_NUMBER%==* set "FIND_FILE=%OUTPUT_FILTERED%"
 
     rem
-    rem Search the line-numbered output log file
+    rem Search the output log file
     rem
     if        /i "%~2"=="x" (
-        findstr /l /x /c:"[%LINE_NUMBER%]%~3" "%OUTPUT_LINENUM%" > NUL
+        findstr /l /x /c:"%FIND_STRING%" "%FIND_FILE%" > NUL
     ) else if /i "%~2"=="r" (
-        findstr /b /r /c:"\[%LINE_NUMBER%\]%~3" "%OUTPUT_LINENUM%" > NUL
+        findstr /b /r /c:"%FIND_STRING%" "%FIND_FILE%" > NUL
     ) else (
         call :failed "Bad operator: %~2"
         goto :EOF
     )
     if errorlevel 1 (
         call :failed "Line %LINE_NUMBER% does not match the expected string"
-        echo ---------- %OUTPUT_LINENUM%
+        echo ---------- "%OUTPUT_LINENUM%"
         type "%OUTPUT_LINENUM%"
         echo ----------
     ) else (
         call :verified "Line %LINE_NUMBER%"
+    )
+    goto :EOF
+
+:verify_line_count
+    for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set LINE_COUNT=%%I
+    if %LINE_COUNT% EQU %~1 (
+        call :verified "Line count: %~1"
+    ) else (
+        call :failed "Line count %LINE_COUNT% does not match the expected count %~1"
+        echo ---------- "%OUTPUT_LINENUM%"
+        type "%OUTPUT_LINENUM%"
+        echo ----------
     )
     goto :EOF
 

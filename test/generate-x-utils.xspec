@@ -75,6 +75,151 @@
 
    </t:scenario>
 
+   <!--
+       Function test:deep-equal($seq1, $seq2, $version).
+   -->
+   <t:scenario label="test:deep-equal($seq1, $seq2, $version)">
+      <t:scenario label="In version 1.0">
+         <t:scenario label="comparing text nodes with analogous">
+            <t:scenario label="string">
+               <t:call function="test:deep-equal">
+                  <t:param select="'12'"/>
+                  <t:param select="descendant::text()">
+                    <wrap>1</wrap>
+                    <wrap>2</wrap>
+                  </t:param>
+                  <t:param select="1.0"/>
+               </t:call>
+               <t:expect label="returns true" test="$x:result eq true()"/>
+            </t:scenario>
+
+            <t:scenario label="double">
+               <t:call function="test:deep-equal">
+                  <t:param select="xs:double('12')"/>
+                  <t:param select="descendant::text()">
+                    <wrap>1</wrap>
+                    <wrap>2</wrap>
+                  </t:param>
+                  <t:param select="1.0"/>
+               </t:call>
+               <t:expect label="returns true" test="$x:result eq true()"/>
+            </t:scenario>
+
+            <t:scenario label="decimal">
+               <t:call function="test:deep-equal">
+                  <t:param select="xs:decimal('12')"/>
+                  <t:param select="descendant::text()">
+                    <wrap>1</wrap>
+                    <wrap>2</wrap>
+                  </t:param>
+                  <t:param select="1.0"/>
+               </t:call>
+               <t:expect label="returns true" test="$x:result eq true()"/>
+            </t:scenario>
+
+            <t:scenario label="integer">
+               <t:call function="test:deep-equal">
+                  <t:param select="xs:integer('12')"/>
+                  <t:param select="descendant::text()">
+                    <wrap>1</wrap>
+                    <wrap>2</wrap>
+                  </t:param>
+                  <t:param select="1.0"/>
+               </t:call>
+               <t:expect label="returns true" test="$x:result eq true()"/>
+            </t:scenario>
+         </t:scenario>
+
+         <t:scenario label="comparing the same strings">
+            <t:call function="test:deep-equal">
+               <t:param select="'foo'"/>
+               <t:param select="'foo'"/>
+               <t:param select="1.0"/>
+            </t:call>
+            <t:expect label="returns true" test="$x:result eq true()"/>
+         </t:scenario>
+
+         <t:scenario label="comparing different strings">
+            <t:call function="test:deep-equal">
+               <t:param select="'foo'"/>
+               <t:param select="'bar'"/>
+               <t:param select="1.0"/>
+            </t:call>
+            <t:expect label="returns false" test="$x:result eq false()"/>
+         </t:scenario>
+      </t:scenario>
+
+      <t:scenario label="In version 2.0">
+         <t:scenario label="comparing text nodes with analogous">
+            <t:scenario label="string">
+               <t:call function="test:deep-equal">
+                  <t:param select="'12'"/>
+                  <t:param select="descendant::text()">
+                    <wrap>1</wrap>
+                    <wrap>2</wrap>
+                  </t:param>
+                  <t:param select="2.0"/>
+               </t:call>
+               <t:expect label="returns false" test="$x:result eq false()"/>
+            </t:scenario>
+   
+            <t:scenario label="double">
+               <t:call function="test:deep-equal">
+                  <t:param select="xs:double('12')"/>
+                  <t:param select="descendant::text()">
+                    <wrap>1</wrap>
+                    <wrap>2</wrap>
+                  </t:param>
+                  <t:param select="2.0"/>
+               </t:call>
+               <t:expect label="returns false" test="$x:result eq false()"/>
+            </t:scenario>
+   
+            <t:scenario label="decimal">
+               <t:call function="test:deep-equal">
+                  <t:param select="xs:decimal('12')"/>
+                  <t:param select="descendant::text()">
+                    <wrap>1</wrap>
+                    <wrap>2</wrap>
+                  </t:param>
+                  <t:param select="2.0"/>
+               </t:call>
+               <t:expect label="returns false" test="$x:result eq false()"/>
+            </t:scenario>
+   
+            <t:scenario label="integer">
+               <t:call function="test:deep-equal">
+                  <t:param select="xs:integer('12')"/>
+                  <t:param select="descendant::text()">
+                    <wrap>1</wrap>
+                    <wrap>2</wrap>
+                  </t:param>
+                  <t:param select="2.0"/>
+               </t:call>
+               <t:expect label="returns false" test="$x:result eq false()"/>
+            </t:scenario>
+         </t:scenario>
+
+         <t:scenario label="comparing the same strings">
+            <t:call function="test:deep-equal">
+               <t:param select="'foo'"/>
+               <t:param select="'foo'"/>
+               <t:param select="2.0"/>
+            </t:call>
+            <t:expect label="returns true" test="$x:result eq true()"/>
+         </t:scenario>
+
+         <t:scenario label="comparing different strings">
+            <t:call function="test:deep-equal">
+               <t:param select="'foo'"/>
+               <t:param select="'bar'"/>
+               <t:param select="2.0"/>
+            </t:call>
+            <t:expect label="returns false" test="$x:result eq false()"/>
+         </t:scenario>
+      </t:scenario>
+   </t:scenario>
+
   <!--
     Function test:node-deep-equal($seq1, $seq2).
    -->
