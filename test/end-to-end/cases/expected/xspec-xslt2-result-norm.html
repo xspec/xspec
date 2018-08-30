@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for xspec-xslt1.xsl (passed: 2 / pending: 0 / failed: 5 / total: 7)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Stylesheet: <a href="xspec-xslt1.xsl">xspec-xslt1.xsl</a></p>
+      <p>XSpec: <a href="xspec-xslt2.xspec">xspec-xslt2.xspec</a></p>
+      <p>Tested: ONCE-UPON-A-TIME</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <col width="75%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 2</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 5</th>
+               <th class="totals">total: 7</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="failed">
+               <th><a href="#ELEM-33">With 2 text nodes</a></th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">5</th>
+               <th class="totals">7</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="ELEM-33">
+         <h2 class="successful">With 2 text nodes<span class="scenario-totals">passed: 2 / pending: 0 / failed: 5 / total: 7</span></h2>
+         <table class="xspec" id="ELEM-35">
+            <col width="75%" />
+            <col width="25%" />
+            <tbody>
+               <tr class="successful">
+                  <th>With 2 text nodes</th>
+                  <th>passed: 2 / pending: 0 / failed: 5 / total: 7</th>
+               </tr>
+               <tr class="successful">
+                  <td>Result should be text nodes</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>Result count should be 2</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#ELEM-72">All of these tests should be Success on xslt-version=1.0 and Failure on 2.0</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 5 / total: 5</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-73">Comparing the text nodes with string</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-88">Comparing the text nodes with double</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-103">Comparing the text nodes with decimal</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-118">Comparing the text nodes with integer</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-133">Expecting the compiled stylesheet to have version=1.0</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <h3 id="ELEM-72">With 2 text nodes All of these tests should be Success on xslt-version=1.0 and Failure
+            on 2.0
+         </h3>
+         <h4 id="ELEM-73">Comparing the text nodes with string</h4>
+         <table class="xspecResult">
+            <thead>
+               <tr>
+                  <th>Result</th>
+                  <th>Expected Result</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     <p>XPath <code>/node()</code> from:
+                     </p><pre><span class="diff">12</span></pre></td>
+                  <td><pre>'12'</pre></td>
+               </tr>
+            </tbody>
+         </table>
+         <h4 id="ELEM-88">Comparing the text nodes with double</h4>
+         <table class="xspecResult">
+            <thead>
+               <tr>
+                  <th>Result</th>
+                  <th>Expected Result</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     <p>XPath <code>/node()</code> from:
+                     </p><pre><span class="diff">12</span></pre></td>
+                  <td><pre>xs:double('12')</pre></td>
+               </tr>
+            </tbody>
+         </table>
+         <h4 id="ELEM-103">Comparing the text nodes with decimal</h4>
+         <table class="xspecResult">
+            <thead>
+               <tr>
+                  <th>Result</th>
+                  <th>Expected Result</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     <p>XPath <code>/node()</code> from:
+                     </p><pre><span class="diff">12</span></pre></td>
+                  <td><pre>12.0</pre></td>
+               </tr>
+            </tbody>
+         </table>
+         <h4 id="ELEM-118">Comparing the text nodes with integer</h4>
+         <table class="xspecResult">
+            <thead>
+               <tr>
+                  <th>Result</th>
+                  <th>Expected Result</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td>
+                     <p>XPath <code>/node()</code> from:
+                     </p><pre><span class="diff">12</span></pre></td>
+                  <td><pre>12</pre></td>
+               </tr>
+            </tbody>
+         </table>
+         <h4 id="ELEM-133">Expecting the compiled stylesheet to have version=1.0</h4>
+         <table class="xspecResult">
+            <thead>
+               <tr>
+                  <th>Result</th>
+                  <th>Expecting</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td><pre>xs:double('2')</pre></td>
+                  <td><pre>1.0</pre></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </body>
+</html>

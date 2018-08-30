@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-xslt1.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xslt-version="1.0">
+	<x:scenario label="With 2 text nodes">
+		<x:call template="text-nodes" />
+		<x:expect label="Result should be text nodes" test="$x:result instance of text()+" />
+		<x:expect label="Result count should be 2" select="2" test="count($x:result)" />
+		<x:scenario
+			label="All of these tests should be Success on xslt-version=1.0 and Failure on 2.0">
+			<x:expect label="Comparing the text nodes with string" select="'12'" />
+			<x:expect label="Comparing the text nodes with double" select="xs:double('12')" />
+			<x:expect label="Comparing the text nodes with decimal" select="xs:decimal('12')" />
+			<x:expect label="Comparing the text nodes with integer" select="xs:integer('12')" />
+			<x:expect label="Expecting the compiled stylesheet to have version=1.0" select="1.0"
+				test="document('')/xsl:stylesheet/@version/number()" />
+		</x:scenario>
+	</x:scenario>
+</x:description>
