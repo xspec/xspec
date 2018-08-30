@@ -324,15 +324,10 @@
                    $x:result as if they were *children* of the context node.
                    Have to experiment a bit to see if that really is the case.                   
                    TODO: To remove. Use directly $x:result instead.  See issue 14. -->
-              <when test="$x:result instance of node()+">
-                <!-- $impl:test-items-doc aims to create an implicit document node as described
-                     in http://www.w3.org/TR/xslt20/#temporary-trees
-                     So its "variable" element must not have @as or @select.
-                     Do not use "document" or "copy-of" element: xspec/xspec#47 -->
-                <variable name="impl:test-items-doc">
-                  <sequence select="$x:result" />
-                </variable>
-                <sequence select="$impl:test-items-doc treat as document-node()" />
+              <when test="exists($x:result)
+                and (every $impl:result-item in $x:result
+                     satisfies test:wrappable-node($impl:result-item))">
+                <sequence select="test:wrap-nodes($x:result)" />
               </when>
               <otherwise>
                 <sequence select="$x:result" />
