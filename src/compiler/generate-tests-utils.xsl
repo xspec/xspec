@@ -447,6 +447,31 @@
   <xsl:sequence select="$rtf" />
 </xsl:function>
 
+<!-- Returns true if node can be wrapped in document node -->
+<xsl:function name="test:wrappable-node" as="xs:boolean">
+  <xsl:param name="node" as="node()" />
+
+  <!-- Document node cannot wrap attribute node or namespace node:
+         http://www.w3.org/TR/xslt20/#err-XTDE0420 -->
+  <xsl:sequence select="not($node instance of attribute()
+    (: TODO: Once xspec/xspec#69 is merged, uncomment the next line. :)
+    (:or test:instance-of-namespace($node):))" />
+</xsl:function>
+
+<!-- Wraps nodes in document node with their type annotations kept -->
+<xsl:function name="test:wrap-nodes" as="document-node()">
+  <xsl:param name="nodes" as="node()*" />
+
+  <!-- $wrap aims to create an implicit document node as described
+       in http://www.w3.org/TR/xslt20/#temporary-trees
+       So its xsl:variable must not have @as or @select.
+       Do not use xsl:document or xsl:copy-of: xspec/xspec#47 -->
+  <xsl:variable name="wrap">
+    <xsl:sequence select="$nodes" />
+  </xsl:variable> 
+  <xsl:sequence select="$wrap" />
+</xsl:function>
+
 </xsl:stylesheet>
 
 

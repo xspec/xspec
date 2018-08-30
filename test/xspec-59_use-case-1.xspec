@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-59_use-case-1.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Use case from https://github.com/xspec/xspec/issues/59#issue-199577069">
+		<x:call template="makeAtt">
+			<x:param name="e" select="/*">
+				<test />
+			</x:param>
+			<x:param name="att" select="'class'" />
+			<x:param name="val" select="'value'" />
+		</x:call>
+		<x:expect label="Original use case should work with fix" test=". = 'value'" />
+		<x:expect label="Workaround should work with or without fix" select="_null/@class">
+			<_null class="value" />
+		</x:expect>
+	</x:scenario>
+
+</x:description>
