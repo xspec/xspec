@@ -5,52 +5,61 @@
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennsion (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" stylesheet="../../xspec-tested.xsl">
-  <t:scenario label="x:context with correct x:expect">
-    <t:context>
-      <rule/>
-    </t:context>
-    <t:expect label="must return Success">
-      <transformed/>
-    </t:expect>
-  </t:scenario>
-  <t:scenario label="x:context with incorrect x:expect">
-    <t:context>
-      <rule/>
-    </t:context>
-    <t:expect label="must return Failure">
-      <erroneous/>
-    </t:expect>
-  </t:scenario>
 
-  <!-- TODO: Make two different cases for the base t:apply and with param.
+
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="../../xspec-tested.xsl">
+
+   <t:scenario label="x:context with correct x:expect">
+      <t:context>
+         <rule/>
+      </t:context>
+      <t:expect label="must return Success">
+         <transformed/>
+      </t:expect>
+   </t:scenario>
+
+   <t:scenario label="x:context with incorrect x:expect">
+      <t:context>
+         <rule/>
+      </t:context>
+      <t:expect label="must return Failure">
+         <erroneous/>
+      </t:expect>
+   </t:scenario>
+
+   <!-- TODO: Make two different cases for the base t:apply and with param.
        TODO: Uncomment these two scenarios, after defining x:variable and x:apply in the XSpec schema: xspec/xspec#60
        TODO: Remove pending attributes from these two scenarios, after finishing implementing x:apply. -->
   <!--
-  <t:scenario label="x:apply with correct x:expect" pending="not implemented yet">
-    <t:variable name="ctxt" as="element()">
-      <rule/>
-    </t:variable>
-    <t:apply select="$ctxt">
-      <t:param name="p" select="0"/>
-    </t:apply>
-    <t:expect label="must return Success">
-      <transformed/>
-    </t:expect>
-  </t:scenario>
-  <t:scenario label="x:apply with incorrect x:expect" pending="not implemented yet">
-    <t:variable name="ctxt" as="element()">
-      <rule/>
-    </t:variable>
-    <t:apply select="$ctxt">
-      <t:param name="p" select="0"/>
-    </t:apply>
-    <t:expect label="must return Failure">
-      <erroneous/>
-    </t:expect>
-  </t:scenario>
-  -->
+   <t:scenario label="x:apply with correct x:expect" pending="not implemented yet">
+      <t:variable name="ctxt" as="element()">
+         <rule/>
+      </t:variable>
+      <t:apply select="$ctxt">
+         <t:param name="p" select="0"/>
+      </t:apply>
+      <t:expect label="must return Success">
+         <transformed/>
+      </t:expect>
+   </t:scenario>
+
+   <t:scenario label="x:apply with incorrect x:expect" pending="not implemented yet">
+      <t:variable name="ctxt" as="element()">
+         <rule/>
+      </t:variable>
+      <t:apply select="$ctxt">
+         <t:param name="p" select="0"/>
+      </t:apply>
+      <t:expect label="must return Failure">
+         <erroneous/>
+      </t:expect>
+   </t:scenario>
+   -->
+
 </t:description>
+
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->
