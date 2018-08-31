@@ -20,7 +20,7 @@
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:expect label="expecting the correct result must return Success" test="$x:result eq 9"/>
+      <t:expect label="expecting the correct result must return Success" select="9"/>
       <t:expect label="expecting the correct type must return Success" test="$x:result instance of xs:integer"/>
    </t:scenario>
 

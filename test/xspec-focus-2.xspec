@@ -27,14 +27,14 @@
          <t:call function="my:square">
             <t:param select="3"/>
          </t:call>
-         <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
+         <t:expect label="it would return Success if it were not Pending" select="9"/>
       </t:scenario>
 
       <t:scenario label="a focused correct scenario in x:pending" focus="testing @focus">
          <t:call function="my:square">
             <t:param select="3"/>
          </t:call>
-         <t:expect label="must execute the test and return Success" test="$x:result eq 9"/>
+         <t:expect label="must execute the test and return Success" select="9"/>
       </t:scenario>
 
    </t:pending>
@@ -46,14 +46,14 @@
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
+      <t:expect label="it would return Success if it were not Pending" select="9"/>
    </t:scenario>
 
    <t:scenario label="a focused correct scenario alongside another focused scenario" focus="testing @focus">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:expect label="must execute the test and return Success" test="$x:result eq 9"/>
+      <t:expect label="must execute the test and return Success" select="9"/>
    </t:scenario>
 
    <!--
@@ -64,7 +64,7 @@
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:expect label="it would return Success if it were not Pending" test="$x:result eq 9"/>
+      <t:expect label="it would return Success if it were not Pending" select="9"/>
    </t:scenario>
 
    <!-- does not make sense, really, but to see how the implem reacts -->
@@ -74,7 +74,7 @@
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:expect label="must execute the test and return Success" test="$x:result eq 9"/>
+      <t:expect label="must execute the test and return Success" select="9"/>
    </t:scenario>
 
 </t:description>
