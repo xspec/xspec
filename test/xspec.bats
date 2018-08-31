@@ -333,11 +333,15 @@ teardown() {
     if [[ -z ${XMLCALABASH_CP} && -z ${BASEX_CP} ]]; then
         skip "test for BaseX skipped as it requires XMLCalabash and a higher version of Saxon";
     else
-        run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -i source=../tutorial/xquery-tutorial.xspec -p xspec-home=file:${PWD}/../ -p basex-jar=${BASEX_CP} -o result=xspec/xquery-tutorial-result.html ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
+        compiled_file="${work_dir}/compiled.xq"
+        run java -Xmx1024m -cp ${XMLCALABASH_CP} com.xmlcalabash.drivers.Main -i source=../tutorial/xquery-tutorial.xspec -p xspec-home=file:${PWD}/../ -p basex-jar=${BASEX_CP} -p compiled-file="file:${compiled_file}" -o result=xspec/xquery-tutorial-result.html ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     fi
 
     echo "$output"
     [[ "${output}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+
+    # compiled-file
+    [ -f "${compiled_file}" ]
 }
 
 
