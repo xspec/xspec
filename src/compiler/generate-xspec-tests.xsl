@@ -358,7 +358,7 @@
             </if>
           </xsl:if>
           <variable name="impl:successful" as="xs:boolean"
-            select="if ($impl:boolean-test) then $impl:test-result cast as xs:boolean
+            select="if ($impl:boolean-test) then boolean($impl:test-result)
                     else test:deep-equal($impl:expected, $impl:test-result, {$xslt-version})" />
         </xsl:when>
         <xsl:otherwise>
