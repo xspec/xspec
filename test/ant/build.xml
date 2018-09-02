@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="run-worker" name="run-xspec-tests">
 	<!-- The worker to be generated and run -->
-	<property name="build.worker" value="build-worker.xml" />
+	<property name="build.worker" value="worker/build-worker.xml" />
 
 	<!-- Absolute path of directory where *.xspec files reside -->
 	<property location="../" name="xspecfiles.dir" />
 	<makeurl file="${xspecfiles.dir}" property="xspecfiles.dir.url" />
 
+	<!-- Gets processor capabilities -->
+	<target name="get-processor-caps">
+		<echo message="Getting processor capabilities" />
+
+		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
+			resultproperty="coverage-report.compile.result">
+			<arg value="-nogo" />
+			<arg value="-xsl:../../src/reporter/coverage-report.xsl" />
+		</java>
+		<condition else="false" property="xslt.supports.coverage">
+			<equals arg1="${coverage-report.compile.result}" arg2="0" />
+		</condition>
+		<echo message="xslt.supports.coverage=${xslt.supports.coverage}" />
+	</target>
+
 	<!-- Generates the worker -->
-	<target name="generate-worker">
-		<xslt force="true" in="build-worker_template.xml" out="${build.worker}"
-			style="common/generate-build-worker.xsl">
+	<target depends="get-processor-caps" name="generate-worker">
+		<xslt force="true" in="worker/build-worker_template.xml" out="${build.worker}"
+			style="worker/generate.xsl">
 			<factory name="net.sf.saxon.TransformerFactoryImpl" />
 			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
+			<param expression="${xslt.supports.coverage}" name="XSLT-SUPPORTS-COVERAGE"
+				type="BOOLEAN" />
 		</xslt>
 	</target>
 
