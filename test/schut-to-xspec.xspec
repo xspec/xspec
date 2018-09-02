@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" stylesheet="../src/schematron/schut-to-xspec.xsl">
-    <x:param name="stylesheet" select="'schut-to-xspec-test.sch.xsl'"/>
+    <x:param name="stylesheet-uri" select="'schut-to-xspec-test.sch.xsl'"/>
     <x:param name="test-dir-uri" select="
         resolve-uri(
             'xspec',

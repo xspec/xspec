@@ -161,8 +161,9 @@ rem ##
     if not defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE=%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl"
     
     rem # get URI to Schematron file and phase/parameters from the XSpec file
-    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(concat(replace(document-uri(/), '(.*)/.*$', '$1'), '/', /*[local-name() = 'description']/@schematron)), concat(codepoints-to-string(94), 'file:/'), '')" ^
-        -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
+        -s:"%XSPEC%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\sch-file-path.xsl" ^
         || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
     set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     
@@ -192,15 +193,17 @@ rem ##
     rem call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" ^
     rem     -s:"%SCH_COMPILED%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
     rem     || ( call :die "Error getting compiled Schematron location" & goto :win_main_error_exit )
-    rem set /P SCH_COMPILED=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    rem echo SCH_COMPILED %SCH_COMPILED%
+    rem set /P SCH_COMPILED_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    set "SCH_COMPILED_URI=file:///%SCH_COMPILED:\=/%"
+    rem echo SCH_COMPILED_URI %SCH_COMPILED_URI%
     
     echo:
     echo Compiling the Schematron tests...
     set "TEST_DIR_URI=file:///%TEST_DIR_ABS:\=/%"
-    call :xslt -o:"%SCHUT%" -s:"%XSPEC%" ^
+    call :xslt -o:"%SCHUT%" ^
+        -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
-        stylesheet="%SCH_COMPILED%" ^
+        stylesheet-uri="%SCH_COMPILED_URI%" ^
         test-dir-uri="%TEST_DIR_URI%" ^
         || ( call :die "Error compiling the Schematron tests" & goto :win_main_error_exit )
     set "XSPEC=%SCHUT%"
@@ -214,7 +217,7 @@ rem ##
 		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
 		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" 2>nul
 		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" 2>nul
-		del /q "%SCH_COMPILED:/=\%" 2>nul
+		del /q "%SCH_COMPILED%" 2>nul
 	)
 	goto :EOF
 
