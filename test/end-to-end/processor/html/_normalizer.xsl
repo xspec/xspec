@@ -42,31 +42,34 @@
 			For brevity. The details of style are not critical anyway.
 	-->
 	<xsl:template as="element(link)" match="/html/head/style" mode="normalizer:normalize">
-		<link rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/xhtml">
-			<xsl:attribute name="href">
-				<!-- Relative path to XSPEC_HOME/ from XSPEC_HOME/test/end-to-end/cases/*/*.html -->
-				<xsl:text>../../../../</xsl:text>
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
-				<!-- and down to the CSS source -->
-				<xsl:text>src/reporter/test-report.css</xsl:text>
-			</xsl:attribute>
+		<!-- Absolute URI of CSS -->
+		<xsl:variable as="xs:anyURI" name="css-uri"
+			select="resolve-uri('../../../../src/reporter/test-report.css')" />
+
+		<link rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/xhtml">
+			<xsl:attribute name="href"
+				select="normalizer:relative-uri($css-uri, $tunnel_document-uri)" />
 		</link>
 	</xsl:template>
 
 	<!--
 		Normalizes the links to the tested module and the XSpec file
 			Example:
-				in:		<a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
-				out:	<a href="tested.xsl">tested.xsl</a>
+				in:  <a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
+				out: <a href="../path/to/tested.xsl">tested.xsl</a>
 	-->
 	<xsl:template as="element(a)"
 		match="/html/body/p[((position() = 1) and not(local:is-xquery-report(.))) or (position() = 2)]/a"
 		mode="normalizer:normalize">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute()" />
 			<xsl:for-each select="@href">
 				<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-					select="x:filename-and-extension(.)" />
+					select="normalizer:relative-uri(., $tunnel_document-uri)" />
 			</xsl:for-each>
 
 			<xsl:value-of select="x:filename-and-extension(.)" />

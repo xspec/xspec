@@ -3,7 +3,7 @@
 	xmlns:deserializer="x-urn:xspec:test:end-to-end:processor:deserializer"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:serializer="x-urn:xspec:test:end-to-end:processor:serializer"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
 		This master stylesheet is a basis for normalizing various reports.
@@ -17,14 +17,19 @@
 	<xsl:include href="_serializer.xsl" />
 
 	<xsl:template as="empty-sequence()" match="document-node()">
-		<xsl:message select="'Normalizing', document-uri(.)" />
+		<!-- Absolute URI of input document -->
+		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="document-uri(/)" />
+
+		<xsl:message select="'Normalizing', $input-doc-uri" />
 
 		<xsl:variable as="document-node()" name="input-doc">
 			<xsl:apply-templates mode="deserializer:unindent" select="." />
 		</xsl:variable>
 
 		<xsl:result-document format="serializer:output">
-			<xsl:apply-templates mode="normalizer:normalize" select="$input-doc" />
+			<xsl:apply-templates mode="normalizer:normalize" select="$input-doc">
+				<xsl:with-param name="tunnel_document-uri" select="$input-doc-uri" tunnel="yes" />
+			</xsl:apply-templates>
 		</xsl:result-document>
 
 		<xsl:message select="'Normalized'" />

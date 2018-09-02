@@ -9,6 +9,48 @@
 	-->
 
 	<!--
+		Converts an absolute URI to a relative URI
+			This is an ad hoc implementation only suitable for the report files.
+
+			Example:
+				in:  input-uri='file:/path/to/xspec/src/reporter/format-xspec-report.xsl',
+				      base-uri='file:/path/to/xspec/test/end-to-end/cases/expected/stylesheet/coverage-tutorial-result.xml'
+				out: '../../../../../src/reporter/format-xspec-report.xsl'
+	-->
+	<xsl:function as="xs:anyURI" name="normalizer:relative-uri">
+		<xsl:param as="xs:string" name="input-uri" />
+		<xsl:param as="xs:anyURI" name="base-uri" />
+
+		<xsl:variable as="xs:string+" name="input-tokens" select="tokenize($input-uri, '/')" />
+		<xsl:variable as="xs:string+" name="base-tokens" select="tokenize($base-uri, '/')" />
+
+		<xsl:variable as="xs:integer" name="num-base-tokens" select="count($base-tokens)" />
+		<xsl:variable as="xs:integer" name="num-overlapped"
+			select="min((count($input-tokens), $num-base-tokens))" />
+
+		<xsl:variable as="xs:integer+" name="match-positions"
+			select="
+				for $position in (1 to $num-overlapped)
+				return
+					$position[$input-tokens[$position] eq $base-tokens[$position]]" />
+		<xsl:variable as="xs:integer" name="last-contiguous-match-position"
+			select="$match-positions[. eq position()][last()]" />
+
+		<xsl:variable as="xs:string+" name="up-from-base"
+			select="
+				for $i in (1 to ($num-base-tokens - $last-contiguous-match-position - 1))
+				return
+					'..'" />
+
+		<xsl:variable as="xs:string+" name="relative-tokens"
+			select="
+				$up-from-base,
+				subsequence($input-tokens, $last-contiguous-match-position + 1)" />
+
+		<xsl:sequence select="string-join($relative-tokens, '/') cast as xs:anyURI" />
+	</xsl:function>
+
+	<!--
 		mode=normalize
 			Normalizes the transient parts of the document such as @href, @id, datetime and file path
 	-->
