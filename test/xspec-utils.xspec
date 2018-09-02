@@ -46,4 +46,14 @@
 			<x:expect label="filename without extension" select="'foo.bar'" />
 		</x:scenario>
 	</x:scenario>
+
+	<x:scenario label="Scenario for testing function resolve-xml-uri-with-catalog">
+		<!-- TODO: Use catalog -->
+		<x:call function="x:resolve-xml-uri-with-catalog">
+			<x:param select="''" />
+		</x:call>
+		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
+		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
+			test="starts-with(substring-after($x:result, ':'), '/')" />
+	</x:scenario>
 </x:description>

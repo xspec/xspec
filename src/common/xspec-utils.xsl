@@ -41,4 +41,24 @@
 		<xsl:sequence select="string-join($except-last, '.')" />
 	</xsl:function>
 
+	<!--
+		Resolves URI (of an XML document) with the currently enabled catalog,
+		working around an XML resolver bug
+	-->
+	<xsl:function as="xs:anyURI" name="x:resolve-xml-uri-with-catalog">
+		<xsl:param as="xs:string" name="xml-uri" />
+
+		<!-- https://sourceforge.net/p/saxon/mailman/message/36339785/
+			"document-uri() returns the (absolutized) requested URI, while base-uri() returns
+			the actual document location after catalog resolution." -->
+		<xsl:variable as="xs:anyURI" name="resolved-uri" select="doc($xml-uri)/base-uri()" />
+
+		<!-- Fix invalid URI such as 'file:C:/dir/file'
+			https://issues.apache.org/jira/browse/XMLCOMMONS-24 -->
+		<xsl:sequence
+			select="
+				replace($resolved-uri, '^(file:)([^/])', '$1/$2')
+				cast as xs:anyURI" />
+	</xsl:function>
+
 </xsl:stylesheet>

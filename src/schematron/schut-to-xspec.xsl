@@ -11,12 +11,14 @@
     <xsl:param name="test-dir-uri" as="xs:anyURI" required="yes"/>
     
 
+    <xsl:include href="../common/xspec-utils.xsl"/>
+
     <xsl:variable name="error" select="('error', 'fatal')"/>
     <xsl:variable name="warn" select="('warn', 'warning')"/>
     <xsl:variable name="info" select="('info', 'information')"/>
 
-    <!-- Fix 'file:C:/...' (https://issues.apache.org/jira/browse/XMLCOMMONS-24) -->
-    <xsl:variable name="base-uri" as="xs:string" select="replace(base-uri(), '^(file:)([^/])', '$1/$2')"/>
+    <xsl:variable name="actual-document-uri" as="xs:anyURI"
+        select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
 
 
     <xsl:template match="@* | node()" priority="-2">
@@ -34,7 +36,7 @@
     </xsl:template>
 
     <xsl:template match="@schematron">
-        <xsl:attribute name="xspec-original-location" select="$base-uri"/>
+        <xsl:attribute name="xspec-original-location" select="$actual-document-uri"/>
         <xsl:attribute name="stylesheet" select="$stylesheet"/>
         <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
         <xsl:attribute name="schematron" select="$path"/>
