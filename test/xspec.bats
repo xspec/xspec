@@ -353,6 +353,42 @@ teardown() {
 }
 
 
+@test "invoking xspec -s with TEST_DIR creates files in TEST_DIR" {
+    # Absolute
+    export TEST_DIR="${work_dir}/test_dir"
+    run ../bin/xspec.sh -s schematron-017.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # Specified TEST_DIR
+    run ls "${TEST_DIR}"
+    echo "$output"
+    [ "${#lines[@]}" = "3" ]
+    [ "${lines[0]}" = "schematron-017-result.html" ]
+    [ "${lines[1]}" = "schematron-017-result.xml" ]
+    [ "${lines[2]}" = "schematron-017.xsl" ]
+
+    # Default TEST_DIR
+    run ls xspec
+    echo "$output"
+    [ "${#lines[@]}" = "0" ]
+
+    # Relative
+    export TEST_DIR=xspec
+    run ../bin/xspec.sh -s schematron-017.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # Specified TEST_DIR
+    run ls "${TEST_DIR}"
+    echo "$output"
+    [ "${#lines[@]}" = "3" ]
+    [ "${lines[0]}" = "schematron-017-result.html" ]
+    [ "${lines[1]}" = "schematron-017-result.xml" ]
+    [ "${lines[2]}" = "schematron-017.xsl" ]
+}
+
+
 @test "invoking xspec with -q option runs XSpec test for XQuery" {
     run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
     echo "${lines[5]}"
