@@ -197,11 +197,11 @@ rem ##
     
     echo:
     echo Compiling the Schematron tests...
-    set "TEST_DIR_URI=file:///%TEST_DIR:\=/%"
+    set "TEST_DIR_URI=file:///%TEST_DIR_ABS:\=/%"
     call :xslt -o:"%SCHUT%" -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
         stylesheet="%SCH_COMPILED%" ^
-        test_dir="%TEST_DIR_URI%" ^
+        test-dir-uri="%TEST_DIR_URI%" ^
         || ( call :die "Error compiling the Schematron tests" & goto :win_main_error_exit )
     set "XSPEC=%SCHUT%"
     echo:
@@ -465,7 +465,9 @@ rem ## files and dirs ##########################################################
 rem ##
 rem
 
+rem # TEST_DIR (may be relative, may not exist)
 if not defined TEST_DIR for %%I in ("%XSPEC%") do set "TEST_DIR=%%~dpIxspec"
+
 for %%I in ("%XSPEC%") do set "TARGET_FILE_NAME=%%~nI"
 
 if defined XSLT (
@@ -485,6 +487,9 @@ if not exist "%TEST_DIR%" (
     mkdir "%TEST_DIR%"
     echo:
 )
+
+rem # Absolute TEST_DIR
+for %%I in ("%TEST_DIR%") do set "TEST_DIR_ABS=%%~fI"
 
 rem
 rem ##

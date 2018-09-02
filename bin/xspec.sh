@@ -265,10 +265,12 @@ fi
 ## files and dirs ############################################################
 ##
 
+# TEST_DIR (may be relative, may not exist)
 if [ -z "$TEST_DIR" ]
 then
     TEST_DIR=$(dirname "$XSPEC")/xspec
 fi
+
 TARGET_FILE_NAME=$(basename "$XSPEC" | sed 's:\.[^.]*$::')
 
 if test -n "$XSLT"; then
@@ -288,6 +290,9 @@ if [ ! -d "$TEST_DIR" ]; then
     mkdir "$TEST_DIR"
     echo
 fi 
+
+# Absolute TEST_DIR
+TEST_DIR_ABS="$(cd "$(dirname "${TEST_DIR}")" && pwd)/$(basename "${TEST_DIR}")"
 
 ##
 ## compile the suite #########################################################
@@ -329,7 +334,12 @@ if test -n "$SCHEMATRON"; then
     
     echo 
     echo "Compiling the Schematron tests..."
-    xslt -o:"$SCHUT" -s:"$XSPEC" -xsl:"$XSPEC_HOME/src/schematron/schut-to-xspec.xsl" stylesheet="$SCH_COMPILED" || die "Error compiling the Schematron tests"
+    TEST_DIR_URI="file:${TEST_DIR_ABS}"
+    xslt -o:"${SCHUT}" -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
+        stylesheet="${SCH_COMPILED}" \
+        test-dir-uri="${TEST_DIR_URI}" \
+        || die "Error compiling the Schematron tests"
     XSPEC=$SCHUT
     
     echo 
