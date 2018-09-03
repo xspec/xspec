@@ -484,7 +484,7 @@
        So its xsl:variable must not have @as or @select.
        Do not use xsl:document or xsl:copy-of: xspec/xspec#47 -->
   <xsl:variable name="wrap">
-    <xsl:document><xsl:sequence select="$nodes" /></xsl:document>
+    <xsl:sequence select="$nodes" />
   </xsl:variable> 
   <xsl:sequence select="$wrap" />
 </xsl:function>
