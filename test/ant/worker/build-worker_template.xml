@@ -8,5 +8,5 @@
 	<include file="build-worker_util.xml" />
 
 	<!-- Main target -->
-	<target name="run-all-xspec-files"><!-- A series of run-xspec will go here --></target>
+	<target name="run-all-xspec-files"><!-- A series of <run-xspec> will go here --></target>
 </project>
