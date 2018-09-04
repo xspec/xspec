@@ -395,6 +395,11 @@
             <with-param name="value"        select="$impl:expected"/>
             <with-param name="wrapper-name" select="'x:expect'"/>
             <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
+            <xsl:if test="@test">
+              <with-param name="test" as="xs:string">
+                <xsl:value-of select="@test"/>
+              </with-param>
+            </xsl:if>
          </call-template>
       </xsl:if>
     </x:test>

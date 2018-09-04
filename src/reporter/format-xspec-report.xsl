@@ -264,13 +264,14 @@
   <h4 id="{generate-id()}">
     <xsl:apply-templates select="x:label" mode="x:html-report" />
   </h4>
+  <xsl:variable as="xs:boolean" name="boolean-test" select="not(x:result) and x:expect/@test" />
   <table class="xspecResult">
     <thead>
       <tr>
         <th>Result</th>
         <th>
           <xsl:choose>
-            <xsl:when test="x:result">Expecting</xsl:when>
+            <xsl:when test="$boolean-test">Expecting</xsl:when>
             <xsl:otherwise>Expected Result</xsl:otherwise>
           </xsl:choose>
         </th>
@@ -280,14 +281,14 @@
       <tr>
         <td>
           <xsl:apply-templates select="$result" mode="x:value">
-            <xsl:with-param name="comparison" select="x:expect" />
+            <xsl:with-param name="comparison" select="x:expect[not($boolean-test)]" />
           </xsl:apply-templates>
         </td>
         <td>
           <xsl:choose>
-            <xsl:when test="not(x:result) and x:expect/@test">
+            <xsl:when test="$boolean-test">
               <pre>
-                <xsl:value-of select="@test" />
+                <xsl:value-of select="x:expect/@test" />
               </pre>
             </xsl:when>
             <xsl:otherwise>
