@@ -19,11 +19,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-                xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                xmlns:fn="http://www.w3.org/2005/xpath-functions"
-                exclude-result-prefixes="x xs test pkg xhtml fn">
+                exclude-result-prefixes="#all">
         
     <xsl:output indent="yes"/>
 
@@ -88,7 +84,7 @@
                 <output:omit-xml-declaration value="yes"/>
             </output:serialization-parameters>
         </xsl:variable>
-        <xsl:value-of select="fn:serialize(., $serialization-parameters)"></xsl:value-of>
+        <xsl:value-of select="serialize(., $serialization-parameters)"/>
     </xsl:template>
     
 </xsl:stylesheet>
