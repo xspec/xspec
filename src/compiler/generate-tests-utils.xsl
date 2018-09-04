@@ -12,7 +12,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
-                exclude-result-prefixes="xs t msxsl"
+                exclude-result-prefixes="xs t msxsl pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 extension-element-prefixes="test"
