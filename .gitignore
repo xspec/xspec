@@ -1,6 +1,4 @@
-target/
-.idea/
-*.iml
-**/xspec/*
-*-result.html
-*-report.html
+# https://github.com/xspec/xspec/pull/13#issuecomment-412299372
+# target/
+# .idea/
+# *.iml
