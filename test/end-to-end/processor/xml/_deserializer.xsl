@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:deserializer="x-urn:xspec:test:end-to-end:processor:deserializer"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xpath-default-namespace="http://www.jenitennison.com/xslt/xspec">
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<!--
 		This stylesheet module helps deserialize the test result XML.
 	-->
-
-	<!--
-		Removes whitespace-only text node from XQuery test result XML
-	-->
-	<xsl:template as="empty-sequence()" match="/report[@query]//text()[not(normalize-space())]"
-		mode="deserializer:unindent" />
+	<!-- Nothing to do at the moment. -->
 </xsl:stylesheet>
