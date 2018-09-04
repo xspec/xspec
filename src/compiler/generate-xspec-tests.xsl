@@ -72,7 +72,7 @@
     	<result-document format="x:report">
 	      <processing-instruction name="xml-stylesheet">
 	        <xsl:text>type="text/xsl" href="</xsl:text>
-	        <xsl:value-of select="resolve-uri('format-xspec-report.xsl',
+	        <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl',
 	          static-base-uri())" />
 	        <xsl:text>"</xsl:text>
 	      </processing-instruction>
