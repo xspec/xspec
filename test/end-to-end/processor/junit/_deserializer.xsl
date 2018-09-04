@@ -5,5 +5,5 @@
 	<!--
 		This stylesheet module helps deserialize the JUnit report.
 	-->
-	<!-- Nothing to do. JUnit report XML is not indented: xspec/xspec#226 -->
+	<!-- Nothing to do at the moment. -->
 </xsl:stylesheet>
