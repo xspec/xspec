@@ -294,7 +294,7 @@
             <x:param as="text()" select="$text-node_whitespace-only"/>
          </x:call>
          <x:result select="/node()">
-            <test:ws xmlns:pkg="http://expath.org/ns/pkg">	
+            <test:ws>	
 &#xD; </test:ws>
          </x:result>
          <x:test successful="true">
@@ -312,7 +312,7 @@
             <x:param as="text()" select="$text-node_zero-length"/>
          </x:call>
          <x:result select="/node()">
-            <test:ws xmlns:pkg="http://expath.org/ns/pkg"/>
+            <test:ws/>
          </x:result>
          <x:test successful="true">
             <x:label>expecting ... should be Success</x:label>
