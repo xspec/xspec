@@ -77,20 +77,20 @@
 			<!-- Print the documents -->
 			<xsl:message select="'[NORMALIZED INPUT]', $normalized-input-doc" />
 			<xsl:message select="'[EXPECTED]', $expected-doc" />
+		</xsl:if>
 
-			<!--
-				If saxon:deep-equal() is available (requires Saxon-PE),
-				* Double-check the result with its 'NFCP' flags.
-				* Print the diff by '?' flag.
-			-->
-			<xsl:if
-				test="
-					saxon:deep-equal($normalized-input-doc, $expected-doc, (), 'NFCP?')
-					ne $comparison-result"
-				use-when="function-available('saxon:deep-equal')">
-				<!-- Terminate if saxon:deep-equal() contradicts the comparison result -->
-				<xsl:message terminate="yes" />
-			</xsl:if>
+		<!--
+			If saxon:deep-equal() is available (requires Saxon-PE),
+			* Double-check the result with its 'NFCP' flags.
+			* Print the diff by '?' flag.
+		-->
+		<xsl:if
+			test="
+				saxon:deep-equal($normalized-input-doc, $expected-doc, (), 'NFCP?')
+				ne $comparison-result"
+			use-when="function-available('saxon:deep-equal')">
+			<!-- Terminate if saxon:deep-equal() contradicts the comparison result -->
+			<xsl:message terminate="yes" />
 		</xsl:if>
 
 		<!-- Output the comparison result -->
@@ -106,6 +106,9 @@
 		<xsl:text>&#x0A;</xsl:text>
 	</xsl:template>
 
+	<!--
+		Private utility functions
+	-->
 
 	<!--
 		Compares two nodes like saxon:deep-equal() with flags="NFCP":
