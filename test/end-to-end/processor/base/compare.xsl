@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:deserializer="x-urn:xspec:test:end-to-end:processor:deserializer"
+	xmlns:local="x-urn:xspec:test:end-to-end:processor:base:compare:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:saxon="http://saxon.sf.net/"
 	xmlns:serializer="x-urn:xspec:test:end-to-end:processor:serializer"
@@ -10,9 +11,8 @@
 	<!--
 		This master stylesheet is a basis for comparing the input document with the expected file.
 			* Before comparing, the input document is normalized.
-			* Comparison is performed by fn:deep-equal() which may ignore some comments and processing instructions.
 		
-		The processor must import this stylesheet and provide its own deserializer, normalizer and serializer.
+		Each processor must import this stylesheet and provide its own deserializer, normalizer and serializer.
 	-->
 
 	<xsl:include href="../../../../src/common/xspec-utils.xsl" />
@@ -59,7 +59,7 @@
 
 		<!-- Compare the normalized input document with the expected document -->
 		<xsl:variable as="xs:boolean" name="comparison-result"
-			select="deep-equal($normalized-input-doc, $expected-doc)" />
+			select="local:single-node-deep-equal($normalized-input-doc, $expected-doc)" />
 
 		<!-- Diagnostic output -->
 		<xsl:if test="not($comparison-result) or $DEBUG">
@@ -78,12 +78,16 @@
 			<xsl:message select="'[NORMALIZED INPUT]', $normalized-input-doc" />
 			<xsl:message select="'[EXPECTED]', $expected-doc" />
 
-			<!-- Print the diff by passing '?' flag to saxon:deep-equal()-->
+			<!--
+				If saxon:deep-equal() is available (requires Saxon-PE),
+				* Double-check the result with its 'NFCP' flags.
+				* Print the diff by '?' flag.
+			-->
 			<xsl:if
 				test="
-					saxon:deep-equal($normalized-input-doc, $expected-doc, (), '?')
+					saxon:deep-equal($normalized-input-doc, $expected-doc, (), 'NFCP?')
 					ne $comparison-result"
-				use-when="function-available('saxon:deep-equal') (: Requires Saxon-PE :)">
+				use-when="function-available('saxon:deep-equal')">
 				<!-- Terminate if saxon:deep-equal() contradicts the comparison result -->
 				<xsl:message terminate="yes" />
 			</xsl:if>
@@ -101,4 +105,135 @@
 		<xsl:value-of select="$EXPECTED-RESULT-URI" />
 		<xsl:text>&#x0A;</xsl:text>
 	</xsl:template>
+
+
+	<!--
+		Compares two nodes like saxon:deep-equal() with flags="NFCP":
+			http://www.saxonica.com/documentation/index.html#!functions/saxon/deep-equal
+			N  Include namespace nodes in the comparison. For two elements to be deep-equal, they must have the same in-scope namespaces (that is, same prefix and same URI).
+			F  Include namespace prefixes in the comparison. For two elements or attributes to be equal, their names must use the same namespace prefix (or none).
+			C  Include comment nodes in the comparison. For two element or document nodes to be deep-equal, they must have the same comment node children.
+			P  Include processing-instruction nodes in the comparison. For two element or document nodes to be deep-equal, they must have the same processing-instruction node children.
+	-->
+	<xsl:function as="xs:boolean" name="local:single-node-deep-equal">
+		<xsl:param as="node()" name="node1" />
+		<xsl:param as="node()" name="node2" />
+
+		<xsl:choose>
+			<xsl:when
+				test="
+					$node1 instance of document-node()
+					and $node2 instance of document-node()">
+				<xsl:sequence select="local:nodes-deep-equal($node1/node(), $node2/node())" />
+			</xsl:when>
+
+			<xsl:when
+				test="
+					$node1 instance of element()
+					and $node2 instance of element()">
+				<xsl:variable as="attribute()*" name="attrs1">
+					<xsl:perform-sort select="$node1/attribute()">
+						<xsl:sort select="name()" />
+					</xsl:perform-sort>
+				</xsl:variable>
+				<xsl:variable as="attribute()*" name="attrs2">
+					<xsl:perform-sort select="$node2/attribute()">
+						<xsl:sort select="name()" />
+					</xsl:perform-sort>
+				</xsl:variable>
+
+				<xsl:sequence
+					select="
+						local:node-name-equal($node1, $node2)
+						and local:in-scope-ns-equal($node1, $node2)
+						and local:nodes-deep-equal($attrs1, $attrs2)
+						and local:nodes-deep-equal($node1/node(), $node2/node())"
+				 />
+			</xsl:when>
+
+			<xsl:when
+				test="
+					$node1 instance of attribute()
+					and $node2 instance of attribute()">
+				<xsl:sequence
+					select="
+						local:node-name-equal($node1, $node2)
+						and ($node1 eq $node2)"
+				 />
+			</xsl:when>
+
+			<xsl:otherwise>
+				<xsl:sequence select="deep-equal($node1, $node2)" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<!--
+		Dispatches sequence of nodes to local:single-node-deep-equal()
+	-->
+	<xsl:function as="xs:boolean" name="local:nodes-deep-equal">
+		<xsl:param as="node()*" name="nodes1" />
+		<xsl:param as="node()*" name="nodes2" />
+
+		<xsl:choose>
+			<xsl:when test="empty($nodes1) or empty($nodes2)">
+				<xsl:sequence select="empty($nodes1) and empty($nodes2)" />
+			</xsl:when>
+
+			<xsl:when test="count($nodes1) eq count($nodes2)">
+				<xsl:sequence
+					select="
+						every $position in (1 to count($nodes1))
+							satisfies local:single-node-deep-equal($nodes1[$position], $nodes2[$position])"
+				 />
+			</xsl:when>
+
+			<xsl:otherwise>
+				<xsl:sequence select="false()" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<!--
+		Returns true if elements or attributes have the same name including namespace URI and namespace prefix
+	-->
+	<xsl:function as="xs:boolean" name="local:node-name-equal">
+		<xsl:param as="node()" name="node1" />
+		<xsl:param as="node()" name="node2" />
+
+		<xsl:sequence
+			select="
+				(namespace-uri($node1) eq namespace-uri($node2))
+				and (name($node1) eq name($node2))"
+		 />
+	</xsl:function>
+
+	<!--
+		Returns true if elements have the same set of namespace prefixes
+	-->
+	<xsl:function as="xs:boolean" name="local:in-scope-ns-equal">
+		<xsl:param as="element()" name="elem1" />
+		<xsl:param as="element()" name="elem2" />
+
+		<xsl:variable as="xs:string*" name="prefixes1">
+			<xsl:perform-sort select="in-scope-prefixes($elem1)">
+				<xsl:sort select="." />
+			</xsl:perform-sort>
+		</xsl:variable>
+		<xsl:variable as="xs:string*" name="prefixes2">
+			<xsl:perform-sort select="in-scope-prefixes($elem2)">
+				<xsl:sort select="." />
+			</xsl:perform-sort>
+		</xsl:variable>
+
+		<xsl:sequence
+			select="
+				(count($prefixes1) eq count($prefixes2))
+				and (every $prefix in $prefixes1
+					satisfies
+					namespace-uri-for-prefix($prefix, $elem1)
+					eq namespace-uri-for-prefix($prefix, $elem2))"
+		 />
+	</xsl:function>
+
 </xsl:stylesheet>
