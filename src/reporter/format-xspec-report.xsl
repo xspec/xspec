@@ -160,6 +160,7 @@
 <xsl:template match="x:report" mode="x:html-report">
   <p>
      <xsl:value-of select="if ( exists(@schematron) ) then 'Schematron: ' else if ( exists(@query) ) then 'Query: ' else 'Stylesheet: '"/>
+     <xsl:if test="exists(@query)">_TEST_</xsl:if>
      <a href="{ (@schematron, @stylesheet, @query)[1] }">
        <xsl:value-of select="test:format-URI((@schematron, @stylesheet, @query)[1])"/>
      </a>
