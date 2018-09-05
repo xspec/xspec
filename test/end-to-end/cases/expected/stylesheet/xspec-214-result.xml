@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../xspec-214.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-214.xspec">
+   <x:scenario>
+      <x:label>input</x:label>
+      <x:context>
+         <input/>
+      </x:context>
+      <x:result>
+         <output>
+test
+</output>
+      </x:result>
+      <x:test successful="true">
+         <x:label>output</x:label>
+         <x:expect>
+            <output>
+test
+</output>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>
