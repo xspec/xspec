@@ -162,7 +162,7 @@
         ([^?]|\?[^>])*  <!-- 6: the content of the PI -->
        \?&gt;)
       |
-      (&lt;\[CDATA\[   <!-- 7: a CDATA section -->
+      (&lt;!\[CDATA\[   <!-- 7: a CDATA section -->
         ([^\]]|\][^\]]|\]\][^>])*  <!-- 8: the content of the CDATA section -->
        \]\]>)
       |
