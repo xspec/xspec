@@ -20,6 +20,8 @@
 		Context node is in each .xspec file's /x:description/@*.
 	-->
 	<xsl:template as="node()+" name="on-run-xspec">
+		<xsl:param as="xs:boolean" name="coverage-enabled" required="yes" />
+
 		<!-- Directory URI of the processor root -->
 		<xsl:variable as="xs:anyURI" name="processor-dir-uri"
 			select="resolve-uri('../../../processor/', static-base-uri())" />
@@ -50,6 +52,15 @@
 				<html actual="{resolve-uri($html-file-name, $actual-reports-dir-uri)}"
 					expected="{resolve-uri($html-file-name, $expected-reports-dir-uri)}"
 					processor-dir="{resolve-uri('html/', $processor-dir-uri)}" />
+
+				<!-- Coverage -->
+				<xsl:if test="$coverage-enabled">
+					<xsl:variable as="xs:string" name="coverage-file-name"
+						select="concat($xspec-file-name-without-extension, '-coverage.html')" />
+					<coverage actual="{resolve-uri($coverage-file-name, $actual-reports-dir-uri)}"
+						expected="{resolve-uri($coverage-file-name, $expected-reports-dir-uri)}"
+						processor-dir="{resolve-uri('coverage/', $processor-dir-uri)}" />
+				</xsl:if>
 
 				<!-- JUnit -->
 				<xsl:variable as="xs:string" name="junit-file-name"
