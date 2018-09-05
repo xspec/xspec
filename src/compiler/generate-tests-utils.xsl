@@ -322,6 +322,7 @@
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
+        <xsl:attribute name="bogus" select="'TEST'"/>
         <xsl:attribute name="select">
           <xsl:choose>
             <xsl:when test="empty($value)">()</xsl:when>
