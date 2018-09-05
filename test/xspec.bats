@@ -158,8 +158,8 @@ teardown() {
     # Other stderr #204
     export JAVA_TOOL_OPTIONS=-Dfoo
 
-    # TODO: Non alphanumeric path #208
-    special_chars_dir="${work_dir}/up and down"
+    # Non alphanumeric path #208
+    special_chars_dir="${work_dir}/up & down"
     mkdir "${special_chars_dir}"
 
     cp ../tutorial/coverage/demo* "${special_chars_dir}"

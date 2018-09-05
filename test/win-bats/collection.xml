@@ -94,8 +94,8 @@
     rem Other stderr #204
     set JAVA_TOOL_OPTIONS=-Dfoo
 
-    rem TODO: Non alphanumeric path #208
-    set "SPECIAL_CHARS_DIR=%WORK_DIR%\up and down"
+    rem Non alphanumeric path #208
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\up &amp; down"
     call :mkdir "%SPECIAL_CHARS_DIR%"
 
     call :copy ..\tutorial\coverage\demo* "%SPECIAL_CHARS_DIR%"
