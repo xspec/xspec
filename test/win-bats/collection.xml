@@ -453,7 +453,8 @@
         catalog\*.xspec ^
         end-to-end\cases\*.xspec ^
         schematron\*-import.xspec ^
-        schematron\*-in.xspec
+        schematron\*-in.xspec ^
+        xml-base*.xspec
     call :verify_retval 0
 	</case>
 
