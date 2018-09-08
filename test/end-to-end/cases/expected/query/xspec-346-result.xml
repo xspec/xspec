@@ -15,7 +15,7 @@
             <span>bar</span>
          </p>
       </x:result>
-      <x:test successful="true">
+      <x:test successful="false">
          <x:label>Expecting no space should be Failure</x:label>
          <x:expect>
             <p xmlns:do-nothing="x-urn:test:do-nothing">

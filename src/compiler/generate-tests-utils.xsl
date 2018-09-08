@@ -279,8 +279,7 @@
   <xsl:param name="node" as="node()" />
   <xsl:sequence 
     select="$node/child::node() 
-            except ($node/text()[not(normalize-space(.))],
-                    $node/test:message)" />
+            except $node/test:message" />
 </xsl:function>
   
 <xsl:template name="test:report-value">
