@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:do-nothing="x-urn:test:do-nothing"
+          stylesheet="../../../../do-nothing.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-346.xspec">
+   <x:scenario>
+      <x:label>When a function returns a node containing a space</x:label>
+      <x:call function="exactly-one">
+         <x:param href="../../xspec-346.xml" select="element(p)"/>
+      </x:call>
+      <x:result>
+         <p>
+            <span>foo</span>
+            <test:ws> </test:ws>
+            <span>bar</span>
+         </p>
+      </x:result>
+      <x:test successful="true">
+         <x:label>Expecting no space should be Failure</x:label>
+         <x:expect>
+            <p>
+               <span>foo</span>
+               <span>bar</span>
+            </p>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>

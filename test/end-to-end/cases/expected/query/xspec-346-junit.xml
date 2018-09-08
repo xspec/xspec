@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="xspec-346.xspec">
+   <testsuite name="When a function returns a node containing a space"
+              tests="1"
+              failures="0">
+      <testcase name="Expecting no space should be Failure" status="passed"/>
+   </testsuite>
+</testsuites>
