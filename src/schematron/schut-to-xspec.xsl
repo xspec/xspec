@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" 
     xmlns:x="http://www.jenitennison.com/xslt/xspec" 
@@ -21,7 +20,7 @@
         select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
 
 
-    <xsl:template match="@* | node()" priority="-2">
+    <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
         <xsl:copy>
             <xsl:apply-templates select="@* | node()"/>
         </xsl:copy>
