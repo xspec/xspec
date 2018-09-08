@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>1.0.0</version>
+  <version>1.1-SNAPSHOT</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for Xsl, XQuery and Schematron</description>
@@ -69,8 +69,25 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
-  
+
+  <dependencies>
+    <dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>Saxon-HE</artifactId>
+      <version>9.7.0-1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
   <build>
+    <sourceDirectory>java</sourceDirectory>
+    <testSourceDirectory>test/java</testSourceDirectory>
     <resources>
       <resource>
         <directory>src</directory>
@@ -98,6 +115,8 @@
           <configuration>
             <source>1.7</source>
             <target>1.7</target>
+            <encoding>UTF-8</encoding>
+            <sourceDirectory>java/</sourceDirectory>
           </configuration>
         </plugin>
         <plugin>
@@ -118,6 +137,11 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.code54.mojo</groupId>
         <artifactId>buildversion-plugin</artifactId>

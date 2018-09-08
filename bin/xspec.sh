@@ -65,19 +65,35 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
     echo Saxon script found, use it.
     echo
     xslt() {
-        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
+        saxon \
+            --java -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="${GENERATE_TESTS_UTILS}" \
+            --java -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="${TEST_DIR}" \
+            --java -Dcom.jenitennison.xsl.tests.coverage.output="${COVERAGE_XML}" \
+            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
+        saxon \
+            --java -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="${GENERATE_TESTS_UTILS}" \
+            --java -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="${TEST_DIR}" \
+            --java -Dcom.jenitennison.xsl.tests.coverage.output="${COVERAGE_XML}" \
+            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
     echo Saxon script not found, invoking JVM directly instead.
     echo
     xslt() {
-        java -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
+        java \
+            -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="${GENERATE_TESTS_UTILS}" \
+            -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="${TEST_DIR}" \
+            -Dcom.jenitennison.xsl.tests.coverage.output="${COVERAGE_XML}" \
+            -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
-        java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
+        java \
+            -Dcom.jenitennison.xsl.tests.coverage.generate-tests-utils="${GENERATE_TESTS_UTILS}" \
+            -Dcom.jenitennison.xsl.tests.coverage.ignore-dir="${TEST_DIR}" \
+            -Dcom.jenitennison.xsl.tests.coverage.output="${COVERAGE_XML}" \
+            -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
 
@@ -276,6 +292,7 @@ RESULT=$TEST_DIR/$TARGET_FILE_NAME-result.xml
 HTML=$TEST_DIR/$TARGET_FILE_NAME-result.html
 JUNIT_RESULT=$TEST_DIR/$TARGET_FILE_NAME-junit.xml
 COVERAGE_CLASS=com.jenitennison.xslt.tests.XSLTCoverageTraceListener
+GENERATE_TESTS_UTILS=${XSPEC_HOME}/src/compiler/generate-tests-utils.xsl
 
 if [ ! -d "$TEST_DIR" ]; then
     echo "Creating XSpec Directory at $TEST_DIR..."
@@ -348,10 +365,10 @@ echo "Running Tests..."
 if test -n "$XSLT"; then
     # for XSLT
     if test -n "$COVERAGE"; then
-        echo "Collecting test coverage data; suppressing progress report..."
+        echo "Collecting test coverage data..."
         xslt -T:$COVERAGE_CLASS \
             -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main 2> "$COVERAGE_XML" \
+            -it:{http://www.jenitennison.com/xslt/xspec}main \
             || die "Error collecting test coverage data"
     else
         xslt -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
@@ -361,9 +378,9 @@ if test -n "$XSLT"; then
 else
     # for XQuery
     if test -n "$COVERAGE"; then
-        echo "Collecting test coverage data; suppressing progress report..."
+        echo "Collecting test coverage data..."
         xquery -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" "$COMPILED" 2> "$COVERAGE_XML" \
+            -o:"$RESULT" -s:"$XSPEC" "$COMPILED" \
             || die "Error collecting test coverage data"
     else
         xquery -o:"$RESULT" -s:"$XSPEC" "$COMPILED" \
