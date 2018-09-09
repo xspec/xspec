@@ -158,7 +158,7 @@
 	<case name="invoking xspec with -j option generates message with JUnit report location and creates report files">
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
-    call :verify_line 19 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-junit.xml"
+    call :verify_line 20 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-junit.xml"
 
     rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml

@@ -19,7 +19,7 @@ import net.sf.saxon.om.StandardNames;
 import java.lang.String;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.io.PrintStream;
+import java.io.File;
 import net.sf.saxon.lib.Logger;
 
 import javax.xml.stream.XMLStreamException;
@@ -29,12 +29,11 @@ import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
 
 /**
- * A Simple trace listener for XSLT that writes messages (by default) to System.err
+ * A Simple trace listener for XSLT that writes messages to XML file
  */
 
 public class XSLTCoverageTraceListener implements TraceListener {
 
-  private PrintStream out = System.err;
   private String xspecStylesheet = null;
   private String utilsStylesheet = null;
   private HashMap<String, Integer> modules = new HashMap<String, Integer>();
@@ -43,7 +42,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
   private StreamWriterToReceiver writer = null;
   
   public XSLTCoverageTraceListener() {
-	System.out.println("****************************************");
+    System.out.println("****************************************");
   }
 
   /**
@@ -51,10 +50,13 @@ public class XSLTCoverageTraceListener implements TraceListener {
   */
 
   public void open(Controller c) {
-	System.out.println("controller="+c);
+    System.out.println("controller="+c);
 
-    Serializer serializer = new Processor(false).newSerializer(out);
-    serializer.setOutputProperty(Serializer.Property.INDENT, "no"); // xspec/xspec#205
+    String outPath = System.getProperty("xspec.coverage.xml");
+    File outFile = new File(outPath);
+
+    Serializer serializer = new Processor(false).newSerializer(outFile);
+    serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
 
     try {
       writer = serializer.getXMLStreamWriter();
@@ -88,8 +90,6 @@ public class XSLTCoverageTraceListener implements TraceListener {
     } catch(XMLStreamException e) {
       throw new RuntimeException(e);
     }
-    
-    out.println(); // xspec/xspec#205
   }
 
   /**
