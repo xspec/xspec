@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../items.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-356.xspec">
+   <x:scenario>
+      <x:label>Result is a comment node</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$comment"/>
+      </x:call>
+      <x:result select="/node()"><!--comment-text--></x:result>
+      <x:test successful="false">
+         <x:label>Fail deliberately</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+</x:report>

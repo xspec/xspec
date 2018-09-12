@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Result is a comment node">
+		<x:call function="exactly-one">
+			<x:param select="$comment" />
+		</x:call>
+		<x:expect label="Fail deliberately" />
+	</x:scenario>
+</x:description>
