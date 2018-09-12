@@ -21,9 +21,13 @@
 			<exclude name="test/xspec-node-selection.xspec" />
 
 			<!-- TODO: x:variable
-				https://github.com/xspec/xspec/issues/60-->
+				https://github.com/xspec/xspec/issues/60 -->
 			<exclude name="test/generate-x-utils.xspec" />
 			<exclude name="test/xspec-variable.xspec" />
+
+			<!-- TODO: x:expect label is missing
+				https://github.com/xspec/xspec/issues/60 -->
+			<exclude name="test/xspec-result-naming-collision.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.
