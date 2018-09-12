@@ -4,10 +4,10 @@
        test result naming collision when a function which reads a document containing more than 1000 node -->
   <x:scenario label="scenario 1">
     <x:call function="xspec-17:read-document"/>
-    <x:expect>...</x:expect>
+    <x:expect label="The result should be saved in an external file">...</x:expect>
   </x:scenario>
   <x:scenario label="scenario 2">
     <x:call function="xspec-17:read-document"/>
-    <x:expect>...</x:expect>
+    <x:expect label="The result should be saved in another external file">...</x:expect>
   </x:scenario>
 </x:description>
