@@ -22,6 +22,9 @@
 
 <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
 
+<!-- @use-character-maps for inline CSS -->
+<xsl:output use-character-maps="test:disable-escaping" />
+
 <xsl:function name="x:pending-callback" as="node()*">
   <!-- returns formatted output for $pending. -->
   <xsl:param name="pending" as="xs:string?"/>
