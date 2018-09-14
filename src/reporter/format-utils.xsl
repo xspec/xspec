@@ -188,6 +188,30 @@
   </xsl:choose>  
 </xsl:function>  
 
+<!-- Generates <style> or <link> for CSS -->
+<xsl:template name="test:load-css">
+  <xsl:param name="inline" as="xs:boolean" required="yes" />
+
+  <xsl:variable name="uri" as="xs:anyURI" select="resolve-uri('test-report.css', static-base-uri())" />
+
+  <xsl:choose>
+    <xsl:when test="$inline">
+      <xsl:variable name="css-string" as="xs:string" select="unparsed-text($uri)" />
+
+      <!-- Replace CR LF with LF -->
+      <xsl:variable name="css-string" as="xs:string" select="replace($css-string, '&#x0D;(&#x0A;)', '$1')" />
+
+      <style type="text/css">
+        <xsl:value-of select="$css-string" disable-output-escaping="yes" />
+      </style>
+    </xsl:when>
+
+    <xsl:otherwise>
+      <link rel="stylesheet" type="text/css" href="{$uri}"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
 </xsl:stylesheet>
 
 
