@@ -22,6 +22,7 @@
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xhtml="http://www.w3.org/1999/xhtml"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
@@ -47,15 +48,23 @@
            'http://www.jenitennison.com/xslt/unit-test',
            'http://www.jenitennison.com/xslt/xspec')" />
 
-<xsl:template match="*" mode="test:serialize" priority="20">
+<!--
+  mode="test:serialize"
+-->
+
+<xsl:template match="element()" as="node()+" mode="test:serialize" priority="20">
   <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
-  <xsl:param name="perform-comparison" tunnel="yes" as="xs:boolean" select="false()" />
-  <xsl:param name="comparison" as="node()?" select="()" />
+  <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
+  <xsl:param name="node-to-compare-with" as="node()?" select="()" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
+
+  <!-- Open the start tag of this element -->
   <xsl:text>&lt;</xsl:text>
+
+  <!-- Output the name of this element -->
   <xsl:choose>
     <xsl:when test="$perform-comparison">
-      <span class="{if (if ($expected) then test:deep-equal(., $comparison) else test:deep-equal($comparison, .)) then 'same' else 'diff'}">
+      <span class="{test:comparison-html-class(., $node-to-compare-with, $expected)}">
         <xsl:value-of select="name()" />
       </span>
     </xsl:when>
@@ -63,6 +72,8 @@
       <xsl:value-of select="name()" />
     </xsl:otherwise>
   </xsl:choose>
+
+  <!-- Whitespace string for attribute indentation -->
   <xsl:variable name="attribute-indent" as="xs:string">
     <xsl:value-of>
       <xsl:text>&#xA;</xsl:text>
@@ -70,11 +81,19 @@
       <xsl:value-of select="replace(name(parent::*), '.', ' ')" />
     </xsl:value-of>
   </xsl:variable>
+
+  <!-- Namespace nodes which do not exist in the parent of this element -->
   <xsl:variable name="new-namespaces" as="node()*" 
     select="namespace::*[not(. = $omit-namespaces) and ($level = 0 or not(name() = ../../namespace::*/name()))]" />
+
+  <!-- Output xmlns="" to undeclare the default namespace,
+    if this element undeclares the default namespace
+    and the parent of this element has the default namespace -->
   <xsl:if test="not(namespace::*[name() = '']) and ../namespace::*[name() = '']">
     <xsl:text> xmlns=""</xsl:text>
   </xsl:if>
+
+  <!-- Output namespace nodes -->
   <xsl:for-each select="$new-namespaces">
     <xsl:if test="position() > 1">
       <xsl:value-of select="$attribute-indent" />
@@ -87,6 +106,8 @@
     <xsl:value-of select="." />
     <xsl:text>"</xsl:text>
   </xsl:for-each>
+
+  <!-- Output attributes while performing comparison -->
   <xsl:for-each select="@*">
     <xsl:if test="$new-namespaces or position() > 1">
       <xsl:value-of select="$attribute-indent" />
@@ -94,9 +115,9 @@
     <xsl:text> </xsl:text>
     <xsl:choose>
       <xsl:when test="$perform-comparison">
-        <xsl:variable name="name" as="xs:QName" select="node-name(.)" />
-        <xsl:variable name="comparison-att" as="attribute()?" select="$comparison/@*[node-name(.) = $name]" />
-        <span class="{if (if ($expected) then test:deep-equal(., $comparison-att) else test:deep-equal($comparison-att, .)) then 'same' else 'diff'}">
+        <xsl:variable name="node-name" as="xs:QName" select="node-name(.)" />
+        <xsl:variable name="attribute-to-compare-with" as="attribute()?" select="$node-to-compare-with/@*[node-name(.) = $node-name]" />
+        <span class="{test:comparison-html-class(., $attribute-to-compare-with, $expected)}">
           <xsl:value-of select="name()" />
         </span>
       </xsl:when>
@@ -109,70 +130,88 @@
       '\s(\s+)', '&#xA;$1')" />
     <xsl:text>"</xsl:text>
   </xsl:for-each>
+
+  <!-- Handle the child nodes or end this element -->
   <xsl:choose>
     <xsl:when test="child::node()">
+      <!-- Close the start tag of this element -->
       <xsl:text>&gt;</xsl:text>
+
       <xsl:choose>
+        <!-- If this element is in Actual Result and the corresponding node in Expected Result
+          has one and only child node which is a text node of '...', then Expected Result does
+          not care about the child nodes. So just output the same ellipsis. -->
         <xsl:when test="$perform-comparison and
           not($expected) and
-          $comparison/node() instance of text() and
-          $comparison = '...'">
+          $node-to-compare-with/node() instance of text() and
+          $node-to-compare-with = '...'">
           <xsl:text>...</xsl:text>
         </xsl:when>
+
+        <!-- Serialize the child nodes while performing comparison -->
         <xsl:when test="$perform-comparison">
           <xsl:for-each select="node()">
             <xsl:variable name="pos" as="xs:integer" select="position()" />
             <xsl:apply-templates select="." mode="test:serialize">
               <xsl:with-param name="level" select="$level + 1" tunnel="yes" />
-              <xsl:with-param name="comparison" select="$comparison/node()[position() = $pos]" />
+              <xsl:with-param name="node-to-compare-with" select="$node-to-compare-with/node()[position() = $pos]" />
               <xsl:with-param name="expected" select="$expected" />
             </xsl:apply-templates>
           </xsl:for-each>
         </xsl:when>
+
+        <!-- Serialize the child nodes without performing comparison -->
         <xsl:otherwise>
           <xsl:apply-templates mode="test:serialize">
             <xsl:with-param name="level" select="$level + 1" tunnel="yes" />
           </xsl:apply-templates>
         </xsl:otherwise>
       </xsl:choose>      
+
+      <!-- End this element -->
       <xsl:text>&lt;/</xsl:text>
       <xsl:value-of select="name()" />
       <xsl:text>&gt;</xsl:text>
     </xsl:when>
+
+    <!-- End this element without any child node -->
     <xsl:otherwise> /&gt;</xsl:otherwise>
   </xsl:choose>
-</xsl:template>  
+</xsl:template>
 
-<xsl:template match="comment()" mode="test:serialize">
-  <xsl:sequence
+<xsl:template match="comment()" as="text()" mode="test:serialize">
+  <xsl:value-of
     select="concat('&lt;!--', ., '--&gt;')" />
 </xsl:template>  
 
-<xsl:template match="processing-instruction()" mode="test:serialize">
-  <xsl:sequence select="concat('&lt;?', name(), ' ', ., '?&gt;')" />
+<xsl:template match="processing-instruction()" as="text()" mode="test:serialize">
+  <xsl:value-of select="concat('&lt;?', name(), ' ', ., '?&gt;')" />
 </xsl:template>  
 
-<xsl:template match="node()" mode="test:serialize" priority="10">
-  <xsl:param name="perform-comparison" tunnel="yes" as="xs:boolean" select="false()" />
-  <xsl:param name="comparison" as="node()?" select="()" />
+<xsl:template match="node()" as="node()" mode="test:serialize" priority="10">
+  <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
+  <xsl:param name="node-to-compare-with" as="node()?" select="()" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
-  <xsl:variable name="serialized" as="item()*">
+  <xsl:variable name="serialized" as="text()">
     <xsl:next-match />
   </xsl:variable>
+
   <xsl:choose>
     <xsl:when test="$perform-comparison">
-      <span class="{if (if ($expected) then test:deep-equal(., $comparison) else test:deep-equal($comparison, .)) then 'same' else 'diff'}">
-        <xsl:copy-of select="$serialized" />
+      <span class="{test:comparison-html-class(., $node-to-compare-with, $expected)}">
+        <xsl:sequence select="$serialized" />
       </span>
     </xsl:when>
+
     <xsl:otherwise>
-      <xsl:copy-of select="$serialized" />
+      <xsl:sequence select="$serialized" />
     </xsl:otherwise>
-  </xsl:choose>	
+  </xsl:choose>
 </xsl:template>
 
-<xsl:template match="test:ws" mode="test:serialize" priority="30">
-  <xsl:param name="perform-comparison" as="xs:boolean" tunnel="yes" select="false()" />
+<xsl:template match="test:ws" as="element(xhtml:span)?" mode="test:serialize" priority="30">
+  <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
+
   <xsl:if test="$perform-comparison">
     <span class="whitespace">
       <xsl:analyze-string select="." regex="\s">
@@ -189,10 +228,25 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="text()[not(normalize-space())]" mode="test:serialize" priority="20">
-  <xsl:param name="indentation" as="xs:integer" tunnel="yes" select="0" />
+<xsl:template match="text()[not(normalize-space())]" as="text()" mode="test:serialize" priority="20">
+  <xsl:param name="indentation" as="xs:integer" select="0" tunnel="yes" />
   <xsl:value-of select="concat('&#xA;', substring(., $indentation + 2))" />
-</xsl:template>  
+</xsl:template>
+
+<!-- Compares $node with $node-to-compare-with and returns an HTML class accordingly: 'same' or 'diff'
+  Set $expected to true if $node is in Expected Result. Set false if in Actual Result. -->
+<xsl:function name="test:comparison-html-class" as="xs:string">
+  <xsl:param name="node" as="node()" />
+  <xsl:param name="node-to-compare-with" as="node()?" />
+  <xsl:param name="expected" as="xs:boolean" />
+
+  <xsl:variable name="equal" as="xs:boolean" select="
+    if ($expected)
+    then test:deep-equal($node, $node-to-compare-with)
+    else test:deep-equal($node-to-compare-with, $node)" />
+
+  <xsl:sequence select="if ($equal) then 'same' else 'diff'" />
+</xsl:function>
 
 <xsl:function name="test:format-URI" as="xs:string">
   <xsl:param name="URI" as="xs:anyURI" />
@@ -203,8 +257,8 @@
     <xsl:otherwise>
       <xsl:value-of select="$URI" />
     </xsl:otherwise>
-  </xsl:choose>  
-</xsl:function>  
+  </xsl:choose>
+</xsl:function>
 
 <!-- Generates <style> or <link> for CSS.
   If you enable $inline, you must use test:disable-escaping character map in serialization. -->
