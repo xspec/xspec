@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="xspec-356.xspec">
+<testsuites name="xspec-serialize.xspec">
    <testsuite name="Result is a comment node" tests="1" failures="1">
       <testcase name="Fail deliberately" status="failed">
          <failure message="expect assertion failed">Expected: ()</failure>

@@ -6,7 +6,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           stylesheet="../../../../items.xsl"
           date="ONCE-UPON-A-TIME"
-          xspec="../../xspec-356.xspec">
+          xspec="../../xspec-serialize.xspec">
    <x:scenario>
       <x:label>Result is a comment node</x:label>
       <x:call function="exactly-one">
