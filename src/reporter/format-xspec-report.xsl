@@ -8,13 +8,13 @@
 
 
 <xsl:stylesheet version="2.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-                exclude-result-prefixes="x xs test pkg"
+                xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns="http://www.w3.org/1999/xhtml">
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
 <xsl:import href="format-utils.xsl"/>
 

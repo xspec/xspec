@@ -18,13 +18,13 @@
   <!ENTITY doe-quot "&#xE805;">
 ]>
 <xsl:stylesheet version="2.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                exclude-result-prefixes="test xs x pkg">
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
 <xsl:import href="../compiler/generate-tests-utils.xsl" />
 

@@ -8,16 +8,16 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0" 
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet version="2.0"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
-                exclude-result-prefixes="xs t msxsl pkg"
+                xmlns:pkg="http://expath.org/ns/pkg"
+                xmlns:t="http://www.jenitennison.com/xslt/unit-testAlias"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                extension-element-prefixes="test"
-                xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:t="http://www.jenitennison.com/xslt/unit-testAlias">
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all"
+                extension-element-prefixes="test">
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-utils.xsl</pkg:import-uri>
 

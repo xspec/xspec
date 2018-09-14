@@ -8,14 +8,13 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+<xsl:stylesheet version="2.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                extension-element-prefixes="test"
-                exclude-result-prefixes="xs xhtml"
-                version="2.0">
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all"
+                extension-element-prefixes="test">
   
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-query-helper.xsl</pkg:import-uri>
 

@@ -7,14 +7,15 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0" 
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:pkg="http://expath.org/ns/pkg"
-  xmlns:file="http://expath.org/ns/file"
-  exclude-result-prefixes="#all">
+<xsl:stylesheet version="2.0"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:file="http://expath.org/ns/file"
+                xmlns:pkg="http://expath.org/ns/pkg"
+                xmlns:saxon="http://saxon.sf.net/"
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
 <xsl:import href="format-utils.xsl" />
 
@@ -331,8 +332,7 @@
 
 <xsl:template match="/" mode="test:coverage">ignored</xsl:template>
 
-<xsl:function name="test:hit-on-nodes" as="element(h)*"
-              xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
+<xsl:function name="test:hit-on-nodes" as="element(h)*">
   <xsl:param name="nodes" as="node()*" />
   <xsl:param name="module" as="xs:string" />
   <xsl:for-each select="$nodes[not(self::text()[not(normalize-space())])]">
