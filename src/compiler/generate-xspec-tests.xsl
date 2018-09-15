@@ -288,8 +288,8 @@
             </xsl:otherwise>
           </xsl:choose>      
         </variable>
-        <call-template name="test:report-value">
-          <with-param name="value" select="$x:result" />
+        <call-template name="test:report-sequence">
+          <with-param name="sequence" select="$x:result" />
           <with-param name="wrapper-name" select="'x:result'" />
           <with-param name="wrapper-ns" select="'{ $xspec-ns }'"/>
         </call-template>
@@ -402,15 +402,15 @@
       <xsl:if test="not($pending-p)">
          <xsl:if test="@test">
             <if test="not($impl:boolean-test)">
-               <call-template name="test:report-value">
-                  <with-param name="value"        select="$impl:test-result"/>
+               <call-template name="test:report-sequence">
+                  <with-param name="sequence"     select="$impl:test-result"/>
                   <with-param name="wrapper-name" select="'x:result'"/>
                   <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
                </call-template>
             </if>
          </xsl:if>
-         <call-template name="test:report-value">
-            <with-param name="value"        select="$impl:expected"/>
+         <call-template name="test:report-sequence">
+            <with-param name="sequence"     select="$impl:expected"/>
             <with-param name="wrapper-name" select="'x:expect'"/>
             <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
             <xsl:if test="@test">

@@ -157,50 +157,53 @@ declare function test:qname-lt($n1 as xs:QName, $n2 as xs:QName) as xs:boolean
     fn:namespace-uri-from-QName($n1) lt fn:namespace-uri-from-QName($n2)
 };
 
-declare function test:report-value($value as item()*, $wrapper-name as xs:string) as element()
+declare function test:report-sequence(
+    $sequence as item()*,
+    $wrapper-name as xs:string
+  ) as element()
 {
-  test:report-value($value, $wrapper-name, 'http://www.jenitennison.com/xslt/xspec')
+  test:report-sequence($sequence, $wrapper-name, 'http://www.jenitennison.com/xslt/xspec')
 };
 
-declare function test:report-value(
-    $value as item()*,
+declare function test:report-sequence(
+    $sequence as item()*,
     $wrapper-name as xs:string,
     $wrapper-ns as xs:string
   ) as element()
 {
   element { fn:QName($wrapper-ns, $wrapper-name) } {
-    if ( $value[1] instance of attribute() ) then (
+    if ( $sequence[1] instance of attribute() ) then (
         attribute { 'select' } { '/*/(@* | node())' },
-        element { fn:QName($wrapper-ns, 'temp') } { $value }
+        element { fn:QName($wrapper-ns, 'temp') } { $sequence }
       )
-    else if ( $value instance of node()+ ) then (
-        if ( $value instance of document-node() ) then
+    else if ( $sequence instance of node()+ ) then (
+        if ( $sequence instance of document-node() ) then
           attribute { 'select' } { '/' }
-        else if ( fn:not($value instance of element()+) ) then
+        else if ( fn:not($sequence instance of element()+) ) then
           attribute { 'select' } { '/node()' }
         else
           ()
         ,
-        if ( fn:count($value//node()) > 1000 ) then
+        if ( fn:count($sequence//node()) > 1000 ) then
           fn:error((), 'TODO: Write the value within a file...')
         else
           (: TODO: The original stylesheet use a mode to do a bit
              different copy, to preserve withespaces... :)
-          $value
+          $sequence
       )
     else
       attribute { 'select' } {
-        if ( fn:empty($value) ) then
+        if ( fn:empty($sequence) ) then
           '()'
-        else if ( $value instance of item() ) then
-          test:report-atomic-value($value)
+        else if ( $sequence instance of item() ) then
+          test:report-atomic-value($sequence)
         else
-          fn:concat('(', fn:string-join(for $v in $value return test:report-atomic-value($v), ', '), ')')
+          fn:concat('(', fn:string-join(for $v in $sequence return test:report-atomic-value($v), ', '), ')')
       }
   }
 };
 
-declare function test:report-atomic-value($value as item()) as xs:string
+declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:string
 {
   if ( $value instance of xs:string ) then
     fn:concat("'", fn:replace($value, "'", "''"), "'")

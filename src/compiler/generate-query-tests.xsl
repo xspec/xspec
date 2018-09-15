@@ -222,7 +222,7 @@
                  let $xxx-param2 := ...
                  let $t:result   := ...($xxx-param1, $xxx-param2)
                    return (
-                     test:report-value($t:result, 'x:result'),
+                     test:report-sequence($t:result, 'x:result'),
                -->
                <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
                <xsl:text>  let $</xsl:text>
@@ -238,7 +238,7 @@
                </xsl:for-each>
                <xsl:text>)&#10;</xsl:text>
                <xsl:text>    return (&#10;</xsl:text>
-               <xsl:text>      test:report-value($</xsl:text>
+               <xsl:text>      test:report-sequence($</xsl:text>
                <xsl:value-of select="$xspec-prefix"/>
                <xsl:text>:result, '</xsl:text>
                <xsl:value-of select="$xspec-prefix"/>
@@ -381,11 +381,11 @@
          <xsl:sequence select="x:label(.)"/>
          <xsl:if test="not($pending-p)">
             <!--xsl:if test="@test">
-               <xsl:text>&#10;      { if ( $local:test-result instance of xs:boolean ) then () else test:report-value($local:test-result, '</xsl:text>
+               <xsl:text>&#10;      { if ( $local:test-result instance of xs:boolean ) then () else test:report-sequence($local:test-result, '</xsl:text>
                <xsl:value-of select="$xspec-prefix"/>
                <xsl:text>:result') }</xsl:text>
             </xsl:if-->
-            <xsl:text>&#10;      { test:report-value($local:expected, '</xsl:text>
+            <xsl:text>&#10;      { test:report-sequence($local:expected, '</xsl:text>
             <xsl:value-of select="$xspec-prefix"/>
             <xsl:text>:expect') }</xsl:text>
          </xsl:if>
