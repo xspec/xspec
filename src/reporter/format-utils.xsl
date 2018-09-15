@@ -52,7 +52,7 @@
   mode="test:serialize"
 -->
 
-<xsl:template match="element()" as="node()+" mode="test:serialize" priority="20">
+<xsl:template match="element()" as="node()+" mode="test:serialize">
   <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
   <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
   <xsl:param name="node-to-compare-with" as="node()?" select="()" />
@@ -179,21 +179,25 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="comment()" as="text()" mode="test:serialize">
-  <xsl:value-of
-    select="concat('&lt;!--', ., '--&gt;')" />
-</xsl:template>  
-
-<xsl:template match="processing-instruction()" as="text()" mode="test:serialize">
-  <xsl:value-of select="concat('&lt;?', name(), ' ', ., '?&gt;')" />
-</xsl:template>  
-
-<xsl:template match="node()" as="node()" mode="test:serialize" priority="10">
+<xsl:template match="comment() | processing-instruction() | text()" as="node()" mode="test:serialize">
   <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
   <xsl:param name="node-to-compare-with" as="node()?" select="()" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
+
   <xsl:variable name="serialized" as="text()">
-    <xsl:next-match />
+    <xsl:choose>
+      <xsl:when test="self::comment()">
+        <xsl:value-of select="concat('&lt;!--', ., '-->')" />
+      </xsl:when>
+
+      <xsl:when test="self::processing-instruction()">
+        <xsl:value-of select="concat('&lt;?', name(), ' ', ., '?>')" />
+      </xsl:when>
+
+      <xsl:when test="self::text()">
+        <xsl:sequence select="." />
+      </xsl:when>
+    </xsl:choose>
   </xsl:variable>
 
   <xsl:choose>
@@ -209,7 +213,7 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="test:ws" as="element(xhtml:span)?" mode="test:serialize" priority="30">
+<xsl:template match="test:ws" as="element(xhtml:span)?" mode="test:serialize">
   <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
 
   <xsl:if test="$perform-comparison">
@@ -228,9 +232,14 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="text()[not(normalize-space())]" as="text()" mode="test:serialize" priority="20">
+<xsl:template match="text()[not(normalize-space())]" as="text()" mode="test:serialize">
   <xsl:param name="indentation" as="xs:integer" select="0" tunnel="yes" />
+
   <xsl:value-of select="concat('&#xA;', substring(., $indentation + 2))" />
+</xsl:template>  
+
+<xsl:template match="document-node() | attribute() | node()" as="empty-sequence()" mode="test:serialize" priority="-1">
+  <xsl:message select="'Unhandled node'" terminate="yes" />
 </xsl:template>
 
 <!-- Compares $node with $node-to-compare-with and returns an HTML class accordingly: 'same' or 'diff'
