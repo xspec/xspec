@@ -525,7 +525,7 @@ setlocal
         rem For testing -Dxspec.project.dir
         call :copy ..\build.xml "%BUILD_XML%"
 
-        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dtest.type=s -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%ANT_TEST_DIR%" -Dclean.output.dir=true
+        call :run ant -buildfile "%BUILD_XML%" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_CP%" -Dxspec.properties="%CD%\schematron.properties" -Dxspec.project.dir="%CD%\.." -Dxspec.phase=#ALL -Dxspec.dir="%ANT_TEST_DIR%" -Dclean.output.dir=true
         call :verify_retval 0
         call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
         call :verify_line -2 x "BUILD SUCCESSFUL"
