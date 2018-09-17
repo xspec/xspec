@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-151.xsl" xmlns:test-mix="x-urn:test-mix"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="When result is a mixture of element and string">
+		<x:call function="test-mix:element-and-string" />
+		<x:expect label="[Result] in a failure report HTML must wrap element and string separately"
+			test="false()" />
+	</x:scenario>
+</x:description>
