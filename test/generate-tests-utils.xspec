@@ -15,9 +15,9 @@
    -->
 
    <!--
-       Function test:node-deep-equal($seq1, $seq2).
+       Function test:node-deep-equal($seq1, $seq2, '').
    -->
-   <t:scenario label="test:node-deep-equal($seq1, $seq2)">
+   <t:scenario label="test:node-deep-equal($seq1, $seq2, '')">
 
       <t:scenario label="Identical Attribute Sequences">
          <!-- TODO: This scenario does not run on XQuery: xspec/xspec#82 -->
@@ -28,6 +28,7 @@
             <t:param name="node2" select="/node/@attribute" as="node()">
                <node attribute="foobar"/>
             </t:param>
+            <t:param select="''" />
          </t:call>
          <t:expect label="the result" select="true()"/>
       </t:scenario>
@@ -43,6 +44,7 @@
                <t:param name="node2" select="/*">
                   <result/>
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -55,6 +57,7 @@
                <t:param name="node2" select="/*">
                   <result b="2" a="1" />
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -67,6 +70,7 @@
                <t:param name="node2" select="/*">
                   <result><child1/><child2/></result>
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -79,6 +83,7 @@
                <t:param name="node2" select="/*/@a">
                   <result a="1" />
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -91,6 +96,7 @@
                <t:param name="node2" select="/">
                   <result />
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -103,6 +109,7 @@
                <t:param name="node2" select="/*/text()">
                   <result>Test</result>
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -117,6 +124,7 @@
                   <!-- Comment -->
                   <doc />
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -131,6 +139,7 @@
                   <?pi data?>
                   <doc />
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -144,6 +153,7 @@
                <t:param name="node2">
                   <foo>foo</foo>
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -157,6 +167,7 @@
                <t:param name="node2">
                   <foo>foo<bar />foo</foo>
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -170,6 +181,7 @@
                <t:param name="node2" select="/foo/@bar">
                   <foo bar="bar" />
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -183,6 +195,7 @@
                <t:param name="node2" select="/foo">
                   <foo />
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -197,6 +210,7 @@
             <t:call function="test:node-deep-equal">
                <t:param select="$namespace" />
                <t:param select="$namespace" />
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -205,6 +219,7 @@
             <t:call function="test:node-deep-equal">
                <t:param select="$default-namespace" />
                <t:param select="$default-namespace" />
+               <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -213,6 +228,7 @@
             <t:call function="test:node-deep-equal">
                <t:param select="$namespace" />
                <t:param select="$another-namespace" />
+               <t:param select="''" />
             </t:call>
             <t:expect label="False" select="false()" />
          </t:scenario>

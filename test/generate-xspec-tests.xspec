@@ -16,7 +16,7 @@
        Test the source file generate-xspec-tests.xsl.
    -->
 
-   <t:scenario label="test:deep-equal($seq1, $seq2)">
+   <t:scenario label="Scenarios for testing generate-xspec-tests.xsl">
 
       <!--t:scenario label="FIRST TEST.......">
          <t:variable name="ctxt" as="document-node()">

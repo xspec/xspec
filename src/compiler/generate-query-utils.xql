@@ -11,63 +11,68 @@ module namespace test = "http://www.jenitennison.com/xslt/unit-test";
 
 declare namespace fn = "http://www.w3.org/2005/xpath-functions";
 
-declare function test:deep-equal($seq1 as item()*, $seq2 as item()*) as xs:boolean
-{
-  test:deep-equal($seq1, $seq2, 2.0)
-};
-
 declare function test:deep-equal(
     $seq1 as item()*,
     $seq2 as item()*,
-    $version as xs:decimal
+    $flags as xs:string
   ) as xs:boolean
 {
-  if ( $version = 1.0 ) then
-    if ( $seq1 instance of xs:string and $seq2 instance of text()+ ) then
-      test:deep-equal($seq1, fn:string-join($seq2, ''))
-    else if ( $seq1 instance of xs:double and $seq2 instance of text()+ ) then
-      test:deep-equal($seq1, xs:double(fn:string-join($seq2, '')))
-    else if ( $seq1 instance of xs:decimal and $seq2 instance of text()+ ) then
-      test:deep-equal($seq1, xs:decimal(fn:string-join($seq2, '')))
-    else if ( $seq1 instance of xs:integer and $seq2 instance of text()+ ) then
-      test:deep-equal($seq1, xs:integer(fn:string-join($seq2, '')))
-    else
-      test:deep-equal($seq1, $seq2)
+  if ( fn:contains($flags, '1') ) then
+    let $flags as xs:string := fn:translate($flags, '1', '')
+      return
+        if ( $seq1 instance of xs:string and $seq2 instance of text()+ ) then
+          test:deep-equal($seq1, fn:string-join($seq2, ''), $flags)
+        else if ( $seq1 instance of xs:double and $seq2 instance of text()+ ) then
+          test:deep-equal($seq1, xs:double(fn:string-join($seq2, '')), $flags)
+        else if ( $seq1 instance of xs:decimal and $seq2 instance of text()+ ) then
+          test:deep-equal($seq1, xs:decimal(fn:string-join($seq2, '')), $flags)
+        else if ( $seq1 instance of xs:integer and $seq2 instance of text()+ ) then
+          test:deep-equal($seq1, xs:integer(fn:string-join($seq2, '')), $flags)
+        else
+          test:deep-equal($seq1, $seq2, $flags)
   else if ( fn:empty($seq1) or fn:empty($seq2) ) then
     fn:empty($seq1) and fn:empty($seq2)
   else if ( fn:count($seq1) = fn:count($seq2) ) then
     every $i in (1 to fn:count($seq1))
-    satisfies test:item-deep-equal($seq1[$i], $seq2[$i])
+    satisfies test:item-deep-equal($seq1[$i], $seq2[$i], $flags)
   else if ( $seq1 instance of text() and $seq2 instance of text()+ ) then
-    test:deep-equal($seq1, text { fn:string-join($seq2, '') })
+    test:deep-equal($seq1, text { fn:string-join($seq2, '') }, $flags)
   else
     fn:false()
 };
 
-declare function test:item-deep-equal($item1 as item(), $item2 as item()) as xs:boolean
+declare function test:item-deep-equal(
+    $item1 as item(),
+    $item2 as item(),
+    $flags as xs:string
+  ) as xs:boolean
 {
   if ( $item1 instance of node() and $item2 instance of node() ) then
-    test:node-deep-equal($item1, $item2)
+    test:node-deep-equal($item1, $item2, $flags)
   else if ( fn:not($item1 instance of node()) and fn:not($item2 instance of node()) ) then
     fn:deep-equal($item1, $item2)
   else
     fn:false()
 };
 
-declare function test:node-deep-equal($node1 as node(), $node2 as node()) as xs:boolean
+declare function test:node-deep-equal(
+    $node1 as node(),
+    $node2 as node(),
+    $flags as xs:string
+  ) as xs:boolean
 {
   if ( $node1 instance of document-node() and $node2 instance of document-node() ) then
-    test:deep-equal(test:sorted-children($node1), test:sorted-children($node2))
+    test:deep-equal(test:sorted-children($node1), test:sorted-children($node2), $flags)
   else if ( $node1 instance of element() and $node2 instance of element() ) then
     if ( fn:node-name($node1) eq fn:node-name($node2) ) then
       let $atts1 as attribute()* := test:sort-named-nodes($node1/@*)
       let $atts2 as attribute()* := test:sort-named-nodes($node2/@*)
         return
-          if ( test:deep-equal($atts1, $atts2) ) then
+          if ( test:deep-equal($atts1, $atts2, $flags) ) then
             if ( fn:count($node1/node()) = 1 and $node1/text() = '...' ) then
               fn:true()
             else
-              test:deep-equal(test:sorted-children($node1), test:sorted-children($node2))
+              test:deep-equal(test:sorted-children($node1), test:sorted-children($node2), $flags)
           else
             fn:false()
     else
@@ -87,7 +92,9 @@ declare function test:node-deep-equal($node1 as node(), $node2 as node()) as xs:
     fn:false()
 };
 
-declare function test:sorted-children($node as node()) as node()*
+declare function test:sorted-children(
+    $node as node()
+  ) as node()*
 {
   $node/child::node() 
   except $node/test:message

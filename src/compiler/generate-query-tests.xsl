@@ -330,13 +330,13 @@
                if ( $local:test-result instance of xs:boolean ) then
                  $local:test-result
                else
-                 test:deep-equal($local:expected, $local:test-result)
+                 test:deep-equal($local:expected, $local:test-result, '')
          - ->
          <xsl:text>  let $local:successful  := (: did the test pass?:)&#10;</xsl:text>
          <xsl:text>      if ( $local:test-result instance of xs:boolean ) then&#10;</xsl:text>
          <xsl:text>        $local:test-result&#10;</xsl:text>
          <xsl:text>      else&#10;</xsl:text>
-         <xsl:text>        test:deep-equal($local:expected, $local:test-result)&#10;</xsl:text-->
+         <xsl:text>        test:deep-equal($local:expected, $local:test-result, '')&#10;</xsl:text-->
          <!--
            IF @test ==>
            let $local:successful :=
@@ -344,14 +344,14 @@
            
            ELSE ==>
            let $local:successful :=
-               test:deep-equal($local:expected, $x:result)
+               test:deep-equal($local:expected, $x:result, '')
          -->
          <xsl:text>  let $local:successful as xs:boolean := (: did the test pass?:)&#10;</xsl:text>
          <xsl:choose>
             <xsl:when test="exists(@test) and exists(node())">
                <xsl:text>      test:deep-equal($local:expected, </xsl:text>
                <xsl:value-of select="@test"/>
-               <xsl:text>)&#10;</xsl:text>
+               <xsl:text>, '')&#10;</xsl:text>
             </xsl:when>
             <xsl:when test="exists(@test)">
                <xsl:text>      ( </xsl:text>
@@ -361,7 +361,7 @@
             <xsl:otherwise>
                <xsl:text>      test:deep-equal($local:expected, $</xsl:text>
                <xsl:value-of select="$xspec-prefix"/>
-               <xsl:text>:result)&#10;</xsl:text>
+               <xsl:text>:result, '')&#10;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
          <xsl:text>    return&#10;      </xsl:text>
