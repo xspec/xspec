@@ -245,6 +245,95 @@
    </t:scenario>
 
    <!--
+       Function test:deep-equal($seq1, $seq2, 'w').
+   -->
+   <t:scenario label="test:deep-equal($seq1, $seq2, 'w')" xml:base="generate-x-utils/">
+      <t:scenario label="Identical whitespace-only text nodes">
+         <t:scenario label="In ordinal element">
+            <t:scenario label="No flag">
+               <t:call function="test:deep-equal">
+                  <t:param href="09.xml" />
+                  <t:param href="09.xml" />
+                  <t:param select="''" />
+               </t:call>
+               <t:expect label="True" select="true()" />
+            </t:scenario>
+
+            <t:scenario label="w">
+               <t:call function="test:deep-equal">
+                  <t:param href="09.xml" />
+                  <t:param href="09.xml" />
+                  <t:param select="'w'" />
+               </t:call>
+               <t:expect label="True" select="true()" />
+            </t:scenario>
+         </t:scenario>
+
+         <t:scenario label="In test:ws">
+            <t:scenario label="No flag">
+               <t:call function="test:deep-equal">
+                  <t:param href="ws-09.xml" />
+                  <t:param href="ws-09.xml" />
+                  <t:param select="''" />
+               </t:call>
+               <t:expect label="True" select="true()" />
+            </t:scenario>
+
+            <t:scenario label="w">
+               <t:call function="test:deep-equal">
+                  <t:param href="ws-09.xml" />
+                  <t:param href="ws-09.xml" />
+                  <t:param select="'w'" />
+               </t:call>
+               <t:expect label="True" select="true()" />
+            </t:scenario>
+         </t:scenario>
+      </t:scenario>
+
+      <t:scenario label="Different whitespace-only text nodes">
+         <t:scenario label="In ordinal element">
+            <t:scenario label="No flag">
+               <t:call function="test:deep-equal">
+                  <t:param href="09.xml" />
+                  <t:param href="20.xml" />
+                  <t:param select="''" />
+               </t:call>
+               <t:expect label="False" select="false()" />
+            </t:scenario>
+
+            <t:scenario label="w">
+               <t:call function="test:deep-equal">
+                  <t:param href="09.xml" />
+                  <t:param href="20.xml" />
+                  <t:param select="'w'" />
+               </t:call>
+               <t:expect label="True (Whitespace-only text nodes are ignored)" select="true()" />
+            </t:scenario>
+         </t:scenario>
+
+         <t:scenario label="In test:ws">
+            <t:scenario label="No flag">
+               <t:call function="test:deep-equal">
+                  <t:param href="ws-09.xml" />
+                  <t:param href="ws-20.xml" />
+                  <t:param select="''" />
+               </t:call>
+               <t:expect label="False" select="false()" />
+            </t:scenario>
+
+            <t:scenario label="w">
+               <t:call function="test:deep-equal">
+                  <t:param href="ws-09.xml" />
+                  <t:param href="ws-20.xml" />
+                  <t:param select="'w'" />
+               </t:call>
+               <t:expect label="False (Whitespace-only text nodes are compared)" select="false()" />
+            </t:scenario>
+         </t:scenario>
+      </t:scenario>
+   </t:scenario>
+
+   <!--
        Function test:node-deep-equal($seq1, $seq2, '').
    -->
    <t:scenario label="test:node-deep-equal($seq1, $seq2, '')">

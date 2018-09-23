@@ -77,6 +77,7 @@
 </xsl:function>
 
 <!-- $flags
+  w : Ignores descendant whitespace-only text nodes except the ones in <test:ws>
   1 : Simulates XSLT version 1.0 -->
 <xsl:function name="test:deep-equal" as="xs:boolean">
   <xsl:param name="seq1" as="item()*"/>
@@ -189,9 +190,9 @@
     <xsl:when test="$node1 instance of document-node() and
                     $node2 instance of document-node()">
       <xsl:variable name="children1" as="node()*" 
-        select="test:sorted-children($node1)" />
+        select="test:sorted-children($node1, $flags)" />
       <xsl:variable name="children2" as="node()*" 
-        select="test:sorted-children($node2)" />
+        select="test:sorted-children($node2, $flags)" />
       <xsl:sequence select="test:deep-equal($children1,
                                             $children2,
                                             $flags)" />
@@ -220,9 +221,9 @@
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:variable name="children1" as="node()*" 
-                    select="test:sorted-children($node1)" />
+                    select="test:sorted-children($node1, $flags)" />
                   <xsl:variable name="children2" as="node()*" 
-                    select="test:sorted-children($node2)" />
+                    select="test:sorted-children($node2, $flags)" />
                   <xsl:sequence select="test:deep-equal($children1,
                                                         $children2,
                                                         $flags)" />
@@ -281,9 +282,12 @@
   
 <xsl:function name="test:sorted-children" as="node()*">
   <xsl:param name="node" as="node()" />
+  <xsl:param name="flags" as="xs:string" />
+
   <xsl:sequence 
     select="$node/child::node() 
-            except $node/test:message" />
+            except ($node/text()[not(normalize-space())][contains($flags, 'w')][not($node/self::test:ws)],
+                    $node/test:message)" />
 </xsl:function>
   
 <xsl:template name="test:report-value">

@@ -250,6 +250,7 @@
                <t:param name="node">
                   <foo><bar /><baz /></foo>
                </t:param>
+               <t:param select="''" />
             </t:call>
             <t:expect label="bar baz">
                <bar /><baz />
