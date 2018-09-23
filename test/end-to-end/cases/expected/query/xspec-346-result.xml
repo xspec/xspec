@@ -16,7 +16,7 @@
          </p>
       </x:result>
       <x:test successful="false">
-         <x:label>Expecting no space should be Failure</x:label>
+         <x:label>Expecting no space should be Failure (TODO: XQuery should support test:ws for correct diff)</x:label>
          <x:expect>
             <p xmlns:do-nothing="x-urn:test:do-nothing">
                <span>foo</span>
