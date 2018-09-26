@@ -16,4 +16,19 @@
          <x:label>[Result] should be reported</x:label>
       </x:test>
    </x:scenario>
+   <x:scenario>
+      <x:label>Element, attribute (xspec/xspec#357)</x:label>
+      <x:call function="one-or-more">
+         <x:param select="elem1 | elem2/attribute()">
+            <elem1>text</elem1>
+            <elem2 attr="attr-val"/>
+         </x:param>
+      </x:call>
+      <x:result select="/node()">
+         <elem1>text</elem1>attr-val</x:result>
+      <x:test successful="false">
+         <x:label>TODO: @attr should be reported as an attribute</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
 </x:report>

@@ -10,4 +10,14 @@
 		<x:expect label="[Result] should be reported" />
 	</x:scenario>
 
+	<x:scenario label="Element, attribute (xspec/xspec#357)">
+		<x:call function="one-or-more">
+			<x:param select="elem1 | elem2/attribute()">
+				<elem1>text</elem1>
+				<elem2 attr="attr-val" />
+			</x:param>
+		</x:call>
+		<x:expect label="TODO: @attr should be reported as an attribute" />
+	</x:scenario>
+
 </x:description>

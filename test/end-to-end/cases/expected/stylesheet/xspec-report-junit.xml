@@ -5,4 +5,9 @@
          <skipped>TODO: fix</skipped>
       </testcase>
    </testsuite>
+   <testsuite name="Element, attribute (xspec/xspec#357)" tests="1" failures="1">
+      <testcase name="TODO: @attr should be reported as an attribute" status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>
