@@ -14,7 +14,7 @@
             <foo/>
          </x:param>
       </x:call>
-      <x:result>
+      <x:result select="/element()">
          <foo/>
       </x:result>
       <x:test successful="false">
@@ -33,10 +33,10 @@
 				and
 					"Expected Result" = "&lt;bar /&gt;"
 				with diff.</x:label>
-         <x:result>
+         <x:result select="/element()">
             <foo/>
          </x:result>
-         <x:expect test="element(foo)">
+         <x:expect test="element(foo)" select="/element()">
             <bar/>
          </x:expect>
       </x:test>

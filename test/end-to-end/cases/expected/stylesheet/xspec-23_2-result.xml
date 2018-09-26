@@ -10,12 +10,12 @@
    <x:scenario>
       <x:label>Test</x:label>
       <x:context href="../../xspec-23_2_context.xml"/>
-      <x:result select="/">
+      <x:result select="/self::document-node()">
          <foo xmlns="x-urn:test" bar="true"/>
       </x:result>
       <x:test successful="false">
          <x:label>Result</x:label>
-         <x:expect select="/">
+         <x:expect select="/self::document-node()">
             <foo xmlns="x-urn:test" bar="false"/>
          </x:expect>
       </x:test>

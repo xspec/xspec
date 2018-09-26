@@ -9,10 +9,10 @@
    </testsuite>
    <testsuite name="When the result consists of multiple elements (xspec/xspec#361)"
               tests="1"
-              failures="0">
+              failures="1">
       <testcase name="The result should be saved successfully in yet another external file which is well-formed"
-                status="skipped">
-         <skipped>TODO: fix</skipped>
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
       </testcase>
    </testsuite>
 </testsuites>

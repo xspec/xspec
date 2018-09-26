@@ -19,7 +19,7 @@
       href="xspec-result-naming-collision.xml" />
   </x:scenario>
 
-  <x:scenario label="When the result consists of multiple elements (xspec/xspec#361)" pending="TODO: fix">
+  <x:scenario label="When the result consists of multiple elements (xspec/xspec#361)">
     <x:call function="one-or-more">
       <x:param select="
         for $i in (1 to 2)

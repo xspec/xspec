@@ -13,7 +13,7 @@
       <x:call function="exactly-one">
          <x:param href="../../xspec-346.xml" select="element(p)"/>
       </x:call>
-      <x:result>
+      <x:result select="/element()">
          <p>
             <span>foo</span>
             <test:ws> </test:ws>
@@ -22,7 +22,7 @@
       </x:result>
       <x:test successful="false">
          <x:label>Expecting no space should be Failure (TODO: XQuery should support test:ws for correct diff)</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <p>
                <span>foo</span>
                <span>bar</span>

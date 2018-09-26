@@ -7,9 +7,7 @@
       </testcase>
       <testcase name="When x:expect expects &lt;bar /&gt; and @test is &#34;element(foo)&#34; (i.e. non boolean),&#xA;&#x9;&#x9;&#x9;&#x9;then the HTML report should be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Result&#34;          = &#34;&lt;foo /&gt;&#34;&#xA;&#x9;&#x9;&#x9;&#x9;and&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Expected Result&#34; = &#34;&lt;bar /&gt;&#34;&#xA;&#x9;&#x9;&#x9;&#x9;with diff."
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" test="element(foo)"&gt;
-            &lt;bar/&gt;
-         &lt;/x:expect&gt;</failure>
+         <failure message="expect assertion failed">Expected: /element()</failure>
       </testcase>
    </testsuite>
 </testsuites>

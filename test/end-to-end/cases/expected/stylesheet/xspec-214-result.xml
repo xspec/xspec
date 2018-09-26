@@ -12,14 +12,14 @@
       <x:context>
          <input/>
       </x:context>
-      <x:result>
+      <x:result select="/element()">
          <output>
 test
 </output>
       </x:result>
       <x:test successful="true">
          <x:label>output</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <output>
 test
 </output>

@@ -12,12 +12,12 @@
       <x:context>
          <iron weight="1"/>
       </x:context>
-      <x:result>
+      <x:result select="/element()">
          <shield weight="1"/>
       </x:result>
       <x:test successful="true">
          <x:label>is transformed to 'shield' element</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <shield weight="1"/>
          </x:expect>
       </x:test>
