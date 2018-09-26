@@ -339,9 +339,7 @@
                    $x:result as if they were *children* of the context node.
                    Have to experiment a bit to see if that really is the case.                   
                    TODO: To remove. Use directly $x:result instead.  See issue 14. -->
-              <when test="exists($x:result)
-                and (every $impl:result-item in $x:result
-                     satisfies test:wrappable-node($impl:result-item))">
+              <when test="exists($x:result) and test:wrappable-sequence($x:result)">
                 <sequence select="test:wrap-nodes($x:result)" />
               </when>
               <otherwise>
