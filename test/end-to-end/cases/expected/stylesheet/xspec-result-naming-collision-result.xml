@@ -29,4 +29,13 @@
          <x:expect select="/" href="HREF-6"/>
       </x:test>
    </x:scenario>
+   <x:scenario pending="TODO: fix">
+      <x:label>When the result consists of multiple elements (xspec/xspec#361)</x:label>
+      <x:call function="one-or-more">
+         <x:param select="         for $i in (1 to 2)         return (document('xspec-result-naming-collision.xml', .) treat as document-node())"/>
+      </x:call>
+      <x:test pending="TODO: fix">
+         <x:label>The result should be saved successfully in yet another external file which is well-formed</x:label>
+      </x:test>
+   </x:scenario>
 </x:report>

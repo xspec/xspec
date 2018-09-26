@@ -7,4 +7,12 @@
       <testcase name="The result should be saved in another external file"
                 status="passed"/>
    </testsuite>
+   <testsuite name="When the result consists of multiple elements (xspec/xspec#361)"
+              tests="1"
+              failures="0">
+      <testcase name="The result should be saved successfully in yet another external file which is well-formed"
+                status="skipped">
+         <skipped>TODO: fix</skipped>
+      </testcase>
+   </testsuite>
 </testsuites>
