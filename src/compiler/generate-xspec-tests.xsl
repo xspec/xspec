@@ -35,7 +35,7 @@
 
 <xsl:preserve-space elements="x:space" />
 
-<xsl:output indent="yes" encoding="ISO-8859-1" />  
+<xsl:output indent="yes" />
 
 
 <xsl:variable name="xspec-ns" select="'http://www.jenitennison.com/xslt/xspec'"/>
