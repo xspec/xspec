@@ -2,7 +2,7 @@
 <x:description stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xslt-version="3.0">
 
-	<x:scenario label="Function (xspec/xspec#355)">
+	<x:scenario label="Function (xspec/xspec#355)" pending="TODO: fix">
 		<!-- function-lookup() requires Saxon-PE or EE. So use a map. -->
 		<x:call function="exactly-one">
 			<x:param as="map(*)" select="map { 'foo': 1 }" />
