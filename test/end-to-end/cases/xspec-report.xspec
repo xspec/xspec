@@ -20,4 +20,14 @@
 		<x:expect label="TODO: @attr should be reported as an attribute" />
 	</x:scenario>
 
+	<x:scenario label="Attributes of the same name (xspec/xspec#358)">
+		<x:call function="one-or-more">
+			<x:param select="element()/attribute()">
+				<elem1 attr="foo" />
+				<elem2 attr="bar" />
+			</x:param>
+		</x:call>
+		<x:expect label="TODO: Both @attr=foo and @attr=bar should be reported" />
+	</x:scenario>
+
 </x:description>
