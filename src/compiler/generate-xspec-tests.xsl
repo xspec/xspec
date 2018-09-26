@@ -16,12 +16,13 @@
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                exclude-result-prefixes="#default pkg test xsl">
+                exclude-result-prefixes="#default pkg xsl">
 <!--
   The generated stylesheet needs these namespace prefixes. So can't include them
   in @exclude-result-prefixes of this stylesheet.
     __x : For xsl:namespace-alias
     impl: For xsl:variable/@name
+    test: For xsl:call-template/@name
     x   : For xsl:template/@name
     xs  : For xsl:variable/@as
 -->
@@ -37,8 +38,6 @@
 
 <xsl:output indent="yes" />
 
-
-<xsl:variable name="xspec-ns" select="'http://www.jenitennison.com/xslt/xspec'"/>
 
 <xsl:variable name="apostrophe">'</xsl:variable>
 <xsl:variable name="stylesheet-uri" as="xs:anyURI" 
@@ -291,7 +290,6 @@
         <call-template name="test:report-sequence">
           <with-param name="sequence" select="$x:result" />
           <with-param name="wrapper-name" select="'x:result'" />
-          <with-param name="wrapper-ns" select="'{ $xspec-ns }'"/>
         </call-template>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
@@ -405,14 +403,12 @@
                <call-template name="test:report-sequence">
                   <with-param name="sequence"     select="$impl:test-result"/>
                   <with-param name="wrapper-name" select="'x:result'"/>
-                  <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
                </call-template>
             </if>
          </xsl:if>
          <call-template name="test:report-sequence">
             <with-param name="sequence"     select="$impl:expected"/>
             <with-param name="wrapper-name" select="'x:expect'"/>
-            <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
             <xsl:if test="@test">
               <with-param name="test" as="xs:string">
                 <xsl:value-of select="@test"/>

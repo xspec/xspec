@@ -11,7 +11,6 @@
 <xsl:stylesheet version="2.0"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:t="http://www.jenitennison.com/xslt/unit-testAlias"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -20,8 +19,6 @@
                 extension-element-prefixes="test">
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-utils.xsl</pkg:import-uri>
-
-<xsl:namespace-alias stylesheet-prefix="t" result-prefix="test"/>
 
 <!-- TODO: ... -->
 <xsl:param name="debug" as="xs:boolean" select="true()"/>
@@ -292,8 +289,8 @@
   
 <xsl:template name="test:report-sequence" as="element()">
   <xsl:param name="sequence" as="item()*" required="yes" />
-  <xsl:param name="wrapper-name" as="xs:string" select="'t:result'" />
-  <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/unit-testAlias'" />
+  <xsl:param name="wrapper-name" as="xs:string" required="yes" />
+  <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/xspec'" />
   <xsl:param name="test" as="xs:string?" />
 
   <xsl:variable name="attribute-nodes" as="attribute()*"     select="$sequence[. instance of attribute()]" />

@@ -12,7 +12,6 @@
                 xmlns="http://www.w3.org/1999/XSL/TransformAlias"
                 xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:t="http://www.jenitennison.com/xslt/unit-testAlias"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -22,8 +21,7 @@
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-helper.xsl</pkg:import-uri>
 
 <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl"/>
-<xsl:namespace-alias stylesheet-prefix="t" result-prefix="test"/>
-  
+
 <xsl:key name="functions" 
          match="xsl:function" 
          use="resolve-QName(@name, .)" />
