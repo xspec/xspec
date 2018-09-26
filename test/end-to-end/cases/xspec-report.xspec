@@ -30,7 +30,7 @@
 		<x:expect label="TODO: Both @attr=foo and @attr=bar should be reported" />
 	</x:scenario>
 
-	<x:scenario label="Attribute, element, attribute (xspec/xspec#360)">
+	<x:scenario label="Attribute, element, attribute (xspec/xspec#360)" pending="TODO: fix">
 		<x:call function="one-or-more">
 			<x:param select="element()/attribute() | elem2">
 				<elem1 attr1="attr1-val" />

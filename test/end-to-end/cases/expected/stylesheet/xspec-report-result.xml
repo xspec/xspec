@@ -47,4 +47,17 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
+   <x:scenario pending="TODO: fix">
+      <x:label>Attribute, element, attribute (xspec/xspec#360)</x:label>
+      <x:call function="one-or-more">
+         <x:param select="element()/attribute() | elem2">
+            <elem1 attr1="attr1-val"/>
+            <elem2>text</elem2>
+            <elem3 attr3="attr3-val"/>
+         </x:param>
+      </x:call>
+      <x:test pending="TODO: fix">
+         <x:label>[Result] should be reported</x:label>
+      </x:test>
+   </x:scenario>
 </x:report>

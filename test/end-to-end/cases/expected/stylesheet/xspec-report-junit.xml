@@ -18,4 +18,11 @@
          <failure message="expect assertion failed">Expected: ()</failure>
       </testcase>
    </testsuite>
+   <testsuite name="Attribute, element, attribute (xspec/xspec#360)"
+              tests="1"
+              failures="0">
+      <testcase name="[Result] should be reported" status="skipped">
+         <skipped>TODO: fix</skipped>
+      </testcase>
+   </testsuite>
 </testsuites>
