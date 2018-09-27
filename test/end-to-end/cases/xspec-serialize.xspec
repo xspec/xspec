@@ -145,4 +145,22 @@
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
+
+	<x:scenario>
+		<x:label>When x:expect has an element of '...',</x:label>
+		<x:call function="exactly-one">
+			<x:param>
+				<foo>
+					<bar />
+					<baz />
+				</foo>
+			</x:param>
+		</x:call>
+		<x:expect>
+			<x:label>the corresponding nodes in [Result] with diff must be serialized in green.
+				(xspec/xspec#379)</x:label>
+			<foo>...</foo>
+			<qux />
+		</x:expect>
+	</x:scenario>
 </x:description>
