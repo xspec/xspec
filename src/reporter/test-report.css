@@ -331,6 +331,10 @@ a.img:hover, a.img:active {
 	background: white;
 }
 
+.ellipsis {
+	color: #999;
+}
+
 .ignored {
   font-style: italic;
   color: #999;
