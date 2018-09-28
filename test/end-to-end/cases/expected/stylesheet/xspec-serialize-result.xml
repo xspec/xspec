@@ -229,4 +229,60 @@
          </x:expect>
       </x:test>
    </x:scenario>
+   <x:scenario>
+      <x:label>When the result contains significant text nodes,</x:label>
+      <x:call function="exactly-one">
+         <x:param>
+            <test>
+               <oridinary-text-node>
+                  <same>same</same>
+                  <diff>actual</diff>
+               </oridinary-text-node>
+               <significant-whitespace-only-text-node>
+                  <same xml:space="preserve">	
+&#xD; </same>
+                  <diff xml:space="preserve">	
+&#xD; </diff>
+               </significant-whitespace-only-text-node>
+            </test>
+         </x:param>
+      </x:call>
+      <x:result select="/element()">
+         <test>
+            <oridinary-text-node>
+               <same>same</same>
+               <diff>actual</diff>
+            </oridinary-text-node>
+            <significant-whitespace-only-text-node>
+               <same xml:space="preserve"><test:ws>	
+&#xD; </test:ws></same>
+               <diff xml:space="preserve"><test:ws>	
+&#xD; </test:ws></diff>
+            </significant-whitespace-only-text-node>
+         </test>
+      </x:result>
+      <x:test successful="false">
+         <x:label>both in [Result] and [Expected Result] with diff, the significant text nodes
+				must be serialized with color. (xspec/xspec#386)</x:label>
+         <x:expect select="/element()">
+            <test>
+               <oridinary-text-node>
+                  <same>same</same>
+                  <diff>expect</diff>
+               </oridinary-text-node>
+               <significant-whitespace-only-text-node>
+                  <same xml:space="preserve"><test:ws>	
+&#xD; </test:ws></same>
+                  <diff xml:space="preserve"><test:ws> 	
+&#xD;</test:ws></diff>
+               </significant-whitespace-only-text-node>
+            </test>
+         </x:expect>
+      </x:test>
+      <x:test successful="false">
+         <x:label>in [Result] without diff, the significant text nodes must be serialized without
+				color. (TODO: fix)</x:label>
+         <x:expect test="false()" select="()"/>
+      </x:test>
+   </x:scenario>
 </x:report>
