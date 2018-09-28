@@ -281,7 +281,7 @@
       </x:test>
       <x:test successful="false">
          <x:label>in [Result] without diff, the significant text nodes must be serialized without
-				color. (TODO: fix)</x:label>
+				color.</x:label>
          <x:expect test="false()" select="()"/>
       </x:test>
    </x:scenario>

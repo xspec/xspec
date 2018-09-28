@@ -454,8 +454,7 @@
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-421">in [Result] without diff, the significant text nodes must be serialized without color.
-                        (TODO: fix)</a></td>
+                  <td><a href="#ELEM-421">in [Result] without diff, the significant text nodes must be serialized without color.</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
@@ -481,8 +480,8 @@
       &lt;<span class="diff">diff</span>&gt;<span class="diff">actual</span>&lt;/diff&gt;
    &lt;/oridinary-text-node&gt;
    &lt;<span class="diff">significant-whitespace-only-text-node</span>&gt;
-      &lt;<span class="same">same</span> <span class="same">xml:space</span>="preserve"&gt;<span class="whitespace">\t\n\r.</span>&lt;/same&gt;
-      &lt;<span class="diff">diff</span> <span class="same">xml:space</span>="preserve"&gt;<span class="whitespace">\t\n\r.</span>&lt;/diff&gt;
+      &lt;<span class="same">same</span> <span class="same">xml:space</span>="preserve"&gt;<span class="same whitespace">\t\n\r␣</span>&lt;/same&gt;
+      &lt;<span class="diff">diff</span> <span class="same">xml:space</span>="preserve"&gt;<span class="diff whitespace">\t\n\r␣</span>&lt;/diff&gt;
    &lt;/significant-whitespace-only-text-node&gt;
 &lt;/test&gt;</pre></td>
                   <td>
@@ -493,16 +492,14 @@
       &lt;<span class="diff">diff</span>&gt;<span class="diff">expect</span>&lt;/diff&gt;
    &lt;/oridinary-text-node&gt;
    &lt;<span class="diff">significant-whitespace-only-text-node</span>&gt;
-      &lt;<span class="same">same</span> <span class="same">xml:space</span>="preserve"&gt;<span class="whitespace">\t\n\r.</span>&lt;/same&gt;
-      &lt;<span class="diff">diff</span> <span class="same">xml:space</span>="preserve"&gt;<span class="whitespace">.\t\n\r</span>&lt;/diff&gt;
+      &lt;<span class="same">same</span> <span class="same">xml:space</span>="preserve"&gt;<span class="same whitespace">\t\n\r␣</span>&lt;/same&gt;
+      &lt;<span class="diff">diff</span> <span class="same">xml:space</span>="preserve"&gt;<span class="diff whitespace">␣\t\n\r</span>&lt;/diff&gt;
    &lt;/significant-whitespace-only-text-node&gt;
 &lt;/test&gt;</pre></td>
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-421">in [Result] without diff, the significant text nodes must be serialized without color.
-            (TODO: fix)
-         </h4>
+         <h4 id="ELEM-421">in [Result] without diff, the significant text nodes must be serialized without color.</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -520,8 +517,8 @@
       &lt;diff&gt;actual&lt;/diff&gt;
    &lt;/oridinary-text-node&gt;
    &lt;significant-whitespace-only-text-node&gt;
-      &lt;same xml:space="preserve"&gt;&lt;/same&gt;
-      &lt;diff xml:space="preserve"&gt;&lt;/diff&gt;
+      &lt;same xml:space="preserve"&gt;<span class="whitespace">\t\n\r␣</span>&lt;/same&gt;
+      &lt;diff xml:space="preserve"&gt;<span class="whitespace">\t\n\r␣</span>&lt;/diff&gt;
    &lt;/significant-whitespace-only-text-node&gt;
 &lt;/test&gt;</pre></td>
                   <td><pre>false()</pre></td>
