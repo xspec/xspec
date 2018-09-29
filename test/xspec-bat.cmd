@@ -16,7 +16,7 @@ rem
 rem Results log file
 rem
 set "RESULTS_FILE=%TEMP%\%~n0_results.log"
-call :del "%RESULTS_FILE%"
+if exist "%RESULTS_FILE%" call :del "%RESULTS_FILE%"
 
 rem
 rem Work directory
@@ -732,8 +732,11 @@ rem
 
 :del
     if exist %1 (
-        del /q %1
-        if errorlevel 1 call :failed "Failed to del: %~1"
+        rem DEL returns 0 as long as the parameter is valid
+        del %1
+        if exist %1 call :failed "Failed to del: %~1"
+    ) else (
+        call :failed "File not found for del: %~1"
     )
     goto :EOF
 
@@ -744,16 +747,26 @@ rem
 
 :rmdir
     if exist %1 (
-        call :del "%~1\*"
+        rem DEL and RMDIR return 0 as long as the parameter is valid
+        del /q "%~1\*"
         rmdir %1
-        if errorlevel 1 call :failed "Failed to rmdir: %~1"
+        if exist %1 call :failed "Failed to rmdir: %~1"
+    ) else (
+        call :failed "Dir not found for rmdir: %~1"
     )
+    goto :EOF
+
+:rmdir-if-exist
+    if exist %1 call :rmdir %1
     goto :EOF
 
 :rmdir-s
     if exist %1 (
+        rem RMDIR returns 0 as long as the parameter is valid
         rmdir /s /q %1
-        if errorlevel 1 call :failed "Failed to rmdir /s: %~1"
+        if exist %1 call :failed "Failed to rmdir /s: %~1"
+    ) else (
+        call :failed "Dir not found for rmdir /s: %~1"
     )
     goto :EOF
 
@@ -790,10 +803,10 @@ rem
     rem Remove the XSpec output directories
     rem    Keep "..\test\" to minimize accident
     rem
-    call :rmdir ..\test\catalog\xspec
-    call :rmdir ..\test\xspec
-    call :rmdir ..\tutorial\schematron\xspec
-    call :rmdir ..\tutorial\xspec
+    call :rmdir-if-exist ..\test\catalog\xspec
+    call :rmdir          ..\test\xspec
+    call :rmdir-if-exist ..\tutorial\schematron\xspec
+    call :rmdir          ..\tutorial\xspec
 
     rem
     rem Remove the work directory
