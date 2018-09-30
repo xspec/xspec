@@ -292,6 +292,10 @@ teardown() {
     [ "${lines[4]}" = "Schematron XSLT include" ]
     [ "${lines[5]}" = "Schematron XSLT expand" ]
     [ "${lines[6]}" = "Schematron XSLT compile" ]
+
+    # With the provided dummy XSLTs, XSpec leaves temp files. Delete them.
+    rm ../tutorial/schematron/demo-01.sch-compiled.xsl
+    rm ../tutorial/schematron/demo-01.xspec-compiled.xspec
 }
 
 
@@ -386,14 +390,10 @@ teardown() {
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
-    # Verify default clean.output.dir is false
+    # Verify that the default clean.output.dir is false and leaves temp files. Delete the left files at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
-    [  -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
-    [  -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
-
-    # Delete temp file
-    rm -f "../tutorial/schematron/demo-03.xspec-compiled.xspec"
-    rm -f "../tutorial/schematron/demo-03.sch-compiled.xsl"
+    rm    "../tutorial/schematron/demo-03.xspec-compiled.xspec"
+    rm    "../tutorial/schematron/demo-03.sch-compiled.xsl"
 }
 
 
@@ -433,13 +433,9 @@ teardown() {
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
 
-    # Verify the build fails after Schematron setup
-    [  -f "catalog/xspec-160_schematron.xspec-compiled.xspec" ]
-    [  -f "../tutorial/schematron/demo-04.sch-compiled.xsl" ]
-
-    # Delete temp file
-    rm -f "catalog/xspec-160_schematron.xspec-compiled.xspec"
-    rm -f "../tutorial/schematron/demo-04.sch-compiled.xsl"
+    # Verify that the build fails after Schematron setup and leaves temp files. Delete them at the same time.
+    rm "catalog/xspec-160_schematron.xspec-compiled.xspec"
+    rm "../tutorial/schematron/demo-04.sch-compiled.xsl"
 }
 
 
