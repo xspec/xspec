@@ -80,6 +80,9 @@
         <text><xsl:text> </xsl:text></text>
         <value-of select="system-property('xsl:product-version')" />
       </message>
+
+      <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
+        being tested which would otherwise govern the output of the report XML. -->
       <result-document format="x:report">
         <processing-instruction name="xml-stylesheet">
           <xsl:text>type="text/xsl" href="</xsl:text>
