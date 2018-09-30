@@ -571,6 +571,7 @@
     <xsl:when test="test:instance-of-namespace($node)"         >namespace-node</xsl:when>
     <xsl:when test="$node instance of processing-instruction()">processing-instruction</xsl:when>
     <xsl:when test="$node instance of text()"                  >text</xsl:when>
+    <xsl:otherwise>node</xsl:otherwise>
   </xsl:choose>
 </xsl:function>
 

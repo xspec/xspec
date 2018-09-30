@@ -223,6 +223,10 @@
           </xsl:analyze-string>
         </xsl:value-of>
       </xsl:when>
+
+      <xsl:otherwise>
+        <xsl:message select="'Node not serialized'" terminate="yes" />
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
 
