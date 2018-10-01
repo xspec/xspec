@@ -136,9 +136,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 
     # XML report file
-    run stat ../tutorial/xspec/escape-for-regex-result.xml
-	echo "$output"
-    [ "$status" -eq 0 ]
+    [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
 }
 
 
@@ -146,9 +144,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 
     # HTML report file is created
-    run stat ../tutorial/xspec/escape-for-regex-result.html
-	echo "$output"
-    [ "$status" -eq 0 ]
+    [ -f "../tutorial/xspec/escape-for-regex-result.html" ]
 }
 
 
@@ -182,9 +178,7 @@ teardown() {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
 
     # XML report file
-    run stat ../tutorial/xspec/escape-for-regex-result.xml
-	echo "$output"
-    [ "$status" -eq 0 ]
+    [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
 }
 
 
@@ -192,9 +186,7 @@ teardown() {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
 
     # JUnit report file
-    run stat ../tutorial/xspec/escape-for-regex-junit.xml
-	echo "$output"
-    [ "$status" -eq 0 ]
+    [ -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
 
