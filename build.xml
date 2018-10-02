@@ -29,6 +29,7 @@
     xspec.project.dir          Folder in which XSpec is installed
                                [Optional; the default is the folder containing this build file]
     xspec.phase                Schematron phase. Used only for testing Schematron. Can be "#ALL".
+    xspec.inline-css           [Optional; the default is to include CSS inline in the report page] 
                                [Optional; the default is taken from "phase" parameter in XSpec file]
     lib                        Additional jar libraries (saxon, xml-resolver)
                                or folder where they are located
@@ -79,6 +80,7 @@
     value="${xspec.dir}/${xspec.base}-result.xml" />
   <property name="xspec.result.html"
     value="${xspec.dir}/${xspec.base}-result.html" />
+  <property name="xspec.inline-css" value="true"/>
   
   <!-- property needed to create a custom Saxon, for example  -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on -outval:fatal -val:lax -->
   <property name="saxon.custom.options" value=""/>
@@ -299,6 +301,8 @@
           name="http://saxon.sf.net/feature/allow-external-functions" 
           value="true"/>
       </factory>
+
+      <param name="inline-css" expression="${xspec.inline-css}"/>
 
       <xmlcatalog if:set="catalog">
         <catalogpath>
