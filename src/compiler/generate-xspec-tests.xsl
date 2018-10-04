@@ -9,23 +9,12 @@
 
 <xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/XSL/TransformAlias"
-                xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias"
-                xmlns:impl="urn:x-xspec:compile:xslt:impl"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                exclude-result-prefixes="#default pkg xsl">
-<!--
-  The generated stylesheet needs these namespace prefixes. So can't include them
-  in @exclude-result-prefixes of this stylesheet.
-    __x : For xsl:namespace-alias
-    impl: For xsl:variable/@name
-    test: For xsl:call-template/@name
-    x   : For xsl:template/@name
-    xs  : For xsl:variable/@as
--->
+                exclude-result-prefixes="#all">
 
 <xsl:import href="generate-common-tests.xsl"/>
 <xsl:import href="generate-tests-helper.xsl" />
@@ -60,6 +49,13 @@
     <!-- The test result report XML may use namespace prefixes in XPath expressions
       even when the prefixes are not used in node names.
       So only very internal private prefixes can be included in @exclude-result-prefixes. -->
+
+    <!-- The generated stylesheet requires these namespaces, even when this stylesheet
+      does not use them in node names. -->
+    <xsl:namespace name="__x"  select="'http://www.w3.org/1999/XSL/TransformAliasAlias'" />
+    <xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
+    <xsl:namespace name="test" select="'http://www.jenitennison.com/xslt/unit-test'" />
+    <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
 
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
   	<import href="{$stylesheet-uri}" />
