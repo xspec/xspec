@@ -29,7 +29,7 @@
       </testcase>
       <testcase name="So... (xspec/xspec#359) When x:expect in the report XML file is a sequence of simple nested&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;elements serialized with indentation, all elements in [Expected Result] with diff must be serialized with&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;indentation."
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
                   &lt;foo/&gt;
                   &lt;bar&gt;
                      &lt;baz/&gt;
@@ -41,7 +41,7 @@
       </testcase>
       <testcase name="But the diff must not be affected by indentation. So... When a node is indented, the diff of the indented node itself must not be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;affected. (xspec/xspec#367) So... When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;x:result of the report XML file, both &lt;bar&gt; and &lt;?bar?&gt; must be green."
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
                      &lt;test&gt;
                         &lt;elem1&gt;foo&lt;bar/&gt;
                         &lt;/elem1&gt;
@@ -51,7 +51,7 @@
       </testcase>
       <testcase name="But the diff must not be affected by indentation. So... When a node is indented, the diff of the indented node itself must not be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;affected. (xspec/xspec#367) So... When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;x:expect of the report XML file, both &lt;bar&gt; and &lt;?bar?&gt; must be green."
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
                      &lt;test&gt;
                         &lt;elem1&gt;&lt;!--foo--&gt;
                            &lt;bar/&gt;
@@ -62,7 +62,7 @@
       </testcase>
       <testcase name="But the diff must not be affected by indentation. So... TODO: When a child node of an element is indented, the diff of the element must&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;not be affected. So, when the same &lt;bar&gt; in &lt;foo&gt; is indented in x:result&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;and x:expect of the report XML file with different indentation&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;length, &lt;foo&gt; must be green."
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
                      &lt;test&gt;
                         &lt;foo&gt;
                            &lt;bar/&gt;
