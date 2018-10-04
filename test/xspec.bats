@@ -132,8 +132,11 @@ teardown() {
 }
 
 
-@test "invoking xspec generates XML and HTML report files" {
+@test "invoking xspec generates message with default report location and creates report files" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+	echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
@@ -190,14 +193,6 @@ teardown() {
 	echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
-}
-
-
-@test "invoking xspec.sh without TEST_DIR generates files in default location" {
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-	echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 }
 
 

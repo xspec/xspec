@@ -183,9 +183,11 @@ setlocal
 endlocal
 
 setlocal
-    call :setup "invoking xspec generates XML and HTML report files"
+    call :setup "invoking xspec generates message with default report location and creates report files"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 0
+    call :verify_line 19 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-result.html"
 
     rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
@@ -256,16 +258,6 @@ setlocal
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
     call :verify_line 19 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
-
-    call :teardown
-endlocal
-
-setlocal
-    call :setup "invoking xspec.bat without TEST_DIR generates files in default location"
-
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 0
-    call :verify_line 19 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-result.html"
 
     call :teardown
 endlocal
