@@ -9,7 +9,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;...&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
                &lt;elem attrib="..."/&gt;
             &lt;/x:expect&gt;</failure>
       </testcase>
@@ -19,7 +19,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem&gt;...&lt;/elem&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem&gt;text&lt;/elem&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
                &lt;elem&gt;text&lt;/elem&gt;
             &lt;/x:expect&gt;</failure>
       </testcase>
@@ -33,7 +33,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;val&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem&gt;...&lt;/elem&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
                &lt;elem&gt;...&lt;/elem&gt;
             &lt;/x:expect&gt;</failure>
       </testcase>
@@ -51,7 +51,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
                &lt;outer&gt;...&lt;inner/&gt;
                &lt;/outer&gt;
             &lt;/x:expect&gt;</failure>

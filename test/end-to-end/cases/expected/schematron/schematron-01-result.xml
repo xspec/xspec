@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
           xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../schematron-01.sch-compiled.xsl"
           date="ONCE-UPON-A-TIME"
           xspec="../../schematron-01.xspec"

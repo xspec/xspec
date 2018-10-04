@@ -2,10 +2,10 @@
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
           xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:t="http://www.jenitennison.com/xslt/xspec"
           xmlns:my="http://example.org/ns/my"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../../../xspec-tested.xsl"
           date="ONCE-UPON-A-TIME"
           xspec="../../xspec-import.xspec">
