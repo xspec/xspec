@@ -5,7 +5,7 @@
               failures="1">
       <testcase name="Expecting no space should be Failure (TODO: XQuery should support test:ws for correct diff)"
                 status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:do-nothing="x-urn:test:do-nothing"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:do-nothing="x-urn:test:do-nothing" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
             &lt;p&gt;
                &lt;span&gt;foo&lt;/span&gt;
                &lt;span&gt;bar&lt;/span&gt;
