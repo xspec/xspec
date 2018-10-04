@@ -5,7 +5,7 @@
    </testsuite>
    <testsuite name="x:context with incorrect x:expect" tests="1" failures="1">
       <testcase name="must return Failure" status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:t="http://www.jenitennison.com/xslt/xspec"&gt;
+         <failure message="expect assertion failed">&lt;x:expect xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
             &lt;erroneous/&gt;
          &lt;/x:expect&gt;</failure>
       </testcase>
