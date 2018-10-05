@@ -138,11 +138,12 @@ teardown() {
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 
-    # XML report file
+    # XML report file is created
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
 
-    # HTML report file is created
-    [ -f "../tutorial/xspec/escape-for-regex-result.html" ]
+    # HTML report file is created and contains CSS inline #135
+	grep '<style type="text/css">' ../tutorial/xspec/escape-for-regex-result.html
+	grep 'margin-right:' ../tutorial/xspec/escape-for-regex-result.html
 }
 
 
@@ -318,13 +319,6 @@ teardown() {
 
     # compiled-file
     [ -f "${compiled_file}" ]
-}
-
-
-@test "HTML report contains CSS inline and not as an external file #135" {
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-	grep '<style type="text/css">' ../tutorial/xspec/escape-for-regex-result.html
-	grep 'margin-right:' ../tutorial/xspec/escape-for-regex-result.html
 }
 
 
