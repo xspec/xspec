@@ -222,8 +222,8 @@ teardown() {
 }
 
 
-@test "invoking xspec.sh with path containing an apostrophe runs successfully #119" {
-	special_chars_dir="${work_dir}/some'path"
+@test "invoking xspec.sh with path containing parentheses #84 or an apostrophe #119 runs successfully and generates HTML report file" {
+	special_chars_dir="${work_dir}/some'path (84)"
 	mkdir "${special_chars_dir}"
 	cp ../tutorial/escape-for-regex.* "${special_chars_dir}"
 
@@ -233,6 +233,7 @@ teardown() {
 	echo "$output"
 	[ "$status" -eq 0 ]
 	[ "${lines[19]}" = "Report available at ${expected_report}" ]
+	[ -f "${expected_report}" ]
 }
 
 
