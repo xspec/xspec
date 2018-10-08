@@ -193,7 +193,7 @@ setlocal
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
 
     rem HTML report file is created and contains CSS inline #135
-    call :run java -cp "%SAXON_CP%" net.sf.saxon.Query -s:..\tutorial\xspec\escape-for-regex-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head[not(link[@type = 'text/css'])]/style[@type = 'text/css']/contains(., 'margin-right:'), '&#x0A;')" !method=text
+    call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:..\tutorial\xspec\escape-for-regex-result.html -xsl:html-css.xsl
     call :verify_line 1 x "true"
 
     call :teardown

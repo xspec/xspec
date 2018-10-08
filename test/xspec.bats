@@ -142,8 +142,9 @@ teardown() {
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
 
     # HTML report file is created and contains CSS inline #135
-	grep '<style type="text/css">' ../tutorial/xspec/escape-for-regex-result.html
-	grep 'margin-right:' ../tutorial/xspec/escape-for-regex-result.html
+    run java -cp ${SAXON_CP} net.sf.saxon.Transform -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 
