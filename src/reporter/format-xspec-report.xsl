@@ -128,7 +128,7 @@
     <head>
       <title>
          <xsl:text>Test Report for </xsl:text>
-         <xsl:value-of select="x:report/test:format-URI(@stylesheet|@query)"/>
+         <xsl:value-of select="x:report/test:format-URI((@schematron,@stylesheet,@query)[1])"/>
          <xsl:text> (</xsl:text>
          <xsl:call-template name="x:totals">
             <xsl:with-param name="tests" select="//x:scenario/x:test"/>
@@ -159,10 +159,16 @@
 
 <xsl:template match="x:report" mode="x:html-report">
   <p>
-     <xsl:value-of select="if ( exists(@query) ) then 'Query: ' else 'Stylesheet: '"/>
-     <a href="{ @stylesheet|@query }">
-        <xsl:value-of select="test:format-URI(@stylesheet|@query)"/>
+     <xsl:value-of select="if ( exists(@schematron) ) then 'Schematron: ' else if ( exists(@query) ) then 'Query: ' else 'Stylesheet: '"/>
+     <a href="{ (@schematron, @stylesheet, @query)[1] }">
+       <xsl:value-of select="test:format-URI((@schematron, @stylesheet, @query)[1])"/>
      </a>
+  </p>
+  <p>
+    <xsl:text>XSpec: </xsl:text>
+    <a href="{@xspec}">
+      <xsl:value-of select="test:format-URI(@xspec)"/>
+    </a>
   </p>
   <p>
     <xsl:text>Tested: </xsl:text>
