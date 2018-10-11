@@ -278,7 +278,7 @@ setlocal
 
     if defined XMLCALABASH_CP (
         call :run java -Xmx1024m -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" -oresult=xspec/xspec-72-result.html ..\src\harnesses\saxon\saxon-xslt-harness.xproc
-        call :run java -cp "%SAXON_CP%" net.sf.saxon.Query -s:xspec\xspec-72-result.html -qs:"declare default element namespace 'http://www.w3.org/1999/xhtml'; concat(/html/head/meta[@http-equiv eq 'Content-Type']/@content = 'text/html; charset=UTF-8', '&#x0A;')" !method=text
+        call :run java -cp "%SAXON_CP%" net.sf.saxon.Transform -s:xspec\xspec-72-result.html -xsl:html-charset.xsl
         call :verify_line 1 x "true"
     ) else (
         call :skip "test for XProc skipped as XMLCalabash uses a higher version of Saxon"
