@@ -117,7 +117,7 @@ rem ##
     goto :EOF
 
 :win_get_options
-    set WIN_ARGV=%~1
+    set "WIN_ARGV=%~1"
 
     if not defined WIN_ARGV (
         goto :EOF
@@ -176,8 +176,8 @@ rem ##
         || ( call :die "Error getting Schematron phase and parameters" & goto :win_main_error_exit )
     set /P SCH_PARAMS=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     echo Paramaters: %SCH_PARAMS%
-    set SCHUT=%XSPEC%-compiled.xspec
-    set SCH_COMPILED=%SCH%-compiled.xsl
+    set "SCHUT=%XSPEC%-compiled.xspec"
+    set "SCH_COMPILED=%SCH%-compiled.xsl"
     
     echo:
     echo Compiling the Schematron...
@@ -202,13 +202,13 @@ rem ##
     
     echo:
     echo Compiling the Schematron tests...
-    set TEST_DIR_URI=file:///%TEST_DIR:\=/%
+    set "TEST_DIR_URI=file:///%TEST_DIR:\=/%"
     call :xslt -o:"%SCHUT%" -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
         stylesheet="%SCH_COMPILED%" ^
         test_dir="%TEST_DIR_URI%" ^
         || ( call :die "Error compiling the Schematron tests" & goto :win_main_error_exit )
-    set XSPEC=%SCHUT%
+    set "XSPEC=%SCHUT%"
     echo:
     goto :EOF
 
@@ -227,7 +227,9 @@ rem ##
     rem
     rem Prints a message removing its surrounding quotes (")
     rem
-    echo %~1
+    set "WIN_ECHO_LINE=%~1"
+    setlocal enabledelayedexpansion
+    echo !WIN_ECHO_LINE!
     goto :EOF
 
 rem
@@ -271,7 +273,7 @@ rem
 rem # set XSPEC_HOME if it has not been set by the user (set it to the
 rem # parent dir of this script)
 rem
-if not defined XSPEC_HOME set XSPEC_HOME=%~dp0..
+if not defined XSPEC_HOME set "XSPEC_HOME=%~dp0.."
 
 rem
 rem # safety checks
@@ -328,7 +330,7 @@ if defined SAXON_HOME (
     )
 )
 
-set CP=%SAXON_CP%;%XSPEC_HOME%\java
+set "CP=%SAXON_CP%;%XSPEC_HOME%\java"
 
 rem
 rem ##
@@ -339,7 +341,7 @@ rem
 rem
 rem Saxon jar filename
 rem
-for %%I in ("%SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set WIN_SAXON_JAR_N=%%~nI
+for %%I in ("%SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
 
 rem
 rem Parse command line
@@ -458,19 +460,19 @@ rem ## files and dirs ##########################################################
 rem ##
 rem
 
-if not defined TEST_DIR for %%I in ("%XSPEC%") do set TEST_DIR=%%~dpIxspec
-for %%I in ("%XSPEC%") do set TARGET_FILE_NAME=%%~nI
+if not defined TEST_DIR for %%I in ("%XSPEC%") do set "TEST_DIR=%%~dpIxspec"
+for %%I in ("%XSPEC%") do set "TARGET_FILE_NAME=%%~nI"
 
 if defined XSLT (
     set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%.xsl"
 ) else (
     set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%.xq"
 )
-set COVERAGE_XML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.xml
-set COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html
-set RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-result.xml
-set HTML=%TEST_DIR%\%TARGET_FILE_NAME%-result.html
-set JUNIT_RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-junit.xml
+set "COVERAGE_XML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.xml"
+set "COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html"
+set "RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-result.xml"
+set "HTML=%TEST_DIR%\%TARGET_FILE_NAME%-result.html"
+set "JUNIT_RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-junit.xml"
 set COVERAGE_CLASS=com.jenitennison.xslt.tests.XSLTCoverageTraceListener
 
 if not exist "%TEST_DIR%" (
