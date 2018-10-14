@@ -604,10 +604,9 @@ setlocal
 
     call :run ..\bin\xspec.bat unavailable\xslt-href-unavailable.xspec
     call :verify_retval 2
-    call :verify_line 8 x "Document referenced by context/@href is not available: does-not-exist.xml"
-    call :verify_line 9 x "Document referenced by expect/@href is not available: does-not-exist.xml"
-    call :verify_line 10 x "Document referenced by param/@href is not available: does-not-exist.xml"
-    call :verify_line 11 x "Document referenced by import/@href is not available: does-not-exist.xspec"
+    call :verify_line 3 x "Document referenced by context/@href is not available: does-not-exist.xml"
+    call :verify_line 4 x "Document referenced by expect/@href is not available: does-not-exist.xml"
+    call :verify_line 5 x "Document referenced by param/@href is not available: does-not-exist.xml"
 
     call :teardown
 endlocal

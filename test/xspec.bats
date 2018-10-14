@@ -479,15 +479,13 @@ teardown() {
 
 @test "Unavailable @href generates message" {
     run ../bin/xspec.sh unavailable/xslt-href-unavailable.xspec
-    echo "${lines[7]}"
-    echo "${lines[8]}"
-    echo "${lines[9]}"
-    echo "${lines[10]}"
+    echo "${lines[2]}"
+    echo "${lines[3]}"
+    echo "${lines[4]}"
     [ "$status" -eq 1 ]
-    [ "${lines[7]}" = "Document referenced by context/@href is not available: does-not-exist.xml" ]
-    [ "${lines[8]}" = "Document referenced by expect/@href is not available: does-not-exist.xml" ]
-    [ "${lines[9]}" = "Document referenced by param/@href is not available: does-not-exist.xml" ]
-    [ "${lines[10]}" = "Document referenced by import/@href is not available: does-not-exist.xspec" ]
+    [ "${lines[2]}" = "Document referenced by context/@href is not available: does-not-exist.xml" ]
+    [ "${lines[3]}" = "Document referenced by expect/@href is not available: does-not-exist.xml" ]
+    [ "${lines[4]}" = "Document referenced by param/@href is not available: does-not-exist.xml" ]
 }
 
 
