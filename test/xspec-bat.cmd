@@ -607,7 +607,7 @@ setlocal
     call :verify_line 3 x "Document referenced by context/@href is not available: does-not-exist.xml"
     call :verify_line 4 x "Document referenced by expect/@href is not available: does-not-exist.xml"
     call :verify_line 5 x "Document referenced by param/@href is not available: does-not-exist.xml"
-    call :verify_line 20 x "passed: 0 / pending: 0 / failed: 3 / total: 3"
+    call :verify_line 18 x "passed: 0 / pending: 0 / failed: 3 / total: 3"
 
     call :teardown
 endlocal
@@ -618,7 +618,7 @@ setlocal
     call :run ..\bin\xspec.bat unavailable\xslt-stylesheet-unavailable.xspec
     call :verify_retval 0
     call :verify_line 3 x "The stylesheet referenced by x:description/@stylesheet is not available: does-not-exist.xsl"
-    call :verify_line 11 x "passed: 1 / pending: 0 / failed: 1 / total: 2"
+    call :verify_line 9 x "passed: 1 / pending: 0 / failed: 1 / total: 2"
 
     call :teardown
 endlocal
