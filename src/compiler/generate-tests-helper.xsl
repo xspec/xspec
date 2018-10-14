@@ -50,17 +50,18 @@
     <xsl:when test="node() or @href">
       <variable name="{$var}-doc" as="document-node()">
         <xsl:choose>
-          <xsl:when test="@href and not(doc-available(resolve-uri(@href, base-uri(.))))">
-            <document>
-              <text>Document referenced by <xsl:sequence select="local-name(.)"/>/@href is not available: <xsl:sequence select="string(@href)"/></text>
-            </document>
-          </xsl:when>
           <xsl:when test="@href">
-            <xsl:attribute name="select">
-              <xsl:text>doc('</xsl:text>
-              <xsl:value-of select="resolve-uri(@href, base-uri(.))" />
-              <xsl:text>')</xsl:text>
-            </xsl:attribute>
+            <xsl:variable name="doc-uri" select="resolve-uri(@href, base-uri(.))"/>
+            <choose>
+              <when test="doc-available('{$doc-uri}')">
+                <sequence select="doc('{$doc-uri}')"/>
+              </when>
+              <otherwise>
+                <document>
+                  <text>Document referenced by <xsl:sequence select="local-name(.)"/>/@href is not available: <xsl:sequence select="$doc-uri"/></text>
+                </document>
+              </otherwise>
+            </choose>
           </xsl:when>
           <xsl:otherwise>
             <document>
