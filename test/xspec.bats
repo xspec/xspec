@@ -477,15 +477,17 @@ teardown() {
 }
 
 
-@test "Unavailable @href generates message for XSLT" {
+@test "Unavailable @href generates message" {
     run ../bin/xspec.sh unavailable/xslt-href-unavailable.xspec
-    echo "${lines[2]}"
-    echo "${lines[3]}"
-    echo "${lines[4]}"
+    echo "${lines[7]}"
+    echo "${lines[8]}"
+    echo "${lines[9]}"
+    echo "${lines[10]}"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Document referenced by context/@href is not available: does-not-exist.xml" ]
-    [ "${lines[3]}" = "Document referenced by expect/@href is not available: does-not-exist.xml" ]
-    [ "${lines[4]}" = "Document referenced by param/@href is not available: does-not-exist.xml" ]
+    [ "${lines[7]}" = "Document referenced by context/@href is not available: does-not-exist.xml" ]
+    [ "${lines[8]}" = "Document referenced by expect/@href is not available: does-not-exist.xml" ]
+    [ "${lines[9]}" = "Document referenced by param/@href is not available: does-not-exist.xml" ]
+    [ "${lines[10]}" = "Document referenced by import/@href is not available: does-not-exist.xspec" ]
 }
 
 
@@ -494,4 +496,12 @@ teardown() {
     echo "${lines[2]}"
     [ "$status" -eq 1 ]
     [ "${lines[2]}" = "The stylesheet referenced by description/@stylesheet is not available: does-not-exist.xsl" ]
+}
+
+
+@test "Unavailable @query-at generates message for XQuery" {
+    run ../bin/xspec.sh -q unavailable/query-unavailable.xspec
+    echo "${lines[2]}"
+    [ "$status" -eq 1 ]
+    [ "${lines[2]}" = "The query referenced by description/@query-at is not available: does-not-exist.xq" ]
 }

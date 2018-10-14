@@ -71,6 +71,9 @@
    <!-- Does the generation of the test stylesheet -->
   
    <xsl:template match="x:description" mode="x:generate-tests">
+      <xsl:if test="not(doc-available($query-at))">
+         <xsl:message>The query referenced by description/@query-at is not available: <xsl:sequence select="string(@query-at)"/></xsl:message>
+      </xsl:if>
       <xsl:variable name="this" select="."/>
       <!-- A prefix has to be defined for the target namespace on x:description. -->
       <!-- TODO: If not, we should generate one. -->

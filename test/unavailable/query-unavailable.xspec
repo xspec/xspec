@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" query-at="does-not-exist.xq" query="test" xmlns:t="test">
+    <x:scenario label="unavailable query">
+        <x:call function="t:test"/>
+        <x:expect label="message"/>
+    </x:scenario>
+</x:description>
