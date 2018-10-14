@@ -90,6 +90,9 @@
    </xsl:template>
 
    <xsl:template match="x:*/@href" mode="x:gather-specs">
+      <xsl:if test="not(doc-available(resolve-uri(., base-uri(.))))">
+         <xsl:message>Document referenced by <xsl:sequence select="local-name(..)"/>/@href is not available: <xsl:sequence select="string(.)"/></xsl:message>
+      </xsl:if>
       <xsl:attribute name="href" select="resolve-uri(., base-uri(.))"/>
    </xsl:template>
 

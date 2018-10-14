@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="does-not-exist.xsl">
+    <x:scenario label="unavailable stylesheet">
+        <x:context/>
+        <x:expect label="message"/>
+    </x:scenario>
+</x:description>

@@ -21,6 +21,7 @@ setup() {
 	work_dir="${BATS_TMPDIR}/xspec/bats_work"
 	mkdir -p "${work_dir}"
 	mkdir ../test/catalog/xspec
+	mkdir ../test/unavailable/xspec
 	mkdir ../test/xspec
 	mkdir ../tutorial/schematron/xspec
 	mkdir ../tutorial/xspec
@@ -30,6 +31,7 @@ setup() {
 teardown() {
 	rm -rf "${work_dir}"
 	rm -rf ../test/catalog/xspec
+	rm -rf ../test/unavailable/xspec
 	rm -rf ../test/xspec
 	rm -rf ../tutorial/schematron/xspec
 	rm -rf ../tutorial/xspec
@@ -472,4 +474,24 @@ teardown() {
     else
         skip "Schema validation for known good tests skipped";
     fi
+}
+
+
+@test "Unavailable @href generates message for XSLT" {
+    run ../bin/xspec.sh unavailable/xslt-href-unavailable.xspec
+    echo "${lines[20]}"
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Document referenced by context/@href is not available: does-not-exist.xml ]
+    [ "${lines[4]}" = "Document referenced by expect/@href is not available: does-not-exist.xml ]
+    [ "${lines[5]}" = "Document referenced by param/@href is not available: does-not-exist.xml ]
+    [ "${lines[20]}" = "passed: 0 / pending: 0 / failed: 3 / total: 3" ]
+}
+
+
+@test "Unavailable @stylesheet generates message for XSLT" {
+    run ../bin/xspec.sh unavailable/xslt-stylesheet-unavailable.xspec
+    echo "${lines[11]}"
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "The stylesheet referenced by x:description/@stylesheet is not available: does-not-exist.xsl" ]
+    [ "${lines[11]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
 }

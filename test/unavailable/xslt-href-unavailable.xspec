@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="unavailable-test.xsl">
+    <x:scenario label="unavailable href in context">
+        <x:context href="does-not-exist.xml"/>
+        <x:expect label="message"/>
+    </x:scenario>
+    <x:scenario label="unavailable href in expect">
+        <x:context/>
+        <x:expect label="message" href="does-not-exist.xml"/>
+    </x:scenario>
+    <x:scenario label="unavailable href in param">
+        <x:call template="show">
+            <x:param name="value" href="does-not-exist.xml"/>
+        </x:call>
+        <x:expect label="message"/>
+    </x:scenario>
+</x:description>

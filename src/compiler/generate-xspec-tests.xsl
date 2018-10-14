@@ -51,7 +51,9 @@
   <stylesheet version="{( @xslt-version, '2.0' )[1]}"
 	      exclude-result-prefixes="pkg impl">
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
-  	<import href="{$stylesheet-uri}" />
+    <xsl:if test="doc-available($stylesheet-uri)">
+      <import href="{$stylesheet-uri}" />
+    </xsl:if>
   	<import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
     <!-- This namespace alias is used for when the testing process needs to test
@@ -83,6 +85,7 @@
 	      <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
 	        <xsl:attribute name="xspec" select="(@xspec-original-location, $base-uri)[1]"/>
 	        <xsl:copy-of select="@schematron"/>
+	        <xsl:call-template name="x:stylesheet-not-available-message"/>
                  <!-- Generate calls to the compiled top-level scenarios. -->
                  <xsl:call-template name="x:call-scenarios"/>
 	      </x:report>
@@ -91,6 +94,27 @@
     <!-- Compile the top-level scenarios. -->
     <xsl:call-template name="x:compile-scenarios"/>
   </stylesheet>
+</xsl:template>
+
+<!-- *** x:stylesheet-not-available-message *** -->
+<!-- Checks to see if the stylesheet under test is available and generates a message if it is not available. --> 
+
+<xsl:template name="x:stylesheet-not-available-message">
+  <xsl:if test="not(doc-available($stylesheet-uri))">
+    <xsl:variable name="message">The stylesheet referenced by x:description/@stylesheet is not available: <xsl:sequence select="string(@stylesheet)"/></xsl:variable>
+    <xsl:message select="$message"/>
+    <x:scenario>
+      <x:label>
+        <xsl:text>XSpec</xsl:text>
+      </x:label>
+      <x:context/>
+      <x:result select="()"/>
+      <x:test successful="false">
+        <x:label><xsl:value-of select="$message"/></x:label>
+        <x:expect select="()"/>
+      </x:test>
+    </x:scenario>
+  </xsl:if>
 </xsl:template>
 
 <!-- *** x:output-call *** -->
