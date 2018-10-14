@@ -57,9 +57,8 @@
                 <sequence select="doc('{$doc-uri}')"/>
               </when>
               <otherwise>
-                <document>
-                  <text>Document referenced by <xsl:sequence select="local-name(.)"/>/@href is not available: <xsl:sequence select="$doc-uri"/></text>
-                </document>
+                <message>Document referenced by <xsl:sequence select="local-name(.)"/>/@href is not available: <xsl:sequence select="$doc-uri"/></message>
+                <document/>
               </otherwise>
             </choose>
           </xsl:when>
