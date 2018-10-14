@@ -47,6 +47,9 @@
 <!-- Does the generation of the test stylesheet -->
   
 <xsl:template match="x:description" mode="x:generate-tests">
+  <xsl:if test="not(doc-available($stylesheet-uri))">
+    <xsl:message>The stylesheet referenced by description/@stylesheet is not available: <xsl:sequence select="string(@stylesheet)"/></xsl:message>
+  </xsl:if>
   <!-- The compiled stylesheet element. -->
   <stylesheet version="{( @xslt-version, '2.0' )[1]}"
 	      exclude-result-prefixes="pkg impl">
@@ -83,7 +86,6 @@
 	      <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
 	        <xsl:attribute name="xspec" select="(@xspec-original-location, $base-uri)[1]"/>
 	        <xsl:copy-of select="@schematron"/>
-	        <xsl:call-template name="x:stylesheet-not-available-message"/>
                  <!-- Generate calls to the compiled top-level scenarios. -->
                  <xsl:call-template name="x:call-scenarios"/>
 	      </x:report>
@@ -92,15 +94,6 @@
     <!-- Compile the top-level scenarios. -->
     <xsl:call-template name="x:compile-scenarios"/>
   </stylesheet>
-</xsl:template>
-
-<!-- *** x:stylesheet-not-available-message *** -->
-<!-- Checks to see if the stylesheet under test is available and generates a message if it is not available. --> 
-
-<xsl:template name="x:stylesheet-not-available-message">
-  <xsl:if test="not(doc-available($stylesheet-uri))">
-    <xsl:message>The stylesheet referenced by description/@stylesheet is not available: <xsl:sequence select="string(@stylesheet)"/></xsl:message>
-  </xsl:if>
 </xsl:template>
 
 <!-- *** x:output-call *** -->
