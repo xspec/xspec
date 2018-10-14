@@ -482,20 +482,16 @@ teardown() {
     echo "${lines[2]}"
     echo "${lines[3]}"
     echo "${lines[4]}"
-    echo "${lines[17]}"
-    [ "$status" -eq 0 ]
+    [ "$status" -eq 1 ]
     [ "${lines[2]}" = "Document referenced by context/@href is not available: does-not-exist.xml" ]
     [ "${lines[3]}" = "Document referenced by expect/@href is not available: does-not-exist.xml" ]
     [ "${lines[4]}" = "Document referenced by param/@href is not available: does-not-exist.xml" ]
-    [ "${lines[17]}" = "passed: 0 / pending: 0 / failed: 3 / total: 3" ]
 }
 
 
 @test "Unavailable @stylesheet generates message for XSLT" {
     run ../bin/xspec.sh unavailable/xslt-stylesheet-unavailable.xspec
     echo "${lines[2]}"
-    echo "${lines[8]}"
-    [ "$status" -eq 0 ]
-    [ "${lines[2]}" = "The stylesheet referenced by x:description/@stylesheet is not available: does-not-exist.xsl" ]
-    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
+    [ "$status" -eq 1 ]
+    [ "${lines[2]}" = "The stylesheet referenced by description/@stylesheet is not available: does-not-exist.xsl" ]
 }

@@ -51,16 +51,11 @@
       <variable name="{$var}-doc" as="document-node()">
         <xsl:choose>
           <xsl:when test="@href">
-            <xsl:variable name="doc-uri" select="resolve-uri(@href, base-uri(.))"/>
-            <choose>
-              <when test="doc-available('{$doc-uri}')">
-                <sequence select="doc('{$doc-uri}')"/>
-              </when>
-              <otherwise>
-                <message>Document referenced by <xsl:sequence select="local-name(.)"/>/@href is not available: <xsl:sequence select="$doc-uri"/></message>
-                <document/>
-              </otherwise>
-            </choose>
+            <xsl:attribute name="select">
+              <xsl:text>doc('</xsl:text>
+              <xsl:value-of select="resolve-uri(@href, base-uri(.))" />
+              <xsl:text>')</xsl:text>
+            </xsl:attribute>
           </xsl:when>
           <xsl:otherwise>
             <document>

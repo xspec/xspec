@@ -51,9 +51,7 @@
   <stylesheet version="{( @xslt-version, '2.0' )[1]}"
 	      exclude-result-prefixes="pkg impl">
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
-    <xsl:if test="doc-available($stylesheet-uri)">
-      <import href="{$stylesheet-uri}" />
-    </xsl:if>
+  	<import href="{$stylesheet-uri}" />
   	<import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
     <!-- This namespace alias is used for when the testing process needs to test
@@ -101,19 +99,7 @@
 
 <xsl:template name="x:stylesheet-not-available-message">
   <xsl:if test="not(doc-available($stylesheet-uri))">
-    <xsl:variable name="message">The stylesheet referenced by x:description/@stylesheet is not available: <xsl:sequence select="string(@stylesheet)"/></xsl:variable>
-    <xsl:message select="$message"/>
-    <x:scenario>
-      <x:label>
-        <xsl:text>XSpec</xsl:text>
-      </x:label>
-      <x:context/>
-      <x:result select="()"/>
-      <x:test successful="false">
-        <x:label><xsl:value-of select="$message"/></x:label>
-        <x:expect select="()"/>
-      </x:test>
-    </x:scenario>
+    <xsl:message>The stylesheet referenced by description/@stylesheet is not available: <xsl:sequence select="string(@stylesheet)"/></xsl:message>
   </xsl:if>
 </xsl:template>
 
