@@ -71,7 +71,7 @@
    <!-- Does the generation of the test stylesheet -->
   
    <xsl:template match="x:description" mode="x:generate-tests">
-      <xsl:if test="not(doc-available($query-at))">
+      <xsl:if test="not(unparsed-text-available($query-at))">
          <xsl:message>The query referenced by description/@query-at is not available: <xsl:sequence select="string(@query-at)"/></xsl:message>
       </xsl:if>
       <xsl:variable name="this" select="."/>
