@@ -1,8 +1,8 @@
 # ========================================================================== #
 #   File:       test/Makefile                                                #
-#   Author:     Jeni Tennsion                                                #
+#   Author:     Jeni Tennison                                                #
 #   Tags:                                                                    #
-#     Copyright (c) 2010 Jeni Tennsion (see end of file.)                    #
+#     Copyright (c) 2010 Jeni Tennison (see end of file.)                    #
 # -------------------------------------------------------------------------- #
 #   TODO: Use the XSpec test harnesses (in XProc) themselves, by using
 #   XProject directly.  Adapt the process to be able (for some tests) to
@@ -91,7 +91,7 @@ clean:
 # -------------------------------------------------------------------------- #
 #   DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.                #
 #                                                                            #
-#   Copyright (c) 2010 Jeni Tennsion                                         #
+#   Copyright (c) 2010 Jeni Tennison                                         #
 #                                                                            #
 #   The contents of this file are subject to the MIT License (see the URI    #
 #   http://www.opensource.org/licenses/mit-license.php for details).         #
