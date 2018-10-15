@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
 <!--  File:       format-xspec-report-folding.xsl                          -->
-<!--  Author:     Jeni Tennsion                                            -->
+<!--  Author:     Jeni Tennison                                            -->
 <!--  Tags:                                                                -->
-<!--    Copyright (c) 2008, 2010 Jeni Tennsion (see end of file.)          -->
+<!--    Copyright (c) 2008, 2010 Jeni Tennison (see end of file.)          -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
@@ -138,7 +138,7 @@ function toggle(scenarioID) {
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->
-<!-- Copyright (c) 2008, 2010 Jeni Tennsion                                -->
+<!-- Copyright (c) 2008, 2010 Jeni Tennison                                -->
 <!--                                                                       -->
 <!-- The contents of this file are subject to the MIT License (see the URI -->
 <!-- http://www.opensource.org/licenses/mit-license.php for details).      -->
