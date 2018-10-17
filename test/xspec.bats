@@ -320,7 +320,7 @@ teardown() {
     [ "${lines[2]}" == "Parameters: phase=P1 ?selected=codepoints-to-string((80,49))" ]
 }
 
-@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile" {
+@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (command line)" {
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
@@ -332,6 +332,26 @@ teardown() {
     [ "${lines[5]}"  = "I am schematron-xslt-expand.xsl!" ]
     [ "${lines[6]}"  = "I am schematron-xslt-compile.xsl!" ]
     [ "${lines[18]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+}
+
+
+@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dclean.output.dir=true \
+        -Dtest.type=s \
+        -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt-include.xsl" \
+        -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt-expand.xsl" \
+        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt-compile.xsl" \
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "I am schematron-xslt-include.xsl!" ]]
+    [[ "${output}" =~ "I am schematron-xslt-expand.xsl!" ]]
+    [[ "${output}" =~ "I am schematron-xslt-compile.xsl!" ]]
+    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
 

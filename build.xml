@@ -286,6 +286,14 @@
   <target name="preprocess-schematron"
           depends="locate-schematron-file, get-schematron-phase"
           if="${xspec.is.schematron}">
+    <!-- Location of the preprocessor XSLT files -->
+    <property name="xspec.schematron.preprocessor.step1"
+              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
+    <property name="xspec.schematron.preprocessor.step2"
+              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
+    <property name="xspec.schematron.preprocessor.step3"
+              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" />
+
     <!-- Location of the temporary files -->
     <property name="xspec.schematron.preprocessed.step1"
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-temp1.xml" />
@@ -303,13 +311,13 @@
           level="info" />
     <saxon-xslt in="${xspec.schematron.file}"
                 out="${xspec.schematron.preprocessed.step1}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
+                style="${xspec.schematron.preprocessor.step1}" />
 
     <echo message="STEP 2: Expand abstracts"
           level="info" />
     <saxon-xslt in="${xspec.schematron.preprocessed.step1}"
                 out="${xspec.schematron.preprocessed.step2}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
+                style="${xspec.schematron.preprocessor.step2}" />
 
     <echo message="STEP 3: Convert Schematron to XSLT"
           level="info" />
@@ -318,7 +326,7 @@
           unless:blank="${xspec.phase}" />
     <saxon-xslt in="${xspec.schematron.preprocessed.step2}"
                 out="${xspec.schematron.preprocessed.xsl.file}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl">
+                style="${xspec.schematron.preprocessor.step3}">
       <xslt-elements>
         <!-- TODO: Parameters should be gathered from .xspec file -->
         <param name="allow-foreign" expression="true" />
