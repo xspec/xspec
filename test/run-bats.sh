@@ -19,6 +19,12 @@ fi
 # Reset public environment variables
 export SAXON_CP="${SAXON_JAR}"
 unset SAXON_HOME
+unset SCHEMATRON_XSLT_COMPILE
+unset SCHEMATRON_XSLT_EXPAND
+unset SCHEMATRON_XSLT_INCLUDE
+unset TEST_DIR
+unset XML_CATALOG
+unset XSPEC_HOME
 
 # Run
 bats "$@" xspec.bats

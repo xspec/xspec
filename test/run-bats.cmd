@@ -21,6 +21,12 @@ if not errorlevel 1 set XSLT_SUPPORTS_COVERAGE=1
 rem Reset public environment variables
 set "SAXON_CP=%SAXON_JAR%"
 set SAXON_HOME=
+set SCHEMATRON_XSLT_COMPILE=
+set SCHEMATRON_XSLT_EXPAND=
+set SCHEMATRON_XSLT_INCLUDE=
+set TEST_DIR=
+set XML_CATALOG=
+set XSPEC_HOME=
 
 rem Full path
 set "MERGED_BAT=%~dpn0~TEMP~.cmd"
