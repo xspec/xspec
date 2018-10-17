@@ -327,13 +327,11 @@ teardown() {
 
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
     echo "$output"
-    [ "${lines[4]}" = "Schematron XSLT include" ]
-    [ "${lines[5]}" = "Schematron XSLT expand" ]
-    [ "${lines[6]}" = "Schematron XSLT compile" ]
-
-    # With the provided dummy XSLTs, XSpec leaves temp files. Delete them.
-    rm ../tutorial/schematron/demo-01.sch-compiled.xsl
-    rm ../tutorial/schematron/demo-01.xspec-compiled.xspec
+    [ "$status" -eq 0 ]
+    [ "${lines[4]}"  = "I am schematron-xslt-include.xsl!" ]
+    [ "${lines[5]}"  = "I am schematron-xslt-expand.xsl!" ]
+    [ "${lines[6]}"  = "I am schematron-xslt-compile.xsl!" ]
+    [ "${lines[18]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 
