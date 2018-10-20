@@ -50,11 +50,8 @@
       <xsl:apply-templates select="$unshared-scenarios/*" mode="x:generate-tests"/>
    </xsl:template>
 
-   <xsl:template match="x:description" mode="x:copy-namespaces">
-      <xsl:variable name="e" as="element()" select="."/>
-      <xsl:for-each select="in-scope-prefixes($e)">
-         <xsl:namespace name="{ . }" select="namespace-uri-for-prefix(., $e)"/>
-      </xsl:for-each>
+   <xsl:template match="x:description" as="node()*" mode="x:copy-namespaces">
+      <xsl:sequence select="x:copy-namespaces(.)" />
    </xsl:template>
 
    <xsl:function name="x:gather-specs" as="element(x:description)+">

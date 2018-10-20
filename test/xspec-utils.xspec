@@ -56,4 +56,16 @@
 		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
 			test="starts-with(substring-after($x:result, ':'), '/')" />
 	</x:scenario>
+
+	<x:scenario label="Scenario for testing function copy-namespaces">
+		<x:call function="x:copy-namespaces">
+			<x:param>
+				<input-element xmlns="default-ns" xmlns:prefix="prefixed-ns" />
+			</x:param>
+		</x:call>
+		<x:expect label="Default namespace is copied" select="'default-ns'"
+			test="$x:result[name() eq '']/string()" />
+		<x:expect label="Prefixed namespace is copied" select="'prefixed-ns'"
+			test="$x:result[name() eq 'prefix']/string()" />
+	</x:scenario>
 </x:description>
