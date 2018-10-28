@@ -660,6 +660,42 @@ setlocal
     call :teardown
 endlocal
 
+setlocal
+    call :setup "invoking xspec.bat for XSLT with SAXON_CUSTOM_OPTIONS"
+
+    rem Test with a space in file name
+    set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
+    call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
+    
+    set "SAXON_CUSTOM_OPTIONS=-config:"%SAXON_CONFIG%" -t"
+    call :run ..\bin\xspec.bat saxon-custom-options\test.xspec
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    rem Verify '-t'
+    call :verify_line  * r "Memory used:"
+
+    call :teardown
+endlocal
+
+setlocal
+    call :setup "invoking xspec.bat for XQuery with SAXON_CUSTOM_OPTIONS"
+
+    rem Test with a space in file name
+    set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
+    call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
+    
+    set "SAXON_CUSTOM_OPTIONS=-config:"%SAXON_CONFIG%" -t"
+    call :run ..\bin\xspec.bat -q saxon-custom-options\test.xspec
+    call :verify_retval 0
+    call :verify_line -3 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+
+    rem Verify '-t'
+    call :verify_line  * r "Memory used:"
+
+    call :teardown
+endlocal
+
 echo === END TEST CASES ==================================================
 
 rem
