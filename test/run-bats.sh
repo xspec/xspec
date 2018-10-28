@@ -18,6 +18,7 @@ fi
 
 # Reset public environment variables
 export SAXON_CP="${SAXON_JAR}"
+unset SAXON_CUSTOM_OPTIONS
 unset SAXON_HOME
 unset SCHEMATRON_XSLT_COMPILE
 unset SCHEMATRON_XSLT_EXPAND
