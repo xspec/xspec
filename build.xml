@@ -47,7 +47,7 @@
     No default value. This property is always provided by the user.
     This property name is vague. Use the alias property "xspec.xspecfile.original" for internal use. -->
 
-  <!-- "saxon.custom.options" property: Used by Oxygen default transformation. DO NOT RENAME.
+  <!-- "saxon.custom.options" property: Documented in Wiki. DO NOT RENAME.
     Optional command-line arguments passed to Saxon when running the tests.
     For example, -warnings:recover -strip:none -opt:10 -dtd:off -l:off -versionmsg:off -expand:on
     -outval:fatal -val:lax
