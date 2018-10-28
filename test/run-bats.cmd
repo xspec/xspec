@@ -20,6 +20,7 @@ if not errorlevel 1 set XSLT_SUPPORTS_COVERAGE=1
 
 rem Reset public environment variables
 set "SAXON_CP=%SAXON_JAR%"
+set SAXON_CUSTOM_OPTIONS=
 set SAXON_HOME=
 set SCHEMATRON_XSLT_COMPILE=
 set SCHEMATRON_XSLT_EXPAND=
