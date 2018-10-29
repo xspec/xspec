@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<!-- TODO: These scenarios should return Success, but actually they return Failure both on XSLT and XQuery. (xspec/xspec#412) -->
+	<!-- TODO: These scenarios should return Success, but actually they return Failure on XQuery. (xspec/xspec#412) -->
 
 	<x:scenario>
 		<x:label>When a document contains <![CDATA[<e1/> followed by <e2/>]]>, @select="e2, e1, e1"
