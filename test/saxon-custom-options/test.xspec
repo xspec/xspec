@@ -6,7 +6,7 @@
 		<x:call function="compare">
 			<x:param select="'a'" />
 			<x:param select="'A'" />
-			<x:param select="'x-urn:test:saxon-custon-options:collation'" />
+			<x:param select="'x-urn:test:saxon-custom-options:collation'" />
 		</x:call>
 		<x:expect label="Equal" select="0" />
 	</x:scenario>
