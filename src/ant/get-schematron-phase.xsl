@@ -8,6 +8,7 @@
 		Output XML structure is for Ant <xmlproperty> task.
 	-->
 	<xsl:template as="element(xspec)" match="document-node()">
+		<!-- "xspec.phase" property: Documented in Wiki. DO NOT RENAME. -->
 		<xspec>
 			<phase>
 				<!-- TODO: @href and @select should be taken into account -->
