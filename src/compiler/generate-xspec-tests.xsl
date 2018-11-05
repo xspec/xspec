@@ -432,6 +432,15 @@
   </xsl:apply-templates>
 </xsl:template>
 
+<xsl:template match="x:space" as="empty-sequence()" mode="test:create-xslt-generator">
+  <xsl:message terminate="yes">
+    <xsl:value-of select="name()" />
+    <xsl:text> is deprecated. Use </xsl:text>
+    <xsl:value-of select="prefix-from-QName(node-name(.))" />
+    <xsl:text>:text instead.</xsl:text>
+  </xsl:message>
+</xsl:template>
+
 <xsl:template match="x:text" as="element(xsl:text)" mode="test:create-xslt-generator">
   <text><xsl:value-of select="." /></text>
 </xsl:template>  

@@ -873,3 +873,12 @@ teardown() {
 }
 
 
+@test "Deprecate x:space" {
+    run ../bin/xspec.sh deprecated-space/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "x:space is deprecated. Use x:text instead." ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+
