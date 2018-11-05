@@ -119,16 +119,28 @@
       <xsl:attribute name="href" select="resolve-uri(., base-uri(.))"/>
    </xsl:template>
 
-   <xsl:template match="text()[not(normalize-space())]" as="element(x:space)?" mode="x:gather-specs">
+   <xsl:template match="text()[not(normalize-space())]" as="node()?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
 
-      <xsl:if test="parent::x:space
-                      or ancestor::*[@xml:space][1]/@xml:space = 'preserve'
-                      or node-name(parent::*) = $preserve-space">
-         <x:space>
-            <xsl:value-of select="."/>
-         </x:space>
-      </xsl:if>
+      <xsl:choose>
+         <xsl:when test="parent::x:text">
+            <!-- Preserve -->
+            <xsl:sequence select="." />
+         </xsl:when>
+
+         <xsl:when test="
+            (ancestor::*[@xml:space][1]/@xml:space = 'preserve')
+            or (node-name(parent::*) = $preserve-space)">
+            <!-- Preserve and wrap in <x:text> -->
+            <x:text>
+               <xsl:sequence select="." />
+            </x:text>
+         </xsl:when>
+
+         <xsl:otherwise>
+            <!-- Discard -->
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
 
    <xsl:template match="node()|@*" as="node()" mode="x:gather-specs">
