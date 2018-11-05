@@ -62,7 +62,7 @@ rem ##
 
 :die
     echo:
-    echo *** %~1 >&2
+    (echo *** %~1) >&2
     rem
     rem Now, to exit the batch file, you must go to :win_main_error_exit from
     rem the main code flow.
