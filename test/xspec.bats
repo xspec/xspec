@@ -327,6 +327,7 @@ teardown() {
     [ "${lines[18]}" == "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
 }
 
+
 @test "Schematron phase/parameters are passed to Schematron compile (Ant)" {
     run ant \
         -buildfile ../build.xml \
@@ -340,6 +341,8 @@ teardown() {
     [[ "${output}" =~ "passed: 9 / pending: 0 / failed: 0 / total: 9" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
+
+
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (command line)" {
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
@@ -579,6 +582,7 @@ teardown() {
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
+
 @test "invoking xspec for XSLT with -catalog uses XML Catalog resolver and does so even with spaces in file path" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
@@ -595,6 +599,7 @@ teardown() {
     [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
+
 @test "invoking xspec for XQuery with -catalog uses XML Catalog resolver" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
@@ -607,6 +612,7 @@ teardown() {
     [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
+
 @test "invoking xspec for Schematron with -catalog uses XML Catalog resolver" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
@@ -618,6 +624,7 @@ teardown() {
     [ "$status" -eq 0 ]
     [ "${lines[21]}" = "passed: 6 / pending: 0 / failed: 1 / total: 7" ]
 }
+
 
 @test "invoking xspec with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
@@ -635,6 +642,7 @@ teardown() {
     [ "$status" -eq 0 ]
     [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
+
 
 @test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
