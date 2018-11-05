@@ -432,7 +432,7 @@
   </xsl:apply-templates>
 </xsl:template>
 
-<xsl:template match="x:space" mode="test:create-xslt-generator">
+<xsl:template match="x:text" as="element(xsl:text)" mode="test:create-xslt-generator">
   <text><xsl:value-of select="." /></text>
 </xsl:template>  
   
