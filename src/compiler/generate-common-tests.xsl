@@ -99,7 +99,7 @@
    </xsl:function>
 
    <xsl:template match="x:description" mode="x:gather-specs">
-      <xsl:apply-templates mode="x:gather-specs">
+      <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="
              ( @xslt-version, 2.0 )[1]"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="
@@ -108,20 +108,22 @@
       </xsl:apply-templates>
    </xsl:template>
 
-   <xsl:template match="x:scenario" mode="x:gather-specs">
+   <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:gather-specs">
       <xsl:param name="xslt-version" as="xs:decimal" tunnel="yes" required="yes"/>
+
       <x:scenario xslt-version="{$xslt-version}">
          <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:gather-specs"/>
+         <xsl:apply-templates mode="#current"/>
       </x:scenario>
    </xsl:template>
 
-   <xsl:template match="x:*/@href" mode="x:gather-specs">
+   <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
       <xsl:attribute name="href" select="resolve-uri(., base-uri(.))"/>
    </xsl:template>
 
-   <xsl:template match="text()[not(normalize-space())]" mode="x:gather-specs">
+   <xsl:template match="text()[not(normalize-space())]" as="element(x:space)?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
+
       <xsl:if test="parent::x:space
                       or ancestor::*[@xml:space][1]/@xml:space = 'preserve'
                       or node-name(parent::*) = $preserve-space">
@@ -131,9 +133,9 @@
       </xsl:if>
    </xsl:template>
 
-   <xsl:template match="node()|@*" mode="x:gather-specs">
+   <xsl:template match="node()|@*" as="node()" mode="x:gather-specs">
       <xsl:copy>
-         <xsl:apply-templates select="node()|@*" mode="x:gather-specs"/>
+         <xsl:apply-templates select="node()|@*" mode="#current" />
       </xsl:copy>
    </xsl:template>
 
