@@ -20,8 +20,6 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
-   <xsl:preserve-space elements="x:space"/>
-   
    <xsl:variable name="actual-document-uri" as="xs:anyURI"
       select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
    

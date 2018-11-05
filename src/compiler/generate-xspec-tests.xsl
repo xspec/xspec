@@ -23,8 +23,6 @@
 
 <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl"/>
 
-<xsl:preserve-space elements="x:space" />
-
 <xsl:output indent="yes" />
 
 
