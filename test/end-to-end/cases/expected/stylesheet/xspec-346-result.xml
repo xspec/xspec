@@ -21,7 +21,7 @@
          </p>
       </x:result>
       <x:test successful="false">
-         <x:label>Expecting no space should be Failure (TODO: XQuery should support test:ws for correct diff)</x:label>
+         <x:label>Expecting no space should be Failure</x:label>
          <x:expect select="/element()">
             <p>
                <span>foo</span>

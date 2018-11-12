@@ -49,16 +49,13 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-48">Expecting no space should be Failure (TODO: XQuery should support test:ws for correct
-                        diff)</a></td>
+                  <td><a href="#ELEM-48">Expecting no space should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
          <h3 id="ELEM-34">When a function returns a node containing a space</h3>
-         <h4 id="ELEM-48">Expecting no space should be Failure (TODO: XQuery should support test:ws for correct
-            diff)
-         </h4>
+         <h4 id="ELEM-48">Expecting no space should be Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -68,13 +65,14 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span class="same">p</span>&gt;
+                  <td><pre>&lt;<span class="diff">p</span>&gt;
    &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
-    &lt;<span class="same">span</span>&gt;<span class="same">bar</span>&lt;/span&gt;
+   <span class="diff whitespace">␣</span>
+   &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
 &lt;/p&gt;</pre></td>
-                  <td><pre>&lt;<span class="same">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
+                  <td><pre>&lt;<span class="diff">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
    &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
-   &lt;<span class="same">span</span>&gt;<span class="same">bar</span>&lt;/span&gt;
+   &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
 &lt;/p&gt;</pre></td>
                </tr>
             </tbody>

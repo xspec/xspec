@@ -187,9 +187,7 @@ declare function test:report-sequence(
         if ( fn:count($sequence//node()) > 1000 ) then
           fn:error((), 'TODO: Write the value within a file...')
         else
-          (: TODO: The original stylesheet use a mode to do a bit
-             different copy, to preserve withespaces... :)
-          $sequence
+          $sequence/test:report-node(.)
       )
     else
       attribute { 'select' } {
@@ -201,6 +199,24 @@ declare function test:report-sequence(
           fn:concat('(', fn:string-join(for $v in $sequence return test:report-atomic-value($v), ', '), ')')
       }
   }
+};
+
+declare function test:report-node(
+    $node as node()
+    ) as node()
+{
+  if ( ($node instance of text()) and fn:not(fn:normalize-space($node)) ) then
+    element test:ws { $node }
+  else if ( $node instance of element() ) then
+    element { fn:node-name($node) } {
+      (
+        for $prefix in fn:in-scope-prefixes($node)
+          return namespace { $prefix } { fn:namespace-uri-for-prefix($prefix, $node) }
+      ),
+      $node/attribute(),
+      $node/node()/test:report-node(.)
+    }
+  else $node
 };
 
 declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:string
