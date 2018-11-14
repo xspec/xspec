@@ -58,7 +58,7 @@
 
         <xsl:otherwise>
           <document>
-            <xsl:apply-templates mode="test:create-xslt-generator" />
+            <xsl:apply-templates mode="test:create-node-generator" />
           </document>
         </xsl:otherwise>
       </xsl:choose>
@@ -90,39 +90,39 @@
 </xsl:template>
 
 
-<xsl:template match="*" mode="test:create-xslt-generator">
+<xsl:template match="element()" as="element()" mode="test:create-node-generator">
    <xsl:copy>
-      <xsl:apply-templates select="@*|node()" mode="test:create-xslt-generator"/>
+      <xsl:apply-templates select="@*|node()" mode="#current"/>
    </xsl:copy>
 </xsl:template>  
 
-<xsl:template match="@*" mode="test:create-xslt-generator">
-   <xsl:copy-of select="."/>
+<xsl:template match="attribute()" as="attribute()" mode="test:create-node-generator">
+   <xsl:sequence select="."/>
 </xsl:template>
   
-<xsl:template match="xsl:*" mode="test:create-xslt-generator">
+<xsl:template match="xsl:*" as="element()" mode="test:create-node-generator">
   <xsl:element name="__x:{ local-name() }">
-    <xsl:apply-templates select="@*|node()" mode="test:create-xslt-generator"/>
+    <xsl:apply-templates select="@*|node()" mode="#current"/>
   </xsl:element>
 </xsl:template>  
 
-<xsl:template match="@xsl:*" mode="test:create-xslt-generator">
+<xsl:template match="@xsl:*" as="attribute()" mode="test:create-node-generator">
    <xsl:attribute name="__x:{ local-name() }" select="."/>
 </xsl:template>
 
-<xsl:template match="text()" mode="test:create-xslt-generator">
+<xsl:template match="text()" as="element(xsl:text)" mode="test:create-node-generator">
   <text>
      <xsl:value-of select="."/>
   </text>
 </xsl:template>  
 
-<xsl:template match="comment()" mode="test:create-xslt-generator">
+<xsl:template match="comment()" as="element(xsl:comment)" mode="test:create-node-generator">
   <comment>
      <xsl:value-of select="."/>
   </comment>
 </xsl:template>
 
-<xsl:template match="processing-instruction()" mode="test:create-xslt-generator">
+<xsl:template match="processing-instruction()" as="element(xsl:processing-instruction)" mode="test:create-node-generator">
   <processing-instruction name="{name()}">
     <xsl:value-of select="."/>
   </processing-instruction>

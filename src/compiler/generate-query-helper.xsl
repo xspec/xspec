@@ -60,7 +60,7 @@
          <xsl:when test="node()">
             <xsl:text> := ( </xsl:text>
             <xsl:for-each select="node() except text()[not(normalize-space(.))]">
-               <xsl:apply-templates select="." mode="test:create-xslt-generator"/>
+               <xsl:apply-templates select="." mode="test:create-node-generator"/>
                <xsl:if test="position() ne last()">
                   <xsl:text>, </xsl:text>
                </xsl:if>
@@ -83,28 +83,28 @@
       <xsl:text>&#10;</xsl:text>
    </xsl:template>
 
-   <xsl:template match="*" mode="test:create-xslt-generator">
+   <xsl:template match="element()" as="element()" mode="test:create-node-generator">
      <!--xsl:copy>
        <xsl:copy-of select="@*"/>
-       <xsl:apply-templates mode="test:create-xslt-generator"/>
+       <xsl:apply-templates mode="#current"/>
      </xsl:copy-->
-     <xsl:copy-of select="."/>
+     <xsl:sequence select="."/>
    </xsl:template>  
 
    <!-- FIXME: Escape the quoted string... -->
-   <xsl:template match="text()" mode="test:create-xslt-generator">
+   <xsl:template match="text()" as="text()+" mode="test:create-node-generator">
       <xsl:text>text { "</xsl:text>
       <xsl:value-of select="."/>
       <xsl:text>" }</xsl:text>
    </xsl:template>  
 
-   <xsl:template match="comment()" mode="test:create-xslt-generator">
+   <xsl:template match="comment()" as="text()+" mode="test:create-node-generator">
       <xsl:text>comment { </xsl:text>
       <xsl:value-of select="."/>
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="processing-instruction()" mode="test:create-xslt-generator">
+   <xsl:template match="processing-instruction()" as="text()+" mode="test:create-node-generator">
       <xsl:text>processing-instruction { </xsl:text>
       <xsl:value-of select="name(.)"/>
       <xsl:text> } { </xsl:text>
