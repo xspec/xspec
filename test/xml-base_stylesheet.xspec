@@ -25,12 +25,4 @@
 		<x:expect label="@href is resolved with @xml:base"
 			test="$x:result instance of document-node(element(testing-xml-base))" />
 	</x:scenario>
-
-	<x:scenario label="In assertion (i.e. //x:expect),">
-		<x:call function="exactly-one">
-			<x:param as="document-node(element(testing-xml-base))" href="node-selection/test.xml" />
-		</x:call>
-		<x:expect href="test.xml" label="@href is resolved with @xml:base"
-			xml:base="node-selection/" />
-	</x:scenario>
 </x:description>

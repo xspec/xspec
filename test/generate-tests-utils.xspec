@@ -55,30 +55,6 @@
    </t:scenario>
 
    <!--
-       Function test:sorted-children
-   -->
-   <t:scenario label="test:sorted-children">
-
-      <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L466-L477">
-
-         <t:scenario label="Original order preserved">
-            <!-- TODO: This scenario does not run on XQuery (error XPST0003) -->
-            <t:call function="test:sorted-children">
-               <t:param name="node" as="element(foo)">
-                  <foo><bar /><baz /></foo>
-               </t:param>
-               <t:param select="''" />
-            </t:call>
-            <t:expect label="bar baz">
-               <bar /><baz />
-            </t:expect>
-         </t:scenario>
-
-      </t:scenario>
-
-   </t:scenario>
-
-   <!--
        Template test:report-sequence
    -->
    <t:scenario label="test:report-sequence">
