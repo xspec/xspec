@@ -7,7 +7,7 @@
    <x:scenario>
       <x:label>When a function returns a node containing a space</x:label>
       <x:call function="exactly-one">
-         <x:param href="../../xspec-346.xml" select="element(p)"/>
+         <x:param as="element(p)" href="../../xspec-346.xml" select="element(p)"/>
       </x:call>
       <x:result>
          <p>

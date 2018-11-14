@@ -15,7 +15,7 @@
 
 			<x:scenario label="Test @select without @href or child node">
 				<x:call function="one-or-more">
-					<x:param select="$doc//e2, $doc//e1, $doc//e1" />
+					<x:param as="element()+" select="$doc//e2, $doc//e1, $doc//e1" />
 				</x:call>
 				<x:expect label="3 items" test="count($x:result) eq 3" />
 				<x:expect label="1st item" test="$x:result[1]">
@@ -36,7 +36,7 @@
 
 			<x:scenario label="Test @select without @href or child node">
 				<x:call function="one-or-more">
-					<x:param select="($doc//e2, $doc//e1, $doc//e1)/." />
+					<x:param as="element()+" select="($doc//e2, $doc//e1, $doc//e1)/." />
 				</x:call>
 				<x:expect label="2 items" test="count($x:result) eq 2" />
 				<x:expect label="1st item" test="$x:result[1]">
@@ -49,7 +49,8 @@
 
 			<x:scenario label="Test @select with child node">
 				<x:call function="one-or-more">
-					<x:param select="(descendant::e2, descendant::e1, descendant::e1)/.">
+					<x:param as="element()+"
+						select="(descendant::e2, descendant::e1, descendant::e1)/.">
 						<p>
 							<e1 />
 							<e2 />
@@ -67,7 +68,7 @@
 
 			<x:scenario label="Test @select with @href">
 				<x:call function="one-or-more">
-					<x:param href="xspec-412.xml" select="(//e2, //e1, //e1)/." />
+					<x:param as="element()+" href="xspec-412.xml" select="(//e2, //e1, //e1)/." />
 				</x:call>
 				<x:expect label="2 items" test="count($x:result) eq 2" />
 				<x:expect label="1st item" test="$x:result[1]">

@@ -23,7 +23,7 @@
    <x:scenario>
       <x:label>Element, attribute (xspec/xspec#357)</x:label>
       <x:call function="one-or-more">
-         <x:param select="elem1 | elem2/attribute()">
+         <x:param as="node()+" select="elem1 | elem2/attribute()">
             <elem1>text</elem1>
             <elem2 attr="attr-val"/>
          </x:param>
@@ -42,7 +42,7 @@
    <x:scenario>
       <x:label>Attributes of the same name (xspec/xspec#358)</x:label>
       <x:call function="one-or-more">
-         <x:param select="element()/attribute()">
+         <x:param as="attribute()+" select="element()/attribute()">
             <elem1 attr="foo"/>
             <elem2 attr="bar"/>
          </x:param>
@@ -59,7 +59,7 @@
    <x:scenario>
       <x:label>Attribute, element, attribute (xspec/xspec#360)</x:label>
       <x:call function="one-or-more">
-         <x:param select="element()/attribute() | elem2">
+         <x:param as="node()+" select="element()/attribute() | elem2">
             <elem1 attr1="attr1-val"/>
             <elem2>text</elem2>
             <elem3 attr3="attr3-val"/>

@@ -10,10 +10,10 @@
     <x:param name="escape2">a"b</x:param>
     <x:param name="escape3">a'b</x:param>
     <x:param name="escape4">A ' " B</x:param>
-    <x:param name="foo:selected" select="bar:baz/@qux:quux">
+    <x:param name="foo:selected" select="bar:baz/@qux:quux" as="attribute(qux:quux)">
         <bar:baz qux:quux="corge" />
     </x:param>
-    <x:param name="href-selected" href="schematron-param-001.xml" select="test/comment()" />
+    <x:param name="href-selected" href="schematron-param-001.xml" select="test/comment()" as="comment()" />
 
     <x:scenario label="Schematron phase/parameters are passed to Schematron compile">
         <x:context>

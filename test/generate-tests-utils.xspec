@@ -22,10 +22,10 @@
       <t:scenario label="Identical Attribute Sequences">
          <!-- TODO: This scenario does not run on XQuery: xspec/xspec#82 -->
          <t:call function="test:node-deep-equal">
-            <t:param name="node1" select="/node/@attribute" as="node()">
+            <t:param name="node1" select="/node/@attribute" as="attribute(attribute)">
                <node attribute="foobar"/>
             </t:param>
-            <t:param name="node2" select="/node/@attribute" as="node()">
+            <t:param name="node2" select="/node/@attribute" as="attribute(attribute)">
                <node attribute="foobar"/>
             </t:param>
             <t:param select="''" />
@@ -38,10 +38,10 @@
 
          <t:scenario label="Identical Elements">
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/*">
+               <t:param name="node1" select="/*" as="element(result)">
                   <result/>
                </t:param>
-               <t:param name="node2" select="/*">
+               <t:param name="node2" select="/*" as="element(result)">
                   <result/>
                </t:param>
                <t:param select="''" />
@@ -51,10 +51,10 @@
 
          <t:scenario label="Elements with Identical Attributes in Different Orders">
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/*">
+               <t:param name="node1" select="/*" as="element(result)">
                   <result a="1" b="2" />
                </t:param>
-               <t:param name="node2" select="/*">
+               <t:param name="node2" select="/*" as="element(result)">
                   <result b="2" a="1" />
                </t:param>
                <t:param select="''" />
@@ -64,10 +64,10 @@
 
          <t:scenario label="Elements with Identical Children">
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/*">
+               <t:param name="node1" select="/*" as="element(result)">
                   <result><child1/><child2/></result>
                </t:param>
-               <t:param name="node2" select="/*">
+               <t:param name="node2" select="/*" as="element(result)">
                   <result><child1/><child2/></result>
                </t:param>
                <t:param select="''" />
@@ -77,10 +77,10 @@
 
          <t:scenario label="Identical Attributes">
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/*/@a">
+               <t:param name="node1" select="/*/@a" as="attribute(a)">
                   <result a="1" />
                </t:param>
-               <t:param name="node2" select="/*/@a">
+               <t:param name="node2" select="/*/@a" as="attribute(a)">
                   <result a="1" />
                </t:param>
                <t:param select="''" />
@@ -90,10 +90,10 @@
 
          <t:scenario label="Identical Document Nodes">
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/">
+               <t:param name="node1" select="/" as="document-node(element(result))">
                   <result />
                </t:param>
-               <t:param name="node2" select="/">
+               <t:param name="node2" select="/" as="document-node(element(result))">
                   <result />
                </t:param>
                <t:param select="''" />
@@ -103,10 +103,10 @@
 
          <t:scenario label="Identical Text Nodes">
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/*/text()">
+               <t:param name="node1" select="/*/text()" as="text()">
                   <result>Test</result>
                </t:param>
-               <t:param name="node2" select="/*/text()">
+               <t:param name="node2" select="/*/text()" as="text()">
                   <result>Test</result>
                </t:param>
                <t:param select="''" />
@@ -116,11 +116,11 @@
 
          <t:scenario label="Identical Comments">
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/comment()">
+               <t:param name="node1" select="/comment()" as="comment()">
                   <!-- Comment -->
                   <doc />
                </t:param>
-               <t:param name="node2" select="/comment()">
+               <t:param name="node2" select="/comment()" as="comment()">
                   <!-- Comment -->
                   <doc />
                </t:param>
@@ -131,11 +131,11 @@
 
          <t:scenario label="Identical Processing Instructions">
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/processing-instruction()">
+               <t:param name="node1" select="/processing-instruction()" as="processing-instruction(pi)">
                   <?pi data?>
                   <doc />
                </t:param>
-               <t:param name="node2" select="/processing-instruction()">
+               <t:param name="node2" select="/processing-instruction()" as="processing-instruction(pi)">
                   <?pi data?>
                   <doc />
                </t:param>
@@ -147,10 +147,10 @@
          <t:scenario>
             <t:label>Using "..." to indicate missing text</t:label>
             <t:call function="test:node-deep-equal">
-               <t:param name="node1">
+               <t:param name="node1" as="element(foo)">
                   <foo>...</foo>
                </t:param>
-               <t:param name="node2">
+               <t:param name="node2" as="element(foo)">
                   <foo>foo</foo>
                </t:param>
                <t:param select="''" />
@@ -161,10 +161,10 @@
          <t:scenario>
             <t:label>Using "..." to indicate missing mixed content</t:label>
             <t:call function="test:node-deep-equal">
-               <t:param name="node1">
+               <t:param name="node1" as="element(foo)">
                   <foo>...</foo>
                </t:param>
-               <t:param name="node2">
+               <t:param name="node2" as="element(foo)">
                   <foo>foo<bar />foo</foo>
                </t:param>
                <t:param select="''" />
@@ -175,10 +175,10 @@
          <t:scenario>
             <t:label>Using "..." to indicate missing attribute values</t:label>
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/foo/@bar">
+               <t:param name="node1" select="/foo/@bar" as="attribute(bar)">
                   <foo bar="..." />
                </t:param>
-               <t:param name="node2" select="/foo/@bar">
+               <t:param name="node2" select="/foo/@bar" as="attribute(bar)">
                   <foo bar="bar" />
                </t:param>
                <t:param select="''" />
@@ -189,10 +189,10 @@
          <t:scenario>
             <t:label>Using "..." to indicate missing empty content</t:label>
             <t:call function="test:node-deep-equal">
-               <t:param name="node1" select="/foo">
+               <t:param name="node1" select="/foo" as="element(foo)">
                   <foo>...</foo>
                </t:param>
-               <t:param name="node2" select="/foo">
+               <t:param name="node2" select="/foo" as="element(foo)">
                   <foo />
                </t:param>
                <t:param select="''" />
@@ -247,7 +247,7 @@
          <t:scenario label="Original order preserved">
             <!-- TODO: This scenario does not run on XQuery (error XPST0003) -->
             <t:call function="test:sorted-children">
-               <t:param name="node">
+               <t:param name="node" as="element(foo)">
                   <foo><bar /><baz /></foo>
                </t:param>
                <t:param select="''" />
@@ -271,7 +271,7 @@
 
          <t:scenario label="Integer">
             <t:call template="test:report-sequence">
-               <t:param name="sequence" select="1" />
+               <t:param name="sequence" select="1" as="xs:integer" />
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
             <t:expect label="t:result with @select of integer">
@@ -291,7 +291,7 @@
 
          <t:scenario label="String">
             <t:call template="test:report-sequence">
-               <t:param name="sequence" select="'test'" />
+               <t:param name="sequence" select="'test'" as="xs:string" />
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
             <t:expect label="t:result with @select of string">
@@ -321,7 +321,7 @@
 
          <t:scenario label="Attributes">
             <t:call template="test:report-sequence">
-               <t:param name="sequence" select="/*/@*" >
+               <t:param name="sequence" select="/*/@*" as="attribute()+">
                   <doc a="1" b="2" />
                </t:param>
                <t:param name="wrapper-name" select="'t:result'" />
@@ -336,7 +336,7 @@
 
          <t:scenario label="Attributes and content">
             <t:call template="test:report-sequence">
-               <t:param name="sequence" select="/*/@*, /*/foo" >
+               <t:param name="sequence" select="/*/@*, /*/foo" as="node()+">
                   <doc a="1" b="2">
                      <foo />
                   </doc>
@@ -871,7 +871,7 @@
 
       <t:scenario label="Empty sequence">
          <t:call function="test:wrap-nodes">
-            <t:param />
+            <t:param as="empty-sequence()" />
          </t:call>
          <t:expect label="Result is document node" test="$x:result instance of document-node()" />
          <t:expect label="Only one instance" test="count($x:result)" select="1" />
