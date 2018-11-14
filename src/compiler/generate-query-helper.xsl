@@ -58,15 +58,18 @@
             <xsl:if test="@select">/( <xsl:value-of select="@select"/> )</xsl:if>
          </xsl:when>
          <xsl:when test="node()">
-            <xsl:text> := ( </xsl:text>
+            <xsl:text> := ( document {</xsl:text>
             <xsl:for-each select="node() except text()[not(normalize-space(.))]">
                <xsl:apply-templates select="." mode="test:create-node-generator"/>
                <xsl:if test="position() ne last()">
                   <xsl:text>, </xsl:text>
                </xsl:if>
             </xsl:for-each>
-            <xsl:text> )</xsl:text>
-            <xsl:if test="@select">/( <xsl:value-of select="@select"/> )</xsl:if>
+            <xsl:text>} )/</xsl:text>
+            <xsl:choose>
+               <xsl:when test="@select">( <xsl:value-of select="@select"/> )</xsl:when>
+               <xsl:otherwise>node()</xsl:otherwise>
+            </xsl:choose>
          </xsl:when>
          <xsl:when test="@select">
             <xsl:text> := ( </xsl:text>
@@ -91,25 +94,28 @@
      <xsl:sequence select="."/>
    </xsl:template>  
 
-   <!-- FIXME: Escape the quoted string... -->
    <xsl:template match="text()" as="text()+" mode="test:create-node-generator">
-      <xsl:text>text { "</xsl:text>
-      <xsl:value-of select="."/>
-      <xsl:text>" }</xsl:text>
+      <xsl:text>text </xsl:text>
+      <xsl:call-template name="test:create-string-generator" />
    </xsl:template>  
 
    <xsl:template match="comment()" as="text()+" mode="test:create-node-generator">
-      <xsl:text>comment { </xsl:text>
-      <xsl:value-of select="."/>
-      <xsl:text> }</xsl:text>
+      <xsl:text>comment </xsl:text>
+      <xsl:call-template name="test:create-string-generator" />
    </xsl:template>
 
    <xsl:template match="processing-instruction()" as="text()+" mode="test:create-node-generator">
-      <xsl:text>processing-instruction { </xsl:text>
-      <xsl:value-of select="name(.)"/>
-      <xsl:text> } { </xsl:text>
-      <xsl:value-of select="."/>
-      <xsl:text> }</xsl:text>
+      <xsl:text>processing-instruction </xsl:text>
+      <xsl:value-of select="name()" />
+      <xsl:text> </xsl:text>
+      <xsl:call-template name="test:create-string-generator" />
+   </xsl:template>
+
+   <!-- FIXME: Escape the quoted string... -->
+   <xsl:template name="test:create-string-generator" as="text()+">
+      <xsl:text>{ "</xsl:text>
+      <xsl:value-of select="." />
+      <xsl:text>" }</xsl:text>
    </xsl:template>
 
    <xsl:function name="test:matching-xslt-elements" as="element()*">
