@@ -87,6 +87,24 @@
          <t:expect label="the result" select="true()"/>
       </t:scenario>
 
+      <t:scenario label="Identical text nodes">
+         <t:call function="test:deep-equal">
+            <t:param as="text()">foobar</t:param>
+            <t:param as="text()">foobar</t:param>
+            <t:param select="''" />
+         </t:call>
+         <t:expect label="the result" select="true()"/>
+      </t:scenario>
+
+      <t:scenario label="Identical Element Sequences">
+         <t:call function="test:deep-equal">
+            <t:param as="element()+"><foo/><bar/></t:param>
+            <t:param as="element()+"><foo/><bar/></t:param>
+            <t:param select="''" />
+         </t:call>
+         <t:expect label="the result" select="true()"/>
+      </t:scenario>
+
    </t:scenario>
 
    <!--
@@ -331,23 +349,6 @@
             </t:scenario>
          </t:scenario>
       </t:scenario>
-   </t:scenario>
-
-   <!--
-       Function test:node-deep-equal($seq1, $seq2, '').
-   -->
-   <t:scenario label="test:node-deep-equal($seq1, $seq2, '')">
-
-      <!-- TODO: t:scenario/@label contradicts t:call/t:param/@as -->
-      <t:scenario label="Identical Element Sequences">
-         <t:call function="test:node-deep-equal">
-            <t:param name="node1" as="text()">foobar</t:param>
-            <t:param name="node2" as="text()">foobar</t:param>
-            <t:param select="''" />
-         </t:call>
-         <t:expect label="the result" select="true()"/>
-      </t:scenario>
-
    </t:scenario>
 
    <!--
