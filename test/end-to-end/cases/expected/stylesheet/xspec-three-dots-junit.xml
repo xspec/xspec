@@ -126,9 +126,11 @@
          <failure message="expect assertion failed">Expected: /processing-instruction()</failure>
       </testcase>
    </testsuite>
-   <testsuite name="For resultant document node" tests="7" failures="2">
-      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;...&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
-                status="passed"/>
+   <testsuite name="For resultant document node" tests="7" failures="3">
+      <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;...&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
+                status="failed">
+         <failure message="expect assertion failed">Expected: /self::document-node()</failure>
+      </testcase>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ... should be Success"
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ... should be Success"
