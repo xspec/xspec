@@ -291,13 +291,10 @@
       </xsl:for-each>
       <xsl:text>)&#10;{&#10;</xsl:text>
       <xsl:if test="not($pending-p)">
-         <!--
-           let $local:expected :=
-               ( ... )
-         -->
-         <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+         <!-- Set up the $local:expected variable -->
+         <xsl:call-template name="x:setup-expected">
             <xsl:with-param name="var" select="'local:expected'" />
-         </xsl:apply-templates>
+         </xsl:call-template>
 
          <!--
            let $local:test-result :=
