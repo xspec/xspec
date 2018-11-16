@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario>
+		<x:label>Suppose you're testing count() function with child::element() selected but you
+			forget to provide the selection context (either inner XML or @href)</x:label>
+		<x:call function="count">
+			<x:param select="child::element()" />
+		</x:call>
+		<x:expect label="and you happen to expect 1" select="1" />
+	</x:scenario>
+</x:description>
