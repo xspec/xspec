@@ -661,4 +661,11 @@
     call :verify_line -3 r "..*:err:XPDY0002:"
     call :verify_line -1 r "ERROR:"
 	</case>
+
+	<case name="XQuery selecting nodes without context should be error #423">
+    call :run ..\bin\xspec.bat -q xspec-423\test.xspec
+    call :verify_retval 2
+    call :verify_line  * r "  XPDY0002:"
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
 </collection>

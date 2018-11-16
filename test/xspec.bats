@@ -900,3 +900,12 @@ teardown() {
 }
 
 
+@test "XQuery selecting nodes without context should be error #423" {
+    run ../bin/xspec.sh -q xspec-423/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  XPDY0002:" ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+
