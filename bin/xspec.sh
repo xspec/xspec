@@ -407,11 +407,11 @@ else
         echo "Collecting test coverage data..."
         xquery "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" \
+            -o:"$RESULT" -q:"$COMPILED" \
             || die "Error collecting test coverage data"
     else
         xquery "${saxon_custom_options_array[@]}" \
-            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" \
+            -o:"$RESULT" -q:"$COMPILED" \
             || die "Error running the test suite"
     fi
 fi

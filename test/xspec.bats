@@ -437,7 +437,7 @@ teardown() {
     run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
     echo "${lines[5]}"
     [ "$status" -eq 0 ]
-    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[4]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -609,7 +609,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[4]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 

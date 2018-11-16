@@ -385,7 +385,6 @@
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
       <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
       <arg value="-o:${xspec.result.xml}" />
-      <arg value="-s:${xspec.xspecfile.preprocessed}" />
       <arg value="-q:${xspec.compiled.runner}" />
     </java>
   </target>
