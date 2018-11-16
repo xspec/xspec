@@ -72,12 +72,15 @@
   
    <xsl:template match="x:description" mode="x:generate-tests">
       <xsl:variable name="this" select="."/>
+
       <!-- A prefix has to be defined for the target namespace on x:description. -->
       <!-- TODO: If not, we should generate one. -->
       <xsl:variable name="prefix" select="
           in-scope-prefixes($this)[
             namespace-uri-for-prefix(., $this) eq xs:anyURI($this/@query)
           ][1]"/>
+
+      <!-- Import module to be tested -->
       <xsl:text>import module namespace </xsl:text>
       <xsl:value-of select="$prefix"/>
       <xsl:text> = "</xsl:text>
@@ -87,6 +90,7 @@
          <xsl:value-of select="$query-at"/>
       </xsl:if>
       <xsl:text>";&#10;</xsl:text>
+
       <!-- prevent double import in case we are testing this file in the compiled suite... -->
       <xsl:if test="@query ne 'http://www.jenitennison.com/xslt/unit-test'">
          <xsl:text>import module namespace test = </xsl:text>
@@ -98,14 +102,21 @@
          </xsl:if>
          <xsl:text>;&#10;</xsl:text>
       </xsl:if>
+
+      <!-- Declare namespaces -->
       <xsl:apply-templates select="." mode="x:decl-ns">
          <xsl:with-param name="except" select="$prefix"/>
       </xsl:apply-templates>
+      <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
 
       <!-- Serialization parameters -->
-      <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
       <xsl:text>declare option output:method "xml";&#x0A;</xsl:text>
       <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
+
+      <!-- Absolute URI of .xspec file -->
+      <xsl:text>declare variable $x:xspec-uri as xs:anyURI := xs:anyURI("</xsl:text>
+      <xsl:value-of select="$actual-document-uri" />
+      <xsl:text>");&#x0A;</xsl:text>
 
       <!-- Compile the test suite params (aka global params). -->
       <xsl:call-template name="x:compile-params"/>
