@@ -350,7 +350,7 @@
          -->
          <xsl:text>  let $local:successful as xs:boolean := (: did the test pass?:)&#10;</xsl:text>
          <xsl:choose>
-            <xsl:when test="exists(@test) and exists(node())">
+            <xsl:when test="exists(@test) and exists(node() except x:label)">
                <xsl:text>      test:deep-equal($local:expected, </xsl:text>
                <xsl:value-of select="@test"/>
                <xsl:text>, '')&#10;</xsl:text>
