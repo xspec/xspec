@@ -56,7 +56,8 @@
    </xsl:template>
 
    <xsl:template match="x:description" mode="x:decl-ns">
-      <xsl:param name="except" as="xs:string"/>
+      <xsl:param name="except" as="xs:string?" />
+
       <xsl:variable name="e" as="element()" select="."/>
       <xsl:for-each select="in-scope-prefixes($e)[not(. = ('xml', $except))]">
          <xsl:text>declare namespace </xsl:text>
@@ -73,17 +74,20 @@
    <xsl:template match="x:description" mode="x:generate-tests">
       <xsl:variable name="this" select="."/>
 
-      <!-- A prefix has to be defined for the target namespace on x:description. -->
-      <!-- TODO: If not, we should generate one. -->
-      <xsl:variable name="prefix" select="
+      <!-- Look for a prefix defined for the target namespace on x:description. -->
+      <xsl:variable name="prefix" as="xs:string?" select="
           in-scope-prefixes($this)[
             namespace-uri-for-prefix(., $this) eq xs:anyURI($this/@query)
           ][1]"/>
 
       <!-- Import module to be tested -->
-      <xsl:text>import module namespace </xsl:text>
-      <xsl:value-of select="$prefix"/>
-      <xsl:text> = "</xsl:text>
+      <xsl:text>import module </xsl:text>
+      <xsl:if test="exists($prefix)">
+         <xsl:text>namespace </xsl:text>
+         <xsl:value-of select="$prefix"/>
+         <xsl:text> = </xsl:text>
+      </xsl:if>
+      <xsl:text>"</xsl:text>
       <xsl:value-of select="@query"/>
       <xsl:if test="exists($query-at)">
          <xsl:text>"&#10;  at "</xsl:text>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
-	schematron="do-nothing.sch" stylesheet="do-nothing.xsl" xmlns:do-nothing="x-urn:test:do-nothing"
+	schematron="do-nothing.sch" stylesheet="do-nothing.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="$x:xspec-uri in x:call/x:param">
