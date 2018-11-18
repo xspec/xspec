@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="run-worker" name="run-xspec-tests">
+	<!-- The worker to be generated and run -->
+	<property name="build.worker" value="build-worker.xml" />
+
+	<!-- Absolute path of directory where *.xspec files reside -->
+	<property location="../" name="xspecfiles.dir" />
+	<makeurl file="${xspecfiles.dir}" property="xspecfiles.dir.url" />
+
+	<!-- Generates the worker -->
+	<target name="generate-worker">
+		<xslt force="true" in="build-worker_template.xml" out="${build.worker}"
+			style="common/generate-build-worker.xsl">
+			<factory name="net.sf.saxon.TransformerFactoryImpl" />
+			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
+		</xslt>
+	</target>
+
+	<!-- Runs the generated worker -->
+	<target depends="generate-worker" name="run-worker">
+		<ant antfile="${build.worker}" inheritall="false" />
+	</target>
+</project>
