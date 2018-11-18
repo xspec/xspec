@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-three-dots.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:description query="x-urn:test:xspec-three-dots" query-at="xspec-three-dots.xquery"
+	stylesheet="xspec-three-dots.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xslt-version="3.0">
 	<x:scenario label="For resultant element (simple)">
 		<x:scenario>
@@ -428,7 +429,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="For resultant namespace node">
+	<x:scenario label="For resultant namespace node (TODO: xspec/xspec#67 for XQuery)">
 		<x:scenario>
 			<x:label>When result is<![CDATA[
 						  xmlns:prefix="namespace-uri"
