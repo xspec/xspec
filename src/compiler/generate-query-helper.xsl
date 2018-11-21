@@ -11,6 +11,7 @@
 <xsl:stylesheet version="2.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
@@ -94,26 +95,11 @@
      <xsl:sequence select="."/>
    </xsl:template>  
 
-   <xsl:template match="text()" as="text()+" mode="test:create-node-generator">
-      <xsl:text>text </xsl:text>
-      <xsl:call-template name="test:create-string-generator" />
-   </xsl:template>  
-
-   <xsl:template match="comment()" as="text()+" mode="test:create-node-generator">
-      <xsl:text>comment </xsl:text>
-      <xsl:call-template name="test:create-string-generator" />
-   </xsl:template>
-
-   <xsl:template match="processing-instruction()" as="text()+" mode="test:create-node-generator">
-      <xsl:text>processing-instruction </xsl:text>
-      <xsl:value-of select="name()" />
-      <xsl:text> </xsl:text>
-      <xsl:call-template name="test:create-string-generator" />
-   </xsl:template>
-
-   <!-- FIXME: Escape the quoted string... -->
-   <xsl:template name="test:create-string-generator" as="text()+">
-      <xsl:text>{ "</xsl:text>
+   <xsl:template match="attribute() | comment() | processing-instruction() | text()"
+      as="text()+" mode="test:create-node-generator">
+      <xsl:value-of select="x:node-type(.), name()" />
+      <xsl:text> { "</xsl:text>
+      <!-- FIXME: Escape the quoted string... -->
       <xsl:value-of select="." />
       <xsl:text>" }</xsl:text>
    </xsl:template>

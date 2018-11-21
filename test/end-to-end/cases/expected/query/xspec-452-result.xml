@@ -7,7 +7,7 @@
    <x:scenario>
       <x:label>Text</x:label>
       <x:call function="exactly-one">
-         <x:param>text t</x:param>
+         <x:param>t</x:param>
       </x:call>
       <x:result select="/node()">t</x:result>
       <x:test successful="false">
@@ -18,7 +18,7 @@
    <x:scenario>
       <x:label>Comment</x:label>
       <x:call function="exactly-one">
-         <x:param>comment c</x:param>
+         <x:param><!--c--></x:param>
       </x:call>
       <x:result select="/node()"><!--c--></x:result>
       <x:test successful="false">
@@ -29,7 +29,7 @@
    <x:scenario>
       <x:label>Processing instruction</x:label>
       <x:call function="exactly-one">
-         <x:param>processing-instruction p </x:param>
+         <x:param><?p?></x:param>
       </x:call>
       <x:result select="/node()"><?p?></x:result>
       <x:test successful="false">

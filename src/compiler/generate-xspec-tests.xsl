@@ -475,31 +475,6 @@
    <xsl:apply-templates select="$context" mode="test:generate-variable-declarations">
       <xsl:with-param name="var" select="'impl:context'" />
    </xsl:apply-templates>
-</xsl:template>  
-
-<!-- *** x:report *** -->
-
-<xsl:template match="x:context | x:param" mode="x:report">
-  <xsl:element name="x:{local-name()}">
-  	<xsl:apply-templates select="@*" mode="x:report" />
-    <xsl:apply-templates mode="test:create-node-generator" />
-  </xsl:element>
-</xsl:template>
-  
-<xsl:template match="x:call" mode="x:report">
-  <x:call>
-    <xsl:copy-of select="@*" />
-    <xsl:apply-templates mode="x:report" />
-  </x:call>
-</xsl:template>
-
-<xsl:template match="@select" mode="x:report">
-	<xsl:attribute name="select"
-		select="replace(replace(., '\{', '{{'), '\}', '}}')" />
-</xsl:template>
-
-<xsl:template match="@*" mode="x:report">
-	<xsl:sequence select="." />
 </xsl:template>
 
 </xsl:stylesheet>

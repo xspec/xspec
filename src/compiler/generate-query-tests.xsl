@@ -423,27 +423,10 @@
 
    <!-- *** x:report *** -->
 
-   <xsl:template match="x:param" as="element()" mode="x:report">
-      <xsl:element name="x:{local-name()}">
-         <xsl:apply-templates select="@*" mode="x:report"/>
-         <xsl:apply-templates mode="test:create-node-generator"/>
-      </xsl:element>
-   </xsl:template>
-
-   <xsl:template match="x:call" mode="x:report">
-      <x:call>
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:report"/>
-      </x:call>
-   </xsl:template>
-
-   <xsl:template match="@select" mode="x:report">
-      <xsl:attribute name="select" select="
-          replace(replace(., '\{', '{{'), '\}', '}}')"/>
-   </xsl:template>
-
-   <xsl:template match="@*" mode="x:report">
-      <xsl:sequence select="."/>
+   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
+      <xsl:text>{ </xsl:text>
+      <xsl:apply-imports />
+      <xsl:text> }&#x0A;</xsl:text>
    </xsl:template>
 
 </xsl:stylesheet>
