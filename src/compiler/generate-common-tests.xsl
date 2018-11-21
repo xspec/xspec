@@ -588,6 +588,14 @@
       </xsl:apply-templates>
    </xsl:template>
 
+   <xsl:function name="x:label" as="element(x:label)">
+      <xsl:param name="labelled" as="element()" />
+
+      <x:label>
+         <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
+      </x:label>
+   </xsl:function>
+
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
      in a prior position of the sequence.)
      This function does not sort nodes in document order.

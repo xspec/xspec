@@ -498,18 +498,6 @@
 	<xsl:sequence select="." />
 </xsl:template>
 
-<xsl:function name="x:label" as="node()?">
-	<xsl:param name="labelled" as="element()" />
-	<xsl:choose>
-		<xsl:when test="exists($labelled/x:label)">
-			<xsl:sequence select="$labelled/x:label" />
-		</xsl:when>
-		<xsl:otherwise>
-			<x:label><xsl:value-of select="$labelled/@label" /></x:label>
-		</xsl:otherwise>
-	</xsl:choose>
-</xsl:function>
-
 </xsl:stylesheet>
 
 
