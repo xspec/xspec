@@ -19,6 +19,8 @@
 
 <xsl:import href="format-utils.xsl"/>
 
+<xsl:include href="../common/xspec-utils.xsl" />
+
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl</pkg:import-uri>
 
 <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />

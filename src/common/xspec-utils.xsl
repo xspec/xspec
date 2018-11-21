@@ -8,7 +8,9 @@
 		Elements in this stylesheet must not affect the other stylesheets.
 	-->
 
-	<!-- Identity template -->
+	<!--
+		Identity template
+	-->
 	<xsl:template as="node()" name="x:identity">
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute() | node()" />
@@ -71,4 +73,48 @@
 			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $e)" />
 		</xsl:for-each>
 	</xsl:function>
+
+	<!--
+		Returns node type
+			Example: 'element'
+	-->
+	<xsl:function as="xs:string" name="x:node-type">
+		<xsl:param as="node()" name="node" />
+
+		<xsl:choose>
+			<xsl:when test="$node instance of attribute()">attribute</xsl:when>
+			<xsl:when test="$node instance of comment()">comment</xsl:when>
+			<xsl:when test="$node instance of document-node()">document-node</xsl:when>
+			<xsl:when test="$node instance of element()">element</xsl:when>
+			<xsl:when test="x:instance-of-namespace($node)">namespace-node</xsl:when>
+			<xsl:when test="$node instance of processing-instruction()"
+				>processing-instruction</xsl:when>
+			<xsl:when test="$node instance of text()">text</xsl:when>
+			<xsl:otherwise>node</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<!--
+		Returns true if item is namespace node
+	-->
+	<xsl:function as="xs:boolean" name="x:instance-of-namespace">
+		<xsl:param as="item()?" name="item" />
+
+		<!-- Unfortunately there is no such test as "instance of namespace()":
+			http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/200608/msg00719.html -->
+		<xsl:sequence
+			select="
+				($item instance of node())
+				and
+				not(
+				($item instance of attribute())
+				or ($item instance of comment())
+				or ($item instance of document-node())
+				or ($item instance of element())
+				or ($item instance of processing-instruction())
+				or ($item instance of text())
+				)"
+		 />
+	</xsl:function>
+
 </xsl:stylesheet>

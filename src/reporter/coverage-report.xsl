@@ -19,6 +19,8 @@
 
 <xsl:import href="format-utils.xsl" />
 
+<xsl:include href="../common/xspec-utils.xsl" />
+
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/coverage-report.xsl</pkg:import-uri>
 
 <xsl:param name="tests" as="xs:string" required="yes"/>

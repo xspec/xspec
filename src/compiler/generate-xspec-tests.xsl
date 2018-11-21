@@ -58,6 +58,8 @@
     <import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
 
+    <include href="{resolve-uri('../common/xspec-utils.xsl', static-base-uri())}" />
+
     <!-- This namespace alias is used for when the testing process needs to test
          the generation of XSLT! -->
     <namespace-alias stylesheet-prefix="__x" result-prefix="xsl" />

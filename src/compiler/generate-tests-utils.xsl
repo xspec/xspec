@@ -253,8 +253,8 @@
                      $node2 instance of attribute()) or
                     ($node1 instance of processing-instruction() and
                      $node2 instance of processing-instruction()) or
-                    (test:instance-of-namespace($node1) and
-                     test:instance-of-namespace($node2))">
+                    (x:instance-of-namespace($node1) and
+                     x:instance-of-namespace($node2))">
       <xsl:sequence select="deep-equal(node-name($node1), node-name($node2)) and
                             (string($node1) eq string($node2) or string($node1) = '...')" />      
 
@@ -287,7 +287,7 @@
 
   <xsl:variable name="attribute-nodes" as="attribute()*"     select="$sequence[. instance of attribute()]" />
   <xsl:variable name="document-nodes"  as="document-node()*" select="$sequence[. instance of document-node()]" />
-  <xsl:variable name="namespace-nodes" as="node()*"          select="$sequence[test:instance-of-namespace(.)]" />
+  <xsl:variable name="namespace-nodes" as="node()*"          select="$sequence[x:instance-of-namespace(.)]" />
   <xsl:variable name="text-nodes"      as="text()*"          select="$sequence[. instance of text()]" />
 
   <xsl:variable name="report-element" as="element()">
@@ -315,7 +315,7 @@
           or ($sequence instance of element()+)
           or ($sequence instance of processing-instruction()+)
           or ($sequence instance of text()+)">
-          <xsl:attribute name="select" select="concat('/', test:node-type($sequence[1]), '()')" />
+          <xsl:attribute name="select" select="concat('/', x:node-type($sequence[1]), '()')" />
           <xsl:apply-templates select="$sequence" mode="test:report-node" />
         </xsl:when>
 
@@ -425,10 +425,10 @@
     </xsl:when>
 
     <xsl:when test="$item instance of node()">
-      <xsl:element name="{$local-name-prefix}{test:node-type($item)}" namespace="{$wrapper-ns}">
+      <xsl:element name="{$local-name-prefix}{x:node-type($item)}" namespace="{$wrapper-ns}">
         <xsl:choose>
           <!-- Can't apply templates to namespace nodes -->
-          <xsl:when test="test:instance-of-namespace($item)">
+          <xsl:when test="x:instance-of-namespace($item)">
             <xsl:sequence select="$item" />
           </xsl:when>
 
@@ -560,39 +560,9 @@
   </xsl:choose>  
 </xsl:function>
 
-<xsl:function name="test:node-type" as="xs:string">
-  <xsl:param name="node" as="node()" />
-
-  <xsl:choose>
-    <xsl:when test="$node instance of attribute()"             >attribute</xsl:when>
-    <xsl:when test="$node instance of comment()"               >comment</xsl:when>
-    <xsl:when test="$node instance of document-node()"         >document-node</xsl:when>
-    <xsl:when test="$node instance of element()"               >element</xsl:when>
-    <xsl:when test="test:instance-of-namespace($node)"         >namespace-node</xsl:when>
-    <xsl:when test="$node instance of processing-instruction()">processing-instruction</xsl:when>
-    <xsl:when test="$node instance of text()"                  >text</xsl:when>
-    <xsl:otherwise>node</xsl:otherwise>
-  </xsl:choose>
-</xsl:function>
-
 <xsl:function name="msxsl:node-set" as="item()*">
   <xsl:param name="rtf" as="item()*" />
   <xsl:sequence select="$rtf" />
-</xsl:function>
-
-<!-- Returns true if item is namespace node -->
-<xsl:function name="test:instance-of-namespace" as="xs:boolean">
-  <xsl:param name="item" as="item()?"/>
-
-  <!-- Unfortunately there is no such test as "instance of namespace()":
-         http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/200608/msg00719.html -->
-  <xsl:sequence select="$item instance of node()
-    and not($item instance of attribute()
-      or $item instance of comment()
-      or $item instance of document-node()
-      or $item instance of element()
-      or $item instance of processing-instruction()
-      or $item instance of text())" />
 </xsl:function>
 
 <!-- Returns true if every item in sequence can be wrapped in document node.
@@ -611,7 +581,7 @@
        http://www.w3.org/TR/xslt20/#err-XTDE0420 -->
   <xsl:sequence select="$item instance of node()
     and not($item instance of attribute()
-            or test:instance-of-namespace($item))" />
+            or x:instance-of-namespace($item))" />
 </xsl:function>
 
 <!-- Wraps nodes in document node with their type annotations kept -->
