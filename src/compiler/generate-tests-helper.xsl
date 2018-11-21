@@ -10,9 +10,9 @@
 
 <xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/XSL/TransformAlias"
-                xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
@@ -91,41 +91,35 @@
 
 
 <xsl:template match="element()" as="element()" mode="test:create-node-generator">
-   <xsl:copy>
-      <xsl:apply-templates select="@*|node()" mode="#current"/>
-   </xsl:copy>
-</xsl:template>  
-
-<xsl:template match="attribute()" as="attribute()" mode="test:create-node-generator">
-   <xsl:sequence select="."/>
+  <!-- Non XSLT elements (non xsl:* elements) can be just thrown into identity template -->
+  <xsl:call-template name="x:identity" />
 </xsl:template>
-  
-<xsl:template match="xsl:*" as="element()" mode="test:create-node-generator">
-  <xsl:element name="__x:{ local-name() }">
-    <xsl:apply-templates select="@*|node()" mode="#current"/>
+
+<xsl:template match="attribute() | comment() | processing-instruction() | text()"
+  as="element()" mode="test:create-node-generator">
+  <!-- As for attribute(), do not just throw XSLT attributes (@xsl:*) into identity template.
+    If you do so, the attribute being generated becomes a generator... -->
+  <xsl:element name="xsl:{x:node-type(.)}">
+    <xsl:if test="(. instance of attribute()) or (. instance of processing-instruction())">
+      <xsl:attribute name="name" select="name()" />
+    </xsl:if>
+    <xsl:value-of select="." />
   </xsl:element>
-</xsl:template>  
-
-<xsl:template match="@xsl:*" as="attribute()" mode="test:create-node-generator">
-   <xsl:attribute name="__x:{ local-name() }" select="."/>
 </xsl:template>
 
-<xsl:template match="text()" as="element(xsl:text)" mode="test:create-node-generator">
-  <text>
-     <xsl:value-of select="."/>
-  </text>
-</xsl:template>  
+<xsl:template match="xsl:*" as="element(xsl:element)" mode="test:create-node-generator">
+  <!-- Do not just throw XSLT elements (xsl:*) into identity template.
+    If you do so, the element being generated becomes a generator... -->
+  <element name="{name()}">
+    <xsl:variable name="context-element" as="element()" select="." />
+    <xsl:for-each select="in-scope-prefixes($context-element)[not(. eq 'xml')]">
+      <namespace name="{.}">
+        <xsl:value-of select="namespace-uri-for-prefix(., $context-element)" />
+      </namespace>
+    </xsl:for-each>
 
-<xsl:template match="comment()" as="element(xsl:comment)" mode="test:create-node-generator">
-  <comment>
-     <xsl:value-of select="."/>
-  </comment>
-</xsl:template>
-
-<xsl:template match="processing-instruction()" as="element(xsl:processing-instruction)" mode="test:create-node-generator">
-  <processing-instruction name="{name()}">
-    <xsl:value-of select="."/>
-  </processing-instruction>
+    <xsl:apply-templates select="attribute() | node()" mode="#current" />
+  </element>
 </xsl:template>
 
 <xsl:function name="test:matching-xslt-elements" as="element()*">

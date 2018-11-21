@@ -47,7 +47,6 @@
 
     <!-- The generated stylesheet requires these namespaces, even when this stylesheet
       does not use them in node names. -->
-    <xsl:namespace name="__x"  select="'http://www.w3.org/1999/XSL/TransformAliasAlias'" />
     <xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
     <xsl:namespace name="test" select="'http://www.jenitennison.com/xslt/unit-test'" />
     <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
@@ -59,10 +58,6 @@
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
 
     <include href="{resolve-uri('../common/xspec-utils.xsl', static-base-uri())}" />
-
-    <!-- This namespace alias is used for when the testing process needs to test
-         the generation of XSLT! -->
-    <namespace-alias stylesheet-prefix="__x" result-prefix="xsl" />
 
     <!-- Serialization parameters -->
     <output name="x:report" method="xml" indent="yes" />
