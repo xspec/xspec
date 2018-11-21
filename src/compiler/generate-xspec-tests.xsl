@@ -446,6 +446,8 @@
   </xsl:apply-templates>
 </xsl:template>
 
+<!-- *** test:create-node-generator *** -->
+
 <xsl:template match="x:space" as="empty-sequence()" mode="test:create-node-generator">
   <xsl:message terminate="yes">
     <xsl:value-of select="name()" />
@@ -474,6 +476,8 @@
       <xsl:with-param name="var" select="'impl:context'" />
    </xsl:apply-templates>
 </xsl:template>  
+
+<!-- *** x:report *** -->
 
 <xsl:template match="x:context | x:param" mode="x:report">
   <xsl:element name="x:{local-name()}">
