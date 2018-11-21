@@ -214,7 +214,7 @@ declare function test:report-node(
           return namespace { $prefix } { fn:namespace-uri-for-prefix($prefix, $node) }
       ),
       $node/attribute(),
-      $node/node()/test:report-node(.)
+      (for $child in $node/child::node() return test:report-node($child))
     }
   else $node
 };
