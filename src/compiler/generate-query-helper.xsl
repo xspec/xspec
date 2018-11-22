@@ -94,8 +94,10 @@
       as="text()+" mode="test:create-node-generator">
       <xsl:value-of select="x:node-type(.), name()" />
       <xsl:text> { "</xsl:text>
-      <!-- FIXME: Escape the quoted string... -->
-      <xsl:value-of select="." />
+
+      <!-- Escape the quoted string -->
+      <xsl:value-of select="replace(., '(&quot;)', '$1$1')" />
+
       <xsl:text>" }</xsl:text>
    </xsl:template>
 
