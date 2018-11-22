@@ -60,12 +60,7 @@
          </xsl:when>
          <xsl:when test="node()">
             <xsl:text> := ( document {</xsl:text>
-            <xsl:for-each select="node() except text()[not(normalize-space(.))]">
-               <xsl:apply-templates select="." mode="test:create-node-generator"/>
-               <xsl:if test="position() ne last()">
-                  <xsl:text>, </xsl:text>
-               </xsl:if>
-            </xsl:for-each>
+            <xsl:sequence select="test:create-zero-or-more-node-generators(node())" />
             <xsl:text>} )/</xsl:text>
             <xsl:choose>
                <xsl:when test="@select">( <xsl:value-of select="@select"/> )</xsl:when>
@@ -88,12 +83,12 @@
    </xsl:template>
 
    <xsl:template match="element()" as="element()" mode="test:create-node-generator">
-     <!--xsl:copy>
-       <xsl:copy-of select="@*"/>
-       <xsl:apply-templates mode="#current"/>
-     </xsl:copy-->
-     <xsl:sequence select="."/>
-   </xsl:template>  
+      <xsl:copy>
+         <xsl:text>{ </xsl:text>
+         <xsl:sequence select="test:create-zero-or-more-node-generators(attribute() | node())" />
+         <xsl:text> }&#x0A;</xsl:text>
+      </xsl:copy>
+   </xsl:template>
 
    <xsl:template match="attribute() | comment() | processing-instruction() | text()"
       as="text()+" mode="test:create-node-generator">
@@ -103,6 +98,25 @@
       <xsl:value-of select="." />
       <xsl:text>" }</xsl:text>
    </xsl:template>
+
+   <xsl:function name="test:create-zero-or-more-node-generators" as="node()+">
+      <xsl:param name="nodes" as="node()*" />
+
+      <xsl:choose>
+         <xsl:when test="$nodes">
+            <xsl:for-each select="$nodes">
+               <xsl:apply-templates select="." mode="test:create-node-generator" />
+               <xsl:if test="position() ne last()">
+                  <xsl:text>,&#x0A;</xsl:text>
+               </xsl:if>
+            </xsl:for-each>
+         </xsl:when>
+
+         <xsl:otherwise>
+            <xsl:text>()</xsl:text>
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:function>
 
    <xsl:function name="test:matching-xslt-elements" as="element()*">
      <xsl:param name="element-kind" as="xs:string" />
