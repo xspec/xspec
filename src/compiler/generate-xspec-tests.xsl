@@ -207,8 +207,9 @@
         <xsl:value-of select="normalize-space(x:label(.))"/>
      </message>
     <x:scenario>
+      <!-- Create @pending generator -->
       <xsl:if test="$pending-p">
-        <xsl:attribute name="pending" select="$pending" />
+        <xsl:sequence select="x:create-pending-attr-generator($pending)" />
       </xsl:if>
 
       <!-- Create x:label directly -->
@@ -406,10 +407,12 @@
     </xsl:if>
 
     <x:test>
+      <!-- Create @pending generator or create @successful directly -->
       <xsl:choose>
         <xsl:when test="$pending-p">
-          <xsl:attribute name="pending" select="$pending" />
+          <xsl:sequence select="x:create-pending-attr-generator($pending)" />
         </xsl:when>
+
         <xsl:otherwise>
           <xsl:attribute name="successful" select="'{$impl:successful}'" />
         </xsl:otherwise>
