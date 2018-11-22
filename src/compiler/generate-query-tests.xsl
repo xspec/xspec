@@ -188,7 +188,9 @@
       <xsl:param name="call"    select="()" tunnel="yes" as="element(x:call)?"/>
       <xsl:param name="variables" as="element(x:variable)*"/>
       <xsl:param name="params"    as="element(param)*"/>
+
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)"/>
+
       <!-- x:context and x:call/@template not supported for XQuery -->
       <xsl:if test="exists($context)">
          <xsl:variable name="msg" select="
@@ -200,12 +202,14 @@
              concat('x:call/@template not supported for XQuery (scenario ', x:label(.), ')')"/>
          <xsl:sequence select="error(xs:QName('x:XSPEC004'), $msg)"/>
       </xsl:if>
+
       <!-- x:call required if there are x:expect -->
       <xsl:if test="x:expect and not($call)">
          <xsl:variable name="msg" select="
              concat('there are x:expect but no x:call in scenario ''', x:label(.), '''')"/>
          <xsl:sequence select="error(xs:QName('x:XSPEC005'), $msg)"/>
       </xsl:if>
+
       <!--
         declare function local:...(...)
         {
@@ -219,11 +223,13 @@
          <xsl:if test="$pending-p">
             <xsl:attribute name="pending" select="$pending"/>
          </xsl:if>
-         <x:label>
-            <xsl:value-of select="x:label(.)"/>
-         </x:label>
-         <!-- Generate a seq ctor to generate x:context or x:call in the report. -->
-         <xsl:apply-templates select="x:context|x:call" mode="x:report"/>
+
+         <!-- Create x:label generator -->
+         <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
+
+         <!-- Create report generator -->
+         <xsl:apply-templates select="x:call" mode="x:report"/>
+
          <xsl:text>      &#10;{&#10;</xsl:text>
          <xsl:choose>
             <xsl:when test="not($pending-p)">
