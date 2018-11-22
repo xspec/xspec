@@ -378,6 +378,7 @@
          </xsl:choose>
          <xsl:text>    return&#10;      </xsl:text>
       </xsl:if>
+
       <!--
         return the x:test element for the report
       -->
@@ -390,7 +391,11 @@
                <xsl:attribute name="successful" select="'{ $local:successful }'"/>
             </xsl:otherwise>
          </xsl:choose>
-         <xsl:sequence select="x:label(.)"/>
+
+         <!-- Create x:label generator -->
+         <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
+
+         <!-- Report -->
          <xsl:if test="not($pending-p)">
             <!--xsl:if test="@test">
                <xsl:text>&#10;      { if ( $local:test-result instance of xs:boolean ) then () else test:report-sequence($local:test-result, '</xsl:text>

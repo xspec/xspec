@@ -404,6 +404,7 @@
         </message>
       </if>
     </xsl:if>
+
     <x:test>
       <xsl:choose>
         <xsl:when test="$pending-p">
@@ -413,7 +414,11 @@
           <xsl:attribute name="successful" select="'{$impl:successful}'" />
         </xsl:otherwise>
       </xsl:choose>
+
+      <!-- Create x:label directly -->
       <xsl:sequence select="x:label(.)"/>
+
+      <!-- Report -->
       <xsl:if test="not($pending-p)">
          <xsl:if test="@test">
             <if test="not($impl:boolean-test)">
