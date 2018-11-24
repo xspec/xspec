@@ -22,7 +22,18 @@
 
    <xsl:variable name="actual-document-uri" as="xs:anyURI"
       select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
-   
+
+   <xsl:variable name="xspec-namespace" as="xs:anyURI"
+      select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')" />
+
+   <xsl:variable name="xspec-prefix" as="xs:string">
+      <xsl:variable name="e" select="/element()" as="element(x:description)" />
+      <xsl:sequence select="
+         in-scope-prefixes($e)
+            [namespace-uri-for-prefix(., $e) eq $xspec-namespace]
+            [. (: Do not allow zero-length string :)]
+            [1]"/>
+   </xsl:variable>
 
    <!--
        Drive the overall compilation of a suite.  Apply template on

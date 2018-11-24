@@ -38,13 +38,6 @@
    <xsl:param name="utils-library-at" select="
        resolve-uri('generate-query-utils.xql', static-base-uri())"/>
 
-   <xsl:variable name="xspec-prefix" as="xs:string">
-      <xsl:variable name="e" select="/*"/>
-      <xsl:variable name="u" select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')"/>
-      <xsl:sequence select="
-          in-scope-prefixes($e)[namespace-uri-for-prefix(., $e) eq $u][1]"/>
-   </xsl:variable>
-
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?" select="
        /x:description/@query-at/resolve-uri(., base-uri(..))"/>
