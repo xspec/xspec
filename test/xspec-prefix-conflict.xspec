@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description query="x-urn:test:xspec-prefix-conflict" query-at="xspec-prefix-conflict.xquery"
+	stylesheet="xspec-prefix-conflict.xsl" xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="x-urn:test:xspec-prefix-conflict">
+
+	<t:scenario
+		label="Using x: prefix in function-call @function, function-param @name, @select and child node">
+		<t:call function="x:param-mirror-function">
+			<t:param name="x:param-items" select="element(x:function-param-child)">
+				<x:function-param-child />
+			</t:param>
+		</t:call>
+		<t:expect label="should work" select="'x:function-param-child'" test="name($t:result)" />
+	</t:scenario>
+
+	<t:param name="x:global-param" select="element(x:global-param-child)">
+		<x:global-param-child />
+	</t:param>
+	<t:scenario label="Using x: prefix in global-param @name, @select and child node">
+		<t:call function="false" />
+		<t:expect label="should work" select="'x:global-param-child'" test="name($x:global-param)"
+		 />
+	</t:scenario>
+
+	<t:scenario label="Using x: prefix in assertion">
+		<t:call function="exactly-one">
+			<t:param>
+				<x:element />
+			</t:param>
+		</t:call>
+		<t:expect label="child node, @select and @test should work"
+			select="name(element(x:element))" test="name($t:result/self::element(x:element))">
+			<x:element />
+		</t:expect>
+		<t:expect label="boolean @test should work" test="$t:result instance of element(x:element)"
+		 />
+	</t:scenario>
+
+</t:description>
