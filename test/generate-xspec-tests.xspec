@@ -35,8 +35,8 @@
          <t:scenario label="my label"/>
       </t:context>
       <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
-      <!-- test also it is a QName in the namespace x:* -->
-      <t:expect label="the name" test="exists($t:result/@name)"/>
+      <!-- test also it is a QName in the namespace t:* -->
+      <t:expect label="the name" test="starts-with($t:result/@name, 't:')" />
       <t:expect label="the name is a QName"
                 test="namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result/t:scenario))"
                 select="'http://www.jenitennison.com/xslt/xspec'"/>
