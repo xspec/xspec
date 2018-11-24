@@ -22,6 +22,9 @@
 		<x:expect label="should be possible as well as in assertion @select and @test"
 			select="$Q{x-urn:test:xspec-eqname}global-param treat as element(global-param-child)"
 			test="$Q{x-urn:test:xspec-eqname}global-param treat as element(global-param-child)" />
+		<x:expect label="and boolean @test"
+			test="$Q{x-urn:test:xspec-eqname}global-param instance of element(global-param-child)"
+		 />
 	</x:scenario>
 
 </x:description>
