@@ -30,7 +30,7 @@
       <t:expect label="the result" test="$t:result instance of document-node()"/>
    </t:scenario-->
 
-   <t:scenario label="FIRST TEST.......">
+   <t:scenario label="x:scenario[@label] transformed in x:compile mode">
       <t:context mode="t:compile">
          <t:scenario label="my label"/>
       </t:context>
@@ -51,10 +51,11 @@
        TODO: Track down how it is transformed (named templated, rule
        in a mode, etc.) and test it explicitely...
    -->
-   <t:scenario label="pending call">
+   <t:scenario label="x:expect[@test] transformed in x:compile mode">
       <t:context mode="t:compile">
          <t:param tunnel="yes" name="context" as="empty-sequence()"/>
          <t:param tunnel="yes" name="call" as="empty-sequence()"/>
+
          <t:expect test="false()"/>
       </t:context>
       <t:expect label="is a template"
