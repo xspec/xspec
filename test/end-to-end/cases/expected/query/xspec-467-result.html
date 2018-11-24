@@ -67,7 +67,8 @@
                <tr>
                   <td><pre>&lt;<span class="diff">e1</span> xmlns="ns1"&gt;
    &lt;<span class="diff">e2</span> xmlns:ns4="ns4"
-      xmlns:ns3="ns3"&gt;
+      xmlns:ns3="ns3"
+      xmlns="ns2"&gt;
       &lt;<span class="diff">ns3:e3</span>&gt;
          &lt;<span class="diff">e4</span> /&gt;
       &lt;/ns3:e3&gt;
@@ -75,8 +76,9 @@
 &lt;/e1&gt;</pre></td>
                   <td><pre>&lt;<span class="diff">e1</span> xmlns="ns1"&gt;
    &lt;<span class="diff">e2</span> xmlns:ns4="ns4"
-      xmlns:ns3="ns3"&gt;
-      &lt;<span class="diff">ns3:e3</span>&gt;
+      xmlns:ns3="ns3"
+      xmlns="ns2!"&gt;
+      &lt;<span class="diff">ns3:e3</span> xmlns:ns3="ns3!"&gt;
          &lt;<span class="diff">e4</span> xmlns="" /&gt;
       &lt;/ns3:e3&gt;
    &lt;/e2&gt;

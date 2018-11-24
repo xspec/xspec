@@ -41,13 +41,6 @@
   <xsl:output-character character="&doe-quot;" string="&quot;" />
 </xsl:character-map>
 
-<xsl:variable name="omit-namespaces" as="xs:string+"
-  select="('http://www.w3.org/XML/1998/namespace',
-           'http://www.w3.org/1999/XSL/Transform',
-           'http://www.w3.org/2001/XMLSchema',
-           'http://www.jenitennison.com/xslt/unit-test',
-           'http://www.jenitennison.com/xslt/xspec')" />
-
 <!--
   mode="test:serialize"
     All the whitespace-only text nodes except the ones in <test:ws> are considered to be of indentation.
@@ -74,8 +67,8 @@
     </xsl:otherwise>
   </xsl:choose>
 
-  <!-- Whitespace string for attribute indentation -->
-  <xsl:variable name="attribute-indent" as="xs:string">
+  <!-- Whitespace string for indenting namespace or attribute -->
+  <xsl:variable name="ns-attr-indent" as="xs:string">
     <xsl:value-of>
       <xsl:text>&#xA;</xsl:text>
       <xsl:for-each select="1 to $level"><xsl:text>   </xsl:text></xsl:for-each>
@@ -83,21 +76,45 @@
     </xsl:value-of>
   </xsl:variable>
 
-  <!-- Namespace nodes which do not exist in the parent of this element -->
-  <xsl:variable name="new-namespaces" as="node()*" 
-    select="namespace::*[not(. = $omit-namespaces) and ($level = 0 or not(name() = ../../namespace::*/name()))]" />
+  <!-- Namespace nodes -->
+  <xsl:variable name="omit-namespace-uris" as="xs:string+" select="
+    'http://www.jenitennison.com/xslt/unit-test' (: test :),
+    'http://www.jenitennison.com/xslt/xspec' (: x :),
+    'http://www.w3.org/1999/XSL/Transform' (: xsl :),
+    'http://www.w3.org/2001/XMLSchema' (: xs :),
+    'http://www.w3.org/XML/1998/namespace' (: xml :)" />
+  <xsl:variable name="namespaces" as="node()*" select="namespace::*" />
+  <xsl:variable name="parent-namespaces" as="node()*" select="parent::element()/namespace::*" />
+  <xsl:variable name="significant-namespaces" as="node()*" select="$namespaces[not(string() = $omit-namespace-uris)]" />
+  <xsl:variable name="new-namespaces" as="node()*">
+    <xsl:choose>
+      <xsl:when test="$level eq 0">
+        <!-- Take all -->
+        <xsl:sequence select="$significant-namespaces" />
+      </xsl:when>
 
-  <!-- Output xmlns="" to undeclare the default namespace,
-    if this element undeclares the default namespace
-    and the parent of this element has the default namespace -->
-  <xsl:if test="not(namespace::*[name() = '']) and ../namespace::*[name() = '']">
+      <xsl:otherwise>
+        <!-- Take only the ones not appeared in the parent -->
+        <xsl:sequence select="for $ns in $significant-namespaces
+          return $ns
+           [empty(
+              $parent-namespaces
+                [name() eq name($ns) (: prefix :)]
+                [string() eq string($ns) (: URI :)]
+           )]" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <!-- Output xmlns="" to undeclare the default namespace -->
+  <xsl:if test="exists($parent-namespaces[name() = '']) and empty($namespaces[name() = ''])">
     <xsl:text> xmlns=""</xsl:text>
   </xsl:if>
 
   <!-- Output namespace nodes -->
   <xsl:for-each select="$new-namespaces">
-    <xsl:if test="position() > 1">
-      <xsl:value-of select="$attribute-indent" />
+    <xsl:if test="position() ge 2">
+      <xsl:value-of select="$ns-attr-indent" />
     </xsl:if>
     <xsl:text> xmlns</xsl:text>
     <xsl:if test="name()">
@@ -110,8 +127,8 @@
 
   <!-- Output attributes while performing comparison -->
   <xsl:for-each select="@*">
-    <xsl:if test="$new-namespaces or position() > 1">
-      <xsl:value-of select="$attribute-indent" />
+    <xsl:if test="$new-namespaces or (position() ge 2)">
+      <xsl:value-of select="$ns-attr-indent" />
     </xsl:if>
     <xsl:text> </xsl:text>
     <xsl:choose>
