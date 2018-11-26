@@ -586,13 +586,6 @@
       <xsl:apply-templates select="." mode="test:create-node-generator" />
    </xsl:template>
 
-   <xsl:template match="x:*" as="element()" mode="x:report">
-      <!-- Unify namespace prefix into x: -->
-      <xsl:element name="x:{local-name()}">
-         <xsl:apply-templates select="attribute() | node()" mode="#current" />
-      </xsl:element>
-   </xsl:template>
-
    <xsl:template match="x:context/node()[not(self::x:param)] | x:param/node()" as="node()+" mode="x:report">
       <!-- User content. Leave it intact. -->
       <xsl:apply-templates select="." mode="test:create-node-generator" />
