@@ -146,16 +146,16 @@
    <!-- Generates a call to the function compiled from a scenario or an expect element. --> 
 
    <xsl:template name="x:output-call">
-      <xsl:param name="name"   as="xs:string"/>
-      <xsl:param name="last"   as="xs:boolean"/>
-      <xsl:param name="params" as="element(param)*"/>
+      <xsl:param name="local-name" as="xs:string"/>
+      <xsl:param name="last"       as="xs:boolean"/>
+      <xsl:param name="params"     as="element(param)*"/>
       <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
          <xsl:text>,&#10;</xsl:text>
       </xsl:if>
       <xsl:text>      let $</xsl:text>
       <xsl:value-of select="$xspec-prefix"/>
       <xsl:text>:tmp := local:</xsl:text>
-      <xsl:value-of select="$name"/>
+      <xsl:value-of select="$local-name"/>
       <xsl:text>(</xsl:text>
       <xsl:for-each select="$params">
          <xsl:value-of select="@select"/>

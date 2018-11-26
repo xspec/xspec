@@ -117,10 +117,11 @@
 <!-- Generates a call to the template compiled from a scenario or an expect element. --> 
 
 <xsl:template name="x:output-call">
-   <xsl:param name="name"   as="xs:string"/>
-   <xsl:param name="last"   as="xs:boolean"/>
-   <xsl:param name="params" as="element(param)*"/>
-   <call-template name="x:{ $name }">
+   <xsl:param name="local-name" as="xs:string"/>
+   <xsl:param name="last"       as="xs:boolean"/>
+   <xsl:param name="params"     as="element(param)*"/>
+
+   <call-template name="x:{ $local-name }">
       <xsl:for-each select="$params">
          <with-param name="{ @name }" select="{ @select }"/>
       </xsl:for-each>
