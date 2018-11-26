@@ -60,7 +60,7 @@
     <include href="{resolve-uri('../common/xspec-utils.xsl', static-base-uri())}" />
 
     <!-- Serialization parameters -->
-    <output name="x:report" method="xml" indent="yes" />
+    <output name="{x:xspec-name('report')}" method="xml" indent="yes" />
 
     <!-- Absolute URI of .xspec file (Original one in case of Schematron) -->
     <xsl:variable name="xspec-uri" as="xs:anyURI"
@@ -83,7 +83,7 @@
 
       <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
         being tested which would otherwise govern the output of the report XML. -->
-      <result-document format="x:report">
+      <result-document format="{x:xspec-name('report')}">
         <processing-instruction name="xml-stylesheet">
           <xsl:text>type="text/xsl" href="</xsl:text>
           <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl',
