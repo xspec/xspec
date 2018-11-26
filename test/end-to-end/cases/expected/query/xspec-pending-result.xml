@@ -4,64 +4,74 @@
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-pending.xspec">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               pending="testing x:pending">
-      <x:label>a correct scenario in x:pending must be Pending</x:label>
-      <x:call function="my:square">
-         <x:param select="3"/>
-      </x:call>
-      <x:test pending="testing x:pending">
-         <x:label>it would return Success if it were not Pending</x:label>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               pending="testing x:pending">
-      <x:label>an incorrect scenario in x:pending must be Pending</x:label>
-      <x:call function="my:square">
-         <x:param select="2"/>
-      </x:call>
-      <x:test pending="testing x:pending">
-         <x:label>it would return Failure if it were not Pending</x:label>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
-      <x:label>a non-pending correct scenario alongside a pending scenario</x:label>
-      <x:call function="my:square">
-         <x:param select="3"/>
-      </x:call>
+   <t:scenario pending="testing x:pending">
+      <t:label>a correct scenario in x:pending must be Pending</t:label>
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:test pending="testing x:pending">
+         <t:label>it would return Success if it were not Pending</t:label>
+      </t:test>
+   </t:scenario>
+   <t:scenario pending="testing x:pending">
+      <t:label>an incorrect scenario in x:pending must be Pending</t:label>
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
+         <t:param select="2"/>
+      </t:call>
+      <t:test pending="testing x:pending">
+         <t:label>it would return Failure if it were not Pending</t:label>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>a non-pending correct scenario alongside a pending scenario</t:label>
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
+         <t:param select="3"/>
+      </t:call>
       <t:result select="9"/>
-      <x:test successful="true">
-         <x:label>must execute the test and return Success</x:label>
+      <t:test successful="true">
+         <t:label>must execute the test and return Success</t:label>
          <t:expect select="9"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
-      <x:label>a non-pending incorrect scenario alongside a pending scenario</x:label>
-      <x:call function="my:square">
-         <x:param select="2"/>
-      </x:call>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>a non-pending incorrect scenario alongside a pending scenario</t:label>
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
+         <t:param select="2"/>
+      </t:call>
       <t:result select="4"/>
-      <x:test successful="false">
-         <x:label>must execute the test and return Failure</x:label>
+      <t:test successful="false">
+         <t:label>must execute the test and return Failure</t:label>
          <t:expect select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec" pending="testing @pending">
-      <x:label>a correct scenario with @pending must be Pending</x:label>
-      <x:call function="my:square">
-         <x:param select="3"/>
-      </x:call>
-      <x:test pending="testing @pending">
-         <x:label>it would return Success if it were not Pending</x:label>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec" pending="testing @pending">
-      <x:label>an incorrect scenario with @pending must be Pending</x:label>
-      <x:call function="my:square">
-         <x:param select="2"/>
-      </x:call>
-      <x:test pending="testing @pending">
-         <x:label>it would return Failure if it were not Pending</x:label>
-      </x:test>
-   </x:scenario>
+      </t:test>
+   </t:scenario>
+   <t:scenario pending="testing @pending">
+      <t:label>a correct scenario with @pending must be Pending</t:label>
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:test pending="testing @pending">
+         <t:label>it would return Success if it were not Pending</t:label>
+      </t:test>
+   </t:scenario>
+   <t:scenario pending="testing @pending">
+      <t:label>an incorrect scenario with @pending must be Pending</t:label>
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
+         <t:param select="2"/>
+      </t:call>
+      <t:test pending="testing @pending">
+         <t:label>it would return Failure if it were not Pending</t:label>
+      </t:test>
+   </t:scenario>
 </t:report>
