@@ -635,6 +635,14 @@
       <xsl:apply-templates select="$pending-attr" mode="test:create-node-generator" />
    </xsl:function>
 
+   <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.
+      Usually 'x:local-name'. -->
+   <xsl:function name="x:xspec-name" as="xs:string">
+      <xsl:param name="local-name" as="xs:string" />
+
+      <xsl:sequence select="concat($xspec-prefix, ':'[$xspec-prefix], $local-name)" />
+   </xsl:function>
+
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
      in a prior position of the sequence.)
      This function does not sort nodes in document order.
