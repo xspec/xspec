@@ -531,7 +531,7 @@
    <!-- This mode resolves all the <like> elements to bring in the scenarios that
         they specify -->
 
-   <xsl:template match="x:description" mode="x:unshare-scenarios">
+   <xsl:template match="x:description" as="element(x:description)" mode="x:unshare-scenarios">
       <xsl:copy>
          <xsl:apply-templates select="." mode="x:copy-namespaces"/>
          <xsl:copy-of select="@*"/>
@@ -539,7 +539,7 @@
       </xsl:copy>
    </xsl:template>
 
-   <xsl:template match="x:scenario" mode="x:unshare-scenarios">
+   <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:unshare-scenarios">
       <x:scenario>
          <xsl:copy-of select="@* except @shared"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>
@@ -552,7 +552,7 @@
       <xsl:apply-templates select="key('scenarios', x:label(.))/*" mode="x:unshare-scenarios"/>
    </xsl:template>
 
-   <xsl:template match="x:pending" mode="x:unshare-scenarios">
+   <xsl:template match="x:pending" as="element(x:pending)" mode="x:unshare-scenarios">
       <x:pending>
          <xsl:copy-of select="@*"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>
@@ -561,7 +561,7 @@
 
    <xsl:template match="x:scenario[@shared = 'yes']" mode="x:unshare-scenarios"/>
 
-   <xsl:template match="node()" mode="x:unshare-scenarios">
+   <xsl:template match="node()" as="node()" mode="x:unshare-scenarios">
       <xsl:copy>
          <xsl:copy-of select="@*"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>

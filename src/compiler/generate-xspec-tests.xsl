@@ -37,7 +37,7 @@
 <!-- *** x:generate-tests *** -->
 <!-- Does the generation of the test stylesheet -->
   
-<xsl:template match="x:description" mode="x:generate-tests">
+<xsl:template match="x:description" as="element(xsl:stylesheet)" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
   <stylesheet version="{( @xslt-version, 2.0 )[1]}"
               exclude-result-prefixes="impl">
@@ -132,7 +132,7 @@
 <!-- *** x:compile *** -->
 <!-- Generates the templates that perform the tests -->
 
-<xsl:template name="x:output-scenario">
+<xsl:template name="x:output-scenario" as="element(xsl:template)+">
   <xsl:param name="pending"   select="()" tunnel="yes" as="node()?"/>
   <xsl:param name="apply"     select="()" tunnel="yes" as="element(x:apply)?"/>
   <xsl:param name="call"      select="()" tunnel="yes" as="element(x:call)?"/>
@@ -317,7 +317,7 @@
 </xsl:template>
 
 
-<xsl:template name="x:output-expect">
+<xsl:template name="x:output-expect" as="element(xsl:template)">
   <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
   <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
   <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>

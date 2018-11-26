@@ -182,7 +182,7 @@
        TODO: Add the $params parameter as in the x:output-scenario for XSLT.
    -->
 
-   <xsl:template name="x:output-scenario">
+   <xsl:template name="x:output-scenario" as="node()+">
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
       <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
       <xsl:param name="call"    select="()" tunnel="yes" as="element(x:call)?"/>
@@ -294,7 +294,7 @@
        actual result of the test and return the corresponding t:test
        element for the XML report.
    -->
-   <xsl:template name="x:output-expect">
+   <xsl:template name="x:output-expect" as="node()+">
       <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
       <xsl:param name="params"  required="yes"              as="element(param)*"/>
