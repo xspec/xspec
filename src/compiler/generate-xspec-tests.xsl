@@ -62,11 +62,6 @@
     <!-- Serialization parameters -->
     <output name="x:report" method="xml" indent="yes" />
 
-    <!-- Absolute URI of .xsl file to be tested -->
-    <variable name="x:stylesheet-uri" as="xs:anyURI">
-      <xsl:value-of select="$stylesheet-uri" />
-    </variable>
-
     <!-- Absolute URI of .xspec file (Original one in case of Schematron) -->
     <xsl:variable name="xspec-uri" as="xs:anyURI"
       select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
@@ -95,16 +90,21 @@
             static-base-uri())" />
           <xsl:text>"</xsl:text>
         </processing-instruction>
-        <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
-          that the URI appears in the trace report generated from running the
-          test stylesheet, which can then be picked up by stylesheets that
-          process *that* to generate a coverage report -->
-        <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
-          <xsl:attribute name="xspec" select="$xspec-uri"/>
+
+        <xsl:element name="{x:xspec-name('report')}" namespace="{$xspec-namespace}">
+          <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
+            that the URI appears in the trace report generated from running the
+            test stylesheet, which can then be picked up by stylesheets that
+            process *that* to generate a coverage report -->
+          <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+
+          <xsl:attribute name="date" select="'{current-dateTime()}'" />
+          <xsl:attribute name="xspec" select="$xspec-uri" />
+
           <xsl:copy-of select="@schematron"/>
           <!-- Generate calls to the compiled top-level scenarios. -->
           <xsl:call-template name="x:call-scenarios"/>
-        </x:report>
+        </xsl:element>
       </result-document>
     </template>
 
@@ -191,24 +191,25 @@
   </xsl:if>
 
   <template name="{x:xspec-name(generate-id())}">
-     <xsl:for-each select="$params">
-        <param name="{ @name }" required="yes"/>
-     </xsl:for-each>
-     <message>
-        <xsl:if test="$pending-p">
-           <xsl:text>PENDING: </xsl:text>
-           <xsl:if test="$pending != ''">
-              <xsl:text>(</xsl:text>
-              <xsl:value-of select="normalize-space($pending)"/>
-              <xsl:text>) </xsl:text>
-           </xsl:if>
+    <xsl:for-each select="$params">
+      <param name="{ @name }" required="yes"/>
+    </xsl:for-each>
+    <message>
+      <xsl:if test="$pending-p">
+        <xsl:text>PENDING: </xsl:text>
+        <xsl:if test="$pending != ''">
+          <xsl:text>(</xsl:text>
+          <xsl:value-of select="normalize-space($pending)"/>
+          <xsl:text>) </xsl:text>
         </xsl:if>
-        <xsl:if test="parent::x:scenario">
-           <xsl:text>..</xsl:text>
-        </xsl:if>
-        <xsl:value-of select="normalize-space(x:label(.))"/>
-     </message>
-    <x:scenario>
+      </xsl:if>
+      <xsl:if test="parent::x:scenario">
+        <xsl:text>..</xsl:text>
+      </xsl:if>
+      <xsl:value-of select="normalize-space(x:label(.))"/>
+    </message>
+
+    <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
       <!-- Create @pending generator -->
       <xsl:if test="$pending-p">
         <xsl:sequence select="x:create-pending-attr-generator($pending)" />
@@ -315,7 +316,7 @@
         </call-template>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
-    </x:scenario>
+    </xsl:element>
   </template>
   <xsl:call-template name="x:compile-scenarios"/>
 </xsl:template>
@@ -413,7 +414,7 @@
       </if>
     </xsl:if>
 
-    <x:test>
+    <xsl:element name="{x:xspec-name('test')}" namespace="{$xspec-namespace}">
       <!-- Create @pending generator or create @successful directly -->
       <xsl:choose>
         <xsl:when test="$pending-p">
@@ -450,7 +451,7 @@
             </xsl:if>
          </call-template>
       </xsl:if>
-    </x:test>
+    </xsl:element>
  </template>
 </xsl:template>
 
@@ -491,12 +492,12 @@
 <!-- *** x:compile *** -->
 <!-- Helper code for the tests -->
 
-<xsl:template match="x:context" mode="x:setup-context">
+<xsl:template match="x:context" as="element()+" mode="x:setup-context">
    <xsl:variable name="context" as="element(x:context)">
-      <x:context>
+      <xsl:element name="{x:xspec-name('context')}" namespace="{$xspec-namespace}">
          <xsl:sequence select="@*" />
          <xsl:sequence select="node() except x:param" />
-      </x:context>
+      </xsl:element>
    </xsl:variable>
    <xsl:apply-templates select="$context" mode="test:generate-variable-declarations">
       <xsl:with-param name="var" select="'impl:context'" />

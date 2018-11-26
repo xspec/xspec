@@ -43,12 +43,12 @@
       <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
-            <x:description>
+            <xsl:element name="{x:xspec-name('description')}" namespace="{$xspec-namespace}">
                <xsl:apply-templates select="$this/x:description" mode="x:copy-namespaces"/>
                <xsl:copy-of select="$this/x:description/@*"/>
                <xsl:apply-templates select="x:gather-specs($this/x:description)"
                                     mode="x:gather-specs"/>
-            </x:description>
+            </xsl:element>
          </xsl:document>
       </xsl:variable>
       <xsl:variable name="unshared-scenarios" as="document-node()">
@@ -120,10 +120,11 @@
    <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:gather-specs">
       <xsl:param name="xslt-version" as="xs:decimal" tunnel="yes" required="yes"/>
 
-      <x:scenario xslt-version="{$xslt-version}">
+      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
+         <xsl:attribute name="xslt-version" select="$xslt-version" />
          <xsl:copy-of select="@*"/>
          <xsl:apply-templates mode="#current"/>
-      </x:scenario>
+      </xsl:element>
    </xsl:template>
 
    <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
@@ -143,9 +144,9 @@
             (ancestor::*[@xml:space][1]/@xml:space = 'preserve')
             or (node-name(parent::*) = $preserve-space)">
             <!-- Preserve and wrap in <x:text> -->
-            <x:text>
+            <xsl:element name="{x:xspec-name('text')}" namespace="{$xspec-namespace}">
                <xsl:sequence select="." />
-            </x:text>
+            </xsl:element>
          </xsl:when>
 
          <xsl:otherwise>
@@ -373,14 +374,14 @@
          <xsl:choose>
             <xsl:when test="x:apply">
                <xsl:variable name="local-params" as="element(x:param)*" select="x:apply/x:param"/>
-               <x:apply>
+               <xsl:element name="{x:xspec-name('apply')}" namespace="{$xspec-namespace}">
                   <xsl:sequence select="$apply/@*"/>
                   <xsl:sequence select="x:apply/@*"/>
                   <xsl:sequence select="
                       $apply/x:param[not(@name = $local-params/@name)],
                       $local-params"/>
                   <!-- TODO: Test that "x:apply/(node() except x:param)" is empty. -->
-               </x:apply>
+               </xsl:element>
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$apply"/>
@@ -392,7 +393,7 @@
          <xsl:choose>
             <xsl:when test="x:context">
                <xsl:variable name="local-params" as="element(x:param)*" select="x:context/x:param"/>
-               <x:context>
+               <xsl:element name="{x:xspec-name('context')}" namespace="{$xspec-namespace}">
                   <xsl:sequence select="$context/@*"/>
                   <xsl:sequence select="x:context/@*"/>
                   <xsl:sequence select="
@@ -403,7 +404,7 @@
                         x:context/(node() except x:param)
                       else
                         $context/(node() except x:param)"/>
-               </x:context>
+               </xsl:element>
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$context"/>
@@ -415,14 +416,14 @@
          <xsl:choose>
             <xsl:when test="x:call">
                <xsl:variable name="local-params" as="element(x:param)*" select="x:call/x:param"/>
-               <x:call>
+               <xsl:element name="{x:xspec-name('call')}" namespace="{$xspec-namespace}">
                   <xsl:sequence select="$call/@*"/>
                   <xsl:sequence select="x:call/@*"/>
                   <xsl:sequence select="
                       $call/x:param[not(@name = $local-params/@name)],
                       $local-params"/>
                   <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
-               </x:call>
+               </xsl:element>
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$call"/>
@@ -551,10 +552,10 @@
    </xsl:template>
 
    <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:unshare-scenarios">
-      <x:scenario>
+      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
          <xsl:copy-of select="@* except @shared"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </x:scenario>
+      </xsl:element>
    </xsl:template>
 
    <xsl:key name="scenarios" match="x:scenario" use="x:label(.)"/>
@@ -564,10 +565,10 @@
    </xsl:template>
 
    <xsl:template match="x:pending" as="element(x:pending)" mode="x:unshare-scenarios">
-      <x:pending>
+      <xsl:element name="{x:xspec-name('pending')}" namespace="{$xspec-namespace}">
          <xsl:copy-of select="@*"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </x:pending>
+      </xsl:element>
    </xsl:template>
 
    <xsl:template match="x:scenario[@shared = 'yes']" mode="x:unshare-scenarios"/>
@@ -620,9 +621,9 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <x:label>
+      <xsl:element name="{x:xspec-name('label')}" namespace="{$xspec-namespace}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
-      </x:label>
+      </xsl:element>
    </xsl:function>
 
    <xsl:function name="x:create-pending-attr-generator" as="node()+">

@@ -212,7 +212,7 @@
       <xsl:text>(</xsl:text>
       <xsl:value-of select="$params/concat('$', @name)" separator=", "/>
       <xsl:text>)&#10;{&#10;</xsl:text>
-      <x:scenario>
+      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
          <!-- Create @pending generator -->
          <xsl:if test="$pending-p">
             <xsl:text>{ </xsl:text>
@@ -275,7 +275,7 @@
          <xsl:call-template name="x:call-scenarios"/>
          <xsl:text>    )&#10;</xsl:text>
          <xsl:text>}&#10;</xsl:text>
-      </x:scenario>
+      </xsl:element>
       <xsl:text>&#10;};&#10;</xsl:text>
       <xsl:call-template name="x:compile-scenarios"/>
    </xsl:template>
@@ -378,7 +378,7 @@
       <!--
         return the x:test element for the report
       -->
-      <x:test>
+      <xsl:element name="{x:xspec-name('test')}" namespace="{$xspec-namespace}">
          <!-- Create @pending generator or create @successful directly -->
          <xsl:choose>
             <xsl:when test="$pending-p">
@@ -406,7 +406,7 @@
             <xsl:value-of select="$xspec-prefix"/>
             <xsl:text>:expect') }</xsl:text>
          </xsl:if>
-      </x:test>
+      </xsl:element>
       <xsl:text>&#10;};&#10;</xsl:text>
    </xsl:template>
 
