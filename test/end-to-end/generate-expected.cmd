@@ -49,12 +49,12 @@ for %%I in ("%CASES_DIR%\*.xspec") do (
     rem
     rem Normalize the report HTML
     rem
-    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-result-norm.html" -s:"%TEST_DIR%\%%~nI-result.html" -xsl:processor\normalize.xsl
+    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-result-norm.html" -s:"%TEST_DIR%\%%~nI-result.html" -xsl:processor\html\normalize.xsl
 
     rem
     rem Normalize the JUnit report
     rem
-    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-junit-norm.xml" -s:"%TEST_DIR%\%%~nI-junit.xml" -xsl:processor\normalize-junit.xsl
+    java -classpath "%SAXON_CP%" net.sf.saxon.Transform -o:"%TEST_DIR%\%%~nI-junit-norm.xml" -s:"%TEST_DIR%\%%~nI-junit.xml" -xsl:processor\junit\normalize.xsl
 )
 
 rem
