@@ -65,7 +65,7 @@
     <!-- Absolute URI of .xspec file (Original one in case of Schematron) -->
     <xsl:variable name="xspec-uri" as="xs:anyURI"
       select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
-    <variable name="x:xspec-uri" as="xs:anyURI">
+    <variable name="{x:xspec-name('xspec-uri')}" as="xs:anyURI">
       <xsl:value-of select="$xspec-uri" />
     </variable>
 

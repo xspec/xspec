@@ -111,7 +111,9 @@
       <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
 
       <!-- Absolute URI of .xspec file -->
-      <xsl:text>declare variable $x:xspec-uri as xs:anyURI := xs:anyURI("</xsl:text>
+      <xsl:text>declare variable $</xsl:text>
+      <xsl:value-of select="x:xspec-name('xspec-uri')" />
+      <xsl:text> as xs:anyURI := xs:anyURI("</xsl:text>
       <xsl:value-of select="$actual-document-uri" />
       <xsl:text>");&#x0A;</xsl:text>
 
