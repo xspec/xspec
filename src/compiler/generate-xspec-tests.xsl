@@ -121,11 +121,12 @@
    <xsl:param name="last"       as="xs:boolean"/>
    <xsl:param name="params"     as="element(param)*"/>
 
-   <call-template name="x:{ $local-name }">
+   <call-template name="{x:xspec-name($local-name)}">
       <xsl:for-each select="$params">
          <with-param name="{ @name }" select="{ @select }"/>
       </xsl:for-each>
    </call-template>
+
    <!-- Continue compiling calls. -->
    <xsl:call-template name="x:continue-call-scenarios"/>
 </xsl:template>
@@ -189,7 +190,7 @@
     </xsl:message>
   </xsl:if>
 
-  <template name="x:{generate-id()}">
+  <template name="{x:xspec-name(generate-id())}">
      <xsl:for-each select="$params">
         <param name="{ @name }" required="yes"/>
      </xsl:for-each>
@@ -325,8 +326,10 @@
   <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
   <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
   <xsl:param name="params"  required="yes"              as="element(param)*"/>
+
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
-  <template name="x:{generate-id()}">
+
+  <template name="{x:xspec-name(generate-id())}">
      <xsl:for-each select="$params">
         <param name="{ @name }" required="{ @required }"/>
      </xsl:for-each>
