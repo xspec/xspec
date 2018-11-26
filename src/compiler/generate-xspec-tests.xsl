@@ -73,7 +73,7 @@
     <xsl:call-template name="x:compile-params"/>
 
     <!-- The main compiled template. -->
-    <template name="x:main">
+    <template name="{x:xspec-name('main')}">
       <message>
         <text>Testing with </text>
         <value-of select="system-property('xsl:product-name')" />
