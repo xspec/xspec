@@ -443,7 +443,9 @@
          </xsl:if>
          <call-template name="test:report-sequence">
             <with-param name="sequence"     select="$impl:expected"/>
-            <with-param name="wrapper-name" select="'x:expect'"/>
+            <with-param name="wrapper-name" as="xs:string">
+               <xsl:value-of select="x:xspec-name('expect')" />
+            </with-param>
             <xsl:if test="@test">
               <with-param name="test" as="xs:string">
                 <xsl:value-of select="@test"/>
