@@ -258,7 +258,7 @@
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <param name="x:result" select="$x:result"/>
+               <param name="{x:xspec-name('result')}" select="${x:xspec-name('result')}" />
             </xsl:if>
             <xsl:for-each select="$vars">
                <param name="{ @name }" select="${ @name }"/>
@@ -463,7 +463,7 @@
          <xsl:with-param name="call"    tunnel="yes" select="$call"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <param name="x:result" required="yes"/>
+               <param name="{x:xspec-name('result')}" required="yes" />
             </xsl:if>
             <xsl:for-each select="$vars">
                <param name="{ @name }" required="yes"/>

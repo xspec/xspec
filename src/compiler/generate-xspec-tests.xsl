@@ -221,7 +221,7 @@
 
       <xsl:apply-templates select="$variables" mode="x:generate-declarations"/>
       <xsl:if test="not($pending-p) and x:expect">
-        <variable name="x:result" as="item()*">
+        <variable name="{x:xspec-name('result')}" as="item()*">
           <xsl:choose>
             <xsl:when test="$call/@template">
               <!-- Set up variables containing the parameter values -->
@@ -307,8 +307,10 @@
           </xsl:choose>      
         </variable>
         <call-template name="test:report-sequence">
-          <with-param name="sequence" select="$x:result" />
-          <with-param name="wrapper-name" select="'x:result'" />
+          <with-param name="sequence" select="${x:xspec-name('result')}" />
+          <with-param name="wrapper-name" as="xs:string">
+            <xsl:value-of select="x:xspec-name('result')" />
+          </with-param>
         </call-template>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
@@ -360,11 +362,12 @@
                    $x:result as if they were *children* of the context node.
                    Have to experiment a bit to see if that really is the case.                   
                    TODO: To remove. Use directly $x:result instead.  See issue 14. -->
-              <when test="exists($x:result) and test:wrappable-sequence($x:result)">
-                <sequence select="test:wrap-nodes($x:result)" />
+              <when test="exists(${x:xspec-name('result')})
+                and test:wrappable-sequence(${x:xspec-name('result')})">
+                <sequence select="test:wrap-nodes(${x:xspec-name('result')})" />
               </when>
               <otherwise>
-                <sequence select="$x:result" />
+                <sequence select="${x:xspec-name('result')}" />
               </otherwise>
             </choose>
           </variable>
@@ -397,7 +400,7 @@
         </xsl:when>
         <xsl:otherwise>
           <variable name="impl:successful" as="xs:boolean" 
-            select="test:deep-equal($impl:expected, $x:result, {$deep-equal-flags})" />
+            select="test:deep-equal($impl:expected, ${x:xspec-name('result')}, {$deep-equal-flags})" />
         </xsl:otherwise>
       </xsl:choose>
       <if test="not($impl:successful)">
@@ -428,7 +431,9 @@
             <if test="not($impl:boolean-test)">
                <call-template name="test:report-sequence">
                   <with-param name="sequence"     select="$impl:test-result"/>
-                  <with-param name="wrapper-name" select="'x:result'"/>
+                  <with-param name="wrapper-name" as="xs:string">
+                     <xsl:value-of select="x:xspec-name('result')" />
+                  </with-param>
                </call-template>
             </if>
          </xsl:if>
