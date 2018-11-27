@@ -9,29 +9,13 @@
 
 <project name="xspec" default="xspec" xmlns:if="ant:if" xmlns:unless="ant:unless">
   <description><![CDATA[
-    Usage (command-line):
+    Usage:
     
-      See https://github.com/xspec/xspec/wiki/Running-with-Ant
-    
-    ---
-    
-    Usage (Oxygen XSLT transformation scenario):
-    
-      This file can be used in place of Oxygen's ${frameworksDir}/xspec/build.xml 
-    
-      Setup:
-    
-        - Duplicate Oxygen's default XSpec scenario
-    
-        - Under Options tab:
-          - Build file: [this file]
-    
-        - Under Parameters tab:
-          - "xspec.project.dir" parameter value: "C:\Git\xspec" for example
-          - If "catalog" parameter uses ${pdu}, replace it with ${pd}
-          - New parameters if required (See https://github.com/xspec/xspec/wiki/Running-with-Ant):
-            - test.type
-            - xspec.fail
+      * Command-line
+          https://github.com/xspec/xspec/wiki/Running-with-Ant
+          
+      * Oxygen XSLT transformation scenario
+          https://github.com/xspec/xspec/wiki/Running-with-Oxygen
   ]]></description>
 
   <!-- "xspec.project.dir" property: Documented in Wiki. DO NOT RENAME.
