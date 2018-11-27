@@ -145,6 +145,9 @@ teardown() {
     run java -cp ${SAXON_CP} net.sf.saxon.Transform -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
+
+    # JUnit is disabled by default
+    [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
 
@@ -174,6 +177,9 @@ teardown() {
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
+
+    # HTML report file
+    [ -f "../tutorial/xspec/escape-for-regex-result.html" ]
 
     # JUnit report file
     [ -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
@@ -322,6 +328,9 @@ teardown() {
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
+
+    # Default xspec.junit.enabled is false
+    [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
 
@@ -553,6 +562,24 @@ teardown() {
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
+}
+
+
+@test "Ant for XSLT with JUnit creates report files" {
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib ${SAXON_CP} -Dxspec.junit.enabled=true
+	echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    [[ "${output}" =~ "BUILD FAILED" ]]
+
+    # XML report file
+    [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
+
+    # HTML report file
+    [ -f "../tutorial/xspec/escape-for-regex-result.html" ]
+
+    # JUnit report file
+    [ -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
 
