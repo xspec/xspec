@@ -32,6 +32,9 @@
 </xsl:with-param>
 		</xsl:call-template>
 
+		<!-- Prerequisites -->
+		<xsl:apply-templates select="@ifdef" />
+
 		<!-- Script body -->
 		<xsl:call-template name="write">
 			<xsl:with-param as="xs:string" name="text" select="." />
@@ -42,6 +45,20 @@
 			<xsl:with-param name="text" xml:space="preserve">
 	goto :EOF
 </xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
+
+	<!-- Skip if not defined -->
+	<xsl:template as="text()+" match="@ifdef">
+		<xsl:call-template name="write">
+			<xsl:with-param name="text">
+				<xsl:for-each select="tokenize(., '\s')[.]" xml:space="preserve">
+	if not defined <xsl:value-of select="." /> (
+		call :skip "<xsl:value-of select="." /> is not defined"
+		goto :EOF
+	)
+</xsl:for-each>
+			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
 
