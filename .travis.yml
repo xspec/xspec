@@ -11,7 +11,7 @@ env:
     matrix:
         # latest Saxon 9.9 version and Jing
         - SAXON_VERSION=9.9.0-2
-          JING_VERSION=20091111
+          JING_VERSION=20181204
         # latest Saxon 9.8 version
         #   * XML Calabash will use Saxon jar in its own lib directory.
         #   * BaseX test requires XML Calabash.
@@ -53,7 +53,7 @@ before_script:
         echo "Jing will not be installed";
       else
         export JING_JAR=/tmp/xspec/jing/jing.jar;
-        curl -fsSL --create-dirs --retry 5 -o ${JING_JAR} http://central.maven.org/maven2/com/thaiopensource/jing/${JING_VERSION}/jing-${JING_VERSION}.jar;
+        curl -fsSL --create-dirs --retry 5 -o ${JING_JAR} http://central.maven.org/maven2/org/relaxng/jing/${JING_VERSION}/jing-${JING_VERSION}.jar;
       fi
 
 script:
