@@ -38,14 +38,6 @@ rem
 set "THIS_FILE_NX=%~nx0"
 
 rem
-rem Availability of Ant
-rem
-if not defined ANT_VERSION (
-    where ant > NUL 2>&1
-    if not errorlevel 1 set ANT_VERSION=1
-)
-
-rem
 rem Go to the directory where this script resides
 rem
 pushd "%~dp0"
