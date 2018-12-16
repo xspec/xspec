@@ -12,6 +12,7 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xhtml="http://www.w3.org/1999/xhtml"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 extension-element-prefixes="test"
                 exclude-result-prefixes="xs xhtml"
@@ -38,6 +39,9 @@
    <xsl:template match="*" mode="test:generate-variable-declarations">
       <xsl:param name="var"    as="xs:string"  required="yes"/>
       <xsl:param name="global" as="xs:boolean" select="false()"/>
+      <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
+      <xsl:variable name="variable_is_pending" as="xs:boolean"
+         select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
       <xsl:choose>
          <xsl:when test="$global">
             <xsl:text>declare variable $</xsl:text>
@@ -47,11 +51,15 @@
          </xsl:otherwise>
       </xsl:choose>
       <xsl:value-of select="$var"/>
-      <xsl:if test="@as">
+      <xsl:if test="@as and not($variable_is_pending)"><!-- 2nd part avoids data type error for pending var with empty definition -->
          <xsl:text> as </xsl:text>
          <xsl:value-of select="@as"/>
       </xsl:if>
       <xsl:choose>
+         <xsl:when test="$variable_is_pending">
+            <!-- Do not give variable a value (or @as, above) because the value specified in test file might not be executable. -->
+            <xsl:text> := ()</xsl:text>
+         </xsl:when>
          <xsl:when test="@href">
             <xsl:text> := doc('</xsl:text>
             <xsl:value-of select="resolve-uri(@href, base-uri(.))"/>

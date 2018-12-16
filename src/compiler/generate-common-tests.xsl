@@ -252,7 +252,7 @@
    <xsl:template match="x:variable" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(var)*"/>
       <!-- The variable declaration. -->
-      <xsl:if test="empty(following-sibling::x:call)">
+      <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
          <xsl:apply-templates select="." mode="test:generate-variable-declarations">
             <xsl:with-param name="var"  select="( @name, generate-id() )[1]"/>
             <xsl:with-param name="type" select="'variable'"/>
@@ -413,8 +413,8 @@
          <xsl:with-param name="apply"     select="$new-apply"   tunnel="yes"/>
          <xsl:with-param name="call"      select="$new-call"    tunnel="yes"/>
          <xsl:with-param name="context"   select="$new-context" tunnel="yes"/>
-         <!-- the variable declarations preceding the x:call (if any). -->
-         <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable"/>
+         <!-- the variable declarations preceding the x:call or x:context (if any). -->
+         <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:for-each select="$vars">
                <param name="{ @name }" required="yes"/>

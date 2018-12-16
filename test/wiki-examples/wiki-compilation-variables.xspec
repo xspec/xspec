@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:my="http://example.org/ns/my" stylesheet="../xspec-tested.xsl"
+  query="http://example.org/ns/my" query-at="../xspec-tested.xql">
+
+  <!-- First example (embellished a bit to make it runnable) in Compilation wiki, under "Variables" -->
+  <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
+
+  <t:scenario label="scenario">
+    <t:variable name="var" select="'value'"/>
+    <t:call function="my:square">
+      <t:param select="xs:integer(0)"/>
+    </t:call>
+    <t:expect label="true" test="exists($x:result)"/>
+  </t:scenario>
+</t:description>

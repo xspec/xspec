@@ -194,6 +194,16 @@
       <xsl:text>(</xsl:text>
       <xsl:value-of select="$params/concat('$', @name)" separator=", "/>
       <xsl:text>)&#10;{&#10;</xsl:text>
+      <!-- If there are variables before x:call, define them here followed by "return". -->
+      <xsl:if test="exists($variables[following-sibling::x:call])">
+         <xsl:for-each select="$variables[following-sibling::x:call]">
+            <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+               <xsl:with-param name="var" select="@name"/>
+            </xsl:apply-templates>
+         </xsl:for-each>
+         <xsl:text>    return&#10;</xsl:text>
+      </xsl:if>
+
       <x:scenario>
          <xsl:if test="$pending-p">
             <xsl:attribute name="pending" select="$pending"/>
@@ -206,7 +216,7 @@
          <xsl:text>      &#10;{&#10;</xsl:text>
          <xsl:choose>
             <xsl:when test="not($pending-p)">
-               <xsl:for-each select="$variables">
+               <xsl:for-each select="$variables[not(following-sibling::x:call)]">
                   <xsl:apply-templates select="." mode="test:generate-variable-declarations">
                      <xsl:with-param name="var" select="@name"/>
                   </xsl:apply-templates>

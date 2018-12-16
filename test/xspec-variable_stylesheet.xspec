@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!--  File:       test/xspec-variable_stylesheet.xspec                     -->
+<!--  Tags:                                                                -->
+<!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:my="http://example.org/ns/my" stylesheet="xspec-variable-tested.xsl">
+  <t:variable name="test-data" href="xspec-variable.xml"/>
+  <t:variable name="test-3" select="$test-data/*/test[xs:integer(@num) eq 3]"/>
+  <t:variable name="global-var-no-casting" select="xs:integer(5)"/>
+  <t:variable name="global-var-as-double" as="xs:double" select="xs:integer(5)"/>
+
+  <!--XQuery needs mode=test:generate-variable-declarations fix.
+    TODO: When that's available, move "@select and element content" scenario to the
+    "Define variables in different ways" scenario in xspec-variable.xspec. -->
+  <t:scenario label="Code that temporarily does not work in XQuery but does work in XSLT">
+    <t:scenario label="@select and element content">
+      <t:variable name="select-and-content" select="//bar/@x">
+        <xyz><bar x="y"/></xyz>
+      </t:variable>
+      <t:call function="my:foo">
+        <t:param name="elem"><foo role="{$select-and-content}"/></t:param>
+        <t:param name="p" select="0"/>
+        <t:param name="textnode"/>
+      </t:call>
+      <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+    </t:scenario>
+  </t:scenario>
+
+  <!-- Scenarios specific to XSLT -->
+
+  <t:scenario label="Call variable in different forms of SUT">
+    <!-- For test of local vars in function call, see xspec-variable.xspec. -->
+    <t:scenario label="Call local vars in test of named template">
+      <t:variable name="role" select="'myrole'"/>
+      <t:context><mycontext role="{$role}"/></t:context>
+      <t:variable name="param" select="$test-3/@num" as="xs:integer"/>
+      <t:call template="foo">
+        <t:param name="p" select="$param"/>
+      </t:call>
+      <t:variable name="expectedresult" select="$test-3/@value" as="xs:integer"/>
+      <t:expect label="the result" test="xs:integer($x:result/foobaz) eq $expectedresult"/>
+      <t:expect label="local variable referenced from context"  test="$x:result/@role = 'myrole'"/>
+    </t:scenario>
+
+    <t:scenario label="Call local vars in test of template rule">
+      <t:variable name="myparam" select="$test-3/@num" as="xs:integer"/>
+      <t:context>
+        <t:param name="p" select="$myparam"/>
+        <foo/>
+      </t:context>
+      <t:variable name="expectedresult" select="$test-3/@value" as="xs:integer"/>
+      <t:expect label="the result" test="xs:integer($x:result/foobaz) eq $expectedresult"/>
+    </t:scenario>
+  </t:scenario>
+
+  <t:scenario label="Check effect of @as in XSLT">
+    <t:call function="my:square">
+      <t:param select="xs:integer(0)"/>
+    </t:call>
+
+    <t:variable name="local-var-no-casting" select="xs:integer(5)"/>
+    <t:variable name="local-var-as-double" select="xs:integer(5)" as="xs:double"/>
+    <t:variable name="attr-local-var" href="xspec-variable.xml" select="//test/@*"/>
+    <t:variable name="attr-string-local-var" href="xspec-variable.xml" select="//test/@*" as="xs:string+"/>
+    <t:variable name="elem-local-var" href="xspec-variable.xml" select="//test"/>
+    <t:variable name="elem-string-local-var" href="xspec-variable.xml" select="//test" as="xs:string+"/>
+
+    <t:expect label="Global variable is not double" test="not($global-var-no-casting instance of xs:double)"/>
+    <t:expect label="Global variable is double" test="$global-var-as-double instance of xs:double"/>
+
+    <t:expect label="Local variable is not double" test="not($local-var-no-casting instance of xs:double)"/>
+    <t:expect label="Local variable is double" test="$local-var-as-double instance of xs:double"/>
+
+    <t:expect label="Attribute local variable" test="$attr-local-var instance of attribute()+"/>
+    <t:expect label="Attribute-to-string local variable" test="$attr-string-local-var instance of xs:string+"/>
+
+    <t:expect label="Element local variable" test="$elem-local-var instance of element()+"/>
+    <t:expect label="Element-to-string local variable" test="$elem-string-local-var instance of xs:string+"/>
+  </t:scenario>
+
+  <!-- Should this scenario be moved to test/xspec-prefix-conflict_stylesheet.xspec after that is on master branch? -->
+  <t:scenario label="Test that x: is available for use by end users (i.e., not hard-coded in tools)">
+    <t:variable name="x:elementx" as="element()" xmlns:x="x-urn:test:xspec-prefix-conflict">
+      <x:foo role="y"/>
+    </t:variable>
+    <t:context select="$x:elementx" xmlns:x="x-urn:test:xspec-prefix-conflict"/>
+    <t:expect label="the result" test="exists(/bar[@role='y'])"/>
+  </t:scenario>
+
+</t:description>
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
+<!--                                                                       -->
+<!-- Copyright (c) 2010 Jeni Tennison                                      -->
+<!--                                                                       -->
+<!-- The contents of this file are subject to the MIT License (see the URI -->
+<!-- http://www.opensource.org/licenses/mit-license.php for details).      -->
+<!--                                                                       -->
+<!-- Permission is hereby granted, free of charge, to any person obtaining -->
+<!-- a copy of this software and associated documentation files (the       -->
+<!-- "Software"), to deal in the Software without restriction, including   -->
+<!-- without limitation the rights to use, copy, modify, merge, publish,   -->
+<!-- distribute, sublicense, and/or sell copies of the Software, and to    -->
+<!-- permit persons to whom the Software is furnished to do so, subject to -->
+<!-- the following conditions:                                             -->
+<!--                                                                       -->
+<!-- The above copyright notice and this permission notice shall be        -->
+<!-- included in all copies or substantial portions of the Software.       -->
+<!--                                                                       -->
+<!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       -->
+<!-- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF    -->
+<!-- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.-->
+<!-- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  -->
+<!-- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,  -->
+<!-- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE     -->
+<!-- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

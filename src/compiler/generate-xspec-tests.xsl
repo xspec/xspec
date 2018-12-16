@@ -188,8 +188,18 @@
         <xsl:attribute name="pending" select="$pending" />
       </xsl:if>
       <xsl:sequence select="x:label(.)" />
-      <xsl:apply-templates select="x:apply | x:call | x:context" mode="x:report" />
-      <xsl:apply-templates select="$variables" mode="x:generate-declarations"/>
+      <!-- Handle variables and apply/call/context in document order,
+           instead of apply/call/context first and variables second. -->
+      <xsl:for-each select="$variables | x:apply | x:call | x:context">
+        <xsl:choose>
+          <xsl:when test="self::x:apply or self::x:call or self::x:context">
+            <xsl:apply-templates select="." mode="x:report" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="." mode="x:generate-declarations"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:for-each>
       <xsl:if test="not($pending-p) and x:expect">
         <variable name="x:result" as="item()*">
           <xsl:choose>
