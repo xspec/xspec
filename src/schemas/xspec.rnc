@@ -56,7 +56,7 @@ scenario =
 	## If any scenario has a focus attribute, any scenarios without a focus 
 	## attribute will be classed as pending.
 	element scenario { common-scenario-attributes, shared?,
-		label, variable*,
+		label,
 		( matching-scenario |
 		  function-scenario |
 		  named-scenario | 
