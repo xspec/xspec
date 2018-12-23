@@ -3,13 +3,13 @@
 	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="function-param containing curly brackets">
 		<x:call function="one-or-more">
-			<x:param>}{<elem attr="}{">}{</elem></x:param>
+			<x:param>}{<elem attr="}}{{">}{</elem></x:param>
 		</x:call>
 		<x:expect href="xspec-450-451.xml" label="should work" select="wrap/node() treat as node()+"
 		 />
 	</x:scenario>
 
-	<x:param name="global-param">}{<elem attr="}{">}{</elem></x:param>
+	<x:param name="global-param">}{<elem attr="}}{{">}{</elem></x:param>
 	<x:scenario label="global-param containing curly brackets">
 		<x:call function="false" />
 		<x:expect href="xspec-450-451.xml" label="should work" select="wrap/node() treat as node()+"
@@ -20,6 +20,6 @@
 		<x:call function="one-or-more">
 			<x:param href="xspec-450-451.xml" select="wrap/node() treat as node()+" />
 		</x:call>
-		<x:expect label="should work">}{<elem attr="}{">}{</elem></x:expect>
+		<x:expect label="should work">}{<elem attr="}}{{">}{</elem></x:expect>
 	</x:scenario>
 </x:description>
