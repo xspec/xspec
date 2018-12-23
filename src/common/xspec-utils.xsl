@@ -117,4 +117,24 @@
 		 />
 	</xsl:function>
 
+	<!--
+		Returns true if node is user-content
+	-->
+	<xsl:function as="xs:boolean" name="x:is-user-content">
+		<xsl:param as="node()" name="node" />
+
+		<xsl:sequence
+			select="
+				exists(
+				$node/ancestor-or-self::node() intersect
+				(
+				$node/ancestor::x:context/node()[not(self::x:param)]
+				| $node/ancestor::x:expect/node()[not(self::x:label)]
+				| $node/ancestor::x:param/node()
+				| $node/ancestor::x:variable/node()
+				)
+				)"
+		 />
+	</xsl:function>
+
 </xsl:stylesheet>
