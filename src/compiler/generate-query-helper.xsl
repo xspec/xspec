@@ -60,7 +60,9 @@
          </xsl:when>
          <xsl:when test="node()">
             <xsl:text> := ( document {</xsl:text>
-            <xsl:sequence select="test:create-zero-or-more-node-generators(node())" />
+            <xsl:call-template name="test:create-zero-or-more-node-generators">
+               <xsl:with-param name="nodes" select="node()" />
+            </xsl:call-template>
             <xsl:text>} )/</xsl:text>
             <xsl:choose>
                <xsl:when test="@select">( <xsl:value-of select="@select"/> )</xsl:when>
@@ -85,21 +87,40 @@
    <xsl:template match="element()" as="element()" mode="test:create-node-generator">
       <xsl:copy>
          <xsl:text>{ </xsl:text>
-         <xsl:sequence select="test:create-zero-or-more-node-generators(attribute() | node())" />
+         <xsl:call-template name="test:create-zero-or-more-node-generators">
+            <xsl:with-param name="nodes" select="attribute() | node()" />
+         </xsl:call-template>
          <xsl:text> }&#x0A;</xsl:text>
       </xsl:copy>
    </xsl:template>
 
    <xsl:template match="attribute() | comment() | processing-instruction() | text()"
-      as="text()+" mode="test:create-node-generator">
+      as="node()+" mode="test:create-node-generator">
       <xsl:value-of select="x:node-type(.), name()" />
-      <xsl:text> { "</xsl:text>
-      <!-- FIXME: Escape the quoted string... -->
-      <xsl:value-of select="." />
-      <xsl:text>" }</xsl:text>
+      <xsl:text> { </xsl:text>
+
+      <xsl:choose>
+         <xsl:when test="(. instance of attribute()) and x:is-user-content(.)">
+            <!-- AVT -->
+            <temp>
+               <xsl:value-of select="." />
+            </temp>
+         </xsl:when>
+
+         <xsl:otherwise>
+            <xsl:text>"</xsl:text>
+
+            <!-- FIXME: Escape the quoted string... -->
+            <xsl:value-of select="." />
+
+            <xsl:text>"</xsl:text>
+         </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:function name="test:create-zero-or-more-node-generators" as="node()+">
+   <xsl:template name="test:create-zero-or-more-node-generators" as="node()+">
       <xsl:param name="nodes" as="node()*" />
 
       <xsl:choose>
@@ -116,7 +137,7 @@
             <xsl:text>()</xsl:text>
          </xsl:otherwise>
       </xsl:choose>
-   </xsl:function>
+   </xsl:template>
 
    <xsl:function name="test:matching-xslt-elements" as="element()*">
      <xsl:param name="element-kind" as="xs:string" />
