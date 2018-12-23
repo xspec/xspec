@@ -581,7 +581,7 @@
       </xsl:element>
    </xsl:template>
 
-   <xsl:template match="x:context/node()[not(self::x:param)] | x:param/node()" as="node()+" mode="x:report">
+   <xsl:template match="x:*/node()[x:is-user-content(.)]" as="node()+" mode="x:report">
       <!-- User content. Leave it intact. -->
       <xsl:apply-templates select="." mode="test:create-node-generator" />
    </xsl:template>
