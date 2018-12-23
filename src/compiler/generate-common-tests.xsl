@@ -586,11 +586,6 @@
       <xsl:apply-templates select="." mode="test:create-node-generator" />
    </xsl:template>
 
-   <xsl:template match="x:context/node()[not(self::x:param)] | x:param/node()" as="node()+" mode="x:report">
-      <!-- User content. Leave it intact. -->
-      <xsl:apply-templates select="." mode="test:create-node-generator" />
-   </xsl:template>
-
    <!-- Generates variable declarations for x:expect -->
    <xsl:template name="x:setup-expected" as="node()+">
       <!--<xsl:context-item as="element(x:expect)" use="required" />-->
