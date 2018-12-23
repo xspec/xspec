@@ -197,4 +197,229 @@
 
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function is-user-content">
+
+		<x:scenario label="function-param">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="//x:call[@function]/x:param/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="//x:call[@function]/x:param/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="(//x:call[@function]/x:param)[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="//x:call[@function]/x:param/attribute()" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="global-param">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="/x:description/x:param/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="/x:description/x:param/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="(/x:description/x:param)[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="(/x:description/x:param/attribute())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="assertion">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="(//x:expect/element())[1]" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="//x:expect/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="(//x:expect)[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="(//x:expect/attribute())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="context template-param">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="//x:context/x:param/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="//x:context/x:param/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec" select="(//x:context/x:param)[1]"
+						 />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="(//x:context/x:param/attribute())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="context">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="//x:context[not(x:param)]/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="//x:context[not(x:param)]/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="(//x:context[not(x:param)])[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="(//x:context[not(x:param)]/attribute())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="template-call template-param">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="//x:call[@template]/x:param/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="//x:call[@template]/x:param/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="(//x:call[@template]/x:param)[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt_stylesheet.xspec"
+							select="(//x:call[@template]/x:param/attribute())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+	</x:scenario>
+
 </x:description>
