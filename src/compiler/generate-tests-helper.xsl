@@ -103,7 +103,18 @@
     <xsl:if test="(. instance of attribute()) or (. instance of processing-instruction())">
       <xsl:attribute name="name" select="name()" />
     </xsl:if>
-    <xsl:value-of select="." />
+
+    <xsl:choose>
+      <xsl:when test="(. instance of attribute()) and x:is-user-content(.)">
+        <!-- AVT -->
+        <xsl:attribute name="select">'', ''</xsl:attribute>
+        <xsl:attribute name="separator" select="." />
+      </xsl:when>
+
+      <xsl:otherwise>
+        <xsl:value-of select="." />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:element>
 </xsl:template>
 
