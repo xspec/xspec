@@ -11,7 +11,7 @@ env:
     matrix:
         # latest Saxon 9.9 version and Jing
         - SAXON_VERSION=9.9.0-2
-          JING_VERSION=20181204
+          JING_VERSION=20181222
         # latest Saxon 9.8 version
         #   * XML Calabash will use Saxon jar in its own lib directory.
         #   * BaseX test requires XML Calabash.
