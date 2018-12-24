@@ -336,7 +336,9 @@ rem
 rem
 rem Saxon jar filename
 rem
-for %%I in ("%SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
+set WIN_SAXON_CP=%SAXON_CP%;
+for %%I in ("%WIN_SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
+set WIN_SAXON_CP=
 
 rem
 rem Parse command line

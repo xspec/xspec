@@ -44,6 +44,16 @@ teardown() {
 }
 
 
+@test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
+    unset SAXON_CP
+    run ../bin/xspec.sh
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "SAXON_CP and SAXON_HOME both not set!" ]
+    [[ "${lines[4]}" =~ "Usage: xspec " ]]
+}
+
+
 @test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
     run ../bin/xspec.sh -t -t -t -t -t -t -t -t -t -t -h
     echo "$output"
