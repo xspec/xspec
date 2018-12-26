@@ -12,7 +12,9 @@ if [ ! -f "${SAXON_JAR}" ]; then
 fi
 
 # Check capabilities
-#  TODO: Check if the processor supports coverage and schema
+if java -jar "${SAXON_JAR}" -nogo -xsl:../src/reporter/coverage-report.xsl 2> /dev/null; then
+	export XSLT_SUPPORTS_COVERAGE=1
+fi
 
 # Reset public environment variables
 export SAXON_CP="${SAXON_JAR}"
