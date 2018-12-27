@@ -602,6 +602,12 @@ teardown() {
     cp "${XML_RESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
     unset SAXON_CP
 
+    # To avoid "No license file found" warning on commercial Saxon
+    saxon_license="$(dirname -- "${SAXON_JAR}")/saxon-license.lic"
+    if [ -f "${saxon_license}" ]; then
+        cp "${saxon_license}" "${SAXON_HOME}"
+    fi
+
     run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
     echo "$output"
     [ "$status" -eq 0 ]
