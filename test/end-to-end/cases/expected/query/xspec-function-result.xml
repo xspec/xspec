@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:report xmlns:my="http://example.org/ns/my"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
           date="ONCE-UPON-A-TIME"
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-function.xspec">
    <t:scenario>
       <t:label>when calling a function and expecting correctly</t:label>
-      <t:call xmlns:my="http://example.org/ns/my" function="my:square">
+      <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
@@ -21,7 +22,7 @@
    </t:scenario>
    <t:scenario>
       <t:label>when calling a function and expecting incorrectly</t:label>
-      <t:call xmlns:my="http://example.org/ns/my" function="my:square">
+      <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
       <t:result select="4"/>

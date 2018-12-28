@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:report xmlns:my="http://example.org/ns/my"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
           date="ONCE-UPON-A-TIME"
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-import.xspec">
    <t:scenario>
       <t:label>when testing a correct scenario in an importing file</t:label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              function="my:square">
+      <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
@@ -23,9 +23,7 @@
    </t:scenario>
    <t:scenario>
       <t:label>when testing an incorrect scenario in an importing file</t:label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              function="my:square">
+      <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
       <t:result select="4"/>
@@ -36,9 +34,7 @@
    </t:scenario>
    <t:scenario>
       <t:label>a correct scenario in an imported file</t:label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              function="my:square">
+      <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
@@ -49,9 +45,7 @@
    </t:scenario>
    <t:scenario>
       <t:label>an incorrect scenario in an imported file</t:label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              function="my:square">
+      <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
       <t:result select="4"/>

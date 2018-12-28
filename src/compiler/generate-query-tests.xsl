@@ -131,6 +131,9 @@
             <xsl:attribute name="query-at" select="$query-at"/>
          </xsl:if>
          <xsl:attribute name="xspec" select="$actual-document-uri"/>
+
+         <xsl:apply-templates select="." mode="x:copy-namespaces" />
+
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
          <xsl:call-template name="x:call-scenarios"/>
