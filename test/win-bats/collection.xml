@@ -40,42 +40,42 @@
     call :verify_line 2 x "-t and -q are mutually exclusive"
 	</case>
 
-	<case name="invoking code coverage with Saxon9HE returns error message">
+	<case name="invoking xspec -c with Saxon9HE returns error message">
     set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9he.jar
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
     call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 	</case>
 
-	<case name="invoking code coverage with Saxon9SA returns error message">
+	<case name="invoking xspec -c with Saxon9SA returns error message">
     set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9sa.jar
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
     call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 	</case>
 
-	<case name="invoking code coverage with Saxon9 returns error message">
+	<case name="invoking xspec -c with Saxon9 returns error message">
     set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9.jar
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
     call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 	</case>
 
-	<case name="invoking code coverage with Saxon8SA returns error message">
+	<case name="invoking xspec -c with Saxon8SA returns error message">
     set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8sa.jar
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
     call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 	</case>
 
-	<case name="invoking code coverage with Saxon8 returns error message">
+	<case name="invoking xspec -c with Saxon8 returns error message">
     set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8.jar
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
     call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
 	</case>
 
-	<case name="invoking code coverage with Saxon9EE creates test stylesheet">
+	<case name="invoking xspec -c with Saxon9EE creates test stylesheet">
     rem Append non-Saxon jar to see if SAXON_CP is parsed correctly
     set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar;%SYSTEMDRIVE%\path\to\another.jar
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
@@ -83,11 +83,26 @@
     call :verify_line 2 x "Creating Test Stylesheet..."
 	</case>
 
-	<case name="invoking code coverage with Saxon9PE creates test stylesheet">
+	<case name="invoking xspec -c with Saxon9PE creates test stylesheet">
     set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9pe.jar
     call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
     call :verify_line 2 x "Creating Test Stylesheet..."
+	</case>
+
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="invoking xspec -c creates report files">
+    rem TODO: Non alphanumeric path #208
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\up and down"
+    call :mkdir "%SPECIAL_CHARS_DIR%"
+
+    call :copy ..\tutorial\coverage\demo* "%SPECIAL_CHARS_DIR%"
+    call :run ..\bin\xspec.bat -c "%SPECIAL_CHARS_DIR%\demo.xspec"
+    call :verify_retval 0
+
+    rem XML, HTML and coverage report file
+    call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.xml"
+    call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.html"
+    call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-coverage.html"
 	</case>
 
 	<case name="invoking xspec generates message with default report location and creates report files">
@@ -101,6 +116,9 @@
     rem HTML report file is created and contains CSS inline #135
     call :run java -jar "%SAXON_JAR%" -s:..\tutorial\xspec\escape-for-regex-result.html -xsl:html-css.xsl
     call :verify_line 1 x "true"
+
+    rem Coverage is disabled by default
+    call :verify_not_exist ..\tutorial\xspec\escape-for-regex-coverage.xml
 
     rem JUnit is disabled by default
     call :verify_not_exist ..\tutorial\xspec\escape-for-regex-junit.xml

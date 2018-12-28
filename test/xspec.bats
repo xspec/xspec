@@ -86,7 +86,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9HE returns error message" {
+@test "invoking xspec -c with Saxon9HE returns error message" {
     export SAXON_CP=/path/to/saxon9he.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -95,7 +95,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9SA returns error message" {
+@test "invoking xspec -c with Saxon9SA returns error message" {
     export SAXON_CP=/path/to/saxon9sa.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -104,7 +104,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9 returns error message" {
+@test "invoking xspec -c with Saxon9 returns error message" {
     export SAXON_CP=/path/to/saxon9.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -113,7 +113,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon8SA returns error message" {
+@test "invoking xspec -c with Saxon8SA returns error message" {
     export SAXON_CP=/path/to/saxon8sa.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -122,7 +122,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon8 returns error message" {
+@test "invoking xspec -c with Saxon8 returns error message" {
     export SAXON_CP=/path/to/saxon8.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -131,7 +131,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9EE creates test stylesheet" {
+@test "invoking xspec -c with Saxon9EE creates test stylesheet" {
     # Append non-Saxon jar to see if SAXON_CP is parsed correctly
     export SAXON_CP="/path/to/saxon9ee.jar:/path/to/another.jar"
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
@@ -141,12 +141,33 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9PE creates test stylesheet" {
+@test "invoking xspec -c with Saxon9PE creates test stylesheet" {
     export SAXON_CP=/path/to/saxon9pe.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Creating Test Stylesheet..." ]
+}
+
+
+@test "invoking xspec -c creates report files" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    # TODO: Non alphanumeric path #208
+    special_chars_dir="${work_dir}/up and down"
+    mkdir "${special_chars_dir}"
+
+    cp ../tutorial/coverage/demo* "${special_chars_dir}"
+    run ../bin/xspec.sh -c "${special_chars_dir}/demo.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # XML, HTML and coverage report file
+    [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
+    [ -f "${special_chars_dir}/xspec/demo-result.html" ]
+    [ -f "${special_chars_dir}/xspec/demo-coverage.html" ]
 }
 
 
@@ -163,6 +184,9 @@ teardown() {
     run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
+
+    # Coverage is disabled by default
+    [ ! -f "../tutorial/xspec/escape-for-regex-coverage.xml" ]
 
     # JUnit is disabled by default
     [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
