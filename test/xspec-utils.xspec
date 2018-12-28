@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="items.xsl" xmlns:items="x-urn:test:xspec-items"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
 		The test target (../src/common/xspec-utils.xsl) is included
@@ -78,49 +79,49 @@
 	<x:scenario label="Scenario for testing function node-type">
 		<x:scenario label="Attribute">
 			<x:call function="x:node-type">
-				<x:param select="$attribute" />
+				<x:param select="$items:attribute" />
 			</x:call>
 			<x:expect label="attribute" select="'attribute'" />
 		</x:scenario>
 
 		<x:scenario label="Comment">
 			<x:call function="x:node-type">
-				<x:param select="$comment" />
+				<x:param select="$items:comment" />
 			</x:call>
 			<x:expect label="comment" select="'comment'" />
 		</x:scenario>
 
 		<x:scenario label="Document">
 			<x:call function="x:node-type">
-				<x:param select="$document" />
+				<x:param select="$items:document" />
 			</x:call>
 			<x:expect label="document-node" select="'document-node'" />
 		</x:scenario>
 
 		<x:scenario label="Element">
 			<x:call function="x:node-type">
-				<x:param select="$element" />
+				<x:param select="$items:element" />
 			</x:call>
 			<x:expect label="element" select="'element'" />
 		</x:scenario>
 
 		<x:scenario label="Namespace">
 			<x:call function="x:node-type">
-				<x:param select="$namespace" />
+				<x:param select="$items:namespace" />
 			</x:call>
 			<x:expect label="namespace-node" select="'namespace-node'" />
 		</x:scenario>
 
 		<x:scenario label="Processing instruction">
 			<x:call function="x:node-type">
-				<x:param select="$processing-instruction" />
+				<x:param select="$items:processing-instruction" />
 			</x:call>
 			<x:expect label="processing-instruction" select="'processing-instruction'" />
 		</x:scenario>
 
 		<x:scenario label="Text">
 			<x:call function="x:node-type">
-				<x:param select="$text" />
+				<x:param select="$items:text" />
 			</x:call>
 			<x:expect label="text" select="'text'" />
 		</x:scenario>
@@ -132,49 +133,49 @@
 
 			<x:scenario label="Attribute">
 				<x:call function="x:instance-of-namespace">
-					<x:param select="$attribute" />
+					<x:param select="$items:attribute" />
 				</x:call>
 				<x:expect label="False" select="false()" />
 			</x:scenario>
 
 			<x:scenario label="Comment">
 				<x:call function="x:instance-of-namespace">
-					<x:param select="$comment" />
+					<x:param select="$items:comment" />
 				</x:call>
 				<x:expect label="False" select="false()" />
 			</x:scenario>
 
 			<x:scenario label="Document">
 				<x:call function="x:instance-of-namespace">
-					<x:param select="$document" />
+					<x:param select="$items:document" />
 				</x:call>
 				<x:expect label="False" select="false()" />
 			</x:scenario>
 
 			<x:scenario label="Element">
 				<x:call function="x:instance-of-namespace">
-					<x:param select="$element" />
+					<x:param select="$items:element" />
 				</x:call>
 				<x:expect label="False" select="false()" />
 			</x:scenario>
 
 			<x:scenario label="Namespace">
 				<x:call function="x:instance-of-namespace">
-					<x:param select="$namespace" />
+					<x:param select="$items:namespace" />
 				</x:call>
 				<x:expect label="True" select="true()" />
 			</x:scenario>
 
 			<x:scenario label="Processing instruction">
 				<x:call function="x:instance-of-namespace">
-					<x:param select="$processing-instruction" />
+					<x:param select="$items:processing-instruction" />
 				</x:call>
 				<x:expect label="False" select="false()" />
 			</x:scenario>
 
 			<x:scenario label="Text">
 				<x:call function="x:instance-of-namespace">
-					<x:param select="$text" />
+					<x:param select="$items:text" />
 				</x:call>
 				<x:expect label="False" select="false()" />
 			</x:scenario>
@@ -183,7 +184,7 @@
 
 		<x:scenario label="Atomic value">
 			<x:call function="x:instance-of-namespace">
-				<x:param select="$integer" />
+				<x:param select="$items:integer" />
 			</x:call>
 			<x:expect label="False" select="false()" />
 		</x:scenario>

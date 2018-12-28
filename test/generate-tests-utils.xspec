@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:description xmlns:items="x-urn:test:xspec-items"
+               xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                stylesheet="items.xsl">
@@ -25,8 +26,8 @@
 
          <t:scenario label="Identical">
             <t:call function="test:node-deep-equal">
-               <t:param select="$namespace" />
-               <t:param select="$namespace" />
+               <t:param select="$items:namespace" />
+               <t:param select="$items:namespace" />
                <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
@@ -34,8 +35,8 @@
 
          <t:scenario label="Identical default namespace">
             <t:call function="test:node-deep-equal">
-               <t:param select="$default-namespace" />
-               <t:param select="$default-namespace" />
+               <t:param select="$items:default-namespace" />
+               <t:param select="$items:default-namespace" />
                <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
@@ -43,8 +44,8 @@
 
          <t:scenario label="Different">
             <t:call function="test:node-deep-equal">
-               <t:param select="$namespace" />
-               <t:param select="$another-namespace" />
+               <t:param select="$items:namespace" />
+               <t:param select="$items:another-namespace" />
                <t:param select="''" />
             </t:call>
             <t:expect label="False" select="false()" />
@@ -506,49 +507,49 @@
 
          <t:scenario label="Attribute">
             <t:call function="test:wrappable-node">
-               <t:param select="$attribute" />
+               <t:param select="$items:attribute" />
             </t:call>
             <t:expect label="False" select="false()" />
          </t:scenario>
 
          <t:scenario label="Comment">
             <t:call function="test:wrappable-node">
-               <t:param select="$comment" />
+               <t:param select="$items:comment" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
 
          <t:scenario label="Document">
             <t:call function="test:wrappable-node">
-               <t:param select="$document" />
+               <t:param select="$items:document" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
 
          <t:scenario label="Element">
             <t:call function="test:wrappable-node">
-               <t:param select="$element" />
+               <t:param select="$items:element" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
 
          <t:scenario label="Namespace">
             <t:call function="test:wrappable-node">
-               <t:param select="$namespace" />
+               <t:param select="$items:namespace" />
             </t:call>
             <t:expect label="False" select="false()" />
          </t:scenario>
 
          <t:scenario label="Processing instruction">
             <t:call function="test:wrappable-node">
-               <t:param select="$processing-instruction" />
+               <t:param select="$items:processing-instruction" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
 
          <t:scenario label="Text">
             <t:call function="test:wrappable-node">
-               <t:param select="$text" />
+               <t:param select="$items:text" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
@@ -557,7 +558,7 @@
 
       <t:scenario label="Value">
          <t:call function="test:wrappable-node">
-            <t:param select="$integer" />
+            <t:param select="$items:integer" />
          </t:call>
          <t:expect label="False" select="false()" />
       </t:scenario>
@@ -573,12 +574,12 @@
 
       <t:scenario label="All nodes that can be wrapped">
          <t:call function="test:wrap-nodes">
-            <t:param select="$wrappable-nodes" />
+            <t:param select="$items:wrappable-nodes" />
          </t:call>
          <t:expect label="Result is document node" test="$t:result instance of document-node()" />
          <t:expect label="Only one instance" test="count($t:result)" select="1" />
          <t:expect label="Wraps all nodes while unwrapping document node"
-            test="$t:result/node()" select="for $node in $wrappable-nodes
+            test="$t:result/node()" select="for $node in $items:wrappable-nodes
                return (if ($node instance of document-node())
                        then $node/node()
                        else $node)" />

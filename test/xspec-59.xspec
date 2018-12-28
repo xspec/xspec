@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="items.xsl" xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+<x:description stylesheet="items.xsl" xmlns:items="x-urn:test:xspec-items"
+	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Scenarios for testing x:expect/@test. All x:expect must have @test, even when the same
@@ -19,43 +20,47 @@
 
 					<x:scenario label="Comment">
 						<x:call function="exactly-one">
-							<x:param select="$comment" />
+							<x:param select="$items:comment" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($comment)" test=". treat as document-node()" />
+							select="test:wrap-nodes($items:comment)"
+							test=". treat as document-node()" />
 					</x:scenario>
 
 					<x:scenario label="Document">
 						<x:call function="exactly-one">
-							<x:param select="$document" />
+							<x:param select="$items:document" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($document)" test=". treat as document-node()" />
+							select="test:wrap-nodes($items:document)"
+							test=". treat as document-node()" />
 					</x:scenario>
 
 					<x:scenario label="Element">
 						<x:call function="exactly-one">
-							<x:param select="$element" />
+							<x:param select="$items:element" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($element)" test=". treat as document-node()" />
+							select="test:wrap-nodes($items:element)"
+							test=". treat as document-node()" />
 					</x:scenario>
 
 					<x:scenario label="Processing instruction">
 						<x:call function="exactly-one">
-							<x:param select="$processing-instruction" />
+							<x:param select="$items:processing-instruction" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($processing-instruction)"
+							select="test:wrap-nodes($items:processing-instruction)"
 							test=". treat as document-node()" />
 					</x:scenario>
 
 					<x:scenario label="Text">
 						<x:call function="exactly-one">
-							<x:param select="$text" />
+							<x:param select="$items:text" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($text)" test=". treat as document-node()" />
+							select="test:wrap-nodes($items:text)" test=". treat as document-node()"
+						 />
 					</x:scenario>
 
 				</x:scenario>
@@ -64,18 +69,18 @@
 
 					<x:scenario label="Attribute">
 						<x:call function="exactly-one">
-							<x:param select="$attribute" />
+							<x:param select="$items:attribute" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$attribute" test="$x:result treat as attribute()" />
+							select="$items:attribute" test="$x:result treat as attribute()" />
 					</x:scenario>
 
 					<x:scenario label="Namespace">
 						<x:call function="exactly-one">
-							<x:param select="$namespace" />
+							<x:param select="$items:namespace" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$namespace" test="$x:result treat as node()" />
+							select="$items:namespace" test="$x:result treat as node()" />
 					</x:scenario>
 
 				</x:scenario>
@@ -86,30 +91,30 @@
 
 				<x:scenario label="All can be wrapped">
 					<x:call function="one-or-more">
-						<x:param select="$wrappable-nodes" />
+						<x:param select="$items:wrappable-nodes" />
 					</x:call>
 					<x:expect label="Wrapped in document node, and context is set there"
-						select="test:wrap-nodes($wrappable-nodes)" test=". treat as document-node()"
-					 />
+						select="test:wrap-nodes($items:wrappable-nodes)"
+						test=". treat as document-node()" />
 				</x:scenario>
 
 				<x:scenario label="None can be wrapped">
 
 					<x:scenario label="Original order">
 						<x:call function="one-or-more">
-							<x:param select="$non-wrappable-nodes" />
+							<x:param select="$items:non-wrappable-nodes" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$non-wrappable-nodes" test="$x:result treat as node()+" />
+							select="$items:non-wrappable-nodes" test="$x:result treat as node()+" />
 					</x:scenario>
 
 					<x:scenario label="Reverse order">
 						<x:call function="reverse">
-							<x:param select="$non-wrappable-nodes" />
+							<x:param select="$items:non-wrappable-nodes" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="reverse($non-wrappable-nodes)" test="$x:result treat as node()+"
-						 />
+							select="reverse($items:non-wrappable-nodes)"
+							test="$x:result treat as node()+" />
 					</x:scenario>
 
 				</x:scenario>
@@ -118,18 +123,18 @@
 
 					<x:scenario label="Original order">
 						<x:call function="one-or-more">
-							<x:param select="$all-nodes" />
+							<x:param select="$items:all-nodes" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$all-nodes" test="$x:result treat as node()+" />
+							select="$items:all-nodes" test="$x:result treat as node()+" />
 					</x:scenario>
 
 					<x:scenario label="Reverse order">
 						<x:call function="reverse">
-							<x:param select="$all-nodes" />
+							<x:param select="$items:all-nodes" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="reverse($all-nodes)" test="$x:result treat as node()+" />
+							select="reverse($items:all-nodes)" test="$x:result treat as node()+" />
 					</x:scenario>
 				</x:scenario>
 
@@ -143,20 +148,20 @@
 
 				<x:scenario label="Nodes that can be wrapped, and value">
 					<x:call function="one-or-more">
-						<x:param select="$wrappable-nodes, $integer" />
+						<x:param select="$items:wrappable-nodes, $items:integer" />
 					</x:call>
 					<x:expect label="Wrapper not available, but $x:result holds entire result"
-						select="$wrappable-nodes, $integer" test="$x:result" />
+						select="$items:wrappable-nodes, $items:integer" test="$x:result" />
 					<x:expect label="Ensure that $x:result is not xs:boolean"
 						test="not($x:result instance of xs:boolean)" />
 				</x:scenario>
 
 				<x:scenario label="Nodes that cannot be wrapped, and value">
 					<x:call function="one-or-more">
-						<x:param select="$non-wrappable-nodes, $integer" />
+						<x:param select="$items:non-wrappable-nodes, $items:integer" />
 					</x:call>
 					<x:expect label="Wrapper not available, but $x:result holds entire result"
-						select="$non-wrappable-nodes, $integer" test="$x:result" />
+						select="$items:non-wrappable-nodes, $items:integer" test="$x:result" />
 					<x:expect label="Ensure that $x:result is not xs:boolean"
 						test="not($x:result instance of xs:boolean)" />
 				</x:scenario>
@@ -167,20 +172,20 @@
 
 				<x:scenario label="Value, and nodes that can be wrapped">
 					<x:call function="one-or-more">
-						<x:param select="$integer, $wrappable-nodes" />
+						<x:param select="$items:integer, $items:wrappable-nodes" />
 					</x:call>
 					<x:expect label="Wrapper not available, but $x:result holds entire result"
-						select="$integer, $wrappable-nodes" test="$x:result" />
+						select="$items:integer, $items:wrappable-nodes" test="$x:result" />
 					<x:expect label="Ensure that $x:result is not xs:boolean"
 						test="not($x:result instance of xs:boolean)" />
 				</x:scenario>
 
 				<x:scenario label="Value, and nodes that cannot be wrapped">
 					<x:call function="one-or-more">
-						<x:param select="$integer, $non-wrappable-nodes" />
+						<x:param select="$items:integer, $items:non-wrappable-nodes" />
 					</x:call>
 					<x:expect label="Wrapper not available, but $x:result holds entire result"
-						select="$integer, $non-wrappable-nodes" test="$x:result" />
+						select="$items:integer, $items:non-wrappable-nodes" test="$x:result" />
 					<x:expect label="Ensure that $x:result is not xs:boolean"
 						test="not($x:result instance of xs:boolean)" />
 				</x:scenario>
@@ -193,18 +198,18 @@
 
 			<x:scenario label="Single value">
 				<x:call function="exactly-one">
-					<x:param select="$integer" />
+					<x:param select="$items:integer" />
 				</x:call>
 				<x:expect label="Wrapper not available, but $x:result holds entire result"
-					select="$integer" test="$x:result treat as xs:integer" />
+					select="$items:integer" test="$x:result treat as xs:integer" />
 			</x:scenario>
 
 			<x:scenario label="Multiple values">
 				<x:call function="one-or-more">
-					<x:param select="$integer, $integer" />
+					<x:param select="$items:integer, $items:integer" />
 				</x:call>
 				<x:expect label="Wrapper not available, but $x:result holds entire result"
-					select="$integer, $integer" test="$x:result treat as xs:integer+" />
+					select="$items:integer, $items:integer" test="$x:result treat as xs:integer+" />
 			</x:scenario>
 
 		</x:scenario>
