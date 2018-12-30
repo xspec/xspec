@@ -8,6 +8,8 @@ module namespace test = "http://www.jenitennison.com/xslt/unit-test";
 (:    Copyright (c) 2008, 2010 Jeni Tennison (see end of file.)             :)
 (: ------------------------------------------------------------------------ :)
 
+import module namespace x = "http://www.jenitennison.com/xslt/xspec"
+  at "../common/xspec-utils.xquery";
 
 declare namespace fn = "http://www.w3.org/2005/xpath-functions";
 
@@ -83,8 +85,10 @@ declare function test:node-deep-equal(
     fn:string($node1) eq fn:string($node2)
   else if ( ( $node1 instance of attribute() and $node2 instance of attribute() )
             or ( $node1 instance of processing-instruction()
-                 and $node2 instance of processing-instruction()) ) then
-    fn:node-name($node1) eq fn:node-name($node2)
+                 and $node2 instance of processing-instruction())
+            or ( x:instance-of-namespace($node1)
+                 and x:instance-of-namespace($node2) ) ) then
+    fn:deep-equal( fn:node-name($node1), fn:node-name($node2) )
       and ( fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' )
   else if ( $node1 instance of comment() and $node2 instance of comment() ) then
     fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' 

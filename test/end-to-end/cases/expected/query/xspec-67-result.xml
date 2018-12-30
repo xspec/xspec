@@ -10,7 +10,7 @@
          <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
       </x:call>
       <x:result xmlns:namespace-name="namespace-text" select="/node()"/>
-      <x:test successful="false">
+      <x:test successful="true">
          <x:label>must be Success</x:label>
          <x:expect xmlns:namespace-name="namespace-text" select="/node()"/>
       </x:test>
@@ -21,7 +21,7 @@
          <x:param select="$Q{x-urn:test:xspec-items}default-namespace"/>
       </x:call>
       <x:result xmlns="default-namespace-text" select="/node()"/>
-      <x:test successful="false">
+      <x:test successful="true">
          <x:label>must be Success</x:label>
          <x:expect xmlns="default-namespace-text" select="/node()"/>
       </x:test>
