@@ -16,46 +16,6 @@
    -->
 
    <!--
-       Function test:node-deep-equal($seq1, $seq2, '').
-   -->
-   <t:scenario label="test:node-deep-equal($seq1, $seq2, '')">
-
-      <t:scenario label="Namespace Nodes">
-         <!-- TODO: These scenarios do not run on XQuery
-              Namespace node support in test:node-deep-equal() has not been implemented for XQuery-->
-
-         <t:scenario label="Identical">
-            <t:call function="test:node-deep-equal">
-               <t:param select="$items:namespace" />
-               <t:param select="$items:namespace" />
-               <t:param select="''" />
-            </t:call>
-            <t:expect label="True" select="true()" />
-         </t:scenario>
-
-         <t:scenario label="Identical default namespace">
-            <t:call function="test:node-deep-equal">
-               <t:param select="$items:default-namespace" />
-               <t:param select="$items:default-namespace" />
-               <t:param select="''" />
-            </t:call>
-            <t:expect label="True" select="true()" />
-         </t:scenario>
-
-         <t:scenario label="Different">
-            <t:call function="test:node-deep-equal">
-               <t:param select="$items:namespace" />
-               <t:param select="$items:another-namespace" />
-               <t:param select="''" />
-            </t:call>
-            <t:expect label="False" select="false()" />
-         </t:scenario>
-
-      </t:scenario>
-
-   </t:scenario>
-
-   <!--
        Template test:report-sequence
    -->
    <t:scenario label="test:report-sequence">
