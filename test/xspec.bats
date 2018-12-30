@@ -531,7 +531,7 @@ teardown() {
 
     export SAXON_HOME="${work_dir}/saxon"
     mkdir "${SAXON_HOME}"
-    cp "${SAXON_JAR}"        "${SAXON_HOME}"
+    cp "${SAXON_JAR}" "${SAXON_HOME}"
     cp "${XML_RESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
     unset SAXON_CP
 

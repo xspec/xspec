@@ -347,13 +347,6 @@ call :win_reset_options
 call :win_get_options %*
 
 rem
-rem # set CATALOG option for Saxon if XML_CATALOG has been set
-rem
-if defined XML_CATALOG (
-    set CATALOG=-catalog:"%XML_CATALOG%"
-)
-
-rem
 rem # Schematron
 rem # XSLT
 rem
@@ -414,6 +407,13 @@ rem
 if defined WIN_UNKNOWN_OPTION (
     call :usage "Error: Unknown option: %WIN_UNKNOWN_OPTION%"
     exit /b 1
+)
+
+rem
+rem # set CATALOG option for Saxon if XML_CATALOG has been set
+rem
+if defined XML_CATALOG (
+    set CATALOG=-catalog:"%XML_CATALOG%"
 )
 
 rem

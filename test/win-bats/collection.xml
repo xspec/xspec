@@ -377,7 +377,7 @@
 	<case ifdef="XML_RESOLVER_JAR" name="invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
     set "SAXON_HOME=%WORK_DIR%\saxon"
     call :mkdir "%SAXON_HOME%"
-    call :copy "%SAXON_JAR%"        "%SAXON_HOME%"
+    call :copy "%SAXON_JAR%" "%SAXON_HOME%"
     call :copy "%XML_RESOLVER_JAR%" "%SAXON_HOME%\xml-resolver-1.2.jar"
     set SAXON_CP=
 
