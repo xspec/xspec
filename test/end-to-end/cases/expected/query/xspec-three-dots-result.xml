@@ -565,7 +565,7 @@
       </x:scenario>
    </x:scenario>
    <x:scenario>
-      <x:label>For resultant namespace node (TODO: xspec/xspec#67 for XQuery)</x:label>
+      <x:label>For resultant namespace node</x:label>
       <x:result select="()"/>
       <x:scenario>
          <x:label>When result is
@@ -576,7 +576,7 @@
             <x:param select="'namespace-uri'"/>
          </x:call>
          <x:result xmlns:prefix="namespace-uri" select="/node()"/>
-         <x:test successful="false">
+         <x:test successful="true">
             <x:label>expecting
 					  xmlns:prefix="..."
 					should be Success</x:label>
@@ -596,7 +596,7 @@
             <x:param select="'namespace-uri'"/>
          </x:call>
          <x:result xmlns="namespace-uri" select="/node()"/>
-         <x:test successful="false">
+         <x:test successful="true">
             <x:label>expecting
 					  xmlns="..."
 					should be Success</x:label>
@@ -616,7 +616,7 @@
             <x:param select="'...'"/>
          </x:call>
          <x:result xmlns:prefix="..." select="/node()"/>
-         <x:test successful="false">
+         <x:test successful="true">
             <x:label>expecting
 					  xmlns:prefix="..."
 					should be Success</x:label>

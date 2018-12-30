@@ -157,25 +157,17 @@
          <failure message="expect assertion failed">Expected: /</failure>
       </testcase>
    </testsuite>
-   <testsuite name="For resultant namespace node (TODO: xspec/xspec#67 for XQuery)"
-              tests="7"
-              failures="4">
+   <testsuite name="For resultant namespace node" tests="7" failures="1">
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;namespace-uri&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
-                status="failed">
-         <failure message="expect assertion failed">Expected: /node()</failure>
-      </testcase>
+                status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;namespace-uri&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ... should be Success"
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns=&#34;namespace-uri&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
-                status="failed">
-         <failure message="expect assertion failed">Expected: /node()</failure>
-      </testcase>
+                status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns=&#34;namespace-uri&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ... should be Success"
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
-                status="failed">
-         <failure message="expect assertion failed">Expected: /node()</failure>
-      </testcase>
+                status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ... should be Success"
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;namespace-uri&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"

@@ -559,7 +559,7 @@
       </x:scenario>
    </x:scenario>
    <x:scenario>
-      <x:label>For resultant namespace node (TODO: xspec/xspec#67 for XQuery)</x:label>
+      <x:label>For resultant namespace node</x:label>
       <x:scenario>
          <x:label>When result is
 						  xmlns:prefix="namespace-uri"
