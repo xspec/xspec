@@ -98,6 +98,17 @@
       </xsl:if>
       <xsl:text>;&#10;</xsl:text>
 
+      <!-- Import common utils -->
+      <xsl:text>import module "</xsl:text>
+      <xsl:value-of select="$xspec-namespace" />
+      <xsl:text>"</xsl:text>
+      <xsl:if test="not($utils-library-at eq '#none')">
+         <xsl:text>&#x0A;  at "</xsl:text>
+         <xsl:value-of select="resolve-uri('../common/xspec-utils.xquery')" />
+         <xsl:text>"</xsl:text>
+      </xsl:if>
+      <xsl:text>;&#x0A;</xsl:text>
+
       <!-- Declare namespaces -->
       <xsl:apply-templates select="." mode="x:decl-ns">
          <xsl:with-param name="except" select="$prefix, 'test'"/>
