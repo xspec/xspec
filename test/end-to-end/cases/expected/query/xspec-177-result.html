@@ -55,7 +55,7 @@
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-65">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
+                  <td><a href="#ELEM-64">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
                         boolean), then the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result"
                         = "&lt;bar /&gt;" with diff.</a></td>
                   <td>Failure</td>
@@ -71,17 +71,17 @@
             <thead>
                <tr>
                   <th>Result</th>
-                  <th>Expected Result</th>
+                  <th>Expecting</th>
                </tr>
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
-                  <td><pre>()</pre></td>
+                  <td><pre>&lt;foo /&gt;</pre></td>
+                  <td><pre>empty($x:result/self::element(foo))</pre></td>
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-65">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
+         <h4 id="ELEM-64">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
             boolean), then the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result"
             = "&lt;bar /&gt;" with diff.
          </h4>

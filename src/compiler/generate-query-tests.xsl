@@ -390,14 +390,28 @@
 
          <!-- Report -->
          <xsl:if test="not($pending-p)">
-            <!--xsl:if test="@test">
-               <xsl:text>&#10;      { if ( $local:test-result instance of xs:boolean ) then () else test:report-sequence($local:test-result, '</xsl:text>
+            <xsl:if test="@test">
+               <xsl:text>&#x0A;</xsl:text>
+               <xsl:text>      { if ( $local:boolean-test )&#x0A;</xsl:text>
+               <xsl:text>        then ()&#x0A;</xsl:text>
+               <xsl:text>        else test:report-sequence($local:test-result, '</xsl:text>
                <xsl:value-of select="x:xspec-name('result')" />
                <xsl:text>') }</xsl:text>
-            </xsl:if-->
-            <xsl:text>&#10;      { test:report-sequence($local:expected, '</xsl:text>
+            </xsl:if>
+
+            <xsl:text>&#x0A;</xsl:text>
+            <xsl:text>      { test:report-sequence($local:expected, '</xsl:text>
             <xsl:value-of select="x:xspec-name('expect')" />
-            <xsl:text>') }</xsl:text>
+            <xsl:text>'</xsl:text>
+
+            <xsl:if test="@test">
+               <xsl:text>, </xsl:text>
+
+               <!-- Create @test generator (to escape its value properly) -->
+               <xsl:apply-templates select="@test" mode="test:create-node-generator" />
+            </xsl:if>
+
+            <xsl:text>) }</xsl:text>
          </xsl:if>
       </xsl:element>
       <xsl:text>&#10;};&#10;</xsl:text>

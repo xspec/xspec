@@ -21,7 +21,7 @@
 				and
 					"Expecting" = "empty($x:result/self::element(foo))"
 				without diff.</x:label>
-         <x:expect select="()"/>
+         <x:expect test="empty($x:result/self::element(foo))" select="()"/>
       </x:test>
       <x:test successful="false">
          <x:label>When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non boolean),
@@ -30,7 +30,10 @@
 				and
 					"Expected Result" = "&lt;bar /&gt;"
 				with diff.</x:label>
-         <x:expect>
+         <x:result>
+            <foo/>
+         </x:result>
+         <x:expect test="$x:result/self::element(foo)">
             <bar/>
          </x:expect>
       </x:test>

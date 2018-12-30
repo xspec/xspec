@@ -162,16 +162,24 @@ declare function test:report-sequence(
     $wrapper-name as xs:string
   ) as element()
 {
-  test:report-sequence($sequence, $wrapper-name, 'http://www.jenitennison.com/xslt/xspec')
+  test:report-sequence($sequence, $wrapper-name, ())
 };
 
 declare function test:report-sequence(
     $sequence as item()*,
     $wrapper-name as xs:string,
-    $wrapper-ns as xs:string
+    $test as xs:string?
   ) as element()
 {
+  let $wrapper-ns as xs:string := 'http://www.jenitennison.com/xslt/xspec'
+  return
   element { fn:QName($wrapper-ns, $wrapper-name) } {
+    (
+      if ($test)
+      then attribute test { $test }
+      else ()
+    ),
+
     if ( $sequence[1] instance of attribute() ) then (
         attribute { 'select' } { '/*/(@* | node())' },
         element { fn:QName($wrapper-ns, 'temp') } { $sequence }
