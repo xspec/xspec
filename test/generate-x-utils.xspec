@@ -10,18 +10,15 @@
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-               query="http://www.jenitennison.com/xslt/unit-test"
-               query-at="../src/compiler/generate-query-utils.xql"
+               query="x-urn:test:do-nothing"
+               query-at="do-nothing.xquery"
                stylesheet="do-nothing.xsl">
 
    <!--
        Test the source files generate-tests-utils.xsl and generate-query-utils.xql.
 
-       The XSLT test target (../src/compiler/generate-tests-utils.xsl) is included
-       implicitly by the XSpec compiler. You don't need to specify it in
-       /t:description/@stylesheet. If you specify it explicitly, you'll get a warning:
-       "Stylesheet module ../src/compiler/generate-tests-utils.xsl is
-       included or imported more than once."
+       The test target is included implicitly by the XSpec compiler. You don't need
+       to specify it in /t:description/@stylesheet or @query-at.
    -->
 
    <!--
