@@ -171,6 +171,24 @@ teardown() {
 }
 
 
+@test "invoking xspec -c -q prints error message" {
+    export SAXON_CP=/path/to/saxon9ee.jar
+    run ../bin/xspec.sh -c -q ../tutorial/xquery-tutorial.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Coverage is supported only for XSLT" ]
+}
+
+
+@test "invoking xspec -c -s prints error message" {
+    export SAXON_CP=/path/to/saxon9ee.jar
+    run ../bin/xspec.sh -c -s ../tutorial/schematron/demo-01.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Coverage is supported only for XSLT" ]
+}
+
+
 @test "invoking xspec generates message with default report location and creates report files" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     echo "$output"

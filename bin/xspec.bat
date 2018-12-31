@@ -53,7 +53,7 @@ rem ##
     echo   -t             test an XSLT stylesheet (the default)
     echo   -q             test an XQuery module (mutually exclusive with -t and -s)
     echo   -s             test a Schematron schema (mutually exclusive with -t and -q)
-    echo   -c             output test coverage report
+    echo   -c             output test coverage report (XSLT only)
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
     echo   -h             display this help message
@@ -406,6 +406,14 @@ rem # Unknown option!
 rem
 if defined WIN_UNKNOWN_OPTION (
     call :usage "Error: Unknown option: %WIN_UNKNOWN_OPTION%"
+    exit /b 1
+)
+
+rem
+rem # Coverage is only for XSLT
+rem
+if defined COVERAGE if not ""=="%XQUERY%%SCHEMATRON%" (
+    call :usage "Coverage is supported only for XSLT"
     exit /b 1
 )
 
