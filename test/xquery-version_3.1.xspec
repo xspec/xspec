@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xquery-version="3.1">
+	<x:scenario label="Map and Lookup Operator">
+		<x:call function="exactly-one">
+			<x:param select="map { 'foo' : 'bar' } ?foo" />
+		</x:call>
+		<x:expect label="Must work" select="'bar'" />
+	</x:scenario>
+</x:description>
