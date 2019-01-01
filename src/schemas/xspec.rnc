@@ -14,6 +14,10 @@ description =
 		common-attributes,
 		attribute stylesheet { xsd:anyURI }?,
 		attribute query { xsd:anyURI }?,
+
+		## XQuery version which will be declared in the compiled main module.
+		attribute xquery-version { text }?,
+
 		attribute xslt-version { xsd:decimal }?,
 		attribute query-at { xsd:anyURI }?,
 		attribute version { xsd:decimal }?,		
