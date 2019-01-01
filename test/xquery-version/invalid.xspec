@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xquery-version="InVaLiD">
+	<x:scenario label="false()">
+		<x:call function="false" />
+		<x:expect label="Must pass" select="false()" />
+	</x:scenario>
+</x:description>
