@@ -9,7 +9,7 @@
       <x:call function="exactly-one">
          <x:param as="element(p)" href="../../xspec-346.xml" select="element(p)"/>
       </x:call>
-      <x:result>
+      <x:result select="/element()">
          <p>
             <span>foo</span>
             <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"> </test:ws>
@@ -18,7 +18,7 @@
       </x:result>
       <x:test successful="false">
          <x:label>Expecting no space should be Failure</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <p>
                <span>foo</span>
                <span>bar</span>

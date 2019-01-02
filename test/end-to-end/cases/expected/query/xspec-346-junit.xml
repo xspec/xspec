@@ -4,12 +4,7 @@
               tests="1"
               failures="1">
       <testcase name="Expecting no space should be Failure" status="failed">
-         <failure message="expect assertion failed">&lt;x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
-            &lt;p&gt;
-               &lt;span&gt;foo&lt;/span&gt;
-               &lt;span&gt;bar&lt;/span&gt;
-            &lt;/p&gt;
-         &lt;/x:expect&gt;</failure>
+         <failure message="expect assertion failed">Expected: /element()</failure>
       </testcase>
    </testsuite>
 </testsuites>
