@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="Scenario for verifying that boolean @test precedes @href">
 		<x:scenario label="When function returns true,">
 			<x:call function="true" />
