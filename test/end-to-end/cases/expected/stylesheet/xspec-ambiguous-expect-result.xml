@@ -10,9 +10,7 @@
       <x:label>Scenario for verifying that boolean @test precedes @href</x:label>
       <x:scenario>
          <x:label>When function returns true,</x:label>
-         <x:call function="exactly-one">
-            <x:param as="xs:boolean" select="true()"/>
-         </x:call>
+         <x:call function="true"/>
          <x:result select="xs:boolean('true')"/>
          <x:test successful="false">
             <x:label>Expecting document node via @href should be Failure</x:label>
@@ -32,9 +30,7 @@
       <x:label>Scenario for verifying that boolean @test precedes @select</x:label>
       <x:scenario>
          <x:label>When function returns false,</x:label>
-         <x:call function="exactly-one">
-            <x:param as="xs:boolean" select="false()"/>
-         </x:call>
+         <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>
          <x:test successful="true">
             <x:label>Expecting false via @select should be Success</x:label>
@@ -50,9 +46,7 @@
       <x:label>Scenario for verifying that boolean @test precedes child node</x:label>
       <x:scenario>
          <x:label>When function returns true,</x:label>
-         <x:call function="exactly-one">
-            <x:param as="xs:boolean" select="true()"/>
-         </x:call>
+         <x:call function="true"/>
          <x:result select="xs:boolean('true')"/>
          <x:test successful="false">
             <x:label>Expecting element(foo) via child node should be Failure</x:label>
@@ -72,9 +66,7 @@
       <x:label>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)</x:label>
       <x:scenario>
          <x:label>When function returns true,</x:label>
-         <x:call function="exactly-one">
-            <x:param as="xs:boolean" select="true()"/>
-         </x:call>
+         <x:call function="true"/>
          <x:result select="xs:boolean('true')"/>
          <x:test successful="false">
             <x:label>Expecting empty sequence (no @href, @select or child node) should be Failure</x:label>

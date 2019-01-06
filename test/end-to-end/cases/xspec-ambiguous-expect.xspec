@@ -2,9 +2,7 @@
 <x:description stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="Scenario for verifying that boolean @test precedes @href">
 		<x:scenario label="When function returns true,">
-			<x:call function="exactly-one">
-				<x:param as="xs:boolean" select="true()" />
-			</x:call>
+			<x:call function="true" />
 
 			<x:expect href="xspec-ambiguous-expect.xml"
 				label="Expecting document node via @href should be Failure" />
@@ -17,9 +15,7 @@
 
 	<x:scenario label="Scenario for verifying that boolean @test precedes @select">
 		<x:scenario label="When function returns false,">
-			<x:call function="exactly-one">
-				<x:param as="xs:boolean" select="false()" />
-			</x:call>
+			<x:call function="false" />
 
 			<x:expect label="Expecting false via @select should be Success" select="false()" />
 
@@ -31,9 +27,7 @@
 
 	<x:scenario label="Scenario for verifying that boolean @test precedes child node">
 		<x:scenario label="When function returns true,">
-			<x:call function="exactly-one">
-				<x:param as="xs:boolean" select="true()" />
-			</x:call>
+			<x:call function="true" />
 
 			<x:expect label="Expecting element(foo) via child node should be Failure">
 				<foo />
@@ -50,9 +44,7 @@
 	<x:scenario
 		label="Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)">
 		<x:scenario label="When function returns true,">
-			<x:call function="exactly-one">
-				<x:param as="xs:boolean" select="true()" />
-			</x:call>
+			<x:call function="true" />
 
 			<x:expect
 				label="Expecting empty sequence (no @href, @select or child node) should be Failure" />
