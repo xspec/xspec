@@ -405,7 +405,10 @@
 	</case>
 
 	<case ifdef="JING_JAR" name="Schema detects no error in tutorial">
-    call :run java -jar "%JING_JAR%" -c ..\src\schemas\xspec.rnc ..\tutorial\*.xspec ..\tutorial\schematron\*.xspec
+    call :run java -jar "%JING_JAR%" -c ..\src\schemas\xspec.rnc ^
+        ..\tutorial\*.xspec ^
+        ..\tutorial\coverage\*.xspec ^
+        ..\tutorial\schematron\*.xspec
     call :verify_retval 0
 	</case>
 
