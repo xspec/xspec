@@ -8,7 +8,7 @@
   <version>1.2.0-SNAPSHOT</version>
   
   <name>XSpec implementation</name>
-  <description>A unit test framework for Xsl, XQuery and Schematron</description>
+  <description>A unit test framework for XSLT, XQuery and Schematron</description>
   <inceptionYear>2008</inceptionYear>
   <url>https://github.com/xspec/xspec</url>
   
@@ -17,7 +17,7 @@
       <name>The MIT License</name>
       <distribution>repo | manually</distribution>
       <url>https://opensource.org/licenses/MIT</url>
-      <comments>Copyright (c) 2008-2017 Jeni Tennison</comments>
+      <comments>Copyright (c) 2008-2019 Jeni Tennison</comments>
     </license>
   </licenses>
   
