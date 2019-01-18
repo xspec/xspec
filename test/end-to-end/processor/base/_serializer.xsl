@@ -4,12 +4,13 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This stylesheet module helps serialize the report HTML.
+		This stylesheet module helps serialize the document.
 	-->
 
 	<!--
 		Set of serialization parameters
-			The parameters must be in sync with XSPEC_HOME/src/reporter/format-xspec-report.xsl.
+			The processor must override this and sync it with the serialization parameters
+			of the target reporter.
 	-->
 	<xsl:output name="serializer:output" />
 </xsl:stylesheet>

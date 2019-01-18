@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Scenario 1-1" />
+	<x:import href="import-2a.xspec" />
+	<x:scenario label="Scenario 1-2" />
+	<x:import href="import-2b.xspec" />
+	<x:scenario label="Scenario 1-3" />
+</x:description>

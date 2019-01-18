@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
+	stylesheet="../do-nothing.xsl" xmlns:do-nothing="x-urn:test:do-nothing"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Compare 'a' and 'A' using custom collation">
+		<x:call function="compare">
+			<x:param select="'a'" />
+			<x:param select="'A'" />
+			<x:param select="'x-urn:test:saxon-custom-options:collation'" />
+		</x:call>
+		<x:expect label="Equal" select="0" />
+	</x:scenario>
+</x:description>

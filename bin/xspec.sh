@@ -42,7 +42,7 @@ usage() {
     echo "  -t             test an XSLT stylesheet (the default)"
     echo "  -q             test an XQuery module (mutually exclusive with -t and -s)"
     echo "  -s             test a Schematron schema (mutually exclusive with -t and -q)"
-    echo "  -c             output test coverage report"
+    echo "  -c             output test coverage report (XSLT only)"
     echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
     echo "  -h             display this help message"
@@ -220,6 +220,12 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
     shift;
 done
 
+# Coverage is only for XSLT
+if [ -n "${COVERAGE}" ] && [ -n "${XQUERY}${SCHEMATRON}" ]; then
+    usage "Coverage is supported only for XSLT"
+    exit 1
+fi
+
 # set CATALOG option for Saxon if XML_CATALOG has been set
 if test -n "$XML_CATALOG"; then
     CATALOG="-catalog:$XML_CATALOG"
@@ -344,17 +350,21 @@ echo
 ## run the suite #############################################################
 ##
 
+declare -a "saxon_custom_options_array=(${SAXON_CUSTOM_OPTIONS})"
+
 echo "Running Tests..."
 if test -n "$XSLT"; then
     # for XSLT
     if test -n "$COVERAGE"; then
         echo "Collecting test coverage data; suppressing progress report..."
-        xslt -T:$COVERAGE_CLASS \
+        xslt "${saxon_custom_options_array[@]}" \
+            -T:$COVERAGE_CLASS \
             -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
             -it:{http://www.jenitennison.com/xslt/xspec}main 2> "$COVERAGE_XML" \
             || die "Error collecting test coverage data"
     else
-        xslt -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
+        xslt "${saxon_custom_options_array[@]}" \
+            -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
             -it:{http://www.jenitennison.com/xslt/xspec}main \
             || die "Error running the test suite"
     fi
@@ -362,11 +372,13 @@ else
     # for XQuery
     if test -n "$COVERAGE"; then
         echo "Collecting test coverage data; suppressing progress report..."
-        xquery -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" "$COMPILED" 2> "$COVERAGE_XML" \
+        xquery "${saxon_custom_options_array[@]}" \
+            -T:$COVERAGE_CLASS \
+            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" 2> "$COVERAGE_XML" \
             || die "Error collecting test coverage data"
     else
-        xquery -o:"$RESULT" -s:"$XSPEC" "$COMPILED" \
+        xquery "${saxon_custom_options_array[@]}" \
+            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" \
             || die "Error running the test suite"
     fi
 fi

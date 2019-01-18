@@ -2,6 +2,10 @@ This procedure is a primitive end-to-end testing for XSpec itself.
 
 The primary goal is to verify that XSpec is generating the report HTML files as expected. The test should be done as simply as possible and without using XSpec itself.
 
+## Prerequisites
+
+* Make sure that `../run-bats.sh` (or `.cmd`) does not fail. If it fails, this end-to-end testing may not work or does not make sense.
+
 ## Preparing the expected HTML files
 
 First you need to set up the expected HTML files. This is a manual operation which you have to perform only once.

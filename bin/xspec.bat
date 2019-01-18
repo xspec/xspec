@@ -53,7 +53,7 @@ rem ##
     echo   -t             test an XSLT stylesheet (the default)
     echo   -q             test an XQuery module (mutually exclusive with -t and -s)
     echo   -s             test a Schematron schema (mutually exclusive with -t and -q)
-    echo   -c             output test coverage report
+    echo   -c             output test coverage report (XSLT only)
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
     echo   -h             display this help message
@@ -150,12 +150,7 @@ rem ##
     )
 
     shift
-
-    rem
-    rem %* doesn't reflect shift. Pass %n individually.
-    rem
-    call :win_get_options %1 %2 %3 %4 %5 %6 %7 %8 %9
-    goto :EOF
+    goto :win_get_options
 
 
 :schematron_compile
@@ -175,7 +170,7 @@ rem ##
         -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         || ( call :die "Error getting Schematron phase and parameters" & goto :win_main_error_exit )
     set /P SCH_PARAMS=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    echo Paramaters: %SCH_PARAMS%
+    echo Parameters: %SCH_PARAMS%
     set "SCHUT=%XSPEC%-compiled.xspec"
     set "SCH_COMPILED=%SCH%-compiled.xsl"
     
@@ -278,7 +273,7 @@ if not defined XSPEC_HOME set "XSPEC_HOME=%~dp0.."
 rem
 rem # safety checks
 rem
-for %%I in ("%XSPEC_HOME%") do echo "%%~aI" | find "d" > NUL
+for %%I in ("%XSPEC_HOME%") do echo "%%~aI" | %SYSTEMROOT%\system32\find "d" > NUL
 if errorlevel 1 (
     call :win_echo "ERROR: XSPEC_HOME is not a directory: %XSPEC_HOME%"
     exit /b 1
@@ -341,20 +336,15 @@ rem
 rem
 rem Saxon jar filename
 rem
-for %%I in ("%SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
+set WIN_SAXON_CP=%SAXON_CP%;
+for %%I in ("%WIN_SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
+set WIN_SAXON_CP=
 
 rem
 rem Parse command line
 rem
 call :win_reset_options
 call :win_get_options %*
-
-rem
-rem # set CATALOG option for Saxon if XML_CATALOG has been set
-rem
-if defined XML_CATALOG (
-    set CATALOG=-catalog:"%XML_CATALOG%"
-)
 
 rem
 rem # Schematron
@@ -417,6 +407,21 @@ rem
 if defined WIN_UNKNOWN_OPTION (
     call :usage "Error: Unknown option: %WIN_UNKNOWN_OPTION%"
     exit /b 1
+)
+
+rem
+rem # Coverage is only for XSLT
+rem
+if defined COVERAGE if not ""=="%XQUERY%%SCHEMATRON%" (
+    call :usage "Coverage is supported only for XSLT"
+    exit /b 1
+)
+
+rem
+rem # set CATALOG option for Saxon if XML_CATALOG has been set
+rem
+if defined XML_CATALOG (
+    set CATALOG=-catalog:"%XML_CATALOG%"
 )
 
 rem
@@ -513,12 +518,14 @@ if defined XSLT (
     rem
     if defined COVERAGE (
         echo Collecting test coverage data; suppressing progress report...
-        call :win_xslt_trace -T:%COVERAGE_CLASS% ^
+        call :win_xslt_trace %SAXON_CUSTOM_OPTIONS% ^
+            -T:%COVERAGE_CLASS% ^
             -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
             -it:{http://www.jenitennison.com/xslt/xspec}main 2> "%COVERAGE_XML%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
-        call :xslt -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
+        call :xslt %SAXON_CUSTOM_OPTIONS% ^
+            -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
             -it:{http://www.jenitennison.com/xslt/xspec}main ^
             || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
@@ -528,11 +535,13 @@ if defined XSLT (
     rem
     if defined COVERAGE (
         echo Collecting test coverage data; suppressing progress report...
-        call :win_xquery_trace -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" 2> "%COVERAGE_XML%" ^
+        call :win_xquery_trace %SAXON_CUSTOM_OPTIONS% ^
+            -T:%COVERAGE_CLASS% ^
+            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" 2> "%COVERAGE_XML%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
-        call :xquery -o:"%RESULT%" -s:"%XSPEC%" "%COMPILED%" ^
+        call :xquery %SAXON_CUSTOM_OPTIONS% ^
+            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" ^
             || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
 )

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration edition="HE" xmlns="http://saxon.sf.net/ns/configuration">
+	<collations>
+		<collation ignore-case="yes" lang="en" uri="x-urn:test:saxon-custom-options:collation" />
+	</collations>
+</configuration>
