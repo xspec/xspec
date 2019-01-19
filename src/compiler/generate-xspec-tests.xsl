@@ -356,6 +356,13 @@
                this is an error.  See issue 5.-->
           <variable name="impl:boolean-test" as="xs:boolean"
             select="$impl:test-result instance of xs:boolean" />
+          <xsl:if test="@href or @select or (node() except x:label)">
+            <if test="$impl:boolean-test">
+              <message>
+                <text>WARNING: <xsl:value-of select="name(.)"/> has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</text>
+              </message>
+            </if>
+          </xsl:if>
           <variable name="impl:successful" as="xs:boolean"
             select="if ($impl:boolean-test) then $impl:test-result cast as xs:boolean
                     else test:deep-equal($impl:expected, $impl:test-result, {$version})" />
