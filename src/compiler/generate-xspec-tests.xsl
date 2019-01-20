@@ -208,7 +208,7 @@
               </xsl:variable>
               <xsl:choose>
                 <xsl:when test="$context">
-                  <!-- Set up the $context variable -->
+                  <!-- Set up the $impl:context variable -->
                   <xsl:apply-templates select="$context" mode="x:setup-context"/>
                   <!-- Switch to the context and call the template -->
                   <for-each select="$impl:context">
@@ -256,7 +256,7 @@
                </apply-templates>
             </xsl:when>
             <xsl:when test="$context">
-              <!-- Set up the $context variable -->
+              <!-- Set up the $impl:context variable -->
               <xsl:apply-templates select="$context" mode="x:setup-context"/>
               <!-- Set up variables containing the parameter values -->
               <xsl:apply-templates select="$context/x:param[1]" mode="x:compile"/>
