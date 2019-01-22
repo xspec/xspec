@@ -680,14 +680,14 @@
 	<case name="XSLT selecting nodes without context should be error (command line) #423">
     call :run ..\bin\xspec.bat xspec-423\test.xspec
     call :verify_retval 2
-    call :verify_line -3 r "  XPDY0002:"
+    call :verify_line  * r "  XPDY0002:"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="XSLT selecting nodes without context should be error (command line -c) #423">
     call :run ..\bin\xspec.bat -c xspec-423\test.xspec
     call :verify_retval 2
-    call :verify_line -3 r "  XPDY0002:"
+    call :verify_line  * r "  XPDY0002:"
     call :verify_line -1 x "*** Error collecting test coverage data"
 	</case>
 
