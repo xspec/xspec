@@ -8,7 +8,7 @@ environment:
     XML_RESOLVER_JAR: '%TEMP%\xspec\xml-resolver\resolver.jar'
   matrix:
     # latest Saxon 9.9 version and Jing
-    - SAXON_VERSION: 9.9.0-2
+    - SAXON_VERSION: 9.9.1-1
       JING_VERSION: 20181222
     # latest Saxon 9.8 version
     #   * XML Calabash will use Saxon jar in its own lib directory.
