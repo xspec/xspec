@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:test="http://www.jenitennison.com/xslt/unit-test" stylesheet="../src/compiler/generate-tests-utils.xsl">
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:test="http://www.jenitennison.com/xslt/unit-test" stylesheet="items.xsl">
   <!--
 	   Test the source file generate-tests-utils.xsl.
+
+        The test target (../src/compiler/generate-tests-utils.xsl) is included
+        implicitly by the XSpec compiler. You don't need to specify it in
+        /t:description/@stylesheet. If you specify it explicitly, you'll get a warning:
+        "Stylesheet module ../src/compiler/generate-tests-utils.xsl is
+        included or imported more than once."
    -->
   <!--
 	   Function test:node-deep-equal($seq1, $seq2).
@@ -173,6 +179,36 @@
           </t:param>
         </t:call>
         <t:expect label="True" select="true()" />
+      </t:scenario>
+
+    </t:scenario>
+
+    <t:scenario label="Namespace Nodes">
+      <!-- TODO: These scenarios do not run on XQuery
+          Namespace node support in test:node-deep-equal() has not been implemented for XQuery-->
+
+      <t:scenario label="Identical">
+        <t:call function="test:node-deep-equal">
+          <t:param select="$namespace" />
+          <t:param select="$namespace" />
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Identical default namespace">
+        <t:call function="test:node-deep-equal">
+          <t:param select="$default-namespace" />
+          <t:param select="$default-namespace" />
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Different">
+        <t:call function="test:node-deep-equal">
+          <t:param select="$namespace" />
+          <t:param select="$another-namespace" />
+        </t:call>
+        <t:expect label="False" select="false()" />
       </t:scenario>
 
     </t:scenario>
@@ -633,4 +669,82 @@
     </t:scenario>
 
   </t:scenario>
+
+  <!--
+    Function test:instance-of-namespace
+   -->
+  <t:scenario label="test:instance-of-namespace">
+
+    <!-- TODO: These scenarios do not run on XQuery
+        test:instance-of-namespace() has not been implemented for XQuery-->
+
+    <t:scenario label="Nodes">
+
+      <t:scenario label="Attribute">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$attribute" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Comment">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$comment" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Document">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$document" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Element">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$element" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Namespace">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$namespace" />
+        </t:call>
+        <t:expect label="True" select="true()" />
+      </t:scenario>
+
+      <t:scenario label="Processing instruction">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$processing-instruction" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+      <t:scenario label="Text">
+        <t:call function="test:instance-of-namespace">
+          <t:param select="$text" />
+        </t:call>
+        <t:expect label="False" select="false()" />
+      </t:scenario>
+
+    </t:scenario>
+
+    <t:scenario label="Value">
+      <t:call function="test:instance-of-namespace">
+        <t:param select="$integer" />
+      </t:call>
+      <t:expect label="False" select="false()" />
+    </t:scenario>
+
+    <t:scenario label="Empty">
+      <t:call function="test:instance-of-namespace">
+        <t:param select="()" />
+      </t:call>
+      <t:expect label="False" select="false()" />
+    </t:scenario>
+
+  </t:scenario>
+
 </t:description>
