@@ -9,6 +9,17 @@
     <!--
         All kinds of nodes
     -->
+
+    <!-- Sequence of all kinds of nodes -->
+    <xsl:variable as="node()+" name="all-nodes" select="$wrappable-nodes, $non-wrappable-nodes" />
+
+    <!-- Sequence of nodes that can be wrapped in document node -->
+    <xsl:variable as="node()+" name="wrappable-nodes" select="$comment, $document, $element, $processing-instruction, $text" />
+
+    <!-- Sequence of nodes that cannot be wrapped in document node -->
+    <xsl:variable as="node()+" name="non-wrappable-nodes" select="$attribute, $namespace" />
+
+    <!-- Each node -->
     <xsl:variable as="attribute()" name="attribute">
         <xsl:attribute name="attribute-name">attribute-text</xsl:attribute>
     </xsl:variable>
@@ -22,7 +33,11 @@
     </xsl:variable>
 
     <xsl:variable as="element()" name="element">
-        <xsl:element name="element-name">element-text</xsl:element>
+        <xsl:element name="element-name">
+            <!-- Insert non wrappable nodes just in case -->
+            <xsl:sequence select="$non-wrappable-nodes" />
+            <xsl:text>element-text</xsl:text>
+        </xsl:element>
     </xsl:variable>
 
     <xsl:variable as="node()" name="namespace">
