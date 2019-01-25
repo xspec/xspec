@@ -6,6 +6,7 @@
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
+
 <!-- TODO: Make the following changes after other code gets merged onto master branch.
   - Test that variable/@name should be EQNAME and should be added to EQName test. See
     test/xspec-eqname.xspec on AirQuick's branch.
@@ -19,199 +20,207 @@
     Need certain changes in generate-query-helper.xsl; see <xsl:template match="*" mode="test:generate-variable-declarations">.
   -->
 
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:my="http://example.org/ns/my" xmlns:myv="http://example.org/ns/my/variable" stylesheet="xspec-variable-tested.xsl" query="http://example.org/ns/my" query-at="xspec-variable-tested.xql">
-  <!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:my="http://example.org/ns/my"
+               xmlns:myv="http://example.org/ns/my/variable"
+               query="http://example.org/ns/my"
+               query-at="xspec-tested.xql"
+               stylesheet="xspec-tested.xsl">
+
+   <!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
     global parameters or global variables in the file to be tested. -->
-  <t:variable name="myv:test-data" href="xspec-variable.xml"/>
-  <t:variable name="myv:test-3" select="$myv:test-data/*/test[xs:integer(@num) eq 3]"/>
+   <t:variable name="myv:test-data" href="xspec-variable.xml"/>
+   <t:variable name="myv:test-3" select="$myv:test-data/*/test[xs:integer(@num) eq 3]"/>
 
-  <t:scenario label="Define variables in different ways">
-    <t:scenario label="@select only">
-      <t:variable name="myv:select-only" select="'y'"/>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo role="{$myv:select-only}"/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
-    </t:scenario>
-    <!--See xspec-variable_stylesheet.xspec for "@select and element content" scenario-->
-    <t:scenario label="@select and @href">
-      <t:variable name="myv:select-and-href" href="xspec-variable.xml" select="local-name(/test-data/*[1])"/>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo role="{$myv:select-and-href}"/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'test'"/>
-    </t:scenario>
-    <t:scenario label="element content">
-      <t:variable name="myv:content">y</t:variable>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo role="{$myv:content}"/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
-    </t:scenario>
-    <t:scenario label="element content, deeper">
-      <t:variable name="myv:content">
-        <xyz>y</xyz>
-      </t:variable>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo role="{string($myv:content)}"/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
-    </t:scenario>
-    <t:scenario label="@href only">
-      <t:variable name="myv:href-only" href="xspec-variable.xml"/>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo role="{local-name($myv:href-only/test-data/*[1])}"/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'test'"/>
-    </t:scenario>
-    <!-- REVIEW QUESTION: Remove the next scenario? A pending pull request on AirQuick's branch makes this pattern illegal. -->
-    <t:scenario label="if both @href and element content occur, use @href and ignore content">
-      <t:variable name="myv:href-over-content" href="xspec-variable.xml">
-        <doc><test-data><y/></test-data></doc>
-      </t:variable>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo role="{local-name($myv:href-over-content/test-data/*[1])}"/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode"/>
-      </t:call>
-      <t:expect label="the result ('test', not 'y')" test="$x:result/self::bar/@role/string() eq 'test'"/>
-    </t:scenario>
-  </t:scenario>
+   <t:scenario label="Define variables in different ways">
+      <t:scenario label="@select only">
+         <t:variable name="myv:select-only" select="'y'"/>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo role="{$myv:select-only}"/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode"/>
+         </t:call>
+         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+      </t:scenario>
+      <!--See xspec-variable_stylesheet.xspec for "@select and element content" scenario-->
+      <t:scenario label="@select and @href">
+         <t:variable name="myv:select-and-href" href="xspec-variable.xml" select="local-name(/test-data/*[1])"/>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo role="{$myv:select-and-href}"/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode"/>
+         </t:call>
+         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'test'"/>
+      </t:scenario>
+      <t:scenario label="element content">
+         <t:variable name="myv:content">y</t:variable>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo role="{$myv:content}"/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode"/>
+         </t:call>
+         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+      </t:scenario>
+      <t:scenario label="element content, deeper">
+         <t:variable name="myv:content">
+            <xyz>y</xyz>
+         </t:variable>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo role="{string($myv:content)}"/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode"/>
+         </t:call>
+         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+      </t:scenario>
+      <t:scenario label="@href only">
+         <t:variable name="myv:href-only" href="xspec-variable.xml"/>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo role="{local-name($myv:href-only/test-data/*[1])}"/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode"/>
+         </t:call>
+         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'test'"/>
+      </t:scenario>
+      <!-- REVIEW QUESTION: Remove the next scenario? A pending pull request on AirQuick's branch makes this pattern illegal. -->
+      <t:scenario label="if both @href and element content occur, use @href and ignore content">
+         <t:variable name="myv:href-over-content" href="xspec-variable.xml">
+            <doc><test-data><y/></test-data></doc>
+         </t:variable>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo role="{local-name($myv:href-over-content/test-data/*[1])}"/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode"/>
+         </t:call>
+         <t:expect label="the result ('test', not 'y')" test="$x:result/self::bar/@role/string() eq 'test'"/>
+      </t:scenario>
+   </t:scenario>
 
-  <t:scenario label="Call variable in different forms of SUT">
-    <!-- For test of local vars in named template and template rule, see xspec-variable_stylesheet.xspec. -->
-    <t:scenario label="Call local vars in test of function">
-      <t:variable name="myv:param" select="xs:integer($myv:test-3/@num)" as="xs:integer"/>
-      <t:call function="my:square">
-        <t:param select="$myv:param"/>
-      </t:call>
-      <t:variable name="myv:expectedresult" select="$myv:test-3/@value" as="attribute(value)"/>
-      <t:expect label="the result" select="$myv:expectedresult cast as xs:integer"/>
-    </t:scenario>
-  </t:scenario>
-
-  <t:scenario label="Check variables in different scopes">
-    <t:scenario label="Call global var">
-      <t:call function="my:square">
-        <t:param select="$myv:test-3/@num" as="attribute(num)"/>
-      </t:call>
-      <t:expect label="the result" select="$myv:test-3/@value cast as xs:integer"/>
-    </t:scenario>
-    <t:scenario label="Call vars inherited from outer scenarios, and check same-name vars in non-conflicting scopes">
-      <t:variable name="myv:param" select="xs:integer($myv:test-3/@num)" as="xs:integer"/>
-      <t:scenario label="outer1">
-        <t:variable name="myv:expectedresult" select="xs:integer($myv:test-3/@value)" as="xs:integer"/>
-        <t:scenario label="inner1">
-          <t:call function="my:square">
+   <t:scenario label="Call variable in different forms of SUT">
+      <!-- For test of local vars in named template and template rule, see xspec-variable_stylesheet.xspec. -->
+      <t:scenario label="Call local vars in test of function">
+         <t:variable name="myv:param" select="xs:integer($myv:test-3/@num)" as="xs:integer"/>
+         <t:call function="my:square">
             <t:param select="$myv:param"/>
-          </t:call>
-          <t:expect label="the result" select="$myv:expectedresult"/>
-        </t:scenario>
+         </t:call>
+         <t:variable name="myv:expectedresult" select="$myv:test-3/@value" as="attribute(value)"/>
+         <t:expect label="the result" select="$myv:expectedresult cast as xs:integer"/>
       </t:scenario>
-      <t:scenario label="outer2">
-        <t:variable name="myv:expectedresult" select="16" as="xs:integer"/>
-        <t:scenario label="inner2">
-          <t:call function="my:square">
-            <t:param select="$myv:param+1"/>
-          </t:call>
-          <t:expect label="the result (param inherited from outermost scenario; expectedresult inherited from outer2)"
-            select="$myv:expectedresult"/>
-          <t:variable name="myv:variableafterexpect" select="16" as="xs:integer"/>
-          <t:expect label="the result (defined between two expect elements)"
-            select="$myv:variableafterexpect"/>
-        </t:scenario>
+   </t:scenario>
+
+   <t:scenario label="Check variables in different scopes">
+      <t:scenario label="Call global var">
+         <t:call function="my:square">
+            <t:param select="$myv:test-3/@num" as="attribute(num)"/>
+         </t:call>
+         <t:expect label="the result" select="$myv:test-3/@value cast as xs:integer"/>
       </t:scenario>
-    </t:scenario>
-  </t:scenario>
-
-  <t:scenario label="Check behavior of whitespace-only text node">
-    <t:scenario label="Text directly in XSpec variable" pending="Wait for x:text to get merged in from AirQuick, and then uncomment t:variable">
-      <!--<t:variable name="myv:myspace1" as="text()"><t:text>&#x09;&#x0A;&#x0D;&#x20;  </t:text></t:variable>-->
-      <t:call function="my:foo">
-        <t:param name="elem"><foo/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode" select="$myv:myspace1"/>
-      </t:call>
-      <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
-    </t:scenario>
-    <t:scenario label="Text defined in code to be tested">
-      <t:variable name="myv:myspace2" as="text()" select="$my:myspace"/>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode" select="$myv:myspace2"/>
-      </t:call>
-      <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
-    </t:scenario>
-    <t:scenario label="Text defined in XML file">
-      <t:variable name="myv:myspace3" as="text()" href="xspec-variable.xml" select="//myspace/text()"/>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode" select="$myv:myspace3"/>
-      </t:call>
-      <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
-    </t:scenario>
-  </t:scenario>
-
-  <t:scenario label="Nonsense variable definition in pending scenario does not cause build failure">
-    <t:scenario label="Pending scenario 1" pending="skip on purpose">
-      <t:variable name="myv:nonsense1" select="$myv:nonexistent"/>
-      <t:call function="my:square">
-        <t:param select="$myv:nonsense1"/>
-      </t:call>
-      <t:expect label="the result" test="0"/>
-    </t:scenario>
-    <t:pending label="skip on purpose">
-      <t:scenario label="Pending scenario 2">
-        <t:variable name="myv:nonsense2" href="nonexistent.xml"/>
-        <t:call function="my:square">
-          <t:param select="$myv:nonsense2"/>
-        </t:call>
-        <t:expect label="the result" test="0"/>
+      <t:scenario label="Call vars inherited from outer scenarios, and check same-name vars in non-conflicting scopes">
+         <t:variable name="myv:param" select="xs:integer($myv:test-3/@num)" as="xs:integer"/>
+         <t:scenario label="outer1">
+            <t:variable name="myv:expectedresult" select="xs:integer($myv:test-3/@value)" as="xs:integer"/>
+            <t:scenario label="inner1">
+               <t:call function="my:square">
+                  <t:param select="$myv:param"/>
+               </t:call>
+               <t:expect label="the result" select="$myv:expectedresult"/>
+            </t:scenario>
+         </t:scenario>
+         <t:scenario label="outer2">
+            <t:variable name="myv:expectedresult" select="16" as="xs:integer"/>
+            <t:scenario label="inner2">
+               <t:call function="my:square">
+                  <t:param select="$myv:param+1"/>
+               </t:call>
+               <t:expect label="the result (param inherited from outermost scenario; expectedresult inherited from outer2)"
+                  select="$myv:expectedresult"/>
+               <t:variable name="myv:variableafterexpect" select="16" as="xs:integer"/>
+               <t:expect label="the result (defined between two expect elements)"
+                  select="$myv:variableafterexpect"/>
+            </t:scenario>
+         </t:scenario>
       </t:scenario>
-    </t:pending>
-    <t:scenario label="Nonpending scenario (not needed, except to work around issue #446)">
-      <t:call function="my:square">
-        <t:param select="$myv:test-3/@num" as="attribute(num)"/>
-      </t:call>
-      <t:expect label="the result" select="$myv:test-3/@value cast as xs:integer"/>
-    </t:scenario>
-  </t:scenario>
+   </t:scenario>
 
-  <t:scenario shared="yes" label="SHARED variables">
-    <!-- When referencing this scenario via t:like, make sure $myv:str is already defined. -->
-    <t:variable name="myv:bracketed" select="concat('[',$myv:str,']')" as="xs:string"/>
-  </t:scenario>
+   <t:scenario label="Check behavior of whitespace-only text node">
+      <t:scenario label="Text directly in XSpec variable" pending="Wait for x:text to get merged in from AirQuick, and then uncomment t:variable">
+         <!--<t:variable name="myv:myspace1" as="text()"><t:text>&#x09;&#x0A;&#x0D;&#x20;  </t:text></t:variable>-->
+         <t:call function="my:foo">
+            <t:param name="elem"><foo/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode" select="$myv:myspace1"/>
+         </t:call>
+         <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
+      </t:scenario>
+      <t:scenario label="Text defined in code to be tested">
+         <t:variable name="myv:myspace2" as="text()" select="$my:myspace"/>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode" select="$myv:myspace2"/>
+         </t:call>
+         <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
+      </t:scenario>
+      <t:scenario label="Text defined in XML file">
+         <t:variable name="myv:myspace3" as="text()" href="xspec-variable.xml" select="//myspace/text()"/>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode" select="$myv:myspace3"/>
+         </t:call>
+         <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
+      </t:scenario>
+   </t:scenario>
 
-  <t:scenario label="Interaction of variables and reuse of scenarios">
-    <t:scenario label="Scenario 1">
-      <t:call function="my:square">
-        <t:param select="xs:integer(0)"/>
-      </t:call>
-      <t:variable name="myv:str" select="'abc'" as="xs:string"/>
-      <t:like label="SHARED variables"/>
-      <t:expect label="Scenario 1 string, bracketed" test="$myv:bracketed eq '[abc]'"/>
-    </t:scenario>
-    <t:scenario label="Scenario 1">
-      <t:call function="my:square">
-        <t:param select="xs:integer(0)"/>
-      </t:call>
-      <t:variable name="myv:str" select="'def'" as="xs:string"/>
-      <t:like label="SHARED variables"/>
-      <t:expect label="Scenario 2 string, bracketed" test="$myv:bracketed eq '[def]'"/>
-    </t:scenario>
-  </t:scenario>
+   <t:scenario label="Nonsense variable definition in pending scenario does not cause build failure">
+      <t:scenario label="Pending scenario 1" pending="skip on purpose">
+         <t:variable name="myv:nonsense1" select="$myv:nonexistent"/>
+         <t:call function="my:square">
+            <t:param select="$myv:nonsense1"/>
+         </t:call>
+         <t:expect label="the result" test="0"/>
+      </t:scenario>
+      <t:pending label="skip on purpose">
+         <t:scenario label="Pending scenario 2">
+            <t:variable name="myv:nonsense2" href="nonexistent.xml"/>
+            <t:call function="my:square">
+               <t:param select="$myv:nonsense2"/>
+            </t:call>
+            <t:expect label="the result" test="0"/>
+         </t:scenario>
+      </t:pending>
+      <t:scenario label="Nonpending scenario (not needed, except to work around issue #446)">
+         <t:call function="my:square">
+            <t:param select="$myv:test-3/@num" as="attribute(num)"/>
+         </t:call>
+         <t:expect label="the result" select="$myv:test-3/@value cast as xs:integer"/>
+      </t:scenario>
+   </t:scenario>
+
+   <t:scenario shared="yes" label="SHARED variables">
+      <!-- When referencing this scenario via t:like, make sure $myv:str is already defined. -->
+      <t:variable name="myv:bracketed" select="concat('[',$myv:str,']')" as="xs:string"/>
+   </t:scenario>
+
+   <t:scenario label="Interaction of variables and reuse of scenarios">
+      <t:scenario label="Scenario 1">
+         <t:call function="my:square">
+            <t:param select="xs:integer(0)"/>
+         </t:call>
+         <t:variable name="myv:str" select="'abc'" as="xs:string"/>
+         <t:like label="SHARED variables"/>
+         <t:expect label="Scenario 1 string, bracketed" test="$myv:bracketed eq '[abc]'"/>
+      </t:scenario>
+      <t:scenario label="Scenario 1">
+         <t:call function="my:square">
+            <t:param select="xs:integer(0)"/>
+         </t:call>
+         <t:variable name="myv:str" select="'def'" as="xs:string"/>
+         <t:like label="SHARED variables"/>
+         <t:expect label="Scenario 2 string, bracketed" test="$myv:bracketed eq '[def]'"/>
+      </t:scenario>
+   </t:scenario>
 
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

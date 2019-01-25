@@ -5,91 +5,97 @@
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:my="http://example.org/ns/my" xmlns:myv="http://example.org/ns/my/variable" stylesheet="xspec-variable-tested.xsl">
-  <!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
-    global parameters or global variables in the file to be tested. -->  
-  <t:variable name="myv:test-data" href="xspec-variable.xml"/>
-  <t:variable name="myv:test-3" select="$myv:test-data/*/test[xs:integer(@num) eq 3]"/>
-  <t:variable name="myv:global-var-no-casting" select="xs:integer(5)"/>
-  <t:variable name="myv:global-var-as-double" as="xs:double" select="xs:integer(5)"/>
 
-  <!--XQuery needs mode=test:generate-variable-declarations fix.
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:my="http://example.org/ns/my"
+               xmlns:myv="http://example.org/ns/my/variable"
+               stylesheet="xspec-variable-tested.xsl">
+   <!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
+    global parameters or global variables in the file to be tested. -->
+   <t:variable name="myv:test-data" href="xspec-variable.xml"/>
+   <t:variable name="myv:test-3" select="$myv:test-data/*/test[xs:integer(@num) eq 3]"/>
+   <t:variable name="myv:global-var-no-casting" select="xs:integer(5)"/>
+   <t:variable name="myv:global-var-as-double" as="xs:double" select="xs:integer(5)"/>
+
+   <!--XQuery needs mode=test:generate-variable-declarations fix.
     TODO: When that's available, move "@select and element content" scenario to the
     "Define variables in different ways" scenario in xspec-variable.xspec. -->
-  <t:scenario label="Code that temporarily does not work in XQuery but does work in XSLT">
-    <t:scenario label="@select and element content">
-      <t:variable name="myv:select-and-content" select="//bar/@x">
-        <xyz><bar x="y"/></xyz>
+   <t:scenario label="Code that temporarily does not work in XQuery but does work in XSLT">
+      <t:scenario label="@select and element content">
+         <t:variable name="myv:select-and-content" select="//bar/@x">
+            <xyz><bar x="y"/></xyz>
+         </t:variable>
+         <t:call function="my:foo">
+            <t:param name="elem"><foo role="{$myv:select-and-content}"/></t:param>
+            <t:param name="p" select="0"/>
+            <t:param name="textnode"/>
+         </t:call>
+         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+      </t:scenario>
+   </t:scenario>
+
+   <!-- Scenarios specific to XSLT -->
+
+   <t:scenario label="Call variable in different forms of SUT">
+      <!-- For test of local vars in function call, see xspec-variable.xspec. -->
+      <t:scenario label="Call local vars in test of named template">
+         <t:variable name="myv:role" select="'myrole'"/>
+         <t:context><mycontext role="{$myv:role}"/></t:context>
+         <t:variable name="myv:param" select="$myv:test-3/@num" as="xs:integer"/>
+         <t:call template="foo">
+            <t:param name="p" select="$myv:param"/>
+         </t:call>
+         <t:variable name="myv:expectedresult" select="$myv:test-3/@value" as="xs:integer"/>
+         <t:expect label="the result" test="xs:integer($x:result/foobaz) eq $myv:expectedresult"/>
+         <t:expect label="local variable referenced from context"  test="$x:result/@role = 'myrole'"/>
+      </t:scenario>
+
+      <t:scenario label="Call local vars in test of template rule">
+         <t:variable name="myv:myparam" select="$myv:test-3/@num" as="xs:integer"/>
+         <t:context>
+            <t:param name="p" select="$myv:myparam"/>
+            <foo/>
+         </t:context>
+         <t:variable name="myv:expectedresult" select="$myv:test-3/@value" as="xs:integer"/>
+         <t:expect label="the result" test="xs:integer($x:result/foobaz) eq $myv:expectedresult"/>
+      </t:scenario>
+   </t:scenario>
+
+   <t:scenario label="Check effect of @as in XSLT">
+      <t:call function="my:square">
+         <t:param select="xs:integer(0)"/>
+      </t:call>
+
+      <t:variable name="myv:local-var-no-casting" select="xs:integer(5)"/>
+      <t:variable name="myv:local-var-as-double" select="xs:integer(5)" as="xs:double"/>
+      <t:variable name="myv:attr-local-var" href="xspec-variable.xml" select="//test/@*"/>
+      <t:variable name="myv:attr-string-local-var" href="xspec-variable.xml" select="//test/@*" as="xs:string+"/>
+      <t:variable name="myv:elem-local-var" href="xspec-variable.xml" select="//test"/>
+      <t:variable name="myv:elem-string-local-var" href="xspec-variable.xml" select="//test" as="xs:string+"/>
+
+      <t:expect label="Global variable is not double" test="not($myv:global-var-no-casting instance of xs:double)"/>
+      <t:expect label="Global variable is double" test="$myv:global-var-as-double instance of xs:double"/>
+
+      <t:expect label="Local variable is not double" test="not($myv:local-var-no-casting instance of xs:double)"/>
+      <t:expect label="Local variable is double" test="$myv:local-var-as-double instance of xs:double"/>
+
+      <t:expect label="Attribute local variable" test="$myv:attr-local-var instance of attribute()+"/>
+      <t:expect label="Attribute-to-string local variable" test="$myv:attr-string-local-var instance of xs:string+"/>
+
+      <t:expect label="Element local variable" test="$myv:elem-local-var instance of element()+"/>
+      <t:expect label="Element-to-string local variable" test="$myv:elem-string-local-var instance of xs:string+"/>
+   </t:scenario>
+
+   <!-- Should this scenario be moved to test/xspec-prefix-conflict_stylesheet.xspec after that is on master branch? -->
+   <t:scenario label="Test that x: is available for use by end users (i.e., not hard-coded in tools)">
+      <t:variable name="x:elementx" as="element()" xmlns:x="x-urn:test:xspec-prefix-conflict">
+         <x:foo role="y"/>
       </t:variable>
-      <t:call function="my:foo">
-        <t:param name="elem"><foo role="{$myv:select-and-content}"/></t:param>
-        <t:param name="p" select="0"/>
-        <t:param name="textnode"/>
-      </t:call>
-      <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
-    </t:scenario>
-  </t:scenario>
-
-  <!-- Scenarios specific to XSLT -->
-
-  <t:scenario label="Call variable in different forms of SUT">
-    <!-- For test of local vars in function call, see xspec-variable.xspec. -->
-    <t:scenario label="Call local vars in test of named template">
-      <t:variable name="myv:role" select="'myrole'"/>
-      <t:context><mycontext role="{$myv:role}"/></t:context>
-      <t:variable name="myv:param" select="$myv:test-3/@num" as="xs:integer"/>
-      <t:call template="foo">
-        <t:param name="p" select="$myv:param"/>
-      </t:call>
-      <t:variable name="myv:expectedresult" select="$myv:test-3/@value" as="xs:integer"/>
-      <t:expect label="the result" test="xs:integer($x:result/foobaz) eq $myv:expectedresult"/>
-      <t:expect label="local variable referenced from context"  test="$x:result/@role = 'myrole'"/>
-    </t:scenario>
-
-    <t:scenario label="Call local vars in test of template rule">
-      <t:variable name="myv:myparam" select="$myv:test-3/@num" as="xs:integer"/>
-      <t:context>
-        <t:param name="p" select="$myv:myparam"/>
-        <foo/>
-      </t:context>
-      <t:variable name="myv:expectedresult" select="$myv:test-3/@value" as="xs:integer"/>
-      <t:expect label="the result" test="xs:integer($x:result/foobaz) eq $myv:expectedresult"/>
-    </t:scenario>
-  </t:scenario>
-
-  <t:scenario label="Check effect of @as in XSLT">
-    <t:call function="my:square">
-      <t:param select="xs:integer(0)"/>
-    </t:call>
-
-    <t:variable name="myv:local-var-no-casting" select="xs:integer(5)"/>
-    <t:variable name="myv:local-var-as-double" select="xs:integer(5)" as="xs:double"/>
-    <t:variable name="myv:attr-local-var" href="xspec-variable.xml" select="//test/@*"/>
-    <t:variable name="myv:attr-string-local-var" href="xspec-variable.xml" select="//test/@*" as="xs:string+"/>
-    <t:variable name="myv:elem-local-var" href="xspec-variable.xml" select="//test"/>
-    <t:variable name="myv:elem-string-local-var" href="xspec-variable.xml" select="//test" as="xs:string+"/>
-
-    <t:expect label="Global variable is not double" test="not($myv:global-var-no-casting instance of xs:double)"/>
-    <t:expect label="Global variable is double" test="$myv:global-var-as-double instance of xs:double"/>
-
-    <t:expect label="Local variable is not double" test="not($myv:local-var-no-casting instance of xs:double)"/>
-    <t:expect label="Local variable is double" test="$myv:local-var-as-double instance of xs:double"/>
-
-    <t:expect label="Attribute local variable" test="$myv:attr-local-var instance of attribute()+"/>
-    <t:expect label="Attribute-to-string local variable" test="$myv:attr-string-local-var instance of xs:string+"/>
-
-    <t:expect label="Element local variable" test="$myv:elem-local-var instance of element()+"/>
-    <t:expect label="Element-to-string local variable" test="$myv:elem-string-local-var instance of xs:string+"/>
-  </t:scenario>
-
-  <!-- Should this scenario be moved to test/xspec-prefix-conflict_stylesheet.xspec after that is on master branch? -->
-  <t:scenario label="Test that x: is available for use by end users (i.e., not hard-coded in tools)">
-    <t:variable name="x:elementx" as="element()" xmlns:x="x-urn:test:xspec-prefix-conflict">
-      <x:foo role="y"/>
-    </t:variable>
-    <t:context select="$x:elementx" xmlns:x="x-urn:test:xspec-prefix-conflict"/>
-    <t:expect label="the result" test="exists(/bar[@role='y'])"/>
-  </t:scenario>
+      <t:context select="$x:elementx" xmlns:x="x-urn:test:xspec-prefix-conflict"/>
+      <t:expect label="the result" test="exists(/bar[@role='y'])"/>
+   </t:scenario>
 
 </t:description>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
