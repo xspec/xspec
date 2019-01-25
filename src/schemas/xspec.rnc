@@ -15,9 +15,9 @@ description =
 		common-attributes,
 		attribute stylesheet { xs:anyURI }?,
 		attribute query { xs:anyURI }?,
-		attribute xslt-version { xs:NMTOKEN }?,
+		attribute xslt-version { xs:decimal }?,
 		attribute query-at { xs:anyURI }?,
-		attribute version { xs:NMTOKEN }?,		
+		attribute version { xs:decimal }?,		
 		attribute preserve-space { xs:NMTOKENS }?,
 		attribute schematron { xs:anyURI }?,
 		(global-param | import | scenario | pending | variable)+ }
@@ -191,15 +191,16 @@ as = attribute as { text }
 
 selection = node-selection | value-selection
 
-node-selection = 
-                 ## The document URI (location) of the imported document.
-                 attribute href { xs:anyURI }?,
+node-selection = (
+                 ## The document URI (location) of the selected document.
+                 attribute href { xs:anyURI }
+                 | user-content
+                 ),
                  ## The XPath expression to access the selected node. 
-                 attribute select { xpath }?, 
-                 user-content
+                 attribute select { xpath }?
 
 value-selection =
-    ## The XPath expression to access the selected node. 
+    ## The XPath expression without definitive context.
     attribute select { xpath }
 
 xpath = text

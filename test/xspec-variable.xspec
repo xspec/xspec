@@ -26,8 +26,8 @@
                xmlns:my="http://example.org/ns/my"
                xmlns:myv="http://example.org/ns/my/variable"
                query="http://example.org/ns/my"
-               query-at="xspec-tested.xql"
-               stylesheet="xspec-tested.xsl">
+               query-at="xspec-variable-tested.xql"
+               stylesheet="xspec-variable-tested.xsl">
 
    <!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
     global parameters or global variables in the file to be tested. -->
@@ -83,18 +83,7 @@
          </t:call>
          <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'test'"/>
       </t:scenario>
-      <!-- REVIEW QUESTION: Remove the next scenario? A pending pull request on AirQuick's branch makes this pattern illegal. -->
-      <t:scenario label="if both @href and element content occur, use @href and ignore content">
-         <t:variable name="myv:href-over-content" href="xspec-variable.xml">
-            <doc><test-data><y/></test-data></doc>
-         </t:variable>
-         <t:call function="my:foo">
-            <t:param name="elem"><foo role="{local-name($myv:href-over-content/test-data/*[1])}"/></t:param>
-            <t:param name="p" select="0"/>
-            <t:param name="textnode"/>
-         </t:call>
-         <t:expect label="the result ('test', not 'y')" test="$x:result/self::bar/@role/string() eq 'test'"/>
-      </t:scenario>
+      <!--See xspec-node-selection.xspec for a scenario with both @href and element content-->
    </t:scenario>
 
    <t:scenario label="Call variable in different forms of SUT">
