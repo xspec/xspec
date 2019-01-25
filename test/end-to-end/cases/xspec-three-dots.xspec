@@ -8,7 +8,7 @@
 			<x:context>
 				<elem>text</elem>
 			</x:context>
-			<x:expect select="elem">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem>...</elem>
 				]]>should be Success</x:label>
@@ -24,14 +24,14 @@
 			<x:context>
 				<elem />
 			</x:context>
-			<x:expect select="elem">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem>...</elem>
 				]]>should be Success</x:label>
 				<elem>...</elem>
 			</x:expect>
 
-			<x:expect select="elem">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem attrib="..." />
 				]]>should be Failure</x:label>
@@ -46,7 +46,7 @@
 			<x:context>
 				<elem>...</elem>
 			</x:context>
-			<x:expect select="elem">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem>...</elem>
 				]]>should be Success</x:label>
@@ -54,7 +54,7 @@
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="elem">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem>text</elem>
 				]]>should be Failure</x:label>
@@ -71,7 +71,7 @@
 			<x:context>
 				<elem attrib="val" />
 			</x:context>
-			<x:expect select="elem">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem attrib="..." />
 				]]>should be Success</x:label>
@@ -79,7 +79,7 @@
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="elem">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem>...</elem>
 				]]>should be Failure</x:label>
@@ -96,13 +96,13 @@
 			<x:context>
 				<outer>text<inner1 /><inner2 /></outer>
 			</x:context>
-			<x:expect select="outer">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<outer>...</outer>
 				]]>should be Success</x:label>
 				<outer>...</outer>
 			</x:expect>
-			<x:expect select="outer">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<outer>...<inner1 />...</outer>
 				]]>should be Success</x:label>
@@ -118,14 +118,14 @@
 			<x:context>
 				<outer><inner /></outer>
 			</x:context>
-			<x:expect select="outer">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<outer>...</outer>
 				]]>should be Success</x:label>
 				<outer>...</outer>
 			</x:expect>
 
-			<x:expect select="outer">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<outer>...<inner /></outer>
 				]]>should be Failure</x:label>
@@ -239,7 +239,7 @@
 			<x:context>
 				<!--comment-->
 			</x:context>
-			<x:expect select="comment()">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<!--...-->
 				]]>should be Success</x:label>
@@ -255,7 +255,7 @@
 			<x:context>
 				<!---->
 			</x:context>
-			<x:expect select="comment()">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<!--...-->
 				]]>should be Success</x:label>
@@ -270,7 +270,7 @@
 			<x:context>
 				<!--...-->
 			</x:context>
-			<x:expect select="comment()">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<!--...-->
 				]]>should be Success</x:label>
@@ -278,7 +278,7 @@
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="comment()">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<!--comment-->
 				]]>should be Failure</x:label>
@@ -295,7 +295,7 @@
 			<x:context>
 				<?pi data?>
 			</x:context>
-			<x:expect select="processing-instruction()">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<?pi ...?>
 				]]>should be Success</x:label>
@@ -311,7 +311,7 @@
 			<x:context>
 				<?pi?>
 			</x:context>
-			<x:expect select="processing-instruction()">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<?pi ...?>
 				]]>should be Success</x:label>
@@ -326,7 +326,7 @@
 			<x:context>
 				<?pi ...?>
 			</x:context>
-			<x:expect select="processing-instruction()">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<?pi ...?>
 				]]>should be Success</x:label>
@@ -334,7 +334,7 @@
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="processing-instruction()">
+			<x:expect>
 				<x:label>expecting<![CDATA[
 				<?pi data?>
 				]]>should be Failure</x:label>
@@ -397,7 +397,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="For resultant namespace node (TODO: xspec/xspec#67)">
+	<x:scenario label="For resultant namespace node">
 		<x:scenario>
 			<x:label>When result is<![CDATA[
 						  xmlns:prefix="namespace-uri"

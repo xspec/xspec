@@ -1,4 +1,5 @@
-language: generic
+language: java
+jdk: oraclejdk8
 env:
     global:
         # full path to Saxon jar
@@ -9,16 +10,16 @@ env:
         - XML_RESOLVER_JAR=/tmp/xspec/xml-resolver/resolver.jar
     matrix:
         # latest Saxon 9.8 version and full path to Jing jar
-        - SAXON_VERSION=9.8.0-7
-          JING_JAR=/tmp/xspec/jing/jing.jar
-        # latest Saxon 9.7 version
         #   * XML Calabash will use Saxon jar in its own lib directory.
         #   * BaseX test requires XML Calabash.
-        - SAXON_VERSION=9.7.0-21
-          XMLCALABASH_VERSION=1.1.21-97
+        - SAXON_VERSION=9.8.0-14
+          JING_JAR=/tmp/xspec/jing/jing.jar
+          XMLCALABASH_VERSION=1.1.22-98
           BASEX_VERSION=8.6.4
+        # latest Saxon 9.7 version
+        - SAXON_VERSION=9.7.0-21
         # Saxon version used in oXygen
-        - SAXON_VERSION=9.7.0-19
+        - SAXON_VERSION=9.8.0-12
 
 before_install:
     - unset _JAVA_OPTIONS
@@ -64,3 +65,8 @@ script:
     - echo "execute XSpec end-to-end tests"
     - cd end-to-end
     - ./run-e2e-tests.sh
+    - cd ../..
+    - echo "compile java"
+    - javac -cp "${SAXON_JAR}" java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java
+    - echo "check git status"
+    - output=$(git status --porcelain); echo "${output}"; test -z "${output}"

@@ -48,7 +48,7 @@
   
 <xsl:template match="x:description" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
-  <stylesheet version="{( @xslt-version, '2.0' )[1]}"
+  <stylesheet version="{( @xslt-version, 2.0 )[1]}"
 	      exclude-result-prefixes="pkg impl">
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
   	<import href="{$stylesheet-uri}" />
@@ -218,7 +218,7 @@
               </xsl:variable>
               <xsl:choose>
                 <xsl:when test="$context">
-                  <!-- Set up the $context variable -->
+                  <!-- Set up the $impl:context variable -->
                   <xsl:apply-templates select="$context" mode="x:setup-context"/>
                   <!-- Switch to the context and call the template -->
                   <for-each select="$impl:context">
@@ -266,7 +266,7 @@
                </apply-templates>
             </xsl:when>
             <xsl:when test="$context">
-              <!-- Set up the $context variable -->
+              <!-- Set up the $impl:context variable -->
               <xsl:apply-templates select="$context" mode="x:setup-context"/>
               <!-- Set up variables containing the parameter values -->
               <xsl:apply-templates select="$context/x:param[1]" mode="x:compile"/>
@@ -317,11 +317,10 @@
       <xsl:value-of select="normalize-space(x:label(.))"/>
     </message>
     <xsl:if test="not($pending-p)">
-      <xsl:variable name="version" as="xs:double" 
+      <xsl:variable name="xslt-version" as="xs:decimal" 
         select="(ancestor-or-self::*[@xslt-version]/@xslt-version, 2.0)[1]" />
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-        <xsl:with-param name="var" select="'impl:expected'" />
-      </xsl:apply-templates>
+      <!-- Set up the $impl:expected variable -->
+      <xsl:apply-templates select="." mode="x:setup-expected" />
       <xsl:choose>
         <xsl:when test="@test">
           <!-- This variable declaration could be moved from here (the
@@ -335,15 +334,10 @@
                    $x:result as if they were *children* of the context node.
                    Have to experiment a bit to see if that really is the case.                   
                    TODO: To remove. Use directly $x:result instead.  See issue 14. -->
-              <when test="$x:result instance of node()+">
-                <!-- $impl:test-items-doc aims to create an implicit document node as described
-                     in http://www.w3.org/TR/xslt20/#temporary-trees
-                     So its "variable" element must not have @as or @select.
-                     Do not use "document" or "copy-of" element: xspec/xspec#47 -->
-                <variable name="impl:test-items-doc">
-                  <sequence select="$x:result" />
-                </variable>
-                <sequence select="$impl:test-items-doc treat as document-node()" />
+              <when test="exists($x:result)
+                and (every $impl:result-item in $x:result
+                     satisfies test:wrappable-node($impl:result-item))">
+                <sequence select="test:wrap-nodes($x:result)" />
               </when>
               <otherwise>
                 <sequence select="$x:result" />
@@ -354,11 +348,11 @@
              <choose>
                 <when test="count($impl:test-items) eq 1">
                    <for-each select="$impl:test-items">
-                      <sequence select="{ @test }" version="{ $version }"/>
+                      <sequence select="{ @test }" version="{ $xslt-version }"/>
                    </for-each>
                 </when>
                 <otherwise>
-                   <sequence select="{ @test }" version="{ $version }"/>
+                   <sequence select="{ @test }" version="{ $xslt-version }"/>
                 </otherwise>
              </choose>
           </variable>
@@ -366,13 +360,20 @@
                this is an error.  See issue 5.-->
           <variable name="impl:boolean-test" as="xs:boolean"
             select="$impl:test-result instance of xs:boolean" />
+          <xsl:if test="@href or @select or (node() except x:label)">
+            <if test="$impl:boolean-test">
+              <message>
+                <text>WARNING: <xsl:value-of select="name(.)"/> has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</text>
+              </message>
+            </if>
+          </xsl:if>
           <variable name="impl:successful" as="xs:boolean"
             select="if ($impl:boolean-test) then $impl:test-result cast as xs:boolean
-                    else test:deep-equal($impl:expected, $impl:test-result, {$version})" />
+                    else test:deep-equal($impl:expected, $impl:test-result, {$xslt-version})" />
         </xsl:when>
         <xsl:otherwise>
           <variable name="impl:successful" as="xs:boolean" 
-            select="test:deep-equal($impl:expected, $x:result, {$version})" />
+            select="test:deep-equal($impl:expected, $x:result, {$xslt-version})" />
         </xsl:otherwise>
       </xsl:choose>
       <if test="not($impl:successful)">
@@ -447,6 +448,21 @@
       <xsl:with-param name="var" select="'impl:context'" />
    </xsl:apply-templates>
 </xsl:template>  
+
+<xsl:template match="x:expect" mode="x:setup-expected" as="element(xsl:variable)+">
+   <!-- Remove x:label from x:expect -->
+   <xsl:variable name="expect" as="element(x:expect)">
+      <xsl:copy>
+         <xsl:sequence select="@*" />
+         <xsl:sequence select="node() except x:label" />
+      </xsl:copy>
+   </xsl:variable>
+
+   <!-- Generate <xsl:variable name="impl:expected"> to represent the expected items -->
+   <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
+      <xsl:with-param name="var" select="'impl:expected'" />
+   </xsl:apply-templates>
+</xsl:template>
 
 <xsl:template match="x:context | x:param" mode="x:report">
   <xsl:element name="x:{local-name()}">

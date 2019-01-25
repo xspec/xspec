@@ -53,7 +53,7 @@ rem ##
     echo   -t             test an XSLT stylesheet (the default)
     echo   -q             test an XQuery module (mutually exclusive with -t and -s)
     echo   -s             test a Schematron schema (mutually exclusive with -t and -q)
-    echo   -c             output test coverage report
+    echo   -c             output test coverage report (XSLT only)
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
     echo   -h             display this help message
@@ -336,20 +336,15 @@ rem
 rem
 rem Saxon jar filename
 rem
-for %%I in ("%SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
+set WIN_SAXON_CP=%SAXON_CP%;
+for %%I in ("%WIN_SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
+set WIN_SAXON_CP=
 
 rem
 rem Parse command line
 rem
 call :win_reset_options
 call :win_get_options %*
-
-rem
-rem # set CATALOG option for Saxon if XML_CATALOG has been set
-rem
-if defined XML_CATALOG (
-    set CATALOG=-catalog:"%XML_CATALOG%"
-)
 
 rem
 rem # Schematron
@@ -412,6 +407,21 @@ rem
 if defined WIN_UNKNOWN_OPTION (
     call :usage "Error: Unknown option: %WIN_UNKNOWN_OPTION%"
     exit /b 1
+)
+
+rem
+rem # Coverage is only for XSLT
+rem
+if defined COVERAGE if not ""=="%XQUERY%%SCHEMATRON%" (
+    call :usage "Coverage is supported only for XSLT"
+    exit /b 1
+)
+
+rem
+rem # set CATALOG option for Saxon if XML_CATALOG has been set
+rem
+if defined XML_CATALOG (
+    set CATALOG=-catalog:"%XML_CATALOG%"
 )
 
 rem

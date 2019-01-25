@@ -133,7 +133,7 @@
 			test="$global-param-with-href instance of document-node(element(href-doc-child))" />
 	</x:scenario>
 
-   <!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
+	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
 	<x:variable name="global-variable-no-href">
 		<global-variable-child />
 	</x:variable>
@@ -164,7 +164,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="In variable, @href precedes child node. So...">
+  <x:scenario label="In variable, @href precedes child node. So...">
 		<x:scenario label="In //x:variable[node()][not(@href)],">
 			<x:variable name="myv:nodevar"><variable-child /></x:variable>
 			<x:context mode="context-mirror-mode" select="$myv:nodevar" />
@@ -176,7 +176,8 @@
 		<x:scenario label="In //x:variable[node()][@href],">
 			<x:variable name="myv:hrefvar" href="xspec-node-selection.xml"><variable-child-not-allowed /></x:variable>
 			<x:context mode="context-mirror-mode" select="$myv:hrefvar"/>
-			<x:expect label="@href is used." test="$x:result instance of document-node(element(href-doc-child))"/>
+		  <x:expect label="@href is used."
+		    test="$x:result instance of document-node(element(href-doc-child))" />
 		</x:scenario>
 	</x:scenario>
 

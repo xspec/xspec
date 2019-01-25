@@ -44,6 +44,16 @@ teardown() {
 }
 
 
+@test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
+    unset SAXON_CP
+    run ../bin/xspec.sh
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "SAXON_CP and SAXON_HOME both not set!" ]
+    [[ "${lines[4]}" =~ "Usage: xspec " ]]
+}
+
+
 @test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
     run ../bin/xspec.sh -t -t -t -t -t -t -t -t -t -t -h
     echo "$output"
@@ -76,7 +86,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9HE returns error message" {
+@test "invoking xspec -c with Saxon9HE returns error message" {
     export SAXON_CP=/path/to/saxon9he.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -85,7 +95,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9SA returns error message" {
+@test "invoking xspec -c with Saxon9SA returns error message" {
     export SAXON_CP=/path/to/saxon9sa.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -94,7 +104,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9 returns error message" {
+@test "invoking xspec -c with Saxon9 returns error message" {
     export SAXON_CP=/path/to/saxon9.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -103,7 +113,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon8SA returns error message" {
+@test "invoking xspec -c with Saxon8SA returns error message" {
     export SAXON_CP=/path/to/saxon8sa.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -112,7 +122,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon8 returns error message" {
+@test "invoking xspec -c with Saxon8 returns error message" {
     export SAXON_CP=/path/to/saxon8.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
@@ -121,7 +131,7 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9EE creates test stylesheet" {
+@test "invoking xspec -c with Saxon9EE creates test stylesheet" {
     # Append non-Saxon jar to see if SAXON_CP is parsed correctly
     export SAXON_CP="/path/to/saxon9ee.jar:/path/to/another.jar"
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
@@ -131,12 +141,51 @@ teardown() {
 }
 
 
-@test "invoking code coverage with Saxon9PE creates test stylesheet" {
+@test "invoking xspec -c with Saxon9PE creates test stylesheet" {
     export SAXON_CP=/path/to/saxon9pe.jar
     run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Creating Test Stylesheet..." ]
+}
+
+
+@test "invoking xspec -c creates report files" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    # TODO: Non alphanumeric path #208
+    special_chars_dir="${work_dir}/up and down"
+    mkdir "${special_chars_dir}"
+
+    cp ../tutorial/coverage/demo* "${special_chars_dir}"
+    run ../bin/xspec.sh -c "${special_chars_dir}/demo.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # XML, HTML and coverage report file
+    [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
+    [ -f "${special_chars_dir}/xspec/demo-result.html" ]
+    [ -f "${special_chars_dir}/xspec/demo-coverage.html" ]
+}
+
+
+@test "invoking xspec -c -q prints error message" {
+    export SAXON_CP=/path/to/saxon9ee.jar
+    run ../bin/xspec.sh -c -q ../tutorial/xquery-tutorial.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Coverage is supported only for XSLT" ]
+}
+
+
+@test "invoking xspec -c -s prints error message" {
+    export SAXON_CP=/path/to/saxon9ee.jar
+    run ../bin/xspec.sh -c -s ../tutorial/schematron/demo-01.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Coverage is supported only for XSLT" ]
 }
 
 
@@ -153,6 +202,9 @@ teardown() {
     run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
+
+    # Coverage is disabled by default
+    [ ! -f "../tutorial/xspec/escape-for-regex-coverage.xml" ]
 
     # JUnit is disabled by default
     [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
@@ -334,6 +386,9 @@ teardown() {
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
 
+    # Default xspec.coverage.enabled is false
+    [ ! -f "../tutorial/xspec/escape-for-regex-coverage.xml" ]
+
     # Default xspec.junit.enabled is false
     [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
@@ -494,9 +549,15 @@ teardown() {
 
     export SAXON_HOME="${work_dir}/saxon"
     mkdir "${SAXON_HOME}"
-    cp "${SAXON_JAR}"        "${SAXON_HOME}"
+    cp "${SAXON_JAR}" "${SAXON_HOME}"
     cp "${XML_RESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
     unset SAXON_CP
+
+    # To avoid "No license file found" warning on commercial Saxon
+    saxon_license="$(dirname -- "${SAXON_JAR}")/saxon-license.lic"
+    if [ -f "${saxon_license}" ]; then
+        cp "${saxon_license}" "${SAXON_HOME}"
+    fi
 
     run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
     echo "$output"
@@ -510,7 +571,10 @@ teardown() {
         skip "JING_JAR is not defined"
     fi
 
-    run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc ../tutorial/*.xspec ../tutorial/schematron/*.xspec
+    run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc \
+        ../tutorial/*.xspec \
+        ../tutorial/coverage/*.xspec \
+        ../tutorial/schematron/*.xspec
     echo "$output"
     [ "$status" -eq 0 ]
 }
@@ -521,9 +585,33 @@ teardown() {
         skip "JING_JAR is not defined"
     fi
 
-    run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc catalog/*.xspec schematron/*-import.xspec schematron/*-in.xspec
+    run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc \
+        catalog/*.xspec \
+        end-to-end/cases/*.xspec \
+        schematron/*-import.xspec \
+        schematron/*-in.xspec
     echo "$output"
     [ "$status" -eq 0 ]
+}
+
+
+@test "Schema detects errors in node-selection test" {
+    if [ -z "${JING_JAR}" ]; then
+        skip "JING_JAR is not defined"
+    fi
+
+    # -t for identifying the last line
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc xspec-node-selection.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[0]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[1]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[2]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[3]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[4]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[5]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[6]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[7]}" =~ "Elapsed time" ]]
 }
 
 
@@ -599,6 +687,42 @@ teardown() {
 }
 
 
+@test "Ant for XSLT with coverage creates report files" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec" -lib "${SAXON_JAR}" -Dxspec.coverage.enabled=true
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+
+    # XML, HTML and coverage report file
+    [ -f "../tutorial/coverage/xspec/demo-result.xml" ]
+    [ -f "../tutorial/coverage/xspec/demo-result.html" ]
+    [ -f "../tutorial/coverage/xspec/demo-coverage.html" ]
+}
+
+
+@test "Ant for XQuery with coverage fails" {
+    run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec" -lib "${SAXON_JAR}" -Dtest.type=q -Dxspec.coverage.enabled=true
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "BUILD FAILED" ]]
+    [[ "${output}" =~ "Coverage is supported only for XSLT" ]]
+}
+
+
+@test "Ant for Schematron with coverage fails" {
+    run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec" -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.coverage.enabled=true
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "BUILD FAILED" ]]
+    [[ "${output}" =~ "Coverage is supported only for XSLT" ]]
+}
+
+
 @test "Ant for XSLT with JUnit creates report files" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/escape-for-regex.xspec -lib "${SAXON_JAR}" -Dxspec.junit.enabled=true
     echo "$output"
@@ -654,6 +778,18 @@ teardown() {
     [ "${lines[5]}" = "     [java] Scenario 2b-1" ]
     [ "${lines[6]}" = "     [java] Scenario 2b-2" ]
     [ "${lines[7]}" = "     [java] Scenario 3" ]
+}
+
+
+@test "Ambiguous x:expect generates warning" {
+    # Provide TEST_DIR with an existing directory to make the output lines predictable
+    export TEST_DIR="${work_dir}"
+    run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-expect.xspec
+    echo "$output"
+    [[ "${lines[9]}"  =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[14]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[21]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [  "${lines[30]}" =  "Formatting Report..." ]
 }
 
 
