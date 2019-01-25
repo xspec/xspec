@@ -5,6 +5,8 @@
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -15,11 +17,11 @@
    <!--
        Test the source files generate-tests-utils.xsl and generate-query-utils.xql.
 
-        The XSLT test target (../src/compiler/generate-tests-utils.xsl) is included
-        implicitly by the XSpec compiler. You don't need to specify it in
-        /t:description/@stylesheet. If you specify it explicitly, you'll get a warning:
-        "Stylesheet module ../src/compiler/generate-tests-utils.xsl is
-        included or imported more than once."
+       The XSLT test target (../src/compiler/generate-tests-utils.xsl) is included
+       implicitly by the XSpec compiler. You don't need to specify it in
+       /t:description/@stylesheet. If you specify it explicitly, you'll get a warning:
+       "Stylesheet module ../src/compiler/generate-tests-utils.xsl is
+       included or imported more than once."
    -->
 
    <!--
@@ -85,14 +87,17 @@
        Function test:deep-equal($seq1, $seq2, $version).
    -->
    <t:scenario label="test:deep-equal($seq1, $seq2, $version)">
+
       <t:scenario label="In version 1.0">
+
          <t:scenario label="comparing text nodes with analogous">
+
             <t:scenario label="string">
                <t:call function="test:deep-equal">
                   <t:param select="'12'"/>
                   <t:param select="descendant::text()">
-                    <wrap>1</wrap>
-                    <wrap>2</wrap>
+                     <wrap>1</wrap>
+                     <wrap>2</wrap>
                   </t:param>
                   <t:param select="1.0"/>
                </t:call>
@@ -103,8 +108,8 @@
                <t:call function="test:deep-equal">
                   <t:param select="xs:double('12')"/>
                   <t:param select="descendant::text()">
-                    <wrap>1</wrap>
-                    <wrap>2</wrap>
+                     <wrap>1</wrap>
+                     <wrap>2</wrap>
                   </t:param>
                   <t:param select="1.0"/>
                </t:call>
@@ -115,8 +120,8 @@
                <t:call function="test:deep-equal">
                   <t:param select="xs:decimal('12')"/>
                   <t:param select="descendant::text()">
-                    <wrap>1</wrap>
-                    <wrap>2</wrap>
+                     <wrap>1</wrap>
+                     <wrap>2</wrap>
                   </t:param>
                   <t:param select="1.0"/>
                </t:call>
@@ -127,13 +132,14 @@
                <t:call function="test:deep-equal">
                   <t:param select="xs:integer('12')"/>
                   <t:param select="descendant::text()">
-                    <wrap>1</wrap>
-                    <wrap>2</wrap>
+                     <wrap>1</wrap>
+                     <wrap>2</wrap>
                   </t:param>
                   <t:param select="1.0"/>
                </t:call>
                <t:expect label="returns true" test="$x:result eq true()"/>
             </t:scenario>
+
          </t:scenario>
 
          <t:scenario label="comparing the same strings">
@@ -153,57 +159,61 @@
             </t:call>
             <t:expect label="returns false" test="$x:result eq false()"/>
          </t:scenario>
+
       </t:scenario>
 
       <t:scenario label="In version 2.0">
+
          <t:scenario label="comparing text nodes with analogous">
+
             <t:scenario label="string">
                <t:call function="test:deep-equal">
                   <t:param select="'12'"/>
                   <t:param select="descendant::text()">
-                    <wrap>1</wrap>
-                    <wrap>2</wrap>
+                     <wrap>1</wrap>
+                     <wrap>2</wrap>
                   </t:param>
                   <t:param select="2.0"/>
                </t:call>
                <t:expect label="returns false" test="$x:result eq false()"/>
             </t:scenario>
-   
+
             <t:scenario label="double">
                <t:call function="test:deep-equal">
                   <t:param select="xs:double('12')"/>
                   <t:param select="descendant::text()">
-                    <wrap>1</wrap>
-                    <wrap>2</wrap>
+                     <wrap>1</wrap>
+                     <wrap>2</wrap>
                   </t:param>
                   <t:param select="2.0"/>
                </t:call>
                <t:expect label="returns false" test="$x:result eq false()"/>
             </t:scenario>
-   
+
             <t:scenario label="decimal">
                <t:call function="test:deep-equal">
                   <t:param select="xs:decimal('12')"/>
                   <t:param select="descendant::text()">
-                    <wrap>1</wrap>
-                    <wrap>2</wrap>
+                     <wrap>1</wrap>
+                     <wrap>2</wrap>
                   </t:param>
                   <t:param select="2.0"/>
                </t:call>
                <t:expect label="returns false" test="$x:result eq false()"/>
             </t:scenario>
-   
+
             <t:scenario label="integer">
                <t:call function="test:deep-equal">
                   <t:param select="xs:integer('12')"/>
                   <t:param select="descendant::text()">
-                    <wrap>1</wrap>
-                    <wrap>2</wrap>
+                     <wrap>1</wrap>
+                     <wrap>2</wrap>
                   </t:param>
                   <t:param select="2.0"/>
                </t:call>
                <t:expect label="returns false" test="$x:result eq false()"/>
             </t:scenario>
+
          </t:scenario>
 
          <t:scenario label="comparing the same strings">
@@ -223,74 +233,78 @@
             </t:call>
             <t:expect label="returns false" test="$x:result eq false()"/>
          </t:scenario>
+
       </t:scenario>
+
    </t:scenario>
 
-  <!--
-    Function test:node-deep-equal($seq1, $seq2).
+   <!--
+       Function test:node-deep-equal($seq1, $seq2).
    -->
-  <t:scenario label="test:node-deep-equal($seq1, $seq2)">
+   <t:scenario label="test:node-deep-equal($seq1, $seq2)">
 
-    <t:scenario label="Identical Element Sequences">
-      <t:call function="test:node-deep-equal">
-        <t:param name="node1">foobar</t:param>
-        <t:param name="node2">foobar</t:param>
-      </t:call>
-      <t:expect label="the result" test="$x:result eq true()"/>
-    </t:scenario>
-
-  </t:scenario>
-
-  <!--
-    Function test:item-deep-equal
-  -->
-  <t:scenario label="test:item-deep-equal">
-
-    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L207-L227">
-
-      <t:scenario label="Identical Integers">
-        <t:call function="test:item-deep-equal">
-          <t:param name="item1" select="1" />
-          <t:param name="item2" select="1" />
-        </t:call>
-        <t:expect label="True" select="true()" />
+      <t:scenario label="Identical Element Sequences">
+         <t:call function="test:node-deep-equal">
+            <t:param name="node1">foobar</t:param>
+            <t:param name="node2">foobar</t:param>
+         </t:call>
+         <t:expect label="the result" test="$x:result eq true()"/>
       </t:scenario>
 
-      <t:scenario label="Non-Identical Strings">
-        <t:call function="test:item-deep-equal">
-          <t:param name="item1" select="'abc'" />
-          <t:param name="item2" select="'def'" />
-        </t:call>
-        <t:expect label="False" select="false()" />
+   </t:scenario>
+
+   <!--
+       Function test:item-deep-equal
+   -->
+   <t:scenario label="test:item-deep-equal">
+
+      <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L207-L227">
+
+         <t:scenario label="Identical Integers">
+            <t:call function="test:item-deep-equal">
+               <t:param name="item1" select="1" />
+               <t:param name="item2" select="1" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Non-Identical Strings">
+            <t:call function="test:item-deep-equal">
+               <t:param name="item1" select="'abc'" />
+               <t:param name="item2" select="'def'" />
+            </t:call>
+            <t:expect label="False" select="false()" />
+         </t:scenario>
+
+         <t:scenario label="String and Integer">
+            <t:call function="test:item-deep-equal">
+               <t:param name="item1" select="'1'" />
+               <t:param name="item2" select="1" />
+            </t:call>
+            <t:expect label="False" select="false()" />
+         </t:scenario>
+
       </t:scenario>
 
-      <t:scenario label="String and Integer">
-        <t:call function="test:item-deep-equal">
-          <t:param name="item1" select="'1'" />
-          <t:param name="item2" select="1" />
-        </t:call>
-        <t:expect label="False" select="false()" />
+   </t:scenario>
+
+   <!--
+       Function test:report-atomic-value
+   -->
+   <t:scenario label="test:report-atomic-value">
+
+      <t:scenario label="Copy of https://github.com/xspec/xspec/blob/8931b371bd619feeeee25bd7014d8a677ab88505/src/compiler/generate-tests-utils.xsl#L622-L629">
+
+         <t:scenario label="String Containing Single Quotes">
+            <t:call function="test:report-atomic-value">
+               <t:param select="'don''t'" />
+            </t:call>
+            <t:expect label="Escaped" select="'''don''''t'''" />
+         </t:scenario>
+
       </t:scenario>
 
-    </t:scenario>
-
-  </t:scenario>
-
-  <!--
-    Function test:report-atomic-value
-  -->
-  <t:scenario label="test:report-atomic-value">
-
-    <t:scenario label="Copy of https://github.com/xspec/xspec/blob/8931b371bd619feeeee25bd7014d8a677ab88505/src/compiler/generate-tests-utils.xsl#L622-L629">
-      <t:scenario label="String Containing Single Quotes">
-        <t:call function="test:report-atomic-value">
-          <t:param select="'don''t'" />
-        </t:call>
-        <t:expect label="Escaped" select="'''don''''t'''" />
-      </t:scenario>
-    </t:scenario>
-
-  </t:scenario>
+   </t:scenario>
 
 </t:description>
 
