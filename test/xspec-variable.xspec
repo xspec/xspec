@@ -21,7 +21,7 @@
       <t:call function="my:square">
          <t:param select="$test-3/@num"/>
       </t:call>
-      <t:expect label="the result" test="$x:result eq $test-3/xs:integer(@value)"/>
+      <t:expect label="the result" select="$test-3/@value cast as xs:integer"/>
    </t:scenario>
 
    <!--
@@ -36,7 +36,7 @@
          <t:param select="$param"/>
       </t:call>
       <t:variable name="result" select="$test-3/@value"/>
-      <t:expect label="the result" test="$x:result eq xs:integer($result)"/>
+      <t:expect label="the result" select="$result cast as xs:integer"/>
    </t:scenario>
 
 </t:description>
