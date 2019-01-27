@@ -42,7 +42,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode"/>
          </t:call>
-         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+         <t:expect label="the result" test="exists($x:result/self::bar/@role) and ($x:result/@role/string() eq 'y')"/>
       </t:scenario>
       <!--See xspec-variable_stylesheet.xspec for "@select and element content" scenario-->
       <t:scenario label="@select and @href">
@@ -52,7 +52,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode"/>
          </t:call>
-         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'test'"/>
+         <t:expect label="the result" test="exists($x:result/self::bar/@role) and ($x:result/@role/string() eq 'test')"/>
       </t:scenario>
       <t:scenario label="element content">
          <t:variable name="myv:content">y</t:variable>
@@ -61,7 +61,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode"/>
          </t:call>
-         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+         <t:expect label="the result" test="exists($x:result/self::bar/@role) and ($x:result/@role/string() eq 'y')"/>
       </t:scenario>
       <t:scenario label="element content, deeper">
          <t:variable name="myv:content">
@@ -72,7 +72,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode"/>
          </t:call>
-         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+         <t:expect label="the result" test="exists($x:result/self::bar/@role/string()) and ($x:result/@role/string() eq 'y')"/>
       </t:scenario>
       <t:scenario label="@href only">
          <t:variable name="myv:href-only" href="xspec-variable.xml"/>
@@ -81,7 +81,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode"/>
          </t:call>
-         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'test'"/>
+         <t:expect label="the result" test="exists($x:result/self::bar/@role) and ($x:result/@role/string() eq 'test')"/>
       </t:scenario>
       <!--See xspec-node-selection.xspec for a scenario with both @href and element content-->
    </t:scenario>
@@ -140,7 +140,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode" select="$myv:myspace1"/>
          </t:call>
-         <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
+         <t:expect label="String with correct space" test="exists($x:result//string) and ($x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def')"/>
       </t:scenario>
       <t:scenario label="Text defined in code to be tested">
          <t:variable name="myv:myspace2" as="text()" select="$my:myspace"/>
@@ -149,7 +149,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode" select="$myv:myspace2"/>
          </t:call>
-         <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
+         <t:expect label="String with correct space" test="exists($x:result//string) and ($x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def')"/>
       </t:scenario>
       <t:scenario label="Text defined in XML file">
          <t:variable name="myv:myspace3" as="text()" href="xspec-variable.xml" select="//myspace/text()"/>
@@ -158,7 +158,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode" select="$myv:myspace3"/>
          </t:call>
-         <t:expect label="String with correct space" test="$x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def'"/>
+         <t:expect label="String with correct space" test="exists($x:result//string) and ($x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def')"/>
       </t:scenario>
    </t:scenario>
 
@@ -168,7 +168,7 @@
          <t:call function="my:square">
             <t:param select="$myv:nonsense1"/>
          </t:call>
-         <t:expect label="the result" test="0"/>
+         <t:expect label="the result" select="0"/>
       </t:scenario>
       <t:pending label="skip on purpose">
          <t:scenario label="Pending scenario 2">
@@ -176,7 +176,7 @@
             <t:call function="my:square">
                <t:param select="$myv:nonsense2"/>
             </t:call>
-            <t:expect label="the result" test="0"/>
+            <t:expect label="the result" select="0"/>
          </t:scenario>
       </t:pending>
       <t:scenario label="Nonpending scenario (not needed, except to work around issue #446)">

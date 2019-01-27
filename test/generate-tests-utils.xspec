@@ -29,7 +29,7 @@
                <node attribute="foobar"/>
             </t:param>
          </t:call>
-         <t:expect label="the result" test="$x:result eq true()"/>
+         <t:expect label="the result" select="true()"/>
       </t:scenario>
 
       <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L246-L372">

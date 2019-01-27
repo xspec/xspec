@@ -35,12 +35,12 @@
          <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
          <!-- test also it is a QName in the namespace x:* -->
          <t:expect label="the name" test="exists($t:result/@name)"/>
-         <t:expect label="the name is a QName" test="
-             namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result))
-               eq 'http://www.jenitennison.com/xslt/xspec'"/>
-         <t:expect label="the label message" test="$t:result/xsl:message eq 'my label'"/>
+         <t:expect label="the name is a QName"
+                   test="namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result))"
+                   select="'http://www.jenitennison.com/xslt/xspec'"/>
+         <t:expect label="the label message" test="$t:result/xsl:message/string()" select="'my label'"/>
          <t:expect label="the scenario" test="exists($t:result/t:scenario)"/>
-         <t:expect label="the scenario label" test="$t:result/t:scenario/t:label eq 'my label'"/>
+         <t:expect label="the scenario label" test="$t:result/t:scenario/t:label/string()" select="'my label'"/>
       </t:scenario>
 
    </t:scenario>

@@ -32,7 +32,7 @@
             <t:param name="p" select="0"/>
             <t:param name="textnode"/>
          </t:call>
-         <t:expect label="the result" test="$x:result/self::bar/@role/string() eq 'y'"/>
+         <t:expect label="the result" test="$x:result/self::bar/@role/string()" select="'y'"/>
       </t:scenario>
    </t:scenario>
 
@@ -48,8 +48,8 @@
             <t:param name="p" select="$myv:param"/>
          </t:call>
          <t:variable name="myv:expectedresult" select="$myv:test-3/@value" as="xs:integer"/>
-         <t:expect label="the result" test="xs:integer($x:result/foobaz) eq $myv:expectedresult"/>
-         <t:expect label="local variable referenced from context"  test="$x:result/@role = 'myrole'"/>
+         <t:expect label="the result" test="xs:integer($x:result/number)" select="$myv:expectedresult"/>
+         <t:expect label="local variable referenced from context"  test="$x:result/@role/string()" select="'myrole'"/>
       </t:scenario>
 
       <t:scenario label="Call local vars in test of template rule">
@@ -59,7 +59,7 @@
             <foo/>
          </t:context>
          <t:variable name="myv:expectedresult" select="$myv:test-3/@value" as="xs:integer"/>
-         <t:expect label="the result" test="xs:integer($x:result/foobaz) eq $myv:expectedresult"/>
+         <t:expect label="the result" test="xs:integer($x:result/number)" select="$myv:expectedresult"/>
       </t:scenario>
    </t:scenario>
 
