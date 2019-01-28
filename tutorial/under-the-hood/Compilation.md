@@ -16,7 +16,7 @@ The generated stylesheets and queries are not shown in their entirety.  In parti
 
 The goal is to make the compilation phase clearer, mostly for development purposes.
 
-Those examples could be the base for test cases too developed as an automated test suite.
+Those examples could be the base for test cases, too, developed as an automated test suite.
 
 ## Simple suite
 
@@ -145,9 +145,8 @@ declare function local:d4e4($t:result as item()*)
 
 Show the structure of a compiled scenario, both in XSLT and
 XQuery.  The general idea is to generate a template for the
-scenario (or a function in XQuery), that calls the [SUT](#sut) and puts
-the result in a variable (`$x:result` in XSLT and
-`$local:result` in XQuery).  A separate template (or function in
+scenario (or a function in XQuery), that calls the [SUT](#sut) (or System Under Test) and puts
+the result in a variable, `$x:result`.  A separate template (or function in
 XQuery) is generated for each expectation, and those templates (or
 functions) are called from the first one, in sequence, with the
 result as parameter.
@@ -228,9 +227,9 @@ result as parameter.
 declare function local:d4e2()
 {
   ... generate scenario data in the report ...
-  let $local:result := f()
+  let $x:result := f()
     return (
-      local:d4e4($local:result)
+      local:d4e4($x:result)
     )
 };
 
@@ -270,7 +269,7 @@ possible in XQuery), and corresponds naturally to
 `xsl:apply-templates`.  `call` represents a call either to a named
 template or an XPath function.  `context` also represents applying
 a template rule to a node, but in a different way than `apply`:
-the former represents more a full transform (e.g. the result is
+the former represents more a full transform (e.g., the result is
 always one document node) where `apply` is exactly the result of a
 template rule (the result is the exact result sequence or the
 rule).
@@ -371,8 +370,11 @@ TODO: ...
 
 ## Variables
 
-This is not implemented yet, but this is an example of what they
-will look like.
+[Variables have been supported since version (TBD).]
+
+The `variable` element in the XSpec namespace defines an XSpec variable. Any number of `variable` elements can occur before or after `context`, `call`, `apply` (not implemented yet), or the first `expect`. XSpec variables can be referenced in XPath expressions, such as in `@select` and `@test` attributes.
+
+The first example shows how an XSpec variable maps to an `xsl:variable` element in generated XSLT code or a `let` statement in generated XQuery code.
 
 ### Test suite
 
@@ -392,19 +394,19 @@ will look like.
    <!-- the generated variable -->
    <xsl:variable name="var" select="'value'"/>
    <xsl:variable name="x:result" as="item()*">
-      ... evaluate the test expression ...
+      ... exercise the SUT ...
    </xsl:variable>
    ...
    <xsl:call-template name="x:d4e4">
       <xsl:with-param name="x:result" select="$x:result"/>
+      <xsl:with-param name="var" select="$var"/>
    </xsl:call-template>
 </xsl:template>
 
 <!-- generated from the expect element -->
 <xsl:template name="x:d4e4">
    <xsl:param name="x:result" required="yes"/>
-   <!-- the generated variable -->
-   <xsl:variable name="var" select="'value'"/>
+   <xsl:param name="var" required="yes"/>
    <!-- evaluate the expectation -->
    <xsl:variable name="impl:expected" ...>
    <xsl:variable name="impl:test-items" ...>
@@ -419,21 +421,23 @@ will look like.
 (: generated from the scenario element :)
 declare function local:d4e2()
 {
+  let $var := ( 'value' )        (: the generated variable :)
   ...
-  let $var          := 'value'               (: the generated variable :)
-  let $local:result := ... evaluate the test expression ...
+  let $x:result := ... exercise the SUT ...
     return (
-      local:d4e4($local:result)
+      ...,
+      let $x:tmp := local:d4e4($x:result, $var) return (
+        $x:tmp
+      )
     )
+  ...
 };
 
 (: generated from the expect element :)
-declare function local:d4e4($t:result as item()*)
+declare function local:d4e4($x:result, $var)
 {
-  let $var               := 'value'          (: the generated variable :)
-  let $local:expected    := ...              (: expected result :)
-  let $local:test-result := ...              (: evaluate the expectations :)
-  let $local:successful  := ...              (: did the test pass?:)
+  let $local:expected    :=  ... (: expected result :)
+  let $local:successful as xs:boolean := ... (: did the test pass?:)
     return
       ... generate test result in the report ...
 };
@@ -447,12 +451,10 @@ to load a document from a file (relative to the test suite
 document). As with `x:param`,
 content and `@href` are mutually exclusive. The `@select` attribute can appear alone or in combination with either content or `@href`.
 
-The resulting variables must appear once in the code
-generated for the `scenario` element and once in the code
-generated for the `expect` element (well, define more precisely
-the scope of the variables, I think we should be able to put them
-everywhere, and the scope must "natural" when looking at the test
-suite definition).
+The resulting variables become accessible from the code generated
+for the `scenario` and `expect` elements. See "[Variables scope](#variables-scope)"
+below for details on how the generated stylesheet or query achieves
+this accessibility.
 
 ### Test suite
 
@@ -468,30 +470,42 @@ suite definition).
 
 ```xml
 <xsl:variable name="select" select="'value'"/>
-<xsl:variable name="href"   select="doc('.../test-data.xml')"/>
-<xsl:variable name="content" as="element()">
-   <elem/>
+<xsl:variable name="href-doc"
+              as="document-node()"
+              select="doc('.../test-data.xml')"/>
+<xsl:variable name="href" select="$href-doc"/>
+<xsl:variable name="content-doc" as="document-node()">
+   <xsl:document>
+      <elem/>
+   </xsl:document>
 </xsl:variable>
+<xsl:variable name="content" as="element()" select="$content-doc/node()"/>
 ```
 
 ### Query
 
 ```xquery
-let $select := 'value'
-let $href   := doc('.../test-data.xml')
-let $content as element() := <elem/>
+let $select := ( 'value' )
+let $href := doc('.../test-data.xml')
+let $content as element() := ( <elem/> )
 ```
 
 ## Variables scope
 
-This shows where variables are generated regarding their scope.
-It is worth noting the first definition of this was to generate
-variables several times if needed, e.g. if they were in scope in
+In a given scenario, the variables in scope are:
+
+- Local variables defined in that scenario
+- Variables defined as children of an ancestor scenario
+- Global variables defined as children of `description`
+
+This example shows where variables are generated depending on their scope.
+It is worth noting the first implementation of this was to generate
+variables several times if needed, e.g., if they were in scope in
 a scenario and expectations (see the revision r78, a revision before changed by [r79](https://groups.google.com/forum/#!topic/xspec-dev/K25fP9Zb--4), of this page
 for an example).  But this would lead to several evaluations of
 the same thing (which could lead to being less efficient, and to
 subtle bugs in case of side-effects). So instead, variables are
-evaluated once, then passed as parameters (to templates in XSLT
+evaluated once, and then passed as parameters (to templates in XSLT
 and functions in XQuery).
 
 ### Test suite
@@ -590,7 +604,10 @@ declare function local:d4e2()
   let $var-1 := ...
   ...
     return (
-      local:d4e3($var-1)
+      ...,
+      let $x:tmp := local:d4e3($var-1) return (
+        $x:tmp
+      )
     )
 };
 
@@ -599,16 +616,17 @@ declare function local:d4e3($var-1) (: $var-1 can have a "as" clause :)
 {
   ...
   let $var-2        := ...
-  let $local:result := f()
+  let $x:result := f()
     return (
+      ...,
       let $var-3 := ...
-        return (
-          local:d4e4($local:result, $var-1, $var-2, $var-3),
-          let $var-4 := ...
-            return (
-              local:d4e5($local:result, $var-1, $var-2, $var-3, $var-4)
-            )
+      let $x:tmp := local:d5e11($x:result, $var-1, $var-2, $var-3) return (
+        $x:tmp,
+        let $var-4 := ...
+        let $x:tmp := local:d5e13($x:result, $var-1, $var-2, $var-3, $var-4) return (
+          $x:tmp
         )
+      )
     )
 };
 
