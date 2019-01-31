@@ -571,10 +571,13 @@
     call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
-    rem XML, HTML and coverage report file
+    rem XML and HTML report file
     call :verify_exist ..\tutorial\coverage\xspec\demo-result.xml
     call :verify_exist ..\tutorial\coverage\xspec\demo-result.html
-    call :verify_exist ..\tutorial\coverage\xspec\demo-coverage.html
+
+    rem Coverage report file is created and contains CSS inline
+    call :run java -jar "%SAXON_JAR%" -s:..\tutorial\coverage\xspec\demo-coverage.html -xsl:html-css.xsl
+    call :verify_line 1 x "true"
 	</case>
 
 	<case name="Ant for XQuery with coverage fails">
