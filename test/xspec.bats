@@ -167,10 +167,15 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
 
-    # XML, HTML and coverage report file
+    # XML and HTML report file
     [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
     [ -f "${special_chars_dir}/xspec/demo-result.html" ]
-    [ -f "${special_chars_dir}/xspec/demo-coverage.html" ]
+
+    # Coverage report file is created and contains CSS inline #194
+    unset JAVA_TOOL_OPTIONS
+    run java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:html-css.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 
