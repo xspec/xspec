@@ -22,6 +22,8 @@
 
 <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
 
+<xsl:param name="report-css-uri" as="xs:string?" />
+
 <!-- @use-character-maps for inline CSS -->
 <xsl:output use-character-maps="test:disable-escaping" />
 
@@ -138,6 +140,7 @@
       </title>
       <xsl:call-template name="test:load-css">
         <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
+        <xsl:with-param name="uri" select="$report-css-uri" />
       </xsl:call-template>
       <xsl:call-template name="x:html-head-callback"/>
     </head>
