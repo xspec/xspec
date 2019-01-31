@@ -444,7 +444,7 @@
       </factory-elements>
       <xslt-elements>
         <param name="tests" expression="${xspec.xspecfile.absolute}" />
-        <param name="inline-css" expression="true" />
+        <!--<param name="inline-css" expression="true" />-->
       </xslt-elements>
     </saxon-xslt>
   </target>
