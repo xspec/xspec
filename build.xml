@@ -421,9 +421,9 @@
         <attribute name="http://saxon.sf.net/feature/allow-external-functions"
                    value="true"/>
       </factory-elements>
-      <xslt-elements>
+      <!--<xslt-elements>
         <param name="inline-css" expression="true" />
-      </xslt-elements>
+      </xslt-elements>-->
     </saxon-xslt>
   </target>
 
