@@ -353,6 +353,10 @@
     call :verify_line 2 x escape-for-regex_xml-to-properties.xml
     call :verify_line 3 x escape-for-regex-result.html
     call :verify_line 4 x escape-for-regex-result.xml
+
+    rem HTML report file contains CSS inline
+    call :run java -jar "%SAXON_JAR%" -s:..\tutorial\xspec\escape-for-regex-result.html -xsl:html-css.xsl
+    call :verify_line 1 x "true"
 	</case>
 
 	<case name="Ant for XSLT with xspec.fail=false continues on test failure">

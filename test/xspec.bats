@@ -481,6 +481,11 @@ teardown() {
     [ "${lines[1]}" = "escape-for-regex-result.xml" ]
     [ "${lines[2]}" = "escape-for-regex_xml-to-properties.xml" ]
     [ "${lines[3]}" = "escape-for-regex.xsl" ]
+
+    # HTML report file contains CSS inline
+    run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 
