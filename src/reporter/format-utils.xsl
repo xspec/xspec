@@ -191,8 +191,9 @@
 <!-- Generates <style> or <link> for CSS -->
 <xsl:template name="test:load-css">
   <xsl:param name="inline" as="xs:boolean" required="yes" />
+  <xsl:param name="uri" as="xs:string?" />
 
-  <xsl:variable name="uri" as="xs:anyURI" select="resolve-uri('test-report.css', static-base-uri())" />
+  <xsl:variable as="xs:string" name="uri" select="($uri, resolve-uri('test-report.css'))[1]" />
 
   <xsl:choose>
     <xsl:when test="$inline">

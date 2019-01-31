@@ -24,6 +24,8 @@
 
 <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
   
+<xsl:param name="report-css-uri" as="xs:string?" />
+
 
 <xsl:variable name="tests-uri" as="xs:anyURI" select="
     file:path-to-uri($tests)"/>
@@ -68,6 +70,7 @@
       <title>Test Coverage Report for <xsl:value-of select="test:format-URI($stylesheet-uri)" /></title>
       <xsl:call-template name="test:load-css">
         <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
+        <xsl:with-param name="uri" select="$report-css-uri" />
       </xsl:call-template>
     </head>
     <body>
