@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:my="http://example.org/ns/my"
+               xmlns:myv="http://example.org/ns/my/variable"
+               stylesheet="xspec-tested.xsl"
+               query="http://example.org/ns/my"
+               query-at="xspec-tested.xql">
+
+   <!-- If any of these tests changes, check whether the file
+        ../tutorials/under-the-hood/Compilation.md needs updates. -->
+   <t:import href="../tutorial/under-the-hood/compilation-variable-value.xspec"/>
+   <t:import href="../tutorial/under-the-hood/compilation-variables.xspec"/>
+   <t:import href="../tutorial/under-the-hood/compilation-variables-scope.xspec"/>
+</t:description>
