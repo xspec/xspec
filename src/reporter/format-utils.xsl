@@ -345,7 +345,7 @@
   <xsl:param name="inline" as="xs:boolean" required="yes" />
   <xsl:param name="uri" as="xs:string?" />
 
-  <xsl:variable name="uri" select="resolve-uri('test-report.css')" />
+  <xsl:variable as="xs:string" name="uri" select="($uri, resolve-uri('test-report.css'))[1]" />
 
   <xsl:choose>
     <xsl:when test="$inline">
