@@ -9,6 +9,8 @@
 		creates a series of <run-xspec> elements based on /x:description/@*.
 	-->
 
+	<xsl:include href="../../../src/common/xspec-utils.xsl" />
+
 	<xsl:output indent="yes" />
 
 	<xsl:param as="xs:anyURI" name="XSPECFILES-DIR-URI" />
@@ -18,10 +20,8 @@
 			Transforms a template of Ant build file into a working build file.
 	-->
 
-	<xsl:template match="@* | node()">
-		<xsl:copy>
-			<xsl:apply-templates select="@* | node()" />
-		</xsl:copy>
+	<xsl:template as="node()" match="document-node() | attribute() | node()">
+		<xsl:call-template name="x:identity" />
 	</xsl:template>
 
 	<xsl:template as="element()" match="/*">

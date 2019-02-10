@@ -2,8 +2,8 @@
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:html:normalizer:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
-	xmlns:util="x-urn:xspec:test:end-to-end:processor:base:util"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xpath-default-namespace="http://www.w3.org/1999/xhtml">
 
 	<!--
@@ -30,7 +30,7 @@
 				<xsl:value-of
 					select="
 						regex-group(1),
-						util:filename-and-extension(regex-group(2)),
+						x:filename-and-extension(regex-group(2)),
 						regex-group(3)"
 					separator=" " />
 			</xsl:matching-substring>
@@ -66,10 +66,10 @@
 			<xsl:apply-templates mode="#current" select="attribute()" />
 			<xsl:for-each select="@href">
 				<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-					select="util:filename-and-extension(.)" />
+					select="x:filename-and-extension(.)" />
 			</xsl:for-each>
 
-			<xsl:value-of select="util:filename-and-extension(.)" />
+			<xsl:value-of select="x:filename-and-extension(.)" />
 		</xsl:copy>
 	</xsl:template>
 

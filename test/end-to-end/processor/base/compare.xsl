@@ -4,8 +4,8 @@
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:saxon="http://saxon.sf.net/"
 	xmlns:serializer="x-urn:xspec:test:end-to-end:processor:serializer"
-	xmlns:util="x-urn:xspec:test:end-to-end:processor:base:util"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
 		This master stylesheet is a basis for comparing the input document with the expected file.
@@ -15,7 +15,7 @@
 		The processor must import this stylesheet and provide its own deserializer, normalizer and serializer.
 	-->
 
-	<xsl:include href="../base/_util.xsl" />
+	<xsl:include href="../../../../src/common/xspec-utils.xsl" />
 	<xsl:include href="_deserializer.xsl" />
 	<xsl:include href="_normalizer.xsl" />
 	<xsl:include href="_serializer.xsl" />
@@ -29,7 +29,7 @@
 	<xsl:param as="xs:anyURI" name="EXPECTED-RESULT-URI"
 		select="
 			resolve-uri(
-			concat('../expected/', util:filename-without-extension(document-uri(/)), '-norm.',
+			concat('../expected/', x:filename-without-extension(document-uri(/)), '-norm.',
 			if (/testsuites) then
 				'xml'
 			else
@@ -62,7 +62,7 @@
 			<xsl:variable as="xs:anyURI" name="save-normalized-input-uri"
 				select="
 					resolve-uri(
-					concat(util:filename-without-extension(document-uri(.)), '-norm.html'),
+					concat(x:filename-without-extension(document-uri(.)), '-norm.html'),
 					document-uri(.))" />
 			<xsl:result-document format="serializer:output" href="{$save-normalized-input-uri}">
 				<xsl:sequence select="$normalized-input-doc" />
