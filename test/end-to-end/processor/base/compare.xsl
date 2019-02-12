@@ -39,6 +39,9 @@
 	<xsl:param as="xs:boolean" name="DEBUG" select="false()" />
 
 	<xsl:template as="text()+" match="document-node()">
+		<!-- Absolute URI of input document -->
+		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="document-uri(/)" />
+
 		<!-- Load the expected result -->
 		<xsl:variable as="document-node()" name="expected-doc">
 			<xsl:apply-templates mode="deserializer:unindent" select="doc($EXPECTED-RESULT-URI)" />
@@ -49,7 +52,9 @@
 			<xsl:apply-templates mode="deserializer:unindent" select="." />
 		</xsl:variable>
 		<xsl:variable as="document-node()" name="normalized-input-doc">
-			<xsl:apply-templates mode="normalizer:normalize" select="$input-doc" />
+			<xsl:apply-templates mode="normalizer:normalize" select="$input-doc">
+				<xsl:with-param name="tunnel_document-uri" select="$input-doc-uri" tunnel="yes" />
+			</xsl:apply-templates>
 		</xsl:variable>
 
 		<!-- Compare the normalized input document with the expected document -->
@@ -62,8 +67,8 @@
 			<xsl:variable as="xs:anyURI" name="save-normalized-input-uri"
 				select="
 					resolve-uri(
-					concat(x:filename-without-extension(document-uri(.)), '-norm.html'),
-					document-uri(.))" />
+					concat(x:filename-without-extension($input-doc-uri), '-norm.html'),
+					$input-doc-uri)" />
 			<xsl:result-document format="serializer:output" href="{$save-normalized-input-uri}">
 				<xsl:sequence select="$normalized-input-doc" />
 			</xsl:result-document>
@@ -91,7 +96,7 @@
 				else
 					'FAILED'" />
 		<xsl:text>: Compared </xsl:text>
-		<xsl:value-of select="document-uri(.)" />
+		<xsl:value-of select="$input-doc-uri" />
 		<xsl:text> with </xsl:text>
 		<xsl:value-of select="$EXPECTED-RESULT-URI" />
 		<xsl:text>&#x0A;</xsl:text>
