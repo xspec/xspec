@@ -6,7 +6,9 @@
     exclude-result-prefixes="xs" version="2.0">
     
     <xsl:param name="stylesheet" select="concat(x:description/@schematron, '.xsl')"/>
-    <xsl:param name="test_dir" select="'xspec'"/>
+    
+    <!-- Absolute URI of TEST_DIR -->
+    <xsl:param name="test-dir-uri" as="xs:anyURI" required="yes"/>
     
 
     <xsl:variable name="error" select="('error', 'fatal')"/>
@@ -62,7 +64,9 @@
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
         parent::*/x:expect-report | parent::*/x:expect-not-report |
         parent::*/x:expect-valid | ancestor::x:description[@schematron] ]">
-        <xsl:variable name="file" select="concat($test_dir, '/', 'context-', generate-id(), '.xml')"/>
+        <xsl:variable name="file" as="xs:anyURI" select="resolve-uri(
+            concat('context-', generate-id(), '.xml'),
+            concat($test-dir-uri, '/'))"/>
         <xsl:result-document href="{$file}">
             <xsl:copy-of select="./node()"/>
         </xsl:result-document>

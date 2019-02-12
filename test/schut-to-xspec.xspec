@@ -2,6 +2,16 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" stylesheet="../src/schematron/schut-to-xspec.xsl">
     <x:param name="stylesheet" select="'schut-to-xspec-test.sch.xsl'"/>
+    <x:param name="test-dir-uri" select="
+        resolve-uri(
+            'xspec',
+            concat(
+                'file:',
+                '///'[system-property('file.separator') eq '\'],
+                replace(system-property('java.io.tmpdir'), '\\', '/'),
+                '/'
+            )
+        )"/>
     <x:scenario label="templates">
         <x:scenario label="identity">
             <x:context>
