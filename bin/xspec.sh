@@ -312,15 +312,17 @@ if test -n "$SCHEMATRON"; then
     fi
     
     # get URI to Schematron file and phase/parameters from the XSpec file
-    # Need to escape for sh in XQuery: dollar sign as \$
-    xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; iri-to-uri(concat(replace(document-uri(/), '(.*)/.*\$', '\$1'), '/', /*[local-name() = 'description']/@schematron))" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron location"
-    SCH=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    xslt -o:"${TEST_DIR}/${TARGET_FILE_NAME}-var.txt" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/sch-file-path.xsl" \
+        || die "Error getting Schematron location"
+    SCH=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
     
     xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; declare function local:escape(\$v) { let \$w := if (matches(\$v,codepoints-to-string((91,92,115,93)))) then codepoints-to-string(34) else '' return concat(\$w, replace(\$v,codepoints-to-string((40,91,36,92,92,96,93,41)),codepoints-to-string((92,92,36,49))), \$w)}; string-join(for \$p in /*/*[local-name() = 'param'] return if (\$p/@select) then concat('?',\$p/@name,'=',local:escape(\$p/@select)) else concat(\$p/@name,'=',local:escape(\$p/string())),' ')" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron phase and parameters"
     SCH_PARAMS=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
     echo Parameters: $SCH_PARAMS
     SCHUT=$XSPEC-compiled.xspec
-    SCH_COMPILED=$(echo "$SCH" | sed 's:^file\:::')-compiled.xsl
+    SCH_COMPILED="${SCH}-compiled.xsl"
     
     echo
     echo "Compiling the Schematron..."
@@ -330,14 +332,16 @@ if test -n "$SCHEMATRON"; then
     
     # use XQuery to get full URI to compiled Schematron
     # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"
-    # SCH_COMPILED=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    # SCH_COMPILED_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    SCH_COMPILED_URI="file:${SCH_COMPILED}"
     
     echo 
     echo "Compiling the Schematron tests..."
     TEST_DIR_URI="file:${TEST_DIR_ABS}"
-    xslt -o:"${SCHUT}" -s:"${XSPEC}" \
+    xslt -o:"${SCHUT}" \
+        -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
-        stylesheet="${SCH_COMPILED}" \
+        stylesheet-uri="${SCH_COMPILED_URI}" \
         test-dir-uri="${TEST_DIR_URI}" \
         || die "Error compiling the Schematron tests"
     XSPEC=$SCHUT

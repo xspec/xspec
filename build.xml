@@ -334,7 +334,7 @@
                 out="${xspec.xspecfile.preprocessed}"
                 style="${xspec.project.dir}/src/schematron/schut-to-xspec.xsl">
       <xslt-elements>
-        <param name="stylesheet" expression="${xspec.schematron.preprocessed.xsl.url}" />
+        <param name="stylesheet-uri" expression="${xspec.schematron.preprocessed.xsl.url}" />
         <param name="test-dir-uri" expression="${xspec.output.dir.url}" />
       </xslt-elements>
     </saxon-xslt>

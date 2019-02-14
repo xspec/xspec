@@ -5,7 +5,7 @@
     xmlns:x="http://www.jenitennison.com/xslt/xspec" 
     exclude-result-prefixes="xs" version="2.0">
     
-    <xsl:param name="stylesheet" select="concat(x:description/@schematron, '.xsl')"/>
+    <xsl:param name="stylesheet-uri" select="concat(x:description/@schematron, '.xsl')"/>
     
     <!-- Absolute URI of TEST_DIR -->
     <xsl:param name="test-dir-uri" as="xs:anyURI" required="yes"/>
@@ -37,7 +37,7 @@
 
     <xsl:template match="@schematron">
         <xsl:attribute name="xspec-original-location" select="$actual-document-uri"/>
-        <xsl:attribute name="stylesheet" select="$stylesheet"/>
+        <xsl:attribute name="stylesheet" select="$stylesheet-uri"/>
         <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
         <xsl:attribute name="schematron" select="$path"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">

@@ -561,6 +561,18 @@ teardown() {
     [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
+@test "invoking xspec for Schematron with -catalog uses XML Catalog resolver" {
+    if [ -z "${XML_RESOLVER_JAR}" ]; then
+        skip "XML_RESOLVER_JAR is not defined"
+    fi
+
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    run ../bin/xspec.sh -catalog catalog/xspec-160_catalog.xml -s catalog/xspec-160_schematron.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[22]}" = "passed: 6 / pending: 0 / failed: 1 / total: 7" ]
+}
+
 @test "invoking xspec with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
