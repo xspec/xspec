@@ -225,7 +225,10 @@
 
   <!-- Prepares the environment before compilation -->
   <target name="init">
-    <echo message="Testing ${xspec.xspecfile.name} [${test.type}]" />
+    <condition property="xspec.coverage.dispchar" value="c" else="">
+      <istrue value="${xspec.coverage.enabled}" />
+    </condition>
+    <echo message="Testing ${xspec.xspecfile.name} [${test.type}${xspec.coverage.dispchar}]" />
 
     <!-- Verify "test.type" -->
     <fail message="Invalid test.type: '${test.type}'">
