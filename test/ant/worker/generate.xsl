@@ -15,6 +15,7 @@
 
 	<xsl:param as="xs:anyURI" name="XSPECFILES-DIR-URI" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 
 	<!--
 		mode=#default
@@ -71,6 +72,17 @@
 						<xsl:text>Skipping </xsl:text>
 						<xsl:value-of select="x:filename-and-extension($xspec-file-uri)" />
 						<xsl:text>: Requires XSLT processor to support coverage</xsl:text>
+					</xsl:value-of>
+				</xsl:when>
+
+				<xsl:when
+					test="
+						(processing-instruction(xspec-test) = 'require-xslt-to-support-schema')
+						and not($XSLT-SUPPORTS-SCHEMA)">
+					<xsl:value-of>
+						<xsl:text>Skipping </xsl:text>
+						<xsl:value-of select="x:filename-and-extension($xspec-file-uri)" />
+						<xsl:text>: Requires schema-aware XSLT processor</xsl:text>
 					</xsl:value-of>
 				</xsl:when>
 			</xsl:choose>

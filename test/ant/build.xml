@@ -20,6 +20,17 @@
 			<equals arg1="${coverage-report.compile.result}" arg2="0" />
 		</condition>
 		<echo message="xslt.supports.coverage=${xslt.supports.coverage}" />
+
+		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
+			resultproperty="schema-aware.compile.result">
+			<arg value="-nogo" />
+			<arg value="-sa" />
+			<arg value="-xsl:../do-nothing.xsl" />
+		</java>
+		<condition else="false" property="xslt.supports.schema">
+			<equals arg1="${schema-aware.compile.result}" arg2="0" />
+		</condition>
+		<echo message="xslt.supports.schema=${xslt.supports.schema}" />
 	</target>
 
 	<!-- Generates the worker -->
@@ -30,6 +41,8 @@
 			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
 			<param expression="${xslt.supports.coverage}" name="XSLT-SUPPORTS-COVERAGE"
 				type="BOOLEAN" />
+			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN"
+			 />
 		</xslt>
 	</target>
 
