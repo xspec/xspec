@@ -84,7 +84,6 @@
       <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
         being tested which would otherwise govern the output of the report XML. -->
       <result-document format="{x:xspec-name('report')}">
-        <processing-instruction name="fail" select="'deliberately'" />
         <processing-instruction name="xml-stylesheet">
           <xsl:text>type="text/xsl" href="</xsl:text>
           <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl',
