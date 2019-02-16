@@ -11,17 +11,10 @@
 	-->
 
 	<!--
-		Removes comments and processing instructions
-			They are often ignored by fn:deep-equal(). So remove them explicitly in the first place.
-	-->
-	<xsl:template as="empty-sequence()" match="comment() | processing-instruction()"
-		mode="normalizer:normalize" />
-
-	<!--
 		Normalizes the title text
 			Example:
-				in:		<title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
-				out:	<title>Test Report for tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
+				in:  <title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
+				out: <title>Test Report for tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
 	-->
 	<xsl:template as="text()" match="/html[not(local:is-xquery-report(.))]/head/title/text()"
 		mode="normalizer:normalize">
@@ -79,8 +72,8 @@
 	<!--
 		Normalizes datetime
 			Example:
-				in:		<p>Tested: 23 February 2017 at 11:18</p>
-				out:	<p>Tested: ONCE-UPON-A-TIME</p>
+				in:  <p>Tested: 23 February 2017 at 11:18</p>
+				out: <p>Tested: ONCE-UPON-A-TIME</p>
 	-->
 	<xsl:template as="text()" match="/html/body/p[3]/text()" mode="normalizer:normalize">
 		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
