@@ -25,7 +25,7 @@
                 xmlns:fn="http://www.w3.org/2005/xpath-functions"
                 exclude-result-prefixes="x xs test pkg xhtml fn">
         
-    <xsl:output name="escaped" method="xml" omit-xml-declaration="yes" indent="yes"/>
+    <xsl:output indent="yes"/>
 
     <xsl:template match="x:report">
         <testsuites>

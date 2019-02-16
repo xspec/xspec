@@ -11,5 +11,5 @@
 		Set of serialization parameters
 			The parameters must be in sync with XSPEC_HOME/src/reporter/junit-report.xsl.
 	-->
-	<xsl:output name="serializer:output" />
+	<xsl:output indent="yes" name="serializer:output" />
 </xsl:stylesheet>
