@@ -78,7 +78,7 @@
     </xsl:template>
     
     <xsl:template match="x:expect[@select]">
-        <xsl:text>Expected: </xsl:text><xsl:value-of select="x:expect/@select"/>
+        <xsl:text>Expected: </xsl:text><xsl:value-of select="@select"/>
     </xsl:template>
     
     <xsl:template match="x:expect">
