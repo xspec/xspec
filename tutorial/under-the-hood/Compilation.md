@@ -117,7 +117,7 @@ declare function local:d4e2()
 {
   ...
   (: a call instruction for each expect element :)
-  local:d4e4($result)
+  local:d4e4($x:result)
   ...
 };
 
