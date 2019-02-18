@@ -57,7 +57,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 
    <xsl:namespace-alias stylesheet-prefix="__x" result-prefix="xsl"/>
 
-   <xsl:output name="report" method="xml" indent="yes"/>
+   <xsl:output name="x:report" method="xml" indent="yes"/>
 
    <!-- the tested stylesheet -->
    <xsl:variable name="x:stylesheet-uri" as="xs:string"
@@ -73,7 +73,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
          <xsl:value-of select="system-property('xsl:product-version')"/>
       </xsl:message>
       <!-- setup the result document (the report) -->
-      <xsl:result-document format="report">
+      <xsl:result-document format="x:report">
          <xsl:processing-instruction name="xml-stylesheet">
             <xsl:text>type="text/xsl" href=".../format-xspec-report.xsl"</xsl:text>
          </xsl:processing-instruction>
