@@ -144,8 +144,7 @@ declare function local:d4e4($x:result as item()*)
 Show the structure of a compiled scenario, both in XSLT and
 XQuery.  The general idea is to generate a template for the
 scenario (or a function in XQuery), that calls the [SUT](#sut) and puts
-the result in a variable (`$x:result` in XSLT and
-`$local:result` in XQuery).  A separate template (or function in
+the result in a variable, `$x:result`.  A separate template (or function in
 XQuery) is generated for each expectation, and those templates (or
 functions) are called from the first one, in sequence, with the
 result as parameter.
@@ -226,9 +225,9 @@ result as parameter.
 declare function local:d4e2()
 {
   ... generate scenario data in the report ...
-  let $local:result := f()
+  let $x:result := f()
     return (
-      local:d4e4($local:result)
+      local:d4e4($x:result)
     )
 };
 
@@ -419,9 +418,9 @@ declare function local:d4e2()
 {
   ...
   let $var          := 'value'               (: the generated variable :)
-  let $local:result := ... evaluate the test expression ...
+  let $x:result := ... evaluate the test expression ...
     return (
-      local:d4e4($local:result)
+      local:d4e4($x:result)
     )
 };
 
@@ -597,14 +596,14 @@ declare function local:d4e3($var-1) (: $var-1 can have a "as" clause :)
 {
   ...
   let $var-2        := ...
-  let $local:result := f()
+  let $x:result := f()
     return (
       let $var-3 := ...
         return (
-          local:d4e4($local:result, $var-1, $var-2, $var-3),
+          local:d4e4($x:result, $var-1, $var-2, $var-3),
           let $var-4 := ...
             return (
-              local:d4e5($local:result, $var-1, $var-2, $var-3, $var-4)
+              local:d4e5($x:result, $var-1, $var-2, $var-3, $var-4)
             )
         )
     )
