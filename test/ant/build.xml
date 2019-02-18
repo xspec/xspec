@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="run-worker" name="run-xspec-tests">
+	<!-- Directory of this project file -->
+	<dirname file="${ant.file.run-xspec-tests}" property="run-xspec-tests.basedir" />
+
 	<!-- The worker to be generated and run -->
 	<property name="build.worker" value="worker/build-worker.xml" />
 
-	<!-- Absolute path of directory where *.xspec files reside -->
-	<property location="../" name="xspecfiles.dir" />
+	<!-- Absolute path of directory where *.xspec files are located -->
+	<property location="${run-xspec-tests.basedir}/../" name="xspecfiles.dir" />
 	<makeurl file="${xspecfiles.dir}" property="xspecfiles.dir.url" />
 
 	<!-- Gets processor capabilities -->
@@ -14,7 +17,7 @@
 		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
 			resultproperty="coverage-report.compile.result">
 			<arg value="-nogo" />
-			<arg value="-xsl:../../src/reporter/coverage-report.xsl" />
+			<arg value="-xsl:${run-xspec-tests.basedir}/../../src/reporter/coverage-report.xsl" />
 		</java>
 		<condition else="false" property="xslt.supports.coverage">
 			<equals arg1="${coverage-report.compile.result}" arg2="0" />
@@ -25,7 +28,7 @@
 			resultproperty="schema-aware.compile.result">
 			<arg value="-nogo" />
 			<arg value="-sa" />
-			<arg value="-xsl:../do-nothing.xsl" />
+			<arg value="-xsl:${run-xspec-tests.basedir}/../do-nothing.xsl" />
 		</java>
 		<condition else="false" property="xslt.supports.schema">
 			<equals arg1="${schema-aware.compile.result}" arg2="0" />

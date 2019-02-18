@@ -23,28 +23,28 @@
 	<xsl:output method="text" />
 
 	<!--
-		URI of the expected result file
+		URI of the expected report file
 			Its content must be already normalized by the 'normalizer:normalize' template.
 	-->
-	<xsl:param as="xs:anyURI" name="EXPECTED-RESULT-URI"
-		select="
-			resolve-uri(
-			concat('../expected/', x:filename-without-extension(document-uri(/)), '-norm.',
-			if (/testsuites) then
-				'xml'
-			else
-				'html'),
-			document-uri(/))" />
+	<xsl:param as="xs:anyURI" name="EXPECTED-DOC-URI" required="yes" />
 
 	<xsl:param as="xs:boolean" name="DEBUG" select="false()" />
 
-	<xsl:template as="text()+" match="document-node()">
+	<xsl:template as="empty-sequence()" match="document-node()">
 		<!-- Absolute URI of input document -->
 		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="document-uri(/)" />
 
-		<!-- Load the expected result -->
+		<xsl:message>
+			<xsl:text>Comparing</xsl:text>
+			<xsl:text>&#x0A;   Actual: </xsl:text>
+			<xsl:value-of select="$input-doc-uri" />
+			<xsl:text>&#x0A; Expected: </xsl:text>
+			<xsl:value-of select="$EXPECTED-DOC-URI" />
+		</xsl:message>
+
+		<!-- Load the expected report file -->
 		<xsl:variable as="document-node()" name="expected-doc">
-			<xsl:apply-templates mode="deserializer:unindent" select="doc($EXPECTED-RESULT-URI)" />
+			<xsl:apply-templates mode="deserializer:unindent" select="doc($EXPECTED-DOC-URI)" />
 		</xsl:variable>
 
 		<!-- Normalize the input document -->
@@ -93,17 +93,13 @@
 			<xsl:message terminate="yes" />
 		</xsl:if>
 
-		<!-- Output the comparison result -->
-		<xsl:value-of select="
+		<!-- Output the comparison result, terminating on comparison failure -->
+		<xsl:message select="
 				if ($comparison-result) then
 					'OK'
 				else
-					'FAILED'" />
-		<xsl:text>: Compared </xsl:text>
-		<xsl:value-of select="$input-doc-uri" />
-		<xsl:text> with </xsl:text>
-		<xsl:value-of select="$EXPECTED-RESULT-URI" />
-		<xsl:text>&#x0A;</xsl:text>
+					'FAILED'"
+			terminate="{not($comparison-result)}" />
 	</xsl:template>
 
 	<!--

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="run-all-xspec-files" name="generate-expected-worker">
+	<!-- Include "e2e-base-worker" -->
+	<include file="../../base/worker/build-worker.xml" />
+
+	<!--
+		Transforms the actual report file (@actual-report-url) into the normalized report (@normalized-report-url)
+		using the normalizer XSLT (@normalizer-xsl-url).
+		
+		This macro will be called for each .xspec file and applicable test type (query, schematron, stylesheet).
+	-->
+	<macrodef name="normalize-xspec-report">
+		<attribute name="actual-report-url" />
+		<attribute name="normalized-report-url" />
+		<attribute name="normalizer-xsl-url" />
+
+		<sequential>
+			<xslt-url in-url="@{actual-report-url}" out-url="@{normalized-report-url}"
+				style-url="@{normalizer-xsl-url}" />
+			<echo message="  Normalized: @{normalized-report-url}" />
+		</sequential>
+	</macrodef>
+
+	<!-- Main target -->
+	<target name="run-all-xspec-files"><!-- A series of <run-xspec> will go here --></target>
+</project>

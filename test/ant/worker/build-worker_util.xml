@@ -34,18 +34,32 @@
 		</sequential>
 	</macrodef>
 
-	<!-- Accepts file URL and runs XSpec accordingly.
+	<!-- Accepts file URLs and runs XSpec accordingly.
 		Enables code coverage if requested.
 		Optionally notifies AppVeyor of test status. -->
 	<macrodef name="run-xspec">
 		<attribute name="xspec-file-url" />
 		<attribute name="test-type" />
 		<attribute default="" name="enable-coverage" />
+		<attribute default="" name="output-html-url" />
+		<attribute default="" name="output-junit-url" />
+
+		<element name="post-task" optional="yes" />
 
 		<sequential>
-			<!-- Convert file URL to file path -->
+			<!--
+				Convert file URLs to file paths
+			-->
 			<local name="xspec-file-path" />
 			<makepath property="xspec-file-path" url="@{xspec-file-url}" />
+
+			<local name="output-html-path" />
+			<makepath property="output-html-path" unless:blank="@{output-html-url}"
+				url="@{output-html-url}" />
+
+			<local name="output-junit-path" />
+			<makepath property="output-junit-path" unless:blank="@{output-junit-url}"
+				url="@{output-junit-url}" />
 
 			<!-- AppVeyor: Notify -->
 			<appveyor if:set="appveyor.filename" outcome="Running" test-type="@{test-type}"
@@ -66,7 +80,15 @@
 				<param name="test.type" value="@{test-type}" />
 				<param name="xspec.coverage.enabled" unless:blank="@{enable-coverage}"
 					value="@{enable-coverage}" />
+
+				<param if:set="output-html-path" location="${output-html-path}"
+					name="xspec.result.html" />
+				<param if:set="output-junit-path" location="${output-junit-path}"
+					name="xspec.result.junit" />
 			</antcall>
+
+			<!-- Run post-task elements, if any -->
+			<post-task />
 
 			<!-- AppVeyor: Calc duration -->
 			<local name="appveyor.duration" />

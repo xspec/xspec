@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="e2e-base-worker" xmlns:unless="ant:unless">
+	<!-- Directory of this project file -->
+	<dirname file="${ant.file.e2e-base-worker}" property="e2e-base-worker.basedir" />
+
+	<!-- Import the core XSpec build file with some properties predefined -->
+	<property name="xspec.properties" value="${e2e-base-worker.basedir}/xspec.properties" />
+	<import file="../../../../../build.xml" />
+
+	<!-- Include util -->
+	<include file="../../../../ant/worker/build-worker_util.xml" />
+
+	<!-- Accepts file URLs and runs the XSLT task accordingly.
+		Optionally,
+			- Discards the output file, when @out-url is omitted
+			- Accepts XSLT parameters as <params> -->
+	<macrodef name="xslt-url">
+		<attribute name="in-url" />
+		<attribute default="" name="out-url" />
+		<attribute name="style-url" />
+
+		<element name="params" optional="true" />
+
+		<sequential>
+			<!--
+				Convert file URLs to file paths
+			-->
+			<local name="in-path" />
+			<makepath property="in-path" url="@{in-url}" />
+
+			<local name="out-path" />
+			<makepath property="out-path" unless:blank="@{out-url}" url="@{out-url}" />
+
+			<local name="style-path" />
+			<makepath property="style-path" url="@{style-url}" />
+
+			<!-- Use a temporary output file, if the macro caller doesn't care about the output -->
+			<tempfile deleteonexit="true" destdir="${java.io.tmpdir}"
+				prefix="xslt-url_deleteonexit_" property="out-path" suffix=".tmp"
+				unless:set="out-path" />
+
+			<!-- Perform XSLT -->
+			<saxon-xslt in="${in-path}" out="${out-path}" style="${style-path}">
+				<xslt-elements>
+					<params />
+				</xslt-elements>
+			</saxon-xslt>
+		</sequential>
+	</macrodef>
+</project>

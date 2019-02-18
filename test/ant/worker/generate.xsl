@@ -13,7 +13,10 @@
 
 	<xsl:output indent="yes" />
 
+	<!-- Absolute URI of directory where *.xspec files are located. Must ends with '/'. -->
 	<xsl:param as="xs:anyURI" name="XSPECFILES-DIR-URI" required="yes" />
+
+	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 
@@ -110,9 +113,18 @@
 						<xsl:if test="$enable-coverage">
 							<xsl:attribute name="enable-coverage" select="$enable-coverage" />
 						</xsl:if>
+
+						<xsl:call-template name="on-run-xspec" />
 					</run-xspec>
 				</xsl:for-each>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
+	<!--
+		Named template to be overridden
+	-->
+
+	<!-- Override this template to provide <run-xspec> with additional nodes -->
+	<xsl:template as="empty-sequence()" name="on-run-xspec" />
 </xsl:stylesheet>

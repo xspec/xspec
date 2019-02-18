@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for xspec-tested.xsl (passed: 1 / pending: 0 / failed: 1 / total: 2)</title>
-      <link rel="stylesheet" type="text/css" href="../../../../src/reporter/test-report.css" />
+      <title>Test Report for http://example.org/ns/my (passed: 1 / pending: 2 / failed: 1 / total:
+         4)
+      </title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
-      <p>Stylesheet: <a href="../../../xspec-tested.xsl">xspec-tested.xsl</a></p>
-      <p>XSpec: <a href="../xspec-imported.xspec">xspec-imported.xspec</a></p>
+      <p>Query: <a href="http://example.org/ns/my">http://example.org/ns/my</a></p>
+      <p>XSpec: <a href="../../xspec-focus-1.xspec">xspec-focus-1.xspec</a></p>
       <p>Tested: ONCE-UPON-A-TIME</p>
       <h2>Contents</h2>
       <table class="xspec">
@@ -20,21 +22,35 @@
             <tr>
                <th></th>
                <th class="totals">passed: 1</th>
-               <th class="totals">pending: 0</th>
+               <th class="totals">pending: 2</th>
                <th class="totals">failed: 1</th>
-               <th class="totals">total: 2</th>
+               <th class="totals">total: 4</th>
             </tr>
          </thead>
          <tbody>
+            <tr class="pending">
+               <th>(<strong>testing @focus</strong>) <a href="#PENDING_ELEM-25">an unfocused correct scenario must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="pending">
+               <th>(<strong>testing @focus</strong>) <a href="#PENDING_ELEM-33">an unfocused incorrect scenario must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
             <tr class="successful">
-               <th><a href="#ELEM-40">a correct scenario in an imported file</a></th>
+               <th><a href="#ELEM-56">a focused correct scenario</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-53">an incorrect scenario in an imported file</a></th>
+               <th><a href="#ELEM-69">a focused incorrect scenario</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -42,41 +58,41 @@
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-40">
-         <h2 class="successful">a correct scenario in an imported file<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-42">
+      <div id="ELEM-56">
+         <h2 class="successful">a focused correct scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-58">
             <col width="75%" />
             <col width="25%" />
             <tbody>
                <tr class="successful">
-                  <th>a correct scenario in an imported file</th>
+                  <th>a focused correct scenario</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
-                  <td>must return Success</td>
+                  <td>must execute the test and return Success</td>
                   <td>Success</td>
                </tr>
             </tbody>
          </table>
       </div>
-      <div id="ELEM-53">
-         <h2 class="failed">an incorrect scenario in an imported file<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-55">
+      <div id="ELEM-69">
+         <h2 class="failed">a focused incorrect scenario<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-71">
             <col width="75%" />
             <col width="25%" />
             <tbody>
                <tr class="failed">
-                  <th>an incorrect scenario in an imported file</th>
+                  <th>a focused incorrect scenario</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-67">must return Failure</a></td>
+                  <td><a href="#ELEM-83">must execute the test and return Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-53">an incorrect scenario in an imported file</h3>
-         <h4 id="ELEM-67">must return Failure</h4>
+         <h3 id="ELEM-69">a focused incorrect scenario</h3>
+         <h4 id="ELEM-83">must execute the test and return Failure</h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -87,7 +103,7 @@
             <tbody>
                <tr>
                   <td><pre>4</pre></td>
-                  <td><pre>42</pre></td>
+                  <td><pre>()</pre></td>
                </tr>
             </tbody>
          </table>

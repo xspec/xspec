@@ -20,7 +20,7 @@
 		<!-- Absolute URI of input document -->
 		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="document-uri(/)" />
 
-		<xsl:message select="'Normalizing', $input-doc-uri" />
+		<xsl:message select="' Normalizing:', $input-doc-uri" />
 
 		<xsl:variable as="document-node()" name="input-doc">
 			<xsl:apply-templates mode="deserializer:unindent" select="." />
@@ -31,7 +31,5 @@
 				<xsl:with-param name="tunnel_document-uri" select="$input-doc-uri" tunnel="yes" />
 			</xsl:apply-templates>
 		</xsl:result-document>
-
-		<xsl:message select="'Normalized'" />
 	</xsl:template>
 </xsl:stylesheet>
