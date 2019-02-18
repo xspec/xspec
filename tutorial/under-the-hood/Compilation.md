@@ -44,7 +44,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 <xsl:stylesheet xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:o="http://www.w3.org/1999/XSL/TransformAliasAlias"
+                xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:impl="urn:x-xspec:compile:xslt:impl"
                 xmlns:q="http://example.org/ns/query"
@@ -55,7 +55,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <!-- an XSPec stylesheet providing tools -->
    <xsl:import href=".../generate-tests-utils.xsl"/>
 
-   <xsl:namespace-alias stylesheet-prefix="o" result-prefix="xsl"/>
+   <xsl:namespace-alias stylesheet-prefix="__x" result-prefix="xsl"/>
 
    <xsl:output name="report" method="xml" indent="yes"/>
 
