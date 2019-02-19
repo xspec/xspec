@@ -101,6 +101,12 @@
       <xsl:apply-templates select="." mode="x:decl-ns">
          <xsl:with-param name="except" select="$prefix"/>
       </xsl:apply-templates>
+
+      <!-- Serialization parameters -->
+      <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
+      <xsl:text>declare option output:method "xml";&#x0A;</xsl:text>
+      <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
+
       <!-- Compile the test suite params (aka global params). -->
       <xsl:call-template name="x:compile-params"/>
       <!-- Compile the top-level scenarios. -->
