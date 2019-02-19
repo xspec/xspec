@@ -258,17 +258,17 @@ scenario.  In XSpec, this is either an XSLT template (named or
 rule) or an XPath function (written either in XSLT or XQuery).
 Here, we use it to refer to the three ways to refer to the SUT
 itself, as well as parameters to use for the current scenario:
-`apply`, `call` and `context` (so that's not strictly speaking
+`x:apply`, `x:call` and `x:context` (so that's not strictly speaking
 the SUT itself, but rather the way to "call" it for this
 scenario).
 
-`apply` represents applying a template rule to a node (this is not
+`x:apply` represents applying a template rule to a node (this is not
 possible in XQuery), and corresponds naturally to
-`xsl:apply-templates`.  `call` represents a call either to a named
-template or an XPath function.  `context` also represents applying
-a template rule to a node, but in a different way than `apply`:
+`xsl:apply-templates`.  `x:call` represents a call either to a named
+template or an XPath function.  `x:context` also represents applying
+a template rule to a node, but in a different way than `x:apply`:
 the former represents more a full transform (e.g. the result is
-always one document node) where `apply` is exactly the result of a
+always one document node) where `x:apply` is exactly the result of a
 template rule (the result is the exact result sequence or the
 rule).
 
@@ -445,8 +445,8 @@ document). As with `x:param`,
 content and `@href` are mutually exclusive. The `@select` attribute can appear alone or in combination with either content or `@href`.
 
 The resulting variables must appear once in the code
-generated for the `scenario` element and once in the code
-generated for the `expect` element (well, define more precisely
+generated for the `x:scenario` element and once in the code
+generated for the `x:expect` element (well, define more precisely
 the scope of the variables, I think we should be able to put them
 everywhere, and the scope must "natural" when looking at the test
 suite definition).
