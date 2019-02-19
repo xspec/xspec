@@ -41,6 +41,7 @@
 		<attribute name="xspec-file-url" />
 		<attribute name="test-type" />
 		<attribute default="" name="enable-coverage" />
+		<attribute default="" name="output-xml-url" />
 		<attribute default="" name="output-html-url" />
 		<attribute default="" name="output-junit-url" />
 
@@ -52,6 +53,10 @@
 			-->
 			<local name="xspec-file-path" />
 			<makepath property="xspec-file-path" url="@{xspec-file-url}" />
+
+			<local name="output-xml-path" />
+			<makepath property="output-xml-path" unless:blank="@{output-xml-url}"
+				url="@{output-xml-url}" />
 
 			<local name="output-html-path" />
 			<makepath property="output-html-path" unless:blank="@{output-html-url}"
@@ -81,6 +86,8 @@
 				<param name="xspec.coverage.enabled" unless:blank="@{enable-coverage}"
 					value="@{enable-coverage}" />
 
+				<param if:set="output-xml-path" location="${output-xml-path}"
+					name="xspec.result.xml" />
 				<param if:set="output-html-path" location="${output-html-path}"
 					name="xspec.result.html" />
 				<param if:set="output-junit-path" location="${output-junit-path}"

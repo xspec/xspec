@@ -12,8 +12,8 @@
 
 	<!-- Accepts file URLs and runs the XSLT task accordingly.
 		Optionally,
-			- Discards the output file, when @out-url is omitted
-			- Accepts XSLT parameters as <params> -->
+		* Discards the output file, when @out-url is omitted
+		* Accepts XSLT parameters as <params> -->
 	<macrodef name="xslt-url">
 		<attribute name="in-url" />
 		<attribute default="" name="out-url" />

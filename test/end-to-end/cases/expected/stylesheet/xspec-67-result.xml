@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/compiler/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../items.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-67.xspec">
+   <x:scenario>
+      <x:label>Comparing identical namespace</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$namespace"/>
+      </x:call>
+      <x:result select="/node()"/>
+      <x:test successful="true">
+         <x:label>must be Success</x:label>
+         <x:expect select="/node()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Comparing identical default namespace</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$default-namespace"/>
+      </x:call>
+      <x:result select="/node()"/>
+      <x:test successful="true">
+         <x:label>must be Success</x:label>
+         <x:expect select="/node()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Comparing different namespaces</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$namespace"/>
+      </x:call>
+      <x:result select="/node()"/>
+      <x:test successful="false">
+         <x:label>must be Failure</x:label>
+         <x:expect select="/node()"/>
+      </x:test>
+   </x:scenario>
+</x:report>

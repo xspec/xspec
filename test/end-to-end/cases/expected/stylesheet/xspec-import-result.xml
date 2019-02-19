@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/compiler/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          xmlns:my="http://example.org/ns/my"
+          stylesheet="../../../../xspec-tested.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-import.xspec">
+   <x:scenario>
+      <x:label>when testing a correct scenario in an importing file</x:label>
+      <x:call function="my:square">
+         <x:param select="3"/>
+      </x:call>
+      <x:result select="9"/>
+      <x:test successful="true">
+         <x:label>expecting the correct result must return Success</x:label>
+         <x:expect select="9"/>
+      </x:test>
+      <x:test successful="true">
+         <x:label>expecting the correct type must return Success</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>when testing an incorrect scenario in an importing file</x:label>
+      <x:call function="my:square">
+         <x:param select="2"/>
+      </x:call>
+      <x:result select="4"/>
+      <x:test successful="false">
+         <x:label>it must return Failure</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>a correct scenario in an imported file</x:label>
+      <x:call function="my:square">
+         <x:param select="3"/>
+      </x:call>
+      <x:result select="9"/>
+      <x:test successful="true">
+         <x:label>must return Success</x:label>
+         <x:expect select="9"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>an incorrect scenario in an imported file</x:label>
+      <x:call function="my:square">
+         <x:param select="2"/>
+      </x:call>
+      <x:result select="4"/>
+      <x:test successful="false">
+         <x:label>must return Failure</x:label>
+         <x:expect select="42"/>
+      </x:test>
+   </x:scenario>
+</x:report>

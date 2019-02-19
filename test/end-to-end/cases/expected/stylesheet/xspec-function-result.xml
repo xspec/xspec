@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/compiler/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          xmlns:my="http://example.org/ns/my"
+          stylesheet="../../../../xspec-tested.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-function.xspec">
+   <x:scenario>
+      <x:label>when calling a function and expecting correctly</x:label>
+      <x:call function="my:square">
+         <x:param select="3"/>
+      </x:call>
+      <x:result select="9"/>
+      <x:test successful="true">
+         <x:label>expecting the correct value must return Success</x:label>
+         <x:expect select="9"/>
+      </x:test>
+      <x:test successful="true">
+         <x:label>expecting the correct type must return Success</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>when calling a function and expecting incorrectly</x:label>
+      <x:call function="my:square">
+         <x:param select="2"/>
+      </x:call>
+      <x:result select="4"/>
+      <x:test successful="false">
+         <x:label>expecting an incorrect value must return Failure</x:label>
+         <x:expect select="42"/>
+      </x:test>
+      <x:test successful="false">
+         <x:label>expecting an incorrect type must return Failure</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+</x:report>

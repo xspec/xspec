@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/compiler/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+          stylesheet="../../schematron-01.sch-compiled.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../schematron-01.xspec"
+          schematron="../../schematron-01.sch">
+   <x:scenario>
+      <x:label>schematron-01</x:label>
+      <x:context href="../../schematron-01.xml"/>
+      <x:scenario>
+         <x:label>article should have a title</x:label>
+         <x:result>
+            <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:saxon="http://saxon.sf.net/"
+                                    xmlns:schold="http://www.ascc.net/xml/schematron"
+                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                    title=""
+                                    schemaVersion=""><!--   
+		   
+		   
+		 -->
+               <svrl:active-pattern document="../../schematron-01.xml"/>
+               <svrl:fired-rule context="article"/>
+               <svrl:fired-rule context="section"/>
+               <svrl:fired-rule context="section"/>
+               <svrl:failed-assert test="title" id="a002" location="/article[1]/section[2]">
+                  <svrl:text>
+                section should have a title
+            </svrl:text>
+               </svrl:failed-assert>
+               <svrl:fired-rule context="section"/>
+               <svrl:failed-assert test="title" id="a002" location="/article[1]/section[3]">
+                  <svrl:text>
+                section should have a title
+            </svrl:text>
+               </svrl:failed-assert>
+            </svrl:schematron-output>
+         </x:result>
+         <x:test successful="true">
+            <x:label>not assert a001</x:label>
+            <x:expect select="()"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>section should have a title</x:label>
+         <x:result>
+            <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:saxon="http://saxon.sf.net/"
+                                    xmlns:schold="http://www.ascc.net/xml/schematron"
+                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                    title=""
+                                    schemaVersion=""><!--   
+		   
+		   
+		 -->
+               <svrl:active-pattern document="../../schematron-01.xml"/>
+               <svrl:fired-rule context="article"/>
+               <svrl:fired-rule context="section"/>
+               <svrl:fired-rule context="section"/>
+               <svrl:failed-assert test="title" id="a002" location="/article[1]/section[2]">
+                  <svrl:text>
+                section should have a title
+            </svrl:text>
+               </svrl:failed-assert>
+               <svrl:fired-rule context="section"/>
+               <svrl:failed-assert test="title" id="a002" location="/article[1]/section[3]">
+                  <svrl:text>
+                section should have a title
+            </svrl:text>
+               </svrl:failed-assert>
+            </svrl:schematron-output>
+         </x:result>
+         <x:test successful="true">
+            <x:label>assert a002 /article[1]/section[2]</x:label>
+            <x:expect select="()"/>
+         </x:test>
+         <x:test successful="true">
+            <x:label>assert a002 /article[1]/section[3]</x:label>
+            <x:expect select="()"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+</x:report>

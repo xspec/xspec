@@ -37,19 +37,26 @@
 		<!-- Absolute URIs of the reports -->
 		<xsl:variable as="element(reports)" name="reports">
 			<reports>
+				<!-- XML -->
+				<xsl:variable as="xs:string" name="xml-file-name"
+					select="concat($xspec-file-name-without-extension, '-result.xml')" />
+				<xml actual="{resolve-uri($xml-file-name, $actual-reports-dir-uri)}"
+					expected="{resolve-uri($xml-file-name, $expected-reports-dir-uri)}"
+					processor-dir="{resolve-uri('xml/', $processor-dir-uri)}" />
+
 				<!-- HTML -->
 				<xsl:variable as="xs:string" name="html-file-name"
 					select="concat($xspec-file-name-without-extension, '-result.html')" />
 				<html actual="{resolve-uri($html-file-name, $actual-reports-dir-uri)}"
 					expected="{resolve-uri($html-file-name, $expected-reports-dir-uri)}"
-					processor-dir="{resolve-uri('html/',$processor-dir-uri)}" />
+					processor-dir="{resolve-uri('html/', $processor-dir-uri)}" />
 
 				<!-- JUnit -->
 				<xsl:variable as="xs:string" name="junit-file-name"
 					select="concat($xspec-file-name-without-extension, '-junit.xml')" />
 				<junit actual="{resolve-uri($junit-file-name, $actual-reports-dir-uri)}"
 					expected="{resolve-uri($junit-file-name, $expected-reports-dir-uri)}"
-					processor-dir="{resolve-uri('junit/',$processor-dir-uri)}" />
+					processor-dir="{resolve-uri('junit/', $processor-dir-uri)}" />
 			</reports>
 		</xsl:variable>
 
