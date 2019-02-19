@@ -53,9 +53,7 @@
 				in:  <a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
 				out: <a href="../path/to/tested.xsl">tested.xsl</a>
 	-->
-	<xsl:template as="element(a)"
-		match="/html/body/p[((position() = 1) and not(local:is-xquery-report(.))) or (position() = 2)]/a"
-		mode="normalizer:normalize">
+	<xsl:template as="element(a)" match="/html/body/p/a" mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
 		<xsl:copy>
@@ -75,7 +73,8 @@
 				in:  <p>Tested: 23 February 2017 at 11:18</p>
 				out: <p>Tested: ONCE-UPON-A-TIME</p>
 	-->
-	<xsl:template as="text()" match="/html/body/p[3]/text()" mode="normalizer:normalize">
+	<xsl:template as="text()" match="/html/body/p[starts-with(., 'Tested:')]/text()"
+		mode="normalizer:normalize">
 		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
 		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
 			<xsl:matching-substring>
