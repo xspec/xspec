@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                xmlns:myv="http://example.org/ns/my/variable"
@@ -11,11 +10,11 @@
    <!-- First example (embellished a bit to make it runnable) in Compilation.md, under "Variables" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
 
-   <t:scenario label="scenario">
-      <t:variable name="myv:var" select="'value'"/>
-      <t:call function="my:square">
-         <t:param select="xs:integer(0)"/>
-      </t:call>
-      <t:expect label="true" test="exists($x:result)"/>
-   </t:scenario>
-</t:description>
+   <x:scenario label="scenario">
+      <x:variable name="myv:var" select="'value'"/>
+      <x:call function="my:square">
+         <x:param select="xs:integer(0)"/>
+      </x:call>
+      <x:expect label="true" test="exists($x:result)"/>
+   </x:scenario>
+</x:description>
