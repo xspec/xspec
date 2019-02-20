@@ -4,8 +4,7 @@
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-imported.xspec">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:pkg="http://expath.org/ns/pkg">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
       <x:label>a correct scenario in an imported file</x:label>
       <x:call function="my:square">
          <x:param select="3"/>
@@ -16,8 +15,7 @@
          <t:expect select="9"/>
       </x:test>
    </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:pkg="http://expath.org/ns/pkg">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
       <x:label>an incorrect scenario in an imported file</x:label>
       <x:call function="my:square">
          <x:param select="2"/>

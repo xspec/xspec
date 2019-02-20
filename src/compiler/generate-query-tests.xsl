@@ -13,7 +13,7 @@
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                exclude-result-prefixes="xs test x"
+                exclude-result-prefixes="xs test x pkg"
                 version="2.0">
 
    <xsl:import href="generate-common-tests.xsl"/>
