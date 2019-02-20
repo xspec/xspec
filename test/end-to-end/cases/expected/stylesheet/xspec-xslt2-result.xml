@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/compiler/format-xspec-report.xsl"?>
+<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../xspec-xslt1.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-xslt2.xspec">
+   <x:scenario>
+      <x:label>With 2 text nodes</x:label>
+      <x:call template="text-nodes"/>
+      <x:result select="/node()">12</x:result>
+      <x:test successful="true">
+         <x:label>Result should be text nodes</x:label>
+         <x:expect select="()"/>
+      </x:test>
+      <x:test successful="true">
+         <x:label>Result count should be 2</x:label>
+         <x:result select="2"/>
+         <x:expect select="2"/>
+      </x:test>
+      <x:scenario>
+         <x:label>All of these tests should be Success on xslt-version=1.0 and Failure on 2.0</x:label>
+         <x:result select="/node()">12</x:result>
+         <x:test successful="false">
+            <x:label>Comparing the text nodes with string</x:label>
+            <x:expect select="'12'"/>
+         </x:test>
+         <x:test successful="false">
+            <x:label>Comparing the text nodes with double</x:label>
+            <x:expect select="xs:double('12')"/>
+         </x:test>
+         <x:test successful="false">
+            <x:label>Comparing the text nodes with decimal</x:label>
+            <x:expect select="12.0"/>
+         </x:test>
+         <x:test successful="false">
+            <x:label>Comparing the text nodes with integer</x:label>
+            <x:expect select="12"/>
+         </x:test>
+         <x:test successful="false">
+            <x:label>Expecting the compiled stylesheet to have version=1.0</x:label>
+            <x:result select="xs:double('2')"/>
+            <x:expect select="1.0"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+</x:report>

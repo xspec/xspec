@@ -5,16 +5,20 @@
     xmlns:x="http://www.jenitennison.com/xslt/xspec" 
     exclude-result-prefixes="xs" version="2.0">
     
-    <xsl:param name="stylesheet" select="concat(x:description/@schematron, '.xsl')"/>
-    <xsl:param name="test_dir" select="'xspec'"/>
+    <xsl:param name="stylesheet-uri" select="concat(x:description/@schematron, '.xsl')"/>
     
+    <!-- Absolute URI of TEST_DIR -->
+    <xsl:param name="test-dir-uri" as="xs:anyURI" required="yes"/>
+    
+
+    <xsl:include href="../common/xspec-utils.xsl"/>
 
     <xsl:variable name="error" select="('error', 'fatal')"/>
     <xsl:variable name="warn" select="('warn', 'warning')"/>
     <xsl:variable name="info" select="('info', 'information')"/>
 
-    <!-- Fix 'file:C:/...' (https://issues.apache.org/jira/browse/XMLCOMMONS-24) -->
-    <xsl:variable name="base-uri" as="xs:string" select="replace(base-uri(), '^(file:)([^/])', '$1/$2')"/>
+    <xsl:variable name="actual-document-uri" as="xs:anyURI"
+        select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
 
 
     <xsl:template match="@* | node()" priority="-2">
@@ -32,8 +36,8 @@
     </xsl:template>
 
     <xsl:template match="@schematron">
-        <xsl:attribute name="xspec-original-location" select="$base-uri"/>
-        <xsl:attribute name="stylesheet" select="$stylesheet"/>
+        <xsl:attribute name="xspec-original-location" select="$actual-document-uri"/>
+        <xsl:attribute name="stylesheet" select="$stylesheet-uri"/>
         <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
         <xsl:attribute name="schematron" select="$path"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
@@ -62,7 +66,9 @@
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
         parent::*/x:expect-report | parent::*/x:expect-not-report |
         parent::*/x:expect-valid | ancestor::x:description[@schematron] ]">
-        <xsl:variable name="file" select="concat($test_dir, '/', 'context-', generate-id(), '.xml')"/>
+        <xsl:variable name="file" as="xs:anyURI" select="resolve-uri(
+            concat('context-', generate-id(), '.xml'),
+            concat($test-dir-uri, '/'))"/>
         <xsl:result-document href="{$file}">
             <xsl:copy-of select="./node()"/>
         </xsl:result-document>

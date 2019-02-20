@@ -158,12 +158,35 @@
 </xsl:template>
 
 <xsl:template match="x:report" mode="x:html-report">
-  <p>
-     <xsl:value-of select="if ( exists(@schematron) ) then 'Schematron: ' else if ( exists(@query) ) then 'Query: ' else 'Stylesheet: '"/>
-     <a href="{ (@schematron, @stylesheet, @query)[1] }">
-       <xsl:value-of select="test:format-URI((@schematron, @stylesheet, @query)[1])"/>
-     </a>
-  </p>
+  <!-- Write URIs, ignoring @stylesheet when actual test target is Schematron -->
+  <xsl:for-each select="@query, @query-at, @schematron, @stylesheet[empty(current()/@schematron)]">
+    <p>
+      <xsl:variable as="xs:string" name="attr-name" select="local-name()" />
+
+      <!-- Capitalize the first character -->
+      <xsl:value-of select="
+        concat(
+          upper-case(substring($attr-name, 1, 1)),
+          substring($attr-name, 2)
+        )" />
+
+      <xsl:text>: </xsl:text>
+
+      <!-- @query is a namespace. The others are URI of file -->
+      <xsl:choose>
+        <xsl:when test="self::attribute(query)">
+          <xsl:value-of select="." />
+        </xsl:when>
+
+        <xsl:otherwise>
+          <a href="{.}">
+            <xsl:value-of select="test:format-URI(.)" />
+          </a>
+        </xsl:otherwise>
+      </xsl:choose>
+    </p>
+  </xsl:for-each>
+
   <p>
     <xsl:text>XSpec: </xsl:text>
     <a href="{@xspec}">

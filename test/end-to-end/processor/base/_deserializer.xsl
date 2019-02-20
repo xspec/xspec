@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0" xmlns:util="x-urn:xspec:test:end-to-end:processor:base:util"
+<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:deserializer="x-urn:xspec:test:end-to-end:processor:deserializer"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
 		This stylesheet module helps deserialize the document.
@@ -15,7 +16,7 @@
 	<!-- Identity template, in lowest priority -->
 	<xsl:template as="node()" match="document-node() | attribute() | node()"
 		mode="deserializer:unindent" priority="-1">
-		<xsl:call-template name="util:identity"/>
+		<xsl:call-template name="x:identity" />
 	</xsl:template>
 
 	<!-- The other processing depends on each processor... -->

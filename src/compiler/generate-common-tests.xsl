@@ -18,10 +18,12 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
+   <xsl:include href="../common/xspec-utils.xsl"/>
+
    <xsl:preserve-space elements="x:space"/>
    
-   <!-- Fix 'file:C:/...' (https://issues.apache.org/jira/browse/XMLCOMMONS-24) -->
-   <xsl:variable name="base-uri" as="xs:string" select="replace(base-uri(), '^(file:)([^/])', '$1/$2')"/>
+   <xsl:variable name="actual-document-uri" as="xs:anyURI"
+      select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
    
 
    <!--

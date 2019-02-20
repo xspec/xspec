@@ -833,8 +833,6 @@
        Function test:wrap-nodes
    -->
    <t:scenario label="test:wrap-nodes">
-      <!-- TODO: Add some scenarios for Saxon-EE: xspec/xspec#47 -->
-
       <!-- TODO: These scenarios do not run on XQuery
            test:wrap-nodes() has not been implemented for XQuery -->
 
@@ -860,6 +858,7 @@
          <t:expect label="No child node" test="empty($x:result/node())" />
       </t:scenario>
 
+      <!-- Scenarios for schema-aware processor are in xspec-47.xspec -->
    </t:scenario>
 
 </t:description>

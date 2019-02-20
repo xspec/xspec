@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="run-all-xspec-files" name="run-e2e-tests-worker">
+	<!-- Include "e2e-base-worker" -->
+	<include file="../../base/worker/build-worker.xml" />
+
+	<!--
+		Compares the actual report file (@actual-report-url) and the expected report file (@expected-report-url)
+		using the comparer XSLT (@comparer-xsl-url). If they are different, the comparer XSLT must terminate.
+		
+		This macro will be called for each .xspec file and applicable test type (query, schematron, stylesheet).
+	-->
+	<macrodef name="compare-xspec-report">
+		<attribute name="actual-report-url" />
+		<attribute name="expected-report-url" />
+		<attribute name="comparer-xsl-url" />
+
+		<sequential>
+			<xslt-url in-url="@{actual-report-url}" style-url="@{comparer-xsl-url}">
+				<params>
+					<param expression="@{expected-report-url}" name="EXPECTED-DOC-URI" />
+				</params>
+			</xslt-url>
+		</sequential>
+	</macrodef>
+
+	<!-- Main target -->
+	<target name="run-all-xspec-files"><!-- A series of <run-xspec> will go here --></target>
+</project>

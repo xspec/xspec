@@ -2,8 +2,8 @@
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:html:normalizer:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
-	xmlns:util="x-urn:xspec:test:end-to-end:processor:base:util"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xpath-default-namespace="http://www.w3.org/1999/xhtml">
 
 	<!--
@@ -11,17 +11,10 @@
 	-->
 
 	<!--
-		Removes comments and processing instructions
-			They are often ignored by fn:deep-equal(). So remove them explicitly in the first place.
-	-->
-	<xsl:template as="empty-sequence()" match="comment() | processing-instruction()"
-		mode="normalizer:normalize" />
-
-	<!--
 		Normalizes the title text
 			Example:
-				in:		<title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
-				out:	<title>Test Report for tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
+				in:  <title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
+				out: <title>Test Report for tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
 	-->
 	<xsl:template as="text()" match="/html[not(local:is-xquery-report(.))]/head/title/text()"
 		mode="normalizer:normalize">
@@ -30,7 +23,7 @@
 				<xsl:value-of
 					select="
 						regex-group(1),
-						util:filename-and-extension(regex-group(2)),
+						x:filename-and-extension(regex-group(2)),
 						regex-group(3)"
 					separator=" " />
 			</xsl:matching-substring>
@@ -42,44 +35,46 @@
 			For brevity. The details of style are not critical anyway.
 	-->
 	<xsl:template as="element(link)" match="/html/head/style" mode="normalizer:normalize">
-		<link rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/xhtml">
-			<xsl:attribute name="href">
-				<!-- Relative path to XSPEC_HOME/ from XSPEC_HOME/test/end-to-end/cases/*/*.html -->
-				<xsl:text>../../../../</xsl:text>
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
-				<!-- and down to the CSS source -->
-				<xsl:text>src/reporter/test-report.css</xsl:text>
-			</xsl:attribute>
+		<!-- Absolute URI of CSS -->
+		<xsl:variable as="xs:anyURI" name="css-uri"
+			select="resolve-uri('../../../../src/reporter/test-report.css')" />
+
+		<link rel="stylesheet" type="text/css" xmlns="http://www.w3.org/1999/xhtml">
+			<xsl:attribute name="href"
+				select="normalizer:relative-uri($css-uri, $tunnel_document-uri)" />
 		</link>
 	</xsl:template>
 
 	<!--
 		Normalizes the links to the tested module and the XSpec file
 			Example:
-				in:		<a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
-				out:	<a href="tested.xsl">tested.xsl</a>
+				in:  <a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
+				out: <a href="../path/to/tested.xsl">tested.xsl</a>
 	-->
-	<xsl:template as="element(a)"
-		match="/html/body/p[((position() = 1) and not(local:is-xquery-report(.))) or (position() = 2)]/a"
-		mode="normalizer:normalize">
+	<xsl:template as="element(a)" match="/html/body/p/a" mode="normalizer:normalize">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute()" />
 			<xsl:for-each select="@href">
 				<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-					select="util:filename-and-extension(.)" />
+					select="normalizer:relative-uri(., $tunnel_document-uri)" />
 			</xsl:for-each>
 
-			<xsl:value-of select="util:filename-and-extension(.)" />
+			<xsl:value-of select="x:filename-and-extension(.)" />
 		</xsl:copy>
 	</xsl:template>
 
 	<!--
 		Normalizes datetime
 			Example:
-				in:		<p>Tested: 23 February 2017 at 11:18</p>
-				out:	<p>Tested: ONCE-UPON-A-TIME</p>
+				in:  <p>Tested: 23 February 2017 at 11:18</p>
+				out: <p>Tested: ONCE-UPON-A-TIME</p>
 	-->
-	<xsl:template as="text()" match="/html/body/p[3]/text()" mode="normalizer:normalize">
+	<xsl:template as="text()" match="/html/body/p[starts-with(., 'Tested:')]/text()"
+		mode="normalizer:normalize">
 		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
 		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
 			<xsl:matching-substring>

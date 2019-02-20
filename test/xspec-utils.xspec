@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/common/xspec-utils.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Scenario for testing template identity">
+		<x:context>
+			<foo bar="baz">
+				<?qux?>
+				<!--quux-->
+				<corge>grault</corge>
+			</foo>
+		</x:context>
+		<x:call template="x:identity" />
+		<x:expect label="Copied and default template rule applied">
+			<foo>bazgrault</foo>
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function filename-and-extension">
+		<x:scenario label="URI">
+			<x:call function="x:filename-and-extension">
+				<x:param select="'file:/path/to/foo.bar.baz'" />
+			</x:call>
+			<x:expect label="filename with extension" select="'foo.bar.baz'" />
+		</x:scenario>
+
+		<x:scenario label="*nix file path">
+			<x:call function="x:filename-and-extension">
+				<x:param select="'/path/to/foo.bar.baz'" />
+			</x:call>
+			<x:expect label="filename with extension" select="'foo.bar.baz'" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function filename-without-extension">
+		<x:scenario label="URI">
+			<x:call function="x:filename-without-extension">
+				<x:param select="'file:/path/to/foo.bar.baz'" />
+			</x:call>
+			<x:expect label="filename without extension" select="'foo.bar'" />
+		</x:scenario>
+
+		<x:scenario label="*nix file path">
+			<x:call function="x:filename-without-extension">
+				<x:param select="'/path/to/foo.bar.baz'" />
+			</x:call>
+			<x:expect label="filename without extension" select="'foo.bar'" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function resolve-xml-uri-with-catalog">
+		<!-- TODO: Use catalog -->
+		<x:call function="x:resolve-xml-uri-with-catalog">
+			<x:param select="''" />
+		</x:call>
+		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
+		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
+			test="starts-with(substring-after($x:result, ':'), '/')" />
+	</x:scenario>
+</x:description>

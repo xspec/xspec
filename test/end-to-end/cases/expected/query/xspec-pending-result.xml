@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          date="ONCE-UPON-A-TIME"
+          query="http://example.org/ns/my"
+          query-at="../../../../xspec-tested.xql"
+          xspec="../../xspec-pending.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:pkg="http://expath.org/ns/pkg"
+               pending="testing x:pending">
+      <x:label>a correct scenario in x:pending must be Pending</x:label>
+      <x:call function="my:square">
+         <x:param select="3"/>
+      </x:call>
+      <x:test pending="testing x:pending">
+         <x:label>it would return Success if it were not Pending</x:label>
+      </x:test>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:pkg="http://expath.org/ns/pkg"
+               pending="testing x:pending">
+      <x:label>an incorrect scenario in x:pending must be Pending</x:label>
+      <x:call function="my:square">
+         <x:param select="2"/>
+      </x:call>
+      <x:test pending="testing x:pending">
+         <x:label>it would return Failure if it were not Pending</x:label>
+      </x:test>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:pkg="http://expath.org/ns/pkg">
+      <x:label>a non-pending correct scenario alongside a pending scenario</x:label>
+      <x:call function="my:square">
+         <x:param select="3"/>
+      </x:call>
+      <t:result select="9"/>
+      <x:test successful="true">
+         <x:label>must execute the test and return Success</x:label>
+         <t:expect select="9"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:pkg="http://expath.org/ns/pkg">
+      <x:label>a non-pending incorrect scenario alongside a pending scenario</x:label>
+      <x:call function="my:square">
+         <x:param select="2"/>
+      </x:call>
+      <t:result select="4"/>
+      <x:test successful="false">
+         <x:label>must execute the test and return Failure</x:label>
+         <t:expect select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:pkg="http://expath.org/ns/pkg"
+               pending="testing @pending">
+      <x:label>a correct scenario with @pending must be Pending</x:label>
+      <x:call function="my:square">
+         <x:param select="3"/>
+      </x:call>
+      <x:test pending="testing @pending">
+         <x:label>it would return Success if it were not Pending</x:label>
+      </x:test>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:pkg="http://expath.org/ns/pkg"
+               pending="testing @pending">
+      <x:label>an incorrect scenario with @pending must be Pending</x:label>
+      <x:call function="my:square">
+         <x:param select="2"/>
+      </x:call>
+      <x:test pending="testing @pending">
+         <x:label>it would return Failure if it were not Pending</x:label>
+      </x:test>
+   </x:scenario>
+</t:report>
