@@ -114,7 +114,9 @@
 							<xsl:attribute name="enable-coverage" select="$enable-coverage" />
 						</xsl:if>
 
-						<xsl:call-template name="on-run-xspec" />
+						<xsl:call-template name="on-run-xspec">
+							<xsl:with-param name="coverage-enabled" select="$enable-coverage" />
+						</xsl:call-template>
 					</run-xspec>
 				</xsl:for-each>
 			</xsl:otherwise>
@@ -126,5 +128,7 @@
 	-->
 
 	<!-- Override this template to provide <run-xspec> with additional nodes -->
-	<xsl:template as="empty-sequence()" name="on-run-xspec" />
+	<xsl:template as="empty-sequence()" name="on-run-xspec">
+		<xsl:param as="xs:boolean" name="coverage-enabled" />
+	</xsl:template>
 </xsl:stylesheet>
