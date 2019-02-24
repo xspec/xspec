@@ -155,6 +155,9 @@ teardown() {
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
     fi
 
+    # Other stderr #204
+    export JAVA_TOOL_OPTIONS=-Dfoo
+
     # TODO: Non alphanumeric path #208
     special_chars_dir="${work_dir}/up and down"
     mkdir "${special_chars_dir}"

@@ -371,10 +371,10 @@ if test -n "$XSLT"; then
     # for XSLT
     if test -n "$COVERAGE"; then
         echo "Collecting test coverage data; suppressing progress report..."
-        xslt "${saxon_custom_options_array[@]}" \
+        ((xslt "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
             -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main 2> "$COVERAGE_XML" \
+            -it:{http://www.jenitennison.com/xslt/xspec}main 3>&2 2>&1 1>&3 | grep "^<..*>$") 3>&2 2>&1 1>&3) 2> "$COVERAGE_XML" \
             || die "Error collecting test coverage data"
     else
         xslt "${saxon_custom_options_array[@]}" \
@@ -386,9 +386,9 @@ else
     # for XQuery
     if test -n "$COVERAGE"; then
         echo "Collecting test coverage data; suppressing progress report..."
-        xquery "${saxon_custom_options_array[@]}" \
+        ((xquery "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" 2> "$COVERAGE_XML" \
+            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" 3>&2 2>&1 1>&3 | grep "^<..*>$") 3>&2 2>&1 1>&3) 2> "$COVERAGE_XML" \
             || die "Error collecting test coverage data"
     else
         xquery "${saxon_custom_options_array[@]}" \
