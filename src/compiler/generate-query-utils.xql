@@ -172,7 +172,7 @@ declare function test:report-sequence(
 declare function test:report-sequence(
     $sequence as item()*,
     $wrapper-name as xs:string,
-    $test as xs:string?
+    $test as attribute(test)?
   ) as element()
 {
   let $wrapper-ns as xs:string := 'http://www.jenitennison.com/xslt/xspec'
@@ -186,11 +186,7 @@ declare function test:report-sequence(
     element
       { fn:QName($wrapper-ns, $wrapper-name) }
       {
-        (
-          if ($test)
-          then attribute test { $test }
-          else ()
-        ),
+        $test,
 
         (
           (: Empty :)
