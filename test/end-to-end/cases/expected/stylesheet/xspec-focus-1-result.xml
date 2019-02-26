@@ -46,7 +46,7 @@
       <x:result select="4"/>
       <x:test successful="false">
          <x:label>must execute the test and return Failure</x:label>
-         <x:expect select="()"/>
+         <x:expect test="$x:result instance of xs:string" select="()"/>
       </x:test>
    </x:scenario>
 </x:report>

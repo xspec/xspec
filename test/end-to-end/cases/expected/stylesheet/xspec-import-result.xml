@@ -21,7 +21,7 @@
       </x:test>
       <x:test successful="true">
          <x:label>expecting the correct type must return Success</x:label>
-         <x:expect select="()"/>
+         <x:expect test="$x:result instance of xs:integer" select="()"/>
       </x:test>
    </x:scenario>
    <x:scenario>
@@ -32,7 +32,7 @@
       <x:result select="4"/>
       <x:test successful="false">
          <x:label>it must return Failure</x:label>
-         <x:expect select="()"/>
+         <x:expect test="$x:result instance of xs:string" select="()"/>
       </x:test>
    </x:scenario>
    <x:scenario>
