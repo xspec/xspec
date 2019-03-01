@@ -640,7 +640,8 @@ teardown() {
         catalog/*.xspec \
         end-to-end/cases/*.xspec \
         schematron/*-import.xspec \
-        schematron/*-in.xspec
+        schematron/*-in.xspec \
+        xml-base*.xspec
     echo "$output"
     [ "$status" -eq 0 ]
 }
