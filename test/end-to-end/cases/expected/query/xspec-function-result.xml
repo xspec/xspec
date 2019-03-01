@@ -4,8 +4,7 @@
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-function.xspec">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:pkg="http://expath.org/ns/pkg">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
       <x:label>when calling a function and expecting correctly</x:label>
       <x:call function="my:square">
          <x:param select="3"/>
@@ -20,8 +19,7 @@
          <t:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:pkg="http://expath.org/ns/pkg">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
       <x:label>when calling a function and expecting incorrectly</x:label>
       <x:call function="my:square">
          <x:param select="2"/>

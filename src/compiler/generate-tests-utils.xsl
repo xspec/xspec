@@ -12,7 +12,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
-                exclude-result-prefixes="xs t msxsl"
+                exclude-result-prefixes="xs t msxsl pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 extension-element-prefixes="test"
@@ -287,7 +287,12 @@
   <xsl:param name="value" required="yes" />
   <xsl:param name="wrapper-name" select="'t:result'" />
   <xsl:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/unit-testAlias'" />
+  <xsl:param name="test" as="xs:string?" />
+
   <xsl:element name="{$wrapper-name}" namespace="{$wrapper-ns}">
+    <xsl:if test="$test">
+      <xsl:attribute name="test" select="$test" />
+    </xsl:if>
     <xsl:choose>
       <xsl:when test="$value[1] instance of attribute()">
         <xsl:attribute name="select">/*/(@* | node())</xsl:attribute>

@@ -72,7 +72,7 @@
     	<result-document format="x:report">
 	      <processing-instruction name="xml-stylesheet">
 	        <xsl:text>type="text/xsl" href="</xsl:text>
-	        <xsl:value-of select="resolve-uri('format-xspec-report.xsl',
+	        <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl',
 	          static-base-uri())" />
 	        <xsl:text>"</xsl:text>
 	      </processing-instruction>
@@ -406,6 +406,11 @@
             <with-param name="value"        select="$impl:expected"/>
             <with-param name="wrapper-name" select="'x:expect'"/>
             <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
+            <xsl:if test="@test">
+              <with-param name="test" as="xs:string">
+                <xsl:value-of select="@test"/>
+              </with-param>
+            </xsl:if>
          </call-template>
       </xsl:if>
     </x:test>

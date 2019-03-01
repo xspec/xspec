@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../../../../../src/compiler/format-xspec-report.xsl"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -13,12 +13,12 @@
       <x:result select="/node()">12</x:result>
       <x:test successful="true">
          <x:label>Result should be text nodes</x:label>
-         <x:expect select="()"/>
+         <x:expect test="$x:result instance of text()+" select="()"/>
       </x:test>
       <x:test successful="true">
          <x:label>Result count should be 2</x:label>
          <x:result select="2"/>
-         <x:expect select="2"/>
+         <x:expect test="count($x:result)" select="2"/>
       </x:test>
       <x:scenario>
          <x:label>All of these tests should be Success on xslt-version=1.0 and Failure on 2.0</x:label>
@@ -42,7 +42,7 @@
          <x:test successful="false">
             <x:label>Expecting the compiled stylesheet to have version=1.0</x:label>
             <x:result select="xs:double('2')"/>
-            <x:expect select="1.0"/>
+            <x:expect test="document('')/xsl:stylesheet/@version/number()" select="1.0"/>
          </x:test>
       </x:scenario>
    </x:scenario>

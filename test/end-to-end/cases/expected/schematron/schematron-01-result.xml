@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../../../../../src/compiler/format-xspec-report.xsl"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -44,7 +44,8 @@
          </x:result>
          <x:test successful="true">
             <x:label>not assert a001</x:label>
-            <x:expect select="()"/>
+            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'a001'])"
+                      select="()"/>
          </x:test>
       </x:scenario>
       <x:scenario>
@@ -79,11 +80,13 @@
          </x:result>
          <x:test successful="true">
             <x:label>assert a002 /article[1]/section[2]</x:label>
-            <x:expect select="()"/>
+            <x:expect test="exists(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'a002'][x:schematron-location-compare('/article[1]/section[2]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"
+                      select="()"/>
          </x:test>
          <x:test successful="true">
             <x:label>assert a002 /article[1]/section[3]</x:label>
-            <x:expect select="()"/>
+            <x:expect test="exists(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'a002'][x:schematron-location-compare('/article[1]/section[3]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"
+                      select="()"/>
          </x:test>
       </x:scenario>
    </x:scenario>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../../../../../src/compiler/format-xspec-report.xsl"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -294,7 +294,7 @@
             <x:param as="text()" select="$text-node_whitespace-only"/>
          </x:call>
          <x:result select="/node()">
-            <test:ws xmlns:pkg="http://expath.org/ns/pkg">	
+            <test:ws>	
 &#xD; </test:ws>
          </x:result>
          <x:test successful="true">
@@ -312,7 +312,7 @@
             <x:param as="text()" select="$text-node_zero-length"/>
          </x:call>
          <x:result select="/node()">
-            <test:ws xmlns:pkg="http://expath.org/ns/pkg"/>
+            <test:ws/>
          </x:result>
          <x:test successful="true">
             <x:label>expecting ... should be Success</x:label>
