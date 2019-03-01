@@ -241,7 +241,7 @@
       </xsl:for-each>
     </tbody>
   </table>
-  <xsl:for-each select="x:scenario[not(@pending)]">
+  <xsl:for-each select="x:scenario[not(@pending) or .//x:test[parent::x:scenario][not(@pending)]]">
     <xsl:call-template name="x:format-top-level-scenario"/>
   </xsl:for-each>
 </xsl:template>
