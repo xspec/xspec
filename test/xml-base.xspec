@@ -23,4 +23,25 @@
 		<x:expect label="@href is resolved with @xml:base"
 			test="$global-param instance of document-node(element(testing-xml-base))" />
 	</x:scenario>
+
+	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
+	<x:variable href="test.xml" name="global-var-href-only" xml:base="node-selection/" />
+	<x:variable href="test.xml" name="global-var-href-select" select="/testing-xml-base/*" xml:base="node-selection/" />
+	<x:scenario label="In global-var (i.e. /x:description/x:variable),">
+		<x:call function="false" />
+		<x:expect label="@href is resolved with @xml:base"
+			test="$global-var-href-only instance of document-node(element(testing-xml-base))" />
+		<x:expect label="even if @select is also present"
+			test="$global-var-href-select instance of element(child-element)" />
+	</x:scenario>
+
+	<x:scenario label="In scenario-level var (i.e. //x:scenario/x:variable),">
+		<x:variable href="test.xml" name="scenario-var-href-only" xml:base="node-selection/" />
+		<x:variable href="test.xml" select="/testing-xml-base/*" name="scenario-var-href-select" xml:base="node-selection/" />
+		<x:call function="false" />
+		<x:expect label="@href is resolved with @xml:base"
+			test="$scenario-var-href-only instance of document-node(element(testing-xml-base))" />
+		<x:expect label="even if @select is also present"
+			test="$scenario-var-href-select instance of element(child-element)" />
+	</x:scenario>
 </x:description>
