@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description preserve-space="pre" stylesheet="xspec-space.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xspec-space="x-urn:test:xspec-space">
 
 	<x:scenario
 		label="In context template-param, whitespace-only text nodes in user-content are removed by default.">
@@ -15,9 +15,9 @@
 				<foo />
 			</x:context>
 			<x:expect label="(verified via $x:result)"
-				test="deep-equal($x:result, $span-element-empty)" />
+				test="deep-equal($x:result, $xspec-space:span-element-empty)" />
 			<x:expect label="(verified via wrapper document)"
-				test="deep-equal(node(), $span-element-empty)" />
+				test="deep-equal(node(), $xspec-space:span-element-empty)" />
 		</x:scenario>
 
 		<x:scenario label="But...">
@@ -30,9 +30,9 @@
 					<foo />
 				</x:context>
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result, $span-element-wsot)" />
+					test="deep-equal($x:result, $xspec-space:span-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $span-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -44,9 +44,9 @@
 					<foo />
 				</x:context>
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result/node(), $span-element-wsot)" />
+					test="deep-equal($x:result/node(), $xspec-space:span-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $span-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -62,9 +62,9 @@
 					<foo />
 				</x:context>
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result, $pre-element-wsot)" />
+					test="deep-equal($x:result, $xspec-space:pre-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $pre-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:pre-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -77,9 +77,10 @@
 					</x:param>
 					<foo />
 				</x:context>
-				<x:expect label="(verified via $x:result)" test="deep-equal($x:result, $wsot)" />
-				<x:expect label="(verified via wrapper document)" test="deep-equal(node(), $wsot)"
-				 />
+				<x:expect label="(verified via $x:result)"
+					test="deep-equal($x:result, $xspec-space:wsot)" />
+				<x:expect label="(verified via wrapper document)"
+					test="deep-equal(node(), $xspec-space:wsot)" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
@@ -95,9 +96,9 @@
 			</x:context>
 			<x:call template="context-mirror-template" />
 			<x:expect label="(verified via $x:result)"
-				test="deep-equal($x:result, $span-element-empty)" />
+				test="deep-equal($x:result, $xspec-space:span-element-empty)" />
 			<x:expect label="(verified via wrapper document)"
-				test="deep-equal(node(), $span-element-empty)" />
+				test="deep-equal(node(), $xspec-space:span-element-empty)" />
 		</x:scenario>
 
 		<x:scenario label="But...">
@@ -109,9 +110,9 @@
 				<x:context xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:context>
 				<x:call template="context-mirror-template" />
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result, $span-element-wsot)" />
+					test="deep-equal($x:result, $xspec-space:span-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $span-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -121,9 +122,9 @@
 				<x:context href="xspec-space.xml" />
 				<x:call template="context-mirror-template" />
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result/node(), $span-element-wsot)" />
+					test="deep-equal($x:result/node(), $xspec-space:span-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $span-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -137,9 +138,9 @@
 				</x:context>
 				<x:call template="context-mirror-template" />
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result, $pre-element-wsot)" />
+					test="deep-equal($x:result, $xspec-space:pre-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $pre-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:pre-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -150,9 +151,10 @@
 					<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 				</x:context>
 				<x:call template="context-mirror-template" />
-				<x:expect label="(verified via $x:result)" test="deep-equal($x:result, $wsot)" />
-				<x:expect label="(verified via wrapper document)" test="deep-equal(node(), $wsot)"
-				 />
+				<x:expect label="(verified via $x:result)"
+					test="deep-equal($x:result, $xspec-space:wsot)" />
+				<x:expect label="(verified via wrapper document)"
+					test="deep-equal(node(), $xspec-space:wsot)" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
@@ -161,75 +163,62 @@
 		label="In function-param, whitespace-only text nodes in user-content are removed by default.">
 		<x:scenario>
 			<x:label>So, in
-				//x:call[@function]/x:param/element()[not(ancestor-or-self::element()/@xml:space)],
-				whitespace-only text nodes are removed.</x:label>
+				//x:call[@function]/x:param/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
 			<x:call function="exactly-one">
 				<x:param>
 					<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 				</x:param>
 			</x:call>
-			<x:expect label="(verified via $x:result)"
-				test="deep-equal($x:result, $span-element-empty)" />
-			<x:expect label="(verified via wrapper document)"
-				test="deep-equal(node(), $span-element-empty)" />
+			<x:expect label="whitespace-only text nodes are removed."
+				test="deep-equal($x:result, $xspec-space:span-element-empty)" />
 		</x:scenario>
 
 		<x:scenario label="But...">
 			<x:scenario>
 				<x:label>@xml:space overrides the default. So, in
 					//x:call[@function]/x:param/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
-					= "preserve"], whitespace-only text nodes are kept.</x:label>
+					= "preserve"],</x:label>
 				<x:call function="exactly-one">
 					<x:param xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
 				</x:call>
-				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result, $span-element-wsot)" />
-				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $span-element-wsot)" />
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
 				<x:label>node-selection @href is always intact. So, in
-					//x:call[@function]/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],
-					whitespace-only text nodes are kept.</x:label>
+					//x:call[@function]/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
 				<x:call function="exactly-one">
 					<x:param href="xspec-space.xml" />
 				</x:call>
-				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result/node(), $span-element-wsot)" />
-				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $span-element-wsot)" />
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result/node(), $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
 				<x:label>Elements specified by @preserve-space are intact. So, in
 					//x:call[@function]/x:param/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
 					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
-					resolve-QName($qname, /x:description))], whitespace-only text nodes are
-					kept.</x:label>
+					resolve-QName($qname, /x:description))],</x:label>
 				<x:call function="exactly-one">
 					<x:param>
 						<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
 					</x:param>
 				</x:call>
-				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result, $pre-element-wsot)" />
-				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $pre-element-wsot)" />
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $xspec-space:pre-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
 				<x:label>Text nodes created by x:text are intact. So, in
-					//x:call[@function]/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],
-					whitespace-only text nodes are kept.</x:label>
+					//x:call[@function]/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
 				<x:call function="exactly-one">
 					<x:param>
 						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 					</x:param>
 				</x:call>
-				<x:expect label="(verified via $x:result)" test="deep-equal($x:result, $wsot)" />
-				<x:expect label="(verified via wrapper document)" test="deep-equal(node(), $wsot)"
-				 />
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $xspec-space:wsot)" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
@@ -246,9 +235,9 @@
 				</x:param>
 			</x:call>
 			<x:expect label="(verified via $x:result)"
-				test="deep-equal($x:result, $span-element-empty)" />
+				test="deep-equal($x:result, $xspec-space:span-element-empty)" />
 			<x:expect label="(verified via wrapper document)"
-				test="deep-equal(node(), $span-element-empty)" />
+				test="deep-equal(node(), $xspec-space:span-element-empty)" />
 		</x:scenario>
 
 		<x:scenario label="But...">
@@ -260,9 +249,9 @@
 					<x:param name="param-items" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
 				</x:call>
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result, $span-element-wsot)" />
+					test="deep-equal($x:result, $xspec-space:span-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $span-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -273,9 +262,9 @@
 					<x:param href="xspec-space.xml" name="param-items" />
 				</x:call>
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result/node(), $span-element-wsot)" />
+					test="deep-equal($x:result/node(), $xspec-space:span-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $span-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -290,9 +279,9 @@
 					</x:param>
 				</x:call>
 				<x:expect label="(verified via $x:result)"
-					test="deep-equal($x:result, $pre-element-wsot)" />
+					test="deep-equal($x:result, $xspec-space:pre-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
-					test="deep-equal(node(), $pre-element-wsot)" />
+					test="deep-equal(node(), $xspec-space:pre-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -304,9 +293,10 @@
 						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 					</x:param>
 				</x:call>
-				<x:expect label="(verified via $x:result)" test="deep-equal($x:result, $wsot)" />
-				<x:expect label="(verified via wrapper document)" test="deep-equal(node(), $wsot)"
-				 />
+				<x:expect label="(verified via $x:result)"
+					test="deep-equal($x:result, $xspec-space:wsot)" />
+				<x:expect label="(verified via wrapper document)"
+					test="deep-equal(node(), $xspec-space:wsot)" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
@@ -324,13 +314,12 @@
 	</x:param>
 	<x:scenario
 		label="In global-param, whitespace-only text nodes in user-content are removed by default.">
-		<x:context />
-
 		<x:scenario>
 			<x:label>So, in
 				/x:description/x:param/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:call function="false" />
 			<x:expect label="whitespace-only text nodes are removed."
-				test="deep-equal($global-param-span-element, $span-element-empty)" />
+				test="deep-equal($global-param-span-element, $xspec-space:span-element-empty)" />
 		</x:scenario>
 
 		<x:scenario label="But...">
@@ -338,15 +327,18 @@
 				<x:label>@xml:space overrides the default. So, in
 					/x:description/x:param/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
 					= "preserve"],</x:label>
+				<x:call function="false" />
 				<x:expect label="whitespace-only text nodes are kept."
-					test="deep-equal($global-param-span-element-preserve, $span-element-wsot)" />
+					test="deep-equal($global-param-span-element-preserve, $xspec-space:span-element-wsot)"
+				 />
 			</x:scenario>
 
 			<x:scenario>
 				<x:label>node-selection @href is always intact. So, in
 					/x:description/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:call function="false" />
 				<x:expect label="whitespace-only text nodes are kept."
-					test="deep-equal($global-param-href/node(), $span-element-wsot)" />
+					test="deep-equal($global-param-href/node(), $xspec-space:span-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
@@ -354,15 +346,17 @@
 					/x:description/x:param/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
 					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
 					resolve-QName($qname, /x:description))],</x:label>
+				<x:call function="false" />
 				<x:expect label="whitespace-only text nodes are kept."
-					test="deep-equal($global-param-pre-element, $pre-element-wsot)" />
+					test="deep-equal($global-param-pre-element, $xspec-space:pre-element-wsot)" />
 			</x:scenario>
 
 			<x:scenario>
 				<x:label>Text nodes created by x:text are intact. So, in
 					/x:description/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:call function="false" />
 				<x:expect label="whitespace-only text nodes are kept."
-					test="deep-equal($global-param-x-text, $wsot)" />
+					test="deep-equal($global-param-x-text, $xspec-space:wsot)" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
@@ -373,7 +367,7 @@
 			<x:label>So, in //x:expect/element()[namespace-uri() ne
 				'http://www.jenitennison.com/xslt/xspec'][not(ancestor-or-self::element()/@xml:space)],</x:label>
 			<x:call function="exactly-one">
-				<x:param select="$span-element-empty" />
+				<x:param select="$xspec-space:span-element-empty" />
 			</x:call>
 			<x:expect label="whitespace-only text nodes are removed.">
 				<span>&#x09;&#x0A;&#x0D;&#x20;</span>
@@ -387,7 +381,7 @@
 					'http://www.jenitennison.com/xslt/xspec'][ancestor-or-self::element()[@xml:space][1]/@xml:space
 					= "preserve"],</x:label>
 				<x:call function="exactly-one">
-					<x:param select="$span-element-wsot" />
+					<x:param select="$xspec-space:span-element-wsot" />
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept." xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:expect>
 			</x:scenario>
@@ -396,7 +390,7 @@
 				<x:label>node-selection @href is always intact. So, in
 					//x:expect/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
 				<x:call function="exactly-one">
-					<x:param select="$span-element-wsot" />
+					<x:param select="$xspec-space:span-element-wsot" />
 				</x:call>
 				<x:expect href="xspec-space.xml" label="whitespace-only text nodes are kept."
 					select="node()" />
@@ -408,7 +402,7 @@
 					(for $qname in tokenize(/x:description/@preserve-space, '\s+') return
 					resolve-QName($qname, /x:description))],</x:label>
 				<x:call function="exactly-one">
-					<x:param select="$pre-element-wsot" />
+					<x:param select="$xspec-space:pre-element-wsot" />
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept.">
 					<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
@@ -419,7 +413,7 @@
 				<x:label>Text nodes created by x:text are intact. So, in
 					//x:expect/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
 				<x:call function="exactly-one">
-					<x:param select="$wsot" />
+					<x:param select="$xspec-space:wsot" />
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept.">
 					<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
@@ -438,9 +432,9 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Child whitespace-only text nodes are kept."
-				test="deep-equal(p/(node() except span), $wsot)" />
+				test="deep-equal($x:result/self::p/(node() except span), $xspec-space:wsot)" />
 			<x:expect label="Grandchild whitespace-only text nodes are kept."
-				test="deep-equal(p/span, $span-element-wsot)" />
+				test="deep-equal($x:result/self::p/span, $xspec-space:span-element-wsot)" />
 		</x:scenario>
 
 		<x:scenario>
@@ -451,7 +445,8 @@
 					<pre>&#x09;&#x0A;&#x0D;&#x20;<span>&#x09;&#x0A;&#x0D;&#x20;</span></pre>
 				</x:param>
 			</x:call>
-			<x:expect test="deep-equal(pre/node(), ($wsot, $span-element-empty))">
+			<x:expect
+				test="deep-equal($x:result/self::pre/node(), ($xspec-space:wsot, $xspec-space:span-element-empty))">
 				<x:label>Child whitespace-only text nodes are kept, whereas grandchild
 					whitespace-only text nodes are removed.</x:label>
 			</x:expect>
@@ -467,7 +462,8 @@
 					</p>
 				</x:param>
 			</x:call>
-			<x:expect test="deep-equal(p/node(), ($wsot, $span-element-empty))">
+			<x:expect
+				test="deep-equal($x:result/self::p/node(), ($xspec-space:wsot, $xspec-space:span-element-empty))">
 				<x:label>Whitespace-only text nodes created by x:text are kept, whereas those in
 					sibling nodes are removed.</x:label>
 			</x:expect>
