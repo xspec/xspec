@@ -641,7 +641,8 @@ teardown() {
         end-to-end/cases/*.xspec \
         schematron/*-import.xspec \
         schematron/*-in.xspec \
-        xml-base*.xspec
+        xml-base*.xspec \
+        xspec-param-as.xspec
     echo "$output"
     [ "$status" -eq 0 ]
 }
