@@ -37,21 +37,21 @@
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-85">Element, attribute (xspec/xspec#357)</a></th>
+               <th><a href="#ELEM-86">Element, attribute (xspec/xspec#357)</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-119">Attributes of the same name (xspec/xspec#358)</a></th>
+               <th><a href="#ELEM-121">Attributes of the same name (xspec/xspec#358)</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-152">Attribute, element, attribute (xspec/xspec#360)</a></th>
+               <th><a href="#ELEM-155">Attribute, element, attribute (xspec/xspec#360)</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -76,27 +76,29 @@
             </tbody>
          </table>
          <h3 id="ELEM-68">Function (xspec/xspec#355)</h3>
-         <h4 id="ELEM-69">[Result] should be reported</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/*</code> from:
-                     </p><pre>&lt;<span class="diff">pseudo-other</span> /&gt;</pre></td>
-                  <td><pre>()</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-69">
+            <h4>[Result] should be reported</h4>
+            <table class="xspecResult">
+               <thead>
+                  <tr>
+                     <th>Result</th>
+                     <th>Expected Result</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <p>XPath <code>/*</code> from:
+                        </p><pre>&lt;<span class="diff">pseudo-other</span> /&gt;</pre></td>
+                     <td><pre>()</pre></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
       </div>
-      <div id="ELEM-85">
+      <div id="ELEM-86">
          <h2 class="failed">Element, attribute (xspec/xspec#357)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-87">
+         <table class="xspec" id="ELEM-88">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -105,36 +107,38 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-99">@attr should be reported as an attribute</a></td>
+                  <td><a href="#ELEM-100">@attr should be reported as an attribute</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-98">Element, attribute (xspec/xspec#357)</h3>
-         <h4 id="ELEM-99">@attr should be reported as an attribute</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/*/(@* | node())</code> from:
-                     </p><pre>&lt;<span class="diff">pseudo-element</span>&gt;
+         <h3 id="ELEM-99">Element, attribute (xspec/xspec#357)</h3>
+         <div id="ELEM-100">
+            <h4>@attr should be reported as an attribute</h4>
+            <table class="xspecResult">
+               <thead>
+                  <tr>
+                     <th>Result</th>
+                     <th>Expected Result</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <p>XPath <code>/*/(@* | node())</code> from:
+                        </p><pre>&lt;<span class="diff">pseudo-element</span>&gt;
    &lt;<span class="diff">elem1</span> xmlns=""&gt;<span class="diff">text</span>&lt;/elem1&gt;
 &lt;/pseudo-element&gt;
 &lt;<span class="diff">pseudo-attribute</span> <span class="diff">attr</span>="attr-val" /&gt;</pre></td>
-                  <td><pre>()</pre></td>
-               </tr>
-            </tbody>
-         </table>
+                     <td><pre>()</pre></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
       </div>
-      <div id="ELEM-119">
+      <div id="ELEM-121">
          <h2 class="failed">Attributes of the same name (xspec/xspec#358)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-121">
+         <table class="xspec" id="ELEM-123">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -143,34 +147,36 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-133">Both @attr=foo and @attr=bar should be reported</a></td>
+                  <td><a href="#ELEM-135">Both @attr=foo and @attr=bar should be reported</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-132">Attributes of the same name (xspec/xspec#358)</h3>
-         <h4 id="ELEM-133">Both @attr=foo and @attr=bar should be reported</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/*/@*</code> from:
-                     </p><pre>&lt;<span class="diff">pseudo-attribute</span> <span class="diff">attr</span>="foo" /&gt;
+         <h3 id="ELEM-134">Attributes of the same name (xspec/xspec#358)</h3>
+         <div id="ELEM-135">
+            <h4>Both @attr=foo and @attr=bar should be reported</h4>
+            <table class="xspecResult">
+               <thead>
+                  <tr>
+                     <th>Result</th>
+                     <th>Expected Result</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <p>XPath <code>/*/@*</code> from:
+                        </p><pre>&lt;<span class="diff">pseudo-attribute</span> <span class="diff">attr</span>="foo" /&gt;
 &lt;<span class="diff">pseudo-attribute</span> <span class="diff">attr</span>="bar" /&gt;</pre></td>
-                  <td><pre>()</pre></td>
-               </tr>
-            </tbody>
-         </table>
+                     <td><pre>()</pre></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
       </div>
-      <div id="ELEM-152">
+      <div id="ELEM-155">
          <h2 class="failed">Attribute, element, attribute (xspec/xspec#360)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-154">
+         <table class="xspec" id="ELEM-157">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -179,33 +185,35 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-166">[Result] should be reported</a></td>
+                  <td><a href="#ELEM-169">[Result] should be reported</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-165">Attribute, element, attribute (xspec/xspec#360)</h3>
-         <h4 id="ELEM-166">[Result] should be reported</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/*/(@* | node())</code> from:
-                     </p><pre>&lt;<span class="diff">pseudo-attribute</span> <span class="diff">attr1</span>="attr1-val" /&gt;
+         <h3 id="ELEM-168">Attribute, element, attribute (xspec/xspec#360)</h3>
+         <div id="ELEM-169">
+            <h4>[Result] should be reported</h4>
+            <table class="xspecResult">
+               <thead>
+                  <tr>
+                     <th>Result</th>
+                     <th>Expected Result</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <p>XPath <code>/*/(@* | node())</code> from:
+                        </p><pre>&lt;<span class="diff">pseudo-attribute</span> <span class="diff">attr1</span>="attr1-val" /&gt;
 &lt;<span class="diff">pseudo-element</span>&gt;
    &lt;<span class="diff">elem2</span> xmlns=""&gt;<span class="diff">text</span>&lt;/elem2&gt;
 &lt;/pseudo-element&gt;
 &lt;<span class="diff">pseudo-attribute</span> <span class="diff">attr3</span>="attr3-val" /&gt;</pre></td>
-                  <td><pre>()</pre></td>
-               </tr>
-            </tbody>
-         </table>
+                     <td><pre>()</pre></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
       </div>
    </body>
 </html>

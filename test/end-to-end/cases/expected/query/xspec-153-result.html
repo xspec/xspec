@@ -59,21 +59,23 @@
             </tbody>
          </table>
          <h3 id="ELEM-50">When a function returns a local date time string</h3>
-         <h4 id="ELEM-51">Comparing the function result with a different date time will report Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>xs:dateTime('2000-01-01T12:00:00+12:00')</pre></td>
-                  <td><pre>xs:dateTime('1234-01-01T00:00:00Z')</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-51">
+            <h4>Comparing the function result with a different date time will report Failure</h4>
+            <table class="xspecResult">
+               <thead>
+                  <tr>
+                     <th>Result</th>
+                     <th>Expected Result</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td><pre>xs:dateTime('2000-01-01T12:00:00+12:00')</pre></td>
+                     <td><pre>xs:dateTime('1234-01-01T00:00:00Z')</pre></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
       </div>
    </body>
 </html>
