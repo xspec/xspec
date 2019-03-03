@@ -79,101 +79,103 @@
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-72">With 2 text nodes All of these tests should be Success on xslt-version=1.0 and Failure
-            on 2.0
-         </h3>
-         <div id="ELEM-73">
-            <h4>Comparing the text nodes with string</h4>
-            <table class="xspecResult">
-               <thead>
-                  <tr>
-                     <th>Result</th>
-                     <th>Expected Result</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <p>XPath <code>/text()</code> from:
-                        </p><pre><span class="diff">12</span></pre></td>
-                     <td><pre>'12'</pre></td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-         <div id="ELEM-89">
-            <h4>Comparing the text nodes with double</h4>
-            <table class="xspecResult">
-               <thead>
-                  <tr>
-                     <th>Result</th>
-                     <th>Expected Result</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <p>XPath <code>/text()</code> from:
-                        </p><pre><span class="diff">12</span></pre></td>
-                     <td><pre>xs:double('12')</pre></td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-         <div id="ELEM-105">
-            <h4>Comparing the text nodes with decimal</h4>
-            <table class="xspecResult">
-               <thead>
-                  <tr>
-                     <th>Result</th>
-                     <th>Expected Result</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <p>XPath <code>/text()</code> from:
-                        </p><pre><span class="diff">12</span></pre></td>
-                     <td><pre>12.0</pre></td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-         <div id="ELEM-121">
-            <h4>Comparing the text nodes with integer</h4>
-            <table class="xspecResult">
-               <thead>
-                  <tr>
-                     <th>Result</th>
-                     <th>Expected Result</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <p>XPath <code>/text()</code> from:
-                        </p><pre><span class="diff">12</span></pre></td>
-                     <td><pre>12</pre></td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-         <div id="ELEM-137">
-            <h4>Expecting the compiled stylesheet to have version=1.0</h4>
-            <table class="xspecResult">
-               <thead>
-                  <tr>
-                     <th>Result</th>
-                     <th>Expected Result</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td><pre>xs:double('2')</pre></td>
-                     <td><pre>1.0</pre></td>
-                  </tr>
-               </tbody>
-            </table>
+         <div id="ELEM-72">
+            <h3>With 2 text nodes All of these tests should be Success on xslt-version=1.0 and Failure
+               on 2.0
+            </h3>
+            <div id="ELEM-73">
+               <h4>Comparing the text nodes with string</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">12</span></pre></td>
+                        <td><pre>'12'</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-89">
+               <h4>Comparing the text nodes with double</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">12</span></pre></td>
+                        <td><pre>xs:double('12')</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-105">
+               <h4>Comparing the text nodes with decimal</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">12</span></pre></td>
+                        <td><pre>12.0</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-121">
+               <h4>Comparing the text nodes with integer</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">12</span></pre></td>
+                        <td><pre>12</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-137">
+               <h4>Expecting the compiled stylesheet to have version=1.0</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>xs:double('2')</pre></td>
+                        <td><pre>1.0</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
          </div>
       </div>
    </body>

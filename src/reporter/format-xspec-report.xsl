@@ -288,16 +288,18 @@
   </tr>
 </xsl:template>
 
-<xsl:template match="x:scenario" as="element()+" mode="x:html-report">
-  <h3 id="{local-name()}-{generate-id()}">
-  	<xsl:for-each select="ancestor-or-self::x:scenario">
-  		<xsl:apply-templates select="x:label" mode="x:html-report" />
-  		<xsl:if test="position() != last()">
-        <xsl:sequence select="x:separator-callback()"/>
-  		</xsl:if>
-  	</xsl:for-each>
-  </h3>
-  <xsl:apply-templates select="x:test[x:is-failed-test(.)]" mode="x:html-report" />
+<xsl:template match="x:scenario" as="element(xhtml:div)" mode="x:html-report">
+  <div id="{local-name()}-{generate-id()}">
+    <h3>
+      <xsl:for-each select="ancestor-or-self::x:scenario">
+        <xsl:apply-templates select="x:label" mode="x:html-report" />
+        <xsl:if test="position() != last()">
+          <xsl:sequence select="x:separator-callback()"/>
+        </xsl:if>
+      </xsl:for-each>
+    </h3>
+    <xsl:apply-templates select="x:test[x:is-failed-test(.)]" mode="x:html-report" />
+  </div>
 </xsl:template>
 
 <xsl:template match="x:test" as="element(xhtml:div)" mode="x:html-report">
