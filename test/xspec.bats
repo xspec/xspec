@@ -520,6 +520,25 @@ teardown() {
 }
 
 
+@test "Ant for XQuery with catalog resolves URI" {
+    if [ -z "${XML_RESOLVER_JAR}" ]; then
+        skip "XML_RESOLVER_JAR is not defined"
+    fi
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="${PWD}/catalog/catalog-02-catalog.xml" \
+        -Dtest.type=q \
+        -Dxspec.xml="${PWD}/catalog/catalog-02-xquery.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+}
+
+
 @test "Ant for Schematron with minimum properties #168" {
     run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dtest.type=s
     echo "$output"

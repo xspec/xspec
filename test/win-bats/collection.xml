@@ -380,6 +380,19 @@
     call :verify_line -2 x "BUILD SUCCESSFUL"
 	</case>
 
+	<case ifdef="XML_RESOLVER_JAR" name="Ant for XQuery with catalog resolves URI">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -lib "%XML_RESOLVER_JAR%" ^
+        -Dcatalog="%CD%\catalog\catalog-02-catalog.xml" ^
+        -Dtest.type=q ^
+        -Dxspec.xml="%CD%\catalog\catalog-02-xquery.xspec"
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+	</case>
+
 	<case name="Ant for Schematron with minimum properties #168">
     call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_JAR%" -Dtest.type=s
     call :verify_retval 0
