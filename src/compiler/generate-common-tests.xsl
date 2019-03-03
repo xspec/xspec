@@ -48,6 +48,17 @@
        the x:description element, in the mode
    -->
    <xsl:template name="x:generate-tests">
+      <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
+      <xsl:if test="not(node-name(element()) eq $description-name)">
+         <xsl:message terminate="yes">
+            <xsl:text>Source document is not XSpec. /</xsl:text>
+            <xsl:value-of select="$description-name" />
+            <xsl:text> is missing. Supplied source has /</xsl:text>
+            <xsl:value-of select="name(element())"/>
+            <xsl:text> instead.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
