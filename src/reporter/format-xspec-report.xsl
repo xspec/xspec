@@ -229,7 +229,10 @@
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
           <th>
             <xsl:sequence select="x:pending-callback(@pending)"/>
-            <a href="#top-level-{local-name()}-{generate-id()}">
+            <a>
+              <xsl:if test="x:top-level-scenario-needs-format(.)">
+                <xsl:attribute name="href" select="string-join(('#top-level', local-name(), generate-id()), '-')" />
+              </xsl:if>
               <xsl:apply-templates select="x:label" mode="x:html-report" />
             </a>
           </th>
@@ -242,10 +245,20 @@
       </xsl:for-each>
     </tbody>
   </table>
-  <xsl:for-each select="x:scenario[not(@pending) or x:descendant-tests(.)[not(x:is-pending-test(.))]]">
+  <xsl:for-each select="x:scenario[x:top-level-scenario-needs-format(.)]">
     <xsl:call-template name="x:format-top-level-scenario"/>
   </xsl:for-each>
 </xsl:template>
+
+<!-- Returns true if the top level x:scenario needs to be processed by x:format-top-level-scenario template -->
+<xsl:function name="x:top-level-scenario-needs-format" as="xs:boolean">
+  <xsl:param name="scenario-elem" as="element(x:scenario)" />
+
+  <xsl:sequence select="$scenario-elem/(
+    empty(@pending)
+    or exists(x:descendant-tests(.)[not(x:is-pending-test(.))])
+    )"/>
+</xsl:function>
 
 <xsl:template match="x:test[x:is-pending-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
   <tr class="pending">
