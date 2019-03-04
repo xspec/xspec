@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          date="ONCE-UPON-A-TIME"
+          query="x-urn:test:do-nothing"
+          query-at="../../../../do-nothing.xquery"
+          xspec="../../xspec-346.xspec">
+   <x:scenario>
+      <x:label>When a function returns a node containing a space</x:label>
+      <x:call function="exactly-one">
+         <x:param href="../../xspec-346.xml" select="element(p)"/>
+      </x:call>
+      <x:result>
+         <p>
+            <span>foo</span> 
+            <span>bar</span>
+         </p>
+      </x:result>
+      <x:test successful="false">
+         <x:label>Expecting no space should be Failure</x:label>
+         <x:expect>
+            <p xmlns:do-nothing="x-urn:test:do-nothing">
+               <span>foo</span>
+               <span>bar</span>
+            </p>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>

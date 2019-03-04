@@ -90,7 +90,7 @@ declare function test:node-deep-equal($node1 as node(), $node2 as node()) as xs:
 declare function test:sorted-children($node as node()) as node()*
 {
   $node/child::node() 
-  except ( $node/text()[fn:not(fn:normalize-space(.))], $node/test:message )
+  except $node/test:message
 };
 
 (: Aim to be identical to:

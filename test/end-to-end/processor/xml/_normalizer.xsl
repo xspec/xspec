@@ -61,6 +61,7 @@
 	<xsl:template as="attribute()"
 		match="
 			/report/attribute()[name() = ('query-at', 'schematron', 'stylesheet', 'xspec')]
+			| scenario/call/param/@href
 			| scenario/context/@href
 			| /report[@schematron]//scenario/result/svrl:schematron-output/svrl:active-pattern/@document"
 		mode="normalizer:normalize">

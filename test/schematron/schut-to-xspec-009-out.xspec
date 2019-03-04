@@ -4,6 +4,6 @@
     stylesheet="schut-to-xspec-test.sch.xsl">
     <!--BEGIN IMPORT "schut-to-xspec-009-import-in.xspec"-->
     <x:scenario label="B"/>
-    <!--END IMPORT "schut-to-xspec-009-import-in.xspec"-->
+<!--END IMPORT "schut-to-xspec-009-import-in.xspec"-->
     <x:scenario label="A"/>
 </x:description>
