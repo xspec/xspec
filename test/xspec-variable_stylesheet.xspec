@@ -63,31 +63,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Check effect of @as in XSLT">
-		<x:call function="my:square">
-			<x:param select="xs:integer(0)"/>
-		</x:call>
-
-		<x:variable name="myv:local-var-no-casting" select="xs:integer(5)"/>
-		<x:variable name="myv:local-var-as-double" select="xs:integer(5)" as="xs:double"/>
-		<x:variable name="myv:attr-local-var" href="xspec-variable.xml" select="//test/@*"/>
-		<x:variable name="myv:attr-string-local-var" href="xspec-variable.xml" select="//test/@*" as="xs:string+"/>
-		<x:variable name="myv:elem-local-var" href="xspec-variable.xml" select="//test"/>
-		<x:variable name="myv:elem-string-local-var" href="xspec-variable.xml" select="//test" as="xs:string+"/>
-
-		<x:expect label="Global variable is not double" test="not($myv:global-var-no-casting instance of xs:double)"/>
-		<x:expect label="Global variable is double" test="$myv:global-var-as-double instance of xs:double"/>
-
-		<x:expect label="Local variable is not double" test="not($myv:local-var-no-casting instance of xs:double)"/>
-		<x:expect label="Local variable is double" test="$myv:local-var-as-double instance of xs:double"/>
-
-		<x:expect label="Attribute local variable" test="$myv:attr-local-var instance of attribute()+"/>
-		<x:expect label="Attribute-to-string local variable" test="$myv:attr-string-local-var instance of xs:string+"/>
-
-		<x:expect label="Element local variable" test="$myv:elem-local-var instance of element()+"/>
-		<x:expect label="Element-to-string local variable" test="$myv:elem-string-local-var instance of xs:string+"/>
-	</x:scenario>
-
 	<!-- Should this scenario be moved to test/xspec-prefix-conflict_stylesheet.xspec after that is on master branch? -->
 	<t:scenario label="Test that x: is available for use by end users (i.e., not hard-coded in tools)">
 		<t:variable name="x:elementx" as="element()" xmlns:x="x-urn:test:xspec-prefix-conflict">
