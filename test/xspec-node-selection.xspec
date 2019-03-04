@@ -134,18 +134,18 @@
 	</x:scenario>
 
 	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
-	<x:variable name="global-variable-no-href">
+	<x:variable name="myv:global-variable-no-href">
 		<global-variable-child />
 	</x:variable>
-	<x:variable href="xspec-node-selection.xml" name="global-variable-with-href">
+	<x:variable href="xspec-node-selection.xml" name="myv:global-variable-with-href">
 		<global-variable-child-not-allowed />
 	</x:variable>
 	<x:scenario label="In global-variable, @href precedes child node. So...">
 		<x:context />
 		<x:expect label="In /x:description/x:variable[node()][not(@href)], child node is used."
-			test="$global-variable-no-href instance of element(global-variable-child)" />
+			test="$myv:global-variable-no-href instance of element(global-variable-child)" />
 		<x:expect label="In /x:description/x:variable[node()][@href], @href is used."
-			test="$global-variable-with-href instance of document-node(element(href-doc-child))" />
+			test="$myv:global-variable-with-href instance of document-node(element(href-doc-child))" />
 	</x:scenario>
 
 	<x:scenario label="In assertion, @href precedes child node. So...">
