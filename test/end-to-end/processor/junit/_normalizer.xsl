@@ -14,7 +14,7 @@
 				in:		<testsuites name="file:/path/to/test.xspec">
 				out:	<testsuites name="test.xspec">
 	-->
-	<xsl:template as="attribute()" match="/testsuites/@name" mode="normalizer:normalize">
+	<xsl:template as="attribute(name)" match="/testsuites/@name" mode="normalizer:normalize">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="x:filename-and-extension(.)" />
 	</xsl:template>
