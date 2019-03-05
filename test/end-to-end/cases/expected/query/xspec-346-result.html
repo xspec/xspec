@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for x-urn:test:do-nothing (passed: 0 / pending: 0 / failed: 1 / total:
+         1)
+      </title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Query: x-urn:test:do-nothing</p>
+      <p>Query-at: <a href="../../../../do-nothing.xquery">do-nothing.xquery</a></p>
+      <p>XSpec: <a href="../../xspec-346.xspec">xspec-346.xspec</a></p>
+      <p>Tested: ONCE-UPON-A-TIME</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <col width="75%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <col width="6.25%" />
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 0</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 1</th>
+               <th class="totals">total: 1</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="failed">
+               <th><a href="#ELEM-34">When a function returns a node containing a space</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="ELEM-34">
+         <h2 class="failed">When a function returns a node containing a space<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-36">
+            <col width="75%" />
+            <col width="25%" />
+            <tbody>
+               <tr class="failed">
+                  <th>When a function returns a node containing a space</th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-48">Expecting no space should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <h3 id="ELEM-34">When a function returns a node containing a space</h3>
+         <h4 id="ELEM-48">Expecting no space should be Failure</h4>
+         <table class="xspecResult">
+            <thead>
+               <tr>
+                  <th>Result</th>
+                  <th>Expected Result</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td><pre>&lt;<span class="diff">p</span>&gt;
+   &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
+    &lt;<span class="same">span</span>&gt;<span class="same">bar</span>&lt;/span&gt;
+&lt;/p&gt;</pre></td>
+                  <td><pre>&lt;<span class="diff">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
+   &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
+   &lt;<span class="same">span</span>&gt;<span class="same">bar</span>&lt;/span&gt;
+&lt;/p&gt;</pre></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </body>
+</html>
