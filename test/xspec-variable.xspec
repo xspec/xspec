@@ -132,36 +132,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Check behavior of whitespace-only text node">
-		<x:scenario label="Text directly in XSpec variable" pending="Wait for x:text to get merged in from AirQuick, and then uncomment x:variable">
-			<!--<x:variable name="myv:myspace1" as="text()"><x:text>&#x09;&#x0A;&#x0D;&#x20;  </x:text></x:variable>-->
-			<x:call function="my:foo">
-				<x:param name="elem"><foo/></x:param>
-				<x:param name="p" select="0"/>
-				<x:param name="textnode" select="$myv:myspace1"/>
-			</x:call>
-			<x:expect label="String with correct space" test="exists($x:result//string) and ($x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def')"/>
-		</x:scenario>
-		<x:scenario label="Text defined in code to be tested">
-			<x:variable name="myv:myspace2" as="text()" select="$my:myspace"/>
-			<x:call function="my:foo">
-				<x:param name="elem"><foo/></x:param>
-				<x:param name="p" select="0"/>
-				<x:param name="textnode" select="$myv:myspace2"/>
-			</x:call>
-			<x:expect label="String with correct space" test="exists($x:result//string) and ($x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def')"/>
-		</x:scenario>
-		<x:scenario label="Text defined in XML file">
-			<x:variable name="myv:myspace3" as="text()" href="xspec-variable.xml" select="//myspace/text()"/>
-			<x:call function="my:foo">
-				<x:param name="elem"><foo/></x:param>
-				<x:param name="p" select="0"/>
-				<x:param name="textnode" select="$myv:myspace3"/>
-			</x:call>
-			<x:expect label="String with correct space" test="exists($x:result//string) and ($x:result//string/string() = 'abc&#x09;&#x0A;&#x0D;&#x20;  def')"/>
-		</x:scenario>
-	</x:scenario>
-
 	<x:scenario label="Nonsense variable definition in pending scenario does not cause build failure">
 		<x:scenario label="Pending scenario 1" pending="skip on purpose">
 			<x:variable name="myv:nonsense1" select="$myv:nonexistent"/>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:xspec-space" query-at="xspec-space.xquery"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xspec-space="x-urn:test:xspec-space">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:xspec-space="x-urn:test:xspec-space">
 
 	<x:scenario
 		label="In function-param, whitespace-only text nodes in user-content are removed by default.">
@@ -50,4 +52,48 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:variable name="myv:global-var-span-element">
+		<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+	</x:variable>
+	<x:variable href="xspec-space.xml" name="myv:global-var-href" />
+	<x:scenario
+		label="In global variable, whitespace-only text nodes in user-content are removed by default.">
+		<x:scenario>
+			<x:label>So, in
+				/x:description/x:variable/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:call function="false" />
+			<x:expect label="whitespace-only text nodes are removed."
+				test="deep-equal($myv:global-var-span-element, $xspec-space:span-element-empty)" />
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>But node-selection @href is always intact. So, in
+				/x:description/x:variable/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+			<x:call function="false" />
+			<x:expect label="whitespace-only text nodes are kept."
+				test="deep-equal($myv:global-var-href/node(), $xspec-space:span-element-wsot)" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="In scenario-level variable, whitespace-only text nodes in user-content are removed by default.">
+		<x:variable name="myv:local-var-span-element">
+			<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+		</x:variable>
+		<x:variable href="xspec-space.xml" name="myv:local-var-href" />
+		<x:scenario>
+			<x:label>So, in
+				//x:scenario/x:variable/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:call function="false" />
+			<x:expect label="whitespace-only text nodes are removed."
+				test="deep-equal($myv:local-var-span-element, $xspec-space:span-element-empty)" />
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>But node-selection @href is always intact. So, in
+				//x:scenario/x:variable/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+			<x:call function="false" />
+			<x:expect label="whitespace-only text nodes are kept."
+				test="deep-equal($myv:local-var-href/node(), $xspec-space:span-element-wsot)" />
+		</x:scenario>
+	</x:scenario>
 </x:description>
