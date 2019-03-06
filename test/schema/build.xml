@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="validate">
+	<taskdef classname="com.thaiopensource.relaxng.util.JingTask" name="jing" />
+
+	<target name="validate">
+		<fileset dir="../.." id="validate.fileset">
+			<include name="**/*.xspec" />
+
+			<!-- Contains invalid /x:description/@xspec-original-location deliberately
+				https://github.com/xspec/xspec/issues/176 -->
+			<exclude name="test/schematron/schut-to-xspec-0??-out.xspec" />
+
+			<!-- Tests x:* which is not allowed in user-content -->
+			<exclude name="test/generate-tests-utils.xspec" />
+			<exclude name="test/generate-xspec-tests.xspec" />
+			<exclude name="test/unit-expect-xsl.xspec" />
+			<exclude name="test/xspec-junit.xspec" />
+
+			<!-- Tests user-content when it's not allowed
+				https://github.com/xspec/xspec/pull/307 -->
+			<exclude name="test/xspec-node-selection.xspec" />
+
+			<!-- TODO: x:variable
+				https://github.com/xspec/xspec/issues/60 -->
+			<exclude name="test/generate-x-utils.xspec" />
+			<exclude name="test/xspec-variable.xspec" />
+
+			<!-- TODO: x:expect label is missing
+				https://github.com/xspec/xspec/issues/60 -->
+			<exclude name="test/xspec-result-naming-collision.xspec" />
+		</fileset>
+
+		<!-- Jing is silent when all files are valid.
+			Print file paths so that we can verify the fileset. -->
+		<pathconvert pathsep="${line.separator}" property="validate.paths" refid="validate.fileset" />
+		<echo message="Files:${line.separator}${validate.paths}" />
+
+		<jing compactsyntax="true" rngfile="../../src/schemas/xspec.rnc">
+			<fileset refid="validate.fileset" />
+		</jing>
+	</target>
+</project>

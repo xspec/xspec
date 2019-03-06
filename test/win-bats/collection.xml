@@ -444,23 +444,13 @@
     call :verify_line 8 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
 
-	<case ifdef="JING_JAR" name="Schema detects no error in tutorial">
-    call :run java -jar "%JING_JAR%" -c ..\src\schemas\xspec.rnc ^
-        ..\tutorial\*.xspec ^
-        ..\tutorial\coverage\*.xspec ^
-        ..\tutorial\schematron\*.xspec
+	<case ifdef="JING_JAR" name="Schema detects no error in known good .xspec files">
+    call :run ant -buildfile schema\build.xml -lib "%JING_JAR%"
     call :verify_retval 0
-	</case>
 
-	<case ifdef="JING_JAR" name="Schema detects no error in known good tests">
-    call :run java -jar "%JING_JAR%" -c ..\src\schemas\xspec.rnc ^
-        catalog\*.xspec ^
-        end-to-end\cases\*.xspec ^
-        schematron\*-import.xspec ^
-        schematron\*-in.xspec ^
-        xml-base*.xspec ^
-        xspec-param-as.xspec
-    call :verify_retval 0
+    rem Verify that the fileset includes test and tutorial files recursively
+    call :verify_line * r "..*\\test\\catalog\\..*"
+    call :verify_line * r "..*\\tutorial\\coverage\\..*"
 	</case>
 
 	<case ifdef="JING_JAR" name="Schema detects errors in node-selection test">
