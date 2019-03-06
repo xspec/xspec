@@ -25,17 +25,17 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 ### Test suite
 
 ```xml
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:q="http://example.org/ns/query"
                query="http://example.org/ns/query"
                stylesheet="http://example.org/ns/stylesheet.xsl">
 
-   <t:scenario label="scenario">
-      <t:call function="f"/>
-      <t:expect label="expectations" test="predicate"/>
-   </t:scenario>
+   <x:scenario label="scenario">
+      <x:call function="f"/>
+      <x:expect label="expectations" test="predicate"/>
+   </x:scenario>
 
-</t:description>
+</x:description>
 ```
 
 ### Stylesheet
@@ -44,10 +44,9 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 <xsl:stylesheet xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:o="http://www.w3.org/1999/XSL/TransformAliasAlias"
+                xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:impl="urn:x-xspec:compile:xslt:impl"
-                xmlns:t="http://www.jenitennison.com/xslt/xspec"
                 xmlns:q="http://example.org/ns/query"
                 version="2.0">
 
@@ -56,9 +55,9 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <!-- an XSPec stylesheet providing tools -->
    <xsl:import href=".../generate-tests-utils.xsl"/>
 
-   <xsl:namespace-alias stylesheet-prefix="o" result-prefix="xsl"/>
+   <xsl:namespace-alias stylesheet-prefix="__x" result-prefix="xsl"/>
 
-   <xsl:output name="report" method="xml" indent="yes"/>
+   <xsl:output name="x:report" method="xml" indent="yes"/>
 
    <!-- the tested stylesheet -->
    <xsl:variable name="x:stylesheet-uri" as="xs:string"
@@ -74,7 +73,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
          <xsl:value-of select="system-property('xsl:product-version')"/>
       </xsl:message>
       <!-- setup the result document (the report) -->
-      <xsl:result-document format="report">
+      <xsl:result-document format="x:report">
          <xsl:processing-instruction name="xml-stylesheet">
             <xsl:text>type="text/xsl" href=".../format-xspec-report.xsl"</xsl:text>
          </xsl:processing-instruction>
@@ -111,7 +110,6 @@ import module namespace q = "http://example.org/ns/query";
 import module namespace test = "http://www.jenitennison.com/xslt/unit-test"
   at ".../generate-query-utils.xql";
 
-declare namespace t = "http://www.jenitennison.com/xslt/xspec";
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";
 
 (: generated from the scenario element :)
@@ -119,26 +117,26 @@ declare function local:d4e2()
 {
   ...
   (: a call instruction for each expect element :)
-  local:d4e4($result)
+  local:d4e4($x:result)
   ...
 };
 
 (: generated from the expect element :)
-declare function local:d4e4($t:result as item()*)
+declare function local:d4e4($x:result as item()*)
 {
   ...
 };
 
 (: the query body of this main module, to run the suite :)
 (: setup the result document (the report) :)
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2010-01-28T22:45:03.649+01:00"
           query="http://example.org/ns/query">
 {
   (: a call instruction for each top-level scenario :)
   local:d4e2()
 }
-</t:report>
+</x:report>
 ```
 
 ## Simple scenario
@@ -146,8 +144,7 @@ declare function local:d4e4($t:result as item()*)
 Show the structure of a compiled scenario, both in XSLT and
 XQuery.  The general idea is to generate a template for the
 scenario (or a function in XQuery), that calls the [SUT](#sut) and puts
-the result in a variable (`$x:result` in XSLT and
-`$local:result` in XQuery).  A separate template (or function in
+the result in a variable, `$x:result`.  A separate template (or function in
 XQuery) is generated for each expectation, and those templates (or
 functions) are called from the first one, in sequence, with the
 result as parameter.
@@ -155,10 +152,10 @@ result as parameter.
 ### Test suite
 
 ```xml
-<t:scenario label="scenario">
-   <t:call function="f"/>
-   <t:expect label="expectations" test="predicate"/>
-</t:scenario>
+<x:scenario label="scenario">
+   <x:call function="f"/>
+   <x:expect label="expectations" test="predicate"/>
+</x:scenario>
 ```
 
 ### Stylesheet
@@ -181,7 +178,7 @@ result as parameter.
    <xsl:param name="x:result" required="yes"/>
    <!-- expected result (none here) -->
    <xsl:variable name="impl:expected" select="()"/>
-   <!-- wrap $t:result into a doc node if node()+ -->
+   <!-- wrap $x:result into a doc node if node()+ -->
    <xsl:variable name="impl:test-items" as="item()*">
       <xsl:choose>
          <xsl:when test="$x:result instance of node()+">
@@ -194,8 +191,8 @@ result as parameter.
          </xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
-   <!-- evaluate the predicate with $t:result as context
-        node if $t:result is a single node, if not just
+   <!-- evaluate the predicate with $x:result as context
+        node if $x:result is a single node, if not just
         evaluate the predicate -->
    <xsl:variable name="impl:test-result" as="item()*">
       <xsl:choose>
@@ -228,20 +225,20 @@ result as parameter.
 declare function local:d4e2()
 {
   ... generate scenario data in the report ...
-  let $local:result := f()
+  let $x:result := f()
     return (
-      local:d4e4($local:result)
+      local:d4e4($x:result)
     )
 };
 
 (: generated from the expect element :)
-declare function local:d4e4($t:result as item()*)
+declare function local:d4e4($x:result as item()*)
 {
   let $local:expected    :=                  (: expected result (none here) :)
       (  )
   let $local:test-result :=                  (: evaluate the predicate :)
-      if ( $t:result instance of node() ) then
-        $t:result/( predicate )
+      if ( $x:result instance of node() ) then
+        $x:result/( predicate )
       else
         ( predicate )
   let $local:successful  :=                  (: did the test pass?:)
@@ -261,17 +258,17 @@ scenario.  In XSpec, this is either an XSLT template (named or
 rule) or an XPath function (written either in XSLT or XQuery).
 Here, we use it to refer to the three ways to refer to the SUT
 itself, as well as parameters to use for the current scenario:
-`apply`, `call` and `context` (so that's not strictly speaking
+`x:apply`, `x:call` and `x:context` (so that's not strictly speaking
 the SUT itself, but rather the way to "call" it for this
 scenario).
 
-`apply` represents applying a template rule to a node (this is not
+`x:apply` represents applying a template rule to a node (this is not
 possible in XQuery), and corresponds naturally to
-`xsl:apply-templates`.  `call` represents a call either to a named
-template or an XPath function.  `context` also represents applying
-a template rule to a node, but in a different way than `apply`:
+`xsl:apply-templates`.  `x:call` represents a call either to a named
+template or an XPath function.  `x:context` also represents applying
+a template rule to a node, but in a different way than `x:apply`:
 the former represents more a full transform (e.g. the result is
-always one document node) where `apply` is exactly the result of a
+always one document node) where `x:apply` is exactly the result of a
 template rule (the result is the exact result sequence or the
 rule).
 
@@ -282,37 +279,37 @@ section "[Simple scenario](#simple-scenario)").
 ### Test suite
 
 ```xml
-<!-- apply template rules on a node (with t:apply) -->
-<t:variable name="ctxt">
+<!-- apply template rules on a node (with x:apply) -->
+<x:variable name="ctxt">
    <elem/>
-</t:variable>
-<t:apply select="$ctxt" mode="mode">
-   <t:param name="p1" select="val1" tunnel="yes"/>
-   <t:param name="p2" as="element()">
+</x:variable>
+<x:apply select="$ctxt" mode="mode">
+   <x:param name="p1" select="val1" tunnel="yes"/>
+   <x:param name="p2" as="element()">
       <val2/>
-   </t:param>
-</t:apply>
+   </x:param>
+</x:apply>
 
 <!-- call a function -->
-<t:call function="f">
-   <t:param select="val1"/>
-   <t:param name="p2" as="element()">
+<x:call function="f">
+   <x:param select="val1"/>
+   <x:param name="p2" as="element()">
       <val2/>
-   </t:param>
-</t:call>
+   </x:param>
+</x:call>
 
 <!-- call a named template -->
-<t:call template="t">
-   <t:param name="p1" select="val"/>
-   <t:param name="p2">
+<x:call template="t">
+   <x:param name="p1" select="val"/>
+   <x:param name="p2">
       <val2/>
-   </t:param>
-</t:call>
+   </x:param>
+</x:call>
 
-<!-- apply template rules on a node (with t:context) -->
-<t:context>
+<!-- apply template rules on a node (with x:context) -->
+<x:context>
    <elem/>
-</t:context>
+</x:context>
 ```
 
 ### Stylesheet
@@ -377,11 +374,11 @@ will look like.
 ### Test suite
 
 ```xml
-<t:scenario label="scenario">
-   <t:variable name="var" select="'value'"/>
+<x:scenario label="scenario">
+   <x:variable name="var" select="'value'"/>
    ...
-   <t:expect .../>
-</t:scenario>
+   <x:expect .../>
+</x:scenario>
 ```
 
 ### Stylesheet
@@ -421,14 +418,14 @@ declare function local:d4e2()
 {
   ...
   let $var          := 'value'               (: the generated variable :)
-  let $local:result := ... evaluate the test expression ...
+  let $x:result := ... evaluate the test expression ...
     return (
-      local:d4e4($local:result)
+      local:d4e4($x:result)
     )
 };
 
 (: generated from the expect element :)
-declare function local:d4e4($t:result as item()*)
+declare function local:d4e4($x:result as item()*)
 {
   let $var               := 'value'          (: the generated variable :)
   let $local:expected    := ...              (: expected result :)
@@ -448,8 +445,8 @@ document). As with `x:param`,
 content and `@href` are mutually exclusive. The `@select` attribute can appear alone or in combination with either content or `@href`.
 
 The resulting variables must appear once in the code
-generated for the `scenario` element and once in the code
-generated for the `expect` element (well, define more precisely
+generated for the `x:scenario` element and once in the code
+generated for the `x:expect` element (well, define more precisely
 the scope of the variables, I think we should be able to put them
 everywhere, and the scope must "natural" when looking at the test
 suite definition).
@@ -457,11 +454,11 @@ suite definition).
 ### Test suite
 
 ```xml
-<t:variable name="select"  select="'value'"/>
-<t:variable name="href"    href="test-data.xml"/>
-<t:variable name="content" as="element()">
+<x:variable name="select"  select="'value'"/>
+<x:variable name="href"    href="test-data.xml"/>
+<x:variable name="content" as="element()">
    <elem/>
-</t:variable>
+</x:variable>
 ```
 
 ### Stylesheet
@@ -497,18 +494,18 @@ and functions in XQuery).
 ### Test suite
 
 ```xml
-<t:variable name="global" ...>
-<t:scenario label="outer">
-   <t:variable name="var-1" ...>
-   <t:scenario label="inner">
-      <t:variable name="var-2" ...>
-      <t:call function="f"/>
-      <t:variable name="var-3" ...>
-      <t:expect label="expect one" ...>
-      <t:variable name="var-4" ...>
-      <t:expect label="expect two" ...>
-   </t:scenario>
-</t:scenario>
+<x:variable name="global" ...>
+<x:scenario label="outer">
+   <x:variable name="var-1" ...>
+   <x:scenario label="inner">
+      <x:variable name="var-2" ...>
+      <x:call function="f"/>
+      <x:variable name="var-3" ...>
+      <x:expect label="expect one" ...>
+      <x:variable name="var-4" ...>
+      <x:expect label="expect two" ...>
+   </x:scenario>
+</x:scenario>
 ```
 
 ### Stylesheet
@@ -599,27 +596,27 @@ declare function local:d4e3($var-1) (: $var-1 can have a "as" clause :)
 {
   ...
   let $var-2        := ...
-  let $local:result := f()
+  let $x:result := f()
     return (
       let $var-3 := ...
         return (
-          local:d4e4($local:result, $var-1, $var-2, $var-3),
+          local:d4e4($x:result, $var-1, $var-2, $var-3),
           let $var-4 := ...
             return (
-              local:d4e5($local:result, $var-1, $var-2, $var-3, $var-4)
+              local:d4e5($x:result, $var-1, $var-2, $var-3, $var-4)
             )
         )
     )
 };
 
 (: generated from the expect one :)
-declare function local:d4e4($t:result as item()*, $var-1, $var-2, $var-3)
+declare function local:d4e4($x:result as item()*, $var-1, $var-2, $var-3)
 {
   ...evaluate the expectations ...
 };
 
 (: generated from the expect two :)
-declare function local:d4e5($t:result as item()*, $var-1, $var-2, $var-3, $var-4)
+declare function local:d4e5($x:result as item()*, $var-1, $var-2, $var-3, $var-4)
 {
   ...evaluate the expectations ...
 };
