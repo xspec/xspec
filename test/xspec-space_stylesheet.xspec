@@ -444,7 +444,7 @@
 		</x:scenario>
 
 		<x:scenario>
-			<x:label>Elements specified by @preserve-space takes effect only on child
+			<x:label>For elements specified by @preserve-space, effect is only on child
 				whitespace-only text node. So...</x:label>
 			<x:call function="exactly-one">
 				<x:param>
