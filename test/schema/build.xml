@@ -20,10 +20,6 @@
 				https://github.com/xspec/xspec/pull/307 -->
 			<exclude name="test/xspec-node-selection.xspec" />
 
-			<!-- TODO: x:variable
-				https://github.com/xspec/xspec/issues/60 -->
-			<exclude name="test/generate-x-utils.xspec" />
-			<exclude name="test/xspec-variable.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.
