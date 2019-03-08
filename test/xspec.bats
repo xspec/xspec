@@ -236,7 +236,7 @@ teardown() {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
+    [ "${lines[19]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
@@ -617,34 +617,18 @@ teardown() {
 }
 
 
-@test "Schema detects no error in tutorial" {
+@test "Schema detects no error in known good .xspec files" {
     if [ -z "${JING_JAR}" ]; then
         skip "JING_JAR is not defined"
     fi
 
-    run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc \
-        ../tutorial/*.xspec \
-        ../tutorial/coverage/*.xspec \
-        ../tutorial/schematron/*.xspec
+    run ant -buildfile schema/build.xml -lib "${JING_JAR}"
     echo "$output"
     [ "$status" -eq 0 ]
-}
 
-
-@test "Schema detects no error in known good tests" {
-    if [ -z "${JING_JAR}" ]; then
-        skip "JING_JAR is not defined"
-    fi
-
-    run java -jar "${JING_JAR}" -c ../src/schemas/xspec.rnc \
-        catalog/*.xspec \
-        end-to-end/cases/*.xspec \
-        schematron/*-import.xspec \
-        schematron/*-in.xspec \
-        xml-base*.xspec \
-        xspec-param-as.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    # Verify that the fileset includes test and tutorial files recursively
+    [[ "${output}" =~ "/test/catalog/" ]]
+    [[ "${output}" =~ "/tutorial/coverage/" ]]
 }
 
 

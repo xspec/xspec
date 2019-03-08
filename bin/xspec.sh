@@ -65,19 +65,27 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
     echo Saxon script found, use it.
     echo
     xslt() {
-        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
+        saxon \
+            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
+        saxon \
+            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
     echo Saxon script not found, invoking JVM directly instead.
     echo
     xslt() {
-        java -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
+        java \
+            -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
-        java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
+        java \
+            -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
 
@@ -370,11 +378,11 @@ echo "Running Tests..."
 if test -n "$XSLT"; then
     # for XSLT
     if test -n "$COVERAGE"; then
-        echo "Collecting test coverage data; suppressing progress report..."
-        ((xslt "${saxon_custom_options_array[@]}" \
+        echo "Collecting test coverage data..."
+        xslt "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
             -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main 3>&2 2>&1 1>&3 | grep "^<..*>$") 3>&2 2>&1 1>&3) 2> "$COVERAGE_XML" \
+            -it:{http://www.jenitennison.com/xslt/xspec}main \
             || die "Error collecting test coverage data"
     else
         xslt "${saxon_custom_options_array[@]}" \
@@ -385,10 +393,10 @@ if test -n "$XSLT"; then
 else
     # for XQuery
     if test -n "$COVERAGE"; then
-        echo "Collecting test coverage data; suppressing progress report..."
-        ((xquery "${saxon_custom_options_array[@]}" \
+        echo "Collecting test coverage data..."
+        xquery "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" 3>&2 2>&1 1>&3 | grep "^<..*>$") 3>&2 2>&1 1>&3) 2> "$COVERAGE_XML" \
+            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" \
             || die "Error collecting test coverage data"
     else
         xquery "${saxon_custom_options_array[@]}" \
@@ -409,6 +417,8 @@ xslt -o:"$HTML" \
     inline-css=true \
     || die "Error formatting the report"
 if test -n "$COVERAGE"; then
+    echo
+    echo "Formatting Coverage Report..."
     xslt -l:on \
         -o:"$COVERAGE_HTML" \
         -s:"$COVERAGE_XML" \
@@ -419,11 +429,13 @@ if test -n "$COVERAGE"; then
     echo "Report available at $COVERAGE_HTML"
     #$OPEN "$COVERAGE_HTML"
 elif test -n "$JUNIT"; then
-	xslt -o:"$JUNIT_RESULT" \
-		-s:"$RESULT" \
-		-xsl:"$XSPEC_HOME/src/reporter/junit-report.xsl" \
-		|| die "Error formatting the JUnit report"
-	echo "Report available at $JUNIT_RESULT"
+    echo
+    echo "Generating JUnit Report..."
+    xslt -o:"$JUNIT_RESULT" \
+        -s:"$RESULT" \
+        -xsl:"$XSPEC_HOME/src/reporter/junit-report.xsl" \
+        || die "Error formatting the JUnit report"
+    echo "Report available at $JUNIT_RESULT"
 else
     echo "Report available at $HTML"
     #$OPEN "$HTML"

@@ -70,35 +70,15 @@ rem ##
     goto :EOF
 
 :xslt
-    java -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
-    goto :EOF
-
-:win_xslt_trace
-    rem
-    rem Inner Redirect:
-    rem    By swapping stdout and stderr, send stderr to pipe (as stdout)
-    rem    while allowing original stdout to survive (as stderr)
-    rem
-    rem Pipe:
-    rem    To keep the output XML well-formed, remove the stdout lines
-    rem    that don't look like XML element, assuming %COVERAGE_CLASS%
-    rem    emits every required line in this format
-    rem
-    rem Outer Redirect:
-    rem    To restore the original direction, swap stdout and stderr again 
-    rem
-    ( java -cp "%CP%" net.sf.saxon.Transform %CATALOG% %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    java ^
+        -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
 :xquery
-    java -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
-    goto :EOF
-
-:win_xquery_trace
-    rem
-    rem As for redirect and pipe, see :win_xslt_trace
-    rem
-    ( java -cp "%CP%" net.sf.saxon.Query %CATALOG% %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    java ^
+        -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 
 :win_reset_options
@@ -525,11 +505,11 @@ if defined XSLT (
     rem # for XSLT
     rem
     if defined COVERAGE (
-        echo Collecting test coverage data; suppressing progress report...
-        call :win_xslt_trace %SAXON_CUSTOM_OPTIONS% ^
+        echo Collecting test coverage data...
+        call :xslt %SAXON_CUSTOM_OPTIONS% ^
             -T:%COVERAGE_CLASS% ^
             -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
-            -it:{http://www.jenitennison.com/xslt/xspec}main 2> "%COVERAGE_XML%" ^
+            -it:{http://www.jenitennison.com/xslt/xspec}main ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xslt %SAXON_CUSTOM_OPTIONS% ^
@@ -542,10 +522,10 @@ if defined XSLT (
     rem # for XQuery
     rem
     if defined COVERAGE (
-        echo Collecting test coverage data; suppressing progress report...
-        call :win_xquery_trace %SAXON_CUSTOM_OPTIONS% ^
+        echo Collecting test coverage data...
+        call :xquery %SAXON_CUSTOM_OPTIONS% ^
             -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" 2> "%COVERAGE_XML%" ^
+            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xquery %SAXON_CUSTOM_OPTIONS% ^
@@ -569,6 +549,8 @@ call :xslt -o:"%HTML%" ^
     || ( call :die "Error formatting the report" & goto :win_main_error_exit )
 
 if defined COVERAGE (
+    echo:
+    echo Formatting Coverage Report...
     call :xslt -l:on ^
         -o:"%COVERAGE_HTML%" ^
         -s:"%COVERAGE_XML%" ^
@@ -579,6 +561,8 @@ if defined COVERAGE (
     call :win_echo "Report available at %COVERAGE_HTML%"
     rem %OPEN% "%COVERAGE_HTML%"
 ) else if defined JUNIT (
+    echo:
+    echo Generating JUnit Report...
     call :xslt -o:"%JUNIT_RESULT%" ^
         -s:"%RESULT%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\junit-report.xsl" ^
