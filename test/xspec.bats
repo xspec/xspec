@@ -560,7 +560,7 @@ teardown() {
 }
 
 
-@test "Ant for Schematron with catalog and default xspec.fail fails on test failure" {
+@test "Ant for Schematron with catalog and default xspec.fail resolves URI and fails on test failure" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
@@ -580,7 +580,7 @@ teardown() {
 }
 
 
-@test "Ant for Schematron with catalog and xspec.fail=false continues on test failure" {
+@test "Ant for Schematron with catalog and xspec.fail=false resolves URI and continues on test failure" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi

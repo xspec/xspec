@@ -416,7 +416,7 @@
     call :verify_not_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
 	</case>
 
-	<case ifdef="XML_RESOLVER_JAR" name="Ant for Schematron with catalog and default xspec.fail fails on test failure">
+	<case ifdef="XML_RESOLVER_JAR" name="Ant for Schematron with catalog and default xspec.fail resolves URI and fails on test failure">
     call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\catalog-02-schematron.xspec" -lib "%SAXON_JAR%" -Dtest.type=s -Dclean.output.dir=true -Dcatalog="%CD%\catalog\catalog-02-catalog.xml" -lib "%XML_RESOLVER_JAR%"
     call :verify_retval 1
     call :verify_line  * x "     [xslt] passed: 6 / pending: 0 / failed: 1 / total: 7"
@@ -430,7 +430,7 @@
     call :del ..\tutorial\schematron\demo-04.sch-compiled.xsl
 	</case>
 
-	<case ifdef="XML_RESOLVER_JAR" name="Ant for Schematron with catalog and xspec.fail=false continues on test failure">
+	<case ifdef="XML_RESOLVER_JAR" name="Ant for Schematron with catalog and xspec.fail=false resolves URI and continues on test failure">
     call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\catalog\catalog-02-schematron.xspec" -lib "%SAXON_JAR%" -Dtest.type=s -Dclean.output.dir=true -Dcatalog="%CD%\catalog\catalog-02-catalog.xml" -lib "%XML_RESOLVER_JAR%" -Dxspec.fail=false
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 6 / pending: 0 / failed: 1 / total: 7"
