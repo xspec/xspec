@@ -20,10 +20,9 @@
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl</pkg:import-uri>
 
-<xsl:param name="inline-css">false</xsl:param>
+<xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
 
-<xsl:param name="report-css-uri" select="
-    resolve-uri('test-report.css', static-base-uri())"/>
+<xsl:param name="report-css-uri" as="xs:string?" />
 
 <xsl:function name="x:pending-callback" as="node()*">
   <!-- returns formatted output for $pending. -->
@@ -136,14 +135,10 @@
          </xsl:call-template>
          <xsl:text>)</xsl:text>
       </title>
-      <xsl:if test="$inline-css = 'false'">
-        <link rel="stylesheet" type="text/css" href="{ $report-css-uri }"/>
-      </xsl:if>
-      <xsl:if test="not($inline-css = 'false')">
-        <style type="text/css">
-          <xsl:value-of select="unparsed-text($report-css-uri)" disable-output-escaping="yes"/>
-        </style>
-      </xsl:if>
+      <xsl:call-template name="test:load-css">
+        <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
+        <xsl:with-param name="uri" select="$report-css-uri" />
+      </xsl:call-template>
       <xsl:call-template name="x:html-head-callback"/>
     </head>
     <body>
