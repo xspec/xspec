@@ -127,7 +127,7 @@
 
 <xsl:template match="comment()" mode="test:serialize">
   <xsl:sequence
-    select="concat('&lt;--', ., '--&gt;')" />
+    select="concat('&lt;!--', ., '--&gt;')" />
 </xsl:template>  
 
 <xsl:template match="processing-instruction()" mode="test:serialize">
