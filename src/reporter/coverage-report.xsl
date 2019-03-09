@@ -23,9 +23,11 @@
 <xsl:param name="tests" as="xs:string" required="yes"/>
 
 <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
-  
+
 <xsl:param name="report-css-uri" as="xs:string?" />
 
+<!-- @use-character-maps for inline CSS -->
+<xsl:output use-character-maps="test:disable-escaping" />
 
 <xsl:variable name="tests-uri" as="xs:anyURI" select="
     file:path-to-uri($tests)"/>

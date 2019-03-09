@@ -7,6 +7,16 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
+<!-- Intermediate characters for mimicking @disable-output-escaping.
+  For the test result report HTML, these Private Use Area characters should be considered
+  as reserved by test:disable-escaping. -->
+<!DOCTYPE xsl:stylesheet [
+  <!ENTITY doe-lt   "&#xE801;">
+  <!ENTITY doe-amp  "&#xE802;">
+  <!ENTITY doe-gt   "&#xE803;">
+  <!ENTITY doe-apos "&#xE804;">
+  <!ENTITY doe-quot "&#xE805;">
+]>
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -21,6 +31,14 @@
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-utils.xsl</pkg:import-uri>
 
 <xsl:output name="x:report" method="xml" indent="yes"/>
+
+<xsl:character-map name="test:disable-escaping">
+  <xsl:output-character character="&doe-lt;"   string="&lt;" />
+  <xsl:output-character character="&doe-amp;"  string="&amp;" />
+  <xsl:output-character character="&doe-gt;"   string="&gt;" />
+  <xsl:output-character character="&doe-apos;" string="&apos;" />
+  <xsl:output-character character="&doe-quot;" string="&quot;" />
+</xsl:character-map>
 
 <xsl:variable name="omit-namespaces" as="xs:string+"
   select="('http://www.w3.org/XML/1998/namespace',
@@ -188,8 +206,9 @@
   </xsl:choose>  
 </xsl:function>  
 
-<!-- Generates <style> or <link> for CSS -->
-<xsl:template name="test:load-css">
+<!-- Generates <style> or <link> for CSS.
+  If you enable $inline, you must use test:disable-escaping character map in serialization. -->
+<xsl:template name="test:load-css" as="element()">
   <xsl:param name="inline" as="xs:boolean" required="yes" />
   <xsl:param name="uri" as="xs:string?" />
 
@@ -203,7 +222,7 @@
       <xsl:variable name="css-string" as="xs:string" select="replace($css-string, '&#x0D;(&#x0A;)', '$1')" />
 
       <style type="text/css">
-        <xsl:value-of select="$css-string" disable-output-escaping="yes" />
+        <xsl:value-of select="test:disable-escaping($css-string)" />
       </style>
     </xsl:when>
 
@@ -212,6 +231,19 @@
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
+
+<!-- Replaces < & > ' " characters with the reserved characters.
+  The serializer will convert those reserved characters back to < & > ' " characters,
+  provided that test:disable-escaping character map is specified as a serialization parameter. -->
+<xsl:function name="test:disable-escaping" as="xs:string">
+  <xsl:param name="input" as="xs:string" />
+
+  <xsl:sequence select="translate(
+    $input,
+    '&lt;&amp;&gt;''&quot;',
+    '&doe-lt;&doe-amp;&doe-gt;&doe-apos;&doe-quot;'
+    )"/>
+</xsl:function>
 
 </xsl:stylesheet>
 

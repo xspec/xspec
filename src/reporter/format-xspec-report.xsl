@@ -24,6 +24,9 @@
 
 <xsl:param name="report-css-uri" as="xs:string?" />
 
+<!-- @use-character-maps for inline CSS -->
+<xsl:output use-character-maps="test:disable-escaping" />
+
 <xsl:function name="x:pending-callback" as="node()*">
   <!-- returns formatted output for $pending. -->
   <xsl:param name="pending" as="xs:string?"/>
