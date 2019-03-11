@@ -4,11 +4,25 @@
 	xquery-version="3.1" xslt-version="3.0">
 
 	<x:scenario label="Function (xspec/xspec#355)">
-		<!-- function-lookup() requires Saxon-PE or EE. So use a map. -->
-		<x:call function="exactly-one">
-			<x:param as="map(*)" select="map { 'foo': 1 }" />
-		</x:call>
-		<x:expect label="[Result] should be reported" />
+		<!-- function(*) (excluding array(*) and map(*)) requires Saxon-PE or EE -->
+
+		<x:scenario label="Array">
+			<x:call function="exactly-one">
+				<x:param as="array(*)" select="['foo', 1, [2, 'bar']]" />
+			</x:call>
+			<x:expect label="[Result] should be reported" />
+		</x:scenario>
+
+		<x:scenario label="Map">
+			<x:call function="exactly-one">
+				<x:param as="map(*)" select="
+					map {
+						'foo': 1,
+						2: 'bar'
+					}" />
+			</x:call>
+			<x:expect label="[Result] should be reported" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Element, attribute (xspec/xspec#357)">

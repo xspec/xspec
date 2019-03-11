@@ -7,16 +7,33 @@
           xspec="../../xspec-report.xspec">
    <x:scenario>
       <x:label>Function (xspec/xspec#355)</x:label>
-      <x:call function="exactly-one">
-         <x:param as="map(*)" select="map { 'foo': 1 }"/>
-      </x:call>
-      <x:result select="/*">
-         <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
-      </x:result>
-      <x:test successful="false">
-         <x:label>[Result] should be reported</x:label>
-         <x:expect select="()"/>
-      </x:test>
+      <x:result select="()"/>
+      <x:scenario>
+         <x:label>Array</x:label>
+         <x:call function="exactly-one">
+            <x:param as="array(*)" select="['foo', 1, [2, 'bar']]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+         </x:result>
+         <x:test successful="false">
+            <x:label>[Result] should be reported</x:label>
+            <x:expect select="()"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>Map</x:label>
+         <x:call function="exactly-one">
+            <x:param as="map(*)" select="      map {       'foo': 1,       2: 'bar'      }"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+         </x:result>
+         <x:test successful="false">
+            <x:label>[Result] should be reported</x:label>
+            <x:expect select="()"/>
+         </x:test>
+      </x:scenario>
    </x:scenario>
    <x:scenario>
       <x:label>Element, attribute (xspec/xspec#357)</x:label>
