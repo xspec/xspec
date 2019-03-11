@@ -16,9 +16,9 @@
 
   ======================================================================== -->
 <xsl:stylesheet version="3.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
         
     <xsl:output indent="yes"/>

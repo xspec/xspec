@@ -8,18 +8,17 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0" 
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-                extension-element-prefixes="test"
+<xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/XSL/TransformAlias"
-                xmlns:t="http://www.jenitennison.com/xslt/unit-testAlias"
-                xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                exclude-result-prefixes="#default t xhtml"
+                xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias">
+                xmlns:t="http://www.jenitennison.com/xslt/unit-testAlias"
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all"
+                extension-element-prefixes="test">
   
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-helper.xsl</pkg:import-uri>
 

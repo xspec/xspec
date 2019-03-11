@@ -7,16 +7,14 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0" 
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://www.w3.org/1999/XSL/TransformAlias"
-  xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-  exclude-result-prefixes="#default test"
-  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-  xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias"
-  xmlns:pkg="http://expath.org/ns/pkg"
-  xmlns:impl="urn:x-xspec:compile:xslt:impl">
+<xsl:stylesheet version="2.0"
+                xmlns="http://www.w3.org/1999/XSL/TransformAlias"
+                xmlns:pkg="http://expath.org/ns/pkg"
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
 <xsl:import href="generate-common-tests.xsl"/>
 <xsl:import href="generate-tests-helper.xsl" />
@@ -49,7 +47,17 @@
 <xsl:template match="x:description" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
   <stylesheet version="{( @xslt-version, 2.0 )[1]}"
-	      exclude-result-prefixes="pkg impl">
+              exclude-result-prefixes="impl">
+    <!-- The test result report XML may use namespace prefixes in XPath expressions
+      even when the prefixes are not used in node names.
+      So only very internal private prefixes can be included in @exclude-result-prefixes. -->
+
+    <!-- The generated stylesheet requires these namespaces, even when this stylesheet
+      does not use them in node names. -->
+    <xsl:namespace name="__x"  select="'http://www.w3.org/1999/XSL/TransformAliasAlias'" />
+    <xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
+    <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
+
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
   	<import href="{$stylesheet-uri}" />
   	<import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>

@@ -7,14 +7,15 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0" 
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:pkg="http://expath.org/ns/pkg"
-  xmlns:file="http://expath.org/ns/file"
-  exclude-result-prefixes="#all">
+<xsl:stylesheet version="2.0"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:file="http://expath.org/ns/file"
+                xmlns:pkg="http://expath.org/ns/pkg"
+                xmlns:saxon="http://saxon.sf.net/"
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
 <xsl:import href="format-utils.xsl" />
 
@@ -22,11 +23,12 @@
 
 <xsl:param name="tests" as="xs:string" required="yes"/>
 
-<xsl:param name="inline-css">false</xsl:param>
-  
-<xsl:param name="report-css-uri" select="
-    resolve-uri('test-report.css', static-base-uri())"/>
+<xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
 
+<xsl:param name="report-css-uri" as="xs:string?" />
+
+<!-- @use-character-maps for inline CSS -->
+<xsl:output use-character-maps="test:disable-escaping" />
 
 <xsl:variable name="tests-uri" as="xs:anyURI" select="
     file:path-to-uri($tests)"/>
@@ -69,15 +71,10 @@
   <html>
     <head>
       <title>Test Coverage Report for <xsl:value-of select="test:format-URI($stylesheet-uri)" /></title>
-      <xsl:if test="$inline-css = 'false'">
-         <link rel="stylesheet" type="text/css" 
-            href="{$report-css-uri}"/>
-      </xsl:if>
-      <xsl:if test="not($inline-css = 'false')">
-        <style type="text/css">
-          <xsl:value-of select="unparsed-text($report-css-uri)" disable-output-escaping="yes"/>
-        </style>
-      </xsl:if>
+      <xsl:call-template name="test:load-css">
+        <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
+        <xsl:with-param name="uri" select="$report-css-uri" />
+      </xsl:call-template>
     </head>
     <body>
       <h1>Test Coverage Report</h1>
@@ -338,8 +335,7 @@
 
 <xsl:template match="/" mode="test:coverage">ignored</xsl:template>
 
-<xsl:function name="test:hit-on-nodes" as="element(h)*"
-              xmlns:saxon="http://saxon.sf.net/" exclude-result-prefixes="saxon">
+<xsl:function name="test:hit-on-nodes" as="element(h)*">
   <xsl:param name="nodes" as="node()*" />
   <xsl:param name="module" as="xs:string" />
   <xsl:for-each select="$nodes[not(self::text()[not(normalize-space())])]">
