@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               xmlns:my="http://example.org/ns/my"
+<x:description xmlns:my="http://example.org/ns/my"
                xmlns:myv="http://example.org/ns/my/variable"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                stylesheet="../../test/xspec-tested.xsl"
                query="http://example.org/ns/my"
                query-at="../../test/xspec-tested.xql">

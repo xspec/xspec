@@ -6,11 +6,12 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<x:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<x:description
 	xmlns:my="http://example.org/ns/my"
 	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	stylesheet="xspec-variable-tested.xsl">
 	<!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
 	 global parameters or global variables in the file to be tested. -->

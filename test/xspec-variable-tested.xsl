@@ -7,10 +7,10 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet xmlns:my="http://example.org/ns/my"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:my="http://example.org/ns/my"
-                exclude-result-prefixes="xs"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all"
                 version="2.0">
 
   <xsl:variable name="my:myspace" as="text()"><xsl:text>&#x09;&#x0A;&#x0D;&#x20;  </xsl:text></xsl:variable>

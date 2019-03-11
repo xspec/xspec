@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="xspec-param-as.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:myv="http://example.org/ns/my/variable">
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="In context template-param (i.e. //x:context/x:param),">
 		<x:context mode="param-mirror-mode">

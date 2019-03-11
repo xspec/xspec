@@ -10,7 +10,6 @@
 <!-- TODO: Make the following changes after other code gets merged onto master branch.
   - Test that variable/@name should be EQNAME and should be added to EQName test. See
     test/xspec-eqname.xspec on AirQuick's branch.
-  - Remove this file from schema test exclusion list. See https://github.com/xspec/xspec/pull/363.
   - To better test different namespace prefixes, consider updating after
     https://github.com/xspec/xspec/commit/b1e6d150644ea323252ea3fd9f5addbdde1da40a
     is integrated. See files named test/xspec-prefix-conflict*.* on AirQuick's branch.
@@ -20,11 +19,11 @@
     Need certain changes in generate-query-helper.xsl; see <xsl:template match="*" mode="test:generate-variable-declarations">.
   -->
 
-<x:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<x:description
 	xmlns:my="http://example.org/ns/my"
 	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	query="http://example.org/ns/my"
 	query-at="xspec-variable-tested.xql"
 	stylesheet="xspec-variable-tested.xsl">

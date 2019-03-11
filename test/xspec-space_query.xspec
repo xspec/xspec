@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:xspec-space" query-at="xspec-space.xquery"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xspec-space="x-urn:test:xspec-space">
 
 	<x:scenario

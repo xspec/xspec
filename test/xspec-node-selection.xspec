@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="xspec-node-selection.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:myv="http://example.org/ns/my/variable">
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="In context template-param, @href precedes child node. So...">
 		<x:scenario label="In //x:context/x:param[node()][not(@href)],">
