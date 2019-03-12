@@ -11,6 +11,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xhtml="http://www.w3.org/1999/xhtml"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
@@ -19,7 +20,7 @@
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report-folding.xsl</pkg:import-uri>
 
-<xsl:template name="x:html-head-callback">
+<xsl:template name="x:html-head-callback" as="element(xhtml:script)">
   <script language="javascript" type="text/javascript">
 function toggle(scenarioID) {
   table = document.getElementById("t-"+scenarioID);
@@ -51,7 +52,7 @@ function toggle(scenarioID) {
 </script>
 </xsl:template>
 
-<xsl:template name="x:format-top-level-scenario">
+<xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />
   <xsl:variable name="any-failure" as="xs:boolean"
@@ -65,7 +66,7 @@ function toggle(scenarioID) {
         <img src="{resolve-uri(concat('../../graphics/', if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'), static-base-uri())}"
           alt="{if ($any-descendant-failure) then 'collapse' else 'expand'}" id="icon-{generate-id()}"/>
       </a>
-      <xsl:copy-of select="x:pending-callback(@pending)"/>
+      <xsl:sequence select="x:pending-callback(@pending)"/>
       <xsl:apply-templates select="x:label" mode="x:html-report" />
       <span class="scenario-totals">
         <xsl:call-template name="x:totals">
@@ -79,7 +80,7 @@ function toggle(scenarioID) {
       <tbody>
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
           <th>
-            <xsl:copy-of select="x:pending-callback(@pending)"/>
+            <xsl:sequence select="x:pending-callback(@pending)"/>
             <xsl:apply-templates select="x:label" mode="x:html-report" />
           </th>
           <th>
@@ -98,14 +99,14 @@ function toggle(scenarioID) {
             <xsl:for-each select="ancestor-or-self::x:scenario[position() != last()]">
               <xsl:apply-templates select="x:label" mode="x:html-report" />
               <xsl:if test="position() != last()">
-                <xsl:copy-of select="x:separator-callback()"/>
+                <xsl:sequence select="x:separator-callback()"/>
               </xsl:if>
             </xsl:for-each>
           </xsl:variable>
           <tr id="{generate-id()}"
             class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
             <th>
-              <xsl:copy-of select="x:pending-callback(@pending)"/>
+              <xsl:sequence select="x:pending-callback(@pending)"/>
               <xsl:choose>
                 <xsl:when test="$any-failure">
                   <a href="#{generate-id()}">

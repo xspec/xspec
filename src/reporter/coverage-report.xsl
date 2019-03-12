@@ -28,7 +28,7 @@
 <xsl:param name="report-css-uri" as="xs:string?" />
 
 <!-- @use-character-maps for inline CSS -->
-<xsl:output use-character-maps="test:disable-escaping" />
+<xsl:output method="xhtml" use-character-maps="test:disable-escaping" />
 
 <xsl:variable name="tests-uri" as="xs:anyURI" select="
     file:path-to-uri($tests)"/>
@@ -233,7 +233,7 @@
       </xsl:non-matching-substring>
     </xsl:analyze-string>
   </xsl:variable>
-  <xsl:copy-of select="$analyzed/node()[not(self::test:residue)]"/>
+  <xsl:sequence select="$analyzed/node()[not(self::test:residue)]"/>
   <xsl:variable name="residue" select="$analyzed/test:residue"/>
   <xsl:if test="$residue/@rest != ''">
     <!-- The last thing this template does is call itself.
