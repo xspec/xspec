@@ -81,14 +81,22 @@
 		<!-- https://sourceforge.net/p/saxon/mailman/message/36339785/
 			"document-uri() returns the (absolutized) requested URI, while base-uri() returns
 			the actual document location after catalog resolution." -->
-		<xsl:variable as="xs:anyURI" name="resolved-uri" select="doc($xml-uri)/base-uri()" />
+		<xsl:sequence select="x:base-uri(doc($xml-uri))" />
+	</xsl:function>
+
+	<!--
+		Performs fn:base-uri(), working around an XML resolver bug
+	-->
+	<xsl:function as="xs:anyURI" name="x:base-uri">
+		<xsl:param as="node()" name="node" />
 
 		<!-- Fix invalid URI such as 'file:C:/dir/file'
 			https://issues.apache.org/jira/browse/XMLCOMMONS-24 -->
 		<xsl:sequence
 			select="
-				replace($resolved-uri, '^(file:)([^/])', '$1/$2')
-				cast as xs:anyURI" />
+				replace(base-uri($node), '^(file:)([^/])', '$1/$2')
+				cast as xs:anyURI"
+		 />
 	</xsl:function>
 
 	<!--
