@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    xmlns:s="http://www.jenitennison.com/xslt/xspec/schematron" stylesheet="../src/schematron/schut-to-xspec.xsl">
+    stylesheet="../src/schematron/schut-to-xspec.xsl">
     <x:param name="stylesheet-uri" select="'schut-to-xspec-test.sch.xsl'"/>
     <x:param name="test-dir-uri" select="
         resolve-uri(
@@ -66,12 +66,20 @@
         <x:scenario label="shared">
             <x:context href="schematron/schut-to-xspec-006-in.xspec"/>
             <x:expect label="shared scenarios" href="schematron/schut-to-xspec-006-out.xspec"/>
+            <x:expect label="x:context/@href"
+                test="descendant::x:*/@href/xs:anyURI(.)"
+                href="schematron/schut-to-xspec-006-in.xspec"
+                select="descendant::x:*/@href/resolve-uri(., base-uri()) treat as xs:anyURI" />
         </x:scenario>
     </x:scenario>
     <x:scenario label="context">
         <x:scenario label="file">
             <x:context href="schematron/schut-to-xspec-007-in.xspec"/>
             <x:expect label="context href" href="schematron/schut-to-xspec-007-out.xspec"/>
+            <x:expect label="x:context/@href"
+                test="descendant::x:*/@href/xs:anyURI(.)"
+                href="schematron/schut-to-xspec-007-in.xspec"
+                select="descendant::x:*/@href/resolve-uri(., base-uri()) treat as xs:anyURI" />
         </x:scenario>
         <x:scenario label="inline" pending="Can't test inline context because of error: &#34;XTDE1480: Cannot execute xsl:result-document while evaluating xsl:variable&#34;">
             <x:context href="schematron/schut-to-xspec-008-in.xspec"/>
@@ -86,10 +94,18 @@
         <x:scenario label="type xspec">
             <x:context href="schematron/schut-to-xspec-010-in.xspec"/>
             <x:expect label="import href" href="schematron/schut-to-xspec-010-out.xspec"/>
+            <x:expect label="x:import/@href"
+                test="descendant::x:*/@href/xs:anyURI(.)"
+                href="schematron/schut-to-xspec-010-in.xspec"
+                select="descendant::x:*/@href/resolve-uri(., base-uri()) treat as xs:anyURI" />
         </x:scenario>
     </x:scenario>
     <x:scenario label="assertions">
         <x:context href="schematron-012.xspec" select="x:description"/>
         <x:expect label="expect elements with correct label and test" href="schematron/schut-to-xspec-012-out.xspec" select="x:description"/>
+        <x:expect label="x:context/@href"
+            test="descendant::x:*/@href/xs:anyURI(.)"
+            href="schematron-012.xspec"
+            select="descendant::x:*/@href/resolve-uri(., base-uri()) treat as xs:anyURI+" />
     </x:scenario>
 </x:description>
