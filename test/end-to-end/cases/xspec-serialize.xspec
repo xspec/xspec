@@ -30,7 +30,7 @@
 		<x:label>When the result is indented in the report XML file, the report HTML must serialize
 			it with indentation.</x:label>
 		<x:scenario>
-			<x:label>TODO: So... (xspec/xspec#359)</x:label>
+			<x:label>So... (xspec/xspec#359)</x:label>
 			<x:scenario>
 				<x:label>When x:result in the report XML file is a sequence of simple nested
 					elements serialized with indentation,</x:label>
@@ -74,7 +74,7 @@
 		</x:scenario>
 
 		<x:scenario>
-			<x:label>TODO: But the diff must not be affected by indentation. So...</x:label>
+			<x:label>But the diff must not be affected by indentation. So...</x:label>
 			<x:scenario>
 				<x:label>When a node is indented, the diff of the indented node itself must not be
 					affected. (xspec/xspec#367) So...</x:label>
@@ -120,7 +120,7 @@
 			</x:scenario>
 
 			<x:scenario>
-				<x:label>When a child node of an element is indented, the diff of the element must
+				<x:label>TODO: When a child node of an element is indented, the diff of the element must
 					not be affected.</x:label>
 				<x:scenario>
 					<x:label>So, when the same <![CDATA[<bar> in <foo>]]> is indented in x:result

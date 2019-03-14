@@ -50,6 +50,7 @@
 
 <!--
   mode="test:serialize"
+    All the whitespace-only text nodes except the ones in <test:ws> are considered to be of indentation.
 -->
 
 <xsl:template match="element()" as="node()+" mode="test:serialize">
@@ -151,10 +152,10 @@
         <!-- Serialize the child nodes while performing comparison -->
         <xsl:when test="$perform-comparison">
           <xsl:for-each select="node()">
-            <xsl:variable name="pos" as="xs:integer" select="position()" />
+            <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
             <xsl:apply-templates select="." mode="test:serialize">
               <xsl:with-param name="level" select="$level + 1" tunnel="yes" />
-              <xsl:with-param name="node-to-compare-with" select="$node-to-compare-with/node()[position() = $pos]" />
+              <xsl:with-param name="node-to-compare-with" select="$node-to-compare-with/node()[test:significant-position(.) eq $significant-pos]" />
               <xsl:with-param name="expected" select="$expected" />
             </xsl:apply-templates>
           </xsl:for-each>
@@ -221,9 +222,9 @@
       <xsl:analyze-string select="." regex="\s">
         <xsl:matching-substring>
           <xsl:choose>
-            <xsl:when test=". = '&#xA;'">\n</xsl:when>
-            <xsl:when test=". = '&#xD;'">\r</xsl:when>
-            <xsl:when test=". = '&#x9;'">\t</xsl:when>
+            <xsl:when test=". = '&#x0A;'">\n</xsl:when>
+            <xsl:when test=". = '&#x0D;'">\r</xsl:when>
+            <xsl:when test=". = '&#x09;'">\t</xsl:when>
             <xsl:when test=". = ' '">.</xsl:when>
           </xsl:choose>
         </xsl:matching-substring>
@@ -232,15 +233,54 @@
   </xsl:if>
 </xsl:template>
 
-<xsl:template match="text()[not(normalize-space())]" as="text()" mode="test:serialize">
+<xsl:template match="text()[not(normalize-space())]" as="text()?" mode="test:serialize">
+  <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
   <xsl:param name="indentation" as="xs:integer" select="0" tunnel="yes" />
 
-  <xsl:value-of select="concat('&#xA;', substring(., $indentation + 2))" />
+  <xsl:choose>
+    <xsl:when test="
+      ($level eq 0)
+      and
+      (
+        (: leading or trailing indent :)
+        not(preceding-sibling::node()) or not(following-sibling::node())
+      )">
+      <!-- Discard -->
+    </xsl:when>
+
+    <xsl:otherwise>
+      <xsl:value-of select="concat('&#x0A;', substring(., $indentation + 2))" />
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>  
 
 <xsl:template match="document-node() | attribute() | node()" as="empty-sequence()" mode="test:serialize" priority="-1">
   <xsl:message select="'Unhandled node'" terminate="yes" />
 </xsl:template>
+
+<!-- Returns the position of the node, ignoring the preceding-sibling whitespace-only text nodes.
+  Returns an empty sequence, if the node is a whitespace-only text node. -->
+<xsl:function name="test:significant-position" as="xs:integer?">
+  <xsl:param name="node" as="node()" />
+
+  <xsl:choose>
+    <xsl:when test="$node/self::text() and not(normalize-space($node))">
+      <!-- The node is a whitespace-only text node. Return an empty sequence. -->
+    </xsl:when>
+
+    <xsl:otherwise>
+      <!-- Count the preceding-sibling nodes, ignoring whitespace-only text nodes -->
+      <xsl:sequence select="
+        count(
+          $node/preceding-sibling::node()
+            [not(
+              self::text() and not(normalize-space())
+            )]
+        )
+        + 1" />
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:function>
 
 <!-- Compares $node with $node-to-compare-with and returns an HTML class accordingly: 'same' or 'diff'
   Set $expected to true if $node is in Expected Result. Set false if in Actual Result. -->

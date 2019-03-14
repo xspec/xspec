@@ -363,13 +363,13 @@
                 <xsl:variable name="nodes-to-compare-with" as="node()*"
                   select="if ($result-to-compare-with/@href)
                           then document($result-to-compare-with/@href)/node()
-                          else $result-to-compare-with/(node() except text()[not(normalize-space())])" />
-                <xsl:for-each select="node() except text()[not(normalize-space())]">
-                  <xsl:variable name="pos" as="xs:integer" select="position()" />
+                          else $result-to-compare-with/node()" />
+                <xsl:for-each select="node()">
+                  <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
                   <xsl:apply-templates select="." mode="test:serialize">
                     <xsl:with-param name="indentation" select="$indentation" tunnel="yes" />
                     <xsl:with-param name="perform-comparison" select="true()" tunnel="yes" />
-                    <xsl:with-param name="node-to-compare-with" select="$nodes-to-compare-with[position() = $pos]" />
+                    <xsl:with-param name="node-to-compare-with" select="$nodes-to-compare-with[test:significant-position(.) eq $significant-pos]" />
                     <xsl:with-param name="expected" select="$expected" />
                   </xsl:apply-templates>
                 </xsl:for-each>
@@ -377,7 +377,7 @@
 
               <!-- Serialize the result without performing comparison -->
               <xsl:otherwise>
-                <xsl:apply-templates select="node() except text()[not(normalize-space())]" mode="test:serialize">
+                <xsl:apply-templates select="node()" mode="test:serialize">
                   <xsl:with-param name="indentation" select="$indentation" tunnel="yes" />
                 </xsl:apply-templates>
               </xsl:otherwise>
