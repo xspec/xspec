@@ -319,6 +319,11 @@
         select="(ancestor-or-self::*[@xslt-version]/@xslt-version, 2.0)[1]" />
       <!-- Set up the $impl:expected variable -->
       <xsl:apply-templates select="." mode="x:setup-expected" />
+
+      <!-- Flags for test:deep-equal() enclosed in ''. -->
+      <xsl:variable name="deep-equal-flags" as="xs:string"
+       select="concat('''', '1'[$xslt-version eq 1], '''')" />
+
       <xsl:choose>
         <xsl:when test="@test">
           <!-- This variable declaration could be moved from here (the
@@ -367,11 +372,11 @@
           </xsl:if>
           <variable name="impl:successful" as="xs:boolean"
             select="if ($impl:boolean-test) then boolean($impl:test-result)
-                    else test:deep-equal($impl:expected, $impl:test-result, {$xslt-version})" />
+                    else test:deep-equal($impl:expected, $impl:test-result, {$deep-equal-flags})" />
         </xsl:when>
         <xsl:otherwise>
           <variable name="impl:successful" as="xs:boolean" 
-            select="test:deep-equal($impl:expected, $x:result, {$xslt-version})" />
+            select="test:deep-equal($impl:expected, $x:result, {$deep-equal-flags})" />
         </xsl:otherwise>
       </xsl:choose>
       <if test="not($impl:successful)">
