@@ -299,9 +299,6 @@ if [ ! -d "$TEST_DIR" ]; then
     echo
 fi 
 
-# Absolute TEST_DIR
-TEST_DIR_ABS="$(cd "$(dirname "${TEST_DIR}")" && pwd)/$(basename "${TEST_DIR}")"
-
 ##
 ## compile the suite #########################################################
 ##
@@ -356,12 +353,10 @@ if test -n "$SCHEMATRON"; then
     
     echo 
     echo "Compiling the Schematron tests..."
-    TEST_DIR_URI="file:${TEST_DIR_ABS}"
     xslt -o:"${SCHUT}" \
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
         stylesheet-uri="${SCH_COMPILED_URI}" \
-        test-dir-uri="${TEST_DIR_URI}" \
         || die "Error compiling the Schematron tests"
     XSPEC=$SCHUT
     
