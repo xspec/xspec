@@ -452,7 +452,6 @@ fi
 ##
 if test -n "$SCHEMATRON"; then
     rm -f "$SCHUT"
-    rm -f "$TEST_DIR"/context-*.xml
     rm -f "$TEST_DIR/$TARGET_FILE_NAME-var.txt"
     rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml"
     rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml"

@@ -196,7 +196,6 @@ rem ##
 :cleanup
 	if defined SCHEMATRON (
 		del "%SCHUT%" 2>nul
-		del "%TEST_DIR%\context-*.xml" 2>nul
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" 2>nul
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" 2>nul
