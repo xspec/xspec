@@ -165,7 +165,7 @@
             </x:scenario>
          </x:scenario>
          <x:scenario>
-            <x:label>TODO: When a child node of an element is indented, the diff of the element must
+            <x:label>When a child node of an element is indented, the diff of the element must
 					not be affected.</x:label>
             <x:scenario>
                <x:label>So, when the same &lt;bar&gt; in &lt;foo&gt; is indented in x:result

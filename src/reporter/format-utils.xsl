@@ -291,8 +291,8 @@
 
   <xsl:variable name="equal" as="xs:boolean" select="
     if ($expected)
-    then test:deep-equal($node, $node-to-compare-with, '')
-    else test:deep-equal($node-to-compare-with, $node, '')" />
+    then test:deep-equal($node, $node-to-compare-with, 'w')
+    else test:deep-equal($node-to-compare-with, $node, 'w')" />
 
   <xsl:sequence select="if ($equal) then 'same' else 'diff'" />
 </xsl:function>

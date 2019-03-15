@@ -62,7 +62,7 @@ declare function test:node-deep-equal(
   ) as xs:boolean
 {
   if ( $node1 instance of document-node() and $node2 instance of document-node() ) then
-    test:deep-equal(test:sorted-children($node1), test:sorted-children($node2), $flags)
+    test:deep-equal(test:sorted-children($node1, $flags), test:sorted-children($node2, $flags), $flags)
   else if ( $node1 instance of element() and $node2 instance of element() ) then
     if ( fn:node-name($node1) eq fn:node-name($node2) ) then
       let $atts1 as attribute()* := test:sort-named-nodes($node1/@*)
@@ -72,7 +72,7 @@ declare function test:node-deep-equal(
             if ( fn:count($node1/node()) = 1 and $node1/text() = '...' ) then
               fn:true()
             else
-              test:deep-equal(test:sorted-children($node1), test:sorted-children($node2), $flags)
+              test:deep-equal(test:sorted-children($node1, $flags), test:sorted-children($node2, $flags), $flags)
           else
             fn:false()
     else
@@ -93,11 +93,13 @@ declare function test:node-deep-equal(
 };
 
 declare function test:sorted-children(
-    $node as node()
+    $node as node(),
+    $flags as xs:string
   ) as node()*
 {
   $node/child::node() 
-  except $node/test:message
+  except ( $node/text()[fn:not(fn:normalize-space())][fn:contains($flags, 'w')][fn:not($node/self::test:ws)],
+           $node/test:message )
 };
 
 (: Aim to be identical to:
