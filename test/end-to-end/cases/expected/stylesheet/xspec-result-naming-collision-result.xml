@@ -12,10 +12,10 @@
       <x:call function="exactly-one">
          <x:param href="../../xspec-result-naming-collision.xml"/>
       </x:call>
-      <x:result select="/" href="HREF-2"/>
+      <x:result href="HREF-2"/>
       <x:test successful="true">
          <x:label>The result should be saved in an external file</x:label>
-         <x:expect select="/" href="HREF-3"/>
+         <x:expect href="HREF-3"/>
       </x:test>
    </x:scenario>
    <x:scenario>
@@ -23,10 +23,23 @@
       <x:call function="exactly-one">
          <x:param href="../../xspec-result-naming-collision.xml"/>
       </x:call>
-      <x:result select="/" href="HREF-5"/>
+      <x:result href="HREF-5"/>
       <x:test successful="true">
          <x:label>The result should be saved in another external file</x:label>
-         <x:expect select="/" href="HREF-6"/>
+         <x:expect href="HREF-6"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>When the result consists of multiple elements (xspec/xspec#361)</x:label>
+      <x:call function="one-or-more">
+         <x:param select="         for $i in (1 to 2)         return (document('xspec-result-naming-collision.xml', .) treat as document-node())"/>
+      </x:call>
+      <x:result href="HREF-7"/>
+      <x:test successful="false">
+         <x:label>The result should be saved successfully in yet another external file which is well-formed</x:label>
+         <x:expect select="/element()">
+            <foo/>
+         </x:expect>
       </x:test>
    </x:scenario>
 </x:report>

@@ -18,4 +18,18 @@
     <x:expect label="The result should be saved in another external file"
       href="xspec-result-naming-collision.xml" />
   </x:scenario>
+
+  <x:scenario label="When the result consists of multiple elements (xspec/xspec#361)">
+    <x:call function="one-or-more">
+      <x:param select="
+        for $i in (1 to 2)
+        return (document('xspec-result-naming-collision.xml', .) treat as document-node())" />
+    </x:call>
+
+    <!-- In order to test well-formedness, this x:expect needs to have the reporter XSLT read the external XML.
+      To realize it, x:expect needs to expect node()+ and fail deliberately. -->
+    <x:expect label="The result should be saved successfully in yet another external file which is well-formed">
+      <foo />
+    </x:expect>
+  </x:scenario>
 </x:description>

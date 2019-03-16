@@ -51,6 +51,35 @@
 	</xsl:function>
 
 	<!--
+		Normalizes the link to the files created dynamically by XSpec
+			XSpec names them using fn:generate-id().
+			This template makes them predictable while keeping uniqueness within document.
+	-->
+	<xsl:template as="attribute()" name="normalizer:normalize-external-link-attribute">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
+		<!-- Absolute URI -->
+		<xsl:variable as="xs:anyURI" name="this-uri" select="resolve-uri(., $tunnel_document-uri)" />
+
+		<!-- Attributes of the same name -->
+		<xsl:variable as="attribute()+" name="same-name-attrs"
+			select="//attribute()[node-name(.) eq node-name(current())]" />
+
+		<!-- External absolute URIs -->
+		<xsl:variable as="xs:anyURI+" name="uris"
+			select="
+				for $attr in $same-name-attrs[not(starts-with(., '#'))]
+				return
+					resolve-uri($attr, $tunnel_document-uri)" />
+
+		<!-- Index where the same URI first appears -->
+		<xsl:variable as="xs:integer" name="first-index" select="index-of($uris, $this-uri)[1]" />
+
+		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+			select="concat(upper-case(local-name()), '-', $first-index)" />
+	</xsl:template>
+
+	<!--
 		mode=normalize
 			Normalizes the transient parts of the document such as @href, @id, datetime and file path
 	-->

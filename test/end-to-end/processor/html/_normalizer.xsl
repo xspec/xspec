@@ -83,6 +83,25 @@
 		</xsl:analyze-string>
 	</xsl:template>
 
+	<!--
+		Normalizes the link to the files created dynamically by XSpec
+	-->
+	<xsl:template as="attribute(href)"
+		match="table[tokenize(@class, '\s+')[.] = 'xspecResult']/tbody/tr/td/p/a/@href"
+		mode="normalizer:normalize">
+		<xsl:call-template name="normalizer:normalize-external-link-attribute" />
+	</xsl:template>
+
+	<xsl:template as="text()"
+		match="table[tokenize(@class, '\s+')[.] = 'xspecResult']/tbody/tr/td/p/a[. eq @href]/text()"
+		mode="normalizer:normalize">
+		<xsl:value-of>
+			<xsl:for-each select="parent::a/@href">
+				<xsl:call-template name="normalizer:normalize-external-link-attribute" />
+			</xsl:for-each>
+		</xsl:value-of>
+	</xsl:template>
+
 	<!-- Makes @id predictable -->
 	<xsl:template as="attribute(id)" match="@id" mode="normalizer:normalize"
 		name="normalize-id-attribute">

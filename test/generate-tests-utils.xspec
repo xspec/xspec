@@ -327,8 +327,9 @@
                <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
             </t:call>
             <t:expect label="t:result containing attributes">
-               <t:result select="/*/(@* | node())">
-                  <t:temp a="1" b="2" />
+               <t:result select="/*/@*">
+                  <t:pseudo-attribute a="1" />
+                  <t:pseudo-attribute b="2" />
                </t:result>
             </t:expect>
          </t:scenario>
@@ -344,9 +345,11 @@
             </t:call>
             <t:expect label="t:result containing attributes and content">
                <t:result select="/*/(@* | node())">
-                  <t:temp a="1" b="2">
+                  <t:pseudo-attribute a="1" />
+                  <t:pseudo-attribute b="2" />
+                  <t:pseudo-element>
                     <foo />
-                  </t:temp>
+                  </t:pseudo-element>
                </t:result>
             </t:expect>
          </t:scenario>
