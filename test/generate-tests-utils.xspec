@@ -262,16 +262,16 @@
    </t:scenario>
 
    <!--
-       Template test:report-value
+       Template test:report-sequence
    -->
-   <t:scenario label="test:report-value">
+   <t:scenario label="test:report-sequence">
 
       <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L486-L550">
          <!-- TODO: These scenarios do not run on XQuery (x:call/@template not supported for XQuery) -->
 
          <t:scenario label="Integer">
-            <t:call template="test:report-value">
-               <t:param name="value" select="1" />
+            <t:call template="test:report-sequence">
+               <t:param name="sequence" select="1" />
                <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
             </t:call>
             <t:expect label="t:result with @select of integer">
@@ -280,8 +280,8 @@
          </t:scenario>
 
          <t:scenario label="Empty Sequence">
-            <t:call template="test:report-value">
-               <t:param name="value" select="()" />
+            <t:call template="test:report-sequence">
+               <t:param name="sequence" select="()" />
                <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
             </t:call>
             <t:expect label="t:result with @select of empty sequence">
@@ -290,8 +290,8 @@
          </t:scenario>
 
          <t:scenario label="String">
-            <t:call template="test:report-value">
-               <t:param name="value" select="'test'" />
+            <t:call template="test:report-sequence">
+               <t:param name="sequence" select="'test'" />
                <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
             </t:call>
             <t:expect label="t:result with @select of string">
@@ -300,8 +300,8 @@
          </t:scenario>
 
          <t:scenario label="URI">
-            <t:call template="test:report-value">
-               <t:param name="value" select="xs:anyURI('test.xml')" />
+            <t:call template="test:report-sequence">
+               <t:param name="sequence" select="xs:anyURI('test.xml')" />
                <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
             </t:call>
             <t:expect label="t:result with @select of xs:anyURI">
@@ -310,8 +310,8 @@
          </t:scenario>
 
          <t:scenario label="QName">
-            <t:call template="test:report-value">
-               <t:param name="value" select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
+            <t:call template="test:report-sequence">
+               <t:param name="sequence" select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
                <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
             </t:call>
             <t:expect label="t:result with @select of QName">
@@ -320,8 +320,8 @@
          </t:scenario>
 
          <t:scenario label="Attributes">
-            <t:call template="test:report-value">
-               <t:param name="value" select="/*/@*" >
+            <t:call template="test:report-sequence">
+               <t:param name="sequence" select="/*/@*" >
                   <doc a="1" b="2" />
                </t:param>
                <t:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/xspec'" />
@@ -334,8 +334,8 @@
          </t:scenario>
 
          <t:scenario label="Attributes and content">
-            <t:call template="test:report-value">
-               <t:param name="value" select="/*/@*, /*/foo" >
+            <t:call template="test:report-sequence">
+               <t:param name="sequence" select="/*/@*, /*/foo" >
                   <doc a="1" b="2">
                      <foo />
                   </doc>
