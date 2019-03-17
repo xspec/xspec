@@ -340,14 +340,27 @@ if test -n "$SCHEMATRON"; then
     
     echo
     echo "Compiling the Schematron..."
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$SCHEMATRON_XSLT_INCLUDE" -versionmsg:off || die "Error compiling the Schematron on step 1"
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$SCHEMATRON_XSLT_EXPAND" -versionmsg:off || die "Error compiling the Schematron on step 2"
-    xslt -o:"${SCH_COMPILED}" -s:"${TEST_DIR}/${TARGET_FILE_NAME}-sch-temp2.xml" \
-        -xsl:"${SCH_STEP3_WRAPPER}" -versionmsg:off \
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" \
+        -s:"$SCH" \
+        -xsl:"$SCHEMATRON_XSLT_INCLUDE" \
+        -versionmsg:off \
+        || die "Error compiling the Schematron on step 1"
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" \
+        -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" \
+        -xsl:"$SCHEMATRON_XSLT_EXPAND" \
+        -versionmsg:off \
+        || die "Error compiling the Schematron on step 2"
+    xslt -o:"${SCH_COMPILED}" \
+        -s:"${TEST_DIR}/${TARGET_FILE_NAME}-sch-temp2.xml" \
+        -xsl:"${SCH_STEP3_WRAPPER}" \
+        -versionmsg:off \
         || die "Error compiling the Schematron on step 3"
     
     # use XQuery to get full URI to compiled Schematron
-    # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"
+    # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" \
+    #     -s:"$SCH_COMPILED" \
+    #     -o:"$TEST_DIR/$TARGET_FILE_NAME-var.txt" \
+    #     || die "Error getting compiled Schematron location"
     # SCH_COMPILED_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
     SCH_COMPILED_URI="file:${SCH_COMPILED}"
     

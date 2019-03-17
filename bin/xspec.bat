@@ -163,20 +163,27 @@ rem ##
     
     echo:
     echo Compiling the Schematron...
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
-        -xsl:"%SCHEMATRON_XSLT_INCLUDE%" -versionmsg:off ^
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
+        -s:"%SCH%" ^
+        -xsl:"%SCHEMATRON_XSLT_INCLUDE%" ^
+        -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 1" & goto :win_main_error_exit )
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
-        -xsl:"%SCHEMATRON_XSLT_EXPAND%" -versionmsg:off ^
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
+        -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
+        -xsl:"%SCHEMATRON_XSLT_EXPAND%" ^
+        -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 2" & goto :win_main_error_exit )
-    call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
-        -xsl:"%SCH_STEP3_WRAPPER%" -versionmsg:off ^
+    call :xslt -o:"%SCH_COMPILED%" ^
+        -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
+        -xsl:"%SCH_STEP3_WRAPPER%" ^
+        -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 3" & goto :win_main_error_exit )
     
     rem use XQuery to get full URI to compiled Schematron
     rem echo SCH_COMPILED %SCH_COMPILED%
     rem call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" ^
-    rem     -s:"%SCH_COMPILED%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
+    rem     -s:"%SCH_COMPILED%" ^
+    rem     -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
     rem     || ( call :die "Error getting compiled Schematron location" & goto :win_main_error_exit )
     rem set /P SCH_COMPILED_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     set "SCH_COMPILED_URI=file:///%SCH_COMPILED:\=/%"
