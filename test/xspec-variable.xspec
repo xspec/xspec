@@ -13,170 +13,164 @@
   - To better test different namespace prefixes, consider updating after
     https://github.com/xspec/xspec/commit/b1e6d150644ea323252ea3fd9f5addbdde1da40a
     is integrated. See files named test/xspec-prefix-conflict*.* on AirQuick's branch.
-  - Restore "Text directly in XSpec variable" scenario. XQuery $myv:myspace1 needs x:text
-    support in schema and compiler.
-  - Move "@select and element content" scenario from xspec-variable_stylesheet.xspec to this file.
+  - Move "Combination of @select and element content" scenario from xspec-variable_stylesheet.xspec to this file.
     Need certain changes in generate-query-helper.xsl; see <xsl:template match="*" mode="test:generate-variable-declarations">.
   -->
 
 <x:description
-	xmlns:my="http://example.org/ns/my"
+	xmlns:do-nothing="x-urn:test:do-nothing"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	query="http://example.org/ns/my"
-	query-at="xspec-variable-tested.xql"
-	stylesheet="xspec-variable-tested.xsl">
+	query="x-urn:test:do-nothing"
+	query-at="do-nothing.xquery"
+	stylesheet="do-nothing.xsl">
 
 	<!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
 	 global parameters or global variables in the file to be tested. -->
 	<x:variable name="myv:test-data" href="xspec-variable.xml"/>
-	<x:variable name="myv:test-3" select="$myv:test-data/*/test[xs:integer(@num) eq 3]"/>
+	<x:variable name="myv:test-string" select="'global'"/>
 
-	<x:scenario label="Define variables in different ways">
-		<x:scenario label="@select only">
-			<x:variable name="myv:select-only" select="'y'"/>
-			<x:call function="my:foo">
-				<x:param name="elem"><foo role="{$myv:select-only}"/></x:param>
-				<x:param name="p" select="0"/>
-				<x:param name="textnode"/>
+	<x:scenario label="Variables can be defined in different ways.">
+		<x:scenario label="@select by itself">
+			<x:variable name="myv:select-only" select="'text'"/>
+			<x:call function="exactly-one">
+				<x:param select="$myv:select-only"/>
 			</x:call>
-			<x:expect label="the result" test="exists($x:result/self::bar/@role) and ($x:result/@role/string() eq 'y')"/>
+			<x:expect label="uses the selection as the variable value." select="'text'"/>
 		</x:scenario>
 		<!--See xspec-variable_stylesheet.xspec for "@select and element content" scenario-->
-		<x:scenario label="@select and @href">
-			<x:variable name="myv:select-and-href" href="xspec-variable.xml" select="local-name(/test-data/*[1])"/>
-			<x:call function="my:foo">
-				<x:param name="elem"><foo role="{$myv:select-and-href}"/></x:param>
-				<x:param name="p" select="0"/>
-				<x:param name="textnode"/>
+		<x:scenario label="Combination of @href and @select">
+			<x:variable name="myv:href-and-select" href="xspec-variable.xml" select="/top-level-element/*[1]"/>
+			<x:call function="exactly-one">
+				<x:param select="$myv:href-and-select"/>
 			</x:call>
-			<x:expect label="the result" test="exists($x:result/self::bar/@role) and ($x:result/@role/string() eq 'test')"/>
+			<x:expect label="uses the selection in the specified document as the variable value.">
+				<child-element/>
+			</x:expect>
 		</x:scenario>
-		<x:scenario label="element content">
-			<x:variable name="myv:content">y</x:variable>
-			<x:call function="my:foo">
-				<x:param name="elem"><foo role="{$myv:content}"/></x:param>
-				<x:param name="p" select="0"/>
-				<x:param name="textnode"/>
+		<x:scenario label="Element content in x:variable">
+			<x:variable name="myv:content"><foo>text</foo></x:variable>
+			<x:call function="exactly-one">
+				<x:param select="$myv:content"/>
 			</x:call>
-			<x:expect label="the result" test="exists($x:result/self::bar/@role) and ($x:result/@role/string() eq 'y')"/>
+			<x:expect label="uses the x:variable element's content as the variable value."><foo>text</foo></x:expect>
 		</x:scenario>
-		<x:scenario label="element content, deeper">
-			<x:variable name="myv:content">
-				<xyz>y</xyz>
-			</x:variable>
-			<x:call function="my:foo">
-				<x:param name="elem"><foo role="{string($myv:content)}"/></x:param>
-				<x:param name="p" select="0"/>
-				<x:param name="textnode"/>
-			</x:call>
-			<x:expect label="the result" test="exists($x:result/self::bar/@role/string()) and ($x:result/@role/string() eq 'y')"/>
-		</x:scenario>
-		<x:scenario label="@href only">
+		<x:scenario label="@href by itself">
 			<x:variable name="myv:href-only" href="xspec-variable.xml"/>
-			<x:call function="my:foo">
-				<x:param name="elem"><foo role="{local-name($myv:href-only/test-data/*[1])}"/></x:param>
-				<x:param name="p" select="0"/>
-				<x:param name="textnode"/>
+			<x:call function="exactly-one">
+				<x:param select="$myv:href-only"/>
 			</x:call>
-			<x:expect label="the result" test="exists($x:result/self::bar/@role) and ($x:result/@role/string() eq 'test')"/>
+			<x:expect label="uses the specified document as the variable value."
+				test="$x:result instance of document-node(element(top-level-element))"/>
 		</x:scenario>
 		<!--See xspec-node-selection.xspec for a scenario with both @href and element content-->
 	</x:scenario>
 
-	<x:scenario label="Call variable in different forms of SUT">
-		<!-- For test of local vars in named template and template rule, see xspec-variable_stylesheet.xspec. -->
-		<x:scenario label="Call local vars in test of function">
-			<x:variable name="myv:param" select="xs:integer($myv:test-3/@num)" as="xs:integer"/>
-			<x:call function="my:square">
-				<x:param select="$myv:param"/>
+	<x:scenario label="Variables can appear in different parts of scenario.">
+		<!-- For tests of variables in XSLT-specific scenarios, see xspec-variable_stylesheet.xspec. -->
+		<x:scenario label="x:variable interspersed with x:call[@function] and x:expect">
+			<x:variable name="myv:before_call" select="'text'"/>
+			<x:call function="upper-case">
+				<x:param select="$myv:before_call"/>
 			</x:call>
-			<x:variable name="myv:expectedresult" select="$myv:test-3/@value" as="attribute(value)"/>
-			<x:expect label="the result" select="$myv:expectedresult cast as xs:integer"/>
+			<x:variable name="myv:after_call" select="'text_after_call'"/>
+			<x:expect label="reflects expected behavior of function on its input" select="'TEXT'"/>
+			<x:variable name="myv:after_expect" select="'text_after_expect'"/>
+			<x:expect label="and expected value for each variable."
+				test="($myv:before_call='text') and
+				($myv:after_call='text_after_call') and
+				($myv:after_expect='text_after_expect')"
+			/>
+		</x:scenario>
+		<x:scenario label="Variable used to store node as expected value">
+			<x:call function="exactly-one">
+				<x:param><foo/></x:param>
+			</x:call>
+			<x:variable name="myv:expectedresult"><foo/></x:variable>
+			<x:expect label="can be referenced within Boolean x:expect/@test." test="deep-equal($x:result,$myv:expectedresult)"/>
+		</x:scenario>
+		<x:scenario label="Variable used to store atomic expected value">
+			<x:call function="exactly-one">
+				<x:param select="'text'"/>
+			</x:call>
+			<x:variable name="myv:expectedresult" select="'text'"/>
+			<x:expect label="can be referenced in x:expect/@select." select="$myv:expectedresult"/>
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Check variables in different scopes">
-		<x:scenario label="Call global var">
-			<x:call function="my:square">
-				<x:param select="$myv:test-3/@num" as="attribute(num)"/>
+	<x:scenario label="Variables can be referenced from different scopes.">
+		<x:scenario label="Reference to global variable">
+			<x:call function="exactly-one">
+				<x:param select="$myv:test-string"/>
 			</x:call>
-			<x:expect label="the result" select="$myv:test-3/@value cast as xs:integer"/>
+			<x:expect label="yields correct result." select="'global'"/>
 		</x:scenario>
-		<x:scenario label="Call vars inherited from outer scenarios, and check same-name vars in non-conflicting scopes">
-			<x:variable name="myv:param" select="xs:integer($myv:test-3/@num)" as="xs:integer"/>
-			<x:scenario label="outer1">
-				<x:variable name="myv:expectedresult" select="xs:integer($myv:test-3/@value)" as="xs:integer"/>
-				<x:scenario label="inner1">
-					<x:call function="my:square">
-						<x:param select="$myv:param"/>
-					</x:call>
-					<x:expect label="the result" select="$myv:expectedresult"/>
-				</x:scenario>
+		<x:scenario label="Reference to variable inherited from outer scenario">
+			<x:variable name="myv:outer" select="'outer #1'"/>
+			<x:scenario label="[inner]">
+				<x:call function="exactly-one">
+					<x:param select="$myv:outer"/>
+				</x:call>
+				<x:expect label="reflects value defined in outer scenario." select="'outer #1'"/>
 			</x:scenario>
-			<x:scenario label="outer2">
-				<x:variable name="myv:expectedresult" select="16" as="xs:integer"/>
-				<x:scenario label="inner2">
-					<x:call function="my:square">
-						<x:param select="$myv:param+1"/>
+		</x:scenario>
+		<x:scenario label="Nonconflicting definition using same variable name">
+			<x:scenario label="[outer]">
+				<x:variable name="myv:outer" select="'outer #2'"/>
+				<x:scenario label="[inner]">
+					<x:call function="exactly-one">
+						<x:param select="$myv:outer"/>
 					</x:call>
-					<x:expect label="the result (param inherited from outermost scenario; expectedresult inherited from outer2)"
-						select="$myv:expectedresult"/>
-					<x:variable name="myv:variableafterexpect" select="16" as="xs:integer"/>
-					<x:expect label="the result (defined between two expect elements)"
-						select="$myv:variableafterexpect"/>
+					<x:expect label="inherits value from ancestor scenario, not from another branch of tree." select="'outer #2'"/>
 				</x:scenario>
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Nonsense variable definition in pending scenario does not cause build failure">
+	<x:scenario label="Nonsense variable definition in pending scenario does not cause build failure.">
 		<x:scenario label="Pending scenario 1" pending="skip on purpose">
 			<x:variable name="myv:nonsense1" select="$myv:nonexistent"/>
-			<x:call function="my:square">
+			<x:call function="exactly-one">
 				<x:param select="$myv:nonsense1"/>
 			</x:call>
-			<x:expect label="the result" select="0"/>
+			<x:expect label="nonsense result" select="0"/>
 		</x:scenario>
 		<x:pending label="skip on purpose">
 			<x:scenario label="Pending scenario 2">
 				<x:variable name="myv:nonsense2" href="nonexistent.xml"/>
-				<x:call function="my:square">
+				<x:call function="exactly-one">
 					<x:param select="$myv:nonsense2"/>
 				</x:call>
-				<x:expect label="the result" select="0"/>
+				<x:expect label="nonsense result" select="0"/>
 			</x:scenario>
 		</x:pending>
 		<x:scenario label="Nonpending scenario (not needed, except to work around issue #446)">
-			<x:call function="my:square">
-				<x:param select="$myv:test-3/@num" as="attribute(num)"/>
+			<x:call function="exactly-one">
+				<x:param><foo/></x:param>
 			</x:call>
-			<x:expect label="the result" select="$myv:test-3/@value cast as xs:integer"/>
+			<x:expect label="the result"><foo/></x:expect>
 		</x:scenario>
 	</x:scenario>
 
 	<x:scenario shared="yes" label="SHARED variables">
-		<!-- When referencing this scenario via x:like, make sure $myv:str is already defined. -->
-		<x:variable name="myv:bracketed" select="concat('[',$myv:str,']')" as="xs:string"/>
+		<!-- When referencing this scenario via x:like, make sure $myv:str and $x:result are already defined. -->
+		<x:variable name="myv:bracketed" select="concat('[', $myv:str, ']')" as="xs:string"/>
+		<x:variable name="myv:result" select="$x:result" as="xs:boolean"/>
 	</x:scenario>
 
-	<x:scenario label="Interaction of variables and reuse of scenarios">
+	<x:scenario label="Shared scenario can use prior definition of variable.">
 		<x:scenario label="Scenario 1">
-			<x:call function="my:square">
-				<x:param select="xs:integer(0)"/>
-			</x:call>
-			<x:variable name="myv:str" select="'abc'" as="xs:string"/>
+			<x:call function="true"/>
+			<x:variable name="myv:str" select="'cat'" as="xs:string"/>
 			<x:like label="SHARED variables"/>
-			<x:expect label="Scenario 1 string, bracketed" test="$myv:bracketed eq '[abc]'"/>
+			<x:expect label="operates on variable value from Scenario 1." test="$myv:result and ($myv:bracketed eq '[cat]')"/>
 		</x:scenario>
-		<x:scenario label="Scenario 1">
-			<x:call function="my:square">
-				<x:param select="xs:integer(0)"/>
-			</x:call>
-			<x:variable name="myv:str" select="'def'" as="xs:string"/>
+		<x:scenario label="Scenario 2">
+			<x:call function="true"/>
+			<x:variable name="myv:str" select="'mouse'" as="xs:string"/>
 			<x:like label="SHARED variables"/>
-			<x:expect label="Scenario 2 string, bracketed" test="$myv:bracketed eq '[def]'"/>
+			<x:expect label="operates on variable value from Scenario 2." test="$myv:result and ($myv:bracketed eq '[mouse]')"/>
 		</x:scenario>
 	</x:scenario>
 
