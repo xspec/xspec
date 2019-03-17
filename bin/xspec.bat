@@ -180,14 +180,12 @@ rem ##
         || ( call :die "Error compiling the Schematron on step 3" & goto :win_main_error_exit )
     
     rem use XQuery to get full URI to compiled Schematron
-    rem echo SCH_COMPILED %SCH_COMPILED%
     rem call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" ^
     rem     -s:"%SCH_COMPILED%" ^
     rem     -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
     rem     || ( call :die "Error getting compiled Schematron location" & goto :win_main_error_exit )
     rem set /P SCH_COMPILED_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     set "SCH_COMPILED_URI=file:///%SCH_COMPILED:\=/%"
-    rem echo SCH_COMPILED_URI %SCH_COMPILED_URI%
     
     echo:
     echo Compiling the Schematron tests...
