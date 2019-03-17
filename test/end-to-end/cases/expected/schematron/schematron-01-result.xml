@@ -4,7 +4,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../schematron-01.sch-compiled.xsl"
+          stylesheet="../../schematron-01.sch-preprocessed.xsl"
           date="ONCE-UPON-A-TIME"
           xspec="../../schematron-01.xspec"
           schematron="../../schematron-01.sch">
