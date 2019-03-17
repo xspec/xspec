@@ -13,12 +13,12 @@
       <x:context>
          <rule/>
       </x:context>
-      <x:result>
+      <x:result select="/element()">
          <transformed xmlns:my="http://example.org/ns/my"/>
       </x:result>
       <x:test successful="true">
          <x:label>must return Success</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <transformed/>
          </x:expect>
       </x:test>
@@ -28,12 +28,12 @@
       <x:context>
          <rule/>
       </x:context>
-      <x:result>
+      <x:result select="/element()">
          <transformed xmlns:my="http://example.org/ns/my"/>
       </x:result>
       <x:test successful="false">
          <x:label>must return Failure</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <erroneous/>
          </x:expect>
       </x:test>

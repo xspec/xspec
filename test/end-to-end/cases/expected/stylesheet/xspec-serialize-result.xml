@@ -15,7 +15,7 @@
          <x:call function="exactly-one">
             <x:param select="$comment"/>
          </x:call>
-         <x:result select="/node()"><!--comment-text--></x:result>
+         <x:result select="/comment()"><!--comment-text--></x:result>
          <x:test successful="false">
             <x:label>[Result] with diff must be serialized as &lt;!-- --&gt;.</x:label>
             <x:expect select="()"/>
@@ -32,7 +32,7 @@
          <x:test successful="false">
             <x:label>[Expected Result] with diff must be serialized as
 					&lt;!-- --&gt;.</x:label>
-            <x:expect select="/node()"><!--comment-text--></x:expect>
+            <x:expect select="/comment()"><!--comment-text--></x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
@@ -40,7 +40,7 @@
       <x:label>When the result is indented in the report XML file, the report HTML must serialize
 			it with indentation.</x:label>
       <x:scenario>
-         <x:label>TODO: So... (xspec/xspec#359)</x:label>
+         <x:label>So... (xspec/xspec#359)</x:label>
          <x:scenario>
             <x:label>When x:result in the report XML file is a sequence of simple nested
 					elements serialized with indentation,</x:label>
@@ -55,7 +55,7 @@
                   </qux>
                </x:param>
             </x:call>
-            <x:result>
+            <x:result select="/element()">
                <foo/>
                <bar>
                   <baz/>
@@ -83,7 +83,7 @@
             <x:test successful="false">
                <x:label>all elements in [Expected Result] with diff must be serialized with
 						indentation.</x:label>
-               <x:expect>
+               <x:expect select="/element()">
                   <foo/>
                   <bar>
                      <baz/>
@@ -96,7 +96,7 @@
          </x:scenario>
       </x:scenario>
       <x:scenario>
-         <x:label>TODO: But the diff must not be affected by indentation. So...</x:label>
+         <x:label>But the diff must not be affected by indentation. So...</x:label>
          <x:scenario>
             <x:label>When a node is indented, the diff of the indented node itself must not be
 					affected. (xspec/xspec#367) So...</x:label>
@@ -113,7 +113,7 @@
                      </test>
                   </x:param>
                </x:call>
-               <x:result>
+               <x:result select="/element()">
                   <test>
                      <elem1><!--foo-->
                         <bar/>
@@ -123,7 +123,7 @@
                </x:result>
                <x:test successful="false">
                   <x:label>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</x:label>
-                  <x:expect>
+                  <x:expect select="/element()">
                      <test>
                         <elem1>foo<bar/>
                         </elem1>
@@ -144,7 +144,7 @@
                      </test>
                   </x:param>
                </x:call>
-               <x:result>
+               <x:result select="/element()">
                   <test>
                      <elem1>foo<bar/>
                      </elem1>
@@ -153,7 +153,7 @@
                </x:result>
                <x:test successful="false">
                   <x:label>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</x:label>
-                  <x:expect>
+                  <x:expect select="/element()">
                      <test>
                         <elem1><!--foo-->
                            <bar/>
@@ -181,7 +181,7 @@
                      </test>
                   </x:param>
                </x:call>
-               <x:result>
+               <x:result select="/element()">
                   <test>
                      <foo>
                         <bar/>
@@ -191,7 +191,7 @@
                </x:result>
                <x:test successful="false">
                   <x:label>&lt;foo&gt; must be green.</x:label>
-                  <x:expect>
+                  <x:expect select="/element()">
                      <test>
                         <foo>
                            <bar/>

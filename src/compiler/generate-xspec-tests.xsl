@@ -25,10 +25,8 @@
 
 <xsl:preserve-space elements="x:space" />
 
-<xsl:output indent="yes" encoding="ISO-8859-1" />  
+<xsl:output indent="yes" />
 
-
-<xsl:variable name="xspec-ns" select="'http://www.jenitennison.com/xslt/xspec'"/>
 
 <xsl:variable name="apostrophe">'</xsl:variable>
 <xsl:variable name="stylesheet-uri" as="xs:anyURI" 
@@ -56,6 +54,7 @@
       does not use them in node names. -->
     <xsl:namespace name="__x"  select="'http://www.w3.org/1999/XSL/TransformAliasAlias'" />
     <xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
+    <xsl:namespace name="test" select="'http://www.jenitennison.com/xslt/unit-test'" />
     <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
 
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
@@ -294,10 +293,9 @@
             </xsl:otherwise>
           </xsl:choose>      
         </variable>
-        <call-template name="test:report-value">
-          <with-param name="value" select="$x:result" />
+        <call-template name="test:report-sequence">
+          <with-param name="sequence" select="$x:result" />
           <with-param name="wrapper-name" select="'x:result'" />
-          <with-param name="wrapper-ns" select="'{ $xspec-ns }'"/>
         </call-template>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
@@ -329,6 +327,11 @@
         select="(ancestor-or-self::*[@xslt-version]/@xslt-version, 2.0)[1]" />
       <!-- Set up the $impl:expected variable -->
       <xsl:apply-templates select="." mode="x:setup-expected" />
+
+      <!-- Flags for test:deep-equal() enclosed in ''. -->
+      <xsl:variable name="deep-equal-flags" as="xs:string"
+       select="concat('''', '1'[$xslt-version eq 1], '''')" />
+
       <xsl:choose>
         <xsl:when test="@test">
           <!-- This variable declaration could be moved from here (the
@@ -377,11 +380,11 @@
           </xsl:if>
           <variable name="impl:successful" as="xs:boolean"
             select="if ($impl:boolean-test) then boolean($impl:test-result)
-                    else test:deep-equal($impl:expected, $impl:test-result, {$xslt-version})" />
+                    else test:deep-equal($impl:expected, $impl:test-result, {$deep-equal-flags})" />
         </xsl:when>
         <xsl:otherwise>
           <variable name="impl:successful" as="xs:boolean" 
-            select="test:deep-equal($impl:expected, $x:result, {$xslt-version})" />
+            select="test:deep-equal($impl:expected, $x:result, {$deep-equal-flags})" />
         </xsl:otherwise>
       </xsl:choose>
       <if test="not($impl:successful)">
@@ -403,17 +406,15 @@
       <xsl:if test="not($pending-p)">
          <xsl:if test="@test">
             <if test="not($impl:boolean-test)">
-               <call-template name="test:report-value">
-                  <with-param name="value"        select="$impl:test-result"/>
+               <call-template name="test:report-sequence">
+                  <with-param name="sequence"     select="$impl:test-result"/>
                   <with-param name="wrapper-name" select="'x:result'"/>
-                  <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
                </call-template>
             </if>
          </xsl:if>
-         <call-template name="test:report-value">
-            <with-param name="value"        select="$impl:expected"/>
+         <call-template name="test:report-sequence">
+            <with-param name="sequence"     select="$impl:expected"/>
             <with-param name="wrapper-name" select="'x:expect'"/>
-            <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
             <xsl:if test="@test">
               <with-param name="test" as="xs:string">
                 <xsl:value-of select="@test"/>

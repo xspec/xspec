@@ -12,5 +12,5 @@
 			The parameters (except for @use-character-maps="test:disable-escaping") must be
 			in sync with XSPEC_HOME/src/reporter/format-xspec-report.xsl.
 	-->
-	<xsl:output name="serializer:output" />
+	<xsl:output method="xhtml" name="serializer:output" />
 </xsl:stylesheet>

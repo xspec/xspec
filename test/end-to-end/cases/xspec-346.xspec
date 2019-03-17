@@ -6,7 +6,8 @@
 		<x:call function="exactly-one">
 			<x:param href="xspec-346.xml" select="element(p)" />
 		</x:call>
-		<x:expect label="Expecting no space should be Failure">
+		<x:expect
+			label="Expecting no space should be Failure (TODO: XQuery should support test:ws for correct diff)">
 			<p><span>foo</span><span>bar</span></p>
 		</x:expect>
 	</x:scenario>

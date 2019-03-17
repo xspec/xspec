@@ -14,7 +14,7 @@
       <x:context href="../../schematron-01.xml"/>
       <x:scenario>
          <x:label>article should have a title</x:label>
-         <x:result>
+         <x:result select="/element()">
             <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -50,7 +50,7 @@
       </x:scenario>
       <x:scenario>
          <x:label>section should have a title</x:label>
-         <x:result>
+         <x:result select="/element()">
             <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"

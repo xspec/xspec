@@ -17,13 +17,13 @@
          <x:result select="xs:boolean('true')"/>
          <x:test successful="false">
             <x:label>Expecting document node via @href should be Failure</x:label>
-            <x:expect select="/">
+            <x:expect select="/self::document-node()">
                <foo/>
             </x:expect>
          </x:test>
          <x:test successful="true">
             <x:label>Expecting document node via @href along with @test=$x:result should be Success</x:label>
-            <x:expect test="$x:result treat as xs:boolean" select="/">
+            <x:expect test="$x:result treat as xs:boolean" select="/self::document-node()">
                <foo/>
             </x:expect>
          </x:test>
@@ -57,13 +57,13 @@
          <x:result select="xs:boolean('true')"/>
          <x:test successful="false">
             <x:label>Expecting element(foo) via child node should be Failure</x:label>
-            <x:expect>
+            <x:expect select="/element()">
                <foo/>
             </x:expect>
          </x:test>
          <x:test successful="true">
             <x:label>Expecting element(foo) via child node along with @test=$x:result should be Success</x:label>
-            <x:expect test="$x:result treat as xs:boolean">
+            <x:expect test="$x:result treat as xs:boolean" select="/element()">
                <foo/>
             </x:expect>
          </x:test>

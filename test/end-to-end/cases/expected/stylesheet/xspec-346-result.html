@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:test="http://www.jenitennison.com/xslt/unit-test">
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>Test Report for do-nothing.xsl (passed: 0 / pending: 0 / failed: 1 / total: 1)</title>
@@ -46,13 +46,16 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-47">Expecting no space should be Failure</a></td>
+                  <td><a href="#ELEM-47">Expecting no space should be Failure (TODO: XQuery should support test:ws for correct
+                        diff)</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
          <h3 id="ELEM-33">When a function returns a node containing a space</h3>
-         <h4 id="ELEM-47">Expecting no space should be Failure</h4>
+         <h4 id="ELEM-47">Expecting no space should be Failure (TODO: XQuery should support test:ws for correct
+            diff)
+         </h4>
          <table class="xspecResult">
             <thead>
                <tr>
@@ -62,12 +65,16 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span class="diff">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
+                  <td>
+                     <p>XPath <code>/element()</code> from:
+                     </p><pre>&lt;<span class="diff">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
    &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
    <span class="whitespace">.</span>
    &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
 &lt;/p&gt;</pre></td>
-                  <td><pre>&lt;<span class="diff">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
+                  <td>
+                     <p>XPath <code>/element()</code> from:
+                     </p><pre>&lt;<span class="diff">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
    &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
    &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
 &lt;/p&gt;</pre></td>

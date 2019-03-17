@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:test="http://www.jenitennison.com/xslt/unit-test">
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>Test Report for do-nothing.xsl (passed: 0 / pending: 0 / failed: 2 / total: 2)</title>
@@ -51,7 +51,7 @@
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-63">When x:expect expects &lt;bar /&gt; and @test is "element(foo)" (i.e. non boolean), then
+                  <td><a href="#ELEM-65">When x:expect expects &lt;bar /&gt; and @test is "element(foo)" (i.e. non boolean), then
                         the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result" = "&lt;bar /&gt;" with
                         diff.</a></td>
                   <td>Failure</td>
@@ -71,12 +71,14 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;foo /&gt;</pre></td>
+                  <td>
+                     <p>XPath <code>/element()</code> from:
+                     </p><pre>&lt;foo /&gt;</pre></td>
                   <td><pre>empty(element(foo))</pre></td>
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-63">When x:expect expects &lt;bar /&gt; and @test is "element(foo)" (i.e. non boolean), then
+         <h4 id="ELEM-65">When x:expect expects &lt;bar /&gt; and @test is "element(foo)" (i.e. non boolean), then
             the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result" = "&lt;bar /&gt;" with
             diff.
          </h4>
@@ -89,8 +91,12 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
-                  <td><pre>&lt;<span class="diff">bar</span> /&gt;</pre></td>
+                  <td>
+                     <p>XPath <code>/element()</code> from:
+                     </p><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
+                  <td>
+                     <p>XPath <code>/element()</code> from:
+                     </p><pre>&lt;<span class="diff">bar</span> /&gt;</pre></td>
                </tr>
             </tbody>
          </table>

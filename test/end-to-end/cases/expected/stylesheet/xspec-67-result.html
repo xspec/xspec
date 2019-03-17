@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:test="http://www.jenitennison.com/xslt/unit-test">
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>Test Report for items.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
@@ -110,8 +110,12 @@
             </thead>
             <tbody>
                <tr>
-                  <td><pre>/node()</pre></td>
-                  <td><pre>/node()</pre></td>
+                  <td>
+                     <p>XPath <code>/*/namespace::*</code> from:
+                     </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:namespace-name="namespace-text" /&gt;</pre></td>
+                  <td>
+                     <p>XPath <code>/*/namespace::*</code> from:
+                     </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:another-namespace-name="another-namespace-text" /&gt;</pre></td>
                </tr>
             </tbody>
          </table>
