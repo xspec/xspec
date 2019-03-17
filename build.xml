@@ -131,7 +131,7 @@
     XSLT and XQuery: This property is just the alias of the original XSpec file.
     Schematron: This file is created while preprocessing at preprocess-schematron-xspec and deleted by cleanup. -->
   <condition property="xspec.xspecfile.preprocessed"
-             value="${xspec.xspecfile.original}-sch-preprocessed.xspec"
+             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-preprocessed.xspec"
              else="${xspec.xspecfile.original}">
     <istrue value="${xspec.is.schematron}" />
   </condition>
@@ -502,7 +502,6 @@
       <delete dir="${xspec.output.dir}" />
     </retry>
 
-    <delete file="${xspec.xspecfile.preprocessed}" if:true="${xspec.is.schematron}" />
     <delete file="${xspec.schematron.preprocessed.xsl.file}" />
   </target>
 

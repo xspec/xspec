@@ -389,9 +389,6 @@ teardown() {
     [ "$status" -eq 0 ]
     [ "${lines[3]}" == "Converting Schematron XSpec into XSLT XSpec..." ]
 
-    # Cleanup removes compiled .xspec
-    [ ! -f "../tutorial/schematron/demo-03.xspec-sch-preprocessed.xspec" ]
-
     # Cleanup removes temporary files in TEST_DIR
     run ls ../tutorial/schematron/xspec
     echo "$output"
@@ -546,9 +543,8 @@ teardown() {
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
-    # Verify that the default clean.output.dir is false and leaves temp files. Delete the left files at the same time.
+    # Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
-    rm    "../tutorial/schematron/demo-03.xspec-sch-preprocessed.xspec"
     rm    "../tutorial/schematron/demo-03.sch-preprocessed.xsl"
 }
 
@@ -574,7 +570,6 @@ teardown() {
 
     # Verify clean.output.dir=true
     [ ! -d "${ant_test_dir}" ]
-    [ ! -f "../tutorial/schematron/demo-03.xspec-sch-preprocessed.xspec" ]
     [ ! -f "../tutorial/schematron/demo-03.sch-preprocessed.xsl" ]
 }
 
@@ -593,8 +588,7 @@ teardown() {
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
 
-    # Verify that the build fails after Schematron setup and leaves temp files. Delete them at the same time.
-    rm catalog/catalog-02-schematron.xspec-sch-preprocessed.xspec
+    # Verify that the build fails after Schematron setup and leaves temp XSLT file. Delete it at the same time.
     rm catalog/02/tested.sch-preprocessed.xsl
 }
 
