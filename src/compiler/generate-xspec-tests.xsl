@@ -28,8 +28,6 @@
 <xsl:output indent="yes" />
 
 
-<xsl:variable name="xspec-ns" select="'http://www.jenitennison.com/xslt/xspec'"/>
-
 <xsl:variable name="apostrophe">'</xsl:variable>
 <xsl:variable name="stylesheet-uri" as="xs:anyURI" 
   select="resolve-uri(/x:description/@stylesheet, replace(base-uri(/x:description), $apostrophe, '%27'))" />  
@@ -56,6 +54,7 @@
       does not use them in node names. -->
     <xsl:namespace name="__x"  select="'http://www.w3.org/1999/XSL/TransformAliasAlias'" />
     <xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
+    <xsl:namespace name="test" select="'http://www.jenitennison.com/xslt/unit-test'" />
     <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
 
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
@@ -287,7 +286,6 @@
         <call-template name="test:report-sequence">
           <with-param name="sequence" select="$x:result" />
           <with-param name="wrapper-name" select="'x:result'" />
-          <with-param name="wrapper-ns" select="'{ $xspec-ns }'"/>
         </call-template>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
@@ -401,14 +399,12 @@
                <call-template name="test:report-sequence">
                   <with-param name="sequence"     select="$impl:test-result"/>
                   <with-param name="wrapper-name" select="'x:result'"/>
-                  <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
                </call-template>
             </if>
          </xsl:if>
          <call-template name="test:report-sequence">
             <with-param name="sequence"     select="$impl:expected"/>
             <with-param name="wrapper-name" select="'x:expect'"/>
-            <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
             <xsl:if test="@test">
               <with-param name="test" as="xs:string">
                 <xsl:value-of select="@test"/>
