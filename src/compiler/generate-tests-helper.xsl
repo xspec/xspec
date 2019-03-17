@@ -24,8 +24,6 @@
 <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl"/>
 <xsl:namespace-alias stylesheet-prefix="t" result-prefix="test"/>
   
-<xsl:output indent="yes" encoding="ISO-8859-1" />  
-  
 <xsl:key name="functions" 
          match="xsl:function" 
          use="resolve-QName(@name, .)" />
