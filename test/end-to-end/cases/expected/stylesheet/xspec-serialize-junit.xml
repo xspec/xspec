@@ -44,4 +44,12 @@
          <failure message="expect assertion failed">Expected: /element()</failure>
       </testcase>
    </testsuite>
+   <testsuite name="When x:expect has an element of '...',"
+              tests="1"
+              failures="1">
+      <testcase name="the corresponding nodes in [Result] with diff must be serialized in green.&#xA;&#x9;&#x9;&#x9;&#x9;(xspec/xspec#379)"
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>

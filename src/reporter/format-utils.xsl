@@ -146,7 +146,7 @@
           not($expected) and
           $node-to-compare-with/node() instance of text() and
           $node-to-compare-with = '...'">
-          <xsl:text>...</xsl:text>
+          <span class="same ellipsis">...</span>
         </xsl:when>
 
         <!-- Serialize the child nodes while performing comparison -->
@@ -252,7 +252,7 @@
       <xsl:value-of select="concat('&#x0A;', substring(., $indentation + 2))" />
     </xsl:otherwise>
   </xsl:choose>
-</xsl:template>  
+</xsl:template>
 
 <xsl:template match="document-node() | attribute() | node()" as="empty-sequence()" mode="test:serialize" priority="-1">
   <xsl:message select="'Unhandled node'" terminate="yes" />
