@@ -326,9 +326,9 @@ a.img:hover, a.img:active {
 }
 
 .whitespace {
-	font-style: italic;
+	/*font-style: italic;*/
 	color: #999;
-	background: white;
+	/*background: white;*/
 }
 
 .ellipsis {

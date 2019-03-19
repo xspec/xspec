@@ -52,4 +52,16 @@
          <failure message="expect assertion failed">Expected: /element()</failure>
       </testcase>
    </testsuite>
+   <testsuite name="When the result contains significant text nodes,"
+              tests="2"
+              failures="2">
+      <testcase name="both in [Result] and [Expected Result] with diff, the significant text nodes&#xA;&#x9;&#x9;&#x9;&#x9;must be serialized with color. (xspec/xspec#386)"
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+      <testcase name="in [Result] without diff, the significant text nodes must be serialized without&#xA;&#x9;&#x9;&#x9;&#x9;color."
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>
