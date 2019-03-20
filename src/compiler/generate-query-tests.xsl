@@ -299,8 +299,8 @@
          <!-- FIXME: Not correct, the x:expect model is more complex than
               a simple variable... (see how the original stylesheet, for
               XSLT, handles that...) Factorize with the XSLT version...
-              The value of $local:expected depends on x:expect's depends
-              on content, @href and @select. -->
+              The value of $local:expected depends on x:expect's
+              content, @href and @select. -->
          <xsl:text>      ( </xsl:text>
          <xsl:value-of select="@select"/>
          <xsl:copy-of select="node()"/>

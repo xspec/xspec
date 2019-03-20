@@ -58,14 +58,14 @@
     <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
 
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
-  	<import href="{$stylesheet-uri}" />
-  	<import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
+    <import href="{$stylesheet-uri}" />
+    <import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
     <!-- This namespace alias is used for when the testing process needs to test
          the generation of XSLT! -->
     <namespace-alias stylesheet-prefix="__x" result-prefix="xsl" />
     <variable name="x:stylesheet-uri" as="xs:string" select="'{$stylesheet-uri}'" />
-  	<output name="x:report" method="xml" indent="yes" />
+    <output name="x:report" method="xml" indent="yes" />
     <!-- Compile the test suite params (aka global params). -->
     <xsl:call-template name="x:compile-params"/>
     <!-- The main compiled template. -->
@@ -76,24 +76,27 @@
         <text><xsl:text> </xsl:text></text>
         <value-of select="system-property('xsl:product-version')" />
       </message>
-    	<result-document format="x:report">
-	      <processing-instruction name="xml-stylesheet">
-	        <xsl:text>type="text/xsl" href="</xsl:text>
-	        <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl',
-	          static-base-uri())" />
-	        <xsl:text>"</xsl:text>
-	      </processing-instruction>
-	      <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
-	        that the URI appears in the trace report generated from running the
-	        test stylesheet, which can then be picked up by stylesheets that
-	        process *that* to generate a coverage report -->
-	      <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
-	        <xsl:attribute name="xspec" select="(@xspec-original-location, $actual-document-uri)[1]"/>
-	        <xsl:copy-of select="@schematron"/>
-                 <!-- Generate calls to the compiled top-level scenarios. -->
-                 <xsl:call-template name="x:call-scenarios"/>
-	      </x:report>
-    	</result-document>
+
+      <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
+        being tested which would otherwise govern the output of the report XML. -->
+      <result-document format="x:report">
+        <processing-instruction name="xml-stylesheet">
+          <xsl:text>type="text/xsl" href="</xsl:text>
+          <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl',
+            static-base-uri())" />
+          <xsl:text>"</xsl:text>
+        </processing-instruction>
+        <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
+          that the URI appears in the trace report generated from running the
+          test stylesheet, which can then be picked up by stylesheets that
+          process *that* to generate a coverage report -->
+        <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
+          <xsl:attribute name="xspec" select="(@xspec-original-location, $actual-document-uri)[1]"/>
+          <xsl:copy-of select="@schematron"/>
+          <!-- Generate calls to the compiled top-level scenarios. -->
+          <xsl:call-template name="x:call-scenarios"/>
+        </x:report>
+      </result-document>
     </template>
     <!-- Compile the top-level scenarios. -->
     <xsl:call-template name="x:compile-scenarios"/>

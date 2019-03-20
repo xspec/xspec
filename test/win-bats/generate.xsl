@@ -48,7 +48,7 @@
 		</xsl:call-template>
 	</xsl:template>
 
-	<!-- Skip if not defined -->
+	<!-- Writes ifdef skips -->
 	<xsl:template as="text()+" match="@ifdef">
 		<xsl:call-template name="write">
 			<xsl:with-param name="text">
@@ -62,7 +62,7 @@
 		</xsl:call-template>
 	</xsl:template>
 
-	<!-- Write lines with CR LF -->
+	<!-- Writes lines with CR LF -->
 	<xsl:template as="text()+" name="write">
 		<xsl:param as="xs:string" name="text" required="yes" />
 
