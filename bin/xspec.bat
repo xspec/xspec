@@ -192,12 +192,12 @@ rem ##
 
 :cleanup
 	if defined SCHEMATRON (
-		del /q "%SCHUT%" 2>nul
-		del /q "%TEST_DIR%\context-*.xml" 2>nul
-		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
-		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" 2>nul
-		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" 2>nul
-		del /q "%SCH_COMPILED%" 2>nul
+		del "%SCHUT%" 2>nul
+		del "%TEST_DIR%\context-*.xml" 2>nul
+		del "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
+		del "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" 2>nul
+		del "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" 2>nul
+		del "%SCH_COMPILED%" 2>nul
 	)
 	goto :EOF
 
