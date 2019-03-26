@@ -127,18 +127,20 @@
     call :verify_retval 0
     call :verify_line 19 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-result.html"
 
-    rem XML report file is created
-    call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
+    rem Verify
+    rem * XML report file is created
+    rem * HTML report file is created
+    rem * Coverage is disabled by default
+    rem * JUnit is disabled by default
+    call :run dir /b /o:n ..\tutorial\xspec
+    call :verify_line_count 3
+    call :verify_line 1 x escape-for-regex.xsl
+    call :verify_line 2 x escape-for-regex-result.html
+    call :verify_line 3 x escape-for-regex-result.xml
 
-    rem HTML report file is created and contains CSS inline #135
+    rem HTML report file contains CSS inline #135
     call :run java -jar "%SAXON_JAR%" -s:..\tutorial\xspec\escape-for-regex-result.html -xsl:html-css.xsl
     call :verify_line 1 x "true"
-
-    rem Coverage is disabled by default
-    call :verify_not_exist ..\tutorial\xspec\escape-for-regex-coverage.xml
-
-    rem JUnit is disabled by default
-    call :verify_not_exist ..\tutorial\xspec\escape-for-regex-junit.xml
 	</case>
 
 	<case name="invoking xspec with -j option with Saxon8 returns error message">
@@ -322,11 +324,15 @@
     call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
     call :verify_line -4 x "BUILD FAILED"
 
-    rem Default xspec.coverage.enabled is false
-    call :verify_not_exist ..\tutorial\xspec\escape-for-regex-coverage.xml
-
-    rem Default xspec.junit.enabled is false
-    call :verify_not_exist ..\tutorial\xspec\escape-for-regex-junit.xml
+    rem Verify
+    rem * Default xspec.coverage.enabled is false
+    rem * Default xspec.junit.enabled is false
+    call :run dir /b /o:n ..\tutorial\xspec
+    call :verify_line_count 4
+    call :verify_line 1 x escape-for-regex.xsl
+    call :verify_line 2 x escape-for-regex_xml-to-properties.xml
+    call :verify_line 3 x escape-for-regex-result.html
+    call :verify_line 4 x escape-for-regex-result.xml
 	</case>
 
 	<case name="Ant for XSLT with xspec.fail=false continues on test failure">

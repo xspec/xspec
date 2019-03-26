@@ -198,19 +198,22 @@ teardown() {
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 
-    # XML report file is created
-    [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
+    # Verify
+    # * XML report file is created
+    # * HTML report file is created
+    # * Coverage is disabled by default
+    # * JUnit is disabled by default
+    run ls ../tutorial/xspec
+    echo "$output"
+    [ "${#lines[@]}" = "3" ]
+    [ "${lines[0]}" = "escape-for-regex-result.html" ]
+    [ "${lines[1]}" = "escape-for-regex-result.xml" ]
+    [ "${lines[2]}" = "escape-for-regex.xsl" ]
 
-    # HTML report file is created and contains CSS inline #135
+    # HTML report file contains CSS inline #135
     run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
-
-    # Coverage is disabled by default
-    [ ! -f "../tutorial/xspec/escape-for-regex-coverage.xml" ]
-
-    # JUnit is disabled by default
-    [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
 
@@ -443,11 +446,16 @@ teardown() {
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
 
-    # Default xspec.coverage.enabled is false
-    [ ! -f "../tutorial/xspec/escape-for-regex-coverage.xml" ]
-
-    # Default xspec.junit.enabled is false
-    [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
+    # Verify
+    # * Default xspec.coverage.enabled is false
+    # * Default xspec.junit.enabled is false
+    run ls ../tutorial/xspec
+    echo "$output"
+    [ "${#lines[@]}" = "4" ]
+    [ "${lines[0]}" = "escape-for-regex-result.html" ]
+    [ "${lines[1]}" = "escape-for-regex-result.xml" ]
+    [ "${lines[2]}" = "escape-for-regex_xml-to-properties.xml" ]
+    [ "${lines[3]}" = "escape-for-regex.xsl" ]
 }
 
 
