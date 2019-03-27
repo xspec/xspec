@@ -138,20 +138,26 @@ rem ##
     
     if not defined SCHEMATRON_XSLT_INCLUDE set "SCHEMATRON_XSLT_INCLUDE=%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl"
     if not defined SCHEMATRON_XSLT_EXPAND set "SCHEMATRON_XSLT_EXPAND=%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl"
-    if not defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE=%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl"
     
-    rem # get URI to Schematron file and phase/parameters from the XSpec file
+    rem # Absolute SCHEMATRON_XSLT_COMPILE
+    if defined SCHEMATRON_XSLT_COMPILE for %%I in ("%SCHEMATRON_XSLT_COMPILE%") do set "SCHEMATRON_XSLT_COMPILE_ABS=%%~fI"
+    
+    rem # Get Schematron file path
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\sch-file-path.xsl" ^
         || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
     set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     
-    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; declare function local:escape($v) { let $w := if (matches($v,codepoints-to-string((91,92,115,34,93)))) then codepoints-to-string(34) else '' return concat($w, replace($v,codepoints-to-string(34),codepoints-to-string((34,34))), $w)}; string-join(for $p in /*/*[local-name() = 'param'] return if ($p/@select) then concat('?',$p/@name,'=',local:escape($p/@select)) else concat($p/@name,'=',local:escape($p/string())),' ')" ^
-        -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
-        || ( call :die "Error getting Schematron phase and parameters" & goto :win_main_error_exit )
-    set /P SCH_PARAMS=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    echo Parameters: %SCH_PARAMS%
+    rem # Generate Step 3 wrapper XSLT
+    if defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE_URI=file:///%SCHEMATRON_XSLT_COMPILE_ABS:\=/%"
+    set "SCH_STEP3_WRAPPER=%TEST_DIR%\%TARGET_FILE_NAME%-sch-step3-wrapper.xsl"
+    call :xslt -o:"%SCH_STEP3_WRAPPER%" ^
+        -s:"%XSPEC%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\generate-step3-wrapper.xsl" ^
+        "ACTUAL-PREPROCESSOR-URI=%SCHEMATRON_XSLT_COMPILE_URI%" ^
+        || ( call :die "Error generating Step 3 wrapper XSLT" & goto :win_main_error_exit )
+    
     set "SCHUT=%XSPEC%-compiled.xspec"
     set "SCH_COMPILED=%SCH%-compiled.xsl"
     
@@ -164,8 +170,7 @@ rem ##
         -xsl:"%SCHEMATRON_XSLT_EXPAND%" -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 2" & goto :win_main_error_exit )
     call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
-        -xsl:"%SCHEMATRON_XSLT_COMPILE%" -versionmsg:off ^
-        %SCH_PARAMS% ^
+        -xsl:"%SCH_STEP3_WRAPPER%" -versionmsg:off ^
         || ( call :die "Error compiling the Schematron on step 3" & goto :win_main_error_exit )
     
     rem use XQuery to get full URI to compiled Schematron
@@ -197,6 +202,7 @@ rem ##
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" 2>nul
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" 2>nul
+		del "%SCH_STEP3_WRAPPER%" 2>nul
 		del "%SCH_COMPILED%" 2>nul
 	)
 	goto :EOF

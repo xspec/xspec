@@ -317,10 +317,14 @@ teardown() {
 
 
 @test "Schematron phase/parameters are passed to Schematron compile" {
-    run ../bin/xspec.sh -s schematron-param-001.xspec
-    echo "${lines[2]}"
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-param-001-step3.xsl
+    run ../bin/xspec.sh -s schematron/schematron-param-001.xspec
+    echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[2]}" == "Parameters: phase=P1 ?selected=codepoints-to-string((80,49))" ]
+    [ "${lines[18]}" == "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
 }
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (command line)" {
@@ -331,10 +335,10 @@ teardown() {
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}"  = "I am schematron-xslt-include.xsl!" ]
-    [ "${lines[5]}"  = "I am schematron-xslt-expand.xsl!" ]
-    [ "${lines[6]}"  = "I am schematron-xslt-compile.xsl!" ]
-    [ "${lines[18]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[3]}"  = "I am schematron-xslt-include.xsl!" ]
+    [ "${lines[4]}"  = "I am schematron-xslt-expand.xsl!" ]
+    [ "${lines[5]}"  = "I am schematron-xslt-compile.xsl!" ]
+    [ "${lines[17]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 
@@ -362,7 +366,7 @@ teardown() {
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}" == "Compiling the Schematron tests..." ]
+    [ "${lines[3]}" == "Compiling the Schematron tests..." ]
 
     # Cleanup removes compiled .xspec
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
@@ -599,7 +603,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/xspec-160_catalog.xml -s catalog/xspec-160_schematron.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[22]}" = "passed: 6 / pending: 0 / failed: 1 / total: 7" ]
+    [ "${lines[21]}" = "passed: 6 / pending: 0 / failed: 1 / total: 7" ]
 }
 
 @test "invoking xspec with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path" {

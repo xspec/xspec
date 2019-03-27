@@ -61,4 +61,14 @@
 				cast as xs:anyURI" />
 	</xsl:function>
 
+	<!--
+		Copies namespaces of element
+	-->
+	<xsl:function as="node()*" name="x:copy-namespaces">
+		<xsl:param as="element()" name="e" />
+
+		<xsl:for-each select="in-scope-prefixes($e)">
+			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $e)" />
+		</xsl:for-each>
+	</xsl:function>
 </xsl:stylesheet>

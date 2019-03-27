@@ -29,6 +29,9 @@
     
     <xsl:template match="x:description[@schematron]">
         <xsl:element name="x:description">
+            <!-- child::x:param may use namespaces -->
+            <xsl:sequence select="x:copy-namespaces(.)" />
+
             <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
             <xsl:apply-templates select="@*[not(name() = ('stylesheet'))]"/>
             <xsl:apply-templates select="node()"/>
