@@ -259,9 +259,13 @@
 
   <!-- Sets up the preprocessors for Schematron -->
   <target name="setup-schematron-preprocessor" if="${xspec.is.schematron}">
-    <!-- For Step 1 and 2: Location of the preprocessor XSLT files -->
+    <!-- "xspec.schematron.preprocessor.step1" property: Documented in Wiki. DO NOT RENAME.
+      File path of the Step 1 preprocessor XSLT file -->
     <property name="xspec.schematron.preprocessor.step1"
               value="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
+
+    <!-- "xspec.schematron.preprocessor.step2" property: Documented in Wiki. DO NOT RENAME.
+      File path of the Step 2 preprocessor XSLT file -->
     <property name="xspec.schematron.preprocessor.step2"
               value="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
 
@@ -271,7 +275,10 @@
     <property name="xspec.schematron.preprocessor.step3.wrapper"
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-step3-wrapper.xsl" />
 
-    <!-- URL of the actual preprocessor -->
+    <!-- "xspec.schematron.preprocessor.step3" property: Documented in Wiki. DO NOT RENAME.
+      File path of the actual Step 3 preprocessor XSLT file -->
+    <!-- "xspec.schematron.preprocessor.step3.url" property:
+      URL of the actual preprocessor -->
     <makeurl property="xspec.schematron.preprocessor.step3.url"
              file="${xspec.schematron.preprocessor.step3}"
              if:set="xspec.schematron.preprocessor.step3" />
