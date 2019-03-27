@@ -316,7 +316,7 @@ teardown() {
 }
 
 
-@test "Schematron phase/parameters are passed to Schematron compile" {
+@test "Schematron phase/parameters are passed to Schematron compile (command line)" {
     # Make the line numbers predictable by providing an existing output dir
     export TEST_DIR="${work_dir}"
 
@@ -327,6 +327,19 @@ teardown() {
     [ "${lines[18]}" == "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
 }
 
+@test "Schematron phase/parameters are passed to Schematron compile (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dclean.output.dir=true \
+        -Dtest.type=s \
+        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-param-001-step3.xsl" \
+        -Dxspec.xml="${PWD}/schematron/schematron-param-001.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 9 / pending: 0 / failed: 0 / total: 9" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+}
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (command line)" {
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
@@ -518,7 +531,7 @@ teardown() {
     # For testing -Dxspec.project.dir
     cp ../build.xml "${build_xml}"
 
-    run ant -buildfile "${build_xml}" -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dxspec.properties=${PWD}/schematron.properties -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir="${ant_test_dir}" -Dclean.output.dir=true
+    run ant -buildfile "${build_xml}" -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dxspec.properties=${PWD}/schematron.properties -Dxspec.project.dir=${PWD}/.. -Dxspec.dir="${ant_test_dir}" -Dclean.output.dir=true
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
@@ -539,7 +552,7 @@ teardown() {
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}"
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}"
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
@@ -559,7 +572,7 @@ teardown() {
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}" -Dxspec.fail=false
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}" -Dxspec.fail=false
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
