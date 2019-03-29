@@ -376,6 +376,9 @@
 	<x:variable name="myv:global-var-pre-element">
 		<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
 	</x:variable>
+	<x:variable name="myv:global-var-x-text">
+		<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+	</x:variable>
 	<x:scenario
 		label="In global variable, whitespace-only text nodes in user-content are removed by default.">
 		<x:context />
@@ -411,6 +414,13 @@
 				<x:expect label="whitespace-only text nodes are kept."
 					test="deep-equal($myv:global-var-pre-element, $pre-element-wsot)" />
 			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					/x:description/x:variable/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:global-var-x-text, $wsot)" />
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 
@@ -424,6 +434,9 @@
 		<x:variable href="xspec-space.xml" name="myv:local-var-href" />
 		<x:variable name="myv:local-var-pre-element">
 			<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+		</x:variable>
+		<x:variable name="myv:local-var-x-text">
+			<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 		</x:variable>
 
 		<x:scenario>
@@ -456,6 +469,13 @@
 					resolve-QName($qname, /x:description))],</x:label>
 				<x:expect label="whitespace-only text nodes are kept."
 					test="deep-equal($myv:local-var-pre-element, $pre-element-wsot)" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					//x:scenario/x:variable/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($myv:local-var-x-text, $wsot)" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
