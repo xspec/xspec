@@ -31,7 +31,6 @@
           - If "catalog" parameter uses ${pdu}, replace it with ${pd}
           - New parameters if required (See https://github.com/xspec/xspec/wiki/Running-with-Ant):
             - test.type
-            - xspec.phase
             - xspec.fail
   ]]></description>
 
@@ -273,18 +272,39 @@
           level="info" />
   </target>
 
-  <!-- Gets the Schematron phase defined in the XSpec file, if no phase was specified by the user.
-    Gets a zero-length string when the phase is not defined in the XSpec file. -->
-  <target name="get-schematron-phase" if="${xspec.is.schematron}" unless="xspec.phase">
-    <xml-to-properties in="${xspec.xspecfile.original}" style="get-schematron-phase.xsl" />
-    <echo message="Schematron phase set in XSpec: '${xspec.phase}'"
-          level="info"
-          unless:blank="${xspec.phase}" />
+  <!-- Sets up the preprocessors for Schematron -->
+  <target name="setup-schematron-preprocessor" if="${xspec.is.schematron}">
+    <!-- For Step 1 and 2: Location of the preprocessor XSLT files -->
+    <property name="xspec.schematron.preprocessor.step1"
+              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
+    <property name="xspec.schematron.preprocessor.step2"
+              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
+
+    <!-- For Step 3: Wrap the actual preprocessor in order to inject parameters -->
+
+    <!-- File path of a temporary XSLT file which imports the actual preprocessor -->
+    <property name="xspec.schematron.preprocessor.step3.wrapper"
+              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-step3-wrapper.xsl" />
+
+    <!-- URL of the actual preprocessor -->
+    <makeurl property="xspec.schematron.preprocessor.step3.url"
+             file="${xspec.schematron.preprocessor.step3}"
+             if:set="xspec.schematron.preprocessor.step3" />
+
+    <!-- Generate the wrapper of the actual preprocessor -->
+    <saxon-xslt in="${xspec.xspecfile.original}"
+                out="${xspec.schematron.preprocessor.step3.wrapper}"
+                style="${xspec.project.dir}/src/schematron/generate-step3-wrapper.xsl">
+      <xslt-elements>
+        <param name="ACTUAL-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step3.url}"
+               if="xspec.schematron.preprocessor.step3.url" />
+      </xslt-elements>
+    </saxon-xslt>
   </target>
 
   <!-- Preprocesses the XSpec file for Schematron -->
   <target name="preprocess-schematron"
-          depends="locate-schematron-file, get-schematron-phase"
+          depends="locate-schematron-file, setup-schematron-preprocessor"
           if="${xspec.is.schematron}">
     <!-- Location of the temporary files -->
     <property name="xspec.schematron.preprocessed.step1"
@@ -303,28 +323,19 @@
           level="info" />
     <saxon-xslt in="${xspec.schematron.file}"
                 out="${xspec.schematron.preprocessed.step1}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
+                style="${xspec.schematron.preprocessor.step1}" />
 
     <echo message="STEP 2: Expand abstracts"
           level="info" />
     <saxon-xslt in="${xspec.schematron.preprocessed.step1}"
                 out="${xspec.schematron.preprocessed.step2}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
+                style="${xspec.schematron.preprocessor.step2}" />
 
     <echo message="STEP 3: Convert Schematron to XSLT"
           level="info" />
-    <echo message="phase=${xspec.phase}"
-          level="info"
-          unless:blank="${xspec.phase}" />
     <saxon-xslt in="${xspec.schematron.preprocessed.step2}"
                 out="${xspec.schematron.preprocessed.xsl.file}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl">
-      <xslt-elements>
-        <!-- TODO: Parameters should be gathered from .xspec file -->
-        <param name="allow-foreign" expression="true" />
-        <param name="phase" expression="${xspec.phase}" unless:blank="${xspec.phase}" />
-      </xslt-elements>
-    </saxon-xslt>
+                style="${xspec.schematron.preprocessor.step3.wrapper}" />
 
     <makeurl property="xspec.schematron.preprocessed.xsl.url"
              file="${xspec.schematron.preprocessed.xsl.file}" />

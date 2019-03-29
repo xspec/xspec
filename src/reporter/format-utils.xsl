@@ -146,7 +146,7 @@
           not($expected) and
           $node-to-compare-with/node() instance of text() and
           $node-to-compare-with = '...'">
-          <xsl:text>...</xsl:text>
+          <span class="same ellipsis">...</span>
         </xsl:when>
 
         <!-- Serialize the child nodes while performing comparison -->
@@ -180,7 +180,7 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="comment() | processing-instruction() | text()" as="node()" mode="test:serialize">
+<xsl:template match="comment() | processing-instruction() | text() | test:ws" as="node()" mode="test:serialize">
   <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
   <xsl:param name="node-to-compare-with" as="node()?" select="()" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
@@ -198,12 +198,44 @@
       <xsl:when test="self::text()">
         <xsl:sequence select="." />
       </xsl:when>
+
+      <xsl:when test="self::test:ws">
+        <xsl:value-of>
+          <xsl:analyze-string select="." regex="[&#x09;&#x0A;&#x0D;&#x20;]">
+            <xsl:matching-substring>
+              <xsl:choose>
+                <xsl:when test=". eq '&#x09;'">\t</xsl:when>
+                <xsl:when test=". eq '&#x0A;'">\n</xsl:when>
+                <xsl:when test=". eq '&#x0D;'">\r</xsl:when>
+                <xsl:when test=". eq '&#x20;'">
+                  <!-- OPEN BOX character -->
+                  <xsl:value-of select="'&#x2423;'" />
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:message select="'Unexpected whitespace'" terminate="yes" />
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:matching-substring>
+
+            <xsl:non-matching-substring>
+              <xsl:message select="'Unexpected character'" terminate="yes" />
+            </xsl:non-matching-substring>
+          </xsl:analyze-string>
+        </xsl:value-of>
+      </xsl:when>
+
+      <xsl:otherwise>
+        <xsl:message select="'Node not serialized'" terminate="yes" />
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
 
   <xsl:choose>
-    <xsl:when test="$perform-comparison">
-      <span class="{test:comparison-html-class(., $node-to-compare-with, $expected)}">
+    <xsl:when test="$perform-comparison or self::test:ws">
+      <span class="{
+        test:comparison-html-class(., $node-to-compare-with, $expected)[$perform-comparison],
+        'whitespace'[current()/self::test:ws]
+        }">
         <xsl:sequence select="$serialized" />
       </span>
     </xsl:when>
@@ -212,25 +244,6 @@
       <xsl:sequence select="$serialized" />
     </xsl:otherwise>
   </xsl:choose>
-</xsl:template>
-
-<xsl:template match="test:ws" as="element(xhtml:span)?" mode="test:serialize">
-  <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
-
-  <xsl:if test="$perform-comparison">
-    <span class="whitespace">
-      <xsl:analyze-string select="." regex="\s">
-        <xsl:matching-substring>
-          <xsl:choose>
-            <xsl:when test=". = '&#x0A;'">\n</xsl:when>
-            <xsl:when test=". = '&#x0D;'">\r</xsl:when>
-            <xsl:when test=". = '&#x09;'">\t</xsl:when>
-            <xsl:when test=". = ' '">.</xsl:when>
-          </xsl:choose>
-        </xsl:matching-substring>
-      </xsl:analyze-string>
-    </span>
-  </xsl:if>
 </xsl:template>
 
 <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="test:serialize">
@@ -252,7 +265,7 @@
       <xsl:value-of select="concat('&#x0A;', substring(., $indentation + 2))" />
     </xsl:otherwise>
   </xsl:choose>
-</xsl:template>  
+</xsl:template>
 
 <xsl:template match="document-node() | attribute() | node()" as="empty-sequence()" mode="test:serialize" priority="-1">
   <xsl:message select="'Unhandled node'" terminate="yes" />

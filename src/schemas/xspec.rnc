@@ -217,8 +217,13 @@ test = attribute test { xpath }
 
 common-attributes = attribute xml:* { text }*
 
-user-content = mixed { user-element* }
+user-content = mixed { (user-element | text-element)* }
 user-element = element * - x:* { attribute * { text }*, user-content }
+
+text-element =
+	## Works like <xsl:text>.
+	## Text in this element is not ignored even when it's whitespace-only.
+	element text { text }
 
 schematron-scenario = context?,
                     like*,

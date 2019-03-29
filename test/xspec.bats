@@ -198,19 +198,22 @@ teardown() {
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 
-    # XML report file is created
-    [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
+    # Verify
+    # * XML report file is created
+    # * HTML report file is created
+    # * Coverage is disabled by default
+    # * JUnit is disabled by default
+    run ls ../tutorial/xspec
+    echo "$output"
+    [ "${#lines[@]}" = "3" ]
+    [ "${lines[0]}" = "escape-for-regex-result.html" ]
+    [ "${lines[1]}" = "escape-for-regex-result.xml" ]
+    [ "${lines[2]}" = "escape-for-regex.xsl" ]
 
-    # HTML report file is created and contains CSS inline #135
+    # HTML report file contains CSS inline #135
     run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
-
-    # Coverage is disabled by default
-    [ ! -f "../tutorial/xspec/escape-for-regex-coverage.xml" ]
-
-    # JUnit is disabled by default
-    [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
 }
 
 
@@ -313,27 +316,65 @@ teardown() {
 }
 
 
-@test "Schematron phase/parameters are passed to Schematron compile" {
-    run ../bin/xspec.sh -s schematron-param-001.xspec
-    echo "${lines[2]}"
+@test "Schematron phase/parameters are passed to Schematron compile (command line)" {
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-param-001-step3.xsl
+    run ../bin/xspec.sh -s schematron/schematron-param-001.xspec
+    echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[2]}" == "Parameters: phase=P1 ?selected=codepoints-to-string((80,49))" ]
+    [ "${lines[18]}" == "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
 }
 
-@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile" {
+
+@test "Schematron phase/parameters are passed to Schematron compile (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dclean.output.dir=true \
+        -Dtest.type=s \
+        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-param-001-step3.xsl" \
+        -Dxspec.xml="${PWD}/schematron/schematron-param-001.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 9 / pending: 0 / failed: 0 / total: 9" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+}
+
+
+@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (command line)" {
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
 
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
     echo "$output"
-    [ "${lines[4]}" = "Schematron XSLT include" ]
-    [ "${lines[5]}" = "Schematron XSLT expand" ]
-    [ "${lines[6]}" = "Schematron XSLT compile" ]
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}"  = "I am schematron-xslt-include.xsl!" ]
+    [ "${lines[4]}"  = "I am schematron-xslt-expand.xsl!" ]
+    [ "${lines[5]}"  = "I am schematron-xslt-compile.xsl!" ]
+    [ "${lines[17]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+}
 
-    # With the provided dummy XSLTs, XSpec leaves temp files. Delete them.
-    rm ../tutorial/schematron/demo-01.sch-compiled.xsl
-    rm ../tutorial/schematron/demo-01.xspec-compiled.xspec
+
+@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dclean.output.dir=true \
+        -Dtest.type=s \
+        -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt-include.xsl" \
+        -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt-expand.xsl" \
+        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt-compile.xsl" \
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "I am schematron-xslt-include.xsl!" ]]
+    [[ "${output}" =~ "I am schematron-xslt-expand.xsl!" ]]
+    [[ "${output}" =~ "I am schematron-xslt-compile.xsl!" ]]
+    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
+    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
 
@@ -341,7 +382,7 @@ teardown() {
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}" == "Compiling the Schematron tests..." ]
+    [ "${lines[3]}" == "Compiling the Schematron tests..." ]
 
     # Cleanup removes compiled .xspec
     [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
@@ -425,11 +466,16 @@ teardown() {
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
 
-    # Default xspec.coverage.enabled is false
-    [ ! -f "../tutorial/xspec/escape-for-regex-coverage.xml" ]
-
-    # Default xspec.junit.enabled is false
-    [ ! -f "../tutorial/xspec/escape-for-regex-junit.xml" ]
+    # Verify
+    # * Default xspec.coverage.enabled is false
+    # * Default xspec.junit.enabled is false
+    run ls ../tutorial/xspec
+    echo "$output"
+    [ "${#lines[@]}" = "4" ]
+    [ "${lines[0]}" = "escape-for-regex-result.html" ]
+    [ "${lines[1]}" = "escape-for-regex-result.xml" ]
+    [ "${lines[2]}" = "escape-for-regex_xml-to-properties.xml" ]
+    [ "${lines[3]}" = "escape-for-regex.xsl" ]
 }
 
 
@@ -488,7 +534,7 @@ teardown() {
     # For testing -Dxspec.project.dir
     cp ../build.xml "${build_xml}"
 
-    run ant -buildfile "${build_xml}" -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dxspec.properties=${PWD}/schematron.properties -Dxspec.project.dir=${PWD}/.. -Dxspec.phase=#ALL -Dxspec.dir="${ant_test_dir}" -Dclean.output.dir=true
+    run ant -buildfile "${build_xml}" -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dxspec.properties=${PWD}/schematron.properties -Dxspec.project.dir=${PWD}/.. -Dxspec.dir="${ant_test_dir}" -Dclean.output.dir=true
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
@@ -509,7 +555,7 @@ teardown() {
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}"
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}"
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
@@ -529,12 +575,13 @@ teardown() {
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.phase=#ALL -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}" -Dxspec.fail=false
+    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/xspec-160_schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/xspec-160_catalog.xml -lib "${XML_RESOLVER_JAR}" -Dxspec.fail=false
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
+
 
 @test "invoking xspec for XSLT with -catalog uses XML Catalog resolver and does so even with spaces in file path" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
@@ -552,6 +599,7 @@ teardown() {
     [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
+
 @test "invoking xspec for XQuery with -catalog uses XML Catalog resolver" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
@@ -564,6 +612,7 @@ teardown() {
     [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
+
 @test "invoking xspec for Schematron with -catalog uses XML Catalog resolver" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
@@ -573,8 +622,9 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/xspec-160_catalog.xml -s catalog/xspec-160_schematron.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[22]}" = "passed: 6 / pending: 0 / failed: 1 / total: 7" ]
+    [ "${lines[21]}" = "passed: 6 / pending: 0 / failed: 1 / total: 7" ]
 }
+
 
 @test "invoking xspec with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
@@ -592,6 +642,7 @@ teardown() {
     [ "$status" -eq 0 ]
     [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
+
 
 @test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
@@ -827,6 +878,15 @@ teardown() {
     [[ "${lines[14]}" =~ "WARNING: x:expect has boolean @test" ]]
     [[ "${lines[21]}" =~ "WARNING: x:expect has boolean @test" ]]
     [  "${lines[30]}" =  "Formatting Report..." ]
+}
+
+
+@test "Deprecate x:space" {
+    run ../bin/xspec.sh deprecated-space/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "x:space is deprecated. Use x:text instead." ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
 

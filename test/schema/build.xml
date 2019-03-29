@@ -11,6 +11,7 @@
 			<exclude name="test/schematron/schut-to-xspec-0??-out.xspec" />
 
 			<!-- Tests x:* which is not allowed in user-content -->
+			<exclude name="test/deprecated-space/test.xspec" />
 			<exclude name="test/generate-tests-utils.xspec" />
 			<exclude name="test/generate-xspec-tests.xspec" />
 			<exclude name="test/unit-expect-xsl.xspec" />

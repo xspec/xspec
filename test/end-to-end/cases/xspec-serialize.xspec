@@ -145,4 +145,59 @@
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
+
+	<x:scenario>
+		<x:label>When x:expect has an element of '...',</x:label>
+		<x:call function="exactly-one">
+			<x:param>
+				<foo>
+					<bar />
+					<baz />
+				</foo>
+			</x:param>
+		</x:call>
+		<x:expect>
+			<x:label>the corresponding nodes in [Result] with diff must be serialized in green.
+				(xspec/xspec#379)</x:label>
+			<foo>...</foo>
+			<qux />
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario>
+		<x:label>When the result contains significant text nodes,</x:label>
+		<x:call function="exactly-one">
+			<x:param>
+				<test>
+					<oridinary-text-node>
+						<same>same</same>
+						<diff>actual</diff>
+					</oridinary-text-node>
+					<significant-whitespace-only-text-node>
+						<same xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</same>
+						<diff xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</diff>
+					</significant-whitespace-only-text-node>
+				</test>
+			</x:param>
+		</x:call>
+		<x:expect>
+			<x:label>both in [Result] and [Expected Result] with diff, the significant text nodes
+				must be serialized with color. (xspec/xspec#386)</x:label>
+			<test>
+				<oridinary-text-node>
+					<same>same</same>
+					<diff>expect</diff>
+				</oridinary-text-node>
+				<significant-whitespace-only-text-node>
+					<same xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</same>
+					<diff xml:space="preserve">&#x20;&#x09;&#x0A;&#x0D;</diff>
+				</significant-whitespace-only-text-node>
+			</test>
+		</x:expect>
+		<x:expect test="false()">
+			<x:label>in [Result] without diff, the significant text nodes must be serialized without
+				color.</x:label>
+		</x:expect>
+	</x:scenario>
+
 </x:description>

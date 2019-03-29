@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for do-nothing.xsl (passed: 0 / pending: 0 / failed: 1 / total: 1)</title>
+      <title>Test Report for xspec-151.xsl (passed: 0 / pending: 0 / failed: 1 / total: 1)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
-      <p>Stylesheet: <a href="../../../../do-nothing.xsl">do-nothing.xsl</a></p>
-      <p>XSpec: <a href="../../xspec-346.xspec">xspec-346.xspec</a></p>
+      <p>Stylesheet: <a href="../../xspec-151.xsl">xspec-151.xsl</a></p>
+      <p>XSpec: <a href="../../xspec-151.xspec">xspec-151.xspec</a></p>
       <p>Tested: ONCE-UPON-A-TIME</p>
       <h2>Contents</h2>
       <table class="xspec">
@@ -27,7 +27,7 @@
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#ELEM-33">When a function returns a node containing a space</a></th>
+               <th><a href="#ELEM-33">When the result is a mixture of a typed element and a string</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -36,48 +36,41 @@
          </tbody>
       </table>
       <div id="ELEM-33">
-         <h2 class="failed">When a function returns a node containing a space<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <h2 class="failed">When the result is a mixture of a typed element and a string<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
          <table class="xspec" id="ELEM-35">
             <col width="75%" />
             <col width="25%" />
             <tbody>
                <tr class="failed">
-                  <th>When a function returns a node containing a space</th>
+                  <th>When the result is a mixture of a typed element and a string</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-47">Expecting no space should be Failure (TODO: XQuery should support test:ws for correct
-                        diff)</a></td>
+                  <td><a href="#ELEM-47">[Result] in the failure report HTML must wrap element and string separately</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-33">When a function returns a node containing a space</h3>
-         <h4 id="ELEM-47">Expecting no space should be Failure (TODO: XQuery should support test:ws for correct
-            diff)
-         </h4>
+         <h3 id="ELEM-33">When the result is a mixture of a typed element and a string</h3>
+         <h4 id="ELEM-47">[Result] in the failure report HTML must wrap element and string separately</h4>
          <table class="xspecResult">
             <thead>
                <tr>
                   <th>Result</th>
-                  <th>Expected Result</th>
+                  <th>Expecting</th>
                </tr>
             </thead>
             <tbody>
                <tr>
                   <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
-   &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
-   <span class="diff whitespace">␣</span>
-   &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
-&lt;/p&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">p</span> xmlns:do-nothing="x-urn:test:do-nothing"&gt;
-   &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
-   &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
-&lt;/p&gt;</pre></td>
+                     <p>XPath <code>/*</code> from:
+                     </p><pre>&lt;pseudo-element xmlns:test-mix="x-urn:test-mix"&gt;
+   &lt;test-mix:fooElement&gt;
+      &lt;test-mix:barElement /&gt;
+   &lt;/test-mix:fooElement&gt;
+&lt;/pseudo-element&gt;
+&lt;pseudo-atomic-value xmlns:test-mix="x-urn:test-mix"&gt;'string'&lt;/pseudo-atomic-value&gt;</pre></td>
+                  <td><pre>false()</pre></td>
                </tr>
             </tbody>
          </table>

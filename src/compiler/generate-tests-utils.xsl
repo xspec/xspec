@@ -128,20 +128,12 @@
            </xsl:variable>
            <xsl:sequence select="test:deep-equal($seq1, $seq2, $flags)"/>
         </xsl:when>
-        <xsl:when test="$seq1 instance of node()+ and $seq2 instance of node()+ and empty($seq1[. instance of attribute()]) and empty($seq2[. instance of attribute()])">
-           <xsl:variable name="seq1a" as="document-node()">
-              <xsl:document>
-                 <xsl:sequence select="$seq1"/>
-              </xsl:document>
-           </xsl:variable>
-           <xsl:variable name="seq2a" as="document-node()">
-              <xsl:document>
-                 <xsl:sequence select="$seq2"/>
-              </xsl:document>
-           </xsl:variable>
+        <xsl:when test="test:wrappable-sequence($seq1) and test:wrappable-sequence($seq2)">
+           <xsl:variable name="seq1doc" as="document-node()" select="test:wrap-nodes($seq1)" />
+           <xsl:variable name="seq2doc" as="document-node()" select="test:wrap-nodes($seq2)" />
            <xsl:choose>
-              <xsl:when test="count($seq1a/node()) != count($seq1) or count($seq2a/node()) != count($seq2)">
-                 <xsl:sequence select="test:deep-equal($seq1a/node(), $seq2a/node(), $flags)"/>
+              <xsl:when test="count($seq1doc/node()) != count($seq1) or count($seq2doc/node()) != count($seq2)">
+                 <xsl:sequence select="test:deep-equal($seq1doc/node(), $seq2doc/node(), $flags)"/>
               </xsl:when>
               <xsl:otherwise>
                  <xsl:sequence select="false()"/>
@@ -579,6 +571,7 @@
     <xsl:when test="test:instance-of-namespace($node)"         >namespace-node</xsl:when>
     <xsl:when test="$node instance of processing-instruction()">processing-instruction</xsl:when>
     <xsl:when test="$node instance of text()"                  >text</xsl:when>
+    <xsl:otherwise>node</xsl:otherwise>
   </xsl:choose>
 </xsl:function>
 
@@ -600,6 +593,14 @@
       or $item instance of element()
       or $item instance of processing-instruction()
       or $item instance of text())" />
+</xsl:function>
+
+<!-- Returns true if every item in sequence can be wrapped in document node.
+  Empty sequence is considered to be able to be wrapped. -->
+<xsl:function name="test:wrappable-sequence" as="xs:boolean">
+  <xsl:param name="sequence" as="item()*" />
+
+  <xsl:sequence select="every $item in $sequence satisfies test:wrappable-node($item)" />
 </xsl:function>
 
 <!-- Returns true if item is node and can be wrapped in document node -->

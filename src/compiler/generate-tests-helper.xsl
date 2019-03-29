@@ -39,63 +39,64 @@
                      'mode=', normalize-space(@mode))" />
 
 
-<xsl:template match="*" mode="test:generate-variable-declarations">
+<xsl:template match="*" as="element()+" mode="test:generate-variable-declarations">
   <xsl:param name="var" as="xs:string" required="yes" />
   <xsl:param name="type" as="xs:string" select="'variable'" />
   <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
   <xsl:variable name="variable_is_pending" as="xs:boolean"
     select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
-  <xsl:choose>
-    <xsl:when test="$variable_is_pending">
-      <!-- Define variable, but do not give it a value because the value specified in test file might not be executable. -->
-      <xsl:element name="xsl:{$type}">
-        <xsl:attribute name="name" select="$var" />
-      </xsl:element>
-    </xsl:when>
-    <xsl:when test="node() or @href">
-      <variable name="{$var}-doc" as="document-node()">
-        <xsl:choose>
-          <xsl:when test="@href">
-            <xsl:attribute name="select">
-              <xsl:text>doc('</xsl:text>
-              <xsl:value-of select="resolve-uri(@href, base-uri(.))" />
-              <xsl:text>')</xsl:text>
-            </xsl:attribute>
-          </xsl:when>
-          <xsl:otherwise>
-            <document>
-              <xsl:apply-templates mode="test:create-xslt-generator" />
-            </document>
-          </xsl:otherwise>
-        </xsl:choose>
-      </variable>
-      <xsl:element name="xsl:{$type}">
-        <xsl:copy-of select="@as"/>
-        <xsl:attribute name="name" select="$var" />
-        <xsl:attribute name="select"
-          select="if (@select) 
-                    then concat('$', $var, '-doc/(', @select, ')')
-                  else if (@href)
-                    then concat('$', $var, '-doc')
-                  else concat('$', $var, '-doc/node()')" />
-      </xsl:element>
-    </xsl:when>
-    <xsl:when test="@select">
-      <xsl:element name="xsl:{$type}">
-        <xsl:copy-of select="@as|@select"/>
-        <xsl:attribute name="name" select="$var" />
-      </xsl:element>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:element name="xsl:{$type}">
-        <xsl:copy-of select="@as"/>
-        <xsl:attribute name="name" select="$var" />
-        <xsl:attribute name="select" select="'()'" />
-      </xsl:element>
-    </xsl:otherwise>
-  </xsl:choose>        
-</xsl:template>  
-  
+  <xsl:variable name="var-doc" as="xs:string?"
+    select="if (node() or @href) then concat($var, '-doc') else ()" />
+
+  <xsl:if test="$var-doc">
+    <variable name="{$var-doc}" as="document-node()">
+      <xsl:choose>
+        <xsl:when test="@href">
+          <xsl:attribute name="select">
+            <xsl:text>doc('</xsl:text>
+            <xsl:value-of select="resolve-uri(@href, base-uri())" />
+            <xsl:text>')</xsl:text>
+          </xsl:attribute>
+        </xsl:when>
+
+        <xsl:otherwise>
+          <document>
+            <xsl:apply-templates mode="test:create-xslt-generator" />
+          </document>
+        </xsl:otherwise>
+      </xsl:choose>
+    </variable>
+  </xsl:if>
+
+  <xsl:element name="xsl:{$type}">
+    <xsl:attribute name="name" select="$var" />
+    <xsl:sequence select="@as" />
+
+    <xsl:choose>
+      <xsl:when test="$variable_is_pending">
+        <!-- Define variable, but do not give it a value because the value specified in test file might not be executable. -->
+        <xsl:element name="xsl:{$type}">
+          <xsl:attribute name="name" select="$var" />
+        </xsl:element>
+      </xsl:when>
+      <xsl:when test="$var-doc">
+        <xsl:if test="empty(@as)">
+          <!-- Set @as in order not to create an unexpected document node:
+            http://www.w3.org/TR/xslt20/#temporary-trees -->
+          <xsl:attribute name="as" select="'item()*'" />
+        </xsl:if>
+
+        <for-each select="${$var-doc}">
+          <sequence select="{(@select, '.'[current()/@href], 'node()')[1]}" />
+        </for-each>
+      </xsl:when>
+
+      <xsl:otherwise>
+        <xsl:attribute name="select" select="(@select, '()')[1]" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:element>
+</xsl:template>
 
 <xsl:template match="*" mode="test:create-xslt-generator">
    <xsl:copy>
