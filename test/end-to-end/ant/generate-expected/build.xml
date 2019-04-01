@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="run-xspec-tests.run-worker" name="generate-expected">
+<project default="e2e-base.run-worker" name="generate-expected">
 	<!-- Import "e2e-base" build file -->
 	<import file="../base/build.xml" />
 </project>
