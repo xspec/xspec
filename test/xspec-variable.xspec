@@ -130,7 +130,7 @@
 
 	<x:scenario label="Nonsense variable definition in pending scenario does not cause build failure.">
 		<x:scenario label="Pending scenario 1" pending="skip on purpose">
-			<x:variable name="myv:nonsense1" select="$myv:nonexistent"/>
+			<x:variable name="myv:nonsense1" select="$myv:nonexistent" as="item()+"/>
 			<x:call function="exactly-one">
 				<x:param select="$myv:nonsense1"/>
 			</x:call>

@@ -46,7 +46,7 @@
   <xsl:variable name="variable_is_pending" as="xs:boolean"
     select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
   <xsl:variable name="var-doc" as="xs:string?"
-    select="if (node() or @href) then concat($var, '-doc') else ()" />
+    select="if (not($variable_is_pending) and (node() or @href)) then concat($var, '-doc') else ()" />
 
   <xsl:if test="$var-doc">
     <variable name="{$var-doc}" as="document-node()">
@@ -74,11 +74,12 @@
 
     <xsl:choose>
       <xsl:when test="$variable_is_pending">
-        <!-- Define variable, but do not give it a value because the value specified in test file might not be executable. -->
-        <xsl:element name="xsl:{$type}">
-          <xsl:attribute name="name" select="$var" />
-        </xsl:element>
+        <!-- Do not give variable a value, because the value specified in test file
+             might not be executable. Override data type, because an empty
+             sequence might not be valid for the type specified in test file. -->
+        <xsl:attribute name="as" select="'item()*'" />
       </xsl:when>
+
       <xsl:when test="$var-doc">
         <xsl:if test="empty(@as)">
           <!-- Set @as in order not to create an unexpected document node:
