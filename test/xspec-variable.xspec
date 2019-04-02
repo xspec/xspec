@@ -19,7 +19,7 @@
 
    <t:scenario label="call global var">
       <t:call function="my:square">
-         <t:param select="$test-3/@num"/>
+         <t:param select="$test-3/@num" as="attribute(num)"/>
       </t:call>
       <t:expect label="the result" select="$test-3/@value cast as xs:integer"/>
    </t:scenario>
@@ -33,7 +33,7 @@
    <t:scenario label="call local var">
       <t:variable name="param" select="$test-3/@num"/>
       <t:call function="my:square">
-         <t:param select="$param"/>
+         <t:param select="$param" as="attribute(num)"/>
       </t:call>
       <t:variable name="result" select="$test-3/@value"/>
       <t:expect label="the result" select="$result cast as xs:integer"/>

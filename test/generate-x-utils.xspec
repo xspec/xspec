@@ -81,7 +81,7 @@
          </t:variable>
          <t:call function="test:deep-equal">
             <t:param as="text()">foobar</t:param>
-            <t:param select="$elems/text()"/>
+            <t:param select="$elems/text()" as="text()+"/>
             <t:param select="''" />
          </t:call>
          <t:expect label="the result" select="true()"/>
@@ -101,7 +101,7 @@
             <t:scenario label="string">
                <t:call function="test:deep-equal">
                   <t:param select="'12'"/>
-                  <t:param select="descendant::text()">
+                  <t:param select="descendant::text()" as="text()+">
                      <wrap>1</wrap>
                      <wrap>2</wrap>
                   </t:param>
@@ -113,7 +113,7 @@
             <t:scenario label="double">
                <t:call function="test:deep-equal">
                   <t:param select="xs:double('12')"/>
-                  <t:param select="descendant::text()">
+                  <t:param select="descendant::text()" as="text()+">
                      <wrap>1</wrap>
                      <wrap>2</wrap>
                   </t:param>
@@ -125,7 +125,7 @@
             <t:scenario label="decimal">
                <t:call function="test:deep-equal">
                   <t:param select="xs:decimal('12')"/>
-                  <t:param select="descendant::text()">
+                  <t:param select="descendant::text()" as="text()+">
                      <wrap>1</wrap>
                      <wrap>2</wrap>
                   </t:param>
@@ -137,7 +137,7 @@
             <t:scenario label="integer">
                <t:call function="test:deep-equal">
                   <t:param select="xs:integer('12')"/>
-                  <t:param select="descendant::text()">
+                  <t:param select="descendant::text()" as="text()+">
                      <wrap>1</wrap>
                      <wrap>2</wrap>
                   </t:param>
@@ -175,7 +175,7 @@
             <t:scenario label="string">
                <t:call function="test:deep-equal">
                   <t:param select="'12'"/>
-                  <t:param select="descendant::text()">
+                  <t:param select="descendant::text()" as="text()+">
                      <wrap>1</wrap>
                      <wrap>2</wrap>
                   </t:param>
@@ -187,7 +187,7 @@
             <t:scenario label="double">
                <t:call function="test:deep-equal">
                   <t:param select="xs:double('12')"/>
-                  <t:param select="descendant::text()">
+                  <t:param select="descendant::text()" as="text()+">
                      <wrap>1</wrap>
                      <wrap>2</wrap>
                   </t:param>
@@ -199,7 +199,7 @@
             <t:scenario label="decimal">
                <t:call function="test:deep-equal">
                   <t:param select="xs:decimal('12')"/>
-                  <t:param select="descendant::text()">
+                  <t:param select="descendant::text()" as="text()+">
                      <wrap>1</wrap>
                      <wrap>2</wrap>
                   </t:param>
@@ -211,7 +211,7 @@
             <t:scenario label="integer">
                <t:call function="test:deep-equal">
                   <t:param select="xs:integer('12')"/>
-                  <t:param select="descendant::text()">
+                  <t:param select="descendant::text()" as="text()+">
                      <wrap>1</wrap>
                      <wrap>2</wrap>
                   </t:param>
@@ -338,10 +338,11 @@
    -->
    <t:scenario label="test:node-deep-equal($seq1, $seq2, '')">
 
+      <!-- TODO: t:scenario/@label contradicts t:call/t:param/@as -->
       <t:scenario label="Identical Element Sequences">
          <t:call function="test:node-deep-equal">
-            <t:param name="node1">foobar</t:param>
-            <t:param name="node2">foobar</t:param>
+            <t:param name="node1" as="text()">foobar</t:param>
+            <t:param name="node2" as="text()">foobar</t:param>
             <t:param select="''" />
          </t:call>
          <t:expect label="the result" select="true()"/>
@@ -376,8 +377,8 @@
 
          <t:scenario label="String and Integer">
             <t:call function="test:item-deep-equal">
-               <t:param name="item1" select="'1'" />
-               <t:param name="item2" select="1" />
+               <t:param name="item1" select="'1'" as="xs:string"/>
+               <t:param name="item2" select="1" as="xs:integer"/>
                <t:param select="''" />
             </t:call>
             <t:expect label="False" select="false()" />

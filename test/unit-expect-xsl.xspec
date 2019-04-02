@@ -23,8 +23,8 @@
    -->
    <t:scenario label="pending call">
       <t:context mode="t:compile">
-         <t:param tunnel="yes" name="context"/>
-         <t:param tunnel="yes" name="call"/>
+         <t:param tunnel="yes" name="context" as="empty-sequence()"/>
+         <t:param tunnel="yes" name="call" as="empty-sequence()"/>
          <t:expect test="false()"/>
       </t:context>
       <t:expect label="is a template"
