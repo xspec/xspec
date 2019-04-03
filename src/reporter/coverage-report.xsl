@@ -107,8 +107,11 @@
     <xsl:sequence select="key('modules', $uri, $trace)/@id" />
   </xsl:variable>
   <h2>
-    module: <xsl:value-of select="$stylesheet-uri" />; 
-    <xsl:value-of select="$number-of-lines" /> lines
+    <xsl:text>module: </xsl:text>
+    <xsl:value-of select="$stylesheet-uri" />
+    <xsl:text>; </xsl:text>
+    <xsl:value-of select="$number-of-lines" />
+    <xsl:text> lines</xsl:text>
   </h2>
   <xsl:choose>
     <xsl:when test="empty($module)">

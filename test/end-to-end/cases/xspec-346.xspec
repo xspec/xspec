@@ -4,10 +4,9 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="When a function returns a node containing a space">
 		<x:call function="exactly-one">
-			<x:param href="xspec-346.xml" select="element(p)" />
+			<x:param as="element(p)" href="xspec-346.xml" select="element(p)" />
 		</x:call>
-		<x:expect
-			label="Expecting no space should be Failure (TODO: XQuery should support test:ws for correct diff)">
+		<x:expect label="Expecting no space should be Failure">
 			<p><span>foo</span><span>bar</span></p>
 		</x:expect>
 	</x:scenario>

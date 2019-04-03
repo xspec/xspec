@@ -67,21 +67,11 @@
 	<!--
 		Normalizes the header for module
 			Example:
-				in:
-					<h2>
-					   module: file:/path/to/module.xsl; 
-					   25 lines
-					   
-					</h2>
-				out:
-					<h2>
-					   module: module.xsl; 
-					   25 lines
-					   
-					</h2>
+				in:  <h2>module: file:/path/to/module.xsl; 25 lines</h2>
+				out: <h2>module: module.xsl; 25 lines</h2>
 	-->
 	<xsl:template as="text()" match="/html/body/h2/text()" mode="normalizer:normalize">
-		<xsl:analyze-string flags="s" regex="^(\s*module: )(\S+)(;.+)$" select=".">
+		<xsl:analyze-string flags="s" regex="^(module: )(\S+)(; [1-9][0-9]* lines)$" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of
 					select="

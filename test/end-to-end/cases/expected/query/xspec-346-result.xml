@@ -7,16 +7,17 @@
    <x:scenario>
       <x:label>When a function returns a node containing a space</x:label>
       <x:call function="exactly-one">
-         <x:param href="../../xspec-346.xml" select="element(p)"/>
+         <x:param as="element(p)" href="../../xspec-346.xml" select="element(p)"/>
       </x:call>
       <x:result>
          <p>
-            <span>foo</span> 
+            <span>foo</span>
+            <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"> </test:ws>
             <span>bar</span>
          </p>
       </x:result>
       <x:test successful="false">
-         <x:label>Expecting no space should be Failure (TODO: XQuery should support test:ws for correct diff)</x:label>
+         <x:label>Expecting no space should be Failure</x:label>
          <x:expect>
             <p xmlns:do-nothing="x-urn:test:do-nothing">
                <span>foo</span>

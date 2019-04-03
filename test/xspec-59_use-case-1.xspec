@@ -3,7 +3,7 @@
 
 	<x:scenario label="Use case from https://github.com/xspec/xspec/issues/59#issue-199577069">
 		<x:call template="makeAtt">
-			<x:param name="e" select="/*">
+			<x:param as="element(test)" name="e" select="/*">
 				<test />
 			</x:param>
 			<x:param name="att" select="'class'" />
