@@ -407,16 +407,16 @@
       </xsl:apply-templates>
    </xsl:template>
 
-   <xsl:template match="x:text" mode="test:create-xslt-generator">
+   <xsl:template match="x:text" as="element(text)" mode="test:create-node-generator">
       <text>
          <xsl:value-of select="."/>
       </text>
    </xsl:template>  
 
-   <xsl:template match="x:param" mode="x:report">
+   <xsl:template match="x:param" as="element()" mode="x:report">
       <xsl:element name="x:{local-name()}">
          <xsl:apply-templates select="@*" mode="x:report"/>
-         <xsl:apply-templates mode="test:create-xslt-generator"/>
+         <xsl:apply-templates mode="test:create-node-generator"/>
       </xsl:element>
    </xsl:template>
 
