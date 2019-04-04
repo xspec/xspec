@@ -442,7 +442,7 @@
   </xsl:apply-templates>
 </xsl:template>
 
-<xsl:template match="x:space" as="empty-sequence()" mode="test:create-xslt-generator">
+<xsl:template match="x:space" as="empty-sequence()" mode="test:create-node-generator">
   <xsl:message terminate="yes">
     <xsl:value-of select="name()" />
     <xsl:text> is deprecated. Use </xsl:text>
@@ -451,7 +451,7 @@
   </xsl:message>
 </xsl:template>
 
-<xsl:template match="x:text" as="element(xsl:text)" mode="test:create-xslt-generator">
+<xsl:template match="x:text" as="element(xsl:text)" mode="test:create-node-generator">
   <text><xsl:value-of select="." /></text>
 </xsl:template>  
   
@@ -489,7 +489,7 @@
 <xsl:template match="x:context | x:param" mode="x:report">
   <xsl:element name="x:{local-name()}">
   	<xsl:apply-templates select="@*" mode="x:report" />
-    <xsl:apply-templates mode="test:create-xslt-generator" />
+    <xsl:apply-templates mode="test:create-node-generator" />
   </xsl:element>
 </xsl:template>
   
