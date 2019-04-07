@@ -354,7 +354,7 @@
 			<x:expect select="$document-node_three-dots">
 				<x:label>expecting<![CDATA[
 					<xsl:document>...</xsl:document>
-					]]>should be Success</x:label>
+					]]>should be Failure</x:label>
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 		</x:scenario>
