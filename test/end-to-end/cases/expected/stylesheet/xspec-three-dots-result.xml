@@ -464,13 +464,13 @@
          <x:call function="exactly-one">
             <x:param as="document-node()" select="$document-node_multiple-nodes"/>
          </x:call>
-         <x:result select="/self::document-node()">
+         <x:result select="/self::document-node()"><?pi?><!--comment-->
             <elem/>
          </x:result>
-         <x:test successful="true">
+         <x:test successful="false">
             <x:label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-					should be Success</x:label>
+					should be Failure</x:label>
             <x:expect select="/self::document-node()">...</x:expect>
          </x:test>
          <x:test successful="true">

@@ -305,16 +305,10 @@
            let $local:expected :=
                ( ... )
          -->
-         <xsl:text>  let $local:expected    := (: expected result :)&#10;</xsl:text>
-         <!-- FIXME: Not correct, the x:expect model is more complex than
-              a simple variable... (see how the original stylesheet, for
-              XSLT, handles that...) Factorize with the XSLT version...
-              The value of $local:expected depends on x:expect's
-              content, @href and @select. -->
-         <xsl:text>      ( </xsl:text>
-         <xsl:value-of select="@select"/>
-         <xsl:copy-of select="node()"/>
-         <xsl:text> )&#10;</xsl:text>
+         <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+            <xsl:with-param name="var" select="'local:expected'" />
+         </xsl:apply-templates>
+
          <!--
            let $local:test-result :=
                if ( $t:result instance of node()+ ) then

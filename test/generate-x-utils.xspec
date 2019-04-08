@@ -390,6 +390,217 @@
    </t:scenario>
 
    <!--
+       Function test:node-deep-equal($seq1, $seq2, '').
+   -->
+   <t:scenario label="test:node-deep-equal($seq1, $seq2, '')">
+
+      <t:scenario label="Identical Attribute Sequences">
+         <t:call function="test:node-deep-equal">
+            <t:param name="node1" select="/node/@attribute" as="attribute(attribute)">
+               <node attribute="foobar"/>
+            </t:param>
+            <t:param name="node2" select="/node/@attribute" as="attribute(attribute)">
+               <node attribute="foobar"/>
+            </t:param>
+            <t:param select="''" />
+         </t:call>
+         <t:expect label="the result" select="true()"/>
+      </t:scenario>
+
+      <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L246-L372">
+
+         <t:scenario label="Identical Elements">
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/*" as="element(result)">
+                  <result/>
+               </t:param>
+               <t:param name="node2" select="/*" as="element(result)">
+                  <result/>
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Elements with Identical Attributes in Different Orders">
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/*" as="element(result)">
+                  <result a="1" b="2" />
+               </t:param>
+               <t:param name="node2" select="/*" as="element(result)">
+                  <result b="2" a="1" />
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Elements with Identical Children">
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/*" as="element(result)">
+                  <result><child1/><child2/></result>
+               </t:param>
+               <t:param name="node2" select="/*" as="element(result)">
+                  <result><child1/><child2/></result>
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Identical Attributes">
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/*/@a" as="attribute(a)">
+                  <result a="1" />
+               </t:param>
+               <t:param name="node2" select="/*/@a" as="attribute(a)">
+                  <result a="1" />
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Identical Document Nodes">
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/" as="document-node(element(result))">
+                  <result />
+               </t:param>
+               <t:param name="node2" select="/" as="document-node(element(result))">
+                  <result />
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Identical Text Nodes">
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/*/text()" as="text()">
+                  <result>Test</result>
+               </t:param>
+               <t:param name="node2" select="/*/text()" as="text()">
+                  <result>Test</result>
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Identical Comments">
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/comment()" as="comment()">
+                  <!-- Comment -->
+                  <doc />
+               </t:param>
+               <t:param name="node2" select="/comment()" as="comment()">
+                  <!-- Comment -->
+                  <doc />
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Identical Processing Instructions">
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/processing-instruction()" as="processing-instruction(pi)">
+                  <?pi data?>
+                  <doc />
+               </t:param>
+               <t:param name="node2" select="/processing-instruction()" as="processing-instruction(pi)">
+                  <?pi data?>
+                  <doc />
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario>
+            <t:label>Using "..." to indicate missing text</t:label>
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" as="element(foo)">
+                  <foo>...</foo>
+               </t:param>
+               <t:param name="node2" as="element(foo)">
+                  <foo>foo</foo>
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario>
+            <t:label>Using "..." to indicate missing mixed content</t:label>
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" as="element(foo)">
+                  <foo>...</foo>
+               </t:param>
+               <t:param name="node2" as="element(foo)">
+                  <foo>foo<bar />foo</foo>
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario>
+            <t:label>Using "..." to indicate missing attribute values</t:label>
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/foo/@bar" as="attribute(bar)">
+                  <foo bar="..." />
+               </t:param>
+               <t:param name="node2" select="/foo/@bar" as="attribute(bar)">
+                  <foo bar="bar" />
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario>
+            <t:label>Using "..." to indicate missing empty content</t:label>
+            <t:call function="test:node-deep-equal">
+               <t:param name="node1" select="/foo" as="element(foo)">
+                  <foo>...</foo>
+               </t:param>
+               <t:param name="node2" select="/foo" as="element(foo)">
+                  <foo />
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+      </t:scenario>
+
+   </t:scenario>
+
+   <!--
+       Function test:sorted-children
+   -->
+   <t:scenario label="test:sorted-children">
+
+      <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L466-L477">
+
+         <t:scenario label="Original order preserved">
+            <t:call function="test:sorted-children">
+               <t:param name="node" as="element(foo)">
+                  <foo><bar /><baz /></foo>
+               </t:param>
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="bar baz">
+               <bar /><baz />
+            </t:expect>
+         </t:scenario>
+
+      </t:scenario>
+
+   </t:scenario>
+
+   <!--
        Function test:report-atomic-value
    -->
    <t:scenario label="test:report-atomic-value">

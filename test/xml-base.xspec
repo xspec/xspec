@@ -26,6 +26,14 @@
 			test="$global-param instance of document-node(element(testing-xml-base))" />
 	</x:scenario>
 
+	<x:scenario label="In assertion (i.e. //x:expect),">
+		<x:call function="exactly-one">
+			<x:param as="document-node(element(testing-xml-base))" href="node-selection/test.xml" />
+		</x:call>
+		<x:expect href="test.xml" label="@href is resolved with @xml:base"
+			xml:base="node-selection/" />
+	</x:scenario>
+
 	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
 	<x:variable href="test.xml" name="myv:global-var-href-only" xml:base="node-selection/" />
 	<x:variable href="test.xml" name="myv:global-var-href-select" select="/testing-xml-base/*" xml:base="node-selection/" />

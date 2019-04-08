@@ -10,9 +10,9 @@
 	-->
 	<xsl:variable as="document-node()" name="document-node_multiple-nodes">
 		<xsl:document>
-			<?pi?>
-			<!--comment-->
-			<elem />
+			<xsl:processing-instruction name="pi" />
+			<xsl:comment>comment</xsl:comment>
+			<xsl:element name="elem" />
 		</xsl:document>
 	</xsl:variable>
 
