@@ -689,7 +689,9 @@ teardown() {
     fi
 
     # -t for identifying the last line
-    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc xspec-node-selection.xspec
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
+        xspec-node-selection.xspec \
+        xspec-node-selection_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${lines[0]}" =~ "-child-not-allowed" ]]

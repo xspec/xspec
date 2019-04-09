@@ -494,7 +494,9 @@
 
 	<case ifdef="JING_JAR" name="Schema detects errors in node-selection test">
     rem -t for identifying the last line
-    call :run java -jar "%JING_JAR%" -c -t ..\src\schemas\xspec.rnc xspec-node-selection.xspec
+    call :run java -jar "%JING_JAR%" -c -t ..\src\schemas\xspec.rnc ^
+        xspec-node-selection.xspec ^
+        xspec-node-selection_stylesheet.xspec
     call :verify_retval 1
     call :verify_line 1 r ".*-child-not-allowed"
     call :verify_line 2 r ".*-child-not-allowed"
