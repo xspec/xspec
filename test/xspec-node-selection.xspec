@@ -1,80 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-node-selection.xsl"
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
+	stylesheet="do-nothing.xsl" xmlns:do-nothing="x-urn:test:do-nothing"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-
-	<x:scenario label="In context template-param, @href precedes child node. So...">
-		<x:scenario label="In //x:context/x:param[node()][not(@href)],">
-			<x:context mode="param-mirror-mode">
-				<x:param name="param-items">
-					<template-param-child />
-				</x:param>
-				<context-child />
-			</x:context>
-			<x:expect label="child node is used."
-				test="$x:result instance of element(template-param-child)" />
-		</x:scenario>
-
-		<x:scenario label="In //x:context/x:param[node()][@href],">
-			<x:context mode="param-mirror-mode">
-				<x:param href="xspec-node-selection.xml" name="param-items">
-					<template-param-child-not-allowed />
-				</x:param>
-				<context-child />
-			</x:context>
-			<x:expect label="@href is used."
-				test="$x:result instance of document-node(element(href-doc-child))" />
-		</x:scenario>
-	</x:scenario>
-
-	<x:scenario label="In context, @href precedes child node.">
-		<x:scenario label="So...">
-			<x:scenario label="In //x:context[node()][not(@href)],">
-				<x:context mode="context-mirror-mode">
-					<context-child />
-				</x:context>
-				<x:expect label="child node is used."
-					test="$x:result instance of element(context-child)" />
-			</x:scenario>
-
-			<!-- This scenario is detected and terminated by
-				https://github.com/xspec/xspec/blob/63cf95d7eade5678e5c994fae18ff69d3410ac5d/src/compiler/generate-xspec-tests.xsl#L123-L130
-				even if pending. -->
-			<!--
-			<x:scenario label="In //x:context[node()][@href],">
-				<x:context href="xspec-node-selection.xml" mode="context-mirror-mode">
-					<context-child-not-allowed />
-				</x:context>
-				<x:expect label="@href is used."
-					test="$x:result instance of document-node(element(href-doc-child))" />
-			</x:scenario>
-			-->
-		</x:scenario>
-
-		<x:scenario
-			label="But child x:param shouldn't be affected. So... In //x:context[x:param][@href], both x:param and @href are used;">
-			<x:context href="xspec-node-selection.xml">
-				<x:param name="param-items">
-					<template-param-child />
-				</x:param>
-			</x:context>
-
-			<x:scenario label="therefore">
-				<!-- Extend the parent context -->
-				<x:context mode="context-mirror-mode" />
-				<x:expect label="@href is used."
-					test="$x:result instance of document-node(element(href-doc-child))" />
-			</x:scenario>
-
-			<x:scenario label="therefore">
-				<!-- Extend the parent context -->
-				<x:context mode="param-mirror-mode" />
-				<x:expect label="x:param is used."
-					test="$x:result instance of element(template-param-child)" />
-			</x:scenario>
-		</x:scenario>
-	</x:scenario>
-
 	<x:scenario label="In function-param, @href precedes child node. So...">
 		<x:scenario label="In //x:call[@function]/x:param[node()][not(@href)],">
 			<x:call function="exactly-one">
@@ -97,28 +25,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="In template-call template-param, @href precedes child node. So...">
-		<x:scenario label="In //x:call[@template]/x:param[node()][not(@href)],">
-			<x:call template="param-mirror-template">
-				<x:param name="param-items">
-					<template-param-child />
-				</x:param>
-			</x:call>
-			<x:expect label="child node is used."
-				test="$x:result instance of element(template-param-child)" />
-		</x:scenario>
-
-		<x:scenario label="In //x:call[@template]/x:param[node()][@href],">
-			<x:call template="param-mirror-template">
-				<x:param href="xspec-node-selection.xml" name="param-items">
-					<template-param-child-not-allowed />
-				</x:param>
-			</x:call>
-			<x:expect label="@href is used."
-				test="$x:result instance of document-node(element(href-doc-child))" />
-		</x:scenario>
-	</x:scenario>
-
 	<x:param name="global-param-no-href">
 		<global-param-child />
 	</x:param>
@@ -126,7 +32,7 @@
 		<global-param-child-not-allowed />
 	</x:param>
 	<x:scenario label="In global-param, @href precedes child node. So...">
-		<x:context />
+		<x:call function="false" />
 		<x:expect label="In /x:description/x:param[node()][not(@href)], child node is used."
 			test="$global-param-no-href instance of element(global-param-child)" />
 		<x:expect label="In /x:description/x:param[node()][@href], @href is used."
@@ -134,14 +40,14 @@
 	</x:scenario>
 
 	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
-	<x:variable name="myv:global-variable-no-href">
+	<x:variable name="myv:global-variable-no-href" as="element(global-variable-child)">
 		<global-variable-child />
 	</x:variable>
 	<x:variable href="xspec-node-selection.xml" name="myv:global-variable-with-href">
 		<global-variable-child-not-allowed />
 	</x:variable>
 	<x:scenario label="In global-variable, @href precedes child node. So...">
-		<x:context />
+		<x:call function="false" />
 		<x:expect label="In /x:description/x:variable[node()][not(@href)], child node is used."
 			test="$myv:global-variable-no-href instance of element(global-variable-child)" />
 		<x:expect label="In /x:description/x:variable[node()][@href], @href is used."
@@ -150,24 +56,31 @@
 
 	<x:scenario label="In assertion, @href precedes child node. So...">
 		<x:scenario label="In //x:expect[node()][not(@href)],">
-			<x:context href="xspec-node-selection.xml" mode="context-mirror-mode" select="node()" />
+			<x:call function="exactly-one">
+				<x:param as="element(href-doc-child)" href="xspec-node-selection.xml"
+					select="node()" />
+			</x:call>
 			<x:expect label="child node is used.">
 				<href-doc-child />
 			</x:expect>
 		</x:scenario>
 
 		<x:scenario label="In //x:expect[node()][@href],">
-			<x:context href="xspec-node-selection.xml" mode="context-mirror-mode" />
+			<x:call function="exactly-one">
+				<x:param href="xspec-node-selection.xml" />
+			</x:call>
 			<x:expect href="xspec-node-selection.xml" label="@href is used.">
 				<assertion-child-not-allowed />
 			</x:expect>
 		</x:scenario>
 	</x:scenario>
 
-  <x:scenario label="In variable, @href precedes child node. So...">
+	<x:scenario label="In variable, @href precedes child node. So...">
 		<x:scenario label="In //x:variable[node()][not(@href)],">
-			<x:variable name="myv:nodevar"><variable-child /></x:variable>
-			<x:context mode="context-mirror-mode" select="$myv:nodevar" />
+			<x:variable name="myv:nodevar" as="element(variable-child)"><variable-child /></x:variable>
+			<x:call function="exactly-one">
+				<x:param select="$myv:nodevar" />
+			</x:call>
 			<x:expect label="child node is used.">
 				<variable-child />
 			</x:expect>
@@ -175,9 +88,11 @@
 
 		<x:scenario label="In //x:variable[node()][@href],">
 			<x:variable name="myv:hrefvar" href="xspec-node-selection.xml"><variable-child-not-allowed /></x:variable>
-			<x:context mode="context-mirror-mode" select="$myv:hrefvar"/>
-		  <x:expect label="@href is used."
-		    test="$x:result instance of document-node(element(href-doc-child))" />
+			<x:call function="exactly-one">
+				<x:param select="$myv:hrefvar" />
+			</x:call>
+			<x:expect label="@href is used."
+				test="$x:result instance of document-node(element(href-doc-child))" />
 		</x:scenario>
 	</x:scenario>
 
