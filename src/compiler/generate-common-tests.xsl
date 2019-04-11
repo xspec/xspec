@@ -568,6 +568,26 @@
       </xsl:copy>
    </xsl:template>
 
+   <!-- Generates variable declarations for x:expect -->
+   <xsl:template name="x:setup-expected" as="node()+">
+      <!--<xsl:context-item as="element(x:expect)" use="required" />-->
+
+      <xsl:param name="var" as="xs:string" required="yes" />
+
+      <!-- Remove x:label from x:expect -->
+      <xsl:variable name="expect" as="element(x:expect)">
+         <xsl:copy>
+            <xsl:sequence select="(attribute() | node()) except x:label" />
+         </xsl:copy>
+      </xsl:variable>
+
+      <!-- Generate <xsl:variable name="impl:expected"> (XSLT)
+         or "let $local:expected := ..." (XQuery) to represent the expected items -->
+      <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
+         <xsl:with-param name="var" select="$var" />
+      </xsl:apply-templates>
+   </xsl:template>
+
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
      in a prior position of the sequence.)
      This function does not sort nodes in document order.
