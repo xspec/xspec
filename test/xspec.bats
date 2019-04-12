@@ -890,3 +890,19 @@ teardown() {
 }
 
 
+@test "XSLT selecting nodes without context should be error (XProc) #423" {
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-423/test.xspec \
+        -p xspec-home="file:${PWD}/../" \
+        ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[${#lines[@]}-3]}" =~ ":err:XPDY0002:" ]]
+    [[ "${lines[${#lines[@]}-1]}" =~ "ERROR:" ]]
+}
+
+

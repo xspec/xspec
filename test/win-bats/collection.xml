@@ -655,4 +655,14 @@
     call :verify_line  * x "x:space is deprecated. Use x:text instead."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
+
+	<case ifdef="XMLCALABASH_JAR" name="XSLT selecting nodes without context should be error (XProc) #423">
+    call :run java -jar "%XMLCALABASH_JAR%" ^
+        -i source=xspec-423/test.xspec ^
+        -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        ..\src\harnesses\saxon\saxon-xslt-harness.xproc
+    call :verify_retval 1
+    call :verify_line -3 r "..*:err:XPDY0002:"
+    call :verify_line -1 r "ERROR:"
+	</case>
 </collection>
