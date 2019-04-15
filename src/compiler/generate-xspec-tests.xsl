@@ -25,13 +25,10 @@
 
 <xsl:output indent="yes" />
 
-
-<xsl:variable name="apostrophe">'</xsl:variable>
-<xsl:variable name="stylesheet-uri" as="xs:anyURI" 
-  select="resolve-uri(/x:description/@stylesheet, replace(base-uri(/x:description), $apostrophe, '%27'))" />  
-
-<xsl:variable name="stylesheet" as="document-node()" 
-  select="doc($stylesheet-uri)" />
+<!-- Absolute URI of .xsl file to be tested.
+  This needs to be resolved here, not in mode="x:generate-tests" where base-uri() is not available -->
+<xsl:variable name="stylesheet-uri" as="xs:anyURI"
+  select="/x:description/resolve-uri(@stylesheet, base-uri())" />
 
 <xsl:template match="/">
    <xsl:call-template name="x:generate-tests"/>
@@ -56,16 +53,33 @@
     <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
 
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
+
     <import href="{$stylesheet-uri}" />
     <import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
+
     <!-- This namespace alias is used for when the testing process needs to test
          the generation of XSLT! -->
     <namespace-alias stylesheet-prefix="__x" result-prefix="xsl" />
-    <variable name="x:stylesheet-uri" as="xs:string" select="'{$stylesheet-uri}'" />
+
+    <!-- Serialization parameters -->
     <output name="x:report" method="xml" indent="yes" />
+
+    <!-- Absolute URI of .xsl file to be tested -->
+    <variable name="x:stylesheet-uri" as="xs:anyURI">
+      <xsl:value-of select="$stylesheet-uri" />
+    </variable>
+
+    <!-- Absolute URI of .xspec file (Original one in case of Schematron) -->
+    <xsl:variable name="xspec-uri" as="xs:anyURI"
+      select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
+    <variable name="x:xspec-uri" as="xs:anyURI">
+      <xsl:value-of select="$xspec-uri" />
+    </variable>
+
     <!-- Compile the test suite params (aka global params). -->
     <xsl:call-template name="x:compile-params"/>
+
     <!-- The main compiled template. -->
     <template name="x:main">
       <message>
@@ -89,13 +103,14 @@
           test stylesheet, which can then be picked up by stylesheets that
           process *that* to generate a coverage report -->
         <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
-          <xsl:attribute name="xspec" select="(@xspec-original-location, $actual-document-uri)[1]"/>
+          <xsl:attribute name="xspec" select="$xspec-uri"/>
           <xsl:copy-of select="@schematron"/>
           <!-- Generate calls to the compiled top-level scenarios. -->
           <xsl:call-template name="x:call-scenarios"/>
         </x:report>
       </result-document>
     </template>
+
     <!-- Compile the top-level scenarios. -->
     <xsl:call-template name="x:compile-scenarios"/>
   </stylesheet>
