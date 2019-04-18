@@ -531,11 +531,11 @@ if defined XSLT (
         echo Collecting test coverage data...
         call :xquery %SAXON_CUSTOM_OPTIONS% ^
             -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" ^
+            -o:"%RESULT%" -q:"%COMPILED%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xquery %SAXON_CUSTOM_OPTIONS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" ^
+            -o:"%RESULT%" -q:"%COMPILED%" ^
             || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
 )
