@@ -423,7 +423,6 @@
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
       <arg value="-ext:on" />
       <arg value="-o:${xspec.result.xml}" />
-      <arg value="-s:${xspec.xspecfile.preprocessed}" />
       <arg value="-xsl:${xspec.compiled.runner}" />
       <arg value="-T:com.jenitennison.xslt.tests.XSLTCoverageTraceListener"
            if:true="${xspec.coverage.enabled}" />

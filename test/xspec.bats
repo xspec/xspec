@@ -906,6 +906,41 @@ teardown() {
 }
 
 
+@test "XSLT selecting nodes without context should be error (Ant) #423" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.fail=false \
+        -Dxspec.xml="${PWD}/../test/xspec-423/test.xspec"
+    echo "$output"
+    [ "$status" -eq 2 ]
+    [[ "${output}" =~ "  XPDY0002:" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
+}
+
+
+@test "XSLT selecting nodes without context should be error (command line) #423" {
+    run ../bin/xspec.sh xspec-423/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  XPDY0002:" ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+
+@test "XSLT selecting nodes without context should be error (command line -c) #423" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    run ../bin/xspec.sh -c xspec-423/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  XPDY0002:" ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error collecting test coverage data" ]
+}
+
+
 @test "XQuery selecting nodes without context should be error #423" {
     run ../bin/xspec.sh -q xspec-423/test.xspec
     echo "$output"
