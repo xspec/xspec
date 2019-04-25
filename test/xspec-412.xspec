@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
-	stylesheet="do-nothing.xsl" xmlns:do-nothing="x-urn:test:do-nothing"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:param as="document-node()" href="xspec-412.xml" name="doc" />
 
 	<!-- These scenarios return Success both on XSLT and XQuery without fixing xspec/xspec#412 -->

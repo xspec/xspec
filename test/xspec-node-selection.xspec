@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
-	stylesheet="do-nothing.xsl" xmlns:do-nothing="x-urn:test:do-nothing"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="In function-param, @href precedes child node. So...">
 		<x:scenario label="In //x:call[@function]/x:param[node()][not(@href)],">
 			<x:call function="exactly-one">
