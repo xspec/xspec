@@ -56,7 +56,8 @@
    </xsl:template>
 
    <xsl:template match="x:description" mode="x:decl-ns">
-      <xsl:param name="except" as="xs:string"/>
+      <xsl:param name="except" as="xs:string?" />
+
       <xsl:variable name="e" as="element()" select="."/>
       <xsl:for-each select="in-scope-prefixes($e)[not(. = ('xml', $except))]">
          <xsl:text>declare namespace </xsl:text>
@@ -72,21 +73,28 @@
   
    <xsl:template match="x:description" mode="x:generate-tests">
       <xsl:variable name="this" select="."/>
-      <!-- A prefix has to be defined for the target namespace on x:description. -->
-      <!-- TODO: If not, we should generate one. -->
-      <xsl:variable name="prefix" select="
+
+      <!-- Look for a prefix defined for the target namespace on x:description. -->
+      <xsl:variable name="prefix" as="xs:string?" select="
           in-scope-prefixes($this)[
             namespace-uri-for-prefix(., $this) eq xs:anyURI($this/@query)
           ][1]"/>
-      <xsl:text>import module namespace </xsl:text>
-      <xsl:value-of select="$prefix"/>
-      <xsl:text> = "</xsl:text>
+
+      <!-- Import module to be tested -->
+      <xsl:text>import module </xsl:text>
+      <xsl:if test="exists($prefix)">
+         <xsl:text>namespace </xsl:text>
+         <xsl:value-of select="$prefix"/>
+         <xsl:text> = </xsl:text>
+      </xsl:if>
+      <xsl:text>"</xsl:text>
       <xsl:value-of select="@query"/>
       <xsl:if test="exists($query-at)">
          <xsl:text>"&#10;  at "</xsl:text>
          <xsl:value-of select="$query-at"/>
       </xsl:if>
       <xsl:text>";&#10;</xsl:text>
+
       <!-- prevent double import in case we are testing this file in the compiled suite... -->
       <xsl:if test="@query ne 'http://www.jenitennison.com/xslt/unit-test'">
          <xsl:text>import module namespace test = </xsl:text>
@@ -98,14 +106,21 @@
          </xsl:if>
          <xsl:text>;&#10;</xsl:text>
       </xsl:if>
+
+      <!-- Declare namespaces -->
       <xsl:apply-templates select="." mode="x:decl-ns">
          <xsl:with-param name="except" select="$prefix"/>
       </xsl:apply-templates>
+      <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
 
       <!-- Serialization parameters -->
-      <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
       <xsl:text>declare option output:method "xml";&#x0A;</xsl:text>
       <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
+
+      <!-- Absolute URI of .xspec file -->
+      <xsl:text>declare variable $x:xspec-uri as xs:anyURI := xs:anyURI("</xsl:text>
+      <xsl:value-of select="$actual-document-uri" />
+      <xsl:text>");&#x0A;</xsl:text>
 
       <!-- Compile the test suite params (aka global params). -->
       <xsl:call-template name="x:compile-params"/>
@@ -301,13 +316,10 @@
       </xsl:for-each>
       <xsl:text>)&#10;{&#10;</xsl:text>
       <xsl:if test="not($pending-p)">
-         <!--
-           let $local:expected :=
-               ( ... )
-         -->
-         <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+         <!-- Set up the $local:expected variable -->
+         <xsl:call-template name="x:setup-expected">
             <xsl:with-param name="var" select="'local:expected'" />
-         </xsl:apply-templates>
+         </xsl:call-template>
 
          <!--
            let $local:test-result :=
@@ -352,7 +364,7 @@
          -->
          <xsl:text>  let $local:successful as xs:boolean := (: did the test pass?:)&#10;</xsl:text>
          <xsl:choose>
-            <xsl:when test="exists(@test) and exists(node())">
+            <xsl:when test="exists(@test) and exists(node() except x:label)">
                <xsl:text>      test:deep-equal($local:expected, </xsl:text>
                <xsl:value-of select="@test"/>
                <xsl:text>, '')&#10;</xsl:text>

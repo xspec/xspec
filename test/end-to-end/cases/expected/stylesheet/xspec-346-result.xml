@@ -3,7 +3,6 @@
 <x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
           xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:do-nothing="x-urn:test:do-nothing"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../../../do-nothing.xsl"
           date="ONCE-UPON-A-TIME"

@@ -2,8 +2,7 @@
 <x:description query="x-urn:test:xml-base" query-at="test.xquery" stylesheet="test.xsl"
 	xml:base="xml-base/"
 	xmlns:myv="http://example.org/ns/my/variable"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xml-base="x-urn:test:xml-base">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:import href="test.xspec" xml:base="import/" />
 	<x:scenario label="In import (i.e. /x:description/x:import),">

@@ -392,12 +392,12 @@ if test -n "$XSLT"; then
         echo "Collecting test coverage data..."
         xslt "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
+            -o:"$RESULT" -xsl:"$COMPILED" \
             -it:{http://www.jenitennison.com/xslt/xspec}main \
             || die "Error collecting test coverage data"
     else
         xslt "${saxon_custom_options_array[@]}" \
-            -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
+            -o:"$RESULT" -xsl:"$COMPILED" \
             -it:{http://www.jenitennison.com/xslt/xspec}main \
             || die "Error running the test suite"
     fi
@@ -407,11 +407,11 @@ else
         echo "Collecting test coverage data..."
         xquery "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" \
+            -o:"$RESULT" -q:"$COMPILED" \
             || die "Error collecting test coverage data"
     else
         xquery "${saxon_custom_options_array[@]}" \
-            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" \
+            -o:"$RESULT" -q:"$COMPILED" \
             || die "Error running the test suite"
     fi
 fi

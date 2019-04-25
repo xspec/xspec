@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="When x:call returns a non-empty item">
+		<x:call function="exactly-one">
+			<x:param select="123" />
+		</x:call>
+		<x:expect test="exists($x:result)">
+			<x:label>//x:expect[@test eq 'exists($x:result)'][empty(attribute() except
+				@test)][x:label][empty(node() except (x:label | text()[not(normalize-space())]))]
+				should be Success</x:label>
+		</x:expect>
+	</x:scenario>
+</x:description>

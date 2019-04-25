@@ -437,7 +437,7 @@ teardown() {
     run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
     echo "${lines[5]}"
     [ "$status" -eq 0 ]
-    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[4]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -609,7 +609,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[4]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -889,6 +889,66 @@ teardown() {
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "x:space is deprecated. Use x:text instead." ]]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+
+@test "XSLT selecting nodes without context should be error (XProc) #423" {
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-423/test.xspec \
+        -p xspec-home="file:${PWD}/../" \
+        ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[${#lines[@]}-3]}" =~ ":err:XPDY0002:" ]]
+    [[ "${lines[${#lines[@]}-1]}" =~ "ERROR:" ]]
+}
+
+
+@test "XSLT selecting nodes without context should be error (Ant) #423" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.fail=false \
+        -Dxspec.xml="${PWD}/../test/xspec-423/test.xspec"
+    echo "$output"
+    [ "$status" -eq 2 ]
+    [[ "${output}" =~ "  XPDY0002:" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
+}
+
+
+@test "XSLT selecting nodes without context should be error (command line) #423" {
+    run ../bin/xspec.sh xspec-423/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  XPDY0002:" ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+
+@test "XSLT selecting nodes without context should be error (command line -c) #423" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    run ../bin/xspec.sh -c xspec-423/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  XPDY0002:" ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error collecting test coverage data" ]
+}
+
+
+@test "XQuery selecting nodes without context should be error #423" {
+    run ../bin/xspec.sh -q xspec-423/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  XPDY0002:" ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
 

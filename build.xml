@@ -385,7 +385,6 @@
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
       <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
       <arg value="-o:${xspec.result.xml}" />
-      <arg value="-s:${xspec.xspecfile.preprocessed}" />
       <arg value="-q:${xspec.compiled.runner}" />
     </java>
   </target>
@@ -424,7 +423,6 @@
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
       <arg value="-ext:on" />
       <arg value="-o:${xspec.result.xml}" />
-      <arg value="-s:${xspec.xspecfile.preprocessed}" />
       <arg value="-xsl:${xspec.compiled.runner}" />
       <arg value="-T:com.jenitennison.xslt.tests.XSLTCoverageTraceListener"
            if:true="${xspec.coverage.enabled}" />

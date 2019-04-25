@@ -17,10 +17,6 @@
     <xsl:variable name="warn" select="('warn', 'warning')"/>
     <xsl:variable name="info" select="('info', 'information')"/>
 
-    <xsl:variable name="actual-document-uri" as="xs:anyURI"
-        select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
-
-
     <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
         <xsl:copy>
             <xsl:apply-templates select="@* | node()"/>
@@ -38,8 +34,8 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="@schematron">
-        <xsl:attribute name="xspec-original-location" select="$actual-document-uri"/>
+    <xsl:template match="x:description/@schematron">
+        <xsl:attribute name="xspec-original-location" select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
         <xsl:attribute name="stylesheet" select="$stylesheet-uri"/>
         <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
         <xsl:attribute name="schematron" select="$path"/>

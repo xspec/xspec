@@ -35,7 +35,7 @@
             use="concat('match=', normalize-space(@match), '+',
                         'mode=', normalize-space(@mode))"/>
 
-   <xsl:template match="*" mode="test:generate-variable-declarations">
+   <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
       <xsl:param name="var"    as="xs:string"  required="yes"/>
       <xsl:param name="global" as="xs:boolean" select="false()"/>
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
