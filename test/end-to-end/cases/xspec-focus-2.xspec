@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       test/xspec-pending.xspec                                 -->
+<!--  File:       xspec-focus-2.xspec                                      -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
@@ -60,7 +60,7 @@
        Test @pending.
    -->
    <t:scenario label="a correct scenario with @pending must be Pending"
-               pending="testing @pending">
+               pending="testing @pending without @focus">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
@@ -69,7 +69,7 @@
 
    <!-- does not make sense, really, but to see how the implem reacts -->
    <t:scenario label="a correct scenario with both @pending and @focus (not recommended as ambiguous)"
-               pending="testing @pending"
+               pending="testing @pending with @focus"
                focus="testing @focus">
       <t:call function="my:square">
          <t:param select="3"/>
