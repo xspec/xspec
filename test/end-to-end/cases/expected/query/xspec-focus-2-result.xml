@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<t:report xmlns:my="http://example.org/ns/my"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          date="2000-01-01T00:00:00Z"
+          query="http://example.org/ns/my"
+          query-at="../../../../xspec-tested.xql"
+          xspec="../../xspec-focus-2.xspec">
+   <t:scenario pending="testing x:pending">
+      <t:label>an unfocused correct scenario in x:pending must be Pending</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:test pending="testing x:pending">
+         <t:label>it would return Success if it were not Pending</t:label>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>a focused correct scenario in x:pending</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:result select="9"/>
+      <t:test successful="true">
+         <t:label>must execute the test and return Success</t:label>
+         <t:expect select="9"/>
+      </t:test>
+   </t:scenario>
+   <t:scenario pending="testing @focus">
+      <t:label>a non-pending correct scenario alongside a focused scenario must be Pending</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:test pending="testing @focus">
+         <t:label>it would return Success if it were not Pending</t:label>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>a focused correct scenario alongside another focused scenario</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:result select="9"/>
+      <t:test successful="true">
+         <t:label>must execute the test and return Success</t:label>
+         <t:expect select="9"/>
+      </t:test>
+   </t:scenario>
+   <t:scenario pending="testing @pending">
+      <t:label>a correct scenario with @pending must be Pending</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:test pending="testing @pending">
+         <t:label>it would return Success if it were not Pending</t:label>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>a correct scenario with both @pending and @focus (not recommended as ambiguous)</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:result select="9"/>
+      <t:test successful="true">
+         <t:label>must execute the test and return Success</t:label>
+         <t:expect select="9"/>
+      </t:test>
+   </t:scenario>
+</t:report>
