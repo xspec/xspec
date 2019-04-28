@@ -59,14 +59,14 @@
    <!--
        Test @pending.
    -->
-   <t:scenario label="a correct scenario with @pending must be Pending" pending="testing @pending">
+   <t:scenario label="a correct scenario with @pending must be Pending" pending="testing @pending of a correct scenario">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:expect label="it would return Success if it were not Pending" select="9"/>
    </t:scenario>
 
-   <t:scenario label="an incorrect scenario with @pending must be Pending" pending="testing @pending">
+   <t:scenario label="an incorrect scenario with @pending must be Pending" pending="testing @pending of an incorrect scenario">
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
