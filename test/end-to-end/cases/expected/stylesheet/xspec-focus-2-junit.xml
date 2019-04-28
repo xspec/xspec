@@ -16,7 +16,7 @@
               tests="1"
               failures="0">
       <testcase name="it would return Success if it were not Pending" status="skipped">
-         <skipped>testing @focus</skipped>
+         <skipped>testing @focus in x:pending</skipped>
       </testcase>
    </testsuite>
    <testsuite name="a focused correct scenario alongside another focused scenario"
@@ -28,7 +28,7 @@
               tests="1"
               failures="0">
       <testcase name="it would return Success if it were not Pending" status="skipped">
-         <skipped>testing @pending</skipped>
+         <skipped>testing @pending without @focus</skipped>
       </testcase>
    </testsuite>
    <testsuite name="a correct scenario with both @pending and @focus (not recommended as ambiguous)"

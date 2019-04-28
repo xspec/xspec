@@ -27,12 +27,12 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @focus">
+   <t:scenario pending="testing @focus in x:pending">
       <t:label>a non-pending correct scenario alongside a focused scenario must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:test pending="testing @focus">
+      <t:test pending="testing @focus in x:pending">
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
@@ -47,12 +47,12 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @pending">
+   <t:scenario pending="testing @pending without @focus">
       <t:label>a correct scenario with @pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:test pending="testing @pending">
+      <t:test pending="testing @pending without @focus">
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
