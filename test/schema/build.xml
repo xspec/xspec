@@ -26,6 +26,10 @@
 				https://github.com/xspec/xspec/issues/60 -->
 			<exclude name="test/generate-x-utils.xspec" />
 			<exclude name="test/xspec-variable.xspec" />
+
+			<!-- TODO: EQName -->
+			<exclude name="test/xspec-eqname.xspec" />
+			<exclude name="test/xspec-eqname_stylesheet.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.

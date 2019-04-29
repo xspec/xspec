@@ -568,6 +568,24 @@
       </xsl:copy>
    </xsl:template>
 
+   <!-- *** x:report *** -->
+
+   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
+      <xsl:apply-templates select="." mode="test:create-node-generator" />
+   </xsl:template>
+
+   <xsl:template match="x:*" as="element()" mode="x:report">
+      <!-- Unify namespace prefix into x: -->
+      <xsl:element name="x:{local-name()}">
+         <xsl:apply-templates select="attribute() | node()" mode="#current" />
+      </xsl:element>
+   </xsl:template>
+
+   <xsl:template match="x:*/node()[x:is-user-content(.)]" as="node()+" mode="x:report">
+      <!-- User content. Leave it intact. -->
+      <xsl:apply-templates select="." mode="test:create-node-generator" />
+   </xsl:template>
+
    <!-- Generates variable declarations for x:expect -->
    <xsl:template name="x:setup-expected" as="node()+">
       <!--<xsl:context-item as="element(x:expect)" use="required" />-->
@@ -587,6 +605,14 @@
          <xsl:with-param name="var" select="$var" />
       </xsl:apply-templates>
    </xsl:template>
+
+   <xsl:function name="x:label" as="element(x:label)">
+      <xsl:param name="labelled" as="element()" />
+
+      <x:label>
+         <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
+      </x:label>
+   </xsl:function>
 
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
      in a prior position of the sequence.)

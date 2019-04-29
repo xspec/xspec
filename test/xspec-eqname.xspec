@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:xspec-eqname" query-at="xspec-eqname.xquery"
+	stylesheet="xspec-eqname.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xslt-version="3.0">
+
+	<x:scenario label="Using EQName in function-call @function and function-param @name">
+		<x:call function="Q{x-urn:test:xspec-eqname}param-mirror-function">
+			<x:param name="Q{x-urn:test:xspec-eqname}param-items">
+				<function-param-child />
+			</x:param>
+		</x:call>
+		<x:expect label="should be possible">
+			<function-param-child />
+		</x:expect>
+	</x:scenario>
+
+	<x:param name="Q{x-urn:test:xspec-eqname}global-param">
+		<global-param-child />
+	</x:param>
+	<x:scenario label="Using EQName in global-param @name">
+		<x:call function="false" />
+		<x:expect label="should be possible as well as in assertion @select and @test"
+			select="$Q{x-urn:test:xspec-eqname}global-param treat as element(global-param-child)"
+			test="$Q{x-urn:test:xspec-eqname}global-param treat as element(global-param-child)" />
+	</x:scenario>
+
+</x:description>
