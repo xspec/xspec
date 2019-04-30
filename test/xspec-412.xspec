@@ -3,9 +3,9 @@
 	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:param as="document-node()" href="xspec-412.xml" name="doc" />
 
-	<!-- These scenarios return Success both on XSLT and XQuery without fixing xspec/xspec#412 -->
-
 	<x:scenario>
+		<!-- These scenarios return Success both on XSLT and XQuery without fixing xspec/xspec#412 -->
+
 		<x:label>When a document contains <![CDATA[<e1/> followed by <e2/>]]>,</x:label>
 
 		<x:scenario>
@@ -79,4 +79,49 @@
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
+
+	<x:scenario>
+		<!-- TODO: These scenarios should return Success, but actually they return Failure on XQuery. (xspec/xspec#412) -->
+
+		<x:label>When a document contains <![CDATA[<e1/> followed by <e2/>]]>, @select="e2, e1, e1"
+			should produce (e2, e1, e1). (No sort. Duplicates are intact.)</x:label>
+
+		<x:scenario label="Test @select with child node">
+			<x:call function="one-or-more">
+				<x:param as="element()+" select="descendant::e2, descendant::e1, descendant::e1">
+					<p>
+						<e1 />
+						<e2 />
+					</p>
+				</x:param>
+			</x:call>
+			<x:expect label="3 items" test="count($x:result) eq 3" />
+			<x:expect label="1st item" test="$x:result[1]">
+				<e2 />
+			</x:expect>
+			<x:expect label="2nd item" test="$x:result[2]">
+				<e1 />
+			</x:expect>
+			<x:expect label="3rd item" test="$x:result[3]">
+				<e1 />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Test @select with @href">
+			<x:call function="one-or-more">
+				<x:param as="element()+" href="xspec-412.xml" select="//e2, //e1, //e1" />
+			</x:call>
+			<x:expect label="3 items" test="count($x:result) eq 3" />
+			<x:expect label="1st item" test="$x:result[1]">
+				<e2 />
+			</x:expect>
+			<x:expect label="2nd item" test="$x:result[2]">
+				<e1 />
+			</x:expect>
+			<x:expect label="3rd item" test="$x:result[3]">
+				<e1 />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
