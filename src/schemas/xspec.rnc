@@ -145,7 +145,7 @@ context =
 	element context { 
 		common-attributes,
 		## The mode in which templates are applied to it, and any parameters included in the apply templates.
-		attribute mode { xs:QName }?,
+		attribute mode { eqname.datatype }?,
 		template-param*,
 		node-selection
 	}
@@ -156,7 +156,7 @@ function-call =
 	element call {
 		common-attributes,
 		## The qualified name of the function which should get called.
-		attribute function { xs:QName }?,
+		attribute function { eqname.datatype }?,
 		function-param*
 	}
 
@@ -166,7 +166,7 @@ template-call =
 	element call {
 		common-attributes,
 		## The qualified name of the template which should get called.
-		attribute template { xs:QName }?,
+		attribute template { eqname.datatype }?,
 		template-param*
 	}
 
@@ -183,7 +183,7 @@ template-param = element param { common-attributes,
 function-param = element param { common-attributes,
                                  name?, as?, position?, selection }
 
-name = attribute name { xs:QName }
+name = attribute name { eqname.datatype }
 
 position = attribute position { xs:integer }
 
@@ -312,3 +312,8 @@ schematron-common-expect =
 schematron-count-expect = 
     ## Number of times an <assert> or <report> is expected to be thrown.
     attribute count { xs:nonNegativeInteger }?
+
+# EQName: https://www.w3.org/TR/xslt-30/schema-for-xslt30.rnc
+uri.qualified.name = xsd:token { pattern = "Q\{[^\{\}]*\}[\i-[:]][\c-[:]]*" } 
+qname.strict = xsd:token { pattern = "[\i-[:]][\c-[:]]:[\i-[:]][\c-[:]]" }
+eqname.datatype = xsd:QName | uri.qualified.name | qname.strict 

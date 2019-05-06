@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
-<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../xspec-55.xsl"

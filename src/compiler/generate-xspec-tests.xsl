@@ -47,7 +47,6 @@
 
     <!-- The generated stylesheet requires these namespaces, even when this stylesheet
       does not use them in node names. -->
-    <xsl:namespace name="__x"  select="'http://www.w3.org/1999/XSL/TransformAliasAlias'" />
     <xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
     <xsl:namespace name="test" select="'http://www.jenitennison.com/xslt/unit-test'" />
     <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
@@ -58,9 +57,7 @@
     <import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
 
-    <!-- This namespace alias is used for when the testing process needs to test
-         the generation of XSLT! -->
-    <namespace-alias stylesheet-prefix="__x" result-prefix="xsl" />
+    <include href="{resolve-uri('../common/xspec-utils.xsl', static-base-uri())}" />
 
     <!-- Serialization parameters -->
     <output name="x:report" method="xml" indent="yes" />
@@ -459,6 +456,8 @@
   </xsl:apply-templates>
 </xsl:template>
 
+<!-- *** test:create-node-generator *** -->
+
 <xsl:template match="x:space" as="empty-sequence()" mode="test:create-node-generator">
   <xsl:message terminate="yes">
     <xsl:value-of select="name()" />
@@ -486,42 +485,7 @@
    <xsl:apply-templates select="$context" mode="test:generate-variable-declarations">
       <xsl:with-param name="var" select="'impl:context'" />
    </xsl:apply-templates>
-</xsl:template>  
-
-<xsl:template match="x:context | x:param" mode="x:report">
-  <xsl:element name="x:{local-name()}">
-  	<xsl:apply-templates select="@*" mode="x:report" />
-    <xsl:apply-templates mode="test:create-node-generator" />
-  </xsl:element>
 </xsl:template>
-  
-<xsl:template match="x:call" mode="x:report">
-  <x:call>
-    <xsl:copy-of select="@*" />
-    <xsl:apply-templates mode="x:report" />
-  </x:call>
-</xsl:template>
-
-<xsl:template match="@select" mode="x:report">
-	<xsl:attribute name="select"
-		select="replace(replace(., '\{', '{{'), '\}', '}}')" />
-</xsl:template>
-
-<xsl:template match="@*" mode="x:report">
-	<xsl:sequence select="." />
-</xsl:template>
-
-<xsl:function name="x:label" as="node()?">
-	<xsl:param name="labelled" as="element()" />
-	<xsl:choose>
-		<xsl:when test="exists($labelled/x:label)">
-			<xsl:sequence select="$labelled/x:label" />
-		</xsl:when>
-		<xsl:otherwise>
-			<x:label><xsl:value-of select="$labelled/@label" /></x:label>
-		</xsl:otherwise>
-	</xsl:choose>
-</xsl:function>
 
 </xsl:stylesheet>
 

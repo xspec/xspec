@@ -364,7 +364,7 @@
          -->
          <xsl:text>  let $local:successful as xs:boolean := (: did the test pass?:)&#10;</xsl:text>
          <xsl:choose>
-            <xsl:when test="exists(@test) and exists(node() except x:label)">
+            <xsl:when test="exists(@test) and exists((@href|@select|node()) except x:label)">
                <xsl:text>      test:deep-equal($local:expected, </xsl:text>
                <xsl:value-of select="@test"/>
                <xsl:text>, '')&#10;</xsl:text>
@@ -423,46 +423,21 @@
       </xsl:apply-templates>
    </xsl:template>
 
+   <!-- *** test:create-node-generator *** -->
+
    <xsl:template match="x:text" as="element(text)" mode="test:create-node-generator">
       <text>
          <xsl:value-of select="."/>
       </text>
    </xsl:template>  
 
-   <xsl:template match="x:param" as="element()" mode="x:report">
-      <xsl:element name="x:{local-name()}">
-         <xsl:apply-templates select="@*" mode="x:report"/>
-         <xsl:apply-templates mode="test:create-node-generator"/>
-      </xsl:element>
-   </xsl:template>
+   <!-- *** x:report *** -->
 
-   <xsl:template match="x:call" mode="x:report">
-      <x:call>
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:report"/>
-      </x:call>
+   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
+      <xsl:text>{ </xsl:text>
+      <xsl:apply-imports />
+      <xsl:text> }&#x0A;</xsl:text>
    </xsl:template>
-
-   <xsl:template match="@select" mode="x:report">
-      <xsl:attribute name="select" select="
-          replace(replace(., '\{', '{{'), '\}', '}}')"/>
-   </xsl:template>
-
-   <xsl:template match="@*" mode="x:report">
-      <xsl:sequence select="."/>
-   </xsl:template>
-
-   <xsl:function name="x:label" as="node()?">
-      <xsl:param name="labelled" as="element()"/>
-      <xsl:choose>
-         <xsl:when test="exists($labelled/x:label)">
-            <xsl:sequence select="$labelled/x:label"/>
-         </xsl:when>
-         <xsl:otherwise>
-            <x:label><xsl:value-of select="$labelled/@label"/></x:label>
-         </xsl:otherwise>
-      </xsl:choose>
-   </xsl:function>
 
 </xsl:stylesheet>
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
-<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../xspec-three-dots.xsl"
@@ -13,9 +12,11 @@
          <x:label>When result is
 				&lt;elem&gt;text&lt;/elem&gt;
 				</x:label>
-         <x:context>
-            <elem>text</elem>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="element(elem)">
+               <elem>text</elem>
+            </x:param>
+         </x:call>
          <x:result select="/element()">
             <elem>text</elem>
          </x:result>
@@ -36,9 +37,11 @@
          <x:label>When result is
 				&lt;elem /&gt;
 				</x:label>
-         <x:context>
-            <elem/>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="element(elem)">
+               <elem/>
+            </x:param>
+         </x:call>
          <x:result select="/element()">
             <elem/>
          </x:result>
@@ -63,9 +66,11 @@
          <x:label>When result is
 				&lt;elem&gt;...&lt;/elem&gt;
 				</x:label>
-         <x:context>
-            <elem>...</elem>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="element(elem)">
+               <elem>...</elem>
+            </x:param>
+         </x:call>
          <x:result select="/element()">
             <elem>...</elem>
          </x:result>
@@ -97,9 +102,11 @@
          <x:label>When result is
 				&lt;elem attrib="val" /&gt;
 				</x:label>
-         <x:context>
-            <elem attrib="val"/>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="element(elem)">
+               <elem attrib="val"/>
+            </x:param>
+         </x:call>
          <x:result select="/element()">
             <elem attrib="val"/>
          </x:result>
@@ -131,11 +138,13 @@
          <x:label>When result is
 				&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
 				</x:label>
-         <x:context>
-            <outer>text<inner1/>
-               <inner2/>
-            </outer>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="element(outer)">
+               <outer>text<inner1/>
+                  <inner2/>
+               </outer>
+            </x:param>
+         </x:call>
          <x:result select="/element()">
             <outer>text<inner1/>
                <inner2/>
@@ -166,11 +175,13 @@
          <x:label>When result is
 				&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
 				</x:label>
-         <x:context>
-            <outer>
-               <inner/>
-            </outer>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="element(outer)">
+               <outer>
+                  <inner/>
+               </outer>
+            </x:param>
+         </x:call>
          <x:result select="/element()">
             <outer>
                <inner/>
@@ -201,9 +212,11 @@
          <x:label>When result is
 					 @attrib="val"
 				</x:label>
-         <x:context select="elem/@*">
-            <elem attrib="val"/>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="attribute(attrib)" select="elem/@*">
+               <elem attrib="val"/>
+            </x:param>
+         </x:call>
          <x:result select="/*/@*">
             <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="val"/>
          </x:result>
@@ -224,9 +237,11 @@
          <x:label>When result is
 					 @attrib=""
 				</x:label>
-         <x:context select="elem/@*">
-            <elem attrib=""/>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="attribute(attrib)" select="elem/@*">
+               <elem attrib=""/>
+            </x:param>
+         </x:call>
          <x:result select="/*/@*">
             <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib=""/>
          </x:result>
@@ -243,9 +258,11 @@
          <x:label>When result is
 					 @attrib="..."
 				</x:label>
-         <x:context select="elem/@*">
-            <elem attrib="..."/>
-         </x:context>
+         <x:call function="exactly-one">
+            <x:param as="attribute(attrib)" select="elem/@*">
+               <elem attrib="..."/>
+            </x:param>
+         </x:call>
          <x:result select="/*/@*">
             <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
          </x:result>
@@ -276,7 +293,7 @@
       <x:scenario>
          <x:label>When result is usual text node</x:label>
          <x:call function="exactly-one">
-            <x:param as="text()" select="$text-node_usual"/>
+            <x:param as="text()" select="$Q{x-urn:test:xspec-three-dots}text-node_usual"/>
          </x:call>
          <x:result select="/text()">text</x:result>
          <x:test successful="true">
@@ -291,7 +308,8 @@
       <x:scenario>
          <x:label>When result is whitespace-only text node</x:label>
          <x:call function="exactly-one">
-            <x:param as="text()" select="$text-node_whitespace-only"/>
+            <x:param as="text()"
+                     select="$Q{x-urn:test:xspec-three-dots}text-node_whitespace-only"/>
          </x:call>
          <x:result select="/text()">
             <test:ws>	
@@ -309,7 +327,8 @@
       <x:scenario>
          <x:label>When result is zero-length text node</x:label>
          <x:call function="exactly-one">
-            <x:param as="text()" select="$text-node_zero-length"/>
+            <x:param as="text()"
+                     select="$Q{x-urn:test:xspec-three-dots}text-node_zero-length"/>
          </x:call>
          <x:result select="/text()">
             <test:ws/>
@@ -326,7 +345,8 @@
       <x:scenario>
          <x:label>When result is three-dot text node</x:label>
          <x:call function="exactly-one">
-            <x:param as="text()" select="$text-node_three-dots"/>
+            <x:param as="text()"
+                     select="$Q{x-urn:test:xspec-three-dots}text-node_three-dots"/>
          </x:call>
          <x:result select="/text()">...</x:result>
          <x:test successful="true">
@@ -349,7 +369,9 @@
          <x:label>When result is
 				&lt;!--comment--&gt;
 				</x:label>
-         <x:context><!--comment--></x:context>
+         <x:call function="exactly-one">
+            <x:param as="comment()"><!--comment--></x:param>
+         </x:call>
          <x:result select="/comment()"><!--comment--></x:result>
          <x:test successful="true">
             <x:label>expecting
@@ -366,7 +388,9 @@
          <x:label>When result is
 				&lt;!----&gt;
 				</x:label>
-         <x:context><!----></x:context>
+         <x:call function="exactly-one">
+            <x:param as="comment()"><!----></x:param>
+         </x:call>
          <x:result select="/comment()"><!----></x:result>
          <x:test successful="true">
             <x:label>expecting
@@ -379,7 +403,9 @@
          <x:label>When result is
 				&lt;!--...--&gt;
 				</x:label>
-         <x:context><!--...--></x:context>
+         <x:call function="exactly-one">
+            <x:param as="comment()"><!--...--></x:param>
+         </x:call>
          <x:result select="/comment()"><!--...--></x:result>
          <x:test successful="true">
             <x:label>expecting
@@ -405,7 +431,9 @@
          <x:label>When result is
 				&lt;?pi data?&gt;
 				</x:label>
-         <x:context><?pi data?></x:context>
+         <x:call function="exactly-one">
+            <x:param as="processing-instruction(pi)"><?pi data?></x:param>
+         </x:call>
          <x:result select="/processing-instruction()"><?pi data?></x:result>
          <x:test successful="true">
             <x:label>expecting
@@ -422,7 +450,9 @@
          <x:label>When result is
 				&lt;?pi?&gt;
 				</x:label>
-         <x:context><?pi?></x:context>
+         <x:call function="exactly-one">
+            <x:param as="processing-instruction(pi)"><?pi?></x:param>
+         </x:call>
          <x:result select="/processing-instruction()"><?pi?></x:result>
          <x:test successful="true">
             <x:label>expecting
@@ -435,7 +465,9 @@
          <x:label>When result is
 				&lt;?pi ...?&gt;
 				</x:label>
-         <x:context><?pi ...?></x:context>
+         <x:call function="exactly-one">
+            <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
+         </x:call>
          <x:result select="/processing-instruction()"><?pi ...?></x:result>
          <x:test successful="true">
             <x:label>expecting
@@ -462,7 +494,8 @@
 				&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;
 				</x:label>
          <x:call function="exactly-one">
-            <x:param as="document-node()" select="$document-node_multiple-nodes"/>
+            <x:param as="document-node()"
+                     select="$Q{x-urn:test:xspec-three-dots}document-node_multiple-nodes"/>
          </x:call>
          <x:result select="/self::document-node()"><?pi?><!--comment-->
             <elem/>
@@ -483,7 +516,8 @@
 				&lt;xsl:document /&gt;
 				</x:label>
          <x:call function="exactly-one">
-            <x:param as="document-node()" select="$document-node_empty"/>
+            <x:param as="document-node()"
+                     select="$Q{x-urn:test:xspec-three-dots}document-node_empty"/>
          </x:call>
          <x:result select="/self::document-node()"/>
          <x:test successful="true">
@@ -502,7 +536,8 @@
 				&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 				</x:label>
          <x:call function="exactly-one">
-            <x:param as="document-node()" select="$document-node_three-dots"/>
+            <x:param as="document-node()"
+                     select="$Q{x-urn:test:xspec-three-dots}document-node_three-dots"/>
          </x:call>
          <x:result select="/self::document-node()">...</x:result>
          <x:test successful="true">
@@ -524,15 +559,14 @@
       </x:scenario>
    </x:scenario>
    <x:scenario>
-      <x:label>For resultant namespace node</x:label>
+      <x:label>For resultant namespace node (TODO: xspec/xspec#67 for XQuery)</x:label>
       <x:scenario>
          <x:label>When result is
 						  xmlns:prefix="namespace-uri"
 				</x:label>
-         <x:call function="exactly-one">
-            <x:param as="node()" select="elem/namespace::prefix">
-               <elem xmlns:prefix="namespace-uri"/>
-            </x:param>
+         <x:call function="Q{x-urn:test:xspec-three-dots}namespace-node">
+            <x:param select="'prefix'"/>
+            <x:param select="'namespace-uri'"/>
          </x:call>
          <x:result select="/*/namespace::*">
             <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="namespace-uri"/>
@@ -554,10 +588,9 @@
          <x:label>When result is
 						  xmlns="namespace-uri"
 				</x:label>
-         <x:call function="exactly-one">
-            <x:param as="node()" select="*:elem/namespace::*[not(name())]">
-               <elem xmlns="namespace-uri"/>
-            </x:param>
+         <x:call function="Q{x-urn:test:xspec-three-dots}namespace-node">
+            <x:param select="''"/>
+            <x:param select="'namespace-uri'"/>
          </x:call>
          <x:result select="/*/namespace::*">
             <_0:pseudo-namespace-node xmlns="namespace-uri" xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
@@ -579,10 +612,9 @@
          <x:label>When result is
 						  xmlns:prefix="..."
 				</x:label>
-         <x:call function="exactly-one">
-            <x:param as="node()" select="elem/namespace::prefix">
-               <elem xmlns:prefix="..."/>
-            </x:param>
+         <x:call function="Q{x-urn:test:xspec-three-dots}namespace-node">
+            <x:param select="'prefix'"/>
+            <x:param select="'...'"/>
          </x:call>
          <x:result select="/*/namespace::*">
             <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="..."/>
@@ -615,10 +647,12 @@
          <x:label>When result is sequence of
 				&lt;elem1 /&gt;&lt;elem2 /&gt;
 				</x:label>
-         <x:context>
-            <elem1/>
-            <elem2/>
-         </x:context>
+         <x:call function="one-or-more">
+            <x:param as="element()+">
+               <elem1/>
+               <elem2/>
+            </x:param>
+         </x:call>
          <x:result select="/element()">
             <elem1/>
             <elem2/>
@@ -650,7 +684,9 @@
    </x:scenario>
    <x:scenario>
       <x:label>When result is empty sequence</x:label>
-      <x:context select="()"/>
+      <x:call function="zero-or-one">
+         <x:param select="()"/>
+      </x:call>
       <x:result select="()"/>
       <x:test successful="false">
          <x:label>expecting ... should be Failure</x:label>
@@ -700,7 +736,9 @@
    </x:scenario>
    <x:scenario>
       <x:label>For any resultant item</x:label>
-      <x:context>item</x:context>
+      <x:call function="exactly-one">
+         <x:param as="text()">item</x:param>
+      </x:call>
       <x:result select="/text()">item</x:result>
       <x:test successful="false">
          <x:label>expecting .... (four dots) should be Failure</x:label>
