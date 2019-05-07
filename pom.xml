@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>1.3.0</version>
+  <version>1.4.0-SNAPSHOT</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for XSLT, XQuery and Schematron</description>
@@ -31,7 +31,13 @@
     </developer>
     <developer>
       <name>Sandro Cirulli</name>
-      <email>sandro.cirulli@oup.com</email>
+      <email>xspec@sandrocirulli.net</email>
+      <roles>
+        <role>current maintainer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>AirQuick</name>
       <roles>
         <role>current maintainer</role>
       </roles>
