@@ -9,23 +9,6 @@
 	<!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
 	 global parameters or global variables in the file to be tested. -->
 
-	<!--XQuery needs mode=test:generate-variable-declarations fix.
-	 TODO: When that's available, move "Combination of @select and element content" scenario to the
-	 "Variables can be defined in different ways." scenario in xspec-variable.xspec. -->
-	<x:scenario label="Code that temporarily does not work in XQuery but does work in XSLT">
-		<x:scenario label="Combination of @select and element content">
-			<x:variable name="myv:select-and-content" select="//bar">
-				<foo><bar>text</bar></foo>
-			</x:variable>
-			<x:call function="exactly-one">
-				<x:param select="$myv:select-and-content"/>
-			</x:call>
-			<x:expect label="uses the selection from the x:variable element's content as the variable value.">
-				<bar>text</bar>
-			</x:expect>
-		</x:scenario>
-	</x:scenario>
-
 	<!-- Scenarios specific to XSLT -->
 
 	<x:scenario label="Variables can appear in different parts of scenario.">

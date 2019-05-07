@@ -8,13 +8,9 @@
 
 
 <!-- TODO: Make the following changes after other code gets merged onto master branch.
-  - Test that variable/@name should be EQNAME and should be added to EQName test. See
-    test/xspec-eqname.xspec on AirQuick's branch.
   - To better test different namespace prefixes, consider updating after
     https://github.com/xspec/xspec/commit/b1e6d150644ea323252ea3fd9f5addbdde1da40a
     is integrated. See files named test/xspec-prefix-conflict*.* on AirQuick's branch.
-  - Move "Combination of @select and element content" scenario from xspec-variable_stylesheet.xspec to this file.
-    Need certain changes in generate-query-helper.xsl; see <xsl:template match="*" mode="test:generate-variable-declarations">.
   -->
 
 <x:description
@@ -39,7 +35,17 @@
 			</x:call>
 			<x:expect label="uses the selection as the variable value." select="'text'"/>
 		</x:scenario>
-		<!--See xspec-variable_stylesheet.xspec for "@select and element content" scenario-->
+		<x:scenario label="Combination of @select and element content">
+			<x:variable name="myv:select-and-content" select="//bar">
+				<foo><bar>text</bar></foo>
+			</x:variable>
+			<x:call function="exactly-one">
+				<x:param select="$myv:select-and-content"/>
+			</x:call>
+			<x:expect label="uses the selection from the x:variable element's content as the variable value.">
+				<bar>text</bar>
+			</x:expect>
+		</x:scenario>
 		<x:scenario label="Combination of @href and @select">
 			<x:variable name="myv:href-and-select" href="xspec-variable.xml" select="/top-level-element/*[1]"/>
 			<x:call function="exactly-one">

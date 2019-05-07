@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:xspec-eqname" query-at="xspec-eqname.xquery"
 	stylesheet="xspec-eqname.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xslt-version="3.0">
 
 	<x:scenario label="Using EQName in function-call @function and function-param @name">
@@ -14,6 +15,14 @@
 		</x:expect>
 	</x:scenario>
 
+	<x:scenario label="Using EQName in function-param @as">
+		<x:call function="Q{x-urn:test:xspec-eqname}param-mirror-function">
+			<x:param name="Q{x-urn:test:xspec-eqname}param-items" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+		</x:call>
+		<x:expect label="should be possible" test="$x:result treat as xs:string"
+			select="$x:result treat as xs:string"/>
+	</x:scenario>
+
 	<x:param name="Q{x-urn:test:xspec-eqname}global-param">
 		<global-param-child />
 	</x:param>
@@ -22,6 +31,51 @@
 		<x:expect label="should be possible as well as in assertion @select and @test"
 			select="$Q{x-urn:test:xspec-eqname}global-param treat as element(global-param-child)"
 			test="$Q{x-urn:test:xspec-eqname}global-param treat as element(global-param-child)" />
+	</x:scenario>
+
+	<x:param name="Q{x-urn:test:xspec-eqname}global-string-param" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+	<x:scenario label="Using EQName in global-param @as">
+		<x:call function="false" />
+		<x:expect label="should be possible"
+			test="$Q{x-urn:test:xspec-eqname}global-string-param treat as xs:string"
+			select="$Q{x-urn:test:xspec-eqname}global-string-param treat as xs:string"/>
+	</x:scenario>
+
+	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenarios are in case the decision is to allow it. -->
+	<x:variable name="Q{http://example.org/ns/my/variable}global-var" select="/Q{}global-var-child" as="element(global-var-child)">
+		<global-var-child />
+	</x:variable>
+	<x:scenario label="Using EQName in global variable @name and @select">
+		<x:call function="false" />
+		<x:expect label="should be possible as well as in assertion @select and @test"
+			select="$Q{http://example.org/ns/my/variable}global-var treat as element(Q{}global-var-child)"
+			test="$Q{http://example.org/ns/my/variable}global-var treat as element(Q{}global-var-child)" />
+	</x:scenario>
+	<x:param name="Q{http://example.org/ns/my/variable}global-string-var" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+	<x:scenario label="Using EQName in global variable @as">
+		<x:call function="false" />
+		<x:expect label="should be possible"
+			test="$Q{http://example.org/ns/my/variable}global-string-var treat as xs:string"
+			select="$Q{http://example.org/ns/my/variable}global-string-var treat as xs:string"/>
+	</x:scenario>
+
+	<x:scenario label="Using EQName in local variable @name and @select">
+		<x:variable name="Q{http://example.org/ns/my/variable}var" as="element(variable-child)"
+			select="/Q{}variable-child"><variable-child /></x:variable>
+		<x:call function="Q{x-urn:test:xspec-eqname}param-mirror-function">
+			<x:param name="Q{x-urn:test:xspec-eqname}param-items" select="$Q{http://example.org/ns/my/variable}var"/>
+		</x:call>
+		<x:expect label="should be possible as well as in function-param @select">
+			<variable-child />
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="Using EQName in local variable @as">
+		<x:variable name="Q{http://example.org/ns/my/variable}string-var" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+		<x:call function="false" />
+		<x:expect label="should be possible"
+			test="$Q{http://example.org/ns/my/variable}string-var treat as xs:string"
+			select="$Q{http://example.org/ns/my/variable}string-var treat as xs:string"/>
 	</x:scenario>
 
 </x:description>

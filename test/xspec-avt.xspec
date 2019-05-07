@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
-	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	stylesheet="do-nothing.xsl"
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="In function-param, only user-content attribute is AVT. So...">
 		<x:scenario label="In //x:call[@function]/x:param/node(),">
 			<x:call function="exactly-one">
@@ -46,6 +48,53 @@
 				test="$global-param-with-href/href-doc-child/@attr/string()" />
 			<x:expect label="text node is intact." select="'}}{false()}{{'"
 				test="$global-param-with-href/href-doc-child/text()/string()" />
+		</x:scenario>
+	</x:scenario>
+
+	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
+	<x:variable name="myv:global-var-no-href">
+		<global-var-child attr="}}{false()}{{">}}{false()}{{</global-var-child>
+	</x:variable>
+	<x:variable href="xspec-avt.xml" name="myv:global-var-with-href" />
+	<x:scenario label="In global-var, only user-content attribute is AVT. So...">
+		<x:scenario label="In /x:description/x:variable/node(),">
+			<x:call function="false" />
+			<x:expect label="attribute is AVT." select="'}false{'"
+				test="$myv:global-var-no-href/self::global-var-child/@attr/string()" />
+			<!-- TODO: The following x:expect fails on XQuery: XQuery xspec/xspec#451 -->
+			<!--<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:global-var-no-href/self::global-var-child/text()/string()" />-->
+		</x:scenario>
+
+		<x:scenario label="In /x:description/x:variable/doc(@href),">
+			<x:call function="false" />
+			<x:expect label="attribute is intact." select="'}}{false()}{{'"
+				test="$myv:global-var-with-href/href-doc-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:global-var-with-href/href-doc-child/text()/string()" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="In local variable, only user-content attribute is AVT. So...">
+		<x:variable name="myv:var-no-href">
+			<variable-child attr="}}{false()}{{">}}{false()}{{</variable-child>
+		</x:variable>
+		<x:variable href="xspec-avt.xml" name="myv:var-with-href" />
+		<x:scenario label="In //x:scenario/x:variable/node(),">
+			<x:call function="false" />
+			<x:expect label="attribute is AVT." select="'}false{'"
+				test="$myv:var-no-href/self::variable-child/@attr/string()" />
+			<!-- TODO: The following x:expect fails on XQuery: XQuery xspec/xspec#451 -->
+			<!--<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:var-no-href/self::variable-child/text()/string()" />-->
+		</x:scenario>
+
+		<x:scenario label="In //x:scenario/x:variable/doc(@href),">
+			<x:call function="false" />
+			<x:expect label="attribute is intact." select="'}}{false()}{{'"
+				test="$myv:var-with-href/href-doc-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:var-with-href/href-doc-child/text()/string()" />
 		</x:scenario>
 	</x:scenario>
 
