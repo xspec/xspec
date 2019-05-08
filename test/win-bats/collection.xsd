@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="x-urn:xspec:test:xspec-bat"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xspec-bat="x-urn:xspec:test:xspec-bat">
+
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/xml.xsd" />
+
+	<xs:element name="collection" type="xspec-bat:collectionType">
+		<xs:key name="caseId">
+			<xs:selector xpath="xspec-bat:case" />
+			<xs:field xpath="@name" />
+		</xs:key>
+	</xs:element>
+
+	<xs:complexType name="collectionType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="case">
+				<xs:complexType mixed="true">
+					<xs:simpleContent>
+						<xs:extension base="xspec-bat:scriptString">
+							<xs:attribute name="name" type="xspec-bat:nameString" use="required" />
+							<xs:attribute name="ifdef" type="xs:NMTOKENS" />
+							<xs:attribute fixed="preserve" ref="xml:space" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="nameString">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\S.*\S" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="scriptString">
+		<xs:restriction base="xs:string">
+			<!-- [\s\S]* is to allow line breaks -->
+			<xs:pattern value="[\s\S]*\scall\s+:verify_\S+[\s\S]*" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

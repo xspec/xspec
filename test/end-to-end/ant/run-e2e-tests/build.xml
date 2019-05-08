@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="run-xspec-tests.run-worker" name="run-e2e-tests">
+	<!-- Import "e2e-base" build file -->
+	<import file="../base/build.xml" />
+</project>

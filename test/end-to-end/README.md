@@ -1,42 +1,52 @@
 This procedure is a primitive end-to-end testing for XSpec itself.
 
-The primary goal is to verify that XSpec is generating the report HTML files as expected. The test should be done as simply as possible and without using XSpec itself.
+The primary goal is to verify that XSpec is generating the report files as expected. The test should be done as simply as possible and without using XSpec itself.
 
-## Preparing the expected HTML files
+## Prerequisites
 
-First you need to set up the expected HTML files. This is a manual operation which you have to perform only once.
+* Make sure that `../run-bats.sh` (or `.cmd`) does not fail. If it fails, this end-to-end testing may not work or does not make sense.
 
-1. Put `*.xspec` files into the `cases` directory.
+## Preparing the expected report files
+
+First you need to set up the expected report files. This is a manual operation which you have to perform only once.
+
+1. Put `*.xspec` files into the `cases/` directory.
 
 1. Run `./generate-expected.sh` (or `.cmd`).
 
-	The script executes the `cases/*.xspec` files.
-	
-	In the `cases/expected` directory, two kinds of the report HTML files are generated:
-	
-	* Original ones: `*-result.html`
-	* Normalized ones: `*-result-norm.html`
-	
-1. Verify that the original ones (`*-result.html`) contain the scenario results as expected.
+	Alternatively you can open `ant/generate-expected/build.xml` in oXygen and apply **ANT (with Saxon 9 EE XSLT support)** in **Transformation Scenarios** pane. (You may want to duplicate the transformation scenario and set `-silent` in **Additional arguments**.)
 
-1. Compare the normalized ones (`*-result-norm.html`) with the original ones (`*-result.html`).
+1. The script executes the `cases/*.xspec` files.
+	
+	In the `cases` directory, two kinds of the report files are generated:
+	
+	* Original ones:   `actual__/(query|schematron|stylesheet)/*.*`
+	* Normalized ones: `expected/(query|schematron|stylesheet)/*.*`
+	
+1. Verify that the original ones (`actual__/`) contain the scenario results as expected.
+
+1. Compare the normalized ones (`expected/`) with the original ones (`actual__/`).
 
 	Verify that they are essentially identical. Only the transient parts (`href`, `id`, datetime and file path) should be different.
 
-1. Commit the normalized ones (`*-result-norm.html`) to the repository. (You can discard the other sibling files.)
+1. Commit the normalized ones (`expected/`) to the repository.
 
-	They are called the expected HTML files hereafter.
+	They are called the expected report files hereafter.
+
+1. You can discard the original ones (`actual__/` directory).
 
 ## Running the regular tests
 
-Once the expected HTML files are prepared, you can run tests regularly by executing `./run-e2e-tests.sh` (or `.cmd`).
+Once the expected report files are prepared, you can run tests regularly by executing `./run-e2e-tests.sh -silent` (or `.cmd`).
 
-The script performs these tasks in sequence:
+Alternatively you can open `ant/run-e2e-tests/build.xml` in oXygen and apply **ANT (with Saxon 9 EE XSLT support)** transformation scenario.
 
-1. Executes the `cases/*.xspec` files.
+The script performs these tasks:
 
-	The report HTML files are generated: `cases/xspec/*-result.html`
+1. Executes the `*.xspec` files in `cases/` directory.
 
-1. Loads the report HTML files, normalizes them on memory, and compares them with the expected HTML files (`cases/expected/*-result-norm.html`).
+	The report files are generated: `actual__/(query|schematron|stylesheet)/*.*`
+
+1. Loads the report files, normalizes them on memory, and compares them with the expected report files (`expected/`).
 
 	If they are different, the test is considered as failure.

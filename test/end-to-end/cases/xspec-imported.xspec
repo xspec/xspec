@@ -5,20 +5,31 @@
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:my="http://example.org/ns/my" query="http://example.org/ns/my" query-at="../../xspec-tested.xql" stylesheet="../../xspec-tested.xsl">
-  <t:scenario label="a correct scenario in an imported file">
-    <t:call function="my:square">
-      <t:param select="3"/>
-    </t:call>
-    <t:expect label="must return Success" test="$x:result eq 9"/>
-  </t:scenario>
-  <t:scenario label="an incorrect scenario in an imported file">
-    <t:call function="my:square">
-      <t:param select="2"/>
-    </t:call>
-    <t:expect label="must return Failure" test="$x:result eq 42"/>
-  </t:scenario>
+
+
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:my="http://example.org/ns/my"
+               query="http://example.org/ns/my"
+               query-at="../../xspec-tested.xql"
+               stylesheet="../../xspec-tested.xsl">
+
+   <t:scenario label="a correct scenario in an imported file">
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:expect label="must return Success" select="9"/>
+   </t:scenario>
+
+   <t:scenario label="an incorrect scenario in an imported file">
+      <t:call function="my:square">
+         <t:param select="2"/>
+      </t:call>
+      <t:expect label="must return Failure" select="42"/>
+   </t:scenario>
+
 </t:description>
+
+
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
 <!--                                                                       -->

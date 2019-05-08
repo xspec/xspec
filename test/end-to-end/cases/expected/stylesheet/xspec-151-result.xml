@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:test-mix="x-urn:test-mix"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../xspec-151.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-151.xspec">
+   <x:scenario>
+      <x:label>When the result is a mixture of a typed element and a string</x:label>
+      <x:call function="test-mix:element-and-string"/>
+      <x:result select="/*">
+         <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+            <test-mix:fooElement>
+               <test-mix:barElement/>
+            </test-mix:fooElement>
+         </pseudo-element>
+         <pseudo-atomic-value xmlns="http://www.jenitennison.com/xslt/xspec">'string'</pseudo-atomic-value>
+      </x:result>
+      <x:test successful="false">
+         <x:label>[Result] in the failure report HTML must wrap element and string separately</x:label>
+         <x:expect test="false()" select="()"/>
+      </x:test>
+   </x:scenario>
+</x:report>

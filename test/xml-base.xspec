@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:xml-base" query-at="test.xquery" stylesheet="test.xsl"
+	xml:base="xml-base/" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:import href="test.xspec" xml:base="import/" />
+	<x:scenario label="In import (i.e. /x:description/x:import),">
+		<x:call function="false" />
+		<x:expect label="@href is resolved with @xml:base" test="exists($imported)" />
+	</x:scenario>
+
+	<x:scenario label="In function-param (i.e. //x:call[@function]/x:param),">
+		<x:call function="exactly-one">
+			<x:param href="test.xml" xml:base="node-selection/" />
+		</x:call>
+		<x:expect label="@href is resolved with @xml:base"
+			test="$x:result instance of document-node(element(testing-xml-base))" />
+	</x:scenario>
+
+	<x:param href="test.xml" name="global-param" xml:base="node-selection/" />
+	<x:scenario label="In global-param (i.e. /x:description/x:param),">
+		<x:call function="false" />
+		<x:expect label="@href is resolved with @xml:base"
+			test="$global-param instance of document-node(element(testing-xml-base))" />
+	</x:scenario>
+
+	<x:scenario label="In assertion (i.e. //x:expect),">
+		<x:call function="exactly-one">
+			<x:param as="document-node(element(testing-xml-base))" href="node-selection/test.xml" />
+		</x:call>
+		<x:expect href="test.xml" label="@href is resolved with @xml:base"
+			xml:base="node-selection/" />
+	</x:scenario>
+</x:description>

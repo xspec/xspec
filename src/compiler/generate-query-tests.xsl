@@ -8,13 +8,13 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet version="2.0"
+                xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:pkg="http://expath.org/ns/pkg"
-                exclude-result-prefixes="xs test x"
-                version="2.0">
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
    <xsl:import href="generate-common-tests.xsl"/>
    <xsl:import href="generate-query-helper.xsl"/>
@@ -56,7 +56,8 @@
    </xsl:template>
 
    <xsl:template match="x:description" mode="x:decl-ns">
-      <xsl:param name="except" as="xs:string"/>
+      <xsl:param name="except" as="xs:string?" />
+
       <xsl:variable name="e" as="element()" select="."/>
       <xsl:for-each select="in-scope-prefixes($e)[not(. = ('xml', $except))]">
          <xsl:text>declare namespace </xsl:text>
@@ -72,21 +73,28 @@
   
    <xsl:template match="x:description" mode="x:generate-tests">
       <xsl:variable name="this" select="."/>
-      <!-- A prefix has to be defined for the target namespace on x:description. -->
-      <!-- TODO: If not, we should generate one. -->
-      <xsl:variable name="prefix" select="
+
+      <!-- Look for a prefix defined for the target namespace on x:description. -->
+      <xsl:variable name="prefix" as="xs:string?" select="
           in-scope-prefixes($this)[
             namespace-uri-for-prefix(., $this) eq xs:anyURI($this/@query)
           ][1]"/>
-      <xsl:text>import module namespace </xsl:text>
-      <xsl:value-of select="$prefix"/>
-      <xsl:text> = "</xsl:text>
+
+      <!-- Import module to be tested -->
+      <xsl:text>import module </xsl:text>
+      <xsl:if test="exists($prefix)">
+         <xsl:text>namespace </xsl:text>
+         <xsl:value-of select="$prefix"/>
+         <xsl:text> = </xsl:text>
+      </xsl:if>
+      <xsl:text>"</xsl:text>
       <xsl:value-of select="@query"/>
       <xsl:if test="exists($query-at)">
          <xsl:text>"&#10;  at "</xsl:text>
          <xsl:value-of select="$query-at"/>
       </xsl:if>
       <xsl:text>";&#10;</xsl:text>
+
       <!-- prevent double import in case we are testing this file in the compiled suite... -->
       <xsl:if test="@query ne 'http://www.jenitennison.com/xslt/unit-test'">
          <xsl:text>import module namespace test = </xsl:text>
@@ -98,9 +106,22 @@
          </xsl:if>
          <xsl:text>;&#10;</xsl:text>
       </xsl:if>
+
+      <!-- Declare namespaces -->
       <xsl:apply-templates select="." mode="x:decl-ns">
          <xsl:with-param name="except" select="$prefix"/>
       </xsl:apply-templates>
+      <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
+
+      <!-- Serialization parameters -->
+      <xsl:text>declare option output:method "xml";&#x0A;</xsl:text>
+      <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
+
+      <!-- Absolute URI of .xspec file -->
+      <xsl:text>declare variable $x:xspec-uri as xs:anyURI := xs:anyURI("</xsl:text>
+      <xsl:value-of select="$actual-document-uri" />
+      <xsl:text>");&#x0A;</xsl:text>
+
       <!-- Compile the test suite params (aka global params). -->
       <xsl:call-template name="x:compile-params"/>
       <!-- Compile the top-level scenarios. -->
@@ -113,7 +134,7 @@
          <xsl:if test="exists($query-at)">
             <xsl:attribute name="query-at" select="$query-at"/>
          </xsl:if>
-         <xsl:attribute name="xspec" select="$base-uri"/>
+         <xsl:attribute name="xspec" select="$actual-document-uri"/>
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
          <xsl:call-template name="x:call-scenarios"/>
@@ -216,7 +237,7 @@
                  let $xxx-param2 := ...
                  let $t:result   := ...($xxx-param1, $xxx-param2)
                    return (
-                     test:report-value($t:result, 'x:result'),
+                     test:report-sequence($t:result, 'x:result'),
                -->
                <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
                <xsl:text>  let $</xsl:text>
@@ -232,7 +253,7 @@
                </xsl:for-each>
                <xsl:text>)&#10;</xsl:text>
                <xsl:text>    return (&#10;</xsl:text>
-               <xsl:text>      test:report-value($</xsl:text>
+               <xsl:text>      test:report-sequence($</xsl:text>
                <xsl:value-of select="$xspec-prefix"/>
                <xsl:text>:result, '</xsl:text>
                <xsl:value-of select="$xspec-prefix"/>
@@ -285,20 +306,11 @@
       </xsl:for-each>
       <xsl:text>)&#10;{&#10;</xsl:text>
       <xsl:if test="not($pending-p)">
-         <!--
-           let $local:expected :=
-               ( ... )
-         -->
-         <xsl:text>  let $local:expected    := (: expected result :)&#10;</xsl:text>
-         <!-- FIXME: Not correct, the x:expect model is more complex than
-              a simple variable... (see how the original stylesheet, for
-              XSLT, handles that...) Factorize with the XSLT version...
-              The value of $local:expected depends on x:expect's depends
-              on content, @href and @select. -->
-         <xsl:text>      ( </xsl:text>
-         <xsl:value-of select="@select"/>
-         <xsl:copy-of select="node()"/>
-         <xsl:text> )&#10;</xsl:text>
+         <!-- Set up the $local:expected variable -->
+         <xsl:call-template name="x:setup-expected">
+            <xsl:with-param name="var" select="'local:expected'" />
+         </xsl:call-template>
+
          <!--
            let $local:test-result :=
                if ( $t:result instance of node()+ ) then
@@ -324,13 +336,13 @@
                if ( $local:test-result instance of xs:boolean ) then
                  $local:test-result
                else
-                 test:deep-equal($local:expected, $local:test-result)
+                 test:deep-equal($local:expected, $local:test-result, '')
          - ->
          <xsl:text>  let $local:successful  := (: did the test pass?:)&#10;</xsl:text>
          <xsl:text>      if ( $local:test-result instance of xs:boolean ) then&#10;</xsl:text>
          <xsl:text>        $local:test-result&#10;</xsl:text>
          <xsl:text>      else&#10;</xsl:text>
-         <xsl:text>        test:deep-equal($local:expected, $local:test-result)&#10;</xsl:text-->
+         <xsl:text>        test:deep-equal($local:expected, $local:test-result, '')&#10;</xsl:text-->
          <!--
            IF @test ==>
            let $local:successful :=
@@ -338,14 +350,14 @@
            
            ELSE ==>
            let $local:successful :=
-               test:deep-equal($local:expected, $x:result)
+               test:deep-equal($local:expected, $x:result, '')
          -->
          <xsl:text>  let $local:successful as xs:boolean := (: did the test pass?:)&#10;</xsl:text>
          <xsl:choose>
-            <xsl:when test="exists(@test) and exists(node())">
+            <xsl:when test="exists(@test) and exists((@href|@select|node()) except x:label)">
                <xsl:text>      test:deep-equal($local:expected, </xsl:text>
                <xsl:value-of select="@test"/>
-               <xsl:text>)&#10;</xsl:text>
+               <xsl:text>, '')&#10;</xsl:text>
             </xsl:when>
             <xsl:when test="exists(@test)">
                <xsl:text>      ( </xsl:text>
@@ -355,7 +367,7 @@
             <xsl:otherwise>
                <xsl:text>      test:deep-equal($local:expected, $</xsl:text>
                <xsl:value-of select="$xspec-prefix"/>
-               <xsl:text>:result)&#10;</xsl:text>
+               <xsl:text>:result, '')&#10;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
          <xsl:text>    return&#10;      </xsl:text>
@@ -375,11 +387,11 @@
          <xsl:sequence select="x:label(.)"/>
          <xsl:if test="not($pending-p)">
             <!--xsl:if test="@test">
-               <xsl:text>&#10;      { if ( $local:test-result instance of xs:boolean ) then () else test:report-value($local:test-result, '</xsl:text>
+               <xsl:text>&#10;      { if ( $local:test-result instance of xs:boolean ) then () else test:report-sequence($local:test-result, '</xsl:text>
                <xsl:value-of select="$xspec-prefix"/>
                <xsl:text>:result') }</xsl:text>
             </xsl:if-->
-            <xsl:text>&#10;      { test:report-value($local:expected, '</xsl:text>
+            <xsl:text>&#10;      { test:report-sequence($local:expected, '</xsl:text>
             <xsl:value-of select="$xspec-prefix"/>
             <xsl:text>:expect') }</xsl:text>
          </xsl:if>
@@ -401,46 +413,21 @@
       </xsl:apply-templates>
    </xsl:template>
 
-   <xsl:template match="x:space" mode="test:create-xslt-generator">
+   <!-- *** test:create-node-generator *** -->
+
+   <xsl:template match="x:text" as="element(text)" mode="test:create-node-generator">
       <text>
          <xsl:value-of select="."/>
       </text>
    </xsl:template>  
 
-   <xsl:template match="x:param" mode="x:report">
-      <xsl:element name="x:{local-name()}">
-         <xsl:apply-templates select="@*" mode="x:report"/>
-         <xsl:apply-templates mode="test:create-xslt-generator"/>
-      </xsl:element>
-   </xsl:template>
+   <!-- *** x:report *** -->
 
-   <xsl:template match="x:call" mode="x:report">
-      <x:call>
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:report"/>
-      </x:call>
+   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
+      <xsl:text>{ </xsl:text>
+      <xsl:apply-imports />
+      <xsl:text> }&#x0A;</xsl:text>
    </xsl:template>
-
-   <xsl:template match="@select" mode="x:report">
-      <xsl:attribute name="select" select="
-          replace(replace(., '\{', '{{'), '\}', '}}')"/>
-   </xsl:template>
-
-   <xsl:template match="@*" mode="x:report">
-      <xsl:sequence select="."/>
-   </xsl:template>
-
-   <xsl:function name="x:label" as="node()?">
-      <xsl:param name="labelled" as="element()"/>
-      <xsl:choose>
-         <xsl:when test="exists($labelled/x:label)">
-            <xsl:sequence select="$labelled/x:label"/>
-         </xsl:when>
-         <xsl:otherwise>
-            <x:label><xsl:value-of select="$labelled/@label"/></x:label>
-         </xsl:otherwise>
-      </xsl:choose>
-   </xsl:function>
 
 </xsl:stylesheet>
 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../items.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-67.xspec">
+   <x:scenario>
+      <x:label>Comparing identical namespace</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$namespace"/>
+      </x:call>
+      <x:result select="/*/namespace::*">
+         <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
+                                xmlns:namespace-name="namespace-text"/>
+      </x:result>
+      <x:test successful="true">
+         <x:label>must be Success</x:label>
+         <x:expect select="/*/namespace::*">
+            <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
+                                   xmlns:namespace-name="namespace-text"/>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Comparing identical default namespace</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$default-namespace"/>
+      </x:call>
+      <x:result select="/*/namespace::*">
+         <_0:pseudo-namespace-node xmlns="default-namespace-text"
+                                   xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+      </x:result>
+      <x:test successful="true">
+         <x:label>must be Success</x:label>
+         <x:expect select="/*/namespace::*">
+            <_0:pseudo-namespace-node xmlns="default-namespace-text"
+                                      xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Comparing different namespaces</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$namespace"/>
+      </x:call>
+      <x:result select="/*/namespace::*">
+         <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
+                                xmlns:namespace-name="namespace-text"/>
+      </x:result>
+      <x:test successful="false">
+         <x:label>must be Failure</x:label>
+         <x:expect select="/*/namespace::*">
+            <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
+                                   xmlns:another-namespace-name="another-namespace-text"/>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>

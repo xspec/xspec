@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>1.3.0</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for XSLT, XQuery and Schematron</description>
@@ -17,7 +17,7 @@
       <name>The MIT License</name>
       <distribution>repo | manually</distribution>
       <url>https://opensource.org/licenses/MIT</url>
-      <comments>Copyright (c) 2008-2018 Jeni Tennison</comments>
+      <comments>Copyright (c) 2008-2019 Jeni Tennison</comments>
     </license>
   </licenses>
   
@@ -69,6 +69,14 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>net.sf.saxon</groupId>
+      <artifactId>Saxon-HE</artifactId>
+      <version>9.8.0-14</version>
+    </dependency>
+  </dependencies>
   
   <build>
     <resources>
@@ -118,6 +126,18 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <compileSourceRoots>
+            <compileSourceRoot>java</compileSourceRoot>
+          </compileSourceRoots>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.code54.mojo</groupId>
         <artifactId>buildversion-plugin</artifactId>

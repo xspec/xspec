@@ -1,27 +1,29 @@
 environment:
   global:
     # full path to Saxon jar
-    SAXON_CP: '%TEMP%\xspec\saxon\saxon9he.jar'
+    SAXON_JAR: '%TEMP%\xspec\saxon\saxon9he.jar'
     # Ant version used in oXygen
     ANT_VERSION: 1.9.8
     # full path to XML Resolver jar
-    XML_RESOLVER_CP: '%TEMP%\xspec\xml-resolver\resolver.jar'
+    XML_RESOLVER_JAR: '%TEMP%\xspec\xml-resolver\resolver.jar'
   matrix:
-    # latest Saxon 9.8 version and full path to Jing jar
-    - SAXON_VERSION: 9.8.0-7
-      JING_CP: '%TEMP%\xspec\jing\jing.jar'
-    # latest Saxon 9.7 version
-    - SAXON_VERSION: 9.7.0-21
-      XMLCALABASH_VERSION: 1.1.21-97
+    # latest Saxon 9.9 version and full path to Jing jar
+    - SAXON_VERSION: 9.9.0-2
+      JING_JAR: '%TEMP%\xspec\jing\jing.jar'
+    # latest Saxon 9.8 version
+    #   * XML Calabash will use Saxon jar in its own lib directory.
+    #   * BaseX test requires XML Calabash.
+    - SAXON_VERSION: 9.8.0-14
+      XMLCALABASH_VERSION: 1.1.22-98
       BASEX_VERSION: 8.6.4
     # Saxon version used in oXygen
-    - SAXON_VERSION: 9.7.0-19
+    - SAXON_VERSION: 9.8.0-12
 
 install:
 - ps: >-
     # install Saxon
 
-    curl.exe -fsSL --create-dirs --retry 5 -o "${env:SAXON_CP}" "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar"
+    curl.exe -fsSL --create-dirs --retry 5 -o "${env:SAXON_JAR}" "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${env:SAXON_VERSION}/Saxon-HE-${env:SAXON_VERSION}.jar"
 
 
     # install XML Calabash
@@ -33,7 +35,7 @@ install:
     else {
         curl.exe -fsSL --create-dirs --retry 5 -o "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
         7z x "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" -o"${env:TEMP}\xspec\xmlcalabash"
-        ${env:XMLCALABASH_CP} = "${env:TEMP}\xspec\xmlcalabash\xmlcalabash-${env:XMLCALABASH_VERSION}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
+        ${env:XMLCALABASH_JAR} = "${env:TEMP}\xspec\xmlcalabash\xmlcalabash-${env:XMLCALABASH_VERSION}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
     }
 
 
@@ -44,8 +46,8 @@ install:
     }
 
     else {
-        ${env:BASEX_CP} = "${env:TEMP}\xspec\basex\basex.jar"
-        curl.exe -fsSL --create-dirs --retry 5 -o "${env:BASEX_CP}" "http://files.basex.org/maven/org/basex/basex/${env:BASEX_VERSION}/basex-${env:BASEX_VERSION}.jar"
+        ${env:BASEX_JAR} = "${env:TEMP}\xspec\basex\basex.jar"
+        curl.exe -fsSL --create-dirs --retry 5 -o "${env:BASEX_JAR}" "http://files.basex.org/maven/org/basex/basex/${env:BASEX_VERSION}/basex-${env:BASEX_VERSION}.jar"
     }
 
 
@@ -56,17 +58,17 @@ install:
 
     # install XML Resolver
 
-    curl.exe -fsSL --create-dirs --retry 5 -o "${env:XML_RESOLVER_CP}" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+    curl.exe -fsSL --create-dirs --retry 5 -o "${env:XML_RESOLVER_JAR}" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
 
 
     # install Jing
 
-    if( -Not( Test-Path -Path env:\JING_CP ) ) {
+    if( -Not( Test-Path -Path env:\JING_JAR ) ) {
         echo "Jing will not be installed"
     }
 
     else {
-        curl.exe -fsSL --create-dirs --retry 5 -o "${env:JING_CP}" "http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar"
+        curl.exe -fsSL --create-dirs --retry 5 -o "${env:JING_JAR}" "http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar"
     }
 build: off
 test_script:
@@ -83,20 +85,30 @@ test_script:
 
     rem Print Saxon version
 
-    java -cp "%SAXON_CP%" net.sf.saxon.Transform 2>&1 | find /i "saxon-"
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version
 
 
-    rem execute xspec.bat unit tests
+    rem execute bats-like unit tests
 
-    test\xspec-bat.cmd
+    test\run-bats.cmd
 
 
     rem execute XSpec unit tests
 
-    test\run-xspec-tests.cmd
+    test\run-xspec-tests-ant.cmd -silent
 
 
     rem execute XSpec end-to-end tests
 
-    test\end-to-end\run-e2e-tests.cmd
+    test\end-to-end\run-e2e-tests.cmd -silent
+
+
+    rem compile java
+
+    "%ProgramFiles%\Java\jdk1.8.0\bin\javac" -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
+
+
+    rem check git status
+
+    git status --porcelain | find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
 deploy: off

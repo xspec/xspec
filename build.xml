@@ -31,7 +31,6 @@
           - If "catalog" parameter uses ${pdu}, replace it with ${pd}
           - New parameters if required (See https://github.com/xspec/xspec/wiki/Running-with-Ant):
             - test.type
-            - xspec.phase
             - xspec.fail
   ]]></description>
 
@@ -81,22 +80,48 @@
   <!-- Directory where various output files are created -->
   <property name="xspec.output.dir" value="${xspec.dir}" />
 
+  <!-- Whether to create the coverage report or not -->
+  <property name="xspec.coverage.enabled" value="false" />
+
+  <!-- Whether to create the JUnit report or not -->
+  <property name="xspec.junit.enabled" value="false" />
+
   <!-- File path of the XML report file -->
   <property name="xspec.result.xml"
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-result.xml" />
 
+  <!-- File path of the coverage XML file -->
+  <property name="xspec.coverage.xml"
+            value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-coverage.xml" />
+
   <!-- "xspec.result.html" property: Used by Oxygen default transformation. DO NOT RENAME.
-    File path of the HTML report file -->
+    File path of the test result HTML file. -->
   <property name="xspec.result.html"
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-result.html" />
+
+  <!-- File path of the coverage report HTML file -->
+  <property name="xspec.coverage.html"
+             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-coverage.html" />
+
+  <!-- File path of the JUnit report file -->
+  <property name="xspec.result.junit"
+            value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-junit.xml" />
 
   <!-- "clean.output.dir" property: Documented in Wiki. DO NOT RENAME.
     Controls whether to delete the output files -->
   <property name="clean.output.dir" value="false" />
 
-  <!-- File path of XSLT file for formatting the HTML report file. -->
-  <property name="xspec.reporter.xsl"
+  <!-- File path of XSLT file for formatting the test result HTML file -->
+  <property name="xspec.html.reporter.xsl"
             value="${xspec.project.dir}/src/reporter/format-xspec-report.xsl" />
+
+  <!-- File path of XSLT file for formatting the coverage report HTML file -->
+  <property name="xspec.coverage.reporter.xsl"
+            value="${xspec.project.dir}/src/reporter/coverage-report.xsl" />
+
+  <!-- File path of XSLT file for formatting the JUnit report file -->
+  <property name="xspec.junit.reporter.xsl"
+            value="${xspec.project.dir}/src/reporter/junit-report.xsl" />
 
   <!-- "test.type" property: Documented in Wiki. DO NOT RENAME.
     Specifies XSLT, XQuery or Schematron -->
@@ -199,7 +224,10 @@
 
   <!-- Prepares the environment before compilation -->
   <target name="init">
-    <echo message="Testing ${xspec.xspecfile.name} [${test.type}]" />
+    <condition property="xspec.coverage.dispchar" value="c" else="">
+      <istrue value="${xspec.coverage.enabled}" />
+    </condition>
+    <echo message="Testing ${xspec.xspecfile.name} [${test.type}${xspec.coverage.dispchar}]" />
 
     <!-- Verify "test.type" -->
     <fail message="Invalid test.type: '${test.type}'">
@@ -207,6 +235,16 @@
         <and>
           <isfalse value="${xspec.is.schematron}" />
           <isfalse value="${xspec.is.xquery}" />
+          <isfalse value="${xspec.is.xslt}" />
+        </and>
+      </condition>
+    </fail>
+
+    <!-- Verify "xspec.coverage.enabled" -->
+    <fail message="Coverage is supported only for XSLT">
+      <condition>
+        <and>
+          <istrue value="${xspec.coverage.enabled}" />
           <isfalse value="${xspec.is.xslt}" />
         </and>
       </condition>
@@ -234,18 +272,39 @@
           level="info" />
   </target>
 
-  <!-- Gets the Schematron phase defined in the XSpec file, if no phase was specified by the user.
-    Gets a zero-length string when the phase is not defined in the XSpec file. -->
-  <target name="get-schematron-phase" if="${xspec.is.schematron}" unless="xspec.phase">
-    <xml-to-properties in="${xspec.xspecfile.original}" style="get-schematron-phase.xsl" />
-    <echo message="Schematron phase set in XSpec: '${xspec.phase}'"
-          level="info"
-          unless:blank="${xspec.phase}" />
+  <!-- Sets up the preprocessors for Schematron -->
+  <target name="setup-schematron-preprocessor" if="${xspec.is.schematron}">
+    <!-- For Step 1 and 2: Location of the preprocessor XSLT files -->
+    <property name="xspec.schematron.preprocessor.step1"
+              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
+    <property name="xspec.schematron.preprocessor.step2"
+              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
+
+    <!-- For Step 3: Wrap the actual preprocessor in order to inject parameters -->
+
+    <!-- File path of a temporary XSLT file which imports the actual preprocessor -->
+    <property name="xspec.schematron.preprocessor.step3.wrapper"
+              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-step3-wrapper.xsl" />
+
+    <!-- URL of the actual preprocessor -->
+    <makeurl property="xspec.schematron.preprocessor.step3.url"
+             file="${xspec.schematron.preprocessor.step3}"
+             if:set="xspec.schematron.preprocessor.step3" />
+
+    <!-- Generate the wrapper of the actual preprocessor -->
+    <saxon-xslt in="${xspec.xspecfile.original}"
+                out="${xspec.schematron.preprocessor.step3.wrapper}"
+                style="${xspec.project.dir}/src/schematron/generate-step3-wrapper.xsl">
+      <xslt-elements>
+        <param name="ACTUAL-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step3.url}"
+               if="xspec.schematron.preprocessor.step3.url" />
+      </xslt-elements>
+    </saxon-xslt>
   </target>
 
   <!-- Preprocesses the XSpec file for Schematron -->
   <target name="preprocess-schematron"
-          depends="locate-schematron-file, get-schematron-phase"
+          depends="locate-schematron-file, setup-schematron-preprocessor"
           if="${xspec.is.schematron}">
     <!-- Location of the temporary files -->
     <property name="xspec.schematron.preprocessed.step1"
@@ -264,28 +323,19 @@
           level="info" />
     <saxon-xslt in="${xspec.schematron.file}"
                 out="${xspec.schematron.preprocessed.step1}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
+                style="${xspec.schematron.preprocessor.step1}" />
 
     <echo message="STEP 2: Expand abstracts"
           level="info" />
     <saxon-xslt in="${xspec.schematron.preprocessed.step1}"
                 out="${xspec.schematron.preprocessed.step2}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
+                style="${xspec.schematron.preprocessor.step2}" />
 
     <echo message="STEP 3: Convert Schematron to XSLT"
           level="info" />
-    <echo message="phase=${xspec.phase}"
-          level="info"
-          unless:blank="${xspec.phase}" />
     <saxon-xslt in="${xspec.schematron.preprocessed.step2}"
                 out="${xspec.schematron.preprocessed.xsl.file}"
-                style="${xspec.project.dir}/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl">
-      <xslt-elements>
-        <!-- TODO: Parameters should be gathered from .xspec file -->
-        <param name="allow-foreign" expression="true" />
-        <param name="phase" expression="${xspec.phase}" unless:blank="${xspec.phase}" />
-      </xslt-elements>
-    </saxon-xslt>
+                style="${xspec.schematron.preprocessor.step3.wrapper}" />
 
     <makeurl property="xspec.schematron.preprocessed.xsl.url"
              file="${xspec.schematron.preprocessed.xsl.file}" />
@@ -298,8 +348,8 @@
                 out="${xspec.xspecfile.preprocessed}"
                 style="${xspec.project.dir}/src/schematron/schut-to-xspec.xsl">
       <xslt-elements>
-        <param name="stylesheet" expression="${xspec.schematron.preprocessed.xsl.url}" />
-        <param name="test_dir" expression="${xspec.output.dir.url}" />
+        <param name="stylesheet-uri" expression="${xspec.schematron.preprocessed.xsl.url}" />
+        <param name="test-dir-uri" expression="${xspec.output.dir.url}" />
       </xslt-elements>
     </saxon-xslt>
   </target>
@@ -335,7 +385,6 @@
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
       <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
       <arg value="-o:${xspec.result.xml}" />
-      <arg value="-s:${xspec.xspecfile.preprocessed}" />
       <arg value="-q:${xspec.compiled.runner}" />
     </java>
   </target>
@@ -345,31 +394,47 @@
     <echo message="Running XSLT Tests..."
           level="info" />
 
+    <!-- Absolute path for code coverage, with '/' and '\' adapted to
+      the current platform -->
+    <property name="xspec.coverage.xml.absolute"
+              location="${xspec.coverage.xml}"
+              if:true="${xspec.coverage.enabled}" />
+
+    <echo message="Collecting test coverage data..."
+          level="info"
+          if:true="${xspec.coverage.enabled}" />
+
     <!-- Can't specify saxon.custom.options with <xslt> task so have to
       fall back to running Saxon as Java app. -->
     <java classname="net.sf.saxon.Transform" fork="true" failonerror="true">
       <!-- Saxon should be included in the classpath -->
       <classpath>
         <pathelement path="${java.class.path}" />
+        <pathelement location="${xspec.project.dir}/java" if:true="${xspec.coverage.enabled}" />
       </classpath>
+
+      <!-- System property for code coverage -->
+      <sysproperty key="xspec.coverage.xml"
+                   value="${xspec.coverage.xml.absolute}"
+                   if:true="${xspec.coverage.enabled}" />
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
       <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
       <arg value="-ext:on" />
       <arg value="-o:${xspec.result.xml}" />
-      <arg value="-s:${xspec.xspecfile.preprocessed}" />
       <arg value="-xsl:${xspec.compiled.runner}" />
+      <arg value="-T:com.jenitennison.xslt.tests.XSLTCoverageTraceListener"
+           if:true="${xspec.coverage.enabled}" />
     </java>
   </target>
 
-  <!-- Main target -->
-  <target name="xspec"
-          description="Generates the result of XSpec tests"
+  <!-- Report: Test result HTML -->
+  <target name="report-html"
           depends="run-xquery-test, run-xslt-test">
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.html}"
-                style="${xspec.reporter.xsl}">
+                style="${xspec.html.reporter.xsl}">
       <factory-elements>
         <attribute name="http://saxon.sf.net/feature/allow-external-functions"
                    value="true"/>
@@ -378,7 +443,43 @@
         <param name="inline-css" expression="true" />
       </xslt-elements>
     </saxon-xslt>
+  </target>
 
+  <!-- Report: Coverage HTML -->
+  <target name="report-coverage"
+          depends="run-xslt-test"
+          if="${xspec.coverage.enabled}">
+
+    <!-- Absolute file path of the original XSpec file -->
+    <property name="xspec.xspecfile.absolute" location="${xspec.xspecfile.original}" />
+
+    <saxon-xslt in="${xspec.coverage.xml}"
+                out="${xspec.coverage.html}"
+                style="${xspec.coverage.reporter.xsl}">
+      <factory-elements>
+        <attribute name="http://saxon.sf.net/feature/linenumbering"
+                   value="true"/>
+      </factory-elements>
+      <xslt-elements>
+        <param name="tests" expression="${xspec.xspecfile.absolute}" />
+        <param name="inline-css" expression="true" />
+      </xslt-elements>
+    </saxon-xslt>
+  </target>
+
+  <!-- Report: JUnit -->
+  <target name="report-junit"
+          depends="run-xquery-test, run-xslt-test"
+          if="${xspec.junit.enabled}">
+    <saxon-xslt in="${xspec.result.xml}"
+                out="${xspec.result.junit}"
+                style="${xspec.junit.reporter.xsl}" />
+  </target>
+
+  <!-- Main target -->
+  <target name="xspec"
+          description="Generates the result of XSpec tests"
+          depends="report-html, report-coverage, report-junit">
     <antcall target="fail" />
     <antcall target="cleanup" />
   </target>

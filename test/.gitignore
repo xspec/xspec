@@ -1,0 +1,5 @@
+/result.log
+/run-bats~TEMP~.cmd
+
+# Default TEST_DIR
+xspec/

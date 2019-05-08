@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="run-xspec-tests-worker-util" xmlns:if="ant:if" xmlns:unless="ant:unless">
+	<!-- Executes an AppVeyor command to notify AppVeyor of test status.
+		https://www.appveyor.com/docs/build-worker-api/ -->
+	<macrodef if:set="appveyor.filename" name="appveyor">
+		<attribute name="xspec-file-path" />
+		<attribute name="test-type" />
+		<attribute name="verb" />
+		<attribute name="outcome" />
+		<attribute default="" name="duration" />
+
+		<sequential>
+			<!-- Get .xspec file name and extension -->
+			<local name="xspec-file-name" />
+			<basename file="@{xspec-file-path}" property="xspec-file-name" />
+
+			<!-- Execute 'appveyor' command -->
+			<exec executable="appveyor" failonerror="true">
+				<arg value="@{verb}" />
+
+				<!-- The name of test -->
+				<arg value="${xspec-file-name} [@{test-type}]" />
+
+				<arg line="-Framework custom" />
+
+				<arg value="-FileName" />
+				<arg value="${appveyor.filename}" />
+
+				<arg value="-Outcome" />
+				<arg value="@{outcome}" />
+
+				<arg line="-Duration @{duration}" unless:blank="@{duration}" />
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<!-- Accepts file URLs and runs XSpec accordingly.
+		Enables code coverage if requested.
+		Optionally notifies AppVeyor of test status. -->
+	<macrodef name="run-xspec">
+		<attribute name="xspec-file-url" />
+		<attribute name="test-type" />
+		<attribute default="" name="enable-coverage" />
+		<attribute default="" name="output-xml-url" />
+		<attribute default="" name="output-html-url" />
+		<attribute default="" name="output-coverage-url" />
+		<attribute default="" name="output-junit-url" />
+
+		<element name="post-task" optional="yes" />
+
+		<sequential>
+			<!--
+				Convert file URLs to file paths
+			-->
+			<local name="xspec-file-path" />
+			<makepath property="xspec-file-path" url="@{xspec-file-url}" />
+
+			<local name="output-xml-path" />
+			<makepath property="output-xml-path" unless:blank="@{output-xml-url}"
+				url="@{output-xml-url}" />
+
+			<local name="output-html-path" />
+			<makepath property="output-html-path" unless:blank="@{output-html-url}"
+				url="@{output-html-url}" />
+
+			<local name="output-coverage-path" />
+			<makepath property="output-coverage-path" unless:blank="@{output-coverage-url}"
+				url="@{output-coverage-url}" />
+
+			<local name="output-junit-path" />
+			<makepath property="output-junit-path" unless:blank="@{output-junit-url}"
+				url="@{output-junit-url}" />
+
+			<!-- AppVeyor: Notify -->
+			<appveyor if:set="appveyor.filename" outcome="Running" test-type="@{test-type}"
+				verb="AddTest" xspec-file-path="${xspec-file-path}" />
+
+			<!-- AppVeyor: Record start time -->
+			<local name="appveyor.start" />
+			<script if:set="appveyor.filename" language="javascript"><![CDATA[
+				self.project.setProperty(
+					"appveyor.start",
+					new Date().getTime()
+				);
+			]]></script>
+
+			<!-- Run XSpec -->
+			<antcall inheritall="false" target="xspec">
+				<param location="${xspec-file-path}" name="xspec.xml" />
+				<param name="test.type" value="@{test-type}" />
+				<param name="xspec.coverage.enabled" unless:blank="@{enable-coverage}"
+					value="@{enable-coverage}" />
+
+				<param if:set="output-xml-path" location="${output-xml-path}"
+					name="xspec.result.xml" />
+				<param if:set="output-html-path" location="${output-html-path}"
+					name="xspec.result.html" />
+				<param if:set="output-coverage-path" location="${output-coverage-path}"
+					name="xspec.coverage.html" />
+				<param if:set="output-junit-path" location="${output-junit-path}"
+					name="xspec.result.junit" />
+			</antcall>
+
+			<!-- Run post-task elements, if any -->
+			<post-task />
+
+			<!-- AppVeyor: Calc duration -->
+			<local name="appveyor.duration" />
+			<script if:set="appveyor.filename" language="javascript"><![CDATA[
+				self.project.setProperty(
+					"appveyor.duration",
+					new Date().getTime() - self.project.getProperty("appveyor.start")
+				);
+			]]></script>
+
+			<!-- AppVeyor: Notify -->
+			<appveyor duration="${appveyor.duration}" if:set="appveyor.filename" outcome="Passed"
+				test-type="@{test-type}" verb="UpdateTest" xspec-file-path="${xspec-file-path}" />
+		</sequential>
+	</macrodef>
+</project>

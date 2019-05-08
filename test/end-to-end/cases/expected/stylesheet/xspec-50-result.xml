@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../xspec-50.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-50.xspec">
+   <x:scenario>
+      <x:label>Expecting xs:hexBinary('0123') when $x:result is xs:untypedAtomic('0123')</x:label>
+      <x:context>
+         <foo>0123</foo>
+      </x:context>
+      <x:result select="xs:untypedAtomic('0123')"/>
+      <x:test successful="false">
+         <x:label>must generate a failure report HTML which reads [Result] =
+				"xs:untypedAtomic('0123')" and [Expected Result] = "xs:hexBinary('0123')"</x:label>
+         <x:expect select="xs:hexBinary('0123')"/>
+      </x:test>
+   </x:scenario>
+</x:report>

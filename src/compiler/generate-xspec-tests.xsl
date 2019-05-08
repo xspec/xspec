@@ -7,16 +7,14 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0" 
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns="http://www.w3.org/1999/XSL/TransformAlias"
-  xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-  exclude-result-prefixes="#default test"
-  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-  xmlns:__x="http://www.w3.org/1999/XSL/TransformAliasAlias"
-  xmlns:pkg="http://expath.org/ns/pkg"
-  xmlns:impl="urn:x-xspec:compile:xslt:impl">
+<xsl:stylesheet version="2.0"
+                xmlns="http://www.w3.org/1999/XSL/TransformAlias"
+                xmlns:pkg="http://expath.org/ns/pkg"
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
 <xsl:import href="generate-common-tests.xsl"/>
 <xsl:import href="generate-tests-helper.xsl" />
@@ -25,19 +23,12 @@
 
 <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl"/>
 
-<xsl:preserve-space elements="x:space" />
+<xsl:output indent="yes" />
 
-<xsl:output indent="yes" encoding="ISO-8859-1" />  
-
-
-<xsl:variable name="xspec-ns" select="'http://www.jenitennison.com/xslt/xspec'"/>
-
-<xsl:variable name="apostrophe">'</xsl:variable>
-<xsl:variable name="stylesheet-uri" as="xs:anyURI" 
-  select="resolve-uri(/x:description/@stylesheet, replace(base-uri(/x:description), $apostrophe, '%27'))" />  
-
-<xsl:variable name="stylesheet" as="document-node()" 
-  select="doc($stylesheet-uri)" />
+<!-- Absolute URI of .xsl file to be tested.
+  This needs to be resolved here, not in mode="x:generate-tests" where base-uri() is not available -->
+<xsl:variable name="stylesheet-uri" as="xs:anyURI"
+  select="/x:description/resolve-uri(@stylesheet, base-uri())" />
 
 <xsl:template match="/">
    <xsl:call-template name="x:generate-tests"/>
@@ -48,19 +39,44 @@
   
 <xsl:template match="x:description" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
-  <stylesheet version="{( @xslt-version, '2.0' )[1]}"
-	      exclude-result-prefixes="pkg impl">
+  <stylesheet version="{( @xslt-version, 2.0 )[1]}"
+              exclude-result-prefixes="impl">
+    <!-- The test result report XML may use namespace prefixes in XPath expressions
+      even when the prefixes are not used in node names.
+      So only very internal private prefixes can be included in @exclude-result-prefixes. -->
+
+    <!-- The generated stylesheet requires these namespaces, even when this stylesheet
+      does not use them in node names. -->
+    <xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
+    <xsl:namespace name="test" select="'http://www.jenitennison.com/xslt/unit-test'" />
+    <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
+
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
-  	<import href="{$stylesheet-uri}" />
-  	<import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
+
+    <import href="{$stylesheet-uri}" />
+    <import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
-    <!-- This namespace alias is used for when the testing process needs to test
-         the generation of XSLT! -->
-    <namespace-alias stylesheet-prefix="__x" result-prefix="xsl" />
-    <variable name="x:stylesheet-uri" as="xs:string" select="'{$stylesheet-uri}'" />
-  	<output name="x:report" method="xml" indent="yes" />
+
+    <include href="{resolve-uri('../common/xspec-utils.xsl', static-base-uri())}" />
+
+    <!-- Serialization parameters -->
+    <output name="x:report" method="xml" indent="yes" />
+
+    <!-- Absolute URI of .xsl file to be tested -->
+    <variable name="x:stylesheet-uri" as="xs:anyURI">
+      <xsl:value-of select="$stylesheet-uri" />
+    </variable>
+
+    <!-- Absolute URI of .xspec file (Original one in case of Schematron) -->
+    <xsl:variable name="xspec-uri" as="xs:anyURI"
+      select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
+    <variable name="x:xspec-uri" as="xs:anyURI">
+      <xsl:value-of select="$xspec-uri" />
+    </variable>
+
     <!-- Compile the test suite params (aka global params). -->
     <xsl:call-template name="x:compile-params"/>
+
     <!-- The main compiled template. -->
     <template name="x:main">
       <message>
@@ -69,25 +85,29 @@
         <text><xsl:text> </xsl:text></text>
         <value-of select="system-property('xsl:product-version')" />
       </message>
-    	<result-document format="x:report">
-	      <processing-instruction name="xml-stylesheet">
-	        <xsl:text>type="text/xsl" href="</xsl:text>
-	        <xsl:value-of select="resolve-uri('format-xspec-report.xsl',
-	          static-base-uri())" />
-	        <xsl:text>"</xsl:text>
-	      </processing-instruction>
-	      <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
-	        that the URI appears in the trace report generated from running the
-	        test stylesheet, which can then be picked up by stylesheets that
-	        process *that* to generate a coverage report -->
-	      <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
-	        <xsl:attribute name="xspec" select="(@xspec-original-location, $base-uri)[1]"/>
-	        <xsl:copy-of select="@schematron"/>
-                 <!-- Generate calls to the compiled top-level scenarios. -->
-                 <xsl:call-template name="x:call-scenarios"/>
-	      </x:report>
-    	</result-document>
+
+      <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
+        being tested which would otherwise govern the output of the report XML. -->
+      <result-document format="x:report">
+        <processing-instruction name="xml-stylesheet">
+          <xsl:text>type="text/xsl" href="</xsl:text>
+          <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl',
+            static-base-uri())" />
+          <xsl:text>"</xsl:text>
+        </processing-instruction>
+        <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
+          that the URI appears in the trace report generated from running the
+          test stylesheet, which can then be picked up by stylesheets that
+          process *that* to generate a coverage report -->
+        <x:report stylesheet="{{$x:stylesheet-uri}}" date="{{current-dateTime()}}">
+          <xsl:attribute name="xspec" select="$xspec-uri"/>
+          <xsl:copy-of select="@schematron"/>
+          <!-- Generate calls to the compiled top-level scenarios. -->
+          <xsl:call-template name="x:call-scenarios"/>
+        </x:report>
+      </result-document>
     </template>
+
     <!-- Compile the top-level scenarios. -->
     <xsl:call-template name="x:compile-scenarios"/>
   </stylesheet>
@@ -208,7 +228,7 @@
               </xsl:variable>
               <xsl:choose>
                 <xsl:when test="$context">
-                  <!-- Set up the $context variable -->
+                  <!-- Set up the $impl:context variable -->
                   <xsl:apply-templates select="$context" mode="x:setup-context"/>
                   <!-- Switch to the context and call the template -->
                   <for-each select="$impl:context">
@@ -256,7 +276,7 @@
                </apply-templates>
             </xsl:when>
             <xsl:when test="$context">
-              <!-- Set up the $context variable -->
+              <!-- Set up the $impl:context variable -->
               <xsl:apply-templates select="$context" mode="x:setup-context"/>
               <!-- Set up variables containing the parameter values -->
               <xsl:apply-templates select="$context/x:param[1]" mode="x:compile"/>
@@ -276,10 +296,9 @@
             </xsl:otherwise>
           </xsl:choose>      
         </variable>
-        <call-template name="test:report-value">
-          <with-param name="value" select="$x:result" />
+        <call-template name="test:report-sequence">
+          <with-param name="sequence" select="$x:result" />
           <with-param name="wrapper-name" select="'x:result'" />
-          <with-param name="wrapper-ns" select="'{ $xspec-ns }'"/>
         </call-template>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
@@ -307,11 +326,17 @@
       <xsl:value-of select="normalize-space(x:label(.))"/>
     </message>
     <xsl:if test="not($pending-p)">
-      <xsl:variable name="version" as="xs:double" 
+      <xsl:variable name="xslt-version" as="xs:decimal" 
         select="(ancestor-or-self::*[@xslt-version]/@xslt-version, 2.0)[1]" />
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+      <!-- Set up the $impl:expected variable -->
+      <xsl:call-template name="x:setup-expected">
         <xsl:with-param name="var" select="'impl:expected'" />
-      </xsl:apply-templates>
+      </xsl:call-template>
+
+      <!-- Flags for test:deep-equal() enclosed in ''. -->
+      <xsl:variable name="deep-equal-flags" as="xs:string"
+       select="concat('''', '1'[$xslt-version eq 1], '''')" />
+
       <xsl:choose>
         <xsl:when test="@test">
           <!-- This variable declaration could be moved from here (the
@@ -325,15 +350,8 @@
                    $x:result as if they were *children* of the context node.
                    Have to experiment a bit to see if that really is the case.                   
                    TODO: To remove. Use directly $x:result instead.  See issue 14. -->
-              <when test="$x:result instance of node()+">
-                <!-- $impl:test-items-doc aims to create an implicit document node as described
-                     in http://www.w3.org/TR/xslt20/#temporary-trees
-                     So its "variable" element must not have @as or @select.
-                     Do not use "document" or "copy-of" element: xspec/xspec#47 -->
-                <variable name="impl:test-items-doc">
-                  <sequence select="$x:result" />
-                </variable>
-                <sequence select="$impl:test-items-doc treat as document-node()" />
+              <when test="exists($x:result) and test:wrappable-sequence($x:result)">
+                <sequence select="test:wrap-nodes($x:result)" />
               </when>
               <otherwise>
                 <sequence select="$x:result" />
@@ -344,11 +362,11 @@
              <choose>
                 <when test="count($impl:test-items) eq 1">
                    <for-each select="$impl:test-items">
-                      <sequence select="{ @test }" version="{ $version }"/>
+                      <sequence select="{ @test }" version="{ $xslt-version }"/>
                    </for-each>
                 </when>
                 <otherwise>
-                   <sequence select="{ @test }" version="{ $version }"/>
+                   <sequence select="{ @test }" version="{ $xslt-version }"/>
                 </otherwise>
              </choose>
           </variable>
@@ -356,13 +374,20 @@
                this is an error.  See issue 5.-->
           <variable name="impl:boolean-test" as="xs:boolean"
             select="$impl:test-result instance of xs:boolean" />
+          <xsl:if test="@href or @select or (node() except x:label)">
+            <if test="$impl:boolean-test">
+              <message>
+                <text>WARNING: <xsl:value-of select="name(.)"/> has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</text>
+              </message>
+            </if>
+          </xsl:if>
           <variable name="impl:successful" as="xs:boolean"
-            select="if ($impl:boolean-test) then $impl:test-result cast as xs:boolean
-                    else test:deep-equal($impl:expected, $impl:test-result, {$version})" />
+            select="if ($impl:boolean-test) then boolean($impl:test-result)
+                    else test:deep-equal($impl:expected, $impl:test-result, {$deep-equal-flags})" />
         </xsl:when>
         <xsl:otherwise>
           <variable name="impl:successful" as="xs:boolean" 
-            select="test:deep-equal($impl:expected, $x:result, {$version})" />
+            select="test:deep-equal($impl:expected, $x:result, {$deep-equal-flags})" />
         </xsl:otherwise>
       </xsl:choose>
       <if test="not($impl:successful)">
@@ -384,17 +409,20 @@
       <xsl:if test="not($pending-p)">
          <xsl:if test="@test">
             <if test="not($impl:boolean-test)">
-               <call-template name="test:report-value">
-                  <with-param name="value"        select="$impl:test-result"/>
+               <call-template name="test:report-sequence">
+                  <with-param name="sequence"     select="$impl:test-result"/>
                   <with-param name="wrapper-name" select="'x:result'"/>
-                  <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
                </call-template>
             </if>
          </xsl:if>
-         <call-template name="test:report-value">
-            <with-param name="value"        select="$impl:expected"/>
+         <call-template name="test:report-sequence">
+            <with-param name="sequence"     select="$impl:expected"/>
             <with-param name="wrapper-name" select="'x:expect'"/>
-            <with-param name="wrapper-ns"   select="'{ $xspec-ns }'"/>
+            <xsl:if test="@test">
+              <with-param name="test" as="xs:string">
+                <xsl:value-of select="@test"/>
+              </with-param>
+            </xsl:if>
          </call-template>
       </xsl:if>
     </x:test>
@@ -418,7 +446,18 @@
   </xsl:apply-templates>
 </xsl:template>
 
-<xsl:template match="x:space" mode="test:create-xslt-generator">
+<!-- *** test:create-node-generator *** -->
+
+<xsl:template match="x:space" as="empty-sequence()" mode="test:create-node-generator">
+  <xsl:message terminate="yes">
+    <xsl:value-of select="name()" />
+    <xsl:text> is deprecated. Use </xsl:text>
+    <xsl:value-of select="prefix-from-QName(node-name(.))" />
+    <xsl:text>:text instead.</xsl:text>
+  </xsl:message>
+</xsl:template>
+
+<xsl:template match="x:text" as="element(xsl:text)" mode="test:create-node-generator">
   <text><xsl:value-of select="." /></text>
 </xsl:template>  
   
@@ -436,42 +475,7 @@
    <xsl:apply-templates select="$context" mode="test:generate-variable-declarations">
       <xsl:with-param name="var" select="'impl:context'" />
    </xsl:apply-templates>
-</xsl:template>  
-
-<xsl:template match="x:context | x:param" mode="x:report">
-  <xsl:element name="x:{local-name()}">
-  	<xsl:apply-templates select="@*" mode="x:report" />
-    <xsl:apply-templates mode="test:create-xslt-generator" />
-  </xsl:element>
 </xsl:template>
-  
-<xsl:template match="x:call" mode="x:report">
-  <x:call>
-    <xsl:copy-of select="@*" />
-    <xsl:apply-templates mode="x:report" />
-  </x:call>
-</xsl:template>
-
-<xsl:template match="@select" mode="x:report">
-	<xsl:attribute name="select"
-		select="replace(replace(., '\{', '{{'), '\}', '}}')" />
-</xsl:template>
-
-<xsl:template match="@*" mode="x:report">
-	<xsl:sequence select="." />
-</xsl:template>
-
-<xsl:function name="x:label" as="node()?">
-	<xsl:param name="labelled" as="element()" />
-	<xsl:choose>
-		<xsl:when test="exists($labelled/x:label)">
-			<xsl:sequence select="$labelled/x:label" />
-		</xsl:when>
-		<xsl:otherwise>
-			<x:label><xsl:value-of select="$labelled/@label" /></x:label>
-		</xsl:otherwise>
-	</xsl:choose>
-</xsl:function>
 
 </xsl:stylesheet>
 

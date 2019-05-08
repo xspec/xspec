@@ -8,20 +8,17 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0" 
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet version="2.0"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
-                exclude-result-prefixes="xs t msxsl"
+                xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                extension-element-prefixes="test"
-                xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:t="http://www.jenitennison.com/xslt/unit-testAlias">
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all"
+                extension-element-prefixes="test">
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-utils.xsl</pkg:import-uri>
-
-<xsl:namespace-alias stylesheet-prefix="t" result-prefix="test"/>
 
 <!-- TODO: ... -->
 <xsl:param name="debug" as="xs:boolean" select="true()"/>
@@ -76,16 +73,14 @@
    </xsl:if>
 </xsl:function>
 
-<xsl:function name="test:deep-equal" as="xs:boolean">
-  <xsl:param name="seq1" as="item()*" />
-  <xsl:param name="seq2" as="item()*" />
-  <xsl:sequence select="test:deep-equal($seq1, $seq2, 2.0)" />
-</xsl:function>
-
+<!-- $flags
+  w : Ignores descendant whitespace-only text nodes except the ones in <test:ws>
+  1 : Simulates XSLT version 1.0 -->
 <xsl:function name="test:deep-equal" as="xs:boolean">
   <xsl:param name="seq1" as="item()*"/>
   <xsl:param name="seq2" as="item()*"/>
-  <xsl:param name="version" as="xs:double"/>
+  <xsl:param name="flags" as="xs:string" />
+
   <!-- Using a $param in @use-when does not work.  TODO: What to do? At run time? -->
   <!--xsl:if test="$seq1 instance of node()" use-when="$debug">
      <xsl:message select="'DEEP-EQUAL: SEQ1:', x:node-path($seq1)"/>
@@ -95,26 +90,27 @@
   </xsl:if-->
   <xsl:variable name="result" as="xs:boolean">
      <xsl:choose>
-        <xsl:when test="$version = 1.0">
+        <xsl:when test="contains($flags, '1')">
+           <xsl:variable name="flags" as="xs:string" select="translate($flags, '1', '')" />
            <xsl:choose>
               <xsl:when test="$seq1 instance of xs:string and
                               $seq2 instance of text()+">
-                 <xsl:sequence select="test:deep-equal($seq1, string-join($seq2, ''))"/>
+                 <xsl:sequence select="test:deep-equal($seq1, string-join($seq2, ''), $flags)"/>
               </xsl:when>
               <xsl:when test="$seq1 instance of xs:double and
                               $seq2 instance of text()+">
-                 <xsl:sequence select="test:deep-equal($seq1, xs:double(string-join($seq2, '')))"/>
+                 <xsl:sequence select="test:deep-equal($seq1, xs:double(string-join($seq2, '')), $flags)"/>
               </xsl:when>
               <xsl:when test="$seq1 instance of xs:decimal and
                               $seq2 instance of text()+">
-                 <xsl:sequence select="test:deep-equal($seq1, xs:decimal(string-join($seq2, '')))"/>
+                 <xsl:sequence select="test:deep-equal($seq1, xs:decimal(string-join($seq2, '')), $flags)"/>
               </xsl:when>
               <xsl:when test="$seq1 instance of xs:integer and
                               $seq2 instance of text()+">
-                 <xsl:sequence select="test:deep-equal($seq1, xs:integer(string-join($seq2, '')))"/>
+                 <xsl:sequence select="test:deep-equal($seq1, xs:integer(string-join($seq2, '')), $flags)"/>
               </xsl:when>
               <xsl:otherwise>
-                 <xsl:sequence select="test:deep-equal($seq1, $seq2)"/>
+                 <xsl:sequence select="test:deep-equal($seq1, $seq2, $flags)"/>
               </xsl:otherwise>
            </xsl:choose>
         </xsl:when>
@@ -123,29 +119,21 @@
         </xsl:when>
         <xsl:when test="count($seq1) = count($seq2)">
            <xsl:sequence select="every $i in (1 to count($seq1)) 
-                                 satisfies test:item-deep-equal($seq1[$i], $seq2[$i])"/>
+                                 satisfies test:item-deep-equal($seq1[$i], $seq2[$i], $flags)"/>
         </xsl:when>
         <xsl:when test="$seq1 instance of text() and
                         $seq2 instance of text()+">
            <xsl:variable name="seq2" as="text()">
               <xsl:value-of select="$seq2" separator=""/>
            </xsl:variable>
-           <xsl:sequence select="test:deep-equal($seq1, $seq2, $version)"/>
+           <xsl:sequence select="test:deep-equal($seq1, $seq2, $flags)"/>
         </xsl:when>
-        <xsl:when test="$seq1 instance of node()+ and $seq2 instance of node()+ and empty($seq1[. instance of attribute()]) and empty($seq2[. instance of attribute()])">
-           <xsl:variable name="seq1a" as="document-node()">
-              <xsl:document>
-                 <xsl:sequence select="$seq1"/>
-              </xsl:document>
-           </xsl:variable>
-           <xsl:variable name="seq2a" as="document-node()">
-              <xsl:document>
-                 <xsl:sequence select="$seq2"/>
-              </xsl:document>
-           </xsl:variable>
+        <xsl:when test="test:wrappable-sequence($seq1) and test:wrappable-sequence($seq2)">
+           <xsl:variable name="seq1doc" as="document-node()" select="test:wrap-nodes($seq1)" />
+           <xsl:variable name="seq2doc" as="document-node()" select="test:wrap-nodes($seq2)" />
            <xsl:choose>
-              <xsl:when test="count($seq1a/node()) != count($seq1) or count($seq2a/node()) != count($seq2)">
-                 <xsl:sequence select="test:deep-equal($seq1a/node(), $seq2a/node(), $version)"/>
+              <xsl:when test="count($seq1doc/node()) != count($seq1) or count($seq2doc/node()) != count($seq2)">
+                 <xsl:sequence select="test:deep-equal($seq1doc/node(), $seq2doc/node(), $flags)"/>
               </xsl:when>
               <xsl:otherwise>
                  <xsl:sequence select="false()"/>
@@ -165,10 +153,12 @@
 <xsl:function name="test:item-deep-equal" as="xs:boolean">
   <xsl:param name="item1" as="item()" />
   <xsl:param name="item2" as="item()" />
+  <xsl:param name="flags" as="xs:string" />
+
   <xsl:choose>
     <xsl:when test="$item1 instance of node() and
                     $item2 instance of node()">
-      <xsl:sequence select="test:node-deep-equal($item1, $item2)" />
+      <xsl:sequence select="test:node-deep-equal($item1, $item2, $flags)" />
     </xsl:when>
     <xsl:when test="not($item1 instance of node()) and
                     not($item2 instance of node())">
@@ -179,19 +169,22 @@
     </xsl:otherwise>
   </xsl:choose>
 </xsl:function>  
-  
+
 <xsl:function name="test:node-deep-equal" as="xs:boolean">
   <xsl:param name="node1" as="node()" />
   <xsl:param name="node2" as="node()" />
+  <xsl:param name="flags" as="xs:string" />
+
   <xsl:choose>
     <xsl:when test="$node1 instance of document-node() and
                     $node2 instance of document-node()">
       <xsl:variable name="children1" as="node()*" 
-        select="test:sorted-children($node1)" />
+        select="test:sorted-children($node1, $flags)" />
       <xsl:variable name="children2" as="node()*" 
-        select="test:sorted-children($node2)" />
+        select="test:sorted-children($node2, $flags)" />
       <xsl:sequence select="test:deep-equal($children1,
-                                            $children2)" />
+                                            $children2,
+                                            $flags)" />
     </xsl:when>
     <xsl:when test="$node1 instance of element() and
                     $node2 instance of element()">
@@ -210,18 +203,19 @@
             </xsl:perform-sort>
           </xsl:variable>
           <xsl:choose>
-            <xsl:when test="test:deep-equal($atts1, $atts2)">
+            <xsl:when test="test:deep-equal($atts1, $atts2, $flags)">
               <xsl:choose>
                 <xsl:when test="$node1/text() = '...' and count($node1/node()) = 1">
                   <xsl:sequence select="true()" />
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:variable name="children1" as="node()*" 
-                    select="test:sorted-children($node1)" />
+                    select="test:sorted-children($node1, $flags)" />
                   <xsl:variable name="children2" as="node()*" 
-                    select="test:sorted-children($node2)" />
+                    select="test:sorted-children($node2, $flags)" />
                   <xsl:sequence select="test:deep-equal($children1,
-                                                        $children2)" />
+                                                        $children2,
+                                                        $flags)" />
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:when>
@@ -258,8 +252,10 @@
     <xsl:when test="($node1 instance of attribute() and
                      $node2 instance of attribute()) or
                     ($node1 instance of processing-instruction() and
-                     $node2 instance of processing-instruction())">
-      <xsl:sequence select="node-name($node1) eq node-name($node2) and
+                     $node2 instance of processing-instruction()) or
+                    (x:instance-of-namespace($node1) and
+                     x:instance-of-namespace($node2))">
+      <xsl:sequence select="deep-equal(node-name($node1), node-name($node2)) and
                             (string($node1) eq string($node2) or string($node1) = '...')" />      
 
     </xsl:when>
@@ -275,85 +271,207 @@
   
 <xsl:function name="test:sorted-children" as="node()*">
   <xsl:param name="node" as="node()" />
+  <xsl:param name="flags" as="xs:string" />
+
   <xsl:sequence 
     select="$node/child::node() 
-            except ($node/text()[not(normalize-space(.))],
+            except ($node/text()[not(normalize-space())][contains($flags, 'w')][not($node/self::test:ws)],
                     $node/test:message)" />
 </xsl:function>
   
-<xsl:template name="test:report-value">
-  <xsl:param name="value" required="yes" />
-  <xsl:param name="wrapper-name" select="'t:result'" />
-  <xsl:param name="wrapper-ns" select="'http://www.jenitennison.com/xslt/unit-testAlias'" />
-  <xsl:element name="{$wrapper-name}" namespace="{$wrapper-ns}">
-    <xsl:choose>
-      <xsl:when test="$value[1] instance of attribute()">
-        <xsl:attribute name="select">/*/(@* | node())</xsl:attribute>
-        <xsl:element name="temp" namespace="{$wrapper-ns}">
-          <xsl:copy-of select="$value" />
-        </xsl:element>
-      </xsl:when>
-      <xsl:when test="$value instance of node()+">
-        <xsl:choose>
-          <xsl:when test="$value instance of document-node()">
-            <xsl:attribute name="select">/</xsl:attribute>
-          </xsl:when>
-          <xsl:when test="not($value instance of element()+)">
-            <xsl:attribute name="select">/node()</xsl:attribute>
-          </xsl:when>
-        </xsl:choose>
-        <xsl:choose>
-          <xsl:when test="count($value//node()) > 1000">
-            <!-- Ensure that a unique file name is generated by creating a copy of the result (xspec issue #67). -->
-            <xsl:variable name="value-copy">
-              <xsl:copy-of select="$value"/>
-            </xsl:variable>
-            <xsl:variable name="href" as="xs:string" select="concat(generate-id($value-copy[1]), '.xml')" />
-            <xsl:attribute name="href" select="$href" />
-            <xsl:result-document href="{$href}" format="x:report">
-              <xsl:sequence select="$value" />
-            </xsl:result-document>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:apply-templates select="$value" mode="test:report-value" />
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:attribute name="select">
-          <xsl:choose>
-            <xsl:when test="empty($value)">()</xsl:when>
-            <xsl:when test="$value instance of item()">
-              <xsl:value-of select="test:report-atomic-value($value)" />
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:text>(</xsl:text>
-              <xsl:for-each select="$value">
-                <xsl:value-of select="test:report-atomic-value(.)" />
-                <xsl:if test="position() != last()">, </xsl:if>
-              </xsl:for-each>
-              <xsl:text>)</xsl:text>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:attribute>        
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:element>
+<xsl:template name="test:report-sequence" as="element()">
+  <xsl:param name="sequence" as="item()*" required="yes" />
+  <xsl:param name="wrapper-name" as="xs:string" required="yes" />
+  <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/xspec'" />
+  <xsl:param name="test" as="xs:string?" />
+
+  <xsl:variable name="attribute-nodes" as="attribute()*"     select="$sequence[. instance of attribute()]" />
+  <xsl:variable name="document-nodes"  as="document-node()*" select="$sequence[. instance of document-node()]" />
+  <xsl:variable name="namespace-nodes" as="node()*"          select="$sequence[x:instance-of-namespace(.)]" />
+  <xsl:variable name="text-nodes"      as="text()*"          select="$sequence[. instance of text()]" />
+
+  <xsl:variable name="report-element" as="element()">
+    <xsl:element name="{$wrapper-name}" namespace="{$wrapper-ns}">
+      <xsl:if test="$test">
+        <xsl:attribute name="test" select="$test" />
+      </xsl:if>
+
+      <xsl:choose>
+        <!-- Empty -->
+        <xsl:when test="empty($sequence)">
+          <xsl:attribute name="select" select="'()'" />
+        </xsl:when>
+
+        <!-- One or more atomic values -->
+        <xsl:when test="$sequence instance of xs:anyAtomicType+">
+          <xsl:variable as="xs:string+" name="atomic-value-reports"
+            select="for $value in $sequence return test:report-atomic-value($value)" />
+          <xsl:attribute name="select" select="string-join($atomic-value-reports, ', ')" />
+        </xsl:when>
+
+        <!-- One or more nodes of the same type which can be a child of document node -->
+        <xsl:when test="
+          ($sequence instance of comment()+)
+          or ($sequence instance of element()+)
+          or ($sequence instance of processing-instruction()+)
+          or ($sequence instance of text()+)">
+          <xsl:attribute name="select" select="concat('/', x:node-type($sequence[1]), '()')" />
+          <xsl:apply-templates select="$sequence" mode="test:report-node" />
+        </xsl:when>
+
+        <!-- Single document node -->
+        <xsl:when test="$sequence instance of document-node()">
+          <!-- People do not always notice '/' in the report HTML. So express it more verbosely. -->
+          <xsl:attribute name="select" select="'/self::document-node()'" />
+          <xsl:apply-templates select="$sequence" mode="test:report-node" />
+        </xsl:when>
+
+        <!-- One or more nodes which can be stored in an element safely and without losing each position.
+          Those nodes include document nodes and text nodes. By storing them in an element, they will
+          be unwrapped and/or merged with adjacent nodes. When it happens, the report does not
+          represent the sequence precisely. That's ok, because
+            * Otherwise the report will be cluttered with pseudo elements.
+            * XSpec in general including its test:deep-equal() inclines to merge them. -->
+        <xsl:when test="($sequence instance of node()+) and not($attribute-nodes or $namespace-nodes)">
+          <xsl:attribute name="select" select="'/node()'" />
+          <xsl:apply-templates select="$sequence" mode="test:report-node" />
+        </xsl:when>
+
+        <!-- Otherwise each item needs to be represented as a pseudo element -->
+        <xsl:otherwise>
+          <xsl:attribute name="select">
+            <!-- Select the pseudo elements -->
+            <xsl:text>/*</xsl:text>
+
+            <xsl:choose>
+              <!-- If all items are instance of node, they can be expressed in @select.
+                (Document nodes are unwrapped, though.) -->
+              <xsl:when test="$sequence instance of node()+">
+                <xsl:variable name="expressions" as="xs:string+" select="
+                  '@*'[$attribute-nodes],
+                  'namespace::*'[$namespace-nodes],
+                  'node()'[$sequence except ($attribute-nodes | $namespace-nodes)]" />
+                <xsl:variable name="multi-expr" as="xs:boolean" select="count($expressions) ge 2" />
+
+                <xsl:text>/</xsl:text>
+                <xsl:if test="$multi-expr">
+                  <xsl:text>(</xsl:text>
+                </xsl:if>
+                <xsl:value-of select="$expressions" separator=" | " />
+                <xsl:if test="$multi-expr">
+                  <xsl:text>)</xsl:text>
+                </xsl:if>
+              </xsl:when>
+
+              <xsl:otherwise>
+                <!-- Not all items can be expressed in @select. Just leave the pseudo elements selected. -->
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:attribute>
+
+          <xsl:sequence select="
+            for $item in $sequence
+            return test:report-pseudo-item($item, $wrapper-ns)" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:element>
+  </xsl:variable>
+
+  <!-- Output the report element -->
+  <xsl:choose>
+    <!-- If too many nodes, save the report element as an external doc -->
+    <xsl:when test="count($report-element/descendant-or-self::node()) ge 1000">
+      <!-- Ensure that a unique file name is generated by creating a copy of the result (expath/xspec#67). -->
+      <xsl:variable name="sequence-copy">
+        <xsl:copy-of select="$sequence" />
+      </xsl:variable>
+
+      <!-- URI of the external file -->
+      <xsl:variable name="href" as="xs:string" select="concat('result-', generate-id($sequence-copy[1]), '.xml')" />
+
+      <!-- Save the report element as the external file.
+        You can't unwrap the report element, because not all nodes can be located in the document root. -->
+      <xsl:result-document href="{$href}" format="x:report">
+        <xsl:sequence select="$report-element" />
+      </xsl:result-document>
+
+      <!-- Alter the report element, discarding its stale @select -->
+      <xsl:for-each select="$report-element">
+        <xsl:copy>
+          <xsl:sequence select="attribute() except @select" />
+          <xsl:attribute name="href" select="$href" />
+        </xsl:copy>
+      </xsl:for-each>
+    </xsl:when>
+
+    <!-- Not too many nodes. Just output the report element as is. -->
+    <xsl:otherwise>
+      <xsl:sequence select="$report-element" />
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
-<xsl:template match="node()" mode="test:report-value">
+<xsl:function name="test:report-pseudo-item" as="element()">
+  <xsl:param name="item" as="item()" />
+  <xsl:param name="wrapper-ns" as="xs:string" />
+
+  <xsl:variable name="local-name-prefix" as="xs:string" select="'pseudo-'" />
+
+  <xsl:choose>
+    <xsl:when test="$item instance of xs:anyAtomicType">
+      <xsl:element name="{$local-name-prefix}atomic-value" namespace="{$wrapper-ns}">
+        <xsl:value-of select="test:report-atomic-value($item)" />
+      </xsl:element>
+    </xsl:when>
+
+    <xsl:when test="$item instance of node()">
+      <xsl:element name="{$local-name-prefix}{x:node-type($item)}" namespace="{$wrapper-ns}">
+        <xsl:choose>
+          <!-- Can't apply templates to namespace nodes -->
+          <xsl:when test="x:instance-of-namespace($item)">
+            <xsl:sequence select="$item" />
+          </xsl:when>
+
+          <xsl:otherwise>
+            <xsl:apply-templates select="$item" mode="test:report-node" />
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:element>
+    </xsl:when>
+
+    <!-- Requires XSLT 3.0 -->
+    <!--
+    <xsl:when test="$item instance of function(*)">
+      <xsl:element name="{$local-name-prefix}function" namespace="{$wrapper-ns}">
+        <xsl:value-of select="serialize($item, map { 'method': 'adaptive' })" />
+      </xsl:element>
+    </xsl:when>
+    -->
+
+    <xsl:otherwise>
+      <xsl:element name="{$local-name-prefix}other" namespace="{$wrapper-ns}" />
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:function>
+
+<!--
+  mode="test:report-node"
+    Copies the nodes while wrapping whitespace-only text nodes in <test:ws>
+-->
+<xsl:template match="document-node() | attribute() | node()" as="node()" mode="test:report-node">
   <xsl:copy>
-    <xsl:copy-of select="@*" />
-    <xsl:apply-templates mode="test:report-value" />
+    <xsl:apply-templates select="attribute() | node()" mode="#current" />
   </xsl:copy>
 </xsl:template>
 
-<xsl:template match="text()[not(normalize-space())]" mode="test:report-value">
-  <t:ws><xsl:value-of select="." /></t:ws>
+<xsl:template match="text()[not(normalize-space())]" as="element(test:ws)" mode="test:report-node">
+  <xsl:element name="test:ws">
+    <xsl:sequence select="." />
+  </xsl:element>
 </xsl:template>
 
 <xsl:function name="test:report-atomic-value" as="xs:string">
-  <xsl:param name="value" as="item()" />
+  <xsl:param name="value" as="xs:anyAtomicType" />
   <xsl:choose>
     <xsl:when test="$value instance of xs:string">
       <xsl:value-of select="concat('''',
@@ -441,10 +559,43 @@
     <xsl:otherwise>xs:anyAtomicType</xsl:otherwise>
   </xsl:choose>  
 </xsl:function>
- 
+
 <xsl:function name="msxsl:node-set" as="item()*">
   <xsl:param name="rtf" as="item()*" />
   <xsl:sequence select="$rtf" />
+</xsl:function>
+
+<!-- Returns true if every item in sequence can be wrapped in document node.
+  Empty sequence is considered to be able to be wrapped. -->
+<xsl:function name="test:wrappable-sequence" as="xs:boolean">
+  <xsl:param name="sequence" as="item()*" />
+
+  <xsl:sequence select="every $item in $sequence satisfies test:wrappable-node($item)" />
+</xsl:function>
+
+<!-- Returns true if item is node and can be wrapped in document node -->
+<xsl:function name="test:wrappable-node" as="xs:boolean">
+  <xsl:param name="item" as="item()" />
+
+  <!-- Document node cannot wrap attribute node or namespace node:
+       http://www.w3.org/TR/xslt20/#err-XTDE0420 -->
+  <xsl:sequence select="$item instance of node()
+    and not($item instance of attribute()
+            or x:instance-of-namespace($item))" />
+</xsl:function>
+
+<!-- Wraps nodes in document node with their type annotations kept -->
+<xsl:function name="test:wrap-nodes" as="document-node()">
+  <xsl:param name="nodes" as="node()*" />
+
+  <!-- $wrap aims to create an implicit document node as described
+       in http://www.w3.org/TR/xslt20/#temporary-trees
+       So its xsl:variable must not have @as or @select.
+       Do not use xsl:document or xsl:copy-of: xspec/xspec#47 -->
+  <xsl:variable name="wrap">
+    <xsl:sequence select="$nodes" />
+  </xsl:variable> 
+  <xsl:sequence select="$wrap" />
 </xsl:function>
 
 </xsl:stylesheet>

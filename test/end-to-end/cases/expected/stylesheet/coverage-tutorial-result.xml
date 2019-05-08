@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../../tutorial/coverage/demo.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../coverage-tutorial.xspec">
+   <x:scenario>
+      <x:label>'iron' element</x:label>
+      <x:context>
+         <iron weight="1"/>
+      </x:context>
+      <x:result select="/element()">
+         <shield weight="1"/>
+      </x:result>
+      <x:test successful="true">
+         <x:label>is transformed to 'shield' element</x:label>
+         <x:expect select="/element()">
+            <shield weight="1"/>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>

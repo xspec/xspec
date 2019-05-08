@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../xspec-55.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-55.xspec">
+   <x:scenario>
+      <x:label>In a failure report HTML</x:label>
+      <x:context/>
+      <x:result select="()"/>
+      <x:test successful="false">
+         <x:label>[Expected Result] must represent xs:decimal(1) by "1.0" (numeric literal of
+				decimal)</x:label>
+         <x:expect select="1.0"/>
+      </x:test>
+      <x:test successful="false">
+         <x:label>[Expected Result] must represent xs:double(1) by "xs:double('1')" (constructor
+				of double)</x:label>
+         <x:expect select="xs:double('1')"/>
+      </x:test>
+      <x:test successful="false">
+         <x:label>[Expected Result] must represent xs:integer(1) by "1" (numeric literal of
+				integer)</x:label>
+         <x:expect select="1"/>
+      </x:test>
+   </x:scenario>
+</x:report>

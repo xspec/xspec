@@ -1,7 +1,6 @@
-target/
-.idea/
-*.iml
-test/result.log
-**/xspec/*
-*-result.html
-*-report.html
+# Maven target directory
+/target/
+
+# https://github.com/xspec/xspec/pull/13#issuecomment-412299372
+# .idea/
+# *.iml

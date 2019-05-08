@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          date="ONCE-UPON-A-TIME"
+          query="http://example.org/ns/my"
+          query-at="../../../../xspec-tested.xql"
+          xspec="../../xspec-function.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
+      <x:label>when calling a function and expecting correctly</x:label>
+      <x:call function="my:square">
+         <x:param select="3"/>
+      </x:call>
+      <t:result select="9"/>
+      <x:test successful="true">
+         <x:label>expecting the correct value must return Success</x:label>
+         <t:expect select="9"/>
+      </x:test>
+      <x:test successful="true">
+         <x:label>expecting the correct type must return Success</x:label>
+         <t:expect select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
+      <x:label>when calling a function and expecting incorrectly</x:label>
+      <x:call function="my:square">
+         <x:param select="2"/>
+      </x:call>
+      <t:result select="4"/>
+      <x:test successful="false">
+         <x:label>expecting an incorrect value must return Failure</x:label>
+         <t:expect select="42"/>
+      </x:test>
+      <x:test successful="false">
+         <x:label>expecting an incorrect type must return Failure</x:label>
+         <t:expect select="()"/>
+      </x:test>
+   </x:scenario>
+</t:report>

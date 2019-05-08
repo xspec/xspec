@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-eqname.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xslt-version="3.0">
+
+	<x:scenario label="Using EQName in">
+		<x:scenario label="context @mode and template-param @name">
+			<x:context mode="Q{x-urn:test:xspec-eqname}param-mirror-mode">
+				<x:param name="Q{x-urn:test:xspec-eqname}param-items">
+					<template-param-child />
+				</x:param>
+				<context-child />
+			</x:context>
+			<x:expect label="should be possible">
+				<template-param-child />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="template-call @template and template-param @name">
+			<x:call template="Q{x-urn:test:xspec-eqname}param-mirror-template">
+				<x:param name="Q{x-urn:test:xspec-eqname}param-items">
+					<template-param-child />
+				</x:param>
+			</x:call>
+			<x:expect label="should be possible">
+				<template-param-child />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

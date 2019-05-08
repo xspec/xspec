@@ -15,9 +15,9 @@ description =
 		common-attributes,
 		attribute stylesheet { xs:anyURI }?,
 		attribute query { xs:anyURI }?,
-		attribute xslt-version { xs:NMTOKEN }?,
+		attribute xslt-version { xs:decimal }?,
 		attribute query-at { xs:anyURI }?,
-		attribute version { xs:NMTOKEN }?,		
+		attribute version { xs:decimal }?,		
 		attribute preserve-space { xs:NMTOKENS }?,
 		attribute schematron { xs:anyURI }?,
 		(global-param | import | scenario | pending)+ }
@@ -141,7 +141,7 @@ context =
 	element context { 
 		common-attributes,
 		## The mode in which templates are applied to it, and any parameters included in the apply templates.
-		attribute mode { xs:QName }?,
+		attribute mode { eqname.datatype }?,
 		template-param*,
 		node-selection
 	}
@@ -152,7 +152,7 @@ function-call =
 	element call {
 		common-attributes,
 		## The qualified name of the function which should get called.
-		attribute function { xs:QName }?,
+		attribute function { eqname.datatype }?,
 		function-param*
 	}
 
@@ -162,7 +162,7 @@ template-call =
 	element call {
 		common-attributes,
 		## The qualified name of the template which should get called.
-		attribute template { xs:QName }?,
+		attribute template { eqname.datatype }?,
 		template-param*
 	}
 
@@ -170,7 +170,7 @@ global-param =
 	## Global parameters are set globally, for the entire unit test suite. There's
 	## no way to set global parameters within a particular scenario (due to
 	## constraints on implementation).
-	element param { name, selection }
+	element param { common-attributes, name, as?, selection }
 
 template-param = element param { common-attributes, 
                                  name, as?, 
@@ -179,7 +179,7 @@ template-param = element param { common-attributes,
 function-param = element param { common-attributes,
                                  name?, as?, position?, selection }
 
-name = attribute name { xs:QName }
+name = attribute name { eqname.datatype }
 
 position = attribute position { xs:integer }
 
@@ -187,15 +187,16 @@ as = attribute as { text }
 
 selection = node-selection | value-selection
 
-node-selection = 
-                 ## The document URI (location) of the imported document.
-                 attribute href { xs:anyURI }?,
+node-selection = (
+                 ## The document URI (location) of the selected document.
+                 attribute href { xs:anyURI }
+                 | user-content
+                 ),
                  ## The XPath expression to access the selected node. 
-                 attribute select { xpath }?, 
-                 user-content
+                 attribute select { xpath }?
 
 value-selection =
-    ## The XPath expression to access the selected node. 
+    ## The XPath expression without definitive context.
     attribute select { xpath }
 
 xpath = text
@@ -212,8 +213,13 @@ test = attribute test { xpath }
 
 common-attributes = attribute xml:* { text }*
 
-user-content = mixed { user-element* }
+user-content = mixed { (user-element | text-element)* }
 user-element = element * - x:* { attribute * { text }*, user-content }
+
+text-element =
+	## Works like <xsl:text>.
+	## Text in this element is not ignored even when it's whitespace-only.
+	element text { text }
 
 schematron-scenario = context?,
                     like*,
@@ -302,3 +308,8 @@ schematron-common-expect =
 schematron-count-expect = 
     ## Number of times an <assert> or <report> is expected to be thrown.
     attribute count { xs:nonNegativeInteger }?
+
+# EQName: https://www.w3.org/TR/xslt-30/schema-for-xslt30.rnc
+uri.qualified.name = xsd:token { pattern = "Q\{[^\{\}]*\}[\i-[:]][\c-[:]]*" } 
+qname.strict = xsd:token { pattern = "[\i-[:]][\c-[:]]:[\i-[:]][\c-[:]]" }
+eqname.datatype = xsd:QName | uri.qualified.name | qname.strict 

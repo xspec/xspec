@@ -8,14 +8,14 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+<xsl:stylesheet version="2.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                extension-element-prefixes="test"
-                exclude-result-prefixes="xs xhtml"
-                version="2.0">
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all"
+                extension-element-prefixes="test">
   
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-query-helper.xsl</pkg:import-uri>
 
@@ -35,7 +35,7 @@
             use="concat('match=', normalize-space(@match), '+',
                         'mode=', normalize-space(@mode))"/>
 
-   <xsl:template match="*" mode="test:generate-variable-declarations">
+   <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
       <xsl:param name="var"    as="xs:string"  required="yes"/>
       <xsl:param name="global" as="xs:boolean" select="false()"/>
       <xsl:choose>
@@ -59,15 +59,18 @@
             <xsl:if test="@select">/( <xsl:value-of select="@select"/> )</xsl:if>
          </xsl:when>
          <xsl:when test="node()">
-            <xsl:text> := ( </xsl:text>
+            <xsl:text> := ( document {</xsl:text>
             <xsl:for-each select="node() except text()[not(normalize-space(.))]">
-               <xsl:apply-templates select="." mode="test:create-xslt-generator"/>
+               <xsl:apply-templates select="." mode="test:create-node-generator"/>
                <xsl:if test="position() ne last()">
                   <xsl:text>, </xsl:text>
                </xsl:if>
             </xsl:for-each>
-            <xsl:text> )</xsl:text>
-            <xsl:if test="@select">/( <xsl:value-of select="@select"/> )</xsl:if>
+            <xsl:text>} )/</xsl:text>
+            <xsl:choose>
+               <xsl:when test="@select">( <xsl:value-of select="@select"/> )</xsl:when>
+               <xsl:otherwise>node()</xsl:otherwise>
+            </xsl:choose>
          </xsl:when>
          <xsl:when test="@select">
             <xsl:text> := ( </xsl:text>
@@ -84,33 +87,21 @@
       <xsl:text>&#10;</xsl:text>
    </xsl:template>
 
-   <xsl:template match="*" mode="test:create-xslt-generator">
+   <xsl:template match="element()" as="element()" mode="test:create-node-generator">
      <!--xsl:copy>
        <xsl:copy-of select="@*"/>
-       <xsl:apply-templates mode="test:create-xslt-generator"/>
+       <xsl:apply-templates mode="#current"/>
      </xsl:copy-->
-     <xsl:copy-of select="."/>
+     <xsl:sequence select="."/>
    </xsl:template>  
 
-   <!-- FIXME: Escape the quoted string... -->
-   <xsl:template match="text()" mode="test:create-xslt-generator">
-      <xsl:text>text { "</xsl:text>
-      <xsl:value-of select="."/>
+   <xsl:template match="attribute() | comment() | processing-instruction() | text()"
+      as="text()+" mode="test:create-node-generator">
+      <xsl:value-of select="x:node-type(.), name()" />
+      <xsl:text> { "</xsl:text>
+      <!-- FIXME: Escape the quoted string... -->
+      <xsl:value-of select="." />
       <xsl:text>" }</xsl:text>
-   </xsl:template>  
-
-   <xsl:template match="comment()" mode="test:create-xslt-generator">
-      <xsl:text>comment { </xsl:text>
-      <xsl:value-of select="."/>
-      <xsl:text> }</xsl:text>
-   </xsl:template>
-
-   <xsl:template match="processing-instruction()" mode="test:create-xslt-generator">
-      <xsl:text>processing-instruction { </xsl:text>
-      <xsl:value-of select="name(.)"/>
-      <xsl:text> } { </xsl:text>
-      <xsl:value-of select="."/>
-      <xsl:text> }</xsl:text>
    </xsl:template>
 
    <xsl:function name="test:matching-xslt-elements" as="element()*">

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../xspec-tested.xsl"
+          date="ONCE-UPON-A-TIME"
+          xspec="../../xspec-rule.xspec">
+   <x:scenario>
+      <x:label>x:context with correct x:expect</x:label>
+      <x:context>
+         <rule/>
+      </x:context>
+      <x:result select="/element()">
+         <transformed xmlns:my="http://example.org/ns/my"/>
+      </x:result>
+      <x:test successful="true">
+         <x:label>must return Success</x:label>
+         <x:expect select="/element()">
+            <transformed/>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>x:context with incorrect x:expect</x:label>
+      <x:context>
+         <rule/>
+      </x:context>
+      <x:result select="/element()">
+         <transformed xmlns:my="http://example.org/ns/my"/>
+      </x:result>
+      <x:test successful="false">
+         <x:label>must return Failure</x:label>
+         <x:expect select="/element()">
+            <erroneous/>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>

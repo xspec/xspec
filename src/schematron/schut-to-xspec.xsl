@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-    xmlns:x="http://www.jenitennison.com/xslt/xspec" 
-    exclude-result-prefixes="xs" version="2.0">
+<xsl:stylesheet version="2.0"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec" 
+                xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
     
-    <xsl:param name="stylesheet" select="concat(x:description/@schematron, '.xsl')"/>
-    <xsl:param name="test_dir" select="'xspec'"/>
+    <xsl:param name="stylesheet-uri" select="concat(x:description/@schematron, '.xsl')"/>
     
+    <!-- Absolute URI of TEST_DIR -->
+    <xsl:param name="test-dir-uri" as="xs:anyURI" required="yes"/>
+    
+
+    <xsl:include href="../common/xspec-utils.xsl"/>
 
     <xsl:variable name="error" select="('error', 'fatal')"/>
     <xsl:variable name="warn" select="('warn', 'warning')"/>
     <xsl:variable name="info" select="('info', 'information')"/>
 
-    <!-- Fix 'file:C:/...' (https://issues.apache.org/jira/browse/XMLCOMMONS-24) -->
-    <xsl:variable name="base-uri" as="xs:string" select="replace(base-uri(), '^(file:)([^/])', '$1/$2')"/>
-
-
-    <xsl:template match="@* | node()" priority="-2">
+    <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
         <xsl:copy>
             <xsl:apply-templates select="@* | node()"/>
         </xsl:copy>
@@ -25,15 +25,18 @@
     
     <xsl:template match="x:description[@schematron]">
         <xsl:element name="x:description">
+            <!-- child::x:param may use namespaces -->
+            <xsl:sequence select="x:copy-namespaces(.)" />
+
             <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
             <xsl:apply-templates select="@*[not(name() = ('stylesheet'))]"/>
             <xsl:apply-templates select="node()"/>
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="@schematron">
-        <xsl:attribute name="xspec-original-location" select="$base-uri"/>
-        <xsl:attribute name="stylesheet" select="$stylesheet"/>
+    <xsl:template match="x:description/@schematron">
+        <xsl:attribute name="xspec-original-location" select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
+        <xsl:attribute name="stylesheet" select="$stylesheet-uri"/>
         <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
         <xsl:attribute name="schematron" select="$path"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
@@ -62,7 +65,9 @@
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
         parent::*/x:expect-report | parent::*/x:expect-not-report |
         parent::*/x:expect-valid | ancestor::x:description[@schematron] ]">
-        <xsl:variable name="file" select="concat($test_dir, '/', 'context-', generate-id(), '.xml')"/>
+        <xsl:variable name="file" as="xs:anyURI" select="resolve-uri(
+            concat('context-', generate-id(), '.xml'),
+            concat($test-dir-uri, '/'))"/>
         <xsl:result-document href="{$file}">
             <xsl:copy-of select="./node()"/>
         </xsl:result-document>

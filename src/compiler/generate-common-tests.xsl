@@ -8,20 +8,20 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet version="2.0"
+                xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:pkg="http://expath.org/ns/pkg"
-                exclude-result-prefixes="xs test x pkg"
-                version="2.0">
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
-   <xsl:preserve-space elements="x:space"/>
-   
-   <!-- Fix 'file:C:/...' (https://issues.apache.org/jira/browse/XMLCOMMONS-24) -->
-   <xsl:variable name="base-uri" as="xs:string" select="replace(base-uri(), '^(file:)([^/])', '$1/$2')"/>
+   <xsl:include href="../common/xspec-utils.xsl"/>
+
+   <xsl:variable name="actual-document-uri" as="xs:anyURI"
+      select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
    
 
    <!--
@@ -48,65 +48,104 @@
       <xsl:apply-templates select="$unshared-scenarios/*" mode="x:generate-tests"/>
    </xsl:template>
 
-   <xsl:template match="x:description" mode="x:copy-namespaces">
-      <xsl:variable name="e" as="element()" select="."/>
-      <xsl:for-each select="in-scope-prefixes($e)">
-         <xsl:namespace name="{ . }" select="namespace-uri-for-prefix(., $e)"/>
-      </xsl:for-each>
+   <xsl:template match="x:description" as="node()*" mode="x:copy-namespaces">
+      <xsl:sequence select="x:copy-namespaces(.)" />
    </xsl:template>
 
    <xsl:function name="x:gather-specs" as="element(x:description)+">
       <xsl:param name="visit" as="element(x:description)+"/>
+
+      <!-- "$visit/x:import" without sorting -->
+      <xsl:variable name="imports" as="element(x:import)*">
+        <xsl:for-each select="$visit">
+          <xsl:sequence select="x:import" />
+        </xsl:for-each>
+      </xsl:variable>
       <xsl:variable name="imports" as="element(x:import)*"
-                    select="$visit/x:import"/>
+        select="x:distinct-nodes-stable($imports)" />
+
+      <!-- "document($imports/@href)" without sorting -->
+      <xsl:variable name="docs" as="document-node(element(x:description))*">
+        <xsl:for-each select="$imports">
+          <xsl:sequence select="document(@href)" />
+        </xsl:for-each>
+      </xsl:variable>
+      <xsl:variable name="docs" as="document-node(element(x:description))*"
+        select="x:distinct-nodes-stable($docs)" />
+
+      <!-- "$docs/x:description" without sorting -->
+      <xsl:variable name="imported" as="element(x:description)*">
+        <xsl:for-each select="$docs">
+          <xsl:sequence select="x:description" />
+        </xsl:for-each>
+      </xsl:variable>
       <xsl:variable name="imported" as="element(x:description)*"
-                    select="document($imports/@href)/x:description"/>
+        select="x:distinct-nodes-stable($imported)" />
+
+      <!-- "$imported except $visit" without sorting -->
+      <xsl:variable name="imported-except-visit" as="element(x:description)*"
+                    select="$imported[empty($visit intersect .)]"/>
+
       <xsl:choose>
-         <xsl:when test="empty($imported except $visit)">
+         <xsl:when test="empty($imported-except-visit)">
             <xsl:sequence select="$visit"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="x:gather-specs($visit | $imported)"/>
+            <xsl:sequence select="x:gather-specs(($visit, $imported-except-visit))"/>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
 
    <xsl:template match="x:description" mode="x:gather-specs">
-      <xsl:apply-templates mode="x:gather-specs">
+      <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="
-             ( @xslt-version, '2.0' )[1]"/>
+             ( @xslt-version, 2.0 )[1]"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="
              for $qname in tokenize(@preserve-space, '\s+') return
                resolve-QName($qname, .)"/>
       </xsl:apply-templates>
    </xsl:template>
 
-   <xsl:template match="x:scenario" mode="x:gather-specs">
-      <xsl:param name="xslt-version" as="xs:string" tunnel="yes" required="yes"/>
+   <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:gather-specs">
+      <xsl:param name="xslt-version" as="xs:decimal" tunnel="yes" required="yes"/>
+
       <x:scenario xslt-version="{$xslt-version}">
          <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:gather-specs"/>
+         <xsl:apply-templates mode="#current"/>
       </x:scenario>
    </xsl:template>
 
-   <xsl:template match="x:*/@href" mode="x:gather-specs">
+   <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
       <xsl:attribute name="href" select="resolve-uri(., base-uri(.))"/>
    </xsl:template>
 
-   <xsl:template match="text()[not(normalize-space())]" mode="x:gather-specs">
+   <xsl:template match="text()[not(normalize-space())]" as="node()?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
-      <xsl:if test="parent::x:space
-                      or ancestor::*[@xml:space][1]/@xml:space = 'preserve'
-                      or node-name(parent::*) = $preserve-space">
-         <x:space>
-            <xsl:value-of select="."/>
-         </x:space>
-      </xsl:if>
+
+      <xsl:choose>
+         <xsl:when test="parent::x:text">
+            <!-- Preserve -->
+            <xsl:sequence select="." />
+         </xsl:when>
+
+         <xsl:when test="
+            (ancestor::*[@xml:space][1]/@xml:space = 'preserve')
+            or (node-name(parent::*) = $preserve-space)">
+            <!-- Preserve and wrap in <x:text> -->
+            <x:text>
+               <xsl:sequence select="." />
+            </x:text>
+         </xsl:when>
+
+         <xsl:otherwise>
+            <!-- Discard -->
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
 
-   <xsl:template match="node()|@*" mode="x:gather-specs">
+   <xsl:template match="node()|@*" as="node()" mode="x:gather-specs">
       <xsl:copy>
-         <xsl:apply-templates select="node()|@*" mode="x:gather-specs"/>
+         <xsl:apply-templates select="node()|@*" mode="#current" />
       </xsl:copy>
    </xsl:template>
 
@@ -528,6 +567,62 @@
          <xsl:apply-templates mode="x:unshare-scenarios"/>
       </xsl:copy>
    </xsl:template>
+
+   <!-- *** x:report *** -->
+
+   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
+      <xsl:apply-templates select="." mode="test:create-node-generator" />
+   </xsl:template>
+
+   <xsl:template match="x:*" as="element()" mode="x:report">
+      <!-- Unify namespace prefix into x: -->
+      <xsl:element name="x:{local-name()}">
+         <xsl:apply-templates select="attribute() | node()" mode="#current" />
+      </xsl:element>
+   </xsl:template>
+
+   <xsl:template match="x:*/node()[x:is-user-content(.)]" as="node()+" mode="x:report">
+      <!-- User content. Leave it intact. -->
+      <xsl:apply-templates select="." mode="test:create-node-generator" />
+   </xsl:template>
+
+   <!-- Generates variable declarations for x:expect -->
+   <xsl:template name="x:setup-expected" as="node()+">
+      <!--<xsl:context-item as="element(x:expect)" use="required" />-->
+
+      <xsl:param name="var" as="xs:string" required="yes" />
+
+      <!-- Remove x:label from x:expect -->
+      <xsl:variable name="expect" as="element(x:expect)">
+         <xsl:copy>
+            <xsl:sequence select="(attribute() | node()) except x:label" />
+         </xsl:copy>
+      </xsl:variable>
+
+      <!-- Generate <xsl:variable name="impl:expected"> (XSLT)
+         or "let $local:expected := ..." (XQuery) to represent the expected items -->
+      <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
+         <xsl:with-param name="var" select="$var" />
+      </xsl:apply-templates>
+   </xsl:template>
+
+   <xsl:function name="x:label" as="element(x:label)">
+      <xsl:param name="labelled" as="element()" />
+
+      <x:label>
+         <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
+      </x:label>
+   </xsl:function>
+
+   <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
+     in a prior position of the sequence.)
+     This function does not sort nodes in document order.
+     Based on http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable -->
+   <xsl:function name="x:distinct-nodes-stable" as="node()*">
+     <xsl:param name="nodes" as="node()*"/>
+
+     <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
+   </xsl:function>
 
    <!--
        Debugging tool.  Return a human-readable path of a node.

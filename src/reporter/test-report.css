@@ -144,12 +144,12 @@ dd pre, li pre {
 
 /* fonts */
 body {
-	font-family: arial, helvetica, sans-serif;
+	font-family: sans-serif;
 	font-size: small;
 	}
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'trebuchet MS', arial, sans-serif;
+	font-family: sans-serif;
 	}
 
 h1 {
@@ -190,18 +190,18 @@ address {
 	}
 
 div.example, .sidebar {
-  font-family: Verdana, arial, sans-serif;
+  font-family: sans-serif;
   font-size: 100%;
   }
 
 
 .note, .link {
-	font-family: Verdana, arial, sans-serif;
+	font-family: sans-serif;
 	font-size: 83%;
 	}
 
 .example, .string, .rtf, .code, pre, code {
-	font-family: "Lucida Console", "Courier New", monospace;
+	font-family: monospace;
   font-size: 83%;
 	}
 
@@ -326,9 +326,13 @@ a.img:hover, a.img:active {
 }
 
 .whitespace {
-	font-style: italic;
+	/*font-style: italic;*/
 	color: #999;
-	background: white;
+	/*background: white;*/
+}
+
+.ellipsis {
+	color: #999;
 }
 
 .ignored {
