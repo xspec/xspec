@@ -204,6 +204,17 @@
 		</x:scenario>
 
 		<x:scenario>
+			<x:label>@xml:space="preserve" takes effect on whitespace-only text node even when the
+				text node appears immediately in user-content. (i.e. no parent element)
+				So...</x:label>
+			<x:call function="exactly-one">
+				<x:param xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</x:param>
+			</x:call>
+			<x:expect label="Immediate whitespace-only text nodes are kept."
+				test="deep-equal($x:result, $xspec-space:wsot)" />
+		</x:scenario>
+
+		<x:scenario>
 			<x:label>For elements specified by @preserve-space, effect is only on child
 				whitespace-only text node. So...</x:label>
 			<x:call function="exactly-one">
