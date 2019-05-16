@@ -448,14 +448,6 @@
       </xsl:apply-templates>
    </xsl:template>
 
-   <!-- *** test:create-node-generator *** -->
-
-   <!-- At compile time, x:text has special meaning -->
-   <xsl:template match="x:text" as="text()+" mode="test:create-node-generator">
-      <!-- Unwrap it and preserve its text node -->
-      <xsl:apply-templates mode="#current" />
-   </xsl:template>
-
    <!-- *** x:report *** -->
 
    <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
