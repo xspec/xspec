@@ -448,6 +448,7 @@
 
 <!-- *** test:create-node-generator *** -->
 
+<!-- At compile time, x:text (formerly x:space) has special meaning -->
 <xsl:template match="x:space" as="empty-sequence()" mode="test:create-node-generator">
   <xsl:message terminate="yes">
     <xsl:value-of select="name()" />
@@ -458,9 +459,9 @@
 </xsl:template>
 
 <xsl:template match="x:text" as="element(xsl:text)" mode="test:create-node-generator">
-  <text><xsl:value-of select="." /></text>
-</xsl:template>  
-  
+  <!-- Unwrap it and preserve its text node -->
+  <xsl:apply-templates mode="#current" />
+</xsl:template>
 
 <!-- *** x:compile *** -->
 <!-- Helper code for the tests -->

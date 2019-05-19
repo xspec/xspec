@@ -415,11 +415,11 @@
 
    <!-- *** test:create-node-generator *** -->
 
-   <xsl:template match="x:text" as="element(text)" mode="test:create-node-generator">
-      <text>
-         <xsl:value-of select="."/>
-      </text>
-   </xsl:template>  
+   <!-- At compile time, x:text has special meaning -->
+   <xsl:template match="x:text" as="text()+" mode="test:create-node-generator">
+      <!-- Unwrap it and preserve its text node -->
+      <xsl:apply-templates mode="#current" />
+   </xsl:template>
 
    <!-- *** x:report *** -->
 
