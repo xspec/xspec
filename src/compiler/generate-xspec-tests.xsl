@@ -139,7 +139,9 @@
   <xsl:param name="context"   select="()" tunnel="yes" as="element(x:context)?"/>
   <xsl:param name="variables" as="element(x:variable)*"/>
   <xsl:param name="params"    as="element(param)*"/>
+
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)"/>
+
   <!-- We have to create these error messages at this stage because before now
        we didn't have merged versions of the environment -->
   <xsl:if test="$context/@href and ($context/node() except $context/x:param)">
@@ -185,6 +187,7 @@
       <xsl:text>": there are tests in this scenario but no call, or apply or context has been given</xsl:text>
     </xsl:message>
   </xsl:if>
+
   <template name="x:{generate-id()}">
      <xsl:for-each select="$params">
         <param name="{ @name }" required="yes"/>
@@ -207,8 +210,13 @@
       <xsl:if test="$pending-p">
         <xsl:attribute name="pending" select="$pending" />
       </xsl:if>
+
+      <!-- Create x:label directly -->
       <xsl:sequence select="x:label(.)" />
+
+      <!-- Create report generator -->
       <xsl:apply-templates select="x:apply | x:call | x:context" mode="x:report" />
+
       <xsl:apply-templates select="$variables" mode="x:generate-declarations"/>
       <xsl:if test="not($pending-p) and x:expect">
         <variable name="x:result" as="item()*">

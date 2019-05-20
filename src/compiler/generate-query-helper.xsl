@@ -109,10 +109,7 @@
 
          <xsl:otherwise>
             <xsl:text>"</xsl:text>
-
-            <!-- FIXME: Escape the quoted string... -->
-            <xsl:value-of select="." />
-
+            <xsl:value-of select="replace(., '(&quot;)', '$1$1')" />
             <xsl:text>"</xsl:text>
          </xsl:otherwise>
       </xsl:choose>
