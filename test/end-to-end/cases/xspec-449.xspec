@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="x:expect/">
+		<x:call function="false" />
+		<x:expect select="false()">
+			<x:label>x:label containing }{ should not affect test</x:label>
+		</x:expect>
+		<x:expect label="@label containing }{ should not affect test" select="false()" />
+	</x:scenario>
+</x:description>
