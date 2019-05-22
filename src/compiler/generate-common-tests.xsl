@@ -614,6 +614,16 @@
       </x:label>
    </xsl:function>
 
+   <xsl:function name="x:create-pending-attr-generator" as="node()+">
+      <xsl:param name="pending-node" as="node()" />
+
+      <xsl:variable name="pending-attr" as="attribute(pending)">
+         <xsl:attribute name="pending" select="$pending-node" />
+      </xsl:variable>
+
+      <xsl:apply-templates select="$pending-attr" mode="test:create-node-generator" />
+   </xsl:function>
+
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
      in a prior position of the sequence.)
      This function does not sort nodes in document order.
