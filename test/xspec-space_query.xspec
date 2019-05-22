@@ -18,14 +18,28 @@
 				test="deep-equal($x:result, $xspec-space:span-element-empty)" />
 		</x:scenario>
 
-		<x:scenario>
-			<x:label>But node-selection @href is always intact. So, in
-				//x:call[@function]/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
-			<x:call function="exactly-one">
-				<x:param href="xspec-space.xml" />
-			</x:call>
-			<x:expect label="whitespace-only text nodes are kept."
-				test="deep-equal($x:result/node(), $xspec-space:span-element-wsot)" />
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					//x:call[@function]/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:call function="exactly-one">
+					<x:param href="xspec-space.xml" />
+				</x:call>
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result/node(), $xspec-space:span-element-wsot)" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					//x:call[@function]/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:call function="exactly-one">
+					<x:param>
+						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+					</x:param>
+				</x:call>
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($x:result, $xspec-space:wsot)" />
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 
@@ -33,6 +47,9 @@
 		<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 	</x:param>
 	<x:param href="xspec-space.xml" name="global-param-href" />
+	<x:param name="global-param-x-text">
+		<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+	</x:param>
 	<x:scenario
 		label="In global-param, whitespace-only text nodes in user-content are removed by default.">
 		<x:scenario>
@@ -43,12 +60,78 @@
 				test="deep-equal($global-param-span-element, $xspec-space:span-element-empty)" />
 		</x:scenario>
 
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					/x:description/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:call function="false" />
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($global-param-href/node(), $xspec-space:span-element-wsot)" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					/x:description/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:call function="false" />
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($global-param-x-text, $xspec-space:wsot)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario
+		label="In assertion, whitespace-only text nodes in user-content are removed by default.">
 		<x:scenario>
-			<x:label>But node-selection @href is always intact. So, in
-				/x:description/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
-			<x:call function="false" />
-			<x:expect label="whitespace-only text nodes are kept."
-				test="deep-equal($global-param-href/node(), $xspec-space:span-element-wsot)" />
+			<x:label>So, in //x:expect/element()[namespace-uri() ne
+				'http://www.jenitennison.com/xslt/xspec'][not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:call function="exactly-one">
+				<x:param select="$xspec-space:span-element-empty" />
+			</x:call>
+			<x:expect label="whitespace-only text nodes are removed.">
+				<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					//x:expect/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:call function="exactly-one">
+					<x:param select="$xspec-space:span-element-wsot" />
+				</x:call>
+				<x:expect href="xspec-space.xml" label="whitespace-only text nodes are kept."
+					select="node()" />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					//x:expect/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:call function="exactly-one">
+					<x:param select="$xspec-space:wsot" />
+				</x:call>
+				<x:expect label="whitespace-only text nodes are kept.">
+					<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="In user-content,">
+		<x:scenario>
+			<x:label>x:text can be used side by side with other nodes. So...</x:label>
+			<x:call function="exactly-one">
+				<x:param>
+					<p>
+						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+						<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+					</p>
+				</x:param>
+			</x:call>
+			<x:expect
+				test="deep-equal($x:result/self::p/node(), ($xspec-space:wsot, $xspec-space:span-element-empty))">
+				<x:label>Whitespace-only text nodes created by x:text are kept, whereas those in
+					sibling nodes are removed.</x:label>
+			</x:expect>
 		</x:scenario>
 	</x:scenario>
 

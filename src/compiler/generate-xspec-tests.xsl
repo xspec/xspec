@@ -139,7 +139,9 @@
   <xsl:param name="context"   select="()" tunnel="yes" as="element(x:context)?"/>
   <xsl:param name="variables" as="element(x:variable)*"/>
   <xsl:param name="params"    as="element(param)*"/>
+
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)"/>
+
   <!-- We have to create these error messages at this stage because before now
        we didn't have merged versions of the environment -->
   <xsl:if test="$context/@href and ($context/node() except $context/x:param)">
@@ -185,6 +187,7 @@
       <xsl:text>": there are tests in this scenario but no call, or apply or context has been given</xsl:text>
     </xsl:message>
   </xsl:if>
+
   <template name="x:{generate-id()}">
      <xsl:for-each select="$params">
         <param name="{ @name }" required="yes"/>
@@ -204,15 +207,20 @@
         <xsl:value-of select="normalize-space(x:label(.))"/>
      </message>
     <x:scenario>
+      <!-- Create @pending generator -->
       <xsl:if test="$pending-p">
-        <xsl:attribute name="pending" select="$pending" />
+        <xsl:sequence select="x:create-pending-attr-generator($pending)" />
       </xsl:if>
+
+      <!-- Create x:label directly -->
       <xsl:sequence select="x:label(.)" />
+
       <!-- Handle variables and apply/call/context in document order,
            instead of apply/call/context first and variables second. -->
       <xsl:for-each select="$variables | x:apply | x:call | x:context">
         <xsl:choose>
           <xsl:when test="self::x:apply or self::x:call or self::x:context">
+            <!-- Create report generator -->
             <xsl:apply-templates select="." mode="x:report" />
           </xsl:when>
           <xsl:otherwise>
@@ -406,16 +414,23 @@
         </message>
       </if>
     </xsl:if>
+
     <x:test>
+      <!-- Create @pending generator or create @successful directly -->
       <xsl:choose>
         <xsl:when test="$pending-p">
-          <xsl:attribute name="pending" select="$pending" />
+          <xsl:sequence select="x:create-pending-attr-generator($pending)" />
         </xsl:when>
+
         <xsl:otherwise>
           <xsl:attribute name="successful" select="'{$impl:successful}'" />
         </xsl:otherwise>
       </xsl:choose>
+
+      <!-- Create x:label directly -->
       <xsl:sequence select="x:label(.)"/>
+
+      <!-- Report -->
       <xsl:if test="not($pending-p)">
          <xsl:if test="@test">
             <if test="not($impl:boolean-test)">
@@ -458,6 +473,7 @@
 
 <!-- *** test:create-node-generator *** -->
 
+<!-- At compile time, x:text (formerly x:space) has special meaning -->
 <xsl:template match="x:space" as="empty-sequence()" mode="test:create-node-generator">
   <xsl:message terminate="yes">
     <xsl:value-of select="name()" />
@@ -468,9 +484,9 @@
 </xsl:template>
 
 <xsl:template match="x:text" as="element(xsl:text)" mode="test:create-node-generator">
-  <text><xsl:value-of select="." /></text>
-</xsl:template>  
-  
+  <!-- Unwrap it and preserve its text node -->
+  <xsl:apply-templates mode="#current" />
+</xsl:template>
 
 <!-- *** x:compile *** -->
 <!-- Helper code for the tests -->
