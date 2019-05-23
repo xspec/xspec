@@ -14,7 +14,6 @@
 			<exclude name="test/deprecated-space/test.xspec" />
 			<exclude name="test/generate-tests-utils.xspec" />
 			<exclude name="test/generate-xspec-tests.xspec" />
-			<exclude name="test/unit-expect-xsl.xspec" />
 			<exclude name="test/xspec-junit.xspec" />
 
 			<!-- Tests user-content when it's not allowed
