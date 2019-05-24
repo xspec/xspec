@@ -107,9 +107,7 @@
       </t:log>
 
       <!-- format the report -->
-      <t:format-report>
-         <p:with-option name="xspec-home" select="$xspec-home"/>
-      </t:format-report>
+      <t:format-report/>
    </p:group>
 
 </p:pipeline>
