@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="xspec-467.xspec">
+   <testsuite name="Testing namespace differences" tests="1" failures="1">
+      <testcase name="Expecting the same structure but in different namespaces"
+                status="failed">
+         <failure message="expect assertion failed">&lt;x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"&gt;
+            &lt;e1 xmlns="ns1"&gt;
+               &lt;e2 xmlns:ns4="ns4" xmlns:ns3="ns3" xmlns="ns2!"&gt;
+                  &lt;ns3:e3 xmlns:ns3="ns3!"&gt;
+                     &lt;e4 xmlns=""/&gt;
+                  &lt;/ns3:e3&gt;
+               &lt;/e2&gt;
+            &lt;/e1&gt;
+         &lt;/x:expect&gt;</failure>
+      </testcase>
+   </testsuite>
+</testsuites>
