@@ -99,7 +99,7 @@
       <!-- TODO: Check HTTP return code, etc.? (using @detailed = true) -->
       <p:http-request name="run"/>
 
-      <!-- log the HTTP request ? -->
+      <!-- log the HTTP response ? -->
       <t:log if-set="log-http-response">
          <p:input port="parameters">
             <p:pipe step="params" port="parameters"/>
