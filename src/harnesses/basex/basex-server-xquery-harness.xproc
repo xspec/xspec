@@ -14,7 +14,7 @@
             xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
             xmlns:xs="http://www.w3.org/2001/XMLSchema"
             xmlns:t="http://www.jenitennison.com/xslt/xspec"
-            xmlns:rest="http://www.basex.org/rest"
+            xmlns:rest="http://basex.org/rest"
             xmlns:pkg="http://expath.org/ns/pkg"
             pkg:import-uri="http://www.jenitennison.com/xslt/xspec/basex/harness/server/xquery.xproc"
             name="basex-server-xquery-harness"
