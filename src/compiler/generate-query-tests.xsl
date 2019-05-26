@@ -129,7 +129,7 @@
       <xsl:text>&#10;</xsl:text>
       <xsl:element name="{ $xspec-prefix }:report"
                    namespace="http://www.jenitennison.com/xslt/xspec">
-         <xsl:attribute name="date"  select="current-dateTime()"/>
+         <xsl:attribute name="date"  select="'{current-dateTime()}'" />
          <xsl:attribute name="query" select="$this/@query"/>
          <xsl:if test="exists($query-at)">
             <xsl:attribute name="query-at" select="$query-at"/>
