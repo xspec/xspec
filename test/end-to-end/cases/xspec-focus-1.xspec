@@ -32,7 +32,7 @@
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
-      <t:expect label="it would return Failure if it were not Pending" test="$x:result instance of xs:string"/>
+      <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"/>
    </t:scenario>
 
    <!--
@@ -49,7 +49,7 @@
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
-      <t:expect label="must execute the test and return Failure" test="$x:result instance of xs:string"/>
+      <t:expect label="must execute the test and return Failure" test="$t:result instance of xs:string"/>
    </t:scenario>
 
 </t:description>

@@ -3,7 +3,6 @@
 # of an XSLT application. They are similar to the RSpec documents used in RoR
 # testing, but for XSLT
 default namespace x = "http://www.jenitennison.com/xslt/xspec"
-datatypes xs = "http://www.w3.org/2001/XMLSchema-datatypes"
 
 start = description
 
@@ -13,13 +12,13 @@ description =
 	## It may also have a version to aid development over time.
 	element description { 
 		common-attributes,
-		attribute stylesheet { xs:anyURI }?,
-		attribute query { xs:anyURI }?,
-		attribute xslt-version { xs:decimal }?,
-		attribute query-at { xs:anyURI }?,
-		attribute version { xs:decimal }?,		
-		attribute preserve-space { xs:NMTOKENS }?,
-		attribute schematron { xs:anyURI }?,
+		attribute stylesheet { xsd:anyURI }?,
+		attribute query { xsd:anyURI }?,
+		attribute xslt-version { xsd:decimal }?,
+		attribute query-at { xsd:anyURI }?,
+		attribute version { xsd:decimal }?,
+		attribute preserve-space { xsd:NMTOKENS }?,
+		attribute schematron { xsd:anyURI }?,
 		(global-param | import | scenario | pending | variable)+ }
 
 import = 
@@ -30,7 +29,7 @@ import =
 	## imported document will actually be imported).
 	element import { common-attributes,
 	   ## The document URI (location) of the imported document.
-	   attribute href { xs:anyURI } }
+	   attribute href { xsd:anyURI } }
 
 pending = 
 	## Anything that is within a <pending> element will remain untested, but will be
@@ -185,7 +184,7 @@ function-param = element param { common-attributes,
 
 name = attribute name { eqname.datatype }
 
-position = attribute position { xs:integer }
+position = attribute position { xsd:integer }
 
 as = attribute as { text }
 
@@ -193,7 +192,7 @@ selection = node-selection | value-selection
 
 node-selection = (
                  ## The document URI (location) of the selected document.
-                 attribute href { xs:anyURI }
+                 attribute href { xsd:anyURI }
                  | user-content
                  ),
                  ## The XPath expression to access the selected node. 
@@ -288,7 +287,7 @@ expect-rule =
     ## Optional label to describe the expectation.
     attribute label { text }?,
     ## Identify a specific <rule> using its id attribute.
-    attribute id { xs:NCName }?,
+    attribute id { xsd:NCName }?,
     ## Match a specific context attribute value of a <rule>.
     attribute context { text }?,
     schematron-count-expect
@@ -299,7 +298,7 @@ schematron-common-expect =
     attribute label { text }?,
     ## Identify a specific <assert> or <report> using its id attribute or 
     ## the id attribute of the parent <rule>.
-    attribute id { xs:NCName }?,
+    attribute id { xsd:NCName }?,
     ## Match a specific role attribute value of an <assert> or <report> or 
     ## the parent <rule>. Role attribute values are often used to specify 
     ## 'error', 'fatal', 'warn', 'warning', 'info', 'information'.
@@ -311,7 +310,7 @@ schematron-common-expect =
 
 schematron-count-expect = 
     ## Number of times an <assert> or <report> is expected to be thrown.
-    attribute count { xs:nonNegativeInteger }?
+    attribute count { xsd:nonNegativeInteger }?
 
 # EQName: https://www.w3.org/TR/xslt-30/schema-for-xslt30.rnc
 uri.qualified.name = xsd:token { pattern = "Q\{[^\{\}]*\}[\i-[:]][\c-[:]]*" } 

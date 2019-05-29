@@ -4,34 +4,34 @@
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-function.xspec">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
-      <x:label>when calling a function and expecting correctly</x:label>
-      <x:call function="my:square">
-         <x:param select="3"/>
-      </x:call>
+   <t:scenario>
+      <t:label>when calling a function and expecting correctly</t:label>
+      <t:call xmlns:my="http://example.org/ns/my" function="my:square">
+         <t:param select="3"/>
+      </t:call>
       <t:result select="9"/>
-      <x:test successful="true">
-         <x:label>expecting the correct value must return Success</x:label>
+      <t:test successful="true">
+         <t:label>expecting the correct value must return Success</t:label>
          <t:expect select="9"/>
-      </x:test>
-      <x:test successful="true">
-         <x:label>expecting the correct type must return Success</x:label>
+      </t:test>
+      <t:test successful="true">
+         <t:label>expecting the correct type must return Success</t:label>
          <t:expect select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
-      <x:label>when calling a function and expecting incorrectly</x:label>
-      <x:call function="my:square">
-         <x:param select="2"/>
-      </x:call>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>when calling a function and expecting incorrectly</t:label>
+      <t:call xmlns:my="http://example.org/ns/my" function="my:square">
+         <t:param select="2"/>
+      </t:call>
       <t:result select="4"/>
-      <x:test successful="false">
-         <x:label>expecting an incorrect value must return Failure</x:label>
+      <t:test successful="false">
+         <t:label>expecting an incorrect value must return Failure</t:label>
          <t:expect select="42"/>
-      </x:test>
-      <x:test successful="false">
-         <x:label>expecting an incorrect type must return Failure</x:label>
+      </t:test>
+      <t:test successful="false">
+         <t:label>expecting an incorrect type must return Failure</t:label>
          <t:expect select="()"/>
-      </x:test>
-   </x:scenario>
+      </t:test>
+   </t:scenario>
 </t:report>
