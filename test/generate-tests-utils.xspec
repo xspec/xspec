@@ -242,7 +242,7 @@
             <t:call function="test:report-atomic-value">
                <t:param select="xs:double(1.234e56)" />
             </t:call>
-            <t:expect label="Constructor" test="matches($x:result, 'xs:double\(''.+E.+''\)')" />
+            <t:expect label="Constructor" test="matches($t:result, 'xs:double\(''.+E.+''\)')" />
          </t:scenario>
 
          <t:scenario label="1">
@@ -286,9 +286,9 @@
 
          <t:scenario label="In namespace, with prefix">
             <t:call function="test:report-atomic-value">
-               <t:param select="xs:QName('x:foo')" />
+               <t:param select="xs:QName('t:foo')" />
             </t:call>
-            <t:expect label="Function" select="'QName(''http://www.jenitennison.com/xslt/xspec'', ''x:foo'')'" />
+            <t:expect label="Function" select="'QName(''http://www.jenitennison.com/xslt/xspec'', ''t:foo'')'" />
          </t:scenario>
 
          <t:scenario label="In namespace, without prefix">
@@ -575,10 +575,10 @@
          <t:call function="test:wrap-nodes">
             <t:param select="$wrappable-nodes" />
          </t:call>
-         <t:expect label="Result is document node" test="$x:result instance of document-node()" />
-         <t:expect label="Only one instance" test="count($x:result)" select="1" />
+         <t:expect label="Result is document node" test="$t:result instance of document-node()" />
+         <t:expect label="Only one instance" test="count($t:result)" select="1" />
          <t:expect label="Wraps all nodes while unwrapping document node"
-            test="$x:result/node()" select="for $node in $wrappable-nodes
+            test="$t:result/node()" select="for $node in $wrappable-nodes
                return (if ($node instance of document-node())
                        then $node/node()
                        else $node)" />
@@ -588,9 +588,9 @@
          <t:call function="test:wrap-nodes">
             <t:param as="empty-sequence()" />
          </t:call>
-         <t:expect label="Result is document node" test="$x:result instance of document-node()" />
-         <t:expect label="Only one instance" test="count($x:result)" select="1" />
-         <t:expect label="No child node" test="empty($x:result/node())" />
+         <t:expect label="Result is document node" test="$t:result instance of document-node()" />
+         <t:expect label="Only one instance" test="count($t:result)" select="1" />
+         <t:expect label="No child node" test="empty($t:result/node())" />
       </t:scenario>
 
       <!-- Scenarios for schema-aware processor are in xspec-47.xspec -->

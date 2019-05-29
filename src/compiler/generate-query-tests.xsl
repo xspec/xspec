@@ -38,13 +38,6 @@
    <xsl:param name="utils-library-at" select="
        resolve-uri('generate-query-utils.xql', static-base-uri())"/>
 
-   <xsl:variable name="xspec-prefix" as="xs:string">
-      <xsl:variable name="e" select="/*"/>
-      <xsl:variable name="u" select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')"/>
-      <xsl:sequence select="
-          in-scope-prefixes($e)[namespace-uri-for-prefix(., $e) eq $u][1]"/>
-   </xsl:variable>
-
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?" select="
        /x:description/@query-at/resolve-uri(., base-uri(..))"/>
@@ -118,17 +111,20 @@
       <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
 
       <!-- Absolute URI of .xspec file -->
-      <xsl:text>declare variable $x:xspec-uri as xs:anyURI := xs:anyURI("</xsl:text>
+      <xsl:text>declare variable $</xsl:text>
+      <xsl:value-of select="x:xspec-name('xspec-uri')" />
+      <xsl:text> as xs:anyURI := xs:anyURI("</xsl:text>
       <xsl:value-of select="$actual-document-uri" />
       <xsl:text>");&#x0A;</xsl:text>
 
       <!-- Compile the test suite params (aka global params). -->
       <xsl:call-template name="x:compile-params"/>
+
       <!-- Compile the top-level scenarios. -->
       <xsl:call-template name="x:compile-scenarios"/>
       <xsl:text>&#10;</xsl:text>
-      <xsl:element name="{ $xspec-prefix }:report"
-                   namespace="http://www.jenitennison.com/xslt/xspec">
+
+      <xsl:element name="{x:xspec-name('report')}" namespace="{$xspec-namespace}">
          <xsl:attribute name="date"  select="'{current-dateTime()}'" />
          <xsl:attribute name="query" select="$this/@query"/>
          <xsl:if test="exists($query-at)">
@@ -146,16 +142,16 @@
    <!-- Generates a call to the function compiled from a scenario or an expect element. --> 
 
    <xsl:template name="x:output-call">
-      <xsl:param name="name"   as="xs:string"/>
-      <xsl:param name="last"   as="xs:boolean"/>
-      <xsl:param name="params" as="element(param)*"/>
+      <xsl:param name="local-name" as="xs:string"/>
+      <xsl:param name="last"       as="xs:boolean"/>
+      <xsl:param name="params"     as="element(param)*"/>
       <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
          <xsl:text>,&#10;</xsl:text>
       </xsl:if>
       <xsl:text>      let $</xsl:text>
-      <xsl:value-of select="$xspec-prefix"/>
-      <xsl:text>:tmp := local:</xsl:text>
-      <xsl:value-of select="$name"/>
+      <xsl:value-of select="x:xspec-name('tmp')" />
+      <xsl:text> := local:</xsl:text>
+      <xsl:value-of select="$local-name"/>
       <xsl:text>(</xsl:text>
       <xsl:for-each select="$params">
          <xsl:value-of select="@select"/>
@@ -165,8 +161,7 @@
       </xsl:for-each>
       <xsl:text>) return (&#10;</xsl:text>
       <xsl:text>        $</xsl:text>
-      <xsl:value-of select="$xspec-prefix"/>
-      <xsl:text>:tmp</xsl:text>
+      <xsl:value-of select="x:xspec-name('tmp')" />
       <xsl:if test="not($last)">
          <xsl:text>,</xsl:text>
       </xsl:if>
@@ -182,7 +177,7 @@
        TODO: Add the $params parameter as in the x:output-scenario for XSLT.
    -->
 
-   <xsl:template name="x:output-scenario">
+   <xsl:template name="x:output-scenario" as="node()+">
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
       <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
       <xsl:param name="call"    select="()" tunnel="yes" as="element(x:call)?"/>
@@ -219,7 +214,7 @@
       <xsl:text>(</xsl:text>
       <xsl:value-of select="$params/concat('$', @name)" separator=", "/>
       <xsl:text>)&#10;{&#10;</xsl:text>
-      <x:scenario>
+      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
          <!-- Create @pending generator -->
          <xsl:if test="$pending-p">
             <xsl:text>{ </xsl:text>
@@ -250,8 +245,8 @@
                -->
                <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
                <xsl:text>  let $</xsl:text>
-               <xsl:value-of select="$xspec-prefix"/>
-               <xsl:text>:result := </xsl:text>
+               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:text> := </xsl:text>
                <xsl:value-of select="$call/@function"/>
                <xsl:text>(</xsl:text>
                <xsl:for-each select="$call/x:param">
@@ -263,10 +258,10 @@
                <xsl:text>)&#10;</xsl:text>
                <xsl:text>    return (&#10;</xsl:text>
                <xsl:text>      test:report-sequence($</xsl:text>
-               <xsl:value-of select="$xspec-prefix"/>
-               <xsl:text>:result, '</xsl:text>
-               <xsl:value-of select="$xspec-prefix"/>
-               <xsl:text>:result'),&#10;</xsl:text>
+               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:text>, '</xsl:text>
+               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:text>'),&#10;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                <!--
@@ -274,15 +269,15 @@
                    return (
                -->
                <xsl:text>  let $</xsl:text>
-               <xsl:value-of select="$xspec-prefix"/>
-               <xsl:text>:result := ()&#10;</xsl:text>
+               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:text> := ()&#10;</xsl:text>
                <xsl:text>    return (&#10;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
          <xsl:call-template name="x:call-scenarios"/>
          <xsl:text>    )&#10;</xsl:text>
          <xsl:text>}&#10;</xsl:text>
-      </x:scenario>
+      </xsl:element>
       <xsl:text>&#10;};&#10;</xsl:text>
       <xsl:call-template name="x:compile-scenarios"/>
    </xsl:template>
@@ -294,7 +289,7 @@
        actual result of the test and return the corresponding t:test
        element for the XML report.
    -->
-   <xsl:template name="x:output-expect">
+   <xsl:template name="x:output-expect" as="node()+">
       <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
       <xsl:param name="params"  required="yes"              as="element(param)*"/>
@@ -329,11 +324,11 @@
          -->
          <!--xsl:text>  let $local:test-result := (: evaluate the predicate :)&#10;</xsl:text>
          <xsl:text>      if ( $</xsl:text>
-         <xsl:value-of select="$xspec-prefix"/>
-         <xsl:text>:result instance of node()+ ) then&#10;</xsl:text>
+         <xsl:value-of select="x:xspec-name('result')" />
+         <xsl:text> instance of node()+ ) then&#10;</xsl:text>
          <xsl:text>        document { $</xsl:text>
-         <xsl:value-of select="$xspec-prefix"/>
-         <xsl:text>:result }/( </xsl:text>
+         <xsl:value-of select="x:xspec-name('result')" />
+         <xsl:text> }/( </xsl:text>
          <xsl:value-of select="@test"/>
          <xsl:text> )&#10;</xsl:text>
          <xsl:text>      else&#10;</xsl:text>
@@ -375,8 +370,8 @@
             </xsl:when>
             <xsl:otherwise>
                <xsl:text>      test:deep-equal($local:expected, $</xsl:text>
-               <xsl:value-of select="$xspec-prefix"/>
-               <xsl:text>:result, '')&#10;</xsl:text>
+               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:text>, '')&#10;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
          <xsl:text>    return&#10;      </xsl:text>
@@ -385,7 +380,7 @@
       <!--
         return the x:test element for the report
       -->
-      <x:test>
+      <xsl:element name="{x:xspec-name('test')}" namespace="{$xspec-namespace}">
          <!-- Create @pending generator or create @successful directly -->
          <xsl:choose>
             <xsl:when test="$pending-p">
@@ -406,14 +401,14 @@
          <xsl:if test="not($pending-p)">
             <!--xsl:if test="@test">
                <xsl:text>&#10;      { if ( $local:test-result instance of xs:boolean ) then () else test:report-sequence($local:test-result, '</xsl:text>
-               <xsl:value-of select="$xspec-prefix"/>
-               <xsl:text>:result') }</xsl:text>
+               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:text>') }</xsl:text>
             </xsl:if-->
             <xsl:text>&#10;      { test:report-sequence($local:expected, '</xsl:text>
-            <xsl:value-of select="$xspec-prefix"/>
-            <xsl:text>:expect') }</xsl:text>
+            <xsl:value-of select="x:xspec-name('expect')" />
+            <xsl:text>') }</xsl:text>
          </xsl:if>
-      </x:test>
+      </xsl:element>
       <xsl:text>&#10;};&#10;</xsl:text>
    </xsl:template>
 
