@@ -46,21 +46,23 @@
                   <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-51">When @test is "empty(element(foo))" (i.e. boolean), then the HTML report should be
-                        "Result" = "&lt;foo /&gt;" and "Expecting" = "empty(element(foo))" without diff.</a></td>
+                  <td><a href="#ELEM-51">When @test is "empty($x:result/self::element(foo))" (i.e. boolean), then the HTML
+                        report should be "Result" = "&lt;foo /&gt;" and "Expecting" = "empty($x:result/self::element(foo))"
+                        without diff.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-65">When x:expect expects &lt;bar /&gt; and @test is "element(foo)" (i.e. non boolean), then
-                        the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result" = "&lt;bar /&gt;" with
-                        diff.</a></td>
+                  <td><a href="#ELEM-65">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
+                        boolean), then the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result"
+                        = "&lt;bar /&gt;" with diff.</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
          <h3 id="ELEM-33">Given the function returns &lt;foo /&gt;</h3>
-         <h4 id="ELEM-51">When @test is "empty(element(foo))" (i.e. boolean), then the HTML report should be
-            "Result" = "&lt;foo /&gt;" and "Expecting" = "empty(element(foo))" without diff.
+         <h4 id="ELEM-51">When @test is "empty($x:result/self::element(foo))" (i.e. boolean), then the HTML
+            report should be "Result" = "&lt;foo /&gt;" and "Expecting" = "empty($x:result/self::element(foo))"
+            without diff.
          </h4>
          <table class="xspecResult">
             <thead>
@@ -74,13 +76,13 @@
                   <td>
                      <p>XPath <code>/element()</code> from:
                      </p><pre>&lt;foo /&gt;</pre></td>
-                  <td><pre>empty(element(foo))</pre></td>
+                  <td><pre>empty($x:result/self::element(foo))</pre></td>
                </tr>
             </tbody>
          </table>
-         <h4 id="ELEM-65">When x:expect expects &lt;bar /&gt; and @test is "element(foo)" (i.e. non boolean), then
-            the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result" = "&lt;bar /&gt;" with
-            diff.
+         <h4 id="ELEM-65">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
+            boolean), then the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result"
+            = "&lt;bar /&gt;" with diff.
          </h4>
          <table class="xspecResult">
             <thead>
