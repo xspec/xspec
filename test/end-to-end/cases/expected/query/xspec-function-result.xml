@@ -17,7 +17,7 @@
       </t:test>
       <t:test successful="true">
          <t:label>expecting the correct type must return Success</t:label>
-         <t:expect select="()"/>
+         <t:expect test="$t:result instance of xs:integer" select="()"/>
       </t:test>
    </t:scenario>
    <t:scenario>
@@ -32,7 +32,7 @@
       </t:test>
       <t:test successful="false">
          <t:label>expecting an incorrect type must return Failure</t:label>
-         <t:expect select="()"/>
+         <t:expect test="$t:result instance of xs:string" select="()"/>
       </t:test>
    </t:scenario>
 </t:report>

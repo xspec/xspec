@@ -24,7 +24,9 @@
       <x:result select="xs:boolean('false')"/>
       <x:test successful="true">
          <x:label>should work</x:label>
-         <x:expect select="/node()">}{<elem attr="}{">}{</elem>
+         <x:result select="/node()">}{<elem attr="}{">}{</elem>
+         </x:result>
+         <x:expect test="$global-param treat as node()+" select="/node()">}{<elem attr="}{">}{</elem>
          </x:expect>
       </x:test>
    </x:scenario>

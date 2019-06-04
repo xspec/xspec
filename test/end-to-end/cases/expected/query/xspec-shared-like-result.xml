@@ -10,7 +10,7 @@
       <x:result select="xs:boolean('false')"/>
       <x:test successful="true">
          <x:label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-         <x:expect select="()"/>
+         <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
    <x:scenario>
@@ -19,7 +19,7 @@
       <x:result select="xs:boolean('false')"/>
       <x:test successful="true">
          <x:label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-         <x:expect select="()"/>
+         <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
    <x:scenario>
@@ -28,11 +28,11 @@
       <x:result select="xs:boolean('false')"/>
       <x:test successful="true">
          <x:label>This nested shared x:expect should fire only at nested x:like</x:label>
-         <x:expect select="()"/>
+         <x:expect test="true()" select="()"/>
       </x:test>
       <x:test successful="true">
          <x:label>This referenced shared x:expect should fire only at x:like</x:label>
-         <x:expect select="()"/>
+         <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
    <x:scenario>
@@ -42,11 +42,11 @@
       <x:result select="xs:boolean('false')"/>
       <x:test successful="true">
          <x:label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-         <x:expect select="()"/>
+         <x:expect test="true()" select="()"/>
       </x:test>
       <x:test successful="true">
          <x:label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-         <x:expect select="()"/>
+         <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
 </x:report>
