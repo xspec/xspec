@@ -46,8 +46,9 @@ public class XSLTCoverageTraceListener implements TraceListener {
   }
 
   /**
-  * Method called at the start of execution, that is, when the run-time transformation starts
-  */
+   * Method called at the start of execution, that is, when the run-time transformation starts
+   * @param c Controller used
+   */
 
   public void open(Controller c) {
     System.out.println("controller="+c);
@@ -73,15 +74,14 @@ public class XSLTCoverageTraceListener implements TraceListener {
   }
 
   /**  
-  * Method that implements the output destination for SaxonEE/PE 9.7
-  */
+   * Method that implements the output destination for SaxonEE/PE 9.7
+   */
   public void setOutputDestination(Logger logger) {
   }
 
   /**
   * Method called at the end of execution, that is, when the run-time execution ends
   */
-
   public void close() {
     try {
       writer.writeEndElement(); // </trace>
@@ -94,9 +94,10 @@ public class XSLTCoverageTraceListener implements TraceListener {
 
   /**
    * Method that is called when an instruction in the stylesheet gets processed.
-   * @param instruction gives information about the instruction being
+   * @param info Instruction gives information about the instruction being
    * executed, and about the context in which it is executed. This object is mutable,
    * so if information from the InstructionInfo is to be retained, it must be copied.
+   * @param context XPath context used
    */
 
   public void enter(InstructionInfo info, XPathContext context) {
