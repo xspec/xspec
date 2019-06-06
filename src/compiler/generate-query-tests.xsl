@@ -49,7 +49,7 @@
    </xsl:template>
 
    <xsl:template match="x:description" mode="x:decl-ns">
-      <xsl:param name="except" as="xs:string?" />
+      <xsl:param name="except" as="xs:string*" />
 
       <xsl:variable name="e" as="element()" select="."/>
       <xsl:for-each select="in-scope-prefixes($e)[not(. = ('xml', $except))]">
@@ -88,21 +88,19 @@
       </xsl:if>
       <xsl:text>";&#10;</xsl:text>
 
-      <!-- prevent double import in case we are testing this file in the compiled suite... -->
-      <xsl:if test="@query ne 'http://www.jenitennison.com/xslt/unit-test'">
-         <xsl:text>import module namespace test = </xsl:text>
-         <xsl:text>"http://www.jenitennison.com/xslt/unit-test"</xsl:text>
-         <xsl:if test="not($utils-library-at eq '#none')">
-            <xsl:text>&#10;  at "</xsl:text>
-            <xsl:value-of select="$utils-library-at"/>
-            <xsl:text>"</xsl:text>
-         </xsl:if>
-         <xsl:text>;&#10;</xsl:text>
+      <!-- Import 'test' utils -->
+      <xsl:text>import module namespace test = </xsl:text>
+      <xsl:text>"http://www.jenitennison.com/xslt/unit-test"</xsl:text>
+      <xsl:if test="not($utils-library-at eq '#none')">
+         <xsl:text>&#10;  at "</xsl:text>
+         <xsl:value-of select="$utils-library-at"/>
+         <xsl:text>"</xsl:text>
       </xsl:if>
+      <xsl:text>;&#10;</xsl:text>
 
       <!-- Declare namespaces -->
       <xsl:apply-templates select="." mode="x:decl-ns">
-         <xsl:with-param name="except" select="$prefix"/>
+         <xsl:with-param name="except" select="$prefix, 'test'"/>
       </xsl:apply-templates>
       <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
 
