@@ -100,7 +100,7 @@
 	<xsl:function as="xs:boolean" name="x:instance-of-namespace">
 		<xsl:param as="item()?" name="item" />
 
-		<!-- Unfortunately there is no such test as "instance of namespace()":
+		<!-- Unfortunately "instance of namespace-node()" is not available on XPath 2.0:
 			http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/200608/msg00719.html -->
 		<xsl:sequence
 			select="
