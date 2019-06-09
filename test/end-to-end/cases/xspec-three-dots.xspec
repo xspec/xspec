@@ -429,7 +429,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="For resultant namespace node (TODO: xspec/xspec#67 for XQuery)">
+	<x:scenario label="For resultant namespace node">
 		<x:scenario>
 			<x:label>When result is<![CDATA[
 						  xmlns:prefix="namespace-uri"
