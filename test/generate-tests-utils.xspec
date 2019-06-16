@@ -21,7 +21,7 @@
    <t:scenario label="test:report-sequence">
 
       <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L486-L550">
-         <!-- TODO: These scenarios do not run on XQuery (x:call/@template not supported for XQuery) -->
+         <!-- These scenarios do not run on XQuery. XQuery implements the tested template as a function. -->
 
          <t:scenario label="Integer">
             <t:call template="test:report-sequence">
