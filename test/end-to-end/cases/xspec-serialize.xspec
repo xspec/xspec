@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xslt-version="3.0">
+<x:description query="x-urn:test:xspec-items" query-at="../../items.xquery"
+	stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
 	<x:scenario>
 		<x:label>When the result is a comment node, the report HTML must serialize it as
 			<![CDATA[<!-- -->]]>. (xspec/xspec#356) So...</x:label>
