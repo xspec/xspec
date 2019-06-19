@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          date="ONCE-UPON-A-TIME"
+          query="x-urn:test:xspec-items"
+          query-at="../../../../items.xquery"
+          xspec="../../xspec-67.xspec">
+   <x:scenario>
+      <x:label>Comparing identical namespace</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
+      </x:call>
+      <x:result xmlns:namespace-name="namespace-text" select="/node()"/>
+      <x:test successful="true">
+         <x:label>must be Success</x:label>
+         <x:expect xmlns:namespace-name="namespace-text" select="/node()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Comparing identical default namespace</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$Q{x-urn:test:xspec-items}default-namespace"/>
+      </x:call>
+      <x:result xmlns="default-namespace-text" select="/node()"/>
+      <x:test successful="true">
+         <x:label>must be Success</x:label>
+         <x:expect xmlns="default-namespace-text" select="/node()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Comparing different namespaces</x:label>
+      <x:call function="exactly-one">
+         <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
+      </x:call>
+      <x:result xmlns:namespace-name="namespace-text" select="/node()"/>
+      <x:test successful="false">
+         <x:label>must be Failure</x:label>
+         <x:expect xmlns:another-namespace-name="another-namespace-text" select="/node()"/>
+      </x:test>
+   </x:scenario>
+</x:report>

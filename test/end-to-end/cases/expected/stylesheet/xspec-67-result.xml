@@ -9,7 +9,7 @@
    <x:scenario>
       <x:label>Comparing identical namespace</x:label>
       <x:call function="exactly-one">
-         <x:param select="$namespace"/>
+         <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
       </x:call>
       <x:result select="/*/namespace::*">
          <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
@@ -26,7 +26,7 @@
    <x:scenario>
       <x:label>Comparing identical default namespace</x:label>
       <x:call function="exactly-one">
-         <x:param select="$default-namespace"/>
+         <x:param select="$Q{x-urn:test:xspec-items}default-namespace"/>
       </x:call>
       <x:result select="/*/namespace::*">
          <_0:pseudo-namespace-node xmlns="default-namespace-text"
@@ -43,7 +43,7 @@
    <x:scenario>
       <x:label>Comparing different namespaces</x:label>
       <x:call function="exactly-one">
-         <x:param select="$namespace"/>
+         <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
       </x:call>
       <x:result select="/*/namespace::*">
          <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"

@@ -358,8 +358,6 @@
     <echo message="Running XQuery Tests..."
           level="info" />
 
-    <!-- Can't specify saxon.custom.options with <xslt> task so have to
-      fall back to running Saxon as Java app. -->
     <java classname="net.sf.saxon.Query" fork="true" failonerror="true">
       <!-- Saxon should be included in the classpath -->
       <classpath>

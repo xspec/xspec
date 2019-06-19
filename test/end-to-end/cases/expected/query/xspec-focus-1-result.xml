@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:report xmlns:my="http://example.org/ns/my"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
           date="ONCE-UPON-A-TIME"
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-focus-1.xspec">
    <t:scenario pending="testing @focus">
       <t:label>an unfocused correct scenario must be Pending</t:label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              function="my:square">
+      <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:test pending="testing @focus">
@@ -17,9 +17,7 @@
    </t:scenario>
    <t:scenario pending="testing @focus">
       <t:label>an unfocused incorrect scenario must be Pending</t:label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              function="my:square">
+      <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
       <t:test pending="testing @focus">
@@ -28,9 +26,7 @@
    </t:scenario>
    <t:scenario>
       <t:label>a focused correct scenario</t:label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              function="my:square">
+      <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
@@ -41,15 +37,13 @@
    </t:scenario>
    <t:scenario>
       <t:label>a focused incorrect scenario</t:label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              function="my:square">
+      <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
       <t:result select="4"/>
       <t:test successful="false">
          <t:label>must execute the test and return Failure</t:label>
-         <t:expect select="()"/>
+         <t:expect test="$t:result instance of xs:string" select="()"/>
       </t:test>
    </t:scenario>
 </t:report>

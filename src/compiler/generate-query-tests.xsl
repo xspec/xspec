@@ -49,7 +49,7 @@
    </xsl:template>
 
    <xsl:template match="x:description" mode="x:decl-ns">
-      <xsl:param name="except" as="xs:string?" />
+      <xsl:param name="except" as="xs:string*" />
 
       <xsl:variable name="e" as="element()" select="."/>
       <xsl:for-each select="in-scope-prefixes($e)[not(. = ('xml', $except))]">
@@ -88,21 +88,30 @@
       </xsl:if>
       <xsl:text>";&#10;</xsl:text>
 
-      <!-- prevent double import in case we are testing this file in the compiled suite... -->
-      <xsl:if test="@query ne 'http://www.jenitennison.com/xslt/unit-test'">
-         <xsl:text>import module namespace test = </xsl:text>
-         <xsl:text>"http://www.jenitennison.com/xslt/unit-test"</xsl:text>
-         <xsl:if test="not($utils-library-at eq '#none')">
-            <xsl:text>&#10;  at "</xsl:text>
-            <xsl:value-of select="$utils-library-at"/>
-            <xsl:text>"</xsl:text>
-         </xsl:if>
-         <xsl:text>;&#10;</xsl:text>
+      <!-- Import 'test' utils -->
+      <xsl:text>import module namespace test = </xsl:text>
+      <xsl:text>"http://www.jenitennison.com/xslt/unit-test"</xsl:text>
+      <xsl:if test="not($utils-library-at eq '#none')">
+         <xsl:text>&#10;  at "</xsl:text>
+         <xsl:value-of select="$utils-library-at"/>
+         <xsl:text>"</xsl:text>
       </xsl:if>
+      <xsl:text>;&#10;</xsl:text>
+
+      <!-- Import common utils -->
+      <xsl:text>import module "</xsl:text>
+      <xsl:value-of select="$xspec-namespace" />
+      <xsl:text>"</xsl:text>
+      <xsl:if test="not($utils-library-at eq '#none')">
+         <xsl:text>&#x0A;  at "</xsl:text>
+         <xsl:value-of select="resolve-uri('../common/xspec-utils.xquery')" />
+         <xsl:text>"</xsl:text>
+      </xsl:if>
+      <xsl:text>;&#x0A;</xsl:text>
 
       <!-- Declare namespaces -->
       <xsl:apply-templates select="." mode="x:decl-ns">
-         <xsl:with-param name="except" select="$prefix"/>
+         <xsl:with-param name="except" select="$prefix, 'test'"/>
       </xsl:apply-templates>
       <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
 
@@ -131,6 +140,9 @@
             <xsl:attribute name="query-at" select="$query-at"/>
          </xsl:if>
          <xsl:attribute name="xspec" select="$actual-document-uri"/>
+
+         <xsl:apply-templates select="." mode="x:copy-namespaces" />
+
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
          <xsl:call-template name="x:call-scenarios"/>
@@ -326,66 +338,54 @@
             <xsl:with-param name="var" select="'local:expected'" />
          </xsl:call-template>
 
-         <!--
-           let $local:test-result :=
-               if ( $t:result instance of node()+ ) then
-                 document { $t:result }/( ... )
-               else
-                 ( ... )
-         -->
-         <!--xsl:text>  let $local:test-result := (: evaluate the predicate :)&#10;</xsl:text>
-         <xsl:text>      if ( $</xsl:text>
-         <xsl:value-of select="x:xspec-name('result')" />
-         <xsl:text> instance of node()+ ) then&#10;</xsl:text>
-         <xsl:text>        document { $</xsl:text>
-         <xsl:value-of select="x:xspec-name('result')" />
-         <xsl:text> }/( </xsl:text>
-         <xsl:value-of select="@test"/>
-         <xsl:text> )&#10;</xsl:text>
-         <xsl:text>      else&#10;</xsl:text>
-         <xsl:text>        ( </xsl:text>
-         <xsl:value-of select="@test"/>
-         <xsl:text> )&#10;</xsl:text>
-         <!- -
-           let $local:successful :=
-               if ( $local:test-result instance of xs:boolean ) then
-                 $local:test-result
-               else
-                 test:deep-equal($local:expected, $local:test-result, '')
-         - ->
-         <xsl:text>  let $local:successful  := (: did the test pass?:)&#10;</xsl:text>
-         <xsl:text>      if ( $local:test-result instance of xs:boolean ) then&#10;</xsl:text>
-         <xsl:text>        $local:test-result&#10;</xsl:text>
-         <xsl:text>      else&#10;</xsl:text>
-         <xsl:text>        test:deep-equal($local:expected, $local:test-result, '')&#10;</xsl:text-->
-         <!--
-           IF @test ==>
-           let $local:successful :=
-               ( ...)
-           
-           ELSE ==>
-           let $local:successful :=
-               test:deep-equal($local:expected, $x:result, '')
-         -->
-         <xsl:text>  let $local:successful as xs:boolean := (: did the test pass?:)&#10;</xsl:text>
+         <!-- Flags for test:deep-equal() enclosed in ''. -->
+         <xsl:variable name="deep-equal-flags" as="xs:string">''</xsl:variable>
+
          <xsl:choose>
-            <xsl:when test="exists(@test) and exists((@href|@select|node()) except x:label)">
-               <xsl:text>      test:deep-equal($local:expected, </xsl:text>
-               <xsl:value-of select="@test"/>
-               <xsl:text>, '')&#10;</xsl:text>
+            <xsl:when test="@test">
+               <!-- $local:test-items
+                  TODO: Wrap $x:result in a document node if possible -->
+               <xsl:text>  let $local:test-items as item()* := $</xsl:text>
+               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:text>&#x0A;</xsl:text>
+
+               <!-- $local:test-result
+                  TODO: Evaluate @test in the context of $local:test-items, if
+                    $local:test-items is a node -->
+               <xsl:text>  let $local:test-result as item()* := (</xsl:text>
+               <xsl:value-of select="@test" />
+               <xsl:text>)&#x0A;</xsl:text>
+
+               <!-- $local:boolean-test -->
+               <xsl:text>  let $local:boolean-test as xs:boolean :=&#x0A;</xsl:text>
+               <xsl:text>    ($local:test-result instance of xs:boolean)&#x0A;</xsl:text>
+
+               <!-- TODO: xspec/xspec#309 -->
+
+               <!-- $local:successful -->
+               <xsl:text>  let $local:successful as xs:boolean := (&#x0A;</xsl:text>
+               <xsl:text>    if ($local:boolean-test)&#x0A;</xsl:text>
+               <xsl:text>    then boolean($local:test-result)&#x0A;</xsl:text>
+               <xsl:text>    else test:deep-equal($local:expected, $local:test-result, </xsl:text>
+               <xsl:value-of select="$deep-equal-flags" />
+               <xsl:text>)&#x0A;</xsl:text>
+               <xsl:text>  )&#x0A;</xsl:text>
+
             </xsl:when>
-            <xsl:when test="exists(@test)">
-               <xsl:text>      ( </xsl:text>
-               <xsl:value-of select="@test"/>
-               <xsl:text> )&#10;</xsl:text>
-            </xsl:when>
+
             <xsl:otherwise>
+               <!-- $local:successful -->
+               <xsl:text>  let $local:successful as xs:boolean :=&#x0A;</xsl:text>
                <xsl:text>      test:deep-equal($local:expected, $</xsl:text>
                <xsl:value-of select="x:xspec-name('result')" />
-               <xsl:text>, '')&#10;</xsl:text>
+               <xsl:text>, </xsl:text>
+               <xsl:value-of select="$deep-equal-flags" />
+               <xsl:text>)&#x0A;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
-         <xsl:text>    return&#10;      </xsl:text>
+
+         <xsl:text>    return&#x0A;</xsl:text>
+         <xsl:text>      </xsl:text>
       </xsl:if>
 
       <!--
@@ -410,14 +410,28 @@
 
          <!-- Report -->
          <xsl:if test="not($pending-p)">
-            <!--xsl:if test="@test">
-               <xsl:text>&#10;      { if ( $local:test-result instance of xs:boolean ) then () else test:report-sequence($local:test-result, '</xsl:text>
+            <xsl:if test="@test">
+               <xsl:text>&#x0A;</xsl:text>
+               <xsl:text>      { if ( $local:boolean-test )&#x0A;</xsl:text>
+               <xsl:text>        then ()&#x0A;</xsl:text>
+               <xsl:text>        else test:report-sequence($local:test-result, '</xsl:text>
                <xsl:value-of select="x:xspec-name('result')" />
                <xsl:text>') }</xsl:text>
-            </xsl:if-->
-            <xsl:text>&#10;      { test:report-sequence($local:expected, '</xsl:text>
+            </xsl:if>
+
+            <xsl:text>&#x0A;</xsl:text>
+            <xsl:text>      { test:report-sequence($local:expected, '</xsl:text>
             <xsl:value-of select="x:xspec-name('expect')" />
-            <xsl:text>') }</xsl:text>
+            <xsl:text>'</xsl:text>
+
+            <xsl:if test="@test">
+               <xsl:text>, </xsl:text>
+
+               <!-- Create @test generator (to escape its value properly) -->
+               <xsl:apply-templates select="@test" mode="test:create-node-generator" />
+            </xsl:if>
+
+            <xsl:text>) }</xsl:text>
          </xsl:if>
       </xsl:element>
       <xsl:text>&#10;};&#10;</xsl:text>
