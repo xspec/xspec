@@ -1000,3 +1000,13 @@ teardown() {
 }
 
 
+@test "Invalid xquery-version should be error" {
+    run ../bin/xspec.sh -q xquery-version/invalid.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    regex="XQST0031.+InVaLiD"
+    [[ "${output}" =~ ${regex} ]]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+

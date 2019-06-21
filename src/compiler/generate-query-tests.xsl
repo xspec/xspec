@@ -73,6 +73,13 @@
             namespace-uri-for-prefix(., $this) eq xs:anyURI($this/@query)
           ][1]"/>
 
+      <!-- Version declaration -->
+      <xsl:if test="@xquery-version">
+         <xsl:text>xquery version "</xsl:text>
+         <xsl:value-of select="@xquery-version" />
+         <xsl:text>";&#x0A;</xsl:text>
+      </xsl:if>
+
       <!-- Import module to be tested -->
       <xsl:text>import module </xsl:text>
       <xsl:if test="exists($prefix)">

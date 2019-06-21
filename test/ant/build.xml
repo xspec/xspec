@@ -14,6 +14,7 @@
 	<target name="get-processor-caps">
 		<echo message="Getting processor capabilities" />
 
+		<!-- Checks to see if XSLT processor can compile the coverage reporter XSLT -->
 		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
 			resultproperty="coverage-report.compile.result">
 			<arg value="-nogo" />
@@ -24,6 +25,7 @@
 		</condition>
 		<echo message="xslt.supports.coverage=${xslt.supports.coverage}" />
 
+		<!-- Checks to see if XSLT processor can be schema-aware ('-sa') -->
 		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
 			resultproperty="schema-aware.compile.result">
 			<arg value="-nogo" />
@@ -34,6 +36,27 @@
 			<equals arg1="${schema-aware.compile.result}" arg2="0" />
 		</condition>
 		<echo message="xslt.supports.schema=${xslt.supports.schema}" />
+
+		<!-- Checks to see if XQuery processor supports 3.1 by default (Saxon 9.8+) -->
+		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
+			resultproperty="xquery3-1.default.run.result">
+			<arg value="-q:${run-xspec-tests.basedir}/v3-1.xquery" />
+		</java>
+		<condition else="false" property="xquery.supports.3-1.default">
+			<equals arg1="${xquery3-1.default.run.result}" arg2="0" />
+		</condition>
+		<echo message="xquery.supports.3-1.default=${xquery.supports.3-1.default}" />
+
+		<!-- Checks to see if XQuery processor supports "-qversion:3.1" (Saxon 9.7) -->
+		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
+			resultproperty="xquery3-1.qversion.run.result">
+			<arg value="-q:${run-xspec-tests.basedir}/v3-1.xquery" />
+			<arg value="-qversion:3.1" />
+		</java>
+		<condition else="false" property="xquery.supports.3-1.qversion">
+			<equals arg1="${xquery3-1.qversion.run.result}" arg2="0" />
+		</condition>
+		<echo message="xquery.supports.3-1.qversion=${xquery.supports.3-1.qversion}" />
 	</target>
 
 	<!-- Generates the worker -->
@@ -44,8 +67,11 @@
 			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
 			<param expression="${xslt.supports.coverage}" name="XSLT-SUPPORTS-COVERAGE"
 				type="BOOLEAN" />
-			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN"
-			 />
+			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN" />
+			<param expression="${xquery.supports.3-1.default}" name="XQUERY-SUPPORTS-3-1-DEFAULT"
+				type="BOOLEAN" />
+			<param expression="${xquery.supports.3-1.qversion}" name="XQUERY-SUPPORTS-3-1-QVERSION"
+				type="BOOLEAN" />
 		</xslt>
 	</target>
 
