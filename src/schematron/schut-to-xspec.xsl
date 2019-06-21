@@ -25,10 +25,14 @@
     
     <xsl:template match="x:description[@schematron]">
         <xsl:element name="x:description">
+            <!-- Place xsl:namespace before x:copy-namespaces(), otherwise Saxon 9.6 complains,
+                "Warning... Creating a namespace node here will fail if previous instructions create
+                any children" -->
+            <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
+
             <!-- child::x:param may use namespaces -->
             <xsl:sequence select="x:copy-namespaces(.)" />
 
-            <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
             <xsl:apply-templates select="@*[not(name() = ('stylesheet'))]"/>
             <xsl:apply-templates select="node()"/>
         </xsl:element>
