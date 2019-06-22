@@ -76,12 +76,10 @@
                </t:param>
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
-            <!-- TODO: Not on parity with XSLT -->
             <t:expect label="t:result containing attributes">
-               <t:result select="/*/(@* | node())">
-                  <temp xmlns="http://www.jenitennison.com/xslt/xspec"
-                        a="1"
-                        b="2" />
+               <t:result select="/*/@*">
+                  <t:pseudo-attribute a="1" />
+                  <t:pseudo-attribute b="2" />
                </t:result>
             </t:expect>
          </t:scenario>
@@ -95,14 +93,13 @@
                </t:param>
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
-            <!-- TODO: Not on parity with XSLT -->
             <t:expect label="t:result containing attributes and content">
                <t:result select="/*/(@* | node())">
-                  <temp xmlns="http://www.jenitennison.com/xslt/xspec"
-                        a="1"
-                        b="2">
-                    <foo xmlns="" />
-                  </temp>
+                  <t:pseudo-attribute a="1" />
+                  <t:pseudo-attribute b="2" />
+                  <t:pseudo-element>
+                    <foo />
+                  </t:pseudo-element>
                </t:result>
             </t:expect>
          </t:scenario>
