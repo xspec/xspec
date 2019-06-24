@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          date="ONCE-UPON-A-TIME"
+          query="x-urn:test:do-nothing"
+          query-at="../../../../do-nothing.xquery"
+          xspec="../../xspec-ambiguous-expect.xspec">
+   <x:scenario>
+      <x:label>Scenario for verifying that boolean @test precedes @href</x:label>
+      <x:result select="()"/>
+      <x:scenario>
+         <x:label>When function returns true,</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test successful="false">
+            <x:label>Expecting document node via @href should be Failure</x:label>
+            <x:expect select="/self::document-node()">
+               <foo/>
+            </x:expect>
+         </x:test>
+         <x:test successful="true">
+            <x:label>Expecting document node via @href along with @test=$x:result should be Success</x:label>
+            <x:expect test="$x:result treat as xs:boolean" select="/self::document-node()">
+               <foo/>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Scenario for verifying that boolean @test precedes @select</x:label>
+      <x:result select="()"/>
+      <x:scenario>
+         <x:label>When function returns false,</x:label>
+         <x:call function="false"/>
+         <x:result select="xs:boolean('false')"/>
+         <x:test successful="true">
+            <x:label>Expecting false via @select should be Success</x:label>
+            <x:expect select="xs:boolean('false')"/>
+         </x:test>
+         <x:test successful="false">
+            <x:label>Expecting false via @select along with @test=$x:result should be Failure</x:label>
+            <x:expect test="$x:result treat as xs:boolean" select="xs:boolean('false')"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Scenario for verifying that boolean @test precedes child node</x:label>
+      <x:result select="()"/>
+      <x:scenario>
+         <x:label>When function returns true,</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test successful="false">
+            <x:label>Expecting element(foo) via child node should be Failure</x:label>
+            <x:expect select="/element()">
+               <foo/>
+            </x:expect>
+         </x:test>
+         <x:test successful="true">
+            <x:label>Expecting element(foo) via child node along with @test=$x:result should be Success</x:label>
+            <x:expect test="$x:result treat as xs:boolean" select="/element()">
+               <foo/>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)</x:label>
+      <x:result select="()"/>
+      <x:scenario>
+         <x:label>When function returns true,</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test successful="false">
+            <x:label>Expecting empty sequence (no @href, @select or child node) should be Failure</x:label>
+            <x:expect select="()"/>
+         </x:test>
+         <x:test successful="false">
+            <x:label>Ditto using x:label</x:label>
+            <x:expect select="()"/>
+         </x:test>
+         <x:test successful="true">
+            <x:label>Expecting empty sequence (no @href, @select or child node) along with @test=$x:result should be Success</x:label>
+            <x:expect test="$x:result treat as xs:boolean" select="()"/>
+         </x:test>
+         <x:test successful="true">
+            <x:label>Ditto using x:label</x:label>
+            <x:expect test="$x:result treat as xs:boolean" select="()"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+</x:report>
