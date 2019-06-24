@@ -53,6 +53,9 @@
 		<x:expect label="should be possible as well as in assertion @select and @test"
 			select="$Q{http://example.org/ns/my/variable}global-var treat as element(Q{}global-var-child)"
 			test="$Q{http://example.org/ns/my/variable}global-var treat as element(Q{}global-var-child)" />
+		<x:expect label="and boolean @test"
+			test="$Q{http://example.org/ns/my/variable}global-var instance of element(Q{}global-var-child)"
+		/>
 	</x:scenario>
 	<x:param name="Q{http://example.org/ns/my/variable}global-string-var" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
 	<x:scenario label="Using EQName in global variable @as">
@@ -71,6 +74,12 @@
 		<x:expect label="should be possible as well as in function-param @select">
 			<variable-child />
 		</x:expect>
+		<x:expect label="and assertion @select and @test"
+			select="$Q{http://example.org/ns/my/variable}var treat as element(Q{}variable-child)"
+			test="$Q{http://example.org/ns/my/variable}var treat as element(Q{}variable-child)" />
+		<x:expect label="and boolean @test"
+			test="$Q{http://example.org/ns/my/variable}var instance of element(variable-child)"
+		/>
 	</x:scenario>
 
 	<x:scenario label="Using EQName in local variable @as">

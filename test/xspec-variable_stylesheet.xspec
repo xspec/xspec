@@ -67,13 +67,4 @@
 		</x:scenario>
 	</x:scenario>
 
-	<!-- Should this scenario be moved to test/xspec-prefix-conflict_stylesheet.xspec after that is on master branch? -->
-	<t:scenario label="Test that x: is available for use by end users (i.e., not hard-coded in tools)">
-		<t:variable name="x:elementx" as="element()" xmlns:x="x-urn:test:xspec-prefix-conflict">
-			<x:foo/>
-		</t:variable>
-		<t:context select="$x:elementx" xmlns:x="x-urn:test:xspec-prefix-conflict"/>
-		<t:expect label="the result"><x:foo xmlns:x="x-urn:test:xspec-prefix-conflict"/></t:expect>
-	</t:scenario>
-
 </x:description>

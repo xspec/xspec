@@ -7,12 +7,6 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<!-- TODO: Make the following changes after other code gets merged onto master branch.
-  - To better test different namespace prefixes, consider updating after
-    https://github.com/xspec/xspec/commit/b1e6d150644ea323252ea3fd9f5addbdde1da40a
-    is integrated. See files named test/xspec-prefix-conflict*.* on AirQuick's branch.
-  -->
-
 <x:description
 	xmlns:do-nothing="x-urn:test:do-nothing"
 	xmlns:myv="http://example.org/ns/my/variable"

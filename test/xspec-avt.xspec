@@ -59,9 +59,8 @@
 			<x:call function="false" />
 			<x:expect label="attribute is AVT." select="'}false{'"
 				test="$myv:global-var-no-href/self::global-var-child/@attr/string()" />
-			<!-- TODO: The following x:expect fails on XQuery: XQuery xspec/xspec#451 -->
-			<!--<x:expect label="text node is intact." select="'}}{false()}{{'"
-				test="$myv:global-var-no-href/self::global-var-child/text()/string()" />-->
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:global-var-no-href/self::global-var-child/text()/string()" />
 		</x:scenario>
 
 		<x:scenario label="In /x:description/x:variable/doc(@href),">
@@ -82,9 +81,8 @@
 			<x:call function="false" />
 			<x:expect label="attribute is AVT." select="'}false{'"
 				test="$myv:var-no-href/self::variable-child/@attr/string()" />
-			<!-- TODO: The following x:expect fails on XQuery: XQuery xspec/xspec#451 -->
-			<!--<x:expect label="text node is intact." select="'}}{false()}{{'"
-				test="$myv:var-no-href/self::variable-child/text()/string()" />-->
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:var-no-href/self::variable-child/text()/string()" />
 		</x:scenario>
 
 		<x:scenario label="In //x:scenario/x:variable/doc(@href),">
