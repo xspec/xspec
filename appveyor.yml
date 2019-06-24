@@ -46,8 +46,9 @@ install:
     }
 
     else {
-        ${env:BASEX_JAR} = "${env:TEMP}\xspec\basex\basex.jar"
-        curl.exe -fsSL --create-dirs --retry 5 -o "${env:BASEX_JAR}" "http://files.basex.org/maven/org/basex/basex/${env:BASEX_VERSION}/basex-${env:BASEX_VERSION}.jar"
+        curl.exe -fsSL --create-dirs --retry 5 -o "${env:TEMP}\xspec\basex\basex.zip" "http://files.basex.org/releases/${env:BASEX_VERSION}/BaseX$(${env:BASEX_VERSION}.Replace('.','')).zip"
+        7z x "${env:TEMP}\xspec\basex\basex.zip" -o"${env:TEMP}\xspec\basex"
+        ${env:BASEX_JAR} = "${env:TEMP}\xspec\basex\basex\BaseX.jar"
     }
 
 

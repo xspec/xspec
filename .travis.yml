@@ -39,8 +39,9 @@ before_script:
     - if [[ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]]; then
         echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
       else
-        export BASEX_JAR=/tmp/xspec/basex/basex.jar;
-        curl -fsSL --create-dirs --retry 5 -o ${BASEX_JAR} http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
+        curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/basex/basex.zip http://files.basex.org/releases/${BASEX_VERSION}/BaseX${BASEX_VERSION//./}.zip;
+        unzip /tmp/xspec/basex/basex.zip -d /tmp/xspec/basex;
+        export BASEX_JAR=/tmp/xspec/basex/basex/BaseX.jar;
       fi
     # install Ant
     - curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
