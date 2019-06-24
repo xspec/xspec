@@ -41,6 +41,7 @@
 		<attribute name="xspec-file-url" />
 		<attribute name="test-type" />
 		<attribute default="" name="enable-coverage" />
+		<attribute default="" name="saxon-custom-options" />
 		<attribute default="" name="output-xml-url" />
 		<attribute default="" name="output-html-url" />
 		<attribute default="" name="output-coverage-url" />
@@ -90,6 +91,8 @@
 				<param name="test.type" value="@{test-type}" />
 				<param name="xspec.coverage.enabled" unless:blank="@{enable-coverage}"
 					value="@{enable-coverage}" />
+				<param name="saxon.custom.options" unless:blank="@{saxon-custom-options}"
+					value="@{saxon-custom-options}" />
 
 				<param if:set="output-xml-path" location="${output-xml-path}"
 					name="xspec.result.xml" />

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../do-nothing.xsl"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="ONCE-UPON-A-TIME"
+          query="x-urn:test:do-nothing"
+          query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-ambiguous-expect.xspec">
    <x:scenario>
       <x:label>Scenario for verifying that boolean @test precedes @href</x:label>
+      <x:result select="()"/>
       <x:scenario>
          <x:label>When function returns true,</x:label>
          <x:call function="true"/>
@@ -28,6 +27,7 @@
    </x:scenario>
    <x:scenario>
       <x:label>Scenario for verifying that boolean @test precedes @select</x:label>
+      <x:result select="()"/>
       <x:scenario>
          <x:label>When function returns false,</x:label>
          <x:call function="false"/>
@@ -44,6 +44,7 @@
    </x:scenario>
    <x:scenario>
       <x:label>Scenario for verifying that boolean @test precedes child node</x:label>
+      <x:result select="()"/>
       <x:scenario>
          <x:label>When function returns true,</x:label>
          <x:call function="true"/>
@@ -64,6 +65,7 @@
    </x:scenario>
    <x:scenario>
       <x:label>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)</x:label>
+      <x:result select="()"/>
       <x:scenario>
          <x:label>When function returns true,</x:label>
          <x:call function="true"/>

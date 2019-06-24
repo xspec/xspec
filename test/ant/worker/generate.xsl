@@ -20,6 +20,10 @@
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 
+	<!-- XQuery processor capabilities -->
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-DEFAULT" required="yes" />
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-QVERSION" required="yes" />
+
 	<!--
 		mode=#default
 			Transforms a template of Ant build file into a working build file.
@@ -66,29 +70,42 @@
 		<xsl:variable as="xs:boolean" name="enable-coverage"
 			select="processing-instruction(xspec-test) = 'enable-coverage'" />
 
+		<xsl:variable as="xs:boolean" name="xquery-3-1-required"
+			select="x:description/@xquery-version = '3.1'" />
+
 		<xsl:variable as="xs:string?" name="skip">
 			<xsl:choose>
 				<xsl:when test="
 						$enable-coverage
 						and not($XSLT-SUPPORTS-COVERAGE)">
-					<xsl:value-of>
-						<xsl:text>Skipping </xsl:text>
-						<xsl:value-of select="x:filename-and-extension($xspec-file-uri)" />
-						<xsl:text>: Requires XSLT processor to support coverage</xsl:text>
-					</xsl:value-of>
+					<xsl:text>Requires XSLT processor to support coverage</xsl:text>
 				</xsl:when>
 
 				<xsl:when
 					test="
 						(processing-instruction(xspec-test) = 'require-xslt-to-support-schema')
 						and not($XSLT-SUPPORTS-SCHEMA)">
-					<xsl:value-of>
-						<xsl:text>Skipping </xsl:text>
-						<xsl:value-of select="x:filename-and-extension($xspec-file-uri)" />
-						<xsl:text>: Requires schema-aware XSLT processor</xsl:text>
-					</xsl:value-of>
+					<xsl:text>Requires schema-aware XSLT processor</xsl:text>
+				</xsl:when>
+
+				<xsl:when
+					test="
+						$xquery-3-1-required
+						and not($XQUERY-SUPPORTS-3-1-DEFAULT or $XQUERY-SUPPORTS-3-1-QVERSION)">
+					<xsl:text>Requires XQuery 3.1 processor</xsl:text>
 				</xsl:when>
 			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:variable as="xs:string?" name="skip">
+			<xsl:if test="$skip">
+				<xsl:value-of>
+					<xsl:text>Skipping </xsl:text>
+					<xsl:value-of select="x:filename-and-extension($xspec-file-uri)" />
+					<xsl:text>: </xsl:text>
+					<xsl:value-of select="$skip" />
+				</xsl:value-of>
+			</xsl:if>
 		</xsl:variable>
 
 		<xsl:choose>
@@ -112,6 +129,11 @@
 					<run-xspec test-type="{$test-type}" xspec-file-url="{$xspec-file-uri}">
 						<xsl:if test="$enable-coverage">
 							<xsl:attribute name="enable-coverage" select="$enable-coverage" />
+						</xsl:if>
+
+						<xsl:if
+							test="($test-type eq 'q') and $xquery-3-1-required and $XQUERY-SUPPORTS-3-1-QVERSION">
+							<xsl:attribute name="saxon-custom-options" select="'-qversion:3.1'" />
 						</xsl:if>
 
 						<xsl:call-template name="on-run-xspec">

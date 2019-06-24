@@ -13,7 +13,7 @@
          <x:call function="exactly-one">
             <x:param select="$Q{x-urn:test:xspec-items}comment"/>
          </x:call>
-         <x:result select="/node()"><!--comment-text--></x:result>
+         <x:result select="/comment()"><!--comment-text--></x:result>
          <x:test successful="false">
             <x:label>[Result] with diff must be serialized as &lt;!-- --&gt;.</x:label>
             <x:expect select="()"/>
@@ -30,7 +30,7 @@
          <x:test successful="false">
             <x:label>[Expected Result] with diff must be serialized as
 					&lt;!-- --&gt;.</x:label>
-            <x:expect select="/node()"><!--comment-text--></x:expect>
+            <x:expect select="/comment()"><!--comment-text--></x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
@@ -55,7 +55,7 @@
                   </qux>
                </x:param>
             </x:call>
-            <x:result>
+            <x:result select="/element()">
                <foo/>
                <bar>
                   <baz/>
@@ -83,7 +83,7 @@
             <x:test successful="false">
                <x:label>all elements in [Expected Result] with diff must be serialized with
 						indentation.</x:label>
-               <x:expect>
+               <x:expect select="/element()">
                   <foo/>
                   <bar>
                      <baz/>
@@ -115,7 +115,7 @@
                      </test>
                   </x:param>
                </x:call>
-               <x:result>
+               <x:result select="/element()">
                   <test>
                      <elem1><!--foo-->
                         <bar/>
@@ -125,7 +125,7 @@
                </x:result>
                <x:test successful="false">
                   <x:label>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</x:label>
-                  <x:expect>
+                  <x:expect select="/element()">
                      <test>
                         <elem1>foo<bar/>
                         </elem1>
@@ -146,7 +146,7 @@
                      </test>
                   </x:param>
                </x:call>
-               <x:result>
+               <x:result select="/element()">
                   <test>
                      <elem1>foo<bar/>
                      </elem1>
@@ -155,7 +155,7 @@
                </x:result>
                <x:test successful="false">
                   <x:label>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</x:label>
-                  <x:expect>
+                  <x:expect select="/element()">
                      <test>
                         <elem1><!--foo-->
                            <bar/>
@@ -184,7 +184,7 @@
                      </test>
                   </x:param>
                </x:call>
-               <x:result>
+               <x:result select="/element()">
                   <test>
                      <foo>
                         <bar/>
@@ -194,7 +194,7 @@
                </x:result>
                <x:test successful="false">
                   <x:label>&lt;foo&gt; must be green.</x:label>
-                  <x:expect>
+                  <x:expect select="/element()">
                      <test>
                         <foo>
                            <bar/>
@@ -217,7 +217,7 @@
             </foo>
          </x:param>
       </x:call>
-      <x:result>
+      <x:result select="/element()">
          <foo>
             <bar/>
             <baz/>
@@ -226,7 +226,7 @@
       <x:test successful="false">
          <x:label>the corresponding nodes in [Result] with diff must be serialized in green.
 				(xspec/xspec#379)</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <foo>...</foo>
             <qux/>
          </x:expect>
@@ -250,7 +250,7 @@
             </test>
          </x:param>
       </x:call>
-      <x:result>
+      <x:result select="/element()">
          <test>
             <oridinary-text-node>
                <same>same</same>
@@ -267,7 +267,7 @@
       <x:test successful="false">
          <x:label>both in [Result] and [Expected Result] with diff, the significant text nodes
 				must be serialized with color. (xspec/xspec#386)</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <test>
                <oridinary-text-node>
                   <same>same</same>

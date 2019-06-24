@@ -740,4 +740,11 @@
     call :verify_line  * r "  XPDY0002:"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
+
+	<case name="Invalid xquery-version should be error">
+    call :run ..\bin\xspec.bat -q xquery-version\invalid.xspec
+    call :verify_retval 2
+    call :verify_line  * r ".*XQST0031..*InVaLiD"
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
 </collection>
