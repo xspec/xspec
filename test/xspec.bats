@@ -446,7 +446,7 @@ teardown() {
 }
 
 
-@test "executing the XProc harness for BaseX generates a report" {
+@test "XProc harness for BaseX (standalone)" {
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
@@ -454,13 +454,63 @@ teardown() {
         skip "XMLCALABASH_JAR is not defined"
     fi
 
+    # Output files
     compiled_file="${work_dir}/compiled.xq"
-    run java -Xmx1024m -cp "${XMLCALABASH_JAR}" com.xmlcalabash.drivers.Main -i source=../tutorial/xquery-tutorial.xspec -p xspec-home=file:${PWD}/../ -p basex-jar="${BASEX_JAR}" -p compiled-file="file:${compiled_file}" -o result=xspec/xquery-tutorial-result.html ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
-    echo "$output"
-    [[ "${output}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    expected_report="${work_dir}/xquery-tutorial-result.html"
 
-    # compiled-file
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=../tutorial/xquery-tutorial.xspec \
+        -p xspec-home="file:${PWD}/../" \
+        -p basex-jar="${BASEX_JAR}" \
+        -p compiled-file="file:${compiled_file}" \
+        -o result="file:${expected_report}" \
+        ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${lines[${#lines[@]}-1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+
+    # Output files
     [ -f "${compiled_file}" ]
+    [ -f "${expected_report}" ]
+}
+
+
+@test "XProc harness for BaseX (server)" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    # BaseX dir
+    basex_home=$(dirname -- "${BASEX_JAR}")
+
+    # Start BaseX server
+    "${basex_home}/bin/basexhttp" -S
+
+    # Output file
+    expected_report="${work_dir}/xquery-tutorial-result.html"
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=../tutorial/xquery-tutorial.xspec \
+        -p xspec-home="file:${PWD}/../" \
+        -p endpoint=http://localhost:8984/rest \
+        -p username=admin \
+        -p password=admin \
+        -p auth-method=Basic \
+        -o result="file:${expected_report}" \
+        ../src/harnesses/basex/basex-server-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${#lines[@]}" = "1" ]
+    [[ "${lines[0]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+
+    # Output file
+    [ -f "${expected_report}" ]
+
+    # Stop BaseX server
+    "${basex_home}/bin/basexhttpstop"
 }
 
 
