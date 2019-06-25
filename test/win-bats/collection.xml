@@ -354,7 +354,7 @@
     call "%BASEX_HOME%\bin\basexhttp.bat" -S
 
     rem Output file
-    set "EXPECTED_REPORT=%WORK_DIR%/xquery-tutorial-result.html"
+    set "EXPECTED_REPORT=%WORK_DIR%\xquery-tutorial-result.html"
 
     call :run java -jar "%XMLCALABASH_JAR%" ^
         -i source=../tutorial/xquery-tutorial.xspec ^
