@@ -351,7 +351,9 @@
     set "BASEX_HOME=%BASEX_JAR%\.."
 
     rem Start BaseX server
-    call "%BASEX_HOME%\bin\basexhttp.bat" -S
+    rem Run the batch file in a child process in order to localize various environment changes
+    call :run "%BASEX_HOME%\bin\basexhttp.bat" -S
+    call :verify_retval 0
 
     rem Output file
     set "EXPECTED_REPORT=%WORK_DIR%\xquery-tutorial-result.html"
@@ -373,7 +375,9 @@
     call :verify_exist "%EXPECTED_REPORT%"
 
     rem Stop BaseX server
-    call "%BASEX_HOME%\bin\basexhttpstop.bat"
+    rem Run the batch file in a child process in order to localize various environment changes
+    call :run "%BASEX_HOME%\bin\basexhttpstop.bat"
+    call :verify_retval 0
 	</case>
 
 	<case name="Ant for XSLT with default properties fails on test failure">
