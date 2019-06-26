@@ -6,8 +6,8 @@
           xspec="../../xspec-153.xspec">
    <x:scenario>
       <x:label>When a function returns a local date time string</x:label>
-      <x:call function="exactly-one">
-         <x:param select="string(xs:dateTime('2000-01-01T12:00:00+12:00'))"/>
+      <x:call function="string">
+         <x:param select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
       </x:call>
       <x:result select="'2000-01-01T12:00:00+12:00'"/>
       <x:test successful="true">
