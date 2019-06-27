@@ -102,10 +102,13 @@
     call :run ..\bin\xspec.bat -c "%SPECIAL_CHARS_DIR%\demo.xspec"
     call :verify_retval 0
 
-    rem XML, HTML and coverage report file
+    rem XML and HTML report file
     call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.xml"
     call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.html"
-    call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-coverage.html"
+
+    rem Coverage report file is created and contains CSS inline #194
+    call :run java -jar "%SAXON_JAR%" -s:"%SPECIAL_CHARS_DIR%\xspec\demo-coverage.html" -xsl:html-css.xsl
+    call :verify_line 1 x "true"
 	</case>
 
 	<case name="invoking xspec -c -q prints error message">
