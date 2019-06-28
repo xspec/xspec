@@ -841,10 +841,14 @@ teardown() {
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
-    # XML, HTML and coverage report file
+    # XML and HTML report file
     [ -f "../tutorial/coverage/xspec/demo-result.xml" ]
     [ -f "../tutorial/coverage/xspec/demo-result.html" ]
-    [ -f "../tutorial/coverage/xspec/demo-coverage.html" ]
+
+    # Coverage report file is created and contains CSS inline
+    run java -jar "${SAXON_JAR}" -s:../tutorial/coverage/xspec/demo-coverage.html -xsl:html-css.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 
