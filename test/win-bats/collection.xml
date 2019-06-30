@@ -755,4 +755,36 @@
     call :verify_line  * r ".*XQST0031..*InVaLiD"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
+
+	<case name="report-css-uri for HTML report file">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dxspec.fail=false ^
+        -Dxspec.result.html.css="%CD%\html-css.css" ^
+        -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
+    call :verify_retval 0
+
+    call :run java -jar "%SAXON_JAR%" ^
+        -s:..\tutorial\xspec\escape-for-regex-result.html ^
+        -xsl:html-css.xsl ^
+        STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
+    call :verify_line 1 x "true"
+	</case>
+
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="report-css-uri for coverage report file">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dxspec.coverage.enabled=true ^
+        -Dxspec.coverage.html.css="%CD%\html-css.css" ^
+        -Dxspec.xml="%CD%\..\tutorial\coverage\demo.xspec"
+    call :verify_retval 0
+
+    call :run java -jar "%SAXON_JAR%" ^
+        -s:..\tutorial\coverage\xspec\demo-coverage.html ^
+        -xsl:html-css.xsl ^
+        STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
+    call :verify_line 1 x "true"
+	</case>
 </collection>

@@ -1024,3 +1024,45 @@ teardown() {
 }
 
 
+@test "report-css-uri for HTML report file" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.fail=false \
+        -Dxspec.result.html.css="${PWD}/html-css.css" \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run java -jar "${SAXON_JAR}" \
+        -s:../tutorial/xspec/escape-for-regex-result.html \
+        -xsl:html-css.xsl \
+        STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
+}
+
+
+@test "report-css-uri for coverage report file" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.coverage.enabled=true \
+        -Dxspec.coverage.html.css="${PWD}/html-css.css" \
+        -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run java -jar "${SAXON_JAR}" \
+        -s:../tutorial/coverage/xspec/demo-coverage.html \
+        -xsl:html-css.xsl \
+        STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
+}
+
+

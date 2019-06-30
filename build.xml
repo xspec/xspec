@@ -414,6 +414,11 @@
   <!-- Report: Test result HTML -->
   <target name="report-html"
           depends="run-xquery-test, run-xslt-test">
+
+    <makeurl property="xspec.result.html.css.url"
+             file="${xspec.result.html.css}"
+             if:set="xspec.result.html.css" />
+
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.html}"
                 style="${xspec.html.reporter.xsl}">
@@ -423,6 +428,8 @@
       </factory-elements>
       <xslt-elements>
         <param name="inline-css" expression="true" />
+        <param name="report-css-uri" expression="${xspec.result.html.css.url}"
+               if="xspec.result.html.css.url" />
       </xslt-elements>
     </saxon-xslt>
   </target>
@@ -435,6 +442,10 @@
     <!-- Absolute file path of the original XSpec file -->
     <property name="xspec.xspecfile.absolute" location="${xspec.xspecfile.original}" />
 
+    <makeurl property="xspec.coverage.html.css.url"
+             file="${xspec.coverage.html.css}"
+             if:set="xspec.coverage.html.css" />
+
     <saxon-xslt in="${xspec.coverage.xml}"
                 out="${xspec.coverage.html}"
                 style="${xspec.coverage.reporter.xsl}">
@@ -445,6 +456,8 @@
       <xslt-elements>
         <param name="tests" expression="${xspec.xspecfile.absolute}" />
         <param name="inline-css" expression="true" />
+        <param name="report-css-uri" expression="${xspec.coverage.html.css.url}"
+               if="xspec.coverage.html.css.url" />
       </xslt-elements>
     </saxon-xslt>
   </target>
