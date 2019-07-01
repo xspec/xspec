@@ -38,9 +38,37 @@
 	<xsl:function as="xs:string" name="x:filename-without-extension">
 		<xsl:param as="xs:string" name="input" />
 
-		<xsl:variable as="xs:string+" name="except-last"
-			select="tokenize(x:filename-and-extension($input), '\.')[position() lt last()]" />
-		<xsl:sequence select="string-join($except-last, '.')" />
+		<xsl:variable as="xs:string" name="filename-and-extension"
+			select="x:filename-and-extension($input)" />
+
+		<xsl:sequence
+			select="
+				if (contains($filename-and-extension, '.')) then
+					replace($filename-and-extension, '^(.*)\.[^.]*$', '$1')
+				else
+					$filename-and-extension"
+		 />
+	</xsl:function>
+
+	<!--
+		Extracts extension (without filename) from slash-delimited path
+			Example:
+				in:  "file:/path/to/foo.bar.baz" or "/path/to/foo.bar.baz"
+				out: ".baz"
+	-->
+	<xsl:function as="xs:string" name="x:extension-without-filename">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:variable as="xs:string" name="filename-and-extension"
+			select="x:filename-and-extension($input)" />
+
+		<xsl:sequence
+			select="
+				if (contains($filename-and-extension, '.')) then
+					replace($filename-and-extension, '^.*(\.[^.]*)$', '$1')
+				else
+					''"
+		 />
 	</xsl:function>
 
 	<!--
