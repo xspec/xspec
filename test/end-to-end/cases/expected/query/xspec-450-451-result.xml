@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:myv="http://example.org/ns/my/variable"
           date="ONCE-UPON-A-TIME"
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
@@ -32,6 +33,31 @@
       </x:test>
    </x:scenario>
    <x:scenario>
+      <x:label>global-var containing curly brackets</x:label>
+      <x:call function="false"/>
+      <x:result select="xs:boolean('false')"/>
+      <x:test successful="true">
+         <x:label>should work</x:label>
+         <x:result select="/node()">}{<elem attr="}{">}{</elem>
+         </x:result>
+         <x:expect test="$myv:global-var treat as node()+" select="/node()">}{<elem attr="}{">}{</elem>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>local variable containing curly brackets</x:label>
+      <x:call function="one-or-more">
+         <x:param select="$myv:local-var"/>
+      </x:call>
+      <x:result select="/node()">}{<elem attr="}{">}{</elem>
+      </x:result>
+      <x:test successful="true">
+         <x:label>should work</x:label>
+         <x:expect select="/node()">}{<elem attr="}{">}{</elem>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
       <x:label>assertion containing curly brackets</x:label>
       <x:call function="one-or-more">
          <x:param href="../../xspec-450-451.xml" select="wrap/node() treat as node()+"/>
@@ -43,5 +69,35 @@
          <x:expect select="/node()">}{<elem attr="}{">}{</elem>
          </x:expect>
       </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>If value is from a variable instead of hard-coded,</x:label>
+      <x:result select="()"/>
+      <x:scenario>
+         <x:label>function-param containing curly brackets</x:label>
+         <x:call function="one-or-more">
+            <x:param select="$myv:local-var2"/>
+         </x:call>
+         <x:result select="/node()">}{<elem attr="}{">}{</elem>
+         </x:result>
+         <x:test successful="true">
+            <x:label>should work</x:label>
+            <x:expect select="/node()">}{<elem attr="}{">}{</elem>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>assertion containing curly brackets</x:label>
+         <x:call function="one-or-more">
+            <x:param href="../../xspec-450-451.xml" select="wrap/node() treat as node()+"/>
+         </x:call>
+         <x:result select="/node()">}{<elem attr="}{">}{</elem>
+         </x:result>
+         <x:test successful="true">
+            <x:label>should work</x:label>
+            <x:expect select="/node()">}{<elem attr="}{">}{</elem>
+            </x:expect>
+         </x:test>
+      </x:scenario>
    </x:scenario>
 </x:report>
