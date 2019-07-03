@@ -167,10 +167,15 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
 
-    # XML, HTML and coverage report file
+    # XML and HTML report file
     [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
     [ -f "${special_chars_dir}/xspec/demo-result.html" ]
-    [ -f "${special_chars_dir}/xspec/demo-coverage.html" ]
+
+    # Coverage report file is created and contains CSS inline #194
+    unset JAVA_TOOL_OPTIONS
+    run java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:html-css.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 
@@ -526,6 +531,11 @@ teardown() {
     [ "${lines[1]}" = "escape-for-regex-result.xml" ]
     [ "${lines[2]}" = "escape-for-regex_xml-to-properties.xml" ]
     [ "${lines[3]}" = "escape-for-regex.xsl" ]
+
+    # HTML report file contains CSS inline
+    run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 
@@ -838,10 +848,14 @@ teardown() {
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
-    # XML, HTML and coverage report file
+    # XML and HTML report file
     [ -f "../tutorial/coverage/xspec/demo-result.xml" ]
     [ -f "../tutorial/coverage/xspec/demo-result.html" ]
-    [ -f "../tutorial/coverage/xspec/demo-coverage.html" ]
+
+    # Coverage report file is created and contains CSS inline
+    run java -jar "${SAXON_JAR}" -s:../tutorial/coverage/xspec/demo-coverage.html -xsl:html-css.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 
@@ -1009,6 +1023,48 @@ teardown() {
     regex="XQST0031.+InVaLiD"
     [[ "${output}" =~ ${regex} ]]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+
+@test "report-css-uri for HTML report file" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.fail=false \
+        -Dxspec.result.html.css="${PWD}/html-css.css" \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run java -jar "${SAXON_JAR}" \
+        -s:../tutorial/xspec/escape-for-regex-result.html \
+        -xsl:html-css.xsl \
+        STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
+}
+
+
+@test "report-css-uri for coverage report file" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.coverage.enabled=true \
+        -Dxspec.coverage.html.css="${PWD}/html-css.css" \
+        -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run java -jar "${SAXON_JAR}" \
+        -s:../tutorial/coverage/xspec/demo-coverage.html \
+        -xsl:html-css.xsl \
+        STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 

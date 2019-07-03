@@ -140,6 +140,9 @@
       <xsl:call-template name="x:compile-scenarios"/>
       <xsl:text>&#10;</xsl:text>
 
+      <xsl:apply-templates select="$html-reporter-pi" mode="test:create-node-generator" />
+      <xsl:text>,&#x0A;</xsl:text>
+
       <xsl:element name="{x:xspec-name('report')}" namespace="{$xspec-namespace}">
          <xsl:attribute name="date"  select="'{current-dateTime()}'" />
          <xsl:attribute name="query" select="$this/@query"/>

@@ -52,6 +52,64 @@
 			</x:call>
 			<x:expect label="filename without extension" select="'foo.bar'" />
 		</x:scenario>
+
+		<x:scenario label="No filename">
+			<x:call function="x:filename-without-extension">
+				<x:param select="'/path/to/.foo'" />
+			</x:call>
+			<x:expect label="zero-length string" select="''" />
+		</x:scenario>
+
+		<x:scenario label="No extension">
+			<x:call function="x:filename-without-extension">
+				<x:param select="'/path/to/foo'" />
+			</x:call>
+			<x:expect label="filename without extension" select="'foo'" />
+		</x:scenario>
+
+		<x:scenario label="Ends with dot">
+			<x:call function="x:filename-without-extension">
+				<x:param select="'/path/to/foo.'" />
+			</x:call>
+			<x:expect label="filename without extension" select="'foo'" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function extension-without-filename">
+		<x:scenario label="URI">
+			<x:call function="x:extension-without-filename">
+				<x:param select="'file:/path/to/foo.bar.baz'" />
+			</x:call>
+			<x:expect label="extension without filename" select="'.baz'" />
+		</x:scenario>
+
+		<x:scenario label="*nix file path">
+			<x:call function="x:extension-without-filename">
+				<x:param select="'/path/to/foo.bar.baz'" />
+			</x:call>
+			<x:expect label="extension without filename" select="'.baz'" />
+		</x:scenario>
+
+		<x:scenario label="No filename">
+			<x:call function="x:extension-without-filename">
+				<x:param select="'/path/to/.foo'" />
+			</x:call>
+			<x:expect label="extension without filename" select="'.foo'" />
+		</x:scenario>
+
+		<x:scenario label="No extension">
+			<x:call function="x:extension-without-filename">
+				<x:param select="'/path/to/foo'" />
+			</x:call>
+			<x:expect label="zero-length string" select="''" />
+		</x:scenario>
+
+		<x:scenario label="Ends with dot">
+			<x:call function="x:extension-without-filename">
+				<x:param select="'/path/to/foo.'" />
+			</x:call>
+			<x:expect label="dot" select="'.'" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function resolve-xml-uri-with-catalog">

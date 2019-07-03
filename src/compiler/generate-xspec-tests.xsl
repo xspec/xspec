@@ -84,12 +84,7 @@
       <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
         being tested which would otherwise govern the output of the report XML. -->
       <result-document format="{x:xspec-name('report')}">
-        <processing-instruction name="xml-stylesheet">
-          <xsl:text>type="text/xsl" href="</xsl:text>
-          <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl',
-            static-base-uri())" />
-          <xsl:text>"</xsl:text>
-        </processing-instruction>
+        <xsl:apply-templates select="$html-reporter-pi" mode="test:create-node-generator" />
 
         <xsl:element name="{x:xspec-name('report')}" namespace="{$xspec-namespace}">
           <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
