@@ -19,6 +19,7 @@
 
 <xsl:import href="format-utils.xsl"/>
 
+<xsl:include href="../common/parse-report.xsl" />
 <xsl:include href="../common/xspec-utils.xsl" />
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl</pkg:import-uri>
@@ -54,14 +55,14 @@
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />
   <xsl:variable name="any-failure" as="xs:boolean"
-    select="exists(x:test[@successful = 'false'])" />
+    select="exists(x:test[x:is-failed-test(.)])" />
   <div id="{generate-id()}">
     <h2 class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
       <xsl:sequence select="x:pending-callback(@pending)"/>
       <xsl:apply-templates select="x:label" mode="x:html-report" />
       <span class="scenario-totals">
         <xsl:call-template name="x:totals">
-          <xsl:with-param name="tests" select=".//x:test[parent::x:scenario]" />
+          <xsl:with-param name="tests" select="x:descendant-tests(.)" />
           <xsl:with-param name="labels" select="true()"/>
         </xsl:call-template>
       </span>
@@ -77,7 +78,7 @@
           </th>
           <th>
             <xsl:call-template name="x:totals">
-              <xsl:with-param name="tests" select=".//x:test[parent::x:scenario]" />
+              <xsl:with-param name="tests" select="x:descendant-tests(.)" />
               <xsl:with-param name="labels" select="true()"/>
             </xsl:call-template>
           </th>
@@ -87,7 +88,7 @@
           <xsl:variable name="pending" as="xs:boolean"
             select="exists(@pending)" />
           <xsl:variable name="any-failure" as="xs:boolean"
-            select="exists(x:test[@successful = 'false'])" />
+            select="exists(x:test[x:is-failed-test(.)])" />
           <xsl:variable name="label" as="node()+">
             <xsl:for-each select="ancestor-or-self::x:scenario[position() != last()]">
               <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -121,14 +122,14 @@
         </xsl:for-each>
       </tbody>
     </table>
-    <xsl:apply-templates select="descendant-or-self::x:scenario[x:test[@successful = 'false']]" mode="x:html-report" />
+    <xsl:apply-templates select="descendant-or-self::x:scenario[x:test[x:is-failed-test(.)]]" mode="x:html-report" />
   </div>
 </xsl:template>
 
 <xsl:template match="document-node()" as="element(xhtml:html)">
   <xsl:message>
     <xsl:call-template name="x:totals">
-      <xsl:with-param name="tests" select="//x:scenario/x:test" />
+      <xsl:with-param name="tests" select="x:descendant-tests(.)" />
       <xsl:with-param name="labels" select="true()" />
     </xsl:call-template>
   </xsl:message>
@@ -140,7 +141,7 @@
          <xsl:value-of select="x:report/test:format-URI((@schematron,@stylesheet,@query)[1])"/>
          <xsl:text> (</xsl:text>
          <xsl:call-template name="x:totals">
-           <xsl:with-param name="tests" select="//x:scenario/x:test"/>
+           <xsl:with-param name="tests" select="x:descendant-tests(.)"/>
            <xsl:with-param name="labels" select="true()"/>
          </xsl:call-template>
          <xsl:text>)</xsl:text>
@@ -211,7 +212,7 @@
     <col width="6.25%" />
     <thead>
       <tr>
-        <xsl:variable name="totals" select="x:totals(//x:scenario/x:test)"/>
+        <xsl:variable name="totals" select="x:totals(x:descendant-tests(.))"/>
         <th/>
         <th class="totals">passed:&#xa0;<xsl:value-of select="$totals[1]"/></th>
         <th class="totals">pending:&#xa0;<xsl:value-of select="$totals[2]"/></th>
@@ -224,7 +225,7 @@
         <xsl:variable name="pending" as="xs:boolean"
           select="exists(@pending)" />
         <xsl:variable name="any-failure" as="xs:boolean"
-          select="exists(.//x:test[parent::x:scenario][@successful = 'false'])" />
+          select="exists(x:descendant-failed-tests(.))" />
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
           <th>
             <xsl:sequence select="x:pending-callback(@pending)"/>
@@ -232,7 +233,7 @@
               <xsl:apply-templates select="x:label" mode="x:html-report" />
             </a>
           </th>
-          <xsl:variable name="totals" select="x:totals(.//x:test[parent::x:scenario])"/>
+          <xsl:variable name="totals" select="x:totals(x:descendant-tests(.))"/>
           <th class="totals"><xsl:value-of select="$totals[1]"/></th>
           <th class="totals"><xsl:value-of select="$totals[2]"/></th>
           <th class="totals"><xsl:value-of select="$totals[3]"/></th>
@@ -241,12 +242,12 @@
       </xsl:for-each>
     </tbody>
   </table>
-  <xsl:for-each select="x:scenario[not(@pending) or .//x:test[parent::x:scenario][not(@pending)]]">
+  <xsl:for-each select="x:scenario[not(@pending) or x:descendant-tests(.)[not(x:is-pending-test(.))]]">
     <xsl:call-template name="x:format-top-level-scenario"/>
   </xsl:for-each>
 </xsl:template>
 
-<xsl:template match="x:test[exists(@pending)]" as="element(xhtml:tr)" mode="x:html-summary">
+<xsl:template match="x:test[x:is-pending-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
   <tr class="pending">
     <td>
       <xsl:sequence select="x:pending-callback(@pending)"/>
@@ -256,14 +257,14 @@
   </tr>
 </xsl:template>
 
-<xsl:template match="x:test[@successful = 'true']" as="element(xhtml:tr)" mode="x:html-summary">
+<xsl:template match="x:test[x:is-passed-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
   <tr class="successful">
   	<td><xsl:apply-templates select="x:label" mode="x:html-report" /></td>
     <td>Success</td>
   </tr>
 </xsl:template>
 
-<xsl:template match="x:test[@successful = 'false']" as="element(xhtml:tr)" mode="x:html-summary">
+<xsl:template match="x:test[x:is-failed-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
   <tr class="failed">
     <td>
       <a href="#{generate-id()}">
@@ -283,7 +284,7 @@
   		</xsl:if>
   	</xsl:for-each>
   </h3>
-  <xsl:apply-templates select="x:test[@successful = 'false']" mode="x:html-report" />
+  <xsl:apply-templates select="x:test[x:is-failed-test(.)]" mode="x:html-report" />
 </xsl:template>
 
 <xsl:template match="x:test" as="element()+" mode="x:html-report">
@@ -427,9 +428,9 @@
   
 <xsl:function name="x:totals" as="xs:integer+">
   <xsl:param name="tests" as="element(x:test)*"/>
-  <xsl:variable name="passed" as="element(x:test)*" select="$tests[@successful = 'true']" />
-  <xsl:variable name="pending" as="element(x:test)*" select="$tests[exists(@pending)]" />
-  <xsl:variable name="failed" as="element(x:test)*" select="$tests[@successful = 'false']" />
+  <xsl:variable name="passed" as="element(x:test)*" select="$tests[x:is-passed-test(.)]" />
+  <xsl:variable name="pending" as="element(x:test)*" select="$tests[x:is-pending-test(.)]" />
+  <xsl:variable name="failed" as="element(x:test)*" select="$tests[x:is-failed-test(.)]" />
   <xsl:sequence select="count($passed)"/>
   <xsl:sequence select="count($pending)"/>
   <xsl:sequence select="count($failed)"/>
