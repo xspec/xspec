@@ -1066,3 +1066,11 @@ teardown() {
 }
 
 
+@test "Error message when source is not XSpec #522" {
+    run ../bin/xspec.sh do-nothing.xsl
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[2]}" =~ "Source document is not XSpec" ]]
+}
+
+
