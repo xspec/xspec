@@ -68,8 +68,10 @@
       </span>
     </h2>
     <table class="xspec" id="t-{generate-id()}">
-      <col width="75%" />
-      <col width="25%" />
+      <colgroup>
+        <col width="75%" />
+        <col width="25%" />
+      </colgroup>
       <tbody>
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
           <th>
@@ -205,11 +207,13 @@
   </p>
   <h2>Contents</h2>
   <table class="xspec">
-    <col width="75%" />
-    <col width="6.25%" />
-    <col width="6.25%" />
-    <col width="6.25%" />
-    <col width="6.25%" />
+    <colgroup>
+      <col width="75%" />
+      <col width="6.25%" />
+      <col width="6.25%" />
+      <col width="6.25%" />
+      <col width="6.25%" />
+    </colgroup>
     <thead>
       <tr>
         <xsl:variable name="totals" select="x:totals(x:descendant-tests(.))"/>
