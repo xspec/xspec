@@ -56,7 +56,7 @@
     select="exists(@pending)" />
   <xsl:variable name="any-failure" as="xs:boolean"
     select="exists(x:test[x:is-failed-test(.)])" />
-  <div id="{generate-id()}">
+  <div id="top-level-{local-name()}-{generate-id()}">
     <h2 class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
       <xsl:sequence select="x:pending-callback(@pending)"/>
       <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -102,7 +102,7 @@
               <xsl:sequence select="x:pending-callback(@pending)"/>
               <xsl:choose>
                 <xsl:when test="$any-failure">
-                  <a href="#{generate-id()}">
+                  <a href="#{local-name()}-{generate-id()}">
                     <xsl:sequence select="$label" />
                   </a>
                 </xsl:when>
@@ -229,7 +229,7 @@
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
           <th>
             <xsl:sequence select="x:pending-callback(@pending)"/>
-            <a href="#{generate-id()}">
+            <a href="#top-level-{local-name()}-{generate-id()}">
               <xsl:apply-templates select="x:label" mode="x:html-report" />
             </a>
           </th>
@@ -267,7 +267,7 @@
 <xsl:template match="x:test[x:is-failed-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
   <tr class="failed">
     <td>
-      <a href="#{generate-id()}">
+      <a href="#{local-name()}-{generate-id()}">
       	<xsl:apply-templates select="x:label" mode="x:html-report" />
       </a>
     </td>
@@ -276,7 +276,7 @@
 </xsl:template>
 
 <xsl:template match="x:scenario" as="element()+" mode="x:html-report">
-  <h3 id="{generate-id()}">
+  <h3 id="{local-name()}-{generate-id()}">
   	<xsl:for-each select="ancestor-or-self::x:scenario">
   		<xsl:apply-templates select="x:label" mode="x:html-report" />
   		<xsl:if test="position() != last()">
@@ -290,7 +290,7 @@
 <xsl:template match="x:test" as="element()+" mode="x:html-report">
   <xsl:variable name="result" as="element(x:result)"
     select="if (x:result) then x:result else ../x:result" />
-  <h4 id="{generate-id()}">
+  <h4 id="{local-name()}-{generate-id()}">
     <xsl:apply-templates select="x:label" mode="x:html-report" />
   </h4>
 

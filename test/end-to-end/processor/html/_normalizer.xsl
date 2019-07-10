@@ -157,14 +157,13 @@
 
 	<!--
 		Returns the element whose original @id is equal to the specified ID
-			If multiple elements satisfy the condition, returns the first element.
 	-->
 	<xsl:function as="element()?" name="local:element-by-id">
 		<xsl:param as="node()" name="context-node" />
 		<xsl:param as="xs:string" name="id" />
 
 		<xsl:variable as="document-node()" name="doc" select="root($context-node)" />
-		<xsl:sequence select="$doc/descendant::element()[@id eq $id][1]" />
+		<xsl:sequence select="$doc/descendant::element()[@id eq $id]" />
 	</xsl:function>
 
 	<!--
@@ -174,18 +173,7 @@
 	<xsl:function as="xs:string" name="local:generate-predictable-id">
 		<xsl:param as="element()" name="element" />
 
-		<!--
-			Unfortunately the original @id is not always unique: xspec/xspec#78
-			So, for calculating the element index, you can't simply use the specified element. You have to determine which element to use.
-		-->
-		<xsl:variable as="element()" name="index-element"
-			select="
-				if ($element/@id) then
-					local:element-by-id($element, $element/@id)
-				else
-					$element" />
-
-		<xsl:sequence select="concat('ELEM-', local:element-index($index-element))" />
+		<xsl:sequence select="concat('ELEM-', local:element-index($element))" />
 	</xsl:function>
 
 	<!--
