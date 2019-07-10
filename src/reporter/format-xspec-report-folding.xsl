@@ -76,8 +76,8 @@ function toggle(scenarioID) {
     </h2>
     <table class="xspec" id="t-{generate-id()}" style="display: {if ($any-descendant-failure) then 'table' else 'none'}">
       <colgroup>
-        <col width="85%" />
-        <col width="15%" />
+        <col style="width:85%" />
+        <col style="width:15%" />
       </colgroup>
       <tbody>
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">

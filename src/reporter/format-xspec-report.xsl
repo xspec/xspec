@@ -69,8 +69,8 @@
     </h2>
     <table class="xspec" id="t-{generate-id()}">
       <colgroup>
-        <col width="75%" />
-        <col width="25%" />
+        <col style="width:75%" />
+        <col style="width:25%" />
       </colgroup>
       <tbody>
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
@@ -208,11 +208,11 @@
   <h2>Contents</h2>
   <table class="xspec">
     <colgroup>
-      <col width="75%" />
-      <col width="6.25%" />
-      <col width="6.25%" />
-      <col width="6.25%" />
-      <col width="6.25%" />
+      <col style="width:75%" />
+      <col style="width:6.25%" />
+      <col style="width:6.25%" />
+      <col style="width:6.25%" />
+      <col style="width:6.25%" />
     </colgroup>
     <thead>
       <tr>
