@@ -118,28 +118,10 @@
 		<!-- Substring after '#' -->
 		<xsl:variable as="xs:string" name="original-id" select="substring(., 2)" />
 
-		<xsl:variable as="element()?" name="target-element"
+		<xsl:variable as="element()" name="target-element"
 			select="local:element-by-id(., $original-id)" />
-
-		<xsl:variable as="xs:string" name="predictable-id">
-			<xsl:choose>
-				<xsl:when test="$target-element">
-					<xsl:sequence select="local:generate-predictable-id($target-element)" />
-				</xsl:when>
-
-				<!-- @href's target element may not exist for pending scenarios: xspec/xspec#85 -->
-				<xsl:when test="parent::a/parent::th/parent::tr/@class eq 'pending'">
-					<!-- Assume that @href is always unique when the scenario is pending -->
-					<xsl:if test="count(//@href[. eq current()]) eq 1">
-						<!-- Use the current element's ID, prefixing 'PENDING_' to it -->
-						<xsl:sequence
-							select="concat('PENDING_', local:generate-predictable-id(parent::element()))"
-						 />
-					</xsl:if>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
-
+		<xsl:variable as="xs:string" name="predictable-id"
+			select="local:generate-predictable-id($target-element)" />
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="concat('#', $predictable-id)" />
 	</xsl:template>
