@@ -17,7 +17,7 @@
             <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">["foo",1,[2,"bar"]]</pseudo-function>
          </x:result>
          <x:test successful="false">
-            <x:label>[Result] should be reported</x:label>
+            <x:label>Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure</x:label>
             <x:expect select="()"/>
          </x:test>
       </x:scenario>
@@ -30,7 +30,7 @@
             <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">map{2:"bar","foo":1}</pseudo-function>
          </x:result>
          <x:test successful="false">
-            <x:label>[Result] should be reported</x:label>
+            <x:label>Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure</x:label>
             <x:expect select="()"/>
          </x:test>
       </x:scenario>
