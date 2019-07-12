@@ -10,7 +10,9 @@
 			<x:call function="exactly-one">
 				<x:param as="array(*)" select="['foo', 1, [2, 'bar']]" />
 			</x:call>
-			<x:expect label="[Result] should be reported" />
+			<x:expect
+				label="Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure"
+			 />
 		</x:scenario>
 
 		<x:scenario label="Map">
@@ -21,7 +23,9 @@
 						2: 'bar'
 					}" />
 			</x:call>
-			<x:expect label="[Result] should be reported" />
+			<x:expect
+				label="Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure"
+			 />
 		</x:scenario>
 	</x:scenario>
 
