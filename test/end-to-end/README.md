@@ -27,7 +27,7 @@ First you need to set up the expected report files. This is a manual operation w
 
 1. Compare the normalized ones (`expected/`) with the original ones (`actual__/`).
 
-	Verify that they are essentially identical. Only the transient parts (`href`, `id`, datetime and file path) should be different.
+	Verify that they are identical, except for the transient parts (`href`, `id`, datetime and file path) and whether the HTML report uses inline CSS styles or a CSS file link.
 
 1. Commit the normalized ones (`expected/`) to the repository.
 
