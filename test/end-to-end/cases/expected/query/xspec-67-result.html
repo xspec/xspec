@@ -103,25 +103,27 @@
             </tbody>
          </table>
          <h3 id="ELEM-87">Comparing different namespaces</h3>
-         <h4 id="ELEM-88">must be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/*/namespace::*</code> from:
-                     </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:namespace-name="namespace-text" /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/*/namespace::*</code> from:
-                     </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:another-namespace-name="another-namespace-text" /&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-88">
+            <h4>must be Failure</h4>
+            <table class="xspecResult">
+               <thead>
+                  <tr>
+                     <th>Result</th>
+                     <th>Expected Result</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <p>XPath <code>/*/namespace::*</code> from:
+                        </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:namespace-name="namespace-text" /&gt;</pre></td>
+                     <td>
+                        <p>XPath <code>/*/namespace::*</code> from:
+                        </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:another-namespace-name="another-namespace-text" /&gt;</pre></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
       </div>
    </body>
 </html>

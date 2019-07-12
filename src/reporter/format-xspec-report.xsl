@@ -300,57 +300,61 @@
   <xsl:apply-templates select="x:test[x:is-failed-test(.)]" mode="x:html-report" />
 </xsl:template>
 
-<xsl:template match="x:test" as="element()+" mode="x:html-report">
-  <xsl:variable name="result" as="element(x:result)"
-    select="if (x:result) then x:result else ../x:result" />
-  <h4 id="{local-name()}-{generate-id()}">
-    <xsl:apply-templates select="x:label" mode="x:html-report" />
-  </h4>
+<xsl:template match="x:test" as="element(xhtml:div)" mode="x:html-report">
+  <div id="{local-name()}-{generate-id()}">
 
-  <!-- True if the expectation is boolean (i.e. x:expect/@test was an xs:boolean at runtime.) -->
-  <xsl:variable as="xs:boolean" name="boolean-test" select="not(x:result) and x:expect/@test" />
+    <xsl:variable name="result" as="element(x:result)"
+      select="if (x:result) then x:result else ../x:result" />
+    <h4>
+      <xsl:apply-templates select="x:label" mode="x:html-report" />
+    </h4>
 
-  <table class="xspecResult">
-    <thead>
-      <tr>
-        <th>Result</th>
-        <th>
-          <xsl:choose>
-            <xsl:when test="$boolean-test">Expecting</xsl:when>
-            <xsl:otherwise>Expected Result</xsl:otherwise>
-          </xsl:choose>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <!-- Actual Result -->
-        <td>
-          <xsl:apply-templates select="$result" mode="x:format-result">
-            <xsl:with-param name="result-to-compare-with" select="x:expect[not($boolean-test)]" />
-          </xsl:apply-templates>
-        </td>
+    <!-- True if the expectation is boolean (i.e. x:expect/@test was an xs:boolean at runtime.) -->
+    <xsl:variable as="xs:boolean" name="boolean-test" select="not(x:result) and x:expect/@test" />
 
-        <td>
-          <xsl:choose>
-            <!-- Boolean expectation -->
-            <xsl:when test="$boolean-test">
-              <pre>
-                <xsl:value-of select="x:expect/@test" />
-              </pre>
-            </xsl:when>
+    <table class="xspecResult">
+      <thead>
+        <tr>
+          <th>Result</th>
+          <th>
+            <xsl:choose>
+              <xsl:when test="$boolean-test">Expecting</xsl:when>
+              <xsl:otherwise>Expected Result</xsl:otherwise>
+            </xsl:choose>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <!-- Actual Result -->
+          <td>
+            <xsl:apply-templates select="$result" mode="x:format-result">
+              <xsl:with-param name="result-to-compare-with" select="x:expect[not($boolean-test)]" />
+            </xsl:apply-templates>
+          </td>
 
-            <!-- Expected Result -->
-            <xsl:otherwise>
-              <xsl:apply-templates select="x:expect" mode="x:format-result">
-                <xsl:with-param name="result-to-compare-with" select="$result" />
-              </xsl:apply-templates>
-            </xsl:otherwise>
-          </xsl:choose>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          <td>
+            <xsl:choose>
+              <!-- Boolean expectation -->
+              <xsl:when test="$boolean-test">
+                <pre>
+                  <xsl:value-of select="x:expect/@test" />
+                </pre>
+              </xsl:when>
+
+              <!-- Expected Result -->
+              <xsl:otherwise>
+                <xsl:apply-templates select="x:expect" mode="x:format-result">
+                  <xsl:with-param name="result-to-compare-with" select="$result" />
+                </xsl:apply-templates>
+              </xsl:otherwise>
+            </xsl:choose>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
 </xsl:template>
 
 <!-- Formats the Actual Result or the Expected Result in HTML -->
