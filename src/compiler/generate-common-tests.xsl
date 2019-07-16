@@ -147,7 +147,8 @@
    </xsl:template>
 
    <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
-      <xsl:attribute name="href" select="resolve-uri(., base-uri(.))"/>
+      <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+         select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
    <xsl:template match="text()[not(normalize-space())]" as="node()?" mode="x:gather-specs">

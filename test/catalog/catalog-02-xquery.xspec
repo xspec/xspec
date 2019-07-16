@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="http://www.functx.com" query-at="../../tutorial/xquery-tutorial.xq"
-	xmlns:functx="http://www.functx.com" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="xspec-tutorial:/xquery-tutorial.xspec" />
+<x:description query="x-urn:test:catalog-02" query-at="02/tested.xquery"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="catalog-02:/imported-xquery.xspec" />
 </x:description>

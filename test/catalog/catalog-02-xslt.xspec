@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-tutorial:/escape-for-regex.xslt"
-	xmlns:functx="http://www.functx.com" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="xspec-tutorial:/escape-for-regex.xspec" />
+<x:description stylesheet="catalog-02:/tested.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="catalog-02:/imported-xslt.xspec" />
 </x:description>

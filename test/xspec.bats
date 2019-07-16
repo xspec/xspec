@@ -553,10 +553,10 @@ teardown() {
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/catalog-02-xslt.xspec -lib "${SAXON_JAR}" -Dxspec.fail=false -Dcatalog=${PWD}/catalog/catalog-02-catalog.xml -lib "${XML_RESOLVER_JAR}"
+    run ant -buildfile ../build.xml -Dxspec.xml=${PWD}/catalog/catalog-02-xslt.xspec -lib "${SAXON_JAR}" -Dcatalog=${PWD}/catalog/catalog-02-catalog.xml -lib "${XML_RESOLVER_JAR}"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
@@ -634,18 +634,18 @@ teardown() {
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/catalog-02-schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/catalog-02-catalog.xml -lib "${XML_RESOLVER_JAR}"
+    run ant -buildfile ../build.xml -Dxspec.xml=${PWD}/catalog/catalog-02-schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/catalog-02-catalog.xml -lib "${XML_RESOLVER_JAR}"
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
     [[ "${output}" =~ "BUILD FAILED" ]]
 
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
 
     # Verify that the build fails after Schematron setup and leaves temp files. Delete them at the same time.
-    rm "catalog/catalog-02-schematron.xspec-compiled.xspec"
-    rm "../tutorial/schematron/demo-04.sch-compiled.xsl"
+    rm catalog/catalog-02-schematron.xspec-compiled.xspec
+    rm catalog/02/tested.sch-compiled.xsl
 }
 
 
@@ -654,10 +654,10 @@ teardown() {
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/catalog/catalog-02-schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/catalog-02-catalog.xml -lib "${XML_RESOLVER_JAR}" -Dxspec.fail=false
+    run ant -buildfile ../build.xml -Dxspec.xml=${PWD}/catalog/catalog-02-schematron.xspec -lib "${SAXON_JAR}" -Dtest.type=s -Dclean.output.dir=true -Dcatalog=${PWD}/catalog/catalog-02-catalog.xml -lib "${XML_RESOLVER_JAR}" -Dxspec.fail=false
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 6 / pending: 0 / failed: 1 / total: 7" ]]
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 }
 
@@ -701,7 +701,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-02-catalog.xml -s catalog/catalog-02-schematron.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[21]}" = "passed: 6 / pending: 0 / failed: 1 / total: 7" ]
+    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
 }
 
 
