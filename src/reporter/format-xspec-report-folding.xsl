@@ -56,9 +56,9 @@ function toggle(scenarioID) {
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />
   <xsl:variable name="any-failure" as="xs:boolean"
-    select="exists(x:test[@successful = 'false'])" />
+    select="exists(x:test[x:is-failed-test(.)])" />
   <xsl:variable name="any-descendant-failure" as="xs:boolean"
-    select="exists(.//x:test[@successful = 'false'])" />
+    select="exists(x:descendant-failed-tests(.))" />
   <div id="{generate-id()}">
     <h2 id="h-{generate-id()}"
       class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
@@ -70,7 +70,7 @@ function toggle(scenarioID) {
       <xsl:apply-templates select="x:label" mode="x:html-report" />
       <span class="scenario-totals">
         <xsl:call-template name="x:totals">
-          <xsl:with-param name="tests" select=".//x:test" />
+          <xsl:with-param name="tests" select="x:descendant-tests(.)" />
         </xsl:call-template>
       </span>
     </h2>
@@ -85,7 +85,7 @@ function toggle(scenarioID) {
           </th>
           <th>
             <xsl:call-template name="x:totals">
-              <xsl:with-param name="tests" select=".//x:test" />
+              <xsl:with-param name="tests" select="x:descendant-tests(.)" />
             </xsl:call-template>
           </th>
         </tr>
@@ -94,7 +94,7 @@ function toggle(scenarioID) {
           <xsl:variable name="pending" as="xs:boolean"
             select="exists(@pending)" />
           <xsl:variable name="any-failure" as="xs:boolean"
-            select="exists(x:test[@successful = 'false'])" />
+            select="exists(x:test[x:is-failed-test(.)])" />
           <xsl:variable name="label" as="node()+">
             <xsl:for-each select="ancestor-or-self::x:scenario[position() != last()]">
               <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -128,7 +128,7 @@ function toggle(scenarioID) {
         </xsl:for-each>
       </tbody>
     </table>
-    <xsl:apply-templates select="descendant-or-self::x:scenario[x:test[@successful = 'false']]" mode="x:html-report" />
+    <xsl:apply-templates select="descendant-or-self::x:scenario[x:test[x:is-failed-test(.)]]" mode="x:html-report" />
   </div>
 </xsl:template>
 

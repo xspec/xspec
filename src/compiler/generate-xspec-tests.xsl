@@ -450,11 +450,9 @@
             <with-param name="wrapper-name" as="xs:string">
                <xsl:value-of select="x:xspec-name('expect')" />
             </with-param>
-            <xsl:if test="@test">
-              <with-param name="test" as="xs:string">
-                <xsl:value-of select="@test"/>
-              </with-param>
-            </xsl:if>
+            <with-param name="test" as="attribute(test)?">
+               <xsl:apply-templates select="@test" mode="test:create-node-generator" />
+            </with-param>
          </call-template>
       </xsl:if>
     </xsl:element>

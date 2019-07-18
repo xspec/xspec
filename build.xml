@@ -78,12 +78,13 @@
   <property name="xspec.coverage.xml"
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-coverage.xml" />
 
-  <!-- "xspec.result.html" property: Used by Oxygen default transformation. DO NOT RENAME.
-    File path of the test result HTML file. -->
+  <!-- "xspec.result.html" property: Documented in Wiki. DO NOT RENAME.
+    File path of the test result HTML file -->
   <property name="xspec.result.html"
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-result.html" />
 
-  <!-- File path of the coverage report HTML file -->
+  <!-- "xspec.coverage.html" property: Documented in Wiki. DO NOT RENAME.
+    File path of the coverage report HTML file -->
   <property name="xspec.coverage.html"
              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-coverage.html" />
 

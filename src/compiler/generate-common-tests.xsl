@@ -48,6 +48,17 @@
        the x:description element, in the mode
    -->
    <xsl:template name="x:generate-tests">
+      <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
+      <xsl:if test="not(node-name(element()) eq $description-name)">
+         <xsl:message terminate="yes">
+            <xsl:text>Source document is not XSpec. /</xsl:text>
+            <xsl:value-of select="$description-name" />
+            <xsl:text> is missing. Supplied source has /</xsl:text>
+            <xsl:value-of select="name(element())"/>
+            <xsl:text> instead.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
@@ -136,7 +147,8 @@
    </xsl:template>
 
    <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
-      <xsl:attribute name="href" select="resolve-uri(., base-uri(.))"/>
+      <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+         select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
    <xsl:template match="text()[not(normalize-space())]" as="node()?" mode="x:gather-specs">

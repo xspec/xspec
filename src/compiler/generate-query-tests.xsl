@@ -436,8 +436,6 @@
 
             <xsl:if test="@test">
                <xsl:text>, </xsl:text>
-
-               <!-- Create @test generator (to escape its value properly) -->
                <xsl:apply-templates select="@test" mode="test:create-node-generator" />
             </xsl:if>
 
