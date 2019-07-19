@@ -298,6 +298,8 @@ declare function test:report-pseudo-item(
         { fn:QName($wrapper-ns, fn:concat($local-name-prefix, x:node-type($item))) }
         { test:report-node($item) }
 
+    (: TODO: function(*) including array(*) and map(*) :)
+
     else
       element 
         { fn:QName($wrapper-ns, fn:concat($local-name-prefix, 'other')) }
