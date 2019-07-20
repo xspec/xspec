@@ -2,16 +2,7 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
     stylesheet="../src/schematron/schut-to-xspec.xsl">
     <x:param name="stylesheet-uri" select="'schut-to-xspec-test.sch.xsl'"/>
-    <x:param name="test-dir-uri" select="
-        resolve-uri(
-            'xspec',
-            concat(
-                'file:',
-                '///'[system-property('file.separator') eq '\'],
-                replace(system-property('java.io.tmpdir'), '\\', '/'),
-                '/'
-            )
-        )"/>
+
     <x:scenario label="templates">
         <x:scenario label="identity">
             <x:context>
@@ -81,9 +72,9 @@
                 href="schematron/schut-to-xspec-007-in.xspec"
                 select="descendant::x:*/@href/resolve-uri(., base-uri()) treat as xs:anyURI" />
         </x:scenario>
-        <x:scenario label="inline" pending="Can't test inline context because of error: &#34;XTDE1480: Cannot execute xsl:result-document while evaluating xsl:variable&#34;">
+        <x:scenario label="inline">
             <x:context href="schematron/schut-to-xspec-008-in.xspec"/>
-            <x:expect label="context href to generated file" href="schematron/schut-to-xspec-008-out.xspec"/>
+            <x:expect label="wrapper document node" href="schematron/schut-to-xspec-008-out.xspec"/>
         </x:scenario>
     </x:scenario>
     <x:scenario label="import">
