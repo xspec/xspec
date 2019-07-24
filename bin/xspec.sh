@@ -304,7 +304,7 @@ fi
 ##
 
 if test -n "$SCHEMATRON"; then
-    echo "Setting up Schematron..."
+    echo "Setting up Schematron preprocessors..."
     
     if test -z "$SCHEMATRON_XSLT_INCLUDE"; then
         SCHEMATRON_XSLT_INCLUDE="$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl";
@@ -335,43 +335,43 @@ if test -n "$SCHEMATRON"; then
         "ACTUAL-PREPROCESSOR-URI=${SCHEMATRON_XSLT_COMPILE_URI}" \
         || die "Error generating Step 3 wrapper XSLT"
     
-    SCHUT=$XSPEC-compiled.xspec
-    SCH_COMPILED="${SCH}-compiled.xsl"
+    SCH_PREPROCESSED_XSPEC=$XSPEC-sch-preprocessed.xspec
+    SCH_PREPROCESSED_XSL="${SCH}-preprocessed.xsl"
     
     echo
-    echo "Compiling the Schematron..."
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" \
+    echo "Converting Schematron into XSLT..."
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
         -s:"$SCH" \
         -xsl:"$SCHEMATRON_XSLT_INCLUDE" \
         -versionmsg:off \
-        || die "Error compiling the Schematron on step 1"
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" \
-        -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" \
+        || die "Error preprocessing Schematron on step 1"
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step2.sch" \
+        -s:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
         -xsl:"$SCHEMATRON_XSLT_EXPAND" \
         -versionmsg:off \
-        || die "Error compiling the Schematron on step 2"
-    xslt -o:"${SCH_COMPILED}" \
-        -s:"${TEST_DIR}/${TARGET_FILE_NAME}-sch-temp2.xml" \
+        || die "Error preprocessing Schematron on step 2"
+    xslt -o:"${SCH_PREPROCESSED_XSL}" \
+        -s:"${TEST_DIR}/${TARGET_FILE_NAME}-step2.sch" \
         -xsl:"${SCH_STEP3_WRAPPER}" \
         -versionmsg:off \
-        || die "Error compiling the Schematron on step 3"
+        || die "Error preprocessing Schematron on step 3"
     
-    # use XQuery to get full URI to compiled Schematron
+    # use XQuery to get full URI to preprocessed Schematron XSLT
     # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" \
-    #     -s:"$SCH_COMPILED" \
+    #     -s:"$SCH_PREPROCESSED_XSL" \
     #     -o:"$TEST_DIR/$TARGET_FILE_NAME-var.txt" \
-    #     || die "Error getting compiled Schematron location"
-    # SCH_COMPILED_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
-    SCH_COMPILED_URI="file:${SCH_COMPILED}"
+    #     || die "Error getting preprocessed Schematron XSLT location"
+    # SCH_PREPROCESSED_XSL_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    SCH_PREPROCESSED_XSL_URI="file:${SCH_PREPROCESSED_XSL}"
     
     echo 
-    echo "Compiling the Schematron tests..."
-    xslt -o:"${SCHUT}" \
+    echo "Converting Schematron XSpec into XSLT XSpec..."
+    xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
-        stylesheet-uri="${SCH_COMPILED_URI}" \
-        || die "Error compiling the Schematron tests"
-    XSPEC=$SCHUT
+        stylesheet-uri="${SCH_PREPROCESSED_XSL_URI}" \
+        || die "Error converting Schematron XSpec into XSLT XSpec"
+    XSPEC="${SCH_PREPROCESSED_XSPEC}"
     
     echo 
 fi
@@ -464,12 +464,12 @@ fi
 ## cleanup
 ##
 if test -n "$SCHEMATRON"; then
-    rm -f "$SCHUT"
+    rm -f "$SCH_PREPROCESSED_XSPEC"
     rm -f "$TEST_DIR/$TARGET_FILE_NAME-var.txt"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml"
+    rm -f "$TEST_DIR/$TARGET_FILE_NAME-step1.sch"
+    rm -f "$TEST_DIR/$TARGET_FILE_NAME-step2.sch"
     rm -f "$SCH_STEP3_WRAPPER"
-    rm -f "$SCH_COMPILED"
+    rm -f "$SCH_PREPROCESSED_XSL"
 fi
 
 echo "Done."
