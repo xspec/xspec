@@ -335,7 +335,7 @@ if test -n "$SCHEMATRON"; then
         "ACTUAL-PREPROCESSOR-URI=${SCHEMATRON_XSLT_COMPILE_URI}" \
         || die "Error generating Step 3 wrapper XSLT"
     
-    SCH_PREPROCESSED_XSPEC=$XSPEC-sch-preprocessed.xspec
+    SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
     SCH_PREPROCESSED_XSL="${SCH}-preprocessed.xsl"
     
     echo

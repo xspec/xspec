@@ -158,7 +158,7 @@ rem ##
         "ACTUAL-PREPROCESSOR-URI=%SCHEMATRON_XSLT_COMPILE_URI%" ^
         || ( call :die "Error generating Step 3 wrapper XSLT" & goto :win_main_error_exit )
     
-    set "SCH_PREPROCESSED_XSPEC=%XSPEC%-sch-preprocessed.xspec"
+    set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
     set "SCH_PREPROCESSED_XSL=%SCH%-preprocessed.xsl"
     
     echo:
