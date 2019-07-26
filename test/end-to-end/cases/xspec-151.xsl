@@ -4,9 +4,9 @@
 	<xsl:import-schema namespace="x-urn:test-mix" schema-location="xspec-151.xsd" />
 
 	<xsl:function as="item()+" name="test-mix:element-and-string">
-		<xsl:element name="test-mix:fooElement" type="test-mix:fooType">
-			<test-mix:barElement />
-		</xsl:element>
-		<xsl:sequence select="'string'" />
+		<xsl:variable as="element(test-mix:fooElement, test-mix:fooType)" name="typed-element">
+			<xsl:copy-of select="doc('xspec-151.xml')/element()" validation="strict" />
+		</xsl:variable>
+		<xsl:sequence select="$typed-element, 'string'" />
 	</xsl:function>
 </xsl:stylesheet>

@@ -21,6 +21,7 @@
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 
 	<!-- XQuery processor capabilities -->
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-DEFAULT" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-QVERSION" required="yes" />
 
@@ -69,70 +70,93 @@
 
 		<xsl:variable as="xs:boolean" name="enable-coverage"
 			select="processing-instruction(xspec-test) = 'enable-coverage'" />
-
-		<xsl:variable as="xs:boolean" name="xquery-3-1-required"
+		<xsl:variable as="xs:boolean" name="require-xslt-to-support-schema"
+			select="processing-instruction(xspec-test) = 'require-xslt-to-support-schema'" />
+		<xsl:variable as="xs:boolean" name="require-xquery-to-support-schema"
+			select="processing-instruction(xspec-test) = 'require-xquery-to-support-schema'" />
+		<xsl:variable as="xs:boolean" name="require-xquery-to-support-3-1"
 			select="x:description/@xquery-version = '3.1'" />
 
-		<xsl:variable as="xs:string?" name="skip">
+		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
+			<xsl:sort select="name()" />
+
+			<xsl:variable as="xs:string" name="test-type">
+				<xsl:choose>
+					<xsl:when test="name() = 'query'">q</xsl:when>
+					<xsl:when test="name() = 'schematron'">s</xsl:when>
+					<xsl:when test="name() = 'stylesheet'">t</xsl:when>
+				</xsl:choose>
+			</xsl:variable>
+
+			<xsl:variable as="xs:string?" name="skip">
+				<xsl:choose>
+					<xsl:when
+						test="
+							($test-type eq 't')
+							and $enable-coverage
+							and not($XSLT-SUPPORTS-COVERAGE)">
+						<xsl:text>Requires XSLT processor to support coverage</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 't')
+							and $require-xslt-to-support-schema
+							and not($XSLT-SUPPORTS-SCHEMA)">
+						<xsl:text>Requires schema-aware XSLT processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 'q')
+							and $require-xquery-to-support-schema
+							and not($XQUERY-SUPPORTS-SCHEMA)">
+						<xsl:text>Requires schema-aware XQuery processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 'q')
+							and $require-xquery-to-support-3-1
+							and not($XQUERY-SUPPORTS-3-1-DEFAULT or $XQUERY-SUPPORTS-3-1-QVERSION)">
+						<xsl:text>Requires XQuery 3.1 processor</xsl:text>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:variable>
+
+			<xsl:variable as="xs:string?" name="skip">
+				<xsl:if test="$skip">
+					<xsl:value-of>
+						<xsl:text>Skipping </xsl:text>
+						<xsl:value-of select="x:filename-and-extension($xspec-file-uri)" />
+						<xsl:text> [</xsl:text>
+						<xsl:value-of select="$test-type" />
+						<xsl:if test="$enable-coverage">
+							<xsl:text>c</xsl:text>
+						</xsl:if>
+						<xsl:text>]: </xsl:text>
+						<xsl:value-of select="$skip" />
+					</xsl:value-of>
+				</xsl:if>
+			</xsl:variable>
+
 			<xsl:choose>
-				<xsl:when test="
-						$enable-coverage
-						and not($XSLT-SUPPORTS-COVERAGE)">
-					<xsl:text>Requires XSLT processor to support coverage</xsl:text>
+				<xsl:when test="$skip">
+					<xsl:message select="$skip" />
+					<xsl:comment select="$skip" />
 				</xsl:when>
 
-				<xsl:when
-					test="
-						(processing-instruction(xspec-test) = 'require-xslt-to-support-schema')
-						and not($XSLT-SUPPORTS-SCHEMA)">
-					<xsl:text>Requires schema-aware XSLT processor</xsl:text>
-				</xsl:when>
-
-				<xsl:when
-					test="
-						$xquery-3-1-required
-						and not($XQUERY-SUPPORTS-3-1-DEFAULT or $XQUERY-SUPPORTS-3-1-QVERSION)">
-					<xsl:text>Requires XQuery 3.1 processor</xsl:text>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable as="xs:string?" name="skip">
-			<xsl:if test="$skip">
-				<xsl:value-of>
-					<xsl:text>Skipping </xsl:text>
-					<xsl:value-of select="x:filename-and-extension($xspec-file-uri)" />
-					<xsl:text>: </xsl:text>
-					<xsl:value-of select="$skip" />
-				</xsl:value-of>
-			</xsl:if>
-		</xsl:variable>
-
-		<xsl:choose>
-			<xsl:when test="$skip">
-				<xsl:message select="$skip" />
-				<xsl:comment select="$skip" />
-			</xsl:when>
-
-			<xsl:otherwise>
-				<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
-					<xsl:sort select="name()" />
-
-					<xsl:variable as="xs:string" name="test-type">
-						<xsl:choose>
-							<xsl:when test="name() = 'query'">q</xsl:when>
-							<xsl:when test="name() = 'schematron'">s</xsl:when>
-							<xsl:when test="name() = 'stylesheet'">t</xsl:when>
-						</xsl:choose>
-					</xsl:variable>
-
+				<xsl:otherwise>
 					<run-xspec test-type="{$test-type}" xspec-file-url="{$xspec-file-uri}">
 						<xsl:if test="$enable-coverage">
 							<xsl:attribute name="enable-coverage" select="$enable-coverage" />
 						</xsl:if>
 
 						<xsl:if
-							test="($test-type eq 'q') and $xquery-3-1-required and $XQUERY-SUPPORTS-3-1-QVERSION">
+							test="
+								($test-type eq 'q')
+								and $require-xquery-to-support-3-1
+								and $XQUERY-SUPPORTS-3-1-QVERSION">
 							<xsl:attribute name="saxon-custom-options" select="'-qversion:3.1'" />
 						</xsl:if>
 
@@ -140,9 +164,9 @@
 							<xsl:with-param name="coverage-enabled" select="$enable-coverage" />
 						</xsl:call-template>
 					</run-xspec>
-				</xsl:for-each>
-			</xsl:otherwise>
-		</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:for-each>
 	</xsl:template>
 
 	<!--
