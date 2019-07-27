@@ -978,7 +978,7 @@ teardown() {
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[${#lines[@]}-3]}" =~ ":err:XPDY0002:" ]]
+    [[ "${lines[${#lines[@]}-3]}" =~ "err:XPDY0002:" ]]
     [[ "${lines[${#lines[@]}-1]}" =~ "ERROR:" ]]
 }
 
