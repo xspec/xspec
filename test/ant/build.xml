@@ -85,6 +85,7 @@
 				type="BOOLEAN" />
 			<param expression="${xquery.supports.3-1.qversion}" name="XQUERY-SUPPORTS-3-1-QVERSION"
 				type="BOOLEAN" />
+			<param expression="${run-xspec-tests.now}" if="run-xspec-tests.now" name="NOW" />
 		</xslt>
 	</target>
 

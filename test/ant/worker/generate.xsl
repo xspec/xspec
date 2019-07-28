@@ -25,6 +25,9 @@
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-DEFAULT" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-QVERSION" required="yes" />
 
+	<!-- Saxon -now option -->
+	<xsl:param as="xs:string?" name="NOW" />
+
 	<!--
 		mode=#default
 			Transforms a template of Ant build file into a working build file.
@@ -152,12 +155,22 @@
 							<xsl:attribute name="enable-coverage" select="$enable-coverage" />
 						</xsl:if>
 
-						<xsl:if
-							test="
-								($test-type eq 'q')
-								and $require-xquery-to-support-3-1
-								and $XQUERY-SUPPORTS-3-1-QVERSION">
-							<xsl:attribute name="saxon-custom-options" select="'-qversion:3.1'" />
+						<xsl:variable as="xs:string*" name="saxon-custom-options">
+							<xsl:if test="$NOW">
+								<xsl:sequence select="concat('-now:', $NOW)" />
+							</xsl:if>
+
+							<xsl:if
+								test="
+									($test-type eq 'q')
+									and $require-xquery-to-support-3-1
+									and $XQUERY-SUPPORTS-3-1-QVERSION">
+								<xsl:sequence select="'-qversion:3.1'" />
+							</xsl:if>
+						</xsl:variable>
+						<xsl:if test="exists($saxon-custom-options)">
+							<xsl:attribute name="saxon-custom-options"
+								select="$saxon-custom-options" />
 						</xsl:if>
 
 						<xsl:call-template name="on-run-xspec">
