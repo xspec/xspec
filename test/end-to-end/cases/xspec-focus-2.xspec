@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       test/xspec-pending.xspec                                 -->
+<!--  File:       xspec-focus-2.xspec                                      -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
@@ -30,7 +30,7 @@
          <t:expect label="it would return Success if it were not Pending" select="9"/>
       </t:scenario>
 
-      <t:scenario label="a focused correct scenario in x:pending" focus="testing @focus">
+      <t:scenario label="a focused correct scenario in x:pending" focus="testing @focus in x:pending">
          <t:call function="my:square">
             <t:param select="3"/>
          </t:call>
@@ -49,7 +49,7 @@
       <t:expect label="it would return Success if it were not Pending" select="9"/>
    </t:scenario>
 
-   <t:scenario label="a focused correct scenario alongside another focused scenario" focus="testing @focus">
+   <t:scenario label="a focused correct scenario alongside another focused scenario" focus="testing @focus alongside another focused scenario">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
@@ -60,7 +60,7 @@
        Test @pending.
    -->
    <t:scenario label="a correct scenario with @pending must be Pending"
-               pending="testing @pending">
+               pending="testing @pending without @focus">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
@@ -69,8 +69,8 @@
 
    <!-- does not make sense, really, but to see how the implem reacts -->
    <t:scenario label="a correct scenario with both @pending and @focus (not recommended as ambiguous)"
-               pending="testing @pending"
-               focus="testing @focus">
+               pending="testing @pending with @focus"
+               focus="testing @focus with @pending">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
