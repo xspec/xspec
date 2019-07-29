@@ -17,7 +17,7 @@
             <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
          </x:result>
          <x:test successful="false">
-            <x:label>[Result] should be reported</x:label>
+            <x:label>Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure</x:label>
             <x:expect select="()"/>
          </x:test>
       </x:scenario>
@@ -30,7 +30,7 @@
             <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
          </x:result>
          <x:test successful="false">
-            <x:label>[Result] should be reported</x:label>
+            <x:label>Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure</x:label>
             <x:expect select="()"/>
          </x:test>
       </x:scenario>
