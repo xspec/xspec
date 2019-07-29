@@ -3,6 +3,6 @@
     schematron="..." xspec-original-location="..."
     stylesheet="schut-to-xspec-test.sch.xsl">
     <x:scenario label="Schematron test scenario">
-        <x:context href="schut-to-xspec-007.xml"/>
+        <x:context href="..."/>
     </x:scenario>
 </x:description>

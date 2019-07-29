@@ -280,10 +280,7 @@
 	<case name="invoking xspec with the -s option does not display Schematron warnings #129 #131 and removes temporary files">
     call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
     call :verify_retval 0
-    call :verify_line 4 x "Compiling the Schematron tests..."
-
-    rem Cleanup removes compiled .xspec
-    call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
+    call :verify_line 4 x "Converting Schematron XSpec into XSLT XSpec..."
 
     rem Cleanup removes temporary files in TEST_DIR
     call :run dir /b /o:n ..\tutorial\schematron\xspec
@@ -440,10 +437,9 @@
     call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
-    rem Verify that the default clean.output.dir is false and leaves temp files. Delete the left files at the same time.
+    rem Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
     call :verify_exist ..\tutorial\schematron\xspec\
-    call :del          ..\tutorial\schematron\demo-03.xspec-compiled.xspec
-    call :del          ..\tutorial\schematron\demo-03.sch-compiled.xsl
+    call :del          ..\tutorial\schematron\demo-03.sch-preprocessed.xsl
 	</case>
 
 	<case name="Ant for Schematron with various properties except catalog">
@@ -466,8 +462,7 @@
 
     rem Verify clean.output.dir=true
     call :verify_not_exist "%ANT_TEST_DIR%"
-    call :verify_not_exist ..\tutorial\schematron\demo-03.xspec-compiled.xspec
-    call :verify_not_exist ..\tutorial\schematron\demo-03.sch-compiled.xsl
+    call :verify_not_exist ..\tutorial\schematron\demo-03.sch-preprocessed.xsl
 	</case>
 
 	<case ifdef="XML_RESOLVER_JAR" name="Ant for Schematron with catalog and default xspec.fail resolves URI and fails on test failure">
@@ -479,9 +474,8 @@
     rem Verify the build fails before cleanup
     call :verify_exist catalog\xspec\
 
-    rem Verify that the build fails after Schematron setup and leaves temp files. Delete them at the same time.
-    call :del catalog\catalog-02-schematron.xspec-compiled.xspec
-    call :del catalog\02\tested.sch-compiled.xsl
+    rem Verify that the build fails after Schematron setup and leaves temp XSLT file. Delete it at the same time.
+    call :del catalog\02\tested.sch-preprocessed.xsl
 	</case>
 
 	<case ifdef="XML_RESOLVER_JAR" name="Ant for Schematron with catalog and xspec.fail=false resolves URI and continues on test failure">
@@ -728,7 +722,7 @@
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xslt-harness.xproc
     call :verify_retval 1
-    call :verify_line -3 r "..*:err:XPDY0002:"
+    call :verify_line -3 r "..*err:XPDY0002:"
     call :verify_line -1 r "ERROR:"
 	</case>
 

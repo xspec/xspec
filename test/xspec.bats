@@ -387,10 +387,7 @@ teardown() {
     run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[3]}" == "Compiling the Schematron tests..." ]
-
-    # Cleanup removes compiled .xspec
-    [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
+    [ "${lines[3]}" == "Converting Schematron XSpec into XSLT XSpec..." ]
 
     # Cleanup removes temporary files in TEST_DIR
     run ls ../tutorial/schematron/xspec
@@ -596,10 +593,9 @@ teardown() {
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
 
-    # Verify that the default clean.output.dir is false and leaves temp files. Delete the left files at the same time.
+    # Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
-    rm    "../tutorial/schematron/demo-03.xspec-compiled.xspec"
-    rm    "../tutorial/schematron/demo-03.sch-compiled.xsl"
+    rm    "../tutorial/schematron/demo-03.sch-preprocessed.xsl"
 }
 
 
@@ -624,8 +620,7 @@ teardown() {
 
     # Verify clean.output.dir=true
     [ ! -d "${ant_test_dir}" ]
-    [ ! -f "../tutorial/schematron/demo-03.xspec-compiled.xspec" ]
-    [ ! -f "../tutorial/schematron/demo-03.sch-compiled.xsl" ]
+    [ ! -f "../tutorial/schematron/demo-03.sch-preprocessed.xsl" ]
 }
 
 
@@ -643,9 +638,8 @@ teardown() {
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
 
-    # Verify that the build fails after Schematron setup and leaves temp files. Delete them at the same time.
-    rm catalog/catalog-02-schematron.xspec-compiled.xspec
-    rm catalog/02/tested.sch-compiled.xsl
+    # Verify that the build fails after Schematron setup and leaves temp XSLT file. Delete it at the same time.
+    rm catalog/02/tested.sch-preprocessed.xsl
 }
 
 
@@ -986,7 +980,7 @@ teardown() {
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[${#lines[@]}-3]}" =~ ":err:XPDY0002:" ]]
+    [[ "${lines[${#lines[@]}-3]}" =~ "err:XPDY0002:" ]]
     [[ "${lines[${#lines[@]}-1]}" =~ "ERROR:" ]]
 }
 

@@ -3,7 +3,7 @@
     schematron="..." xspec-original-location="..."
     stylesheet="schut-to-xspec-test.sch.xsl">
     <x:scenario label="s1" shared="yes">
-        <x:context href="schut-to-xspec-test.sch"/>
+        <x:context href="..."/>
     </x:scenario>
     <x:scenario label="s2">
         <x:like label="s1"/>

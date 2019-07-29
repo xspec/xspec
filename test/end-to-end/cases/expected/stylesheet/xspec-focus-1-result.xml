@@ -5,23 +5,23 @@
           xmlns:t="http://www.jenitennison.com/xslt/xspec"
           xmlns:my="http://example.org/ns/my"
           stylesheet="../../../../xspec-tested.xsl"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           xspec="../../xspec-focus-1.xspec">
-   <t:scenario pending="testing @focus">
+   <t:scenario pending="testing @focus of a correct scenario">
       <t:label>an unfocused correct scenario must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:test pending="testing @focus">
+      <t:test pending="testing @focus of a correct scenario">
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @focus">
+   <t:scenario pending="testing @focus of a correct scenario">
       <t:label>an unfocused incorrect scenario must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
-      <t:test pending="testing @focus">
+      <t:test pending="testing @focus of a correct scenario">
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>

@@ -10,14 +10,14 @@ env:
         - XML_RESOLVER_JAR=/tmp/xspec/xml-resolver/resolver.jar
     matrix:
         # latest Saxon 9.9 version and Jing
-        - SAXON_VERSION=9.9.1-2
-          JING_VERSION=20181222
-        # latest Saxon 9.8 version
         #   * XML Calabash will use Saxon jar in its own lib directory.
         #   * BaseX test requires XML Calabash.
-        - SAXON_VERSION=9.8.0-14
-          XMLCALABASH_VERSION=1.1.24-98
+        - SAXON_VERSION=9.9.1-2
+          JING_VERSION=20181222
+          XMLCALABASH_VERSION=1.1.26-99
           BASEX_VERSION=8.6.4
+        # latest Saxon 9.8 version
+        - SAXON_VERSION=9.8.0-15
         # Saxon version used in oXygen
         - SAXON_VERSION=9.8.0-12
 

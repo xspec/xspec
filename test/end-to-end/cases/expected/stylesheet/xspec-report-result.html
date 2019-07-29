@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for do-nothing.xsl (passed: 0 / pending: 0 / failed: 4 / total: 4)</title>
+      <title>Test Report for do-nothing.xsl (passed: 0 / pending: 0 / failed: 5 / total: 5)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
       <p>Stylesheet: <a href="../../../../do-nothing.xsl">do-nothing.xsl</a></p>
       <p>XSpec: <a href="../../xspec-report.xspec">xspec-report.xspec</a></p>
-      <p>Tested: ONCE-UPON-A-TIME</p>
+      <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
          <col width="75%" />
@@ -21,8 +21,8 @@
                <th></th>
                <th class="totals">passed: 0</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 4</th>
-               <th class="totals">total: 4</th>
+               <th class="totals">failed: 5</th>
+               <th class="totals">total: 5</th>
             </tr>
          </thead>
          <tbody>
@@ -30,25 +30,25 @@
                <th><a href="#ELEM-54">Function (xspec/xspec#355)</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">1</th>
+               <th class="totals">2</th>
+               <th class="totals">2</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-86">Element, attribute (xspec/xspec#357)</a></th>
-               <th class="totals">0</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="failed">
-               <th><a href="#ELEM-122">Attributes of the same name (xspec/xspec#358)</a></th>
+               <th><a href="#ELEM-118">Element, attribute (xspec/xspec#357)</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-157">Attribute, element, attribute (xspec/xspec#360)</a></th>
+               <th><a href="#ELEM-154">Attributes of the same name (xspec/xspec#358)</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#ELEM-189">Attribute, element, attribute (xspec/xspec#360)</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -57,25 +57,41 @@
          </tbody>
       </table>
       <div id="ELEM-54">
-         <h2 class="failed">Function (xspec/xspec#355)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <h2 class="successful">Function (xspec/xspec#355)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 2 / total: 2</span></h2>
          <table class="xspec" id="ELEM-56">
             <col width="75%" />
             <col width="25%" />
             <tbody>
-               <tr class="failed">
+               <tr class="successful">
                   <th>Function (xspec/xspec#355)</th>
+                  <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#ELEM-79">Array</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-68">[Result] should be reported</a></td>
+                  <td><a href="#ELEM-80">Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported
+                        upon failure</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#ELEM-98">Map</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-99">Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported
+                        upon failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-67">
-            <h3>Function (xspec/xspec#355)</h3>
-            <div id="ELEM-68">
-               <h4>[Result] should be reported</h4>
+         <div id="ELEM-79">
+            <h3>Function (xspec/xspec#355) Array</h3>
+            <div id="ELEM-80">
+               <h4>Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported
+                  upon failure
+               </h4>
                <table class="xspecResult">
                   <thead>
                      <tr>
@@ -87,7 +103,31 @@
                      <tr>
                         <td>
                            <p>XPath <code>/*</code> from:
-                           </p><pre>&lt;<span class="diff">pseudo-other</span> /&gt;</pre></td>
+                           </p><pre>&lt;<span class="diff">pseudo-function</span>&gt;<span class="diff">["foo",1,[2,"bar"]]</span>&lt;/pseudo-function&gt;</pre></td>
+                        <td><pre>()</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-98">
+            <h3>Function (xspec/xspec#355) Map</h3>
+            <div id="ELEM-99">
+               <h4>Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported
+                  upon failure
+               </h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/*</code> from:
+                           </p><pre>&lt;<span class="diff">pseudo-function</span>&gt;<span class="diff">map{2:"bar","foo":1}</span>&lt;/pseudo-function&gt;</pre></td>
                         <td><pre>()</pre></td>
                      </tr>
                   </tbody>
@@ -95,9 +135,9 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-86">
+      <div id="ELEM-118">
          <h2 class="failed">Element, attribute (xspec/xspec#357)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-88">
+         <table class="xspec" id="ELEM-120">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -106,14 +146,14 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-100">@attr should be reported as an attribute</a></td>
+                  <td><a href="#ELEM-132">@attr should be reported as an attribute</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-99">
+         <div id="ELEM-131">
             <h3>Element, attribute (xspec/xspec#357)</h3>
-            <div id="ELEM-100">
+            <div id="ELEM-132">
                <h4>@attr should be reported as an attribute</h4>
                <table class="xspecResult">
                   <thead>
@@ -137,9 +177,9 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-122">
+      <div id="ELEM-154">
          <h2 class="failed">Attributes of the same name (xspec/xspec#358)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-124">
+         <table class="xspec" id="ELEM-156">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -148,14 +188,14 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-136">Both @attr=foo and @attr=bar should be reported</a></td>
+                  <td><a href="#ELEM-168">Both @attr=foo and @attr=bar should be reported</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-135">
+         <div id="ELEM-167">
             <h3>Attributes of the same name (xspec/xspec#358)</h3>
-            <div id="ELEM-136">
+            <div id="ELEM-168">
                <h4>Both @attr=foo and @attr=bar should be reported</h4>
                <table class="xspecResult">
                   <thead>
@@ -177,9 +217,9 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-157">
+      <div id="ELEM-189">
          <h2 class="failed">Attribute, element, attribute (xspec/xspec#360)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-159">
+         <table class="xspec" id="ELEM-191">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -188,14 +228,14 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-171">[Result] should be reported</a></td>
+                  <td><a href="#ELEM-203">[Result] should be reported</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-170">
+         <div id="ELEM-202">
             <h3>Attribute, element, attribute (xspec/xspec#360)</h3>
-            <div id="ELEM-171">
+            <div id="ELEM-203">
                <h4>[Result] should be reported</h4>
                <table class="xspecResult">
                   <thead>

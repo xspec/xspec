@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-mix:fooElement xmlns:test-mix="x-urn:test-mix">
+	<test-mix:barElement />
+</test-mix:fooElement>

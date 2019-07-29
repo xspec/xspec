@@ -3,7 +3,7 @@
 <t:report xmlns:my="http://example.org/ns/my"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-pending.xspec">
@@ -47,21 +47,21 @@
          <t:expect test="$t:result instance of xs:string" select="()"/>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @pending">
+   <t:scenario pending="testing @pending of a correct scenario">
       <t:label>a correct scenario with @pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:test pending="testing @pending">
+      <t:test pending="testing @pending of a correct scenario">
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @pending">
+   <t:scenario pending="testing @pending of an incorrect scenario">
       <t:label>an incorrect scenario with @pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
-      <t:test pending="testing @pending">
+      <t:test pending="testing @pending of an incorrect scenario">
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>

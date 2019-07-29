@@ -68,22 +68,6 @@
 	</xsl:template>
 
 	<!--
-		Normalizes datetime
-			Example:
-				in:  <p>Tested: 23 February 2017 at 11:18</p>
-				out: <p>Tested: ONCE-UPON-A-TIME</p>
-	-->
-	<xsl:template as="text()" match="/html/body/p[starts-with(., 'Tested:')]/text()"
-		mode="normalizer:normalize">
-		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
-		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
-			<xsl:matching-substring>
-				<xsl:value-of select="regex-group(1), 'ONCE-UPON-A-TIME'" />
-			</xsl:matching-substring>
-		</xsl:analyze-string>
-	</xsl:template>
-
-	<!--
 		Normalizes the link to the files created dynamically by XSpec
 	-->
 	<xsl:template as="attribute(href)"

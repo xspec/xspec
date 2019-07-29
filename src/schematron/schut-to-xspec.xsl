@@ -6,10 +6,6 @@
                 exclude-result-prefixes="#all">
     
     <xsl:param name="stylesheet-uri" select="concat(x:description/@schematron, '.xsl')"/>
-    
-    <!-- Absolute URI of TEST_DIR -->
-    <xsl:param name="test-dir-uri" as="xs:anyURI" required="yes"/>
-    
 
     <xsl:include href="../common/xspec-utils.xsl"/>
 
@@ -65,19 +61,40 @@
         </xsl:choose>
     </xsl:template>
     
+    <!-- Schematron skeleton implementation requires a document node -->
     <xsl:template match="x:context[not(@href)][
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
         parent::*/x:expect-report | parent::*/x:expect-not-report |
-        parent::*/x:expect-valid | ancestor::x:description[@schematron] ]">
-        <xsl:variable name="file" as="xs:anyURI" select="resolve-uri(
-            concat('context-', generate-id(), '.xml'),
-            concat($test-dir-uri, '/'))"/>
-        <xsl:result-document href="{$file}">
-            <xsl:copy-of select="./node()"/>
-        </xsl:result-document>
-        <xsl:element name="x:context">
-            <xsl:attribute name="href" select="$file"/>
-        </xsl:element>
+        parent::*/x:expect-valid | ancestor::x:description[@schematron] ]"
+        as="element(x:context)">
+        <xsl:copy>
+            <xsl:apply-templates select="attribute()" />
+            <xsl:attribute name="select">
+                <xsl:choose>
+                    <xsl:when test="@select">
+                        <xsl:text>if (test:wrappable-sequence((</xsl:text>
+                        <xsl:value-of select="@select" />
+                        <xsl:text>))) then test:wrap-nodes((</xsl:text>
+                        <xsl:value-of select="@select" />
+                        <xsl:text>)) else </xsl:text>
+
+                        <!-- Some Schematron implementations might possibly be able to handle
+                            non-document nodes. Just generate a warning and pass @select as is. -->
+                        <xsl:text>trace((</xsl:text>
+                        <xsl:value-of select="@select" />
+                        <xsl:text>), 'WARNING: Failed to wrap </xsl:text>
+                        <xsl:value-of select="name()" />
+                        <xsl:text>/@select')</xsl:text>
+                    </xsl:when>
+
+                    <xsl:otherwise>
+                        <xsl:text>self::document-node()</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
+
+            <xsl:apply-templates select="node()" />
+        </xsl:copy>
     </xsl:template>
     
     <xsl:template match="x:expect-assert">
@@ -178,6 +195,11 @@
                 <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
             </xsl:attribute>
         </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="x:*/@href" as="attribute(href)">
+        <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+            select="resolve-uri(., x:base-uri(.))" />
     </xsl:template>
     
 </xsl:stylesheet>

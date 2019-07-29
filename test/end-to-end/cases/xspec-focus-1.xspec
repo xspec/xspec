@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       test/xspec-pending.xspec                                 -->
+<!--  File:       xspec-focus-1.xspec                                      -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
@@ -38,14 +38,14 @@
    <!--
        Focused on scenarios.
    -->
-   <t:scenario label="a focused correct scenario" focus="testing @focus">
+   <t:scenario label="a focused correct scenario" focus="testing @focus of a correct scenario">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:expect label="must execute the test and return Success" select="9"/>
    </t:scenario>
 
-   <t:scenario label="a focused incorrect scenario" focus="testing @focus">
+   <t:scenario label="a focused incorrect scenario" focus="testing @focus of an incorrect scenario">
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>

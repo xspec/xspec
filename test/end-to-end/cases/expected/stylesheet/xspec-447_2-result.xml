@@ -4,7 +4,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../../../do-nothing.xsl"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           xspec="../../xspec-447_2.xspec">
    <x:scenario pending="x:pending/@label containing }{">
       <x:label>should not affect test</x:label>

@@ -5,7 +5,7 @@
           xmlns:myv="http://example.org/ns/my/variable"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../xspec-450-451.xsl"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           xspec="../../xspec-450-451_stylesheet.xspec">
    <x:scenario>
       <x:label>context template-param containing curly brackets</x:label>

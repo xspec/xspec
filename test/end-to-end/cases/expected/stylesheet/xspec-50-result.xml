@@ -4,7 +4,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../xspec-50.xsl"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           xspec="../../xspec-50.xspec">
    <x:scenario>
       <x:label>Expecting xs:hexBinary('0123') when $x:result is xs:untypedAtomic('0123')</x:label>

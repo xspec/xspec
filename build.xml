@@ -129,9 +129,9 @@
 
   <!-- File path of the XSpec file after preprocessing.
     XSLT and XQuery: This property is just the alias of the original XSpec file.
-    Schematron: This file is created while preprocessing at "STEP 4" and deleted by cleanup. -->
+    Schematron: This file is created while preprocessing at preprocess-schematron-xspec and deleted by cleanup. -->
   <condition property="xspec.xspecfile.preprocessed"
-             value="${xspec.xspecfile.original}-compiled.xspec"
+             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-preprocessed.xspec"
              else="${xspec.xspecfile.original}">
     <istrue value="${xspec.is.schematron}" />
   </condition>
@@ -259,9 +259,13 @@
 
   <!-- Sets up the preprocessors for Schematron -->
   <target name="setup-schematron-preprocessor" if="${xspec.is.schematron}">
-    <!-- For Step 1 and 2: Location of the preprocessor XSLT files -->
+    <!-- "xspec.schematron.preprocessor.step1" property: Documented in Wiki. DO NOT RENAME.
+      File path of the Step 1 preprocessor XSLT file -->
     <property name="xspec.schematron.preprocessor.step1"
               value="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
+
+    <!-- "xspec.schematron.preprocessor.step2" property: Documented in Wiki. DO NOT RENAME.
+      File path of the Step 2 preprocessor XSLT file -->
     <property name="xspec.schematron.preprocessor.step2"
               value="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
 
@@ -271,7 +275,10 @@
     <property name="xspec.schematron.preprocessor.step3.wrapper"
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-step3-wrapper.xsl" />
 
-    <!-- URL of the actual preprocessor -->
+    <!-- "xspec.schematron.preprocessor.step3" property: Documented in Wiki. DO NOT RENAME.
+      File path of the actual Step 3 preprocessor XSLT file -->
+    <!-- "xspec.schematron.preprocessor.step3.url" property:
+      URL of the actual preprocessor -->
     <makeurl property="xspec.schematron.preprocessor.step3.url"
              file="${xspec.schematron.preprocessor.step3}"
              if:set="xspec.schematron.preprocessor.step3" />
@@ -287,22 +294,22 @@
     </saxon-xslt>
   </target>
 
-  <!-- Preprocesses the XSpec file for Schematron -->
-  <target name="preprocess-schematron"
+  <!-- Converts Schematron into XSLT -->
+  <target name="preprocess-schematron-xslt"
           depends="locate-schematron-file, setup-schematron-preprocessor"
           if="${xspec.is.schematron}">
     <!-- Location of the temporary files -->
     <property name="xspec.schematron.preprocessed.step1"
-              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-temp1.xml" />
+              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-step1.sch" />
     <property name="xspec.schematron.preprocessed.step2"
-              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-temp2.xml" />
+              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-step2.sch" />
 
-    <!-- Location of the preprocessed Schematron XSL file.
+    <!-- Location of the preprocessed Schematron XSLT file.
       Since the original Schematron file may reference other files at relative paths,
-      the preprocessed XSL file needs to go in the same folder as the original Schematron file.
+      the preprocessed XSLT file needs to go in the same folder as the original Schematron file.
       This file is created at "STEP 3" and deleted by cleanup. -->
     <property name="xspec.schematron.preprocessed.xsl.file"
-              value="${xspec.schematron.file}-compiled.xsl" />
+              value="${xspec.schematron.file}-preprocessed.xsl" />
 
     <echo message="STEP 1: Include modules"
           level="info" />
@@ -321,26 +328,26 @@
     <saxon-xslt in="${xspec.schematron.preprocessed.step2}"
                 out="${xspec.schematron.preprocessed.xsl.file}"
                 style="${xspec.schematron.preprocessor.step3.wrapper}" />
+  </target>
 
+  <!-- Converts Schematron XSpec into XSLT XSpec -->
+  <target name="preprocess-schematron-xspec"
+          depends="preprocess-schematron-xslt"
+          if="${xspec.is.schematron}">
     <makeurl property="xspec.schematron.preprocessed.xsl.url"
              file="${xspec.schematron.preprocessed.xsl.file}" />
-    <makeurl property="xspec.output.dir.url"
-             file="${xspec.output.dir}" />
 
-    <echo message="STEP 4: Convert XSpec into another XSpec that references the generated XSLT"
-          level="info" />
     <saxon-xslt in="${xspec.xspecfile.original}"
                 out="${xspec.xspecfile.preprocessed}"
                 style="${xspec.project.dir}/src/schematron/schut-to-xspec.xsl">
       <xslt-elements>
         <param name="stylesheet-uri" expression="${xspec.schematron.preprocessed.xsl.url}" />
-        <param name="test-dir-uri" expression="${xspec.output.dir.url}" />
       </xslt-elements>
     </saxon-xslt>
   </target>
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
-  <target name="compile" depends="init, preprocess-schematron">
+  <target name="compile" depends="init, preprocess-schematron-xspec">
     <condition property="xspec.compiler.xsl"
                value="generate-query-tests.xsl"
                else="generate-xspec-tests.xsl">
@@ -502,7 +509,6 @@
       <delete dir="${xspec.output.dir}" />
     </retry>
 
-    <delete file="${xspec.xspecfile.preprocessed}" if:true="${xspec.is.schematron}" />
     <delete file="${xspec.schematron.preprocessed.xsl.file}" />
   </target>
 

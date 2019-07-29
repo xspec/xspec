@@ -42,10 +42,10 @@
   <xsl:param name="var" as="xs:string" required="yes" />
   <xsl:param name="type" as="xs:string" select="'variable'" />
   <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
-  <xsl:variable name="variable_is_pending" as="xs:boolean"
+  <xsl:variable name="variable-is-pending" as="xs:boolean"
     select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
   <xsl:variable name="var-doc" as="xs:string?"
-    select="if (not($variable_is_pending) and (node() or @href)) then concat($var, '-doc') else ()" />
+    select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
 
   <xsl:if test="$var-doc">
     <variable name="{$var-doc}" as="document-node()">
@@ -72,7 +72,7 @@
     <xsl:sequence select="@as" />
 
     <xsl:choose>
-      <xsl:when test="$variable_is_pending">
+      <xsl:when test="$variable-is-pending">
         <!-- Do not give variable a value, because the value specified in test file
              might not be executable. Override data type, because an empty
              sequence might not be valid for the type specified in test file. -->

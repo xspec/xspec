@@ -188,7 +188,8 @@
        corresponding call instruction at some point).
    -->
    <xsl:template name="x:call-scenarios">
-      <xsl:param name="pending" select="this//@focus" tunnel="yes" as="node()?"/>
+      <!-- Default value of $pending does not affect compiler output but is here if needed in the future -->
+      <xsl:param name="pending" select="(.//@focus)[1]" tunnel="yes" as="node()?"/>
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
          <xsl:sequence select="
