@@ -4,13 +4,13 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../schematron-01.sch-preprocessed.xsl"
+          stylesheet="../../../../schematron-01.sch-preprocessed.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../schematron-01.xspec"
-          schematron="../../schematron-01.sch">
+          schematron="../../../../schematron-01.sch">
    <x:scenario>
       <x:label>schematron-01</x:label>
-      <x:context href="../../schematron-01.xml"/>
+      <x:context href="../../../../schematron-01.xml"/>
       <x:scenario>
          <x:label>article should have a title</x:label>
          <x:result select="/element()">
@@ -24,7 +24,7 @@
 		   
 		   
 		 -->
-               <svrl:active-pattern document="../../schematron-01.xml"/>
+               <svrl:active-pattern document="../../../../schematron-01.xml"/>
                <svrl:fired-rule context="article"/>
                <svrl:fired-rule context="section"/>
                <svrl:fired-rule context="section"/>
@@ -60,7 +60,7 @@
 		   
 		   
 		 -->
-               <svrl:active-pattern document="../../schematron-01.xml"/>
+               <svrl:active-pattern document="../../../../schematron-01.xml"/>
                <svrl:fired-rule context="article"/>
                <svrl:fired-rule context="section"/>
                <svrl:fired-rule context="section"/>
