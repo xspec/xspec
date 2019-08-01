@@ -39,7 +39,6 @@
 			test="$global-param-with-href instance of document-node(element(href-doc-child))" />
 	</x:scenario>
 
-	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
 	<x:variable name="myv:global-variable-no-href" as="element(global-variable-child)">
 		<global-variable-child />
 	</x:variable>

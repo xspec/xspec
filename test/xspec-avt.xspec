@@ -49,7 +49,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenario is in case the decision is to allow it. -->
 	<x:variable name="myv:global-var-no-href">
 		<global-var-child attr="}}{false()}{{">}}{false()}{{</global-var-child>
 	</x:variable>

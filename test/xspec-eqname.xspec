@@ -44,7 +44,6 @@
 			select="$Q{x-urn:test:xspec-eqname}global-string-param treat as xs:string"/>
 	</x:scenario>
 
-	<!-- Still deciding whether to allow /x:description/x:variable, but the following scenarios are in case the decision is to allow it. -->
 	<x:variable name="Q{http://example.org/ns/my/variable}global-var" select="/Q{}global-var-child" as="element(global-var-child)">
 		<global-var-child />
 	</x:variable>
