@@ -16,7 +16,7 @@
         </sch:rule>
         <sch:rule context="article" id="ru3" role="warn">
             <sch:assert test="div">article should contain div</sch:assert>
-            <sch:report test="div[2]">article has more than 1 div</sch:report>
+            <sch:report test="child::div[2]">article has more than 1 div</sch:report>
         </sch:rule>
     </sch:pattern>
     <sch:pattern id="pattern3">

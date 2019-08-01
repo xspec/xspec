@@ -35,6 +35,13 @@
             use="concat('match=', normalize-space(@match), '+',
                         'mode=', normalize-space(@mode))"/>
 
+   <!--
+      Generates XQuery variable declaration(s) from the current element.
+      
+      This mode itself does not handle whitespace-only text nodes specially. To handle
+      whitespace-only text node in a special manner, the text node should be handled specially
+      before applying this mode and/or mode="test:create-node-generator" should be overridden.
+   -->
    <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
       <xsl:param name="var"    as="xs:string"  required="yes"/>
       <xsl:param name="global" as="xs:boolean" select="false()"/>

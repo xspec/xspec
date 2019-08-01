@@ -7,16 +7,6 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<!-- Intermediate characters for mimicking @disable-output-escaping.
-  For the test result report HTML, these Private Use Area characters should be considered
-  as reserved by test:disable-escaping. -->
-<!DOCTYPE xsl:stylesheet [
-  <!ENTITY doe-lt   "&#xE801;">
-  <!ENTITY doe-amp  "&#xE802;">
-  <!ENTITY doe-gt   "&#xE803;">
-  <!ENTITY doe-apos "&#xE804;">
-  <!ENTITY doe-quot "&#xE805;">
-]>
 <xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
@@ -33,12 +23,15 @@
 
 <xsl:output name="x:report" method="xml" indent="yes"/>
 
+<!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
+  For the test result report HTML, these Private Use Area characters should be considered
+  as reserved by test:disable-escaping. -->
 <xsl:character-map name="test:disable-escaping">
-  <xsl:output-character character="&doe-lt;"   string="&lt;" />
-  <xsl:output-character character="&doe-amp;"  string="&amp;" />
-  <xsl:output-character character="&doe-gt;"   string="&gt;" />
-  <xsl:output-character character="&doe-apos;" string="&apos;" />
-  <xsl:output-character character="&doe-quot;" string="&quot;" />
+  <xsl:output-character character="&#xE801;" string="&lt;" />
+  <xsl:output-character character="&#xE802;" string="&amp;" />
+  <xsl:output-character character="&#xE803;" string="&gt;" />
+  <xsl:output-character character="&#xE804;" string="&apos;" />
+  <xsl:output-character character="&#xE805;" string="&quot;" />
 </xsl:character-map>
 
 <!--
@@ -371,11 +364,14 @@
 <xsl:function name="test:disable-escaping" as="xs:string">
   <xsl:param name="input" as="xs:string" />
 
-  <xsl:sequence select="translate(
-    $input,
-    '&lt;&amp;&gt;''&quot;',
-    '&doe-lt;&doe-amp;&doe-gt;&doe-apos;&doe-quot;'
-    )"/>
+  <xsl:sequence select="
+    document('')
+    /element()/xsl:character-map[@name eq 'test:disable-escaping']
+    /translate(
+      $input,
+      string-join(xsl:output-character/@string, ''),
+      string-join(xsl:output-character/@character, '')
+      )"/>
 </xsl:function>
 
 </xsl:stylesheet>
