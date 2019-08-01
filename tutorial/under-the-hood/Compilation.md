@@ -407,7 +407,10 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
    <xsl:variable name="impl:expected" ...>
    <xsl:variable name="impl:test-items" ...>
    <xsl:variable name="impl:test-result" ...>
-   ...
+   <xsl:variable name="impl:boolean-test" ...>
+   <!-- did the test pass? -->
+   <xsl:variable name="impl:successful" ...>
+   ... generate test result in the report ...
 </xsl:template>
 ```
 
@@ -433,7 +436,10 @@ declare function local:d4e2()
 declare function local:d4e4($x:result, $myv:var)
 {
   let $local:expected    :=  ... (: expected result :)
-  let $local:successful as xs:boolean := ... (: did the test pass?:)
+  let $local:test-items as item()* := ...
+  let $local:test-result as item()* := ...
+  let $local:boolean-test as xs:boolean :=  ...
+  let $local:successful as xs:boolean := ... (: did the test pass? :)
     return
       ... generate test result in the report ...
 };
@@ -469,21 +475,32 @@ this accessibility.
 <xsl:variable name="myv:href-doc"
               as="document-node()"
               select="doc('.../test-data.xml')"/>
-<xsl:variable name="myv:href" select="$myv:href-doc"/>
+<xsl:variable name="myv:href" as="item()*">
+   <xsl:for-each select="$myv:href-doc">
+      <xsl:sequence select="."/>
+   </xsl:for-each>
+</xsl:variable>
 <xsl:variable name="myv:content-doc" as="document-node()">
    <xsl:document>
       <elem/>
    </xsl:document>
 </xsl:variable>
-<xsl:variable name="myv:content" as="element()" select="$myv:content-doc/node()"/>
+<xsl:variable name="myv:content" as="element()">
+   <xsl:for-each select="$myv:content-doc">
+      <xsl:sequence select="node()"/>
+   </xsl:for-each>
+</xsl:variable>
 ```
 
 ### Query
 
 ```xquery
 let $myv:select := ( 'value' )
-let $myv:href := doc('.../test-data.xml')
-let $myv:content as element() := ( <elem/> )
+let $myv:href-doc as document-node() := ( doc('.../test-data.xml') )
+let $myv:href := ( $myv:href-doc ! ( . ) )
+let $myv:content-doc as document-node() := ( document { <elem xmlns:...>{ () }
+</elem> } )
+let $myv:content as element() := ( $myv:content-doc ! ( node() ) )
 ```
 
 ## Variables scope
@@ -550,19 +567,19 @@ and functions in XQuery).
    <!-- the generated variable -->
    <xsl:variable name="myv:var-3" ...>
    <xsl:call-template name="x:d4e4">
-      <xsl:with-param name="x:result" select="$x:result"/>
-      <xsl:with-param name="myv:var-1"    select="$myv:var-1"/>
-      <xsl:with-param name="myv:var-2"    select="$myv:var-2"/>
-      <xsl:with-param name="myv:var-3"    select="$myv:var-3"/>
+      <xsl:with-param name="x:result"  select="$x:result"/>
+      <xsl:with-param name="myv:var-1" select="$myv:var-1"/>
+      <xsl:with-param name="myv:var-2" select="$myv:var-2"/>
+      <xsl:with-param name="myv:var-3" select="$myv:var-3"/>
    </xsl:call-template>
    <!-- the generated variable -->
    <xsl:variable name="myv:var-4" ...>
    <xsl:call-template name="x:d4e5">
-      <xsl:with-param name="x:result" select="$x:result"/>
-      <xsl:with-param name="myv:var-1"    select="$myv:var-1"/>
-      <xsl:with-param name="myv:var-2"    select="$myv:var-2"/>
-      <xsl:with-param name="myv:var-3"    select="$myv:var-3"/>
-      <xsl:with-param name="myv:var-4"    select="$myv:var-4"/>
+      <xsl:with-param name="x:result"  select="$x:result"/>
+      <xsl:with-param name="myv:var-1" select="$myv:var-1"/>
+      <xsl:with-param name="myv:var-2" select="$myv:var-2"/>
+      <xsl:with-param name="myv:var-3" select="$myv:var-3"/>
+      <xsl:with-param name="myv:var-4" select="$myv:var-4"/>
    </xsl:call-template>
 </xsl:template>
 
@@ -598,13 +615,11 @@ declare function local:d4e2()
 {
   ...
   let $myv:var-1 := ...
-  ...
+  let $x:tmp := local:d4e3($myv:var-1)
     return (
-      ...,
-      let $x:tmp := local:d4e3($myv:var-1) return (
-        $x:tmp
-      )
+      $x:tmp
     )
+  ...
 };
 
 (: generated from the scenario inner :)
@@ -612,14 +627,15 @@ declare function local:d4e3($myv:var-1) (: $myv:var-1 can have an "as" clause :)
 {
   ...
   let $myv:var-2        := ...
+  ...
   let $x:result := f()
     return (
       ...,
       let $myv:var-3 := ...
-      let $x:tmp := local:d5e11($x:result, $myv:var-1, $myv:var-2, $myv:var-3) return (
+      let $x:tmp := local:d4e4($x:result, $myv:var-1, $myv:var-2, $myv:var-3) return (
         $x:tmp,
         let $myv:var-4 := ...
-        let $x:tmp := local:d5e13($x:result, $myv:var-1, $myv:var-2, $myv:var-3, $myv:var-4) return (
+        let $x:tmp := local:d4e5($x:result, $myv:var-1, $myv:var-2, $myv:var-3, $myv:var-4) return (
           $x:tmp
         )
       )
