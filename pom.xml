@@ -97,6 +97,12 @@
           <exclude>harnesses/**</exclude>
         </excludes>
       </resource>
+      <resource>
+        <directory>.</directory>
+        <includes>
+          <include>build.xml</include>
+        </includes>
+      </resource>
     </resources>
     <pluginManagement>
       <plugins>
