@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-346.xspec">
@@ -9,7 +10,7 @@
       <x:call function="exactly-one">
          <x:param as="element(p)" href="../../xspec-346.xml" select="element(p)"/>
       </x:call>
-      <x:result>
+      <x:result select="/element()">
          <p>
             <span>foo</span>
             <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"> </test:ws>
@@ -18,7 +19,7 @@
       </x:result>
       <x:test successful="false">
          <x:label>Expecting no space should be Failure</x:label>
-         <x:expect>
+         <x:expect select="/element()">
             <p>
                <span>foo</span>
                <span>bar</span>

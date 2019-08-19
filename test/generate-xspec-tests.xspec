@@ -14,35 +14,62 @@
 
    <!--
        Test the source file generate-xspec-tests.xsl.
+
+       Test only the XSLT version. It is very difficult to test the XQuery
+       version (generate-query-tests.xsl), because its output is textual XQuery.
+       Unless, of course, we use XQueryX (XML representation of XQuery)...
    -->
 
-   <t:scenario label="Scenarios for testing generate-xspec-tests.xsl">
+   <!-- $xspec-prefix in generate-common-tests.xsl accesses the initial context node or the
+      source document which is not available at XSpec runtime. So hardcode $xspec-prefix here.
+      TODO: XSpec had better provide a way (maybe an attribute in x:description) to define
+      the source document... -->
+   <t:param name="xspec-prefix" select="'t'" />
 
-      <!--t:scenario label="FIRST TEST.......">
-         <t:variable name="ctxt" as="document-node()">
-            <t:description>
-               <t:scenario/>
-            </t:description>
-         </t:variable>
-         <t:apply select="$ctxt"/>
-         <t:expect label="the result" test="$t:result instance of document-node()"/>
-      </t:scenario-->
+   <!--t:scenario label="FIRST TEST.......">
+      <t:variable name="ctxt" as="document-node()">
+         <t:description>
+            <t:scenario/>
+         </t:description>
+      </t:variable>
+      <t:apply select="$ctxt"/>
+      <t:expect label="the result" test="$t:result instance of document-node()"/>
+   </t:scenario-->
 
-      <t:scenario label="FIRST TEST.......">
-         <t:context mode="t:compile">
-            <t:scenario label="my label"/>
-         </t:context>
-         <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
-         <!-- test also it is a QName in the namespace x:* -->
-         <t:expect label="the name" test="exists($t:result/@name)"/>
-         <t:expect label="the name is a QName"
-                   test="namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result/t:scenario))"
-                   select="'http://www.jenitennison.com/xslt/xspec'"/>
-         <t:expect label="the label message" test="$t:result/xsl:message/string()" select="'my label'"/>
-         <t:expect label="the scenario" test="exists($t:result/t:scenario)"/>
-         <t:expect label="the scenario label" test="$t:result/t:scenario/t:label/string()" select="'my label'"/>
-      </t:scenario>
+   <t:scenario label="x:scenario[@label] transformed in x:compile mode">
+      <t:context mode="t:compile">
+         <t:scenario label="my label"/>
+      </t:context>
+      <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
+      <!-- test also it is a QName in the namespace t:* -->
+      <t:expect label="the name" test="starts-with($t:result/@name, 't:')" />
+      <t:expect label="the name is a QName"
+                test="namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result/t:scenario))"
+                select="'http://www.jenitennison.com/xslt/xspec'"/>
+      <t:expect label="the label message" test="$t:result/xsl:message/string()" select="'my label'"/>
+      <t:expect label="the scenario" test="exists($t:result/t:scenario)"/>
+      <t:expect label="the scenario label" test="$t:result/t:scenario/t:label/string()" select="'my label'"/>
+   </t:scenario>
 
+   <!--
+       <t:expect/>
+       
+       TODO: Track down how it is transformed (named templated, rule
+       in a mode, etc.) and test it explicitely...
+   -->
+   <t:scenario label="x:expect[@test] transformed in x:compile mode">
+      <t:context mode="t:compile">
+         <t:param tunnel="yes" name="context" as="empty-sequence()"/>
+         <t:param tunnel="yes" name="call" as="empty-sequence()"/>
+
+         <t:expect test="false()"/>
+      </t:context>
+      <t:expect label="is a template"
+                test="$t:result instance of element(xsl:template)"/>
+      <t:expect label="@test must be transformed to @select"
+                test="$t:result/xsl:variable[@name eq 'impl:test-result']/*/xsl:otherwise/*">
+         <xsl:sequence select="false()" version="..."/>
+      </t:expect>
    </t:scenario>
 
 </t:description>

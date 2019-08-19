@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:xspec-items" query-at="../../items.xquery"
+    stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
     <x:scenario label="Comparing identical namespace">
         <x:call function="exactly-one">
-            <x:param select="$namespace" />
+            <x:param select="$Q{x-urn:test:xspec-items}namespace" />
         </x:call>
-        <x:expect label="must be Success" select="$namespace" />
+        <x:expect label="must be Success" select="$Q{x-urn:test:xspec-items}namespace" />
     </x:scenario>
 
     <x:scenario label="Comparing identical default namespace">
         <x:call function="exactly-one">
-            <x:param select="$default-namespace" />
+            <x:param select="$Q{x-urn:test:xspec-items}default-namespace" />
         </x:call>
-        <x:expect label="must be Success" select="$default-namespace" />
+        <x:expect label="must be Success" select="$Q{x-urn:test:xspec-items}default-namespace" />
     </x:scenario>
 
     <x:scenario label="Comparing different namespaces">
         <x:call function="exactly-one">
-            <x:param select="$namespace" />
+            <x:param select="$Q{x-urn:test:xspec-items}namespace" />
         </x:call>
-        <x:expect label="must be Failure" select="$another-namespace" />
+        <x:expect label="must be Failure" select="$Q{x-urn:test:xspec-items}another-namespace" />
     </x:scenario>
 </x:description>

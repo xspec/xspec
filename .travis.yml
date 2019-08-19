@@ -1,4 +1,5 @@
 language: java
+dist: trusty
 jdk: oraclejdk8
 env:
     global:
@@ -9,15 +10,15 @@ env:
         # full path to XML Resolver jar
         - XML_RESOLVER_JAR=/tmp/xspec/xml-resolver/resolver.jar
     matrix:
-        # latest Saxon 9.9 version and full path to Jing jar
-        - SAXON_VERSION=9.9.0-2
-          JING_JAR=/tmp/xspec/jing/jing.jar
-        # latest Saxon 9.8 version
+        # latest Saxon 9.9 version and Jing
         #   * XML Calabash will use Saxon jar in its own lib directory.
         #   * BaseX test requires XML Calabash.
-        - SAXON_VERSION=9.8.0-14
-          XMLCALABASH_VERSION=1.1.22-98
+        - SAXON_VERSION=9.9.1-4
+          JING_VERSION=20181222
+          XMLCALABASH_VERSION=1.1.27-99
           BASEX_VERSION=8.6.4
+        # latest Saxon 9.8 version
+        - SAXON_VERSION=9.8.0-15
         # Saxon version used in oXygen
         - SAXON_VERSION=9.8.0-12
 
@@ -39,8 +40,9 @@ before_script:
     - if [[ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]]; then
         echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
       else
-        export BASEX_JAR=/tmp/xspec/basex/basex.jar;
-        curl -fsSL --create-dirs --retry 5 -o ${BASEX_JAR} http://files.basex.org/maven/org/basex/basex/${BASEX_VERSION}/basex-${BASEX_VERSION}.jar;
+        curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/basex/basex.zip http://files.basex.org/releases/${BASEX_VERSION}/BaseX${BASEX_VERSION//./}.zip;
+        unzip /tmp/xspec/basex/basex.zip -d /tmp/xspec/basex;
+        export BASEX_JAR=/tmp/xspec/basex/basex/BaseX.jar;
       fi
     # install Ant
     - curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
@@ -49,10 +51,11 @@ before_script:
     # install XML Resolver
     - curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_JAR} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
     # install Jing
-    - if [ -z ${JING_JAR} ]; then
+    - if [ -z ${JING_VERSION} ]; then
         echo "Jing will not be installed";
       else
-        curl -fsSL --create-dirs --retry 5 -o ${JING_JAR} http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar;
+        export JING_JAR=/tmp/xspec/jing/jing.jar;
+        curl -fsSL --create-dirs --retry 5 -o ${JING_JAR} http://central.maven.org/maven2/org/relaxng/jing/${JING_VERSION}/jing-${JING_VERSION}.jar;
       fi
 
 script:

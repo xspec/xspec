@@ -4,7 +4,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../xspec-three-dots.xsl"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           xspec="../../xspec-three-dots.xspec">
    <x:scenario>
       <x:label>For resultant element (simple)</x:label>
@@ -559,7 +559,7 @@
       </x:scenario>
    </x:scenario>
    <x:scenario>
-      <x:label>For resultant namespace node (TODO: xspec/xspec#67 for XQuery)</x:label>
+      <x:label>For resultant namespace node</x:label>
       <x:scenario>
          <x:label>When result is
 						  xmlns:prefix="namespace-uri"

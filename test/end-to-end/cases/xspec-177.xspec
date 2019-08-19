@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario>
 		<x:label><![CDATA[Given the function returns <foo />]]></x:label>
 		<x:call function="exactly-one">
@@ -7,16 +8,16 @@
 				<foo />
 			</x:param>
 		</x:call>
-		<x:expect test="empty(element(foo))">
-			<x:label><![CDATA[When @test is "empty(element(foo))" (i.e. boolean),
+		<x:expect test="empty($x:result/self::element(foo))">
+			<x:label><![CDATA[When @test is "empty($x:result/self::element(foo))" (i.e. boolean),
 				then the HTML report should be
 					"Result"    = "<foo />"
 				and
-					"Expecting" = "empty(element(foo))"
+					"Expecting" = "empty($x:result/self::element(foo))"
 				without diff.]]></x:label>
 		</x:expect>
-		<x:expect test="element(foo)">
-			<x:label><![CDATA[When x:expect expects <bar /> and @test is "element(foo)" (i.e. non boolean),
+		<x:expect test="$x:result/self::element(foo)">
+			<x:label><![CDATA[When x:expect expects <bar /> and @test is "$x:result/self::element(foo)" (i.e. non boolean),
 				then the HTML report should be
 					"Result"          = "<foo />"
 				and

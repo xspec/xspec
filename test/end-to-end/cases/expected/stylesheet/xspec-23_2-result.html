@@ -8,7 +8,7 @@
       <h1>Test Report</h1>
       <p>Stylesheet: <a href="../../xspec-23_2.xsl">xspec-23_2.xsl</a></p>
       <p>XSpec: <a href="../../xspec-23_2.xspec">xspec-23_2.xspec</a></p>
-      <p>Tested: ONCE-UPON-A-TIME</p>
+      <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
          <col width="75%" />
@@ -51,28 +51,32 @@
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-33">Test</h3>
-         <h4 id="ELEM-47">Result</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/self::document-node()</code> from:
-                     </p><pre>&lt;<span class="diff">foo</span> xmlns="x-urn:test"
+         <div id="ELEM-46">
+            <h3>Test</h3>
+            <div id="ELEM-47">
+               <h4>Result</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:
+                           </p><pre>&lt;<span class="diff">foo</span> xmlns="x-urn:test"
          <span class="diff">bar</span>="true" /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/self::document-node()</code> from:
-                     </p><pre>&lt;<span class="diff">foo</span> xmlns="x-urn:test"
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:
+                           </p><pre>&lt;<span class="diff">foo</span> xmlns="x-urn:test"
          <span class="diff">bar</span>="false" /&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
    </body>
 </html>

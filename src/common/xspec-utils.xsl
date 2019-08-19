@@ -38,9 +38,37 @@
 	<xsl:function as="xs:string" name="x:filename-without-extension">
 		<xsl:param as="xs:string" name="input" />
 
-		<xsl:variable as="xs:string+" name="except-last"
-			select="tokenize(x:filename-and-extension($input), '\.')[position() lt last()]" />
-		<xsl:sequence select="string-join($except-last, '.')" />
+		<xsl:variable as="xs:string" name="filename-and-extension"
+			select="x:filename-and-extension($input)" />
+
+		<xsl:sequence
+			select="
+				if (contains($filename-and-extension, '.')) then
+					replace($filename-and-extension, '^(.*)\.[^.]*$', '$1')
+				else
+					$filename-and-extension"
+		 />
+	</xsl:function>
+
+	<!--
+		Extracts extension (without filename) from slash-delimited path
+			Example:
+				in:  "file:/path/to/foo.bar.baz" or "/path/to/foo.bar.baz"
+				out: ".baz"
+	-->
+	<xsl:function as="xs:string" name="x:extension-without-filename">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:variable as="xs:string" name="filename-and-extension"
+			select="x:filename-and-extension($input)" />
+
+		<xsl:sequence
+			select="
+				if (contains($filename-and-extension, '.')) then
+					replace($filename-and-extension, '^.*(\.[^.]*)$', '$1')
+				else
+					''"
+		 />
 	</xsl:function>
 
 	<!--
@@ -53,14 +81,22 @@
 		<!-- https://sourceforge.net/p/saxon/mailman/message/36339785/
 			"document-uri() returns the (absolutized) requested URI, while base-uri() returns
 			the actual document location after catalog resolution." -->
-		<xsl:variable as="xs:anyURI" name="resolved-uri" select="doc($xml-uri)/base-uri()" />
+		<xsl:sequence select="x:base-uri(doc($xml-uri))" />
+	</xsl:function>
+
+	<!--
+		Performs fn:base-uri(), working around an XML resolver bug
+	-->
+	<xsl:function as="xs:anyURI" name="x:base-uri">
+		<xsl:param as="node()" name="node" />
 
 		<!-- Fix invalid URI such as 'file:C:/dir/file'
 			https://issues.apache.org/jira/browse/XMLCOMMONS-24 -->
 		<xsl:sequence
 			select="
-				replace($resolved-uri, '^(file:)([^/])', '$1/$2')
-				cast as xs:anyURI" />
+				replace(base-uri($node), '^(file:)([^/])', '$1/$2')
+				cast as xs:anyURI"
+		 />
 	</xsl:function>
 
 	<!--
@@ -100,7 +136,7 @@
 	<xsl:function as="xs:boolean" name="x:instance-of-namespace">
 		<xsl:param as="item()?" name="item" />
 
-		<!-- Unfortunately there is no such test as "instance of namespace()":
+		<!-- Unfortunately "instance of namespace-node()" is not available on XPath 2.0:
 			http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/200608/msg00719.html -->
 		<xsl:sequence
 			select="

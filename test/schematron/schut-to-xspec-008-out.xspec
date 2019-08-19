@@ -3,6 +3,8 @@
     schematron="..." xspec-original-location="..."
     stylesheet="schut-to-xspec-test.sch.xsl">
     <x:scenario label="Schematron test scenario">
-        <x:context href="xspec/context-d1e6.xml"/>
+        <x:context select="self::document-node()">
+            <snippet/>
+        </x:context>
     </x:scenario>
 </x:description>

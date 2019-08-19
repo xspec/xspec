@@ -1,55 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          date="ONCE-UPON-A-TIME"
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<t:report xmlns:my="http://example.org/ns/my"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          date="2000-01-01T00:00:00Z"
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-import.xspec">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
-      <x:label>when testing a correct scenario in an importing file</x:label>
-      <x:call function="my:square">
-         <x:param select="3"/>
-      </x:call>
+   <t:scenario>
+      <t:label>when testing a correct scenario in an importing file</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
       <t:result select="9"/>
-      <x:test successful="true">
-         <x:label>expecting the correct result must return Success</x:label>
+      <t:test successful="true">
+         <t:label>expecting the correct result must return Success</t:label>
          <t:expect select="9"/>
-      </x:test>
-      <x:test successful="true">
-         <x:label>expecting the correct type must return Success</x:label>
-         <t:expect select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
-      <x:label>when testing an incorrect scenario in an importing file</x:label>
-      <x:call function="my:square">
-         <x:param select="2"/>
-      </x:call>
+      </t:test>
+      <t:test successful="true">
+         <t:label>expecting the correct type must return Success</t:label>
+         <t:expect test="$t:result instance of xs:integer" select="()"/>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>when testing an incorrect scenario in an importing file</t:label>
+      <t:call function="my:square">
+         <t:param select="2"/>
+      </t:call>
       <t:result select="4"/>
-      <x:test successful="false">
-         <x:label>it must return Failure</x:label>
-         <t:expect select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
-      <x:label>a correct scenario in an imported file</x:label>
-      <x:call function="my:square">
-         <x:param select="3"/>
-      </x:call>
+      <t:test successful="false">
+         <t:label>it must return Failure</t:label>
+         <t:expect test="$t:result instance of xs:string" select="()"/>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>a correct scenario in an imported file</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
       <t:result select="9"/>
-      <x:test successful="true">
-         <x:label>must return Success</x:label>
+      <t:test successful="true">
+         <t:label>must return Success</t:label>
          <t:expect select="9"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec">
-      <x:label>an incorrect scenario in an imported file</x:label>
-      <x:call function="my:square">
-         <x:param select="2"/>
-      </x:call>
+      </t:test>
+   </t:scenario>
+   <t:scenario>
+      <t:label>an incorrect scenario in an imported file</t:label>
+      <t:call function="my:square">
+         <t:param select="2"/>
+      </t:call>
       <t:result select="4"/>
-      <x:test successful="false">
-         <x:label>must return Failure</x:label>
+      <t:test successful="false">
+         <t:label>must return Failure</t:label>
          <t:expect select="42"/>
-      </x:test>
-   </x:scenario>
+      </t:test>
+   </t:scenario>
 </t:report>

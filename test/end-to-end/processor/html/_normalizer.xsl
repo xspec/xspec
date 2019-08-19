@@ -68,22 +68,6 @@
 	</xsl:template>
 
 	<!--
-		Normalizes datetime
-			Example:
-				in:  <p>Tested: 23 February 2017 at 11:18</p>
-				out: <p>Tested: ONCE-UPON-A-TIME</p>
-	-->
-	<xsl:template as="text()" match="/html/body/p[starts-with(., 'Tested:')]/text()"
-		mode="normalizer:normalize">
-		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
-		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
-			<xsl:matching-substring>
-				<xsl:value-of select="regex-group(1), 'ONCE-UPON-A-TIME'" />
-			</xsl:matching-substring>
-		</xsl:analyze-string>
-	</xsl:template>
-
-	<!--
 		Normalizes the link to the files created dynamically by XSpec
 	-->
 	<xsl:template as="attribute(href)"
@@ -118,28 +102,10 @@
 		<!-- Substring after '#' -->
 		<xsl:variable as="xs:string" name="original-id" select="substring(., 2)" />
 
-		<xsl:variable as="element()?" name="target-element"
+		<xsl:variable as="element()" name="target-element"
 			select="local:element-by-id(., $original-id)" />
-
-		<xsl:variable as="xs:string" name="predictable-id">
-			<xsl:choose>
-				<xsl:when test="$target-element">
-					<xsl:sequence select="local:generate-predictable-id($target-element)" />
-				</xsl:when>
-
-				<!-- @href's target element may not exist for pending scenarios: xspec/xspec#85 -->
-				<xsl:when test="parent::a/parent::th/parent::tr/@class eq 'pending'">
-					<!-- Assume that @href is always unique when the scenario is pending -->
-					<xsl:if test="count(//@href[. eq current()]) eq 1">
-						<!-- Use the current element's ID, prefixing 'PENDING_' to it -->
-						<xsl:sequence
-							select="concat('PENDING_', local:generate-predictable-id(parent::element()))"
-						 />
-					</xsl:if>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
-
+		<xsl:variable as="xs:string" name="predictable-id"
+			select="local:generate-predictable-id($target-element)" />
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="concat('#', $predictable-id)" />
 	</xsl:template>
@@ -157,14 +123,13 @@
 
 	<!--
 		Returns the element whose original @id is equal to the specified ID
-			If multiple elements satisfy the condition, returns the first element.
 	-->
 	<xsl:function as="element()?" name="local:element-by-id">
 		<xsl:param as="node()" name="context-node" />
 		<xsl:param as="xs:string" name="id" />
 
 		<xsl:variable as="document-node()" name="doc" select="root($context-node)" />
-		<xsl:sequence select="$doc/descendant::element()[@id eq $id][1]" />
+		<xsl:sequence select="$doc/descendant::element()[@id eq $id]" />
 	</xsl:function>
 
 	<!--
@@ -174,18 +139,7 @@
 	<xsl:function as="xs:string" name="local:generate-predictable-id">
 		<xsl:param as="element()" name="element" />
 
-		<!--
-			Unfortunately the original @id is not always unique: xspec/xspec#78
-			So, for calculating the element index, you can't simply use the specified element. You have to determine which element to use.
-		-->
-		<xsl:variable as="element()" name="index-element"
-			select="
-				if ($element/@id) then
-					local:element-by-id($element, $element/@id)
-				else
-					$element" />
-
-		<xsl:sequence select="concat('ELEM-', local:element-index($index-element))" />
+		<xsl:sequence select="concat('ELEM-', local:element-index($element))" />
 	</xsl:function>
 
 	<!--

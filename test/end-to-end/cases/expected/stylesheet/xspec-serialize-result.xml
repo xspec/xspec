@@ -4,7 +4,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../../../items.xsl"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           xspec="../../xspec-serialize.xspec">
    <x:scenario>
       <x:label>When the result is a comment node, the report HTML must serialize it as
@@ -12,7 +12,7 @@
       <x:scenario>
          <x:label>When x:result in the report XML contains a comment node,</x:label>
          <x:call function="exactly-one">
-            <x:param select="$comment"/>
+            <x:param select="$Q{x-urn:test:xspec-items}comment"/>
          </x:call>
          <x:result select="/comment()"><!--comment-text--></x:result>
          <x:test successful="false">

@@ -283,7 +283,7 @@
   <xsl:param name="sequence" as="item()*" required="yes" />
   <xsl:param name="wrapper-name" as="xs:string" required="yes" />
   <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/xspec'" />
-  <xsl:param name="test" as="xs:string?" />
+  <xsl:param name="test" as="attribute(test)?" />
 
   <xsl:variable name="attribute-nodes" as="attribute()*"     select="$sequence[. instance of attribute()]" />
   <xsl:variable name="document-nodes"  as="document-node()*" select="$sequence[. instance of document-node()]" />
@@ -292,9 +292,7 @@
 
   <xsl:variable name="report-element" as="element()">
     <xsl:element name="{$wrapper-name}" namespace="{$wrapper-ns}">
-      <xsl:if test="$test">
-        <xsl:attribute name="test" select="$test" />
-      </xsl:if>
+      <xsl:sequence select="$test" />
 
       <xsl:choose>
         <!-- Empty -->
@@ -439,14 +437,13 @@
       </xsl:element>
     </xsl:when>
 
-    <!-- Requires XSLT 3.0 -->
-    <!--
-    <xsl:when test="$item instance of function(*)">
+    <!-- "instance of function(*)" requires Saxon-PE or higher -->
+    <xsl:when test="($item instance of array(*)) or ($item instance of map(*))"
+      use-when="function-available('serialize', 2)">
       <xsl:element name="{$local-name-prefix}function" namespace="{$wrapper-ns}">
         <xsl:value-of select="serialize($item, map { 'method': 'adaptive' })" />
       </xsl:element>
     </xsl:when>
-    -->
 
     <xsl:otherwise>
       <xsl:element name="{$local-name-prefix}other" namespace="{$wrapper-ns}" />

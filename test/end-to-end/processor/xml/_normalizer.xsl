@@ -42,17 +42,6 @@
 	</xsl:template>
 
 	<!--
-		Normalizes datetime
-			Example:
-				in:  <x:report date="2018-08-12T20:59:49.509+09:00">
-				out: <x:report date="ONCE-UPON-A-TIME">
-	-->
-	<xsl:template as="attribute(date)" match="/report/@date" mode="normalizer:normalize">
-		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-			select="'ONCE-UPON-A-TIME'" />
-	</xsl:template>
-
-	<!--
 		Normalizes the link to the files
 			Example:
 				in   <x:report xspec="file:/path/to/test.xspec">

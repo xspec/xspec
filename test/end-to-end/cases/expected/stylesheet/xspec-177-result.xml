@@ -4,7 +4,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../../../do-nothing.xsl"
-          date="ONCE-UPON-A-TIME"
+          date="2000-01-01T00:00:00Z"
           xspec="../../xspec-177.xspec">
    <x:scenario>
       <x:label>Given the function returns &lt;foo /&gt;</x:label>
@@ -17,16 +17,16 @@
          <foo/>
       </x:result>
       <x:test successful="false">
-         <x:label>When @test is "empty(element(foo))" (i.e. boolean),
+         <x:label>When @test is "empty($x:result/self::element(foo))" (i.e. boolean),
 				then the HTML report should be
 					"Result"    = "&lt;foo /&gt;"
 				and
-					"Expecting" = "empty(element(foo))"
+					"Expecting" = "empty($x:result/self::element(foo))"
 				without diff.</x:label>
-         <x:expect test="empty(element(foo))" select="()"/>
+         <x:expect test="empty($x:result/self::element(foo))" select="()"/>
       </x:test>
       <x:test successful="false">
-         <x:label>When x:expect expects &lt;bar /&gt; and @test is "element(foo)" (i.e. non boolean),
+         <x:label>When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non boolean),
 				then the HTML report should be
 					"Result"          = "&lt;foo /&gt;"
 				and
@@ -35,7 +35,7 @@
          <x:result select="/element()">
             <foo/>
          </x:result>
-         <x:expect test="element(foo)" select="/element()">
+         <x:expect test="$x:result/self::element(foo)" select="/element()">
             <bar/>
          </x:expect>
       </x:test>

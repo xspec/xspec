@@ -10,7 +10,7 @@
       <h1>Test Report</h1>
       <p>Stylesheet: <a href="../../xspec-three-dots.xsl">xspec-three-dots.xsl</a></p>
       <p>XSpec: <a href="../../xspec-three-dots.xspec">xspec-three-dots.xspec</a></p>
-      <p>Tested: ONCE-UPON-A-TIME</p>
+      <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
          <col width="75%" />
@@ -36,84 +36,84 @@
                <th class="totals">7</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-202">For resultant element (with attribute)</a></th>
+               <th><a href="#ELEM-206">For resultant element (with attribute)</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">3</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-247">For resultant element (with mixed content)</a></th>
+               <th><a href="#ELEM-253">For resultant element (with mixed content)</a></th>
                <th class="totals">4</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">5</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-302">For resultant attribute</a></th>
+               <th><a href="#ELEM-310">For resultant attribute</a></th>
                <th class="totals">5</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">6</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-362">For resultant text node</a></th>
+               <th><a href="#ELEM-372">For resultant text node</a></th>
                <th class="totals">4</th>
                <th class="totals">0</th>
                <th class="totals">5</th>
                <th class="totals">9</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-508">For resultant comment</a></th>
+               <th><a href="#ELEM-527">For resultant comment</a></th>
                <th class="totals">5</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">6</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-566">For resultant processing instruction</a></th>
+               <th><a href="#ELEM-587">For resultant processing instruction</a></th>
                <th class="totals">5</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">6</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-624">For resultant document node</a></th>
+               <th><a href="#ELEM-647">For resultant document node</a></th>
                <th class="totals">4</th>
                <th class="totals">0</th>
                <th class="totals">3</th>
                <th class="totals">7</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-726">For resultant namespace node (TODO: xspec/xspec#67 for XQuery)</a></th>
+               <th><a href="#ELEM-755">For resultant namespace node</a></th>
                <th class="totals">6</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">7</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-787">For resultant sequence of multiple nodes</a></th>
+               <th><a href="#ELEM-818">For resultant sequence of multiple nodes</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">3</th>
                <th class="totals">5</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-877">When result is empty sequence</a></th>
+               <th><a href="#ELEM-912">When result is empty sequence</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-907">For resultant atomic value</a></th>
+               <th><a href="#ELEM-944">For resultant atomic value</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">4</th>
                <th class="totals">6</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-1003">For any resultant item</a></th>
+               <th><a href="#ELEM-1046">For any resultant item</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">4</th>
@@ -156,7 +156,7 @@
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-180">When result is &lt;elem&gt;...&lt;/elem&gt; </a></th>
+                  <th><a href="#ELEM-182">When result is &lt;elem&gt;...&lt;/elem&gt; </a></th>
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -168,55 +168,63 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-181">expecting &lt;elem&gt;text&lt;/elem&gt; should be Failure</a></td>
+                  <td><a href="#ELEM-183">expecting &lt;elem&gt;text&lt;/elem&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-160">For resultant element (simple) When result is &lt;elem /&gt; </h3>
-         <h4 id="ELEM-161">expecting &lt;elem attrib="..." /&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">elem</span> /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">elem</span> <span class="diff">attrib</span>="..." /&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-180">For resultant element (simple) When result is &lt;elem&gt;...&lt;/elem&gt; </h3>
-         <h4 id="ELEM-181">expecting &lt;elem&gt;text&lt;/elem&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">text</span>&lt;/elem&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-160">
+            <h3>For resultant element (simple) When result is &lt;elem /&gt; </h3>
+            <div id="ELEM-161">
+               <h4>expecting &lt;elem attrib="..." /&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem</span> /&gt;</pre></td>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem</span> <span class="diff">attrib</span>="..." /&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-182">
+            <h3>For resultant element (simple) When result is &lt;elem&gt;...&lt;/elem&gt; </h3>
+            <div id="ELEM-183">
+               <h4>expecting &lt;elem&gt;text&lt;/elem&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre></td>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">text</span>&lt;/elem&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-202">
+      <div id="ELEM-206">
          <h2 class="successful">For resultant element (with attribute)<span class="scenario-totals">passed: 2 / pending: 0 / failed: 1 / total: 3</span></h2>
-         <table class="xspec" id="ELEM-204">
+         <table class="xspec" id="ELEM-208">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -225,7 +233,7 @@
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-225">When result is &lt;elem attrib="val" /&gt; </a></th>
+                  <th><a href="#ELEM-229">When result is &lt;elem attrib="val" /&gt; </a></th>
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -237,35 +245,39 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-226">expecting &lt;elem&gt;...&lt;/elem&gt; should be Failure</a></td>
+                  <td><a href="#ELEM-230">expecting &lt;elem&gt;...&lt;/elem&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-225">For resultant element (with attribute) When result is &lt;elem attrib="val" /&gt; </h3>
-         <h4 id="ELEM-226">expecting &lt;elem&gt;...&lt;/elem&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">elem</span> <span class="diff">attrib</span>="val" /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-229">
+            <h3>For resultant element (with attribute) When result is &lt;elem attrib="val" /&gt; </h3>
+            <div id="ELEM-230">
+               <h4>expecting &lt;elem&gt;...&lt;/elem&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem</span> <span class="diff">attrib</span>="val" /&gt;</pre></td>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-247">
+      <div id="ELEM-253">
          <h2 class="successful">For resultant element (with mixed content)<span class="scenario-totals">passed: 4 / pending: 0 / failed: 1 / total: 5</span></h2>
-         <table class="xspec" id="ELEM-249">
+         <table class="xspec" id="ELEM-255">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -290,7 +302,7 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-279">When result is &lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt; </a></th>
+                  <th><a href="#ELEM-285">When result is &lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt; </a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
@@ -298,40 +310,44 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-280">expecting &lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt; should be Failure</a></td>
+                  <td><a href="#ELEM-286">expecting &lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-279">For resultant element (with mixed content) When result is &lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
-            
-         </h3>
-         <h4 id="ELEM-280">expecting &lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">outer</span>&gt;
+         <div id="ELEM-285">
+            <h3>For resultant element (with mixed content) When result is &lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
+               
+            </h3>
+            <div id="ELEM-286">
+               <h4>expecting &lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">outer</span>&gt;
    &lt;<span class="same">inner</span> /&gt;
 &lt;/outer&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">outer</span>&gt;<span class="same">...</span>&lt;<span class="diff">inner</span> /&gt;
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">outer</span>&gt;<span class="same">...</span>&lt;<span class="diff">inner</span> /&gt;
 &lt;/outer&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-302">
+      <div id="ELEM-310">
          <h2 class="successful">For resultant attribute<span class="scenario-totals">passed: 5 / pending: 0 / failed: 1 / total: 6</span></h2>
-         <table class="xspec" id="ELEM-304">
+         <table class="xspec" id="ELEM-312">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -360,7 +376,7 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-340">When result is @attrib="..." </a></th>
+                  <th><a href="#ELEM-348">When result is @attrib="..." </a></th>
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -372,35 +388,39 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-341">expecting @attrib="val" should be Failure</a></td>
+                  <td><a href="#ELEM-349">expecting @attrib="val" should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-340">For resultant attribute When result is @attrib="..." </h3>
-         <h4 id="ELEM-341">expecting @attrib="val" should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/*/@*</code> from:
-                     </p><pre>&lt;<span class="diff">pseudo-attribute</span> <span class="diff">attrib</span>="..." /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/*/@*</code> from:
-                     </p><pre>&lt;<span class="diff">pseudo-attribute</span> <span class="diff">attrib</span>="val" /&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-348">
+            <h3>For resultant attribute When result is @attrib="..." </h3>
+            <div id="ELEM-349">
+               <h4>expecting @attrib="val" should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/*/@*</code> from:
+                           </p><pre>&lt;<span class="diff">pseudo-attribute</span> <span class="diff">attrib</span>="..." /&gt;</pre></td>
+                        <td>
+                           <p>XPath <code>/*/@*</code> from:
+                           </p><pre>&lt;<span class="diff">pseudo-attribute</span> <span class="diff">attrib</span>="val" /&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-362">
+      <div id="ELEM-372">
          <h2 class="successful">For resultant text node<span class="scenario-totals">passed: 4 / pending: 0 / failed: 5 / total: 9</span></h2>
-         <table class="xspec" id="ELEM-364">
+         <table class="xspec" id="ELEM-374">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -409,7 +429,7 @@
                   <th>passed: 4 / pending: 0 / failed: 5 / total: 9</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-419">When result is usual text node</a></th>
+                  <th><a href="#ELEM-429">When result is usual text node</a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
@@ -417,11 +437,11 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-420">expecting '...' should be Failure</a></td>
+                  <td><a href="#ELEM-430">expecting '...' should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-435">When result is whitespace-only text node</a></th>
+                  <th><a href="#ELEM-447">When result is whitespace-only text node</a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
@@ -429,11 +449,11 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-436">expecting usual text node should be Failure</a></td>
+                  <td><a href="#ELEM-448">expecting usual text node should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-454">When result is zero-length text node</a></th>
+                  <th><a href="#ELEM-468">When result is zero-length text node</a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
@@ -441,11 +461,11 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-455">expecting usual text node should be Failure</a></td>
+                  <td><a href="#ELEM-469">expecting usual text node should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-473">When result is three-dot text node</a></th>
+                  <th><a href="#ELEM-489">When result is three-dot text node</a></th>
                   <th>passed: 1 / pending: 0 / failed: 2 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -453,114 +473,132 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-474">expecting usual text node should be Failure</a></td>
+                  <td><a href="#ELEM-490">expecting usual text node should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-492">expecting '...' should be Failure</a></td>
+                  <td><a href="#ELEM-509">expecting '...' should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-419">For resultant text node When result is usual text node</h3>
-         <h4 id="ELEM-420">expecting '...' should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">text</span></pre></td>
-                  <td><pre>'...'</pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-435">For resultant text node When result is whitespace-only text node</h3>
-         <h4 id="ELEM-436">expecting usual text node should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff whitespace">\t\n\r␣</span></pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">text</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-454">For resultant text node When result is zero-length text node</h3>
-         <h4 id="ELEM-455">expecting usual text node should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff whitespace"></span></pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">text</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-473">For resultant text node When result is three-dot text node</h3>
-         <h4 id="ELEM-474">expecting usual text node should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">...</span></pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">text</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-492">expecting '...' should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">...</span></pre></td>
-                  <td><pre>'...'</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-429">
+            <h3>For resultant text node When result is usual text node</h3>
+            <div id="ELEM-430">
+               <h4>expecting '...' should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">text</span></pre></td>
+                        <td><pre>'...'</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-447">
+            <h3>For resultant text node When result is whitespace-only text node</h3>
+            <div id="ELEM-448">
+               <h4>expecting usual text node should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff whitespace">\t\n\r␣</span></pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">text</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-468">
+            <h3>For resultant text node When result is zero-length text node</h3>
+            <div id="ELEM-469">
+               <h4>expecting usual text node should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff whitespace"></span></pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">text</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-489">
+            <h3>For resultant text node When result is three-dot text node</h3>
+            <div id="ELEM-490">
+               <h4>expecting usual text node should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">...</span></pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">text</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-509">
+               <h4>expecting '...' should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">...</span></pre></td>
+                        <td><pre>'...'</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-508">
+      <div id="ELEM-527">
          <h2 class="successful">For resultant comment<span class="scenario-totals">passed: 5 / pending: 0 / failed: 1 / total: 6</span></h2>
-         <table class="xspec" id="ELEM-510">
+         <table class="xspec" id="ELEM-529">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -589,7 +627,7 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-546">When result is &lt;!--...--&gt; </a></th>
+                  <th><a href="#ELEM-565">When result is &lt;!--...--&gt; </a></th>
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -601,35 +639,39 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-547">expecting &lt;!--comment--&gt; should be Failure</a></td>
+                  <td><a href="#ELEM-566">expecting &lt;!--comment--&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-546">For resultant comment When result is &lt;!--...--&gt; </h3>
-         <h4 id="ELEM-547">expecting &lt;!--comment--&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/comment()</code> from:
-                     </p><pre><span class="diff">&lt;!--...--&gt;</span></pre></td>
-                  <td>
-                     <p>XPath <code>/comment()</code> from:
-                     </p><pre><span class="diff">&lt;!--comment--&gt;</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-565">
+            <h3>For resultant comment When result is &lt;!--...--&gt; </h3>
+            <div id="ELEM-566">
+               <h4>expecting &lt;!--comment--&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/comment()</code> from:
+                           </p><pre><span class="diff">&lt;!--...--&gt;</span></pre></td>
+                        <td>
+                           <p>XPath <code>/comment()</code> from:
+                           </p><pre><span class="diff">&lt;!--comment--&gt;</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-566">
+      <div id="ELEM-587">
          <h2 class="successful">For resultant processing instruction<span class="scenario-totals">passed: 5 / pending: 0 / failed: 1 / total: 6</span></h2>
-         <table class="xspec" id="ELEM-568">
+         <table class="xspec" id="ELEM-589">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -658,7 +700,7 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-604">When result is &lt;?pi ...?&gt; </a></th>
+                  <th><a href="#ELEM-625">When result is &lt;?pi ...?&gt; </a></th>
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -670,35 +712,39 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-605">expecting &lt;?pi data?&gt; should be Failure</a></td>
+                  <td><a href="#ELEM-626">expecting &lt;?pi data?&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-604">For resultant processing instruction When result is &lt;?pi ...?&gt; </h3>
-         <h4 id="ELEM-605">expecting &lt;?pi data?&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/processing-instruction()</code> from:
-                     </p><pre><span class="diff">&lt;?pi ...?&gt;</span></pre></td>
-                  <td>
-                     <p>XPath <code>/processing-instruction()</code> from:
-                     </p><pre><span class="diff">&lt;?pi data?&gt;</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-625">
+            <h3>For resultant processing instruction When result is &lt;?pi ...?&gt; </h3>
+            <div id="ELEM-626">
+               <h4>expecting &lt;?pi data?&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/processing-instruction()</code> from:
+                           </p><pre><span class="diff">&lt;?pi ...?&gt;</span></pre></td>
+                        <td>
+                           <p>XPath <code>/processing-instruction()</code> from:
+                           </p><pre><span class="diff">&lt;?pi data?&gt;</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-624">
+      <div id="ELEM-647">
          <h2 class="successful">For resultant document node<span class="scenario-totals">passed: 4 / pending: 0 / failed: 3 / total: 7</span></h2>
-         <table class="xspec" id="ELEM-626">
+         <table class="xspec" id="ELEM-649">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -707,11 +753,11 @@
                   <th>passed: 4 / pending: 0 / failed: 3 / total: 7</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-669">When result is &lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt; </a></th>
+                  <th><a href="#ELEM-692">When result is &lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt; </a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-670">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</a></td>
+                  <td><a href="#ELEM-693">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="successful">
@@ -719,7 +765,7 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-690">When result is &lt;xsl:document /&gt; </a></th>
+                  <th><a href="#ELEM-715">When result is &lt;xsl:document /&gt; </a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
@@ -727,11 +773,11 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-691">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</a></td>
+                  <td><a href="#ELEM-716">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-706">When result is &lt;xsl:document&gt;...&lt;/xsl:document&gt; </a></th>
+                  <th><a href="#ELEM-733">When result is &lt;xsl:document&gt;...&lt;/xsl:document&gt; </a></th>
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -743,81 +789,93 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-707">expecting &lt;xsl:document&gt;text&lt;/xsl:document&gt; should be Failure</a></td>
+                  <td><a href="#ELEM-734">expecting &lt;xsl:document&gt;text&lt;/xsl:document&gt; should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-669">For resultant document node When result is &lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem
-            /&gt;&lt;/xsl:document&gt; 
-         </h3>
-         <h4 id="ELEM-670">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/self::document-node()</code> from:
-                     </p><pre><span class="same">&lt;?pi ?&gt;</span><span class="diff">&lt;!--comment--&gt;</span>
+         <div id="ELEM-692">
+            <h3>For resultant document node When result is &lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem
+               /&gt;&lt;/xsl:document&gt; 
+            </h3>
+            <div id="ELEM-693">
+               <h4>expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:
+                           </p><pre><span class="same">&lt;?pi ?&gt;</span><span class="diff">&lt;!--comment--&gt;</span>
 &lt;<span class="diff">elem</span> /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/self::document-node()</code> from:
-                     </p><pre><span class="same">...</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-690">For resultant document node When result is &lt;xsl:document /&gt; </h3>
-         <h4 id="ELEM-691">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>/self::document-node()</pre></td>
-                  <td>
-                     <p>XPath <code>/self::document-node()</code> from:
-                     </p><pre><span class="diff">...</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-706">For resultant document node When result is &lt;xsl:document&gt;...&lt;/xsl:document&gt; </h3>
-         <h4 id="ELEM-707">expecting &lt;xsl:document&gt;text&lt;/xsl:document&gt; should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/self::document-node()</code> from:
-                     </p><pre><span class="diff">...</span></pre></td>
-                  <td>
-                     <p>XPath <code>/self::document-node()</code> from:
-                     </p><pre><span class="diff">text</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:
+                           </p><pre><span class="same">...</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-715">
+            <h3>For resultant document node When result is &lt;xsl:document /&gt; </h3>
+            <div id="ELEM-716">
+               <h4>expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>/self::document-node()</pre></td>
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:
+                           </p><pre><span class="diff">...</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-733">
+            <h3>For resultant document node When result is &lt;xsl:document&gt;...&lt;/xsl:document&gt; </h3>
+            <div id="ELEM-734">
+               <h4>expecting &lt;xsl:document&gt;text&lt;/xsl:document&gt; should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:
+                           </p><pre><span class="diff">...</span></pre></td>
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:
+                           </p><pre><span class="diff">text</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-726">
-         <h2 class="successful">For resultant namespace node (TODO: xspec/xspec#67 for XQuery)<span class="scenario-totals">passed: 6 / pending: 0 / failed: 1 / total: 7</span></h2>
-         <table class="xspec" id="ELEM-728">
+      <div id="ELEM-755">
+         <h2 class="successful">For resultant namespace node<span class="scenario-totals">passed: 6 / pending: 0 / failed: 1 / total: 7</span></h2>
+         <table class="xspec" id="ELEM-757">
             <col width="75%" />
             <col width="25%" />
             <tbody>
                <tr class="successful">
-                  <th>For resultant namespace node (TODO: xspec/xspec#67 for XQuery)</th>
+                  <th>For resultant namespace node</th>
                   <th>passed: 6 / pending: 0 / failed: 1 / total: 7</th>
                </tr>
                <tr class="successful">
@@ -845,7 +903,7 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-767">When result is xmlns:prefix="..." </a></th>
+                  <th><a href="#ELEM-796">When result is xmlns:prefix="..." </a></th>
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -857,37 +915,39 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-768">expecting xmlns:prefix="namespace-uri" should be Failure</a></td>
+                  <td><a href="#ELEM-797">expecting xmlns:prefix="namespace-uri" should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-767">For resultant namespace node (TODO: xspec/xspec#67 for XQuery) When result is xmlns:prefix="..."
-            
-         </h3>
-         <h4 id="ELEM-768">expecting xmlns:prefix="namespace-uri" should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/*/namespace::*</code> from:
-                     </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:prefix="..." /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/*/namespace::*</code> from:
-                     </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:prefix="namespace-uri" /&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-796">
+            <h3>For resultant namespace node When result is xmlns:prefix="..." </h3>
+            <div id="ELEM-797">
+               <h4>expecting xmlns:prefix="namespace-uri" should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/*/namespace::*</code> from:
+                           </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:prefix="..." /&gt;</pre></td>
+                        <td>
+                           <p>XPath <code>/*/namespace::*</code> from:
+                           </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:prefix="namespace-uri" /&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-787">
+      <div id="ELEM-818">
          <h2 class="successful">For resultant sequence of multiple nodes<span class="scenario-totals">passed: 2 / pending: 0 / failed: 3 / total: 5</span></h2>
-         <table class="xspec" id="ELEM-789">
+         <table class="xspec" id="ELEM-820">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -896,7 +956,7 @@
                   <th>passed: 2 / pending: 0 / failed: 3 / total: 5</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-818">When result is sequence of &lt;elem1 /&gt;&lt;elem2 /&gt; </a></th>
+                  <th><a href="#ELEM-849">When result is sequence of &lt;elem1 /&gt;&lt;elem2 /&gt; </a></th>
                   <th>passed: 2 / pending: 0 / failed: 3 / total: 5</th>
                </tr>
                <tr class="successful">
@@ -908,86 +968,94 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-819">expecting ... should be Failure</a></td>
+                  <td><a href="#ELEM-850">expecting ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-838">expecting ...... should be Failure</a></td>
+                  <td><a href="#ELEM-870">expecting ...... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-857">expecting sequence of three ... should be Failure</a></td>
+                  <td><a href="#ELEM-890">expecting sequence of three ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-818">For resultant sequence of multiple nodes When result is sequence of &lt;elem1 /&gt;&lt;elem2
-            /&gt; 
-         </h3>
-         <h4 id="ELEM-819">expecting ... should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="same">elem1</span> /&gt;
+         <div id="ELEM-849">
+            <h3>For resultant sequence of multiple nodes When result is sequence of &lt;elem1 /&gt;&lt;elem2
+               /&gt; 
+            </h3>
+            <div id="ELEM-850">
+               <h4>expecting ... should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="same">elem1</span> /&gt;
 &lt;<span class="diff">elem2</span> /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="same">...</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-838">expecting ...... should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">elem1</span> /&gt;
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="same">...</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-870">
+               <h4>expecting ...... should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem1</span> /&gt;
 &lt;<span class="diff">elem2</span> /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">......</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-857">expecting sequence of three ... should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/element()</code> from:
-                     </p><pre>&lt;<span class="diff">elem1</span> /&gt;
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">......</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-890">
+               <h4>expecting sequence of three ... should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem1</span> /&gt;
 &lt;<span class="diff">elem2</span> /&gt;</pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">.........</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">.........</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-877">
+      <div id="ELEM-912">
          <h2 class="failed">When result is empty sequence<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-879">
+         <table class="xspec" id="ELEM-914">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -996,33 +1064,37 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-891">expecting ... should be Failure</a></td>
+                  <td><a href="#ELEM-926">expecting ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-877">When result is empty sequence</h3>
-         <h4 id="ELEM-891">expecting ... should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>()</pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">...</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-925">
+            <h3>When result is empty sequence</h3>
+            <div id="ELEM-926">
+               <h4>expecting ... should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>()</pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">...</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-907">
+      <div id="ELEM-944">
          <h2 class="successful">For resultant atomic value<span class="scenario-totals">passed: 2 / pending: 0 / failed: 4 / total: 6</span></h2>
-         <table class="xspec" id="ELEM-909">
+         <table class="xspec" id="ELEM-946">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -1031,7 +1103,7 @@
                   <th>passed: 2 / pending: 0 / failed: 4 / total: 6</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-946">When result is 'string'</a></th>
+                  <th><a href="#ELEM-983">When result is 'string'</a></th>
                   <th>passed: 1 / pending: 0 / failed: 2 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -1039,15 +1111,15 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-947">expecting ... should be Failure</a></td>
+                  <td><a href="#ELEM-984">expecting ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-962">expecting '...' should be Failure</a></td>
+                  <td><a href="#ELEM-1000">expecting '...' should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-974">When result is '...'</a></th>
+                  <th><a href="#ELEM-1014">When result is '...'</a></th>
                   <th>passed: 1 / pending: 0 / failed: 2 / total: 3</th>
                </tr>
                <tr class="successful">
@@ -1055,85 +1127,97 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-975">expecting ... should be Failure</a></td>
+                  <td><a href="#ELEM-1015">expecting ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-990">expecting 'string' should be Failure</a></td>
+                  <td><a href="#ELEM-1031">expecting 'string' should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-946">For resultant atomic value When result is 'string'</h3>
-         <h4 id="ELEM-947">expecting ... should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>'string'</pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">...</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-962">expecting '...' should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>'string'</pre></td>
-                  <td><pre>'...'</pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h3 id="ELEM-974">For resultant atomic value When result is '...'</h3>
-         <h4 id="ELEM-975">expecting ... should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>'...'</pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">...</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-990">expecting 'string' should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>'...'</pre></td>
-                  <td><pre>'string'</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-983">
+            <h3>For resultant atomic value When result is 'string'</h3>
+            <div id="ELEM-984">
+               <h4>expecting ... should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>'string'</pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">...</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-1000">
+               <h4>expecting '...' should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>'string'</pre></td>
+                        <td><pre>'...'</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-1014">
+            <h3>For resultant atomic value When result is '...'</h3>
+            <div id="ELEM-1015">
+               <h4>expecting ... should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>'...'</pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">...</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-1031">
+               <h4>expecting 'string' should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>'...'</pre></td>
+                        <td><pre>'string'</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-1003">
+      <div id="ELEM-1046">
          <h2 class="failed">For any resultant item<span class="scenario-totals">passed: 0 / pending: 0 / failed: 4 / total: 4</span></h2>
-         <table class="xspec" id="ELEM-1005">
+         <table class="xspec" id="ELEM-1048">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -1142,98 +1226,108 @@
                   <th>passed: 0 / pending: 0 / failed: 4 / total: 4</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-1029">expecting .... (four dots) should be Failure</a></td>
+                  <td><a href="#ELEM-1072">expecting .... (four dots) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-1047">expecting ...x (three dots with extra character) should be Failure</a></td>
+                  <td><a href="#ELEM-1091">expecting ...x (three dots with extra character) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-1065">expecting ... with surrounding whitespace should be Failure</a></td>
+                  <td><a href="#ELEM-1110">expecting ... with surrounding whitespace should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-1083">expecting '...' (xs:string) should be Failure</a></td>
+                  <td><a href="#ELEM-1129">expecting '...' (xs:string) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-1003">For any resultant item</h3>
-         <h4 id="ELEM-1029">expecting .... (four dots) should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">item</span></pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">....</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-1047">expecting ...x (three dots with extra character) should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">item</span></pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">...x</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-1065">expecting ... with surrounding whitespace should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">item</span></pre></td>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff"> ...</span></pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-1083">expecting '...' (xs:string) should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td>
-                     <p>XPath <code>/text()</code> from:
-                     </p><pre><span class="diff">item</span></pre></td>
-                  <td><pre>'...'</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-1071">
+            <h3>For any resultant item</h3>
+            <div id="ELEM-1072">
+               <h4>expecting .... (four dots) should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">item</span></pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">....</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-1091">
+               <h4>expecting ...x (three dots with extra character) should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">item</span></pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">...x</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-1110">
+               <h4>expecting ... with surrounding whitespace should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">item</span></pre></td>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff"> ...</span></pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-1129">
+               <h4>expecting '...' (xs:string) should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/text()</code> from:
+                           </p><pre><span class="diff">item</span></pre></td>
+                        <td><pre>'...'</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
    </body>
 </html>

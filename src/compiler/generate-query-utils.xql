@@ -8,6 +8,8 @@ module namespace test = "http://www.jenitennison.com/xslt/unit-test";
 (:    Copyright (c) 2008, 2010 Jeni Tennison (see end of file.)             :)
 (: ------------------------------------------------------------------------ :)
 
+import module namespace x = "http://www.jenitennison.com/xslt/xspec"
+  at "../common/xspec-utils.xquery";
 
 declare namespace fn = "http://www.w3.org/2005/xpath-functions";
 
@@ -83,8 +85,10 @@ declare function test:node-deep-equal(
     fn:string($node1) eq fn:string($node2)
   else if ( ( $node1 instance of attribute() and $node2 instance of attribute() )
             or ( $node1 instance of processing-instruction()
-                 and $node2 instance of processing-instruction()) ) then
-    fn:node-name($node1) eq fn:node-name($node2)
+                 and $node2 instance of processing-instruction())
+            or ( x:instance-of-namespace($node1)
+                 and x:instance-of-namespace($node2) ) ) then
+    fn:deep-equal( fn:node-name($node1), fn:node-name($node2) )
       and ( fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' )
   else if ( $node1 instance of comment() and $node2 instance of comment() ) then
     fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' 
@@ -162,51 +166,160 @@ declare function test:report-sequence(
     $wrapper-name as xs:string
   ) as element()
 {
-  test:report-sequence($sequence, $wrapper-name, 'http://www.jenitennison.com/xslt/xspec')
+  test:report-sequence($sequence, $wrapper-name, ())
 };
 
 declare function test:report-sequence(
     $sequence as item()*,
     $wrapper-name as xs:string,
+    $test as attribute(test)?
+  ) as element()
+{
+  let $wrapper-ns as xs:string := 'http://www.jenitennison.com/xslt/xspec'
+
+  let $attribute-nodes as attribute()* := $sequence[. instance of attribute()]
+  let $document-nodes as document-node()* := $sequence[. instance of document-node()]
+  let $namespace-nodes as node()* := $sequence[x:instance-of-namespace(.)]
+  let $text-nodes as text()* := $sequence[. instance of text()]
+
+  let $report-element as element() :=
+    element
+      { fn:QName($wrapper-ns, $wrapper-name) }
+      {
+        $test,
+
+        (
+          (: Empty :)
+          if (fn:empty($sequence))
+          then attribute select { "()" }
+
+          (: One or more atomic values :)
+          else if ($sequence instance of xs:anyAtomicType+)
+          then (
+            let $atomic-value-reports as xs:string+ :=
+              (for $value in $sequence return test:report-atomic-value($value))
+            return attribute select { fn:string-join($atomic-value-reports, ', ') }
+          )
+
+          (: One or more nodes of the same type which can be a child of document node :)
+          else if (
+            ($sequence instance of comment()+)
+            or ($sequence instance of element()+)
+            or ($sequence instance of processing-instruction()+)
+            or ($sequence instance of text()+)
+          )
+          then (
+            attribute select { fn:concat('/', x:node-type($sequence[1]), '()') },
+            for $node in $sequence return test:report-node($node)
+          )
+
+          (: Single document node :)
+          else if ($sequence instance of document-node())
+          then (
+            (: People do not always notice '/' in the report HTML. So express it more verbosely. :)
+            attribute select { "/self::document-node()" },
+            test:report-node($sequence)
+          )
+
+          (: One or more nodes which can be stored in an element safely and without losing each position.
+            Those nodes include document nodes and text nodes. By storing them in an element, they will
+            be unwrapped and/or merged with adjacent nodes. When it happens, the report does not
+            represent the sequence precisely. That's ok, because
+              * Otherwise the report will be cluttered with pseudo elements.
+              * XSpec in general including its test:deep-equal() inclines to merge them. :)
+          else if (($sequence instance of node()+) and fn:not($attribute-nodes or $namespace-nodes))
+          then (
+            attribute select { "/node()" },
+            for $node in $sequence return test:report-node($node)
+          )
+
+          (: Otherwise each item needs to be represented as a pseudo element :)
+          else (
+            attribute select {
+              fn:concat(
+                (: Select the pseudo elements :)
+                '/*',
+
+                (
+                  (: If all items are instance of node, they can be expressed in @select.
+                    (Document nodes are unwrapped, though.) :)
+                  if ($sequence instance of node()+)
+                  then (
+                    let $expressions as xs:string+ := (
+                      '@*'[$attribute-nodes],
+                      'namespace::*'[$namespace-nodes],
+                      'node()'[$sequence except ($attribute-nodes | $namespace-nodes)]
+                    )
+                    let $multi-expr as xs:boolean := (fn:count($expressions) ge 2)
+                    return
+                      fn:concat(
+                        '/',
+                        '('[$multi-expr],
+                        fn:string-join($expressions, ' | '),
+                        ')'[$multi-expr]
+                      )
+                  )
+                  else (
+                    (: Not all items can be expressed in @select. Just leave the pseudo elements selected. :)
+                  )
+                )
+              )
+            },
+
+            for $item in $sequence
+            return test:report-pseudo-item($item, $wrapper-ns)
+          )
+        )
+      }
+
+  (: Output the report element :)
+  return (
+    (: TODO: If too many nodes, save the report element as an external doc :)
+    $report-element
+  )
+};
+
+declare function test:report-pseudo-item(
+    $item as item(),
     $wrapper-ns as xs:string
   ) as element()
 {
-  element { fn:QName($wrapper-ns, $wrapper-name) } {
-    if ( $sequence[1] instance of attribute() ) then (
-        attribute { 'select' } { '/*/(@* | node())' },
-        element { fn:QName($wrapper-ns, 'temp') } { $sequence }
-      )
-    else if ( $sequence instance of node()+ ) then (
-        if ( $sequence instance of document-node() ) then
-          attribute { 'select' } { '/' }
-        else if ( fn:not($sequence instance of element()+) ) then
-          attribute { 'select' } { '/node()' }
-        else
-          ()
-        ,
-        if ( fn:count($sequence//node()) > 1000 ) then
-          fn:error((), 'TODO: Write the value within a file...')
-        else
-          $sequence/test:report-node(.)
-      )
+  let $local-name-prefix as xs:string := 'pseudo-'
+  return (
+    if ($item instance of xs:anyAtomicType)
+    then
+      element
+        { fn:QName($wrapper-ns, fn:concat($local-name-prefix, 'atomic-value')) }
+        { test:report-atomic-value($item) }
+
+    else if ($item instance of node())
+    then
+      element
+        { fn:QName($wrapper-ns, fn:concat($local-name-prefix, x:node-type($item))) }
+        { test:report-node($item) }
+
+    (: TODO: function(*) including array(*) and map(*) :)
+
     else
-      attribute { 'select' } {
-        if ( fn:empty($sequence) ) then
-          '()'
-        else if ( $sequence instance of item() ) then
-          test:report-atomic-value($sequence)
-        else
-          fn:concat('(', fn:string-join(for $v in $sequence return test:report-atomic-value($v), ', '), ')')
-      }
-  }
+      element 
+        { fn:QName($wrapper-ns, fn:concat($local-name-prefix, 'other')) }
+        {}
+  )
 };
 
+(:
+  Copies the nodes while wrapping whitespace-only text nodes in <test:ws>
+:)
 declare function test:report-node(
     $node as node()
     ) as node()
 {
   if ( ($node instance of text()) and fn:not(fn:normalize-space($node)) ) then
     element test:ws { $node }
+  else if ( $node instance of document-node() ) then
+    document {
+      for $child in $node/child::node() return test:report-node($child)
+    }
   else if ( $node instance of element() ) then
     element { fn:node-name($node) } {
       (

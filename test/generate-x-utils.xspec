@@ -7,21 +7,19 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:description xmlns:items="x-urn:test:xspec-items"
+               xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-               query="http://www.jenitennison.com/xslt/unit-test"
-               query-at="../src/compiler/generate-query-utils.xql"
-               stylesheet="do-nothing.xsl">
+               query="x-urn:test:xspec-items"
+               query-at="items.xquery"
+               stylesheet="items.xsl">
 
    <!--
        Test the source files generate-tests-utils.xsl and generate-query-utils.xql.
 
-       The XSLT test target (../src/compiler/generate-tests-utils.xsl) is included
-       implicitly by the XSpec compiler. You don't need to specify it in
-       /t:description/@stylesheet. If you specify it explicitly, you'll get a warning:
-       "Stylesheet module ../src/compiler/generate-tests-utils.xsl is
-       included or imported more than once."
+       The test target is included implicitly by the XSpec compiler. You don't need
+       to specify it in /t:description/@stylesheet or @query-at.
    -->
 
    <!--
@@ -571,6 +569,37 @@
                <t:param select="''" />
             </t:call>
             <t:expect label="True" select="true()" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="Namespace Nodes">
+
+         <t:scenario label="Identical">
+            <t:call function="test:node-deep-equal">
+               <t:param select="$items:namespace" />
+               <t:param select="$items:namespace" />
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Identical default namespace">
+            <t:call function="test:node-deep-equal">
+               <t:param select="$items:default-namespace" />
+               <t:param select="$items:default-namespace" />
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="True" select="true()" />
+         </t:scenario>
+
+         <t:scenario label="Different">
+            <t:call function="test:node-deep-equal">
+               <t:param select="$items:namespace" />
+               <t:param select="$items:another-namespace" />
+               <t:param select="''" />
+            </t:call>
+            <t:expect label="False" select="false()" />
          </t:scenario>
 
       </t:scenario>
