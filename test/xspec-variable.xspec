@@ -82,6 +82,10 @@
 				($myv:after_call='text_after_call') and
 				($myv:after_expect='text_after_expect')"
 			/>
+			<x:variable name="myv:after_2nd_expect" select="'text_after_2nd_expect'"/>
+			<x:expect label="Second expect is no different from first."
+				test="$myv:after_2nd_expect='text_after_2nd_expect'"
+			/>
 		</x:scenario>
 		<x:scenario label="Variable used to store node as expected value">
 			<x:call function="exactly-one">
