@@ -23,16 +23,22 @@
    <xsl:variable name="actual-document-uri" as="xs:anyURI"
       select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
 
+   <!-- XSpec namespace URI -->
    <xsl:variable name="xspec-namespace" as="xs:anyURI"
       select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')" />
 
+   <!-- XSpec namespace prefix -->
    <xsl:variable name="xspec-prefix" as="xs:string">
       <xsl:variable name="e" select="/element()" as="element(x:description)" />
       <xsl:sequence select="
-         in-scope-prefixes($e)
-            [namespace-uri-for-prefix(., $e) eq $xspec-namespace]
-            [. (: Do not allow zero-length string :)]
-            [1]"/>
+         (
+            in-scope-prefixes($e)
+               [namespace-uri-for-prefix(., $e) eq $xspec-namespace]
+               [. (: Do not allow zero-length string :)],
+            
+            (: Fallback. Intentionally made weird in order to avoid collision. :)
+            'XsPeC'
+         )[1]"/>
    </xsl:variable>
 
    <xsl:variable name="html-reporter-pi" as="processing-instruction(xml-stylesheet)">
