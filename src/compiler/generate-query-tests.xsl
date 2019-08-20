@@ -53,10 +53,18 @@
 
       <xsl:variable name="e" as="element()" select="."/>
       <xsl:for-each select="in-scope-prefixes($e)[not(. = ('xml', $except))]">
-         <xsl:text>declare namespace </xsl:text>
-         <xsl:value-of select="."/>
-         <xsl:text> = "</xsl:text>
-         <xsl:value-of select="namespace-uri-for-prefix(., $e)"/>
+         <xsl:variable name="prefix" as="xs:string" select="." />
+         <xsl:text>declare </xsl:text>
+         <xsl:if test="not($prefix)">
+            <xsl:text>default element </xsl:text>
+         </xsl:if>
+         <xsl:text>namespace </xsl:text>
+         <xsl:if test="$prefix">
+            <xsl:value-of select="$prefix"/>
+            <xsl:text> = </xsl:text>
+         </xsl:if>
+         <xsl:text>"</xsl:text>
+         <xsl:value-of select="namespace-uri-for-prefix($prefix, $e)"/>
          <xsl:text>";&#10;</xsl:text>
       </xsl:for-each>
    </xsl:template>
