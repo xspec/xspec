@@ -132,6 +132,38 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Variables can be redefined locally.">
+		<!-- Note: For x:variable elements that are direct children of x:description, names must be unique.
+		 This test scenario is about *local* redefinitions of global or local variables. -->
+		<x:scenario label="Local redefinition of global variable">
+			<x:variable name="myv:test-string" select="concat($myv:test-string,' (redefined locally)')" as="xs:string"/>
+			<x:call function="exactly-one">
+				<x:param select="$myv:test-string"/>
+			</x:call>
+			<x:expect label="yields correct redefined result." select="'global (redefined locally)'"/>
+		</x:scenario>
+		<x:scenario label="Redefinition of variable inherited from outer scenario">
+			<x:variable name="myv:outer" select="('overwritten','data')" as="xs:string+"/>
+			<x:variable name="myv:outer" select="'value #1'" as="xs:string"/>
+			<x:scenario label="[inner]">
+				<x:variable name="myv:outer" select="concat($myv:outer,' (redefined locally)')" as="xs:string"/>
+				<x:call function="exactly-one">
+					<x:param select="$myv:outer"/>
+				</x:call>
+				<x:expect label="reflects value redefined in inner scenario." select="'value #1 (redefined locally)'"/>
+			</x:scenario>
+		</x:scenario>
+		<x:scenario label="Redefinition of variable in same scenario">
+			<x:variable name="myv:local" select="('overwritten','data')" as="xs:string+"/>
+			<x:variable name="myv:local" select="'value #2'" as="xs:string"/>
+			<x:variable name="myv:local" select="concat($myv:local,' (redefined)')" as="xs:string"/>
+			<x:call function="exactly-one">
+				<x:param select="$myv:local"/>
+			</x:call>
+			<x:expect label="reflects value redefined within same scenario." select="'value #2 (redefined)'"/>
+		</x:scenario>
+	</x:scenario>
+
 	<x:scenario label="Nonsense variable definition in pending scenario does not cause build failure.">
 		<x:scenario label="Pending scenario 1" pending="skip on purpose">
 			<x:variable name="myv:nonsense1" select="$myv:nonexistent" as="item()+"/>

@@ -260,8 +260,8 @@
          <xsl:with-param name="local-name" select="generate-id()"/>
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="params" as="element(param)*">
-            <xsl:for-each select="$vars">
-               <param name="{ @name }" select="${ @name }"/>
+            <xsl:for-each select="distinct-values($vars/@name)">
+               <param name="{ . }" select="${ . }"/>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -282,8 +282,8 @@
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <param name="{x:xspec-name('result')}" select="${x:xspec-name('result')}" />
             </xsl:if>
-            <xsl:for-each select="$vars">
-               <param name="{ @name }" select="${ @name }"/>
+            <xsl:for-each select="distinct-values($vars/@name)">
+               <param name="{ . }" select="${ . }"/>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -460,8 +460,8 @@
          <!-- the variable declarations preceding the x:call or x:context (if any). -->
          <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable"/>
          <xsl:with-param name="params" as="element(param)*">
-            <xsl:for-each select="$vars">
-               <param name="{ @name }" required="yes"/>
+            <xsl:for-each select="distinct-values($vars/@name)">
+               <param name="{ . }" required="yes"/>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -487,8 +487,8 @@
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <param name="{x:xspec-name('result')}" required="yes" />
             </xsl:if>
-            <xsl:for-each select="$vars">
-               <param name="{ @name }" required="yes"/>
+            <xsl:for-each select="distinct-values($vars/@name)">
+               <param name="{ . }" required="yes"/>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
