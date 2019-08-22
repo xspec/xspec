@@ -301,6 +301,7 @@
    -->
    <xsl:template match="x:variable" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(var)*"/>
+      <xsl:call-template name="x:detect-reserved-variable-name"/>
       <!-- The variable declaration. -->
       <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
          <xsl:apply-templates select="." mode="test:generate-variable-declarations">
@@ -324,6 +325,9 @@
    -->
    <xsl:template match="x:description/x:param|x:description/x:variable" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(var)*"/>
+      <xsl:if test="self::x:variable">
+        <xsl:call-template name="x:detect-reserved-variable-name"/>
+      </xsl:if>
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
@@ -631,6 +635,24 @@
       <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
          <xsl:with-param name="var" select="$var" />
       </xsl:apply-templates>
+   </xsl:template>
+
+   <!-- Generate error message for user-defined usage of x:result.
+        Context node is an x:variable element. -->
+   <xsl:template name="x:detect-reserved-variable-name" as="empty-sequence()">
+      <xsl:variable name="msg" as="xs:string"
+         select="'User-defined XSpec variables must not be named ''result'' in the XSpec namespace.'"/>
+      <xsl:choose>
+         <xsl:when test="starts-with(normalize-space(@name),'Q{')">
+            <!-- URI-qualified name -->
+            <xsl:if test="(substring-after(@name,'}') eq 'result') and (replace(@name,'(^\s*Q\{)|(\}.*$)','') eq $xspec-namespace)">
+               <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)"/>
+            </xsl:if>
+         </xsl:when>
+         <xsl:when test="resolve-QName(@name,.) eq resolve-QName(x:xspec-name('result'),.)">
+            <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)"/>
+         </xsl:when>
+      </xsl:choose>
    </xsl:template>
 
    <xsl:function name="x:label" as="element(x:label)">

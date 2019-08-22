@@ -162,6 +162,15 @@
 			</x:call>
 			<x:expect label="reflects value redefined within same scenario." select="'value #2 (redefined)'"/>
 		</x:scenario>
+		<x:scenario label="The name 'result' in a non-XSpec namespace">
+			<x:call function="exactly-one">
+				<x:param select="'result of function call'"/>
+			</x:call>
+			<x:variable name="myv:result" select="'no conflict'" as="xs:string"/>
+			<x:expect label="has no conflict with $x:result" test="$myv:result eq 'no conflict'"/>
+			<x:expect label="while $x:result is preserved for explicit reference" test="$x:result eq 'result of function call'"/>
+			<x:expect label="or implicit reference." select="'result of function call'"/>
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Nonsense variable definition in pending scenario does not cause build failure.">
