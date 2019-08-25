@@ -1089,3 +1089,14 @@ teardown() {
 }
 
 
+@test "Error on user-defined variable in XSpec namespace" {
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    run ../bin/xspec.sh variable/reserved-name.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[3]}" =~ "x:XSPEC008:" ]]
+}
+
+
