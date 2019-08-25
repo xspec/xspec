@@ -680,7 +680,7 @@
          needs Q{} notation to record the namespace URI. -->
       <xsl:sequence select="for $thisqname in $distinctqnames return
          if ( empty(prefix-from-QName($thisqname)) and (string-length(namespace-uri-from-QName($thisqname)) gt 0) )
-         then 'Q{' || namespace-uri-from-QName($thisqname) || '}' || local-name-from-QName($thisqname)
+         then concat('Q{',namespace-uri-from-QName($thisqname),'}',local-name-from-QName($thisqname))
          else string($thisqname)
          "/>
    </xsl:function>
