@@ -29,7 +29,7 @@
    </t:scenario>
 
    <!-- TODO: Make two different cases for the base t:apply and with param.
-       TODO: Uncomment these two scenarios, after defining x:variable and x:apply in the XSpec schema: xspec/xspec#60
+       TODO: Uncomment these two scenarios, after defining x:apply in the XSpec schema: xspec/xspec#60
        TODO: Remove pending attributes from these two scenarios, after finishing implementing x:apply. -->
   <!--
    <t:scenario label="x:apply with correct x:expect" pending="not implemented yet">
