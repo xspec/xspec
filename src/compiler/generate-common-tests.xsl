@@ -649,7 +649,7 @@
         Context node is an x:variable element. -->
    <xsl:template name="x:detect-reserved-variable-name" as="empty-sequence()">
       <xsl:variable name="msg" as="xs:string"
-         select="'User-defined XSpec variables must not use the XSpec namespace.'"/>
+         select="concat('User-defined XSpec variable, ',@name,', must not use the XSpec namespace.')"/>
       <xsl:choose>
          <xsl:when test="starts-with(normalize-space(@name),'Q{')">
             <!-- URI-qualified name -->
@@ -657,7 +657,9 @@
                <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)"/>
             </xsl:if>
          </xsl:when>
-         <xsl:when test="namespace-uri-from-QName(resolve-QName(@name,.)) eq $xspec-namespace">
+         <xsl:when test="namespace-uri-from-QName(
+               if (contains(@name,':')) then resolve-QName(@name,.) else QName('',@name)
+            ) eq $xspec-namespace">
             <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)"/>
          </xsl:when>
       </xsl:choose>
