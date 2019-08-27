@@ -74,7 +74,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="In variable, @href precedes child node. So...">
+	<x:scenario label="In local variable, @href precedes child node. So...">
 		<x:scenario label="In //x:variable[node()][not(@href)],">
 			<x:variable name="myv:nodevar" as="element(variable-child)"><variable-child /></x:variable>
 			<x:call function="exactly-one">
