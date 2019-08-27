@@ -85,7 +85,7 @@
 			</x:expect>
 		</x:scenario>
 
-		<x:scenario label="In //x:variable[node()][@href],">
+		<x:scenario label="In //x:scenario/x:variable[node()][@href],">
 			<x:variable name="myv:hrefvar" href="xspec-node-selection.xml"><variable-child-not-allowed /></x:variable>
 			<x:call function="exactly-one">
 				<x:param select="$myv:hrefvar" />
