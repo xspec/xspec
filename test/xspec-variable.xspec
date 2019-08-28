@@ -177,9 +177,9 @@
 				<x:param select="'result of function call'"/>
 			</x:call>
 			<x:variable name="myv:result" select="'no conflict'" as="xs:string"/>
-			<x:expect label="has no conflict with $x:result" test="$myv:result eq 'no conflict'"/>
+			<x:expect label="has no conflict with $x:result" test="$myv:result and ($myv:result eq 'no conflict')"/>
 			<x:expect label="while $x:result is preserved for explicit reference"
-				test="$x:result eq 'result of function call'"/>
+				test="$x:result and ($x:result eq 'result of function call')"/>
 			<x:expect label="or implicit reference." select="'result of function call'"/>
 		</x:scenario>
 	</x:scenario>
