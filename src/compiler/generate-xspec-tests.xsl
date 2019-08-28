@@ -53,8 +53,8 @@
 
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
 
-    <import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{$stylesheet-uri}" />
+    <import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
     <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
 
     <include href="{resolve-uri('../common/xspec-utils.xsl', static-base-uri())}" />
