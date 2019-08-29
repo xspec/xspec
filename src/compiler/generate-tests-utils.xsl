@@ -471,7 +471,7 @@
   <xsl:param name="value" as="xs:anyAtomicType" />
   <xsl:choose>
     <xsl:when test="$value instance of xs:string">
-      <xsl:value-of select="concat('''',
+      <xsl:sequence select="concat('''',
                                    replace($value, '''', ''''''),
                                    '''')" />
     </xsl:when>
@@ -479,7 +479,7 @@
     <!-- Numeric literals: http://www.w3.org/TR/xpath20/#id-literals -->
     <!-- Check integer before decimal, because of derivation -->
     <xsl:when test="$value instance of xs:integer">
-      <xsl:value-of select="$value" />
+      <xsl:sequence select="string($value)" />
     </xsl:when>
     <xsl:when test="$value instance of xs:decimal">
       <xsl:sequence select="x:decimal-string($value)" />
@@ -491,7 +491,7 @@
              - xsl:otherwise will return valid expression. It's just some more verbose than numeric literal. -->
 
     <xsl:when test="$value instance of xs:QName">
-      <xsl:value-of 
+      <xsl:sequence
         select="concat('QName(''', namespace-uri-from-QName($value), 
                               ''', ''', if (prefix-from-QName($value)) 
                                         then concat(prefix-from-QName($value), ':') 
@@ -500,7 +500,7 @@
     </xsl:when>
     <xsl:otherwise>
       <xsl:variable name="type" select="test:atom-type($value)" />
-      <xsl:value-of select="concat($type, '(',
+      <xsl:sequence select="concat($type, '(',
                                    test:report-atomic-value(string($value)), ')')" />
     </xsl:otherwise>
   </xsl:choose>
