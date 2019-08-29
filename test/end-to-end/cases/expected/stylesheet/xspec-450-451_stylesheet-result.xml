@@ -2,6 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:myv="http://example.org/ns/my/variable"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../xspec-450-451.xsl"
           date="2000-01-01T00:00:00Z"
@@ -46,5 +47,46 @@
          <x:expect select="/node()">}{<elem attr="}{">}{</elem>
          </x:expect>
       </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>If value is from a variable instead of hard-coded,</x:label>
+      <x:scenario>
+         <x:label>context template-param containing curly brackets</x:label>
+         <x:context mode="param-mirror-mode">
+            <x:param name="param-items" select="$myv:local-var"/>
+            <context-child/>
+         </x:context>
+         <x:result select="/node()">}{<elem attr="}{">}{</elem>
+         </x:result>
+         <x:test successful="true">
+            <x:label>should work</x:label>
+            <x:expect select="/node()">}{<elem attr="}{">}{</elem>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>context containing curly brackets</x:label>
+         <x:context mode="context-mirror-mode" select="$myv:local-var"/>
+         <x:result select="/node()">}{<elem attr="}{">}{</elem>
+         </x:result>
+         <x:test successful="true">
+            <x:label>should work</x:label>
+            <x:expect select="/node()">}{<elem attr="}{">}{</elem>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>template-call template-param containing curly brackets</x:label>
+         <x:call template="param-mirror-template">
+            <x:param name="param-items" select="$myv:local-var"/>
+         </x:call>
+         <x:result select="/node()">}{<elem attr="}{">}{</elem>
+         </x:result>
+         <x:test successful="true">
+            <x:label>should work</x:label>
+            <x:expect select="/node()">}{<elem attr="}{">}{</elem>
+            </x:expect>
+         </x:test>
+      </x:scenario>
    </x:scenario>
 </x:report>

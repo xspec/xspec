@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:xml-base" query-at="test.xquery" stylesheet="test.xsl"
-	xml:base="xml-base/" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xml:base="xml-base/"
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:import href="test.xspec" xml:base="import/" />
 	<x:scenario label="In import (i.e. /x:description/x:import),">
@@ -29,5 +31,25 @@
 		</x:call>
 		<x:expect href="test.xml" label="@href is resolved with @xml:base"
 			xml:base="node-selection/" />
+	</x:scenario>
+
+	<x:variable href="test.xml" name="myv:global-var-href-only" xml:base="node-selection/" />
+	<x:variable href="test.xml" name="myv:global-var-href-select" select="/testing-xml-base/*" xml:base="node-selection/" />
+	<x:scenario label="In global-var (i.e. /x:description/x:variable),">
+		<x:call function="false" />
+		<x:expect label="@href is resolved with @xml:base"
+			test="$myv:global-var-href-only instance of document-node(element(testing-xml-base))" />
+		<x:expect label="even if @select is also present"
+			test="$myv:global-var-href-select instance of element(child-element)" />
+	</x:scenario>
+
+	<x:scenario label="In scenario-level var (i.e. //x:scenario/x:variable),">
+		<x:variable href="test.xml" name="myv:scenario-var-href-only" xml:base="node-selection/" />
+		<x:variable href="test.xml" select="/testing-xml-base/*" name="myv:scenario-var-href-select" xml:base="node-selection/" />
+		<x:call function="false" />
+		<x:expect label="@href is resolved with @xml:base"
+			test="$myv:scenario-var-href-only instance of document-node(element(testing-xml-base))" />
+		<x:expect label="even if @select is also present"
+			test="$myv:scenario-var-href-select instance of element(child-element)" />
 	</x:scenario>
 </x:description>

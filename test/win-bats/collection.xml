@@ -558,7 +558,9 @@
     call :verify_line 3 r ".*-child-not-allowed"
     call :verify_line 4 r ".*-child-not-allowed"
     call :verify_line 5 r ".*-child-not-allowed"
-    call :verify_line 6 r "Elapsed time"
+    call :verify_line 6 r ".*-child-not-allowed"
+    call :verify_line 7 r ".*-child-not-allowed"
+    call :verify_line 8 r "Elapsed time"
 	</case>
 
 	<case name="Ant for XSLT with saxon.custom.options">
@@ -799,5 +801,14 @@
     call :run ..\bin\xspec.bat do-nothing.xsl
     call :verify_retval 2
     call :verify_line 3 r "Source document is not XSpec"
+	</case>
+
+	<case name="Error on user-defined variable in XSpec namespace">
+    rem Make the line numbers predictable by providing an existing output dir
+    set "TEST_DIR=%WORK_DIR%"
+
+    call :run ..\bin\xspec.bat variable\reserved-name.xspec
+    call :verify_retval 2
+    call :verify_line 4 r ".*x:XSPEC008:"
 	</case>
 </collection>

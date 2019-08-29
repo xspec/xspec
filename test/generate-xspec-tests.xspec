@@ -22,9 +22,8 @@
 
    <!-- $xspec-prefix in generate-common-tests.xsl accesses the initial context node or the
       source document which is not available at XSpec runtime. So hardcode $xspec-prefix here.
-      TODO: XSpec had better provide a way (maybe an attribute in x:description) to define
-      the source document... -->
-   <t:param name="xspec-prefix" select="'t'" />
+      TODO: XSpec had better provide a way to define the source document... -->
+   <t:variable name="xspec-prefix" select="'t'" />
 
    <!--t:scenario label="FIRST TEST.......">
       <t:variable name="ctxt" as="document-node()">

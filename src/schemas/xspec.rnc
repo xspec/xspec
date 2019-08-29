@@ -24,10 +24,10 @@ description =
 		attribute xslt-version { xsd:decimal }?,
 
 		attribute query-at { xsd:anyURI }?,
-		attribute version { xsd:decimal }?,		
+		attribute version { xsd:decimal }?,
 		attribute preserve-space { xsd:NMTOKENS }?,
 		attribute schematron { xsd:anyURI }?,
-		(global-param | import | scenario | pending)+ }
+		(global-param | import | scenario | pending | variable)+ }
 
 import = 
 	## An import brings in all the scenarios from the referenced file (which must
@@ -92,6 +92,10 @@ label =
 	attribute label { text } |
 	element label { user-content }
 
+variable =
+	## A test file can define global variables. A scenario can define local variables.
+	element variable { common-attributes, name, as?, selection }
+
 shared = 
 	## There are shared scenarios (shared="yes") and unshared scenarios (shared="no",
 	## the default). Shared scenarios can be referenced and reused by other scenarios
@@ -112,9 +116,9 @@ like =
 ## Child scenarios can override the parameters in the context, and can provide
 ## any missing values in the <context> (for example, if the context on the parent
 ## scenario doesn't provide a mode, that could be provided by the child scenario).
-matching-scenario = context?,
+matching-scenario = (variable*, context?, variable*),
                     like*,
-                    (pending | assertion)*, 
+                    (pending | assertion | variable)*,
                     (pending | 
                      element scenario { common-scenario-attributes, 
                                         label, matching-scenario })*
@@ -123,9 +127,9 @@ matching-scenario = context?,
 ## <call> element defines the function call and the paraemeters passed to it
 ## and the <assertion> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
-function-scenario = function-call?,
+function-scenario = (variable*, function-call?, variable*),
                     like*,
-                    (pending | assertion)*,
+                    (pending | assertion | variable)*,
                     (pending | 
                      element scenario { common-scenario-attributes,
                                         label, function-scenario })*
@@ -134,10 +138,10 @@ function-scenario = function-call?,
 ## element defines the template call and the parameters passed to it and the
 ## <assertion> elements test the result of the template call. Child scenarios
 ## can override the parameters in the template call.
-named-scenario = context?,
-                 template-call?, 
+named-scenario = (variable*, context?),
+                 (variable*, template-call?, variable*),
                  like*,
-                 (pending | assertion)*,
+                 (pending | assertion | variable)*,
                  (pending | 
                   element scenario { common-scenario-attributes,
                                      label, named-scenario })*
