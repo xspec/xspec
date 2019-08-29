@@ -482,11 +482,7 @@
       <xsl:value-of select="$value" />
     </xsl:when>
     <xsl:when test="$value instance of xs:decimal">
-      <xsl:value-of>
-        <xsl:variable as="xs:string" name="decimal-string" select="string($value)"/>
-        <xsl:sequence select="$decimal-string"/>
-        <xsl:sequence select="'.0'[not(contains($decimal-string,'.'))]"/>
-      </xsl:value-of>
+      <xsl:sequence select="x:decimal-string($value)" />
     </xsl:when>
     <!-- xs:double
              Just defer it to xsl:otherwise. Justifications below.

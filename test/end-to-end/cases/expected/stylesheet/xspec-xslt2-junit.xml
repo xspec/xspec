@@ -21,7 +21,7 @@
       </testcase>
       <testcase name="All of these tests should be Success on xslt-version=1.0 and Failure on 2.0 Expecting the compiled stylesheet to have version=1.0"
                 status="failed">
-         <failure message="expect assertion failed">Expected: 1.0</failure>
+         <failure message="expect assertion failed">Expected: '1.0'</failure>
       </testcase>
    </testsuite>
 </testsuites>
