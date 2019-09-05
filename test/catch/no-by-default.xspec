@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
+	stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="By default">
+		<x:call function="error">
+			<x:param select="xs:QName('my-error-code')" />
+		</x:call>
+		<x:expect label="error in SUT should not be caught" />
+	</x:scenario>
+
+</x:description>

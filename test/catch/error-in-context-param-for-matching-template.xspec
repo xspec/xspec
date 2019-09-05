@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="test.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xquery-version="3.1" xslt-version="3.0">
+
+	<x:scenario catch="yes" label="With @catch=yes">
+
+		<x:scenario label="error in context param for matching template">
+			<x:context>
+				<x:param name="param-item"
+					select="error(xs:QName('error-code-of-my-context-param-for-matching-template'))" />
+				<context-element-for-test-template />
+			</x:context>
+			<x:expect label="should not be caught" />
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>

@@ -1100,3 +1100,60 @@ teardown() {
 }
 
 
+@test "@catch should not catch error outside SUT (XSLT)" {
+    run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-context-avt-for-template-call: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-context-param-for-matching-template: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-function-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-template-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-template-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+}
+
+
+@test "@catch should not catch error outside SUT (XQuery)" {
+    run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh -q catch/error-in-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+}
+
+
+@test "Error in SUT should not be caught by default (XSLT)" {
+    run ../bin/xspec.sh catch/no-by-default.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+}
+
+
+@test "Error in SUT should not be caught by default (XQuery)" {
+    run ../bin/xspec.sh -q catch/no-by-default.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+}
+
+
