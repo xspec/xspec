@@ -283,16 +283,22 @@
                <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
                <xsl:text>  let $</xsl:text>
                <xsl:value-of select="x:xspec-name('result')" />
-               <xsl:text> := </xsl:text>
-               <xsl:value-of select="$call/@function"/>
-               <xsl:text>(</xsl:text>
-               <xsl:for-each select="$call/x:param">
-                  <xsl:sort select="xs:integer(@position)"/>
-                  <xsl:text>$</xsl:text>
-                  <xsl:value-of select="( @name, generate-id() )[1]"/>
-                  <xsl:if test="position() != last()">, </xsl:if>
-               </xsl:for-each>
-               <xsl:text>)&#10;</xsl:text>
+               <xsl:text> := (&#10;</xsl:text>
+               <xsl:call-template name="x:enter-sut">
+                  <xsl:with-param name="instruction" as="text()+">
+                     <xsl:text>    </xsl:text>
+                     <xsl:value-of select="$call/@function"/>
+                     <xsl:text>(</xsl:text>
+                     <xsl:for-each select="$call/x:param">
+                        <xsl:sort select="xs:integer(@position)"/>
+                        <xsl:text>$</xsl:text>
+                        <xsl:value-of select="( @name, generate-id() )[1]"/>
+                        <xsl:if test="position() != last()">, </xsl:if>
+                     </xsl:for-each>
+                     <xsl:text>)&#10;</xsl:text>
+                  </xsl:with-param>
+               </xsl:call-template>
+               <xsl:text>  )&#10;</xsl:text>
                <xsl:text>    return (&#10;</xsl:text>
                <xsl:text>      test:report-sequence($</xsl:text>
                <xsl:value-of select="x:xspec-name('result')" />
@@ -317,6 +323,35 @@
       </xsl:element>
       <xsl:text>&#10;};&#10;</xsl:text>
       <xsl:call-template name="x:compile-scenarios"/>
+   </xsl:template>
+
+   <xsl:template name="x:output-try-catch" as="text()+">
+      <xsl:param name="instruction" as="text()+" required="yes" />
+
+      <xsl:text>    try {&#x0A;</xsl:text>
+      <xsl:text>  </xsl:text>
+      <xsl:sequence select="$instruction" />
+      <xsl:text>    }&#x0A;</xsl:text>
+      <xsl:text>    catch * {&#x0A;</xsl:text>
+      <xsl:text>      map {&#x0A;</xsl:text>
+      <xsl:text>        'err': map {&#x0A;</xsl:text>
+
+      <!-- Variables available within the catch clause: https://www.w3.org/TR/xquery-31/#id-try-catch
+         $err:additional doesn't work on Saxon 9.8: https://saxonica.plan.io/issues/4133 -->
+      <xsl:for-each select="'code', 'description', 'value', 'module', 'line-number', 'column-number'">
+         <xsl:text>                 '</xsl:text>
+         <xsl:value-of select="." />
+         <xsl:text>': $Q{http://www.w3.org/2005/xqt-errors}</xsl:text>
+         <xsl:value-of select="." />
+         <xsl:if test="position() ne last()">
+            <xsl:text>,</xsl:text>
+         </xsl:if>
+         <xsl:text>&#x0A;</xsl:text>
+      </xsl:for-each>
+
+      <xsl:text>               }&#x0A;</xsl:text>
+      <xsl:text>      }&#x0A;</xsl:text>
+      <xsl:text>    }&#x0A;</xsl:text>
    </xsl:template>
 
    <!--
