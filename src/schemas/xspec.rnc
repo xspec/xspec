@@ -320,7 +320,8 @@ schematron-count-expect =
     ## Number of times an <assert> or <report> is expected to be thrown.
     attribute count { xsd:nonNegativeInteger }?
 
-# EQName: https://www.w3.org/TR/xslt-30/schema-for-xslt30.rnc
+# Data types from https://www.w3.org/TR/xslt-30/schema-for-xslt30.rnc
 uri.qualified.name = xsd:token { pattern = "Q\{[^\{\}]*\}[\i-[:]][\c-[:]]*" } 
 qname.strict = xsd:token { pattern = "[\i-[:]][\c-[:]]:[\i-[:]][\c-[:]]" }
 eqname.datatype = xsd:QName | uri.qualified.name | qname.strict 
+boolean.datatype = "yes" | "no" | "true" | "false" | "0" | "1" 
