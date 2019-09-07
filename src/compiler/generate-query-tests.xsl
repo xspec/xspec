@@ -148,6 +148,8 @@
       <xsl:call-template name="x:compile-scenarios"/>
       <xsl:text>&#10;</xsl:text>
 
+      <xsl:text>document {&#x0A;</xsl:text>
+
       <xsl:apply-templates select="$html-reporter-pi" mode="test:create-node-generator" />
       <xsl:text>,&#x0A;</xsl:text>
 
@@ -166,6 +168,8 @@
          <xsl:call-template name="x:call-scenarios"/>
          <xsl:text>&#10;}&#10;</xsl:text>
       </xsl:element>
+
+      <xsl:text> }&#x0A;</xsl:text>
    </xsl:template>
 
    <!-- *** x:output-call *** -->
