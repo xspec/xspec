@@ -30,6 +30,9 @@
 			select="resolve-uri('iso-schematron/iso_svrl_for_xslt2.xsl')" />
 
 		<stylesheet exclude-result-prefixes="#all" version="{(@xslt-version, 2.0)[1]}">
+			<!-- Standard namespace required by the generated stylesheet -->
+			<xsl:namespace name="xs" select="'http://www.w3.org/2001/XMLSchema'" />
+
 			<!-- Copy namespaces. /x:description/x:param may use them.
 				This aligns with the XSpec implementation for XSLT, but probably the
 				namespaces should be handled in finer granularity and copied in
