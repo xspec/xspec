@@ -283,7 +283,7 @@ teardown() {
 }
 
 
-@test "executing the Saxon XProc harness generates a report with UTF-8 encoding" {
+@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XSLT)" {
     if [ -z "${XMLCALABASH_JAR}" ]; then
         skip "XMLCALABASH_JAR is not defined"
     fi
@@ -293,6 +293,22 @@ teardown() {
         -p xspec-home=file:${PWD}/../ \
         -o result=xspec/xspec-72-result.html \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    run java -jar "${SAXON_JAR}" -s:xspec/xspec-72-result.html -xsl:html-charset.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
+}
+
+
+@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XQuery)" {
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-72.xspec \
+        -p xspec-home=file:${PWD}/../ \
+        -o result=xspec/xspec-72-result.html \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
     run java -jar "${SAXON_JAR}" -s:xspec/xspec-72-result.html -xsl:html-charset.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]

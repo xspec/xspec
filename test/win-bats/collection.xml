@@ -195,12 +195,22 @@
     call :verify_line 4 r "Testing with"
 	</case>
 
-	<case ifdef="XMLCALABASH_JAR" name="executing the Saxon XProc harness generates a report with UTF-8 encoding">
+	<case ifdef="XMLCALABASH_JAR" name="executing the Saxon XProc harness generates a report with UTF-8 encoding (XSLT)">
     call :run java -jar "%XMLCALABASH_JAR%" ^
         -i source=xspec-72.xspec ^
         -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" ^
         -o result=xspec/xspec-72-result.html ^
         ..\src\harnesses\saxon\saxon-xslt-harness.xproc
+    call :run java -jar "%SAXON_JAR%" -s:xspec\xspec-72-result.html -xsl:html-charset.xsl
+    call :verify_line 1 x "true"
+	</case>
+
+	<case ifdef="XMLCALABASH_JAR" name="executing the Saxon XProc harness generates a report with UTF-8 encoding (XQuery)">
+    call :run java -jar "%XMLCALABASH_JAR%" ^
+        -i source=xspec-72.xspec ^
+        -p xspec-home="file:/%PARENT_DIR_ABS:\=/%/" ^
+        -o result=xspec/xspec-72-result.html ^
+        ..\src\harnesses\saxon\saxon-xquery-harness.xproc
     call :run java -jar "%SAXON_JAR%" -s:xspec\xspec-72-result.html -xsl:html-charset.xsl
     call :verify_line 1 x "true"
 	</case>
