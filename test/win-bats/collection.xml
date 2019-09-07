@@ -726,6 +726,16 @@
     call :verify_line -1 r "ERROR:"
 	</case>
 
+	<case ifdef="XMLCALABASH_JAR" name="XQuery selecting nodes without context should be error (XProc) #423">
+    call :run java -jar "%XMLCALABASH_JAR%" ^
+        -i source=xspec-423/test.xspec ^
+        -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        ..\src\harnesses\saxon\saxon-xquery-harness.xproc
+    call :verify_retval 1
+    call :verify_line -3 r "..*err:XPDY0002:"
+    call :verify_line -1 r "ERROR:"
+	</case>
+
 	<case name="XSLT selecting nodes without context should be error (Ant) #423">
     call :run ant ^
         -buildfile ..\build.xml ^
@@ -751,7 +761,7 @@
     call :verify_line -1 x "*** Error collecting test coverage data"
 	</case>
 
-	<case name="XQuery selecting nodes without context should be error #423">
+	<case name="XQuery selecting nodes without context should be error (command line) #423">
     call :run ..\bin\xspec.bat -q xspec-423\test.xspec
     call :verify_retval 2
     call :verify_line  * r "  XPDY0002:"
