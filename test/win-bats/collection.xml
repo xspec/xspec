@@ -201,16 +201,17 @@
     call :verify_line 1 x "true"
 	</case>
 
-	<case name="invoking xspec with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs successfully and generates HTML report file">
+	<case name="invoking xspec with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs and loads doc #610 successfully and generates HTML report file (XSLT)">
     set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
     call :mkdir "%SPECIAL_CHARS_DIR%"
-    call :copy ..\tutorial\escape-for-regex.* "%SPECIAL_CHARS_DIR%"
+    call :copy do-nothing.xsl         "%SPECIAL_CHARS_DIR%"
+    call :copy xspec-node-selection.* "%SPECIAL_CHARS_DIR%"
 
-    set "EXPECTED_REPORT=%SPECIAL_CHARS_DIR%\xspec\escape-for-regex-result.html"
+    set "EXPECTED_REPORT=%SPECIAL_CHARS_DIR%\xspec\xspec-node-selection-result.html"
 
-    call :run ..\bin\xspec.bat "%SPECIAL_CHARS_DIR%\escape-for-regex.xspec"
+    call :run ..\bin\xspec.bat "%SPECIAL_CHARS_DIR%\xspec-node-selection.xspec"
     call :verify_retval 0
-    call :verify_line 20 x "Report available at %EXPECTED_REPORT%"
+    call :verify_line 29 x "Report available at %EXPECTED_REPORT%"
     call :verify_exist "%EXPECTED_REPORT%"
 	</case>
 
