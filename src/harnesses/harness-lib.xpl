@@ -3,7 +3,7 @@
 <!--  File:       harness-lib.xpl                                          -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-11-08                                               -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
+<!--  URI:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
