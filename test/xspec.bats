@@ -288,7 +288,11 @@ teardown() {
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -Xmx1024m -cp "${XMLCALABASH_JAR}" com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home=file:${PWD}/../ -oresult=xspec/xspec-72-result.html ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-72.xspec \
+        -p xspec-home=file:${PWD}/../ \
+        -o result=xspec/xspec-72-result.html \
+        ../src/harnesses/saxon/saxon-xslt-harness.xproc
     run java -jar "${SAXON_JAR}" -s:xspec/xspec-72-result.html -xsl:html-charset.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
