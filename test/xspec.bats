@@ -311,6 +311,22 @@ teardown() {
 }
 
 
+@test "invoking xspec with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs and loads doc #610 successfully and generates HTML report file (XQuery)" {
+    special_chars_dir="${work_dir}/some'path (84) here & there"
+    mkdir "${special_chars_dir}"
+    cp do-nothing.xquery      "${special_chars_dir}"
+    cp xspec-node-selection.* "${special_chars_dir}"
+
+    expected_report="${special_chars_dir}/xspec/xspec-node-selection-result.html"
+
+    run ../bin/xspec.sh -q "${special_chars_dir}/xspec-node-selection.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}" = "Report available at ${expected_report}" ]
+    [ -f "${expected_report}" ]
+}
+
+
 @test "invoking xspec with saxon script uses the saxon script #121 #122" {
     echo "echo 'Saxon script with EXPath Packaging System'" > "${work_dir}/saxon"
     chmod +x "${work_dir}/saxon"
