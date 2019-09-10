@@ -21,6 +21,8 @@ env:
         - SAXON_VERSION=9.8.0-15
         # Saxon version used in oXygen
         - SAXON_VERSION=9.8.0-12
+        # highest deprecated Saxon version
+        - SAXON_VERSION=9.7.0-21
 
 before_install:
     - unset _JAVA_OPTIONS
