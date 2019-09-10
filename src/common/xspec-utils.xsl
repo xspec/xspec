@@ -173,4 +173,44 @@
 		 />
 	</xsl:function>
 
+	<!--
+		Packs w.x.y.z version into uint64, assuming every component is uint16
+			Example:
+				in:  76, 0, 3809, 132
+				out: 21392098479636612 (0x004C00000EE10084)
+	-->
+	<xsl:function name="x:pack-version">
+		<xsl:param as="xs:integer" name="w" />
+		<xsl:param as="xs:integer" name="x" />
+		<xsl:param as="xs:integer" name="y" />
+		<xsl:param as="xs:integer" name="z" />
+
+		<!-- Shift by multiplying 0x10000 -->
+		<xsl:variable as="xs:integer" name="high32" select="$w * 65536 + $x" />
+		<xsl:variable as="xs:integer" name="low32" select="$y * 65536 + $z" />
+
+		<!-- Shift by multiplying 0x100000000 -->
+		<xsl:sequence select="$high32 * 4294967296 + $low32" />
+	</xsl:function>
+
+	<!--
+		Returns Saxon version packed as uint64, based on 'xsl:product-version' system property,
+		ignoring edition (EE, PE, HE).
+		Returns an empty sequence, if XSLT processor is not Saxon.
+			Example:
+				"EE 9.9.1.5"  -> 2533313445167109 (0x0009000900010005)
+				"HE 9.3.0.11" -> 2533287675297809 (0x0009000300000011)
+	-->
+	<xsl:function as="xs:integer?" name="x:saxon-version">
+		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
+			<xsl:variable as="xs:integer+" name="versions"
+				select="
+					for $s in tokenize(system-property('xsl:product-version'), '[\s\.]')[position() ge 2]
+					return
+						xs:integer($s)" />
+			<xsl:sequence
+				select="x:pack-version($versions[1], $versions[2], $versions[3], $versions[4])" />
+		</xsl:if>
+	</xsl:function>
+
 </xsl:stylesheet>
