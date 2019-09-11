@@ -3,7 +3,7 @@
 <!--  File:       saxon-xslt-harness.xproc                                 -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
+<!--  URI:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

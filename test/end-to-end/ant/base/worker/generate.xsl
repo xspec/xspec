@@ -24,7 +24,7 @@
 
 		<!-- Directory URI of the processor root -->
 		<xsl:variable as="xs:anyURI" name="processor-dir-uri"
-			select="resolve-uri('../../../processor/', static-base-uri())" />
+			select="resolve-uri('../../../processor/')" />
 
 		<!-- Directory URIs where the XSpec report files are put -->
 		<xsl:variable as="xs:anyURI" name="actual-reports-dir-uri"

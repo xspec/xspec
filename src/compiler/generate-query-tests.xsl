@@ -36,7 +36,7 @@
        MarkLogic).
    -->
    <xsl:param name="utils-library-at" select="
-       resolve-uri('generate-query-utils.xql', static-base-uri())"/>
+       resolve-uri('generate-query-utils.xql')"/>
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?" select="
@@ -244,6 +244,18 @@
       <xsl:text>(</xsl:text>
       <xsl:value-of select="$params/concat('$', @name)" separator=", "/>
       <xsl:text>)&#10;{&#10;</xsl:text>
+
+      <!-- If there are variables before x:call, the caller passed them in as $variables.
+           Define them here followed by "return". -->
+      <xsl:if test="exists($variables)">
+         <xsl:for-each select="$variables">
+            <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+               <xsl:with-param name="var" select="@name"/>
+            </xsl:apply-templates>
+         </xsl:for-each>
+         <xsl:text>    return&#10;</xsl:text>
+      </xsl:if>
+
       <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
          <!-- Create @pending generator -->
          <xsl:if test="$pending-p">
@@ -261,11 +273,6 @@
          <xsl:text>      &#10;{&#10;</xsl:text>
          <xsl:choose>
             <xsl:when test="not($pending-p)">
-               <xsl:for-each select="$variables">
-                  <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-                     <xsl:with-param name="var" select="@name"/>
-                  </xsl:apply-templates>
-               </xsl:for-each>
                <!--
                  let $xxx-param1 := ...
                  let $xxx-param2 := ...
