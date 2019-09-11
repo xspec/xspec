@@ -25,13 +25,7 @@ strategy:
 pool:
   vmImage: 'vs2017-win2016'
 
-steps:
-  - task: Maven@3
-    inputs:
-      mavenPomFile: 'pom.xml'
-      mavenOptions: '-Xmx3072m'
-      javaHomeOption: 'JDKVersion'
-      jdkVersionOption: '1.8'
-      jdkArchitectureOption: 'x64'
-      publishJUnitResults: false
-      goals: 'install'
+jobs:
+- job: installSaxon
+  steps:
+  - powershell: curl.exe -fsSL --create-dirs --retry 5 -o $(SAXON_JAR) "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION)/Saxon-HE-$(SAXON_VERSION).jar"
