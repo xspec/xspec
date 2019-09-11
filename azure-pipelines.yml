@@ -1,0 +1,37 @@
+trigger:
+- azure_pipelines_test
+
+variables:
+  # full path to Saxon jar
+  SAXON_JAR: '%TEMP%\xspec\saxon\saxon9he.jar'
+  # Ant version used in oXygen
+  ANT_VERSION: 1.9.8
+  # full path to XML Resolver jar
+  XML_RESOLVER_JAR: '%TEMP%\xspec\xml-resolver\resolver.jar'
+
+strategy:
+  matrix:
+    saxon-9.9.1-5:
+      SAXON_VERSION: '9.9.1-5' 
+        JING_VERSION: '20181222'
+        XMLCALABASH_VERSION: '1.1.27-99'
+        BASEX_VERSION: '8.6.4'
+      saxon-9.8.0-15:
+        SAXON_VERSION: '9.8.0-15' 
+      saxon-9.8.0-12:
+        SAXON_VERSION: '9.8.0-12' 
+      maxParallel: 3
+
+pool:
+  vmImage: 'vs2017-win2016'
+
+steps:
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: false
+      goals: 'install'
