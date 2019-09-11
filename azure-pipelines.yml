@@ -13,14 +13,14 @@ strategy:
   matrix:
     saxon-9.9.1-5:
       SAXON_VERSION: '9.9.1-5' 
-        JING_VERSION: '20181222'
-        XMLCALABASH_VERSION: '1.1.27-99'
-        BASEX_VERSION: '8.6.4'
-      saxon-9.8.0-15:
-        SAXON_VERSION: '9.8.0-15' 
-      saxon-9.8.0-12:
-        SAXON_VERSION: '9.8.0-12' 
-      maxParallel: 3
+      JING_VERSION: '20181222'
+      XMLCALABASH_VERSION: '1.1.27-99'
+      BASEX_VERSION: '8.6.4'
+    saxon-9.8.0-15:
+      SAXON_VERSION: '9.8.0-15' 
+    saxon-9.8.0-12:
+      SAXON_VERSION: '9.8.0-12' 
+    maxParallel: 3
 
 pool:
   vmImage: 'vs2017-win2016'
