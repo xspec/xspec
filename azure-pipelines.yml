@@ -29,5 +29,5 @@ stages:
 - stage: installDependencies
   jobs:
     - job: installSaxon
-    steps:
+      steps:
       - powershell: curl.exe -fsSL --create-dirs --retry 5 -o $(SAXON_JAR) "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION)/Saxon-HE-$(SAXON_VERSION).jar"
