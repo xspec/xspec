@@ -20,7 +20,7 @@ strategy:
       SAXON_VERSION: '9.8.0-15' 
     saxon-9.8.0-12:
       SAXON_VERSION: '9.8.0-12' 
-    maxParallel: 3
+  maxParallel: 3
 
 pool:
   vmImage: 'vs2017-win2016'
