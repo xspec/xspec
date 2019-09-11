@@ -22,12 +22,13 @@ strategy:
       SAXON_VERSION: '9.8.0-12' 
   maxParallel: 3
 
-pool:
-  vmImage: 'vs2017-win2016'
 
 stages:
 - stage: installDependencies
+  displayName: 'Install Dependencies'
   jobs:
   - job: installSaxon
+    pool:
+      vmImage: 'vs2017-win2016'
     steps:
     - powershell: curl.exe -fsSL --create-dirs --retry 5 -o $(SAXON_JAR) "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION)/Saxon-HE-$(SAXON_VERSION).jar"
