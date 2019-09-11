@@ -22,7 +22,6 @@ strategy:
       SAXON_VERSION: '9.8.0-12' 
   maxParallel: 3
 
-
 stages:
 - stage: installDependencies
   displayName: 'Install Dependencies'
