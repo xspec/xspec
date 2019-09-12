@@ -27,3 +27,4 @@ pool:
 
 steps:
   - powershell: curl.exe -fsSL --create-dirs --retry 5 -o $(SAXON_JAR) "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/$(SAXON_VERSION)/Saxon-HE-$(SAXON_VERSION).jar"
+  - powershell: java -cp "%SAXON_JAR%" net.sf.saxon.Version
