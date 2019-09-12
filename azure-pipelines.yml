@@ -26,7 +26,25 @@ pool:
   vmImage: 'vs2017-win2016'
 
 steps:
-  - powershell: curl.exe -fsSL --create-dirs --retry 5 -o $(SAXON_JAR) "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/$(SAXON_VERSION)/Saxon-HE-$(SAXON_VERSION).jar"
-  - powershell: Write-Host "$(SAXON_JAR)"
-  - powershell: java -version
-  - powershell: java -cp "$(SAXON_JAR)" net.sf.saxon.Version
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      rem install Saxon
+      curl.exe -fsSL --create-dirs --retry 5 -o $(SAXON_JAR) "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/$(SAXON_VERSION)/Saxon-HE-$(SAXON_VERSION).jar"
+      rem check Saxon version
+      java -cp "$(SAXON_JAR)" net.sf.saxon.Version
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      rem install XML Calabash
+      if( -Not( Test-Path -Path env:\XMLCALABASH_VERSION ) ) {
+          echo "XMLCalabash will not be installed as it uses a higher version of Saxon"
+      }
+      
+      else {
+          curl.exe -fsSL --create-dirs --retry 5 -o "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
+          7z x "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" -o"${env:TEMP}\xspec\xmlcalabash"
+          ${env:XMLCALABASH_JAR} = "${env:TEMP}\xspec\xmlcalabash\xmlcalabash-${env:XMLCALABASH_VERSION}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
+      }
