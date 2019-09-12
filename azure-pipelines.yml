@@ -44,7 +44,7 @@ steps:
       }
       
       else {
-          curl.exe -fsSL --create-dirs --retry 5 -o "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/${env:XMLCALABASH_VERSION}/xmlcalabash-${env:XMLCALABASH_VERSION}.zip"
-          7z x "${env:TEMP}\xspec\xmlcalabash\xmlcalabash.zip" -o"${env:TEMP}\xspec\xmlcalabash"
-          ${env:XMLCALABASH_JAR} = "${env:TEMP}\xspec\xmlcalabash\xmlcalabash-${env:XMLCALABASH_VERSION}\xmlcalabash-${env:XMLCALABASH_VERSION}.jar"
+          curl.exe -fsSL --create-dirs --retry 5 -o "$(TEMP)\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/$(XMLCALABASH_VERSION)/xmlcalabash-$(XMLCALABASH_VERSION).zip"
+          7z x "$(TEMP)\xspec\xmlcalabash\xmlcalabash.zip" -o"$(TEMP)\xspec\xmlcalabash"
+          $(XMLCALABASH_JAR) = "$(TEMP)\xspec\xmlcalabash\xmlcalabash-$(XMLCALABASH_VERSION)\xmlcalabash-$(XMLCALABASH_VERSION).jar"
       }
