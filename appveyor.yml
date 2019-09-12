@@ -7,15 +7,15 @@ environment:
     # full path to XML Resolver jar
     XML_RESOLVER_JAR: '%TEMP%\xspec\xml-resolver\resolver.jar'
   matrix:
-    # latest Saxon 9.8 version and full path to Jing jar
+    # latest Saxon 9.9 version and Jing
     #   * XML Calabash will use Saxon jar in its own lib directory.
     #   * BaseX test requires XML Calabash.
-    - SAXON_VERSION: 9.8.0-14
-      JING_JAR: '%TEMP%\xspec\jing\jing.jar'
-      XMLCALABASH_VERSION: 1.1.22-98
+    - SAXON_VERSION: 9.9.1-5
+      JING_VERSION: 20181222
+      XMLCALABASH_VERSION: 1.1.27-99
       BASEX_VERSION: 8.6.4
-    # latest Saxon 9.7 version
-    - SAXON_VERSION: 9.7.0-21
+    # latest Saxon 9.8 version
+    - SAXON_VERSION: 9.8.0-15
     # Saxon version used in oXygen
     - SAXON_VERSION: 9.8.0-12
 
@@ -46,8 +46,9 @@ install:
     }
 
     else {
-        ${env:BASEX_JAR} = "${env:TEMP}\xspec\basex\basex.jar"
-        curl.exe -fsSL --create-dirs --retry 5 -o "${env:BASEX_JAR}" "http://files.basex.org/maven/org/basex/basex/${env:BASEX_VERSION}/basex-${env:BASEX_VERSION}.jar"
+        curl.exe -fsSL --create-dirs --retry 5 -o "${env:TEMP}\xspec\basex\basex.zip" "http://files.basex.org/releases/${env:BASEX_VERSION}/BaseX$(${env:BASEX_VERSION}.Replace('.','')).zip"
+        7z x "${env:TEMP}\xspec\basex\basex.zip" -o"${env:TEMP}\xspec\basex"
+        ${env:BASEX_JAR} = "${env:TEMP}\xspec\basex\basex\BaseX.jar"
     }
 
 
@@ -63,12 +64,13 @@ install:
 
     # install Jing
 
-    if( -Not( Test-Path -Path env:\JING_JAR ) ) {
+    if( -Not( Test-Path -Path env:\JING_VERSION ) ) {
         echo "Jing will not be installed"
     }
 
     else {
-        curl.exe -fsSL --create-dirs --retry 5 -o "${env:JING_JAR}" "http://central.maven.org/maven2/com/thaiopensource/jing/20091111/jing-20091111.jar"
+        ${env:JING_JAR} = "${env:TEMP}\xspec\jing\jing.jar"
+        curl.exe -fsSL --create-dirs --retry 5 -o "${env:JING_JAR}" "http://central.maven.org/maven2/org/relaxng/jing/${env:JING_VERSION}/jing-${env:JING_VERSION}.jar"
     }
 build: off
 test_script:

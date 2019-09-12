@@ -19,54 +19,85 @@ import net.sf.saxon.om.StandardNames;
 import java.lang.String;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.io.PrintStream;
+import java.io.File;
 import net.sf.saxon.lib.Logger;
 
+import javax.xml.stream.XMLStreamException;
+import net.sf.saxon.event.StreamWriterToReceiver;
+import net.sf.saxon.s9api.Processor;
+import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.Serializer;
+
 /**
- * A Simple trace listener for XSLT that writes messages (by default) to System.err
+ * A Simple trace listener for XSLT that writes messages to XML file
  */
 
 public class XSLTCoverageTraceListener implements TraceListener {
 
-  private PrintStream out = System.err;
   private String xspecStylesheet = null;
   private String utilsStylesheet = null;
   private HashMap<String, Integer> modules = new HashMap<String, Integer>();
   private HashSet<Integer> constructs = new HashSet<Integer>();
   private int moduleCount = 0;
+  private StreamWriterToReceiver writer = null;
   
   public XSLTCoverageTraceListener() {
-	System.out.println("****************************************");
+    System.out.println("****************************************");
   }
 
   /**
-  * Method called at the start of execution, that is, when the run-time transformation starts
-  */
+   * Method called at the start of execution, that is, when the run-time transformation starts
+   * @param c Controller used
+   */
 
   public void open(Controller c) {
-    out.println("<trace>");
-	System.out.println("controller="+c);
+    System.out.println("controller="+c);
+
+    String outPath = System.getProperty("xspec.coverage.xml");
+    File outFile = new File(outPath);
+
+    Serializer serializer = new Processor(false).newSerializer(outFile);
+    serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
+
+    try {
+      writer = serializer.getXMLStreamWriter();
+    } catch(SaxonApiException e) {
+      throw new RuntimeException(e);
+    }
+
+    try {
+      writer.writeStartDocument();
+      writer.writeStartElement("trace");
+    } catch(XMLStreamException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**  
-  * Method that implements the output destination for SaxonEE/PE 9.7
-  */
+   * Method that implements the output destination for SaxonEE/PE 9.7
+   */
   public void setOutputDestination(Logger logger) {
   }
 
   /**
   * Method called at the end of execution, that is, when the run-time execution ends
   */
-
   public void close() {
-    out.println("</trace>");
+    try {
+      writer.writeEndElement(); // </trace>
+      writer.writeEndDocument();
+      writer.close();
+    } catch(XMLStreamException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
    * Method that is called when an instruction in the stylesheet gets processed.
-   * @param instruction gives information about the instruction being
+   * @param info Instruction gives information about the instruction being
    * executed, and about the context in which it is executed. This object is mutable,
    * so if information from the InstructionInfo is to be retained, it must be copied.
+   * @param context XPath context used
    */
 
   public void enter(InstructionInfo info, XPathContext context) {
@@ -76,11 +107,25 @@ public class XSLTCoverageTraceListener implements TraceListener {
     if (utilsStylesheet == null &&
         systemId.indexOf("generate-tests-utils.xsl") != -1) {
       utilsStylesheet = systemId;
-      out.println("<u u=\"" + systemId + "\" />");
+
+      try {
+        writer.writeStartElement("u");
+        writer.writeAttribute("u", systemId);
+        writer.writeEndElement();
+      } catch(XMLStreamException e) {
+        throw new RuntimeException(e);
+      }
     } else if (xspecStylesheet == null && 
                systemId.indexOf("/xspec/") != -1) {
       xspecStylesheet = systemId;
-      out.println("<x u=\"" + systemId + "\" />");
+
+      try {
+        writer.writeStartElement("x");
+        writer.writeAttribute("u", systemId);
+        writer.writeEndElement();
+      } catch(XMLStreamException e) {
+        throw new RuntimeException(e);
+      }
     } 
     if (systemId != xspecStylesheet && systemId != utilsStylesheet) {
       Integer module;
@@ -90,7 +135,15 @@ public class XSLTCoverageTraceListener implements TraceListener {
         module = new Integer(moduleCount);
         moduleCount += 1;
         modules.put(systemId, module);
-        out.println("<m id=\"" + module + "\" u=\"" + systemId + "\" />"); 
+
+        try {
+          writer.writeStartElement("m");
+          writer.writeAttribute("id", String.valueOf(module));
+          writer.writeAttribute("u", systemId);
+          writer.writeEndElement();
+        } catch(XMLStreamException e) {
+          throw new RuntimeException(e);
+        }
       }
       if (!constructs.contains(constructType)) {
         String construct;
@@ -136,9 +189,26 @@ public class XSLTCoverageTraceListener implements TraceListener {
           }
         }
         constructs.add(constructType);
-        out.println("<c id=\"" + constructType + "\" n=\"" + construct + "\" />"); 
+
+        try {
+          writer.writeStartElement("c");
+          writer.writeAttribute("id", String.valueOf(constructType));
+          writer.writeAttribute("n", construct);
+          writer.writeEndElement();
+        } catch(XMLStreamException e) {
+          throw new RuntimeException(e);
+        }
       }
-      out.println("<h l=\"" + lineNumber + "\" m=\"" + module + "\" c=\"" + constructType + "\" />");
+
+      try {
+        writer.writeStartElement("h");
+        writer.writeAttribute("l", String.valueOf(lineNumber));
+        writer.writeAttribute("m", String.valueOf(module));
+        writer.writeAttribute("c", String.valueOf(constructType));
+        writer.writeEndElement();
+      } catch(XMLStreamException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 

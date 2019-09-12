@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
-<x:report xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-          stylesheet="../../schematron-01.sch-compiled.xsl"
-          date="ONCE-UPON-A-TIME"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../schematron-01.sch-preprocessed.xsl"
+          date="2000-01-01T00:00:00Z"
           xspec="../../schematron-01.xspec"
-          schematron="../../schematron-01.sch">
+          schematron="../../../../schematron-01.sch">
    <x:scenario>
       <x:label>schematron-01</x:label>
-      <x:context href="../../schematron-01.xml"/>
+      <x:context href="../../../../schematron-01.xml"/>
       <x:scenario>
          <x:label>article should have a title</x:label>
-         <x:result>
+         <x:result select="/element()">
             <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -25,7 +24,7 @@
 		   
 		   
 		 -->
-               <svrl:active-pattern document="../../schematron-01.xml"/>
+               <svrl:active-pattern document="../../../../schematron-01.xml"/>
                <svrl:fired-rule context="article"/>
                <svrl:fired-rule context="section"/>
                <svrl:fired-rule context="section"/>
@@ -44,12 +43,13 @@
          </x:result>
          <x:test successful="true">
             <x:label>not assert a001</x:label>
-            <x:expect select="()"/>
+            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'a001'])"
+                      select="()"/>
          </x:test>
       </x:scenario>
       <x:scenario>
          <x:label>section should have a title</x:label>
-         <x:result>
+         <x:result select="/element()">
             <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -60,7 +60,7 @@
 		   
 		   
 		 -->
-               <svrl:active-pattern document="../../schematron-01.xml"/>
+               <svrl:active-pattern document="../../../../schematron-01.xml"/>
                <svrl:fired-rule context="article"/>
                <svrl:fired-rule context="section"/>
                <svrl:fired-rule context="section"/>
@@ -79,11 +79,13 @@
          </x:result>
          <x:test successful="true">
             <x:label>assert a002 /article[1]/section[2]</x:label>
-            <x:expect select="()"/>
+            <x:expect test="exists(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'a002'][x:schematron-location-compare('/article[1]/section[2]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"
+                      select="()"/>
          </x:test>
          <x:test successful="true">
             <x:label>assert a002 /article[1]/section[3]</x:label>
-            <x:expect select="()"/>
+            <x:expect test="exists(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'a002'][x:schematron-location-compare('/article[1]/section[3]', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)])"
+                      select="()"/>
          </x:test>
       </x:scenario>
    </x:scenario>

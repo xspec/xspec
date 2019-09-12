@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="demo-04.sch"
     xmlns:ex1="http://example.com/ns1" xmlns:ex2="http://example.com/ns2" xmlns:ex3="http://example.com/ns3">
     
@@ -24,9 +23,6 @@
                 <x:expect-assert location="ex1:article"/>
                 <x:expect-assert location="ex1:article/ex3:sec[2]"/>
                 <x:expect-assert location="ex1:article/ex3:sec[2]/figure"/>
-            </x:scenario>
-            <x:scenario label="expecting no assert should fail">
-                <x:expect-not-assert location="ex1:article"/>
             </x:scenario>
         </x:scenario>
     </x:scenario>

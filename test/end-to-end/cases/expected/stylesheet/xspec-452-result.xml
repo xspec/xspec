@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../do-nothing.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../xspec-452.xspec">
+   <x:scenario>
+      <x:label>Text</x:label>
+      <x:call function="exactly-one">
+         <x:param>t</x:param>
+      </x:call>
+      <x:result select="/text()">t</x:result>
+      <x:test successful="false">
+         <x:label>Expect</x:label>
+         <x:expect select="xs:boolean('false')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Comment</x:label>
+      <x:call function="exactly-one">
+         <x:param><!--c--></x:param>
+      </x:call>
+      <x:result select="/comment()"><!--c--></x:result>
+      <x:test successful="false">
+         <x:label>Expect</x:label>
+         <x:expect select="xs:boolean('false')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Processing instruction</x:label>
+      <x:call function="exactly-one">
+         <x:param><?p?></x:param>
+      </x:call>
+      <x:result select="/processing-instruction()"><?p?></x:result>
+      <x:test successful="false">
+         <x:label>Expect</x:label>
+         <x:expect select="xs:boolean('false')"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>In element</x:label>
+      <x:call function="exactly-one">
+         <x:param>
+            <elem>t<!--c--><?p?></elem>
+         </x:param>
+      </x:call>
+      <x:result select="/element()">
+         <elem>t<!--c--><?p?></elem>
+      </x:result>
+      <x:test successful="false">
+         <x:label>Expect</x:label>
+         <x:expect select="xs:boolean('false')"/>
+      </x:test>
+   </x:scenario>
+</x:report>

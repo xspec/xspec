@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="../src/schemas/xspec.rnc" type="application/relax-ng-compact-syntax"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schut-to-xspec-012.sch">
     <x:scenario label="expect-valid">
         <x:context href="schematron/schut-to-xspec-012-01.xml"/>
@@ -54,7 +53,7 @@
             <x:expect-not-report id="r2" role="info" location="/article[1]/div[4]"/>
         </x:scenario>
     </x:scenario>
-    <x:scenario label="inherrit from rule">
+    <x:scenario label="inherit from rule">
         <x:scenario label="id and role from rule">
             <x:context href="schematron/schut-to-xspec-012-02.xml"/>
             <x:expect-assert id="ru1" role="error"/>
@@ -74,7 +73,7 @@
             <x:expect-report id="ru3" role="warn" location="/article[1]"/>
         </x:scenario>
     </x:scenario>
-    <x:scenario label="inherrit from pattern">
+    <x:scenario label="inherit from pattern">
         <x:scenario label="id from pattern">
             <x:context href="schematron/schut-to-xspec-012-02.xml"/>
             <x:expect-assert id="pattern3"/>

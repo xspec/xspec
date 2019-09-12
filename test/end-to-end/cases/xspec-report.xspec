@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xquery-version="3.1" xslt-version="3.0">
+
+	<x:scenario label="Function (xspec/xspec#355)">
+		<!-- function(*) (excluding array(*) and map(*)) requires Saxon-PE or EE -->
+
+		<x:scenario label="Array">
+			<x:call function="exactly-one">
+				<x:param as="array(*)" select="['foo', 1, [2, 'bar']]" />
+			</x:call>
+			<x:expect
+				label="Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure"
+			 />
+		</x:scenario>
+
+		<x:scenario label="Map">
+			<x:call function="exactly-one">
+				<x:param as="map(*)" select="
+					map {
+						'foo': 1,
+						2: 'bar'
+					}" />
+			</x:call>
+			<x:expect
+				label="Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure"
+			 />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Element, attribute (xspec/xspec#357)">
+		<x:call function="one-or-more">
+			<x:param as="node()+" select="elem1 | elem2/attribute()">
+				<elem1>text</elem1>
+				<elem2 attr="attr-val" />
+			</x:param>
+		</x:call>
+		<x:expect label="@attr should be reported as an attribute" />
+	</x:scenario>
+
+	<x:scenario label="Attributes of the same name (xspec/xspec#358)">
+		<x:call function="one-or-more">
+			<x:param as="attribute()+" select="element()/attribute()">
+				<elem1 attr="foo" />
+				<elem2 attr="bar" />
+			</x:param>
+		</x:call>
+		<x:expect label="Both @attr=foo and @attr=bar should be reported" />
+	</x:scenario>
+
+	<x:scenario label="Attribute, element, attribute (xspec/xspec#360)">
+		<x:call function="one-or-more">
+			<x:param as="node()+" select="element()/attribute() | elem2">
+				<elem1 attr1="attr1-val" />
+				<elem2>text</elem2>
+				<elem3 attr3="attr3-val" />
+			</x:param>
+		</x:call>
+		<x:expect label="[Result] should be reported" />
+	</x:scenario>
+
+</x:description>

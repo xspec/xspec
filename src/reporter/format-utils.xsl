@@ -8,13 +8,14 @@
 
 
 <xsl:stylesheet version="2.0"
-                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                exclude-result-prefixes="test xs x pkg">
+                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
 <xsl:import href="../compiler/generate-tests-utils.xsl" />
 
@@ -22,22 +23,35 @@
 
 <xsl:output name="x:report" method="xml" indent="yes"/>
 
-<xsl:variable name="omit-namespaces" as="xs:string+"
-  select="('http://www.w3.org/XML/1998/namespace',
-           'http://www.w3.org/1999/XSL/Transform',
-           'http://www.w3.org/2001/XMLSchema',
-           'http://www.jenitennison.com/xslt/unit-test',
-           'http://www.jenitennison.com/xslt/xspec')" />
+<!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
+  For the test result report HTML, these Private Use Area characters should be considered
+  as reserved by test:disable-escaping. -->
+<xsl:character-map name="test:disable-escaping">
+  <xsl:output-character character="&#xE801;" string="&lt;" />
+  <xsl:output-character character="&#xE802;" string="&amp;" />
+  <xsl:output-character character="&#xE803;" string="&gt;" />
+  <xsl:output-character character="&#xE804;" string="&apos;" />
+  <xsl:output-character character="&#xE805;" string="&quot;" />
+</xsl:character-map>
 
-<xsl:template match="*" mode="test:serialize" priority="20">
+<!--
+  mode="test:serialize"
+    All the whitespace-only text nodes except the ones in <test:ws> are considered to be of indentation.
+-->
+
+<xsl:template match="element()" as="node()+" mode="test:serialize">
   <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
-  <xsl:param name="perform-comparison" tunnel="yes" as="xs:boolean" select="false()" />
-  <xsl:param name="comparison" as="node()?" select="()" />
+  <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
+  <xsl:param name="node-to-compare-with" as="node()?" select="()" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
+
+  <!-- Open the start tag of this element -->
   <xsl:text>&lt;</xsl:text>
+
+  <!-- Output the name of this element -->
   <xsl:choose>
     <xsl:when test="$perform-comparison">
-      <span class="{if (if ($expected) then test:deep-equal(., $comparison) else test:deep-equal($comparison, .)) then 'same' else 'diff'}">
+      <span class="{test:comparison-html-class(., $node-to-compare-with, $expected)}">
         <xsl:value-of select="name()" />
       </span>
     </xsl:when>
@@ -45,21 +59,55 @@
       <xsl:value-of select="name()" />
     </xsl:otherwise>
   </xsl:choose>
-  <xsl:variable name="attribute-indent" as="xs:string">
+
+  <!-- Whitespace string for indenting namespace or attribute -->
+  <xsl:variable name="ns-attr-indent" as="xs:string">
     <xsl:value-of>
       <xsl:text>&#xA;</xsl:text>
       <xsl:for-each select="1 to $level"><xsl:text>   </xsl:text></xsl:for-each>
       <xsl:value-of select="replace(name(parent::*), '.', ' ')" />
     </xsl:value-of>
   </xsl:variable>
-  <xsl:variable name="new-namespaces" as="node()*" 
-    select="namespace::*[not(. = $omit-namespaces) and ($level = 0 or not(name() = ../../namespace::*/name()))]" />
-  <xsl:if test="not(namespace::*[name() = '']) and ../namespace::*[name() = '']">
+
+  <!-- Namespace nodes -->
+  <xsl:variable name="omit-namespace-uris" as="xs:string+" select="
+    'http://www.jenitennison.com/xslt/unit-test' (: test :),
+    'http://www.jenitennison.com/xslt/xspec' (: x :),
+    'http://www.w3.org/1999/XSL/Transform' (: xsl :),
+    'http://www.w3.org/2001/XMLSchema' (: xs :),
+    'http://www.w3.org/XML/1998/namespace' (: xml :)" />
+  <xsl:variable name="namespaces" as="node()*" select="namespace::*" />
+  <xsl:variable name="parent-namespaces" as="node()*" select="parent::element()/namespace::*" />
+  <xsl:variable name="significant-namespaces" as="node()*" select="$namespaces[not(string() = $omit-namespace-uris)]" />
+  <xsl:variable name="new-namespaces" as="node()*">
+    <xsl:choose>
+      <xsl:when test="$level eq 0">
+        <!-- Take all -->
+        <xsl:sequence select="$significant-namespaces" />
+      </xsl:when>
+
+      <xsl:otherwise>
+        <!-- Take only the ones not appeared in the parent -->
+        <xsl:sequence select="for $ns in $significant-namespaces
+          return $ns
+           [empty(
+              $parent-namespaces
+                [name() eq name($ns) (: prefix :)]
+                [string() eq string($ns) (: URI :)]
+           )]" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <!-- Output xmlns="" to undeclare the default namespace -->
+  <xsl:if test="exists($parent-namespaces[name() = '']) and empty($namespaces[name() = ''])">
     <xsl:text> xmlns=""</xsl:text>
   </xsl:if>
+
+  <!-- Output namespace nodes -->
   <xsl:for-each select="$new-namespaces">
-    <xsl:if test="position() > 1">
-      <xsl:value-of select="$attribute-indent" />
+    <xsl:if test="position() ge 2">
+      <xsl:value-of select="$ns-attr-indent" />
     </xsl:if>
     <xsl:text> xmlns</xsl:text>
     <xsl:if test="name()">
@@ -69,16 +117,18 @@
     <xsl:value-of select="." />
     <xsl:text>"</xsl:text>
   </xsl:for-each>
+
+  <!-- Output attributes while performing comparison -->
   <xsl:for-each select="@*">
-    <xsl:if test="$new-namespaces or position() > 1">
-      <xsl:value-of select="$attribute-indent" />
+    <xsl:if test="$new-namespaces or (position() ge 2)">
+      <xsl:value-of select="$ns-attr-indent" />
     </xsl:if>
     <xsl:text> </xsl:text>
     <xsl:choose>
       <xsl:when test="$perform-comparison">
-        <xsl:variable name="name" as="xs:QName" select="node-name(.)" />
-        <xsl:variable name="comparison-att" as="attribute()?" select="$comparison/@*[node-name(.) = $name]" />
-        <span class="{if (if ($expected) then test:deep-equal(., $comparison-att) else test:deep-equal($comparison-att, .)) then 'same' else 'diff'}">
+        <xsl:variable name="node-name" as="xs:QName" select="node-name(.)" />
+        <xsl:variable name="attribute-to-compare-with" as="attribute()?" select="$node-to-compare-with/@*[node-name(.) = $node-name]" />
+        <span class="{test:comparison-html-class(., $attribute-to-compare-with, $expected)}">
           <xsl:value-of select="name()" />
         </span>
       </xsl:when>
@@ -91,90 +141,184 @@
       '\s(\s+)', '&#xA;$1')" />
     <xsl:text>"</xsl:text>
   </xsl:for-each>
+
+  <!-- Handle the child nodes or end this element -->
   <xsl:choose>
     <xsl:when test="child::node()">
+      <!-- Close the start tag of this element -->
       <xsl:text>&gt;</xsl:text>
+
       <xsl:choose>
+        <!-- If this element is in Actual Result and the corresponding node in Expected Result
+          has one and only child node which is a text node of '...', then Expected Result does
+          not care about the child nodes. So just output the same ellipsis. -->
         <xsl:when test="$perform-comparison and
           not($expected) and
-          $comparison/node() instance of text() and
-          $comparison = '...'">
-          <xsl:text>...</xsl:text>
+          $node-to-compare-with/node() instance of text() and
+          $node-to-compare-with = '...'">
+          <span class="same ellipsis">...</span>
         </xsl:when>
+
+        <!-- Serialize the child nodes while performing comparison -->
         <xsl:when test="$perform-comparison">
           <xsl:for-each select="node()">
-            <xsl:variable name="pos" as="xs:integer" select="position()" />
+            <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
             <xsl:apply-templates select="." mode="test:serialize">
               <xsl:with-param name="level" select="$level + 1" tunnel="yes" />
-              <xsl:with-param name="comparison" select="$comparison/node()[position() = $pos]" />
+              <xsl:with-param name="node-to-compare-with" select="$node-to-compare-with/node()[test:significant-position(.) eq $significant-pos]" />
               <xsl:with-param name="expected" select="$expected" />
             </xsl:apply-templates>
           </xsl:for-each>
         </xsl:when>
+
+        <!-- Serialize the child nodes without performing comparison -->
         <xsl:otherwise>
           <xsl:apply-templates mode="test:serialize">
             <xsl:with-param name="level" select="$level + 1" tunnel="yes" />
           </xsl:apply-templates>
         </xsl:otherwise>
       </xsl:choose>      
+
+      <!-- End this element -->
       <xsl:text>&lt;/</xsl:text>
       <xsl:value-of select="name()" />
       <xsl:text>&gt;</xsl:text>
     </xsl:when>
+
+    <!-- End this element without any child node -->
     <xsl:otherwise> /&gt;</xsl:otherwise>
   </xsl:choose>
-</xsl:template>  
+</xsl:template>
 
-<xsl:template match="comment()" mode="test:serialize">
-  <xsl:sequence
-    select="concat('&lt;--', ., '--&gt;')" />
-</xsl:template>  
-
-<xsl:template match="processing-instruction()" mode="test:serialize">
-  <xsl:sequence select="concat('&lt;?', name(), ' ', ., '?&gt;')" />
-</xsl:template>  
-
-<xsl:template match="node()" mode="test:serialize" priority="10">
-  <xsl:param name="perform-comparison" tunnel="yes" as="xs:boolean" select="false()" />
-  <xsl:param name="comparison" as="node()?" select="()" />
+<xsl:template match="comment() | processing-instruction() | text() | test:ws" as="node()" mode="test:serialize">
+  <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
+  <xsl:param name="node-to-compare-with" as="node()?" select="()" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
-  <xsl:variable name="serialized" as="item()*">
-    <xsl:next-match />
+
+  <xsl:variable name="serialized" as="text()">
+    <xsl:choose>
+      <xsl:when test="self::comment()">
+        <xsl:value-of select="concat('&lt;!--', ., '-->')" />
+      </xsl:when>
+
+      <xsl:when test="self::processing-instruction()">
+        <xsl:value-of select="concat('&lt;?', name(), ' ', ., '?>')" />
+      </xsl:when>
+
+      <xsl:when test="self::text()">
+        <xsl:sequence select="." />
+      </xsl:when>
+
+      <xsl:when test="self::test:ws">
+        <xsl:value-of>
+          <xsl:analyze-string select="." regex="[&#x09;&#x0A;&#x0D;&#x20;]">
+            <xsl:matching-substring>
+              <xsl:choose>
+                <xsl:when test=". eq '&#x09;'">\t</xsl:when>
+                <xsl:when test=". eq '&#x0A;'">\n</xsl:when>
+                <xsl:when test=". eq '&#x0D;'">\r</xsl:when>
+                <xsl:when test=". eq '&#x20;'">
+                  <!-- OPEN BOX character -->
+                  <xsl:value-of select="'&#x2423;'" />
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:message select="'Unexpected whitespace'" terminate="yes" />
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:matching-substring>
+
+            <xsl:non-matching-substring>
+              <xsl:message select="'Unexpected character'" terminate="yes" />
+            </xsl:non-matching-substring>
+          </xsl:analyze-string>
+        </xsl:value-of>
+      </xsl:when>
+
+      <xsl:otherwise>
+        <xsl:message select="'Node not serialized'" terminate="yes" />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:variable>
+
   <xsl:choose>
-    <xsl:when test="$perform-comparison">
-      <span class="{if (if ($expected) then test:deep-equal(., $comparison) else test:deep-equal($comparison, .)) then 'same' else 'diff'}">
-        <xsl:copy-of select="$serialized" />
+    <xsl:when test="$perform-comparison or self::test:ws">
+      <span class="{
+        test:comparison-html-class(., $node-to-compare-with, $expected)[$perform-comparison],
+        'whitespace'[current()/self::test:ws]
+        }">
+        <xsl:sequence select="$serialized" />
       </span>
     </xsl:when>
+
     <xsl:otherwise>
-      <xsl:copy-of select="$serialized" />
+      <xsl:sequence select="$serialized" />
     </xsl:otherwise>
-  </xsl:choose>	
+  </xsl:choose>
 </xsl:template>
 
-<xsl:template match="test:ws" mode="test:serialize" priority="30">
-  <xsl:param name="perform-comparison" as="xs:boolean" tunnel="yes" select="false()" />
-  <xsl:if test="$perform-comparison">
-    <span class="whitespace">
-      <xsl:analyze-string select="." regex="\s">
-        <xsl:matching-substring>
-          <xsl:choose>
-            <xsl:when test=". = '&#xA;'">\n</xsl:when>
-            <xsl:when test=". = '&#xD;'">\r</xsl:when>
-            <xsl:when test=". = '&#x9;'">\t</xsl:when>
-            <xsl:when test=". = ' '">.</xsl:when>
-          </xsl:choose>
-        </xsl:matching-substring>
-      </xsl:analyze-string>
-    </span>
-  </xsl:if>
+<xsl:template match="text()[not(normalize-space())]" as="text()?" mode="test:serialize">
+  <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
+  <xsl:param name="indentation" as="xs:integer" select="0" tunnel="yes" />
+
+  <xsl:choose>
+    <xsl:when test="
+      ($level eq 0)
+      and
+      (
+        (: leading or trailing indent :)
+        not(preceding-sibling::node()) or not(following-sibling::node())
+      )">
+      <!-- Discard -->
+    </xsl:when>
+
+    <xsl:otherwise>
+      <xsl:value-of select="concat('&#x0A;', substring(., $indentation + 2))" />
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
-<xsl:template match="text()[not(normalize-space())]" mode="test:serialize" priority="20">
-  <xsl:param name="indentation" as="xs:integer" tunnel="yes" select="0" />
-  <xsl:value-of select="concat('&#xA;', substring(., $indentation + 2))" />
-</xsl:template>  
+<xsl:template match="document-node() | attribute() | node()" as="empty-sequence()" mode="test:serialize" priority="-1">
+  <xsl:message select="'Unhandled node'" terminate="yes" />
+</xsl:template>
+
+<!-- Returns the position of the node, ignoring the preceding-sibling whitespace-only text nodes.
+  Returns an empty sequence, if the node is a whitespace-only text node. -->
+<xsl:function name="test:significant-position" as="xs:integer?">
+  <xsl:param name="node" as="node()" />
+
+  <xsl:choose>
+    <xsl:when test="$node/self::text() and not(normalize-space($node))">
+      <!-- The node is a whitespace-only text node. Return an empty sequence. -->
+    </xsl:when>
+
+    <xsl:otherwise>
+      <!-- Count the preceding-sibling nodes, ignoring whitespace-only text nodes -->
+      <xsl:sequence select="
+        count(
+          $node/preceding-sibling::node()
+            [not(
+              self::text() and not(normalize-space())
+            )]
+        )
+        + 1" />
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:function>
+
+<!-- Compares $node with $node-to-compare-with and returns an HTML class accordingly: 'same' or 'diff'
+  Set $expected to true if $node is in Expected Result. Set false if in Actual Result. -->
+<xsl:function name="test:comparison-html-class" as="xs:string">
+  <xsl:param name="node" as="node()" />
+  <xsl:param name="node-to-compare-with" as="node()?" />
+  <xsl:param name="expected" as="xs:boolean" />
+
+  <xsl:variable name="equal" as="xs:boolean" select="
+    if ($expected)
+    then test:deep-equal($node, $node-to-compare-with, 'w')
+    else test:deep-equal($node-to-compare-with, $node, 'w')" />
+
+  <xsl:sequence select="if ($equal) then 'same' else 'diff'" />
+</xsl:function>
 
 <xsl:function name="test:format-URI" as="xs:string">
   <xsl:param name="URI" as="xs:anyURI" />
@@ -185,8 +329,50 @@
     <xsl:otherwise>
       <xsl:value-of select="$URI" />
     </xsl:otherwise>
-  </xsl:choose>  
-</xsl:function>  
+  </xsl:choose>
+</xsl:function>
+
+<!-- Generates <style> or <link> for CSS.
+  If you enable $inline, you must use test:disable-escaping character map in serialization. -->
+<xsl:template name="test:load-css" as="element()">
+  <xsl:param name="inline" as="xs:boolean" required="yes" />
+  <xsl:param name="uri" as="xs:string?" />
+
+  <xsl:variable as="xs:string" name="uri" select="($uri, resolve-uri('test-report.css'))[1]" />
+
+  <xsl:choose>
+    <xsl:when test="$inline">
+      <xsl:variable name="css-string" as="xs:string" select="unparsed-text($uri)" />
+
+      <!-- Replace CR LF with LF -->
+      <xsl:variable name="css-string" as="xs:string" select="replace($css-string, '&#x0D;(&#x0A;)', '$1')" />
+
+      <style type="text/css">
+        <xsl:value-of select="test:disable-escaping($css-string)" />
+      </style>
+    </xsl:when>
+
+    <xsl:otherwise>
+      <link rel="stylesheet" type="text/css" href="{$uri}"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<!-- Replaces < & > ' " characters with the reserved characters.
+  The serializer will convert those reserved characters back to < & > ' " characters,
+  provided that test:disable-escaping character map is specified as a serialization parameter. -->
+<xsl:function name="test:disable-escaping" as="xs:string">
+  <xsl:param name="input" as="xs:string" />
+
+  <xsl:sequence select="
+    document('')
+    /element()/xsl:character-map[@name eq 'test:disable-escaping']
+    /translate(
+      $input,
+      string-join(xsl:output-character/@string, ''),
+      string-join(xsl:output-character/@character, '')
+      )"/>
+</xsl:function>
 
 </xsl:stylesheet>
 

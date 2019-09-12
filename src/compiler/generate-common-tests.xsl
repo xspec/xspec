@@ -8,38 +8,72 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet version="2.0"
+                xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:pkg="http://expath.org/ns/pkg"
-                exclude-result-prefixes="xs test x pkg"
-                version="2.0">
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all">
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
-   <xsl:preserve-space elements="x:space"/>
-   
    <xsl:variable name="actual-document-uri" as="xs:anyURI"
       select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
-   
+
+   <!-- XSpec namespace URI -->
+   <xsl:variable name="xspec-namespace" as="xs:anyURI"
+      select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')" />
+
+   <!-- XSpec namespace prefix -->
+   <xsl:variable name="xspec-prefix" as="xs:string">
+      <xsl:variable name="e" select="/element()" as="element(x:description)" />
+      <xsl:sequence select="
+         (
+            in-scope-prefixes($e)
+               [namespace-uri-for-prefix(., $e) eq $xspec-namespace]
+               [. (: Do not allow zero-length string :)],
+            
+            (: Fallback. Intentionally made weird in order to avoid collision. :)
+            'XsPeC'
+         )[1]"/>
+   </xsl:variable>
+
+   <xsl:variable name="html-reporter-pi" as="processing-instruction(xml-stylesheet)">
+      <xsl:processing-instruction name="xml-stylesheet">
+         <xsl:text>type="text/xsl" href="</xsl:text>
+         <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl')" />
+         <xsl:text>"</xsl:text>
+      </xsl:processing-instruction>
+   </xsl:variable>
 
    <!--
        Drive the overall compilation of a suite.  Apply template on
        the x:description element, in the mode
    -->
    <xsl:template name="x:generate-tests">
+      <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
+      <xsl:if test="not(node-name(element()) eq $description-name)">
+         <xsl:message terminate="yes">
+            <xsl:text>Source document is not XSpec. /</xsl:text>
+            <xsl:value-of select="$description-name" />
+            <xsl:text> is missing. Supplied source has /</xsl:text>
+            <xsl:value-of select="name(element())"/>
+            <xsl:text> instead.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
-            <x:description>
+            <xsl:element name="{x:xspec-name('description')}" namespace="{$xspec-namespace}">
                <xsl:apply-templates select="$this/x:description" mode="x:copy-namespaces"/>
                <xsl:copy-of select="$this/x:description/@*"/>
                <xsl:apply-templates select="x:gather-specs($this/x:description)"
                                     mode="x:gather-specs"/>
-            </x:description>
+            </xsl:element>
          </xsl:document>
       </xsl:variable>
       <xsl:variable name="unshared-scenarios" as="document-node()">
@@ -50,11 +84,8 @@
       <xsl:apply-templates select="$unshared-scenarios/*" mode="x:generate-tests"/>
    </xsl:template>
 
-   <xsl:template match="x:description" mode="x:copy-namespaces">
-      <xsl:variable name="e" as="element()" select="."/>
-      <xsl:for-each select="in-scope-prefixes($e)">
-         <xsl:namespace name="{ . }" select="namespace-uri-for-prefix(., $e)"/>
-      </xsl:for-each>
+   <xsl:template match="x:description" as="node()*" mode="x:copy-namespaces">
+      <xsl:sequence select="x:copy-namespaces(.)" />
    </xsl:template>
 
    <xsl:function name="x:gather-specs" as="element(x:description)+">
@@ -102,7 +133,7 @@
    </xsl:function>
 
    <xsl:template match="x:description" mode="x:gather-specs">
-      <xsl:apply-templates mode="x:gather-specs">
+      <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="
              ( @xslt-version, 2.0 )[1]"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="
@@ -111,32 +142,48 @@
       </xsl:apply-templates>
    </xsl:template>
 
-   <xsl:template match="x:scenario" mode="x:gather-specs">
+   <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:gather-specs">
       <xsl:param name="xslt-version" as="xs:decimal" tunnel="yes" required="yes"/>
-      <x:scenario xslt-version="{$xslt-version}">
+
+      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
+         <xsl:attribute name="xslt-version" select="$xslt-version" />
          <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:gather-specs"/>
-      </x:scenario>
+         <xsl:apply-templates mode="#current"/>
+      </xsl:element>
    </xsl:template>
 
-   <xsl:template match="x:*/@href" mode="x:gather-specs">
-      <xsl:attribute name="href" select="resolve-uri(., base-uri(.))"/>
+   <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
+      <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+         select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
-   <xsl:template match="text()[not(normalize-space())]" mode="x:gather-specs">
+   <xsl:template match="text()[not(normalize-space())]" as="node()?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
-      <xsl:if test="parent::x:space
-                      or ancestor::*[@xml:space][1]/@xml:space = 'preserve'
-                      or node-name(parent::*) = $preserve-space">
-         <x:space>
-            <xsl:value-of select="."/>
-         </x:space>
-      </xsl:if>
+
+      <xsl:choose>
+         <xsl:when test="parent::x:text">
+            <!-- Preserve -->
+            <xsl:sequence select="." />
+         </xsl:when>
+
+         <xsl:when test="
+            (ancestor::*[@xml:space][1]/@xml:space = 'preserve')
+            or (node-name(parent::*) = $preserve-space)">
+            <!-- Preserve and wrap in <x:text> -->
+            <xsl:element name="{x:xspec-name('text')}" namespace="{$xspec-namespace}">
+               <xsl:sequence select="." />
+            </xsl:element>
+         </xsl:when>
+
+         <xsl:otherwise>
+            <!-- Discard -->
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
 
-   <xsl:template match="node()|@*" mode="x:gather-specs">
+   <xsl:template match="node()|@*" as="node()" mode="x:gather-specs">
       <xsl:copy>
-         <xsl:apply-templates select="node()|@*" mode="x:gather-specs"/>
+         <xsl:apply-templates select="node()|@*" mode="#current" />
       </xsl:copy>
    </xsl:template>
 
@@ -147,7 +194,8 @@
        corresponding call instruction at some point).
    -->
    <xsl:template name="x:call-scenarios">
-      <xsl:param name="pending" select="this//@focus" tunnel="yes" as="node()?"/>
+      <!-- Default value of $pending does not affect compiler output but is here if needed in the future -->
+      <xsl:param name="pending" select="(.//@focus)[1]" tunnel="yes" as="node()?"/>
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
          <xsl:sequence select="
@@ -215,11 +263,11 @@
    <xsl:template match="x:scenario" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(var)*"/>
       <xsl:call-template name="x:output-call">
-         <xsl:with-param name="name" select="generate-id()"/>
+         <xsl:with-param name="local-name" select="generate-id()"/>
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="params" as="element(param)*">
-            <xsl:for-each select="$vars">
-               <param name="{ @name }" select="${ @name }"/>
+            <xsl:for-each select="x:distinct-variable-names($vars)">
+               <param name="{ . }" select="${ . }"/>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -234,14 +282,14 @@
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
       <xsl:param name="vars"    select="()" tunnel="yes" as="element(var)*"/>
       <xsl:call-template name="x:output-call">
-         <xsl:with-param name="name" select="generate-id()"/>
+         <xsl:with-param name="local-name" select="generate-id()"/>
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <param name="x:result" select="$x:result"/>
+               <param name="{x:xspec-name('result')}" select="${x:xspec-name('result')}" />
             </xsl:if>
-            <xsl:for-each select="$vars">
-               <param name="{ @name }" select="${ @name }"/>
+            <xsl:for-each select="x:distinct-variable-names($vars)">
+               <param name="{ . }" select="${ . }"/>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -253,10 +301,11 @@
    -->
    <xsl:template match="x:variable" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(var)*"/>
+      <xsl:call-template name="x:detect-reserved-variable-name"/>
       <!-- The variable declaration. -->
-      <xsl:if test="empty(following-sibling::x:call)">
+      <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
          <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-            <xsl:with-param name="var"  select="( @name, generate-id() )[1]"/>
+            <xsl:with-param name="var"  select="@name"/>
             <xsl:with-param name="type" select="'variable'"/>
          </xsl:apply-templates>
       </xsl:if>
@@ -264,7 +313,11 @@
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
          <xsl:with-param name="vars" tunnel="yes" as="element(var)+">
             <xsl:sequence select="$vars"/>
-            <var name="{ @name }"/>
+            <var name="{ @name }">
+               <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
+                  <xsl:attribute name="namespace-uri" select="namespace-uri-from-QName(resolve-QName(@name,.))"/>
+               </xsl:if>
+            </var>
          </xsl:with-param>
       </xsl:apply-templates>
    </xsl:template>
@@ -276,6 +329,9 @@
    -->
    <xsl:template match="x:description/x:param|x:description/x:variable" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(var)*"/>
+      <xsl:if test="self::x:variable">
+        <xsl:call-template name="x:detect-reserved-variable-name"/>
+      </xsl:if>
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
@@ -353,14 +409,14 @@
          <xsl:choose>
             <xsl:when test="x:apply">
                <xsl:variable name="local-params" as="element(x:param)*" select="x:apply/x:param"/>
-               <x:apply>
+               <xsl:element name="{x:xspec-name('apply')}" namespace="{$xspec-namespace}">
                   <xsl:sequence select="$apply/@*"/>
                   <xsl:sequence select="x:apply/@*"/>
                   <xsl:sequence select="
                       $apply/x:param[not(@name = $local-params/@name)],
                       $local-params"/>
                   <!-- TODO: Test that "x:apply/(node() except x:param)" is empty. -->
-               </x:apply>
+               </xsl:element>
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$apply"/>
@@ -372,7 +428,7 @@
          <xsl:choose>
             <xsl:when test="x:context">
                <xsl:variable name="local-params" as="element(x:param)*" select="x:context/x:param"/>
-               <x:context>
+               <xsl:element name="{x:xspec-name('context')}" namespace="{$xspec-namespace}">
                   <xsl:sequence select="$context/@*"/>
                   <xsl:sequence select="x:context/@*"/>
                   <xsl:sequence select="
@@ -383,7 +439,7 @@
                         x:context/(node() except x:param)
                       else
                         $context/(node() except x:param)"/>
-               </x:context>
+               </xsl:element>
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$context"/>
@@ -395,14 +451,14 @@
          <xsl:choose>
             <xsl:when test="x:call">
                <xsl:variable name="local-params" as="element(x:param)*" select="x:call/x:param"/>
-               <x:call>
+               <xsl:element name="{x:xspec-name('call')}" namespace="{$xspec-namespace}">
                   <xsl:sequence select="$call/@*"/>
                   <xsl:sequence select="x:call/@*"/>
                   <xsl:sequence select="
                       $call/x:param[not(@name = $local-params/@name)],
                       $local-params"/>
                   <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
-               </x:call>
+               </xsl:element>
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$call"/>
@@ -415,11 +471,11 @@
          <xsl:with-param name="apply"     select="$new-apply"   tunnel="yes"/>
          <xsl:with-param name="call"      select="$new-call"    tunnel="yes"/>
          <xsl:with-param name="context"   select="$new-context" tunnel="yes"/>
-         <!-- the variable declarations preceding the x:call (if any). -->
-         <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable"/>
+         <!-- the variable declarations preceding the x:call or x:context (if any). -->
+         <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable"/>
          <xsl:with-param name="params" as="element(param)*">
-            <xsl:for-each select="$vars">
-               <param name="{ @name }" required="yes"/>
+            <xsl:for-each select="x:distinct-variable-names($vars)">
+               <param name="{ . }" required="yes"/>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -443,10 +499,10 @@
          <xsl:with-param name="call"    tunnel="yes" select="$call"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <param name="x:result" required="yes"/>
+               <param name="{x:xspec-name('result')}" required="yes" />
             </xsl:if>
-            <xsl:for-each select="$vars">
-               <param name="{ @name }" required="yes"/>
+            <xsl:for-each select="x:distinct-variable-names($vars)">
+               <param name="{ . }" required="yes"/>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -477,7 +533,11 @@
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
          <xsl:with-param name="vars" tunnel="yes" as="element(var)+">
             <xsl:sequence select="$vars"/>
-            <var name="{ @name }"/>
+            <var name="{ @name }">
+               <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
+                  <xsl:attribute name="namespace-uri" select="namespace-uri-from-QName(resolve-QName(@name,.))"/>
+               </xsl:if>
+            </var>
          </xsl:with-param>
       </xsl:apply-templates>
    </xsl:template>
@@ -522,7 +582,7 @@
    <!-- This mode resolves all the <like> elements to bring in the scenarios that
         they specify -->
 
-   <xsl:template match="x:description" mode="x:unshare-scenarios">
+   <xsl:template match="x:description" as="element(x:description)" mode="x:unshare-scenarios">
       <xsl:copy>
          <xsl:apply-templates select="." mode="x:copy-namespaces"/>
          <xsl:copy-of select="@*"/>
@@ -530,11 +590,11 @@
       </xsl:copy>
    </xsl:template>
 
-   <xsl:template match="x:scenario" mode="x:unshare-scenarios">
-      <x:scenario>
+   <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:unshare-scenarios">
+      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
          <xsl:copy-of select="@* except @shared"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </x:scenario>
+      </xsl:element>
    </xsl:template>
 
    <xsl:key name="scenarios" match="x:scenario" use="x:label(.)"/>
@@ -543,21 +603,115 @@
       <xsl:apply-templates select="key('scenarios', x:label(.))/*" mode="x:unshare-scenarios"/>
    </xsl:template>
 
-   <xsl:template match="x:pending" mode="x:unshare-scenarios">
-      <x:pending>
+   <xsl:template match="x:pending" as="element(x:pending)" mode="x:unshare-scenarios">
+      <xsl:element name="{x:xspec-name('pending')}" namespace="{$xspec-namespace}">
          <xsl:copy-of select="@*"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </x:pending>
+      </xsl:element>
    </xsl:template>
 
    <xsl:template match="x:scenario[@shared = 'yes']" mode="x:unshare-scenarios"/>
 
-   <xsl:template match="node()" mode="x:unshare-scenarios">
+   <xsl:template match="node()" as="node()" mode="x:unshare-scenarios">
       <xsl:copy>
          <xsl:copy-of select="@*"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>
       </xsl:copy>
    </xsl:template>
+
+   <!-- *** x:report *** -->
+
+   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
+      <xsl:apply-templates select="." mode="test:create-node-generator" />
+   </xsl:template>
+
+   <!-- Generates variable declarations for x:expect -->
+   <xsl:template name="x:setup-expected" as="node()+">
+      <!--<xsl:context-item as="element(x:expect)" use="required" />-->
+
+      <xsl:param name="var" as="xs:string" required="yes" />
+
+      <!-- Remove x:label from x:expect -->
+      <xsl:variable name="expect" as="element(x:expect)">
+         <xsl:copy>
+            <xsl:sequence select="(attribute() | node()) except x:label" />
+         </xsl:copy>
+      </xsl:variable>
+
+      <!-- Generate <xsl:variable name="impl:expected"> (XSLT)
+         or "let $local:expected := ..." (XQuery) to represent the expected items -->
+      <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
+         <xsl:with-param name="var" select="$var" />
+      </xsl:apply-templates>
+   </xsl:template>
+
+   <!-- Generate error message for user-defined usage of names in XSpec namespace.
+        Context node is an x:variable element. -->
+   <xsl:template name="x:detect-reserved-variable-name" as="empty-sequence()">
+      <xsl:variable name="msg" as="xs:string"
+         select="concat('User-defined XSpec variable, ',@name,', must not use the XSpec namespace.')"/>
+      <xsl:choose>
+         <xsl:when test="starts-with(normalize-space(@name),'Q{')">
+            <!-- URI-qualified name -->
+            <xsl:if test="replace(@name,'(^\s*Q\{)|(\}.*$)','') eq $xspec-namespace">
+               <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)"/>
+            </xsl:if>
+         </xsl:when>
+         <xsl:when test="namespace-uri-from-QName(
+               if (contains(@name,':')) then resolve-QName(@name,.) else QName('',@name)
+            ) eq $xspec-namespace">
+            <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)"/>
+         </xsl:when>
+      </xsl:choose>
+   </xsl:template>
+
+   <!-- Given <vars> elements from tunnel parameter, return distinct EQNames.
+        The tunnel parameter originates in the match="x:variable" template with
+        mode="x:generate-calls" or mode="x:compile". -->
+   <xsl:function name="x:distinct-variable-names" as="xs:string*">
+      <xsl:param name="vars" as="element(var)*"/>
+      <!-- Create sequence of xs:QName values, so we can use distinct-values to compare them all. -->
+      <xsl:variable name="qnames" as="xs:QName*"
+         select="for $thisvar in $vars return
+         if (starts-with(normalize-space($thisvar/@name),'Q{'))
+         then QName(replace($thisvar/@name,'(^\s*Q\{)|(\}.*$)',''), substring-after($thisvar/@name,'}'))
+         else QName($thisvar/@namespace-uri, $thisvar/@name)
+         "/>
+      <xsl:variable name="distinctqnames" as="xs:QName*" select="distinct-values($qnames)"/>
+      <!-- Return distinct strings, except that any unprefixed name with nonempty URI
+         needs Q{} notation to record the namespace URI. -->
+      <xsl:sequence select="for $thisqname in $distinctqnames return
+         if ( empty(prefix-from-QName($thisqname)) and (string-length(namespace-uri-from-QName($thisqname)) gt 0) )
+         then concat('Q{',namespace-uri-from-QName($thisqname),'}',local-name-from-QName($thisqname))
+         else string($thisqname)
+         "/>
+   </xsl:function>
+
+   <xsl:function name="x:label" as="element(x:label)">
+      <xsl:param name="labelled" as="element()" />
+
+      <xsl:element name="{x:xspec-name('label')}" namespace="{$xspec-namespace}">
+         <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
+      </xsl:element>
+   </xsl:function>
+
+   <xsl:function name="x:create-pending-attr-generator" as="node()+">
+      <xsl:param name="pending-node" as="node()" />
+
+      <xsl:variable name="pending-attr" as="attribute(pending)">
+         <xsl:attribute name="pending" select="$pending-node" />
+      </xsl:variable>
+
+      <xsl:apply-templates select="$pending-attr" mode="test:create-node-generator" />
+   </xsl:function>
+
+   <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.
+      Usually 'x:local-name'. -->
+   <xsl:function name="x:xspec-name" as="xs:string">
+      <xsl:param name="local-name" as="xs:string" />
+
+      <xsl:sequence select="concat($xspec-prefix, ':'[$xspec-prefix], $local-name)" />
+   </xsl:function>
 
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
      in a prior position of the sequence.)

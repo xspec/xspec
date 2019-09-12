@@ -42,17 +42,6 @@
 	</xsl:template>
 
 	<!--
-		Normalizes datetime
-			Example:
-				in:  <x:report date="2018-08-12T20:59:49.509+09:00">
-				out: <x:report date="ONCE-UPON-A-TIME">
-	-->
-	<xsl:template as="attribute(date)" match="/report/@date" mode="normalizer:normalize">
-		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-			select="'ONCE-UPON-A-TIME'" />
-	</xsl:template>
-
-	<!--
 		Normalizes the link to the files
 			Example:
 				in   <x:report xspec="file:/path/to/test.xspec">
@@ -61,6 +50,7 @@
 	<xsl:template as="attribute()"
 		match="
 			/report/attribute()[name() = ('query-at', 'schematron', 'stylesheet', 'xspec')]
+			| scenario/call/param/@href
 			| scenario/context/@href
 			| /report[@schematron]//scenario/result/svrl:schematron-output/svrl:active-pattern/@document"
 		mode="normalizer:normalize">
@@ -70,4 +60,12 @@
 			select="normalizer:relative-uri(., $tunnel_document-uri)" />
 	</xsl:template>
 
+	<!-- Normalizes the link to the files created dynamically by XSpec -->
+	<xsl:template as="attribute(href)"
+		match="
+			scenario/result/@href
+			| scenario/test/expect/@href"
+		mode="normalizer:normalize">
+		<xsl:call-template name="normalizer:normalize-external-link-attribute" />
+	</xsl:template>
 </xsl:stylesheet>

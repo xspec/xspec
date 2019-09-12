@@ -65,19 +65,27 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
     echo Saxon script found, use it.
     echo
     xslt() {
-        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
+        saxon \
+            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
-        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
+        saxon \
+            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
     echo Saxon script not found, invoking JVM directly instead.
     echo
     xslt() {
-        java -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
+        java \
+            -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
-        java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
+        java \
+            -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
 
@@ -291,15 +299,12 @@ if [ ! -d "$TEST_DIR" ]; then
     echo
 fi 
 
-# Absolute TEST_DIR
-TEST_DIR_ABS="$(cd "$(dirname "${TEST_DIR}")" && pwd)/$(basename "${TEST_DIR}")"
-
 ##
 ## compile the suite #########################################################
 ##
 
 if test -n "$SCHEMATRON"; then
-    echo "Setting up Schematron..."
+    echo "Setting up Schematron preprocessors..."
     
     if test -z "$SCHEMATRON_XSLT_INCLUDE"; then
         SCHEMATRON_XSLT_INCLUDE="$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl";
@@ -307,44 +312,66 @@ if test -n "$SCHEMATRON"; then
     if test -z "$SCHEMATRON_XSLT_EXPAND"; then
         SCHEMATRON_XSLT_EXPAND="$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl";
     fi
-    if test -z "$SCHEMATRON_XSLT_COMPILE"; then
-        SCHEMATRON_XSLT_COMPILE="$XSPEC_HOME/src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl";
+    if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
+        # Absolute SCHEMATRON_XSLT_COMPILE
+        SCHEMATRON_XSLT_COMPILE_ABS="$(cd "$(dirname "${SCHEMATRON_XSLT_COMPILE}")" && pwd)/$(basename "${SCHEMATRON_XSLT_COMPILE}")"
     fi
     
-    # get URI to Schematron file and phase/parameters from the XSpec file
+    # Get Schematron file path
     xslt -o:"${TEST_DIR}/${TARGET_FILE_NAME}-var.txt" \
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/sch-file-path.xsl" \
         || die "Error getting Schematron location"
     SCH=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
     
-    xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; declare function local:escape(\$v) { let \$w := if (matches(\$v,codepoints-to-string((91,92,115,93)))) then codepoints-to-string(34) else '' return concat(\$w, replace(\$v,codepoints-to-string((40,91,36,92,92,96,93,41)),codepoints-to-string((92,92,36,49))), \$w)}; string-join(for \$p in /*/*[local-name() = 'param'] return if (\$p/@select) then concat('?',\$p/@name,'=',local:escape(\$p/@select)) else concat(\$p/@name,'=',local:escape(\$p/string())),' ')" -s:"$XSPEC" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting Schematron phase and parameters"
-    SCH_PARAMS=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
-    echo Parameters: $SCH_PARAMS
-    SCHUT=$XSPEC-compiled.xspec
-    SCH_COMPILED="${SCH}-compiled.xsl"
+    # Generate Step 3 wrapper XSLT
+    if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
+        SCHEMATRON_XSLT_COMPILE_URI="file:${SCHEMATRON_XSLT_COMPILE_ABS}"
+    fi
+    SCH_STEP3_WRAPPER="${TEST_DIR}/${TARGET_FILE_NAME}-sch-step3-wrapper.xsl"
+    xslt -o:"${SCH_STEP3_WRAPPER}" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/generate-step3-wrapper.xsl" \
+        "ACTUAL-PREPROCESSOR-URI=${SCHEMATRON_XSLT_COMPILE_URI}" \
+        || die "Error generating Step 3 wrapper XSLT"
+    
+    SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
+    SCH_PREPROCESSED_XSL="${SCH}-preprocessed.xsl"
     
     echo
-    echo "Compiling the Schematron..."
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -s:"$SCH" -xsl:"$SCHEMATRON_XSLT_INCLUDE" -versionmsg:off || die "Error compiling the Schematron on step 1"
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml" -xsl:"$SCHEMATRON_XSLT_EXPAND" -versionmsg:off || die "Error compiling the Schematron on step 2"
-    xslt -o:"$SCH_COMPILED" -s:"$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml" -xsl:"$SCHEMATRON_XSLT_COMPILE" -versionmsg:off $SCH_PARAMS || die "Error compiling the Schematron on step 3"
+    echo "Converting Schematron into XSLT..."
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
+        -s:"$SCH" \
+        -xsl:"$SCHEMATRON_XSLT_INCLUDE" \
+        -versionmsg:off \
+        || die "Error preprocessing Schematron on step 1"
+    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step2.sch" \
+        -s:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
+        -xsl:"$SCHEMATRON_XSLT_EXPAND" \
+        -versionmsg:off \
+        || die "Error preprocessing Schematron on step 2"
+    xslt -o:"${SCH_PREPROCESSED_XSL}" \
+        -s:"${TEST_DIR}/${TARGET_FILE_NAME}-step2.sch" \
+        -xsl:"${SCH_STEP3_WRAPPER}" \
+        -versionmsg:off \
+        || die "Error preprocessing Schematron on step 3"
     
-    # use XQuery to get full URI to compiled Schematron
-    # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" -s:"$SCH_COMPILED" >"$TEST_DIR/$TARGET_FILE_NAME-var.txt" || die "Error getting compiled Schematron location"
-    # SCH_COMPILED_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
-    SCH_COMPILED_URI="file:${SCH_COMPILED}"
+    # use XQuery to get full URI to preprocessed Schematron XSLT
+    # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" \
+    #     -s:"$SCH_PREPROCESSED_XSL" \
+    #     -o:"$TEST_DIR/$TARGET_FILE_NAME-var.txt" \
+    #     || die "Error getting preprocessed Schematron XSLT location"
+    # SCH_PREPROCESSED_XSL_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
+    SCH_PREPROCESSED_XSL_URI="file:${SCH_PREPROCESSED_XSL}"
     
     echo 
-    echo "Compiling the Schematron tests..."
-    TEST_DIR_URI="file:${TEST_DIR_ABS}"
-    xslt -o:"${SCHUT}" \
+    echo "Converting Schematron XSpec into XSLT XSpec..."
+    xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
-        stylesheet-uri="${SCH_COMPILED_URI}" \
-        test-dir-uri="${TEST_DIR_URI}" \
-        || die "Error compiling the Schematron tests"
-    XSPEC=$SCHUT
+        stylesheet-uri="${SCH_PREPROCESSED_XSL_URI}" \
+        || die "Error converting Schematron XSpec into XSLT XSpec"
+    XSPEC="${SCH_PREPROCESSED_XSPEC}"
     
     echo 
 fi
@@ -370,29 +397,29 @@ echo "Running Tests..."
 if test -n "$XSLT"; then
     # for XSLT
     if test -n "$COVERAGE"; then
-        echo "Collecting test coverage data; suppressing progress report..."
+        echo "Collecting test coverage data..."
         xslt "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main 2> "$COVERAGE_XML" \
+            -o:"$RESULT" -xsl:"$COMPILED" \
+            -it:{http://www.jenitennison.com/xslt/xspec}main \
             || die "Error collecting test coverage data"
     else
         xslt "${saxon_custom_options_array[@]}" \
-            -o:"$RESULT" -s:"$XSPEC" -xsl:"$COMPILED" \
+            -o:"$RESULT" -xsl:"$COMPILED" \
             -it:{http://www.jenitennison.com/xslt/xspec}main \
             || die "Error running the test suite"
     fi
 else
     # for XQuery
     if test -n "$COVERAGE"; then
-        echo "Collecting test coverage data; suppressing progress report..."
+        echo "Collecting test coverage data..."
         xquery "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" 2> "$COVERAGE_XML" \
+            -o:"$RESULT" -q:"$COMPILED" \
             || die "Error collecting test coverage data"
     else
         xquery "${saxon_custom_options_array[@]}" \
-            -o:"$RESULT" -s:"$XSPEC" -q:"$COMPILED" \
+            -o:"$RESULT" -q:"$COMPILED" \
             || die "Error running the test suite"
     fi
 fi
@@ -405,10 +432,12 @@ echo
 echo "Formatting Report..."
 xslt -o:"$HTML" \
     -s:"$RESULT" \
-    -xsl:"$XSPEC_HOME/src/reporter/format-xspec-report.xsl" \
+    -a \
     inline-css=true \
     || die "Error formatting the report"
 if test -n "$COVERAGE"; then
+    echo
+    echo "Formatting Coverage Report..."
     xslt -l:on \
         -o:"$COVERAGE_HTML" \
         -s:"$COVERAGE_XML" \
@@ -419,11 +448,13 @@ if test -n "$COVERAGE"; then
     echo "Report available at $COVERAGE_HTML"
     #$OPEN "$COVERAGE_HTML"
 elif test -n "$JUNIT"; then
-	xslt -o:"$JUNIT_RESULT" \
-		-s:"$RESULT" \
-		-xsl:"$XSPEC_HOME/src/reporter/junit-report.xsl" \
-		|| die "Error formatting the JUnit report"
-	echo "Report available at $JUNIT_RESULT"
+    echo
+    echo "Generating JUnit Report..."
+    xslt -o:"$JUNIT_RESULT" \
+        -s:"$RESULT" \
+        -xsl:"$XSPEC_HOME/src/reporter/junit-report.xsl" \
+        || die "Error formatting the JUnit report"
+    echo "Report available at $JUNIT_RESULT"
 else
     echo "Report available at $HTML"
     #$OPEN "$HTML"
@@ -433,12 +464,12 @@ fi
 ## cleanup
 ##
 if test -n "$SCHEMATRON"; then
-    rm -f "$SCHUT"
-    rm -f "$TEST_DIR"/context-*.xml
+    rm -f "$SCH_PREPROCESSED_XSPEC"
     rm -f "$TEST_DIR/$TARGET_FILE_NAME-var.txt"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp1.xml"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-sch-temp2.xml"
-    rm -f "$SCH_COMPILED"
+    rm -f "$TEST_DIR/$TARGET_FILE_NAME-step1.sch"
+    rm -f "$TEST_DIR/$TARGET_FILE_NAME-step2.sch"
+    rm -f "$SCH_STEP3_WRAPPER"
+    rm -f "$SCH_PREPROCESSED_XSL"
 fi
 
 echo "Done."

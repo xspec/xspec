@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xspec-eqname.xsl"
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xslt-version="3.0">
+
+	<x:scenario label="Using EQName in">
+		<x:scenario label="context @mode and template-param @name">
+			<x:context mode="Q{x-urn:test:xspec-eqname}param-mirror-mode">
+				<x:param name="Q{x-urn:test:xspec-eqname}param-items">
+					<template-param-child />
+				</x:param>
+				<context-child />
+			</x:context>
+			<x:expect label="should be possible">
+				<template-param-child />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="context @select and template-param @select">
+			<x:variable name="myv:context" as="element(context-child)"
+				select="/Q{}context-child"><context-child /></x:variable>
+			<x:variable name="myv:var" as="element(variable-child)"
+				select="/Q{}variable-child"><variable-child /></x:variable>
+			<x:context mode="Q{x-urn:test:xspec-eqname}param-mirror-mode" select="$Q{http://example.org/ns/my/variable}context">
+				<x:param name="Q{x-urn:test:xspec-eqname}param-items" select="$Q{http://example.org/ns/my/variable}var"/>
+			</x:context>
+			<x:expect label="should be possible">
+				<variable-child />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="template-call @template and template-param @name">
+			<x:call template="Q{x-urn:test:xspec-eqname}param-mirror-template">
+				<x:param name="Q{x-urn:test:xspec-eqname}param-items">
+					<template-param-child />
+				</x:param>
+			</x:call>
+			<x:expect label="should be possible">
+				<template-param-child />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="template-param @as">
+			<x:call template="Q{x-urn:test:xspec-eqname}param-mirror-template">
+				<x:param name="Q{x-urn:test:xspec-eqname}param-items" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+			</x:call>
+			<x:expect label="should be possible" select="$x:result treat as xs:string"
+				test="$x:result treat as xs:string" />
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>

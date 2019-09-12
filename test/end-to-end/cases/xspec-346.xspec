@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="When a function returns a node containing a space">
+		<x:call function="exactly-one">
+			<x:param as="element(p)" href="xspec-346.xml" select="element(p)" />
+		</x:call>
+		<x:expect label="Expecting no space should be Failure">
+			<p><span>foo</span><span>bar</span></p>
+		</x:expect>
+	</x:scenario>
+</x:description>

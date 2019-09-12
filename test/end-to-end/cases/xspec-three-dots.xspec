@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-three-dots.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:xspec-three-dots" query-at="xspec-three-dots.xquery"
+	stylesheet="xspec-three-dots.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xslt-version="3.0">
 	<x:scenario label="For resultant element (simple)">
 		<x:scenario>
 			<x:label>When result is<![CDATA[
 				<elem>text</elem>
 				]]></x:label>
-			<x:context>
-				<elem>text</elem>
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="element(elem)">
+					<elem>text</elem>
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem>...</elem>
@@ -21,9 +25,11 @@
 			<x:label>When result is<![CDATA[
 				<elem />
 				]]></x:label>
-			<x:context>
-				<elem />
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="element(elem)">
+					<elem />
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem>...</elem>
@@ -43,9 +49,11 @@
 			<x:label>When result is<![CDATA[
 				<elem>...</elem>
 				]]></x:label>
-			<x:context>
-				<elem>...</elem>
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="element(elem)">
+					<elem>...</elem>
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem>...</elem>
@@ -68,9 +76,11 @@
 			<x:label>When result is<![CDATA[
 				<elem attrib="val" />
 				]]></x:label>
-			<x:context>
-				<elem attrib="val" />
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="element(elem)">
+					<elem attrib="val" />
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<elem attrib="..." />
@@ -93,9 +103,11 @@
 			<x:label>When result is<![CDATA[
 				<outer>text<inner1 /><inner2 /></outer>
 				]]></x:label>
-			<x:context>
-				<outer>text<inner1 /><inner2 /></outer>
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="element(outer)">
+					<outer>text<inner1 /><inner2 /></outer>
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<outer>...</outer>
@@ -115,9 +127,11 @@
 			<x:label>When result is<![CDATA[
 				<outer><inner /></outer>
 				]]></x:label>
-			<x:context>
-				<outer><inner /></outer>
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="element(outer)">
+					<outer><inner /></outer>
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<outer>...</outer>
@@ -139,10 +153,12 @@
 			<x:label>When result is<![CDATA[
 					 @attrib="val"
 				]]></x:label>
-			<x:context select="elem/@*">
-				<elem attrib="val" />
-			</x:context>
-			<x:expect select="elem/@*">
+			<x:call function="exactly-one">
+				<x:param as="attribute(attrib)" select="elem/@*">
+					<elem attrib="val" />
+				</x:param>
+			</x:call>
+			<x:expect select="elem/@* treat as attribute(attrib)">
 				<x:label>expecting<![CDATA[
 					 @attrib="..."
 					]]>should be Success</x:label>
@@ -155,10 +171,12 @@
 			<x:label>When result is<![CDATA[
 					 @attrib=""
 				]]></x:label>
-			<x:context select="elem/@*">
-				<elem attrib="" />
-			</x:context>
-			<x:expect select="elem/@*">
+			<x:call function="exactly-one">
+				<x:param as="attribute(attrib)" select="elem/@*">
+					<elem attrib="" />
+				</x:param>
+			</x:call>
+			<x:expect select="elem/@* treat as attribute(attrib)">
 				<x:label>expecting<![CDATA[
 					 @attrib="..."
 					]]>should be Success</x:label>
@@ -170,10 +188,12 @@
 			<x:label>When result is<![CDATA[
 					 @attrib="..."
 				]]></x:label>
-			<x:context select="elem/@*">
-				<elem attrib="..." />
-			</x:context>
-			<x:expect select="elem/@*">
+			<x:call function="exactly-one">
+				<x:param as="attribute(attrib)" select="elem/@*">
+					<elem attrib="..." />
+				</x:param>
+			</x:call>
+			<x:expect select="elem/@* treat as attribute(attrib)">
 				<x:label>expecting<![CDATA[
 					 @attrib="..."
 					]]>should be Success</x:label>
@@ -181,7 +201,7 @@
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="elem/@*">
+			<x:expect select="elem/@* treat as attribute(attrib)">
 				<x:label>expecting<![CDATA[
 					 @attrib="val"
 					]]>should be Failure</x:label>
@@ -193,7 +213,7 @@
 	<x:scenario label="For resultant text node">
 		<x:scenario label="When result is usual text node">
 			<x:call function="exactly-one">
-				<x:param as="text()" select="$text-node_usual" />
+				<x:param as="text()" select="$Q{x-urn:test:xspec-three-dots}text-node_usual" />
 			</x:call>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
@@ -202,31 +222,31 @@
 
 		<x:scenario label="When result is whitespace-only text node">
 			<x:call function="exactly-one">
-				<x:param as="text()" select="$text-node_whitespace-only" />
+				<x:param as="text()" select="$Q{x-urn:test:xspec-three-dots}text-node_whitespace-only" />
 			</x:call>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect label="expecting usual text node should be Failure" select="$text-node_usual"
+			<x:expect label="expecting usual text node should be Failure" select="$Q{x-urn:test:xspec-three-dots}text-node_usual"
 			 />
 		</x:scenario>
 
 		<x:scenario label="When result is zero-length text node">
 			<x:call function="exactly-one">
-				<x:param as="text()" select="$text-node_zero-length" />
+				<x:param as="text()" select="$Q{x-urn:test:xspec-three-dots}text-node_zero-length" />
 			</x:call>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect label="expecting usual text node should be Failure" select="$text-node_usual"
+			<x:expect label="expecting usual text node should be Failure" select="$Q{x-urn:test:xspec-three-dots}text-node_usual"
 			 />
 		</x:scenario>
 
 		<x:scenario label="When result is three-dot text node">
 			<x:call function="exactly-one">
-				<x:param as="text()" select="$text-node_three-dots" />
+				<x:param as="text()" select="$Q{x-urn:test:xspec-three-dots}text-node_three-dots" />
 			</x:call>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect label="expecting usual text node should be Failure" select="$text-node_usual" />
+			<x:expect label="expecting usual text node should be Failure" select="$Q{x-urn:test:xspec-three-dots}text-node_usual" />
 			<x:expect label="expecting '...' should be Failure" select="'...'" />
 		</x:scenario>
 	</x:scenario>
@@ -236,9 +256,11 @@
 			<x:label>When result is<![CDATA[
 				<!--comment-->
 				]]></x:label>
-			<x:context>
-				<!--comment-->
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="comment()">
+					<!--comment-->
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<!--...-->
@@ -252,9 +274,11 @@
 			<x:label>When result is<![CDATA[
 				<!---->
 				]]></x:label>
-			<x:context>
-				<!---->
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="comment()">
+					<!---->
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<!--...-->
@@ -267,9 +291,11 @@
 			<x:label>When result is<![CDATA[
 				<!--...-->
 				]]></x:label>
-			<x:context>
-				<!--...-->
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="comment()">
+					<!--...-->
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<!--...-->
@@ -292,9 +318,11 @@
 			<x:label>When result is<![CDATA[
 				<?pi data?>
 				]]></x:label>
-			<x:context>
-				<?pi data?>
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="processing-instruction(pi)">
+					<?pi data?>
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<?pi ...?>
@@ -308,9 +336,11 @@
 			<x:label>When result is<![CDATA[
 				<?pi?>
 				]]></x:label>
-			<x:context>
-				<?pi?>
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="processing-instruction(pi)">
+					<?pi?>
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<?pi ...?>
@@ -323,9 +353,11 @@
 			<x:label>When result is<![CDATA[
 				<?pi ...?>
 				]]></x:label>
-			<x:context>
-				<?pi ...?>
-			</x:context>
+			<x:call function="exactly-one">
+				<x:param as="processing-instruction(pi)">
+					<?pi ...?>
+				</x:param>
+			</x:call>
 			<x:expect>
 				<x:label>expecting<![CDATA[
 				<?pi ...?>
@@ -349,12 +381,12 @@
 				<xsl:document><?pi?><!--comment--><elem /></xsl:document>
 				]]></x:label>
 			<x:call function="exactly-one">
-				<x:param as="document-node()" select="$document-node_multiple-nodes" />
+				<x:param as="document-node()" select="$Q{x-urn:test:xspec-three-dots}document-node_multiple-nodes" />
 			</x:call>
-			<x:expect select="$document-node_three-dots">
+			<x:expect select="$Q{x-urn:test:xspec-three-dots}document-node_three-dots">
 				<x:label>expecting<![CDATA[
 					<xsl:document>...</xsl:document>
-					]]>should be Success</x:label>
+					]]>should be Failure</x:label>
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 		</x:scenario>
@@ -364,11 +396,11 @@
 				<xsl:document />
 				]]></x:label>
 			<x:call function="exactly-one">
-				<x:param as="document-node()" select="$document-node_empty" />
+				<x:param as="document-node()" select="$Q{x-urn:test:xspec-three-dots}document-node_empty" />
 			</x:call>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="$document-node_three-dots">
+			<x:expect select="$Q{x-urn:test:xspec-three-dots}document-node_three-dots">
 				<x:label>expecting<![CDATA[
 					<xsl:document>...</xsl:document>
 					]]>should be Failure</x:label>
@@ -380,16 +412,16 @@
 				<xsl:document>...</xsl:document>
 				]]></x:label>
 			<x:call function="exactly-one">
-				<x:param as="document-node()" select="$document-node_three-dots" />
+				<x:param as="document-node()" select="$Q{x-urn:test:xspec-three-dots}document-node_three-dots" />
 			</x:call>
-			<x:expect select="$document-node_three-dots">
+			<x:expect select="$Q{x-urn:test:xspec-three-dots}document-node_three-dots">
 				<x:label>expecting<![CDATA[
 					<xsl:document>...</xsl:document>
 					]]>should be Success</x:label>
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="$document-node_text">
+			<x:expect select="$Q{x-urn:test:xspec-three-dots}document-node_text">
 				<x:label>expecting<![CDATA[
 					<xsl:document>text</xsl:document>
 					]]>should be Failure</x:label>
@@ -402,16 +434,14 @@
 			<x:label>When result is<![CDATA[
 						  xmlns:prefix="namespace-uri"
 				]]></x:label>
-			<x:call function="exactly-one">
-				<x:param as="node()" select="elem/namespace::prefix">
-					<elem xmlns:prefix="namespace-uri" />
-				</x:param>
+			<x:call function="Q{x-urn:test:xspec-three-dots}namespace-node">
+				<x:param select="'prefix'" />
+				<x:param select="'namespace-uri'" />
 			</x:call>
-			<x:expect select="elem/namespace::prefix">
+			<x:expect select="Q{x-urn:test:xspec-three-dots}namespace-node('prefix', '...')">
 				<x:label>expecting<![CDATA[
 					  xmlns:prefix="..."
 					]]>should be Success</x:label>
-				<elem xmlns:prefix="..." />
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 		</x:scenario>
@@ -420,16 +450,14 @@
 			<x:label>When result is<![CDATA[
 						  xmlns="namespace-uri"
 				]]></x:label>
-			<x:call function="exactly-one">
-				<x:param as="node()" select="*:elem/namespace::*[not(name())]">
-					<elem xmlns="namespace-uri" />
-				</x:param>
+			<x:call function="Q{x-urn:test:xspec-three-dots}namespace-node">
+				<x:param select="''" />
+				<x:param select="'namespace-uri'" />
 			</x:call>
-			<x:expect select="*:elem/namespace::*[not(name())]">
+			<x:expect select="Q{x-urn:test:xspec-three-dots}namespace-node('', '...')">
 				<x:label>expecting<![CDATA[
 					  xmlns="..."
 					]]>should be Success</x:label>
-				<elem xmlns="..." />
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 		</x:scenario>
@@ -438,24 +466,22 @@
 			<x:label>When result is<![CDATA[
 						  xmlns:prefix="..."
 				]]></x:label>
-			<x:call function="exactly-one">
-				<x:param as="node()" select="elem/namespace::prefix">
-					<elem xmlns:prefix="..." />
-				</x:param>
+			<x:call function="Q{x-urn:test:xspec-three-dots}namespace-node">
+				<x:param select="'prefix'" />
+				<x:param select="'...'" />
 			</x:call>
-			<x:expect select="elem/namespace::prefix">
+			<x:expect select="Q{x-urn:test:xspec-three-dots}namespace-node('prefix', '...')">
 				<x:label>expecting<![CDATA[
 					  xmlns:prefix="..."
 					]]>should be Success</x:label>
-				<elem xmlns:prefix="..." />
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="elem/namespace::prefix">
+			<x:expect
+				select="Q{x-urn:test:xspec-three-dots}namespace-node('prefix', 'namespace-uri')">
 				<x:label>expecting<![CDATA[
 					  xmlns:prefix="namespace-uri"
 					]]>should be Failure</x:label>
-				<elem xmlns:prefix="namespace-uri" />
 			</x:expect>
 		</x:scenario>
 	</x:scenario>
@@ -465,23 +491,27 @@
 			<x:label>When result is sequence of<![CDATA[
 				<elem1 /><elem2 />
 				]]></x:label>
-			<x:context>
-				<elem1 /><elem2 />
-			</x:context>
-			<x:expect select="wrap/node()">
+			<x:call function="one-or-more">
+				<x:param as="element()+">
+					<elem1 /><elem2 />
+				</x:param>
+			</x:call>
+			<x:expect select="wrap/node() treat as node()+">
 				<x:label>expecting<![CDATA[
 					  ...<elem2 />
 					]]>should be Success</x:label>
 				<wrap>...<elem2 /></wrap>
 			</x:expect>
-			<x:expect label="expecting sequence of two ... should be Success" select="wrap/text()">
+			<x:expect label="expecting sequence of two ... should be Success"
+				select="wrap/text() treat as text()+">
 				<wrap>...</wrap>
 				<wrap>...</wrap>
 			</x:expect>
 
 			<x:expect label="expecting ... should be Failure">...</x:expect>
 			<x:expect label="expecting ...... should be Failure">......</x:expect>
-			<x:expect label="expecting sequence of three ... should be Failure" select="wrap/text()">
+			<x:expect label="expecting sequence of three ... should be Failure"
+				select="wrap/text() treat as text()+">
 				<wrap>...</wrap>
 				<wrap>...</wrap>
 				<wrap>...</wrap>
@@ -490,7 +520,9 @@
 	</x:scenario>
 
 	<x:scenario label="When result is empty sequence">
-		<x:context select="()" />
+		<x:call function="zero-or-one">
+			<x:param select="()" />
+		</x:call>
 		<x:expect label="expecting ... should be Failure">...</x:expect>
 	</x:scenario>
 
@@ -517,7 +549,9 @@
 	</x:scenario>
 
 	<x:scenario label="For any resultant item">
-		<x:context>item</x:context>
+		<x:call function="exactly-one">
+			<x:param as="text()">item</x:param>
+		</x:call>
 		<x:expect label="expecting .... (four dots) should be Failure">....</x:expect>
 		<x:expect label="expecting ...x (three dots with extra character) should be Failure"
 			>...x</x:expect>

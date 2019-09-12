@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../do-nothing.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../xspec-report.xspec">
+   <x:scenario>
+      <x:label>Function (xspec/xspec#355)</x:label>
+      <x:scenario>
+         <x:label>Array</x:label>
+         <x:call function="exactly-one">
+            <x:param as="array(*)" select="['foo', 1, [2, 'bar']]"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">["foo",1,[2,"bar"]]</pseudo-function>
+         </x:result>
+         <x:test successful="false">
+            <x:label>Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure</x:label>
+            <x:expect select="()"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>Map</x:label>
+         <x:call function="exactly-one">
+            <x:param as="map(*)" select="      map {       'foo': 1,       2: 'bar'      }"/>
+         </x:call>
+         <x:result select="/*">
+            <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">map{2:"bar","foo":1}</pseudo-function>
+         </x:result>
+         <x:test successful="false">
+            <x:label>Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure</x:label>
+            <x:expect select="()"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Element, attribute (xspec/xspec#357)</x:label>
+      <x:call function="one-or-more">
+         <x:param as="node()+" select="elem1 | elem2/attribute()">
+            <elem1>text</elem1>
+            <elem2 attr="attr-val"/>
+         </x:param>
+      </x:call>
+      <x:result select="/*/(@* | node())">
+         <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+            <elem1 xmlns="">text</elem1>
+         </pseudo-element>
+         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="attr-val"/>
+      </x:result>
+      <x:test successful="false">
+         <x:label>@attr should be reported as an attribute</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Attributes of the same name (xspec/xspec#358)</x:label>
+      <x:call function="one-or-more">
+         <x:param as="attribute()+" select="element()/attribute()">
+            <elem1 attr="foo"/>
+            <elem2 attr="bar"/>
+         </x:param>
+      </x:call>
+      <x:result select="/*/@*">
+         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="foo"/>
+         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="bar"/>
+      </x:result>
+      <x:test successful="false">
+         <x:label>Both @attr=foo and @attr=bar should be reported</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario>
+      <x:label>Attribute, element, attribute (xspec/xspec#360)</x:label>
+      <x:call function="one-or-more">
+         <x:param as="node()+" select="element()/attribute() | elem2">
+            <elem1 attr1="attr1-val"/>
+            <elem2>text</elem2>
+            <elem3 attr3="attr3-val"/>
+         </x:param>
+      </x:call>
+      <x:result select="/*/(@* | node())">
+         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr1="attr1-val"/>
+         <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+            <elem2 xmlns="">text</elem2>
+         </pseudo-element>
+         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr3="attr3-val"/>
+      </x:result>
+      <x:test successful="false">
+         <x:label>[Result] should be reported</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+</x:report>

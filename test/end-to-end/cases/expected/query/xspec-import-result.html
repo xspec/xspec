@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>Test Report for http://example.org/ns/my (passed: 3 / pending: 0 / failed: 2 / total:
@@ -11,7 +11,7 @@
       <p>Query: http://example.org/ns/my</p>
       <p>Query-at: <a href="../../../../xspec-tested.xql">xspec-tested.xql</a></p>
       <p>XSpec: <a href="../../xspec-import.xspec">xspec-import.xspec</a></p>
-      <p>Tested: ONCE-UPON-A-TIME</p>
+      <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
          <col width="75%" />
@@ -44,14 +44,14 @@
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-98">a correct scenario in an imported file</a></th>
+               <th><a href="#ELEM-100">a correct scenario in an imported file</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-111">an incorrect scenario in an imported file</a></th>
+               <th><a href="#ELEM-113">an incorrect scenario in an imported file</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -96,26 +96,30 @@
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-71">when testing an incorrect scenario in an importing file</h3>
-         <h4 id="ELEM-85">it must return Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>4</pre></td>
-                  <td><pre>()</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-84">
+            <h3>when testing an incorrect scenario in an importing file</h3>
+            <div id="ELEM-85">
+               <h4>it must return Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>4</pre></td>
+                        <td><pre>$t:result instance of xs:string</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-98">
+      <div id="ELEM-100">
          <h2 class="successful">a correct scenario in an imported file<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-100">
+         <table class="xspec" id="ELEM-102">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -130,9 +134,9 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-111">
+      <div id="ELEM-113">
          <h2 class="failed">an incorrect scenario in an imported file<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-113">
+         <table class="xspec" id="ELEM-115">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -141,27 +145,31 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-125">must return Failure</a></td>
+                  <td><a href="#ELEM-127">must return Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-111">an incorrect scenario in an imported file</h3>
-         <h4 id="ELEM-125">must return Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>4</pre></td>
-                  <td><pre>42</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-126">
+            <h3>an incorrect scenario in an imported file</h3>
+            <div id="ELEM-127">
+               <h4>must return Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>4</pre></td>
+                        <td><pre>42</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
    </body>
 </html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../do-nothing.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../xspec-528.xspec">
+   <x:scenario pending="Focus on 1-2">
+      <x:label>Scenario 1</x:label>
+      <x:call function="true"/>
+      <x:test pending="Focus on 1-2">
+         <x:label>should be skipped (otherwise should fail)</x:label>
+      </x:test>
+      <x:scenario pending="Focus on 1-2">
+         <x:label>Scenario 1-1</x:label>
+         <x:call function="true"/>
+         <x:test pending="Focus on 1-2">
+            <x:label>should be skipped (otherwise should fail)</x:label>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>Scenario 1-2</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test successful="false">
+            <x:label>should fail</x:label>
+            <x:expect select="xs:boolean('false')"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+</x:report>

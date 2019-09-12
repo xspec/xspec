@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="x-urn:test-mix"
+	xmlns:test-mix="x-urn:test-mix" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="fooElement" type="test-mix:fooType" />
+
+	<xs:complexType name="fooType">
+		<xs:sequence>
+			<xs:element name="barElement" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><html xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>Test Report for do-nothing.xsl (passed: 5 / pending: 0 / failed: 5 / total: 10)</title>
@@ -8,7 +8,7 @@
       <h1>Test Report</h1>
       <p>Stylesheet: <a href="../../../../do-nothing.xsl">do-nothing.xsl</a></p>
       <p>XSpec: <a href="../../xspec-ambiguous-expect.xspec">xspec-ambiguous-expect.xspec</a></p>
-      <p>Tested: ONCE-UPON-A-TIME</p>
+      <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
          <col width="75%" />
@@ -34,21 +34,21 @@
                <th class="totals">2</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-91">Scenario for verifying that boolean @test precedes @select</a></th>
+               <th><a href="#ELEM-93">Scenario for verifying that boolean @test precedes @select</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">2</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-125">Scenario for verifying that boolean @test precedes child node</a></th>
+               <th><a href="#ELEM-129">Scenario for verifying that boolean @test precedes child node</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">2</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-160">Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
+               <th><a href="#ELEM-168">Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
                      or child node)</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
@@ -81,28 +81,32 @@
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-74">Scenario for verifying that boolean @test precedes @href When function returns true,</h3>
-         <h4 id="ELEM-75">Expecting document node via @href should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>xs:boolean('true')</pre></td>
-                  <td>
-                     <p>XPath <code>/</code> from:
-                     </p><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-74">
+            <h3>Scenario for verifying that boolean @test precedes @href When function returns true,</h3>
+            <div id="ELEM-75">
+               <h4>Expecting document node via @href should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>xs:boolean('true')</pre></td>
+                        <td>
+                           <p>XPath <code>/self::document-node()</code> from:
+                           </p><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-91">
+      <div id="ELEM-93">
          <h2 class="successful">Scenario for verifying that boolean @test precedes @select<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
-         <table class="xspec" id="ELEM-93">
+         <table class="xspec" id="ELEM-95">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -111,7 +115,7 @@
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-111">When function returns false,</a></th>
+                  <th><a href="#ELEM-113">When function returns false,</a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
@@ -119,31 +123,35 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-112">Expecting false via @select along with @test=$x:result should be Failure</a></td>
+                  <td><a href="#ELEM-114">Expecting false via @select along with @test=$x:result should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-111">Scenario for verifying that boolean @test precedes @select When function returns false,</h3>
-         <h4 id="ELEM-112">Expecting false via @select along with @test=$x:result should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>xs:boolean('false')</pre></td>
-                  <td><pre>xs:boolean('false')</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-113">
+            <h3>Scenario for verifying that boolean @test precedes @select When function returns false,</h3>
+            <div id="ELEM-114">
+               <h4>Expecting false via @select along with @test=$x:result should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>xs:boolean('false')</pre></td>
+                        <td><pre>$x:result treat as xs:boolean</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-125">
+      <div id="ELEM-129">
          <h2 class="successful">Scenario for verifying that boolean @test precedes child node<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
-         <table class="xspec" id="ELEM-127">
+         <table class="xspec" id="ELEM-131">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -152,11 +160,11 @@
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-145">When function returns true,</a></th>
+                  <th><a href="#ELEM-149">When function returns true,</a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-146">Expecting element(foo) via child node should be Failure</a></td>
+                  <td><a href="#ELEM-150">Expecting element(foo) via child node should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="successful">
@@ -165,29 +173,35 @@
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-145">Scenario for verifying that boolean @test precedes child node When function returns
-            true,
-         </h3>
-         <h4 id="ELEM-146">Expecting element(foo) via child node should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>xs:boolean('true')</pre></td>
-                  <td><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-149">
+            <h3>Scenario for verifying that boolean @test precedes child node When function returns
+               true,
+            </h3>
+            <div id="ELEM-150">
+               <h4>Expecting element(foo) via child node should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>xs:boolean('true')</pre></td>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
-      <div id="ELEM-160">
+      <div id="ELEM-168">
          <h2 class="successful">Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
             or child node)<span class="scenario-totals">passed: 2 / pending: 0 / failed: 2 / total: 4</span></h2>
-         <table class="xspec" id="ELEM-162">
+         <table class="xspec" id="ELEM-170">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -198,15 +212,15 @@
                   <th>passed: 2 / pending: 0 / failed: 2 / total: 4</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-187">When function returns true,</a></th>
+                  <th><a href="#ELEM-195">When function returns true,</a></th>
                   <th>passed: 2 / pending: 0 / failed: 2 / total: 4</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-188">Expecting empty sequence (no @href, @select or child node) should be Failure</a></td>
+                  <td><a href="#ELEM-196">Expecting empty sequence (no @href, @select or child node) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-200">Ditto using x:label</a></td>
+                  <td><a href="#ELEM-209">Ditto using x:label</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="successful">
@@ -221,39 +235,45 @@
                </tr>
             </tbody>
          </table>
-         <h3 id="ELEM-187">Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
-            or child node) When function returns true,
-         </h3>
-         <h4 id="ELEM-188">Expecting empty sequence (no @href, @select or child node) should be Failure</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>xs:boolean('true')</pre></td>
-                  <td><pre>()</pre></td>
-               </tr>
-            </tbody>
-         </table>
-         <h4 id="ELEM-200">Ditto using x:label</h4>
-         <table class="xspecResult">
-            <thead>
-               <tr>
-                  <th>Result</th>
-                  <th>Expected Result</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <td><pre>xs:boolean('true')</pre></td>
-                  <td><pre>()</pre></td>
-               </tr>
-            </tbody>
-         </table>
+         <div id="ELEM-195">
+            <h3>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
+               or child node) When function returns true,
+            </h3>
+            <div id="ELEM-196">
+               <h4>Expecting empty sequence (no @href, @select or child node) should be Failure</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>xs:boolean('true')</pre></td>
+                        <td><pre>()</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="ELEM-209">
+               <h4>Ditto using x:label</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><pre>xs:boolean('true')</pre></td>
+                        <td><pre>()</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
    </body>
 </html>

@@ -62,7 +62,7 @@ rem ##
 
 :die
     echo:
-    echo *** %~1 >&2
+    (echo *** %~1) >&2
     rem
     rem Now, to exit the batch file, you must go to :win_main_error_exit from
     rem the main code flow.
@@ -70,35 +70,15 @@ rem ##
     goto :EOF
 
 :xslt
-    java -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
-    goto :EOF
-
-:win_xslt_trace
-    rem
-    rem Inner Redirect:
-    rem    By swapping stdout and stderr, send stderr to pipe (as stdout)
-    rem    while allowing original stdout to survive (as stderr)
-    rem
-    rem Pipe:
-    rem    To keep the output XML well-formed, remove the stdout lines
-    rem    that don't look like XML element, assuming %COVERAGE_CLASS%
-    rem    emits every required line in this format
-    rem
-    rem Outer Redirect:
-    rem    To restore the original direction, swap stdout and stderr again 
-    rem
-    ( java -cp "%CP%" net.sf.saxon.Transform %CATALOG% %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    java ^
+        -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
 :xquery
-    java -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
-    goto :EOF
-
-:win_xquery_trace
-    rem
-    rem As for redirect and pipe, see :win_xslt_trace
-    rem
-    ( java -cp "%CP%" net.sf.saxon.Query %CATALOG% %* 3>&2 2>&1 1>&3 | findstr /r /c:"^<..*>$" ) 3>&2 2>&1 1>&3
+    java ^
+        -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 
 :win_reset_options
@@ -153,71 +133,79 @@ rem ##
     goto :win_get_options
 
 
-:schematron_compile
-    echo Setting up Schematron...
+:preprocess_schematron
+    echo Setting up Schematron preprocessors...
     
     if not defined SCHEMATRON_XSLT_INCLUDE set "SCHEMATRON_XSLT_INCLUDE=%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl"
     if not defined SCHEMATRON_XSLT_EXPAND set "SCHEMATRON_XSLT_EXPAND=%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl"
-    if not defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE=%XSPEC_HOME%\src\schematron\iso-schematron\iso_svrl_for_xslt2.xsl"
     
-    rem # get URI to Schematron file and phase/parameters from the XSpec file
+    rem # Absolute SCHEMATRON_XSLT_COMPILE
+    if defined SCHEMATRON_XSLT_COMPILE for %%I in ("%SCHEMATRON_XSLT_COMPILE%") do set "SCHEMATRON_XSLT_COMPILE_ABS=%%~fI"
+    
+    rem # Get Schematron file path
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\sch-file-path.xsl" ^
         || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
     set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     
-    call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; declare function local:escape($v) { let $w := if (matches($v,codepoints-to-string((91,92,115,34,93)))) then codepoints-to-string(34) else '' return concat($w, replace($v,codepoints-to-string(34),codepoints-to-string((34,34))), $w)}; string-join(for $p in /*/*[local-name() = 'param'] return if ($p/@select) then concat('?',$p/@name,'=',local:escape($p/@select)) else concat($p/@name,'=',local:escape($p/string())),' ')" ^
-        -s:"%XSPEC%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
-        || ( call :die "Error getting Schematron phase and parameters" & goto :win_main_error_exit )
-    set /P SCH_PARAMS=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    echo Parameters: %SCH_PARAMS%
-    set "SCHUT=%XSPEC%-compiled.xspec"
-    set "SCH_COMPILED=%SCH%-compiled.xsl"
+    rem # Generate Step 3 wrapper XSLT
+    if defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE_URI=file:///%SCHEMATRON_XSLT_COMPILE_ABS:\=/%"
+    set "SCH_STEP3_WRAPPER=%TEST_DIR%\%TARGET_FILE_NAME%-sch-step3-wrapper.xsl"
+    call :xslt -o:"%SCH_STEP3_WRAPPER%" ^
+        -s:"%XSPEC%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\generate-step3-wrapper.xsl" ^
+        "ACTUAL-PREPROCESSOR-URI=%SCHEMATRON_XSLT_COMPILE_URI%" ^
+        || ( call :die "Error generating Step 3 wrapper XSLT" & goto :win_main_error_exit )
+    
+    set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
+    set "SCH_PREPROCESSED_XSL=%SCH%-preprocessed.xsl"
     
     echo:
-    echo Compiling the Schematron...
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" -s:"%SCH%" ^
-        -xsl:"%SCHEMATRON_XSLT_INCLUDE%" -versionmsg:off ^
-        || ( call :die "Error compiling the Schematron on step 1" & goto :win_main_error_exit )
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" ^
-        -xsl:"%SCHEMATRON_XSLT_EXPAND%" -versionmsg:off ^
-        || ( call :die "Error compiling the Schematron on step 2" & goto :win_main_error_exit )
-    call :xslt -o:"%SCH_COMPILED%" -s:"%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" ^
-        -xsl:"%SCHEMATRON_XSLT_COMPILE%" -versionmsg:off ^
-        %SCH_PARAMS% ^
-        || ( call :die "Error compiling the Schematron on step 3" & goto :win_main_error_exit )
+    echo Converting Schematron into XSLT...
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" ^
+        -s:"%SCH%" ^
+        -xsl:"%SCHEMATRON_XSLT_INCLUDE%" ^
+        -versionmsg:off ^
+        || ( call :die "Error preprocessing Schematron on step 1" & goto :win_main_error_exit )
+    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-step2.sch" ^
+        -s:"%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" ^
+        -xsl:"%SCHEMATRON_XSLT_EXPAND%" ^
+        -versionmsg:off ^
+        || ( call :die "Error preprocessing Schematron on step 2" & goto :win_main_error_exit )
+    call :xslt -o:"%SCH_PREPROCESSED_XSL%" ^
+        -s:"%TEST_DIR%\%TARGET_FILE_NAME%-step2.sch" ^
+        -xsl:"%SCH_STEP3_WRAPPER%" ^
+        -versionmsg:off ^
+        || ( call :die "Error preprocessing Schematron on step 3" & goto :win_main_error_exit )
     
-    rem use XQuery to get full URI to compiled Schematron
-    rem echo SCH_COMPILED %SCH_COMPILED%
+    rem use XQuery to get full URI to preprocessed Schematron XSLT
     rem call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" ^
-    rem     -s:"%SCH_COMPILED%" >"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
-    rem     || ( call :die "Error getting compiled Schematron location" & goto :win_main_error_exit )
-    rem set /P SCH_COMPILED_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    set "SCH_COMPILED_URI=file:///%SCH_COMPILED:\=/%"
-    rem echo SCH_COMPILED_URI %SCH_COMPILED_URI%
+    rem     -s:"%SCH_PREPROCESSED_XSL%" ^
+    rem     -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
+    rem     || ( call :die "Error getting preprocessed Schematron XSLT location" & goto :win_main_error_exit )
+    rem set /P SCH_PREPROCESSED_XSL_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    set "SCH_PREPROCESSED_XSL_URI=file:///%SCH_PREPROCESSED_XSL:\=/%"
     
     echo:
-    echo Compiling the Schematron tests...
-    set "TEST_DIR_URI=file:///%TEST_DIR_ABS:\=/%"
-    call :xslt -o:"%SCHUT%" ^
+    echo Converting Schematron XSpec into XSLT XSpec...
+    call :xslt -o:"%SCH_PREPROCESSED_XSPEC%" ^
         -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
-        stylesheet-uri="%SCH_COMPILED_URI%" ^
-        test-dir-uri="%TEST_DIR_URI%" ^
-        || ( call :die "Error compiling the Schematron tests" & goto :win_main_error_exit )
-    set "XSPEC=%SCHUT%"
+        stylesheet-uri="%SCH_PREPROCESSED_XSL_URI%" ^
+        || ( call :die "Error converting Schematron XSpec into XSLT XSpec" & goto :win_main_error_exit )
+    set "XSPEC=%SCH_PREPROCESSED_XSPEC%"
     echo:
     goto :EOF
 
 :cleanup
 	if defined SCHEMATRON (
-		del /q "%SCHUT%" 2>nul
-		del /q "%TEST_DIR%\context-*.xml" 2>nul
-		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
-		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp1.xml" 2>nul
-		del /q "%TEST_DIR%\%TARGET_FILE_NAME%-sch-temp2.xml" 2>nul
-		del /q "%SCH_COMPILED%" 2>nul
+		del "%SCH_PREPROCESSED_XSPEC%" 2>nul
+		del "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
+		del "%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" 2>nul
+		del "%TEST_DIR%\%TARGET_FILE_NAME%-step2.sch" 2>nul
+		del "%SCH_STEP3_WRAPPER%" 2>nul
+		del "%SCH_PREPROCESSED_XSL%" 2>nul
 	)
 	goto :EOF
 
@@ -491,16 +479,13 @@ if not exist "%TEST_DIR%" (
     echo:
 )
 
-rem # Absolute TEST_DIR
-for %%I in ("%TEST_DIR%") do set "TEST_DIR_ABS=%%~fI"
-
 rem
 rem ##
 rem ## compile the suite #########################################################
 rem ##
 rem
 
-if defined SCHEMATRON call :schematron_compile || goto :win_main_error_exit
+if defined SCHEMATRON call :preprocess_schematron || goto :win_main_error_exit
 
 if defined XSLT (
     set COMPILE_SHEET=generate-xspec-tests.xsl
@@ -525,15 +510,15 @@ if defined XSLT (
     rem # for XSLT
     rem
     if defined COVERAGE (
-        echo Collecting test coverage data; suppressing progress report...
-        call :win_xslt_trace %SAXON_CUSTOM_OPTIONS% ^
+        echo Collecting test coverage data...
+        call :xslt %SAXON_CUSTOM_OPTIONS% ^
             -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
-            -it:{http://www.jenitennison.com/xslt/xspec}main 2> "%COVERAGE_XML%" ^
+            -o:"%RESULT%" -xsl:"%COMPILED%" ^
+            -it:{http://www.jenitennison.com/xslt/xspec}main ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xslt %SAXON_CUSTOM_OPTIONS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" -xsl:"%COMPILED%" ^
+            -o:"%RESULT%" -xsl:"%COMPILED%" ^
             -it:{http://www.jenitennison.com/xslt/xspec}main ^
             || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
@@ -542,14 +527,14 @@ if defined XSLT (
     rem # for XQuery
     rem
     if defined COVERAGE (
-        echo Collecting test coverage data; suppressing progress report...
-        call :win_xquery_trace %SAXON_CUSTOM_OPTIONS% ^
+        echo Collecting test coverage data...
+        call :xquery %SAXON_CUSTOM_OPTIONS% ^
             -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" 2> "%COVERAGE_XML%" ^
+            -o:"%RESULT%" -q:"%COMPILED%" ^
             || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
     ) else (
         call :xquery %SAXON_CUSTOM_OPTIONS% ^
-            -o:"%RESULT%" -s:"%XSPEC%" -q:"%COMPILED%" ^
+            -o:"%RESULT%" -q:"%COMPILED%" ^
             || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
 )
@@ -564,11 +549,13 @@ echo:
 echo Formatting Report...
 call :xslt -o:"%HTML%" ^
     -s:"%RESULT%" ^
-    -xsl:"%XSPEC_HOME%\src\reporter\format-xspec-report.xsl" ^
+    -a ^
     inline-css=true ^
     || ( call :die "Error formatting the report" & goto :win_main_error_exit )
 
 if defined COVERAGE (
+    echo:
+    echo Formatting Coverage Report...
     call :xslt -l:on ^
         -o:"%COVERAGE_HTML%" ^
         -s:"%COVERAGE_XML%" ^
@@ -579,6 +566,8 @@ if defined COVERAGE (
     call :win_echo "Report available at %COVERAGE_HTML%"
     rem %OPEN% "%COVERAGE_HTML%"
 ) else if defined JUNIT (
+    echo:
+    echo Generating JUnit Report...
     call :xslt -o:"%JUNIT_RESULT%" ^
         -s:"%RESULT%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\junit-report.xsl" ^

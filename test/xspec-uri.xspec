@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
+	schematron="do-nothing.sch" stylesheet="do-nothing.xsl"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec">
+
+	<t:scenario label="$x:xspec-uri in x:call/x:param">
+		<t:call function="exactly-one">
+			<t:param select="$t:xspec-uri" />
+		</t:call>
+		<t:expect label="should be xs:anyURI" test="$t:result instance of xs:anyURI" />
+		<t:expect label="should be this .xspec file"
+			test="ends-with($t:result, '/test/xspec-uri.xspec')" />
+		<t:expect label="should be the same as the one in x:expect" select="$t:xspec-uri" />
+	</t:scenario>
+
+</t:description>

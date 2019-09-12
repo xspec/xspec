@@ -5,7 +5,9 @@
 
 	<!-- Absolute path of directory where *.xspec files are located -->
 	<property location="${e2e-base.basedir}/../../cases/" name="xspecfiles.dir" />
-	<makeurl file="${xspecfiles.dir}" property="xspecfiles.dir.url" />
+
+	<!-- Use fixed date time stamp -->
+	<property name="run-xspec-tests.now" value="2000-01-01T00:00:00Z" />
 
 	<!-- Import "run-xspec-tests" build file -->
 	<import file="../../../ant/build.xml" />

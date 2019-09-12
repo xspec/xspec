@@ -30,14 +30,14 @@
               tests="1"
               failures="0">
       <testcase name="it would return Success if it were not Pending" status="skipped">
-         <skipped>testing @pending</skipped>
+         <skipped>testing @pending of a correct scenario</skipped>
       </testcase>
    </testsuite>
    <testsuite name="an incorrect scenario with @pending must be Pending"
               tests="1"
               failures="0">
       <testcase name="it would return Failure if it were not Pending" status="skipped">
-         <skipped>testing @pending</skipped>
+         <skipped>testing @pending of an incorrect scenario</skipped>
       </testcase>
    </testsuite>
 </testsuites>

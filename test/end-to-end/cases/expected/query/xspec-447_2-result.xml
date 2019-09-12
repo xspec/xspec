@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          date="2000-01-01T00:00:00Z"
+          query="x-urn:test:do-nothing"
+          query-at="../../../../do-nothing.xquery"
+          xspec="../../xspec-447_2.xspec">
+   <x:scenario pending="x:pending/@label containing }{">
+      <x:label>should not affect test</x:label>
+      <x:call function="false"/>
+      <x:test pending="x:pending/@label containing }{">
+         <x:label>(This x:expect doesn't matter)</x:label>
+      </x:test>
+   </x:scenario>
+</x:report>
