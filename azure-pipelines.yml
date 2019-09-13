@@ -102,3 +102,15 @@ steps:
           $Env:JING_JAR = "%TEMP%\xspec\jing\jing.jar"
           curl.exe -fsSL --create-dirs --retry 5 -o "$Env:JING_JAR" "http://central.maven.org/maven2/org/relaxng/jing/$Env:JING_VERSION/jing-$Env:JING_VERSION.jar"
       }
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      rem Print Java version
+      java -version
+      
+      rem Print Ant version
+      ant -version
+      
+      rem Print Saxon version
+      java -cp "%SAXON_JAR%" net.sf.saxon.Version
