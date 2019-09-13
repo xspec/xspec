@@ -289,7 +289,8 @@
                </xsl:message>
                <!-- Set up variables containing the parameter values -->
                <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile"/>
-               <!-- Create the apply templates instruction -->
+               <!-- Create the apply templates instruction.
+                 This code path, particularly with @catch, has not been tested. -->
                <xsl:call-template name="x:enter-sut">
                  <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                    <apply-templates>
