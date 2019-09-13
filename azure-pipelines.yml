@@ -69,8 +69,11 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      # force an older installation of ant and do not install JDK
       choco install ant --force --ignore-dependencies --no-progress --version $Env:ANT_VERSION
 
+# TODO: I tried to use the Chocolatey task to install ant but I could not find a way to pass the option to ignore the dependencies
+#       As a result, the JDK gets installed and this increases the build time by 30-45 seconds
 #- task: ChocolateyCommand@0
 #  inputs:
 #    command: 'install'
@@ -78,3 +81,9 @@ steps:
 #    installPackageVersion: '$(ANT_VERSION)'
 #    installInstallArgs: '--ignore-dependencies --no-progress'
 #    installForce: true
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      curl.exe -fsSL --create-dirs --retry 5 -o "$Env:XML_RESOLVER_JAR" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
