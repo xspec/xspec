@@ -1130,6 +1130,11 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "XPST0017:" ]]
 }
 
 
@@ -1148,6 +1153,11 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+
+    run ../bin/xspec.sh -q catch/static-error-in-compiled-test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "XPST0017:" ]]
 }
 
 

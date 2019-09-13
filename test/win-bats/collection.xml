@@ -840,6 +840,10 @@
     call :run ..\bin\xspec.bat catch\error-in-variable.xspec
     call :verify_retval 2
     call :verify_line * r "  error-code-of-my-variable: Error signalled .*"
+
+    call :run ..\bin\xspec.bat catch\static-error-in-compiled-test.xspec
+    call :verify_retval 2
+    call :verify_line * r ".*XPST0017:"
 	</case>
 
 	<case name="@catch should not catch error outside SUT (XQuery)">
@@ -854,6 +858,10 @@
     call :run ..\bin\xspec.bat -q catch\error-in-variable.xspec
     call :verify_retval 2
     call :verify_line * r "  error-code-of-my-variable: Error signalled .*"
+
+    call :run ..\bin\xspec.bat -q catch\static-error-in-compiled-test.xspec
+    call :verify_retval 2
+    call :verify_line * r ".*XPST0017:"
 	</case>
 
 	<case name="Error in SUT should not be caught by default (XSLT)">
