@@ -179,7 +179,7 @@
 				in:  76, 0, 3809, 132
 				out: 21392098479636612 (0x004C00000EE10084)
 	-->
-	<xsl:function name="x:pack-version">
+	<xsl:function as="xs:integer" name="x:pack-version">
 		<xsl:param as="xs:integer" name="w" />
 		<xsl:param as="xs:integer" name="x" />
 		<xsl:param as="xs:integer" name="y" />
