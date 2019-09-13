@@ -19,6 +19,8 @@
 						test="$x:result?err?description treat as xs:string" />
 					<x:expect label="err:value" select="'my', 'error', 'object'"
 						test="$x:result?err?value treat as xs:string+" />
+
+					<!-- The error is raised by fn:error() at a line in the compiled stylsheet/query -->
 					<x:expect label="err:module"
 						test="matches($x:result?err?module treat as xs:string, '.+/xspec-catch\.(xq|xsl)$')" />
 					<x:expect label="err:line-number"
