@@ -110,7 +110,7 @@ steps:
       java -version
       
       rem Print Ant version
-      ant -version
+      C:\ProgramData\chocolatey\bin\ant.exe -version
       
       rem Print Saxon version
       java -cp "%SAXON_JAR%" net.sf.saxon.Version
@@ -119,6 +119,7 @@ steps:
   inputs:
     script: |
       rem execute bats-like unit tests
+      dir
       test\run-bats.cmd
 
 - task: CmdLine@2
