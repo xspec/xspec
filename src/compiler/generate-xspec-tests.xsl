@@ -54,10 +54,10 @@
     <xsl:apply-templates select="." mode="x:copy-namespaces" />
 
     <import href="{$stylesheet-uri}" />
-    <import href="{resolve-uri('generate-tests-utils.xsl', static-base-uri())}"/>
-    <import href="{resolve-uri('../schematron/sch-location-compare.xsl', static-base-uri())}"/>
+    <import href="{resolve-uri('generate-tests-utils.xsl')}"/>
+    <import href="{resolve-uri('../schematron/sch-location-compare.xsl')}"/>
 
-    <include href="{resolve-uri('../common/xspec-utils.xsl', static-base-uri())}" />
+    <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
 
     <!-- Serialization parameters -->
     <output name="{x:xspec-name('report')}" method="xml" indent="yes" />
@@ -213,10 +213,19 @@
       <!-- Create x:label directly -->
       <xsl:sequence select="x:label(.)" />
 
-      <!-- Create report generator -->
-      <xsl:apply-templates select="x:apply | x:call | x:context" mode="x:report" />
-
-      <xsl:apply-templates select="$variables" mode="x:generate-declarations"/>
+      <!-- Handle variables and apply/call/context in document order,
+           instead of apply/call/context first and variables second. -->
+      <xsl:for-each select="$variables | x:apply | x:call | x:context">
+        <xsl:choose>
+          <xsl:when test="self::x:apply or self::x:call or self::x:context">
+            <!-- Create report generator -->
+            <xsl:apply-templates select="." mode="x:report" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="." mode="x:generate-declarations"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:for-each>
       <xsl:if test="not($pending-p) and x:expect">
         <variable name="{x:xspec-name('result')}" as="item()*">
           <xsl:choose>

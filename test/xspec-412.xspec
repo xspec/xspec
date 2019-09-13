@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
 	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:param as="document-node()" href="xspec-412.xml" name="doc" />
+	<x:variable as="document-node()" href="xspec-412.xml" name="doc" />
 
 	<x:scenario>
 		<!-- These scenarios return Success without fixing xspec/xspec#412 -->

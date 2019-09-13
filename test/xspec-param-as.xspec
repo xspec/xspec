@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-param-as.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="xspec-param-as.xsl"
+	xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="In context template-param (i.e. //x:context/x:param),">
 		<x:context mode="param-mirror-mode">
@@ -27,5 +29,17 @@
 	<x:scenario label="In global-param (i.e. /x:description/x:param),">
 		<x:context />
 		<x:expect label="@as takes effect" test="$global-param instance of xs:double" />
+	</x:scenario>
+
+	<x:variable as="xs:double" name="myv:global-var" select="xs:integer(0)" />
+	<x:scenario label="In global variable (i.e. /x:description/x:variable),">
+		<x:context />
+		<x:expect label="@as takes effect" test="$myv:global-var instance of xs:double" />
+	</x:scenario>
+
+	<x:scenario label="In scenario-level variable (i.e. //x:scenario/x:variable),">
+		<x:variable as="xs:double" name="myv:local-var" select="xs:integer(0)" />
+		<x:context />
+		<x:expect label="@as takes effect" test="$myv:local-var instance of xs:double" />
 	</x:scenario>
 </x:description>

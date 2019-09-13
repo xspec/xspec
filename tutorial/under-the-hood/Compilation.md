@@ -16,7 +16,7 @@ The generated stylesheets and queries are not shown in their entirety.  In parti
 
 The goal is to make the compilation phase clearer, mostly for development purposes.
 
-Those examples could be the base for test cases too developed as an automated test suite.
+Those examples could be the base for test cases, too, developed as an automated test suite.
 
 ## Simple suite
 
@@ -52,7 +52,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 
    <!-- the tested stylesheet -->
    <xsl:import href="http://example.org/ns/stylesheet.xsl"/>
-   <!-- an XSPec stylesheet providing tools -->
+   <!-- an XSpec stylesheet providing tools -->
    <xsl:import href=".../generate-tests-utils.xsl"/>
 
    <xsl:namespace-alias stylesheet-prefix="__x" result-prefix="xsl"/>
@@ -84,16 +84,16 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       </xsl:result-document>
    </xsl:template>
 
-   <!-- generated from the scenario element -->
+   <!-- generated from the x:scenario element -->
    <xsl:template name="x:d4e2">
       ...
-      <!-- a call instruction for each expect element -->
+      <!-- a call instruction for each x:expect element -->
       <xsl:call-template name="x:d4e4">
          ...
       </xsl:call-template>
    </xsl:template>
 
-   <!-- generated from the expect element -->
+   <!-- generated from the x:expect element -->
    <xsl:template name="x:d4e4">
       ...
    </xsl:template>
@@ -106,22 +106,22 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 ```xquery
 (: the tested library module :)
 import module namespace q = "http://example.org/ns/query";
-(: an XSPec library module providing tools :)
+(: an XSpec library module providing tools :)
 import module namespace test = "http://www.jenitennison.com/xslt/unit-test"
   at ".../generate-query-utils.xql";
 
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";
 
-(: generated from the scenario element :)
+(: generated from the x:scenario element :)
 declare function local:d4e2()
 {
   ...
-  (: a call instruction for each expect element :)
+  (: a call instruction for each x:expect element :)
   local:d4e4($x:result)
   ...
 };
 
-(: generated from the expect element :)
+(: generated from the x:expect element :)
 declare function local:d4e4($x:result as item()*)
 {
   ...
@@ -143,7 +143,7 @@ declare function local:d4e4($x:result as item()*)
 
 Show the structure of a compiled scenario, both in XSLT and
 XQuery.  The general idea is to generate a template for the
-scenario (or a function in XQuery), that calls the [SUT](#sut) and puts
+scenario (or a function in XQuery), that calls the [SUT](#sut) (or System Under Test) and puts
 the result in a variable, `$x:result`.  A separate template (or function in
 XQuery) is generated for each expectation, and those templates (or
 functions) are called from the first one, in sequence, with the
@@ -161,7 +161,7 @@ result as parameter.
 ### Stylesheet
 
 ```xml
-<!-- generated from the scenario element -->
+<!-- generated from the x:scenario element -->
 <xsl:template name="x:d4e2">
    <x:call function="f"/>
    <xsl:variable name="x:result" as="item()*">
@@ -173,7 +173,7 @@ result as parameter.
    </xsl:call-template>
 </xsl:template>
 
-<!-- generated from the expect element -->
+<!-- generated from the x:expect element -->
 <xsl:template name="x:d4e4">
    <xsl:param name="x:result" required="yes"/>
    <!-- expected result (none here) -->
@@ -221,7 +221,7 @@ result as parameter.
 ### Query
 
 ```xquery
-(: generated from the scenario element :)
+(: generated from the x:scenario element :)
 declare function local:d4e2()
 {
   ... generate scenario data in the report ...
@@ -231,7 +231,7 @@ declare function local:d4e2()
     )
 };
 
-(: generated from the expect element :)
+(: generated from the x:expect element :)
 declare function local:d4e4($x:result as item()*)
 {
   let $local:expected    :=                  (: expected result (none here) :)
@@ -267,7 +267,7 @@ possible in XQuery), and corresponds naturally to
 `xsl:apply-templates`.  `x:call` represents a call either to a named
 template or an XPath function.  `x:context` also represents applying
 a template rule to a node, but in a different way than `x:apply`:
-the former represents more a full transform (e.g. the result is
+the former represents more a full transform (e.g., the result is
 always one document node) where `x:apply` is exactly the result of a
 template rule (the result is the exact result sequence or the
 rule).
@@ -368,14 +368,15 @@ TODO: ...
 
 ## Variables
 
-This is not implemented yet, but this is an example of what they
-will look like.
+The `x:variable` element in the XSpec namespace defines an XSpec variable. Any number of `x:variable` elements can occur as a child of `x:description` or `x:scenario`. In `x:scenario`, an `x:variable` element can occur before or after `x:context`, `x:call`, `x:apply` (not implemented yet), or `x:expect`. XSpec variables can be redefined locally, but names of global XSpec variables must be unique. XSpec variables can be referenced in XPath expressions, such as in `@select` and `@test` attributes.
+
+The first example shows how an XSpec variable maps to an `xsl:variable` element in generated XSLT code or a `let` statement in generated XQuery code.
 
 ### Test suite
 
 ```xml
 <x:scenario label="scenario">
-   <x:variable name="var" select="'value'"/>
+   <x:variable name="myv:var" select="'value'"/>
    ...
    <x:expect .../>
 </x:scenario>
@@ -384,53 +385,61 @@ will look like.
 ### Stylesheet
 
 ```xml
-<!-- generated from the scenario element -->
+<!-- generated from the x:scenario element -->
 <xsl:template name="x:d4e2">
    <!-- the generated variable -->
-   <xsl:variable name="var" select="'value'"/>
+   <xsl:variable name="myv:var" select="'value'"/>
    <xsl:variable name="x:result" as="item()*">
-      ... evaluate the test expression ...
+      ... exercise the SUT ...
    </xsl:variable>
    ...
    <xsl:call-template name="x:d4e4">
       <xsl:with-param name="x:result" select="$x:result"/>
+      <xsl:with-param name="myv:var" select="$myv:var"/>
    </xsl:call-template>
 </xsl:template>
 
-<!-- generated from the expect element -->
+<!-- generated from the x:expect element -->
 <xsl:template name="x:d4e4">
    <xsl:param name="x:result" required="yes"/>
-   <!-- the generated variable -->
-   <xsl:variable name="var" select="'value'"/>
+   <xsl:param name="myv:var" required="yes"/>
    <!-- evaluate the expectation -->
    <xsl:variable name="impl:expected" ...>
    <xsl:variable name="impl:test-items" ...>
    <xsl:variable name="impl:test-result" ...>
-   ...
+   <xsl:variable name="impl:boolean-test" ...>
+   <!-- did the test pass? -->
+   <xsl:variable name="impl:successful" ...>
+   ... generate test result in the report ...
 </xsl:template>
 ```
 
 ### Query
 
 ```xquery
-(: generated from the scenario element :)
+(: generated from the x:scenario element :)
 declare function local:d4e2()
 {
+  let $myv:var := ( 'value' )        (: the generated variable :)
   ...
-  let $var          := 'value'               (: the generated variable :)
-  let $x:result := ... evaluate the test expression ...
+  let $x:result := ... exercise the SUT ...
     return (
-      local:d4e4($x:result)
+      ...,
+      let $x:tmp := local:d4e4($x:result, $myv:var) return (
+        $x:tmp
+      )
     )
+  ...
 };
 
-(: generated from the expect element :)
-declare function local:d4e4($x:result as item()*)
+(: generated from the x:expect element :)
+declare function local:d4e4($x:result, $myv:var)
 {
-  let $var               := 'value'          (: the generated variable :)
-  let $local:expected    := ...              (: expected result :)
-  let $local:test-result := ...              (: evaluate the expectations :)
-  let $local:successful  := ...              (: did the test pass?:)
+  let $local:expected    :=  ... (: expected result :)
+  let $local:test-items as item()* := ...
+  let $local:test-result as item()* := ...
+  let $local:boolean-test as xs:boolean :=  ...
+  let $local:successful as xs:boolean := ... (: did the test pass? :)
     return
       ... generate test result in the report ...
 };
@@ -439,24 +448,22 @@ declare function local:d4e4($x:result as item()*)
 ## Variable value
 
 Here is an example of three variables, one using `@select`, one
-using content, and one using `@href`.  The `href` attribute is
+using content, and one using `@href`.  The `@href` attribute is
 to load a document from a file (relative to the test suite
 document). As with `x:param`,
 content and `@href` are mutually exclusive. The `@select` attribute can appear alone or in combination with either content or `@href`.
 
-The resulting variables must appear once in the code
-generated for the `x:scenario` element and once in the code
-generated for the `x:expect` element (well, define more precisely
-the scope of the variables, I think we should be able to put them
-everywhere, and the scope must "natural" when looking at the test
-suite definition).
+The resulting variables become accessible from the code generated
+for the `x:scenario` and `x:expect` elements. See "[Variables scope](#variables-scope)"
+below for details on how the generated stylesheet or query achieves
+this accessibility.
 
 ### Test suite
 
 ```xml
-<x:variable name="select"  select="'value'"/>
-<x:variable name="href"    href="test-data.xml"/>
-<x:variable name="content" as="element()">
+<x:variable name="myv:select"  select="'value'"/>
+<x:variable name="myv:href"    href="test-data.xml"/>
+<x:variable name="myv:content" as="element()">
    <elem/>
 </x:variable>
 ```
@@ -464,45 +471,68 @@ suite definition).
 ### Stylesheet
 
 ```xml
-<xsl:variable name="select" select="'value'"/>
-<xsl:variable name="href"   select="doc('.../test-data.xml')"/>
-<xsl:variable name="content" as="element()">
-   <elem/>
+<xsl:variable name="myv:select" select="'value'"/>
+<xsl:variable name="myv:href-doc"
+              as="document-node()"
+              select="doc('.../test-data.xml')"/>
+<xsl:variable name="myv:href" as="item()*">
+   <xsl:for-each select="$myv:href-doc">
+      <xsl:sequence select="."/>
+   </xsl:for-each>
+</xsl:variable>
+<xsl:variable name="myv:content-doc" as="document-node()">
+   <xsl:document>
+      <elem/>
+   </xsl:document>
+</xsl:variable>
+<xsl:variable name="myv:content" as="element()">
+   <xsl:for-each select="$myv:content-doc">
+      <xsl:sequence select="node()"/>
+   </xsl:for-each>
 </xsl:variable>
 ```
 
 ### Query
 
 ```xquery
-let $select := 'value'
-let $href   := doc('.../test-data.xml')
-let $content as element() := <elem/>
+let $myv:select := ( 'value' )
+let $myv:href-doc as document-node() := ( doc('.../test-data.xml') )
+let $myv:href := ( $myv:href-doc ! ( . ) )
+let $myv:content-doc as document-node() := ( document { <elem xmlns:...>{ () }
+</elem> } )
+let $myv:content as element() := ( $myv:content-doc ! ( node() ) )
 ```
 
 ## Variables scope
 
-This shows where variables are generated regarding their scope.
-It is worth noting the first definition of this was to generate
-variables several times if needed, e.g. if they were in scope in
+In a given scenario, the variables in scope are:
+
+- Local variables defined in that scenario
+- Variables defined as children of an ancestor scenario
+- Global variables defined as children of `x:description`
+
+This example shows where variables are generated depending on their scope.
+It is worth noting the first implementation of this was to generate
+variables several times if needed, e.g., if they were in scope in
 a scenario and expectations (see the revision r78, a revision before changed by [r79](https://groups.google.com/forum/#!topic/xspec-dev/K25fP9Zb--4), of this page
 for an example).  But this would lead to several evaluations of
 the same thing (which could lead to being less efficient, and to
 subtle bugs in case of side-effects). So instead, variables are
-evaluated once, then passed as parameters (to templates in XSLT
+evaluated once, and then passed as parameters (to templates in XSLT
 and functions in XQuery).
 
 ### Test suite
 
 ```xml
-<x:variable name="global" ...>
+<x:variable name="myv:global" ...>
 <x:scenario label="outer">
-   <x:variable name="var-1" ...>
+   <x:variable name="myv:var-1" ...>
    <x:scenario label="inner">
-      <x:variable name="var-2" ...>
+      <x:variable name="myv:var-2" ...>
       <x:call function="f"/>
-      <x:variable name="var-3" ...>
+      <x:variable name="myv:var-3" ...>
       <x:expect label="expect one" ...>
-      <x:variable name="var-4" ...>
+      <x:variable name="myv:var-4" ...>
       <x:expect label="expect two" ...>
    </x:scenario>
 </x:scenario>
@@ -511,45 +541,45 @@ and functions in XQuery).
 ### Stylesheet
 
 ```xml
-<xsl:variable name="global" ...>
+<xsl:variable name="myv:global" ...>
 
 <!-- generated from the scenario outer -->
 <xsl:template name="x:d4e2">
    <!-- the generated variable -->
-   <xsl:variable name="var-1" ...>
+   <xsl:variable name="myv:var-1" ...>
    ...
    <xsl:call-template name="x:d4e3">
       <!-- pass the variable to inner context -->
-      <xsl:with-param name="var-1" select="$var-1"/>
+      <xsl:with-param name="myv:var-1" select="$myv:var-1"/>
    </xsl:call-template>
 </xsl:template>
 
 <!-- generated from the scenario inner -->
 <xsl:template name="x:d4e3">
    <!-- the variable is passed as param -->
-   <xsl:param name="var-1" required="yes" ...>
+   <xsl:param name="myv:var-1" required="yes" ...>
    <!-- the generated variable -->
-   <xsl:variable name="var-2" ...>
+   <xsl:variable name="myv:var-2" ...>
    <xsl:variable name="x:result" as="item()*">
       <xsl:sequence select="f()"/>
    </xsl:variable>
    ...
    <!-- the generated variable -->
-   <xsl:variable name="var-3" ...>
+   <xsl:variable name="myv:var-3" ...>
    <xsl:call-template name="x:d4e4">
-      <xsl:with-param name="x:result" select="$x:result"/>
-      <xsl:with-param name="var-1"    select="$var-1"/>
-      <xsl:with-param name="var-2"    select="$var-2"/>
-      <xsl:with-param name="var-3"    select="$var-3"/>
+      <xsl:with-param name="x:result"  select="$x:result"/>
+      <xsl:with-param name="myv:var-1" select="$myv:var-1"/>
+      <xsl:with-param name="myv:var-2" select="$myv:var-2"/>
+      <xsl:with-param name="myv:var-3" select="$myv:var-3"/>
    </xsl:call-template>
    <!-- the generated variable -->
-   <xsl:variable name="var-4" ...>
+   <xsl:variable name="myv:var-4" ...>
    <xsl:call-template name="x:d4e5">
-      <xsl:with-param name="x:result" select="$x:result"/>
-      <xsl:with-param name="var-1"    select="$var-1"/>
-      <xsl:with-param name="var-2"    select="$var-2"/>
-      <xsl:with-param name="var-3"    select="$var-3"/>
-      <xsl:with-param name="var-4"    select="$var-4"/>
+      <xsl:with-param name="x:result"  select="$x:result"/>
+      <xsl:with-param name="myv:var-1" select="$myv:var-1"/>
+      <xsl:with-param name="myv:var-2" select="$myv:var-2"/>
+      <xsl:with-param name="myv:var-3" select="$myv:var-3"/>
+      <xsl:with-param name="myv:var-4" select="$myv:var-4"/>
    </xsl:call-template>
 </xsl:template>
 
@@ -557,9 +587,9 @@ and functions in XQuery).
 <xsl:template name="x:d4e4">
    <xsl:param name="x:result" required="yes"/>
    <!-- the variables are passed as param -->
-   <xsl:param name="var-1" required="yes" ...>
-   <xsl:param name="var-2" required="yes" ...>
-   <xsl:param name="var-3" required="yes" ...>
+   <xsl:param name="myv:var-1" required="yes" ...>
+   <xsl:param name="myv:var-2" required="yes" ...>
+   <xsl:param name="myv:var-3" required="yes" ...>
    ... evaluate the expectations ...
 </xsl:template>
 
@@ -567,10 +597,10 @@ and functions in XQuery).
 <xsl:template name="x:d4e5">
    <xsl:param name="x:result" required="yes"/>
    <!-- the variables are passed as param -->
-   <xsl:param name="var-1" required="yes" ...>
-   <xsl:param name="var-2" required="yes" ...>
-   <xsl:param name="var-3" required="yes" ...>
-   <xsl:param name="var-4" required="yes" ...>
+   <xsl:param name="myv:var-1" required="yes" ...>
+   <xsl:param name="myv:var-2" required="yes" ...>
+   <xsl:param name="myv:var-3" required="yes" ...>
+   <xsl:param name="myv:var-4" required="yes" ...>
    ... evaluate the expectations ...
 </xsl:template>
 ```
@@ -584,39 +614,42 @@ declare variable $global := ...;
 declare function local:d4e2()
 {
   ...
-  let $var-1 := ...
-  ...
+  let $myv:var-1 := ...
+  let $x:tmp := local:d4e3($myv:var-1)
     return (
-      local:d4e3($var-1)
+      $x:tmp
     )
+  ...
 };
 
 (: generated from the scenario inner :)
-declare function local:d4e3($var-1) (: $var-1 can have a "as" clause :)
+declare function local:d4e3($myv:var-1) (: $myv:var-1 can have an "as" clause :)
 {
   ...
-  let $var-2        := ...
+  let $myv:var-2        := ...
+  ...
   let $x:result := f()
     return (
-      let $var-3 := ...
-        return (
-          local:d4e4($x:result, $var-1, $var-2, $var-3),
-          let $var-4 := ...
-            return (
-              local:d4e5($x:result, $var-1, $var-2, $var-3, $var-4)
-            )
+      ...,
+      let $myv:var-3 := ...
+      let $x:tmp := local:d4e4($x:result, $myv:var-1, $myv:var-2, $myv:var-3) return (
+        $x:tmp,
+        let $myv:var-4 := ...
+        let $x:tmp := local:d4e5($x:result, $myv:var-1, $myv:var-2, $myv:var-3, $myv:var-4) return (
+          $x:tmp
         )
+      )
     )
 };
 
 (: generated from the expect one :)
-declare function local:d4e4($x:result as item()*, $var-1, $var-2, $var-3)
+declare function local:d4e4($x:result as item()*, $myv:var-1, $myv:var-2, $myv:var-3)
 {
   ...evaluate the expectations ...
 };
 
 (: generated from the expect two :)
-declare function local:d4e5($x:result as item()*, $var-1, $var-2, $var-3, $var-4)
+declare function local:d4e5($x:result as item()*, $myv:var-1, $myv:var-2, $myv:var-3, $myv:var-4)
 {
   ...evaluate the expectations ...
 };

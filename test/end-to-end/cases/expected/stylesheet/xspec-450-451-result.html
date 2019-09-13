@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for do-nothing.xsl (passed: 3 / pending: 0 / failed: 0 / total: 3)</title>
+      <title>Test Report for do-nothing.xsl (passed: 7 / pending: 0 / failed: 0 / total: 7)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -19,39 +19,60 @@
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 3</th>
+               <th class="totals">passed: 7</th>
                <th class="totals">pending: 0</th>
                <th class="totals">failed: 0</th>
-               <th class="totals">total: 3</th>
+               <th class="totals">total: 7</th>
             </tr>
          </thead>
          <tbody>
             <tr class="successful">
-               <th><a href="#ELEM-47">function-param containing curly brackets</a></th>
+               <th><a href="#ELEM-68">function-param containing curly brackets</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-60">global-param containing curly brackets</a></th>
+               <th><a href="#ELEM-81">global-param containing curly brackets</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-73">assertion containing curly brackets</a></th>
+               <th><a href="#ELEM-94">global-var containing curly brackets</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#ELEM-107">local variable containing curly brackets</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#ELEM-120">assertion containing curly brackets</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#ELEM-133">If value is from a variable instead of hard-coded,</a></th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-47">
+      <div id="ELEM-68">
          <h2 class="successful">function-param containing curly brackets<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-49">
+         <table class="xspec" id="ELEM-70">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -66,9 +87,9 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-60">
+      <div id="ELEM-81">
          <h2 class="successful">global-param containing curly brackets<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-62">
+         <table class="xspec" id="ELEM-83">
             <col width="75%" />
             <col width="25%" />
             <tbody>
@@ -83,12 +104,75 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-73">
-         <h2 class="successful">assertion containing curly brackets<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-75">
+      <div id="ELEM-94">
+         <h2 class="successful">global-var containing curly brackets<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-96">
             <col width="75%" />
             <col width="25%" />
             <tbody>
+               <tr class="successful">
+                  <th>global-var containing curly brackets</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>should work</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="ELEM-107">
+         <h2 class="successful">local variable containing curly brackets<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-109">
+            <col width="75%" />
+            <col width="25%" />
+            <tbody>
+               <tr class="successful">
+                  <th>local variable containing curly brackets</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>should work</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="ELEM-120">
+         <h2 class="successful">assertion containing curly brackets<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-122">
+            <col width="75%" />
+            <col width="25%" />
+            <tbody>
+               <tr class="successful">
+                  <th>assertion containing curly brackets</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>should work</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="ELEM-133">
+         <h2 class="successful">If value is from a variable instead of hard-coded,<span class="scenario-totals">passed: 2 / pending: 0 / failed: 0 / total: 2</span></h2>
+         <table class="xspec" id="ELEM-135">
+            <col width="75%" />
+            <col width="25%" />
+            <tbody>
+               <tr class="successful">
+                  <th>If value is from a variable instead of hard-coded,</th>
+                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <th>function-param containing curly brackets</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>should work</td>
+                  <td>Success</td>
+               </tr>
                <tr class="successful">
                   <th>assertion containing curly brackets</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
