@@ -86,4 +86,19 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      # install XML Resolver
       curl.exe -fsSL --create-dirs --retry 5 -o "$Env:XML_RESOLVER_JAR" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # install Jing
+      if( -Not( Test-Path -Path env:\JING_VERSION ) ) {
+          echo "Jing will not be installed"
+      }
+
+      else {
+          $Env:JING_JAR = "%TEMP%\xspec\jing\jing.jar"
+          curl.exe -fsSL --create-dirs --retry 5 -o "$Env:JING_JAR" "http://central.maven.org/maven2/org/relaxng/jing/$Env:JING_VERSION/jing-$Env:JING_VERSION.jar"
+      }
