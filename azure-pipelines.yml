@@ -69,5 +69,5 @@ steps:
     command: 'install'
     installPackageId: 'ant'
     installPackageVersion: '$(ANT_VERSION)'
-    installParams: '--ignore-dependencies --no-progress'
+    installInstallArgs: '--ignore-dependencies --no-progress'
     installForce: true
