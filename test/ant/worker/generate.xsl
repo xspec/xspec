@@ -19,6 +19,7 @@
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
@@ -104,6 +105,14 @@
 							and ($pis = 'require-xslt-to-support-schema')
 							and not($XSLT-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XSLT processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 't')
+							and (xs:decimal(../@xslt-version) eq 3.0)
+							and not($XSLT-SUPPORTS-3-0)">
+						<xsl:text>Requires XSLT 3.0 processor</xsl:text>
 					</xsl:when>
 
 					<xsl:when
