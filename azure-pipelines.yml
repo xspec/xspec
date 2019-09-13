@@ -63,11 +63,13 @@ steps:
           7z x "%TEMP%\xspec\basex\basex.zip" -o"%TEMP%\xspec\basex"
           $Env:BASEX_JAR = "%TEMP%\xspec\basex\basex\BaseX.jar"
       }
+
+# TODO: equivalent to appveyor-retry is missing
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      choco install ant --ignore-dependencies --no-progress --version $Env:ANT_VERSION
+      choco install ant --force --ignore-dependencies --no-progress --version $Env:ANT_VERSION
 
 #- task: ChocolateyCommand@0
 #  inputs:
