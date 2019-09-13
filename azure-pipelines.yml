@@ -31,9 +31,9 @@ steps:
     targetType: 'inline'
     script: |
       # install Saxon
-      curl.exe -fsSL --create-dirs --retry 5 -o $(SAXON_JAR) "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/$(SAXON_VERSION)/Saxon-HE-$(SAXON_VERSION).jar"
+      curl.exe -fsSL --create-dirs --retry 5 -o $Env:SAXON_JAR "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/$Env:SAXON_VERSION/Saxon-HE-$Env:SAXON_VERSION.jar"
       # check Saxon version
-      java -cp "$(SAXON_JAR)" net.sf.saxon.Version
+      java -cp "$Env:SAXON_JAR" net.sf.saxon.Version
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -44,9 +44,9 @@ steps:
       }
       
       else {
-          curl.exe -fsSL --create-dirs --retry 5 -o "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/$(XMLCALABASH_VERSION)/xmlcalabash-$(XMLCALABASH_VERSION).zip"
+          curl.exe -fsSL --create-dirs --retry 5 -o "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/$Env:XMLCALABASH_VERSION/xmlcalabash-$Env:XMLCALABASH_VERSION.zip"
           7z x "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" -o"%TEMP%\xspec\xmlcalabash"
-          $Env:XMLCALABASH_JAR = "%TEMP%\xspec\xmlcalabash\xmlcalabash-$(XMLCALABASH_VERSION)\xmlcalabash-$(XMLCALABASH_VERSION).jar"
+          $Env:XMLCALABASH_JAR = "%TEMP%\xspec\xmlcalabash\xmlcalabash-$Env:XMLCALABASH_VERSION\xmlcalabash-$Env:XMLCALABASH_VERSION.jar"
       }
       
 - task: PowerShell@2
