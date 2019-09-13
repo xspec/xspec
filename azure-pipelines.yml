@@ -59,7 +59,7 @@ steps:
       }
 
       else {
-          curl.exe -fsSL --create-dirs --retry 5 -o "%TEMP%\xspec\basex\basex.zip" "http://files.basex.org/releases/$(BASEX_VERSION)/BaseX$($(BASEX_VERSION).Replace('.','')).zip"
+          curl.exe -fsSL --create-dirs --retry 5 -o "%TEMP%\xspec\basex\basex.zip" "http://files.basex.org/releases/$(BASEX_VERSION)/BaseX($(BASEX_VERSION).Replace('.','')).zip"
           7z x "%TEMP%\xspec\basex\basex.zip" -o"%TEMP%\xspec\basex"
           $Env:BASEX_JAR = "%TEMP%\xspec\basex\basex\BaseX.jar"
       }
