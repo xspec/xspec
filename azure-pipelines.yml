@@ -114,3 +114,29 @@ steps:
       
       rem Print Saxon version
       java -cp "%SAXON_JAR%" net.sf.saxon.Version
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      rem execute bats-like unit tests
+      test\run-bats.cmd
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      rem execute XSpec like unit tests
+      test\run-xspec-tests-ant.cmd -silent
+
+- task: CmdLine@2
+  inputs:
+    script: |
+      rem execute XSpec end-to-end tests
+      test\end-to-end\run-e2e-tests.cmd -silent
+      
+- task: CmdLine@2
+  inputs:
+    script: |
+      rem compile java
+      "%ProgramFiles%\Java\jdk1.8.0\bin\javac" -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
+      rem check git status
+      git status --porcelain | find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
