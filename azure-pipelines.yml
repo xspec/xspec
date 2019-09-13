@@ -48,3 +48,18 @@ steps:
           7z x "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" -o"%TEMP%\xspec\xmlcalabash"
           $Env:XMLCALABASH_JAR = "%TEMP%\xspec\xmlcalabash\xmlcalabash-$(XMLCALABASH_VERSION)\xmlcalabash-$(XMLCALABASH_VERSION).jar"
       }
+      
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # install BaseX
+      if( -Not( Test-Path -Path env:\BASEX_VERSION ) ) {
+          echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
+      }
+
+      else {
+          curl.exe -fsSL --create-dirs --retry 5 -o "%TEMP%\xspec\basex\basex.zip" "http://files.basex.org/releases/$(BASEX_VERSION)/BaseX$($(BASEX_VERSION).Replace('.','')).zip"
+          7z x "%TEMP%\xspec\basex\basex.zip" -o"%TEMP%\xspec\basex"
+          $Env:BASEX_JAR = "%TEMP%\xspec\basex\basex\BaseX.jar"
+      }
