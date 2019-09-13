@@ -63,3 +63,10 @@ steps:
           7z x "%TEMP%\xspec\basex\basex.zip" -o"%TEMP%\xspec\basex"
           $Env:BASEX_JAR = "%TEMP%\xspec\basex\basex\BaseX.jar"
       }
+
+- task: ChocolateyCommand@0
+  inputs:
+    command: 'install'
+    installPackageId: 'ant'
+    installPackageVersion: '$Env:ANT_VERSION'
+    installParams: '--ignore-dependencies --no-progress'
