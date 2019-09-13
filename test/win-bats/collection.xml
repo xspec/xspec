@@ -817,6 +817,10 @@
 	</case>
 
 	<case name="@catch should not catch error outside SUT (XSLT)">
+    call :run ..\bin\xspec.bat catch\compiler-error.xspec
+    call :verify_retval 2
+    call :verify_line * r "ERROR in scenario .*"
+
     call :run ..\bin\xspec.bat catch\error-in-context-avt-for-template-call.xspec
     call :verify_retval 2
     call :verify_line * r "  error-code-of-my-context-avt-for-template-call: Error signalled .*"
@@ -839,6 +843,10 @@
 	</case>
 
 	<case name="@catch should not catch error outside SUT (XQuery)">
+    call :run ..\bin\xspec.bat -q catch\compiler-error.xspec
+    call :verify_retval 2
+    call :verify_line * r ".*x:XSPEC005:"
+
     call :run ..\bin\xspec.bat -q catch\error-in-function-call-param.xspec
     call :verify_retval 2
     call :verify_line * r "  error-code-of-my-function-call-param: Error signalled .*"

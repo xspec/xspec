@@ -1101,6 +1101,11 @@ teardown() {
 
 
 @test "@catch should not catch error outside SUT (XSLT)" {
+    run ../bin/xspec.sh catch/compiler-error.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "ERROR in scenario " ]]
+
     run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1129,6 +1134,11 @@ teardown() {
 
 
 @test "@catch should not catch error outside SUT (XQuery)" {
+    run ../bin/xspec.sh -q catch/compiler-error.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "x:XSPEC005:" ]]
+
     run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
