@@ -11,4 +11,10 @@
 
 	<!-- Import "run-xspec-tests" build file -->
 	<import file="../../../ant/build.xml" />
+
+	<!-- Deletes the actual results and runs the worker -->
+	<target name="run-worker">
+		<delete dir="${xspecfiles.dir}/actual__/" />
+		<antcall target="run-xspec-tests.run-worker" />
+	</target>
 </project>
