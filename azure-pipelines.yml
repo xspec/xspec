@@ -141,6 +141,5 @@ steps:
 # TODO: not working, failing with find: '/v': No such file or directory
 - task: CmdLine@2
   inputs:
-    script: |      
-      "%ProgramFiles%\Java\jdk1.8.0\bin\javac" -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
-      rem git status --porcelain
+    script: |
+      git status --porcelain
