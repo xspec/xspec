@@ -142,4 +142,6 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      git status --porcelain
+      dir "%ProgramFiles%""
+      dir "%ProgramFiles%\Java"
+      "%JAVA_HOME%\bin\javac" -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
