@@ -64,7 +64,7 @@ steps:
           $Env:BASEX_JAR = "%TEMP%\xspec\basex\basex\BaseX.jar"
       }
 
-# TODO: equivalent to appveyor-retry is missing
+# SC: equivalent to appveyor-retry is missing
 #- task: PowerShell@2
 #  inputs:
 #    targetType: 'inline'
@@ -72,7 +72,7 @@ steps:
 #      # force an older installation of ant and do not install JDK
 #      choco install ant --force --ignore-dependencies --no-progress --version $Env:ANT_VERSION
 
-# TODO: I tried to use the Chocolatey task to install ant but I could not find a way to pass the option to ignore the dependencies
+# SC  : I tried to use the Chocolatey task to install ant but I could not find a way to pass the option to ignore the dependencies
 #       As a result, the JDK gets installed and this increases the build time by 30-45 seconds
 #- task: ChocolateyCommand@0
 #  inputs:
@@ -103,6 +103,7 @@ steps:
           curl.exe -fsSL --create-dirs --retry 5 -o "$Env:JING_JAR" "http://central.maven.org/maven2/org/relaxng/jing/$Env:JING_VERSION/jing-$Env:JING_VERSION.jar"
       }
 
+# SC: still running Ant 1.10 by default
 - task: CmdLine@2
   inputs:
     script: |
@@ -126,19 +127,19 @@ steps:
 #      dir
 #      test\run-bats.cmd
 
-#- task: CmdLine@2
-#  inputs:
-#    script: |
-#      rem execute XSpec like unit tests
-#      test\run-xspec-tests-ant.cmd -silent
+- task: CmdLine@2
+  inputs:
+    script: |
+      rem execute XSpec like unit tests
+      test\run-xspec-tests-ant.cmd -silent
 
-#- task: CmdLine@2
-#  inputs:
-#    script: |
-#      rem execute XSpec end-to-end tests
-#      test\end-to-end\run-e2e-tests.cmd -silent
+- task: CmdLine@2
+  inputs:
+    script: |
+      rem execute XSpec end-to-end tests
+      test\end-to-end\run-e2e-tests.cmd -silent
 
-# TODO: not working, failing with find: '/v': No such file or directory
+# SC: I had to run git status explicitly on the class file otherwise the command returns ?? %TEMP%/ and the rest of the command fails
 - task: CmdLine@2
   inputs:
     script: |
