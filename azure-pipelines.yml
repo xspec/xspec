@@ -142,7 +142,4 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |      
-      rem compile java
-      "%ProgramFiles%\Java\jdk1.8.0\bin\javac" -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
-      rem check git status
       git status --porcelain | %SYSTEMROOT%\system32\find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
