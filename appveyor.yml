@@ -113,5 +113,5 @@ test_script:
 
     rem check git status
 
-    git status --porcelain | find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
+    git status --porcelain | %SYSTEMROOT%\system32\find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
 deploy: off
