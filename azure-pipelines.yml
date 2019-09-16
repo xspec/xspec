@@ -143,4 +143,4 @@ steps:
   inputs:
     script: |      
       "%ProgramFiles%\Java\jdk1.8.0\bin\javac" -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
-      #git status --porcelain
+      rem git status --porcelain
