@@ -691,7 +691,7 @@
     call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\xspec-185\import-1.xspec" -lib "%SAXON_JAR%" -logfile "%ANT_LOG%"
     call :verify_retval 0
 
-    call :run find " Scenario " "%ANT_LOG%"
+    call :run %SYSTEMROOT%\system32\find " Scenario " "%ANT_LOG%"
     call :verify_line_count 9
     call :verify_line  2 x "     [java] Scenario 1-1"
     call :verify_line  3 x "     [java] Scenario 1-2"
