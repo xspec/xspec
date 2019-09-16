@@ -65,12 +65,12 @@ steps:
       }
 
 # TODO: equivalent to appveyor-retry is missing
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # force an older installation of ant and do not install JDK
-      choco install ant --force --ignore-dependencies --no-progress --version $Env:ANT_VERSION
+#- task: PowerShell@2
+#  inputs:
+#    targetType: 'inline'
+#    script: |
+#      # force an older installation of ant and do not install JDK
+#      choco install ant --force --ignore-dependencies --no-progress --version $Env:ANT_VERSION
 
 # TODO: I tried to use the Chocolatey task to install ant but I could not find a way to pass the option to ignore the dependencies
 #       As a result, the JDK gets installed and this increases the build time by 30-45 seconds
@@ -142,4 +142,5 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |      
-      git status --porcelain
+      git status --porcelain=v1
+      git status --porcelain=v2
