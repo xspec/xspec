@@ -25,8 +25,7 @@
 	<case name="invoking xspec with -s and -t prints error message">
     call :run ..\bin\xspec.bat -s -t
     call :verify_retval 1
-    <!-- fail deliberately --> 
-    call :verify_line 1 x "-s and -t are mutually exclusive"
+    call :verify_line 2 x "-s and -t are mutually exclusive"
 	</case>
 
 	<case name="invoking xspec with -s and -q prints error message">
