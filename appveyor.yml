@@ -1,0 +1,49 @@
+environment:
+  global:
+    # full path to Saxon jar
+    SAXON_JAR: '%TEMP%\xspec\saxon\saxon9he.jar'
+    # latest Ant
+    ANT_VERSION: 1.10.5
+    # full path to XML Resolver jar
+    XML_RESOLVER_JAR: '%TEMP%\xspec\xml-resolver\resolver.jar'
+  matrix:
+    # latest Saxon 9.9 version and Jing
+    #   * XML Calabash will use Saxon jar in its own lib directory.
+    #   * BaseX test requires XML Calabash.
+    - SAXON_VERSION: 9.9.1-5
+      JING_VERSION: 20181222
+      XMLCALABASH_VERSION: 1.1.27-99
+      BASEX_VERSION: 8.6.4
+    # latest Saxon 9.8 version
+    - SAXON_VERSION: 9.8.0-15
+    # Saxon and Ant used in oXygen
+    - SAXON_VERSION: 9.8.0-12
+      ANT_VERSION: 1.9.8
+
+install:
+- cmd: |
+    test\ci\install-deps.cmd
+
+build: off
+
+test_script:
+- cmd: |
+    rem print versions and env vars
+    test\ci\print-env.cmd
+
+    rem execute bats-like unit tests
+    test\run-bats.cmd
+
+    rem execute XSpec unit tests
+    test\run-xspec-tests-ant.cmd -silent
+
+    rem execute XSpec end-to-end tests
+    test\end-to-end\run-e2e-tests.cmd -silent
+
+    rem compile java
+    test\ci\compile-java.cmd
+
+    rem check git status
+    test\ci\last-git-status.cmd
+
+deploy: off
