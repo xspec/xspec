@@ -482,7 +482,7 @@
 <xsl:template match="x:space" as="empty-sequence()" mode="test:create-node-generator">
   <xsl:message terminate="yes">
     <xsl:value-of select="name()" />
-    <xsl:text> is deprecated. Use </xsl:text>
+    <xsl:text> is obsolete. Use </xsl:text>
     <xsl:value-of select="prefix-from-QName(node-name(.))" />
     <xsl:text>:text instead.</xsl:text>
   </xsl:message>
