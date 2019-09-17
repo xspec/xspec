@@ -1,147 +1,59 @@
-trigger:
-- azure_pipelines_test
+pool:
+  vmImage: windows-latest
 
 variables:
   # full path to Saxon jar
-  SAXON_JAR: '%TEMP%\xspec\saxon\saxon9he.jar'
-  # Ant version used in oXygen
-  ANT_VERSION: 1.9.8
+  SAXON_JAR: $(Agent.TempDirectory)\xspec\saxon\saxon9he.jar
+
+  # latest Ant
+  ANT_VERSION: 1.10.5
+
   # full path to XML Resolver jar
-  XML_RESOLVER_JAR: '%TEMP%\xspec\xml-resolver\resolver.jar'
+  XML_RESOLVER_JAR: $(Agent.TempDirectory)\xspec\xml-resolver\resolver.jar
 
 strategy:
-  matrix:
-    saxon-9.9.1-5:
-      SAXON_VERSION: '9.9.1-5' 
-      JING_VERSION: '20181222'
-      XMLCALABASH_VERSION: '1.1.27-99'
-      BASEX_VERSION: '8.6.4'
-    saxon-9.8.0-15:
-      SAXON_VERSION: '9.8.0-15' 
-    saxon-9.8.0-12:
-      SAXON_VERSION: '9.8.0-12' 
-  maxParallel: 3
+  maxParallel: 10
 
-pool:
-  vmImage: 'vs2017-win2016'
+  matrix:
+    # latest Saxon and Jing
+    #   * XML Calabash will use Saxon jar in its own lib directory.
+    #   * BaseX test requires XML Calabash.
+    Saxon-9-9:
+      SAXON_VERSION: 9.9.1-5
+      JING_VERSION: 20181222
+      XMLCALABASH_VERSION: 1.1.27-99
+      BASEX_VERSION: 8.6.4
+
+    # latest Saxon 9.8
+    Saxon-9-8:
+      SAXON_VERSION: 9.8.0-15
+
+    # Saxon and Ant used in oXygen
+    Oxygen:
+      SAXON_VERSION: 9.8.0-12
+      ANT_VERSION: 1.9.8
 
 steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # install Saxon
-      curl.exe -fsSL --create-dirs --retry 5 -o $Env:SAXON_JAR "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/$Env:SAXON_VERSION/Saxon-HE-$Env:SAXON_VERSION.jar"
-      # check Saxon version
-      java -cp "$Env:SAXON_JAR" net.sf.saxon.Version
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # install XML Calabash
-      if( -Not( Test-Path -Path env:\XMLCALABASH_VERSION ) ) {
-          echo "XMLCalabash will not be installed as it uses a higher version of Saxon"
-      }
-      
-      else {
-          curl.exe -fsSL --create-dirs --retry 5 -o "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/$Env:XMLCALABASH_VERSION/xmlcalabash-$Env:XMLCALABASH_VERSION.zip"
-          7z x "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" -o"%TEMP%\xspec\xmlcalabash"
-          $Env:XMLCALABASH_JAR = "%TEMP%\xspec\xmlcalabash\xmlcalabash-$Env:XMLCALABASH_VERSION\xmlcalabash-$Env:XMLCALABASH_VERSION.jar"
-      }
-      
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # install BaseX
-      if( -Not( Test-Path -Path env:\BASEX_VERSION ) ) {
-          echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
-      }
+  - task: BatchScript@1
+    displayName: Install test dependencies
+    inputs:
+      filename: test\ci\install-deps.cmd
+      modifyEnvironment: true
 
-      else {
-          curl.exe -fsSL --create-dirs --retry 5 -o "%TEMP%\xspec\basex\basex.zip" "http://files.basex.org/releases/$Env:BASEX_VERSION/BaseX$($Env:BASEX_VERSION.Replace('.','')).zip"
-          7z x "%TEMP%\xspec\basex\basex.zip" -o"%TEMP%\xspec\basex"
-          $Env:BASEX_JAR = "%TEMP%\xspec\basex\basex\BaseX.jar"
-      }
+  - script: call test\ci\print-env.cmd
+    displayName: Print versions and env vars
 
-# SC: equivalent to appveyor-retry is missing
-#- task: PowerShell@2
-#  inputs:
-#    targetType: 'inline'
-#    script: |
-#      # force an older installation of ant and do not install JDK
-#      choco install ant --force --ignore-dependencies --no-progress --version $Env:ANT_VERSION
+  - script: call test\run-bats.cmd
+    displayName: Execute bats-like unit tests
 
-# SC  : I tried to use the Chocolatey task to install ant but I could not find a way to pass the option to ignore the dependencies
-#       As a result, the JDK gets installed and this increases the build time by 30-45 seconds
-#- task: ChocolateyCommand@0
-#  inputs:
-#    command: 'install'
-#    installPackageId: 'ant'
-#    installPackageVersion: '$(ANT_VERSION)'
-#    installInstallArgs: '--ignore-dependencies --no-progress'
-#    installForce: true
+  - script: call test\run-xspec-tests-ant.cmd -silent
+    displayName: Execute XSpec unit tests
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # install XML Resolver
-      curl.exe -fsSL --create-dirs --retry 5 -o "$Env:XML_RESOLVER_JAR" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+  - script: call test\end-to-end\run-e2e-tests.cmd -silent
+    displayName: Execute XSpec end-to-end tests
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # install Jing
-      if( -Not( Test-Path -Path env:\JING_VERSION ) ) {
-          echo "Jing will not be installed"
-      }
+  - script: call test\ci\compile-java.cmd
+    displayName: Compile java
 
-      else {
-          $Env:JING_JAR = "%TEMP%\xspec\jing\jing.jar"
-          curl.exe -fsSL --create-dirs --retry 5 -o "$Env:JING_JAR" "http://central.maven.org/maven2/org/relaxng/jing/$Env:JING_VERSION/jing-$Env:JING_VERSION.jar"
-      }
-
-# SC: still running Ant 1.10 by default
-- task: CmdLine@2
-  inputs:
-    script: |
-      rem Print Java version
-      java -version
-      
-      rem Print Ant version
-      C:\ProgramData\chocolatey\bin\ant.exe -version
-      
-      rem Print Saxon version
-      java -cp "%SAXON_JAR%" net.sf.saxon.Version
-
-#TODO: There are some failing tests, investigate
-#- task: CmdLine@2
-#  inputs:
-#    script: |
-#      rem execute bats-like unit tests
-#      dir
-#      test\run-bats.cmd
-
-- task: CmdLine@2
-  inputs:
-    script: |
-      rem execute XSpec like unit tests
-      test\run-xspec-tests-ant.cmd -silent
-
-# e2e tests failed, see error message in build 37
-#- task: CmdLine@2
-#  inputs:
-#    script: |
-#      rem execute XSpec end-to-end tests
-#      test\end-to-end\run-e2e-tests.cmd -silent
-
-# SC: I had to run git status explicitly on the class file otherwise the command returns ?? %TEMP%/ and the rest of the command fails
-- task: CmdLine@2
-  inputs:
-    script: |
-      rem compile java
-      "%JAVA_HOME%\bin\javac" -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
-      rem check git status
-      git status java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.class --porcelain | %SYSTEMROOT%\system32\find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
+  - script: call test\ci\last-git-status.cmd
+    displayName: Check git status
