@@ -2,8 +2,8 @@ environment:
   global:
     # full path to Saxon jar
     SAXON_JAR: '%TEMP%\xspec\saxon\saxon9he.jar'
-    # Ant version used in oXygen
-    ANT_VERSION: 1.9.8
+    # latest Ant
+    ANT_VERSION: 1.10.5
     # full path to XML Resolver jar
     XML_RESOLVER_JAR: '%TEMP%\xspec\xml-resolver\resolver.jar'
   matrix:
@@ -16,8 +16,9 @@ environment:
       BASEX_VERSION: 8.6.4
     # latest Saxon 9.8 version
     - SAXON_VERSION: 9.8.0-15
-    # Saxon version used in oXygen
+    # Saxon and Ant used in oXygen
     - SAXON_VERSION: 9.8.0-12
+      ANT_VERSION: 1.9.8
 
 install:
 - ps: >-
@@ -112,5 +113,5 @@ test_script:
 
     rem check git status
 
-    git status --porcelain | find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
+    git status --porcelain | %SYSTEMROOT%\system32\find /v "" & if errorlevel 1 ( verify > NUL ) else ( verify other 2> NUL )
 deploy: off

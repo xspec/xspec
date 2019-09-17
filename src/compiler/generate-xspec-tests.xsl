@@ -39,7 +39,7 @@
   
 <xsl:template match="x:description" as="element(xsl:stylesheet)" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
-  <stylesheet version="{( @xslt-version, 2.0 )[1]}"
+  <stylesheet version="{( @xslt-version, $default-xslt-version )[1]}"
               exclude-result-prefixes="impl">
     <!-- The test result report XML may use namespace prefixes in XPath expressions
       even when the prefixes are not used in node names.
@@ -393,7 +393,7 @@
     </message>
     <xsl:if test="not($pending-p)">
       <xsl:variable name="xslt-version" as="xs:decimal" 
-        select="(ancestor-or-self::*[@xslt-version]/@xslt-version, 2.0)[1]" />
+        select="(ancestor-or-self::*[@xslt-version]/@xslt-version, $default-xslt-version)[1]" />
       <!-- Set up the $impl:expected variable -->
       <xsl:call-template name="x:setup-expected">
         <xsl:with-param name="var" select="'impl:expected'" />
