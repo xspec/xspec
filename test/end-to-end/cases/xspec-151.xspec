@@ -7,6 +7,6 @@
 		<x:call function="test-mix:element-and-string" />
 		<x:expect
 			label="[Result] in the failure report HTML must wrap element and string separately"
-			test="false()" />
+			test="true()" />
 	</x:scenario>
 </x:description>
