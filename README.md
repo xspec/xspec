@@ -1,6 +1,6 @@
 [![Travis Build Status](https://api.travis-ci.org/xspec/xspec.svg?branch=master "Travis Build Status")](https://travis-ci.org/xspec/xspec)
 [![AppVeyor Build status](https://ci.appveyor.com/api/projects/status/github/xspec/xspec?branch=master&svg=true "AppVeyor Build Status")](https://ci.appveyor.com/project/xspec/xspec/branch/master)
-[![Azure Pipelines Build Status](https://dev.azure.com/xspec/xspec/_apis/build/status/xspec.xspec?branchName=azure_pipelines_test)](https://dev.azure.com/xspec/xspec/_build/latest?definitionId=1&branchName=azure_pipelines_test)
+[![Azure Pipelines Build Status](https://dev.azure.com/xspec/xspec/_apis/build/status/xspec.xspec?branchName=master)](https://dev.azure.com/xspec/xspec/_build/latest?definitionId=1&branchName=master)
 
 ## XSpec [![Release](https://img.shields.io/github/release/xspec/xspec.svg)](https://github.com/xspec/xspec/releases/latest)
 
