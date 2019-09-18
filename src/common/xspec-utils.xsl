@@ -214,6 +214,28 @@
 	</xsl:function>
 
 	<!--
+		Returns numeric literal of xs:decimal
+			http://www.w3.org/TR/xpath20/#id-literals
+
+			Example:
+				in:  1
+				out: '1.0'
+	-->
+	<xsl:function as="xs:string" name="x:decimal-string">
+		<xsl:param as="xs:decimal" name="decimal" />
+
+		<xsl:variable as="xs:string" name="decimal-string" select="string($decimal)" />
+		<xsl:sequence
+			select="
+				if (contains($decimal-string, '.'))
+				then
+					$decimal-string
+				else
+					concat($decimal-string, '.0')"
+		 />
+	</xsl:function>
+
+	<!--
 		Returns true or false based on "yes" or "no",
 		accepting ("true" or "false") and ("1" or "0") as synonyms.
 	-->
