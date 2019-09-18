@@ -36,13 +36,13 @@ function toggle(scenarioID) {
     } catch(err) {
       table.style.display = "block";
     }
-    icon.src = "<xsl:value-of select="resolve-uri('../../graphics/3angle-down.gif', static-base-uri())"/>" ;
+    icon.src = "<xsl:value-of select="resolve-uri('../../graphics/3angle-down.gif')"/>" ;
     icon.alt = "collapse" ;
     icon.title = "collapse" ;
   }
   else {
     table.style.display = "none";
-    icon.src = "<xsl:value-of select="resolve-uri('../../graphics/3angle-right.gif', static-base-uri())"/>" ;
+    icon.src = "<xsl:value-of select="resolve-uri('../../graphics/3angle-right.gif')"/>" ;
     icon.alt = "expand" ;
     icon.title = "expand" ;
   };
@@ -63,7 +63,7 @@ function toggle(scenarioID) {
     <h2 id="h-{generate-id()}"
       class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
       <a href="javascript:toggle('{generate-id()}')">
-        <img src="{resolve-uri(concat('../../graphics/', if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'), static-base-uri())}"
+        <img src="{resolve-uri(concat('../../graphics/', if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'))}"
           alt="{if ($any-descendant-failure) then 'collapse' else 'expand'}" id="icon-{generate-id()}"/>
       </a>
       <xsl:sequence select="x:pending-callback(@pending)"/>
