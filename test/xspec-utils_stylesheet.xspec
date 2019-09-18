@@ -221,6 +221,80 @@
 			</x:scenario>
 		</x:scenario>
 
+		<x:scenario label="global variable">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="/x:description/x:variable/element()"
+						 />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="/x:description/x:variable/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="(/x:description/x:variable)[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="(/x:description/x:variable/attribute())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="local variable">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="//x:scenario/x:variable/element()"
+						 />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="//x:scenario/x:variable/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec" select="(//x:scenario/x:variable)[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call function="x:is-user-content">
+						<x:param href="xspec-avt.xspec"
+							select="(//x:scenario/x:variable/attribute())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
 		<x:scenario label="assertion">
 			<x:scenario label="user-content">
 				<x:scenario label="element">
@@ -369,6 +443,28 @@
 			</x:scenario>
 		</x:scenario>
 
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function pack-version">
+		<x:scenario label="76.0.3809.132">
+			<x:call function="x:pack-version">
+				<x:param select="76" />
+				<x:param select="0" />
+				<x:param select="3809" />
+				<x:param select="132" />
+			</x:call>
+			<x:expect label="0x004C00000EE10084" select="21392098479636612" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function saxon-version">
+		<x:scenario label="Assume we test this on Saxon versions from 9.7 to 9.9">
+			<x:call function="x:saxon-version" />
+			<x:expect label="Greater than or equal to 9.7.y.z"
+				test="$x:result treat as xs:integer ge x:pack-version(9,7,0,0)" />
+			<x:expect label="Less than 10.0.y.z"
+				test="$x:result treat as xs:integer lt x:pack-version(10,0,0,0)" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function decimal-string">
