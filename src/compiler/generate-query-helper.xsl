@@ -45,9 +45,11 @@
    <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
       <xsl:param name="var"    as="xs:string"  required="yes"/>
       <xsl:param name="global" as="xs:boolean" select="false()"/>
-
+      <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
+      <xsl:variable name="variable-is-pending" as="xs:boolean"
+         select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
       <xsl:variable name="var-doc" as="xs:string?"
-         select="if (node() or @href) then concat($var, '-doc') else ()" />
+         select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
 
       <!--
          Output
@@ -60,11 +62,11 @@
             or
             document { NODE-GENERATORS }
       -->
-      <xsl:if test="$var-doc">
+   	  <xsl:if test="$var-doc">
          <xsl:call-template name="test:declare-or-let-variable">
             <xsl:with-param name="is-global" select="$global" />
             <xsl:with-param name="name" select="$var-doc" />
-            <xsl:with-param name="type" select="'document-node()'" />
+         	  <xsl:with-param name="type" select="'document-node()'" />
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
                   <xsl:when test="@href">
@@ -99,9 +101,13 @@
       <xsl:call-template name="test:declare-or-let-variable">
          <xsl:with-param name="is-global" select="$global" />
          <xsl:with-param name="name" select="$var" />
-         <xsl:with-param name="type" select="@as" />
+         <xsl:with-param name="type" select="if ($variable-is-pending) then () else (@as)" />
          <xsl:with-param name="value" as="text()+">
             <xsl:choose>
+               <xsl:when test="$variable-is-pending">
+                  <!-- Do not give variable a value (or type, above) because the value specified in test file might not be executable. -->
+                  <xsl:text> </xsl:text>
+               </xsl:when>
                <xsl:when test="$var-doc">
                   <xsl:text>$</xsl:text>
                   <xsl:value-of select="$var-doc" />

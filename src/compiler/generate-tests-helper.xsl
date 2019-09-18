@@ -48,9 +48,11 @@
 <xsl:template match="*" as="element()+" mode="test:generate-variable-declarations">
   <xsl:param name="var" as="xs:string" required="yes" />
   <xsl:param name="type" as="xs:string" select="'variable'" />
-
+  <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
+  <xsl:variable name="variable-is-pending" as="xs:boolean"
+    select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
   <xsl:variable name="var-doc" as="xs:string?"
-    select="if (node() or @href) then concat($var, '-doc') else ()" />
+    select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
 
   <xsl:if test="$var-doc">
     <variable name="{$var-doc}" as="document-node()">
@@ -77,6 +79,13 @@
     <xsl:sequence select="@as" />
 
     <xsl:choose>
+      <xsl:when test="$variable-is-pending">
+        <!-- Do not give variable a value, because the value specified in test file
+             might not be executable. Override data type, because an empty
+             sequence might not be valid for the type specified in test file. -->
+        <xsl:attribute name="as" select="'item()*'" />
+      </xsl:when>
+
       <xsl:when test="$var-doc">
         <xsl:if test="empty(@as)">
           <!-- Set @as in order not to create an unexpected document node:
@@ -95,7 +104,6 @@
     </xsl:choose>
   </xsl:element>
 </xsl:template>
-
 
 <xsl:template match="element()" as="element()" mode="test:create-node-generator">
   <!-- Non XSLT elements (non xsl:* elements) can be just thrown into identity template -->

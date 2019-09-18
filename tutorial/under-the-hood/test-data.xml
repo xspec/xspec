@@ -1,0 +1,4 @@
+<test-data>
+   <test num="3" value="9"/>
+   <myspace>&#x09;&#x0A;&#x0D;&#x20;  </myspace>
+</test-data>

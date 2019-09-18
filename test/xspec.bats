@@ -772,7 +772,9 @@ teardown() {
     [[ "${lines[2]}" =~ "-child-not-allowed" ]]
     [[ "${lines[3]}" =~ "-child-not-allowed" ]]
     [[ "${lines[4]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[5]}" =~ "Elapsed time" ]]
+    [[ "${lines[5]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[6]}" =~ "-child-not-allowed" ]]
+    [[ "${lines[7]}" =~ "Elapsed time" ]]
 }
 
 
@@ -958,11 +960,11 @@ teardown() {
 }
 
 
-@test "Deprecate x:space" {
-    run ../bin/xspec.sh deprecated-space/test.xspec
+@test "Obsolete x:space" {
+    run ../bin/xspec.sh obsolete-space/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "x:space is deprecated. Use x:text instead." ]]
+    [[ "${output}" =~ "x:space is obsolete. Use x:text instead." ]]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -1084,6 +1086,17 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${lines[2]}" =~ "Source document is not XSpec" ]]
+}
+
+
+@test "Error on user-defined variable in XSpec namespace" {
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    run ../bin/xspec.sh variable/reserved-name.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[3]}" =~ "x:XSPEC008:" ]]
 }
 
 
