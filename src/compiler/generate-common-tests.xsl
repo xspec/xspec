@@ -187,9 +187,7 @@
    </xsl:template>
 
    <xsl:template match="node()|@*" as="node()" mode="x:gather-specs">
-      <xsl:copy>
-         <xsl:apply-templates select="node()|@*" mode="#current" />
-      </xsl:copy>
+      <xsl:call-template name="x:identity" />
    </xsl:template>
 
    <!--
