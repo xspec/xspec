@@ -39,7 +39,7 @@
   
 <xsl:template match="x:description" as="element(xsl:stylesheet)" mode="x:generate-tests">
   <!-- The compiled stylesheet element. -->
-  <stylesheet version="{( @xslt-version, $default-xslt-version )[1]}"
+  <stylesheet version="{x:decimal-string(( @xslt-version, $default-xslt-version )[1])}"
               exclude-result-prefixes="impl">
     <!-- The test result report XML may use namespace prefixes in XPath expressions
       even when the prefixes are not used in node names.
