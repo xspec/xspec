@@ -25,6 +25,7 @@ env:
 
 before_install:
     - unset _JAVA_OPTIONS
+    - pip install --user codespell
 
 before_script:
     # install Saxon
@@ -73,3 +74,5 @@ script:
     - javac -cp "${SAXON_JAR}" java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java
     - echo "check git status"
     - output=$(git status --porcelain); echo "${output}"; test -z "${output}"
+    = echo "find spelling mistakes in source code"
+    - ./test/run-codespell.sh
