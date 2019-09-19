@@ -194,6 +194,29 @@
 	</xsl:function>
 
 	<!--
+		Extracts 4 version integers from string, assuming it contains zero or one
+		"#.#.#.#" (# = ASCII numbers).
+		Returns an empty sequence, if string contains no "#.#.#.#".
+			Example:
+				"HE 9.9.1.5"  -> 9, 9, 1, 5
+				"１.２.３.４" -> ()
+	-->
+	<xsl:function as="xs:integer*" name="x:extract-version">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:analyze-string regex="([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)" select="$input">
+			<xsl:matching-substring>
+				<xsl:sequence
+					select="
+						for $i in (1 to 4)
+						return
+							xs:integer(regex-group($i))"
+				 />
+			</xsl:matching-substring>
+		</xsl:analyze-string>
+	</xsl:function>
+
+	<!--
 		Returns Saxon version packed as uint64, based on 'xsl:product-version' system property,
 		ignoring edition (EE, PE, HE).
 		Returns an empty sequence, if XSLT processor is not Saxon.
@@ -204,10 +227,7 @@
 	<xsl:function as="xs:integer?" name="x:saxon-version">
 		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
 			<xsl:variable as="xs:integer+" name="versions"
-				select="
-					for $s in tokenize(system-property('xsl:product-version'), '[\s\.]')[position() ge 2]
-					return
-						xs:integer($s)" />
+				select="x:extract-version(system-property('xsl:product-version'))" />
 			<xsl:sequence
 				select="x:pack-version($versions[1], $versions[2], $versions[3], $versions[4])" />
 		</xsl:if>
