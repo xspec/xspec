@@ -11,8 +11,8 @@
 			<x:expect label="Comparing the text nodes with double" select="xs:double('12')" />
 			<x:expect label="Comparing the text nodes with decimal" select="xs:decimal('12')" />
 			<x:expect label="Comparing the text nodes with integer" select="xs:integer('12')" />
-			<x:expect label="Expecting the compiled stylesheet to have version=1.0" select="1.0"
-				test="document('')/xsl:stylesheet/@version/number()" />
+			<x:expect label="Expecting the compiled stylesheet to have version=1.0" select="'1.0'"
+				test="document('')/xsl:stylesheet/data(@version)" />
 		</x:scenario>
 	</x:scenario>
 </x:description>

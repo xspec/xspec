@@ -49,11 +49,22 @@
       </xsl:processing-instruction>
    </xsl:variable>
 
+   <xsl:variable name="default-xslt-version" as="xs:decimal" select="2.0" />
+
    <!--
        Drive the overall compilation of a suite.  Apply template on
        the x:description element, in the mode
    -->
    <xsl:template name="x:generate-tests">
+      <xsl:variable name="deprecation-warning" as="xs:string?" select="
+         if (x:saxon-version() lt x:pack-version(9,8,0,0))
+         then 'Saxon version 9.7 or less is deprecated. XSpec will stop supporting it in the near future.'
+         else ()" />
+      <xsl:message select="
+         if ($deprecation-warning)
+         then ('WARNING:', $deprecation-warning)
+         else ' ' (: Always write a single non-empty line to help Bats tests to predict line numbers. :)" />
+
       <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
       <xsl:if test="not(node-name(element()) eq $description-name)">
          <xsl:message terminate="yes">
@@ -135,7 +146,7 @@
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="
-             ( @xslt-version, 2.0 )[1]"/>
+             ( @xslt-version, $default-xslt-version )[1]"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="
              for $qname in tokenize(@preserve-space, '\s+') return
                resolve-QName($qname, .)"/>

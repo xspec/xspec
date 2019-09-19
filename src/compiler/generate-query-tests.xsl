@@ -36,7 +36,7 @@
        MarkLogic).
    -->
    <xsl:param name="utils-library-at" select="
-       resolve-uri('generate-query-utils.xql', static-base-uri())"/>
+       resolve-uri('generate-query-utils.xql')"/>
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?" select="
