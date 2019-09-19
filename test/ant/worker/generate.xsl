@@ -19,6 +19,7 @@
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
@@ -108,6 +109,14 @@
 
 					<xsl:when
 						test="
+							($test-type eq 't')
+							and (xs:decimal(../@xslt-version) eq 3.0)
+							and not($XSLT-SUPPORTS-3-0)">
+						<xsl:text>Requires XSLT 3.0 processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
@@ -128,6 +137,13 @@
 							and (x:saxon-version() ge x:pack-version(9, 8, 0, 0))
 							and (x:saxon-version() lt x:pack-version(9, 9, 0, 0))">
 						<xsl:text>Requires Saxon bug #3838 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-3889-fixed')
+							and (x:saxon-version() lt x:pack-version(9, 8, 0, 15))">
+						<xsl:text>Requires Saxon bug #3889 to have been fixed</xsl:text>
 					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>

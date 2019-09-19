@@ -33,6 +33,10 @@ strategy:
       SAXON_VERSION: 9.8.0-12
       ANT_VERSION: 1.9.8
 
+    # highest deprecated Saxon version
+    Saxon-9-7:
+      SAXON_VERSION: 9.7.0-21
+
 steps:
   - task: BatchScript@1
     displayName: Install test dependencies
