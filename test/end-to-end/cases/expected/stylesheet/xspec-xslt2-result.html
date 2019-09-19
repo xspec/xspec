@@ -11,11 +11,13 @@
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="75%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
          <thead>
             <tr>
                <th></th>
@@ -27,7 +29,7 @@
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#ELEM-33">With 2 text nodes</a></th>
+               <th><a href="#ELEM-34">With 2 text nodes</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">5</th>
@@ -35,11 +37,13 @@
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-33">
+      <div id="ELEM-34">
          <h2 class="successful">With 2 text nodes<span class="scenario-totals">passed: 2 / pending: 0 / failed: 5 / total: 7</span></h2>
-         <table class="xspec" id="ELEM-35">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-36">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>With 2 text nodes</th>
@@ -54,36 +58,36 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-72">All of these tests should be Success on xslt-version=1.0 and Failure on 2.0</a></th>
+                  <th><a href="#ELEM-74">All of these tests should be Success on xslt-version=1.0 and Failure on 2.0</a></th>
                   <th>passed: 0 / pending: 0 / failed: 5 / total: 5</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-73">Comparing the text nodes with string</a></td>
+                  <td><a href="#ELEM-75">Comparing the text nodes with string</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-89">Comparing the text nodes with double</a></td>
+                  <td><a href="#ELEM-91">Comparing the text nodes with double</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-105">Comparing the text nodes with decimal</a></td>
+                  <td><a href="#ELEM-107">Comparing the text nodes with decimal</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-121">Comparing the text nodes with integer</a></td>
+                  <td><a href="#ELEM-123">Comparing the text nodes with integer</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-137">Expecting the compiled stylesheet to have version=1.0</a></td>
+                  <td><a href="#ELEM-139">Expecting the compiled stylesheet to have version=1.0</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-72">
+         <div id="ELEM-74">
             <h3>With 2 text nodes All of these tests should be Success on xslt-version=1.0 and Failure
                on 2.0
             </h3>
-            <div id="ELEM-73">
+            <div id="ELEM-75">
                <h4>Comparing the text nodes with string</h4>
                <table class="xspecResult">
                   <thead>
@@ -102,7 +106,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-89">
+            <div id="ELEM-91">
                <h4>Comparing the text nodes with double</h4>
                <table class="xspecResult">
                   <thead>
@@ -121,7 +125,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-105">
+            <div id="ELEM-107">
                <h4>Comparing the text nodes with decimal</h4>
                <table class="xspecResult">
                   <thead>
@@ -140,7 +144,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-121">
+            <div id="ELEM-123">
                <h4>Comparing the text nodes with integer</h4>
                <table class="xspecResult">
                   <thead>
@@ -159,7 +163,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-137">
+            <div id="ELEM-139">
                <h4>Expecting the compiled stylesheet to have version=1.0</h4>
                <table class="xspecResult">
                   <thead>
@@ -170,8 +174,8 @@
                   </thead>
                   <tbody>
                      <tr>
-                        <td><pre>xs:double('2')</pre></td>
-                        <td><pre>1.0</pre></td>
+                        <td><pre>xs:untypedAtomic('2.0')</pre></td>
+                        <td><pre>'1.0'</pre></td>
                      </tr>
                   </tbody>
                </table>

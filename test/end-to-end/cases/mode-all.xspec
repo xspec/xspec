@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mode-all.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test with mode="#all" template in the stylesheet being tested
+		https://github.com/xspec/xspec/commit/97ce32d134fc3468c0cdac891f098a0363c0561b#diff-624b07e550667dd3e06dae7c0b2bf9bdR149
+	-->
+
+	<x:scenario label="context">
+		<x:context>
+			<foo />
+		</x:context>
+		<x:expect label="should work" select="'Caught by #all mode'" />
+		<x:expect label="should report Expected Result correctly on failure">
+			<expected-element />
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="function-call">
+		<x:call function="string">
+			<x:param select="'Returned from function'" />
+		</x:call>
+		<x:expect label="should work" select="'Returned from function'" />
+		<x:expect label="should report Expected Result correctly on failure">
+			<expected-element />
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="template-call">
+		<x:call template="named-template" />
+		<x:expect label="should work" select="'Returned from named template'" />
+		<x:expect label="should report Expected Result correctly on failure">
+			<expected-element />
+		</x:expect>
+	</x:scenario>
+
+</x:description>

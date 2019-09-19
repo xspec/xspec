@@ -980,11 +980,11 @@ teardown() {
 }
 
 
-@test "Deprecate x:space" {
-    run ../bin/xspec.sh deprecated-space/test.xspec
+@test "Obsolete x:space" {
+    run ../bin/xspec.sh obsolete-space/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "x:space is deprecated. Use x:text instead." ]]
+    [[ "${output}" =~ "x:space is obsolete. Use x:text instead." ]]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
