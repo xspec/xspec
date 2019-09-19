@@ -201,7 +201,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
+    [ "${lines[19]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 
     # Verify
     # * XML report file is created
@@ -244,7 +244,7 @@ teardown() {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
+    [ "${lines[20]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
@@ -271,7 +271,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+    [ "${lines[19]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 }
 
 
@@ -279,7 +279,7 @@ teardown() {
     run ../bin/xspec.sh xspec-46.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[3]}" =~ "Testing with" ]]
+    [[ "${lines[4]}" =~ "Testing with" ]]
 }
 
 
@@ -325,7 +325,7 @@ teardown() {
     run ../bin/xspec.sh "${special_chars_dir}/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "Report available at ${expected_report}" ]
+    [ "${lines[20]}" = "Report available at ${expected_report}" ]
     [ -f "${expected_report}" ]
 }
 
@@ -349,7 +349,7 @@ teardown() {
     run ../bin/xspec.sh -s schematron/schematron-param-001.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" == "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
+    [ "${lines[19]}" == "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
 }
 
 
@@ -379,7 +379,7 @@ teardown() {
     [ "${lines[3]}"  = "I am schematron-xslt-include.xsl!" ]
     [ "${lines[4]}"  = "I am schematron-xslt-expand.xsl!" ]
     [ "${lines[5]}"  = "I am schematron-xslt-compile.xsl!" ]
-    [ "${lines[17]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[18]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 
@@ -459,7 +459,7 @@ teardown() {
     run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
     echo "${lines[5]}"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -520,8 +520,8 @@ teardown() {
         ../src/harnesses/basex/basex-server-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "1" ]
-    [[ "${lines[0]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [ "${#lines[@]}" = "2" ]
+    [[ "${lines[1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
     # Output file
     [ -f "${expected_report}" ]
@@ -689,7 +689,7 @@ teardown() {
     run ../bin/xspec.sh -catalog "${space_dir}/catalog-01-catalog.xml" "${space_dir}/catalog-01-xslt.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -702,7 +702,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -715,7 +715,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-02-catalog.xml -s catalog/catalog-02-schematron.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
+    [ "${lines[13]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
 }
 
 
@@ -733,7 +733,7 @@ teardown() {
     run ../bin/xspec.sh "${space_dir}/catalog-01-xslt.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -757,7 +757,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -935,15 +935,15 @@ teardown() {
     run ../bin/xspec.sh xspec-185/import-1.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}"  = "Scenario 1-1" ]
-    [ "${lines[5]}"  = "Scenario 1-2" ]
-    [ "${lines[6]}"  = "Scenario 1-3" ]
-    [ "${lines[7]}"  = "Scenario 2a-1" ]
-    [ "${lines[8]}"  = "Scenario 2a-2" ]
-    [ "${lines[9]}"  = "Scenario 2b-1" ]
-    [ "${lines[10]}" = "Scenario 2b-2" ]
-    [ "${lines[11]}" = "Scenario 3" ]
-    [ "${lines[12]}" = "Formatting Report..." ]
+    [ "${lines[5]}"  = "Scenario 1-1" ]
+    [ "${lines[6]}"  = "Scenario 1-2" ]
+    [ "${lines[7]}"  = "Scenario 1-3" ]
+    [ "${lines[8]}"  = "Scenario 2a-1" ]
+    [ "${lines[9]}"  = "Scenario 2a-2" ]
+    [ "${lines[10]}"  = "Scenario 2b-1" ]
+    [ "${lines[11]}" = "Scenario 2b-2" ]
+    [ "${lines[12]}" = "Scenario 3" ]
+    [ "${lines[13]}" = "Formatting Report..." ]
 }
 
 
@@ -973,10 +973,10 @@ teardown() {
     export TEST_DIR="${work_dir}"
     run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-expect.xspec
     echo "$output"
-    [[ "${lines[9]}"  =~ "WARNING: x:expect has boolean @test" ]]
-    [[ "${lines[14]}" =~ "WARNING: x:expect has boolean @test" ]]
-    [[ "${lines[21]}" =~ "WARNING: x:expect has boolean @test" ]]
-    [  "${lines[30]}" =  "Formatting Report..." ]
+    [[ "${lines[10]}"  =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[15]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[22]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [  "${lines[31]}" =  "Formatting Report..." ]
 }
 
 
@@ -1121,7 +1121,7 @@ teardown() {
     run ../bin/xspec.sh do-nothing.xsl
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[2]}" =~ "Source document is not XSpec" ]]
+    [[ "${lines[3]}" =~ "Source document is not XSpec" ]]
 }
 
 
@@ -1132,7 +1132,23 @@ teardown() {
     run ../bin/xspec.sh variable/reserved-name.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[3]}" =~ "x:XSPEC008:" ]]
+    [[ "${lines[4]}" =~ "x:XSPEC008:" ]]
+}
+
+
+@test "Deprecated Saxon version" {
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        [ "${lines[2]}" = " " ]
+    else
+        [[ "${lines[2]}" =~ "WARNING: Saxon version " ]]
+    fi
 }
 
 

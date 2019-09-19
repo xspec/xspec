@@ -19,6 +19,8 @@ environment:
     # Saxon and Ant used in oXygen
     - SAXON_VERSION: 9.8.0-12
       ANT_VERSION: 1.9.8
+    # highest deprecated Saxon version
+    # - SAXON_VERSION: 9.7.0-21
 
 install:
 - cmd: |
