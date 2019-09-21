@@ -283,12 +283,32 @@ teardown() {
 }
 
 
-@test "executing the Saxon XProc harness generates a report with UTF-8 encoding" {
+@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XSLT)" {
     if [ -z "${XMLCALABASH_JAR}" ]; then
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -Xmx1024m -cp "${XMLCALABASH_JAR}" com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home=file:${PWD}/../ -oresult=xspec/xspec-72-result.html ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-72.xspec \
+        -p xspec-home=file:${PWD}/../ \
+        -o result=xspec/xspec-72-result.html \
+        ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    run java -jar "${SAXON_JAR}" -s:xspec/xspec-72-result.html -xsl:html-charset.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
+}
+
+
+@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XQuery)" {
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-72.xspec \
+        -p xspec-home=file:${PWD}/../ \
+        -o result=xspec/xspec-72-result.html \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
     run java -jar "${SAXON_JAR}" -s:xspec/xspec-72-result.html -xsl:html-charset.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
@@ -985,6 +1005,22 @@ teardown() {
 }
 
 
+@test "XQuery selecting nodes without context should be error (XProc) #423" {
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-423/test.xspec \
+        -p xspec-home="file:${PWD}/../" \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[${#lines[@]}-3]}" =~ "err:XPDY0002:" ]]
+    [[ "${lines[${#lines[@]}-1]}" =~ "ERROR:" ]]
+}
+
+
 @test "XSLT selecting nodes without context should be error (Ant) #423" {
     run ant \
         -buildfile ../build.xml \
@@ -1020,7 +1056,7 @@ teardown() {
 }
 
 
-@test "XQuery selecting nodes without context should be error #423" {
+@test "XQuery selecting nodes without context should be error (command line) #423" {
     run ../bin/xspec.sh -q xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
