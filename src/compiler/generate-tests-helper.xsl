@@ -53,15 +53,23 @@
     select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
   <xsl:variable name="var-doc" as="xs:string?"
     select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
+  <xsl:variable name="var-doc-uri" as="xs:string?"
+    select="if ($var-doc and @href) then concat($var-doc, '-uri') else ()" />
+
+  <xsl:if test="$var-doc-uri">
+    <variable name="{$var-doc-uri}" as="xs:anyURI">
+      <xsl:value-of select="resolve-uri(@href, base-uri())" />
+    </variable>
+  </xsl:if>
 
   <xsl:if test="$var-doc">
     <variable name="{$var-doc}" as="document-node()">
       <xsl:choose>
         <xsl:when test="@href">
           <xsl:attribute name="select">
-            <xsl:text>doc('</xsl:text>
-            <xsl:value-of select="resolve-uri(@href, base-uri())" />
-            <xsl:text>')</xsl:text>
+            <xsl:text>doc($</xsl:text>
+            <xsl:value-of select="$var-doc-uri" />
+            <xsl:text>)</xsl:text>
           </xsl:attribute>
         </xsl:when>
 
