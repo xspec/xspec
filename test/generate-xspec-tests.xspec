@@ -53,8 +53,8 @@
    <!--
        <t:expect/>
        
-       TODO: Track down how it is transformed (named templated, rule
-       in a mode, etc.) and test it explicitely...
+       TODO: Track down how it is transformed (named template, rule
+       in a mode, etc.) and test it explicitly...
    -->
    <t:scenario label="x:expect[@test] transformed in x:compile mode">
       <t:context mode="t:compile">
