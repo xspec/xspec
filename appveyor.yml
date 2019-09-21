@@ -6,7 +6,10 @@ environment:
     ANT_VERSION: 1.10.5
     # full path to XML Resolver jar
     XML_RESOLVER_JAR: '%TEMP%\xspec\xml-resolver\resolver.jar'
+
   matrix:
+    # Non-mainstream jobs are disabled in favor of Azure Pipelines
+
     # latest Saxon 9.9 version and Jing
     #   * XML Calabash will use Saxon jar in its own lib directory.
     #   * BaseX test requires XML Calabash.
@@ -14,11 +17,14 @@ environment:
       JING_VERSION: 20181222
       XMLCALABASH_VERSION: 1.1.27-99
       BASEX_VERSION: 8.6.4
+
     # latest Saxon 9.8 version
-    - SAXON_VERSION: 9.8.0-15
+    # - SAXON_VERSION: 9.8.0-15
+
     # Saxon and Ant used in oXygen
-    - SAXON_VERSION: 9.8.0-12
-      ANT_VERSION: 1.9.8
+    # - SAXON_VERSION: 9.8.0-12
+    #   ANT_VERSION: 1.9.8
+
     # highest deprecated Saxon version
     # - SAXON_VERSION: 9.7.0-21
 
