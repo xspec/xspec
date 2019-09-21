@@ -1,1 +1,1 @@
-javac -verbose -cp "%SAXON_JAR%" java\com\jenitennison\xslt\tests\XSLTCoverageTraceListener.java
+call ant -buildfile "%~dp0build_java.xml" %*

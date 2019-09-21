@@ -49,7 +49,7 @@ test_script:
     test\end-to-end\run-e2e-tests.cmd -silent
 
     rem compile java
-    test\ci\compile-java.cmd
+    test\ci\compile-java.cmd -silent
 
     rem check git status
     test\ci\last-git-status.cmd
