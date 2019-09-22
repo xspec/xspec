@@ -56,7 +56,7 @@ steps:
   - script: call test\end-to-end\run-e2e-tests.cmd -silent
     displayName: Execute XSpec end-to-end tests
 
-  - script: call test\ci\compile-java.cmd
+  - script: call test\ci\compile-java.cmd -verbose
     displayName: Compile java
 
   - script: call test\ci\last-git-status.cmd
