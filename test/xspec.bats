@@ -66,7 +66,7 @@ teardown() {
     run ../bin/xspec.sh -s -t
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[0]}" = "-s and -t are mutually exclusive" ]
+    [ "${lines[1]}" = "-s and -t are mutually exclusive" ]
 }
 
 
