@@ -118,7 +118,9 @@
 
    <call-template name="{x:xspec-name($local-name)}">
       <xsl:for-each select="$params">
-         <with-param name="{ @name }" select="{ @select }"/>
+         <with-param name="{ @name }" select="{ @select }">
+           <xsl:apply-templates select="." mode="x:copy-namespaces" />
+         </with-param>
       </xsl:for-each>
    </call-template>
 
@@ -187,7 +189,9 @@
 
   <template name="{x:xspec-name(generate-id())}">
     <xsl:for-each select="$params">
-      <param name="{ @name }" required="yes"/>
+      <param name="{ @name }" required="yes">
+        <xsl:apply-templates select="." mode="x:copy-namespaces" />
+      </param>
     </xsl:for-each>
     <message>
       <xsl:if test="$pending-p">
@@ -235,6 +239,7 @@
               <!-- Create the template call -->
               <xsl:variable name="template-call">
                 <call-template name="{$call/@template}">
+                  <xsl:apply-templates select="$call" mode="x:copy-namespaces" />
                   <xsl:for-each select="$call/x:param">
                     <with-param name="{@name}" select="${@name}">
                       <xsl:copy-of select="@tunnel, @as" />
@@ -261,6 +266,7 @@
               <xsl:apply-templates select="$call/x:param[1]" mode="x:compile" />
               <!-- Create the function call -->
               <sequence>
+                <xsl:apply-templates select="$call" mode="x:copy-namespaces" />
                 <xsl:attribute name="select">
                   <xsl:value-of select="$call/@function" />
                   <xsl:text>(</xsl:text>
@@ -283,6 +289,7 @@
                <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile"/>
                <!-- Create the apply templates instruction -->
                <apply-templates>
+                  <xsl:apply-templates select="$apply" mode="x:copy-namespaces" /><!--TODO: Check that this line works after x:apply is implemented.-->
                   <xsl:copy-of select="$apply/@select | $apply/@mode"/>
                   <xsl:for-each select="$apply/x:param">
                      <with-param name="{ @name }" select="${ @name }">
@@ -299,6 +306,7 @@
               <!-- Create the template call -->
               <apply-templates select="$impl:context">
                 <xsl:sequence select="$context/@mode" />
+                <xsl:apply-templates select="$context" mode="x:copy-namespaces" />
                 <xsl:for-each select="$context/x:param">
                   <with-param name="{@name}" select="${@name}">
                     <xsl:copy-of select="@tunnel, @as" />
@@ -335,8 +343,11 @@
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
 
   <template name="{x:xspec-name(generate-id())}">
+    <xsl:apply-templates select="." mode="x:copy-namespaces" />
      <xsl:for-each select="$params">
-        <param name="{ @name }" required="{ @required }"/>
+        <param name="{ @name }" required="{ @required }">
+          <xsl:apply-templates select="." mode="x:copy-namespaces" />
+        </param>
      </xsl:for-each>
     <message>
       <xsl:if test="$pending-p">

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns=""
+  xmlns:q1="http://example.org/ns/my/ns1"
+  xmlns:tv1="http://example.org/ns/my/usercontent"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  stylesheet="xspec-xmlns.xsl">
+
+  <x:scenario label="Imported file using different declarations on x:description">
+    <x:call function="q1:param-mirror-fcn">
+      <x:param name="q1:param-items">
+        <tv1:element/>
+        <no-namespace-element/>
+      </x:param>
+    </x:call>
+    <x:expect label="should reflect the imported file's xmlns:..."
+      test="namespace-uri($x:result[1])" select="xs:anyURI('http://example.org/ns/my/usercontent')"/>
+    <x:expect label="and default element namespace"
+      test="namespace-uri($x:result[2])" select="xs:anyURI('')"/>
+  </x:scenario>
+</x:description>
