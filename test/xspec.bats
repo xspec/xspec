@@ -624,7 +624,11 @@ teardown() {
 
 
 @test "Ant for Schematron with minimum properties #168" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dtest.type=s
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]

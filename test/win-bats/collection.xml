@@ -465,7 +465,11 @@
 	</case>
 
 	<case name="Ant for Schematron with minimum properties #168">
-    call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec" -lib "%SAXON_JAR%" -Dtest.type=s
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dtest.type=s ^
+        -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec"
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
     call :verify_line -2 x "BUILD SUCCESSFUL"
