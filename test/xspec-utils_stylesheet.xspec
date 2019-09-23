@@ -457,6 +457,51 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function extract-version">
+		<x:scenario label="Saxon typical xsl:product-version">
+			<x:call function="x:extract-version">
+				<x:param select="'HE 9.9.1.5'" />
+			</x:call>
+			<x:expect label="Extracted" select="9, 9, 1, 5" />
+		</x:scenario>
+
+		<x:scenario label="Saxon likely v10 xsl:product-version">
+			<x:call function="x:extract-version">
+				<!-- This string is just a guesswork -->
+				<x:param select="'HE 10.0.0.1'" />
+			</x:call>
+			<x:expect label="Extracted" select="10, 0, 0, 1" />
+		</x:scenario>
+
+		<x:scenario label="Saxon unlicensed xsl:product-version">
+			<x:call function="x:extract-version">
+				<x:param select="'EE (unlicensed) 9.4.0.9'" />
+			</x:call>
+			<x:expect label="Extracted" select="9, 4, 0, 9" />
+		</x:scenario>
+
+		<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
+			<x:call function="x:extract-version">
+				<x:param select="'SAXON-HE 9.9.1.5J from Saxonica (build 090514)'" />
+			</x:call>
+			<x:expect label="Extracted, stripping platform suffix ('J')" select="9, 9, 1, 5" />
+		</x:scenario>
+
+		<x:scenario label="Relatively large version">
+			<x:call function="x:extract-version">
+				<x:param select="'76.0.3809.132'" />
+			</x:call>
+			<x:expect label="Extracted" select="76, 0, 3809, 132" />
+		</x:scenario>
+
+		<x:scenario label="No #.#.#.#">
+			<x:call function="x:extract-version">
+				<x:param select="'１.２.３.４'" />
+			</x:call>
+			<x:expect label="Empty sequence" />
+		</x:scenario>
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing function saxon-version">
 		<x:scenario label="Assume we test this on Saxon versions from 9.7 to 9.9">
 			<x:call function="x:saxon-version" />

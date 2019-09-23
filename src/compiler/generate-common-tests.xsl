@@ -56,6 +56,15 @@
        the x:description element, in the mode
    -->
    <xsl:template name="x:generate-tests">
+      <xsl:variable name="deprecation-warning" as="xs:string?" select="
+         if (x:saxon-version() lt x:pack-version(9,8,0,0))
+         then 'Saxon version 9.7 or less is deprecated. XSpec will stop supporting it in the near future.'
+         else ()" />
+      <xsl:message select="
+         if ($deprecation-warning)
+         then ('WARNING:', $deprecation-warning)
+         else ' ' (: Always write a single non-empty line to help Bats tests to predict line numbers. :)" />
+
       <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
       <xsl:if test="not(node-name(element()) eq $description-name)">
          <xsl:message terminate="yes">
