@@ -632,7 +632,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [[ "${lines[${#lines[@]}-2]}" =~ "BUILD SUCCESSFUL" ]]
 
     # Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
