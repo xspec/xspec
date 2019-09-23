@@ -1173,3 +1173,76 @@ teardown() {
 }
 
 
+@test "No warning on Ant (XSLT) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dtest.type=t \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+
+@test "No warning on Ant (XQuery) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dtest.type=q \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+
+@test "No warning on Ant (Schematron) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dclean.output.dir=true \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+

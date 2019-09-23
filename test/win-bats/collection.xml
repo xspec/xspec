@@ -873,4 +873,74 @@
         call :verify_line 3 r "WARNING: Saxon version ..*"
     )
 	</case>
+
+	<case name="No warning on Ant (XSLT) #633">
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    if not errorlevel 1 (
+        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        goto :EOF
+    )
+
+    set "ANT_LOG=%WORK_DIR%\ant.log"
+
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -logfile "%ANT_LOG%" ^
+        -verbose ^
+        -Dtest.type=t ^
+        -Dxspec.xml="%CD%\xspec-uri.xspec"
+    call :verify_retval 0
+    call :verify_exist "%ANT_LOG%"
+
+    call :run %SYSTEMROOT%\system32\find /i "warning" "%ANT_LOG%"
+    call :verify_retval 1
+	</case>
+
+	<case name="No warning on Ant (XQuery) #633">
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    if not errorlevel 1 (
+        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        goto :EOF
+    )
+
+    set "ANT_LOG=%WORK_DIR%\ant.log"
+
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -logfile "%ANT_LOG%" ^
+        -verbose ^
+        -Dtest.type=q ^
+        -Dxspec.xml="%CD%\xspec-uri.xspec"
+    call :verify_retval 0
+    call :verify_exist "%ANT_LOG%"
+
+    call :run %SYSTEMROOT%\system32\find /i "warning" "%ANT_LOG%"
+    call :verify_retval 1
+	</case>
+
+	<case name="No warning on Ant (Schematron) #633">
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    if not errorlevel 1 (
+        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        goto :EOF
+    )
+
+    set "ANT_LOG=%WORK_DIR%\ant.log"
+
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -logfile "%ANT_LOG%" ^
+        -verbose ^
+        -Dclean.output.dir=true ^
+        -Dtest.type=s ^
+        -Dxspec.xml="%CD%\xspec-uri.xspec"
+    call :verify_retval 0
+    call :verify_exist "%ANT_LOG%"
+
+    call :run %SYSTEMROOT%\system32\find /i "warning" "%ANT_LOG%"
+    call :verify_retval 1
+	</case>
 </collection>
