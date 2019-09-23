@@ -1,6 +1,10 @@
 language: java
 dist: trusty
-jdk: oraclejdk8
+
+jdk:
+  - oraclejdk8
+  - openjdk11
+
 env:
     global:
         # full path to Saxon jar
@@ -50,7 +54,7 @@ before_script:
     # install Ant
     - curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
     - tar xf /tmp/xspec/ant/ant.tar.gz -C /tmp/xspec/ant;
-    - export PATH=/tmp/xspec/ant/apache-ant-${ANT_VERSION}/bin:{$PATH}
+    - export PATH=/tmp/xspec/ant/apache-ant-${ANT_VERSION}/bin:${PATH}
     # install XML Resolver
     - curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_JAR} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
     # install Jing
@@ -72,6 +76,6 @@ script:
     - cd ..
     - ./test/end-to-end/run-e2e-tests.sh -silent
     - echo "compile java"
-    - ant -buildfile test/ci/build_java.xml -silent
+    - ./test/ci/compile-java.sh -silent
     - echo "check git status"
     - output=$(git status --porcelain); echo "${output}"; test -z "${output}"

@@ -1,63 +1,10 @@
-pool:
-  vmImage: windows-latest
+jobs:
+  - template: test/ci/azure-pipelines_template.yml
+    parameters:
+      jobName: Java_8
+      javaVersion: 8
 
-variables:
-  # full path to Saxon jar
-  SAXON_JAR: $(Agent.TempDirectory)\xspec\saxon\saxon9he.jar
-
-  # latest Ant
-  ANT_VERSION: 1.10.5
-
-  # full path to XML Resolver jar
-  XML_RESOLVER_JAR: $(Agent.TempDirectory)\xspec\xml-resolver\resolver.jar
-
-strategy:
-  maxParallel: 10
-
-  matrix:
-    # latest Saxon and Jing
-    #   * XML Calabash will use Saxon jar in its own lib directory.
-    #   * BaseX test requires XML Calabash.
-    Saxon-9-9:
-      SAXON_VERSION: 9.9.1-5
-      JING_VERSION: 20181222
-      XMLCALABASH_VERSION: 1.1.27-99
-      BASEX_VERSION: 8.6.4
-
-    # latest Saxon 9.8
-    Saxon-9-8:
-      SAXON_VERSION: 9.8.0-15
-
-    # Saxon and Ant used in oXygen
-    Oxygen:
-      SAXON_VERSION: 9.8.0-12
-      ANT_VERSION: 1.9.8
-
-    # highest deprecated Saxon version
-    Saxon-9-7:
-      SAXON_VERSION: 9.7.0-21
-
-steps:
-  - task: BatchScript@1
-    displayName: Install test dependencies
-    inputs:
-      filename: test\ci\install-deps.cmd
-      modifyEnvironment: true
-
-  - script: call test\ci\print-env.cmd
-    displayName: Print versions and env vars
-
-  - script: call test\run-bats.cmd
-    displayName: Execute bats-like unit tests
-
-  - script: call test\run-xspec-tests-ant.cmd -silent
-    displayName: Execute XSpec unit tests
-
-  - script: call test\end-to-end\run-e2e-tests.cmd -silent
-    displayName: Execute XSpec end-to-end tests
-
-  - script: call test\ci\compile-java.cmd -verbose
-    displayName: Compile java
-
-  - script: call test\ci\last-git-status.cmd
-    displayName: Check git status
+  - template: test/ci/azure-pipelines_template.yml
+    parameters:
+      jobName: Java_11
+      javaVersion: 11
