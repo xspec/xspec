@@ -1170,6 +1170,10 @@ teardown() {
 
 
 @test "@catch should not catch error outside SUT (XSLT)" {
+    if [ -z "${XSLT_SUPPORTS_3_0}" ]; then
+        skip "XSLT_SUPPORTS_3_0 is not defined"
+    fi
+
     run ../bin/xspec.sh catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1208,6 +1212,10 @@ teardown() {
 
 
 @test "@catch should not catch error outside SUT (XQuery)" {
+    if [ -z "${XQUERY_SUPPORTS_3_1_DEFAULT}" ]; then
+        skip "XQUERY_SUPPORTS_3_1_DEFAULT is not defined"
+    fi
+
     run ../bin/xspec.sh -q catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
