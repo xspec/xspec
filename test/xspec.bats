@@ -1222,8 +1222,6 @@ teardown() {
 
 
 @test "No warning on Ant (Schematron) #633" {
-    skip "TODO: #633"
-
     if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
         skip "Always expect a deprecation warning on Saxon 9.7"
     fi
