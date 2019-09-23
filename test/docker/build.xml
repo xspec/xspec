@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="xspec-test" basedir="." default="xspec-test.dockerfile"
+<project name="xspec-test" basedir="." default="xspec-test.build"
 	 xmlns:if="ant:if"
 	 xmlns:unless="ant:unless">
   <description>Build Docker image for testing XSpec.
@@ -77,9 +77,10 @@ Targets that run Docker must be run as 'root' or as a member of the
 	<filter token="HOME" value="${image.xspec-test.home}"/>
 	<filter token="ANT_VERSION" value="${test.ant.version}"/>
 	<filter token="BASEX_VERSION" value="${test.basex.version}"/>
+	<filter token="EXTRA_PACKAGES" value="${test.extra.packages}"/>
 	<filter token="SAXON_VERSION" value="${test.saxon.version}"/>
-	<filter token="SAXON_JAR" value="${saxon.home}/saxon9he.jar"/>
-	<filter token="XML_RESOLVER_JAR" value="${xml-resolver.jar}"/>
+	<filter token="SAXON_JAR" value="${test.saxon.home}/saxon9he.jar"/>
+	<filter token="XML_RESOLVER_JAR" value="${test.xml-resolver.jar}"/>
 	<filter token="XMLCALABASH_VERSION"
 		value="${test.xmlcalabash.version}"/>
 	<filter token="XSPEC_ISSUES_URL" value="${xspec.issues.url}"/>
@@ -110,7 +111,7 @@ Targets that run Docker must be run as 'root' or as a member of the
 	  unless="xspec-test.uptodate"
 	  description="Build 'xspec-test' Docker image. [root]">
     <exec executable="docker"
-	  failonerror="true">
+	  failonerror="false">
       <arg value="build" />
       <arg value="-f" />
       <arg value="xspec-test.dockerfile" />

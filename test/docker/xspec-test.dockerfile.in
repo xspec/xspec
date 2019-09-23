@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   curl \
   bats \
   unzip \
-  emacs-nox \
+  @@EXTRA_PACKAGES@@ \
   && curl -fsSL --create-dirs --retry 5 -o @@SAXON_JAR@@ http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/@@SAXON_VERSION@@/Saxon-HE-@@SAXON_VERSION@@.jar \
   && chmod 755 /saxon \
   && curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-@@ANT_VERSION@@-bin.tar.gz \
