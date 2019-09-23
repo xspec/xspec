@@ -624,11 +624,15 @@ teardown() {
 
 
 @test "Ant for Schematron with minimum properties #168" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dtest.type=s
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [[ "${lines[${#lines[@]}-2]}" =~ "BUILD SUCCESSFUL" ]]
 
     # Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
@@ -1166,6 +1170,81 @@ teardown() {
     else
         [[ "${lines[2]}" =~ "WARNING: Saxon version " ]]
     fi
+}
+
+
+@test "No warning on Ant (XSLT) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dtest.type=t \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+
+@test "No warning on Ant (XQuery) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dtest.type=q \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+
+@test "No warning on Ant (Schematron) #633" {
+    skip "TODO: #633"
+
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dclean.output.dir=true \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
 }
 
 
