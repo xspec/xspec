@@ -1175,7 +1175,7 @@ teardown() {
 
 @test "No warning on Ant (XSLT) #633" {
     if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        echo "Always expect a deprecation warning on Saxon 9.7"
+        skip "Always expect a deprecation warning on Saxon 9.7"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1199,7 +1199,7 @@ teardown() {
 
 @test "No warning on Ant (XQuery) #633" {
     if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        echo "Always expect a deprecation warning on Saxon 9.7"
+        skip "Always expect a deprecation warning on Saxon 9.7"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1223,7 +1223,7 @@ teardown() {
 
 @test "No warning on Ant (Schematron) #633" {
     if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        echo "Always expect a deprecation warning on Saxon 9.7"
+        skip "Always expect a deprecation warning on Saxon 9.7"
     fi
 
     ant_log="${work_dir}/ant.log"

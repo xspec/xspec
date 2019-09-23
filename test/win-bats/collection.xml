@@ -877,8 +877,8 @@
 	<case name="No warning on Ant (XSLT) #633">
     java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
     if not errorlevel 1 (
-        rem call :skip "Always expect a deprecation warning on Saxon 9.7"
-        rem goto :EOF
+        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        goto :EOF
     )
 
     set "ANT_LOG=%WORK_DIR%\ant.log"
@@ -900,8 +900,8 @@
 	<case name="No warning on Ant (XQuery) #633">
     java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
     if not errorlevel 1 (
-        rem call :skip "Always expect a deprecation warning on Saxon 9.7"
-        rem goto :EOF
+        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        goto :EOF
     )
 
     set "ANT_LOG=%WORK_DIR%\ant.log"
@@ -923,8 +923,8 @@
 	<case name="No warning on Ant (Schematron) #633">
     java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
     if not errorlevel 1 (
-        rem call :skip "Always expect a deprecation warning on Saxon 9.7"
-        rem goto :EOF
+        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        goto :EOF
     )
 
     set "ANT_LOG=%WORK_DIR%\ant.log"
