@@ -54,7 +54,8 @@ before_script:
     # install Ant
     - curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
     - tar xf /tmp/xspec/ant/ant.tar.gz -C /tmp/xspec/ant;
-    - export PATH=/tmp/xspec/ant/apache-ant-${ANT_VERSION}/bin:${PATH}
+    - export ANT_HOME=/tmp/xspec/ant/apache-ant-${ANT_VERSION}
+    - export PATH=${ANT_HOME}/bin:${PATH}
     # install XML Resolver
     - curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_JAR} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
     # install Jing
