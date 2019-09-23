@@ -1243,6 +1243,11 @@ teardown() {
     run grep -F -i "warning" "${ant_log}"
     echo "$output"
     [ "$status" -eq 1 ]
+
+    # Verify Ant makepath task
+    run cat "${ant_log}"
+    echo "$output"
+    [[ "${output}" =~ " [makepath] Setting xspec.schematron.file to file path ${PWD}/do-nothing.sch" ]]
 }
 
 

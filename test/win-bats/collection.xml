@@ -942,5 +942,9 @@
 
     call :run %SYSTEMROOT%\system32\find /i "warning" "%ANT_LOG%"
     call :verify_retval 1
+
+    rem Verify Ant makepath task
+    call :run type "%ANT_LOG%"
+    call :verify_line * x " [makepath] Setting xspec.schematron.file to file path %CD%\do-nothing.sch"
 	</case>
 </collection>
