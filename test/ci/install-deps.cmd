@@ -13,7 +13,7 @@ if not defined XMLCALABASH_VERSION (
     echo XMLCalabash will not be installed as it uses a higher version of Saxon
 ) else (
     %CURL% -o "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/%XMLCALABASH_VERSION%/xmlcalabash-%XMLCALABASH_VERSION%.zip"
-    7z x "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" -o"%TEMP%\xspec\xmlcalabash"
+    tar -xf "%TEMP%\xspec\xmlcalabash\xmlcalabash.zip" -C "%TEMP%\xspec\xmlcalabash"
     set "XMLCALABASH_JAR=%TEMP%\xspec\xmlcalabash\xmlcalabash-%XMLCALABASH_VERSION%\xmlcalabash-%XMLCALABASH_VERSION%.jar"
 )
 
@@ -22,7 +22,7 @@ if not defined BASEX_VERSION (
     echo BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon
 ) else (
     %CURL% -o "%TEMP%\xspec\basex\basex.zip" "http://files.basex.org/releases/%BASEX_VERSION%/BaseX%BASEX_VERSION:.=%.zip"
-    7z x "%TEMP%\xspec\basex\basex.zip" -o"%TEMP%\xspec\basex"
+    tar -xf "%TEMP%\xspec\basex\basex.zip" -C "%TEMP%\xspec\basex"
     set "BASEX_JAR=%TEMP%\xspec\basex\basex\BaseX.jar"
 )
 
