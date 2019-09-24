@@ -1,6 +1,7 @@
 #! /bin/bash
 
 # install Saxon
+export SAXON_JAR=/tmp/xspec/saxon/saxon9he.jar
 curl -fsSL --create-dirs --retry 5 -o ${SAXON_JAR} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
 
 # install XML Calabash
@@ -28,6 +29,7 @@ export ANT_HOME=/tmp/xspec/ant/apache-ant-${ANT_VERSION}
 export PATH=${ANT_HOME}/bin:${PATH}
 
 # install XML Resolver
+export XML_RESOLVER_JAR=/tmp/xspec/xml-resolver/resolver.jar
 curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_JAR} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
 
 #install Jing

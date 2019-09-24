@@ -10,6 +10,7 @@ set "TAR=%SYSTEMROOT%\system32\tar.exe"
 if not exist "%TAR%" set TAR=tar
 
 rem install Saxon
+set "SAXON_JAR=%TEMP%\xspec\saxon\saxon9he.jar"
 %CURL% -o "%SAXON_JAR%" "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/%SAXON_VERSION%/Saxon-HE-%SAXON_VERSION%.jar"
 
 rem install XML Calabash
@@ -34,6 +35,7 @@ rem install Ant without installing JDK
 call "%~dp0choco-install.cmd" ant --allow-downgrade --ignore-dependencies --no-progress --version "%ANT_VERSION%"
 
 rem install XML Resolver
+set "XML_RESOLVER_JAR=%TEMP%\xspec\xml-resolver\resolver.jar"
 %CURL% -o "%XML_RESOLVER_JAR%" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
 
 rem install Jing
