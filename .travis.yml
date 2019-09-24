@@ -32,7 +32,7 @@ before_script:
     - source ./test/ci/install-deps.sh
 
 script:
-    - ant -version
+    - ./test/ci/print-env.sh
     - cd test
     - echo "execute bats unit tests"
     - ./run-bats.sh --tap
