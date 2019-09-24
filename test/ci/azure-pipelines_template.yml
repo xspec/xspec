@@ -13,7 +13,7 @@ jobs:
       SAXON_JAR: $(Agent.TempDirectory)\xspec\saxon\saxon9he.jar
 
       # latest Ant
-      ANT_VERSION: 1.10.5
+      ANT_VERSION: 1.10.7
 
       # full path to XML Resolver jar
       XML_RESOLVER_JAR: $(Agent.TempDirectory)\xspec\xml-resolver\resolver.jar
