@@ -1251,3 +1251,88 @@ teardown() {
 }
 
 
+@test "@catch should not catch error outside SUT (XSLT)" {
+    if [ -z "${XSLT_SUPPORTS_3_0}" ]; then
+        skip "XSLT_SUPPORTS_3_0 is not defined"
+    fi
+
+    run ../bin/xspec.sh catch/compiler-error.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "ERROR in scenario " ]]
+
+    run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-context-avt-for-template-call: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-context-param-for-matching-template: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-function-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-template-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-template-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "XPST0017:" ]]
+}
+
+
+@test "@catch should not catch error outside SUT (XQuery)" {
+    if [ -z "${XQUERY_SUPPORTS_3_1_DEFAULT}" ]; then
+        skip "XQUERY_SUPPORTS_3_1_DEFAULT is not defined"
+    fi
+
+    run ../bin/xspec.sh -q catch/compiler-error.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "x:XSPEC005:" ]]
+
+    run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh -q catch/error-in-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+
+    run ../bin/xspec.sh -q catch/static-error-in-compiled-test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "XPST0017:" ]]
+}
+
+
+@test "Error in SUT should not be caught by default (XSLT)" {
+    run ../bin/xspec.sh catch/no-by-default.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+}
+
+
+@test "Error in SUT should not be caught by default (XQuery)" {
+    run ../bin/xspec.sh -q catch/no-by-default.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+}
+
+

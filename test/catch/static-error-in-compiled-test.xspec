@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
+	stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xquery-version="3.1" xslt-version="3.0">
+
+	<x:scenario catch="yes" label="With @catch=yes">
+
+		<x:scenario>
+			<x:label>a static error in the compiled test, such as calling a function that does not
+				exist</x:label>
+			<x:call function="x:a-function-that-does-not-exist" />
+			<x:expect label="should not be caught" />
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>
