@@ -946,4 +946,64 @@
     call :run %SYSTEMROOT%\system32\find /i "warning" "%ANT_LOG%"
     call :verify_retval 1
 	</case>
+
+	<case ifdef="XSLT_SUPPORTS_3_0" name="@catch should not catch error outside SUT (XSLT)">
+    call :run ..\bin\xspec.bat catch\compiler-error.xspec
+    call :verify_retval 2
+    call :verify_line * r "ERROR in scenario .*"
+
+    call :run ..\bin\xspec.bat catch\error-in-context-avt-for-template-call.xspec
+    call :verify_retval 2
+    call :verify_line * r "  error-code-of-my-context-avt-for-template-call: Error signalled .*"
+
+    call :run ..\bin\xspec.bat catch\error-in-context-param-for-matching-template.xspec
+    call :verify_retval 2
+    call :verify_line * r "  error-code-of-my-context-param-for-matching-template: Error signalled .*"
+
+    call :run ..\bin\xspec.bat catch\error-in-function-call-param.xspec
+    call :verify_retval 2
+    call :verify_line * r "  error-code-of-my-function-call-param: Error signalled .*"
+
+    call :run ..\bin\xspec.bat catch\error-in-template-call-param.xspec
+    call :verify_retval 2
+    call :verify_line * r "  error-code-of-my-template-call-param: Error signalled .*"
+
+    call :run ..\bin\xspec.bat catch\error-in-variable.xspec
+    call :verify_retval 2
+    call :verify_line * r "  error-code-of-my-variable: Error signalled .*"
+
+    call :run ..\bin\xspec.bat catch\static-error-in-compiled-test.xspec
+    call :verify_retval 2
+    call :verify_line * r ".*XPST0017:"
+	</case>
+
+	<case ifdef="XQUERY_SUPPORTS_3_1_DEFAULT" name="@catch should not catch error outside SUT (XQuery)">
+    call :run ..\bin\xspec.bat -q catch\compiler-error.xspec
+    call :verify_retval 2
+    call :verify_line * r ".*x:XSPEC005:"
+
+    call :run ..\bin\xspec.bat -q catch\error-in-function-call-param.xspec
+    call :verify_retval 2
+    call :verify_line * r "  error-code-of-my-function-call-param: Error signalled .*"
+
+    call :run ..\bin\xspec.bat -q catch\error-in-variable.xspec
+    call :verify_retval 2
+    call :verify_line * r "  error-code-of-my-variable: Error signalled .*"
+
+    call :run ..\bin\xspec.bat -q catch\static-error-in-compiled-test.xspec
+    call :verify_retval 2
+    call :verify_line * r ".*XPST0017:"
+	</case>
+
+	<case name="Error in SUT should not be caught by default (XSLT)">
+    call :run ..\bin\xspec.bat catch\no-by-default.xspec
+    call :verify_retval 2
+    call :verify_line * r "  my-error-code: Error signalled .*"
+	</case>
+
+	<case name="Error in SUT should not be caught by default (XQuery)">
+    call :run ..\bin\xspec.bat -q catch\no-by-default.xspec
+    call :verify_retval 2
+    call :verify_line * r "  my-error-code: Error signalled .*"
+	</case>
 </collection>

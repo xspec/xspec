@@ -624,6 +624,29 @@
       <xsl:apply-templates select="." mode="test:create-node-generator" />
    </xsl:template>
 
+   <!-- Generates a gateway from x:scenario to System Under Test.
+      The actual instruction to enter SUT is provided by the caller. The instruction
+      should not contain other actions. -->
+   <xsl:template name="x:enter-sut" as="node()+">
+      <!--<xsl:context-item as="element(x:scenario)" use="required" />-->
+
+      <xsl:param name="instruction" as="node()+" required="yes" />
+
+      <xsl:variable name="catch-flag" as="xs:string"
+         select="(ancestor-or-self::*[@catch][1]/@catch, 'no')[1]" />
+
+      <xsl:choose>
+         <xsl:when test="x:yes-no-synonym($catch-flag)">
+            <xsl:call-template name="x:output-try-catch">
+               <xsl:with-param name="instruction" select="$instruction" />
+            </xsl:call-template>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:sequence select="$instruction" />
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:template>
+
    <!-- Generates variable declarations for x:expect -->
    <xsl:template name="x:setup-expected" as="node()+">
       <!--<xsl:context-item as="element(x:expect)" use="required" />-->

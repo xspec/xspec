@@ -13,7 +13,15 @@ fi
 
 # Check capabilities
 if java -jar "${SAXON_JAR}" -nogo -xsl:../src/reporter/coverage-report.xsl 2> /dev/null; then
-	export XSLT_SUPPORTS_COVERAGE=1
+    export XSLT_SUPPORTS_COVERAGE=1
+fi
+
+if java -jar "${SAXON_JAR}" -nogo -xsl:ant/caps/v3-0.xsl 2> /dev/null; then
+    export XSLT_SUPPORTS_3_0=1
+fi
+
+if java -cp "${SAXON_JAR}" net.sf.saxon.Query -q:ant/caps/v3-1.xquery > /dev/null 2>&1; then
+    export XQUERY_SUPPORTS_3_1_DEFAULT=1
 fi
 
 # Reset public environment variables
