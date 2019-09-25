@@ -36,7 +36,7 @@
        MarkLogic).
    -->
    <xsl:param name="utils-library-at" select="
-       resolve-uri('generate-query-utils.xql', static-base-uri())"/>
+       resolve-uri('generate-query-utils.xql')"/>
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?" select="
@@ -135,11 +135,16 @@
       <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
 
       <!-- Absolute URI of .xspec file -->
-      <xsl:text>declare variable $</xsl:text>
-      <xsl:value-of select="x:xspec-name('xspec-uri')" />
-      <xsl:text> as xs:anyURI := xs:anyURI("</xsl:text>
-      <xsl:value-of select="$actual-document-uri" />
-      <xsl:text>");&#x0A;</xsl:text>
+      <xsl:call-template name="test:declare-or-let-variable">
+         <xsl:with-param name="is-global" select="true()" />
+         <xsl:with-param name="name" select="x:xspec-name('xspec-uri')" />
+         <xsl:with-param name="type" select="'xs:anyURI'" />
+         <xsl:with-param name="value" as="text()+">
+            <xsl:text>xs:anyURI("</xsl:text>
+            <xsl:value-of select="$actual-document-uri" />
+            <xsl:text>")</xsl:text>
+         </xsl:with-param>
+      </xsl:call-template>
 
       <!-- Compile the test suite params (aka global params). -->
       <xsl:call-template name="x:compile-params"/>
@@ -147,6 +152,8 @@
       <!-- Compile the top-level scenarios. -->
       <xsl:call-template name="x:compile-scenarios"/>
       <xsl:text>&#10;</xsl:text>
+
+      <xsl:text>document {&#x0A;</xsl:text>
 
       <xsl:apply-templates select="$html-reporter-pi" mode="test:create-node-generator" />
       <xsl:text>,&#x0A;</xsl:text>
@@ -166,6 +173,8 @@
          <xsl:call-template name="x:call-scenarios"/>
          <xsl:text>&#10;}&#10;</xsl:text>
       </xsl:element>
+
+      <xsl:text> }&#x0A;</xsl:text>
    </xsl:template>
 
    <!-- *** x:output-call *** -->

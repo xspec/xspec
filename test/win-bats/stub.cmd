@@ -175,7 +175,7 @@ rem
     rem    Keep "..\test\" to minimize accident
     rem
     call :rmdir-if-exist ..\test\catalog\xspec
-    call :rmdir          ..\test\xspec
+    call :rmdir-if-exist ..\test\xspec
     call :rmdir-if-exist ..\tutorial\schematron\xspec
     call :rmdir          ..\tutorial\xspec
 
@@ -240,12 +240,12 @@ rem
     rem Remove the JAVA_TOOL_OPTIONS output, to keep the line numbers predictable.
     rem Remove the empty lines, to be compatible with Bats $lines.
     rem
-    type "%OUTPUT_RAW%" | find /v "" | findstr /b /l /v /c:"Picked up JAVA_TOOL_OPTIONS:" | findstr /r /v /c:"^$" > "%OUTPUT_FILTERED%"
+    type "%OUTPUT_RAW%" | %SYSTEMROOT%\system32\find /v "" | findstr /b /l /v /c:"Picked up JAVA_TOOL_OPTIONS:" | findstr /r /v /c:"^$" > "%OUTPUT_FILTERED%"
 
     rem
     rem Prefix each line with its line number.
     rem
-    type "%OUTPUT_FILTERED%" | find /v /n "" > "%OUTPUT_LINENUM%"
+    type "%OUTPUT_FILTERED%" | %SYSTEMROOT%\system32\find /v /n "" > "%OUTPUT_LINENUM%"
 
     goto :EOF
 
@@ -283,7 +283,7 @@ rem
     rem
 
     set LINE_NUMBER=%~1
-    if not %LINE_NUMBER%==* if %LINE_NUMBER% LSS 0 for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set /a LINE_NUMBER+=%%I+1
+    if not %LINE_NUMBER%==* if %LINE_NUMBER% LSS 0 for /f %%I in ('type "%OUTPUT_LINENUM%" ^| %SYSTEMROOT%\system32\find /v /c ""') do set /a LINE_NUMBER+=%%I+1
 
                         set "FIND_STRING=[%LINE_NUMBER%]%~3"
     if /i "%~2"=="r"    set "FIND_STRING=\[%LINE_NUMBER%\]%~3"
@@ -314,7 +314,7 @@ rem
     goto :EOF
 
 :verify_line_count
-    for /f %%I in ('type "%OUTPUT_LINENUM%" ^| find /v /c ""') do set LINE_COUNT=%%I
+    for /f %%I in ('type "%OUTPUT_LINENUM%" ^| %SYSTEMROOT%\system32\find /v /c ""') do set LINE_COUNT=%%I
     if %LINE_COUNT% EQU %~1 (
         call :verified "Line count: %~1"
     ) else (

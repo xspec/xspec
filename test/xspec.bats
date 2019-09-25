@@ -201,7 +201,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
+    [ "${lines[19]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
 
     # Verify
     # * XML report file is created
@@ -244,7 +244,7 @@ teardown() {
     run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
+    [ "${lines[20]}" = "Report available at ../tutorial/xspec/escape-for-regex-junit.xml" ]
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
@@ -271,7 +271,7 @@ teardown() {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+    [ "${lines[19]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
 }
 
 
@@ -279,33 +279,70 @@ teardown() {
     run ../bin/xspec.sh xspec-46.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[3]}" =~ "Testing with" ]]
+    [[ "${lines[4]}" =~ "Testing with" ]]
 }
 
 
-@test "executing the Saxon XProc harness generates a report with UTF-8 encoding" {
+@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XSLT)" {
     if [ -z "${XMLCALABASH_JAR}" ]; then
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -Xmx1024m -cp "${XMLCALABASH_JAR}" com.xmlcalabash.drivers.Main -isource=xspec-72.xspec -p xspec-home=file:${PWD}/../ -oresult=xspec/xspec-72-result.html ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-72.xspec \
+        -p xspec-home=file:${PWD}/../ \
+        -o result=xspec/xspec-72-result.html \
+        ../src/harnesses/saxon/saxon-xslt-harness.xproc
     run java -jar "${SAXON_JAR}" -s:xspec/xspec-72-result.html -xsl:html-charset.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
 }
 
 
-@test "invoking xspec with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs successfully and generates HTML report file" {
+@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XQuery)" {
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-72.xspec \
+        -p xspec-home=file:${PWD}/../ \
+        -o result=xspec/xspec-72-result.html \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
+    run java -jar "${SAXON_JAR}" -s:xspec/xspec-72-result.html -xsl:html-charset.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
+}
+
+
+@test "invoking xspec with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs and loads doc #610 successfully and generates HTML report file (XSLT)" {
     special_chars_dir="${work_dir}/some'path (84) here & there"
     mkdir "${special_chars_dir}"
-    cp ../tutorial/escape-for-regex.* "${special_chars_dir}"
+    cp do-nothing.xsl         "${special_chars_dir}"
+    cp xspec-node-selection.* "${special_chars_dir}"
 
-    expected_report="${special_chars_dir}/xspec/escape-for-regex-result.html"
+    expected_report="${special_chars_dir}/xspec/xspec-node-selection-result.html"
 
-    run ../bin/xspec.sh "${special_chars_dir}/escape-for-regex.xspec"
+    run ../bin/xspec.sh "${special_chars_dir}/xspec-node-selection.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[19]}" = "Report available at ${expected_report}" ]
+    [ "${lines[29]}" = "Report available at ${expected_report}" ]
+    [ -f "${expected_report}" ]
+}
+
+
+@test "invoking xspec with path containing parentheses #84, an apostrophe #119 or an ampersand #202 runs and loads doc #610 successfully and generates HTML report file (XQuery)" {
+    special_chars_dir="${work_dir}/some'path (84) here & there"
+    mkdir "${special_chars_dir}"
+    cp do-nothing.xquery      "${special_chars_dir}"
+    cp xspec-node-selection.* "${special_chars_dir}"
+
+    expected_report="${special_chars_dir}/xspec/xspec-node-selection-result.html"
+
+    run ../bin/xspec.sh -q "${special_chars_dir}/xspec-node-selection.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[7]}" = "Report available at ${expected_report}" ]
     [ -f "${expected_report}" ]
 }
 
@@ -329,7 +366,7 @@ teardown() {
     run ../bin/xspec.sh -s schematron/schematron-param-001.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" == "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
+    [ "${lines[19]}" == "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
 }
 
 
@@ -359,7 +396,7 @@ teardown() {
     [ "${lines[3]}"  = "I am schematron-xslt-include.xsl!" ]
     [ "${lines[4]}"  = "I am schematron-xslt-expand.xsl!" ]
     [ "${lines[5]}"  = "I am schematron-xslt-compile.xsl!" ]
-    [ "${lines[17]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[18]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 }
 
 
@@ -439,7 +476,7 @@ teardown() {
     run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
     echo "${lines[5]}"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -500,8 +537,8 @@ teardown() {
         ../src/harnesses/basex/basex-server-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${#lines[@]}" = "1" ]
-    [[ "${lines[0]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [ "${#lines[@]}" = "2" ]
+    [[ "${lines[1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
     # Output file
     [ -f "${expected_report}" ]
@@ -587,11 +624,15 @@ teardown() {
 
 
 @test "Ant for Schematron with minimum properties #168" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dtest.type=s
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [[ "${lines[${#lines[@]}-2]}" =~ "BUILD SUCCESSFUL" ]]
 
     # Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
@@ -669,7 +710,7 @@ teardown() {
     run ../bin/xspec.sh -catalog "${space_dir}/catalog-01-catalog.xml" "${space_dir}/catalog-01-xslt.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -682,7 +723,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[5]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -695,7 +736,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-02-catalog.xml -s catalog/catalog-02-schematron.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
+    [ "${lines[13]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
 }
 
 
@@ -713,7 +754,7 @@ teardown() {
     run ../bin/xspec.sh "${space_dir}/catalog-01-xslt.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -737,7 +778,7 @@ teardown() {
     run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[7]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[8]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 
@@ -915,15 +956,15 @@ teardown() {
     run ../bin/xspec.sh xspec-185/import-1.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}"  = "Scenario 1-1" ]
-    [ "${lines[5]}"  = "Scenario 1-2" ]
-    [ "${lines[6]}"  = "Scenario 1-3" ]
-    [ "${lines[7]}"  = "Scenario 2a-1" ]
-    [ "${lines[8]}"  = "Scenario 2a-2" ]
-    [ "${lines[9]}"  = "Scenario 2b-1" ]
-    [ "${lines[10]}" = "Scenario 2b-2" ]
-    [ "${lines[11]}" = "Scenario 3" ]
-    [ "${lines[12]}" = "Formatting Report..." ]
+    [ "${lines[5]}"  = "Scenario 1-1" ]
+    [ "${lines[6]}"  = "Scenario 1-2" ]
+    [ "${lines[7]}"  = "Scenario 1-3" ]
+    [ "${lines[8]}"  = "Scenario 2a-1" ]
+    [ "${lines[9]}"  = "Scenario 2a-2" ]
+    [ "${lines[10]}"  = "Scenario 2b-1" ]
+    [ "${lines[11]}" = "Scenario 2b-2" ]
+    [ "${lines[12]}" = "Scenario 3" ]
+    [ "${lines[13]}" = "Formatting Report..." ]
 }
 
 
@@ -953,18 +994,18 @@ teardown() {
     export TEST_DIR="${work_dir}"
     run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-expect.xspec
     echo "$output"
-    [[ "${lines[9]}"  =~ "WARNING: x:expect has boolean @test" ]]
-    [[ "${lines[14]}" =~ "WARNING: x:expect has boolean @test" ]]
-    [[ "${lines[21]}" =~ "WARNING: x:expect has boolean @test" ]]
-    [  "${lines[30]}" =  "Formatting Report..." ]
+    [[ "${lines[10]}"  =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[15]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[22]}" =~ "WARNING: x:expect has boolean @test" ]]
+    [  "${lines[31]}" =  "Formatting Report..." ]
 }
 
 
-@test "Deprecate x:space" {
-    run ../bin/xspec.sh deprecated-space/test.xspec
+@test "Obsolete x:space" {
+    run ../bin/xspec.sh obsolete-space/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "x:space is deprecated. Use x:text instead." ]]
+    [[ "${output}" =~ "x:space is obsolete. Use x:text instead." ]]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -978,6 +1019,22 @@ teardown() {
         -i source=xspec-423/test.xspec \
         -p xspec-home="file:${PWD}/../" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${lines[${#lines[@]}-3]}" =~ "err:XPDY0002:" ]]
+    [[ "${lines[${#lines[@]}-1]}" =~ "ERROR:" ]]
+}
+
+
+@test "XQuery selecting nodes without context should be error (XProc) #423" {
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-423/test.xspec \
+        -p xspec-home="file:${PWD}/../" \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${lines[${#lines[@]}-3]}" =~ "err:XPDY0002:" ]]
@@ -1020,7 +1077,7 @@ teardown() {
 }
 
 
-@test "XQuery selecting nodes without context should be error #423" {
+@test "XQuery selecting nodes without context should be error (command line) #423" {
     run ../bin/xspec.sh -q xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1085,7 +1142,7 @@ teardown() {
     run ../bin/xspec.sh do-nothing.xsl
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[2]}" =~ "Source document is not XSpec" ]]
+    [[ "${lines[3]}" =~ "Source document is not XSpec" ]]
 }
 
 
@@ -1096,7 +1153,98 @@ teardown() {
     run ../bin/xspec.sh variable/reserved-name.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[3]}" =~ "x:XSPEC008:" ]]
+    [[ "${lines[4]}" =~ "x:XSPEC008:" ]]
+}
+
+
+@test "Deprecated Saxon version" {
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        [ "${lines[2]}" = " " ]
+    else
+        [[ "${lines[2]}" =~ "WARNING: Saxon version " ]]
+    fi
+}
+
+
+@test "No warning on Ant (XSLT) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dtest.type=t \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+
+@test "No warning on Ant (XQuery) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dtest.type=q \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+
+@test "No warning on Ant (Schematron) #633" {
+    skip "TODO: #633"
+
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dclean.output.dir=true \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
 }
 
 

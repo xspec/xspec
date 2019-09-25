@@ -19,6 +19,7 @@
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
@@ -71,12 +72,9 @@
 	<xsl:template as="node()+" match="document-node()" mode="xspec">
 		<xsl:variable as="xs:anyURI" name="xspec-file-uri" select="document-uri(/)" />
 
-		<xsl:variable as="xs:boolean" name="enable-coverage"
-			select="processing-instruction(xspec-test) = 'enable-coverage'" />
-		<xsl:variable as="xs:boolean" name="require-xslt-to-support-schema"
-			select="processing-instruction(xspec-test) = 'require-xslt-to-support-schema'" />
-		<xsl:variable as="xs:boolean" name="require-xquery-to-support-schema"
-			select="processing-instruction(xspec-test) = 'require-xquery-to-support-schema'" />
+		<xsl:variable as="processing-instruction(xspec-test)*" name="pis"
+			select="processing-instruction(xspec-test)" />
+		<xsl:variable as="xs:boolean" name="enable-coverage" select="$pis = 'enable-coverage'" />
 		<xsl:variable as="xs:boolean" name="require-xquery-to-support-3-1"
 			select="x:description/@xquery-version = '3.1'" />
 
@@ -104,15 +102,23 @@
 					<xsl:when
 						test="
 							($test-type eq 't')
-							and $require-xslt-to-support-schema
+							and ($pis = 'require-xslt-to-support-schema')
 							and not($XSLT-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XSLT processor</xsl:text>
 					</xsl:when>
 
 					<xsl:when
 						test="
+							($test-type eq 't')
+							and (xs:decimal(../@xslt-version) eq 3.0)
+							and not($XSLT-SUPPORTS-3-0)">
+						<xsl:text>Requires XSLT 3.0 processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($test-type eq 'q')
-							and $require-xquery-to-support-schema
+							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XQuery processor</xsl:text>
 					</xsl:when>
@@ -123,6 +129,29 @@
 							and $require-xquery-to-support-3-1
 							and not($XQUERY-SUPPORTS-3-1-DEFAULT or $XQUERY-SUPPORTS-3-1-QVERSION)">
 						<xsl:text>Requires XQuery 3.1 processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-3838-fixed')
+							and (x:saxon-version() ge x:pack-version(9, 8, 0, 0))
+							and (x:saxon-version() lt x:pack-version(9, 9, 0, 0))">
+						<xsl:text>Requires Saxon bug #3838 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-3889-fixed')
+							and (x:saxon-version() lt x:pack-version(9, 8, 0, 15))">
+						<xsl:text>Requires Saxon bug #3889 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-4315-fixed')
+							and (x:saxon-version() ge x:pack-version(9, 9, 0, 0))
+							and (x:saxon-version() le x:pack-version(9, 9, 1, 5))">
+						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
 					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>

@@ -3,7 +3,7 @@
 <!--  File:       saxon-xquery-harness.xproc                               -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Date:       2011-08-30                                               -->
-<!--  URI:        http://xspec.googlecode.com/                             -->
+<!--  URI:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2011 Florent Georges (see end of file.)              -->
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -26,7 +26,8 @@
         in the option 'xspec-home'.</p>
    </p:documentation>
 
-   <p:serialization port="result" indent="true"/>
+   <p:serialization port="result" indent="true" method="xhtml"
+                    encoding="UTF-8" include-content-type="true"/>
 
    <p:import href="../harness-lib.xpl"/>
 
