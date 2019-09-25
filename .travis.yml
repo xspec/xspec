@@ -7,12 +7,8 @@ jdk:
 
 env:
     global:
-        # full path to Saxon jar
-        - SAXON_JAR=/tmp/xspec/saxon/saxon9he.jar
         # latest Ant
-        - ANT_VERSION=1.10.5
-        # full path to XML Resolver jar
-        - XML_RESOLVER_JAR=/tmp/xspec/xml-resolver/resolver.jar
+        - ANT_VERSION=1.10.7
     matrix:
         # latest Saxon 9.9 version and Jing
         #   * XML Calabash will use Saxon jar in its own lib directory.
