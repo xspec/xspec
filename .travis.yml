@@ -8,7 +8,7 @@ jdk:
 env:
     global:
         # latest Ant
-        - ANT_VERSION=1.10.5
+        - ANT_VERSION=1.10.7
     matrix:
         # latest Saxon 9.9 version and Jing
         #   * XML Calabash will use Saxon jar in its own lib directory.

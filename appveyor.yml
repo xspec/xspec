@@ -3,7 +3,7 @@ image: Visual Studio 2019
 environment:
   global:
     # latest Ant
-    ANT_VERSION: 1.10.5
+    ANT_VERSION: 1.10.7
 
   matrix:
     # Non-mainstream jobs are disabled in favor of Azure Pipelines
