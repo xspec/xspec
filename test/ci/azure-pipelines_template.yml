@@ -9,38 +9,37 @@ jobs:
       vmImage: windows-latest
 
     variables:
-      # full path to Saxon jar
-      SAXON_JAR: $(Agent.TempDirectory)\xspec\saxon\saxon9he.jar
-
       # latest Ant
-      ANT_VERSION: 1.10.5
+      ANT_VERSION: 1.10.7
 
-      # full path to XML Resolver jar
-      XML_RESOLVER_JAR: $(Agent.TempDirectory)\xspec\xml-resolver\resolver.jar
+      BASEX_VERSION: 8.6.4
 
     strategy:
       maxParallel: 4
 
       matrix:
-        # latest Saxon and Jing
+        # Note
         #   * XML Calabash will use Saxon jar in its own lib directory.
         #   * BaseX test requires XML Calabash.
+
+        # latest Saxon and Jing
         Saxon-9-9:
           SAXON_VERSION: 9.9.1-5
           JING_VERSION: 20181222
           XMLCALABASH_VERSION: 1.1.27-99
-          BASEX_VERSION: 8.6.4
 
         # latest Saxon 9.8
         Saxon-9-8:
           SAXON_VERSION: 9.8.0-15
+          XMLCALABASH_VERSION: 1.1.27-98
 
-        # Saxon and Ant used in oXygen
+        # latest oXygen
         Oxygen:
           SAXON_VERSION: 9.8.0-12
           ANT_VERSION: 1.9.8
+          XMLCALABASH_VERSION: 1.1.24-98
 
-        # highest deprecated Saxon version
+        # highest deprecated Saxon
         Saxon-9-7:
           SAXON_VERSION: 9.7.0-21
 
