@@ -234,13 +234,17 @@
               <xsl:apply-templates select="$call/x:param[1]" mode="x:compile" />
               <!-- Create the template call -->
               <xsl:variable name="template-call">
-                <call-template name="{$call/@template}">
-                  <xsl:for-each select="$call/x:param">
-                    <with-param name="{@name}" select="${@name}">
-                      <xsl:copy-of select="@tunnel, @as" />
-                    </with-param>
-                  </xsl:for-each>
-                </call-template>
+                <xsl:call-template name="x:enter-sut">
+                  <xsl:with-param name="instruction" as="element(xsl:call-template)">
+                    <call-template name="{$call/@template}">
+                      <xsl:for-each select="$call/x:param">
+                        <with-param name="{@name}" select="${@name}">
+                          <xsl:copy-of select="@tunnel, @as" />
+                        </with-param>
+                      </xsl:for-each>
+                    </call-template>
+                  </xsl:with-param>
+                </xsl:call-template>
               </xsl:variable>
               <xsl:choose>
                 <xsl:when test="$context">
@@ -260,19 +264,23 @@
               <!-- Set up variables containing the parameter values -->
               <xsl:apply-templates select="$call/x:param[1]" mode="x:compile" />
               <!-- Create the function call -->
-              <sequence>
-                <xsl:attribute name="select">
-                  <xsl:value-of select="$call/@function" />
-                  <xsl:text>(</xsl:text>
-                  <xsl:for-each select="$call/x:param">
-                    <xsl:sort select="xs:integer(@position)" />
-                    <xsl:text>$</xsl:text>
-                    <xsl:value-of select="if (@name) then @name else generate-id()" />
-                    <xsl:if test="position() != last()">, </xsl:if>
-                  </xsl:for-each>
-                  <xsl:text>)</xsl:text>
-                </xsl:attribute>
-              </sequence>
+              <xsl:call-template name="x:enter-sut">
+                <xsl:with-param name="instruction" as="element(xsl:sequence)">
+                  <sequence>
+                    <xsl:attribute name="select">
+                      <xsl:value-of select="$call/@function" />
+                      <xsl:text>(</xsl:text>
+                      <xsl:for-each select="$call/x:param">
+                        <xsl:sort select="xs:integer(@position)" />
+                        <xsl:text>$</xsl:text>
+                        <xsl:value-of select="if (@name) then @name else generate-id()" />
+                        <xsl:if test="position() != last()">, </xsl:if>
+                      </xsl:for-each>
+                      <xsl:text>)</xsl:text>
+                    </xsl:attribute>
+                  </sequence>
+                </xsl:with-param>
+              </xsl:call-template>
             </xsl:when>
             <xsl:when test="$apply">
                <!-- TODO: FIXME: ... -->
@@ -281,15 +289,20 @@
                </xsl:message>
                <!-- Set up variables containing the parameter values -->
                <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile"/>
-               <!-- Create the apply templates instruction -->
-               <apply-templates>
-                  <xsl:copy-of select="$apply/@select | $apply/@mode"/>
-                  <xsl:for-each select="$apply/x:param">
-                     <with-param name="{ @name }" select="${ @name }">
-                        <xsl:copy-of select="@tunnel"/>
-                     </with-param>
-                  </xsl:for-each>
-               </apply-templates>
+               <!-- Create the apply templates instruction.
+                 This code path, particularly with @catch, has not been tested. -->
+               <xsl:call-template name="x:enter-sut">
+                 <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
+                   <apply-templates>
+                     <xsl:copy-of select="$apply/@select | $apply/@mode"/>
+                     <xsl:for-each select="$apply/x:param">
+                       <with-param name="{ @name }" select="${ @name }">
+                         <xsl:copy-of select="@tunnel"/>
+                       </with-param>
+                     </xsl:for-each>
+                   </apply-templates>
+                 </xsl:with-param>
+               </xsl:call-template>
             </xsl:when>
             <xsl:when test="$context">
               <!-- Set up the $impl:context variable -->
@@ -297,14 +310,18 @@
               <!-- Set up variables containing the parameter values -->
               <xsl:apply-templates select="$context/x:param[1]" mode="x:compile"/>
               <!-- Create the template call -->
-              <apply-templates select="$impl:context">
-                <xsl:sequence select="$context/@mode" />
-                <xsl:for-each select="$context/x:param">
-                  <with-param name="{@name}" select="${@name}">
-                    <xsl:copy-of select="@tunnel, @as" />
-                  </with-param>
-                </xsl:for-each>
-              </apply-templates>
+              <xsl:call-template name="x:enter-sut">
+                <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
+                  <apply-templates select="$impl:context">
+                    <xsl:sequence select="$context/@mode" />
+                    <xsl:for-each select="$context/x:param">
+                      <with-param name="{@name}" select="${@name}">
+                        <xsl:copy-of select="@tunnel, @as" />
+                      </with-param>
+                    </xsl:for-each>
+                  </apply-templates>
+                </xsl:with-param>
+              </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
                <!-- TODO: Adapt to a new error reporting facility (above usages too). -->
@@ -325,6 +342,35 @@
   <xsl:call-template name="x:compile-scenarios"/>
 </xsl:template>
 
+<xsl:template name="x:output-try-catch" as="element(xsl:try)">
+  <xsl:param name="instruction" as="element()" required="yes" />
+
+  <try>
+    <xsl:sequence select="$instruction" />
+    <catch>
+      <map>
+        <map-entry key="'err'">
+          <map>
+            <!-- Variables available within xsl:catch: https://www.w3.org/TR/xslt-30/#element-catch -->
+            <xsl:for-each select="'code', 'description', 'value', 'module', 'line-number', 'column-number'">
+              <map-entry>
+                <xsl:attribute name="key">
+                  <xsl:text>'</xsl:text>
+                  <xsl:value-of select="." />
+                  <xsl:text>'</xsl:text>
+                </xsl:attribute>
+                <xsl:attribute name="select">
+                  <xsl:text>$Q{http://www.w3.org/2005/xqt-errors}</xsl:text>
+                  <xsl:value-of select="." />
+                </xsl:attribute>
+              </map-entry>
+            </xsl:for-each>
+          </map>
+        </map-entry>
+      </map>
+    </catch>
+  </try>
+</xsl:template>
 
 <xsl:template name="x:output-expect" as="element(xsl:template)">
   <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>

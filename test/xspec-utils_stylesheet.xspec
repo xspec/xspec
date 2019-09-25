@@ -535,4 +535,56 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function yes-no-synonym">
+		<x:scenario label="Valid strings">
+			<x:scenario label="Base (yes or no)">
+				<x:scenario label="'yes'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'yes'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'no'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'no'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="Synonym (true or false)">
+				<x:scenario label="'true'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'true'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'false'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'false'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="Synonym (1 or 0)">
+				<x:scenario label="'1'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'1'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'0'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'0'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
