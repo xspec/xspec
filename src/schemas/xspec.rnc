@@ -81,7 +81,12 @@ common-scenario-attributes = common-attributes,
                              attribute pending { text }?,
                             ## If any scenario has a focus attribute, any scenarios without a focus 
 	                        ## attribute will be classed as pending.
-                             attribute focus { text }?
+                             attribute focus { text }?,
+                            ## Controls whether to catch errors. Not useful in Schematron scenario.
+                            ## The standard $err:* variables are collected in $x:result?err map. For example,
+                            ## $x:result?err?code stores $err:code.
+                            ## Details are subject to change. Any feedback is welcome.
+                             attribute catch { boolean.datatype }?
 
 label = 
 	## A scenario's label should describe the context that the scenario sets. Top-
@@ -320,7 +325,8 @@ schematron-count-expect =
     ## Number of times an <assert> or <report> is expected to be thrown.
     attribute count { xsd:nonNegativeInteger }?
 
-# EQName: https://www.w3.org/TR/xslt-30/schema-for-xslt30.rnc
+# Data types from https://www.w3.org/TR/xslt-30/schema-for-xslt30.rnc
 uri.qualified.name = xsd:token { pattern = "Q\{[^\{\}]*\}[\i-[:]][\c-[:]]*" } 
 qname.strict = xsd:token { pattern = "[\i-[:]][\c-[:]]:[\i-[:]][\c-[:]]" }
 eqname.datatype = xsd:QName | uri.qualified.name | qname.strict 
+boolean.datatype = "yes" | "no" | "true" | "false" | "0" | "1" 
