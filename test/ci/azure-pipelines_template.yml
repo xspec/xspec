@@ -33,12 +33,13 @@ jobs:
           SAXON_VERSION: 9.8.0-15
           XMLCALABASH_VERSION: 1.1.27-98
 
-        # Saxon and Ant used in oXygen
+        # latest oXygen
         Oxygen:
           SAXON_VERSION: 9.8.0-12
           ANT_VERSION: 1.9.8
+          XMLCALABASH_VERSION: 1.1.24-98
 
-        # highest deprecated Saxon version
+        # highest deprecated Saxon
         Saxon-9-7:
           SAXON_VERSION: 9.7.0-21
 
