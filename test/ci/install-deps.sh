@@ -19,7 +19,7 @@ else
 fi
 
 # install BaseX
-if [[ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]]; then
+if [ -z ${BASEX_VERSION} ]; then
     echo "BaseX will not be installed";
 else
     curl -fsSL --create-dirs --retry 5 -o ${XSPEC_DEPS}/basex/basex.zip http://files.basex.org/releases/${BASEX_VERSION}/BaseX${BASEX_VERSION//./}.zip;
