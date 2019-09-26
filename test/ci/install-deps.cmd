@@ -18,7 +18,7 @@ set "SAXON_JAR=%XSPEC_DEPS%\saxon\saxon9he.jar"
 
 rem install XML Calabash
 if not defined XMLCALABASH_VERSION (
-    echo XMLCalabash will not be installed as it uses a higher version of Saxon
+    echo XML Calabash will not be installed
 ) else (
     %CURL% -o "%XSPEC_DEPS%\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/%XMLCALABASH_VERSION%/xmlcalabash-%XMLCALABASH_VERSION%.zip"
     %TAR% -xf "%XSPEC_DEPS%\xmlcalabash\xmlcalabash.zip" -C "%XSPEC_DEPS%\xmlcalabash"
@@ -27,7 +27,7 @@ if not defined XMLCALABASH_VERSION (
 
 rem install BaseX
 if not defined BASEX_VERSION (
-    echo BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon
+    echo BaseX will not be installed
 ) else (
     %CURL% -o "%XSPEC_DEPS%\basex\basex.zip" "http://files.basex.org/releases/%BASEX_VERSION%/BaseX%BASEX_VERSION:.=%.zip"
     %TAR% -xf "%XSPEC_DEPS%\basex\basex.zip" -C "%XSPEC_DEPS%\basex"
