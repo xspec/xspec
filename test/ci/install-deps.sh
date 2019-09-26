@@ -11,7 +11,7 @@ curl -fsSL --create-dirs --retry 5 -o ${SAXON_JAR} http://central.maven.org/mave
 
 # install XML Calabash
 if [ -z ${XMLCALABASH_VERSION} ]; then
-    echo "XMLCalabash will not be installed as it uses a higher version of Saxon";
+    echo "XML Calabash will not be installed";
 else
     curl -fsSL --create-dirs --retry 5 -o ${XSPEC_DEPS}/xmlcalabash/xmlcalabash.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip;
     unzip ${XSPEC_DEPS}/xmlcalabash/xmlcalabash.zip -d ${XSPEC_DEPS}/xmlcalabash;
@@ -20,7 +20,7 @@ fi
 
 # install BaseX
 if [[ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]]; then
-    echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
+    echo "BaseX will not be installed";
 else
     curl -fsSL --create-dirs --retry 5 -o ${XSPEC_DEPS}/basex/basex.zip http://files.basex.org/releases/${BASEX_VERSION}/BaseX${BASEX_VERSION//./}.zip;
     unzip ${XSPEC_DEPS}/basex/basex.zip -d ${XSPEC_DEPS}/basex;
