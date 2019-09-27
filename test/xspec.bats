@@ -558,7 +558,7 @@ teardown() {
     # Verify
     # * Default xspec.coverage.enabled is false
     # * Default xspec.junit.enabled is false
-    run env LC_COLLATE=C ls ../tutorial/xspec
+    run env LC_ALL=C ls ../tutorial/xspec
     echo "$output"
     [ "${#lines[@]}" = "4" ]
     [ "${lines[0]}" = "escape-for-regex-result.html" ]
