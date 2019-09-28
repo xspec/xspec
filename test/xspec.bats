@@ -558,13 +558,13 @@ teardown() {
     # Verify
     # * Default xspec.coverage.enabled is false
     # * Default xspec.junit.enabled is false
-    run ls ../tutorial/xspec
+    run env LC_ALL=C ls ../tutorial/xspec
     echo "$output"
     [ "${#lines[@]}" = "4" ]
     [ "${lines[0]}" = "escape-for-regex-result.html" ]
     [ "${lines[1]}" = "escape-for-regex-result.xml" ]
-    [ "${lines[2]}" = "escape-for-regex_xml-to-properties.xml" ]
-    [ "${lines[3]}" = "escape-for-regex.xsl" ]
+    [ "${lines[2]}" = "escape-for-regex.xsl" ]
+    [ "${lines[3]}" = "escape-for-regex_xml-to-properties.xml" ]
 
     # HTML report file contains CSS inline
     run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
