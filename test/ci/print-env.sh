@@ -39,6 +39,10 @@ echo "=== Print Bats version"
 bats --version
 
 echo
+echo "=== Print locale"
+locale
+
+echo
 echo "=== Print environment variables"
 printenv
 

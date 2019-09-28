@@ -1,3 +1,5 @@
+# Job template for Windows
+
 parameters:
   jobName: ''
   javaVersion: ''
@@ -7,12 +9,6 @@ jobs:
 
     pool:
       vmImage: windows-latest
-
-    variables:
-      # latest Ant
-      ANT_VERSION: 1.10.7
-
-      BASEX_VERSION: 8.6.4
 
     strategy:
       maxParallel: 4
