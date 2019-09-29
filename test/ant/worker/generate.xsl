@@ -29,6 +29,9 @@
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
 
+	<!-- Parallel thread count -->
+	<xsl:param as="xs:integer?" name="THREAD-COUNT" />
+
 	<!--
 		mode=#default
 			Transforms a template of Ant build file into a working build file.
@@ -57,9 +60,20 @@
 			<xsl:variable as="document-node()+" name="xspec-docs"
 				select="collection($collection-uri)" />
 
-			<xsl:apply-templates mode="xspec" select="$xspec-docs">
-				<xsl:sort select="document-uri(/)" />
-			</xsl:apply-templates>
+			<parallel failonany="true">
+				<xsl:choose>
+					<xsl:when test="exists($THREAD-COUNT)">
+						<xsl:attribute name="threadCount" select="$THREAD-COUNT" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="threadsPerProcessor" select="1" />
+					</xsl:otherwise>
+				</xsl:choose>
+
+				<xsl:apply-templates mode="xspec" select="$xspec-docs">
+					<xsl:sort select="document-uri(/)" />
+				</xsl:apply-templates>
+			</parallel>
 		</xsl:copy>
 	</xsl:template>
 
