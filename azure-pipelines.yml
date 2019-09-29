@@ -1,10 +1,39 @@
+variables:
+  # latest Ant
+  ANT_VERSION: 1.10.7
+
+  BASEX_VERSION: 8.6.4
+
 jobs:
-  - template: test/ci/azure-pipelines_template.yml
+  - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Java_8
+      jobName: Win_Java8
       javaVersion: 8
 
-  - template: test/ci/azure-pipelines_template.yml
+  - template: test/ci/azure-pipelines_windows.yml
     parameters:
-      jobName: Java_11
+      jobName: Win_Java11
       javaVersion: 11
+
+  - job: macOS
+
+    pool:
+      vmImage: macOS-latest
+
+    variables:
+      # latest Saxon and Jing
+      SAXON_VERSION: 9.9.1-5
+      JING_VERSION: 20181222
+      XMLCALABASH_VERSION: 1.1.27-99
+
+    steps:
+      - script: >
+          source ./test/ci/install-deps.sh
+          && ./test/ci/print-env.sh
+          && cd test
+          && ./run-bats.sh
+          && ./run-xspec-tests-ant.sh -silent
+          && cd ..
+          && ./test/end-to-end/run-e2e-tests.sh -silent
+        displayName: Test
+
