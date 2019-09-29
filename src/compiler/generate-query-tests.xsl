@@ -82,9 +82,9 @@
           ][1]"/>
 
       <!-- Version declaration -->
-      <xsl:if test="@xquery-version">
+      <xsl:if test="$this/@xquery-version">
          <xsl:text>xquery version "</xsl:text>
-         <xsl:value-of select="@xquery-version" />
+         <xsl:value-of select="$this/@xquery-version" />
          <xsl:text>";&#x0A;</xsl:text>
       </xsl:if>
 
@@ -96,7 +96,7 @@
          <xsl:text> = </xsl:text>
       </xsl:if>
       <xsl:text>"</xsl:text>
-      <xsl:value-of select="@query"/>
+      <xsl:value-of select="$this/@query"/>
       <xsl:if test="exists($query-at)">
          <xsl:text>"&#10;  at "</xsl:text>
          <xsl:value-of select="$query-at"/>
@@ -125,7 +125,7 @@
       <xsl:text>;&#x0A;</xsl:text>
 
       <!-- Declare namespaces -->
-      <xsl:apply-templates select="." mode="x:decl-ns">
+      <xsl:apply-templates select="$this" mode="x:decl-ns">
          <xsl:with-param name="except" select="$prefix, 'test'"/>
       </xsl:apply-templates>
       <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
@@ -166,7 +166,7 @@
          </xsl:if>
          <xsl:attribute name="xspec" select="$actual-document-uri"/>
 
-         <xsl:apply-templates select="." mode="x:copy-namespaces" />
+         <xsl:apply-templates select="$this" mode="x:copy-namespaces" />
 
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
