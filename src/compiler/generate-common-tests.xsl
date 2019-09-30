@@ -80,7 +80,7 @@
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
             <xsl:element name="{x:xspec-name('description')}" namespace="{$xspec-namespace}">
-               <xsl:apply-templates select="$this/x:description" mode="x:copy-namespaces"/>
+               <xsl:sequence select="x:copy-namespaces($this/x:description)" />
                <xsl:copy-of select="$this/x:description/@*"/>
                <xsl:apply-templates select="x:gather-specs($this/x:description)"
                                     mode="x:gather-specs"/>
@@ -93,10 +93,6 @@
          </xsl:document>
       </xsl:variable>
       <xsl:apply-templates select="$unshared-scenarios/*" mode="x:generate-tests"/>
-   </xsl:template>
-
-   <xsl:template match="x:description" as="node()*" mode="x:copy-namespaces">
-      <xsl:sequence select="x:copy-namespaces(.)" />
    </xsl:template>
 
    <xsl:function name="x:gather-specs" as="element(x:description)+">
@@ -595,7 +591,7 @@
 
    <xsl:template match="x:description" as="element(x:description)" mode="x:unshare-scenarios">
       <xsl:copy>
-         <xsl:apply-templates select="." mode="x:copy-namespaces"/>
+         <xsl:sequence select="x:copy-namespaces(.)" />
          <xsl:copy-of select="@*"/>
          <xsl:apply-templates mode="x:unshare-scenarios"/>
       </xsl:copy>
