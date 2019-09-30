@@ -73,7 +73,7 @@
    <!-- Does the generation of the test stylesheet -->
   
    <xsl:template match="x:description" mode="x:generate-tests">
-      <xsl:variable name="this" select="."/>
+      <xsl:variable name="this" select="." as="element(x:description)" />
 
       <!-- Look for a prefix defined for the target namespace on x:description. -->
       <xsl:variable name="prefix" as="xs:string?" select="
