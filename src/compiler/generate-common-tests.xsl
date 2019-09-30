@@ -589,41 +589,29 @@
    <!-- This mode resolves all the <like> elements to bring in the scenarios that
         they specify -->
 
-   <xsl:template match="x:description" as="element(x:description)" mode="x:unshare-scenarios">
-      <xsl:copy>
-         <xsl:sequence select="x:copy-namespaces(.)" />
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </xsl:copy>
-   </xsl:template>
+   <xsl:key name="scenarios" match="x:scenario[not(x:is-user-content(.))]" use="x:label(.)" />
 
-   <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:unshare-scenarios">
-      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
-         <xsl:copy-of select="@* except @shared"/>
-         <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </xsl:element>
-   </xsl:template>
+   <xsl:template match="document-node() | attribute() | node()" as="node()*" mode="x:unshare-scenarios">
+      <xsl:choose>
+         <!-- Leave user-content intact -->
+         <xsl:when test="x:is-user-content(.)">
+            <xsl:sequence select="." />
+         </xsl:when>
 
-   <xsl:key name="scenarios" match="x:scenario" use="x:label(.)"/>
+         <!-- Discard @shared and shared x:scenario -->
+         <xsl:when test="self::attribute(shared)[parent::x:scenario]
+            or self::x:scenario[@shared = 'yes']" />
 
-   <xsl:template match="x:like" mode="x:unshare-scenarios">
-      <xsl:apply-templates select="key('scenarios', x:label(.))/*" mode="x:unshare-scenarios"/>
-   </xsl:template>
+         <!-- Replace x:like with specified scenario's child elements -->
+         <xsl:when test="self::x:like">
+            <xsl:apply-templates select="key('scenarios', x:label(.))/element()" mode="#current" />
+         </xsl:when>
 
-   <xsl:template match="x:pending" as="element(x:pending)" mode="x:unshare-scenarios">
-      <xsl:element name="{x:xspec-name('pending')}" namespace="{$xspec-namespace}">
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </xsl:element>
-   </xsl:template>
-
-   <xsl:template match="x:scenario[@shared = 'yes']" mode="x:unshare-scenarios"/>
-
-   <xsl:template match="node()" as="node()" mode="x:unshare-scenarios">
-      <xsl:copy>
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </xsl:copy>
+         <!-- By default, apply identity template -->
+         <xsl:otherwise>
+            <xsl:call-template name="x:identity" />
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
 
    <!-- *** x:report *** -->
