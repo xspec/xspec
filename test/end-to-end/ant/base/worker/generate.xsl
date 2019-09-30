@@ -20,6 +20,9 @@
 		Context node is in each .xspec file's /x:description/@*.
 	-->
 	<xsl:template as="node()+" name="on-run-xspec">
+		<xsl:context-item as="attribute()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:param as="xs:boolean" name="coverage-enabled" required="yes" />
 
 		<!-- Directory URI of the processor root -->
@@ -94,6 +97,9 @@
 
 	<!-- Override this template to provide <post-task> with additional nodes -->
 	<xsl:template as="empty-sequence()" name="on-post-task">
+		<xsl:context-item as="attribute()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:param as="element(reports)" name="reports" />
 	</xsl:template>
 </xsl:stylesheet>
