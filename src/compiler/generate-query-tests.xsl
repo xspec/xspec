@@ -181,9 +181,13 @@
    <!-- Generates a call to the function compiled from a scenario or an expect element. --> 
 
    <xsl:template name="x:output-call">
+      <xsl:context-item as="element()" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:param name="local-name" as="xs:string"/>
       <xsl:param name="last"       as="xs:boolean"/>
       <xsl:param name="params"     as="element(param)*"/>
+
       <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
          <xsl:text>,&#10;</xsl:text>
       </xsl:if>
@@ -217,6 +221,9 @@
    -->
 
    <xsl:template name="x:output-scenario" as="node()+">
+      <xsl:context-item as="element(x:scenario)" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
       <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
       <xsl:param name="call"    select="()" tunnel="yes" as="element(x:call)?"/>
@@ -335,6 +342,9 @@
    </xsl:template>
 
    <xsl:template name="x:output-try-catch" as="text()+">
+      <xsl:context-item use="absent"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:param name="instruction" as="text()+" required="yes" />
 
       <xsl:text>    try {&#x0A;</xsl:text>
@@ -371,9 +381,13 @@
        element for the XML report.
    -->
    <xsl:template name="x:output-expect" as="node()+">
+      <xsl:context-item as="element(x:expect)" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
       <xsl:param name="params"  required="yes"              as="element(param)*"/>
+
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
       <!--
         declare function local:...($t:result as item()*)
