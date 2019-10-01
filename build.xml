@@ -386,6 +386,9 @@
 
     <!-- Absolute path for code coverage, with '/' and '\' adapted to
       the current platform -->
+    <property name="xspec.output.dir.absolute"
+              location="${xspec.output.dir}"
+              if:true="${xspec.coverage.enabled}" />
     <property name="xspec.coverage.xml.absolute"
               location="${xspec.coverage.xml}"
               if:true="${xspec.coverage.enabled}" />
@@ -404,6 +407,9 @@
       </classpath>
 
       <!-- System property for code coverage -->
+      <sysproperty key="xspec.coverage.ignore"
+                   value="${xspec.output.dir.absolute}"
+                   if:true="${xspec.coverage.enabled}" />
       <sysproperty key="xspec.coverage.xml"
                    value="${xspec.coverage.xml.absolute}"
                    if:true="${xspec.coverage.enabled}" />
