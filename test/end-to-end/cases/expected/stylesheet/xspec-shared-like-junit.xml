@@ -23,9 +23,9 @@
    <testsuite name="Scenario for testing x:like which references unshared scenarios"
               tests="2"
               failures="0">
-      <testcase name="This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like"
+      <testcase name="explicit one This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like"
                 status="passed"/>
-      <testcase name="This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like"
+      <testcase name="implicit one This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like"
                 status="passed"/>
    </testsuite>
 </testsuites>
