@@ -39,8 +39,12 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing x:like which references unshared scenarios">
-		<x:like label="Referenced and explicitly unshared scenario" />
-		<x:like label="Referenced and implicitly unshared scenario" />
+		<x:scenario label="explicit one">
+			<x:like label="Referenced and explicitly unshared scenario" />
+		</x:scenario>
+		<x:scenario label="implicit one">
+			<x:like label="Referenced and implicitly unshared scenario" />
+		</x:scenario>
 	</x:scenario>
 
 </x:description>
