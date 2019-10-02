@@ -147,6 +147,9 @@
           <excludes>
             <exclude>io/xspec/xspec/ant/**</exclude>
           </excludes>
+          <testExcludes>
+            <testExclude>io/xspec/xspec/ant/**</testExclude>
+          </testExcludes>
         </configuration>
       </plugin>
       <plugin>
