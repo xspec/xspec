@@ -144,6 +144,9 @@
           <compileSourceRoots>
             <compileSourceRoot>java</compileSourceRoot>
           </compileSourceRoots>
+          <excludes>
+            <exclude>io/xspec/xspec/ant/**</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
