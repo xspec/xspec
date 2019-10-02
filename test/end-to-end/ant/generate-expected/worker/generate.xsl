@@ -20,6 +20,9 @@
 		Context node is in each .xspec file's /x:description/@*.
 	-->
 	<xsl:template as="element(normalize-xspec-report)+" name="on-post-task">
+		<xsl:context-item as="attribute()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:param as="element(reports)" name="reports" required="yes" />
 
 		<!-- Normalize the actual report files -->

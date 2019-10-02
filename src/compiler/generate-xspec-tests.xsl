@@ -112,6 +112,9 @@
 <!-- Generates a call to the template compiled from a scenario or an expect element. --> 
 
 <xsl:template name="x:output-call">
+   <xsl:context-item as="element()" use="required"
+      use-when="element-available('xsl:context-item')" />
+
    <xsl:param name="local-name" as="xs:string"/>
    <xsl:param name="last"       as="xs:boolean"/>
    <xsl:param name="params"     as="element(param)*"/>
@@ -130,6 +133,9 @@
 <!-- Generates the templates that perform the tests -->
 
 <xsl:template name="x:output-scenario" as="element(xsl:template)+">
+  <xsl:context-item as="element(x:scenario)" use="required"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:param name="pending"   select="()" tunnel="yes" as="node()?"/>
   <xsl:param name="apply"     select="()" tunnel="yes" as="element(x:apply)?"/>
   <xsl:param name="call"      select="()" tunnel="yes" as="element(x:call)?"/>
@@ -343,6 +349,9 @@
 </xsl:template>
 
 <xsl:template name="x:output-try-catch" as="element(xsl:try)">
+  <xsl:context-item use="absent"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:param name="instruction" as="element()" required="yes" />
 
   <try>
@@ -373,6 +382,9 @@
 </xsl:template>
 
 <xsl:template name="x:output-expect" as="element(xsl:template)">
+  <xsl:context-item as="element(x:expect)" use="required"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
   <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
   <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
