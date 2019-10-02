@@ -21,6 +21,7 @@ env:
         - SAXON_VERSION=9.9.1-5
           JING_VERSION=20181222
           XMLCALABASH_VERSION=1.1.27-99
+          DO_MAVEN_PACKAGE=true
 
         # latest Saxon 9.8
         - SAXON_VERSION=9.8.0-15
@@ -50,6 +51,8 @@ script:
     - echo "execute XSpec end-to-end tests"
     - cd ..
     - ./test/end-to-end/run-e2e-tests.sh -silent
+    - echo "Maven package"
+    - ./test/ci/maven-package.sh -q
     - echo "compile java"
     - ./test/ci/compile-java.sh -silent
     - echo "check git status"
