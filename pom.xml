@@ -213,6 +213,9 @@
                 <goals><goal>jar</goal></goals>
                 <configuration>
                   <sourcepath>${project.basedir}/java</sourcepath>
+                  <sourceFileExcludes>
+                    <exclude>io/xspec/xspec/ant/**</exclude>
+                  </sourceFileExcludes>
                   <source>1.7</source>
                 </configuration>
               </execution>
