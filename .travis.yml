@@ -41,19 +41,10 @@ before_install:
 before_script:
     - source ./test/ci/install-deps.sh
 
-script:
-    - ./test/ci/print-env.sh
-    - cd test
-    - echo "execute bats unit tests"
-    - ./run-bats.sh --tap
-    - echo "execute XSpec unit tests"
-    - ./run-xspec-tests-ant.sh -silent
-    - echo "execute XSpec end-to-end tests"
-    - cd ..
-    - ./test/end-to-end/run-e2e-tests.sh -silent
-    - echo "Maven package"
-    - ./test/ci/maven-package.sh -q
-    - echo "compile java"
-    - ./test/ci/compile-java.sh -silent
-    - echo "check git status"
-    - output=$(git status --porcelain); echo "${output}"; test -z "${output}"
+script: >
+  ./test/ci/print-env.sh
+  && ./test/ci/run-core-tests.sh
+  && ./test/ci/maven-package.sh -q
+  && ./test/ci/compile-java.sh -silent
+  && ./test/ci/last-git-status.sh
+
