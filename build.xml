@@ -347,7 +347,7 @@
   </target>
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
-  <target name="compile" depends="init, preprocess-schematron-xspec">
+  <target name="compile" depends="xspec.init, preprocess-schematron-xspec">
     <condition property="xspec.compiler.xsl"
                value="generate-query-tests.xsl"
                else="generate-xspec-tests.xsl">
@@ -362,7 +362,7 @@
   </target>
 
   <!-- Runs the compiled XSpec for XQuery -->
-  <target name="run-xquery-test" depends="compile" if="${xspec.is.xquery}">
+  <target name="run-xquery-test" depends="xspec.compile" if="${xspec.is.xquery}">
     <echo message="Running XQuery Tests..."
           level="info" />
 
@@ -380,7 +380,7 @@
   </target>
 
   <!-- Runs the compiled XSpec for XSLT -->
-  <target name="run-xslt-test" depends="compile" unless="${xspec.is.xquery}">
+  <target name="run-xslt-test" depends="xspec.compile" unless="${xspec.is.xquery}">
     <echo message="Running XSLT Tests..."
           level="info" />
 
