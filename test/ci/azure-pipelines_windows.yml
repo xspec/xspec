@@ -23,6 +23,7 @@ jobs:
           SAXON_VERSION: 9.9.1-5
           JING_VERSION: 20181222
           XMLCALABASH_VERSION: 1.1.27-99
+          DO_MAVEN_PACKAGE: true
 
         # latest Saxon 9.8
         Saxon-9-8:
@@ -67,6 +68,10 @@ jobs:
 
       - script: call test\end-to-end\run-e2e-tests.cmd -silent
         displayName: Execute XSpec end-to-end tests
+
+      - script: call test\ci\maven-package.cmd --no-transfer-progress
+        displayName: Maven package
+        condition: and(succeeded(), variables['DO_MAVEN_PACKAGE'])
 
       - script: call test\ci\compile-java.cmd -verbose
         displayName: Compile java

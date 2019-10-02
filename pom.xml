@@ -212,6 +212,7 @@
                 <goals><goal>jar</goal></goals>
                 <configuration>
                   <sourcepath>${project.basedir}/java</sourcepath>
+                  <source>1.7</source>
                 </configuration>
               </execution>
             </executions>
