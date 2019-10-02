@@ -280,6 +280,9 @@
 </xsl:function>
   
 <xsl:template name="test:report-sequence" as="element()">
+  <xsl:context-item use="absent"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:param name="sequence" as="item()*" required="yes" />
   <xsl:param name="wrapper-name" as="xs:string" required="yes" />
   <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/xspec'" />

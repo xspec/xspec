@@ -190,11 +190,15 @@
 </xsl:variable>
 
 <xsl:template name="test:output-lines">
+  <xsl:context-item use="absent"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:param name="line-number" as="xs:integer" required="yes" />
   <xsl:param name="stylesheet-string" as="xs:string" required="yes" />
   <xsl:param name="node" as="node()" required="yes" />
   <xsl:param name="number-format" tunnel="yes" as="xs:string" required="yes" />
   <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
+
   <xsl:variable name="analyzed">
     <xsl:analyze-string select="$stylesheet-string"
       regex="{$construct-regex}" flags="sx">
