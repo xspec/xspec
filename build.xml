@@ -347,7 +347,7 @@
   </target>
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
-  <target name="compile" depends="xspec.init, preprocess-schematron-xspec">
+  <target name="xspec.compile" depends="xspec.init, preprocess-schematron-xspec">
     <condition property="xspec.compiler.xsl"
                value="generate-query-tests.xsl"
                else="generate-xspec-tests.xsl">
@@ -483,12 +483,12 @@
   <target name="xspec"
           description="Generates the result of XSpec tests"
           depends="report-html, report-coverage, report-junit">
-    <antcall target="fail" />
-    <antcall target="cleanup" />
+    <antcall target="xspec.fail" />
+    <antcall target="xspec.cleanup" />
   </target>
 
   <!-- Makes the build fail, unless otherwise specified -->
-  <target name="fail" if="${xspec.fail}">
+  <target name="xspec.fail" if="${xspec.fail}">
     <xml-to-properties in="${xspec.result.xml}" style="find-test-failure.xsl" />
     <fail message="XSpec tests failed. See ${xspec.result.html} for a report.">
       <condition>
@@ -500,7 +500,7 @@
   </target>
 
   <!-- Cleans up the output files, if required-->
-  <target name="cleanup" if="${clean.output.dir}">
+  <target name="xspec.cleanup" if="${clean.output.dir}">
     <echo message="Clean up"
           level="info" />
 
