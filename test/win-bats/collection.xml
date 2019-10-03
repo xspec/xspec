@@ -921,9 +921,6 @@
 	</case>
 
 	<case name="No warning on Ant (Schematron) #633">
-    call :skip "TODO: #633"
-    goto :EOF
-
     java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
     if not errorlevel 1 (
         call :skip "Always expect a deprecation warning on Saxon 9.7"
@@ -945,6 +942,10 @@
 
     call :run %SYSTEMROOT%\system32\find /i "warning" "%ANT_LOG%"
     call :verify_retval 1
+
+    rem Verify Ant makepath task
+    call :run type "%ANT_LOG%"
+    call :verify_line * x " [makepath] Setting xspec.schematron.file to file path %CD%\do-nothing.sch"
 	</case>
 
 	<case ifdef="XSLT_SUPPORTS_3_0" name="@catch should not catch error outside SUT (XSLT)">

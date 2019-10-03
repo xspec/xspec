@@ -1222,8 +1222,6 @@ teardown() {
 
 
 @test "No warning on Ant (Schematron) #633" {
-    skip "TODO: #633"
-
     if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
         skip "Always expect a deprecation warning on Saxon 9.7"
     fi
@@ -1245,6 +1243,11 @@ teardown() {
     run grep -F -i "warning" "${ant_log}"
     echo "$output"
     [ "$status" -eq 1 ]
+
+    # Verify Ant makepath task
+    run cat "${ant_log}"
+    echo "$output"
+    [[ "${output}" =~ " [makepath] Setting xspec.schematron.file to file path ${PWD}/do-nothing.sch" ]]
 }
 
 
