@@ -208,7 +208,7 @@
   </macrodef>
 
   <!-- Prepares the environment before compilation -->
-  <target name="init">
+  <target name="xspec.init">
     <condition property="xspec.coverage.dispchar" value="c" else="">
       <istrue value="${xspec.coverage.enabled}" />
     </condition>
