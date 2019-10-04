@@ -35,5 +35,12 @@ unset TEST_DIR
 unset XML_CATALOG
 unset XSPEC_HOME
 
+# Get the directory where this script resides
+myname="${BASH_SOURCE:-$0}"
+mydir=$(cd -P -- $(dirname -- "${myname}"); pwd)
+
 # Run
-bats "$@" xspec.bats
+(
+    cd "${mydir}"
+    bats "$@" xspec.bats
+)
