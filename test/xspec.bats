@@ -381,7 +381,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 9 / pending: 0 / failed: 0 / total: 9" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -416,7 +416,7 @@ teardown() {
     [[ "${output}" =~ "I am schematron-xslt-expand.xsl!" ]]
     [[ "${output}" =~ "I am schematron-xslt-compile.xsl!" ]]
     [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -553,18 +553,18 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~ "BUILD FAILED" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # Verify
     # * Default xspec.coverage.enabled is false
     # * Default xspec.junit.enabled is false
-    run ls ../tutorial/xspec
+    run env LC_ALL=C ls ../tutorial/xspec
     echo "$output"
     [ "${#lines[@]}" = "4" ]
     [ "${lines[0]}" = "escape-for-regex-result.html" ]
     [ "${lines[1]}" = "escape-for-regex-result.xml" ]
-    [ "${lines[2]}" = "escape-for-regex_xml-to-properties.xml" ]
-    [ "${lines[3]}" = "escape-for-regex.xsl" ]
+    [ "${lines[2]}" = "escape-for-regex.xsl" ]
+    [ "${lines[3]}" = "escape-for-regex_xml-to-properties.xml" ]
 
     # HTML report file contains CSS inline
     run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
@@ -578,7 +578,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -591,7 +591,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -600,7 +600,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -624,11 +624,15 @@ teardown() {
 
 
 @test "Ant for Schematron with minimum properties #168" {
-    run ant -buildfile ${PWD}/../build.xml -Dxspec.xml=${PWD}/../tutorial/schematron/demo-03.xspec -lib "${SAXON_JAR}" -Dtest.type=s
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
@@ -650,7 +654,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify that -Dxspec-dir was honered and the default dir was not created
     [ ! -d "../tutorial/schematron/xspec/" ]
@@ -670,7 +674,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
-    [[ "${output}" =~ "BUILD FAILED" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
@@ -689,7 +693,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -828,7 +832,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -848,7 +852,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -864,7 +868,7 @@ teardown() {
     run ../bin/xspec.sh saxon-custom-options/test.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [ "${lines[${#lines[@]}-3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -880,7 +884,7 @@ teardown() {
     run ../bin/xspec.sh -q saxon-custom-options/test.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [ "${lines[${#lines[@]}-3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -896,7 +900,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # XML and HTML report file
     [ -f "../tutorial/coverage/xspec/demo-result.xml" ]
@@ -913,8 +917,8 @@ teardown() {
     run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec" -lib "${SAXON_JAR}" -Dtest.type=q -Dxspec.coverage.enabled=true
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "BUILD FAILED" ]]
-    [[ "${output}" =~ "Coverage is supported only for XSLT" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
+    [[ "${lines[${#lines[@]}-2]}" =~ "Coverage is supported only for XSLT" ]]
 }
 
 
@@ -922,8 +926,8 @@ teardown() {
     run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec" -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.coverage.enabled=true
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "BUILD FAILED" ]]
-    [[ "${output}" =~ "Coverage is supported only for XSLT" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
+    [[ "${lines[${#lines[@]}-2]}" =~ "Coverage is supported only for XSLT" ]]
 }
 
 
@@ -932,7 +936,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~ "BUILD FAILED" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
@@ -1166,6 +1170,169 @@ teardown() {
     else
         [[ "${lines[2]}" =~ "WARNING: Saxon version " ]]
     fi
+}
+
+
+@test "No warning on Ant (XSLT) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dtest.type=t \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+
+@test "No warning on Ant (XQuery) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dtest.type=q \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+}
+
+
+@test "No warning on Ant (Schematron) #633" {
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+        skip "Always expect a deprecation warning on Saxon 9.7"
+    fi
+
+    ant_log="${work_dir}/ant.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -verbose \
+        -Dclean.output.dir=true \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/xspec-uri.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ -f "${ant_log}" ]
+
+    run grep -F -i "warning" "${ant_log}"
+    echo "$output"
+    [ "$status" -eq 1 ]
+
+    # Verify Ant makepath task
+    run cat "${ant_log}"
+    echo "$output"
+    [[ "${output}" =~ " [makepath] Setting xspec.schematron.file to file path ${PWD}/do-nothing.sch" ]]
+}
+
+
+@test "@catch should not catch error outside SUT (XSLT)" {
+    if [ -z "${XSLT_SUPPORTS_3_0}" ]; then
+        skip "XSLT_SUPPORTS_3_0 is not defined"
+    fi
+
+    run ../bin/xspec.sh catch/compiler-error.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "ERROR in scenario " ]]
+
+    run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-context-avt-for-template-call: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-context-param-for-matching-template: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-function-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-template-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-template-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/error-in-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+
+    run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "XPST0017:" ]]
+}
+
+
+@test "@catch should not catch error outside SUT (XQuery)" {
+    if [ -z "${XQUERY_SUPPORTS_3_1_DEFAULT}" ]; then
+        skip "XQUERY_SUPPORTS_3_1_DEFAULT is not defined"
+    fi
+
+    run ../bin/xspec.sh -q catch/compiler-error.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "x:XSPEC005:" ]]
+
+    run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+
+    run ../bin/xspec.sh -q catch/error-in-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+
+    run ../bin/xspec.sh -q catch/static-error-in-compiled-test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "XPST0017:" ]]
+}
+
+
+@test "Error in SUT should not be caught by default (XSLT)" {
+    run ../bin/xspec.sh catch/no-by-default.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+}
+
+
+@test "Error in SUT should not be caught by default (XQuery)" {
+    run ../bin/xspec.sh -q catch/no-by-default.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
 }
 
 

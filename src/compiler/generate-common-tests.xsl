@@ -56,6 +56,12 @@
        the x:description element, in the mode
    -->
    <xsl:template name="x:generate-tests">
+      <!-- Actually, xsl:context-item/@as is "document-node(element(x:description))".
+         "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
+         error message. -->
+      <xsl:context-item as="document-node()" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:variable name="deprecation-warning" as="xs:string?" select="
          if (x:saxon-version() lt x:pack-version(9,8,0,0))
          then 'Saxon version 9.7 or less is deprecated. XSpec will stop supporting it in the near future.'
@@ -201,8 +207,12 @@
        corresponding call instruction at some point).
    -->
    <xsl:template name="x:call-scenarios">
+      <xsl:context-item as="element()" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <!-- Default value of $pending does not affect compiler output but is here if needed in the future -->
       <xsl:param name="pending" select="(.//@focus)[1]" tunnel="yes" as="node()?"/>
+
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
          <xsl:sequence select="
@@ -217,6 +227,9 @@
    </xsl:template>
 
    <xsl:template name="x:continue-call-scenarios">
+      <xsl:context-item as="element()" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
@@ -352,6 +365,9 @@
        and variables).
    -->
    <xsl:template name="x:compile-params">
+      <xsl:context-item as="element(x:description)" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:variable name="this" select="." as="element(x:description)"/>
       <xsl:apply-templates select="$this/(x:param|x:variable)" mode="x:generate-declarations"/>
    </xsl:template>
@@ -372,7 +388,11 @@
        templates or XQuery functions.
    -->
    <xsl:template name="x:compile-scenarios">
+      <xsl:context-item as="element()" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:param name="pending" as="node()?" select="(.//@focus)[1]" tunnel="yes"/>
+
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
          <xsl:sequence select="
@@ -600,41 +620,29 @@
    <!-- This mode resolves all the <like> elements to bring in the scenarios that
         they specify -->
 
-   <xsl:template match="x:description" as="element(x:description)" mode="x:unshare-scenarios">
-      <xsl:copy>
-         <xsl:apply-templates select="." mode="x:copy-namespaces"/>
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </xsl:copy>
-   </xsl:template>
+   <xsl:key name="scenarios" match="x:scenario[not(x:is-user-content(.))]" use="x:label(.)" />
 
-   <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:unshare-scenarios">
-      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
-         <xsl:copy-of select="@* except @shared"/>
-         <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </xsl:element>
-   </xsl:template>
+   <xsl:template match="document-node() | attribute() | node()" as="node()*" mode="x:unshare-scenarios">
+      <xsl:choose>
+         <!-- Leave user-content intact -->
+         <xsl:when test="x:is-user-content(.)">
+            <xsl:sequence select="." />
+         </xsl:when>
 
-   <xsl:key name="scenarios" match="x:scenario" use="x:label(.)"/>
+         <!-- Discard @shared and shared x:scenario -->
+         <xsl:when test="self::attribute(shared)[parent::x:scenario]
+            or self::x:scenario[@shared = 'yes']" />
 
-   <xsl:template match="x:like" mode="x:unshare-scenarios">
-      <xsl:apply-templates select="key('scenarios', x:label(.))/*" mode="x:unshare-scenarios"/>
-   </xsl:template>
+         <!-- Replace x:like with specified scenario's child elements -->
+         <xsl:when test="self::x:like">
+            <xsl:apply-templates select="key('scenarios', x:label(.))/element()" mode="#current" />
+         </xsl:when>
 
-   <xsl:template match="x:pending" as="element(x:pending)" mode="x:unshare-scenarios">
-      <xsl:element name="{x:xspec-name('pending')}" namespace="{$xspec-namespace}">
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </xsl:element>
-   </xsl:template>
-
-   <xsl:template match="x:scenario[@shared = 'yes']" mode="x:unshare-scenarios"/>
-
-   <xsl:template match="node()" as="node()" mode="x:unshare-scenarios">
-      <xsl:copy>
-         <xsl:copy-of select="@*"/>
-         <xsl:apply-templates mode="x:unshare-scenarios"/>
-      </xsl:copy>
+         <!-- By default, apply identity template -->
+         <xsl:otherwise>
+            <xsl:call-template name="x:identity" />
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:template>
 
    <!-- *** x:report *** -->
@@ -643,9 +651,34 @@
       <xsl:apply-templates select="." mode="test:create-node-generator" />
    </xsl:template>
 
+   <!-- Generates a gateway from x:scenario to System Under Test.
+      The actual instruction to enter SUT is provided by the caller. The instruction
+      should not contain other actions. -->
+   <xsl:template name="x:enter-sut" as="node()+">
+      <xsl:context-item as="element(x:scenario)" use="required"
+         use-when="element-available('xsl:context-item')" />
+
+      <xsl:param name="instruction" as="node()+" required="yes" />
+
+      <xsl:variable name="catch-flag" as="xs:string"
+         select="(ancestor-or-self::*[@catch][1]/@catch, 'no')[1]" />
+
+      <xsl:choose>
+         <xsl:when test="x:yes-no-synonym($catch-flag)">
+            <xsl:call-template name="x:output-try-catch">
+               <xsl:with-param name="instruction" select="$instruction" />
+            </xsl:call-template>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:sequence select="$instruction" />
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:template>
+
    <!-- Generates variable declarations for x:expect -->
    <xsl:template name="x:setup-expected" as="node()+">
-      <!--<xsl:context-item as="element(x:expect)" use="required" />-->
+      <xsl:context-item as="element(x:expect)" use="required"
+         use-when="element-available('xsl:context-item')" />
 
       <xsl:param name="var" as="xs:string" required="yes" />
 
@@ -666,6 +699,9 @@
    <!-- Generate error message for user-defined usage of names in XSpec namespace.
         Context node is an x:variable element. -->
    <xsl:template name="x:detect-reserved-variable-name" as="empty-sequence()">
+      <xsl:context-item as="element(x:variable)" use="required"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:variable name="msg" as="xs:string"
          select="concat('User-defined XSpec variable, ',@name,', must not use the XSpec namespace.')"/>
       <xsl:choose>

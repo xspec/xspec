@@ -89,6 +89,9 @@
 	<!-- Makes @id predictable -->
 	<xsl:template as="attribute(id)" match="@id" mode="normalizer:normalize"
 		name="normalize-id-attribute">
+		<xsl:context-item as="attribute(id)" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="local:generate-predictable-id(parent::element())" />
 	</xsl:template>

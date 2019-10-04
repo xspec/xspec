@@ -175,7 +175,7 @@ rem
     rem    Keep "..\test\" to minimize accident
     rem
     call :rmdir-if-exist ..\test\catalog\xspec
-    call :rmdir          ..\test\xspec
+    call :rmdir-if-exist ..\test\xspec
     call :rmdir-if-exist ..\tutorial\schematron\xspec
     call :rmdir          ..\tutorial\xspec
 

@@ -29,6 +29,9 @@
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
 
+	<!-- Parallel thread count -->
+	<xsl:param as="xs:integer?" name="THREAD-COUNT" />
+
 	<!--
 		mode=#default
 			Transforms a template of Ant build file into a working build file.
@@ -57,9 +60,20 @@
 			<xsl:variable as="document-node()+" name="xspec-docs"
 				select="collection($collection-uri)" />
 
-			<xsl:apply-templates mode="xspec" select="$xspec-docs">
-				<xsl:sort select="document-uri(/)" />
-			</xsl:apply-templates>
+			<parallel failonany="true">
+				<xsl:choose>
+					<xsl:when test="exists($THREAD-COUNT)">
+						<xsl:attribute name="threadCount" select="$THREAD-COUNT" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="threadsPerProcessor" select="1" />
+					</xsl:otherwise>
+				</xsl:choose>
+
+				<xsl:apply-templates mode="xspec" select="$xspec-docs">
+					<xsl:sort select="document-uri(/)" />
+				</xsl:apply-templates>
+			</parallel>
 		</xsl:copy>
 	</xsl:template>
 
@@ -145,6 +159,14 @@
 							and (x:saxon-version() lt x:pack-version(9, 8, 0, 15))">
 						<xsl:text>Requires Saxon bug #3889 to have been fixed</xsl:text>
 					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-4315-fixed')
+							and (x:saxon-version() ge x:pack-version(9, 9, 0, 0))
+							and (x:saxon-version() le x:pack-version(9, 9, 1, 5))">
+						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
+					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 
@@ -209,6 +231,9 @@
 
 	<!-- Override this template to provide <run-xspec> with additional nodes -->
 	<xsl:template as="empty-sequence()" name="on-run-xspec">
+		<xsl:context-item as="attribute()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:param as="xs:boolean" name="coverage-enabled" />
 	</xsl:template>
 </xsl:stylesheet>

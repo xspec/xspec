@@ -12,6 +12,9 @@
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
+		<xsl:context-item as="node()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute() | node()" />
 		</xsl:copy>
@@ -257,6 +260,23 @@
 				else
 					concat($decimal-string, '.0')"
 		 />
+	</xsl:function>
+
+	<!--
+		Returns true or false based on "yes" or "no",
+		accepting ("true" or "false") and ("1" or "0") as synonyms.
+	-->
+	<xsl:function as="xs:boolean" name="x:yes-no-synonym">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:choose>
+			<xsl:when test="$input = ('yes', 'true', '1')">
+				<xsl:sequence select="true()" />
+			</xsl:when>
+			<xsl:when test="$input = ('no', 'false', '0')">
+				<xsl:sequence select="false()" />
+			</xsl:when>
+		</xsl:choose>
 	</xsl:function>
 
 </xsl:stylesheet>

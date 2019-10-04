@@ -6,7 +6,9 @@
 		<x:expect label="This unreferenced shared x:expect should not fire at all" test="true()" />
 	</x:scenario>
 
-	<x:scenario label="Referenced shared scenario" shared="yes">
+	<x:scenario label="Referenced shared scenario"
+		pending="This @pending is just to see how the current implementation behaves. At the moment, setting @pending=yes on a scenario appears to have no effect on the scenario where the corresponding x:like occurs."
+		shared="yes">
 		<x:like label="Shared scenario nested in a referenced shared scenario" />
 		<x:expect label="This referenced shared x:expect should fire only at x:like" test="true()"
 		 />
@@ -37,8 +39,12 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing x:like which references unshared scenarios">
-		<x:like label="Referenced and explicitly unshared scenario" />
-		<x:like label="Referenced and implicitly unshared scenario" />
+		<x:scenario label="explicit one">
+			<x:like label="Referenced and explicitly unshared scenario" />
+		</x:scenario>
+		<x:scenario label="implicit one">
+			<x:like label="Referenced and implicitly unshared scenario" />
+		</x:scenario>
 	</x:scenario>
 
 </x:description>
