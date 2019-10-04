@@ -3,9 +3,9 @@
 	<!-- Directory of this project file -->
 	<dirname file="${ant.file.e2e-base-worker}" property="e2e-base-worker.basedir" />
 
-	<!-- Import the core XSpec build file with some properties predefined -->
+	<!-- Include the core XSpec build file with some properties predefined -->
 	<property name="xspec.properties" value="${e2e-base-worker.basedir}/xspec.properties" />
-	<import file="../../../../../build.xml" />
+	<include file="../../../../../build.xml" />
 
 	<!-- Include util -->
 	<include file="../../../../ant/worker/build-worker_util.xml" />
