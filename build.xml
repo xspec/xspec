@@ -480,10 +480,7 @@
   <!-- Main target -->
   <target name="xspec"
           description="Generates the result of XSpec tests"
-          depends="report-html, report-coverage, report-junit">
-    <antcall target="fail" />
-    <antcall target="cleanup" />
-  </target>
+          depends="report-html, report-coverage, report-junit, fail, cleanup" />
 
   <!-- Makes the build fail, unless otherwise specified -->
   <target name="fail" if="${xspec.fail}">
