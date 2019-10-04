@@ -553,7 +553,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [ "${lines[${#lines[@]}-4]}" = "BUILD FAILED" ]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # Verify
     # * Default xspec.coverage.enabled is false
@@ -674,7 +674,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
-    [ "${lines[${#lines[@]}-4]}" = "BUILD FAILED" ]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
@@ -936,7 +936,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [ "${lines[${#lines[@]}-4]}" = "BUILD FAILED" ]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
