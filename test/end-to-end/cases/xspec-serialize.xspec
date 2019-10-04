@@ -2,7 +2,7 @@
 <x:description query="x-urn:test:xspec-items" query-at="../../items.xquery"
 	stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
 	<x:scenario>
-		<x:label>[unexpected string in label] When the result is a comment node, the report HTML must serialize it as
+		<x:label>When the result is a comment node, the report HTML must serialize it as
 			<![CDATA[<!-- -->]]>. (xspec/xspec#356) So...</x:label>
 		<x:scenario>
 			<x:label>When x:result in the report XML contains a comment node,</x:label>
