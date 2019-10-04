@@ -13,7 +13,7 @@
 			<x:call function="x:node-type">
 				<x:param select="$items:attribute" />
 			</x:call>
-			<x:expect label="attribute" select="'element'" />
+			<x:expect label="attribute" select="'attribute'" />
 		</x:scenario>
 
 		<x:scenario label="Comment">
