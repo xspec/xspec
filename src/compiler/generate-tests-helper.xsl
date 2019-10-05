@@ -64,7 +64,7 @@
 
   <xsl:if test="$var-doc">
     <variable name="{$var-doc}" as="document-node()">
-      <xsl:apply-templates select="." mode="x:copy-namespaces" />
+      <xsl:sequence select="x:copy-namespaces(.)"/>
       <xsl:choose>
         <xsl:when test="@href">
           <xsl:attribute name="select">
@@ -84,7 +84,7 @@
   </xsl:if>
 
   <xsl:element name="xsl:{$type}">
-    <xsl:apply-templates select="." mode="x:copy-namespaces" />
+    <xsl:sequence select="x:copy-namespaces(.)"/>
     <xsl:attribute name="name" select="$var" />
     <xsl:sequence select="@as" />
 

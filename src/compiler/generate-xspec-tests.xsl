@@ -51,7 +51,7 @@
     <xsl:namespace name="test" select="'http://www.jenitennison.com/xslt/unit-test'" />
     <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
 
-    <xsl:apply-templates select="." mode="x:copy-namespaces" />
+    <xsl:sequence select="x:copy-namespaces(.)"/>
 
     <import href="{$stylesheet-uri}" />
     <import href="{resolve-uri('generate-tests-utils.xsl')}"/>
@@ -60,12 +60,12 @@
     <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
 
     <!-- Serialization parameters -->
-    <output name="{x:xspec-name('report')}" method="xml" indent="yes" />
+    <output name="{x:xspec-name(.,'report')}" method="xml" indent="yes" />
 
     <!-- Absolute URI of .xspec file (Original one in case of Schematron) -->
     <xsl:variable name="xspec-uri" as="xs:anyURI"
       select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
-    <variable name="{x:xspec-name('xspec-uri')}" as="xs:anyURI">
+    <variable name="{x:xspec-name(.,'xspec-uri')}" as="xs:anyURI">
       <xsl:value-of select="$xspec-uri" />
     </variable>
 
@@ -73,7 +73,7 @@
     <xsl:call-template name="x:compile-params"/>
 
     <!-- The main compiled template. -->
-    <template name="{x:xspec-name('main')}">
+    <template name="{x:xspec-name(.,'main')}">
       <message>
         <text>Testing with </text>
         <value-of select="system-property('xsl:product-name')" />
@@ -83,10 +83,10 @@
 
       <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
         being tested which would otherwise govern the output of the report XML. -->
-      <result-document format="{x:xspec-name('report')}">
+      <result-document format="{x:xspec-name(.,'report')}">
         <xsl:apply-templates select="$html-reporter-pi" mode="test:create-node-generator" />
 
-        <xsl:element name="{x:xspec-name('report')}" namespace="{$xspec-namespace}">
+        <xsl:element name="{x:xspec-name(.,'report')}" namespace="{$xspec-namespace}">
           <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
             that the URI appears in the trace report generated from running the
             test stylesheet, which can then be picked up by stylesheets that
@@ -119,10 +119,11 @@
    <xsl:param name="last"       as="xs:boolean"/>
    <xsl:param name="params"     as="element(param)*"/>
 
-   <call-template name="{x:xspec-name($local-name)}">
+   <call-template name="{x:xspec-name(.,$local-name)}">
+      <xsl:sequence select="x:copy-namespaces(.)"/>
       <xsl:for-each select="$params">
          <with-param name="{ @name }" select="{ @select }">
-           <xsl:apply-templates select="." mode="x:copy-namespaces" />
+           <xsl:sequence select="x:copy-namespaces(.)"/>
          </with-param>
       </xsl:for-each>
    </call-template>
@@ -193,10 +194,10 @@
     </xsl:message>
   </xsl:if>
 
-  <template name="{x:xspec-name(generate-id())}">
+  <template name="{x:xspec-name(.,generate-id())}">
     <xsl:for-each select="$params">
       <param name="{ @name }" required="yes">
-        <xsl:apply-templates select="." mode="x:copy-namespaces" />
+        <xsl:sequence select="x:copy-namespaces(.)"/>
       </param>
     </xsl:for-each>
     <message>
@@ -214,7 +215,7 @@
       <xsl:value-of select="normalize-space(x:label(.))"/>
     </message>
 
-    <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
+    <xsl:element name="{x:xspec-name(.,'scenario')}" namespace="{$xspec-namespace}">
       <!-- Create @pending generator -->
       <xsl:if test="$pending-p">
         <xsl:sequence select="x:create-pending-attr-generator($pending)" />
@@ -237,7 +238,7 @@
         </xsl:choose>
       </xsl:for-each>
       <xsl:if test="not($pending-p) and x:expect">
-        <variable name="{x:xspec-name('result')}" as="item()*">
+        <variable name="{x:xspec-name(.,'result')}" as="item()*">
           <xsl:choose>
             <xsl:when test="$call/@template">
               <!-- Set up variables containing the parameter values -->
@@ -247,7 +248,7 @@
                 <xsl:call-template name="x:enter-sut">
                   <xsl:with-param name="instruction" as="element(xsl:call-template)">
                     <call-template name="{$call/@template}">
-                      <xsl:apply-templates select="$call" mode="x:copy-namespaces" />
+                      <xsl:sequence select="x:copy-namespaces($call)" />
                       <xsl:for-each select="$call/x:param">
                         <with-param name="{@name}" select="${@name}">
                           <xsl:copy-of select="@tunnel, @as" />
@@ -278,7 +279,7 @@
               <xsl:call-template name="x:enter-sut">
                 <xsl:with-param name="instruction" as="element(xsl:sequence)">
                   <sequence>
-                     <xsl:apply-templates select="$call" mode="x:copy-namespaces" />
+                     <xsl:sequence select="x:copy-namespaces($call)"/>
                     <xsl:attribute name="select">
                       <xsl:value-of select="$call/@function" />
                       <xsl:text>(</xsl:text>
@@ -306,7 +307,8 @@
                <xsl:call-template name="x:enter-sut">
                  <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                    <apply-templates>
-                     <xsl:apply-templates select="$apply" mode="x:copy-namespaces" /><!--TODO: Check that this line works after x:apply is implemented.-->                     <xsl:copy-of select="$apply/@select | $apply/@mode"/>
+                     <xsl:sequence select="x:copy-namespaces($apply)" /><!--TODO: Check that this line works after x:apply is implemented.-->
+                     <xsl:copy-of select="$apply/@select | $apply/@mode"/>
                      <xsl:for-each select="$apply/x:param">
                        <with-param name="{ @name }" select="${ @name }">
                          <xsl:copy-of select="@tunnel"/>
@@ -325,8 +327,8 @@
               <xsl:call-template name="x:enter-sut">
                 <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                   <apply-templates select="$impl:context">
+                    <xsl:sequence select="x:copy-namespaces($context)" />
                     <xsl:sequence select="$context/@mode" />
-                     <xsl:apply-templates select="$context" mode="x:copy-namespaces" />
                     <xsl:for-each select="$context/x:param">
                       <with-param name="{@name}" select="${@name}">
                         <xsl:copy-of select="@tunnel, @as" />
@@ -343,9 +345,9 @@
           </xsl:choose>      
         </variable>
         <call-template name="test:report-sequence">
-          <with-param name="sequence" select="${x:xspec-name('result')}" />
+          <with-param name="sequence" select="${x:xspec-name(.,'result')}" />
           <with-param name="wrapper-name" as="xs:string">
-            <xsl:value-of select="x:xspec-name('result')" />
+            <xsl:value-of select="x:xspec-name(.,'result')" />
           </with-param>
         </call-template>
       </xsl:if>
@@ -399,11 +401,11 @@
 
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
 
-  <template name="{x:xspec-name(generate-id())}">
-    <xsl:apply-templates select="." mode="x:copy-namespaces" />
+  <template name="{x:xspec-name(.,generate-id())}">
+    <xsl:sequence select="x:copy-namespaces(.)"/>
      <xsl:for-each select="$params">
         <param name="{ @name }" required="{ @required }">
-          <xsl:apply-templates select="." mode="x:copy-namespaces" />
+          <xsl:sequence select="x:copy-namespaces(.)"/>
         </param>
      </xsl:for-each>
     <message>
@@ -438,12 +440,12 @@
                    $x:result as if they were *children* of the context node.
                    Have to experiment a bit to see if that really is the case.                   
                    TODO: To remove. Use directly $x:result instead.  See issue 14. -->
-              <when test="exists(${x:xspec-name('result')})
-                and test:wrappable-sequence(${x:xspec-name('result')})">
-                <sequence select="test:wrap-nodes(${x:xspec-name('result')})" />
+              <when test="exists(${x:xspec-name(.,'result')})
+                and test:wrappable-sequence(${x:xspec-name(.,'result')})">
+                <sequence select="test:wrap-nodes(${x:xspec-name(.,'result')})" />
               </when>
               <otherwise>
-                <sequence select="${x:xspec-name('result')}" />
+                <sequence select="${x:xspec-name(.,'result')}" />
               </otherwise>
             </choose>
           </variable>
@@ -476,7 +478,7 @@
         </xsl:when>
         <xsl:otherwise>
           <variable name="impl:successful" as="xs:boolean" 
-            select="test:deep-equal($impl:expected, ${x:xspec-name('result')}, {$deep-equal-flags})" />
+            select="test:deep-equal($impl:expected, ${x:xspec-name(.,'result')}, {$deep-equal-flags})" />
         </xsl:otherwise>
       </xsl:choose>
       <if test="not($impl:successful)">
@@ -486,7 +488,7 @@
       </if>
     </xsl:if>
 
-    <xsl:element name="{x:xspec-name('test')}" namespace="{$xspec-namespace}">
+    <xsl:element name="{x:xspec-name(.,'test')}" namespace="{$xspec-namespace}">
       <!-- Create @pending generator or create @successful directly -->
       <xsl:choose>
         <xsl:when test="$pending-p">
@@ -508,7 +510,7 @@
                <call-template name="test:report-sequence">
                   <with-param name="sequence"     select="$impl:test-result"/>
                   <with-param name="wrapper-name" as="xs:string">
-                     <xsl:value-of select="x:xspec-name('result')" />
+                     <xsl:value-of select="x:xspec-name(.,'result')" />
                   </with-param>
                </call-template>
             </if>
@@ -516,7 +518,7 @@
          <call-template name="test:report-sequence">
             <with-param name="sequence"     select="$impl:expected"/>
             <with-param name="wrapper-name" as="xs:string">
-               <xsl:value-of select="x:xspec-name('expect')" />
+               <xsl:value-of select="x:xspec-name(.,'expect')" />
             </with-param>
             <with-param name="test" as="attribute(test)?">
                <xsl:apply-templates select="@test" mode="test:create-node-generator" />
@@ -566,7 +568,7 @@
 
 <xsl:template match="x:context" as="element()+" mode="x:setup-context">
    <xsl:variable name="context" as="element(x:context)">
-      <xsl:element name="{x:xspec-name('context')}" namespace="{$xspec-namespace}">
+      <xsl:element name="{x:xspec-name(.,'context')}" namespace="{$xspec-namespace}">
          <xsl:sequence select="@*" />
          <xsl:sequence select="node() except x:param" />
       </xsl:element>

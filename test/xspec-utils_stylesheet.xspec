@@ -134,20 +134,6 @@
 			test="starts-with(substring-after($x:result, ':'), '/')" />
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing mode=copy-namespaces template">
-		<x:context mode="x:copy-namespaces" select="//*:input-element">
-			<wrapper-element xmlns="shadowed-ns" xmlns:wrapper-prefix="wrapper-prefixed-ns">
-				<input-element xmlns="default-ns" xmlns:prefix="prefixed-ns" />
-			</wrapper-element>
-		</x:context>
-		<x:expect label="Default namespace is copied" select="'default-ns'"
-			test="$x:result[name() eq '']/string()" />
-		<x:expect label="Prefixed namespace is copied" select="'prefixed-ns'"
-			test="$x:result[name() eq 'prefix']/string()" />
-		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
-			test="$x:result[name() eq 'wrapper-prefix']/string()" />
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing function copy-namespaces">
 		<x:call function="x:copy-namespaces">
 			<x:param select="//*:input-element">

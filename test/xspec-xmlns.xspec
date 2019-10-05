@@ -7,7 +7,8 @@
 	xmlns:tv2_alt="http://example.org/ns/my/variable2"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	stylesheet="xspec-xmlns.xsl">
+	stylesheet="xspec-xmlns.xsl"
+	xslt-version="3.0">
 
 	<x:import href="xspec-xmlns-imported.xspec"/>
 
@@ -163,13 +164,13 @@
 			<x:expect label="correctly uses local tv2 binding to find variable and xsd binding to evaluate expression."
 				test="local-name($tv2:globalvar) treat as xsd:string" xmlns:tv2="http://example.org/ns/my/variable1"
 				xmlns:xsd="http://www.w3.org/2001/XMLSchema" select="$tv2:expected-element-local-name"/>
-			 <x:pending label="Due to issue #639, you cannot reuse prefixes xs or xsl">
+			<t:expect label="even if reusing 'x' prefix" xmlns:t="http://www.jenitennison.com/xslt/xspec"
+				test="local-name($x:globalvar)" xmlns:x="http://example.org/ns/my/variable1" select="'globalvar'"/>
+			<x:pending label="Due to issue #639, you cannot reuse specific prefixes">
 				<x:expect label="even if reusing 'xs' prefix?"
 					test="local-name($xs:globalvar) treat as xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 					xmlns:xs="http://example.org/ns/my/variable1" select="'globalvar'"/>
-				<!-- Locally reusing x or xsl prefix causes error, even if inside x:pending, so comment out.
-					<t:expect label="even if reusing 'x' prefix? (Is this different from #639?)" xmlns:t="http://www.jenitennison.com/xslt/xspec"
-						test="local-name($x:globalvar)" xmlns:x="http://example.org/ns/my/variable1" select="'globalvar'"/>
+				<!-- Locally reusing xsl prefix causes error, even if inside x:pending, so comment out.
 					<x:expect label="even if reusing 'xsl' prefix?"
 						test="local-name($xsl:globalvar)" xmlns:xsl="http://example.org/ns/my/variable1" select="'globalvar'"/>
 				-->

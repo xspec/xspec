@@ -105,10 +105,6 @@
 	<!--
 		Copies namespaces of element
 	-->
-	<xsl:template match="*" as="node()*" mode="x:copy-namespaces">
-		<xsl:sequence select="x:copy-namespaces(.)" />
-	</xsl:template>
-
 	<xsl:function as="node()*" name="x:copy-namespaces">
 		<xsl:param as="element()" name="e" />
 
