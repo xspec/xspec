@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<my-topmost-element>
+	<?my-processing-instruction-to-be-tested my-pseudo-attribute="my-value"?>
+</my-topmost-element>

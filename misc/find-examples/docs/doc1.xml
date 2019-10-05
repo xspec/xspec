@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<my-topmost-element>
+	<my-element-to-be-tested my-decimal-attribute="3.14" />
+</my-topmost-element>

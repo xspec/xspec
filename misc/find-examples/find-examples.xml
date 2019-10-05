@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <?xml-model href="find-examples.rnc" type="application/relax-ng-compact-syntax"?>
 <x:scan xmlns:x="http://www.jenitennison.com/xslt/xspec">
-  <x:collection>?select=*.xml&amp;recurse=yes&amp;strip-space=yes</x:collection>
+  <x:collection>docs/?select=*.xml&amp;recurse=yes&amp;strip-space=yes</x:collection>
 </x:scan>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
