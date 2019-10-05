@@ -38,16 +38,24 @@
    </x:scenario>
    <x:scenario>
       <x:label>Scenario for testing x:like which references unshared scenarios</x:label>
-      <x:call function="false"/>
-      <x:call function="false"/>
-      <x:result select="xs:boolean('false')"/>
-      <x:test successful="true">
-         <x:label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-         <x:expect test="true()" select="()"/>
-      </x:test>
-      <x:test successful="true">
-         <x:label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-         <x:expect test="true()" select="()"/>
-      </x:test>
+      <x:result select="()"/>
+      <x:scenario>
+         <x:label>explicit one</x:label>
+         <x:call function="false"/>
+         <x:result select="xs:boolean('false')"/>
+         <x:test successful="true">
+            <x:label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
+            <x:expect test="true()" select="()"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>implicit one</x:label>
+         <x:call function="false"/>
+         <x:result select="xs:boolean('false')"/>
+         <x:test successful="true">
+            <x:label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
+            <x:expect test="true()" select="()"/>
+         </x:test>
+      </x:scenario>
    </x:scenario>
 </x:report>

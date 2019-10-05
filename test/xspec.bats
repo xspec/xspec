@@ -381,7 +381,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 9 / pending: 0 / failed: 0 / total: 9" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -416,7 +416,7 @@ teardown() {
     [[ "${output}" =~ "I am schematron-xslt-expand.xsl!" ]]
     [[ "${output}" =~ "I am schematron-xslt-compile.xsl!" ]]
     [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -553,7 +553,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~ "BUILD FAILED" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # Verify
     # * Default xspec.coverage.enabled is false
@@ -578,7 +578,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -591,7 +591,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -600,7 +600,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -632,7 +632,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${lines[${#lines[@]}-2]}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
     [  -d "../tutorial/schematron/xspec/" ]
@@ -654,7 +654,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify that -Dxspec-dir was honered and the default dir was not created
     [ ! -d "../tutorial/schematron/xspec/" ]
@@ -674,7 +674,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
-    [[ "${output}" =~ "BUILD FAILED" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
@@ -693,7 +693,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 
@@ -832,7 +832,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -852,7 +852,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -868,7 +868,7 @@ teardown() {
     run ../bin/xspec.sh saxon-custom-options/test.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [ "${lines[${#lines[@]}-3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -884,7 +884,7 @@ teardown() {
     run ../bin/xspec.sh -q saxon-custom-options/test.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [ "${lines[${#lines[@]}-3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -900,7 +900,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [[ "${output}" =~ "BUILD SUCCESSFUL" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # XML and HTML report file
     [ -f "../tutorial/coverage/xspec/demo-result.xml" ]
@@ -917,8 +917,8 @@ teardown() {
     run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec" -lib "${SAXON_JAR}" -Dtest.type=q -Dxspec.coverage.enabled=true
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "BUILD FAILED" ]]
-    [[ "${output}" =~ "Coverage is supported only for XSLT" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
+    [[ "${lines[${#lines[@]}-2]}" =~ "Coverage is supported only for XSLT" ]]
 }
 
 
@@ -926,8 +926,8 @@ teardown() {
     run ant -buildfile "${PWD}/../build.xml" -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec" -lib "${SAXON_JAR}" -Dtest.type=s -Dxspec.coverage.enabled=true
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "BUILD FAILED" ]]
-    [[ "${output}" =~ "Coverage is supported only for XSLT" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
+    [[ "${lines[${#lines[@]}-2]}" =~ "Coverage is supported only for XSLT" ]]
 }
 
 
@@ -936,7 +936,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-    [[ "${output}" =~ "BUILD FAILED" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # XML report file
     [ -f "../tutorial/xspec/escape-for-regex-result.xml" ]
@@ -1222,8 +1222,6 @@ teardown() {
 
 
 @test "No warning on Ant (Schematron) #633" {
-    skip "TODO: #633"
-
     if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
         skip "Always expect a deprecation warning on Saxon 9.7"
     fi
@@ -1245,6 +1243,11 @@ teardown() {
     run grep -F -i "warning" "${ant_log}"
     echo "$output"
     [ "$status" -eq 1 ]
+
+    # Verify Ant makepath task
+    run cat "${ant_log}"
+    echo "$output"
+    [[ "${output}" =~ " [makepath] Setting xspec.schematron.file to file path ${PWD}/do-nothing.sch" ]]
 }
 
 

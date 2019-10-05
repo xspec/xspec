@@ -30,10 +30,6 @@ jobs:
       - script: >
           source ./test/ci/install-deps.sh
           && ./test/ci/print-env.sh
-          && cd test
-          && ./run-bats.sh
-          && ./run-xspec-tests-ant.sh -silent
-          && cd ..
-          && ./test/end-to-end/run-e2e-tests.sh -silent
+          && ./test/ci/run-core-tests.sh
         displayName: Test
 
