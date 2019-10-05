@@ -51,7 +51,7 @@
     <xsl:namespace name="test" select="'http://www.jenitennison.com/xslt/unit-test'" />
     <xsl:namespace name="xs"   select="'http://www.w3.org/2001/XMLSchema'" />
 
-    <xsl:apply-templates select="." mode="x:copy-namespaces" />
+    <xsl:sequence select="x:copy-namespaces(.)" />
 
     <import href="{$stylesheet-uri}" />
     <import href="{resolve-uri('generate-tests-utils.xsl')}"/>
