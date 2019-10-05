@@ -8,6 +8,7 @@
 <?xml-model href="find-examples.rnc" type="application/relax-ng-compact-syntax"?>
 <x:scan xmlns:x="http://www.jenitennison.com/xslt/xspec">
   <x:collection>docs/?select=*.xml&amp;recurse=yes&amp;strip-space=yes</x:collection>
+  <x:find>//(my-element-to-be-tested | processing-instruction())</x:find>
 </x:scan>
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 <!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
