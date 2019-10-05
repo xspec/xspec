@@ -454,6 +454,7 @@
 	=
 	(           <!-- 2: quoted value -->
 	('([^']*)') <!-- 3: single quoted value --><!-- 4: value -->
+	|
 	("([^"]*)") <!-- 5: double quoted value --><!-- 6: value -->
 	)
 </xsl:variable>
@@ -463,7 +464,7 @@
 	<xsl:choose>
 		<xsl:when test="matches($pi, $pseudo-attribute-regex, 'x')">
 			<xsl:variable name="atts" as="attribute()*">
-				<xsl:analyze-string select="$pi" regex="$psudo-attribute-regex" flags="x">
+				<xsl:analyze-string select="$pi" regex="{$pseudo-attribute-regex}" flags="x">
 					<xsl:matching-substring>
 						<xsl:attribute name="{regex-group(1)}" 
 							select="if (regex-group(3)) then regex-group(4) else regex-group(5)" />
