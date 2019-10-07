@@ -279,7 +279,7 @@
               <xsl:call-template name="x:enter-sut">
                 <xsl:with-param name="instruction" as="element(xsl:sequence)">
                   <sequence>
-                     <xsl:sequence select="x:copy-namespaces($call)"/>
+                    <xsl:sequence select="x:copy-namespaces($call)"/>
                     <xsl:attribute name="select">
                       <xsl:value-of select="$call/@function" />
                       <xsl:text>(</xsl:text>

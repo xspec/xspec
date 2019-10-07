@@ -29,7 +29,7 @@
 
    <!-- XSpec namespace prefix -->
    <xsl:function name="x:xspec-prefix" as="xs:string">
-     <xsl:param name="e" as="element()" />
+      <xsl:param name="e" as="element()" />
       <xsl:sequence select="
          (
             in-scope-prefixes($e)
@@ -313,7 +313,7 @@
             <xsl:for-each select="x:distinct-variable-names($vars)">
                <param name="{ @name }" select="${ @name }">
                   <xsl:sequence select="x:copy-namespaces(.)"/>
-              </param>
+               </param>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -741,27 +741,23 @@
       <xsl:for-each select="$distinctqnames">
          <xsl:variable name="thisqname" select="."/>
          <xsl:variable name="thisprefix" select="prefix-from-QName($thisqname)"/>
-         <xsl:choose>
-            <xsl:when test="empty(prefix-from-QName($thisqname)) and (string-length(namespace-uri-from-QName($thisqname)) gt 0)">
-               <!-- No prefix but there is a nonempty namespace URI -->
-               <x:var>
+         <x:var>
+            <xsl:choose>
+               <xsl:when test="empty(prefix-from-QName($thisqname)) and (string-length(namespace-uri-from-QName($thisqname)) gt 0)">
+                  <!-- No prefix but there is a nonempty namespace URI -->
                   <xsl:attribute name="name" select="concat('Q{',namespace-uri-from-QName($thisqname),'}',local-name-from-QName($thisqname))"/>
-               </x:var>
-            </xsl:when>
-            <xsl:when test="string-length(namespace-uri-from-QName($thisqname)) eq 0">
-               <!-- No namespace -->
-               <x:var>
+               </xsl:when>
+               <xsl:when test="string-length(namespace-uri-from-QName($thisqname)) eq 0">
+                  <!-- No namespace -->
                   <xsl:attribute name="name" select="local-name-from-QName($thisqname)"/>
-               </x:var>
-            </xsl:when>
-            <xsl:otherwise>
-               <!-- Prefix bound to a namespace -->
-               <x:var>
+               </xsl:when>
+               <xsl:otherwise>
+                  <!-- Prefix bound to a namespace -->
                   <xsl:namespace name="{$thisprefix}" select="namespace-uri-from-QName($thisqname)"/>
                   <xsl:attribute name="name" select="$thisqname"/>
-               </x:var>
-            </xsl:otherwise>
-         </xsl:choose>
+               </xsl:otherwise>
+            </xsl:choose>
+         </x:var>
       </xsl:for-each>
    </xsl:function>
 
