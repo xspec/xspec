@@ -12,10 +12,10 @@
 
 	<x:import href="xspec-xmlns-imported.xspec"/>
 
-	 <!-- TODO: If x:apply is implemented in the future, add tests for its behavior
+	<!-- TODO: If x:apply is implemented in the future, add tests for its behavior
 		with respect to namespace declarations. -->
 
-	 <x:param name="t1:paramElementA" as="element()">
+	<x:param name="t1:paramElementA" as="element()">
 		<override/>
 	</x:param>
 	<x:param name="t1_alt:paramElementB" as="element()"
@@ -23,7 +23,7 @@
 		<override/>
 	</x:param>
 
-	 <x:scenario label="Global parameter">
+	<x:scenario label="Global parameter">
 		<x:scenario label="relying on xmlns:...">
 			<x:scenario label="on x:description">
 				<x:call function="t1:get_global_paramElementA"/>
@@ -50,7 +50,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	 <x:variable name="globalvar-default-element-ns" as="element()"><globalvar-default-element-ns/></x:variable>
+	<x:variable name="globalvar-default-element-ns" as="element()"><globalvar-default-element-ns/></x:variable>
 	<x:variable name="tv1:globalvar" as="element()"><globalvar/></x:variable>
 	<x:variable name="tv1:globalvar" as="element()"
 		xmlns:tv1="http://example.org/ns/my/other-space"><globalvar-name-in-other-space/></x:variable>
@@ -58,7 +58,7 @@
 	<x:variable name="tv1:globalvar-element-ns"
 		xmlns="http://example.org/ns/my/ns2" as="element()"><globalvar-element-in-namespace-2/></x:variable>
 
-	 <x:scenario label="Global variable">
+	<x:scenario label="Global variable">
 		<x:scenario label="relying on xmlns:...">
 			<x:scenario label="on x:description">
 				<x:call function="true"/>
@@ -87,7 +87,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	 <x:scenario label="Local variable">
+	<x:scenario label="Local variable">
 		<x:scenario label="relying on xmlns:...">
 			<x:variable name="tvi1:localvar" as="element()"
 				xmlns:tvi1="http://example.org/ns/my/inherited-space"><tvi1:inherited-localvar-name-in-other-space/></x:variable>
@@ -152,7 +152,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	 <x:scenario label="Assertion">
+	<x:scenario label="Assertion">
 		<x:scenario label="relying on xmlns:... on x:expect">
 			<x:call function="exactly-one">
 				<x:param><my1:element xmlns:my1="http://example.org/ns/my/expect"/></x:param>
@@ -193,7 +193,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	 <x:scenario label="Function name, function parameter name, and function parameter user-content" xmlns:t2_alt="http://example.org/ns/my/shadowed">
+	<x:scenario label="Function name, function parameter name, and function parameter user-content" xmlns:t2_alt="http://example.org/ns/my/shadowed">
 		<x:scenario label="relying on xmlns:...">
 			<x:scenario label="on x:description">
 				<x:call function="t1:param-mirror-fcn">
@@ -274,7 +274,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	 <x:scenario label="Template name, template parameter name, and template parameter user-content" xmlns:t2_alt="http://example.org/ns/my/shadowed">
+	<x:scenario label="Template name, template parameter name, and template parameter user-content" xmlns:t2_alt="http://example.org/ns/my/shadowed">
 		<x:scenario label="relying on xmlns:...">
 			<x:scenario label="on x:description">
 				<x:call template="t1:param-mirror-template">
@@ -355,7 +355,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	 <x:scenario label="Mode name, template parameter name and content, and user content in x:context">
+	<x:scenario label="Mode name, template parameter name and content, and user content in x:context">
 		<x:scenario label="relying on xmlns:...">
 			<x:scenario label="on x:description">
 				<x:context mode="t1:get-namespaces">
@@ -420,20 +420,20 @@
 		</x:scenario>
 	</x:scenario>
 
-	 <x:scenario label="SHARED_expect" shared="yes" xmlns:mysh="http://example.org/ns/my/scenario"
+	<x:scenario label="SHARED_expect" shared="yes" xmlns:mysh="http://example.org/ns/my/scenario"
 		xmlns:my="http://example.org/ns/my/shadowed">
 		<x:expect label="uses referrer's declaration for non-shared call and shared scenario's declaration for shared assertion">
 			<mysh:element/>
 		</x:expect>
 	</x:scenario>
 
-	 <x:scenario label="SHARED_call" shared="yes" xmlns:my="http://example.org/ns/my/shared">
+	<x:scenario label="SHARED_call" shared="yes" xmlns:my="http://example.org/ns/my/shared">
 		<x:call function="exactly-one">
 			<x:param><my:element/></x:param>
 		</x:call>
 	</x:scenario>
 
-	 <x:scenario label="Reference to shared expectation" xmlns:my="http://example.org/ns/my/scenario"
+	<x:scenario label="Reference to shared expectation" xmlns:my="http://example.org/ns/my/scenario"
 		xmlns:mysh="http://example.org/ns/my/shadowed">
 		<x:call function="exactly-one">
 			<x:param><my:element/></x:param>
@@ -441,13 +441,13 @@
 		<x:like label="SHARED_expect"/>
 	</x:scenario>
 
-	 <x:scenario label="Reference to shared call" xmlns:my="http://example.org/ns/my/shadowed">
+	<x:scenario label="Reference to shared call" xmlns:my="http://example.org/ns/my/shadowed">
 		<x:like label="SHARED_call"/>
 		<x:expect label="correctly uses namespace binding from shared scenario"
 			test="namespace-uri($x:result) = 'http://example.org/ns/my/shared'"/>
 	</x:scenario>
 
-	 <x:pending xmlns:myp="http://example.org/ns/my/pending" label="Pending element">
+	<x:pending xmlns:myp="http://example.org/ns/my/pending" label="Pending element">
 		<x:scenario label="containing scenario">
 			<x:call function="myp:fcn">
 				<x:param name="myp:param"><myp:element1/></x:param>
