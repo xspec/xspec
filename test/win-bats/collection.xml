@@ -413,7 +413,7 @@
     call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_JAR%"
     call :verify_retval 1
     call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
-    call :verify_line -4 x "BUILD FAILED"
+    call :verify_line -3 x "BUILD FAILED"
 
     rem Verify
     rem * Default xspec.coverage.enabled is false
@@ -506,7 +506,7 @@
     call :run ant -buildfile ..\build.xml -Dxspec.xml="%CD%\catalog\catalog-02-schematron.xspec" -lib "%SAXON_JAR%" -Dtest.type=s -Dclean.output.dir=true -Dcatalog="%CD%\catalog\catalog-02-catalog.xml" -lib "%XML_RESOLVER_JAR%"
     call :verify_retval 1
     call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 1 / total: 2"
-    call :verify_line -4 x "BUILD FAILED"
+    call :verify_line -3 x "BUILD FAILED"
 
     rem Verify the build fails before cleanup
     call :verify_exist catalog\xspec\
@@ -689,7 +689,7 @@
     call :run ant -buildfile "%CD%\..\build.xml" -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec" -lib "%SAXON_JAR%" -Dxspec.junit.enabled=true
     call :verify_retval 1
     call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
-    call :verify_line -4 x "BUILD FAILED"
+    call :verify_line -3 x "BUILD FAILED"
 
     rem XML report file
     call :verify_exist ..\tutorial\xspec\escape-for-regex-result.xml
