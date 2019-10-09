@@ -35,7 +35,7 @@ env:
         # highest deprecated Saxon
         - SAXON_VERSION=9.7.0-21
 
-before_script:
+install:
     - source ./test/ci/install-deps.sh
 
 script: >
