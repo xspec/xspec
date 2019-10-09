@@ -21,6 +21,7 @@ env:
         - SAXON_VERSION=9.9.1-5
           JING_VERSION=20181222
           XMLCALABASH_VERSION=1.1.27-99
+          DO_CODESPELL=true
           DO_MAVEN_PACKAGE=true
 
         # latest Saxon 9.8
@@ -37,14 +38,12 @@ env:
 
 before_install:
     - unset _JAVA_OPTIONS
-    - pip install --user codespell
 
 install:
     - source ./test/ci/install-deps.sh
 
 script: >
   ./test/ci/print-env.sh
-  && echo "find spelling mistakes in source code"
   && ./test/ci/run-codespell.sh
   && ./test/ci/run-core-tests.sh
   && ./test/ci/maven-package.sh -q

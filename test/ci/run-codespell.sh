@@ -1,12 +1,21 @@
 #!/bin/bash
 # This script runs codespell to find spelling mistakes in the source code
 # it ignores specific directory and binary files
-error=$(codespell * --skip="src/schematron,graphics" --quiet-level 2)
 
-if [ -z "$error" ]
-then
-    printf "There are no spelling mistakes in the source code"
+echo "find spelling mistakes in source code"
+
+if [ "${DO_CODESPELL}" = true ] ; then
+    pip install \
+        --disable-pip-version-check \
+        --quiet \
+        --user \
+        codespell
+
+    codespell \
+        --check-filenames \
+        --check-hidden \
+        --quiet-level 2 \
+        --skip="./src/schematron/iso-schematron"
 else
-    printf "Spelling mistakes in the source code detected: \n$error"
-    exit 1
+    echo "Skip codespell"
 fi
