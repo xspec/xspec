@@ -9,10 +9,11 @@
 	<!-- Use fixed date time stamp -->
 	<property name="run-xspec-tests.now" value="2000-01-01T00:00:00Z" />
 
-	<!-- Import "run-xspec-tests" build file -->
+	<!-- Import "run-xspec-tests" build file to override its target -->
 	<import file="../../../ant/build.xml" />
 
-	<!-- Deletes the actual results and runs the worker -->
+	<!-- Overrides the imported target and deletes the actual results before calling
+		the imported target which runs the worker -->
 	<target name="run-worker">
 		<delete dir="${xspecfiles.dir}/actual__/" />
 		<antcall target="run-xspec-tests.run-worker" />
