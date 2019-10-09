@@ -35,9 +35,6 @@ env:
         # highest deprecated Saxon
         - SAXON_VERSION=9.7.0-21
 
-before_install:
-    - unset _JAVA_OPTIONS
-
 before_script:
     - source ./test/ci/install-deps.sh
 
