@@ -45,7 +45,7 @@ install:
 script: >
   ./test/ci/print-env.sh
   && echo "find spelling mistakes in source code"
-  && ./test/run-codespell.sh
+  && ./test/ci/run-codespell.sh
   && ./test/ci/run-core-tests.sh
   && ./test/ci/maven-package.sh -q
   && ./test/ci/compile-java.sh -silent
