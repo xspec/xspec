@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This Ant build file is to test importing (not including) XSpec's build.xml.
+	Including build.xml is supposed to be tested by ../ant/worker/build-worker_template.xml. -->
+<project default="xspec" name="test-ant-import">
+	<import file="../../build.xml" />
+
+	<!-- Overrides "fail" target to ignore xspec.fail -->
+	<target name="fail">
+		<!-- Just echo. Do not fail whatever xspec.fail or the test result is. -->
+		<echo message="Target overridden!" />
+	</target>
+</project>
