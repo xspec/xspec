@@ -38,7 +38,7 @@ env:
 before_install:
     - unset _JAVA_OPTIONS
 
-before_script:
+install:
     - source ./test/ci/install-deps.sh
 
 script: >
