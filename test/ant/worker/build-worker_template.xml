@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="run-all-xspec-files" name="run-xspec-tests-worker">
-	<!-- Import the core XSpec build file with some properties predefined -->
+	<!-- Include the core XSpec build file with some properties predefined.
+		Do not use <import> unless the core XSpec build file is tested with <include> somewhere else. -->
 	<property name="xspec.properties" value="xspec.properties" />
-	<import file="../../../build.xml" />
+	<include file="../../../build.xml" />
 
 	<!-- Include util -->
 	<include file="build-worker_util.xml" />
