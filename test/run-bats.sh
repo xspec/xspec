@@ -24,6 +24,10 @@ if java -cp "${SAXON_JAR}" net.sf.saxon.Query -q:ant/caps/v3-1.xquery > /dev/nul
     export XQUERY_SUPPORTS_3_1_DEFAULT=1
 fi
 
+# Unset JVM environment variables which make output line numbers unpredictable
+unset _JAVA_OPTIONS
+unset JAVA_TOOL_OPTIONS
+
 # Reset public environment variables
 export SAXON_CP="${SAXON_JAR}"
 unset SAXON_CUSTOM_OPTIONS
