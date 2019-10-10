@@ -149,7 +149,8 @@
    <!-- This mode makes each spec less context-dependent by performing these transformations:
       * Copy @xslt-version from x:description to descendant x:scenario
       * Resolve x:*/@href into absolute URI
-      * Discard whitespace-only text node unless otherwise specified by an ancestor -->
+      * Discard whitespace-only text node unless otherwise specified by an ancestor
+      * Wrap text node in x:text resolving @expand-text specified by an ancestor -->
 
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
@@ -185,24 +186,39 @@
       </xsl:message>
    </xsl:template>
 
-   <!-- x:text represents and preserves its child text node even if whitespace-only -->
-   <xsl:template match="x:text" as="text()?" mode="x:gather-specs">
-      <!-- Unwrap it and preserve its text node -->
+   <xsl:template match="@x:expand-text" as="empty-sequence()" mode="x:gather-specs" />
+
+   <xsl:template match="x:text" as="element(x:text)?" mode="x:gather-specs">
+      <!-- Unwrap -->
       <xsl:apply-templates mode="#current" />
    </xsl:template>
 
-   <!-- Whitespace-only text nodes are preserved only in a few special cases -->
-   <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="x:gather-specs">
+   <xsl:template match="text()" as="element(x:text)?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
 
       <xsl:if test="parent::x:text
          or (ancestor::*[@xml:space][1]/@xml:space = 'preserve')
-         or (node-name(parent::*) = $preserve-space)">
-         <xsl:sequence select="." />
+         or (node-name(parent::*) = $preserve-space)
+         or normalize-space()">
+         <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$xspec-namespace}">
+            <xsl:variable name="expand-text" as="attribute()?"
+               select="
+                  ancestor::*[if (self::x:*)
+                              then @expand-text
+                              else @x:expand-text][1]
+                  /@*[if (parent::x:*)
+                      then self::attribute(expand-text)
+                      else self::attribute(x:expand-text)]" />
+            <xsl:if test="$expand-text">
+               <xsl:attribute name="expand-text" select="$expand-text"/>
+            </xsl:if>
+
+            <xsl:sequence select="." />
+         </xsl:element>
       </xsl:if>
    </xsl:template>
 
-   <xsl:template match="node()|@*" as="node()" mode="x:gather-specs">
+   <xsl:template match="node()|@*" as="node()" mode="x:gather-specs" priority="-1">
       <xsl:call-template name="x:identity" />
    </xsl:template>
 
