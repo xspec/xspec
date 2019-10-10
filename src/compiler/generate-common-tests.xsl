@@ -145,6 +145,12 @@
       </xsl:choose>
    </xsl:function>
 
+   <!-- *** x:gather-specs *** -->
+   <!-- This mode makes each spec less context-dependent by performing these transformations:
+      * Copy @xslt-version from x:description to descendant x:scenario
+      * Resolve x:*/@href into absolute URI
+      * Discard whitespace-only text node unless otherwise specified by an ancestor -->
+
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="
