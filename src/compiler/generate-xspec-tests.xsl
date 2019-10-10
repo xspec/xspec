@@ -195,6 +195,7 @@
   </xsl:if>
 
   <template name="{x:xspec-name(.,generate-id())}">
+    <xsl:sequence select="x:copy-namespaces(.)"/>
     <xsl:for-each select="$params">
       <param name="{ @name }" required="yes">
         <xsl:sequence select="x:copy-namespaces(.)"/>
