@@ -142,12 +142,12 @@ rem ##
     rem # Absolute SCHEMATRON_XSLT_COMPILE
     if defined SCHEMATRON_XSLT_COMPILE for %%I in ("%SCHEMATRON_XSLT_COMPILE%") do set "SCHEMATRON_XSLT_COMPILE_ABS=%%~fI"
     
-    rem # Get Schematron file path
+    rem # Get Schematron file URI
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\sch-file-path.xsl" ^
         || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
-    set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    set /P SCH_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     
     rem # Generate Step 3 wrapper XSLT
     if defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE_URI=file:///%SCHEMATRON_XSLT_COMPILE_ABS:\=/%"
@@ -167,7 +167,7 @@ rem ##
     echo:
     echo Converting Schematron into XSLT...
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" ^
-        -s:"%SCH%" ^
+        -s:"%SCH_URI%" ^
         -xsl:"%SCHEMATRON_XSLT_INCLUDE%" ^
         -versionmsg:off ^
         || ( call :die "Error preprocessing Schematron on step 1" & goto :win_main_error_exit )

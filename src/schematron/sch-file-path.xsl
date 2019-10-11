@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0" xmlns:file="http://expath.org/ns/file"
+<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -9,7 +9,6 @@
 
 	<!--
 		Makes an absolute URI from @schematron and resolves it with catalog.
-		Finally the URI is converted to a native file path (or a format which resembles it).
 	-->
 	<xsl:template as="text()" match="document-node()">
 		<!-- Resolve with node base URI -->
@@ -17,41 +16,6 @@
 			select="/x:description/@schematron/resolve-uri(., base-uri())" />
 
 		<!-- Resolve with catalog -->
-		<xsl:variable as="xs:anyURI" name="schematron-uri"
-			select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
-
-		<!-- Convert URI to native (or wannabe native) -->
-		<xsl:choose>
-			<xsl:when test="true()" use-when="function-available('file:path-to-native')">
-				<xsl:value-of select="file:path-to-native($schematron-uri)" />
-			</xsl:when>
-
-			<xsl:when test="true()">
-				<!-- Escape some characters -->
-				<xsl:variable as="xs:string" name="schematron-uri"
-					select="iri-to-uri($schematron-uri)" />
-
-				<!-- Omit 'file:' -->
-				<xsl:variable as="xs:string" name="wannabe-native"
-					select="replace($schematron-uri, '^file:', '')" />
-
-				<xsl:choose>
-					<!-- Windows -->
-					<xsl:when test="system-property('file.separator') eq '\'">
-						<!-- Remove '\' from '\C:' -->
-						<xsl:variable as="xs:string" name="wannabe-native"
-							select="replace($wannabe-native, '^/([A-Z]:)', '$1')" />
-
-						<!-- Use backslash -->
-						<xsl:value-of select="replace($wannabe-native, '/', '\\')" />
-					</xsl:when>
-
-					<!-- *nix -->
-					<xsl:otherwise>
-						<xsl:value-of select="$wannabe-native" />
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:when>
-		</xsl:choose>
+		<xsl:value-of select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
 	</xsl:template>
 </xsl:stylesheet>

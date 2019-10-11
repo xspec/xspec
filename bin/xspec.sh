@@ -317,12 +317,12 @@ if test -n "$SCHEMATRON"; then
         SCHEMATRON_XSLT_COMPILE_ABS="$(cd "$(dirname "${SCHEMATRON_XSLT_COMPILE}")" && pwd)/$(basename "${SCHEMATRON_XSLT_COMPILE}")"
     fi
     
-    # Get Schematron file path
+    # Get Schematron file URI
     xslt -o:"${TEST_DIR}/${TARGET_FILE_NAME}-var.txt" \
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/sch-file-path.xsl" \
         || die "Error getting Schematron location"
-    SCH=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
+    SCH_URI=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
     
     # Generate Step 3 wrapper XSLT
     if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
@@ -344,7 +344,7 @@ if test -n "$SCHEMATRON"; then
     echo
     echo "Converting Schematron into XSLT..."
     xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
-        -s:"$SCH" \
+        -s:"${SCH_URI}" \
         -xsl:"$SCHEMATRON_XSLT_INCLUDE" \
         -versionmsg:off \
         || die "Error preprocessing Schematron on step 1"
