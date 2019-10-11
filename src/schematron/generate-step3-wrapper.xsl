@@ -39,8 +39,38 @@
 				mode="test:generate-variable-declarations". -->
 			<xsl:sequence select="x:copy-namespaces(.)" />
 
+			<!-- Import the Schematron Step 3 preprocessor XSLT -->
 			<import href="{($actual-preprocessor-uri, $builtin-preprocessor-uri)[1]}" />
+
+			<!-- Resolve x:param -->
 			<xsl:apply-templates select="param" />
+
+			<!-- Workaround for the built-in XSLT not setting @xml:base -->
+			<xsl:if test="empty($actual-preprocessor-uri)">
+				<!-- Resolve with node base URI -->
+				<xsl:variable as="xs:anyURI" name="schematron-uri"
+					select="resolve-uri(@schematron, base-uri())" />
+
+				<!-- Resolve with catalog -->
+				<xsl:variable as="xs:anyURI" name="schematron-uri"
+					select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+
+				<!-- Override the imported stylesheet and inject @xml:base -->
+				<template as="element(xsl:stylesheet)" match="document-node()">
+					<variable as="element(xsl:stylesheet)" name="imports-applied">
+						<apply-imports />
+					</variable>
+
+					<for-each select="$imports-applied">
+						<copy>
+							<attribute name="xml:base">
+								<xsl:value-of select="$schematron-uri" />
+							</attribute>
+							<sequence select="attribute() | node()" />
+						</copy>
+					</for-each>
+				</template>
+			</xsl:if>
 		</stylesheet>
 	</xsl:template>
 
