@@ -338,6 +338,9 @@ if test -n "$SCHEMATRON"; then
     SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
     SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
     
+    # Absolute SCH_PREPROCESSED_XSL
+    SCH_PREPROCESSED_XSL_ABS="$(cd "$(dirname "${SCH_PREPROCESSED_XSL}")" && pwd)/$(basename "${SCH_PREPROCESSED_XSL}")"
+    
     echo
     echo "Converting Schematron into XSLT..."
     xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
@@ -362,7 +365,7 @@ if test -n "$SCHEMATRON"; then
     #     -o:"$TEST_DIR/$TARGET_FILE_NAME-var.txt" \
     #     || die "Error getting preprocessed Schematron XSLT location"
     # SCH_PREPROCESSED_XSL_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
-    SCH_PREPROCESSED_XSL_URI="file:${SCH_PREPROCESSED_XSL}"
+    SCH_PREPROCESSED_XSL_URI="file:${SCH_PREPROCESSED_XSL_ABS}"
     
     echo 
     echo "Converting Schematron XSpec into XSLT XSpec..."

@@ -161,6 +161,9 @@ rem ##
     set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
     set "SCH_PREPROCESSED_XSL=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xsl"
     
+    rem # Absolute SCH_PREPROCESSED_XSL
+    for %%I in ("%SCH_PREPROCESSED_XSL%") do set "SCH_PREPROCESSED_XSL_ABS=%%~fI"
+    
     echo:
     echo Converting Schematron into XSLT...
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" ^
@@ -185,7 +188,7 @@ rem ##
     rem     -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
     rem     || ( call :die "Error getting preprocessed Schematron XSLT location" & goto :win_main_error_exit )
     rem set /P SCH_PREPROCESSED_XSL_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    set "SCH_PREPROCESSED_XSL_URI=file:///%SCH_PREPROCESSED_XSL:\=/%"
+    set "SCH_PREPROCESSED_XSL_URI=file:///%SCH_PREPROCESSED_XSL_ABS:\=/%"
     
     echo:
     echo Converting Schematron XSpec into XSLT XSpec...
