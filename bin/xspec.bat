@@ -159,7 +159,7 @@ rem ##
         || ( call :die "Error generating Step 3 wrapper XSLT" & goto :win_main_error_exit )
     
     set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
-    set "SCH_PREPROCESSED_XSL=%SCH%-preprocessed.xsl"
+    set "SCH_PREPROCESSED_XSL=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xsl"
     
     echo:
     echo Converting Schematron into XSLT...

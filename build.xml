@@ -307,7 +307,7 @@
       the preprocessed XSLT file needs to go in the same folder as the original Schematron file.
       This file is created at "STEP 3" and deleted by cleanup. -->
     <property name="xspec.schematron.preprocessed.xsl.file"
-              value="${xspec.schematron.file}-preprocessed.xsl" />
+              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-preprocessed.xsl" />
 
     <echo message="STEP 1: Include modules"
           level="info" />

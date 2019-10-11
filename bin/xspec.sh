@@ -336,7 +336,7 @@ if test -n "$SCHEMATRON"; then
         || die "Error generating Step 3 wrapper XSLT"
     
     SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
-    SCH_PREPROCESSED_XSL="${SCH}-preprocessed.xsl"
+    SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
     
     echo
     echo "Converting Schematron into XSLT..."
