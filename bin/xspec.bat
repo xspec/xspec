@@ -145,7 +145,7 @@ rem ##
     rem # Get Schematron file URI
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         -s:"%XSPEC%" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\sch-file-path.xsl" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\locate-schematron.xsl" ^
         || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
     set /P SCH_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     
