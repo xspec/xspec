@@ -634,9 +634,8 @@ teardown() {
     [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
-    # Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
+    # Verify that the default clean.output.dir is false and leaves temp dir.
     [  -d "../tutorial/schematron/xspec/" ]
-    rm    "../tutorial/schematron/demo-03.sch-preprocessed.xsl"
 }
 
 
@@ -661,7 +660,6 @@ teardown() {
 
     # Verify clean.output.dir=true
     [ ! -d "${ant_test_dir}" ]
-    [ ! -f "../tutorial/schematron/demo-03.sch-preprocessed.xsl" ]
 }
 
 
@@ -678,9 +676,6 @@ teardown() {
 
     # Verify the build fails before cleanup
     [  -d "catalog/xspec/" ]
-
-    # Verify that the build fails after Schematron setup and leaves temp XSLT file. Delete it at the same time.
-    rm catalog/02/tested.sch-preprocessed.xsl
 }
 
 

@@ -474,9 +474,8 @@
     call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
-    rem Verify that the default clean.output.dir is false and leaves temp files. Delete the left XSLT file at the same time.
+    rem Verify that the default clean.output.dir is false and leaves temp dir.
     call :verify_exist ..\tutorial\schematron\xspec\
-    call :del          ..\tutorial\schematron\demo-03.sch-preprocessed.xsl
 	</case>
 
 	<case name="Ant for Schematron with various properties except catalog">
@@ -499,7 +498,6 @@
 
     rem Verify clean.output.dir=true
     call :verify_not_exist "%ANT_TEST_DIR%"
-    call :verify_not_exist ..\tutorial\schematron\demo-03.sch-preprocessed.xsl
 	</case>
 
 	<case ifdef="XML_RESOLVER_JAR" name="Ant for Schematron with catalog and default xspec.fail resolves URI and fails on test failure">
@@ -510,9 +508,6 @@
 
     rem Verify the build fails before cleanup
     call :verify_exist catalog\xspec\
-
-    rem Verify that the build fails after Schematron setup and leaves temp XSLT file. Delete it at the same time.
-    call :del catalog\02\tested.sch-preprocessed.xsl
 	</case>
 
 	<case ifdef="XML_RESOLVER_JAR" name="Ant for Schematron with catalog and xspec.fail=false resolves URI and continues on test failure">
