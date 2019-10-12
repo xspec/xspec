@@ -1336,3 +1336,16 @@ teardown() {
 }
 
 
+@test "Importing Ant build file" {
+    run ant \
+        -buildfile ant-import/build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-9]}" = "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6" ]
+    [ "${lines[${#lines[@]}-5]}" = "     [echo] Target overridden!" ]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+}
+
+
