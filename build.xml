@@ -153,10 +153,8 @@
   </condition>
 
   <!-- Converts URL to file path -->
-  <scriptdef name="makepath" language="javascript" src="${xspec.project.dir}/src/ant/make-path.js">
-    <attribute name="url" />
-    <attribute name="property" />
-  </scriptdef>
+  <taskdef name="makepath" classname="io.xspec.xspec.ant.taskdefs.MakePath"
+    classpath="${xspec.project.dir}/java" />
 
   <!-- Performs XSLT using Saxon with common parameters including catalog -->
   <macrodef name="saxon-xslt">
@@ -488,10 +486,7 @@
   <!-- Main target -->
   <target name="xspec"
           description="Generates the result of XSpec tests"
-          depends="report-html, report-coverage, report-junit">
-    <antcall target="fail" />
-    <antcall target="cleanup" />
-  </target>
+          depends="report-html, report-coverage, report-junit, fail, cleanup" />
 
   <!-- Makes the build fail, unless otherwise specified -->
   <target name="fail" if="${xspec.fail}">

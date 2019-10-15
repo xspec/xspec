@@ -21,6 +21,7 @@ env:
         - SAXON_VERSION=9.9.1-5
           JING_VERSION=20181222
           XMLCALABASH_VERSION=1.1.27-99
+          DO_MAVEN_PACKAGE=true
 
         # latest Saxon 9.8
         - SAXON_VERSION=9.8.0-15
@@ -34,23 +35,13 @@ env:
         # highest deprecated Saxon
         - SAXON_VERSION=9.7.0-21
 
-before_install:
-    - unset _JAVA_OPTIONS
-
-before_script:
+install:
     - source ./test/ci/install-deps.sh
 
-script:
-    - ./test/ci/print-env.sh
-    - cd test
-    - echo "execute bats unit tests"
-    - ./run-bats.sh --tap
-    - echo "execute XSpec unit tests"
-    - ./run-xspec-tests-ant.sh -silent
-    - echo "execute XSpec end-to-end tests"
-    - cd ..
-    - ./test/end-to-end/run-e2e-tests.sh -silent
-    - echo "compile java"
-    - ./test/ci/compile-java.sh -silent
-    - echo "check git status"
-    - output=$(git status --porcelain); echo "${output}"; test -z "${output}"
+script: >
+  ./test/ci/print-env.sh
+  && ./test/ci/run-core-tests.sh
+  && ./test/ci/maven-package.sh -q
+  && ./test/ci/compile-java.sh -silent
+  && ./test/ci/last-git-status.sh
+

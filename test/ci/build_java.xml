@@ -13,6 +13,7 @@
 	<javac debug="true" debuglevel="lines,source" includeAntRuntime="false"
 		srcdir="${root.source.dir}">
 		<classpath>
+			<pathelement location="${env.ANT_HOME}/lib/ant.jar" />
 			<pathelement location="${env.SAXON_JAR}" />
 		</classpath>
 	</javac>
