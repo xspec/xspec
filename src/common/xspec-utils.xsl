@@ -12,6 +12,9 @@
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
+		<xsl:context-item as="node()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute() | node()" />
 		</xsl:copy>
