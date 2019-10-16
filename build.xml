@@ -457,9 +457,6 @@
           depends="run-xslt-test"
           if="${xspec.coverage.enabled}">
 
-    <!-- Absolute file path of the original XSpec file -->
-    <property name="xspec.xspecfile.absolute" location="${xspec.xspecfile.original}" />
-
     <makeurl property="xspec.coverage.html.css.url"
              file="${xspec.coverage.html.css}"
              if:set="xspec.coverage.html.css" />
@@ -472,7 +469,6 @@
                    value="true"/>
       </factory-elements>
       <xslt-elements>
-        <param name="tests" expression="${xspec.xspecfile.absolute}" />
         <param name="inline-css" expression="true" />
         <param name="report-css-uri" expression="${xspec.coverage.html.css.url}"
                if="xspec.coverage.html.css.url" />

@@ -9,10 +9,10 @@
 
 <xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:file="http://expath.org/ns/file"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:saxon="http://saxon.sf.net/"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
@@ -23,8 +23,6 @@
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/coverage-report.xsl</pkg:import-uri>
 
-<xsl:param name="tests" as="xs:string" required="yes"/>
-
 <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
 
 <xsl:param name="report-css-uri" as="xs:string?" />
@@ -32,15 +30,14 @@
 <!-- @use-character-maps for inline CSS -->
 <xsl:output method="xhtml" use-character-maps="test:disable-escaping" />
 
-<xsl:variable name="tests-uri" as="xs:anyURI" select="
-    file:path-to-uri($tests)"/>
+<xsl:variable name="trace" as="document-node()" select="/" />
+
+<xsl:variable name="xspec-uri" as="xs:anyURI" select="$trace/trace/@xspec" />
+<xsl:variable name="xspec-doc" as="document-node(element(x:description))"
+  select="doc($xspec-uri)" />
 
 <xsl:variable name="stylesheet-uri" as="xs:anyURI"
-  select="if (doc($tests-uri)/*/@stylesheet)
-          then resolve-uri(doc($tests-uri)/*/@stylesheet, $tests-uri)
-          else $tests-uri" />
-
-<xsl:variable name="trace" as="document-node()" select="/" />
+  select="resolve-uri($xspec-doc/x:description/@stylesheet, $xspec-uri)" />
 
 <xsl:variable name="stylesheet-trees" as="document-node()+"
   select="test:collect-stylesheets(doc($stylesheet-uri))" />
