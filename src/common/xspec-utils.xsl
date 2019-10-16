@@ -275,4 +275,19 @@
 		</xsl:choose>
 	</xsl:function>
 
+	<!--
+		Returns a semi-formatted string of URI
+	-->
+	<xsl:function as="xs:string" name="x:format-URI">
+		<xsl:param as="xs:anyURI" name="URI" />
+		<xsl:choose>
+			<xsl:when test="starts-with($URI, 'file:/')">
+				<xsl:value-of select="replace(substring-after($URI, 'file:/'), '%20', ' ')" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$URI" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
 </xsl:stylesheet>
