@@ -70,8 +70,14 @@ public class XSLTCoverageTraceListener implements TraceListener {
       System.err.println("ignoreDir (norm) =" + ignoreDir);
     }
 
+    // Coverage XML file
     String outPath = System.getProperty("xspec.coverage.xml");
     File outFile = new File(outPath);
+
+    // XSpec file
+    String xspecPath = System.getProperty("xspec.xspecfile");
+    File xspecFile = new File(xspecPath);
+    xspecPath = xspecFile.toURI().toString();
 
     Serializer serializer = new Processor(false).newSerializer(outFile);
     serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
@@ -85,6 +91,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
     try {
       writer.writeStartDocument();
       writer.writeStartElement("trace");
+      writer.writeAttribute("xspec", xspecPath);
     } catch(XMLStreamException e) {
       throw new RuntimeException(e);
     }
