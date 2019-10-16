@@ -73,6 +73,7 @@ rem ##
     java ^
         -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -Dxspec.xspecfile="%XSPEC%" ^
         -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
@@ -80,6 +81,7 @@ rem ##
     java ^
         -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -Dxspec.xspecfile="%XSPEC%" ^
         -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 

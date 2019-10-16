@@ -68,12 +68,14 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
         saxon \
             --java -Dxspec.coverage.ignore="${TEST_DIR}" \
             --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --java -Dxspec.xspecfile="${XSPEC}" \
             --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
         saxon \
             --java -Dxspec.coverage.ignore="${TEST_DIR}" \
             --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --java -Dxspec.xspecfile="${XSPEC}" \
             --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
@@ -83,12 +85,14 @@ else
         java \
             -Dxspec.coverage.ignore="${TEST_DIR}" \
             -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -Dxspec.xspecfile="${XSPEC}" \
             -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
         java \
             -Dxspec.coverage.ignore="${TEST_DIR}" \
             -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -Dxspec.xspecfile="${XSPEC}" \
             -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
