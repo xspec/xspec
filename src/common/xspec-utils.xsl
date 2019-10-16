@@ -278,7 +278,7 @@
 	<!--
 		Returns a semi-formatted string of URI
 	-->
-	<xsl:function as="xs:string" name="x:format-URI">
+	<xsl:function as="xs:string" name="x:format-uri">
 		<xsl:param as="xs:anyURI" name="URI" />
 		<xsl:choose>
 			<xsl:when test="starts-with($URI, 'file:/')">

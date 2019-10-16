@@ -146,7 +146,7 @@
     <head>
       <title>
          <xsl:text>Test Report for </xsl:text>
-         <xsl:value-of select="x:report/x:format-URI((@schematron,@stylesheet,@query)[1])"/>
+         <xsl:value-of select="x:report/x:format-uri((@schematron,@stylesheet,@query)[1])"/>
          <xsl:text> (</xsl:text>
          <xsl:call-template name="x:totals">
            <xsl:with-param name="tests" select="x:descendant-tests(.)"/>
@@ -194,7 +194,7 @@
 
         <xsl:otherwise>
           <a href="{.}">
-            <xsl:value-of select="x:format-URI(.)" />
+            <xsl:value-of select="x:format-uri(.)" />
           </a>
         </xsl:otherwise>
       </xsl:choose>
@@ -204,7 +204,7 @@
   <p>
     <xsl:text>XSpec: </xsl:text>
     <a href="{@xspec}">
-      <xsl:value-of select="x:format-URI(@xspec)"/>
+      <xsl:value-of select="x:format-uri(@xspec)"/>
     </a>
   </p>
   <p>
@@ -383,7 +383,7 @@
       </xsl:if>
       <xsl:choose>
         <xsl:when test="@href">
-          <p><a href="{@href}"><xsl:value-of select="x:format-URI(@href)" /></a></p>
+          <p><a href="{@href}"><xsl:value-of select="x:format-uri(@href)" /></a></p>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="indentation"
