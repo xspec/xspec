@@ -317,7 +317,22 @@
     then test:deep-equal($node, $node-to-compare-with, 'w')
     else test:deep-equal($node-to-compare-with, $node, 'w')" />
 
-  <xsl:sequence select="if ($equal) then 'same' else 'diff'" />
+  <xsl:choose>
+    <xsl:when test="$equal">
+      <xsl:sequence select="'same'"/>
+    </xsl:when>
+
+    <xsl:when test="
+      ($node[not(self::test:ws)] instance of element())
+      and ($node-to-compare-with[not(self::test:ws)] instance of element())
+      and (node-name($node) eq node-name($node-to-compare-with))">
+      <xsl:sequence select="'inner-diff'" />
+    </xsl:when>
+
+    <xsl:otherwise>
+      <xsl:sequence select="'diff'"/>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:function>
 
 <!-- Generates <style> or <link> for CSS.
