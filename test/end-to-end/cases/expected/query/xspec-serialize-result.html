@@ -345,18 +345,18 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">test</span>&gt;
-   &lt;<span class="diff">elem1</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>
+                           </p><pre>&lt;<span class="inner-diff">test</span>&gt;
+   &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>
       &lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
-   &lt;<span class="diff">elem2</span>&gt;<span class="diff">&lt;!--foo--&gt;</span><span class="same">&lt;?bar ?&gt;</span>&lt;/elem2&gt;
+   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">&lt;!--foo--&gt;</span><span class="same">&lt;?bar ?&gt;</span>&lt;/elem2&gt;
 &lt;/test&gt;</pre></td>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">test</span>&gt;
-   &lt;<span class="diff">elem1</span>&gt;<span class="diff">foo</span>&lt;<span class="same">bar</span> /&gt;
+                           </p><pre>&lt;<span class="inner-diff">test</span>&gt;
+   &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">foo</span>&lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
-   &lt;<span class="diff">elem2</span>&gt;<span class="diff">foo</span><span class="same">&lt;?bar ?&gt;</span>&lt;/elem2&gt;
+   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">foo</span><span class="same">&lt;?bar ?&gt;</span>&lt;/elem2&gt;
 &lt;/test&gt;</pre></td>
                      </tr>
                   </tbody>
@@ -383,18 +383,18 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">test</span>&gt;
-   &lt;<span class="diff">elem1</span>&gt;<span class="diff">foo</span>&lt;<span class="same">bar</span> /&gt;
+                           </p><pre>&lt;<span class="inner-diff">test</span>&gt;
+   &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">foo</span>&lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
-   &lt;<span class="diff">elem2</span>&gt;<span class="diff">foo</span><span class="same">&lt;?bar ?&gt;</span>&lt;/elem2&gt;
+   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">foo</span><span class="same">&lt;?bar ?&gt;</span>&lt;/elem2&gt;
 &lt;/test&gt;</pre></td>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">test</span>&gt;
-   &lt;<span class="diff">elem1</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>
+                           </p><pre>&lt;<span class="inner-diff">test</span>&gt;
+   &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>
       &lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
-   &lt;<span class="diff">elem2</span>&gt;<span class="diff">&lt;!--foo--&gt;</span><span class="same">&lt;?bar ?&gt;</span>&lt;/elem2&gt;
+   &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">&lt;!--foo--&gt;</span><span class="same">&lt;?bar ?&gt;</span>&lt;/elem2&gt;
 &lt;/test&gt;</pre></td>
                      </tr>
                   </tbody>
@@ -421,7 +421,7 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">test</span>&gt;
+                           </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="same">foo</span>&gt;
       &lt;<span class="same">bar</span> /&gt;
    &lt;/foo&gt;
@@ -429,7 +429,7 @@
 &lt;/test&gt;</pre></td>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">test</span>&gt;
+                           </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="same">foo</span>&gt;
       &lt;<span class="same">bar</span> /&gt;
    &lt;/foo&gt;
@@ -525,26 +525,26 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">test</span>&gt;
-   &lt;<span class="diff">oridinary-text-node</span>&gt;
+                           </p><pre>&lt;<span class="inner-diff">test</span>&gt;
+   &lt;<span class="inner-diff">oridinary-text-node</span>&gt;
       &lt;<span class="same">same</span>&gt;<span class="same">same</span>&lt;/same&gt;
-      &lt;<span class="diff">diff</span>&gt;<span class="diff">actual</span>&lt;/diff&gt;
+      &lt;<span class="inner-diff">diff</span>&gt;<span class="diff">actual</span>&lt;/diff&gt;
    &lt;/oridinary-text-node&gt;
-   &lt;<span class="diff">significant-whitespace-only-text-node</span>&gt;
+   &lt;<span class="inner-diff">significant-whitespace-only-text-node</span>&gt;
       &lt;<span class="same">same</span> <span class="same">xml:space</span>="preserve"&gt;<span class="same whitespace">\t\n\r␣</span>&lt;/same&gt;
-      &lt;<span class="diff">diff</span> <span class="same">xml:space</span>="preserve"&gt;<span class="diff whitespace">\t\n\r␣</span>&lt;/diff&gt;
+      &lt;<span class="inner-diff">diff</span> <span class="same">xml:space</span>="preserve"&gt;<span class="diff whitespace">\t\n\r␣</span>&lt;/diff&gt;
    &lt;/significant-whitespace-only-text-node&gt;
 &lt;/test&gt;</pre></td>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">test</span>&gt;
-   &lt;<span class="diff">oridinary-text-node</span>&gt;
+                           </p><pre>&lt;<span class="inner-diff">test</span>&gt;
+   &lt;<span class="inner-diff">oridinary-text-node</span>&gt;
       &lt;<span class="same">same</span>&gt;<span class="same">same</span>&lt;/same&gt;
-      &lt;<span class="diff">diff</span>&gt;<span class="diff">expect</span>&lt;/diff&gt;
+      &lt;<span class="inner-diff">diff</span>&gt;<span class="diff">expect</span>&lt;/diff&gt;
    &lt;/oridinary-text-node&gt;
-   &lt;<span class="diff">significant-whitespace-only-text-node</span>&gt;
+   &lt;<span class="inner-diff">significant-whitespace-only-text-node</span>&gt;
       &lt;<span class="same">same</span> <span class="same">xml:space</span>="preserve"&gt;<span class="same whitespace">\t\n\r␣</span>&lt;/same&gt;
-      &lt;<span class="diff">diff</span> <span class="same">xml:space</span>="preserve"&gt;<span class="diff whitespace">␣\t\n\r</span>&lt;/diff&gt;
+      &lt;<span class="inner-diff">diff</span> <span class="same">xml:space</span>="preserve"&gt;<span class="diff whitespace">␣\t\n\r</span>&lt;/diff&gt;
    &lt;/significant-whitespace-only-text-node&gt;
 &lt;/test&gt;</pre></td>
                      </tr>
