@@ -111,7 +111,7 @@
   </xsl:variable>
   <h2>
     <xsl:text>module: </xsl:text>
-    <xsl:value-of select="test:format-URI($stylesheet-uri)" />
+    <xsl:value-of select="x:format-uri($stylesheet-uri)" />
     <xsl:text>; </xsl:text>
     <xsl:value-of select="$number-of-lines" />
     <xsl:text> lines</xsl:text>
