@@ -36,7 +36,7 @@ if not defined BASEX_VERSION (
 
 rem install Ant without installing JDK
 rem call "%~dp0choco-install.cmd" ant --allow-downgrade --ignore-dependencies --no-progress --version "%ANT_VERSION%"
-%CURL% -o "%TEMP%\xspec\ant\ant.tar.gz" "http://BOGUS.archive.apache.org/dist/ant/binaries/apache-ant-%ANT_VERSION%-bin.tar.gz"
+%CURL% -o "%TEMP%\xspec\ant\ant.tar.gz" "http://archive.apache.org/dist/ant/binaries/apache-ant-%ANT_VERSION%-bin.tar.gz"
 %TAR% -xf "%TEMP%\xspec\ant\ant.tar.gz" -C "%TEMP%\xspec\ant"
 set "ANT_HOME=%TEMP%\xspec\ant\apache-ant-%ANT_VERSION%"
 if not exist "%ANT_HOME%" (
