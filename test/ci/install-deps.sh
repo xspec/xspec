@@ -31,6 +31,10 @@ fi
 curl -fsSL --create-dirs --retry 5 -o ${XSPEC_DEPS}/ant/ant.tar.gz http://BOGUS.archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
 tar -xf ${XSPEC_DEPS}/ant/ant.tar.gz -C ${XSPEC_DEPS}/ant;
 export ANT_HOME=${XSPEC_DEPS}/ant/apache-ant-${ANT_VERSION}
+if [ ! -d "${ANT_HOME}" ] ; then
+    # Create dir to invalidate any preinstalled Ant
+    mkdir -p "${ANT_HOME}"
+fi
 export PATH=${ANT_HOME}/bin:${PATH}
 
 # install XML Resolver
