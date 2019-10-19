@@ -237,7 +237,7 @@ user-element = element * - x:* { attribute * { text }*, user-content }
 text-element =
 	## Works like <xsl:text>.
 	## Text in this element is not ignored even when it's whitespace-only.
-	element text { text }
+	element text { common-attributes, text }
 
 schematron-scenario = context?,
                     like*,
