@@ -336,11 +336,12 @@
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
          <xsl:with-param name="vars" tunnel="yes" as="element(x:var)+">
             <xsl:sequence select="$vars"/>
-            <x:var name="{ @name }">
+            <xsl:element name="x:var" namespace="http://www.jenitennison.com/xslt/xspec">
+               <xsl:attribute name="name" select="@name"/>
                <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
                   <xsl:attribute name="namespace-uri" select="namespace-uri-from-QName(resolve-QName(@name,.))"/>
                </xsl:if>
-            </x:var>
+            </xsl:element>
          </xsl:with-param>
       </xsl:apply-templates>
    </xsl:template>
@@ -573,11 +574,12 @@
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
          <xsl:with-param name="vars" tunnel="yes" as="element(x:var)+">
             <xsl:sequence select="$vars"/>
-            <x:var name="{ @name }">
+            <xsl:element name="x:var" namespace="http://www.jenitennison.com/xslt/xspec">
+               <xsl:attribute name="name" select="@name"/>
                <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
                   <xsl:attribute name="namespace-uri" select="namespace-uri-from-QName(resolve-QName(@name,.))"/>
                </xsl:if>
-            </x:var>
+            </xsl:element>
          </xsl:with-param>
       </xsl:apply-templates>
    </xsl:template>
@@ -740,7 +742,7 @@
       <xsl:for-each select="$distinctqnames">
          <xsl:variable name="thisqname" select="."/>
          <xsl:variable name="thisprefix" select="prefix-from-QName($thisqname)"/>
-         <x:var>
+         <xsl:element name="x:var" namespace="http://www.jenitennison.com/xslt/xspec">
             <xsl:choose>
                <xsl:when test="empty(prefix-from-QName($thisqname)) and (string-length(namespace-uri-from-QName($thisqname)) gt 0)">
                   <!-- No prefix but there is a nonempty namespace URI -->
@@ -756,7 +758,7 @@
                   <xsl:attribute name="name" select="$thisqname"/>
                </xsl:otherwise>
             </xsl:choose>
-         </x:var>
+         </xsl:element>
       </xsl:for-each>
    </xsl:function>
 
