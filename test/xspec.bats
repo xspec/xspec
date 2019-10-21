@@ -961,7 +961,7 @@ teardown() {
     [ "${lines[7]}"  = "Scenario 1-3" ]
     [ "${lines[8]}"  = "Scenario 2a-1" ]
     [ "${lines[9]}"  = "Scenario 2a-2" ]
-    [ "${lines[10]}"  = "Scenario 2b-1" ]
+    [ "${lines[10]}" = "Scenario 2b-1" ]
     [ "${lines[11]}" = "Scenario 2b-2" ]
     [ "${lines[12]}" = "Scenario 3" ]
     [ "${lines[13]}" = "Formatting Report..." ]
@@ -994,7 +994,7 @@ teardown() {
     export TEST_DIR="${work_dir}"
     run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-expect.xspec
     echo "$output"
-    [[ "${lines[10]}"  =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[10]}" =~ "WARNING: x:expect has boolean @test" ]]
     [[ "${lines[15]}" =~ "WARNING: x:expect has boolean @test" ]]
     [[ "${lines[22]}" =~ "WARNING: x:expect has boolean @test" ]]
     [  "${lines[31]}" =  "Formatting Report..." ]
