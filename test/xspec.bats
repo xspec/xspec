@@ -1370,3 +1370,24 @@ teardown() {
 }
 
 
+@test "x:like errors" {
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    run ../bin/xspec.sh like/none.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "  x:XSPEC009: x:like: Scenario not found: none" ]
+
+    run ../bin/xspec.sh like/multiple.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "  x:XSPEC010: x:like: Multiple scenarios found: shared scenario" ]
+
+    run ../bin/xspec.sh like/loop.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "  x:XSPEC011: x:like: Scenario is looping: parent scenario" ]
+}
+
+

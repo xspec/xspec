@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="parent scenario">
+		<x:scenario label="this scenario">
+			<x:like label="parent scenario" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
