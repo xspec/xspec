@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sch:schema xmlns:my="http://example.org/ns/my" xmlns:d="http://example.org/ns/default"
-   xmlns:dd="http://example.org/ns/default/description"
-   xmlns:sch="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
+<sch:schema xmlns:sch="http://purl.oclc.org/dsdl/schematron" queryBinding="xslt2">
    <sch:ns uri="http://example.org/ns/default" prefix="d"/>
    <sch:ns uri="http://example.org/ns/default/description" prefix="dd"/>
    <sch:ns uri="http://example.org/ns/my" prefix="my"/>
