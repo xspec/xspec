@@ -41,7 +41,7 @@
 		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
 			resultproperty="xslt3-0.compile.result">
 			<arg value="-nogo" />
-			<arg value="-xsl:${run-xspec-tests.basedir}/caps/v3-0.xsl" />
+			<arg value="-xsl:${run-xspec-tests.basedir}/../caps/v3-0.xsl" />
 		</java>
 		<condition else="false" property="xslt.supports.3-0">
 			<equals arg1="${xslt3-0.compile.result}" arg2="0" />
@@ -52,7 +52,7 @@
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery.schema-aware.run.result">
 			<arg value="-sa" />
-			<arg value="-q:${run-xspec-tests.basedir}/caps/schema-aware.xquery" />
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/schema-aware.xquery" />
 		</java>
 		<condition else="false" property="xquery.supports.schema">
 			<equals arg1="${xquery.schema-aware.run.result}" arg2="0" />
@@ -62,7 +62,7 @@
 		<!-- Checks to see if XQuery processor supports 3.1 by default (Saxon 9.8+) -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery3-1.default.run.result">
-			<arg value="-q:${run-xspec-tests.basedir}/caps/v3-1.xquery" />
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/v3-1.xquery" />
 		</java>
 		<condition else="false" property="xquery.supports.3-1.default">
 			<equals arg1="${xquery3-1.default.run.result}" arg2="0" />
@@ -72,7 +72,7 @@
 		<!-- Checks to see if XQuery processor supports "-qversion:3.1" (Saxon 9.7) -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery3-1.qversion.run.result">
-			<arg value="-q:${run-xspec-tests.basedir}/caps/v3-1.xquery" />
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/v3-1.xquery" />
 			<arg value="-qversion:3.1" />
 		</java>
 		<condition else="false" property="xquery.supports.3-1.qversion">
