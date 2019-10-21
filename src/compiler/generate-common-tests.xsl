@@ -624,7 +624,25 @@
 
          <!-- Replace x:like with specified scenario's child elements -->
          <xsl:when test="self::x:like">
-            <xsl:apply-templates select="key('scenarios', x:label(.))/element()" mode="#current" />
+            <xsl:variable name="label" as="element(x:label)" select="x:label(.)" />
+            <xsl:variable name="scenario" as="element(x:scenario)*" select="key('scenarios', $label)" />
+            <xsl:choose>
+               <xsl:when test="empty($scenario)">
+                  <xsl:sequence select="error(xs:QName('x:XSPEC009'),
+                     concat(name(), ': Scenario not found: ', $label))" />
+               </xsl:when>
+               <xsl:when test="$scenario[2]">
+                  <xsl:sequence select="error(xs:QName('x:XSPEC010'),
+                     concat(name(), ': Multiple scenarios found: ', $label))" />
+               </xsl:when>
+               <xsl:when test="$scenario intersect ancestor::x:scenario">
+                  <xsl:sequence select="error(xs:QName('x:XSPEC011'),
+                     concat(name(), ': Scenario is looping: ', $label))" />
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:apply-templates select="$scenario/element()" mode="#current" />
+               </xsl:otherwise>
+            </xsl:choose>
          </xsl:when>
 
          <!-- By default, apply identity template -->
