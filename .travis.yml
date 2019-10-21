@@ -20,12 +20,12 @@ env:
         # latest Saxon 9.9 and Jing
         - SAXON_VERSION=9.9.1-5
           JING_VERSION=20181222
-          XMLCALABASH_VERSION=1.1.27-99
+          XMLCALABASH_VERSION=1.1.29-99
           DO_MAVEN_PACKAGE=true
 
         # latest Saxon 9.8
         - SAXON_VERSION=9.8.0-15
-          XMLCALABASH_VERSION=1.1.27-98
+          XMLCALABASH_VERSION=1.1.29-98
 
         # latest oXygen
         - SAXON_VERSION=9.8.0-12
