@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns="http://example.org/ns/default/description"
+	xmlns:t1="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	schematron="xspec-xmlns.sch">
+	<x:scenario label="Context user content relying on xmlns:...">
+		<x:scenario label="on x:description">
+			<x:context>
+				<root>
+					<t1:element/>
+				</root>
+			</x:context>
+			<x:expect-report label="should work." id="prefixed"/>
+		</x:scenario>
+		<x:scenario label="on x:scenario" xmlns:my="http://example.org/ns/my">
+			<x:context>
+				<root>
+					<my:element/>
+				</root>
+			</x:context>
+			<x:expect-report label="should work." id="prefixed"/>
+		</x:scenario>
+		<x:scenario label="on x:context">
+			<x:context xmlns:my="http://example.org/ns/my">
+				<root>
+					<my:element/>
+				</root>
+			</x:context>
+			<x:expect-report label="should work." id="prefixed"/>
+		</x:scenario>
+		<x:scenario label="in user content">
+			<x:context>
+				<root xmlns:my="http://example.org/ns/my">
+					<my:element/>
+				</root>
+			</x:context>
+			<x:expect-report label="should work." id="prefixed"/>
+		</x:scenario>
+	</x:scenario>
+	<x:scenario label="Context user content relying on default element namespace">
+		<x:scenario label="declared on x:description">
+			<x:context>
+				<root>
+					<element/>
+				</root>
+			</x:context>
+			<x:expect-report label="should work." id="default-description"/>
+		</x:scenario>
+		<x:scenario label="declared on x:scenario" xmlns="http://example.org/ns/default">
+			<x:context>
+				<root>
+					<element/>
+				</root>
+			</x:context>
+			<x:expect-report label="should work." id="default"/>
+		</x:scenario>
+		<x:scenario label="declared on x:context">
+			<x:context xmlns="http://example.org/ns/default">
+				<root>
+					<element/>
+				</root>
+			</x:context>
+			<x:expect-report label="should work." id="default"/>
+		</x:scenario>
+		<x:scenario label="declared in user content">
+			<x:context>
+				<root xmlns="http://example.org/ns/default">
+					<element/>
+				</root>
+			</x:context>
+			<x:expect-report label="should work." id="default"/>
+		</x:scenario>
+	</x:scenario>
+</x:description>
