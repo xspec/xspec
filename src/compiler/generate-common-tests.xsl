@@ -574,7 +574,7 @@
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
          <xsl:with-param name="vars" tunnel="yes" as="element(x:var)+">
             <xsl:sequence select="$vars"/>
-            <xsl:element name="x:var" namespace="http://www.jenitennison.com/xslt/xspec">
+            <xsl:element name="x:var" namespace="{$xspec-namespace}">
                <xsl:attribute name="name" select="@name"/>
                <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
                   <xsl:attribute name="namespace-uri" select="namespace-uri-from-QName(resolve-QName(@name,.))"/>
