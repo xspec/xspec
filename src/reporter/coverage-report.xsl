@@ -13,6 +13,7 @@
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:saxon="http://saxon.sf.net/"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
@@ -72,7 +73,7 @@
 <xsl:template match="/" mode="test:coverage-report">
   <html>
     <head>
-      <title>Test Coverage Report for <xsl:value-of select="test:format-URI($stylesheet-uri)" /></title>
+      <title>Test Coverage Report for <xsl:value-of select="x:format-uri($stylesheet-uri)" /></title>
       <xsl:call-template name="test:load-css">
         <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
         <xsl:with-param name="uri" select="$report-css-uri" />
@@ -80,7 +81,7 @@
     </head>
     <body>
       <h1>Test Coverage Report</h1>
-      <p>Stylesheet:  <a href="{$stylesheet-uri}"><xsl:value-of select="test:format-URI($stylesheet-uri)" /></a></p>
+      <p>Stylesheet:  <a href="{$stylesheet-uri}"><xsl:value-of select="x:format-uri($stylesheet-uri)" /></a></p>
       <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="test:coverage-report" />
     </body>
   </html>
@@ -110,7 +111,7 @@
   </xsl:variable>
   <h2>
     <xsl:text>module: </xsl:text>
-    <xsl:value-of select="$stylesheet-uri" />
+    <xsl:value-of select="x:format-uri($stylesheet-uri)" />
     <xsl:text>; </xsl:text>
     <xsl:value-of select="$number-of-lines" />
     <xsl:text> lines</xsl:text>

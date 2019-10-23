@@ -317,17 +317,20 @@
     then test:deep-equal($node, $node-to-compare-with, 'w')
     else test:deep-equal($node-to-compare-with, $node, 'w')" />
 
-  <xsl:sequence select="if ($equal) then 'same' else 'diff'" />
-</xsl:function>
-
-<xsl:function name="test:format-URI" as="xs:string">
-  <xsl:param name="URI" as="xs:anyURI" />
   <xsl:choose>
-    <xsl:when test="starts-with($URI, 'file:/')">
-      <xsl:value-of select="replace(substring-after($URI, 'file:/'), '%20', ' ')" />
+    <xsl:when test="$equal">
+      <xsl:sequence select="'same'"/>
     </xsl:when>
+
+    <xsl:when test="
+      ($node[not(self::test:ws)] instance of element())
+      and ($node-to-compare-with[not(self::test:ws)] instance of element())
+      and (node-name($node) eq node-name($node-to-compare-with))">
+      <xsl:sequence select="'inner-diff'" />
+    </xsl:when>
+
     <xsl:otherwise>
-      <xsl:value-of select="$URI" />
+      <xsl:sequence select="'diff'"/>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:function>

@@ -71,12 +71,14 @@ rem ##
 
 :xslt
     java ^
+        -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
         -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
 :xquery
     java ^
+        -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
         -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
