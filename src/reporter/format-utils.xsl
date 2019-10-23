@@ -335,18 +335,6 @@
   </xsl:choose>
 </xsl:function>
 
-<xsl:function name="test:format-URI" as="xs:string">
-  <xsl:param name="URI" as="xs:anyURI" />
-  <xsl:choose>
-    <xsl:when test="starts-with($URI, 'file:/')">
-      <xsl:value-of select="replace(substring-after($URI, 'file:/'), '%20', ' ')" />
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="$URI" />
-    </xsl:otherwise>
-  </xsl:choose>
-</xsl:function>
-
 <!-- Generates <style> or <link> for CSS.
   If you enable $inline, you must use test:disable-escaping character map in serialization. -->
 <xsl:template name="test:load-css" as="element()">
