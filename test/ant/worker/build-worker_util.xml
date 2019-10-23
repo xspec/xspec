@@ -73,10 +73,9 @@
 				url="@{output-junit-url}" />
 
 			<!-- Directory where intermediate files are created.
-				This presumes <tempfile> to be practically thread-safe.
-				Always include /xspec/ in the path as a workaround for xspec/xspec#655. -->
+				This presumes <tempfile> to be practically thread-safe. -->
 			<local name="xspec-intermediate-dir" />
-			<tempfile destdir="${java.io.tmpdir}/xspec/" prefix="xspec-intermediate_"
+			<tempfile destdir="${java.io.tmpdir}" prefix="xspec-intermediate_"
 				property="xspec-intermediate-dir" />
 
 			<!-- AppVeyor: Notify -->
@@ -92,8 +91,10 @@
 				);
 			]]></script>
 
-			<!-- Run XSpec -->
-			<antcall inheritall="false" target="xspec">
+			<!-- Run XSpec.
+				This assumes the "xspec" target is included only in one hop.
+				(neither "xspec" nor "foo.xspec.xspec") -->
+			<antcall inheritall="false" target="xspec.xspec">
 				<param location="${xspec-file-path}" name="xspec.xml" />
 				<param location="${xspec-intermediate-dir}" name="xspec.dir" />
 				<param name="test.type" value="@{test-type}" />

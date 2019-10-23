@@ -33,12 +33,6 @@
 			<!-- Standard namespace required by the generated stylesheet -->
 			<xsl:namespace name="xs" select="'http://www.w3.org/2001/XMLSchema'" />
 
-			<!-- Copy namespaces. /x:description/x:param may use them.
-				This aligns with the XSpec implementation for XSLT, but probably the
-				namespaces should be handled in finer granularity and copied in
-				mode="test:generate-variable-declarations". -->
-			<xsl:sequence select="x:copy-namespaces(.)" />
-
 			<import href="{($actual-preprocessor-uri, $builtin-preprocessor-uri)[1]}" />
 			<xsl:apply-templates select="param" />
 		</stylesheet>

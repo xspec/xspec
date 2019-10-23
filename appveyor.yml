@@ -17,11 +17,11 @@ environment:
     # latest Saxon 9.9 and Jing
     - SAXON_VERSION: 9.9.1-5
       JING_VERSION: 20181222
-      XMLCALABASH_VERSION: 1.1.27-99
+      XMLCALABASH_VERSION: 1.1.29-99
 
     # latest Saxon 9.8
     # - SAXON_VERSION: 9.8.0-15
-    #   XMLCALABASH_VERSION: 1.1.27-98
+    #   XMLCALABASH_VERSION: 1.1.29-98
 
     # latest oXygen
     # - SAXON_VERSION: 9.8.0-12
@@ -52,7 +52,7 @@ test_script:
     test\end-to-end\run-e2e-tests.cmd -silent
 
     rem Maven package
-    rem test\ci\maven-package.cmd -q
+    test\ci\maven-package.cmd -q
 
     rem compile java
     test\ci\compile-java.cmd -silent
