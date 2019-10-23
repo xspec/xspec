@@ -137,7 +137,7 @@
       <!-- Absolute URI of .xspec file -->
       <xsl:call-template name="test:declare-or-let-variable">
          <xsl:with-param name="is-global" select="true()" />
-         <xsl:with-param name="name" select="x:xspec-name('xspec-uri')" />
+         <xsl:with-param name="name" select="x:xspec-name($this,'xspec-uri')" />
          <xsl:with-param name="type" select="'xs:anyURI'" />
          <xsl:with-param name="value" as="text()+">
             <xsl:text>xs:anyURI("</xsl:text>
@@ -158,7 +158,7 @@
       <xsl:apply-templates select="$html-reporter-pi" mode="test:create-node-generator" />
       <xsl:text>,&#x0A;</xsl:text>
 
-      <xsl:element name="{x:xspec-name('report')}" namespace="{$xspec-namespace}">
+      <xsl:element name="{x:xspec-name($this,'report')}" namespace="{$xspec-namespace}">
          <xsl:attribute name="date"  select="'{current-dateTime()}'" />
          <xsl:attribute name="query" select="$this/@query"/>
          <xsl:if test="exists($query-at)">
@@ -192,7 +192,7 @@
          <xsl:text>,&#10;</xsl:text>
       </xsl:if>
       <xsl:text>      let $</xsl:text>
-      <xsl:value-of select="x:xspec-name('tmp')" />
+      <xsl:value-of select="x:xspec-name(.,'tmp')" />
       <xsl:text> := local:</xsl:text>
       <xsl:value-of select="$local-name"/>
       <xsl:text>(</xsl:text>
@@ -204,7 +204,7 @@
       </xsl:for-each>
       <xsl:text>) return (&#10;</xsl:text>
       <xsl:text>        $</xsl:text>
-      <xsl:value-of select="x:xspec-name('tmp')" />
+      <xsl:value-of select="x:xspec-name(.,'tmp')" />
       <xsl:if test="not($last)">
          <xsl:text>,</xsl:text>
       </xsl:if>
@@ -272,7 +272,7 @@
          <xsl:text>    return&#10;</xsl:text>
       </xsl:if>
 
-      <xsl:element name="{x:xspec-name('scenario')}" namespace="{$xspec-namespace}">
+      <xsl:element name="{x:xspec-name(.,'scenario')}" namespace="{$xspec-namespace}">
          <!-- Create @pending generator -->
          <xsl:if test="$pending-p">
             <xsl:text>{ </xsl:text>
@@ -298,7 +298,7 @@
                -->
                <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
                <xsl:text>  let $</xsl:text>
-               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text> := (&#10;</xsl:text>
                <xsl:call-template name="x:enter-sut">
                   <xsl:with-param name="instruction" as="text()+">
@@ -317,9 +317,9 @@
                <xsl:text>  )&#10;</xsl:text>
                <xsl:text>    return (&#10;</xsl:text>
                <xsl:text>      test:report-sequence($</xsl:text>
-               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>, '</xsl:text>
-               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>'),&#10;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -328,7 +328,7 @@
                    return (
                -->
                <xsl:text>  let $</xsl:text>
-               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text> := ()&#10;</xsl:text>
                <xsl:text>    return (&#10;</xsl:text>
             </xsl:otherwise>
@@ -418,7 +418,7 @@
                <!-- $local:test-items
                   TODO: Wrap $x:result in a document node if possible -->
                <xsl:text>  let $local:test-items as item()* := $</xsl:text>
-               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>&#x0A;</xsl:text>
 
                <!-- $local:test-result
@@ -449,7 +449,7 @@
                <!-- $local:successful -->
                <xsl:text>  let $local:successful as xs:boolean :=&#x0A;</xsl:text>
                <xsl:text>      test:deep-equal($local:expected, $</xsl:text>
-               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>, </xsl:text>
                <xsl:value-of select="$deep-equal-flags" />
                <xsl:text>)&#x0A;</xsl:text>
@@ -463,7 +463,7 @@
       <!--
         return the x:test element for the report
       -->
-      <xsl:element name="{x:xspec-name('test')}" namespace="{$xspec-namespace}">
+      <xsl:element name="{x:xspec-name(.,'test')}" namespace="{$xspec-namespace}">
          <!-- Create @pending generator or create @successful directly -->
          <xsl:choose>
             <xsl:when test="$pending-p">
@@ -487,13 +487,13 @@
                <xsl:text>      { if ( $local:boolean-test )&#x0A;</xsl:text>
                <xsl:text>        then ()&#x0A;</xsl:text>
                <xsl:text>        else test:report-sequence($local:test-result, '</xsl:text>
-               <xsl:value-of select="x:xspec-name('result')" />
+               <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>') }</xsl:text>
             </xsl:if>
 
             <xsl:text>&#x0A;</xsl:text>
             <xsl:text>      { test:report-sequence($local:expected, '</xsl:text>
-            <xsl:value-of select="x:xspec-name('expect')" />
+            <xsl:value-of select="x:xspec-name(.,'expect')" />
             <xsl:text>'</xsl:text>
 
             <xsl:if test="@test">
