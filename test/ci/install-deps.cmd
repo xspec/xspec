@@ -39,6 +39,10 @@ rem call "%~dp0choco-install.cmd" ant --allow-downgrade --ignore-dependencies --
 %CURL% -o "%TEMP%\xspec\ant\ant.tar.gz" "http://archive.apache.org/dist/ant/binaries/apache-ant-%ANT_VERSION%-bin.tar.gz"
 %TAR% -xf "%TEMP%\xspec\ant\ant.tar.gz" -C "%TEMP%\xspec\ant"
 set "ANT_HOME=%TEMP%\xspec\ant\apache-ant-%ANT_VERSION%"
+if not exist "%ANT_HOME%" (
+    rem Create dir to invalidate any preinstalled Ant
+    mkdir "%ANT_HOME%"
+)
 path %ANT_HOME%\bin;%PATH%
 
 rem install XML Resolver

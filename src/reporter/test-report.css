@@ -321,6 +321,10 @@ a.img:hover, a.img:active {
   background-color: rgb(206, 239, 174);
 }
 
+.inner-diff {
+  background-color: rgba(255, 204, 204, .4);
+}
+
 .diff {
   background-color: #FCC;
 }
