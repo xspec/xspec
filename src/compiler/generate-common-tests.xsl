@@ -742,7 +742,7 @@
       <xsl:for-each select="$distinctqnames">
          <xsl:variable name="thisqname" select="."/>
          <xsl:variable name="thisprefix" select="prefix-from-QName($thisqname)"/>
-         <xsl:element name="x:var" namespace="http://www.jenitennison.com/xslt/xspec">
+         <xsl:element name="x:var" namespace="{$xspec-namespace}">
             <xsl:choose>
                <xsl:when test="empty(prefix-from-QName($thisqname)) and (string-length(namespace-uri-from-QName($thisqname)) gt 0)">
                   <!-- No prefix but there is a nonempty namespace URI -->
