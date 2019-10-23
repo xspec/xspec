@@ -180,7 +180,7 @@
       <xsl:message terminate="yes">
          <xsl:value-of select="name()" />
          <xsl:text> is obsolete. Use </xsl:text>
-         <xsl:value-of select="x:xspec-name('text')" />
+         <xsl:value-of select="x:xspec-name(., 'text')" />
          <xsl:text> instead.</xsl:text>
       </xsl:message>
    </xsl:template>
