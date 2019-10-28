@@ -1382,12 +1382,12 @@ teardown() {
     run ../bin/xspec.sh like/multiple.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "  x:XSPEC010: x:like: Multiple scenarios found: shared scenario" ]
+    [ "${lines[4]}" = "  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario" ]
 
     run ../bin/xspec.sh like/loop.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "  x:XSPEC011: x:like: Scenario is looping: parent scenario" ]
+    [ "${lines[4]}" = "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario" ]
 }
 
 

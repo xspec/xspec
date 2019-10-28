@@ -648,11 +648,11 @@
                </xsl:when>
                <xsl:when test="$scenario[2]">
                   <xsl:sequence select="error(xs:QName('x:XSPEC010'),
-                     concat(name(), ': Multiple scenarios found: ', $label))" />
+                     concat(name(), ': ', count($scenario), ' scenarios found with same label: ', $label))" />
                </xsl:when>
                <xsl:when test="$scenario intersect ancestor::x:scenario">
                   <xsl:sequence select="error(xs:QName('x:XSPEC011'),
-                     concat(name(), ': Scenario is looping: ', $label))" />
+                     concat(name(), ': Reference to ancestor scenario creates infinite loop: ', $label))" />
                </xsl:when>
                <xsl:otherwise>
                   <xsl:apply-templates select="$scenario/element()" mode="#current" />
