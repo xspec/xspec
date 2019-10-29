@@ -285,10 +285,11 @@ fi
 
 TARGET_FILE_NAME=$(basename "$XSPEC" | sed 's:\.[^.]*$::')
 
+COMPILED="${TEST_DIR}/${TARGET_FILE_NAME}-compiled"
 if test -n "$XSLT"; then
-    COMPILED=$TEST_DIR/$TARGET_FILE_NAME.xsl
+    COMPILED="${COMPILED}.xsl"
 else
-    COMPILED=$TEST_DIR/$TARGET_FILE_NAME.xq
+    COMPILED="${COMPILED}.xq"
 fi
 COVERAGE_XML=$TEST_DIR/$TARGET_FILE_NAME-coverage.xml
 COVERAGE_HTML=$TEST_DIR/$TARGET_FILE_NAME-coverage.html
