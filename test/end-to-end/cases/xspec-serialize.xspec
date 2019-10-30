@@ -289,9 +289,9 @@
 			<x:label>both in [Result] and [Expected Result] with diff,</x:label>
 			<x:expect>
 				<x:label>The exact-match (taking '...' into account) attributes must be serialized
-					as green="uncolored". The name-match attributes must be serialized as
-					solidPink="uncolored". The orphan attributes must be serialized as
-					solidPink="uncolored" regardless of their values.</x:label>
+					as green="green". The name-match attributes must be serialized as
+					palePink="solidPink". The orphan attributes must be serialized as
+					solidPink="solidPink" regardless of their values.</x:label>
 				<exact-match attr1="value1" attr2="..." attr3="" attr4="..." />
 				<name-match attr1="VALUE1" attr2="" attr3="value3" attr4="value4" />
 				<orphan attr4="value4" attr5="" attr6="..." />
@@ -352,11 +352,11 @@
 			<x:label>both in [Result] and [Expected Result] with diff,</x:label>
 			<x:expect>
 				<x:label>The exact-match (taking '...' into account) processing instructions must be
-					serialized as green. The name-match processing
-					instructions must be serialized as solid pink. The
+					serialized as <![CDATA[<?green green?>]]>. The name-match processing
+					instructions must be serialized as <![CDATA[<?palePink solidPink?>]]>. The
 					value-match (taking '...' into account) processing instructions must be
-					serialized as solid pink. The no-match processing
-					instructions must be serialized as solid pink
+					serialized as <![CDATA[<?solidPink green?>]]>. The no-match processing
+					instructions must be serialized as <![CDATA[<?solidPink solidPink?>]]>
 					regardless of their values.</x:label>
 				<exact-match>
 					<?node1 value1?>

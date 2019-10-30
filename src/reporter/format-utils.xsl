@@ -51,7 +51,7 @@
   <!-- Output the name of this element -->
   <xsl:choose>
     <xsl:when test="$perform-comparison">
-      <span class="{test:comparison-html-class(., $node-to-compare-with, $expected)}">
+      <span class="{test:comparison-html-class(., $node-to-compare-with, $expected, true())}">
         <xsl:value-of select="name()" />
       </span>
     </xsl:when>
@@ -119,16 +119,20 @@
   </xsl:for-each>
 
   <!-- Output attributes while performing comparison -->
-  <xsl:for-each select="@*">
+  <xsl:for-each select="attribute()">
+    <xsl:variable name="attribute-to-compare-with" as="attribute()?"
+      select="$node-to-compare-with/attribute()[node-name(.) eq node-name(current())]" />
+
+    <xsl:variable name="display-value" as="xs:string"
+      select="replace(replace(., '&quot;', '&amp;quot;'), '\s(\s+)', '&#x0A;$1')" />
+
     <xsl:if test="$new-namespaces or (position() ge 2)">
       <xsl:value-of select="$ns-attr-indent" />
     </xsl:if>
     <xsl:text> </xsl:text>
     <xsl:choose>
       <xsl:when test="$perform-comparison">
-        <xsl:variable name="node-name" as="xs:QName" select="node-name(.)" />
-        <xsl:variable name="attribute-to-compare-with" as="attribute()?" select="$node-to-compare-with/@*[node-name(.) = $node-name]" />
-        <span class="{test:comparison-html-class(., $attribute-to-compare-with, $expected)}">
+        <span class="{test:comparison-html-class(., $attribute-to-compare-with, $expected, true())}">
           <xsl:value-of select="name()" />
         </span>
       </xsl:when>
@@ -137,8 +141,16 @@
       </xsl:otherwise>
     </xsl:choose>
     <xsl:text>="</xsl:text>
-    <xsl:value-of select="replace(replace(., '&quot;', '&amp;quot;'),
-      '\s(\s+)', '&#xA;$1')" />
+    <xsl:choose>
+      <xsl:when test="$perform-comparison">
+        <span class="{test:comparison-html-class(., $attribute-to-compare-with, $expected, false())}">
+          <xsl:value-of select="$display-value" />
+        </span>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$display-value" />
+      </xsl:otherwise>
+    </xsl:choose>
     <xsl:text>"</xsl:text>
   </xsl:for-each>
 
@@ -190,7 +202,41 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="comment() | processing-instruction() | text() | test:ws" as="node()" mode="test:serialize">
+<xsl:template match="processing-instruction()" as="node()+" mode="test:serialize">
+  <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
+  <xsl:param name="node-to-compare-with" as="node()?" select="()" />
+  <xsl:param name="expected" as="xs:boolean" select="true()" />
+
+  <xsl:text>&lt;?</xsl:text>
+
+  <xsl:choose>
+    <xsl:when test="$perform-comparison">
+      <span class="{test:comparison-html-class(., $node-to-compare-with, $expected, true())}">
+        <xsl:value-of select="name()" />
+      </span>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="name()" />
+    </xsl:otherwise>
+  </xsl:choose>
+
+  <xsl:text> </xsl:text>
+
+  <xsl:choose>
+    <xsl:when test="$perform-comparison">
+      <span class="{test:comparison-html-class(., $node-to-compare-with, $expected, false())}">
+        <xsl:value-of select="." />
+      </span>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="." />
+    </xsl:otherwise>
+  </xsl:choose>
+
+  <xsl:text>?></xsl:text>
+</xsl:template>
+
+<xsl:template match="comment() | text() | test:ws" as="node()" mode="test:serialize">
   <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
   <xsl:param name="node-to-compare-with" as="node()?" select="()" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
@@ -199,10 +245,6 @@
     <xsl:choose>
       <xsl:when test="self::comment()">
         <xsl:value-of select="concat('&lt;!--', ., '-->')" />
-      </xsl:when>
-
-      <xsl:when test="self::processing-instruction()">
-        <xsl:value-of select="concat('&lt;?', name(), ' ', ., '?>')" />
       </xsl:when>
 
       <xsl:when test="self::text()">
@@ -243,7 +285,7 @@
   <xsl:choose>
     <xsl:when test="$perform-comparison or self::test:ws">
       <span class="{
-        test:comparison-html-class(., $node-to-compare-with, $expected)[$perform-comparison],
+        test:comparison-html-class(., $node-to-compare-with, $expected, false())[$perform-comparison],
         'whitespace'[current()/self::test:ws]
         }">
         <xsl:sequence select="$serialized" />
@@ -305,12 +347,13 @@
   </xsl:choose>
 </xsl:function>
 
-<!-- Compares $node with $node-to-compare-with and returns an HTML class accordingly: 'same' or 'diff'
+<!-- Compares $node with $node-to-compare-with and returns an HTML class accordingly: 'same', 'inner-diff' or 'diff'
   Set $expected to true if $node is in Expected Result. Set false if in Actual Result. -->
 <xsl:function name="test:comparison-html-class" as="xs:string">
   <xsl:param name="node" as="node()" />
   <xsl:param name="node-to-compare-with" as="node()?" />
   <xsl:param name="expected" as="xs:boolean" />
+  <xsl:param name="for-name" as="xs:boolean" />
 
   <xsl:variable name="equal" as="xs:boolean" select="
     if ($expected)
@@ -323,10 +366,36 @@
     </xsl:when>
 
     <xsl:when test="
-      ($node[not(self::test:ws)] instance of element())
-      and ($node-to-compare-with[not(self::test:ws)] instance of element())
+      $for-name
+      and (
+        (
+          ($node[not(self::test:ws)] instance of element())
+          and ($node-to-compare-with[not(self::test:ws)] instance of element())
+        )
+        or (
+          ($node instance of attribute())
+          and ($node-to-compare-with instance of attribute())
+        )
+        or (
+          ($node instance of processing-instruction())
+          and ($node-to-compare-with instance of processing-instruction())
+        )
+      )
       and (node-name($node) eq node-name($node-to-compare-with))">
       <xsl:sequence select="'inner-diff'" />
+    </xsl:when>
+
+    <xsl:when test="
+      not($for-name)
+      and ($node instance of processing-instruction())
+      and ($node-to-compare-with instance of processing-instruction())">
+      <xsl:variable name="text" as="text()">
+        <xsl:value-of select="$node" />
+      </xsl:variable>
+      <xsl:variable name="text-to-compare-with" as="text()">
+        <xsl:value-of select="$node-to-compare-with" />
+      </xsl:variable>
+      <xsl:sequence select="test:comparison-html-class($text, $text-to-compare-with, $expected, $for-name)" />
     </xsl:when>
 
     <xsl:otherwise>
