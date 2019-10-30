@@ -284,4 +284,138 @@
          <x:expect test="false()" select="()"/>
       </x:test>
    </x:scenario>
+   <x:scenario>
+      <x:label>When the result contains attribute,</x:label>
+      <x:call function="one-or-more">
+         <x:param>
+            <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
+            <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
+            <orphan attr1="value1" attr2="" attr3="..."/>
+         </x:param>
+      </x:call>
+      <x:scenario>
+         <x:label>both in [Result] and [Expected Result] with diff,</x:label>
+         <x:result select="/element()">
+            <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
+            <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
+            <orphan attr1="value1" attr2="" attr3="..."/>
+         </x:result>
+         <x:test successful="false">
+            <x:label>The exact-match (taking '...' into account) attributes must be serialized
+					as green="uncolored". The name-match attributes must be serialized as
+					solidPink="uncolored". The orphan attributes must be serialized as
+					solidPink="uncolored" regardless of their values.</x:label>
+            <x:expect select="/element()">
+               <exact-match attr1="value1" attr2="..." attr3="" attr4="..."/>
+               <name-match attr1="VALUE1" attr2="" attr3="value3" attr4="value4"/>
+               <orphan attr4="value4" attr5="" attr6="..."/>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>in [Result] without diff,</x:label>
+         <x:result select="/element()">
+            <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
+            <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
+            <orphan attr1="value1" attr2="" attr3="..."/>
+         </x:result>
+         <x:test successful="false">
+            <x:label>all the attributes must be serialized without color.</x:label>
+            <x:expect test="false()" select="()"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario>
+      <x:label>When the result contains processing instructions,</x:label>
+      <x:call function="one-or-more">
+         <x:param>
+            <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
+            <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
+            <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+            <no-match>
+               <different-kind><?node1 value1?>
+                  <node2/>
+                  <?node3?>
+                  <node4/>
+                  <node5/>
+               </different-kind>
+               <orphan>
+                  <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
+                  <node2/>
+               </orphan>
+            </no-match>
+         </x:param>
+      </x:call>
+      <x:scenario>
+         <x:label>both in [Result] and [Expected Result] with diff,</x:label>
+         <x:result select="/element()">
+            <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
+            <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
+            <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+            <no-match>
+               <different-kind><?node1 value1?>
+                  <node2/>
+                  <?node3?>
+                  <node4/>
+                  <node5/>
+               </different-kind>
+               <orphan>
+                  <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
+                  <node2/>
+               </orphan>
+            </no-match>
+         </x:result>
+         <x:test successful="false">
+            <x:label>The exact-match (taking '...' into account) processing instructions must be
+					serialized as green. The name-match processing
+					instructions must be serialized as solid pink. The
+					value-match (taking '...' into account) processing instructions must be
+					serialized as solid pink. The no-match processing
+					instructions must be serialized as solid pink
+					regardless of their values.</x:label>
+            <x:expect select="/element()">
+               <exact-match><?node1 value1?><?node2 ...?><?node3?><?node4 ...?></exact-match>
+               <name-match><?node1 VALUE1?><?node2?><?node3 value3?><?node4 value4?></name-match>
+               <value-match><?NODE1 value1?><?NODE2 ...?><?NODE3?><?NODE4 ...?></value-match>
+               <no-match>
+                  <different-kind>
+                     <node1/>
+                     <?node2 value2?>
+                     <node3/>
+                     <?node4?>
+                     <?node5 ...?>
+                  </different-kind>
+                  <orphan>
+                     <node1/>
+                     <node2><?node2-1 value2-1?><?node2-2?><?node2-3 ...?></node2>
+                  </orphan>
+               </no-match>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>in [Result] without diff,</x:label>
+         <x:result select="/element()">
+            <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
+            <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
+            <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+            <no-match>
+               <different-kind><?node1 value1?>
+                  <node2/>
+                  <?node3?>
+                  <node4/>
+                  <node5/>
+               </different-kind>
+               <orphan>
+                  <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
+                  <node2/>
+               </orphan>
+            </no-match>
+         </x:result>
+         <x:test successful="false">
+            <x:label>all the processing instructions must be serialized without color.</x:label>
+            <x:expect test="false()" select="()"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
 </x:report>
