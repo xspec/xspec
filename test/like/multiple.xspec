@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="shared scenario" shared="yes">
+		<x:expect label="expect-1" />
+	</x:scenario>
+	<x:scenario label="shared scenario" shared="yes">
+		<x:expect label="expect-2" />
+	</x:scenario>
+
+	<x:scenario label="multiple scenarios matched">
+		<x:call function="false" />
+		<x:like label="shared scenario" />
+	</x:scenario>
+
+</x:description>
