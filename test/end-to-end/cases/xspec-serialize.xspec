@@ -201,4 +201,78 @@
 		</x:expect>
 	</x:scenario>
 
+	<x:scenario>
+		<x:label>When the result contains an element, the report HTML must serialize nodes in its
+			opening tag with aligned indentation. (xspec/xspec#689) So...</x:label>
+		<x:scenario>
+			<x:label>When the report XML contains an element with several namespaces</x:label>
+			<x:variable name="test">
+				<looooooooooooooooooooooooooooooooooong>
+					<test xmlns="ns" xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3">
+						<a />
+					</test>
+				</looooooooooooooooooooooooooooooooooong>
+			</x:variable>
+
+			<x:scenario>
+				<x:label>in x:result,</x:label>
+				<x:call function="exactly-one">
+					<x:param select="$test" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] with diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+				<x:expect test="false()">
+					<x:label>[Result] without diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>in x:expect,</x:label>
+				<x:call function="false" />
+				<x:expect select="$test">
+					<x:label>[Expected Result] with diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When the report XML contains an element with several attributes</x:label>
+			<x:variable name="test">
+				<looooooooooooooooooooooooooooooooooong>
+					<test attr1="val1" attr2="val2" attr3="val3">
+						<a />
+					</test>
+				</looooooooooooooooooooooooooooooooooong>
+			</x:variable>
+
+			<x:scenario>
+				<x:label>in x:result,</x:label>
+				<x:call function="exactly-one">
+					<x:param select="$test" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] with diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+				<x:expect test="false()">
+					<x:label>[Result] without diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>in x:expect,</x:label>
+				<x:call function="false" />
+				<x:expect select="$test">
+					<x:label>[Expected Result] with diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
