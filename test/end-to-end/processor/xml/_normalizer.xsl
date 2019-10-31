@@ -53,7 +53,7 @@
 			| /report[not(@schematron)]/@stylesheet
 			| scenario/call/param/@href
 			| scenario/context/@href
-			| /report[@schematron]//scenario/result/svrl:schematron-output/svrl:active-pattern/@document"
+			| /report[@schematron]//scenario/result/svrl:schematron-output/svrl:active-pattern/@document[string()]"
 		mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
