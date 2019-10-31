@@ -2,7 +2,7 @@
 <x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="schut-to-xspec-test.sch.xsl" schematron="..." xspec-original-location="...">
     <x:scenario label="expect-valid">
         <x:context href="..."/>
-        <x:expect label="valid" test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or @role = ('error','fatal')]))"/>
+        <x:expect label="valid" test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"/>
     </x:scenario>
     <x:scenario label="assertions">
         <x:scenario label="without attributes">
