@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for items.xsl (passed: 0 / pending: 0 / failed: 18 / total: 18)</title>
+      <title>Test Report for items.xsl (passed: 0 / pending: 0 / failed: 22 / total: 22)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -23,13 +23,13 @@
                <th></th>
                <th class="totals">passed: 0</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 18</th>
-               <th class="totals">total: 18</th>
+               <th class="totals">failed: 22</th>
+               <th class="totals">total: 22</th>
             </tr>
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#ELEM-62">When the result is a comment node, the report HTML must serialize it as &lt;!-- --&gt;.
+               <th><a href="#ELEM-76">When the result is a comment node, the report HTML must serialize it as &lt;!-- --&gt;.
                      (xspec/xspec#356) So...</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
@@ -37,7 +37,7 @@
                <th class="totals">3</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-144">When the result is indented in the report XML file, the report HTML must serialize
+               <th><a href="#ELEM-158">When the result is indented in the report XML file, the report HTML must serialize
                      it with indentation.</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
@@ -45,33 +45,47 @@
                <th class="totals">6</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-351">When x:expect has an element of '...',</a></th>
+               <th><a href="#ELEM-365">When x:expect has an element of '...',</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-390">When the result contains significant text nodes,</a></th>
+               <th><a href="#ELEM-404">When the result contains significant text nodes,</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">2</th>
                <th class="totals">2</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-471">When the result contains an element, the report HTML must serialize nodes in its opening
+               <th><a href="#ELEM-485">When the result contains an element, the report HTML must serialize nodes in its opening
                      tag with aligned indentation. (xspec/xspec#689) So...</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">6</th>
                <th class="totals">6</th>
             </tr>
+            <tr class="failed">
+               <th><a href="#ELEM-652">When the result contains attribute,</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">2</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#ELEM-743">When the result contains processing instructions,</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">2</th>
+            </tr>
          </tbody>
       </table>
-      <div id="ELEM-62">
+      <div id="ELEM-76">
          <h2 class="successful">When the result is a comment node, the report HTML must serialize it as &lt;!-- --&gt;.
             (xspec/xspec#356) So...<span class="scenario-totals">passed: 0 / pending: 0 / failed: 3 / total: 3</span></h2>
-         <table class="xspec" id="ELEM-64">
+         <table class="xspec" id="ELEM-78">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -84,32 +98,32 @@
                   <th>passed: 0 / pending: 0 / failed: 3 / total: 3</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-92">When x:result in the report XML contains a comment node,</a></th>
+                  <th><a href="#ELEM-106">When x:result in the report XML contains a comment node,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-93">[Result] with diff must be serialized as &lt;!-- --&gt;.</a></td>
+                  <td><a href="#ELEM-107">[Result] with diff must be serialized as &lt;!-- --&gt;.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-109">[Result] without diff must be serialized as &lt;!-- --&gt;.</a></td>
+                  <td><a href="#ELEM-123">[Result] without diff must be serialized as &lt;!-- --&gt;.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-125">When x:expect in the report XML contains a comment node,</a></th>
+                  <th><a href="#ELEM-139">When x:expect in the report XML contains a comment node,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-126">[Expected Result] with diff must be serialized as &lt;!-- --&gt;.</a></td>
+                  <td><a href="#ELEM-140">[Expected Result] with diff must be serialized as &lt;!-- --&gt;.</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-92">
+         <div id="ELEM-106">
             <h3>When the result is a comment node, the report HTML must serialize it as &lt;!-- --&gt;.
                (xspec/xspec#356) So... When x:result in the report XML contains a comment node,
             </h3>
-            <div id="ELEM-93">
+            <div id="ELEM-107">
                <h4>[Result] with diff must be serialized as &lt;!-- --&gt;.</h4>
                <table class="xspecResult">
                   <thead>
@@ -128,7 +142,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-109">
+            <div id="ELEM-123">
                <h4>[Result] without diff must be serialized as &lt;!-- --&gt;.</h4>
                <table class="xspecResult">
                   <thead>
@@ -148,11 +162,11 @@
                </table>
             </div>
          </div>
-         <div id="ELEM-125">
+         <div id="ELEM-139">
             <h3>When the result is a comment node, the report HTML must serialize it as &lt;!-- --&gt;.
                (xspec/xspec#356) So... When x:expect in the report XML contains a comment node,
             </h3>
-            <div id="ELEM-126">
+            <div id="ELEM-140">
                <h4>[Expected Result] with diff must be serialized as &lt;!-- --&gt;.</h4>
                <table class="xspecResult">
                   <thead>
@@ -173,10 +187,10 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-144">
+      <div id="ELEM-158">
          <h2 class="successful">When the result is indented in the report XML file, the report HTML must serialize
             it with indentation.<span class="scenario-totals">passed: 0 / pending: 0 / failed: 6 / total: 6</span></h2>
-         <table class="xspec" id="ELEM-146">
+         <table class="xspec" id="ELEM-160">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -189,66 +203,66 @@
                   <th>passed: 0 / pending: 0 / failed: 6 / total: 6</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-198">So... (xspec/xspec#359) When x:result in the report XML file is a sequence of simple
+                  <th><a href="#ELEM-212">So... (xspec/xspec#359) When x:result in the report XML file is a sequence of simple
                         nested elements serialized with indentation,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-199">all elements in [Result] with diff must be serialized with indentation.</a></td>
+                  <td><a href="#ELEM-213">all elements in [Result] with diff must be serialized with indentation.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-219">all elements in [Result] without diff must be serialized with indentation.</a></td>
+                  <td><a href="#ELEM-233">all elements in [Result] without diff must be serialized with indentation.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-235">So... (xspec/xspec#359) When x:expect in the report XML file is a sequence of simple
+                  <th><a href="#ELEM-249">So... (xspec/xspec#359) When x:expect in the report XML file is a sequence of simple
                         nested elements serialized with indentation,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-236">all elements in [Expected Result] with diff must be serialized with indentation.</a></td>
+                  <td><a href="#ELEM-250">all elements in [Expected Result] with diff must be serialized with indentation.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-257">But the diff must not be affected by indentation. So... When a node is indented, the
+                  <th><a href="#ELEM-271">But the diff must not be affected by indentation. So... When a node is indented, the
                         diff of the indented node itself must not be affected. (xspec/xspec#367) So... When
                         &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in x:result of the report XML file,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-258">both &lt;bar&gt; and &lt;?bar?&gt; must be green.</a></td>
+                  <td><a href="#ELEM-272">both &lt;bar&gt; and &lt;?bar?&gt; must be green.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-290">But the diff must not be affected by indentation. So... When a node is indented, the
+                  <th><a href="#ELEM-304">But the diff must not be affected by indentation. So... When a node is indented, the
                         diff of the indented node itself must not be affected. (xspec/xspec#367) So... When
                         &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in x:expect of the report XML file,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-291">both &lt;bar&gt; and &lt;?bar?&gt; must be green.</a></td>
+                  <td><a href="#ELEM-305">both &lt;bar&gt; and &lt;?bar?&gt; must be green.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-323">But the diff must not be affected by indentation. So... When a child node of an element
+                  <th><a href="#ELEM-337">But the diff must not be affected by indentation. So... When a child node of an element
                         is indented, the diff of the element must not be affected. So, when the same &lt;bar&gt;
                         in &lt;foo&gt; is indented in x:result and x:expect of the report XML file with different
                         indentation length,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-324">&lt;foo&gt; must be green.</a></td>
+                  <td><a href="#ELEM-338">&lt;foo&gt; must be green.</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-198">
+         <div id="ELEM-212">
             <h3>When the result is indented in the report XML file, the report HTML must serialize
                it with indentation. So... (xspec/xspec#359) When x:result in the report XML file
                is a sequence of simple nested elements serialized with indentation,
             </h3>
-            <div id="ELEM-199">
+            <div id="ELEM-213">
                <h4>all elements in [Result] with diff must be serialized with indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -273,7 +287,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-219">
+            <div id="ELEM-233">
                <h4>all elements in [Result] without diff must be serialized with indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -299,12 +313,12 @@
                </table>
             </div>
          </div>
-         <div id="ELEM-235">
+         <div id="ELEM-249">
             <h3>When the result is indented in the report XML file, the report HTML must serialize
                it with indentation. So... (xspec/xspec#359) When x:expect in the report XML file
                is a sequence of simple nested elements serialized with indentation,
             </h3>
-            <div id="ELEM-236">
+            <div id="ELEM-250">
                <h4>all elements in [Expected Result] with diff must be serialized with indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -330,14 +344,14 @@
                </table>
             </div>
          </div>
-         <div id="ELEM-257">
+         <div id="ELEM-271">
             <h3>When the result is indented in the report XML file, the report HTML must serialize
                it with indentation. But the diff must not be affected by indentation. So... When
                a node is indented, the diff of the indented node itself must not be affected. (xspec/xspec#367)
                So... When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in x:result of the report
                XML file,
             </h3>
-            <div id="ELEM-258">
+            <div id="ELEM-272">
                <h4>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</h4>
                <table class="xspecResult">
                   <thead>
@@ -368,14 +382,14 @@
                </table>
             </div>
          </div>
-         <div id="ELEM-290">
+         <div id="ELEM-304">
             <h3>When the result is indented in the report XML file, the report HTML must serialize
                it with indentation. But the diff must not be affected by indentation. So... When
                a node is indented, the diff of the indented node itself must not be affected. (xspec/xspec#367)
                So... When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in x:expect of the report
                XML file,
             </h3>
-            <div id="ELEM-291">
+            <div id="ELEM-305">
                <h4>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</h4>
                <table class="xspecResult">
                   <thead>
@@ -406,14 +420,14 @@
                </table>
             </div>
          </div>
-         <div id="ELEM-323">
+         <div id="ELEM-337">
             <h3>When the result is indented in the report XML file, the report HTML must serialize
                it with indentation. But the diff must not be affected by indentation. So... When
                a child node of an element is indented, the diff of the element must not be affected.
                So, when the same &lt;bar&gt; in &lt;foo&gt; is indented in x:result and x:expect of the report
                XML file with different indentation length,
             </h3>
-            <div id="ELEM-324">
+            <div id="ELEM-338">
                <h4>&lt;foo&gt; must be green.</h4>
                <table class="xspecResult">
                   <thead>
@@ -446,9 +460,9 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-351">
+      <div id="ELEM-365">
          <h2 class="failed">When x:expect has an element of '...',<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-353">
+         <table class="xspec" id="ELEM-367">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -459,14 +473,14 @@
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-366">the corresponding nodes in [Result] with diff must be serialized in green. (xspec/xspec#379)</a></td>
+                  <td><a href="#ELEM-380">the corresponding nodes in [Result] with diff must be serialized in green. (xspec/xspec#379)</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-365">
+         <div id="ELEM-379">
             <h3>When x:expect has an element of '...',</h3>
-            <div id="ELEM-366">
+            <div id="ELEM-380">
                <h4>the corresponding nodes in [Result] with diff must be serialized in green. (xspec/xspec#379)</h4>
                <table class="xspecResult">
                   <thead>
@@ -490,9 +504,9 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-390">
+      <div id="ELEM-404">
          <h2 class="failed">When the result contains significant text nodes,<span class="scenario-totals">passed: 0 / pending: 0 / failed: 2 / total: 2</span></h2>
-         <table class="xspec" id="ELEM-392">
+         <table class="xspec" id="ELEM-406">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -503,19 +517,19 @@
                   <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-409">both in [Result] and [Expected Result] with diff, the significant text nodes must
+                  <td><a href="#ELEM-423">both in [Result] and [Expected Result] with diff, the significant text nodes must
                         be serialized with color. (xspec/xspec#386)</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-452">in [Result] without diff, the significant text nodes must be serialized without color.</a></td>
+                  <td><a href="#ELEM-466">in [Result] without diff, the significant text nodes must be serialized without color.</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-408">
+         <div id="ELEM-422">
             <h3>When the result contains significant text nodes,</h3>
-            <div id="ELEM-409">
+            <div id="ELEM-423">
                <h4>both in [Result] and [Expected Result] with diff, the significant text nodes must
                   be serialized with color. (xspec/xspec#386)
                </h4>
@@ -556,7 +570,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-452">
+            <div id="ELEM-466">
                <h4>in [Result] without diff, the significant text nodes must be serialized without color.</h4>
                <table class="xspecResult">
                   <thead>
@@ -586,10 +600,10 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-471">
+      <div id="ELEM-485">
          <h2 class="successful">When the result contains an element, the report HTML must serialize nodes in its opening
             tag with aligned indentation. (xspec/xspec#689) So...<span class="scenario-totals">passed: 0 / pending: 0 / failed: 6 / total: 6</span></h2>
-         <table class="xspec" id="ELEM-473">
+         <table class="xspec" id="ELEM-487">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -602,53 +616,53 @@
                   <th>passed: 0 / pending: 0 / failed: 6 / total: 6</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-521">When the report XML contains an element with several namespaces in x:result,</a></th>
+                  <th><a href="#ELEM-535">When the report XML contains an element with several namespaces in x:result,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-522">[Result] with diff must be serialized with aligned indentation.</a></td>
+                  <td><a href="#ELEM-536">[Result] with diff must be serialized with aligned indentation.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-540">[Result] without diff must be serialized with aligned indentation.</a></td>
+                  <td><a href="#ELEM-554">[Result] without diff must be serialized with aligned indentation.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-556">When the report XML contains an element with several namespaces in x:expect,</a></th>
+                  <th><a href="#ELEM-570">When the report XML contains an element with several namespaces in x:expect,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-557">[Expected Result] with diff must be serialized with aligned indentation.</a></td>
+                  <td><a href="#ELEM-571">[Expected Result] with diff must be serialized with aligned indentation.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-576">When the report XML contains an element with several attributes in x:result,</a></th>
+                  <th><a href="#ELEM-590">When the report XML contains an element with several attributes in x:result,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-577">[Result] with diff must be serialized with aligned indentation.</a></td>
+                  <td><a href="#ELEM-591">[Result] with diff must be serialized with aligned indentation.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-598">[Result] without diff must be serialized with aligned indentation.</a></td>
+                  <td><a href="#ELEM-612">[Result] without diff must be serialized with aligned indentation.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#ELEM-614">When the report XML contains an element with several attributes in x:expect,</a></th>
+                  <th><a href="#ELEM-628">When the report XML contains an element with several attributes in x:expect,</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-615">[Expected Result] with diff must be serialized with aligned indentation.</a></td>
+                  <td><a href="#ELEM-629">[Expected Result] with diff must be serialized with aligned indentation.</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-521">
+         <div id="ELEM-535">
             <h3>When the result contains an element, the report HTML must serialize nodes in its opening
                tag with aligned indentation. (xspec/xspec#689) So... When the report XML contains
                an element with several namespaces in x:result,
             </h3>
-            <div id="ELEM-522">
+            <div id="ELEM-536">
                <h4>[Result] with diff must be serialized with aligned indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -674,7 +688,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-540">
+            <div id="ELEM-554">
                <h4>[Result] without diff must be serialized with aligned indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -701,12 +715,12 @@
                </table>
             </div>
          </div>
-         <div id="ELEM-556">
+         <div id="ELEM-570">
             <h3>When the result contains an element, the report HTML must serialize nodes in its opening
                tag with aligned indentation. (xspec/xspec#689) So... When the report XML contains
                an element with several namespaces in x:expect,
             </h3>
-            <div id="ELEM-557">
+            <div id="ELEM-571">
                <h4>[Expected Result] with diff must be serialized with aligned indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -733,12 +747,12 @@
                </table>
             </div>
          </div>
-         <div id="ELEM-576">
+         <div id="ELEM-590">
             <h3>When the result contains an element, the report HTML must serialize nodes in its opening
                tag with aligned indentation. (xspec/xspec#689) So... When the report XML contains
                an element with several attributes in x:result,
             </h3>
-            <div id="ELEM-577">
+            <div id="ELEM-591">
                <h4>[Result] with diff must be serialized with aligned indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -763,7 +777,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-598">
+            <div id="ELEM-612">
                <h4>[Result] without diff must be serialized with aligned indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -789,12 +803,12 @@
                </table>
             </div>
          </div>
-         <div id="ELEM-614">
+         <div id="ELEM-628">
             <h3>When the result contains an element, the report HTML must serialize nodes in its opening
                tag with aligned indentation. (xspec/xspec#689) So... When the report XML contains
                an element with several attributes in x:expect,
             </h3>
-            <div id="ELEM-615">
+            <div id="ELEM-629">
                <h4>[Expected Result] with diff must be serialized with aligned indentation.</h4>
                <table class="xspecResult">
                   <thead>
@@ -815,6 +829,249 @@
       &lt;<span class="diff">a</span> /&gt;
    &lt;/test&gt;
 &lt;/looooooooooooooooooooooooooooooooooong&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="ELEM-652">
+         <h2 class="successful">When the result contains attribute,<span class="scenario-totals">passed: 0 / pending: 0 / failed: 2 / total: 2</span></h2>
+         <table class="xspec" id="ELEM-654">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>When the result contains attribute,</th>
+                  <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#ELEM-678">both in [Result] and [Expected Result] with diff,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-679">The exact-match (taking '...' into account) attributes must be serialized as green="uncolored".
+                        The name-match attributes must be serialized as solidPink="uncolored". The orphan
+                        attributes must be serialized as solidPink="uncolored" regardless of their values.</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#ELEM-725">in [Result] without diff,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-726">all the attributes must be serialized without color.</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="ELEM-678">
+            <h3>When the result contains attribute, both in [Result] and [Expected Result] with diff,</h3>
+            <div id="ELEM-679">
+               <h4>The exact-match (taking '...' into account) attributes must be serialized as green="uncolored".
+                  The name-match attributes must be serialized as solidPink="uncolored". The orphan
+                  attributes must be serialized as solidPink="uncolored" regardless of their values.
+               </h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="same">exact-match</span> <span class="same">attr1</span>="value1"
+             <span class="same">attr2</span>="value2"
+             <span class="same">attr3</span>=""
+             <span class="same">attr4</span>="" /&gt;
+&lt;<span class="inner-diff">name-match</span> <span class="diff">attr1</span>="value1"
+            <span class="diff">attr2</span>="value2"
+            <span class="diff">attr3</span>=""
+            <span class="diff">attr4</span>="..." /&gt;
+&lt;<span class="inner-diff">orphan</span> <span class="diff">attr1</span>="value1"
+        <span class="diff">attr2</span>=""
+        <span class="diff">attr3</span>="..." /&gt;</pre></td>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="same">exact-match</span> <span class="same">attr1</span>="value1"
+             <span class="same">attr2</span>="..."
+             <span class="same">attr3</span>=""
+             <span class="same">attr4</span>="..." /&gt;
+&lt;<span class="inner-diff">name-match</span> <span class="diff">attr1</span>="VALUE1"
+            <span class="diff">attr2</span>=""
+            <span class="diff">attr3</span>="value3"
+            <span class="diff">attr4</span>="value4" /&gt;
+&lt;<span class="inner-diff">orphan</span> <span class="diff">attr4</span>="value4"
+        <span class="diff">attr5</span>=""
+        <span class="diff">attr6</span>="..." /&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-725">
+            <h3>When the result contains attribute, in [Result] without diff,</h3>
+            <div id="ELEM-726">
+               <h4>all the attributes must be serialized without color.</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;exact-match attr1="value1"
+             attr2="value2"
+             attr3=""
+             attr4="" /&gt;
+&lt;name-match attr1="value1"
+            attr2="value2"
+            attr3=""
+            attr4="..." /&gt;
+&lt;orphan attr1="value1"
+        attr2=""
+        attr3="..." /&gt;</pre></td>
+                        <td><pre>false()</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="ELEM-743">
+         <h2 class="successful">When the result contains processing instructions,<span class="scenario-totals">passed: 0 / pending: 0 / failed: 2 / total: 2</span></h2>
+         <table class="xspec" id="ELEM-745">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>When the result contains processing instructions,</th>
+                  <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#ELEM-769">both in [Result] and [Expected Result] with diff,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-770">The exact-match (taking '...' into account) processing instructions must be serialized
+                        as green. The name-match processing instructions must be serialized as solid pink.
+                        The value-match (taking '...' into account) processing instructions must be serialized
+                        as solid pink. The no-match processing instructions must be serialized as solid pink
+                        regardless of their values.</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#ELEM-844">in [Result] without diff,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-845">all the processing instructions must be serialized without color.</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="ELEM-769">
+            <h3>When the result contains processing instructions, both in [Result] and [Expected Result]
+               with diff,
+            </h3>
+            <div id="ELEM-770">
+               <h4>The exact-match (taking '...' into account) processing instructions must be serialized
+                  as green. The name-match processing instructions must be serialized as solid pink.
+                  The value-match (taking '...' into account) processing instructions must be serialized
+                  as solid pink. The no-match processing instructions must be serialized as solid pink
+                  regardless of their values.
+               </h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="same">exact-match</span>&gt;<span class="same">&lt;?node1 value1?&gt;</span><span class="same">&lt;?node2 value2?&gt;</span><span class="same">&lt;?node3 ?&gt;</span><span class="same">&lt;?node4 ?&gt;</span>&lt;/exact-match&gt;
+&lt;<span class="inner-diff">name-match</span>&gt;<span class="diff">&lt;?node1 value1?&gt;</span><span class="diff">&lt;?node2 value2?&gt;</span><span class="diff">&lt;?node3 ?&gt;</span><span class="diff">&lt;?node4 ...?&gt;</span>&lt;/name-match&gt;
+&lt;<span class="inner-diff">value-match</span>&gt;<span class="diff">&lt;?node1 value1?&gt;</span><span class="diff">&lt;?node2 value2?&gt;</span><span class="diff">&lt;?node3 ?&gt;</span><span class="diff">&lt;?node4 ?&gt;</span>&lt;/value-match&gt;
+&lt;<span class="inner-diff">no-match</span>&gt;
+   &lt;<span class="inner-diff">different-kind</span>&gt;<span class="diff">&lt;?node1 value1?&gt;</span>
+      &lt;<span class="diff">node2</span> /&gt;
+      <span class="diff">&lt;?node3 ?&gt;</span>
+      &lt;<span class="diff">node4</span> /&gt;
+      &lt;<span class="diff">node5</span> /&gt;
+   &lt;/different-kind&gt;
+   &lt;<span class="inner-diff">orphan</span>&gt;
+      &lt;<span class="inner-diff">node1</span>&gt;<span class="diff">&lt;?node1-1 value1-1?&gt;</span><span class="diff">&lt;?node1-2 ?&gt;</span><span class="diff">&lt;?node1-3 ...?&gt;</span>&lt;/node1&gt;
+      &lt;<span class="inner-diff">node2</span> /&gt;
+   &lt;/orphan&gt;
+&lt;/no-match&gt;</pre></td>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;<span class="same">exact-match</span>&gt;<span class="same">&lt;?node1 value1?&gt;</span><span class="same">&lt;?node2 ...?&gt;</span><span class="same">&lt;?node3 ?&gt;</span><span class="same">&lt;?node4 ...?&gt;</span>&lt;/exact-match&gt;
+&lt;<span class="inner-diff">name-match</span>&gt;<span class="diff">&lt;?node1 VALUE1?&gt;</span><span class="diff">&lt;?node2 ?&gt;</span><span class="diff">&lt;?node3 value3?&gt;</span><span class="diff">&lt;?node4 value4?&gt;</span>&lt;/name-match&gt;
+&lt;<span class="inner-diff">value-match</span>&gt;<span class="diff">&lt;?NODE1 value1?&gt;</span><span class="diff">&lt;?NODE2 ...?&gt;</span><span class="diff">&lt;?NODE3 ?&gt;</span><span class="diff">&lt;?NODE4 ...?&gt;</span>&lt;/value-match&gt;
+&lt;<span class="inner-diff">no-match</span>&gt;
+   &lt;<span class="inner-diff">different-kind</span>&gt;
+      &lt;<span class="diff">node1</span> /&gt;
+      <span class="diff">&lt;?node2 value2?&gt;</span>
+      &lt;<span class="diff">node3</span> /&gt;
+      <span class="diff">&lt;?node4 ?&gt;</span>
+      <span class="diff">&lt;?node5 ...?&gt;</span>
+   &lt;/different-kind&gt;
+   &lt;<span class="inner-diff">orphan</span>&gt;
+      &lt;<span class="inner-diff">node1</span> /&gt;
+      &lt;<span class="inner-diff">node2</span>&gt;<span class="diff">&lt;?node2-1 value2-1?&gt;</span><span class="diff">&lt;?node2-2 ?&gt;</span><span class="diff">&lt;?node2-3 ...?&gt;</span>&lt;/node2&gt;
+   &lt;/orphan&gt;
+&lt;/no-match&gt;</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="ELEM-844">
+            <h3>When the result contains processing instructions, in [Result] without diff,</h3>
+            <div id="ELEM-845">
+               <h4>all the processing instructions must be serialized without color.</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;exact-match&gt;&lt;?node1 value1?&gt;&lt;?node2 value2?&gt;&lt;?node3 ?&gt;&lt;?node4 ?&gt;&lt;/exact-match&gt;
+&lt;name-match&gt;&lt;?node1 value1?&gt;&lt;?node2 value2?&gt;&lt;?node3 ?&gt;&lt;?node4 ...?&gt;&lt;/name-match&gt;
+&lt;value-match&gt;&lt;?node1 value1?&gt;&lt;?node2 value2?&gt;&lt;?node3 ?&gt;&lt;?node4 ?&gt;&lt;/value-match&gt;
+&lt;no-match&gt;
+   &lt;different-kind&gt;&lt;?node1 value1?&gt;
+      &lt;node2 /&gt;
+      &lt;?node3 ?&gt;
+      &lt;node4 /&gt;
+      &lt;node5 /&gt;
+   &lt;/different-kind&gt;
+   &lt;orphan&gt;
+      &lt;node1&gt;&lt;?node1-1 value1-1?&gt;&lt;?node1-2 ?&gt;&lt;?node1-3 ...?&gt;&lt;/node1&gt;
+      &lt;node2 /&gt;
+   &lt;/orphan&gt;
+&lt;/no-match&gt;</pre></td>
+                        <td><pre>false()</pre></td>
                      </tr>
                   </tbody>
                </table>
