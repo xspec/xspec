@@ -92,4 +92,15 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
+   <x:scenario>
+      <x:label>Document node with no children (xspec/xspec#697)</x:label>
+      <x:call function="parse-xml-fragment">
+         <x:param select="''"/>
+      </x:call>
+      <x:result select="/self::document-node()"/>
+      <x:test successful="false">
+         <x:label>XPath should be reported between Result title and box</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
 </x:report>

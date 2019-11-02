@@ -137,7 +137,7 @@
     rem * JUnit is disabled by default
     call :run dir /b /o:n ..\tutorial\xspec
     call :verify_line_count 3
-    call :verify_line 1 x escape-for-regex.xsl
+    call :verify_line 1 x escape-for-regex-compiled.xsl
     call :verify_line 2 x escape-for-regex-result.html
     call :verify_line 3 x escape-for-regex-result.xml
 
@@ -314,7 +314,7 @@
     rem Cleanup removes temporary files in TEST_DIR
     call :run dir /b /o:n ..\tutorial\schematron\xspec
     call :verify_line_count 3
-    call :verify_line 1 x demo-03.xsl
+    call :verify_line 1 x demo-03-compiled.xsl
     call :verify_line 2 x demo-03-result.html
     call :verify_line 3 x demo-03-result.xml
 	</case>
@@ -328,7 +328,7 @@
     rem Specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
     call :verify_line_count 3
-    call :verify_line 1 x schematron-017.xsl
+    call :verify_line 1 x schematron-017-compiled.xsl
     call :verify_line 2 x schematron-017-result.html
     call :verify_line 3 x schematron-017-result.xml
 
@@ -344,7 +344,7 @@
     rem Specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
     call :verify_line_count 3
-    call :verify_line 1 x schematron-017.xsl
+    call :verify_line 1 x schematron-017-compiled.xsl
     call :verify_line 2 x schematron-017-result.html
     call :verify_line 3 x schematron-017-result.xml
 	</case>
@@ -420,8 +420,8 @@
     rem * Default xspec.junit.enabled is false
     call :run dir /b /o:n ..\tutorial\xspec
     call :verify_line_count 4
-    call :verify_line 1 x escape-for-regex.xsl
-    call :verify_line 2 x escape-for-regex_xml-to-properties.xml
+    call :verify_line 1 x escape-for-regex_xml-to-properties.xml
+    call :verify_line 2 x escape-for-regex-compiled.xsl
     call :verify_line 3 x escape-for-regex-result.html
     call :verify_line 4 x escape-for-regex-result.xml
 
