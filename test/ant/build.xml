@@ -10,6 +10,9 @@
 	<property location="${run-xspec-tests.basedir}/../" name="xspecfiles.dir" />
 	<makeurl file="${xspecfiles.dir}" property="xspecfiles.dir.url" />
 
+	<!-- Query parameter for fn:collection() -->
+	<property name="xspecfiles.dir.url.query" value="select=*.xspec" />
+
 	<!-- Gets processor capabilities -->
 	<target name="get-processor-caps">
 		<echo message="Getting processor capabilities" />
@@ -87,6 +90,7 @@
 			style="worker/generate.xsl">
 			<factory name="net.sf.saxon.TransformerFactoryImpl" />
 			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
+			<param expression="${xspecfiles.dir.url.query}" name="XSPECFILES-DIR-URI-QUERY" />
 			<param expression="${xslt.supports.coverage}" name="XSLT-SUPPORTS-COVERAGE"
 				type="BOOLEAN" />
 			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN" />
