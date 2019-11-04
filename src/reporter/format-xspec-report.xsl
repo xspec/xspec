@@ -377,7 +377,7 @@
   <xsl:variable name="expected" as="xs:boolean" select=". instance of element(x:expect)" />
 
   <xsl:choose>
-    <xsl:when test="@href or node()">
+    <xsl:when test="@href or node() or (@select eq '/self::document-node()')">
       <xsl:if test="@select">
         <p>XPath <code><xsl:value-of select="@select" /></code> from:</p>
       </xsl:if>

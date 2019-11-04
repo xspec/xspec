@@ -14,9 +14,7 @@
     <xsl:variable name="info" select="('info', 'information')"/>
 
     <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
-        <xsl:copy>
-            <xsl:apply-templates select="@* | node()"/>
-        </xsl:copy>
+        <xsl:call-template name="x:identity" />
     </xsl:template>
     
     <xsl:template match="x:description[@schematron]">
@@ -180,7 +178,7 @@
             <xsl:attribute name="test" select="concat(
                 'boolean(svrl:schematron-output[svrl:fired-rule]) and
                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[
-                not(@role) or @role = (',
+                not(@role) or lower-case(@role) = (',
                 string-join(for $e in $error return concat(codepoints-to-string(39), $e, codepoints-to-string(39)), ','),
                 ')]))'
                 )"/>
