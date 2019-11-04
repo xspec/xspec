@@ -211,9 +211,9 @@ teardown() {
     run ls ../tutorial/xspec
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "escape-for-regex-result.html" ]
-    [ "${lines[1]}" = "escape-for-regex-result.xml" ]
-    [ "${lines[2]}" = "escape-for-regex.xsl" ]
+    [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
+    [ "${lines[1]}" = "escape-for-regex-result.html" ]
+    [ "${lines[2]}" = "escape-for-regex-result.xml" ]
 
     # HTML report file contains CSS inline #135
     run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
@@ -430,9 +430,9 @@ teardown() {
     run ls ../tutorial/schematron/xspec
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "demo-03-result.html" ]
-    [ "${lines[1]}" = "demo-03-result.xml" ]
-    [ "${lines[2]}" = "demo-03.xsl" ]
+    [ "${lines[0]}" = "demo-03-compiled.xsl" ]
+    [ "${lines[1]}" = "demo-03-result.html" ]
+    [ "${lines[2]}" = "demo-03-result.xml" ]
 }
 
 
@@ -447,9 +447,9 @@ teardown() {
     run ls "${TEST_DIR}"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "schematron-017-result.html" ]
-    [ "${lines[1]}" = "schematron-017-result.xml" ]
-    [ "${lines[2]}" = "schematron-017.xsl" ]
+    [ "${lines[0]}" = "schematron-017-compiled.xsl" ]
+    [ "${lines[1]}" = "schematron-017-result.html" ]
+    [ "${lines[2]}" = "schematron-017-result.xml" ]
 
     # Default TEST_DIR
     run ls xspec
@@ -466,9 +466,9 @@ teardown() {
     run ls "${TEST_DIR}"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "schematron-017-result.html" ]
-    [ "${lines[1]}" = "schematron-017-result.xml" ]
-    [ "${lines[2]}" = "schematron-017.xsl" ]
+    [ "${lines[0]}" = "schematron-017-compiled.xsl" ]
+    [ "${lines[1]}" = "schematron-017-result.html" ]
+    [ "${lines[2]}" = "schematron-017-result.xml" ]
 }
 
 
@@ -561,9 +561,9 @@ teardown() {
     run env LC_ALL=C ls ../tutorial/xspec
     echo "$output"
     [ "${#lines[@]}" = "4" ]
-    [ "${lines[0]}" = "escape-for-regex-result.html" ]
-    [ "${lines[1]}" = "escape-for-regex-result.xml" ]
-    [ "${lines[2]}" = "escape-for-regex.xsl" ]
+    [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
+    [ "${lines[1]}" = "escape-for-regex-result.html" ]
+    [ "${lines[2]}" = "escape-for-regex-result.xml" ]
     [ "${lines[3]}" = "escape-for-regex_xml-to-properties.xml" ]
 
     # HTML report file contains CSS inline
