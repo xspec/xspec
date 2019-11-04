@@ -180,7 +180,7 @@
             <xsl:attribute name="test" select="concat(
                 'boolean(svrl:schematron-output[svrl:fired-rule]) and
                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[
-                not(@role) or @role = (',
+                not(@role) or lower-case(@role) = (',
                 string-join(for $e in $error return concat(codepoints-to-string(39), $e, codepoints-to-string(39)), ','),
                 ')]))'
                 )"/>
