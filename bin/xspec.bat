@@ -463,10 +463,11 @@ if not defined TEST_DIR for %%I in ("%XSPEC%") do set "TEST_DIR=%%~dpIxspec"
 
 for %%I in ("%XSPEC%") do set "TARGET_FILE_NAME=%%~nI"
 
+set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-compiled"
 if defined XSLT (
-    set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%.xsl"
+    set "COMPILED=%COMPILED%.xsl"
 ) else (
-    set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%.xq"
+    set "COMPILED=%COMPILED%.xq"
 )
 set "COVERAGE_XML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.xml"
 set "COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html"

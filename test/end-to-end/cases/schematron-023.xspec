@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="../../schematron/schematron-023.sch">
+    <x:scenario label="valid with warning: expect-valid should pass">
+        <x:context>
+            <document>
+                <section>
+                    <title>INTRODUCTION</title>
+                    <p>Some text</p>
+                </section>
+            </document>
+        </x:context>
+        <x:expect-valid />
+    </x:scenario>
+    
+    <x:scenario label="error: expect-valid should fail">
+        <x:context>
+            <document>
+                <section>
+                    <title>INTRODUCTION</title>
+                </section>
+            </document>
+        </x:context>
+        <x:expect-valid />
+    </x:scenario>
+    
+    <x:scenario label="fatal: expect-valid should fail">
+        <x:context>
+            <adocument>
+            </adocument>
+        </x:context>
+        <x:expect-valid />
+    </x:scenario>
+</x:description>

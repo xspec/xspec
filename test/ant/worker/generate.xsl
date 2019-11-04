@@ -16,6 +16,9 @@
 	<!-- Absolute URI of directory where *.xspec files are located. Must ends with '/'. -->
 	<xsl:param as="xs:anyURI" name="XSPECFILES-DIR-URI" required="yes" />
 
+	<!-- Query parameter for fn:collection() -->
+	<xsl:param as="xs:string" name="XSPECFILES-DIR-URI-QUERY" required="yes" />
+
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
@@ -54,7 +57,7 @@
 			<xsl:apply-templates select="attribute() | node()" />
 
 			<xsl:variable as="xs:string" name="collection-uri"
-				select="concat($XSPECFILES-DIR-URI, '?select=*.xspec')" />
+				select="string-join(($XSPECFILES-DIR-URI, $XSPECFILES-DIR-URI-QUERY), '?')" />
 
 			<!--<xsl:message select="'Collecting:', $collection-uri" />-->
 			<xsl:variable as="document-node()+" name="xspec-docs"
