@@ -322,7 +322,8 @@
 
         <!-- Single document node -->
         <xsl:when test="$sequence instance of document-node()">
-          <!-- People do not always notice '/' in the report HTML. So express it more verbosely. -->
+          <!-- People do not always notice '/' in the report HTML. So express it more verbosely.
+            Also the expression must match the one in ../reporter/format-xspec-report.xsl. -->
           <xsl:attribute name="select" select="'/self::document-node()'" />
           <xsl:apply-templates select="$sequence" mode="test:report-node" />
         </xsl:when>
