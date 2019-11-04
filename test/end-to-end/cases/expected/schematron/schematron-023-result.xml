@@ -4,7 +4,7 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../schematron/schematron-023.sch-preprocessed.xsl"
+          stylesheet="schematron-023-sch-preprocessed.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../schematron-023.xspec"
           schematron="../../../../schematron/schematron-023.sch">
