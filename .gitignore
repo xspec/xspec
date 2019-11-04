@@ -2,7 +2,7 @@
 /target/
 
 # Eclipse project information
-.project
+/.project
 
 # https://github.com/xspec/xspec/pull/13#issuecomment-412299372
 # .idea/
