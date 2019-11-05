@@ -23,7 +23,7 @@
 			<xsl:message terminate="yes">
 				<xsl:text>Saxon version is </xsl:text>
 				<xsl:value-of select="system-property('xsl:product-version')" />
-				<xsl:text>. Generating the expected files on Saxon 9.8.0.14 or later (including 9.9) will produce unrelated changes. You have to generate the expected files on 9.8.0.12 or less (incluing 9.7).</xsl:text>
+				<xsl:text>. Generating the expected files on Saxon 9.8.0.14 or later (including 9.9) will produce unrelated changes. You have to generate the expected files on 9.8.0.12 or less (including 9.7).</xsl:text>
 			</xsl:message>
 		</xsl:if>
 

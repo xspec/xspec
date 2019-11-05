@@ -29,7 +29,7 @@
        The special value '#none' is used to generate no "at" clause at
        all.
 
-       By defaut, the URI is generated as a file relative to this
+       By default, the URI is generated as a file relative to this
        stylesheet (because it comes with it in the XSpec release, but
        accessing the module on the file system is not always the best
        option, for instance for XML databases like eXist or
