@@ -65,7 +65,7 @@
     <xsl:value-of>
       <xsl:text>&#xA;</xsl:text>
       <xsl:for-each select="1 to $level"><xsl:text>   </xsl:text></xsl:for-each>
-      <xsl:value-of select="replace(name(parent::*), '.', ' ')" />
+      <xsl:value-of select="replace(concat('&lt;', name()), '.', ' ')" />
     </xsl:value-of>
   </xsl:variable>
 

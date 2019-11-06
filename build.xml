@@ -145,7 +145,7 @@
 
   <!-- File path of the compiled XSLT/XQuery file that finally runs the tests -->
   <property name="xspec.compiled.runner.without.ext" 
-            value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}" />
+            value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-compiled" />
   <condition property="xspec.compiled.runner"
              value="${xspec.compiled.runner.without.ext}.xq"
              else="${xspec.compiled.runner.without.ext}.xsl">

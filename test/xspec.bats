@@ -211,9 +211,9 @@ teardown() {
     run ls ../tutorial/xspec
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "escape-for-regex-result.html" ]
-    [ "${lines[1]}" = "escape-for-regex-result.xml" ]
-    [ "${lines[2]}" = "escape-for-regex.xsl" ]
+    [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
+    [ "${lines[1]}" = "escape-for-regex-result.html" ]
+    [ "${lines[2]}" = "escape-for-regex-result.xml" ]
 
     # HTML report file contains CSS inline #135
     run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
@@ -430,9 +430,9 @@ teardown() {
     run ls ../tutorial/schematron/xspec
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "demo-03-result.html" ]
-    [ "${lines[1]}" = "demo-03-result.xml" ]
-    [ "${lines[2]}" = "demo-03.xsl" ]
+    [ "${lines[0]}" = "demo-03-compiled.xsl" ]
+    [ "${lines[1]}" = "demo-03-result.html" ]
+    [ "${lines[2]}" = "demo-03-result.xml" ]
 }
 
 
@@ -447,9 +447,9 @@ teardown() {
     run ls "${TEST_DIR}"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "schematron-017-result.html" ]
-    [ "${lines[1]}" = "schematron-017-result.xml" ]
-    [ "${lines[2]}" = "schematron-017.xsl" ]
+    [ "${lines[0]}" = "schematron-017-compiled.xsl" ]
+    [ "${lines[1]}" = "schematron-017-result.html" ]
+    [ "${lines[2]}" = "schematron-017-result.xml" ]
 
     # Default TEST_DIR
     run ls xspec
@@ -466,9 +466,9 @@ teardown() {
     run ls "${TEST_DIR}"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "schematron-017-result.html" ]
-    [ "${lines[1]}" = "schematron-017-result.xml" ]
-    [ "${lines[2]}" = "schematron-017.xsl" ]
+    [ "${lines[0]}" = "schematron-017-compiled.xsl" ]
+    [ "${lines[1]}" = "schematron-017-result.html" ]
+    [ "${lines[2]}" = "schematron-017-result.xml" ]
 }
 
 
@@ -561,9 +561,9 @@ teardown() {
     run env LC_ALL=C ls ../tutorial/xspec
     echo "$output"
     [ "${#lines[@]}" = "4" ]
-    [ "${lines[0]}" = "escape-for-regex-result.html" ]
-    [ "${lines[1]}" = "escape-for-regex-result.xml" ]
-    [ "${lines[2]}" = "escape-for-regex.xsl" ]
+    [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
+    [ "${lines[1]}" = "escape-for-regex-result.html" ]
+    [ "${lines[2]}" = "escape-for-regex-result.xml" ]
     [ "${lines[3]}" = "escape-for-regex_xml-to-properties.xml" ]
 
     # HTML report file contains CSS inline
@@ -961,7 +961,7 @@ teardown() {
     [ "${lines[7]}"  = "Scenario 1-3" ]
     [ "${lines[8]}"  = "Scenario 2a-1" ]
     [ "${lines[9]}"  = "Scenario 2a-2" ]
-    [ "${lines[10]}"  = "Scenario 2b-1" ]
+    [ "${lines[10]}" = "Scenario 2b-1" ]
     [ "${lines[11]}" = "Scenario 2b-2" ]
     [ "${lines[12]}" = "Scenario 3" ]
     [ "${lines[13]}" = "Formatting Report..." ]
@@ -994,7 +994,7 @@ teardown() {
     export TEST_DIR="${work_dir}"
     run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-expect.xspec
     echo "$output"
-    [[ "${lines[10]}"  =~ "WARNING: x:expect has boolean @test" ]]
+    [[ "${lines[10]}" =~ "WARNING: x:expect has boolean @test" ]]
     [[ "${lines[15]}" =~ "WARNING: x:expect has boolean @test" ]]
     [[ "${lines[22]}" =~ "WARNING: x:expect has boolean @test" ]]
     [  "${lines[31]}" =  "Formatting Report..." ]
@@ -1367,6 +1367,27 @@ teardown() {
     [ "${#lines[@]}" = "2" ]
 
     rm -r "${TEST_DIR}"
+}
+
+
+@test "x:like errors" {
+    # Make the line numbers predictable by providing an existing output dir
+    export TEST_DIR="${work_dir}"
+
+    run ../bin/xspec.sh like/none.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "  x:XSPEC009: x:like: Scenario not found: none" ]
+
+    run ../bin/xspec.sh like/multiple.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario" ]
+
+    run ../bin/xspec.sh like/loop.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario" ]
 }
 
 

@@ -137,7 +137,7 @@
     rem * JUnit is disabled by default
     call :run dir /b /o:n ..\tutorial\xspec
     call :verify_line_count 3
-    call :verify_line 1 x escape-for-regex.xsl
+    call :verify_line 1 x escape-for-regex-compiled.xsl
     call :verify_line 2 x escape-for-regex-result.html
     call :verify_line 3 x escape-for-regex-result.xml
 
@@ -314,7 +314,7 @@
     rem Cleanup removes temporary files in TEST_DIR
     call :run dir /b /o:n ..\tutorial\schematron\xspec
     call :verify_line_count 3
-    call :verify_line 1 x demo-03.xsl
+    call :verify_line 1 x demo-03-compiled.xsl
     call :verify_line 2 x demo-03-result.html
     call :verify_line 3 x demo-03-result.xml
 	</case>
@@ -328,7 +328,7 @@
     rem Specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
     call :verify_line_count 3
-    call :verify_line 1 x schematron-017.xsl
+    call :verify_line 1 x schematron-017-compiled.xsl
     call :verify_line 2 x schematron-017-result.html
     call :verify_line 3 x schematron-017-result.xml
 
@@ -344,7 +344,7 @@
     rem Specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
     call :verify_line_count 3
-    call :verify_line 1 x schematron-017.xsl
+    call :verify_line 1 x schematron-017-compiled.xsl
     call :verify_line 2 x schematron-017-result.html
     call :verify_line 3 x schematron-017-result.xml
 	</case>
@@ -420,8 +420,8 @@
     rem * Default xspec.junit.enabled is false
     call :run dir /b /o:n ..\tutorial\xspec
     call :verify_line_count 4
-    call :verify_line 1 x escape-for-regex.xsl
-    call :verify_line 2 x escape-for-regex_xml-to-properties.xml
+    call :verify_line 1 x escape-for-regex_xml-to-properties.xml
+    call :verify_line 2 x escape-for-regex-compiled.xsl
     call :verify_line 3 x escape-for-regex-result.html
     call :verify_line 4 x escape-for-regex-result.xml
 
@@ -1031,5 +1031,22 @@
     call :verify_line_count 3
 
     call :rmdir "%TEST_DIR%"
+	</case>
+
+	<case name="x:like errors">
+    rem Make the line numbers predictable by providing an existing output dir
+    set "TEST_DIR=%WORK_DIR%"
+
+    call :run ..\bin\xspec.bat like\none.xspec
+    call :verify_retval 2
+    call :verify_line 5 x "  x:XSPEC009: x:like: Scenario not found: none"
+
+    call :run ..\bin\xspec.bat like\multiple.xspec
+    call :verify_retval 2
+    call :verify_line 5 x "  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario"
+
+    call :run ..\bin\xspec.bat like\loop.xspec
+    call :verify_retval 2
+    call :verify_line 5 x "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario"
 	</case>
 </collection>

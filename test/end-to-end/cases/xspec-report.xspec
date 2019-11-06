@@ -60,4 +60,10 @@
 		<x:expect label="[Result] should be reported" />
 	</x:scenario>
 
+	<x:scenario label="Document node with no children (xspec/xspec#697)">
+		<x:call function="parse-xml-fragment">
+			<x:param select="''" />
+		</x:call>
+		<x:expect label="XPath should be reported between Result title and box" />
+	</x:scenario>
 </x:description>
