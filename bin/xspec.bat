@@ -73,6 +73,7 @@ rem ##
     java ^
         -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -Dxspec.xspecfile="%XSPEC%" ^
         -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
@@ -80,6 +81,7 @@ rem ##
     java ^
         -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -Dxspec.xspecfile="%XSPEC%" ^
         -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 
@@ -563,7 +565,6 @@ if defined COVERAGE (
         -o:"%COVERAGE_HTML%" ^
         -s:"%COVERAGE_XML%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\coverage-report.xsl" ^
-        tests="%XSPEC%" ^
         inline-css=true ^
         || ( call :die "Error formatting the coverage report" & goto :win_main_error_exit )
     call :win_echo "Report available at %COVERAGE_HTML%"
