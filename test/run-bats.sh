@@ -32,6 +32,10 @@ fi
 unset _JAVA_OPTIONS
 unset JAVA_TOOL_OPTIONS
 
+# Unset Ant environment variables
+unset ANT_ARGS
+unset ANT_OPTS
+
 # Reset public environment variables
 export SAXON_CP="${SAXON_JAR}"
 unset SAXON_CUSTOM_OPTIONS
