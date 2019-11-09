@@ -385,6 +385,9 @@
     <property name="xspec.coverage.xml.absolute"
               location="${xspec.coverage.xml}"
               if:true="${xspec.coverage.enabled}" />
+    <property name="xspec.xspecfile.absolute"
+              location="${xspec.xspecfile.original}"
+              if:true="${xspec.coverage.enabled}" />
 
     <echo message="Collecting test coverage data..."
           level="info"
@@ -405,6 +408,9 @@
                    if:true="${xspec.coverage.enabled}" />
       <sysproperty key="xspec.coverage.xml"
                    value="${xspec.coverage.xml.absolute}"
+                   if:true="${xspec.coverage.enabled}" />
+      <sysproperty key="xspec.xspecfile"
+                   value="${xspec.xspecfile.absolute}"
                    if:true="${xspec.coverage.enabled}" />
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
@@ -446,9 +452,6 @@
           depends="run-xslt-test"
           if="${xspec.coverage.enabled}">
 
-    <!-- Absolute file path of the original XSpec file -->
-    <property name="xspec.xspecfile.absolute" location="${xspec.xspecfile.original}" />
-
     <makeurl property="xspec.coverage.html.css.url"
              file="${xspec.coverage.html.css}"
              if:set="xspec.coverage.html.css" />
@@ -461,7 +464,6 @@
                    value="true"/>
       </factory-elements>
       <xslt-elements>
-        <param name="tests" expression="${xspec.xspecfile.absolute}" />
         <param name="inline-css" expression="true" />
         <param name="report-css-uri" expression="${xspec.coverage.html.css.url}"
                if="xspec.coverage.html.css.url" />

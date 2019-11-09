@@ -145,6 +145,12 @@
       </xsl:choose>
    </xsl:function>
 
+   <!-- *** x:gather-specs *** -->
+   <!-- This mode makes each spec less context-dependent by performing these transformations:
+      * Copy @xslt-version from x:description to descendant x:scenario
+      * Resolve x:*/@href into absolute URI
+      * Discard whitespace-only text node unless otherwise specified by an ancestor -->
+
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="
@@ -169,34 +175,35 @@
          select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
-   <xsl:template match="text()[not(normalize-space())]" as="node()?" mode="x:gather-specs">
+   <!-- x:space has been replaced with x:text -->
+   <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-specs">
+      <xsl:message terminate="yes">
+         <xsl:value-of select="name()" />
+         <xsl:text> is obsolete. Use </xsl:text>
+         <xsl:value-of select="x:xspec-name(., 'text')" />
+         <xsl:text> instead.</xsl:text>
+      </xsl:message>
+   </xsl:template>
+
+   <!-- x:text represents and preserves its child text node even if whitespace-only -->
+   <xsl:template match="x:text" as="text()?" mode="x:gather-specs">
+      <!-- Unwrap it and preserve its text node -->
+      <xsl:apply-templates mode="#current" />
+   </xsl:template>
+
+   <!-- Whitespace-only text nodes are preserved only in a few special cases -->
+   <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
 
-      <xsl:choose>
-         <xsl:when test="parent::x:text">
-            <!-- Preserve -->
-            <xsl:sequence select="." />
-         </xsl:when>
-
-         <xsl:when test="
-            (ancestor::*[@xml:space][1]/@xml:space = 'preserve')
-            or (node-name(parent::*) = $preserve-space)">
-            <!-- Preserve and wrap in <x:text> -->
-            <xsl:element name="{x:xspec-name(parent::*,'text')}" namespace="{$xspec-namespace}">
-               <xsl:sequence select="." />
-            </xsl:element>
-         </xsl:when>
-
-         <xsl:otherwise>
-            <!-- Discard -->
-         </xsl:otherwise>
-      </xsl:choose>
+      <xsl:if test="parent::x:text
+         or (ancestor::*[@xml:space][1]/@xml:space = 'preserve')
+         or (node-name(parent::*) = $preserve-space)">
+         <xsl:sequence select="." />
+      </xsl:if>
    </xsl:template>
 
    <xsl:template match="node()|@*" as="node()" mode="x:gather-specs">
-      <xsl:copy>
-         <xsl:apply-templates select="node()|@*" mode="#current" />
-      </xsl:copy>
+      <xsl:call-template name="x:identity" />
    </xsl:template>
 
    <!--

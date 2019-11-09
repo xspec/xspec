@@ -1,3 +1,4 @@
+os: linux
 language: java
 dist: trusty
 
@@ -12,7 +13,7 @@ env:
 
         - BASEX_VERSION=8.6.4
 
-    matrix:
+    jobs:
         # Note
         #   * XML Calabash will use Saxon jar in its own lib directory.
         #   * BaseX test requires XML Calabash.
@@ -21,6 +22,7 @@ env:
         - SAXON_VERSION=9.9.1-5
           JING_VERSION=20181222
           XMLCALABASH_VERSION=1.1.29-99
+          DO_CODESPELL=true
           DO_MAVEN_PACKAGE=true
 
         # latest Saxon 9.8
@@ -40,6 +42,7 @@ install:
 
 script: >
   ./test/ci/print-env.sh
+  && ./test/ci/run-codespell.sh
   && ./test/ci/run-core-tests.sh
   && ./test/ci/maven-package.sh -q
   && ./test/ci/compile-java.sh -silent

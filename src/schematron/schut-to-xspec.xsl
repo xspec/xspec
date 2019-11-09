@@ -14,9 +14,7 @@
     <xsl:variable name="info" select="('info', 'information')"/>
 
     <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
-        <xsl:copy>
-            <xsl:apply-templates select="@* | node()"/>
-        </xsl:copy>
+        <xsl:call-template name="x:identity" />
     </xsl:template>
     
     <xsl:template match="x:description[@schematron]">
