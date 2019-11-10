@@ -550,8 +550,8 @@
       &lt;<span class="inner-diff">diff</span>&gt;<span class="diff">actual</span>&lt;/diff&gt;
    &lt;/oridinary-text-node&gt;
    &lt;<span class="inner-diff">significant-whitespace-only-text-node</span>&gt;
-      &lt;<span class="same">same</span> <span class="same">xml:space</span>="<span class="same">preserve</span>"&gt;<span class="same whitespace">\t\n\r␣</span>&lt;/same&gt;
-      &lt;<span class="inner-diff">diff</span> <span class="same">xml:space</span>="<span class="same">preserve</span>"&gt;<span class="diff whitespace">\t\n\r␣</span>&lt;/diff&gt;
+      &lt;<span class="same">same</span> <span class="same">xml:space</span>=<span class="same">"preserve"</span>&gt;<span class="same whitespace">\t\n\r␣</span>&lt;/same&gt;
+      &lt;<span class="inner-diff">diff</span> <span class="same">xml:space</span>=<span class="same">"preserve"</span>&gt;<span class="diff whitespace">\t\n\r␣</span>&lt;/diff&gt;
    &lt;/significant-whitespace-only-text-node&gt;
 &lt;/test&gt;</pre></td>
                         <td>
@@ -562,8 +562,8 @@
       &lt;<span class="inner-diff">diff</span>&gt;<span class="diff">expect</span>&lt;/diff&gt;
    &lt;/oridinary-text-node&gt;
    &lt;<span class="inner-diff">significant-whitespace-only-text-node</span>&gt;
-      &lt;<span class="same">same</span> <span class="same">xml:space</span>="<span class="same">preserve</span>"&gt;<span class="same whitespace">\t\n\r␣</span>&lt;/same&gt;
-      &lt;<span class="inner-diff">diff</span> <span class="same">xml:space</span>="<span class="same">preserve</span>"&gt;<span class="diff whitespace">␣\t\n\r</span>&lt;/diff&gt;
+      &lt;<span class="same">same</span> <span class="same">xml:space</span>=<span class="same">"preserve"</span>&gt;<span class="same whitespace">\t\n\r␣</span>&lt;/same&gt;
+      &lt;<span class="inner-diff">diff</span> <span class="same">xml:space</span>=<span class="same">"preserve"</span>&gt;<span class="diff whitespace">␣\t\n\r</span>&lt;/diff&gt;
    &lt;/significant-whitespace-only-text-node&gt;
 &lt;/test&gt;</pre></td>
                      </tr>
@@ -766,9 +766,9 @@
                         <td>
                            <p>XPath <code>/element()</code> from:
                            </p><pre>&lt;<span class="diff">looooooooooooooooooooooooooooooooooong</span>&gt;
-   &lt;<span class="diff">test</span> <span class="diff">attr1</span>="<span class="diff">val1</span>"
-         <span class="diff">attr2</span>="<span class="diff">val2</span>"
-         <span class="diff">attr3</span>="<span class="diff">val3</span>"&gt;
+   &lt;<span class="diff">test</span> <span class="diff">attr1</span>=<span class="diff">"val1"</span>
+         <span class="diff">attr2</span>=<span class="diff">"val2"</span>
+         <span class="diff">attr3</span>=<span class="diff">"val3"</span>&gt;
       &lt;<span class="diff">a</span> /&gt;
    &lt;/test&gt;
 &lt;/looooooooooooooooooooooooooooooooooong&gt;</pre></td>
@@ -823,9 +823,9 @@
                         <td>
                            <p>XPath <code>/element()</code> from:
                            </p><pre>&lt;<span class="diff">looooooooooooooooooooooooooooooooooong</span>&gt;
-   &lt;<span class="diff">test</span> <span class="diff">attr1</span>="<span class="diff">val1</span>"
-         <span class="diff">attr2</span>="<span class="diff">val2</span>"
-         <span class="diff">attr3</span>="<span class="diff">val3</span>"&gt;
+   &lt;<span class="diff">test</span> <span class="diff">attr1</span>=<span class="diff">"val1"</span>
+         <span class="diff">attr2</span>=<span class="diff">"val2"</span>
+         <span class="diff">attr3</span>=<span class="diff">"val3"</span>&gt;
       &lt;<span class="diff">a</span> /&gt;
    &lt;/test&gt;
 &lt;/looooooooooooooooooooooooooooooooooong&gt;</pre></td>
@@ -885,30 +885,30 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="same">exact-match</span> <span class="same">attr1</span>="<span class="same">value1</span>"
-             <span class="same">attr2</span>="<span class="same">value2</span>"
-             <span class="same">attr3</span>="<span class="same"></span>"
-             <span class="same">attr4</span>="<span class="same"></span>" /&gt;
-&lt;<span class="inner-diff">name-match</span> <span class="inner-diff">attr1</span>="<span class="diff">value1</span>"
-            <span class="inner-diff">attr2</span>="<span class="diff">value2</span>"
-            <span class="inner-diff">attr3</span>="<span class="diff"></span>"
-            <span class="inner-diff">attr4</span>="<span class="diff">...</span>" /&gt;
-&lt;<span class="inner-diff">orphan</span> <span class="diff">attr1</span>="<span class="diff">value1</span>"
-        <span class="diff">attr2</span>="<span class="diff"></span>"
-        <span class="diff">attr3</span>="<span class="diff">...</span>" /&gt;</pre></td>
+                           </p><pre>&lt;<span class="same">exact-match</span> <span class="same">attr1</span>=<span class="same">"value1"</span>
+             <span class="same">attr2</span>=<span class="same">"value2"</span>
+             <span class="same">attr3</span>=<span class="same">""</span>
+             <span class="same">attr4</span>=<span class="same">""</span> /&gt;
+&lt;<span class="inner-diff">name-match</span> <span class="inner-diff">attr1</span>=<span class="diff">"value1"</span>
+            <span class="inner-diff">attr2</span>=<span class="diff">"value2"</span>
+            <span class="inner-diff">attr3</span>=<span class="diff">""</span>
+            <span class="inner-diff">attr4</span>=<span class="diff">"..."</span> /&gt;
+&lt;<span class="inner-diff">orphan</span> <span class="diff">attr1</span>=<span class="diff">"value1"</span>
+        <span class="diff">attr2</span>=<span class="diff">""</span>
+        <span class="diff">attr3</span>=<span class="diff">"..."</span> /&gt;</pre></td>
                         <td>
                            <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="same">exact-match</span> <span class="same">attr1</span>="<span class="same">value1</span>"
-             <span class="same">attr2</span>="<span class="same">...</span>"
-             <span class="same">attr3</span>="<span class="same"></span>"
-             <span class="same">attr4</span>="<span class="same">...</span>" /&gt;
-&lt;<span class="inner-diff">name-match</span> <span class="inner-diff">attr1</span>="<span class="diff">VALUE1</span>"
-            <span class="inner-diff">attr2</span>="<span class="diff"></span>"
-            <span class="inner-diff">attr3</span>="<span class="diff">value3</span>"
-            <span class="inner-diff">attr4</span>="<span class="diff">value4</span>" /&gt;
-&lt;<span class="inner-diff">orphan</span> <span class="diff">attr4</span>="<span class="diff">value4</span>"
-        <span class="diff">attr5</span>="<span class="diff"></span>"
-        <span class="diff">attr6</span>="<span class="diff">...</span>" /&gt;</pre></td>
+                           </p><pre>&lt;<span class="same">exact-match</span> <span class="same">attr1</span>=<span class="same">"value1"</span>
+             <span class="same">attr2</span>=<span class="same">"..."</span>
+             <span class="same">attr3</span>=<span class="same">""</span>
+             <span class="same">attr4</span>=<span class="same">"..."</span> /&gt;
+&lt;<span class="inner-diff">name-match</span> <span class="inner-diff">attr1</span>=<span class="diff">"VALUE1"</span>
+            <span class="inner-diff">attr2</span>=<span class="diff">""</span>
+            <span class="inner-diff">attr3</span>=<span class="diff">"value3"</span>
+            <span class="inner-diff">attr4</span>=<span class="diff">"value4"</span> /&gt;
+&lt;<span class="inner-diff">orphan</span> <span class="diff">attr4</span>=<span class="diff">"value4"</span>
+        <span class="diff">attr5</span>=<span class="diff">""</span>
+        <span class="diff">attr6</span>=<span class="diff">"..."</span> /&gt;</pre></td>
                      </tr>
                   </tbody>
                </table>

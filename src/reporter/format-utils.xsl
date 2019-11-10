@@ -123,8 +123,11 @@
     <xsl:variable name="attribute-to-compare-with" as="attribute()?"
       select="$node-to-compare-with/attribute()[node-name(.) eq node-name(current())]" />
 
+    <!-- Attribute value adjusted for display -->
     <xsl:variable name="display-value" as="xs:string"
       select="replace(replace(., '&quot;', '&amp;quot;'), '\s(\s+)', '&#x0A;$1')" />
+    <xsl:variable name="display-value-in-quot" as="xs:string"
+      select="concat('&quot;', $display-value, '&quot;')" />
 
     <xsl:if test="$new-namespaces or (position() ge 2)">
       <xsl:value-of select="$ns-attr-indent" />
@@ -140,18 +143,17 @@
         <xsl:value-of select="name()" />
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:text>="</xsl:text>
+    <xsl:text>=</xsl:text>
     <xsl:choose>
       <xsl:when test="$perform-comparison">
         <span class="{test:comparison-html-class(., $attribute-to-compare-with, $expected, false())}">
-          <xsl:value-of select="$display-value" />
+          <xsl:value-of select="$display-value-in-quot" />
         </span>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="$display-value" />
+        <xsl:value-of select="$display-value-in-quot" />
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:text>"</xsl:text>
   </xsl:for-each>
 
   <!-- Handle the child nodes or end this element -->
@@ -348,12 +350,13 @@
 </xsl:function>
 
 <!-- Compares $node with $node-to-compare-with and returns an HTML class accordingly: 'same', 'inner-diff' or 'diff'
-  Set $expected to true if $node is in Expected Result. Set false if in Actual Result. -->
+  Set $expected to true if $node is in Expected Result. Set false if in Actual Result.
+  Set $focusing-on-name to true only when building an HTML class of the name of $node. -->
 <xsl:function name="test:comparison-html-class" as="xs:string">
   <xsl:param name="node" as="node()" />
   <xsl:param name="node-to-compare-with" as="node()?" />
   <xsl:param name="expected" as="xs:boolean" />
-  <xsl:param name="for-name" as="xs:boolean" />
+  <xsl:param name="focusing-on-name" as="xs:boolean" />
 
   <xsl:variable name="equal" as="xs:boolean" select="
     if ($expected)
@@ -366,7 +369,7 @@
     </xsl:when>
 
     <xsl:when test="
-      $for-name
+      $focusing-on-name
       and (
         (
           ($node[not(self::test:ws)] instance of element())
@@ -386,7 +389,7 @@
     </xsl:when>
 
     <xsl:when test="
-      not($for-name)
+      not($focusing-on-name)
       and ($node instance of processing-instruction())
       and ($node-to-compare-with instance of processing-instruction())">
       <xsl:variable name="text" as="text()">
@@ -395,7 +398,7 @@
       <xsl:variable name="text-to-compare-with" as="text()">
         <xsl:value-of select="$node-to-compare-with" />
       </xsl:variable>
-      <xsl:sequence select="test:comparison-html-class($text, $text-to-compare-with, $expected, $for-name)" />
+      <xsl:sequence select="test:comparison-html-class($text, $text-to-compare-with, $expected, $focusing-on-name)" />
     </xsl:when>
 
     <xsl:otherwise>
