@@ -38,6 +38,9 @@
 <!-- Does the generation of the test stylesheet -->
   
 <xsl:template match="x:description" as="element(xsl:stylesheet)" mode="x:generate-tests">
+  <!-- True if this XSpec is testing Schematron -->
+  <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@xspec-original-location)" />
+
   <!-- The compiled stylesheet element. -->
   <stylesheet version="{x:decimal-string(( @xslt-version, $default-xslt-version )[1])}"
               exclude-result-prefixes="impl">
@@ -55,14 +58,16 @@
 
     <import href="{$stylesheet-uri}" />
     <import href="{resolve-uri('generate-tests-utils.xsl')}"/>
-    <import href="{resolve-uri('../schematron/sch-location-compare.xsl')}"/>
+    <xsl:if test="$is-schematron">
+      <import href="{resolve-uri('../schematron/sch-location-compare.xsl')}"/>
+    </xsl:if>
 
     <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
 
     <!-- Serialization parameters -->
     <output name="{x:xspec-name(.,'report')}" method="xml" indent="yes" />
 
-    <!-- Absolute URI of .xspec file (Original one in case of Schematron) -->
+    <!-- Absolute URI of .xspec file (Original one if specified i.e. Schematron) -->
     <xsl:variable name="xspec-uri" as="xs:anyURI"
       select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
     <variable name="{x:xspec-name(.,'xspec-uri')}" as="xs:anyURI">
@@ -96,7 +101,12 @@
           <xsl:attribute name="date" select="'{current-dateTime()}'" />
           <xsl:attribute name="xspec" select="$xspec-uri" />
 
-          <xsl:copy-of select="@schematron"/>
+          <!-- Do not always copy @schematron.
+            @schematron may exist even when this XSpec is not testing Schematron. -->
+          <xsl:if test="$is-schematron">
+            <xsl:sequence select="@schematron"/>
+          </xsl:if>
+
           <!-- Generate calls to the compiled top-level scenarios. -->
           <xsl:call-template name="x:call-scenarios"/>
         </xsl:element>
