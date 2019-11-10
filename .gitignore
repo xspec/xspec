@@ -1,6 +1,9 @@
 # Maven target directory
 /target/
 
+# Oxygen project file
+/*.xpr
+
 # Eclipse project information
 /.project
 

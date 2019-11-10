@@ -18,6 +18,7 @@ environment:
     - SAXON_VERSION: 9.9.1-5
       JING_VERSION: 20181222
       XMLCALABASH_VERSION: 1.1.29-99
+      DO_CODESPELL: true
 
     # latest Saxon 9.8
     # - SAXON_VERSION: 9.8.0-15
@@ -41,6 +42,9 @@ test_script:
 - cmd: |
     rem print versions and env vars
     test\ci\print-env.cmd
+
+    rem spell check
+    test\ci\run-codespell.cmd
 
     rem execute bats-like unit tests
     test\run-bats.cmd

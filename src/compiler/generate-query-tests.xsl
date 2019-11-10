@@ -29,7 +29,7 @@
        The special value '#none' is used to generate no "at" clause at
        all.
 
-       By defaut, the URI is generated as a file relative to this
+       By default, the URI is generated as a file relative to this
        stylesheet (because it comes with it in the XSpec release, but
        accessing the module on the file system is not always the best
        option, for instance for XML databases like eXist or
@@ -519,14 +519,6 @@
          <xsl:with-param name="var"    select="@name" />
          <xsl:with-param name="global" select="true()"/>
       </xsl:apply-templates>
-   </xsl:template>
-
-   <!-- *** test:create-node-generator *** -->
-
-   <!-- At compile time, x:text has special meaning -->
-   <xsl:template match="x:text" as="text()+" mode="test:create-node-generator">
-      <!-- Unwrap it and preserve its text node -->
-      <xsl:apply-templates mode="#current" />
    </xsl:template>
 
    <!-- *** x:report *** -->
