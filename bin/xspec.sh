@@ -68,12 +68,14 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
         saxon \
             --java -Dxspec.coverage.ignore="${TEST_DIR}" \
             --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --java -Dxspec.xspecfile="${XSPEC}" \
             --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
         saxon \
             --java -Dxspec.coverage.ignore="${TEST_DIR}" \
             --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --java -Dxspec.xspecfile="${XSPEC}" \
             --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
@@ -83,12 +85,14 @@ else
         java \
             -Dxspec.coverage.ignore="${TEST_DIR}" \
             -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -Dxspec.xspecfile="${XSPEC}" \
             -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
         java \
             -Dxspec.coverage.ignore="${TEST_DIR}" \
             -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -Dxspec.xspecfile="${XSPEC}" \
             -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
@@ -285,10 +289,11 @@ fi
 
 TARGET_FILE_NAME=$(basename "$XSPEC" | sed 's:\.[^.]*$::')
 
+COMPILED="${TEST_DIR}/${TARGET_FILE_NAME}-compiled"
 if test -n "$XSLT"; then
-    COMPILED=$TEST_DIR/$TARGET_FILE_NAME.xsl
+    COMPILED="${COMPILED}.xsl"
 else
-    COMPILED=$TEST_DIR/$TARGET_FILE_NAME.xq
+    COMPILED="${COMPILED}.xq"
 fi
 COVERAGE_XML=$TEST_DIR/$TARGET_FILE_NAME-coverage.xml
 COVERAGE_HTML=$TEST_DIR/$TARGET_FILE_NAME-coverage.html
@@ -446,7 +451,6 @@ if test -n "$COVERAGE"; then
         -o:"$COVERAGE_HTML" \
         -s:"$COVERAGE_XML" \
         -xsl:"$XSPEC_HOME/src/reporter/coverage-report.xsl" \
-        "tests=$XSPEC" \
         inline-css=true \
         || die "Error formatting the coverage report"
     echo "Report available at $COVERAGE_HTML"

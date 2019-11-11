@@ -64,4 +64,54 @@
          <failure message="expect assertion failed">Expected: ()</failure>
       </testcase>
    </testsuite>
+   <testsuite name="When the result contains an element, the report HTML must serialize nodes in its&#xA;&#x9;&#x9;&#x9;opening tag with aligned indentation. (xspec/xspec#689) So..."
+              tests="6"
+              failures="6">
+      <testcase name="When the report XML contains an element with several namespaces in x:result, [Result] with diff must be serialized with aligned&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;indentation."
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+      <testcase name="When the report XML contains an element with several namespaces in x:result, [Result] without diff must be serialized with aligned&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;indentation."
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+      <testcase name="When the report XML contains an element with several namespaces in x:expect, [Expected Result] with diff must be serialized with aligned&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;indentation."
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+      <testcase name="When the report XML contains an element with several attributes in x:result, [Result] with diff must be serialized with aligned&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;indentation."
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+      <testcase name="When the report XML contains an element with several attributes in x:result, [Result] without diff must be serialized with aligned&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;indentation."
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+      <testcase name="When the report XML contains an element with several attributes in x:expect, [Expected Result] with diff must be serialized with aligned&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;indentation."
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+   </testsuite>
+   <testsuite name="When the result contains attribute," tests="2" failures="2">
+      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) attributes must be serialized&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;as green=&#34;green&#34;. The name-match attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;palePink=&#34;solidPink&#34;. The orphan attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;solidPink=&#34;solidPink&#34; regardless of their values."
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+      <testcase name="in [Result] without diff, all the attributes must be serialized without color."
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+   </testsuite>
+   <testsuite name="When the result contains processing instructions,"
+              tests="2"
+              failures="2">
+      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as &lt;?green green?&gt;. The name-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as &lt;?palePink solidPink?&gt;. The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;value-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as &lt;?solidPink green?&gt;. The no-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as &lt;?solidPink solidPink?&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;regardless of their values."
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+      <testcase name="in [Result] without diff, all the processing instructions must be serialized without color."
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>

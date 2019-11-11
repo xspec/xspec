@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="schematron-023.xspec">
+   <testsuite name="valid with warning: expect-valid should pass"
+              tests="1"
+              failures="0">
+      <testcase name="valid" status="passed"/>
+   </testsuite>
+   <testsuite name="error: expect-valid should fail" tests="1" failures="1">
+      <testcase name="valid" status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+   </testsuite>
+   <testsuite name="fatal: expect-valid should fail" tests="1" failures="1">
+      <testcase name="valid" status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+   </testsuite>
+</testsuites>
