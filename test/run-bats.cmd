@@ -24,6 +24,10 @@ if not errorlevel 1 set XSLT_SUPPORTS_3_0=1
 java -cp "%SAXON_JAR%" net.sf.saxon.Query -q:"%~dp0caps\v3-1.xquery" > NUL 2>&1
 if not errorlevel 1 set XQUERY_SUPPORTS_3_1_DEFAULT=1
 
+rem Unset Ant environment variables
+set ANT_ARGS=
+set ANT_OPTS=
+
 rem Reset public environment variables
 set "SAXON_CP=%SAXON_JAR%"
 set SAXON_CUSTOM_OPTIONS=
