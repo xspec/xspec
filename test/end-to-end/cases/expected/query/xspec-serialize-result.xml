@@ -403,9 +403,9 @@
          </x:result>
          <x:test successful="false">
             <x:label>The exact-match (taking '...' into account) attributes must be serialized
-					as green="uncolored". The name-match attributes must be serialized as
-					solidPink="uncolored". The orphan attributes must be serialized as
-					solidPink="uncolored" regardless of their values.</x:label>
+					as green="green". The name-match attributes must be serialized as
+					palePink="solidPink". The orphan attributes must be serialized as
+					solidPink="solidPink" regardless of their values.</x:label>
             <x:expect select="/element()">
                <exact-match attr1="value1" attr2="..." attr3="" attr4="..."/>
                <name-match attr1="VALUE1" attr2="" attr3="value3" attr4="value4"/>
@@ -485,11 +485,11 @@
          </x:result>
          <x:test successful="false">
             <x:label>The exact-match (taking '...' into account) processing instructions must be
-					serialized as green. The name-match processing
-					instructions must be serialized as solid pink. The
+					serialized as &lt;?green green?&gt;. The name-match processing
+					instructions must be serialized as &lt;?palePink solidPink?&gt;. The
 					value-match (taking '...' into account) processing instructions must be
-					serialized as solid pink. The no-match processing
-					instructions must be serialized as solid pink
+					serialized as &lt;?solidPink green?&gt;. The no-match processing
+					instructions must be serialized as &lt;?solidPink solidPink?&gt;
 					regardless of their values.</x:label>
             <x:expect select="/element()">
                <exact-match><?node1 value1?><?node2 ...?><?node3?><?node4 ...?></exact-match>
