@@ -93,7 +93,7 @@
       </testcase>
    </testsuite>
    <testsuite name="When the result contains attribute," tests="2" failures="2">
-      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) attributes must be serialized&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;as green=&#34;uncolored&#34;. The name-match attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;solidPink=&#34;uncolored&#34;. The orphan attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;solidPink=&#34;uncolored&#34; regardless of their values."
+      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) attributes must be serialized&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;as green=&#34;green&#34;. The name-match attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;palePink=&#34;solidPink&#34;. The orphan attributes must be serialized as&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;solidPink=&#34;solidPink&#34; regardless of their values."
                 status="failed">
          <failure message="expect assertion failed">Expected: /element()</failure>
       </testcase>
@@ -105,7 +105,7 @@
    <testsuite name="When the result contains processing instructions,"
               tests="2"
               failures="2">
-      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as green. The name-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as solid pink. The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;value-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as solid pink. The no-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as solid pink&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;regardless of their values."
+      <testcase name="both in [Result] and [Expected Result] with diff, The exact-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as &lt;?green green?&gt;. The name-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as &lt;?palePink solidPink?&gt;. The&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;value-match (taking '...' into account) processing instructions must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;serialized as &lt;?solidPink green?&gt;. The no-match processing&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;instructions must be serialized as &lt;?solidPink solidPink?&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;regardless of their values."
                 status="failed">
          <failure message="expect assertion failed">Expected: /element()</failure>
       </testcase>
