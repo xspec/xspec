@@ -170,6 +170,13 @@
 							and (x:saxon-version() le x:pack-version(9, 9, 1, 5))">
 						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
 					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-4376-fixed')
+							and (x:saxon-version() le x:pack-version(9, 9, 1, 5))">
+						<xsl:text>Requires Saxon bug #4376 to have been fixed</xsl:text>
+					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 
