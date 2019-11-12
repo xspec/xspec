@@ -6,7 +6,14 @@
 	<x:scenario focus="test this framework" label="above-mentioned">
 		<x:context><conbody><p>above-mentioned</p></conbody></x:context>
 
-		<!-- TODO: @location="/conbody[1]/p[1]/text()[1]" -->
+		<!-- TODO: Add @location="/conbody[1]/p[1]/text()[1]" to this <x:expect-report>, if the "skeleton"
+			Schematron implementation gets fixed and thus makes the following <x:expect-not-report> fail. -->
 		<x:expect-report id="above-mentioned" role="info" />
+
+		<!-- TODO: Remove this <x:expect-not-report>.
+			@location with text node doesn't work with the "skeleton" Schematron implementation. This
+			<x:expect-not-report> confirms it. If this <x:expect-not-report> fails, it means that the
+			"skeleton" Schematron implementation gets fixed. -->
+		<x:expect-not-report location="/conbody[1]/p[1]/text()[1]" />
 	</x:scenario>
 </x:description>
