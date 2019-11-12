@@ -6,12 +6,15 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xpath-default-namespace="http://www.jenitennison.com/xslt/xspec">
 
-	<!-- This master stylesheet generates a wrapper XSLT which imports the actual XSLT file
+	<!--
+		This master stylesheet generates a wrapper stylesheet which imports the actual stylesheet
 		of the Schematron Step 3 preprocessor.
-		While generating the wrapper XSLT, /x:description/x:param is transformed to
-		/xsl:stylesheet/xsl:param. -->
+		While generating the wrapper stylesheet, the following adjustments are made:
+			* Transforms /x:description/x:param into /xsl:stylesheet/xsl:param.
+			* Imports the private patch (only for the built-in preprocessor).
+	-->
 
-	<!-- Absolute URI of the actual XSLT file of the Schematron Step 3 preprocessor.
+	<!-- Absolute URI of the actual stylesheet of the Schematron Step 3 preprocessor.
 		Zero-length string is ignored. -->
 	<xsl:param as="xs:string?" name="ACTUAL-PREPROCESSOR-URI" />
 
@@ -25,46 +28,39 @@
 		<xsl:variable as="xs:string?" name="actual-preprocessor-uri"
 			select="$ACTUAL-PREPROCESSOR-URI[.]" />
 
-		<!-- Absolute URI of the built-in XSLT file -->
+		<!-- Absolute URI of the stylesheet of the built-in Schematron Step 3 preprocessor -->
 		<xsl:variable as="xs:anyURI" name="builtin-preprocessor-uri"
 			select="resolve-uri('iso-schematron/iso_svrl_for_xslt2.xsl')" />
 
-		<stylesheet exclude-result-prefixes="#all" version="{(@xslt-version, 2.0)[1]}">
-			<!-- Standard namespace required by the generated stylesheet -->
+		<stylesheet exclude-result-prefixes="#all"
+			version="{x:decimal-string((@xslt-version, 2.0)[1])}">
+			<!-- Standard namespace required by the wrapper stylesheet being generated -->
 			<xsl:namespace name="xs" select="'http://www.w3.org/2001/XMLSchema'" />
 
-			<!-- Import the Schematron Step 3 preprocessor XSLT -->
+			<!-- Import the stylesheet of the Schematron Step 3 preprocessor -->
 			<import href="{($actual-preprocessor-uri, $builtin-preprocessor-uri)[1]}" />
+
+			<!-- Import the private patch -->
+			<xsl:if test="empty($actual-preprocessor-uri)">
+				<import href="{resolve-uri('patch-step3.xsl')}" />
+			</xsl:if>
+
+			<!-- Propagate the fully-resolved Schematron file URI so that it's available
+				in the wrapper stylesheet being generated -->
+			<xsl:variable as="element(x:param)" name="xml-base-param">
+				<x:param as="xs:anyURI" name="x:schematron-uri">
+					<!-- Resolve the Schematron file URI with the current node base URI -->
+					<xsl:variable as="xs:anyURI" name="schematron-uri"
+						select="resolve-uri(@schematron, base-uri())" />
+
+					<!-- Resolve the Schematron file URI with the catalog -->
+					<xsl:value-of select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+				</x:param>
+			</xsl:variable>
+			<xsl:apply-templates select="$xml-base-param" />
 
 			<!-- Resolve x:param -->
 			<xsl:apply-templates select="param" />
-
-			<!-- Workaround for the built-in XSLT not setting @xml:base -->
-			<xsl:if test="empty($actual-preprocessor-uri)">
-				<!-- Resolve with node base URI -->
-				<xsl:variable as="xs:anyURI" name="schematron-uri"
-					select="resolve-uri(@schematron, base-uri())" />
-
-				<!-- Resolve with catalog -->
-				<xsl:variable as="xs:anyURI" name="schematron-uri"
-					select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
-
-				<!-- Override the imported stylesheet and inject @xml:base -->
-				<template as="element(xsl:stylesheet)" match="document-node()">
-					<variable as="element(xsl:stylesheet)" name="imports-applied">
-						<apply-imports />
-					</variable>
-
-					<for-each select="$imports-applied">
-						<copy>
-							<attribute name="xml:base">
-								<xsl:value-of select="$schematron-uri" />
-							</attribute>
-							<sequence select="attribute() | node()" />
-						</copy>
-					</for-each>
-				</template>
-			</xsl:if>
 		</stylesheet>
 	</xsl:template>
 
