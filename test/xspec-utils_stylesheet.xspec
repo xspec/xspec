@@ -685,7 +685,7 @@
 
 	<x:scenario label="Scenario for testing function parse-preserve-space">
 		<x:call function="x:parse-preserve-space">
-			<x:param href="parse-preserve-space.xspec" select="x:description" />
+			<x:param href="xspec-utils/parse-preserve-space.xspec" select="x:description" />
 		</x:call>
 
 		<x:expect label="2 items" select="2" test="count($x:result)" />
