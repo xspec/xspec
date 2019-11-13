@@ -674,12 +674,13 @@
 				</x:scenario>
 			</x:scenario>
 		</x:scenario>
+
+		<x:scenario label="Non file: (Everything including %20 should be intact)">
+			<x:call function="x:format-uri">
+				<x:param select="'http://www.example.com/dir/file%20name.ext'" />
+			</x:call>
+			<x:expect label="Intact" select="'http://www.example.com/dir/file%20name.ext'" />
+		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Non file: (Everything including %20 should be intact)">
-		<x:call function="x:format-uri">
-			<x:param select="'http://www.example.com/dir/file%20name.ext'" />
-		</x:call>
-		<x:expect label="Intact" select="'http://www.example.com/dir/file%20name.ext'" />
-	</x:scenario>
 </x:description>
