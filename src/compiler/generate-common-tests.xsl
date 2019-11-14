@@ -172,7 +172,7 @@
 
    <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-         select="resolve-uri(., base-uri(.))" />
+         select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
    <!-- x:space has been replaced with x:text -->
