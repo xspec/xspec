@@ -1118,7 +1118,7 @@ teardown() {
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify '-t'
@@ -1142,7 +1142,7 @@ teardown() {
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify '-t'
@@ -1162,7 +1162,7 @@ teardown() {
     run ../bin/xspec.sh saxon-custom-options/test.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
@@ -1177,7 +1177,7 @@ teardown() {
     run ../bin/xspec.sh -q saxon-custom-options/test.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-3]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 
     # Verify '-t'
     [[ "${output}" =~ "Memory used:" ]]
