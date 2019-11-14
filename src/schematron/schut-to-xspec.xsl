@@ -198,9 +198,9 @@
         </xsl:element>
     </xsl:template>
     
-    <!--<xsl:template match="x:*/@href" as="attribute(href)">
+    <xsl:template match="x:*/@href" as="attribute(href)">
         <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
             select="resolve-uri(., x:base-uri(.))" />
-    </xsl:template>-->
+    </xsl:template>
     
 </xsl:stylesheet>
