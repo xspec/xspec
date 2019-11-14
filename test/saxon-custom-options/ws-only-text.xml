@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table>
+	<tgroup cols="1">
+		<tbody>
+			<row>
+				<entry>A</entry>
+			</row>
+			<row>
+				<entry>B</entry>
+			</row>
+		</tbody>
+	</tgroup>
+</table>
