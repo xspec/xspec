@@ -116,7 +116,7 @@
             <test/>
          </x:result>
          <x:test successful="false">
-            <x:label>XPath should not be colored. Serialized node should be colored as same.</x:label>
+            <x:label>XPath should be colored as different. Serialized node should be colored as same.</x:label>
             <x:expect select="/element()">
                <test/>
             </x:expect>
@@ -133,7 +133,7 @@
             <test/>
          </x:result>
          <x:test successful="false">
-            <x:label>XPath should not be colored. Serialized node should be colored as same.</x:label>
+            <x:label>XPath should be colored as different. Serialized node should be colored as same.</x:label>
             <x:expect select="/self::document-node()">
                <test/>
             </x:expect>
