@@ -304,4 +304,40 @@
 		</xsl:choose>
 	</xsl:function>
 
+	<!--
+		Parses @preserve-space in x:description and returns a sequence of element QName.
+		For those elements, child whitespace-only text nodes should be preserved in XSpec node-selection.
+	-->
+	<xsl:function as="xs:QName*" name="x:parse-preserve-space">
+		<xsl:param as="element(x:description)" name="description" />
+
+		<xsl:sequence
+			select="
+				for $lexical-qname in tokenize($description/@preserve-space, '\s+')[.]
+				return
+					resolve-QName($lexical-qname, $description)"
+		 />
+	</xsl:function>
+
+	<!--
+		Returns true if whitespace-only text node is significant in XSpec node-selection.
+		False if it is ignorable.
+		
+		$preserve-space is usually obtained by x:parse-preserve-space().
+	-->
+	<xsl:function as="xs:boolean" name="x:is-ws-only-text-node-significant">
+		<xsl:param as="text()" name="ws-only-text-node" />
+		<xsl:param as="xs:QName*" name="preserve-space-qnames" />
+
+		<xsl:sequence
+			select="
+				$ws-only-text-node
+				/(
+				parent::x:text
+				or (ancestor::*[@xml:space][1]/@xml:space eq 'preserve')
+				or (node-name(parent::*) = $preserve-space-qnames)
+				)"
+		 />
+	</xsl:function>
+
 </xsl:stylesheet>
