@@ -952,7 +952,7 @@
         -Dsaxon.custom.options="-config:""%SAXON_CONFIG%"" -t" ^
         -Dxspec.xml="%CD%\saxon-custom-options\test.xspec"
     call :verify_retval 0
-    call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line  * x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
     rem Verify '-t'
@@ -971,7 +971,7 @@
         -Dtest.type=q ^
         -Dxspec.xml="%CD%\saxon-custom-options\test.xspec"
     call :verify_retval 0
-    call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line  * x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
     rem Verify '-t'
@@ -990,7 +990,7 @@
     set "SAXON_CUSTOM_OPTIONS=-config:"%SAXON_CONFIG%" -t"
     call :run ..\bin\xspec.bat saxon-custom-options\test.xspec
     call :verify_retval 0
-    call :verify_line -3 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
 
     rem Verify '-t'
     call :verify_line  * r "Memory used:"
@@ -1004,7 +1004,7 @@
     set "SAXON_CUSTOM_OPTIONS=-config:"%SAXON_CONFIG%" -t"
     call :run ..\bin\xspec.bat -q saxon-custom-options\test.xspec
     call :verify_retval 0
-    call :verify_line -3 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -3 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
 
     rem Verify '-t'
     call :verify_line  * r "Memory used:"

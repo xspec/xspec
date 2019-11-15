@@ -156,9 +156,7 @@
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="
              ( @xslt-version, $default-xslt-version )[1]"/>
-         <xsl:with-param name="preserve-space" tunnel="yes" select="
-             for $qname in tokenize(@preserve-space, '\s+') return
-               resolve-QName($qname, .)"/>
+         <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
       </xsl:apply-templates>
    </xsl:template>
 
@@ -196,10 +194,8 @@
    <xsl:template match="text()" as="element(x:text)?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
 
-      <xsl:if test="parent::x:text
-         or (ancestor::*[@xml:space][1]/@xml:space = 'preserve')
-         or (node-name(parent::*) = $preserve-space)
-         or normalize-space()">
+      <xsl:if test="normalize-space()
+         or x:is-ws-only-text-node-significant(., $preserve-space)">
          <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
