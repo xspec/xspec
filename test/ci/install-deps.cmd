@@ -8,10 +8,6 @@ set "CURL=%SYSTEMROOT%\system32\curl.exe"
 if not exist "%CURL%" set CURL=curl
 set "CURL=%CURL% -fsSL --create-dirs --retry 5"
 
-rem determine tar
-set "TAR=%SYSTEMROOT%\system32\tar.exe"
-if not exist "%TAR%" set TAR=tar
-
 rem install Saxon
 set "SAXON_JAR=%XSPEC_DEPS%\saxon\saxon9he.jar"
 %CURL% -o "%SAXON_JAR%" "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/%SAXON_VERSION%/Saxon-HE-%SAXON_VERSION%.jar"
@@ -21,7 +17,7 @@ if not defined XMLCALABASH_VERSION (
     echo XML Calabash will not be installed
 ) else (
     %CURL% -o "%XSPEC_DEPS%\xmlcalabash\xmlcalabash.zip" "https://github.com/ndw/xmlcalabash1/releases/download/%XMLCALABASH_VERSION%/xmlcalabash-%XMLCALABASH_VERSION%.zip"
-    %TAR% -xf "%XSPEC_DEPS%\xmlcalabash\xmlcalabash.zip" -C "%XSPEC_DEPS%\xmlcalabash"
+    call "%~dp0extract-zip.cmd" "%XSPEC_DEPS%\xmlcalabash\xmlcalabash.zip" "%XSPEC_DEPS%\xmlcalabash"
     set "XMLCALABASH_JAR=%XSPEC_DEPS%\xmlcalabash\xmlcalabash-%XMLCALABASH_VERSION%\xmlcalabash-%XMLCALABASH_VERSION%.jar"
 )
 
@@ -30,15 +26,15 @@ if not defined BASEX_VERSION (
     echo BaseX will not be installed
 ) else (
     %CURL% -o "%XSPEC_DEPS%\basex\basex.zip" "http://files.basex.org/releases/%BASEX_VERSION%/BaseX%BASEX_VERSION:.=%.zip"
-    %TAR% -xf "%XSPEC_DEPS%\basex\basex.zip" -C "%XSPEC_DEPS%\basex"
+    call "%~dp0extract-zip.cmd" "%XSPEC_DEPS%\basex\basex.zip" "%XSPEC_DEPS%\basex"
     set "BASEX_JAR=%XSPEC_DEPS%\basex\basex\BaseX.jar"
 )
 
 rem install Ant without installing JDK
 rem call "%~dp0choco-install.cmd" ant --allow-downgrade --ignore-dependencies --no-progress --version "%ANT_VERSION%"
-%CURL% -o "%TEMP%\xspec\ant\ant.tar.gz" "http://archive.apache.org/dist/ant/binaries/apache-ant-%ANT_VERSION%-bin.tar.gz"
-%TAR% -xf "%TEMP%\xspec\ant\ant.tar.gz" -C "%TEMP%\xspec\ant"
-set "ANT_HOME=%TEMP%\xspec\ant\apache-ant-%ANT_VERSION%"
+%CURL% -o "%XSPEC_DEPS%\ant\ant.tar.gz" "http://archive.apache.org/dist/ant/binaries/apache-ant-%ANT_VERSION%-bin.tar.gz"
+call "%~dp0extract-tgz.cmd" "%XSPEC_DEPS%\ant\ant.tar.gz" "%XSPEC_DEPS%\ant"
+set "ANT_HOME=%XSPEC_DEPS%\ant\apache-ant-%ANT_VERSION%"
 if not exist "%ANT_HOME%" (
     rem Create dir to invalidate any preinstalled Ant
     mkdir "%ANT_HOME%"
@@ -59,4 +55,3 @@ if defined JING_JAR %CURL% -o "%JING_JAR%" "http://central.maven.org/maven2/org/
 
 rem clean up
 set CURL=
-set TAR=
