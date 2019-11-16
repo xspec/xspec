@@ -855,11 +855,7 @@
 					</test>
 				</x:param>
 			</x:call>
-
-			<!-- This expected result looks suspicious. If the farthest ancestor takes effect,
-				why does the x:gather-specs mode propagate @xslt-version to descendant x:scenario?
-				But that's how v0.1.0, 0.3.0, 0.5.0 and 1.0.0 work. -->
-			<x:expect label="take the farthest ancestor-or-self" select="9999.0" />
+			<x:expect label="take the nearest ancestor-or-self" select="99.0" />
 		</x:scenario>
 	</x:scenario>
 
