@@ -436,8 +436,7 @@ teardown() {
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
-    # TODO: Test with space char (#716)
-    special_chars_dir="${work_dir}/some'path_(84)_here_&_there"
+    special_chars_dir="${work_dir}/some'path (84) here & there"
     mkdir "${special_chars_dir}"
     cp ../tutorial/schematron/demo-03* "${special_chars_dir}"
 
