@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:import href="../schematron/locate-schematron.xsl" />
+	<xsl:include href="../common/xspec-utils.xsl" />
 
 	<xsl:output method="xml" />
 
@@ -14,7 +15,7 @@
 		<xspec>
 			<schematron>
 				<uri>
-					<xsl:apply-imports />
+					<xsl:value-of select="x:locate-schematron(x:description)" />
 				</uri>
 			</schematron>
 		</xspec>

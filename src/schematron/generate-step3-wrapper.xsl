@@ -3,8 +3,7 @@
 	xmlns="http://www.w3.org/1999/XSL/TransformAlias"
 	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xpath-default-namespace="http://www.jenitennison.com/xslt/xspec">
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
 		This master stylesheet generates a wrapper stylesheet which imports the actual stylesheet
@@ -23,7 +22,7 @@
 
 	<xsl:output indent="yes" />
 
-	<xsl:template as="element(xsl:stylesheet)" match="description">
+	<xsl:template as="element(xsl:stylesheet)" match="x:description">
 		<!-- Discard zero-length string -->
 		<xsl:variable as="xs:string?" name="actual-preprocessor-uri"
 			select="$ACTUAL-PREPROCESSOR-URI[.]" />
@@ -50,21 +49,16 @@
 				the wrapper stylesheet being generated -->
 			<xsl:variable as="element(x:param)" name="xml-base-param">
 				<x:param as="xs:anyURI" name="x:schematron-uri">
-					<!-- Resolve the Schematron file URI with the current node base URI -->
-					<xsl:variable as="xs:anyURI" name="schematron-uri"
-						select="resolve-uri(@schematron, base-uri())" />
-
-					<!-- Resolve the Schematron file URI with the catalog -->
-					<xsl:value-of select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+					<xsl:value-of select="x:locate-schematron(.)" />
 				</x:param>
 			</xsl:variable>
 
 			<!-- Resolve x:param -->
-			<xsl:apply-templates select="$xml-base-param, param" />
+			<xsl:apply-templates select="$xml-base-param, x:param" />
 		</stylesheet>
 	</xsl:template>
 
-	<xsl:template as="element()+" match="param">
+	<xsl:template as="element()+" match="x:param">
 		<xsl:apply-templates mode="test:generate-variable-declarations" select=".">
 			<xsl:with-param name="var" select="@name" />
 			<xsl:with-param name="type" select="'param'" />

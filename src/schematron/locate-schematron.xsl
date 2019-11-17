@@ -11,11 +11,6 @@
 		Makes an absolute URI from @schematron and resolves it with catalog.
 	-->
 	<xsl:template as="text()" match="document-node()">
-		<!-- Resolve with node base URI -->
-		<xsl:variable as="xs:anyURI" name="schematron-uri"
-			select="/x:description/@schematron/resolve-uri(., base-uri())" />
-
-		<!-- Resolve with catalog -->
-		<xsl:value-of select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+		<xsl:value-of select="x:locate-schematron(x:description)" />
 	</xsl:template>
 </xsl:stylesheet>
