@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:catalog-02" query-at="02/tested.xquery"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="catalog-02:/imported-xquery.xspec" />
-</x:description>
