@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description schematron="catalog-02:/tested.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="catalog-02:/imported-schematron.xspec" />
-</x:description>
