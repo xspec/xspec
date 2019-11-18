@@ -40,8 +40,8 @@
          </x:test>
          <x:test successful="false">
             <x:label>Expecting the compiled stylesheet to have version=1.0</x:label>
-            <x:result select="xs:untypedAtomic('2.0')"/>
-            <x:expect test="document('')/xsl:stylesheet/data(@version)" select="'1.0'"/>
+            <x:result select="'2.0'"/>
+            <x:expect test="document('')/xsl:stylesheet/@version/string()" select="'1.0'"/>
          </x:test>
       </x:scenario>
    </x:scenario>
