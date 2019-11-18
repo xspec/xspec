@@ -8,9 +8,9 @@
 	<xsl:output method="text" />
 
 	<!--
-		Makes an absolute URI from @schematron and resolves it with catalog.
+		Just outputs the fully resolved Schematron file URI
 	-->
 	<xsl:template as="text()" match="document-node()">
-		<xsl:value-of select="x:locate-schematron(x:description)" />
+		<xsl:value-of select="x:locate-schematron-uri(x:description)" />
 	</xsl:template>
 </xsl:stylesheet>

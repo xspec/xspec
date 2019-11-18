@@ -249,7 +249,7 @@
 
   <!-- Gets the file path (not URL) of the Schematron file -->
   <target name="locate-schematron-file" if="${xspec.is.schematron}">
-    <xml-to-properties in="${xspec.xspecfile.original}" style="locate-schematron.xsl" />
+    <xml-to-properties in="${xspec.xspecfile.original}" style="locate-schematron-uri.xsl" />
     <makepath property="xspec.schematron.file" url="${xspec.schematron.uri}" />
     <echo message="Path of Schematron file: ${xspec.schematron.file}"
           level="info" />

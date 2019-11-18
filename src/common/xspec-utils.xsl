@@ -358,9 +358,9 @@
 	</xsl:function>
 
 	<!--
-		Resolves Schematron file URI referenced from x:description
+		Makes absolute URI from x:description/@schematron and resolves it with catalog
 	-->
-	<xsl:function as="xs:anyURI" name="x:locate-schematron">
+	<xsl:function as="xs:anyURI" name="x:locate-schematron-uri">
 		<xsl:param as="element(x:description)" name="description" />
 
 		<!-- Resolve with node base URI -->

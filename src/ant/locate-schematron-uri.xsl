@@ -5,17 +5,15 @@
 
 	<xsl:include href="../common/xspec-utils.xsl" />
 
-	<xsl:output method="xml" />
-
 	<!--
-		Makes absolute URI from @schematron and resolves it with catalog.
+		Just outputs the fully resolved Schematron file URI.
 		Output XML structure is for Ant <xmlproperty> task.
 	-->
 	<xsl:template as="element(xspec)" match="document-node()">
 		<xspec>
 			<schematron>
 				<uri>
-					<xsl:value-of select="x:locate-schematron(x:description)" />
+					<xsl:value-of select="x:locate-schematron-uri(x:description)" />
 				</uri>
 			</schematron>
 		</xspec>

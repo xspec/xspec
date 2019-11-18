@@ -863,9 +863,9 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function locate-schematron">
+	<x:scenario label="Scenario for testing function locate-schematron-uri">
 		<!-- TODO: Use catalog -->
-		<x:call function="x:locate-schematron">
+		<x:call function="x:locate-schematron-uri">
 			<x:param href="../tutorial/schematron/demo-01.xspec" select="x:description" />
 		</x:call>
 		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />

@@ -329,7 +329,7 @@ if test -n "$SCHEMATRON"; then
     # Get Schematron file URI
     xslt -o:"${TEST_DIR}/${TARGET_FILE_NAME}-var.txt" \
         -s:"${XSPEC}" \
-        -xsl:"${XSPEC_HOME}/src/schematron/locate-schematron.xsl" \
+        -xsl:"${XSPEC_HOME}/src/schematron/locate-schematron-uri.xsl" \
         || die "Error getting Schematron location"
     SCH_URI=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
     
