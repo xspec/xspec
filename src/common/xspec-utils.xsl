@@ -340,4 +340,21 @@
 		 />
 	</xsl:function>
 
+	<!--
+		Returns the effective value of @xslt-version of the context element.
+		
+		$context is usually x:description or x:expect.
+	-->
+	<xsl:function as="xs:decimal" name="x:xslt-version">
+		<xsl:param as="element()" name="context" />
+
+		<xsl:sequence
+			select="
+				(
+				$context/ancestor-or-self::*[@xslt-version]/@xslt-version,
+				2.0
+				)[1]"
+		 />
+	</xsl:function>
+
 </xsl:stylesheet>

@@ -138,7 +138,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/comment()</code> from:
+                           <p>XPath <code class="diff">/comment()</code> from:
                            </p><pre><span class="diff">&lt;!--comment-text--&gt;</span></pre></td>
                         <td><pre>()</pre></td>
                      </tr>
@@ -182,7 +182,7 @@
                      <tr>
                         <td><pre>xs:boolean('false')</pre></td>
                         <td>
-                           <p>XPath <code>/comment()</code> from:
+                           <p>XPath <code class="diff">/comment()</code> from:
                            </p><pre><span class="diff">&lt;!--comment-text--&gt;</span></pre></td>
                      </tr>
                   </tbody>
@@ -277,7 +277,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="diff">/element()</code> from:
                            </p><pre>&lt;<span class="diff">foo</span> /&gt;
 &lt;<span class="diff">bar</span>&gt;
    &lt;<span class="diff">baz</span> /&gt;
@@ -334,7 +334,7 @@
                      <tr>
                         <td><pre>xs:boolean('false')</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="diff">/element()</code> from:
                            </p><pre>&lt;<span class="diff">foo</span> /&gt;
 &lt;<span class="diff">bar</span>&gt;
    &lt;<span class="diff">baz</span> /&gt;
@@ -366,7 +366,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>
       &lt;<span class="same">bar</span> /&gt;
@@ -374,7 +374,7 @@
    &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>&lt;?<span class="same">bar</span> <span class="same"></span>?&gt;&lt;/elem2&gt;
 &lt;/test&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">foo</span>&lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
@@ -404,14 +404,14 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">foo</span>&lt;<span class="same">bar</span> /&gt;
    &lt;/elem1&gt;
    &lt;<span class="inner-diff">elem2</span>&gt;<span class="diff">foo</span>&lt;?<span class="same">bar</span> <span class="same"></span>?&gt;&lt;/elem2&gt;
 &lt;/test&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="inner-diff">elem1</span>&gt;<span class="diff">&lt;!--foo--&gt;</span>
       &lt;<span class="same">bar</span> /&gt;
@@ -442,7 +442,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="same">foo</span>&gt;
       &lt;<span class="same">bar</span> /&gt;
@@ -450,7 +450,7 @@
    &lt;<span class="diff">baz</span> /&gt;
 &lt;/test&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="same">foo</span>&gt;
       &lt;<span class="same">bar</span> /&gt;
@@ -495,10 +495,10 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="same">foo</span>&gt;<span class="same ellipsis">...</span>&lt;/foo&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="same">foo</span>&gt;<span class="same">...</span>&lt;/foo&gt;
 &lt;<span class="diff">qux</span> /&gt;</pre></td>
                      </tr>
@@ -546,7 +546,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="inner-diff">oridinary-text-node</span>&gt;
       &lt;<span class="same">same</span>&gt;<span class="same">same</span>&lt;/same&gt;
@@ -558,7 +558,7 @@
    &lt;/significant-whitespace-only-text-node&gt;
 &lt;/test&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="inner-diff">test</span>&gt;
    &lt;<span class="inner-diff">oridinary-text-node</span>&gt;
       &lt;<span class="same">same</span>&gt;<span class="same">same</span>&lt;/same&gt;
@@ -677,7 +677,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="diff">/element()</code> from:
                            </p><pre>&lt;<span class="diff">looooooooooooooooooooooooooooooooooong</span>&gt;
    &lt;<span class="diff">test</span> xmlns:ns3="ns3"
          xmlns:ns2="ns2"
@@ -736,7 +736,7 @@
                      <tr>
                         <td><pre>xs:boolean('false')</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="diff">/element()</code> from:
                            </p><pre>&lt;<span class="diff">looooooooooooooooooooooooooooooooooong</span>&gt;
    &lt;<span class="diff">test</span> xmlns:ns3="ns3"
          xmlns:ns2="ns2"
@@ -767,7 +767,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="diff">/element()</code> from:
                            </p><pre>&lt;<span class="diff">looooooooooooooooooooooooooooooooooong</span>&gt;
    &lt;<span class="diff">test</span> <span class="diff">attr1</span>=<span class="diff">"val1"</span>
          <span class="diff">attr2</span>=<span class="diff">"val2"</span>
@@ -824,7 +824,7 @@
                      <tr>
                         <td><pre>xs:boolean('false')</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="diff">/element()</code> from:
                            </p><pre>&lt;<span class="diff">looooooooooooooooooooooooooooooooooong</span>&gt;
    &lt;<span class="diff">test</span> <span class="diff">attr1</span>=<span class="diff">"val1"</span>
          <span class="diff">attr2</span>=<span class="diff">"val2"</span>
@@ -887,7 +887,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="same">exact-match</span> <span class="same">attr1</span>=<span class="same">"value1"</span>
              <span class="same">attr2</span>=<span class="same">"value2"</span>
              <span class="same">attr3</span>=<span class="same">""</span>
@@ -900,7 +900,7 @@
         <span class="diff">attr2</span>=<span class="diff">""</span>
         <span class="diff">attr3</span>=<span class="diff">"..."</span> /&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="same">exact-match</span> <span class="same">attr1</span>=<span class="same">"value1"</span>
              <span class="same">attr2</span>=<span class="same">"..."</span>
              <span class="same">attr3</span>=<span class="same">""</span>
@@ -1005,7 +1005,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="same">exact-match</span>&gt;&lt;?<span class="same">node1</span> <span class="same">value1</span>?&gt;&lt;?<span class="same">node2</span> <span class="same">value2</span>?&gt;&lt;?<span class="same">node3</span> <span class="same"></span>?&gt;&lt;?<span class="same">node4</span> <span class="same"></span>?&gt;&lt;/exact-match&gt;
 &lt;<span class="inner-diff">name-match</span>&gt;&lt;?<span class="inner-diff">node1</span> <span class="diff">value1</span>?&gt;&lt;?<span class="inner-diff">node2</span> <span class="diff">value2</span>?&gt;&lt;?<span class="inner-diff">node3</span> <span class="diff"></span>?&gt;&lt;?<span class="inner-diff">node4</span> <span class="diff">...</span>?&gt;&lt;/name-match&gt;
 &lt;<span class="inner-diff">value-match</span>&gt;&lt;?<span class="diff">node1</span> <span class="same">value1</span>?&gt;&lt;?<span class="diff">node2</span> <span class="same">value2</span>?&gt;&lt;?<span class="diff">node3</span> <span class="same"></span>?&gt;&lt;?<span class="diff">node4</span> <span class="same"></span>?&gt;&lt;/value-match&gt;
@@ -1022,7 +1022,7 @@
    &lt;/orphan&gt;
 &lt;/no-match&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="same">exact-match</span>&gt;&lt;?<span class="same">node1</span> <span class="same">value1</span>?&gt;&lt;?<span class="same">node2</span> <span class="same">...</span>?&gt;&lt;?<span class="same">node3</span> <span class="same"></span>?&gt;&lt;?<span class="same">node4</span> <span class="same">...</span>?&gt;&lt;/exact-match&gt;
 &lt;<span class="inner-diff">name-match</span>&gt;&lt;?<span class="inner-diff">node1</span> <span class="diff">VALUE1</span>?&gt;&lt;?<span class="inner-diff">node2</span> <span class="diff"></span>?&gt;&lt;?<span class="inner-diff">node3</span> <span class="diff">value3</span>?&gt;&lt;?<span class="inner-diff">node4</span> <span class="diff">value4</span>?&gt;&lt;/name-match&gt;
 &lt;<span class="inner-diff">value-match</span>&gt;&lt;?<span class="diff">NODE1</span> <span class="same">value1</span>?&gt;&lt;?<span class="diff">NODE2</span> <span class="same">...</span>?&gt;&lt;?<span class="diff">NODE3</span> <span class="same"></span>?&gt;&lt;?<span class="diff">NODE4</span> <span class="same">...</span>?&gt;&lt;/value-match&gt;
