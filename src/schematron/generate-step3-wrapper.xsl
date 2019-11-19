@@ -48,7 +48,7 @@
 				the wrapper stylesheet being generated -->
 			<xsl:variable as="element(x:param)" name="xml-base-param">
 				<x:param as="xs:anyURI" name="x:schematron-uri">
-					<xsl:value-of select="x:locate-schematron(.)" />
+					<xsl:value-of select="x:locate-schematron-uri(.)" />
 				</x:param>
 			</xsl:variable>
 
