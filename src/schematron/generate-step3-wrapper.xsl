@@ -22,6 +22,8 @@
 
 	<xsl:output indent="yes" />
 
+	<xsl:namespace-alias result-prefix="xsl" stylesheet-prefix="#default" />
+
 	<xsl:template as="element(xsl:stylesheet)" match="x:description">
 		<!-- Discard zero-length string -->
 		<xsl:variable as="xs:string?" name="actual-preprocessor-uri"
