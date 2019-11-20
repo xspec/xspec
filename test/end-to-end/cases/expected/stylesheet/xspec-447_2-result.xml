@@ -6,7 +6,8 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-447_2.xspec">
-   <x:scenario pending="x:pending/@label containing }{">
+   <x:scenario xspec="../../xspec-447_2.xspec"
+               pending="x:pending/@label containing }{">
       <x:label>should not affect test</x:label>
       <x:call function="false"/>
       <x:test pending="x:pending/@label containing }{">

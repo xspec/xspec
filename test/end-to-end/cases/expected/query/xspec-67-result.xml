@@ -5,7 +5,7 @@
           query="x-urn:test:xspec-items"
           query-at="../../../../items.xquery"
           xspec="../../xspec-67.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-67.xspec">
       <x:label>Comparing identical namespace</x:label>
       <x:call function="exactly-one">
          <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
@@ -22,7 +22,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-67.xspec">
       <x:label>Comparing identical default namespace</x:label>
       <x:call function="exactly-one">
          <x:param select="$Q{x-urn:test:xspec-items}default-namespace"/>
@@ -39,7 +39,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-67.xspec">
       <x:label>Comparing different namespaces</x:label>
       <x:call function="exactly-one">
          <x:param select="$Q{x-urn:test:xspec-items}namespace"/>

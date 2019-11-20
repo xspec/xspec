@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-447_3.xspec">
-   <x:scenario pending="}{">
+   <x:scenario xspec="../../xspec-447_3.xspec" pending="}{">
       <x:label>x:scenario/@pending containing curly brackets should not affect test</x:label>
       <x:call function="false"/>
       <x:test pending="}{">

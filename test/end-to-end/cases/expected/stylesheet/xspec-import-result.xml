@@ -7,7 +7,7 @@
           stylesheet="../../../../xspec-tested.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-import.xspec">
-   <t:scenario>
+   <t:scenario xspec="../../xspec-import.xspec">
       <t:label>when testing a correct scenario in an importing file</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -22,7 +22,7 @@
          <t:expect test="$t:result instance of xs:integer" select="()"/>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-import.xspec">
       <t:label>when testing an incorrect scenario in an importing file</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
@@ -33,7 +33,7 @@
          <t:expect test="$t:result instance of xs:string" select="()"/>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-imported.xspec">
       <t:label>a correct scenario in an imported file</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -44,7 +44,7 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-imported.xspec">
       <t:label>an incorrect scenario in an imported file</t:label>
       <t:call function="my:square">
          <t:param select="2"/>

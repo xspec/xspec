@@ -6,7 +6,7 @@
           stylesheet="../../xspec-214.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-214.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-214.xspec">
       <x:label>input</x:label>
       <x:context>
          <input/>

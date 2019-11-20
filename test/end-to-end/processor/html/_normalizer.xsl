@@ -86,6 +86,37 @@
 		</xsl:value-of>
 	</xsl:template>
 
+	<!--
+		Normalizes svrl:active-pattern/@document in Schematron Result
+			Example:
+				in:  <svrl:active-pattern document="file:/.../tutorial/schematron/demo-02.xml"
+				out: <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
+	-->
+	<xsl:template as="text()"
+		match="table[@class eq 'xspecResult'][local:is-schematron-report(.)]/tbody/tr/td[1]/pre/text()"
+		mode="normalizer:normalize">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
+		<xsl:variable name="regex"
+			><![CDATA[^( +<svrl:active-pattern document=")(.+?)(")$]]></xsl:variable>
+
+		<xsl:value-of>
+			<xsl:analyze-string flags="m" regex="{$regex}" select=".">
+				<xsl:matching-substring>
+					<xsl:sequence
+						select="
+							regex-group(1),
+							normalizer:relative-uri(regex-group(2), $tunnel_document-uri),
+							regex-group(3)"
+					 />
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:copy />
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
+		</xsl:value-of>
+	</xsl:template>
+
 	<!-- Makes @id predictable -->
 	<xsl:template as="attribute(id)" match="@id" mode="normalizer:normalize"
 		name="normalize-id-attribute">
@@ -151,7 +182,18 @@
 	<xsl:function as="xs:boolean" name="local:is-xquery-report">
 		<xsl:param as="node()" name="context-node" />
 
-		<xsl:variable as="document-node()" name="doc" select="root($context-node)" />
+		<xsl:variable as="document-node(element(html))" name="doc" select="root($context-node)" />
 		<xsl:sequence select="$doc/html/body/starts-with(p[1], 'Query:')" />
 	</xsl:function>
+
+	<!--
+		Returns true if the HTML report is for Schematron
+	-->
+	<xsl:function as="xs:boolean" name="local:is-schematron-report">
+		<xsl:param as="node()" name="context-node" />
+
+		<xsl:variable as="document-node(element(html))" name="doc" select="root($context-node)" />
+		<xsl:sequence select="$doc/html/body/starts-with(p[1], 'Schematron:')" />
+	</xsl:function>
+
 </xsl:stylesheet>

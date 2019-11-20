@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-346.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-346.xspec">
       <x:label>When a function returns a node containing a space</x:label>
       <x:call function="exactly-one">
          <x:param as="element(p)" href="../../xspec-346.xml" select="element(p)"/>

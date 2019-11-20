@@ -7,7 +7,7 @@
           stylesheet="../../../../xspec-tested.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-focus-2.xspec">
-   <t:scenario pending="testing x:pending">
+   <t:scenario xspec="../../xspec-focus-2.xspec" pending="testing x:pending">
       <t:label>an unfocused correct scenario in x:pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -16,7 +16,7 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-focus-2.xspec">
       <t:label>a focused correct scenario in x:pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -27,7 +27,7 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @focus in x:pending">
+   <t:scenario xspec="../../xspec-focus-2.xspec" pending="testing @focus in x:pending">
       <t:label>a non-pending correct scenario alongside a focused scenario must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -36,7 +36,7 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-focus-2.xspec">
       <t:label>a focused correct scenario alongside another focused scenario</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -47,7 +47,8 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @pending without @focus">
+   <t:scenario xspec="../../xspec-focus-2.xspec"
+               pending="testing @pending without @focus">
       <t:label>a correct scenario with @pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -56,7 +57,7 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-focus-2.xspec">
       <t:label>a correct scenario with both @pending and @focus (not recommended as ambiguous)</t:label>
       <t:call function="my:square">
          <t:param select="3"/>

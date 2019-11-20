@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-153.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-153.xspec">
       <x:label>When a function returns a local date time string</x:label>
       <x:call function="string">
          <x:param select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>

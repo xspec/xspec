@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-shared-like.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-shared-like.xspec">
       <x:label>Referenced and explicitly unshared scenario</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>
@@ -15,7 +15,7 @@
          <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-shared-like.xspec">
       <x:label>Referenced and implicitly unshared scenario</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>
@@ -24,7 +24,7 @@
          <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-shared-like.xspec">
       <x:label>Scenario for testing x:like which references a shared scenario</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>
@@ -37,9 +37,9 @@
          <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-shared-like.xspec">
       <x:label>Scenario for testing x:like which references unshared scenarios</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-shared-like.xspec">
          <x:label>explicit one</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>
@@ -48,7 +48,7 @@
             <x:expect test="true()" select="()"/>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-shared-like.xspec">
          <x:label>implicit one</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>

@@ -7,7 +7,7 @@
           stylesheet="../../../../xspec-tested.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-imported.xspec">
-   <t:scenario>
+   <t:scenario xspec="../../xspec-imported.xspec">
       <t:label>a correct scenario in an imported file</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -18,7 +18,7 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-imported.xspec">
       <t:label>an incorrect scenario in an imported file</t:label>
       <t:call function="my:square">
          <t:param select="2"/>

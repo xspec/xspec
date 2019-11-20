@@ -7,7 +7,8 @@
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-focus-1.xspec">
-   <t:scenario pending="testing @focus of a correct scenario">
+   <t:scenario xspec="../../xspec-focus-1.xspec"
+               pending="testing @focus of a correct scenario">
       <t:label>an unfocused correct scenario must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -16,7 +17,8 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @focus of a correct scenario">
+   <t:scenario xspec="../../xspec-focus-1.xspec"
+               pending="testing @focus of a correct scenario">
       <t:label>an unfocused incorrect scenario must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
@@ -25,7 +27,7 @@
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-focus-1.xspec">
       <t:label>a focused correct scenario</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -36,7 +38,7 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-focus-1.xspec">
       <t:label>a focused incorrect scenario</t:label>
       <t:call function="my:square">
          <t:param select="2"/>

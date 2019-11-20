@@ -6,7 +6,7 @@
           stylesheet="../../xspec-23_2.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-23_2.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-23_2.xspec">
       <x:label>Test</x:label>
       <x:context href="../../xspec-23_2_context.xml"/>
       <x:result select="/self::document-node()">

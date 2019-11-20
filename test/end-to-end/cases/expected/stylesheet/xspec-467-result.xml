@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-467.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-467.xspec">
       <x:label>Testing namespace differences</x:label>
       <x:call function="exactly-one">
          <x:param>

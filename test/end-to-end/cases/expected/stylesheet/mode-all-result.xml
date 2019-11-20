@@ -6,7 +6,7 @@
           stylesheet="../../mode-all.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../mode-all.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../mode-all.xspec">
       <x:label>context</x:label>
       <x:context>
          <foo/>
@@ -23,7 +23,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../mode-all.xspec">
       <x:label>function-call</x:label>
       <x:call function="string">
          <x:param select="'Returned from function'"/>
@@ -40,7 +40,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../mode-all.xspec">
       <x:label>template-call</x:label>
       <x:call template="named-template"/>
       <x:result select="'Returned from named template'"/>

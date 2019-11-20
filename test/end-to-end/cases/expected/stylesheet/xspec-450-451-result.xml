@@ -7,7 +7,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-450-451.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451.xspec">
       <x:label>function-param containing curly brackets</x:label>
       <x:call function="one-or-more">
          <x:param>}{<elem attr="}{">}{</elem>
@@ -21,7 +21,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451.xspec">
       <x:label>global-param containing curly brackets</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>
@@ -33,7 +33,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451.xspec">
       <x:label>global-var containing curly brackets</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>
@@ -45,7 +45,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451.xspec">
       <x:label>local variable containing curly brackets</x:label>
       <x:call function="one-or-more">
          <x:param select="$myv:local-var"/>
@@ -58,7 +58,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451.xspec">
       <x:label>assertion containing curly brackets</x:label>
       <x:call function="one-or-more">
          <x:param href="../../xspec-450-451.xml" select="wrap/node() treat as node()+"/>
@@ -71,9 +71,9 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451.xspec">
       <x:label>If value is from a variable instead of hard-coded,</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-450-451.xspec">
          <x:label>function-param containing curly brackets</x:label>
          <x:call function="one-or-more">
             <x:param select="$myv:local-var2"/>
@@ -86,7 +86,7 @@
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-450-451.xspec">
          <x:label>assertion containing curly brackets</x:label>
          <x:call function="one-or-more">
             <x:param href="../../xspec-450-451.xml" select="wrap/node() treat as node()+"/>

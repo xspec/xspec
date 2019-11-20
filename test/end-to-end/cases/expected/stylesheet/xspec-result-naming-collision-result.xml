@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-result-naming-collision.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-result-naming-collision.xspec">
       <x:label>scenario 1</x:label>
       <x:call function="exactly-one">
          <x:param href="../../xspec-result-naming-collision.xml"/>
@@ -17,7 +17,7 @@
          <x:expect href="HREF-3"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-result-naming-collision.xspec">
       <x:label>scenario 2</x:label>
       <x:call function="exactly-one">
          <x:param href="../../xspec-result-naming-collision.xml"/>
@@ -28,7 +28,7 @@
          <x:expect href="HREF-6"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-result-naming-collision.xspec">
       <x:label>When the result consists of multiple elements (xspec/xspec#361)</x:label>
       <x:call function="one-or-more">
          <x:param href="../../xspec-result-naming-collision.xml" select="., ."/>

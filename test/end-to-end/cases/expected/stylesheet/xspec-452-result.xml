@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-452.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-452.xspec">
       <x:label>Text</x:label>
       <x:call function="exactly-one">
          <x:param>t</x:param>
@@ -17,7 +17,7 @@
          <x:expect select="xs:boolean('false')"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-452.xspec">
       <x:label>Comment</x:label>
       <x:call function="exactly-one">
          <x:param><!--c--></x:param>
@@ -28,7 +28,7 @@
          <x:expect select="xs:boolean('false')"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-452.xspec">
       <x:label>Processing instruction</x:label>
       <x:call function="exactly-one">
          <x:param><?p?></x:param>
@@ -39,7 +39,7 @@
          <x:expect select="xs:boolean('false')"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-452.xspec">
       <x:label>In element</x:label>
       <x:call function="exactly-one">
          <x:param>

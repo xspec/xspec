@@ -7,7 +7,7 @@
           stylesheet="../../xspec-151.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-151.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-151.xspec">
       <x:label>When the result is a mixture of a typed element and a string</x:label>
       <x:call function="test-mix:element-and-string"/>
       <x:result select="/*">

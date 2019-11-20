@@ -5,7 +5,8 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-447_1.xspec">
-   <x:scenario pending="x:pending/x:label containing }{">
+   <x:scenario xspec="../../xspec-447_1.xspec"
+               pending="x:pending/x:label containing }{">
       <x:label>should not affect test</x:label>
       <x:call function="false"/>
       <x:test pending="x:pending/x:label containing }{">

@@ -6,9 +6,9 @@
           stylesheet="../../xspec-three-dots.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-three-dots.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant element (simple)</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;elem&gt;text&lt;/elem&gt;
 				</x:label>
@@ -33,7 +33,7 @@
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;elem /&gt;
 				</x:label>
@@ -62,7 +62,7 @@
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;elem&gt;...&lt;/elem&gt;
 				</x:label>
@@ -96,9 +96,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant element (with attribute)</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;elem attrib="val" /&gt;
 				</x:label>
@@ -132,9 +132,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant element (with mixed content)</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
 				</x:label>
@@ -171,7 +171,7 @@
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
 				</x:label>
@@ -206,9 +206,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant attribute</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 					 @attrib="val"
 				</x:label>
@@ -233,7 +233,7 @@
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 					 @attrib=""
 				</x:label>
@@ -254,7 +254,7 @@
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 					 @attrib="..."
 				</x:label>
@@ -288,9 +288,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant text node</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is usual text node</x:label>
          <x:call function="exactly-one">
             <x:param as="text()" select="$Q{x-urn:test:xspec-three-dots}text-node_usual"/>
@@ -305,7 +305,7 @@
             <x:expect select="'...'"/>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is whitespace-only text node</x:label>
          <x:call function="exactly-one">
             <x:param as="text()"
@@ -324,7 +324,7 @@
             <x:expect select="/text()">text</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is zero-length text node</x:label>
          <x:call function="exactly-one">
             <x:param as="text()"
@@ -342,7 +342,7 @@
             <x:expect select="/text()">text</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is three-dot text node</x:label>
          <x:call function="exactly-one">
             <x:param as="text()"
@@ -363,9 +363,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant comment</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;!--comment--&gt;
 				</x:label>
@@ -384,7 +384,7 @@
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;!----&gt;
 				</x:label>
@@ -399,7 +399,7 @@
             <x:expect select="/comment()"><!--...--></x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;!--...--&gt;
 				</x:label>
@@ -425,9 +425,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant processing instruction</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;?pi data?&gt;
 				</x:label>
@@ -446,7 +446,7 @@
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;?pi?&gt;
 				</x:label>
@@ -461,7 +461,7 @@
             <x:expect select="/processing-instruction()"><?pi ...?></x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;?pi ...?&gt;
 				</x:label>
@@ -487,9 +487,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant document node</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;
 				</x:label>
@@ -511,7 +511,7 @@
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;xsl:document /&gt;
 				</x:label>
@@ -531,7 +531,7 @@
             <x:expect select="/self::document-node()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 				</x:label>
@@ -558,9 +558,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant namespace node</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 						  xmlns:prefix="namespace-uri"
 				</x:label>
@@ -584,7 +584,7 @@
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 						  xmlns="namespace-uri"
 				</x:label>
@@ -608,7 +608,7 @@
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 						  xmlns:prefix="..."
 				</x:label>
@@ -641,9 +641,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant sequence of multiple nodes</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is sequence of
 				&lt;elem1 /&gt;&lt;elem2 /&gt;
 				</x:label>
@@ -682,7 +682,7 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>When result is empty sequence</x:label>
       <x:call function="zero-or-one">
          <x:param select="()"/>
@@ -693,9 +693,9 @@
          <x:expect select="/text()">...</x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant atomic value</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is 'string'</x:label>
          <x:call function="exactly-one">
             <x:param as="xs:string" select="'string'"/>
@@ -714,7 +714,7 @@
             <x:expect select="'...'"/>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-three-dots.xspec">
          <x:label>When result is '...'</x:label>
          <x:call function="exactly-one">
             <x:param as="xs:string" select="'...'"/>
@@ -734,7 +734,7 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-three-dots.xspec">
       <x:label>For any resultant item</x:label>
       <x:call function="exactly-one">
          <x:param as="text()">item</x:param>
