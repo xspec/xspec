@@ -232,6 +232,10 @@
 
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)"/>
 
+      <xsl:variable name="scenario-id" as="xs:string">
+         <xsl:call-template name="x:generate-scenario-id" />
+      </xsl:variable>
+
       <!-- x:context and x:call/@template not supported for XQuery -->
       <xsl:if test="exists($context)">
          <xsl:variable name="msg" select="
@@ -256,7 +260,7 @@
         {
       -->
       <xsl:text>&#10;declare function local:</xsl:text>
-      <xsl:value-of select="generate-id()"/>
+      <xsl:value-of select="$scenario-id" />
       <xsl:text>(</xsl:text>
       <xsl:value-of select="$params/concat('$', @name)" separator=", "/>
       <xsl:text>)&#10;{&#10;</xsl:text>
@@ -389,12 +393,17 @@
       <xsl:param name="params"  required="yes"              as="element(param)*"/>
 
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
+
+      <xsl:variable name="expect-id" as="xs:string">
+         <xsl:call-template name="x:generate-expect-id" />
+      </xsl:variable>
+
       <!--
         declare function local:...($t:result as item()*)
         {
       -->
       <xsl:text>&#10;declare function local:</xsl:text>
-      <xsl:value-of select="generate-id()"/>
+      <xsl:value-of select="$expect-id" />
       <xsl:text>(</xsl:text>
       <xsl:for-each select="$params">
          <xsl:text>$</xsl:text>

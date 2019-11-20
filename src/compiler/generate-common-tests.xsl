@@ -30,6 +30,7 @@
    <!-- XSpec namespace prefix -->
    <xsl:function name="x:xspec-prefix" as="xs:string">
       <xsl:param name="e" as="element()" />
+
       <xsl:sequence select="
          (
             in-scope-prefixes($e)
@@ -275,14 +276,17 @@
    </xsl:template>
 
    <!--
-       A scenario is called by the name { generate-id() }.
+       A scenario is called by its ID.
        
        Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:scenario" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
+
       <xsl:call-template name="x:output-call">
-         <xsl:with-param name="local-name" select="generate-id()"/>
+         <xsl:with-param name="local-name" as="xs:string">
+            <xsl:call-template name="x:generate-scenario-id" />
+         </xsl:with-param>
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:for-each select="x:distinct-variable-names($vars)">
@@ -295,15 +299,18 @@
    </xsl:template>
 
    <!--
-       An expectation is called by the name { generate-id() }.
+       An expectation is called by its ID.
        
        Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
       <xsl:param name="vars"    select="()" tunnel="yes" as="element(x:var)*"/>
+
       <xsl:call-template name="x:output-call">
-         <xsl:with-param name="local-name" select="generate-id()"/>
+         <xsl:with-param name="local-name" as="xs:string">
+            <xsl:call-template name="x:generate-expect-id" />
+         </xsl:with-param>
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
@@ -324,6 +331,7 @@
    -->
    <xsl:template match="x:variable" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
+
       <xsl:call-template name="x:detect-reserved-variable-name"/>
       <!-- The variable declaration. -->
       <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
@@ -353,6 +361,7 @@
    -->
    <xsl:template match="x:description/x:param|x:description/x:variable" mode="x:generate-calls">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
+
       <xsl:if test="self::x:variable">
         <xsl:call-template name="x:detect-reserved-variable-name"/>
       </xsl:if>
@@ -427,6 +436,7 @@
       <xsl:param name="call"    select="()" tunnel="yes" as="element(x:call)?"/>
       <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
       <xsl:param name="vars"    select="()" tunnel="yes" as="element(x:var)*"/>
+
       <!-- The new $pending. -->
       <xsl:variable name="new-pending" as="node()?" select="
           if ( @focus ) then
@@ -530,6 +540,7 @@
       <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
       <xsl:param name="vars"    select="()"    tunnel="yes" as="element(x:var)*"/>
+
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-expect">
          <xsl:with-param name="pending" tunnel="yes" select="
@@ -570,6 +581,7 @@
    -->
    <xsl:template match="x:variable" mode="x:compile">
       <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
+
       <!-- Continue walking the siblings, adding a new variable on the stack. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
          <xsl:with-param name="vars" tunnel="yes" as="element(x:var)+">
@@ -716,6 +728,32 @@
       <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
          <xsl:with-param name="var" select="$var" />
       </xsl:apply-templates>
+   </xsl:template>
+
+   <!-- Generates the ID of current x:scenario or x:expect.
+      These default templates use generate-id().
+      So the default ID may not always be usable for backtracking. For such backtracking purposes,
+      override these default templates and implement your own ID generation. The generated ID must
+      be castable as xs:NCName, because ID is used as a part of local name. -->
+   <xsl:template name="x:generate-scenario-id" as="xs:string">
+      <xsl:context-item as="element(x:scenario)" use="required"
+         use-when="element-available('xsl:context-item')" />
+
+      <xsl:sequence select="concat(local-name(), '-', generate-id())" />
+   </xsl:template>
+
+   <xsl:template name="x:generate-expect-id" as="xs:string">
+      <xsl:context-item as="element(x:expect)" use="required"
+         use-when="element-available('xsl:context-item')" />
+
+      <xsl:variable name="scenario" as="element(x:scenario)" select="ancestor::x:scenario[1]" />
+      <xsl:variable name="scenario-id" as="xs:string">
+         <xsl:for-each select="$scenario">
+            <xsl:call-template name="x:generate-scenario-id" />
+         </xsl:for-each>
+      </xsl:variable>
+
+      <xsl:sequence select="concat($scenario-id, '_', local-name(), '-', generate-id())" />
    </xsl:template>
 
    <!-- Generate error message for user-defined usage of names in XSpec namespace.
