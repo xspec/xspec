@@ -89,7 +89,6 @@ rem ##
     set XSLT=
     set XQUERY=
     set SCHEMATRON=
-    set SCH_PARAMS=
     set COVERAGE=
     set JUNIT=
     set WIN_HELP=
