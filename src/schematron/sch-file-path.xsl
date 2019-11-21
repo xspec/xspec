@@ -8,17 +8,12 @@
 	<xsl:output method="text" />
 
 	<!--
-		Makes an absolute URI from @schematron and resolves it with catalog.
-		Finally the URI is converted to a native file path (or a format which resembles it).
+		Obtains the fully resolved Schematron file URI
+		and converts it to a native file path (or a format which resembles it).
 	-->
 	<xsl:template as="text()" match="document-node()">
-		<!-- Resolve with node base URI -->
 		<xsl:variable as="xs:anyURI" name="schematron-uri"
-			select="/x:description/@schematron/resolve-uri(., base-uri())" />
-
-		<!-- Resolve with catalog -->
-		<xsl:variable as="xs:anyURI" name="schematron-uri"
-			select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+			select="x:locate-schematron-uri(x:description)" />
 
 		<!-- Convert URI to native (or wannabe native) -->
 		<xsl:choose>
