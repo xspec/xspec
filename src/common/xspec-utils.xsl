@@ -340,4 +340,35 @@
 		 />
 	</xsl:function>
 
+	<!--
+		Returns the effective value of @xslt-version of the context element.
+		
+		$context is usually x:description or x:expect.
+	-->
+	<xsl:function as="xs:decimal" name="x:xslt-version">
+		<xsl:param as="element()" name="context" />
+
+		<xsl:sequence
+			select="
+				(
+				$context/ancestor-or-self::*[@xslt-version]/@xslt-version,
+				2.0
+				)[1]"
+		 />
+	</xsl:function>
+
+	<!--
+		Makes absolute URI from x:description/@schematron and resolves it with catalog
+	-->
+	<xsl:function as="xs:anyURI" name="x:locate-schematron-uri">
+		<xsl:param as="element(x:description)" name="description" />
+
+		<!-- Resolve with node base URI -->
+		<xsl:variable as="xs:anyURI" name="schematron-uri"
+			select="$description/@schematron/resolve-uri(., base-uri())" />
+
+		<!-- Resolve with catalog -->
+		<xsl:sequence select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+	</xsl:function>
+
 </xsl:stylesheet>

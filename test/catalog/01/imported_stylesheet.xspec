@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Catalog for XSLT context URI and DOCTYPE">
+		<x:context href="catalog-01:/example.xml" />
+		<x:expect label="DTD fixed attribute should take effect via DOCTYPE resolved with catalog"
+			select="'1.0'" test="root/@dtd-version/string()" />
+	</x:scenario>
+
+	<x:scenario label="context with relative href (xspec/xspec#542)">
+		<x:context href="example.xml" />
+		<x:expect href="example.xml" label="x:expect with href should be Success" />
+	</x:scenario>
+</x:description>

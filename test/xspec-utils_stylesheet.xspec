@@ -772,4 +772,106 @@
 		<!-- The other cases are tested indirectly by xspec-space.xspec -->
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function xslt-version">
+		<x:scenario label="default">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent>
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="2.0" select="2.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in self">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent>
+								<context xslt-version="999">
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in parent">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent xslt-version="999">
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in grandparent">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent xslt-version="999">
+							<parent>
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="override">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent xslt-version="9999">
+							<parent xslt-version="999">
+								<context xslt-version="99">
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+
+			<!-- This expected result looks suspicious. If the farthest ancestor takes effect,
+				why does the x:gather-specs mode propagate @xslt-version to descendant x:scenario?
+				But that's how v0.1.0, 0.3.0, 0.5.0 and 1.0.0 work. -->
+			<x:expect label="take the farthest ancestor-or-self" select="9999.0" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function locate-schematron-uri">
+		<!-- TODO: Use catalog -->
+		<x:call function="x:locate-schematron-uri">
+			<x:param href="../tutorial/schematron/demo-01.xspec" select="x:description" />
+		</x:call>
+		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
+		<x:expect label="filename and extension" select="'demo-01.sch'"
+			test="x:filename-and-extension($x:result)" />
+		<x:expect label="reachable" test="doc-available($x:result)" />
+	</x:scenario>
+
 </x:description>
