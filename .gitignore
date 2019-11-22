@@ -3,6 +3,7 @@
 
 # Oxygen project file
 /*.xpr
+!/xspec.xpr
 
 # Eclipse project information
 /.project
