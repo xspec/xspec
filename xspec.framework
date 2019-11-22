@@ -965,7 +965,7 @@
 									<Boolean>true</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfd}/${cfn}-result.html</String>
+									<String>${cfd}/${cfn}-coverage.html</String>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
