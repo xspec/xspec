@@ -400,7 +400,7 @@
 												<String></String>
 											</field>
 											<field name="value">
-												<String>${xpath_eval(if(doc('${currentFileURL}')/*:description/@schematron) then 's' else 't')}</String>
+												<String>${ask('Select test type:', editable_combobox, (${xpath_eval(doc('${currentFileURL}')/*:description ! (@schematron, @query, @stylesheet) ! ('''' || (map{'schematron':'s', 'query':'q', 'stylesheet':'t'})?(name()) || ''':''' || name() || ''';'))}))}</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
