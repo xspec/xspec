@@ -115,7 +115,7 @@
 	<x:scenario label="assertion">
 		<x:scenario label="user-content">
 			<x:call function="false" />
-			<x:expect label="@x:expand-text=yes enables TVT and @x:expand-text is dicarded"
+			<x:expect label="@x:expand-text=yes enables TVT and @x:expand-text is discarded"
 				select="assertion-child[empty(@x:expand-text)]/string()" test="'}false{'">
 				<assertion-child x:expand-text="yes">}}{false()}{{</assertion-child>
 			</x:expect>
