@@ -717,7 +717,7 @@
 												<String></String>
 											</field>
 											<field name="value">
-												<String>${xpath_eval(if(doc('${currentFileURL}')/*:description/@schematron) then 's' else 't')}</String>
+												<String>t</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
