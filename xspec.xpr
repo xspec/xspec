@@ -31,6 +31,7 @@
             <file name="src/compiler/generate-query-tests.xsl"/>
             <file name="src/schematron/generate-step3-wrapper.xsl"/>
             <file name="src/compiler/generate-xspec-tests.xsl"/>
+            <file name="test/ant/worker/generate.xsl"/>
             <file name="src/reporter/junit-report.xsl"/>
             <file name="src/ant/locate-schematron-uri.xsl"/>
             <file name="src/schematron/sch-file-path.xsl"/>
