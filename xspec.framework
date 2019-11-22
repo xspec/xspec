@@ -214,19 +214,7 @@
 									</xprocOutputPort-array>
 								</field>
 								<field name="xprocOptions">
-									<xprocOption-array>
-										<xprocOption>
-											<field name="namespaceURI">
-												<String></String>
-											</field>
-											<field name="localName">
-												<String>xspec-home</String>
-											</field>
-											<field name="value">
-												<String>${framework}/</String>
-											</field>
-										</xprocOption>
-									</xprocOption-array>
+									<xprocOption-array/>
 								</field>
 								<field name="xprocParameters">
 									<xprocParameterPort-array>
@@ -365,19 +353,7 @@
 									</xprocOutputPort-array>
 								</field>
 								<field name="xprocOptions">
-									<xprocOption-array>
-										<xprocOption>
-											<field name="namespaceURI">
-												<String></String>
-											</field>
-											<field name="localName">
-												<String>xspec-home</String>
-											</field>
-											<field name="value">
-												<String>${framework}/</String>
-											</field>
-										</xprocOption>
-									</xprocOption-array>
+									<xprocOption-array/>
 								</field>
 								<field name="xprocParameters">
 									<xprocParameterPort-array>
