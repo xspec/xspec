@@ -24,7 +24,7 @@
 			* oXygen add-on and framework require manual testing.
 			* oXygen framework cannot always be backward compatible. See
 			  https://github.com/TEIC/oxygen-tei/issues/30. -->
-		<xt:oxy_version>21.0+</xt:oxy_version>
+		<xt:oxy_version>20.1+</xt:oxy_version>
 
 		<xt:type>framework</xt:type>
 
@@ -53,7 +53,7 @@
 		<xt:location
 			href="https://github.com/xspec/xspec/archive/2e1f0c210ebbc3cedf0d97977a09a6776e505e6a.zip" />
 		<xt:version>0.0.1</xt:version>
-		<xt:oxy_version>21.0+</xt:oxy_version>
+		<xt:oxy_version>20.1+</xt:oxy_version>
 		<xt:type>framework</xt:type>
 		<xt:author>https://github.com/xspec/xspec</xt:author>
 		<xt:name>XSpec</xt:name>
