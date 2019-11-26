@@ -9,7 +9,9 @@
 
     <x:scenario label="Scenario for testing a rule">
         <x:context>
-            <example>XML fragment to be validated by the Schematron being tested</example>
+            <example>
+                <section>XML fragment to be validated by the Schematron being tested</section>
+            </example>
         </x:context>
 
         <x:expect-assert id="my-assert-001" location="/example[1]/section[1]" />
