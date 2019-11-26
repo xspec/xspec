@@ -551,7 +551,7 @@
 												<String></String>
 											</field>
 											<field name="value">
-												<String>${ask('Select test type:', editable_combobox, (${xpath_eval(doc('${currentFileURL}')/*:description ! (@schematron, @query, @stylesheet) ! ('''' || (map{'schematron':'s', 'query':'q', 'stylesheet':'t'})?(name()) || ''':''' || name() || ''';'))}))}</String>
+												<String>${xpath_eval(((doc('${currentFileURL}')!*:description!(@query,@schematron)!substring(name(),1,1)),'t')[1])}</String>
 											</field>
 											<field name="defaultValue">
 												<null/>
