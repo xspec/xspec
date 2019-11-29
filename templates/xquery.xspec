@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    * Update /x:description/@query which should be the namespace URI of the XQuery module being tested.
+    * Update /x:description/@query-at which should point to the XQuery module file being tested.
+    * Write your test scenario. See https://github.com/xspec/xspec/wiki/Writing-Scenarios for details.
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    query="http://www.example.com/my-module" query-at="path/to/my-module.xquery">
+
+    <x:scenario label="Scenario for testing a function">
+        <x:call function="function-name">
+            <x:param select="" />
+        </x:call>
+
+        <x:expect label="" select="" />
+    </x:scenario>
+
+</x:description>
