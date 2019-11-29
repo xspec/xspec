@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    * Update /x:description/@schematron which should point to the Schematron file being tested.
+    * Write your test scenario.
+      See https://github.com/xspec/xspec/wiki/Writing-Scenarios-for-Schematron#writing-tests for details.
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    schematron="path/to/my-schematron.sch">
+
+    <x:scenario label="Scenario for testing a rule">
+        <x:context>
+            <example>
+                <section>XML fragment to be validated by the Schematron being tested</section>
+            </example>
+        </x:context>
+
+        <x:expect-assert id="my-assert-001" location="/example[1]/section[1]" />
+    </x:scenario>
+
+</x:description>
