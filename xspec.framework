@@ -617,7 +617,7 @@
 												<String>xspec.result.html</String>
 											</field>
 											<field name="description">
-												<String>The location where the result will be copied.</String>
+												<String>The file path where the test result HTML will be created.</String>
 											</field>
 											<field name="value">
 												<String>${cfd}/${cfn}-result.html</String>
@@ -980,7 +980,7 @@
 												<String>xspec.result.html</String>
 											</field>
 											<field name="description">
-												<String>The location where the result will be copied.</String>
+												<String>The file path where the test result HTML will be created.</String>
 											</field>
 											<field name="value">
 												<String>${cfd}/${cfn}-result.html</String>
