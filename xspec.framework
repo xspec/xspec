@@ -1071,7 +1071,7 @@
 									<null/>
 								</field>
 								<field name="name">
-									<String>XSpec Code Coverage</String>
+									<String>XSLT Code Coverage</String>
 								</field>
 								<field name="baseURL">
 									<null/>
