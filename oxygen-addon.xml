@@ -48,26 +48,4 @@
 
 	</xt:extension>
 
-	<!-- This <xt:extension> element is only for upgrade testing. Remove this element later. -->
-	<xt:extension id="io.xspec.xspec">
-		<xt:location
-			href="https://github.com/xspec/xspec/archive/2e1f0c210ebbc3cedf0d97977a09a6776e505e6a.zip" />
-		<xt:version>0.0.1</xt:version>
-		<xt:oxy_version>19.0+</xt:oxy_version>
-		<xt:type>framework</xt:type>
-		<xt:author>https://github.com/xspec/xspec</xt:author>
-		<xt:name>XSpec</xt:name>
-		<xt:description>
-			<xi:include href="editors/oxygen/add-on/description/0-0-1.xhtml">
-				<xi:fallback>Visit https://github.com/xspec/xspec and see
-					editors/oxygen/add-on/description/0-0-1.xhtml</xi:fallback>
-			</xi:include>
-		</xt:description>
-		<xt:license>
-			<xi:include href="LICENSE" parse="text">
-				<xi:fallback>Visit https://github.com/xspec/xspec and see LICENSE</xi:fallback>
-			</xi:include>
-		</xt:license>
-	</xt:extension>
-
 </xt:extensions>
