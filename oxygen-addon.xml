@@ -10,7 +10,7 @@
 		<!-- To publish a new version, update this @href to a specific commit archive and increment
 			<xt:version>. -->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/8f8930ca74ff6432d9be254cff081c3519438184.zip" />
+			href="https://github.com/xspec/xspec/archive/939952924c1f9d109c45106277148d01bc440f4a.zip" />
 
 		<!-- The version of this add-on. Increment only the last numeric part ('z' of "0.0.z")
 			whenever we publish a new version of this add-on.
