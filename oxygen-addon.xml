@@ -10,7 +10,7 @@
 		<!-- To publish a new version, update this @href to a specific commit archive and increment
 			<xt:version>. -->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/b19ccd7e181fddc21bf191ce27d67cefd65bcd1f.zip" />
+			href="https://github.com/xspec/xspec/archive/939952924c1f9d109c45106277148d01bc440f4a.zip" />
 
 		<!-- The version of this add-on. Increment only the last numeric part ('z' of "0.0.z")
 			whenever we publish a new version of this add-on.
@@ -18,7 +18,7 @@
 			by this add-on. But <xt:version> consists of only three numeric parts ("x.y.z") which
 			doesn't accommodate pre-release versions of XSpec ("x.y.z-SNAPSHOT.1" or something like
 			that). Use "0.0.z" until we find a better way. -->
-		<xt:version>0.0.2</xt:version>
+		<xt:version>0.0.3</xt:version>
 
 		<!-- Note that supporting multiple oXygen versions may be hard to maintain, because
 			* oXygen add-on and framework require manual testing.
@@ -46,28 +46,6 @@
 			</xi:include>
 		</xt:license>
 
-	</xt:extension>
-
-	<!-- This <xt:extension> element is only for upgrade testing. Remove this element later. -->
-	<xt:extension id="io.xspec.xspec">
-		<xt:location
-			href="https://github.com/xspec/xspec/archive/2e1f0c210ebbc3cedf0d97977a09a6776e505e6a.zip" />
-		<xt:version>0.0.1</xt:version>
-		<xt:oxy_version>19.0+</xt:oxy_version>
-		<xt:type>framework</xt:type>
-		<xt:author>https://github.com/xspec/xspec</xt:author>
-		<xt:name>XSpec</xt:name>
-		<xt:description>
-			<xi:include href="editors/oxygen/add-on/description/0-0-1.xhtml">
-				<xi:fallback>Visit https://github.com/xspec/xspec and see
-					editors/oxygen/add-on/description/0-0-1.xhtml</xi:fallback>
-			</xi:include>
-		</xt:description>
-		<xt:license>
-			<xi:include href="LICENSE" parse="text">
-				<xi:fallback>Visit https://github.com/xspec/xspec and see LICENSE</xi:fallback>
-			</xi:include>
-		</xt:license>
 	</xt:extension>
 
 </xt:extensions>
