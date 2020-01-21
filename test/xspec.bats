@@ -367,33 +367,47 @@ teardown() {
 # XProc (Saxon)
 #
 
-@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XSLT)" {
+@test "XProc harness for Saxon (XSLT)" {
     if [ -z "${XMLCALABASH_JAR}" ]; then
         skip "XMLCALABASH_JAR is not defined"
     fi
 
+    # HTML report file
     expected_report="${work_dir}/xspec-72-result.html"
+
+    # Run
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=xspec-72.xspec \
         -o result="file:${expected_report}" \
         -p xspec-home="file:${PWD}/../" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
 }
 
-@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XQuery)" {
+@test "XProc harness for Saxon (XQuery)" {
     if [ -z "${XMLCALABASH_JAR}" ]; then
         skip "XMLCALABASH_JAR is not defined"
     fi
 
+    # HTML report file
     expected_report="${work_dir}/xspec-72-result.html"
+
+    # Run
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=xspec-72.xspec \
         -o result="file:${expected_report}" \
         -p xspec-home="file:${PWD}/../" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
@@ -672,6 +686,7 @@ teardown() {
     compiled_file="${work_dir}/compiled.xq"
     expected_report="${work_dir}/xquery-tutorial-result.html"
 
+    # Run
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=../tutorial/xquery-tutorial.xspec \
         -o result="file:${expected_report}" \
@@ -683,9 +698,13 @@ teardown() {
     [ "$status" -eq 0 ]
     [[ "${lines[${#lines[@]}-1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
-    # Output files
+    # Compiled file
     [ -f "${compiled_file}" ]
-    [ -f "${expected_report}" ]
+
+    # HTML report file should be created and its charset should be UTF-8 #72
+    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 @test "XProc harness for BaseX (server)" {
@@ -702,9 +721,10 @@ teardown() {
     # Start BaseX server
     "${basex_home}/bin/basexhttp" -S
 
-    # Output file
+    # HTML report file
     expected_report="${work_dir}/xquery-tutorial-result.html"
 
+    # Run
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=../tutorial/xquery-tutorial.xspec \
         -o result="file:${expected_report}" \
@@ -719,8 +739,10 @@ teardown() {
     [ "${#lines[@]}" = "2" ]
     [[ "${lines[1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
-    # Output file
-    [ -f "${expected_report}" ]
+    # HTML report file should be created and its charset should be UTF-8 #72
+    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 
     # Stop BaseX server
     "${basex_home}/bin/basexhttpstop"
