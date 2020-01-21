@@ -103,4 +103,42 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
+   <x:scenario>
+      <x:label>XPath is different, but serialized node looks as if same</x:label>
+      <x:result select="()"/>
+      <x:scenario>
+         <x:label>[Result] = document node, [Expected Result] = element</x:label>
+         <x:call function="exactly-one">
+            <x:param as="document-node()" select="/">
+               <test/>
+            </x:param>
+         </x:call>
+         <x:result select="/self::document-node()">
+            <test/>
+         </x:result>
+         <x:test successful="false">
+            <x:label>XPath should be colored as different. Serialized node should be colored as same.</x:label>
+            <x:expect select="/element()">
+               <test/>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+      <x:scenario>
+         <x:label>[Result] = element, [Expected Result] = document node.</x:label>
+         <x:call function="exactly-one">
+            <x:param as="element()">
+               <test/>
+            </x:param>
+         </x:call>
+         <x:result select="/element()">
+            <test/>
+         </x:result>
+         <x:test successful="false">
+            <x:label>XPath should be colored as different. Serialized node should be colored as same.</x:label>
+            <x:expect select="/self::document-node()">
+               <test/>
+            </x:expect>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
 </x:report>

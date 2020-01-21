@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:scenario label="x:param with href (xspec/xspec#542)">
-		<x:call function="exactly-one">
-			<x:param href="test.xml" />
-		</x:call>
-		<x:expect href="test.xml" label="x:expect with href should be Success" />
-	</x:scenario>
-</x:description>

@@ -42,7 +42,7 @@
   <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@xspec-original-location)" />
 
   <!-- The compiled stylesheet element. -->
-  <stylesheet version="{x:decimal-string(( @xslt-version, $default-xslt-version )[1])}"
+  <stylesheet version="{x:decimal-string(x:xslt-version(.))}"
               exclude-result-prefixes="impl">
     <!-- The test result report XML may use namespace prefixes in XPath expressions
       even when the prefixes are not used in node names.
@@ -427,8 +427,8 @@
       <xsl:value-of select="normalize-space(x:label(.))"/>
     </message>
     <xsl:if test="not($pending-p)">
-      <xsl:variable name="xslt-version" as="xs:decimal" 
-        select="(ancestor-or-self::*[@xslt-version]/@xslt-version, $default-xslt-version)[1]" />
+      <xsl:variable name="xslt-version" as="xs:decimal" select="x:xslt-version(.)" />
+
       <!-- Set up the $impl:expected variable -->
       <xsl:call-template name="x:setup-expected">
         <xsl:with-param name="var" select="'impl:expected'" />

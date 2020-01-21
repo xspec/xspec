@@ -249,7 +249,7 @@
 
   <!-- Gets the file path (not URL) of the Schematron file -->
   <target name="locate-schematron-file" if="${xspec.is.schematron}">
-    <xml-to-properties in="${xspec.xspecfile.original}" style="locate-schematron.xsl" />
+    <xml-to-properties in="${xspec.xspecfile.original}" style="locate-schematron-uri.xsl" />
     <makepath property="xspec.schematron.file" url="${xspec.schematron.uri}" />
     <echo message="Path of Schematron file: ${xspec.schematron.file}"
           level="info" />
@@ -421,7 +421,6 @@
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
       <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
-      <arg value="-ext:on" />
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-xsl:${xspec.compiled.runner}" />
       <arg value="-T:com.jenitennison.xslt.tests.XSLTCoverageTraceListener"
@@ -440,10 +439,6 @@
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.html}"
                 style="${xspec.html.reporter.xsl}">
-      <factory-elements>
-        <attribute name="http://saxon.sf.net/feature/allow-external-functions"
-                   value="true"/>
-      </factory-elements>
       <xslt-elements>
         <param name="inline-css" expression="true" />
         <param name="report-css-uri" expression="${xspec.result.html.css.url}"

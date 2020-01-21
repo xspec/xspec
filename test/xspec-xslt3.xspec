@@ -9,6 +9,6 @@
       </root>
     </x:expect>
     <x:expect label="the compiled stylesheet has version=3.0" select="'3.0'"
-      test="document('')/xsl:stylesheet/data(@version)"/>
+      test="document('')/xsl:stylesheet/@version/string()"/>
   </x:scenario>
 </x:description>

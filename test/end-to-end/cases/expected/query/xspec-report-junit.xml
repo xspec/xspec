@@ -37,4 +37,16 @@
          <failure message="expect assertion failed">Expected: ()</failure>
       </testcase>
    </testsuite>
+   <testsuite name="XPath is different, but serialized node looks as if same"
+              tests="2"
+              failures="2">
+      <testcase name="[Result] = document node, [Expected Result] = element XPath should be colored as different. Serialized node should be colored as same."
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+      <testcase name="[Result] = element, [Expected Result] = document node. XPath should be colored as different. Serialized node should be colored as same."
+                status="failed">
+         <failure message="expect assertion failed">Expected: /self::document-node()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>

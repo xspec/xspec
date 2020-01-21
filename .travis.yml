@@ -19,15 +19,15 @@ env:
         #   * BaseX test requires XML Calabash.
 
         # latest Saxon 9.9 and Jing
-        - SAXON_VERSION=9.9.1-5
+        - SAXON_VERSION=9.9.1-6
           JING_VERSION=20181222
-          XMLCALABASH_VERSION=1.1.29-99
+          XMLCALABASH_VERSION=1.1.30-99
           DO_CODESPELL=true
           DO_MAVEN_PACKAGE=true
 
         # latest Saxon 9.8
         - SAXON_VERSION=9.8.0-15
-          XMLCALABASH_VERSION=1.1.29-98
+          XMLCALABASH_VERSION=1.1.30-98
 
         # latest oXygen
         - SAXON_VERSION=9.8.0-12

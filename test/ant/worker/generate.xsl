@@ -167,7 +167,7 @@
 						test="
 							($pis = 'require-saxon-bug-4315-fixed')
 							and (x:saxon-version() ge x:pack-version(9, 9, 0, 0))
-							and (x:saxon-version() le x:pack-version(9, 9, 1, 5))">
+							and (x:saxon-version() le x:pack-version(9, 9, 1, 6))">
 						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
 					</xsl:when>
 
