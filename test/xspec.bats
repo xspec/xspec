@@ -436,9 +436,8 @@ teardown() {
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
-    skip "Skip until #716 gets fixed"
-
-    special_chars_dir="${work_dir}/some'path (84) here & there"
+    # TODO: Test with space char (#716)
+    special_chars_dir="${work_dir}/some'path_(84)_here_&_there"
     mkdir "${special_chars_dir}"
     cp ../tutorial/schematron/demo-03* "${special_chars_dir}"
 
@@ -470,7 +469,7 @@ teardown() {
 # Schematron phase/parameters
 #
 
-@test "Schematron phase/parameters are passed to Schematron compile (command line)" {
+@test "Schematron phase/parameters are passed to Schematron compile (CLI)" {
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-param-001-step3.xsl
     run ../bin/xspec.sh -s schematron/schematron-param-001.xspec
     echo "$output"
@@ -498,7 +497,7 @@ teardown() {
 # Schematron XSLTs provided externally
 #
 
-@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (command line)" {
+@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)" {
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
@@ -849,7 +848,7 @@ teardown() {
 # Catalog (Ant)
 #
 
-@test "Ant with catalog resolves URI (XSLT)" {
+@test "Ant with catalog (XSLT)" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
@@ -858,15 +857,15 @@ teardown() {
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/catalog-02-catalog.xml" \
-        -Dxspec.xml="${PWD}/catalog/catalog-02-xslt.xspec"
+        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant with catalog resolves URI (XQuery)" {
+@test "Ant with catalog (XQuery)" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
@@ -875,16 +874,16 @@ teardown() {
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/catalog-02-catalog.xml" \
+        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
         -Dtest.type=q \
-        -Dxspec.xml="${PWD}/catalog/catalog-02-xquery.xspec"
+        -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant with catalog resolves URI (Schematron)" {
+@test "Ant with catalog (Schematron)" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
@@ -893,31 +892,20 @@ teardown() {
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/catalog-02-catalog.xml" \
-        -Dclean.output.dir=true \
+        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
         -Dtest.type=s \
-        -Dxspec.xml="${PWD}/catalog/catalog-02-schematron.xspec"
+        -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
     echo "$output"
-
-    # Default xspec.fail should make the build fail on test failure
-    [ "$status" -eq 1 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
-    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
-
-    # Verify the build fails before cleanup
-    run ls "${TEST_DIR}"
-    echo "$output"
-    [ "${#lines[@]}" = "8" ]
-
-    # Verify that the build fails after Schematron preprocess and leaves preprocessed XSLT file. Delete it at the same time.
-    rm catalog/02/tested.sch-preprocessed.xsl
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
 #
-# Ant various properties
+# xspec.fail (Ant)
 #
 
-@test "Ant for XSLT with xspec.fail=false continues on test failure" {
+@test "Ant with xspec.fail=false continues on test failure (XSLT)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -929,7 +917,29 @@ teardown() {
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant for Schematron with various properties except catalog" {
+@test "Ant with xspec.fail=true makes the build fail on test failure before cleanup (XSLT)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dclean.output.dir=true \
+        -Dxspec.fail=true \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
+
+    # Verify the build fails before cleanup
+    run ls "${TEST_DIR}"
+    echo "$output"
+    [ "${#lines[@]}" = "4" ]
+}
+
+#
+# Ant various properties
+#
+
+@test "Ant for Schematron with various properties except catalog and xspec.fail" {
     build_xml="${work_dir}/build.xml"
 
     # For testing -Dxspec.project.dir
@@ -959,96 +969,76 @@ teardown() {
     [ ! -f ../tutorial/schematron/demo-03.sch-preprocessed.xsl ]
 }
 
-@test "Ant for Schematron with catalog and xspec.fail=false resolves URI and continues on test failure" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/catalog-02-catalog.xml" \
-        -Dtest.type=s \
-        -Dxspec.fail=false \
-        -Dxspec.xml="${PWD}/catalog/catalog-02-schematron.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 1 / total: 2" ]]
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
-
-    # Cleanup
-    rm catalog/02/tested.sch-preprocessed.xsl
-}
-
 #
-# Catalog (CLI -catalog)
+# Catalog (CLI) (-catalog)
 #
 
-@test "invoking xspec for XSLT with -catalog uses XML Catalog resolver and does so even with spaces in file path" {
+@test "CLI with -catalog uses XML Catalog resolver and does so even with spaces in file path (XSLT)" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
     space_dir="${work_dir}/cat a log"
-    mkdir -p "${space_dir}/xspec"
+    mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog "${space_dir}/catalog-01-catalog.xml" "${space_dir}/catalog-01-xslt.xspec"
+    run ../bin/xspec.sh -catalog "${space_dir}/01/catalog.xml" "${space_dir}/catalog-01_stylesheet.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
-@test "invoking xspec for XQuery with -catalog uses XML Catalog resolver" {
+@test "CLI with -catalog uses XML Catalog resolver (XQuery)" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml -q catalog/catalog-01-xquery.xspec
+    run ../bin/xspec.sh -catalog catalog/01/catalog.xml -q catalog/catalog-01_query.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[6]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
-@test "invoking xspec for Schematron with -catalog uses XML Catalog resolver" {
+@test "CLI with -catalog uses XML Catalog resolver (Schematron)" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog catalog/catalog-02-catalog.xml -s catalog/catalog-02-schematron.xspec
+    run ../bin/xspec.sh -catalog catalog/01/catalog.xml -s catalog/catalog-01_schematron.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[14]}" = "passed: 1 / pending: 0 / failed: 1 / total: 2" ]
+    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
-# Catalog (XML_CATALOG)
+# Catalog (CLI) (XML_CATALOG)
 #
 
-@test "invoking xspec with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path" {
+@test "CLI with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path (XSLT)" {
     if [ -z "${XML_RESOLVER_JAR}" ]; then
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
     space_dir="${work_dir}/cat a log"
-    mkdir -p "${space_dir}/xspec"
+    mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    export XML_CATALOG="${space_dir}/catalog-01-catalog.xml"
+    export XML_CATALOG="${space_dir}/01/catalog.xml"
 
-    run ../bin/xspec.sh "${space_dir}/catalog-01-xslt.xspec"
+    run ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
-# SAXON_HOME (CLI)
+# Catalog resolver and SAXON_HOME (CLI)
 #
 
 @test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
@@ -1068,10 +1058,10 @@ teardown() {
         cp "${saxon_license}" "${SAXON_HOME}"
     fi
 
-    run ../bin/xspec.sh -catalog catalog/catalog-01-catalog.xml catalog/catalog-01-xslt.xspec
+    run ../bin/xspec.sh -catalog catalog/01/catalog.xml catalog/catalog-01_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
@@ -1393,7 +1383,7 @@ teardown() {
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 }
 
-@test "XSLT selecting nodes without context should be error (command line) #423" {
+@test "XSLT selecting nodes without context should be error (CLI) #423" {
     run ../bin/xspec.sh xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1401,7 +1391,7 @@ teardown() {
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
-@test "XSLT selecting nodes without context should be error (command line -c) #423" {
+@test "XSLT selecting nodes without context should be error (CLI -c) #423" {
     if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
     fi
@@ -1413,7 +1403,7 @@ teardown() {
     [ "${lines[${#lines[@]}-1]}" = "*** Error collecting test coverage data" ]
 }
 
-@test "XQuery selecting nodes without context should be error (command line) #423" {
+@test "XQuery selecting nodes without context should be error (CLI) #423" {
     run ../bin/xspec.sh -q xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]

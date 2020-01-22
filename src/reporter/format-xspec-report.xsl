@@ -379,8 +379,23 @@
   <xsl:choose>
     <xsl:when test="@href or node() or (@select eq '/self::document-node()')">
       <xsl:if test="@select">
-        <p>XPath <code><xsl:value-of select="@select" /></code> from:</p>
+        <p>
+          <xsl:text>XPath </xsl:text>
+          <code>
+            <xsl:if test="exists($result-to-compare-with)">
+              <xsl:attribute name="class" select="
+                test:comparison-html-class(
+                  @select,
+                  $result-to-compare-with/@select,
+                  $expected,
+                  false())" />
+            </xsl:if>
+            <xsl:value-of select="@select" />
+          </code>
+          <xsl:text> from:</xsl:text>
+        </p>
       </xsl:if>
+
       <xsl:choose>
         <xsl:when test="@href">
           <p><a href="{@href}"><xsl:value-of select="x:format-uri(@href)" /></a></p>

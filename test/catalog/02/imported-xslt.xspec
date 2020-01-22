@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:scenario label="x:context with href (xspec/xspec#542)">
-		<x:context href="test.xml" />
-		<x:expect href="test.xml" label="x:expect with href should be Success" />
-	</x:scenario>
-</x:description>

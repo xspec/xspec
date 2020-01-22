@@ -49,8 +49,6 @@
       </xsl:processing-instruction>
    </xsl:variable>
 
-   <xsl:variable name="default-xslt-version" as="xs:decimal" select="2.0" />
-
    <!--
        Drive the overall compilation of a suite.  Apply template on
        the x:description element, in the mode
@@ -153,8 +151,7 @@
 
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
-         <xsl:with-param name="xslt-version"   tunnel="yes" select="
-             ( @xslt-version, $default-xslt-version )[1]"/>
+         <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
       </xsl:apply-templates>
    </xsl:template>
