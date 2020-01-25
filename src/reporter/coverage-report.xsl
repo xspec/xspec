@@ -10,7 +10,7 @@
 <xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:saxon="http://saxon.sf.net/"
+                xmlns:zentatools="http://magwas.rulez.org/zentatools"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -346,7 +346,7 @@
   <xsl:param name="module" as="xs:string" />
   <xsl:for-each select="$nodes[not(self::text()[not(normalize-space())])]">
     <xsl:variable name="hits" as="element(h)*"
-      select="test:hit-on-lines(saxon:line-number(.), $module)" />
+      select="test:hit-on-lines(zentatools:line-number(.), $module)" />
     <xsl:variable name="name" as="xs:string"
       select="concat('{', namespace-uri(.), '}', local-name(.))" />
     <xsl:for-each select="$hits">
