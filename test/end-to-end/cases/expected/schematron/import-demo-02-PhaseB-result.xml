@@ -5,7 +5,7 @@
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:local="local"
-          stylesheet="../../../../../tutorial/schematron/demo-02.sch-preprocessed.xsl"
+          stylesheet="import-demo-02-PhaseB-sch-preprocessed.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../import-demo-02-PhaseB.xspec"
           schematron="../../../../../tutorial/schematron/demo-02.sch">
