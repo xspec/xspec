@@ -436,8 +436,7 @@ teardown() {
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
-    # TODO: Test with space char (#716)
-    special_chars_dir="${work_dir}/some'path_(84)_here_&_there"
+    special_chars_dir="${work_dir}/some'path (84) here & there"
     mkdir "${special_chars_dir}"
     cp ../tutorial/schematron/demo-03* "${special_chars_dir}"
 
@@ -488,9 +487,6 @@ teardown() {
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 9 / pending: 0 / failed: 0 / total: 9" ]]
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
-
-    # Cleanup
-    rm schematron/schematron-param-001.sch-preprocessed.xsl
 }
 
 #
@@ -527,9 +523,6 @@ teardown() {
     [[ "${output}" =~ "I am schematron-xslt-compile.xsl!" ]]
     [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
-
-    # Cleanup
-    rm ../tutorial/schematron/demo-01.sch-preprocessed.xsl
 }
 
 #
@@ -827,18 +820,16 @@ teardown() {
     # * Default xspec.junit.enabled is false
     run env LC_ALL=C ls ../tutorial/schematron/xspec
     echo "$output"
-    [ "${#lines[@]}" = "8" ]
+    [ "${#lines[@]}" = "9" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
-    [ "${lines[3]}" = "demo-03-sch-preprocessed.xspec" ]
-    [ "${lines[4]}" = "demo-03-sch-step3-wrapper.xsl" ]
-    [ "${lines[5]}" = "demo-03-step1.sch" ]
-    [ "${lines[6]}" = "demo-03-step2.sch" ]
-    [ "${lines[7]}" = "demo-03_xml-to-properties.xml" ]
-
-    # Verify that the preprocessed XSLT is left. Delete it at the same time.
-    rm ../tutorial/schematron/demo-03.sch-preprocessed.xsl
+    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
+    [ "${lines[5]}" = "demo-03-sch-step3-wrapper.xsl" ]
+    [ "${lines[6]}" = "demo-03-step1.sch" ]
+    [ "${lines[7]}" = "demo-03-step2.sch" ]
+    [ "${lines[8]}" = "demo-03_xml-to-properties.xml" ]
 
     # Cleanup
     rm -r ../tutorial/schematron/xspec
@@ -966,7 +957,6 @@ teardown() {
 
     # Verify clean.output.dir=true
     [ ! -d "${TEST_DIR}" ]
-    [ ! -f ../tutorial/schematron/demo-03.sch-preprocessed.xsl ]
 }
 
 #
@@ -1582,9 +1572,6 @@ teardown() {
     run cat "${ant_log}"
     echo "$output"
     [[ "${output}" =~ " [makepath] Setting xspec.schematron.file to file path ${PWD}/do-nothing.sch" ]]
-
-    # Cleanup
-    rm do-nothing.sch-preprocessed.xsl
 }
 
 #
