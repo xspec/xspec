@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="21.1">
+    <meta>
+        <filters directoryPatterns="" filePatterns="\Qxspec.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
+        <options>
+            <serialized version="21.1" xml:space="preserve">
+                <serializableOrderedMap>
+                    <entry>
+                        <String>additional.frameworks.directories</String>
+                        <String-array>
+                            <String>${pd}</String>
+                        </String-array>
+                    </entry>
+                    <entry>
+                        <String>key.editor.document.type.custom.locations.option.pane</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                </serializableOrderedMap>
+            </serialized>
+        </options>
+    </meta>
+    <projectTree name="xspec.xpr">
+        <folder path="."/>
+    </projectTree>
+</project>
