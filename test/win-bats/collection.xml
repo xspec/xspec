@@ -407,9 +407,6 @@
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 9 / pending: 0 / failed: 0 / total: 9"
     call :verify_line -2 x "BUILD SUCCESSFUL"
-
-    rem Cleanup
-    call :del schematron\schematron-param-001.sch-preprocessed.xsl
 	</case>
 
 	<!--
@@ -444,9 +441,6 @@
     call :verify_line  * x "     [xslt] I am schematron-xslt-compile.xsl!"
     call :verify_line  * x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
     call :verify_line -2 x "BUILD SUCCESSFUL"
-
-    rem Cleanup
-    call :del ..\tutorial\schematron\demo-01.sch-preprocessed.xsl
 	</case>
 
 	<!--
@@ -713,18 +707,16 @@
     rem * Default clean.output.dir is false
     rem * Default xspec.junit.enabled is false
     call :run dir /b /o:n ..\tutorial\schematron\xspec
-    call :verify_line_count 8
+    call :verify_line_count 9
     call :verify_line 1 x demo-03_xml-to-properties.xml
     call :verify_line 2 x demo-03-compiled.xsl
     call :verify_line 3 x demo-03-result.html
     call :verify_line 4 x demo-03-result.xml
-    call :verify_line 5 x demo-03-sch-preprocessed.xspec
-    call :verify_line 6 x demo-03-sch-step3-wrapper.xsl
-    call :verify_line 7 x demo-03-step1.sch
-    call :verify_line 8 x demo-03-step2.sch
-
-    rem Verify that the preprocessed XSLT is left. Delete it at the same time.
-    call :del ..\tutorial\schematron\demo-03.sch-preprocessed.xsl
+    call :verify_line 5 x demo-03-sch-preprocessed.xsl
+    call :verify_line 6 x demo-03-sch-preprocessed.xspec
+    call :verify_line 7 x demo-03-sch-step3-wrapper.xsl
+    call :verify_line 8 x demo-03-step1.sch
+    call :verify_line 9 x demo-03-step2.sch
 
     rem Cleanup
     call :rmdir ..\tutorial\schematron\xspec
@@ -833,7 +825,6 @@
 
     rem Verify clean.output.dir=true
     call :verify_not_exist "%TEST_DIR%"
-    call :verify_not_exist ..\tutorial\schematron\demo-03.sch-preprocessed.xsl
 	</case>
 
 	<!--
@@ -1355,9 +1346,6 @@
     rem Verify Ant makepath task
     call :run type "%ANT_LOG%"
     call :verify_line * x " [makepath] Setting xspec.schematron.file to file path %CD%\do-nothing.sch"
-
-    rem Cleanup
-    call :del do-nothing.sch-preprocessed.xsl
 	</case>
 
 	<!--
