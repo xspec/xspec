@@ -106,6 +106,9 @@
 
   <!-- Output namespace nodes -->
   <xsl:for-each select="$new-namespaces">
+    <!-- Sort in namespace prefix -->
+    <xsl:sort select="name()" />
+
     <xsl:if test="position() ge 2">
       <xsl:value-of select="$ns-attr-indent" />
     </xsl:if>
