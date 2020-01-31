@@ -11,6 +11,11 @@
 	-->
 
 	<!--
+		When set, datetime is normalized to this value
+	-->
+	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" />
+
+	<!--
 		Normalizes the title text
 			Example:
 				in:  <title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
@@ -48,6 +53,20 @@
 	</xsl:template>
 
 	<!--
+		Normalizes the link to the external CSS file
+			Example:
+				in:  href="file:/path/to/test-report.css"
+				out: href="../path/to/test-report.css"
+	-->
+	<xsl:template as="attribute(href)" match="/html/head/link[@rel eq 'stylesheet']/@href"
+		mode="normalizer:normalize">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
+		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+			select="normalizer:relative-uri(., $tunnel_document-uri)" />
+	</xsl:template>
+
+	<!--
 		Normalizes the links to the tested module and the XSpec file
 			Example:
 				in:  <a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
@@ -65,6 +84,27 @@
 
 			<xsl:value-of select="x:filename-and-extension(.)" />
 		</xsl:copy>
+	</xsl:template>
+
+	<!--
+		Normalizes datetime
+			Example:
+				in:  <p>Tested: 23 February 2017 at 11:18</p>
+				out: <p>Tested: 1 January 2000 at 00:00</p>
+	-->
+	<xsl:template as="text()"
+		match="/html[exists($NORMALIZE-HTML-DATETIME)]/body/p[starts-with(., 'Tested:')]/text()"
+		mode="normalizer:normalize">
+		<!-- Format in the same way as XSPEC_HOME/src/reporter/format-xspec-report.xsl -->
+		<xsl:variable as="xs:string" name="now"
+			select="format-dateTime($NORMALIZE-HTML-DATETIME, '[D] [MNn] [Y] at [H01]:[m01]')" />
+
+		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
+		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
+			<xsl:matching-substring>
+				<xsl:value-of select="regex-group(1), $now" />
+			</xsl:matching-substring>
+		</xsl:analyze-string>
 	</xsl:template>
 
 	<!--

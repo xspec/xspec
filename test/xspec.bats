@@ -373,21 +373,27 @@ teardown() {
     fi
 
     # HTML report file
-    expected_report="${work_dir}/xspec-72-result.html"
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/xspec-serialize-result.html"
 
     # Run
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-72.xspec \
-        -o result="file:${expected_report}" \
+        -i source=end-to-end/cases/xspec-serialize.xspec \
+        -o result="file:${actual_report}" \
         -p xspec-home="file:${PWD}/../" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
 
-    # HTML report file should be created and its charset should be UTF-8 #72
-    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
+    # Verify HTML report including #72
+    run java -jar "${SAXON_JAR}" \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/xspec-serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     echo "$output"
-    [ "${lines[0]}" = "true" ]
+    [ "$status" -eq 0 ]
 }
 
 @test "XProc harness for Saxon (XQuery)" {
@@ -396,21 +402,27 @@ teardown() {
     fi
 
     # HTML report file
-    expected_report="${work_dir}/xspec-72-result.html"
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/xspec-serialize-result.html"
 
     # Run
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-72.xspec \
-        -o result="file:${expected_report}" \
+        -i source=end-to-end/cases/xspec-serialize.xspec \
+        -o result="file:${actual_report}" \
         -p xspec-home="file:${PWD}/../" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
 
-    # HTML report file should be created and its charset should be UTF-8 #72
-    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
+    # Verify HTML report including #72
+    run java -jar "${SAXON_JAR}" \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/xspec-serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     echo "$output"
-    [ "${lines[0]}" = "true" ]
+    [ "$status" -eq 0 ]
 }
 
 #
@@ -689,7 +701,7 @@ teardown() {
         ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[${#lines[@]}-1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${lines[${#lines[@]}-1]}" =~ ":passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
     # Compiled file
     [ -f "${compiled_file}" ]
@@ -730,7 +742,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    [[ "${lines[1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${lines[1]}" =~ ":passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
     # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
