@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xt:extensions xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xt="http://www.oxygenxml.com/ns/extension"
+	xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
+
+	<!-- This @id value assumes that https://github.com/xspec/ community owns "xspec.io". -->
+	<xt:extension id="io.xspec.xspec">
+
+		<!-- To publish a new version, update this @href to a specific commit archive and increment
+			<xt:version>. -->
+		<xt:location
+			href="https://github.com/xspec/xspec/archive/v1.5.0.zip" />
+
+		<!-- The version of this add-on. Increment only the last numeric part ('z' of "0.0.z")
+			whenever we publish a new version of this add-on.
+			Ideally, this version number should be the same as the version of XSpec being installed
+			by this add-on. But <xt:version> consists of only three numeric parts ("x.y.z") which
+			doesn't accommodate pre-release versions of XSpec ("x.y.z-SNAPSHOT.1" or something like
+			that). Use "0.0.z" until we find a better way. -->
+		<xt:version>0.0.4</xt:version>
+
+		<!-- Note that supporting multiple oXygen versions may be hard to maintain, because
+			* oXygen add-on and framework require manual testing.
+			* oXygen framework cannot always be backward compatible. See
+			  https://github.com/TEIC/oxygen-tei/issues/30. -->
+		<xt:oxy_version>19.0+</xt:oxy_version>
+
+		<xt:type>framework</xt:type>
+
+		<!-- This could be Jeni, but she's not participated in this add-on release. -->
+		<xt:author>https://github.com/xspec/xspec</xt:author>
+
+		<xt:name>XSpec</xt:name>
+
+		<xt:description>
+			<xi:include href="editors/oxygen/add-on/description/latest.xhtml">
+				<xi:fallback>Visit https://github.com/xspec/xspec and see
+					editors/oxygen/add-on/description/latest.xhtml</xi:fallback>
+			</xi:include>
+		</xt:description>
+
+		<xt:license>
+			<xi:include href="LICENSE" parse="text">
+				<xi:fallback>Visit https://github.com/xspec/xspec and see LICENSE</xi:fallback>
+			</xi:include>
+		</xt:license>
+
+	</xt:extension>
+
+</xt:extensions>
