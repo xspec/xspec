@@ -10,7 +10,7 @@ set "CURL=%CURL% -fsSL --create-dirs --retry 5"
 
 rem install Saxon
 set "SAXON_JAR=%XSPEC_DEPS%\saxon\saxon9he.jar"
-%CURL% -o "%SAXON_JAR%" "http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/%SAXON_VERSION%/Saxon-HE-%SAXON_VERSION%.jar"
+%CURL% -o "%SAXON_JAR%" "https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/%SAXON_VERSION%/Saxon-HE-%SAXON_VERSION%.jar"
 
 rem install XML Calabash
 if not defined XMLCALABASH_VERSION (
@@ -43,7 +43,7 @@ path %ANT_HOME%\bin;%PATH%
 
 rem install XML Resolver
 set "XML_RESOLVER_JAR=%XSPEC_DEPS%\xml-resolver\resolver.jar"
-%CURL% -o "%XML_RESOLVER_JAR%" "http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
+%CURL% -o "%XML_RESOLVER_JAR%" "https://repo1.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
 
 rem install Jing
 if not defined JING_VERSION (
@@ -51,7 +51,7 @@ if not defined JING_VERSION (
 ) else (
     set "JING_JAR=%XSPEC_DEPS%\jing\jing.jar"
 )
-if defined JING_JAR %CURL% -o "%JING_JAR%" "http://central.maven.org/maven2/org/relaxng/jing/%JING_VERSION%/jing-%JING_VERSION%.jar"
+if defined JING_JAR %CURL% -o "%JING_JAR%" "https://repo1.maven.org/maven2/org/relaxng/jing/%JING_VERSION%/jing-%JING_VERSION%.jar"
 
 rem clean up
 set CURL=

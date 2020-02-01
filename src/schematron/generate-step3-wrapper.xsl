@@ -45,8 +45,17 @@
 				<import href="{resolve-uri('patch-step3.xsl')}" />
 			</xsl:if>
 
+			<!-- Set up a pseudo x:param which holds the fully-resolved Schematron file URI
+				so that $x:schematron-uri holding the URI is generated and made available in
+				the wrapper stylesheet being generated -->
+			<xsl:variable as="element(x:param)" name="xml-base-param">
+				<x:param as="xs:anyURI" name="x:schematron-uri">
+					<xsl:value-of select="x:locate-schematron-uri(.)" />
+				</x:param>
+			</xsl:variable>
+
 			<!-- Resolve x:param -->
-			<xsl:apply-templates select="x:param" />
+			<xsl:apply-templates select="$xml-base-param, x:param" />
 		</stylesheet>
 	</xsl:template>
 
