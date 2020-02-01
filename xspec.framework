@@ -1,0 +1,1206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serialized version="21.1" xml:space="preserve">
+	<serializableOrderedMap>
+		<entry>
+			<String>document.types</String>
+			<documentTypeDescriptor-array>
+				<documentTypeDescriptor>
+					<field name="extensionPatch">
+						<null/>
+					</field>
+					<field name="name">
+						<String>XSpec</String>
+					</field>
+					<field name="schemaDescriptor">
+						<docTypeSchema>
+							<field name="type">
+								<Integer>3</Integer>
+							</field>
+							<field name="uri">
+								<String>${framework}/src/schemas/xspec.rnc</String>
+							</field>
+						</docTypeSchema>
+					</field>
+					<field name="classpath">
+						<String-array/>
+					</field>
+					<field name="parentClassLoaderID">
+						<null/>
+					</field>
+					<field name="authorExtensionDescriptor">
+						<authorExtension>
+							<field name="cssDescriptors">
+								<cssFile-array/>
+							</field>
+							<field name="mergeCSSsFromDocument">
+								<Boolean>false</Boolean>
+							</field>
+							<field name="multipleAlternateSelectionEnabled">
+								<Boolean>false</Boolean>
+							</field>
+							<field name="actionDescriptors">
+								<action-array/>
+							</field>
+							<field name="menubarDescriptor">
+								<menu>
+									<field name="label">
+										<String>Menu</String>
+									</field>
+									<field name="accessKey">
+										<null/>
+									</field>
+									<field name="iconPath">
+										<null/>
+									</field>
+									<field name="menuEntriesDescriptorList">
+										<menuEntry-array/>
+									</field>
+									<field name="context">
+										<null/>
+									</field>
+								</menu>
+							</field>
+							<field name="popupMenuDescriptor">
+								<menu>
+									<field name="label">
+										<String>Contextual menu</String>
+									</field>
+									<field name="accessKey">
+										<null/>
+									</field>
+									<field name="iconPath">
+										<null/>
+									</field>
+									<field name="menuEntriesDescriptorList">
+										<menuEntry-array/>
+									</field>
+									<field name="context">
+										<null/>
+									</field>
+								</menu>
+							</field>
+							<field name="toolbarDescriptor">
+								<toolbar>
+									<field name="id">
+										<String>Toolbar</String>
+									</field>
+									<field name="type">
+										<Integer>2</Integer>
+									</field>
+									<field name="largeIconPath">
+										<null/>
+									</field>
+									<field name="smallIconPath">
+										<null/>
+									</field>
+									<field name="toolbarEntriesDescriptorList">
+										<toolbarEntry-array/>
+									</field>
+								</toolbar>
+							</field>
+							<field name="additionalToolbarsDescriptors">
+								<null/>
+							</field>
+							<field name="contextualItems">
+								<contextProvider>
+									<field name="items">
+										<contextItem-array/>
+									</field>
+									<field name="removeItems">
+										<null/>
+									</field>
+								</contextProvider>
+							</field>
+							<field name="tableSupportClassName">
+								<null/>
+							</field>
+							<field name="tableCellSeparatorSupportClassName">
+								<null/>
+							</field>
+							<field name="tableColWidthSupportClassName">
+								<null/>
+							</field>
+							<field name="customReferencesResolver">
+								<null/>
+							</field>
+							<field name="editPropertiesHandler">
+								<null/>
+							</field>
+							<field name="authorExtensionStateListener">
+								<null/>
+							</field>
+							<field name="attributesRecognizer">
+								<null/>
+							</field>
+							<field name="authorActionEventHandler">
+								<null/>
+							</field>
+							<field name="authorImageDecorator">
+								<null/>
+							</field>
+						</authorExtension>
+					</field>
+					<field name="templatesLocations">
+						<String-array>
+							<String>${frameworkDir}/templates</String>
+						</String-array>
+					</field>
+					<field name="xmlCatalogs">
+						<String-array/>
+					</field>
+					<field name="description">
+						<String>Behavior Driven Development (BDD) framework for XSLT and XQuery.</String>
+					</field>
+					<field name="doctypeRules">
+						<documentTypeRule-array>
+							<documentTypeRule>
+								<field name="namespace">
+									<String>http://www.jenitennison.com/xslt/xspec</String>
+								</field>
+								<field name="rootElem">
+									<String>description</String>
+								</field>
+								<field name="fileName">
+									<String>*</String>
+								</field>
+								<field name="publicID">
+									<String>*</String>
+								</field>
+								<field name="javaRuleClass">
+									<String></String>
+								</field>
+								<field name="attributeLocalName">
+									<String>*</String>
+								</field>
+								<field name="attributeNamespace">
+									<String>*</String>
+								</field>
+								<field name="attributeValue">
+									<String>*</String>
+								</field>
+							</documentTypeRule>
+						</documentTypeRule-array>
+					</field>
+					<field name="scenarios">
+						<scenario-array>
+							<xprocScenario>
+								<field name="inputPorts">
+									<xprocInputPort-array>
+										<xprocInputPort>
+											<field name="portName">
+												<String>source</String>
+											</field>
+											<field name="urls">
+												<String-array>
+													<String>${currentFileURL}</String>
+												</String-array>
+											</field>
+										</xprocInputPort>
+									</xprocInputPort-array>
+								</field>
+								<field name="outputPorts">
+									<xprocOutputPort-array>
+										<xprocOutputPort>
+											<field name="portName">
+												<String>result</String>
+											</field>
+											<field name="url">
+												<String>${cfdu}/${cfn}-result.html</String>
+											</field>
+											<field name="showInSequenceView">
+												<Boolean>false</Boolean>
+											</field>
+										</xprocOutputPort>
+									</xprocOutputPort-array>
+								</field>
+								<field name="xprocOptions">
+									<xprocOption-array/>
+								</field>
+								<field name="xprocParameters">
+									<xprocParameterPort-array>
+										<xprocParameterPort>
+											<field name="portName">
+												<String>parameters</String>
+											</field>
+											<field name="parameters">
+												<xprocParameter-array>
+													<xprocParameter>
+														<field name="namespaceURI">
+															<String></String>
+														</field>
+														<field name="localName">
+															<String>xspec-home</String>
+														</field>
+														<field name="value">
+															<String>${framework}/</String>
+														</field>
+													</xprocParameter>
+												</xprocParameter-array>
+											</field>
+										</xprocParameterPort>
+									</xprocParameterPort-array>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>XSpec for XSLT using XProc</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<String>${framework}/src/harnesses/saxon/saxon-xslt-harness.xproc</String>
+								</field>
+								<field name="inputXMLURL">
+									<String></String>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>XPROC</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfdu}/${cfn}-result.html</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>Add-on for Calabash XProc Engine</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array/>
+								</field>
+							</xprocScenario>
+							<xprocScenario>
+								<field name="inputPorts">
+									<xprocInputPort-array>
+										<xprocInputPort>
+											<field name="portName">
+												<String>source</String>
+											</field>
+											<field name="urls">
+												<String-array>
+													<String>${currentFileURL}</String>
+												</String-array>
+											</field>
+										</xprocInputPort>
+									</xprocInputPort-array>
+								</field>
+								<field name="outputPorts">
+									<xprocOutputPort-array>
+										<xprocOutputPort>
+											<field name="portName">
+												<String>result</String>
+											</field>
+											<field name="url">
+												<String>${cfdu}/${cfn}-result.html</String>
+											</field>
+											<field name="showInSequenceView">
+												<Boolean>false</Boolean>
+											</field>
+										</xprocOutputPort>
+									</xprocOutputPort-array>
+								</field>
+								<field name="xprocOptions">
+									<xprocOption-array/>
+								</field>
+								<field name="xprocParameters">
+									<xprocParameterPort-array>
+										<xprocParameterPort>
+											<field name="portName">
+												<String>parameters</String>
+											</field>
+											<field name="parameters">
+												<xprocParameter-array>
+													<xprocParameter>
+														<field name="namespaceURI">
+															<String></String>
+														</field>
+														<field name="localName">
+															<String>xspec-home</String>
+														</field>
+														<field name="value">
+															<String>${framework}/</String>
+														</field>
+													</xprocParameter>
+												</xprocParameter-array>
+											</field>
+										</xprocParameterPort>
+									</xprocParameterPort-array>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>XSpec for XQuery using XProc</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<String>${framework}/src/harnesses/saxon/saxon-xquery-harness.xproc</String>
+								</field>
+								<field name="inputXMLURL">
+									<String></String>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>XPROC</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfdu}/${cfn}-result.html</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>Add-on for Calabash XProc Engine</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array/>
+								</field>
+							</xprocScenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>build.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>catalog</String>
+											</field>
+											<field name="description">
+												<String>The path to a catalog file that will be used for all XSLTs involved in the XSpec execution.</String>
+											</field>
+											<field name="value">
+												<String>${pd}/catalog.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>clean.output.dir</String>
+											</field>
+											<field name="description">
+												<String>Cleans up all the intermediate files created by the unit process. Set in to false if you want to inspect these files.</String>
+											</field>
+											<field name="value">
+												<String>true</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>test.type</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>${xpath_eval(((doc('${currentFileURL}')!*:description!(@query,@schematron)!substring(name(),1,1)),'t')[1])}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.fail</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>false</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.project.dir</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>${frameworkDir}/</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.result.html</String>
+											</field>
+											<field name="description">
+												<String>The file path where the test result HTML will be created.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/${cfn}-result.html</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.xml</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>saxon.custom.options</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<null/>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${frameworkDir}/</String>
+								</field>
+								<field name="showConsoleAlways">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>Run XSpec Test</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/${cfn}-result.html</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygen-sandbox.jar</String>
+										<String>${oxygenHome}/lib/oxygen-license.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/oxygen-editor-variables-parser.jar</String>
+										<String>${oxygenHome}/lib/xml-apis.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/guava-*.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+							<antScenario>
+								<field name="additionalAntArgs">
+									<String></String>
+								</field>
+								<field name="buildTarget">
+									<String></String>
+								</field>
+								<field name="buildFilePath">
+									<String>build.xml</String>
+								</field>
+								<field name="ditaParams">
+									<list>
+										<antParameter>
+											<field name="name">
+												<String>catalog</String>
+											</field>
+											<field name="description">
+												<String>The path to a catalog file that will be used for all XSLTs involved in the XSpec execution.</String>
+											</field>
+											<field name="value">
+												<String>${pd}/catalog.xml</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>clean.output.dir</String>
+											</field>
+											<field name="description">
+												<String>Cleans up all the intermediate files created by the unit process. Set in to false if you want to inspect these files.</String>
+											</field>
+											<field name="value">
+												<String>true</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>test.type</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>t</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.coverage.enabled</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>true</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.coverage.html</String>
+											</field>
+											<field name="description">
+												<String>The file path where the coverage report HTML will be created.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/${cfn}-coverage.html</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.fail</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>false</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.project.dir</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>${frameworkDir}/</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.result.html</String>
+											</field>
+											<field name="description">
+												<String>The file path where the test result HTML will be created.</String>
+											</field>
+											<field name="value">
+												<String>${cfd}/${cfn}-result.html</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>xspec.xml</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<String>${cf}</String>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+										<antParameter>
+											<field name="name">
+												<String>saxon.custom.options</String>
+											</field>
+											<field name="description">
+												<String></String>
+											</field>
+											<field name="value">
+												<null/>
+											</field>
+											<field name="defaultValue">
+												<null/>
+											</field>
+											<field name="type">
+												<Integer>5</Integer>
+											</field>
+											<field name="possibleValues">
+												<null/>
+											</field>
+											<field name="possibleValuesDescriptions">
+												<null/>
+											</field>
+										</antParameter>
+									</list>
+								</field>
+								<field name="jvmArgs">
+									<String>-Xmx256m</String>
+								</field>
+								<field name="useCustomJavaHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customJavaHomeDir">
+									<String></String>
+								</field>
+								<field name="useCustomANTHome">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="customANTHomeDir">
+									<String></String>
+								</field>
+								<field name="workingDir">
+									<String>${frameworkDir}/</String>
+								</field>
+								<field name="showConsoleAlways">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="advancedOptionsMap">
+									<null/>
+								</field>
+								<field name="name">
+									<String>XSLT Code Coverage</String>
+								</field>
+								<field name="baseURL">
+									<null/>
+								</field>
+								<field name="footerURL">
+									<null/>
+								</field>
+								<field name="fOPMethod">
+									<null/>
+								</field>
+								<field name="fOProcessorName">
+									<null/>
+								</field>
+								<field name="headerURL">
+									<null/>
+								</field>
+								<field name="inputXSLURL">
+									<null/>
+								</field>
+								<field name="inputXMLURL">
+									<null/>
+								</field>
+								<field name="defaultScenario">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isFOPPerforming">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="type">
+									<String>ANT</String>
+								</field>
+								<field name="saveAs">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="openInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="outputResource">
+									<null/>
+								</field>
+								<field name="openOtherLocationInBrowser">
+									<Boolean>true</Boolean>
+								</field>
+								<field name="locationToOpenInBrowserURL">
+									<String>${cfd}/${cfn}-coverage.html</String>
+								</field>
+								<field name="openInEditor">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInHTMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInXMLPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInSVGPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="showInResultSetPane">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="useXSLTInput">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="xsltParams">
+									<list/>
+								</field>
+								<field name="cascadingStylesheets">
+									<String-array/>
+								</field>
+								<field name="xslTransformer">
+									<String>ANT</String>
+								</field>
+								<field name="extensionURLs">
+									<String-array>
+										<String>${oxygenHome}/classes</String>
+										<String>${oxygenHome}/lib/oxygen.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
+										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygenDeveloperEclipse.jar</String>
+										<String>${oxygenHome}/lib/oxygen-sandbox.jar</String>
+										<String>${oxygenHome}/lib/oxygen-license.jar</String>
+										<String>${oxygenHome}/lib/oxygen-basic-utilities.jar</String>
+										<String>${oxygenHome}/lib/oxygen-editor-variables-parser.jar</String>
+										<String>${oxygenHome}/lib/xml-apis.jar</String>
+										<String>${oxygenHome}/lib/*resolver*.jar</String>
+										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
+										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/*xerces*.jar</String>
+										<String>${oxygenHome}/lib/guava-*.jar</String>
+									</String-array>
+								</field>
+							</antScenario>
+						</scenario-array>
+					</field>
+					<field name="validationScenarios">
+						<validationScenario-array/>
+					</field>
+					<field name="defaultValidationScenarios">
+						<null/>
+					</field>
+					<field name="defaultTransformationScenarios">
+						<list>
+							<String>Run XSpec Test</String>
+						</list>
+					</field>
+					<field name="extensionsBundleClassName">
+						<null/>
+					</field>
+					<field name="useImposedInitialPage">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="imposedInitialPage">
+						<String>Text</String>
+					</field>
+					<field name="elementLocatorExtension">
+						<null/>
+					</field>
+					<field name="schemaManagerFilterExtension">
+						<null/>
+					</field>
+					<field name="authorSWTDndExtension">
+						<null/>
+					</field>
+					<field name="textSWTDndExtension">
+						<null/>
+					</field>
+					<field name="authorSwingDndExtension">
+						<null/>
+					</field>
+					<field name="cssStylesFilterExtension">
+						<null/>
+					</field>
+					<field name="attributesValueEditor">
+						<null/>
+					</field>
+					<field name="priority">
+						<Integer>2</Integer>
+					</field>
+					<field name="xmlNodeCustomizerExtension">
+						<null/>
+					</field>
+					<field name="externalObjectInsertionHandler">
+						<null/>
+					</field>
+					<field name="customAttributeValueEditor">
+						<null/>
+					</field>
+					<field name="textModeExternalObjectInsertionHandler">
+						<null/>
+					</field>
+				</documentTypeDescriptor>
+			</documentTypeDescriptor-array>
+		</entry>
+	</serializableOrderedMap>
+</serialized>

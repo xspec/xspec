@@ -6,7 +6,7 @@
 
 XSpec is a unit test and [behaviour driven development](http://en.wikipedia.org/wiki/Behavior_Driven_Development) (BDD) framework for XSLT and XQuery.  It is based on the Spec framework of [RSpec](http://rspec.info/), which is a BDD framework for Ruby.
 
-XSpec consists of a syntax for describing the behaviour of XSLT or XQuery code and some code that enables to test the code against those descriptions.
+XSpec consists of a syntax for describing the behaviour of XSLT or XQuery code and some code that enables you to test the code against those descriptions.
 
 ## Getting Started
 
@@ -20,7 +20,7 @@ Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/w
 
 XSpec is an open source project originally written by [Jeni Tennison](https://github.com/JeniT). It was maintained in the past years by [Florent Georges](https://github.com/fgeorges). Active development of XSpec restarted in 2016 and the project is currently maintained by [AirQuick](https://github.com/AirQuick) (technical development) and [Sandro Cirulli](https://github.com/cirulls) (management and community) with the help of the XSpec community. 
 
-If you wish to contribute to XSpec, [raise or pick up an issue](https://github.com/xspec/xspec/issues) and [send us your pull requests](https://github.com/xspec/xspec/pulls). Please document any issue with examples of your XSpec code.  
+If you wish to contribute to XSpec, please read the [contributing guidelines](https://github.com/xspec/xspec/blob/master/CONTRIBUTING.md) and then [raise or pick up an issue](https://github.com/xspec/xspec/issues) and [send us your pull requests](https://github.com/xspec/xspec/pulls). Please document any issue with examples of your XSpec code.
 
 ## License
 
