@@ -205,7 +205,7 @@
 												<String>result</String>
 											</field>
 											<field name="url">
-												<String>${cfdu}/${cfn}.html</String>
+												<String>${cfdu}/${cfn}-result.html</String>
 											</field>
 											<field name="showInSequenceView">
 												<Boolean>false</Boolean>
@@ -214,19 +214,7 @@
 									</xprocOutputPort-array>
 								</field>
 								<field name="xprocOptions">
-									<xprocOption-array>
-										<xprocOption>
-											<field name="namespaceURI">
-												<String></String>
-											</field>
-											<field name="localName">
-												<String>xspec-home</String>
-											</field>
-											<field name="value">
-												<String>${framework}/</String>
-											</field>
-										</xprocOption>
-									</xprocOption-array>
+									<xprocOption-array/>
 								</field>
 								<field name="xprocParameters">
 									<xprocParameterPort-array>
@@ -301,7 +289,7 @@
 									<Boolean>true</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfdu}/${cfn}.html</String>
+									<String>${cfdu}/${cfn}-result.html</String>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
@@ -356,7 +344,7 @@
 												<String>result</String>
 											</field>
 											<field name="url">
-												<String>${cfdu}/${cfn}.html</String>
+												<String>${cfdu}/${cfn}-result.html</String>
 											</field>
 											<field name="showInSequenceView">
 												<Boolean>false</Boolean>
@@ -365,19 +353,7 @@
 									</xprocOutputPort-array>
 								</field>
 								<field name="xprocOptions">
-									<xprocOption-array>
-										<xprocOption>
-											<field name="namespaceURI">
-												<String></String>
-											</field>
-											<field name="localName">
-												<String>xspec-home</String>
-											</field>
-											<field name="value">
-												<String>${framework}/</String>
-											</field>
-										</xprocOption>
-									</xprocOption-array>
+									<xprocOption-array/>
 								</field>
 								<field name="xprocParameters">
 									<xprocParameterPort-array>
@@ -452,7 +428,7 @@
 									<Boolean>true</Boolean>
 								</field>
 								<field name="locationToOpenInBrowserURL">
-									<String>${cfdu}/${cfn}.html</String>
+									<String>${cfdu}/${cfn}-result.html</String>
 								</field>
 								<field name="openInEditor">
 									<Boolean>false</Boolean>
