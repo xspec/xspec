@@ -169,8 +169,9 @@ rem ##
     
     echo:
     echo Converting Schematron into XSLT...
+    rem Defer resolving SCH_URI by duplicating PERCENT SIGN, because the variable may contain percent-encoding
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" ^
-        -s:"%SCH_URI%" ^
+        -s:"%%SCH_URI%%" ^
         -xsl:"%SCHEMATRON_XSLT_INCLUDE%" ^
         -versionmsg:off ^
         || ( call :die "Error preprocessing Schematron on step 1" & goto :win_main_error_exit )
