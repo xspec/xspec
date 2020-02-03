@@ -351,7 +351,7 @@
 		<xsl:sequence
 			select="
 				(
-				$context/ancestor-or-self::*[@xslt-version]/@xslt-version,
+				$context/ancestor-or-self::*[@xslt-version][1]/@xslt-version,
 				2.0
 				)[1]"
 		 />
