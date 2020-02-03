@@ -134,7 +134,7 @@
       <xsl:text>declare option output:method "xml";&#x0A;</xsl:text>
       <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
 
-      <!-- Absolute URI of .xspec file -->
+      <!-- Absolute URI of the master .xspec file -->
       <xsl:call-template name="test:declare-or-let-variable">
          <xsl:with-param name="is-global" select="true()" />
          <xsl:with-param name="name" select="x:xspec-name($this,'xspec-uri')" />
@@ -273,6 +273,8 @@
       </xsl:if>
 
       <xsl:element name="{x:xspec-name(.,'scenario')}" namespace="{$xspec-namespace}">
+         <xsl:sequence select="@xspec" />
+
          <!-- Create @pending generator -->
          <xsl:if test="$pending-p">
             <xsl:text>{ </xsl:text>
