@@ -5,10 +5,10 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-448.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-448.xspec">
       <x:label>x:scenario/</x:label>
       <x:result select="()"/>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-448.xspec">
          <x:label>x:label containing }{ should not affect test</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>
@@ -17,7 +17,7 @@
             <x:expect select="xs:boolean('false')"/>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-448.xspec">
          <x:label>@label containing }{ should not affect test</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>

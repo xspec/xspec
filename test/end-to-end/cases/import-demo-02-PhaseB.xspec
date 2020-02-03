@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- For testing Schematron x:import -->
+<x:description schematron="../../../tutorial/schematron/demo-02.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- TODO: One of the scenarios fails (xspec/xspec#733) -->
+
+	<x:import href="../../../tutorial/schematron/demo-02-PhaseB.xspec" />
+
+</x:description>

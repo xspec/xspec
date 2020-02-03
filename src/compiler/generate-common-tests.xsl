@@ -147,6 +147,8 @@
    <!-- *** x:gather-specs *** -->
    <!-- This mode makes each spec less context-dependent by performing these transformations:
       * Copy @xslt-version from x:description to descendant x:scenario
+      * Add @xspec (and @xspec-original-location if applicable) to each scenario to record
+        absolute URI of originating .xspec file
       * Resolve x:*/@href into absolute URI
       * Discard whitespace-only text node unless otherwise specified by an ancestor -->
 
@@ -154,14 +156,24 @@
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
+         <xsl:with-param name="xspec-module-uri" tunnel="yes"
+            select="x:resolve-xml-uri-with-catalog(document-uri(/))" />
       </xsl:apply-templates>
    </xsl:template>
 
    <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:gather-specs">
       <xsl:param name="xslt-version" as="xs:decimal" tunnel="yes" required="yes"/>
+      <xsl:param name="xspec-module-uri" as="xs:anyURI" tunnel="yes" required="yes" />
+
       <xsl:copy>
          <xsl:attribute name="xslt-version" select="$xslt-version" />
-         <xsl:copy-of select="@*"/>
+         <xsl:attribute name="xspec" select="$xspec-module-uri" />
+         <xsl:sequence select="
+            (: Keep this sequence order for local @xspec-original-location to take precedence
+               over x:description's one. :)
+            /x:description/@xspec-original-location,
+            @*" />
+
          <xsl:apply-templates mode="#current"/>
       </xsl:copy>
    </xsl:template>
