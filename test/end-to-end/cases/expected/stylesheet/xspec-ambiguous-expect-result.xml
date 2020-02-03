@@ -6,9 +6,9 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-ambiguous-expect.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes @href</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
          <x:call function="true"/>
          <x:result select="xs:boolean('true')"/>
@@ -26,9 +26,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes @select</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-ambiguous-expect.xspec">
          <x:label>When function returns false,</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>
@@ -42,9 +42,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes child node</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
          <x:call function="true"/>
          <x:result select="xs:boolean('true')"/>
@@ -62,9 +62,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
          <x:call function="true"/>
          <x:result select="xs:boolean('true')"/>

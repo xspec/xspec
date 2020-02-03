@@ -3,7 +3,7 @@
     schematron="..." xspec-original-location="..."
     stylesheet="schut-to-xspec-test.sch.xsl">
     <!--BEGIN IMPORT "schut-to-xspec-009-import-in.xspec"-->
-    <x:scenario label="B"/>
+    <x:scenario label="B" xspec-original-location="..." />
 <!--END IMPORT "schut-to-xspec-009-import-in.xspec"-->
     <x:scenario label="A"/>
 </x:description>

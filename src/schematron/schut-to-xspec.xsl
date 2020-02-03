@@ -50,7 +50,10 @@
                 self::x:expect-report | self::x:expect-not-report |
                 self::x:expect-valid | self::x:description[@schematron] ]">
                 <xsl:comment>BEGIN IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
-                <xsl:apply-templates select="doc($href)/x:description/node()"/>
+                <xsl:apply-templates select="doc($href)/x:description/node()">
+                    <xsl:with-param name="imported-uri" tunnel="yes"
+                        select="x:resolve-xml-uri-with-catalog($href)" />
+                </xsl:apply-templates>
                 <xsl:comment>END IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
             </xsl:when>
             <xsl:otherwise>
@@ -58,7 +61,18 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
+    <xsl:template match="x:scenario">
+        <xsl:param name="imported-uri" as="xs:anyURI?" tunnel="yes" />
+
+        <xsl:copy>
+            <xsl:if test="exists($imported-uri)">
+                <xsl:attribute name="xspec-original-location" select="$imported-uri" />
+            </xsl:if>
+            <xsl:apply-templates select="attribute() | node()" />
+        </xsl:copy>
+    </xsl:template>
+
     <!-- Schematron skeleton implementation requires a document node -->
     <xsl:template match="x:context[not(@href)][
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
