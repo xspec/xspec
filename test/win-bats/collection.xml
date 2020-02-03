@@ -383,8 +383,7 @@
 	</case>
 
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)">
-    rem TODO: Test with space char (#716)
-    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path_(84)_here_&amp;_there"
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
     call :mkdir "%SPECIAL_CHARS_DIR%"
     call :copy ..\tutorial\schematron\demo-03* "%SPECIAL_CHARS_DIR%"
 

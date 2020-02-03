@@ -5,7 +5,7 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-177.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-177.xspec">
       <x:label>Given the function returns &lt;foo /&gt;</x:label>
       <x:call function="exactly-one">
          <x:param as="element(foo)">
