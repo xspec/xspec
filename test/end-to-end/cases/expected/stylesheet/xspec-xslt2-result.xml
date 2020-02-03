@@ -6,10 +6,10 @@
           stylesheet="../../../../xspec-xslt1.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-xslt2.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../../../xspec-xslt1.xspec">
       <x:label>With 2 text nodes</x:label>
       <x:call template="text-nodes"/>
-      <x:scenario>
+      <x:scenario xspec="../../../../xspec-xslt1.xspec">
          <x:label>This scenario is to verify that $x:result consists of two text nodes</x:label>
          <x:result select="/text()">12</x:result>
          <x:test successful="true">
@@ -22,7 +22,7 @@
             <x:expect test="count($x:result)" select="2"/>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../../../xspec-xslt1.xspec">
          <x:label>xslt-version=1.0 in this XSpec file should always make all of the tests in this
 				scenario Success, even when this XSpec file is imported to another XSpec file which
 				has xslt-version=2.0 or higher.</x:label>
@@ -44,7 +44,7 @@
             <x:expect select="12"/>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../../../xspec-xslt1.xspec">
          <x:label>xslt-version=1.0 in this XSpec file should make this scenario Success when this
 				XSpec file is executed independently. On the other hand, the result should be
 				Failure when this XSpec file is imported to another XSpec file which has

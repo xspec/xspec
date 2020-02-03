@@ -5,7 +5,7 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-467.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-467.xspec">
       <x:label>Testing namespace differences</x:label>
       <x:call function="exactly-one">
          <x:param>

@@ -7,7 +7,7 @@
           stylesheet="../../xspec-450-451.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-450-451_stylesheet.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
       <x:label>context template-param containing curly brackets</x:label>
       <x:context mode="param-mirror-mode">
          <x:param name="param-items">}{<elem attr="}{">}{</elem>
@@ -22,7 +22,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
       <x:label>context containing curly brackets</x:label>
       <x:context mode="context-mirror-mode">}{<elem attr="}{">}{</elem>
       </x:context>
@@ -34,7 +34,7 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
       <x:label>template-call template-param containing curly brackets</x:label>
       <x:call template="param-mirror-template">
          <x:param name="param-items">}{<elem attr="}{">}{</elem>
@@ -48,9 +48,9 @@
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
       <x:label>If value is from a variable instead of hard-coded,</x:label>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
          <x:label>context template-param containing curly brackets</x:label>
          <x:context mode="param-mirror-mode">
             <x:param name="param-items" select="$myv:local-var"/>
@@ -64,7 +64,7 @@
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
          <x:label>context containing curly brackets</x:label>
          <x:context mode="context-mirror-mode" select="$myv:local-var"/>
          <x:result select="/node()">}{<elem attr="}{">}{</elem>
@@ -75,7 +75,7 @@
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
          <x:label>template-call template-param containing curly brackets</x:label>
          <x:call template="param-mirror-template">
             <x:param name="param-items" select="$myv:local-var"/>
