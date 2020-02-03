@@ -5,10 +5,10 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-report.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-report.xspec">
       <x:label>Function (xspec/xspec#355)</x:label>
       <x:result select="()"/>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-report.xspec">
          <x:label>Array</x:label>
          <x:call function="exactly-one">
             <x:param as="array(*)" select="['foo', 1, [2, 'bar']]"/>
@@ -21,7 +21,7 @@
             <x:expect select="()"/>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-report.xspec">
          <x:label>Map</x:label>
          <x:call function="exactly-one">
             <x:param as="map(*)" select="      map {       'foo': 1,       2: 'bar'      }"/>
@@ -35,7 +35,7 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-report.xspec">
       <x:label>Element, attribute (xspec/xspec#357)</x:label>
       <x:call function="one-or-more">
          <x:param as="node()+" select="elem1 | elem2/attribute()">
@@ -54,7 +54,7 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-report.xspec">
       <x:label>Attributes of the same name (xspec/xspec#358)</x:label>
       <x:call function="one-or-more">
          <x:param as="attribute()+" select="element()/attribute()">
@@ -71,7 +71,7 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-report.xspec">
       <x:label>Attribute, element, attribute (xspec/xspec#360)</x:label>
       <x:call function="one-or-more">
          <x:param as="node()+" select="element()/attribute() | elem2">
@@ -92,7 +92,7 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-report.xspec">
       <x:label>Document node with no children (xspec/xspec#697)</x:label>
       <x:call function="parse-xml-fragment">
          <x:param select="''"/>
@@ -103,10 +103,10 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario>
+   <x:scenario xspec="../../xspec-report.xspec">
       <x:label>XPath is different, but serialized node looks as if same</x:label>
       <x:result select="()"/>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-report.xspec">
          <x:label>[Result] = document node, [Expected Result] = element</x:label>
          <x:call function="exactly-one">
             <x:param as="document-node()" select="/">
@@ -123,7 +123,7 @@
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario>
+      <x:scenario xspec="../../xspec-report.xspec">
          <x:label>[Result] = element, [Expected Result] = document node.</x:label>
          <x:call function="exactly-one">
             <x:param as="element()">

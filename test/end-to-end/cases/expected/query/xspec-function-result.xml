@@ -6,7 +6,7 @@
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-function.xspec">
-   <t:scenario>
+   <t:scenario xspec="../../xspec-function.xspec">
       <t:label>when calling a function and expecting correctly</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -21,7 +21,7 @@
          <t:expect test="$t:result instance of xs:integer" select="()"/>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-function.xspec">
       <t:label>when calling a function and expecting incorrectly</t:label>
       <t:call function="my:square">
          <t:param select="2"/>

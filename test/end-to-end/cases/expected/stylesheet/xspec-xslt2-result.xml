@@ -6,7 +6,7 @@
           stylesheet="../../../../xspec-xslt1.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-xslt2.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../../../xspec-xslt1.xspec">
       <x:label>With 2 text nodes</x:label>
       <x:call template="text-nodes"/>
       <x:result select="/text()">12</x:result>
@@ -19,7 +19,7 @@
          <x:result select="2"/>
          <x:expect test="count($x:result)" select="2"/>
       </x:test>
-      <x:scenario>
+      <x:scenario xspec="../../../../xspec-xslt1.xspec">
          <x:label>All of these tests should be Success on xslt-version=1.0 and Failure on 2.0</x:label>
          <x:result select="/text()">12</x:result>
          <x:test successful="false">
