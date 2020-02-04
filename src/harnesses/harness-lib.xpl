@@ -237,8 +237,10 @@
       <p:input  port="source"     primary="true"/>
       <p:input  port="parameters" kind="parameter"/>
       <p:output port="result"     primary="true"/>
+
       <!-- retrieve the params -->
       <t:parameters name="params"/>
+
       <p:group>
         <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
              is not supported -->
@@ -246,27 +248,32 @@
              /c:param-set/c:param[@name eq 'xspec-home']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
+
          <!-- either the public URI, or resolved from xspec-home if packaging not supported -->
          <p:variable name="formatter" select="
              if ( $xspec-home ) then
                resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)
              else
                'http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl'"/>
+
          <!-- log the report? -->
          <t:log if-set="log-xml-report">
             <p:input port="parameters">
                <p:pipe step="format" port="parameters"/>
             </p:input>
          </t:log>
+
          <!-- if there is a report, format it, or it is an error -->
          <p:choose>
             <p:when test="exists(/t:report)">
+               <t:indent name="indent" />
                <p:load name="formatter" pkg:kind="xslt">
                   <p:with-option name="href" select="$formatter"/>
                </p:load>
+
                <p:xslt name="format-report">
                   <p:input port="source">
-                     <p:pipe step="format" port="source"/>
+                     <p:pipe step="indent" port="result" />
                   </p:input>
                   <p:input port="stylesheet">
                      <p:pipe step="formatter" port="result"/>
@@ -276,6 +283,7 @@
                   </p:input>
                </p:xslt>
             </p:when>
+
             <p:otherwise>
                <p:error code="t:ERR001">
                   <p:input port="source">
@@ -287,12 +295,46 @@
             </p:otherwise>
          </p:choose>
       </p:group>
+
       <!-- log the report? -->
       <t:log if-set="log-report">
          <p:input port="parameters">
             <p:pipe step="format" port="parameters"/>
          </p:input>
       </t:log>
+   </p:declare-step>
+
+   <!-- Serializes the source document with indentation and reloads it -->
+   <p:declare-step type="t:indent" name="indent">
+      <p:input port="source" primary="true" />
+      <p:input port="parameters" kind="parameter" />
+      <p:output port="result" primary="true" />
+
+      <!-- Wrap the source document.
+         Result is <wrap>children nodes of source document node</wrap>. -->
+      <p:wrap wrapper="wrap" match="/" />
+
+      <!-- Serialize /wrap/node() with indentation.
+         Result is <wrap>source document serialized as an indented text</wrap>. -->
+      <p:escape-markup indent="true" />
+
+      <!-- Deserialize the string value of <wrap>.
+         Result is <wrap>deserialized nodes</wrap>. -->
+      <p:unescape-markup />
+
+      <!-- Indentation produces top-level whitespace-only text nodes which did
+         not exist in the source document. Delete them. -->
+      <p:delete match="/wrap/text()" />
+
+      <!-- Log? -->
+      <t:log if-set="log-indent">
+         <p:input port="parameters">
+            <p:pipe step="indent" port="parameters" />
+         </p:input>
+      </t:log>
+
+      <!-- Unwrap -->
+      <p:unwrap match="/wrap" />
    </p:declare-step>
 
 </p:library>
