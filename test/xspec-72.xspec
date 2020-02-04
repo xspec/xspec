@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
-               stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-  <x:scenario label="Überprüfung von Umlauten">
-    <x:call function="true" />
-    <x:expect label="Result HTML should specify UTF-8 charset in /html/head/meta to help web browsers to identify umlaut correctly"
-      select="true()" />
-  </x:scenario>
-</x:description>

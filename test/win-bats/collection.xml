@@ -304,36 +304,48 @@
 
 	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XSLT)">
     rem HTML report file
-    set "EXPECTED_REPORT=%WORK_DIR%\xspec-72-result.html"
+    set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\stylesheet"
+    call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
+    set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\xspec-serialize-result.html"
 
     rem Run
     call :run java -jar "%XMLCALABASH_JAR%" ^
-        -i source=xspec-72.xspec ^
-        -o result="file:///%EXPECTED_REPORT:\=/%" ^
+        -i source=end-to-end/cases/xspec-serialize.xspec ^
+        -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xslt-harness.xproc
     call :verify_retval 0
 
-    rem HTML report file should be created and its charset should be UTF-8 #72
-    call :run java -jar "%SAXON_JAR%" -s:"%EXPECTED_REPORT%" -xsl:html-charset.xsl
-    call :verify_line 1 x "true"
+    rem Verify HTML report including #72
+    call :run java -jar "%SAXON_JAR%" ^
+        -s:"%ACTUAL_REPORT%" ^
+        -xsl:end-to-end\processor\html\compare.xsl ^
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/stylesheet/xspec-serialize-result.html" ^
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+    call :verify_retval 0
 	</case>
 
 	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XQuery)">
     rem HTML report file
-    set "EXPECTED_REPORT=%WORK_DIR%\xspec-72-result.html"
+    set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\query"
+    call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
+    set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\xspec-serialize-result.html"
 
     rem Run
     call :run java -jar "%XMLCALABASH_JAR%" ^
-        -i source=xspec-72.xspec ^
-        -o result="file:///%EXPECTED_REPORT:\=/%" ^
+        -i source=end-to-end/cases/xspec-serialize.xspec ^
+        -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xquery-harness.xproc
     call :verify_retval 0
 
-    rem HTML report file should be created and its charset should be UTF-8 #72
-    call :run java -jar "%SAXON_JAR%" -s:"%EXPECTED_REPORT%" -xsl:html-charset.xsl
-    call :verify_line 1 x "true"
+    rem Verify HTML report including #72
+    call :run java -jar "%SAXON_JAR%" ^
+        -s:"%ACTUAL_REPORT%" ^
+        -xsl:end-to-end\processor\html\compare.xsl ^
+        EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/xspec-serialize-result.html" ^
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+    call :verify_retval 0
 	</case>
 
 	<!--
@@ -584,7 +596,7 @@
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\basex\basex-standalone-xquery-harness.xproc
     call :verify_retval 0
-    call :verify_line -1 r "..*/src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -1 r "..*:passed: 1 / pending: 0 / failed: 0 / total: 1"
 
     rem Compiled file
     call :verify_exist "%COMPILED_FILE%"
@@ -618,7 +630,7 @@
         ..\src\harnesses\basex\basex-server-xquery-harness.xproc
     call :verify_retval 0
     call :verify_line_count 2
-    call :verify_line 2 r "..*/src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 2 r "..*:passed: 1 / pending: 0 / failed: 0 / total: 1"
 
     rem HTML report file should be created and its charset should be UTF-8 #72
     call :run java -jar "%SAXON_JAR%" -s:"%EXPECTED_REPORT%" -xsl:html-charset.xsl
