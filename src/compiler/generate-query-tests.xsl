@@ -233,7 +233,7 @@
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)"/>
 
       <xsl:variable name="scenario-id" as="xs:string">
-         <xsl:call-template name="x:generate-scenario-id" />
+         <xsl:apply-templates select="." mode="x:generate-id" />
       </xsl:variable>
 
       <!-- x:context and x:call/@template not supported for XQuery -->
@@ -397,7 +397,7 @@
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
 
       <xsl:variable name="expect-id" as="xs:string">
-         <xsl:call-template name="x:generate-expect-id" />
+         <xsl:apply-templates select="." mode="x:generate-id" />
       </xsl:variable>
 
       <!--

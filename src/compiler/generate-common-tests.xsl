@@ -297,7 +297,7 @@
 
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="local-name" as="xs:string">
-            <xsl:call-template name="x:generate-scenario-id" />
+            <xsl:apply-templates select="." mode="x:generate-id" />
          </xsl:with-param>
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="params" as="element(param)*">
@@ -321,7 +321,7 @@
 
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="local-name" as="xs:string">
-            <xsl:call-template name="x:generate-expect-id" />
+            <xsl:apply-templates select="." mode="x:generate-id" />
          </xsl:with-param>
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="params" as="element(param)*">
@@ -747,22 +747,14 @@
       So the default ID may not always be usable for backtracking. For such backtracking purposes,
       override these default templates and implement your own ID generation. The generated ID must
       be castable as xs:NCName, because ID is used as a part of local name. -->
-   <xsl:template name="x:generate-scenario-id" as="xs:string">
-      <xsl:context-item as="element(x:scenario)" use="required"
-         use-when="element-available('xsl:context-item')" />
-
+   <xsl:template match="x:scenario" as="xs:string" mode="x:generate-id">
       <xsl:sequence select="concat(local-name(), '-', generate-id())" />
    </xsl:template>
 
-   <xsl:template name="x:generate-expect-id" as="xs:string">
-      <xsl:context-item as="element(x:expect)" use="required"
-         use-when="element-available('xsl:context-item')" />
-
+   <xsl:template match="x:expect" as="xs:string" mode="x:generate-id">
       <xsl:variable name="scenario" as="element(x:scenario)" select="ancestor::x:scenario[1]" />
       <xsl:variable name="scenario-id" as="xs:string">
-         <xsl:for-each select="$scenario">
-            <xsl:call-template name="x:generate-scenario-id" />
-         </xsl:for-each>
+         <xsl:apply-templates select="$scenario" mode="#current" />
       </xsl:variable>
 
       <xsl:sequence select="concat($scenario-id, '_', local-name(), '-', generate-id())" />
