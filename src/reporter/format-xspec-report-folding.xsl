@@ -67,7 +67,7 @@ function toggle(scenarioID) {
     select="exists(x:descendant-failed-tests(.))" />
 
   <div id="top_{@id}">
-    <h2 id="h-{@id}"
+    <h2
       class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
       <a href="javascript:toggle('{@id}')">
         <img src="{resolve-uri(concat('../../graphics/', if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'))}"
