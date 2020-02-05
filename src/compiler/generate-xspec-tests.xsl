@@ -232,6 +232,7 @@
     </message>
 
     <xsl:element name="{x:xspec-name(.,'scenario')}" namespace="{$xspec-namespace}">
+      <xsl:attribute name="id" select="$scenario-id" />
       <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
 
       <!-- Create @pending generator -->
@@ -511,6 +512,8 @@
     </xsl:if>
 
     <xsl:element name="{x:xspec-name(.,'test')}" namespace="{$xspec-namespace}">
+      <xsl:attribute name="id" select="$expect-id" />
+
       <!-- Create @pending generator or create @successful directly -->
       <xsl:choose>
         <xsl:when test="$pending-p">
