@@ -73,7 +73,7 @@
         </xsl:call-template>
       </span>
     </h2>
-    <table class="xspec" id="t-{@id}">
+    <table class="xspec" id="table_{@id}">
       <colgroup>
         <col style="width:75%" />
         <col style="width:25%" />
