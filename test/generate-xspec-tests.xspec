@@ -57,11 +57,13 @@
        in a mode, etc.) and test it explicitly...
    -->
    <t:scenario label="x:expect[@test] transformed in x:compile mode">
-      <t:context mode="t:compile">
+      <t:context mode="t:compile" select="//t:expect">
          <t:param tunnel="yes" name="context" as="empty-sequence()"/>
          <t:param tunnel="yes" name="call" as="empty-sequence()"/>
 
-         <t:expect test="false()"/>
+         <t:scenario>
+            <t:expect test="false()"/>
+         </t:scenario>
       </t:context>
       <t:expect label="is a template"
                 test="$t:result instance of element(xsl:template)"/>
