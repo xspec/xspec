@@ -1758,3 +1758,25 @@ teardown() {
     [ "${lines[4]}" = "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario" ]
 }
 
+#
+# Override ID generation templates
+#
+
+@test "Override ID generation" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.compiler.xsl="${PWD}/override-id/generate-xspec-tests.xsl" \
+        -Dxspec.fail=false \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+
+    run cat "${TEST_DIR}/escape-for-regex-compiled.xsl"
+    echo "$output"
+    [[ "${output}" =~ "x:overridden-scenario-id-" ]]
+    [[ "${output}" =~ "x:overridden-expect-id" ]]
+}
+
