@@ -70,7 +70,8 @@
    </xsl:template>
 
    <!-- *** x:generate-tests *** -->
-   <!-- Does the generation of the test stylesheet -->
+   <!-- Does the generation of the test stylesheet.
+      This mode assumes that all the scenarios have already been gathered and unshared. -->
   
    <xsl:template match="x:description" mode="x:generate-tests">
       <xsl:variable name="this" select="." as="element(x:description)" />
