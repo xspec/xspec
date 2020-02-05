@@ -5,19 +5,19 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-153.xspec">
-   <x:scenario xspec="../../xspec-153.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-153.xspec">
       <x:label>When a function returns a local date time string</x:label>
       <x:call function="string">
          <x:param select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
       </x:call>
       <x:result select="'2000-01-01T12:00:00+12:00'"/>
-      <x:test successful="true">
+      <x:test id="scenario1-expect1" successful="true">
          <x:label>Comparing the function result with the same date time in UTC will report Success</x:label>
          <x:result select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
          <x:expect test="xs:dateTime($x:result)"
                    select="xs:dateTime('2000-01-01T00:00:00Z')"/>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario1-expect2" successful="false">
          <x:label>Comparing the function result with a different date time will report Failure</x:label>
          <x:result select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
          <x:expect test="xs:dateTime($x:result)"
