@@ -11,6 +11,11 @@
 	-->
 
 	<!--
+		When set, datetime is normalized to this value
+	-->
+	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" />
+
+	<!--
 		Normalizes the title text
 			Example:
 				in:  <title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
@@ -48,6 +53,20 @@
 	</xsl:template>
 
 	<!--
+		Normalizes the link to the external CSS file
+			Example:
+				in:  href="file:/path/to/test-report.css"
+				out: href="../path/to/test-report.css"
+	-->
+	<xsl:template as="attribute(href)" match="/html/head/link[@rel eq 'stylesheet']/@href"
+		mode="normalizer:normalize">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
+		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+			select="normalizer:relative-uri(., $tunnel_document-uri)" />
+	</xsl:template>
+
+	<!--
 		Normalizes the links to the tested module and the XSpec file
 			Example:
 				in:  <a href="file:/path/to/tested.xsl">/path/to/tested.xsl</a>
@@ -68,6 +87,27 @@
 	</xsl:template>
 
 	<!--
+		Normalizes datetime
+			Example:
+				in:  <p>Tested: 23 February 2017 at 11:18</p>
+				out: <p>Tested: 1 January 2000 at 00:00</p>
+	-->
+	<xsl:template as="text()"
+		match="/html[exists($NORMALIZE-HTML-DATETIME)]/body/p[starts-with(., 'Tested:')]/text()"
+		mode="normalizer:normalize">
+		<!-- Format in the same way as XSPEC_HOME/src/reporter/format-xspec-report.xsl -->
+		<xsl:variable as="xs:string" name="now"
+			select="format-dateTime($NORMALIZE-HTML-DATETIME, '[D] [MNn] [Y] at [H01]:[m01]')" />
+
+		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
+		<xsl:analyze-string regex="^(Tested:) .+$" select=".">
+			<xsl:matching-substring>
+				<xsl:value-of select="regex-group(1), $now" />
+			</xsl:matching-substring>
+		</xsl:analyze-string>
+	</xsl:template>
+
+	<!--
 		Normalizes the link to the files created dynamically by XSpec
 	-->
 	<xsl:template as="attribute(href)"
@@ -83,6 +123,37 @@
 			<xsl:for-each select="parent::a/@href">
 				<xsl:call-template name="normalizer:normalize-external-link-attribute" />
 			</xsl:for-each>
+		</xsl:value-of>
+	</xsl:template>
+
+	<!--
+		Normalizes svrl:active-pattern/@document in Schematron Result
+			Example:
+				in:  <svrl:active-pattern document="file:/.../tutorial/schematron/demo-02.xml"
+				out: <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
+	-->
+	<xsl:template as="text()"
+		match="table[@class eq 'xspecResult'][local:is-schematron-report(.)]/tbody/tr/td[1]/pre/text()"
+		mode="normalizer:normalize">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
+		<xsl:variable name="regex"
+			><![CDATA[^( +<svrl:active-pattern document=")(.+?)(")$]]></xsl:variable>
+
+		<xsl:value-of>
+			<xsl:analyze-string flags="m" regex="{$regex}" select=".">
+				<xsl:matching-substring>
+					<xsl:sequence
+						select="
+							regex-group(1),
+							normalizer:relative-uri(regex-group(2), $tunnel_document-uri),
+							regex-group(3)"
+					 />
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:copy />
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
 		</xsl:value-of>
 	</xsl:template>
 
@@ -151,7 +222,18 @@
 	<xsl:function as="xs:boolean" name="local:is-xquery-report">
 		<xsl:param as="node()" name="context-node" />
 
-		<xsl:variable as="document-node()" name="doc" select="root($context-node)" />
+		<xsl:variable as="document-node(element(html))" name="doc" select="root($context-node)" />
 		<xsl:sequence select="$doc/html/body/starts-with(p[1], 'Query:')" />
 	</xsl:function>
+
+	<!--
+		Returns true if the HTML report is for Schematron
+	-->
+	<xsl:function as="xs:boolean" name="local:is-schematron-report">
+		<xsl:param as="node()" name="context-node" />
+
+		<xsl:variable as="document-node(element(html))" name="doc" select="root($context-node)" />
+		<xsl:sequence select="$doc/html/body/starts-with(p[1], 'Schematron:')" />
+	</xsl:function>
+
 </xsl:stylesheet>

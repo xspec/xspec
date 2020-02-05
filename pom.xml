@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.6.0-SNAPSHOT</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for XSLT, XQuery and Schematron</description>
@@ -85,7 +85,7 @@
     <dependency>
       <groupId>net.sf.saxon</groupId>
       <artifactId>Saxon-HE</artifactId>
-      <version>9.9.1-5</version>
+      <version>9.9.1-6</version>
     </dependency>
   </dependencies>
   
@@ -243,7 +243,7 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.7</version>
+            <version>1.6.8</version>
             <extensions>true</extensions>
             <configuration>
               <serverId>xspec-io.ossrh</serverId>

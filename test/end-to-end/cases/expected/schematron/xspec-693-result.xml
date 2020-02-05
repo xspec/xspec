@@ -4,11 +4,11 @@
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../xspec-693.sch-preprocessed.xsl"
+          stylesheet="xspec-693-sch-preprocessed.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-693.xspec"
           schematron="../../xspec-693.sch">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-693.xspec">
       <x:label>Using user-content (not @href) in x:context should work</x:label>
       <x:context select="self::document-node()">
          <foo>

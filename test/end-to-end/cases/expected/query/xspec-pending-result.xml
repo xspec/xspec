@@ -7,7 +7,7 @@
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-pending.xspec">
-   <t:scenario pending="testing x:pending">
+   <t:scenario xspec="../../xspec-pending.xspec" pending="testing x:pending">
       <t:label>a correct scenario in x:pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -16,7 +16,7 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing x:pending">
+   <t:scenario xspec="../../xspec-pending.xspec" pending="testing x:pending">
       <t:label>an incorrect scenario in x:pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
@@ -25,7 +25,7 @@
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-pending.xspec">
       <t:label>a non-pending correct scenario alongside a pending scenario</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -36,7 +36,7 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario>
+   <t:scenario xspec="../../xspec-pending.xspec">
       <t:label>a non-pending incorrect scenario alongside a pending scenario</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
@@ -47,7 +47,8 @@
          <t:expect test="$t:result instance of xs:string" select="()"/>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @pending of a correct scenario">
+   <t:scenario xspec="../../xspec-pending.xspec"
+               pending="testing @pending of a correct scenario">
       <t:label>a correct scenario with @pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -56,7 +57,8 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario pending="testing @pending of an incorrect scenario">
+   <t:scenario xspec="../../xspec-pending.xspec"
+               pending="testing @pending of an incorrect scenario">
       <t:label>an incorrect scenario with @pending must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="2"/>

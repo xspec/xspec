@@ -6,7 +6,7 @@
           query="x-urn:test-mix"
           query-at="../../xspec-151.xquery"
           xspec="../../xspec-151.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-151.xspec">
       <x:label>When the result is a mixture of a typed element and a string</x:label>
       <x:call function="test-mix:element-and-string"/>
       <x:result select="/*">

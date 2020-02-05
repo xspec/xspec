@@ -301,13 +301,8 @@
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-step1.sch" />
     <property name="xspec.schematron.preprocessed.step2"
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-step2.sch" />
-
-    <!-- Location of the preprocessed Schematron XSLT file.
-      Since the original Schematron file may reference other files at relative paths,
-      the preprocessed XSLT file needs to go in the same folder as the original Schematron file.
-      This file is created at "STEP 3" and deleted by cleanup. -->
     <property name="xspec.schematron.preprocessed.xsl.file"
-              value="${xspec.schematron.file}-preprocessed.xsl" />
+              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-preprocessed.xsl" />
 
     <echo message="STEP 1: Include modules"
           level="info" />
@@ -346,17 +341,20 @@
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
   <target name="compile" depends="init, preprocess-schematron-xspec">
-    <condition property="xspec.compiler.xsl"
+    <condition property="xspec.compiler.xsl.name"
                value="generate-query-tests.xsl"
                else="generate-xspec-tests.xsl">
       <istrue value="${xspec.is.xquery}" />
     </condition>
 
+    <property name="xspec.compiler.xsl"
+              value="${xspec.project.dir}/src/compiler/${xspec.compiler.xsl.name}" />
+
     <echo message="Compiling Tests..."
           level="info" />
     <saxon-xslt in="${xspec.xspecfile.preprocessed}"
                 out="${xspec.compiled.runner}"
-                style="${xspec.project.dir}/src/compiler/${xspec.compiler.xsl}" />
+                style="${xspec.compiler.xsl}" />
   </target>
 
   <!-- Runs the compiled XSpec for XQuery -->
@@ -506,8 +504,6 @@
     <retry retrycount="1" retrydelay="1000">
       <delete dir="${xspec.output.dir}" />
     </retry>
-
-    <delete file="${xspec.schematron.preprocessed.xsl.file}" />
   </target>
 
 </project>

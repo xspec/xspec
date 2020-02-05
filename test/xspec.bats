@@ -367,36 +367,62 @@ teardown() {
 # XProc (Saxon)
 #
 
-@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XSLT)" {
+@test "XProc harness for Saxon (XSLT)" {
     if [ -z "${XMLCALABASH_JAR}" ]; then
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    expected_report="${work_dir}/xspec-72-result.html"
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/xspec-serialize-result.html"
+
+    # Run
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-72.xspec \
-        -o result="file:${expected_report}" \
+        -i source=end-to-end/cases/xspec-serialize.xspec \
+        -o result="file:${actual_report}" \
         -p xspec-home="file:${PWD}/../" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
-    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
     echo "$output"
-    [ "${lines[0]}" = "true" ]
+    [ "$status" -eq 0 ]
+
+    # Verify HTML report including #72
+    run java -jar "${SAXON_JAR}" \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/xspec-serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+    echo "$output"
+    [ "$status" -eq 0 ]
 }
 
-@test "executing the Saxon XProc harness generates a report with UTF-8 encoding (XQuery)" {
+@test "XProc harness for Saxon (XQuery)" {
     if [ -z "${XMLCALABASH_JAR}" ]; then
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    expected_report="${work_dir}/xspec-72-result.html"
+    # HTML report file
+    actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
+    mkdir -p "${actual_report_dir}"
+    actual_report="${actual_report_dir}/xspec-serialize-result.html"
+
+    # Run
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-72.xspec \
-        -o result="file:${expected_report}" \
+        -i source=end-to-end/cases/xspec-serialize.xspec \
+        -o result="file:${actual_report}" \
         -p xspec-home="file:${PWD}/../" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
-    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
     echo "$output"
-    [ "${lines[0]}" = "true" ]
+    [ "$status" -eq 0 ]
+
+    # Verify HTML report including #72
+    run java -jar "${SAXON_JAR}" \
+        -s:"${actual_report}" \
+        -xsl:end-to-end/processor/html/compare.xsl \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/xspec-serialize-result.html" \
+        NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
+    echo "$output"
+    [ "$status" -eq 0 ]
 }
 
 #
@@ -436,8 +462,7 @@ teardown() {
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
-    # TODO: Test with space char (#716)
-    special_chars_dir="${work_dir}/some'path_(84)_here_&_there"
+    special_chars_dir="${work_dir}/some'path (84) here & there"
     mkdir "${special_chars_dir}"
     cp ../tutorial/schematron/demo-03* "${special_chars_dir}"
 
@@ -488,9 +513,6 @@ teardown() {
     [ "$status" -eq 0 ]
     [[ "${output}" =~ "passed: 9 / pending: 0 / failed: 0 / total: 9" ]]
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
-
-    # Cleanup
-    rm schematron/schematron-param-001.sch-preprocessed.xsl
 }
 
 #
@@ -527,9 +549,6 @@ teardown() {
     [[ "${output}" =~ "I am schematron-xslt-compile.xsl!" ]]
     [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
-
-    # Cleanup
-    rm ../tutorial/schematron/demo-01.sch-preprocessed.xsl
 }
 
 #
@@ -672,6 +691,7 @@ teardown() {
     compiled_file="${work_dir}/compiled.xq"
     expected_report="${work_dir}/xquery-tutorial-result.html"
 
+    # Run
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=../tutorial/xquery-tutorial.xspec \
         -o result="file:${expected_report}" \
@@ -681,11 +701,15 @@ teardown() {
         ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[${#lines[@]}-1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${lines[${#lines[@]}-1]}" =~ ":passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
-    # Output files
+    # Compiled file
     [ -f "${compiled_file}" ]
-    [ -f "${expected_report}" ]
+
+    # HTML report file should be created and its charset should be UTF-8 #72
+    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 }
 
 @test "XProc harness for BaseX (server)" {
@@ -702,9 +726,10 @@ teardown() {
     # Start BaseX server
     "${basex_home}/bin/basexhttp" -S
 
-    # Output file
+    # HTML report file
     expected_report="${work_dir}/xquery-tutorial-result.html"
 
+    # Run
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=../tutorial/xquery-tutorial.xspec \
         -o result="file:${expected_report}" \
@@ -717,10 +742,12 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    [[ "${lines[1]}" =~ "src/harnesses/harness-lib.xpl:267:45:passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    [[ "${lines[1]}" =~ ":passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
 
-    # Output file
-    [ -f "${expected_report}" ]
+    # HTML report file should be created and its charset should be UTF-8 #72
+    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
+    echo "$output"
+    [ "${lines[0]}" = "true" ]
 
     # Stop BaseX server
     "${basex_home}/bin/basexhttpstop"
@@ -827,18 +854,16 @@ teardown() {
     # * Default xspec.junit.enabled is false
     run env LC_ALL=C ls ../tutorial/schematron/xspec
     echo "$output"
-    [ "${#lines[@]}" = "8" ]
+    [ "${#lines[@]}" = "9" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
-    [ "${lines[3]}" = "demo-03-sch-preprocessed.xspec" ]
-    [ "${lines[4]}" = "demo-03-sch-step3-wrapper.xsl" ]
-    [ "${lines[5]}" = "demo-03-step1.sch" ]
-    [ "${lines[6]}" = "demo-03-step2.sch" ]
-    [ "${lines[7]}" = "demo-03_xml-to-properties.xml" ]
-
-    # Verify that the preprocessed XSLT is left. Delete it at the same time.
-    rm ../tutorial/schematron/demo-03.sch-preprocessed.xsl
+    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
+    [ "${lines[5]}" = "demo-03-sch-step3-wrapper.xsl" ]
+    [ "${lines[6]}" = "demo-03-step1.sch" ]
+    [ "${lines[7]}" = "demo-03-step2.sch" ]
+    [ "${lines[8]}" = "demo-03_xml-to-properties.xml" ]
 
     # Cleanup
     rm -r ../tutorial/schematron/xspec
@@ -966,7 +991,6 @@ teardown() {
 
     # Verify clean.output.dir=true
     [ ! -d "${TEST_DIR}" ]
-    [ ! -f ../tutorial/schematron/demo-03.sch-preprocessed.xsl ]
 }
 
 #
@@ -1582,9 +1606,6 @@ teardown() {
     run cat "${ant_log}"
     echo "$output"
     [[ "${output}" =~ " [makepath] Setting xspec.schematron.file to file path ${PWD}/do-nothing.sch" ]]
-
-    # Cleanup
-    rm do-nothing.sch-preprocessed.xsl
 }
 
 #
@@ -1735,5 +1756,27 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario" ]
+}
+
+#
+# Override ID generation templates
+#
+
+@test "Override ID generation" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.compiler.xsl="${PWD}/override-id/generate-xspec-tests.xsl" \
+        -Dxspec.fail=false \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+
+    run cat "${TEST_DIR}/escape-for-regex-compiled.xsl"
+    echo "$output"
+    [[ "${output}" =~ "x:overridden-scenario-id-" ]]
+    [[ "${output}" =~ "x:overridden-expect-id" ]]
 }
 
