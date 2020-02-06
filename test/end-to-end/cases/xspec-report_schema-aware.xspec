@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xquery-to-support-schema?>
+<?xspec-test require-xslt-to-support-schema?>
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- TODO: XQuery report does not cover the built-in types classified as
+		"additional" in https://www.w3.org/TR/xslt20/#built-in-types. -->
+
+	<x:scenario label="In a failure report HTML">
+
+		<x:scenario label="Derived string types">
+			<x:scenario label="xs:ID">
+				<x:call function="xs:ID">
+					<x:param select="'foo'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:ID('foo')" (XSLT) or "'foo'"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:IDREF">
+				<x:call function="xs:IDREF">
+					<x:param select="'foo'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:IDREF('foo')" (XSLT) or "'foo'"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:ENTITY">
+				<x:call function="xs:ENTITY">
+					<x:param select="'foo'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:ENTITY('foo')" (XSLT) or "'foo'"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:NCName">
+				<x:call function="xs:NCName">
+					<x:param select="'foo'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:NCName('foo')" (XSLT) or "'foo'"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:language">
+				<x:call function="xs:language">
+					<x:param select="'en'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:language('en')" (XSLT) or "'en'"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:Name">
+				<x:call function="xs:Name">
+					<x:param select="'foo'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:Name('foo')" (XSLT) or "'foo'"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:NMTOKEN">
+				<x:call function="xs:NMTOKEN">
+					<x:param select="'foo'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:NMTOKEN('foo')" (XSLT) or "'foo'"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:token">
+				<x:call function="xs:token">
+					<x:param select="'foo'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:token('foo')" (XSLT) or "'foo'"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:normalizedString">
+				<x:call function="xs:normalizedString">
+					<x:param select="'foo'" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:normalizedString('foo')" (XSLT) or
+						"'foo'" (XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Derived numeric types">
+			<x:scenario label="xs:negativeInteger">
+				<x:call function="xs:negativeInteger">
+					<x:param select="-1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:negativeInteger(-1)" (XSLT) or "-1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:nonPositiveInteger">
+				<x:call function="xs:nonPositiveInteger">
+					<x:param select="0" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:nonPositiveInteger(0)" (XSLT) or "0"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:byte">
+				<x:call function="xs:byte">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:byte(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:short">
+				<x:call function="xs:short">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:short(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:int">
+				<x:call function="xs:int">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:int(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:long">
+				<x:call function="xs:long">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:long(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:unsignedByte">
+				<x:call function="xs:unsignedByte">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:unsignedByte(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:unsignedShort">
+				<x:call function="xs:unsignedShort">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:unsignedShort(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:unsignedInt">
+				<x:call function="xs:unsignedInt">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:unsignedInt(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:unsignedLong">
+				<x:call function="xs:unsignedLong">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:unsignedLong(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:positiveInteger">
+				<x:call function="xs:positiveInteger">
+					<x:param select="1" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:positiveInteger(1)" (XSLT) or "1"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:nonNegativeInteger">
+				<x:call function="xs:nonNegativeInteger">
+					<x:param select="0" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must represent it by "xs:nonNegativeInteger(0)" (XSLT) or "0"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>
