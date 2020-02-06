@@ -337,10 +337,19 @@ declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:stri
 {
   if ( $value instance of xs:string ) then
     fn:concat("'", fn:replace($value, "'", "''"), "'")
-  else if ( $value instance of xs:integer or
-            $value instance of xs:decimal or
-            $value instance of xs:double ) then
+
+  (: Numeric literals: http://www.w3.org/TR/xpath20/#id-literals :)
+  (: Check integer before decimal, because of derivation :)
+  else if ( $value instance of xs:integer ) then
     fn:string($value)
+  else if ( $value instance of xs:decimal ) then
+    x:decimal-string($value)
+  (: xs:double
+         Just defer it to the else branch. Justifications below.
+         - Expression is a bit complicated: http://www.w3.org/TR/xpath-functions/#casting-to-string
+         - Not used as frequently as integer
+         - xsl:otherwise will return valid expression. It's just some more verbose than numeric literal. :)
+
   else if ( $value instance of xs:QName ) then
     fn:concat("QName('",
            fn:namespace-uri-from-QName($value),
