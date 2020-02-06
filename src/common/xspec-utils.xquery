@@ -51,3 +51,23 @@ $item as item()?
 	or ($item instance of text())
 	)
 };
+
+(:
+	Returns numeric literal of xs:decimal
+		http://www.w3.org/TR/xpath20/#id-literals
+
+		Example:
+			in:  1
+			out: '1.0'
+:)
+declare function x:decimal-string(
+$decimal as xs:decimal
+) as xs:string
+{
+	let $decimal-string as xs:string := string($decimal)
+	return
+		if (contains($decimal-string, '.')) then
+			$decimal-string
+		else
+			concat($decimal-string, '.0')
+};
