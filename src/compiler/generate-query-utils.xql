@@ -345,10 +345,10 @@ declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:stri
   else if ( $value instance of xs:decimal ) then
     x:decimal-string($value)
   (: xs:double
-         Just defer it to the else branch. Justifications below.
+         Just defer it to the ELSE branch. Justifications below.
          - Expression is a bit complicated: http://www.w3.org/TR/xpath-functions/#casting-to-string
          - Not used as frequently as integer
-         - xsl:otherwise will return valid expression. It's just some more verbose than numeric literal. :)
+         - The ELSE branch will return valid expression. It's just some more verbose than numeric literal. :)
 
   else if ( $value instance of xs:QName ) then
     fn:concat("QName('",
