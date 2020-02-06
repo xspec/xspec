@@ -787,7 +787,7 @@
 
       </t:scenario>
 
-      <t:scenario label="Other types that enters xsl:otherwise branch of the function">
+      <t:scenario label="Other types that enter the ELSE branch of the function">
 
          <t:scenario label="xs:untypedAtomic">
             <t:call function="test:report-atomic-value">
