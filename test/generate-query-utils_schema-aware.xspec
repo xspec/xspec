@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xquery-to-support-schema?>
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+               query="x-urn:test:do-nothing"
+               query-at="do-nothing.xquery">
+
+   <!--
+       Test the source file generate-query-utils.xql.
+
+       The test target is included implicitly by the XSpec compiler. You don't need
+       to specify it in /t:description/@query-at.
+   -->
+
+   <!--
+       Function test:atom-type
+           https://www.w3.org/TR/xmlschema-2/#built-in-datatypes
+   -->
+   <t:scenario label="test:atom-type">
+      <!-- TODO: XQuery test:atom-type() does not cover the built-in types classified as
+           "additional" in https://www.w3.org/TR/xslt20/#built-in-types. -->
+
+      <t:scenario label="Derived string types">
+
+         <!-- xs:IDREFS: list -->
+
+         <!-- xs:ENTITIES: list -->
+
+         <t:scenario label="xs:ID">
+            <t:call function="test:atom-type">
+               <t:param select="xs:ID('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:IDREF">
+            <t:call function="test:atom-type">
+               <t:param select="xs:IDREF('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:ENTITY">
+            <t:call function="test:atom-type">
+               <t:param select="xs:ENTITY('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:NCName">
+            <t:call function="test:atom-type">
+               <t:param select="xs:NCName('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+         <!-- xs:NMTOKENS: list -->
+
+         <t:scenario label="xs:language">
+            <t:call function="test:atom-type">
+               <t:param select="xs:language('en')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:Name">
+            <t:call function="test:atom-type">
+               <t:param select="xs:Name('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:NMTOKEN">
+            <t:call function="test:atom-type">
+               <t:param select="xs:NMTOKEN('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:token">
+            <t:call function="test:atom-type">
+               <t:param select="xs:token('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:normalizedString">
+            <t:call function="test:atom-type">
+               <t:param select="xs:normalizedString('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="'xs:string'"/>
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="Derived numeric types">
+         <!-- TODO: xspec/xspec#58 has not been implemented for XQuery -->
+
+         <t:scenario label="xs:negativeInteger">
+            <t:call function="test:atom-type">
+               <t:param select="xs:negativeInteger(-1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:nonPositiveInteger">
+           <t:call function="test:atom-type">
+              <t:param select="xs:nonPositiveInteger(0)" />
+           </t:call>
+           <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:byte">
+            <t:call function="test:atom-type">
+               <t:param select="xs:byte(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:short">
+            <t:call function="test:atom-type">
+               <t:param select="xs:short(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:int">
+            <t:call function="test:atom-type">
+               <t:param select="xs:int(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:long">
+            <t:call function="test:atom-type">
+               <t:param select="xs:long(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:unsignedByte">
+            <t:call function="test:atom-type">
+               <t:param select="xs:unsignedByte(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:unsignedShort">
+            <t:call function="test:atom-type">
+               <t:param select="xs:unsignedShort(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:unsignedInt">
+            <t:call function="test:atom-type">
+               <t:param select="xs:unsignedInt(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:unsignedLong">
+            <t:call function="test:atom-type">
+               <t:param select="xs:unsignedLong(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:positiveInteger">
+            <t:call function="test:atom-type">
+               <t:param select="xs:positiveInteger(1)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+         <t:scenario label="xs:nonNegativeInteger">
+            <t:call function="test:atom-type">
+               <t:param select="xs:nonNegativeInteger(0)" />
+            </t:call>
+            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="Primitive types" pending="nothing to do right now">
+
+         <!-- xs:NOTATION: Abstract -->
+
+      </t:scenario>
+
+   </t:scenario>
+
+</t:description>
