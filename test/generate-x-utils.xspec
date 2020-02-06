@@ -645,9 +645,6 @@
 
       </t:scenario>
 
-      <!-- TODO: Many of these scenarios fail on XQuery
-           xspec/xspec#58 has not been implemented for XQuery -->
-
       <t:scenario label="xs:integer">
 
          <t:scenario label="Max of xs:unsignedLong (a subtype of xs:integer)">
@@ -808,9 +805,6 @@
            http://www.w3.org/TR/xslt20/#built-in-types
    -->
    <t:scenario label="test:atom-type">
-      <!-- TODO: Most of these scenarios fail on XQuery
-           xspec/xspec#58 has not been implemented for XQuery -->
-
       <t:scenario label="All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION">
 
          <t:scenario label="xs:string">
