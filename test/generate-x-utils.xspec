@@ -645,6 +645,162 @@
 
       </t:scenario>
 
+      <!-- TODO: Many of these scenarios fail on XQuery
+           xspec/xspec#58 has not been implemented for XQuery -->
+
+      <t:scenario label="xs:integer">
+
+         <t:scenario label="Max of xs:unsignedLong (a subtype of xs:integer)">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:integer(18446744073709551615)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'18446744073709551615'" />
+         </t:scenario>
+
+         <t:scenario label="0">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:integer(0)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'0'" />
+         </t:scenario>
+
+         <t:scenario label="-1">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:integer(-1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'-1'" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="xs:decimal">
+
+         <t:scenario label="1.2">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:decimal(1.2)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'1.2'" />
+         </t:scenario>
+
+         <t:scenario label="1">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:decimal(1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'1.0'" />
+         </t:scenario>
+
+         <t:scenario label="0.1">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:decimal(0.1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'0.1'" />
+         </t:scenario>
+
+         <t:scenario label="0">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:decimal(0)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'0.0'" />
+         </t:scenario>
+
+         <t:scenario label="-0.1">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:decimal(-0.1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'-0.1'" />
+         </t:scenario>
+
+         <t:scenario label="-1">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:decimal(-1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'-1.0'" />
+         </t:scenario>
+
+         <t:scenario label="-1.2">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:decimal(-1.2)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'-1.2'" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="xs:double">
+
+         <t:scenario label="1.234e56">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:double(1.234e56)" />
+            </t:call>
+            <t:expect label="Constructor" test="matches($t:result, 'xs:double\(''.+E.+''\)')" />
+         </t:scenario>
+
+         <t:scenario label="1">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:double(1)" />
+            </t:call>
+            <t:expect label="Constructor" select="'xs:double(''1'')'" />
+         </t:scenario>
+
+         <t:scenario label="NaN">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:double('NaN')" />
+            </t:call>
+            <t:expect label="Constructor" select="'xs:double(''NaN'')'" />
+         </t:scenario>
+
+         <t:scenario label="INF">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:double('INF')" />
+            </t:call>
+            <t:expect label="Constructor" select="'xs:double(''INF'')'" />
+         </t:scenario>
+
+         <t:scenario label="-INF">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:double('-INF')" />
+            </t:call>
+            <t:expect label="Constructor" select="'xs:double(''-INF'')'" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="xs:QName">
+
+         <t:scenario label="No namespace">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:QName('foo')" />
+            </t:call>
+            <t:expect label="Function" select="'QName('''', ''foo'')'" />
+         </t:scenario>
+
+         <t:scenario label="In namespace, with prefix">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:QName('t:foo')" />
+            </t:call>
+            <t:expect label="Function" select="'QName(''http://www.jenitennison.com/xslt/xspec'', ''t:foo'')'" />
+         </t:scenario>
+
+         <t:scenario label="In namespace, without prefix">
+            <t:call function="test:report-atomic-value">
+               <t:param select="QName('x-urn:test:report-atomic-value', 'foo')" />
+            </t:call>
+            <t:expect label="Function" select="'QName(''x-urn:test:report-atomic-value'', ''foo'')'" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="Other types that enters xsl:otherwise branch of the function">
+
+         <t:scenario label="xs:untypedAtomic">
+            <t:call function="test:report-atomic-value">
+               <t:param select="xs:untypedAtomic('foo')" />
+            </t:call>
+            <t:expect label="Constructor" select="'xs:untypedAtomic(''foo'')'" />
+         </t:scenario>
+
+      </t:scenario>
+
    </t:scenario>
 
 </t:description>
