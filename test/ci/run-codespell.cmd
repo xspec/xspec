@@ -6,5 +6,5 @@ pip install ^
 codespell ^
     --check-filenames ^
     --check-hidden ^
-    --quiet-level 2 ^
+    --quiet-level 6 ^
     --skip="./src/schematron/iso-schematron"
