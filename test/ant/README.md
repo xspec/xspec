@@ -1,3 +1,6 @@
+<!-- "?v=" in the src parameter value is to invalidate cache -->
+![diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/AirQuick/xspec/puml_run-xspec-tests-ant/test/ant/diagram.txt?v=1)
+
 1. Run `../run-xspec-tests-ant.sh` (or `.cmd`)
 
 	Alternatively you can open `build.xml` in oXygen and apply **ANT (with Saxon 9 EE XSLT support)** in **Transformation Scenarios** pane. (You may want to duplicate the transformation scenario and set `-silent` in **Additional arguments**.) 
