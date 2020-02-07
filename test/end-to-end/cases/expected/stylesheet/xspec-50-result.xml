@@ -6,7 +6,7 @@
           stylesheet="../../xspec-50.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-50.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-50.xspec">
       <x:label>Expecting xs:hexBinary('0123') when $x:result is xs:untypedAtomic('0123')</x:label>
       <x:context>
          <foo>0123</foo>

@@ -341,17 +341,20 @@
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
   <target name="compile" depends="init, preprocess-schematron-xspec">
-    <condition property="xspec.compiler.xsl"
+    <condition property="xspec.compiler.xsl.name"
                value="generate-query-tests.xsl"
                else="generate-xspec-tests.xsl">
       <istrue value="${xspec.is.xquery}" />
     </condition>
 
+    <property name="xspec.compiler.xsl"
+              value="${xspec.project.dir}/src/compiler/${xspec.compiler.xsl.name}" />
+
     <echo message="Compiling Tests..."
           level="info" />
     <saxon-xslt in="${xspec.xspecfile.preprocessed}"
                 out="${xspec.compiled.runner}"
-                style="${xspec.project.dir}/src/compiler/${xspec.compiler.xsl}" />
+                style="${xspec.compiler.xsl}" />
   </target>
 
   <!-- Runs the compiled XSpec for XQuery -->

@@ -41,6 +41,7 @@ You are also encouraged to use a scope to highlight which functionality is affec
 | `basex` | BaseX | 
 | `deps` | Dependencies | 
 | `report` | Test result reports | 
+| `xproc` | XProc | 
 
 Note that type is mandatory and scope is optional and both values should be written in lower case.
  

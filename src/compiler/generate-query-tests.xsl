@@ -134,7 +134,7 @@
       <xsl:text>declare option output:method "xml";&#x0A;</xsl:text>
       <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
 
-      <!-- Absolute URI of .xspec file -->
+      <!-- Absolute URI of the master .xspec file -->
       <xsl:call-template name="test:declare-or-let-variable">
          <xsl:with-param name="is-global" select="true()" />
          <xsl:with-param name="name" select="x:xspec-name($this,'xspec-uri')" />
@@ -232,6 +232,10 @@
 
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)"/>
 
+      <xsl:variable name="scenario-id" as="xs:string">
+         <xsl:apply-templates select="." mode="x:generate-id" />
+      </xsl:variable>
+
       <!-- x:context and x:call/@template not supported for XQuery -->
       <xsl:if test="exists($context)">
          <xsl:variable name="msg" select="
@@ -256,7 +260,7 @@
         {
       -->
       <xsl:text>&#10;declare function local:</xsl:text>
-      <xsl:value-of select="generate-id()"/>
+      <xsl:value-of select="$scenario-id" />
       <xsl:text>(</xsl:text>
       <xsl:value-of select="$params/concat('$', @name)" separator=", "/>
       <xsl:text>)&#10;{&#10;</xsl:text>
@@ -273,6 +277,8 @@
       </xsl:if>
 
       <xsl:element name="{x:xspec-name(.,'scenario')}" namespace="{$xspec-namespace}">
+         <xsl:sequence select="@xspec" />
+
          <!-- Create @pending generator -->
          <xsl:if test="$pending-p">
             <xsl:text>{ </xsl:text>
@@ -389,12 +395,17 @@
       <xsl:param name="params"  required="yes"              as="element(param)*"/>
 
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
+
+      <xsl:variable name="expect-id" as="xs:string">
+         <xsl:apply-templates select="." mode="x:generate-id" />
+      </xsl:variable>
+
       <!--
         declare function local:...($t:result as item()*)
         {
       -->
       <xsl:text>&#10;declare function local:</xsl:text>
-      <xsl:value-of select="generate-id()"/>
+      <xsl:value-of select="$expect-id" />
       <xsl:text>(</xsl:text>
       <xsl:for-each select="$params">
          <xsl:text>$</xsl:text>

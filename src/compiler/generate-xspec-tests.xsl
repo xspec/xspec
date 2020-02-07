@@ -67,11 +67,11 @@
     <!-- Serialization parameters -->
     <output name="{x:xspec-name(.,'report')}" method="xml" indent="yes" />
 
-    <!-- Absolute URI of .xspec file (Original one if specified i.e. Schematron) -->
-    <xsl:variable name="xspec-uri" as="xs:anyURI"
+    <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
+    <xsl:variable name="xspec-master-uri" as="xs:anyURI"
       select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
     <variable name="{x:xspec-name(.,'xspec-uri')}" as="xs:anyURI">
-      <xsl:value-of select="$xspec-uri" />
+      <xsl:value-of select="$xspec-master-uri" />
     </variable>
 
     <!-- Compile the test suite params (aka global params). -->
@@ -99,7 +99,7 @@
           <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
 
           <xsl:attribute name="date" select="'{current-dateTime()}'" />
-          <xsl:attribute name="xspec" select="$xspec-uri" />
+          <xsl:attribute name="xspec" select="$xspec-master-uri" />
 
           <!-- Do not always copy @schematron.
             @schematron may exist even when this XSpec is not testing Schematron. -->
@@ -158,6 +158,10 @@
 
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)"/>
 
+  <xsl:variable name="scenario-id" as="xs:string">
+    <xsl:apply-templates select="." mode="x:generate-id" />
+  </xsl:variable>
+
   <!-- We have to create these error messages at this stage because before now
        we didn't have merged versions of the environment -->
   <xsl:if test="$context/@href and ($context/node() except $context/x:param)">
@@ -204,7 +208,7 @@
     </xsl:message>
   </xsl:if>
 
-  <template name="{x:xspec-name(.,generate-id())}">
+  <template name="{x:xspec-name(., $scenario-id)}">
     <xsl:sequence select="x:copy-namespaces(.)"/>
     <xsl:for-each select="$params">
       <param name="{ @name }" required="yes">
@@ -227,6 +231,8 @@
     </message>
 
     <xsl:element name="{x:xspec-name(.,'scenario')}" namespace="{$xspec-namespace}">
+      <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
+
       <!-- Create @pending generator -->
       <xsl:if test="$pending-p">
         <xsl:sequence select="x:create-pending-attr-generator($pending)" />
@@ -412,7 +418,11 @@
 
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
 
-  <template name="{x:xspec-name(.,generate-id())}">
+  <xsl:variable name="expect-id" as="xs:string">
+    <xsl:apply-templates select="." mode="x:generate-id" />
+  </xsl:variable>
+
+  <template name="{x:xspec-name(., $expect-id)}">
     <xsl:sequence select="x:copy-namespaces(.)"/>
      <xsl:for-each select="$params">
         <param name="{ @name }" required="{ @required }">

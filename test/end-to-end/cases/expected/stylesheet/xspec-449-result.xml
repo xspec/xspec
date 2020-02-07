@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-449.xspec">
-   <x:scenario>
+   <x:scenario xspec="../../xspec-449.xspec">
       <x:label>x:expect/</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>

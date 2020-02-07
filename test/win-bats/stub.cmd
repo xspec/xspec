@@ -116,6 +116,10 @@ rem
     if errorlevel 1 call :failed "Failed to mkdir: %~1"
     goto :EOF
 
+:mkdir-if-not-exist
+    if not exist %1 call :mkdir %1
+    goto :EOF
+
 :rmdir
     if exist %1 (
         rem DEL and RMDIR return 0 as long as the parameter is valid

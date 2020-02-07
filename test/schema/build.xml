@@ -6,6 +6,10 @@
 		<fileset dir="../.." id="validate.fileset">
 			<include name="**/*.xspec" />
 
+			<!-- Default TEST_DIR -->
+			<exclude name="test/**/xspec/*.xspec" />
+			<exclude name="tutorial/**/xspec/*.xspec" />
+
 			<!-- Contains invalid /x:description/@xspec-original-location deliberately
 				https://github.com/xspec/xspec/issues/176 -->
 			<exclude name="test/schematron/schut-to-xspec-0??-out.xspec" />
