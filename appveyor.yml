@@ -3,7 +3,7 @@ environment:
     # latest Ant
     ANT_VERSION: 1.10.7
 
-    BASEX_VERSION: 8.6.4
+    BASEX_VERSION: 9.3.1
 
   matrix:
     # Non-mainstream jobs are disabled in favor of Azure Pipelines
