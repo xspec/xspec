@@ -825,6 +825,39 @@
 	</case>
 
 	<!--
+		Ant verbose test.type
+			Last char is capitalized to verify case-insensitiveness
+	-->
+
+	<case name="Ant verbose test.type (XSLT)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dtest.type=xslT ^
+        -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
+    call :verify_line * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
+	</case>
+
+	<case name="Ant verbose test.type (XQuery)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dtest.type=xquerY ^
+        -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
+    call :verify_line * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+	</case>
+
+	<case name="Ant verbose test.type (Schematron)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dclean.output.dir=true ^
+        -Dtest.type=schematroN ^
+        -Dxspec.xml="%CD%\..\tutorial\schematron\demo-01.xspec"
+    call :verify_line * x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
+	</case>
+
+	<!--
 		Ant various properties
 	-->
 
@@ -1514,35 +1547,6 @@
     call :run type "%TEST_DIR%\escape-for-regex-compiled.xsl"
     call :verify_line * r "..*x:overridden-scenario-id-"
     call :verify_line * r "..*x:overridden-expect-id-"
-	</case>
-
-	<case name="Ant verbose test.type">
-    rem Last char is capitalized to verify case-insensitiveness
-
-    rem XSLT
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dtest.type=xslT ^
-        -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
-    call :verify_line * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
-
-    rem XQuery
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dtest.type=xquerY ^
-        -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
-    call :verify_line * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
-
-    rem Schematron
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dclean.output.dir=true ^
-        -Dtest.type=schematroN ^
-        -Dxspec.xml="%CD%\..\tutorial\schematron\demo-01.xspec"
-    call :verify_line * x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
 	</case>
 
 </collection>

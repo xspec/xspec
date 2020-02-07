@@ -961,6 +961,42 @@ teardown() {
 }
 
 #
+# Ant verbose test.type
+#	Last char is capitalized to verify case-insensitiveness
+#
+
+@test "Ant verbose test.type (XSLT)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=xslT \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+}
+
+@test "Ant verbose test.type (XQuery)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=xquerY \
+        -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
+    echo "$output"
+    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+}
+
+@test "Ant verbose test.type (Schematron)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dclean.output.dir=true \
+        -Dtest.type=schematroN \
+        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
+    echo "$output"
+    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
+}
+
+#
 # Ant various properties
 #
 
@@ -1778,38 +1814,6 @@ teardown() {
     echo "$output"
     [[ "${output}" =~ "x:overridden-scenario-id-" ]]
     [[ "${output}" =~ "x:overridden-expect-id" ]]
-}
-
-@test "Ant verbose test.type" {
-    # Last char is capitalized to verify case-insensitiveness
-
-    # XSLT
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dtest.type=xslT \
-        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
-    echo "$output"
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
-
-    # XQuery
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dtest.type=xquerY \
-        -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
-    echo "$output"
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
-
-    # Schematron
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dclean.output.dir=true \
-        -Dtest.type=schematroN \
-        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
-    echo "$output"
-    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
 }
 
 
