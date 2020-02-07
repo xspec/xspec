@@ -158,6 +158,10 @@
 
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)"/>
 
+  <xsl:variable name="scenario-id" as="xs:string">
+    <xsl:apply-templates select="." mode="x:generate-id" />
+  </xsl:variable>
+
   <!-- We have to create these error messages at this stage because before now
        we didn't have merged versions of the environment -->
   <xsl:if test="$context/@href and ($context/node() except $context/x:param)">
@@ -204,7 +208,7 @@
     </xsl:message>
   </xsl:if>
 
-  <template name="{x:xspec-name(.,generate-id())}">
+  <template name="{x:xspec-name(., $scenario-id)}">
     <xsl:sequence select="x:copy-namespaces(.)"/>
     <xsl:for-each select="$params">
       <param name="{ @name }" required="yes">
@@ -414,7 +418,11 @@
 
   <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)"/>
 
-  <template name="{x:xspec-name(.,generate-id())}">
+  <xsl:variable name="expect-id" as="xs:string">
+    <xsl:apply-templates select="." mode="x:generate-id" />
+  </xsl:variable>
+
+  <template name="{x:xspec-name(., $expect-id)}">
     <xsl:sequence select="x:copy-namespaces(.)"/>
      <xsl:for-each select="$params">
         <param name="{ @name }" required="{ @required }">
