@@ -59,14 +59,6 @@
 			<xsl:apply-templates mode="xspec" select="$xspec-docs">
 				<xsl:sort select="document-uri(/)" />
 			</xsl:apply-templates>
-			<xsl:apply-templates
-                            mode="xspec"
-                            select="$xspec-docs[exists(/x:description/@query)][1] |
-                                    $xspec-docs[exists(/x:description/@schematron)][1] |
-$xspec-docs[exists(/x:description/@stylesheet)][1]">
-				<xsl:sort select="document-uri(/)" />
-                                <xsl:with-param as="xs:boolean" name="verbose" select="true()" />
-			</xsl:apply-templates>
 		</xsl:copy>
 	</xsl:template>
 
@@ -77,8 +69,6 @@ $xspec-docs[exists(/x:description/@stylesheet)][1]">
 	-->
 
 	<xsl:template as="node()+" match="document-node()" mode="xspec">
-		<xsl:param as="xs:boolean" name="verbose" select="false()" />
-
 		<xsl:variable as="xs:anyURI" name="xspec-file-uri" select="document-uri(/)" />
 
 		<xsl:variable as="processing-instruction(xspec-test)*" name="pis"
@@ -90,14 +80,13 @@ $xspec-docs[exists(/x:description/@stylesheet)][1]">
 		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
 			<xsl:sort select="name()" />
 
-			<xsl:variable as="xs:string" name="test-type"
-				select="if (name() = 'query')
-                          		  then if ($verbose) then 'xquery' else 'q'
-                                        else if (name() = 'schematron')
-                          		  then if ($verbose) then 'schematron' else 's'
-                                        else if (name() = 'stylesheet')
-                          		  then if ($verbose) then 'xslt' else 't'
-                                        else ''" />
+			<xsl:variable as="xs:string" name="test-type">
+				<xsl:choose>
+					<xsl:when test="name() = 'query'">q</xsl:when>
+					<xsl:when test="name() = 'schematron'">s</xsl:when>
+					<xsl:when test="name() = 'stylesheet'">t</xsl:when>
+				</xsl:choose>
+			</xsl:variable>
 
 			<xsl:variable as="xs:string?" name="skip">
 				<xsl:choose>
@@ -178,7 +167,7 @@ $xspec-docs[exists(/x:description/@stylesheet)][1]">
 
 							<xsl:if
 								test="
-									($test-type = ('q', 'xquery'))
+									($test-type eq 'q')
 									and $require-xquery-to-support-3-1
 									and $XQUERY-SUPPORTS-3-1-QVERSION">
 								<xsl:sequence select="'-qversion:3.1'" />
