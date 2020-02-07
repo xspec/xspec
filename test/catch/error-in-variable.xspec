@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
+	stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xquery-version="3.1" xslt-version="3.0">
+
+	<x:scenario catch="yes" label="With @catch=yes">
+
+		<x:scenario label="error in variable">
+			<x:variable name="error-var" select="error(xs:QName('error-code-of-my-variable'))" />
+			<x:call function="exists">
+				<x:param select="$error-var" />
+			</x:call>
+			<x:expect label="should not be caught" />
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>

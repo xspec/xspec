@@ -50,6 +50,27 @@
          select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
       <xsl:variable name="var-doc" as="xs:string?"
          select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
+      <xsl:variable name="var-doc-uri" as="xs:string?"
+         select="if ($var-doc and @href) then concat($var-doc, '-uri') else ()" />
+
+      <!--
+         Output
+            declare variable $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF");
+            or
+            let $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
+      -->
+      <xsl:if test="$var-doc-uri">
+         <xsl:call-template name="test:declare-or-let-variable">
+            <xsl:with-param name="is-global" select="$global" />
+            <xsl:with-param name="name" select="$var-doc-uri" />
+            <xsl:with-param name="type" select="'xs:anyURI'" />
+            <xsl:with-param name="value" as="text()+">
+               <xsl:text>xs:anyURI("</xsl:text>
+               <xsl:value-of select="resolve-uri(@href, base-uri())" />
+               <xsl:text>")</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
+      </xsl:if>
 
       <!--
          Output
@@ -58,21 +79,21 @@
             let $VAR-doc as document-node() := DOCUMENT
          
          where DOCUMENT is
-            doc(URI)
+            doc($VAR-doc-uri)
             or
             document { NODE-GENERATORS }
       -->
-   	  <xsl:if test="$var-doc">
+      <xsl:if test="$var-doc">
          <xsl:call-template name="test:declare-or-let-variable">
             <xsl:with-param name="is-global" select="$global" />
             <xsl:with-param name="name" select="$var-doc" />
-         	  <xsl:with-param name="type" select="'document-node()'" />
+            <xsl:with-param name="type" select="'document-node()'" />
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
                   <xsl:when test="@href">
-                     <xsl:text>doc('</xsl:text>
-                     <xsl:value-of select="resolve-uri(@href, base-uri())" />
-                     <xsl:text>')</xsl:text>
+                     <xsl:text>doc($</xsl:text>
+                     <xsl:value-of select="$var-doc-uri" />
+                     <xsl:text>)</xsl:text>
                   </xsl:when>
 
                   <xsl:otherwise>
@@ -131,6 +152,9 @@
          let $NAME as TYPE := ( VALUE )
    -->
    <xsl:template name="test:declare-or-let-variable" as="node()+">
+      <xsl:context-item use="absent"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:param name="is-global" as="xs:boolean" required="yes" />
       <xsl:param name="name" as="xs:string" required="yes" />
       <xsl:param name="type" as="xs:string?" required="yes" />
@@ -199,6 +223,9 @@
    </xsl:template>
 
    <xsl:template name="test:create-zero-or-more-node-generators" as="node()+">
+      <xsl:context-item use="absent"
+         use-when="element-available('xsl:context-item')" />
+
       <xsl:param name="nodes" as="node()*" />
 
       <xsl:choose>

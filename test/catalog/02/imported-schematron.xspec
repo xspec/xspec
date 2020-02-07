@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:scenario label="x:context with href (xspec/xspec#542, xspec/xspec#161)">
-		<x:context href="test.xml" />
-		<x:expect-report id="report-1" label="Expecting 'report-1' report should be Success" />
-		<x:expect-report id="bogus" label="Expecting 'bogus' report should be Failure" />
-	</x:scenario>
-</x:description>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xspec-test require-saxon-bug-4376-fixed?>
+<x:description
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns="http://www.w3.org/1999/xhtml"
+    stylesheet="xspec-700.xsl"
+    xslt-version="3.0"
+>
+    <x:scenario label="Aborts with abbreviation with no expansion" catch="yes">
+        <x:context select="/">
+            <abbr xml:base="{$x:xspec-uri}">AbbreviationWithoutExpansion</abbr>
+        </x:context>
+        <x:expect
+            label="err:code"
+            test="$x:result?err?code"
+            select="QName('http://www.w3.org/2005/xqt-errors', 'XTMM9000')"
+        />
+
+        <!-- Use TVT to simplify this series of x:expect -->
+        <x:expect
+            label="err:value is a document node"
+            test="$x:result?err?value instance of document-node()"
+        />
+        <x:expect
+            label="Saxon inserts a processing instruction containing the error code"
+            test="$x:result?err?value/node()[1]"
+        ><?error-code Q{http://www.w3.org/2005/xqt-errors}XTMM9000?></x:expect>
+        <x:expect
+            label="xsl:message body"
+            test="string($x:result?err?value/node()[2] treat as text())"
+            select="$x:xspec-uri || ': error: Abbreviations without title: AbbreviationWithoutExpansion'"
+        />
+        <x:expect
+            label="No more nodes"
+            test="empty($x:result?err?value/node()[3])"
+        />
+    </x:scenario>
+</x:description>

@@ -60,4 +60,39 @@
 		<x:expect label="[Result] should be reported" />
 	</x:scenario>
 
+	<x:scenario label="Document node with no children (xspec/xspec#697)">
+		<x:call function="parse-xml-fragment">
+			<x:param select="''" />
+		</x:call>
+		<x:expect label="XPath should be reported between Result title and box" />
+	</x:scenario>
+
+	<x:scenario label="XPath is different, but serialized node looks as if same">
+		<x:scenario label="[Result] = document node, [Expected Result] = element">
+			<x:call function="exactly-one">
+				<x:param as="document-node()" select="/">
+					<test />
+				</x:param>
+			</x:call>
+			<x:expect
+				label="XPath should be colored as different. Serialized node should be colored as same."
+				select="element() treat as element()">
+				<test />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="[Result] = element, [Expected Result] = document node.">
+			<x:call function="exactly-one">
+				<x:param as="element()">
+					<test />
+				</x:param>
+			</x:call>
+			<x:expect
+				label="XPath should be colored as different. Serialized node should be colored as same."
+				select="/self::document-node() treat as document-node()">
+				<test />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>

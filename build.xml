@@ -154,7 +154,7 @@
 
   <!-- File path of the compiled XSLT/XQuery file that finally runs the tests -->
   <property name="xspec.compiled.runner.without.ext" 
-            value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}" />
+            value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-compiled" />
   <condition property="xspec.compiled.runner"
              value="${xspec.compiled.runner.without.ext}.xq"
              else="${xspec.compiled.runner.without.ext}.xsl">
@@ -162,10 +162,8 @@
   </condition>
 
   <!-- Converts URL to file path -->
-  <scriptdef name="makepath" language="javascript" src="${xspec.project.dir}/src/ant/make-path.js">
-    <attribute name="url" />
-    <attribute name="property" />
-  </scriptdef>
+  <taskdef name="makepath" classname="io.xspec.xspec.ant.taskdefs.MakePath"
+    classpath="${xspec.project.dir}/java" />
 
   <!-- Performs XSLT using Saxon with common parameters including catalog -->
   <macrodef name="saxon-xslt">
@@ -260,7 +258,7 @@
 
   <!-- Gets the file path (not URL) of the Schematron file -->
   <target name="locate-schematron-file" if="${xspec.is.schematron}">
-    <xml-to-properties in="${xspec.xspecfile.original}" style="locate-schematron.xsl" />
+    <xml-to-properties in="${xspec.xspecfile.original}" style="locate-schematron-uri.xsl" />
     <makepath property="xspec.schematron.file" url="${xspec.schematron.uri}" />
     <echo message="Path of Schematron file: ${xspec.schematron.file}"
           level="info" />
@@ -312,13 +310,8 @@
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-step1.sch" />
     <property name="xspec.schematron.preprocessed.step2"
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-step2.sch" />
-
-    <!-- Location of the preprocessed Schematron XSLT file.
-      Since the original Schematron file may reference other files at relative paths,
-      the preprocessed XSLT file needs to go in the same folder as the original Schematron file.
-      This file is created at "STEP 3" and deleted by cleanup. -->
     <property name="xspec.schematron.preprocessed.xsl.file"
-              value="${xspec.schematron.file}-preprocessed.xsl" />
+              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-preprocessed.xsl" />
 
     <echo message="STEP 1: Include modules"
           level="info" />
@@ -357,17 +350,20 @@
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
   <target name="compile" depends="init, preprocess-schematron-xspec">
-    <condition property="xspec.compiler.xsl"
+    <condition property="xspec.compiler.xsl.name"
                value="generate-query-tests.xsl"
                else="generate-xspec-tests.xsl">
       <istrue value="${xspec.is.xquery}" />
     </condition>
 
+    <property name="xspec.compiler.xsl"
+              value="${xspec.project.dir}/src/compiler/${xspec.compiler.xsl.name}" />
+
     <echo message="Compiling Tests..."
           level="info" />
     <saxon-xslt in="${xspec.xspecfile.preprocessed}"
                 out="${xspec.compiled.runner}"
-                style="${xspec.project.dir}/src/compiler/${xspec.compiler.xsl}" />
+                style="${xspec.compiler.xsl}" />
   </target>
 
   <!-- Runs the compiled XSpec for XQuery -->
@@ -395,8 +391,14 @@
 
     <!-- Absolute path for code coverage, with '/' and '\' adapted to
       the current platform -->
+    <property name="xspec.output.dir.absolute"
+              location="${xspec.output.dir}"
+              if:true="${xspec.coverage.enabled}" />
     <property name="xspec.coverage.xml.absolute"
               location="${xspec.coverage.xml}"
+              if:true="${xspec.coverage.enabled}" />
+    <property name="xspec.xspecfile.absolute"
+              location="${xspec.xspecfile.original}"
               if:true="${xspec.coverage.enabled}" />
 
     <echo message="Collecting test coverage data..."
@@ -413,14 +415,19 @@
       </classpath>
 
       <!-- System property for code coverage -->
+      <sysproperty key="xspec.coverage.ignore"
+                   value="${xspec.output.dir.absolute}"
+                   if:true="${xspec.coverage.enabled}" />
       <sysproperty key="xspec.coverage.xml"
                    value="${xspec.coverage.xml.absolute}"
+                   if:true="${xspec.coverage.enabled}" />
+      <sysproperty key="xspec.xspecfile"
+                   value="${xspec.xspecfile.absolute}"
                    if:true="${xspec.coverage.enabled}" />
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
       <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
-      <arg value="-ext:on" />
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-xsl:${xspec.compiled.runner}" />
       <arg value="-T:com.jenitennison.xslt.tests.XSLTCoverageTraceListener"
@@ -439,10 +446,6 @@
     <saxon-xslt in="${xspec.result.xml}"
                 out="${xspec.result.html}"
                 style="${xspec.html.reporter.xsl}">
-      <factory-elements>
-        <attribute name="http://saxon.sf.net/feature/allow-external-functions"
-                   value="true"/>
-      </factory-elements>
       <xslt-elements>
         <param name="inline-css" expression="true" />
         <param name="report-css-uri" expression="${xspec.result.html.css.url}"
@@ -456,9 +459,6 @@
           depends="run-xslt-test"
           if="${xspec.coverage.enabled}">
 
-    <!-- Absolute file path of the original XSpec file -->
-    <property name="xspec.xspecfile.absolute" location="${xspec.xspecfile.original}" />
-
     <makeurl property="xspec.coverage.html.css.url"
              file="${xspec.coverage.html.css}"
              if:set="xspec.coverage.html.css" />
@@ -471,7 +471,6 @@
                    value="true"/>
       </factory-elements>
       <xslt-elements>
-        <param name="tests" expression="${xspec.xspecfile.absolute}" />
         <param name="inline-css" expression="true" />
         <param name="report-css-uri" expression="${xspec.coverage.html.css.url}"
                if="xspec.coverage.html.css.url" />
@@ -491,10 +490,7 @@
   <!-- Main target -->
   <target name="xspec"
           description="Generates the result of XSpec tests"
-          depends="report-html, report-coverage, report-junit">
-    <antcall target="fail" />
-    <antcall target="cleanup" />
-  </target>
+          depends="report-html, report-coverage, report-junit, fail, cleanup" />
 
   <!-- Makes the build fail, unless otherwise specified -->
   <target name="fail" if="${xspec.fail}">
@@ -517,8 +513,6 @@
     <retry retrycount="1" retrydelay="1000">
       <delete dir="${xspec.output.dir}" />
     </retry>
-
-    <delete file="${xspec.schematron.preprocessed.xsl.file}" />
   </target>
 
 </project>

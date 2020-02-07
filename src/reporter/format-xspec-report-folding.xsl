@@ -21,6 +21,9 @@
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report-folding.xsl</pkg:import-uri>
 
 <xsl:template name="x:html-head-callback" as="element(xhtml:script)">
+  <xsl:context-item as="document-node(element(x:report))" use="required"
+    use-when="element-available('xsl:context-item')" />
+
   <script language="javascript" type="text/javascript">
 function toggle(scenarioID) {
   table = document.getElementById("t-"+scenarioID);
@@ -53,6 +56,9 @@ function toggle(scenarioID) {
 </xsl:template>
 
 <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
+  <xsl:context-item as="element(x:scenario)" use="required"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />
   <xsl:variable name="any-failure" as="xs:boolean"
@@ -75,8 +81,10 @@ function toggle(scenarioID) {
       </span>
     </h2>
     <table class="xspec" id="t-{generate-id()}" style="display: {if ($any-descendant-failure) then 'table' else 'none'}">
-      <col width="85%" />
-      <col width="15%" />
+      <colgroup>
+        <col style="width:85%" />
+        <col style="width:15%" />
+      </colgroup>
       <tbody>
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
           <th>

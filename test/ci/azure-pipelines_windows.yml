@@ -1,0 +1,86 @@
+# Job template for Windows
+
+parameters:
+  jobName: ''
+  javaVersion: ''
+
+jobs:
+  - job: ${{ parameters.jobName }}
+
+    pool:
+      vmImage: windows-latest
+
+    strategy:
+      maxParallel: 4
+
+      matrix:
+        # Note
+        #   * XML Calabash will use Saxon jar in its own lib directory.
+        #   * BaseX test requires XML Calabash.
+
+        # latest Saxon and Jing
+        Saxon-9-9:
+          SAXON_VERSION: 9.9.1-6
+          JING_VERSION: 20181222
+          XMLCALABASH_VERSION: 1.1.30-99
+          DO_CODESPELL: true
+          DO_MAVEN_PACKAGE: true
+
+        # latest Saxon 9.8
+        Saxon-9-8:
+          SAXON_VERSION: 9.8.0-15
+          XMLCALABASH_VERSION: 1.1.30-98
+
+        # latest oXygen
+        Oxygen:
+          SAXON_VERSION: 9.8.0-12
+          ANT_VERSION: 1.9.8
+          XMLCALABASH_VERSION: 1.1.24-98
+
+        # highest deprecated Saxon
+        Saxon-9-7:
+          SAXON_VERSION: 9.7.0-21
+
+    steps:
+      - task: BatchScript@1
+        displayName: Install test dependencies
+        inputs:
+          filename: test\ci\install-deps.cmd
+          modifyEnvironment: true
+
+      # switch-java.cmd has to be called after install-deps.cmd which calls refreshenv.cmd
+      # which in turn reconstructs environment variables from registry
+      - task: BatchScript@1
+        displayName: Switch to Java ${{ parameters.javaVersion }}
+        condition: ne(${{ parameters.javaVersion }}, 8)
+        inputs:
+          filename: test\ci\switch-java.cmd
+          arguments: ${{ parameters.javaVersion }}
+          modifyEnvironment: true
+
+      - script: call test\ci\print-env.cmd
+        displayName: Print versions and env vars
+
+      - script: call test\ci\run-codespell.cmd
+        displayName: Spell check
+        condition: and(succeeded(), variables['DO_CODESPELL'])
+
+      - script: call test\run-bats.cmd
+        displayName: Execute bats-like unit tests
+
+      - script: call test\run-xspec-tests-ant.cmd -silent
+        displayName: Execute XSpec unit tests
+
+      - script: call test\end-to-end\run-e2e-tests.cmd -silent
+        displayName: Execute XSpec end-to-end tests
+
+      - script: call test\ci\maven-package.cmd --no-transfer-progress
+        displayName: Maven package
+        condition: and(succeeded(), variables['DO_MAVEN_PACKAGE'])
+
+      - script: call test\ci\compile-java.cmd -verbose
+        displayName: Compile java
+        condition: and(succeeded(), eq(${{ parameters.javaVersion }}, 8))
+
+      - script: call test\ci\last-git-status.cmd
+        displayName: Check git status

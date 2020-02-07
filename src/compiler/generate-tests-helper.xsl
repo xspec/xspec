@@ -9,7 +9,6 @@
 
 
 <xsl:stylesheet version="2.0"
-                xmlns="http://www.w3.org/1999/XSL/TransformAlias"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -20,8 +19,6 @@
   
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-helper.xsl</pkg:import-uri>
 
-<xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl"/>
-
 <xsl:key name="functions" 
          match="xsl:function" 
          use="resolve-QName(@name, .)" />
@@ -29,8 +26,8 @@
 <xsl:key name="named-templates" 
          match="xsl:template[@name]"
          use="if (contains(@name, ':'))
-	            then resolve-QName(@name, .)
-	            else QName('', @name)" />
+              then resolve-QName(@name, .)
+              else QName('', @name)" />
 
 <xsl:key name="matching-templates" 
          match="xsl:template[@match]" 
@@ -49,32 +46,47 @@
   <xsl:param name="var" as="xs:string" required="yes" />
   <xsl:param name="type" as="xs:string" select="'variable'" />
   <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
+
   <xsl:variable name="variable-is-pending" as="xs:boolean"
     select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
   <xsl:variable name="var-doc" as="xs:string?"
     select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
+  <xsl:variable name="var-doc-uri" as="xs:string?"
+    select="if ($var-doc and @href) then concat($var-doc, '-uri') else ()" />
+
+  <xsl:if test="$var-doc-uri">
+    <xsl:element name="xsl:variable">
+      <xsl:attribute name="name" select="$var-doc-uri" />
+      <xsl:attribute name="as" select="'xs:anyURI'" />
+      <xsl:value-of select="resolve-uri(@href, base-uri())" />
+    </xsl:element>
+  </xsl:if>
 
   <xsl:if test="$var-doc">
-    <variable name="{$var-doc}" as="document-node()">
+    <xsl:element name="xsl:variable">
+      <xsl:attribute name="name" select="$var-doc" />
+      <xsl:attribute name="as" select="'document-node()'" />
+      <xsl:sequence select="x:copy-namespaces(.)"/>
       <xsl:choose>
         <xsl:when test="@href">
           <xsl:attribute name="select">
-            <xsl:text>doc('</xsl:text>
-            <xsl:value-of select="resolve-uri(@href, base-uri())" />
-            <xsl:text>')</xsl:text>
+            <xsl:text>doc($</xsl:text>
+            <xsl:value-of select="$var-doc-uri" />
+            <xsl:text>)</xsl:text>
           </xsl:attribute>
         </xsl:when>
 
         <xsl:otherwise>
-          <document>
+          <xsl:element name="xsl:document">
             <xsl:apply-templates mode="test:create-node-generator" />
-          </document>
+          </xsl:element>
         </xsl:otherwise>
       </xsl:choose>
-    </variable>
+    </xsl:element>
   </xsl:if>
 
   <xsl:element name="xsl:{$type}">
+    <xsl:sequence select="x:copy-namespaces(.)"/>
     <xsl:attribute name="name" select="$var" />
     <xsl:sequence select="@as" />
 
@@ -93,9 +105,12 @@
           <xsl:attribute name="as" select="'item()*'" />
         </xsl:if>
 
-        <for-each select="${$var-doc}">
-          <sequence select="{(@select, '.'[current()/@href], 'node()')[1]}" />
-        </for-each>
+        <xsl:element name="xsl:for-each">
+          <xsl:attribute name="select" select="concat('$', $var-doc)" />
+          <xsl:element name="xsl:sequence">
+            <xsl:attribute name="select" select="(@select, '.'[current()/@href], 'node()')[1]" />
+          </xsl:element>
+        </xsl:element>
       </xsl:when>
 
       <xsl:otherwise>
@@ -136,24 +151,28 @@
 <xsl:template match="xsl:*" as="element(xsl:element)" mode="test:create-node-generator">
   <!-- Do not just throw XSLT elements (xsl:*) into identity template.
     If you do so, the element being generated becomes a generator... -->
-  <element name="{name()}">
+  <xsl:element name="xsl:element">
+    <xsl:attribute name="name" select="name()" />
+
     <xsl:variable name="context-element" as="element()" select="." />
     <xsl:for-each select="in-scope-prefixes($context-element)[not(. eq 'xml')]">
-      <namespace name="{.}">
+      <xsl:element name="xsl:namespace">
+        <xsl:attribute name="name" select="." />
         <xsl:value-of select="namespace-uri-for-prefix(., $context-element)" />
-      </namespace>
+      </xsl:element>
     </xsl:for-each>
 
     <xsl:apply-templates select="attribute() | node()" mode="#current" />
-  </element>
+  </xsl:element>
 </xsl:template>
 
 <xsl:function name="test:matching-xslt-elements" as="element()*">
   <xsl:param name="element-kind" as="xs:string"/>
   <xsl:param name="element-id" as="item()"/>
   <xsl:param name="stylesheet" as="document-node()"/>
+
   <xsl:sequence select="key($element-kind, $element-id, $stylesheet)"/>
-</xsl:function>  
+</xsl:function>
 
 </xsl:stylesheet>
 

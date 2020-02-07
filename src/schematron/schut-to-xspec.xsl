@@ -14,9 +14,7 @@
     <xsl:variable name="info" select="('info', 'information')"/>
 
     <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
-        <xsl:copy>
-            <xsl:apply-templates select="@* | node()"/>
-        </xsl:copy>
+        <xsl:call-template name="x:identity" />
     </xsl:template>
     
     <xsl:template match="x:description[@schematron]">
@@ -52,7 +50,10 @@
                 self::x:expect-report | self::x:expect-not-report |
                 self::x:expect-valid | self::x:description[@schematron] ]">
                 <xsl:comment>BEGIN IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
-                <xsl:apply-templates select="doc($href)/x:description/node()"/>
+                <xsl:apply-templates select="doc($href)/x:description/node()">
+                    <xsl:with-param name="imported-uri" tunnel="yes"
+                        select="x:resolve-xml-uri-with-catalog($href)" />
+                </xsl:apply-templates>
                 <xsl:comment>END IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
             </xsl:when>
             <xsl:otherwise>
@@ -60,7 +61,18 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
+    <xsl:template match="x:scenario">
+        <xsl:param name="imported-uri" as="xs:anyURI?" tunnel="yes" />
+
+        <xsl:copy>
+            <xsl:if test="exists($imported-uri)">
+                <xsl:attribute name="xspec-original-location" select="$imported-uri" />
+            </xsl:if>
+            <xsl:apply-templates select="attribute() | node()" />
+        </xsl:copy>
+    </xsl:template>
+
     <!-- Schematron skeleton implementation requires a document node -->
     <xsl:template match="x:context[not(@href)][
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
@@ -168,6 +180,9 @@
     <xsl:template match="@count | @label" mode="make-predicate"/>
     
     <xsl:template name="make-label">
+        <xsl:context-item as="element()" use="required"
+            use-when="element-available('xsl:context-item')" />
+
         <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not','rule')], @id, @role, @location, @context, current()[@count]/string('count:'), @count), ' ')"/>
     </xsl:template>
 
@@ -177,7 +192,7 @@
             <xsl:attribute name="test" select="concat(
                 'boolean(svrl:schematron-output[svrl:fired-rule]) and
                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[
-                not(@role) or @role = (',
+                not(@role) or lower-case(@role) = (',
                 string-join(for $e in $error return concat(codepoints-to-string(39), $e, codepoints-to-string(39)), ','),
                 ')]))'
                 )"/>

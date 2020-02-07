@@ -19,6 +19,9 @@
 		Context node is in each .xspec file's /x:description/@*.
 	-->
 	<xsl:template as="element(compare-xspec-report)+" name="on-post-task">
+		<xsl:context-item as="attribute()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:param as="element(reports)" name="reports" required="yes" />
 
 		<!-- Compare the actual report files with the expected ones -->

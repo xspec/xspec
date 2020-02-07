@@ -6,15 +6,19 @@
 		<fileset dir="../.." id="validate.fileset">
 			<include name="**/*.xspec" />
 
+			<!-- Default TEST_DIR -->
+			<exclude name="test/**/xspec/*.xspec" />
+			<exclude name="tutorial/**/xspec/*.xspec" />
+
 			<!-- Contains invalid /x:description/@xspec-original-location deliberately
 				https://github.com/xspec/xspec/issues/176 -->
 			<exclude name="test/schematron/schut-to-xspec-0??-out.xspec" />
 
 			<!-- Tests x:* which is not allowed in user-content -->
-			<exclude name="test/deprecated-space/test.xspec" />
 			<exclude name="test/generate-query-utils.xspec" />
 			<exclude name="test/generate-tests-utils.xspec" />
 			<exclude name="test/generate-xspec-tests.xspec" />
+			<exclude name="test/obsolete-space/test.xspec" />
 			<exclude name="test/xspec-junit.xspec" />
 
 			<!-- Tests user-content when it's not allowed

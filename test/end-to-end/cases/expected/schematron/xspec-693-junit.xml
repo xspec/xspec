@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="xspec-693.xspec">
+   <testsuite name="Using user-content (not @href) in x:context should work"
+              tests="2"
+              failures="1">
+      <testcase name="This expectation should be Success report bar-exists"
+                status="passed"/>
+      <testcase name="This expectation should be Failure and the failure report should contain svrl:active-pattern/@document[. = ''] report baz-exists"
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

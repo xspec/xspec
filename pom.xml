@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.6.0-SNAPSHOT</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for XSLT, XQuery and Schematron</description>
@@ -85,7 +85,7 @@
     <dependency>
       <groupId>net.sf.saxon</groupId>
       <artifactId>Saxon-HE</artifactId>
-      <version>9.9.1-5</version>
+      <version>9.9.1-6</version>
     </dependency>
   </dependencies>
   
@@ -113,7 +113,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.8.1</version>
           <configuration>
             <source>1.7</source>
             <target>1.7</target>
@@ -144,6 +144,12 @@
           <compileSourceRoots>
             <compileSourceRoot>java</compileSourceRoot>
           </compileSourceRoots>
+          <excludes>
+            <exclude>io/xspec/xspec/ant/**</exclude>
+          </excludes>
+          <testExcludes>
+            <testExclude>io/xspec/xspec/ant/**</testExclude>
+          </testExcludes>
         </configuration>
       </plugin>
       <plugin>
@@ -200,13 +206,17 @@
           </plugin>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.1</version>
             <executions>
               <execution>
                 <id>attach-javadoc</id>
                 <goals><goal>jar</goal></goals>
                 <configuration>
                   <sourcepath>${project.basedir}/java</sourcepath>
+                  <sourceFileExcludes>
+                    <exclude>io/xspec/xspec/ant/**</exclude>
+                  </sourceFileExcludes>
+                  <source>1.7</source>
                 </configuration>
               </execution>
             </executions>
@@ -233,7 +243,7 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.7</version>
+            <version>1.6.8</version>
             <extensions>true</extensions>
             <configuration>
               <serverId>xspec-io.ossrh</serverId>

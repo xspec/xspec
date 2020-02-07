@@ -116,6 +116,10 @@ rem
     if errorlevel 1 call :failed "Failed to mkdir: %~1"
     goto :EOF
 
+:mkdir-if-not-exist
+    if not exist %1 call :mkdir %1
+    goto :EOF
+
 :rmdir
     if exist %1 (
         rem DEL and RMDIR return 0 as long as the parameter is valid
@@ -160,25 +164,14 @@ rem
     call :mkdir "%WORK_DIR%"
 
     rem
-    rem Create the XSpec output directories
+    rem Set TEST_DIR and xspec.dir within the work directory so that it's cleaned up by teardown
     rem
-    call :mkdir ..\test\catalog\xspec
-    call :mkdir ..\test\xspec
-    call :mkdir ..\tutorial\schematron\xspec
-    call :mkdir ..\tutorial\xspec
+    set "TEST_DIR=%WORK_DIR%\output_%RANDOM%"
+    set ANT_ARGS=-Dxspec.dir="%TEST_DIR%"
 
     goto :EOF
 
 :teardown
-    rem
-    rem Remove the XSpec output directories
-    rem    Keep "..\test\" to minimize accident
-    rem
-    call :rmdir-if-exist ..\test\catalog\xspec
-    call :rmdir          ..\test\xspec
-    call :rmdir-if-exist ..\tutorial\schematron\xspec
-    call :rmdir          ..\tutorial\xspec
-
     rem
     rem Remove the work directory
     rem
@@ -305,6 +298,9 @@ rem
     )
     if errorlevel 1 (
         call :failed "Line %LINE_NUMBER% does not match the expected string"
+        echo Expected:
+        call :echo "%FIND_STRING%"
+        echo Actual:
         echo ---------- "%OUTPUT_LINENUM%"
         type "%OUTPUT_LINENUM%"
         echo ----------
@@ -329,13 +325,13 @@ rem
     if exist %1 (
         call :verified "Exist: %~1"
     ) else (
-        call :failed "Not exist: %~1"
+        call :failed "Not exist (Expected to exist): %~1"
     )
     goto :EOF
 
 :verify_not_exist
     if exist %1 (
-        call :failed "Exist: %~1"
+        call :failed "Exist (Expected not to exist): %~1"
     ) else (
         call :verified "Not exist: %~1"
     )

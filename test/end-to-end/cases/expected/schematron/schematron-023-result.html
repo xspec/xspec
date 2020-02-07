@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for schematron-023.sch (passed: 1 / pending: 0 / failed: 2 / total: 3)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Schematron: <a href="../../../../schematron/schematron-023.sch">schematron-023.sch</a></p>
+      <p>XSpec: <a href="../../schematron-023.xspec">schematron-023.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 1</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 2</th>
+               <th class="totals">total: 3</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#ELEM-48">valid with warning: expect-valid should pass</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#ELEM-62">error: expect-valid should fail</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#ELEM-94">fatal: expect-valid should fail</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="ELEM-48">
+         <h2 class="successful">valid with warning: expect-valid should pass<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-50">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>valid with warning: expect-valid should pass</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>valid</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="ELEM-62">
+         <h2 class="failed">error: expect-valid should fail<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-64">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>error: expect-valid should fail</th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-77">valid</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="ELEM-76">
+            <h3>error: expect-valid should fail</h3>
+            <div id="ELEM-77">
+               <h4>valid</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                        xmlns:saxon="http://saxon.sf.net/"
+                        xmlns:schold="http://www.ascc.net/xml/schematron"
+                        xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                        title=""
+                        schemaVersion=""&gt;&lt;!--   
+		   
+		   
+		 --&gt;
+   &lt;svrl:active-pattern document="" /&gt;
+   &lt;svrl:fired-rule context="/" /&gt;
+   &lt;svrl:fired-rule context="title" /&gt;
+   &lt;svrl:failed-assert test="following-sibling::p"
+                       id="a0002"
+                       role="ERROR"
+                       location="/document[1]/section[1]/title[1]"&gt;
+      &lt;svrl:text&gt;
+                title must be followed by a paragraph
+            &lt;/svrl:text&gt;
+   &lt;/svrl:failed-assert&gt;
+   &lt;svrl:failed-assert test="string() ne upper-case(string())"
+                       id="a0003"
+                       role="WARN"
+                       location="/document[1]/section[1]/title[1]"&gt;
+      &lt;svrl:text&gt;
+                title should not be all upper case
+            &lt;/svrl:text&gt;
+   &lt;/svrl:failed-assert&gt;
+&lt;/svrl:schematron-output&gt;</pre></td>
+                        <td><pre>boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="ELEM-94">
+         <h2 class="failed">fatal: expect-valid should fail<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="ELEM-96">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>fatal: expect-valid should fail</th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#ELEM-109">valid</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="ELEM-108">
+            <h3>fatal: expect-valid should fail</h3>
+            <div id="ELEM-109">
+               <h4>valid</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:
+                           </p><pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                        xmlns:saxon="http://saxon.sf.net/"
+                        xmlns:schold="http://www.ascc.net/xml/schematron"
+                        xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                        title=""
+                        schemaVersion=""&gt;&lt;!--   
+		   
+		   
+		 --&gt;
+   &lt;svrl:active-pattern document="" /&gt;
+   &lt;svrl:fired-rule context="/" /&gt;
+   &lt;svrl:failed-assert test="document"
+                       id="a0001"
+                       role="FATAL"
+                       location="/adocument[1]"&gt;
+      &lt;svrl:text&gt;
+                root element must be document
+            &lt;/svrl:text&gt;
+   &lt;/svrl:failed-assert&gt;
+&lt;/svrl:schematron-output&gt;</pre></td>
+                        <td><pre>boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))</pre></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

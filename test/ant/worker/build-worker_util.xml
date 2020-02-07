@@ -72,6 +72,12 @@
 			<makepath property="output-junit-path" unless:blank="@{output-junit-url}"
 				url="@{output-junit-url}" />
 
+			<!-- Directory where intermediate files are created.
+				This presumes <tempfile> to be practically thread-safe. -->
+			<local name="xspec-intermediate-dir" />
+			<tempfile destdir="${java.io.tmpdir}" prefix="xspec-intermediate_"
+				property="xspec-intermediate-dir" />
+
 			<!-- AppVeyor: Notify -->
 			<appveyor if:set="appveyor.filename" outcome="Running" test-type="@{test-type}"
 				verb="AddTest" xspec-file-path="${xspec-file-path}" />
@@ -85,9 +91,12 @@
 				);
 			]]></script>
 
-			<!-- Run XSpec -->
-			<antcall inheritall="false" target="xspec">
+			<!-- Run XSpec.
+				This assumes the "xspec" target is included only in one hop.
+				(neither "xspec" nor "foo.xspec.xspec") -->
+			<antcall inheritall="false" target="xspec.xspec">
 				<param location="${xspec-file-path}" name="xspec.xml" />
+				<param location="${xspec-intermediate-dir}" name="xspec.dir" />
 				<param name="test.type" value="@{test-type}" />
 				<param name="xspec.coverage.enabled" unless:blank="@{enable-coverage}"
 					value="@{enable-coverage}" />

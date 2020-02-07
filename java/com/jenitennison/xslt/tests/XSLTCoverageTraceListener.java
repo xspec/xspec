@@ -17,6 +17,8 @@ import net.sf.saxon.expr.XPathContext;
 import net.sf.saxon.om.Item;
 import net.sf.saxon.om.StandardNames;
 import java.lang.String;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.io.File;
@@ -40,6 +42,8 @@ public class XSLTCoverageTraceListener implements TraceListener {
   private HashSet<Integer> constructs = new HashSet<Integer>();
   private int moduleCount = 0;
   private StreamWriterToReceiver writer = null;
+  private String ignoreDir = null;
+  private String debug = System.getenv("DEBUG_XSLT_COVERAGE_TRACE_LISTENER");
   
   public XSLTCoverageTraceListener() {
     System.out.println("****************************************");
@@ -53,8 +57,27 @@ public class XSLTCoverageTraceListener implements TraceListener {
   public void open(Controller c) {
     System.out.println("controller="+c);
 
+    // Get the directory path to ignore
+    ignoreDir = System.getProperty("xspec.coverage.ignore");
+    if (debug != null) {
+      System.err.println("ignoreDir (raw)  =" + ignoreDir);
+    }
+
+    // Normalize the directory as URI
+    File ignoreDirFile = new File(ignoreDir + File.separator);
+    ignoreDir = ignoreDirFile.toURI().normalize().toString();
+    if (debug != null) {
+      System.err.println("ignoreDir (norm) =" + ignoreDir);
+    }
+
+    // Coverage XML file
     String outPath = System.getProperty("xspec.coverage.xml");
     File outFile = new File(outPath);
+
+    // XSpec file
+    String xspecPath = System.getProperty("xspec.xspecfile");
+    File xspecFile = new File(xspecPath);
+    xspecPath = xspecFile.toURI().toString();
 
     Serializer serializer = new Processor(false).newSerializer(outFile);
     serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
@@ -68,6 +91,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
     try {
       writer.writeStartDocument();
       writer.writeStartElement("trace");
+      writer.writeAttribute("xspec", xspecPath);
     } catch(XMLStreamException e) {
       throw new RuntimeException(e);
     }
@@ -102,7 +126,27 @@ public class XSLTCoverageTraceListener implements TraceListener {
 
   public void enter(InstructionInfo info, XPathContext context) {
     int lineNumber = info.getLineNumber();
+
+    // Get the current file URI
     String systemId = info.getSystemId();
+    if (debug != null &&
+        xspecStylesheet == null) {
+      System.err.println(" systemId (raw)  =" + systemId);
+    }
+
+    // Normalize the current file URI
+    URI systemIdUri;
+    try {
+      systemIdUri = new URI(systemId);
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+    systemId = systemIdUri.normalize().toString();
+    if (debug != null &&
+        xspecStylesheet == null) {
+      System.err.println(" systemId (norm) =" + systemId);
+    }
+    
     int constructType = info.getConstructType();
     if (utilsStylesheet == null &&
         systemId.indexOf("generate-tests-utils.xsl") != -1) {
@@ -116,7 +160,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
         throw new RuntimeException(e);
       }
     } else if (xspecStylesheet == null && 
-               systemId.indexOf("/xspec/") != -1) {
+               systemId.startsWith(ignoreDir)) {
       xspecStylesheet = systemId;
 
       try {

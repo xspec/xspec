@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="compile-java">
+
+	<property environment="env" />
+	<property location="../../java/" name="root.source.dir" />
+
+	<touch>
+		<fileset dir="${root.source.dir}">
+			<include name="**/*.java" />
+		</fileset>
+	</touch>
+
+	<javac debug="true" debuglevel="lines,source" includeAntRuntime="false"
+		srcdir="${root.source.dir}">
+		<classpath>
+			<pathelement location="${env.ANT_HOME}/lib/ant.jar" />
+			<pathelement location="${env.SAXON_JAR}" />
+		</classpath>
+	</javac>
+
+</project>

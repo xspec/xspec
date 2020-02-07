@@ -14,11 +14,13 @@
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="75%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
          <thead>
             <tr>
                <th></th>
@@ -30,28 +32,28 @@
          </thead>
          <tbody>
             <tr class="successful">
-               <th><a href="#ELEM-55">Referenced and explicitly unshared scenario</a></th>
+               <th><a href="#ELEM-56">Referenced and explicitly unshared scenario</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-68">Referenced and implicitly unshared scenario</a></th>
+               <th><a href="#ELEM-70">Referenced and implicitly unshared scenario</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-81">Scenario for testing x:like which references a shared scenario</a></th>
+               <th><a href="#ELEM-84">Scenario for testing x:like which references a shared scenario</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">2</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-97">Scenario for testing x:like which references unshared scenarios</a></th>
+               <th><a href="#ELEM-101">Scenario for testing x:like which references unshared scenarios</a></th>
                <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
@@ -59,11 +61,13 @@
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-55">
+      <div id="ELEM-56">
          <h2 class="successful">Referenced and explicitly unshared scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-57">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-58">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>Referenced and explicitly unshared scenario</th>
@@ -78,11 +82,13 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-68">
+      <div id="ELEM-70">
          <h2 class="successful">Referenced and implicitly unshared scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-70">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-72">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>Referenced and implicitly unshared scenario</th>
@@ -97,11 +103,13 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-81">
+      <div id="ELEM-84">
          <h2 class="successful">Scenario for testing x:like which references a shared scenario<span class="scenario-totals">passed: 2 / pending: 0 / failed: 0 / total: 2</span></h2>
-         <table class="xspec" id="ELEM-83">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-86">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>Scenario for testing x:like which references a shared scenario</th>
@@ -118,21 +126,31 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-97">
+      <div id="ELEM-101">
          <h2 class="successful">Scenario for testing x:like which references unshared scenarios<span class="scenario-totals">passed: 2 / pending: 0 / failed: 0 / total: 2</span></h2>
-         <table class="xspec" id="ELEM-99">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-103">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>Scenario for testing x:like which references unshared scenarios</th>
                   <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
                </tr>
                <tr class="successful">
+                  <th>explicit one</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
                   <td>This referenced and explicitly unshared x:expect should fire both at its original
                      x:scenario and x:like
                   </td>
                   <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <th>implicit one</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
                   <td>This referenced and implicitly unshared x:expect should fire both at its original

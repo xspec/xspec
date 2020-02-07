@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="do-nothing.xsl">
-
-    <!-- The test target (../src/schematron/sch-location-compare.xsl) is included
-       implicitly by the XSpec compiler. You don't need to specify it in
-       /x:description/@stylesheet. -->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="../src/schematron/sch-location-compare.xsl">
 
     <x:scenario label="schematron-location-compare" xmlns:svrl="http://purl.oclc.org/dsdl/svrl">
         

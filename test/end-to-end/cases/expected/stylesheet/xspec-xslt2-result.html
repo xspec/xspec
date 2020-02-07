@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for xspec-xslt1.xsl (passed: 2 / pending: 0 / failed: 5 / total: 7)</title>
+      <title>Test Report for xspec-xslt1.xsl (passed: 6 / pending: 0 / failed: 1 / total: 7)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -11,39 +11,47 @@
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="75%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 2</th>
+               <th class="totals">passed: 6</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 5</th>
+               <th class="totals">failed: 1</th>
                <th class="totals">total: 7</th>
             </tr>
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#ELEM-33">With 2 text nodes</a></th>
-               <th class="totals">2</th>
+               <th><a href="#ELEM-34">With 2 text nodes</a></th>
+               <th class="totals">6</th>
                <th class="totals">0</th>
-               <th class="totals">5</th>
+               <th class="totals">1</th>
                <th class="totals">7</th>
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-33">
-         <h2 class="successful">With 2 text nodes<span class="scenario-totals">passed: 2 / pending: 0 / failed: 5 / total: 7</span></h2>
-         <table class="xspec" id="ELEM-35">
-            <col width="75%" />
-            <col width="25%" />
+      <div id="ELEM-34">
+         <h2 class="successful">With 2 text nodes<span class="scenario-totals">passed: 6 / pending: 0 / failed: 1 / total: 7</span></h2>
+         <table class="xspec" id="ELEM-36">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>With 2 text nodes</th>
-                  <th>passed: 2 / pending: 0 / failed: 5 / total: 7</th>
+                  <th>passed: 6 / pending: 0 / failed: 1 / total: 7</th>
+               </tr>
+               <tr class="successful">
+                  <th>This scenario is to verify that $x:result consists of two text nodes</th>
+                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
                </tr>
                <tr class="successful">
                   <td>Result should be text nodes</td>
@@ -53,113 +61,48 @@
                   <td>Result count should be 2</td>
                   <td>Success</td>
                </tr>
-               <tr class="failed">
-                  <th><a href="#ELEM-72">All of these tests should be Success on xslt-version=1.0 and Failure on 2.0</a></th>
-                  <th>passed: 0 / pending: 0 / failed: 5 / total: 5</th>
+               <tr class="successful">
+                  <th>xslt-version=1.0 in this XSpec file should always make all of the tests in this scenario
+                     Success, even when this XSpec file is imported to another XSpec file which has xslt-version=2.0
+                     or higher.
+                  </th>
+                  <th>passed: 4 / pending: 0 / failed: 0 / total: 4</th>
+               </tr>
+               <tr class="successful">
+                  <td>Comparing the text nodes with string</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>Comparing the text nodes with double</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>Comparing the text nodes with decimal</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>Comparing the text nodes with integer</td>
+                  <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-73">Comparing the text nodes with string</a></td>
-                  <td>Failure</td>
+                  <th><a href="#ELEM-76">xslt-version=1.0 in this XSpec file should make this scenario Success when this XSpec
+                        file is executed independently. On the other hand, the result should be Failure when
+                        this XSpec file is imported to another XSpec file which has xslt-version=2.0 or higher.</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-89">Comparing the text nodes with double</a></td>
-                  <td>Failure</td>
-               </tr>
-               <tr class="failed">
-                  <td><a href="#ELEM-105">Comparing the text nodes with decimal</a></td>
-                  <td>Failure</td>
-               </tr>
-               <tr class="failed">
-                  <td><a href="#ELEM-121">Comparing the text nodes with integer</a></td>
-                  <td>Failure</td>
-               </tr>
-               <tr class="failed">
-                  <td><a href="#ELEM-137">Expecting the compiled stylesheet to have version=1.0</a></td>
+                  <td><a href="#ELEM-77">Expecting the compiled stylesheet to have version=1.0</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-72">
-            <h3>With 2 text nodes All of these tests should be Success on xslt-version=1.0 and Failure
-               on 2.0
+         <div id="ELEM-76">
+            <h3>With 2 text nodes xslt-version=1.0 in this XSpec file should make this scenario Success
+               when this XSpec file is executed independently. On the other hand, the result should
+               be Failure when this XSpec file is imported to another XSpec file which has xslt-version=2.0
+               or higher.
             </h3>
-            <div id="ELEM-73">
-               <h4>Comparing the text nodes with string</h4>
-               <table class="xspecResult">
-                  <thead>
-                     <tr>
-                        <th>Result</th>
-                        <th>Expected Result</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <p>XPath <code>/text()</code> from:
-                           </p><pre><span class="diff">12</span></pre></td>
-                        <td><pre>'12'</pre></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-            <div id="ELEM-89">
-               <h4>Comparing the text nodes with double</h4>
-               <table class="xspecResult">
-                  <thead>
-                     <tr>
-                        <th>Result</th>
-                        <th>Expected Result</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <p>XPath <code>/text()</code> from:
-                           </p><pre><span class="diff">12</span></pre></td>
-                        <td><pre>xs:double('12')</pre></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-            <div id="ELEM-105">
-               <h4>Comparing the text nodes with decimal</h4>
-               <table class="xspecResult">
-                  <thead>
-                     <tr>
-                        <th>Result</th>
-                        <th>Expected Result</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <p>XPath <code>/text()</code> from:
-                           </p><pre><span class="diff">12</span></pre></td>
-                        <td><pre>12.0</pre></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-            <div id="ELEM-121">
-               <h4>Comparing the text nodes with integer</h4>
-               <table class="xspecResult">
-                  <thead>
-                     <tr>
-                        <th>Result</th>
-                        <th>Expected Result</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <p>XPath <code>/text()</code> from:
-                           </p><pre><span class="diff">12</span></pre></td>
-                        <td><pre>12</pre></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-            <div id="ELEM-137">
+            <div id="ELEM-77">
                <h4>Expecting the compiled stylesheet to have version=1.0</h4>
                <table class="xspecResult">
                   <thead>
@@ -170,8 +113,8 @@
                   </thead>
                   <tbody>
                      <tr>
-                        <td><pre>xs:double('2')</pre></td>
-                        <td><pre>1.0</pre></td>
+                        <td><pre>'2.0'</pre></td>
+                        <td><pre>'1.0'</pre></td>
                      </tr>
                   </tbody>
                </table>

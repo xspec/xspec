@@ -1,75 +1,50 @@
+os: linux
 language: java
 dist: trusty
-jdk: oraclejdk8
+
+jdk:
+  - oraclejdk8
+  - openjdk11
+
 env:
     global:
-        # full path to Saxon jar
-        - SAXON_JAR=/tmp/xspec/saxon/saxon9he.jar
         # latest Ant
-        - ANT_VERSION=1.10.5
-        # full path to XML Resolver jar
-        - XML_RESOLVER_JAR=/tmp/xspec/xml-resolver/resolver.jar
-    matrix:
-        # latest Saxon 9.9 version and Jing
+        - ANT_VERSION=1.10.7
+
+        - BASEX_VERSION=9.3.1
+
+    jobs:
+        # Note
         #   * XML Calabash will use Saxon jar in its own lib directory.
         #   * BaseX test requires XML Calabash.
-        - SAXON_VERSION=9.9.1-5
+
+        # latest Saxon 9.9 and Jing
+        - SAXON_VERSION=9.9.1-6
           JING_VERSION=20181222
-          XMLCALABASH_VERSION=1.1.27-99
-          BASEX_VERSION=8.6.4
-        # latest Saxon 9.8 version
+          XMLCALABASH_VERSION=1.1.30-99
+          DO_CODESPELL=true
+          DO_MAVEN_PACKAGE=true
+
+        # latest Saxon 9.8
         - SAXON_VERSION=9.8.0-15
-        # Saxon and Ant used in oXygen
+          XMLCALABASH_VERSION=1.1.30-98
+
+        # latest oXygen
         - SAXON_VERSION=9.8.0-12
           ANT_VERSION=1.9.8
+          XMLCALABASH_VERSION=1.1.24-98
 
-before_install:
-    - unset _JAVA_OPTIONS
+        # highest deprecated Saxon
+        - SAXON_VERSION=9.7.0-21
 
-before_script:
-    # install Saxon
-    - curl -fsSL --create-dirs --retry 5 -o ${SAXON_JAR} http://central.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
-    # install XML Calabash
-    - if [ -z ${XMLCALABASH_VERSION} ]; then
-        echo "XMLCalabash will not be installed as it uses a higher version of Saxon";
-      else
-        curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/xmlcalabash/xmlcalabash.zip https://github.com/ndw/xmlcalabash1/releases/download/${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.zip;
-        unzip /tmp/xspec/xmlcalabash/xmlcalabash.zip -d /tmp/xspec/xmlcalabash;
-        export XMLCALABASH_JAR=/tmp/xspec/xmlcalabash/xmlcalabash-${XMLCALABASH_VERSION}/xmlcalabash-${XMLCALABASH_VERSION}.jar;
-      fi
-    # install BaseX
-    - if [[ -z ${XMLCALABASH_VERSION} && -z ${BASEX_VERSION} ]]; then
-        echo "BaseX will not be installed as it requires to run XMLCalabash with a higher version of Saxon";
-      else
-        curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/basex/basex.zip http://files.basex.org/releases/${BASEX_VERSION}/BaseX${BASEX_VERSION//./}.zip;
-        unzip /tmp/xspec/basex/basex.zip -d /tmp/xspec/basex;
-        export BASEX_JAR=/tmp/xspec/basex/basex/BaseX.jar;
-      fi
-    # install Ant
-    - curl -fsSL --create-dirs --retry 5 -o /tmp/xspec/ant/ant.tar.gz http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz
-    - tar xf /tmp/xspec/ant/ant.tar.gz -C /tmp/xspec/ant;
-    - export PATH=/tmp/xspec/ant/apache-ant-${ANT_VERSION}/bin:{$PATH}
-    # install XML Resolver
-    - curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_JAR} http://central.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
-    # install Jing
-    - if [ -z ${JING_VERSION} ]; then
-        echo "Jing will not be installed";
-      else
-        export JING_JAR=/tmp/xspec/jing/jing.jar;
-        curl -fsSL --create-dirs --retry 5 -o ${JING_JAR} http://central.maven.org/maven2/org/relaxng/jing/${JING_VERSION}/jing-${JING_VERSION}.jar;
-      fi
+install:
+    - source ./test/ci/install-deps.sh
 
-script:
-    - ant -version
-    - cd test
-    - echo "execute bats unit tests"
-    - ./run-bats.sh --tap
-    - echo "execute XSpec unit tests"
-    - ./run-xspec-tests-ant.sh -silent
-    - echo "execute XSpec end-to-end tests"
-    - cd ..
-    - ./test/end-to-end/run-e2e-tests.sh -silent
-    - echo "compile java"
-    - javac -cp "${SAXON_JAR}" java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java
-    - echo "check git status"
-    - output=$(git status --porcelain); echo "${output}"; test -z "${output}"
+script: >
+  ./test/ci/print-env.sh
+  && ./test/ci/run-codespell.sh
+  && ./test/ci/run-core-tests.sh
+  && ./test/ci/maven-package.sh -q
+  && ./test/ci/compile-java.sh -silent
+  && ./test/ci/last-git-status.sh
+

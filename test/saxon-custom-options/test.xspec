@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
 	stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="RECOGNIZE_URI_QUERY_PARAMETERS configuration property">
+		<x:scenario label="No query parameter">
+			<x:call function="exactly-one">
+				<x:param href="ws-only-text.xml" />
+			</x:call>
+			<x:expect label="Whitespace-only text nodes are not stripped" select="'A B'"
+				test="normalize-space($x:result)" />
+		</x:scenario>
+
+		<x:scenario label="?strip-space=yes">
+			<x:call function="exactly-one">
+				<x:param href="ws-only-text.xml?strip-space=yes" />
+			</x:call>
+			<x:expect label="Whitespace-only text nodes are stripped" select="'AB'"
+				test="string($x:result)" />
+		</x:scenario>
+	</x:scenario>
+
 	<x:scenario label="Compare 'a' and 'A' using custom collation">
 		<x:call function="compare">
 			<x:param select="'a'" />

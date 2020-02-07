@@ -14,11 +14,13 @@
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="75%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
          <thead>
             <tr>
                <th></th>
@@ -30,7 +32,7 @@
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#ELEM-34">When a function returns a node containing a space</a></th>
+               <th><a href="#ELEM-35">When a function returns a node containing a space</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -38,25 +40,27 @@
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-34">
+      <div id="ELEM-35">
          <h2 class="failed">When a function returns a node containing a space<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-36">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-37">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="failed">
                   <th>When a function returns a node containing a space</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-48">Expecting no space should be Failure</a></td>
+                  <td><a href="#ELEM-50">Expecting no space should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-47">
+         <div id="ELEM-49">
             <h3>When a function returns a node containing a space</h3>
-            <div id="ELEM-48">
+            <div id="ELEM-50">
                <h4>Expecting no space should be Failure</h4>
                <table class="xspecResult">
                   <thead>
@@ -68,15 +72,15 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">p</span>&gt;
+                           <p>XPath <code class="same">/element()</code> from:
+                           </p><pre>&lt;<span class="inner-diff">p</span>&gt;
    &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
    <span class="diff whitespace">␣</span>
    &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
 &lt;/p&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">p</span>&gt;
+                           <p>XPath <code class="same">/element()</code> from:
+                           </p><pre>&lt;<span class="inner-diff">p</span>&gt;
    &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
    &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
 &lt;/p&gt;</pre></td>

@@ -1,0 +1,35 @@
+variables:
+  # latest Ant
+  ANT_VERSION: 1.10.7
+
+  BASEX_VERSION: 9.3.1
+
+jobs:
+  - template: test/ci/azure-pipelines_windows.yml
+    parameters:
+      jobName: Win_Java8
+      javaVersion: 8
+
+  - template: test/ci/azure-pipelines_windows.yml
+    parameters:
+      jobName: Win_Java11
+      javaVersion: 11
+
+  - job: macOS
+
+    pool:
+      vmImage: macOS-latest
+
+    variables:
+      # latest Saxon and Jing
+      SAXON_VERSION: 9.9.1-6
+      JING_VERSION: 20181222
+      XMLCALABASH_VERSION: 1.1.30-99
+
+    steps:
+      - script: >
+          source ./test/ci/install-deps.sh
+          && ./test/ci/print-env.sh
+          && ./test/ci/run-core-tests.sh
+        displayName: Test
+

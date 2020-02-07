@@ -49,9 +49,15 @@
 
 <!-- Named template to be overridden.
   Override this template to insert additional nodes at the end of /html/head. -->
-<xsl:template name="x:html-head-callback" as="empty-sequence()"/>
+<xsl:template name="x:html-head-callback" as="empty-sequence()">
+  <xsl:context-item as="document-node(element(x:report))" use="required"
+    use-when="element-available('xsl:context-item')" />
+</xsl:template>
   
 <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
+  <xsl:context-item as="element(x:scenario)" use="required"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />
   <xsl:variable name="any-failure" as="xs:boolean"
@@ -68,8 +74,10 @@
       </span>
     </h2>
     <table class="xspec" id="t-{generate-id()}">
-      <col width="75%" />
-      <col width="25%" />
+      <colgroup>
+        <col style="width:75%" />
+        <col style="width:25%" />
+      </colgroup>
       <tbody>
         <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
           <th>
@@ -138,7 +146,7 @@
     <head>
       <title>
          <xsl:text>Test Report for </xsl:text>
-         <xsl:value-of select="x:report/test:format-URI((@schematron,@stylesheet,@query)[1])"/>
+         <xsl:value-of select="x:report/x:format-uri((@schematron,@stylesheet,@query)[1])"/>
          <xsl:text> (</xsl:text>
          <xsl:call-template name="x:totals">
            <xsl:with-param name="tests" select="x:descendant-tests(.)"/>
@@ -186,7 +194,7 @@
 
         <xsl:otherwise>
           <a href="{.}">
-            <xsl:value-of select="test:format-URI(.)" />
+            <xsl:value-of select="x:format-uri(.)" />
           </a>
         </xsl:otherwise>
       </xsl:choose>
@@ -196,7 +204,7 @@
   <p>
     <xsl:text>XSpec: </xsl:text>
     <a href="{@xspec}">
-      <xsl:value-of select="test:format-URI(@xspec)"/>
+      <xsl:value-of select="x:format-uri(@xspec)"/>
     </a>
   </p>
   <p>
@@ -205,11 +213,13 @@
   </p>
   <h2>Contents</h2>
   <table class="xspec">
-    <col width="75%" />
-    <col width="6.25%" />
-    <col width="6.25%" />
-    <col width="6.25%" />
-    <col width="6.25%" />
+    <colgroup>
+      <col style="width:75%" />
+      <col style="width:6.25%" />
+      <col style="width:6.25%" />
+      <col style="width:6.25%" />
+      <col style="width:6.25%" />
+    </colgroup>
     <thead>
       <tr>
         <xsl:variable name="totals" select="x:totals(x:descendant-tests(.))"/>
@@ -367,13 +377,28 @@
   <xsl:variable name="expected" as="xs:boolean" select=". instance of element(x:expect)" />
 
   <xsl:choose>
-    <xsl:when test="@href or node()">
+    <xsl:when test="@href or node() or (@select eq '/self::document-node()')">
       <xsl:if test="@select">
-        <p>XPath <code><xsl:value-of select="@select" /></code> from:</p>
+        <p>
+          <xsl:text>XPath </xsl:text>
+          <code>
+            <xsl:if test="exists($result-to-compare-with)">
+              <xsl:attribute name="class" select="
+                test:comparison-html-class(
+                  @select,
+                  $result-to-compare-with/@select,
+                  $expected,
+                  false())" />
+            </xsl:if>
+            <xsl:value-of select="@select" />
+          </code>
+          <xsl:text> from:</xsl:text>
+        </p>
       </xsl:if>
+
       <xsl:choose>
         <xsl:when test="@href">
-          <p><a href="{@href}"><xsl:value-of select="test:format-URI(@href)" /></a></p>
+          <p><a href="{@href}"><xsl:value-of select="x:format-uri(@href)" /></a></p>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="indentation"
@@ -415,8 +440,12 @@
 </xsl:template>
 
 <xsl:template name="x:totals" as="text()?">
+  <xsl:context-item use="absent"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:param name="tests" as="element(x:test)*" required="yes" />
   <xsl:param name="labels" as="xs:boolean" select="false()" />
+
   <xsl:if test="$tests">
     <xsl:variable name="counts" select="x:totals($tests)"/>
 

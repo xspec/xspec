@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- To test catalog and URI, every file URI in this XSpec file must be "catalog-01:" -->
+<x:description schematron="catalog-01:/tested.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="catalog-01:/imported.xspec" />
+	<x:import href="catalog-01:/imported_schematron.xspec" />
+</x:description>

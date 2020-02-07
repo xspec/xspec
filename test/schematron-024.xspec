@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="schematron-024.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:param name="only-child-elements">false</x:param>
+	<x:param name="visit-text">true</x:param>
+
+	<!-- Private parameter to enable text node @location -->
+	<x:param name="x:enable-schematron-text-location" select="true()" />
+
+	<x:scenario label="Testing text node location">
+		<x:context>
+			<p>foo<span>bar</span>baz</p>
+		</x:context>
+		<x:expect-report id="report-foo" location="/p[1]/text()[1]" />
+		<x:expect-report id="report-bar" location="/p[1]/span[1]/text()[1]" />
+		<x:expect-report id="report-baz" location="/p[1]/text()[2]" />
+	</x:scenario>
+
+</x:description>

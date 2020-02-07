@@ -16,9 +16,13 @@
 	<!-- Absolute URI of directory where *.xspec files are located. Must ends with '/'. -->
 	<xsl:param as="xs:anyURI" name="XSPECFILES-DIR-URI" required="yes" />
 
+	<!-- Query parameter for fn:collection() -->
+	<xsl:param as="xs:string" name="XSPECFILES-DIR-URI-QUERY" required="yes" />
+
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
@@ -27,6 +31,9 @@
 
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
+
+	<!-- Parallel thread count -->
+	<xsl:param as="xs:integer?" name="THREAD-COUNT" />
 
 	<!--
 		mode=#default
@@ -50,15 +57,26 @@
 			<xsl:apply-templates select="attribute() | node()" />
 
 			<xsl:variable as="xs:string" name="collection-uri"
-				select="concat($XSPECFILES-DIR-URI, '?select=*.xspec')" />
+				select="string-join(($XSPECFILES-DIR-URI, $XSPECFILES-DIR-URI-QUERY), '?')" />
 
 			<!--<xsl:message select="'Collecting:', $collection-uri" />-->
 			<xsl:variable as="document-node()+" name="xspec-docs"
 				select="collection($collection-uri)" />
 
-			<xsl:apply-templates mode="xspec" select="$xspec-docs">
-				<xsl:sort select="document-uri(/)" />
-			</xsl:apply-templates>
+			<parallel failonany="true">
+				<xsl:choose>
+					<xsl:when test="exists($THREAD-COUNT)">
+						<xsl:attribute name="threadCount" select="$THREAD-COUNT" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:attribute name="threadsPerProcessor" select="1" />
+					</xsl:otherwise>
+				</xsl:choose>
+
+				<xsl:apply-templates mode="xspec" select="$xspec-docs">
+					<xsl:sort select="document-uri(/)" />
+				</xsl:apply-templates>
+			</parallel>
 		</xsl:copy>
 	</xsl:template>
 
@@ -108,6 +126,14 @@
 
 					<xsl:when
 						test="
+							($test-type eq 't')
+							and (xs:decimal(../@xslt-version) eq 3.0)
+							and not($XSLT-SUPPORTS-3-0)">
+						<xsl:text>Requires XSLT 3.0 processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
@@ -128,6 +154,35 @@
 							and (x:saxon-version() ge x:pack-version(9, 8, 0, 0))
 							and (x:saxon-version() lt x:pack-version(9, 9, 0, 0))">
 						<xsl:text>Requires Saxon bug #3838 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-3889-fixed')
+							and (x:saxon-version() lt x:pack-version(9, 8, 0, 15))">
+						<xsl:text>Requires Saxon bug #3889 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-4315-fixed')
+							and (x:saxon-version() ge x:pack-version(9, 9, 0, 0))
+							and (x:saxon-version() le x:pack-version(9, 9, 1, 6))">
+						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-4376-fixed')
+							and (x:saxon-version() le x:pack-version(9, 9, 1, 5))">
+						<xsl:text>Requires Saxon bug #4376 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-xspec-issue-720-fixed')
+							and (x:saxon-version() lt x:pack-version(9, 8, 0, 0))">
+						<xsl:text>Requires xspec/xspec#720 to have been fixed</xsl:text>
 					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
@@ -193,6 +248,9 @@
 
 	<!-- Override this template to provide <run-xspec> with additional nodes -->
 	<xsl:template as="empty-sequence()" name="on-run-xspec">
+		<xsl:context-item as="attribute()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:param as="xs:boolean" name="coverage-enabled" />
 	</xsl:template>
 </xsl:stylesheet>

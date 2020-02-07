@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
+	stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xquery-version="3.1" xslt-version="3.0">
+
+	<x:scenario catch="yes" label="With @catch=yes">
+
+		<x:scenario>
+			<x:label>a mistake in construction of the XSpec scenario that causes a compiler error,
+				such as x:expect without x:call or x:context</x:label>
+			<x:expect label="should not be caught" />
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>

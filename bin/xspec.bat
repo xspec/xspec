@@ -71,13 +71,17 @@ rem ##
 
 :xslt
     java ^
+        -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -Dxspec.xspecfile="%XSPEC%" ^
         -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
 :xquery
     java ^
+        -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -Dxspec.xspecfile="%XSPEC%" ^
         -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 
@@ -85,7 +89,6 @@ rem ##
     set XSLT=
     set XQUERY=
     set SCHEMATRON=
-    set SCH_PARAMS=
     set COVERAGE=
     set JUNIT=
     set WIN_HELP=
@@ -142,12 +145,12 @@ rem ##
     rem # Absolute SCHEMATRON_XSLT_COMPILE
     if defined SCHEMATRON_XSLT_COMPILE for %%I in ("%SCHEMATRON_XSLT_COMPILE%") do set "SCHEMATRON_XSLT_COMPILE_ABS=%%~fI"
     
-    rem # Get Schematron file path
+    rem # Get Schematron file URI
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
         -s:"%XSPEC%" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\sch-file-path.xsl" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\locate-schematron-uri.xsl" ^
         || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
-    set /P SCH=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
+    set /P SCH_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
     
     rem # Generate Step 3 wrapper XSLT
     if defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE_URI=file:///%SCHEMATRON_XSLT_COMPILE_ABS:\=/%"
@@ -159,12 +162,16 @@ rem ##
         || ( call :die "Error generating Step 3 wrapper XSLT" & goto :win_main_error_exit )
     
     set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
-    set "SCH_PREPROCESSED_XSL=%SCH%-preprocessed.xsl"
+    set "SCH_PREPROCESSED_XSL=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xsl"
+    
+    rem # Absolute SCH_PREPROCESSED_XSL
+    for %%I in ("%SCH_PREPROCESSED_XSL%") do set "SCH_PREPROCESSED_XSL_ABS=%%~fI"
     
     echo:
     echo Converting Schematron into XSLT...
+    rem Defer resolving SCH_URI by duplicating PERCENT SIGN, because the variable may contain percent-encoding
     call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" ^
-        -s:"%SCH%" ^
+        -s:"%%SCH_URI%%" ^
         -xsl:"%SCHEMATRON_XSLT_INCLUDE%" ^
         -versionmsg:off ^
         || ( call :die "Error preprocessing Schematron on step 1" & goto :win_main_error_exit )
@@ -185,7 +192,7 @@ rem ##
     rem     -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
     rem     || ( call :die "Error getting preprocessed Schematron XSLT location" & goto :win_main_error_exit )
     rem set /P SCH_PREPROCESSED_XSL_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    set "SCH_PREPROCESSED_XSL_URI=file:///%SCH_PREPROCESSED_XSL:\=/%"
+    set "SCH_PREPROCESSED_XSL_URI=file:///%SCH_PREPROCESSED_XSL_ABS:\=/%"
     
     echo:
     echo Converting Schematron XSpec into XSLT XSpec...
@@ -461,10 +468,11 @@ if not defined TEST_DIR for %%I in ("%XSPEC%") do set "TEST_DIR=%%~dpIxspec"
 
 for %%I in ("%XSPEC%") do set "TARGET_FILE_NAME=%%~nI"
 
+set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%-compiled"
 if defined XSLT (
-    set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%.xsl"
+    set "COMPILED=%COMPILED%.xsl"
 ) else (
-    set "COMPILED=%TEST_DIR%\%TARGET_FILE_NAME%.xq"
+    set "COMPILED=%COMPILED%.xq"
 )
 set "COVERAGE_XML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.xml"
 set "COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html"
@@ -560,7 +568,6 @@ if defined COVERAGE (
         -o:"%COVERAGE_HTML%" ^
         -s:"%COVERAGE_XML%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\coverage-report.xsl" ^
-        tests="%XSPEC%" ^
         inline-css=true ^
         || ( call :die "Error formatting the coverage report" & goto :win_main_error_exit )
     call :win_echo "Report available at %COVERAGE_HTML%"

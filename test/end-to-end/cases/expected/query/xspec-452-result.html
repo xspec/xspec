@@ -14,11 +14,13 @@
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="75%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
          <thead>
             <tr>
                <th></th>
@@ -30,28 +32,28 @@
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#ELEM-55">Text</a></th>
+               <th><a href="#ELEM-56">Text</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-87">Comment</a></th>
+               <th><a href="#ELEM-89">Comment</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-119">Processing instruction</a></th>
+               <th><a href="#ELEM-122">Processing instruction</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-151">In element</a></th>
+               <th><a href="#ELEM-156">In element</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -59,25 +61,27 @@
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-55">
+      <div id="ELEM-56">
          <h2 class="failed">Text<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-57">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-58">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="failed">
                   <th>Text</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-69">Expect</a></td>
+                  <td><a href="#ELEM-71">Expect</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-68">
+         <div id="ELEM-70">
             <h3>Text</h3>
-            <div id="ELEM-69">
+            <div id="ELEM-71">
                <h4>Expect</h4>
                <table class="xspecResult">
                   <thead>
@@ -89,7 +93,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/text()</code> from:
+                           <p>XPath <code class="diff">/text()</code> from:
                            </p><pre><span class="diff">t</span></pre></td>
                         <td><pre>xs:boolean('false')</pre></td>
                      </tr>
@@ -98,25 +102,27 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-87">
+      <div id="ELEM-89">
          <h2 class="failed">Comment<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-89">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-91">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="failed">
                   <th>Comment</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-101">Expect</a></td>
+                  <td><a href="#ELEM-104">Expect</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-100">
+         <div id="ELEM-103">
             <h3>Comment</h3>
-            <div id="ELEM-101">
+            <div id="ELEM-104">
                <h4>Expect</h4>
                <table class="xspecResult">
                   <thead>
@@ -128,7 +134,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/comment()</code> from:
+                           <p>XPath <code class="diff">/comment()</code> from:
                            </p><pre><span class="diff">&lt;!--c--&gt;</span></pre></td>
                         <td><pre>xs:boolean('false')</pre></td>
                      </tr>
@@ -137,25 +143,27 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-119">
+      <div id="ELEM-122">
          <h2 class="failed">Processing instruction<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-121">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-124">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="failed">
                   <th>Processing instruction</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-133">Expect</a></td>
+                  <td><a href="#ELEM-137">Expect</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-132">
+         <div id="ELEM-136">
             <h3>Processing instruction</h3>
-            <div id="ELEM-133">
+            <div id="ELEM-137">
                <h4>Expect</h4>
                <table class="xspecResult">
                   <thead>
@@ -167,8 +175,8 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/processing-instruction()</code> from:
-                           </p><pre><span class="diff">&lt;?p ?&gt;</span></pre></td>
+                           <p>XPath <code class="diff">/processing-instruction()</code> from:
+                           </p><pre>&lt;?<span class="diff">p</span> <span class="diff"></span>?&gt;</pre></td>
                         <td><pre>xs:boolean('false')</pre></td>
                      </tr>
                   </tbody>
@@ -176,25 +184,27 @@
             </div>
          </div>
       </div>
-      <div id="ELEM-151">
+      <div id="ELEM-156">
          <h2 class="failed">In element<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-153">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-158">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="failed">
                   <th>In element</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-165">Expect</a></td>
+                  <td><a href="#ELEM-171">Expect</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-164">
+         <div id="ELEM-170">
             <h3>In element</h3>
-            <div id="ELEM-165">
+            <div id="ELEM-171">
                <h4>Expect</h4>
                <table class="xspecResult">
                   <thead>
@@ -206,8 +216,8 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">t</span><span class="diff">&lt;!--c--&gt;</span><span class="diff">&lt;?p ?&gt;</span>&lt;/elem&gt;</pre></td>
+                           <p>XPath <code class="diff">/element()</code> from:
+                           </p><pre>&lt;<span class="diff">elem</span>&gt;<span class="diff">t</span><span class="diff">&lt;!--c--&gt;</span>&lt;?<span class="diff">p</span> <span class="diff"></span>?&gt;&lt;/elem&gt;</pre></td>
                         <td><pre>xs:boolean('false')</pre></td>
                      </tr>
                   </tbody>

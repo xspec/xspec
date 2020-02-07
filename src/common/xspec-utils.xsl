@@ -12,6 +12,9 @@
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
+		<xsl:context-item as="node()" use="required"
+			use-when="element-available('xsl:context-item')" />
+
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute() | node()" />
 		</xsl:copy>
@@ -194,6 +197,29 @@
 	</xsl:function>
 
 	<!--
+		Extracts 4 version integers from string, assuming it contains zero or one
+		"#.#.#.#" (# = ASCII numbers).
+		Returns an empty sequence, if string contains no "#.#.#.#".
+			Example:
+				"HE 9.9.1.5"  -> 9, 9, 1, 5
+				"１.２.３.４" -> ()
+	-->
+	<xsl:function as="xs:integer*" name="x:extract-version">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:analyze-string regex="([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)" select="$input">
+			<xsl:matching-substring>
+				<xsl:sequence
+					select="
+						for $i in (1 to 4)
+						return
+							xs:integer(regex-group($i))"
+				 />
+			</xsl:matching-substring>
+		</xsl:analyze-string>
+	</xsl:function>
+
+	<!--
 		Returns Saxon version packed as uint64, based on 'xsl:product-version' system property,
 		ignoring edition (EE, PE, HE).
 		Returns an empty sequence, if XSLT processor is not Saxon.
@@ -204,13 +230,145 @@
 	<xsl:function as="xs:integer?" name="x:saxon-version">
 		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
 			<xsl:variable as="xs:integer+" name="versions"
-				select="
-					for $s in tokenize(system-property('xsl:product-version'), '[\s\.]')[position() ge 2]
-					return
-						xs:integer($s)" />
+				select="x:extract-version(system-property('xsl:product-version'))" />
 			<xsl:sequence
 				select="x:pack-version($versions[1], $versions[2], $versions[3], $versions[4])" />
 		</xsl:if>
+	</xsl:function>
+
+	<!--
+		Returns numeric literal of xs:decimal
+			http://www.w3.org/TR/xpath20/#id-literals
+
+			Example:
+				in:  1
+				out: '1.0'
+	-->
+	<xsl:function as="xs:string" name="x:decimal-string">
+		<xsl:param as="xs:decimal" name="decimal" />
+
+		<xsl:variable as="xs:string" name="decimal-string" select="string($decimal)" />
+		<xsl:sequence
+			select="
+				if (contains($decimal-string, '.'))
+				then
+					$decimal-string
+				else
+					concat($decimal-string, '.0')"
+		 />
+	</xsl:function>
+
+	<!--
+		Returns true or false based on "yes" or "no",
+		accepting ("true" or "false") and ("1" or "0") as synonyms.
+	-->
+	<xsl:function as="xs:boolean" name="x:yes-no-synonym">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:choose>
+			<xsl:when test="$input = ('yes', 'true', '1')">
+				<xsl:sequence select="true()" />
+			</xsl:when>
+			<xsl:when test="$input = ('no', 'false', '0')">
+				<xsl:sequence select="false()" />
+			</xsl:when>
+		</xsl:choose>
+	</xsl:function>
+
+	<!--
+		Returns a semi-formatted string of URI
+	-->
+	<xsl:function as="xs:string" name="x:format-uri">
+		<xsl:param as="xs:string" name="uri" />
+
+		<xsl:choose>
+			<xsl:when test="starts-with($uri, 'file:')">
+				<!-- Remove 'file:' -->
+				<xsl:variable as="xs:string" name="formatted" select="substring($uri, 6)" />
+
+				<!-- Remove implicit localhost (Consolidate '///' to '/') -->
+				<xsl:variable as="xs:string" name="formatted"
+					select="replace($formatted, '^//(/)', '$1')" />
+
+				<!-- Remove '/' from '/C:' -->
+				<xsl:variable as="xs:string" name="formatted"
+					select="replace($formatted, '^/([A-Za-z]:)', '$1')" />
+
+				<!-- Unescape whitespace -->
+				<xsl:sequence select="replace($formatted, '%20', ' ')" />
+			</xsl:when>
+
+			<xsl:otherwise>
+				<xsl:sequence select="$uri" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<!--
+		Parses @preserve-space in x:description and returns a sequence of element QName.
+		For those elements, child whitespace-only text nodes should be preserved in XSpec node-selection.
+	-->
+	<xsl:function as="xs:QName*" name="x:parse-preserve-space">
+		<xsl:param as="element(x:description)" name="description" />
+
+		<xsl:sequence
+			select="
+				for $lexical-qname in tokenize($description/@preserve-space, '\s+')[.]
+				return
+					resolve-QName($lexical-qname, $description)"
+		 />
+	</xsl:function>
+
+	<!--
+		Returns true if whitespace-only text node is significant in XSpec node-selection.
+		False if it is ignorable.
+		
+		$preserve-space is usually obtained by x:parse-preserve-space().
+	-->
+	<xsl:function as="xs:boolean" name="x:is-ws-only-text-node-significant">
+		<xsl:param as="text()" name="ws-only-text-node" />
+		<xsl:param as="xs:QName*" name="preserve-space-qnames" />
+
+		<xsl:sequence
+			select="
+				$ws-only-text-node
+				/(
+				parent::x:text
+				or (ancestor::*[@xml:space][1]/@xml:space eq 'preserve')
+				or (node-name(parent::*) = $preserve-space-qnames)
+				)"
+		 />
+	</xsl:function>
+
+	<!--
+		Returns the effective value of @xslt-version of the context element.
+		
+		$context is usually x:description or x:expect.
+	-->
+	<xsl:function as="xs:decimal" name="x:xslt-version">
+		<xsl:param as="element()" name="context" />
+
+		<xsl:sequence
+			select="
+				(
+				$context/ancestor-or-self::*[@xslt-version][1]/@xslt-version,
+				2.0
+				)[1]"
+		 />
+	</xsl:function>
+
+	<!--
+		Makes absolute URI from x:description/@schematron and resolves it with catalog
+	-->
+	<xsl:function as="xs:anyURI" name="x:locate-schematron-uri">
+		<xsl:param as="element(x:description)" name="description" />
+
+		<!-- Resolve with node base URI -->
+		<xsl:variable as="xs:anyURI" name="schematron-uri"
+			select="$description/@schematron/resolve-uri(., base-uri())" />
+
+		<!-- Resolve with catalog -->
+		<xsl:sequence select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
 	</xsl:function>
 
 </xsl:stylesheet>

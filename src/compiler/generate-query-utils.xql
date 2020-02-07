@@ -216,7 +216,8 @@ declare function test:report-sequence(
           (: Single document node :)
           else if ($sequence instance of document-node())
           then (
-            (: People do not always notice '/' in the report HTML. So express it more verbosely. :)
+            (: People do not always notice '/' in the report HTML. So express it more verbosely.
+              Also the expression must match the one in ../reporter/format-xspec-report.xsl. :)
             attribute select { "/self::document-node()" },
             test:report-node($sequence)
           )

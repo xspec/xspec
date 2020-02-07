@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="schematron-023-sch-preprocessed.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../schematron-023.xspec"
+          schematron="../../../../schematron/schematron-023.sch">
+   <x:scenario xspec="../../schematron-023.xspec">
+      <x:label>valid with warning: expect-valid should pass</x:label>
+      <x:context select="self::document-node()">
+         <document>
+            <section>
+               <title>INTRODUCTION</title>
+               <p>Some text</p>
+            </section>
+         </document>
+      </x:context>
+      <x:result select="/element()">
+         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:saxon="http://saxon.sf.net/"
+                                 xmlns:schold="http://www.ascc.net/xml/schematron"
+                                 xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                 xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                 title=""
+                                 schemaVersion=""><!--   
+		   
+		   
+		 -->
+            <svrl:active-pattern document=""/>
+            <svrl:fired-rule context="/"/>
+            <svrl:fired-rule context="title"/>
+            <svrl:failed-assert test="string() ne upper-case(string())"
+                                id="a0003"
+                                role="WARN"
+                                location="/document[1]/section[1]/title[1]">
+               <svrl:text>
+                title should not be all upper case
+            </svrl:text>
+            </svrl:failed-assert>
+            <svrl:fired-rule context="p"/>
+            <svrl:successful-report test="string-length() lt 10"
+                                    id="a0004"
+                                    role="WARN"
+                                    location="/document[1]/section[1]/p[1]">
+               <svrl:text>
+                paragraph is less than 10 characters long
+            </svrl:text>
+            </svrl:successful-report>
+         </svrl:schematron-output>
+      </x:result>
+      <x:test successful="true">
+         <x:label>valid</x:label>
+         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
+                   select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario xspec="../../schematron-023.xspec">
+      <x:label>error: expect-valid should fail</x:label>
+      <x:context select="self::document-node()">
+         <document>
+            <section>
+               <title>INTRODUCTION</title>
+            </section>
+         </document>
+      </x:context>
+      <x:result select="/element()">
+         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:saxon="http://saxon.sf.net/"
+                                 xmlns:schold="http://www.ascc.net/xml/schematron"
+                                 xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                 xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                 title=""
+                                 schemaVersion=""><!--   
+		   
+		   
+		 -->
+            <svrl:active-pattern document=""/>
+            <svrl:fired-rule context="/"/>
+            <svrl:fired-rule context="title"/>
+            <svrl:failed-assert test="following-sibling::p"
+                                id="a0002"
+                                role="ERROR"
+                                location="/document[1]/section[1]/title[1]">
+               <svrl:text>
+                title must be followed by a paragraph
+            </svrl:text>
+            </svrl:failed-assert>
+            <svrl:failed-assert test="string() ne upper-case(string())"
+                                id="a0003"
+                                role="WARN"
+                                location="/document[1]/section[1]/title[1]">
+               <svrl:text>
+                title should not be all upper case
+            </svrl:text>
+            </svrl:failed-assert>
+         </svrl:schematron-output>
+      </x:result>
+      <x:test successful="false">
+         <x:label>valid</x:label>
+         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
+                   select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario xspec="../../schematron-023.xspec">
+      <x:label>fatal: expect-valid should fail</x:label>
+      <x:context select="self::document-node()">
+         <adocument/>
+      </x:context>
+      <x:result select="/element()">
+         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:saxon="http://saxon.sf.net/"
+                                 xmlns:schold="http://www.ascc.net/xml/schematron"
+                                 xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                 xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                 title=""
+                                 schemaVersion=""><!--   
+		   
+		   
+		 -->
+            <svrl:active-pattern document=""/>
+            <svrl:fired-rule context="/"/>
+            <svrl:failed-assert test="document"
+                                id="a0001"
+                                role="FATAL"
+                                location="/adocument[1]">
+               <svrl:text>
+                root element must be document
+            </svrl:text>
+            </svrl:failed-assert>
+         </svrl:schematron-output>
+      </x:result>
+      <x:test successful="false">
+         <x:label>valid</x:label>
+         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
+                   select="()"/>
+      </x:test>
+   </x:scenario>
+</x:report>

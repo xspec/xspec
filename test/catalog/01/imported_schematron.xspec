@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Catalog for Schematron context URI and DOCTYPE">
+		<x:context href="catalog-01:/example.xml" />
+		<x:expect-report id="report-dtd-version-1-0" />
+	</x:scenario>
+
+	<x:scenario label="context with relative href (xspec/xspec#542, xspec/xspec#161)">
+		<x:context href="example.xml" />
+		<x:expect-report id="report-dtd-version-1-0" />
+	</x:scenario>
+</x:description>

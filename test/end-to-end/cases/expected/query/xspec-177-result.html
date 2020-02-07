@@ -14,11 +14,13 @@
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="75%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
          <thead>
             <tr>
                <th></th>
@@ -30,7 +32,7 @@
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#ELEM-34">Given the function returns &lt;foo /&gt;</a></th>
+               <th><a href="#ELEM-35">Given the function returns &lt;foo /&gt;</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">2</th>
@@ -38,33 +40,35 @@
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-34">
+      <div id="ELEM-35">
          <h2 class="failed">Given the function returns &lt;foo /&gt;<span class="scenario-totals">passed: 0 / pending: 0 / failed: 2 / total: 2</span></h2>
-         <table class="xspec" id="ELEM-36">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-37">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="failed">
                   <th>Given the function returns &lt;foo /&gt;</th>
                   <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-52">When @test is "empty($x:result/self::element(foo))" (i.e. boolean), then the HTML
+                  <td><a href="#ELEM-54">When @test is "empty($x:result/self::element(foo))" (i.e. boolean), then the HTML
                         report should be "Result" = "&lt;foo /&gt;" and "Expecting" = "empty($x:result/self::element(foo))"
                         without diff.</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-67">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
+                  <td><a href="#ELEM-69">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
                         boolean), then the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result"
                         = "&lt;bar /&gt;" with diff.</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-51">
+         <div id="ELEM-53">
             <h3>Given the function returns &lt;foo /&gt;</h3>
-            <div id="ELEM-52">
+            <div id="ELEM-54">
                <h4>When @test is "empty($x:result/self::element(foo))" (i.e. boolean), then the HTML
                   report should be "Result" = "&lt;foo /&gt;" and "Expecting" = "empty($x:result/self::element(foo))"
                   without diff.
@@ -86,7 +90,7 @@
                   </tbody>
                </table>
             </div>
-            <div id="ELEM-67">
+            <div id="ELEM-69">
                <h4>When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
                   boolean), then the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result"
                   = "&lt;bar /&gt;" with diff.
@@ -101,10 +105,10 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="same">/element()</code> from:
                            </p><pre>&lt;<span class="diff">bar</span> /&gt;</pre></td>
                      </tr>
                   </tbody>

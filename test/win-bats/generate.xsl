@@ -64,6 +64,8 @@
 
 	<!-- Writes lines with CR LF -->
 	<xsl:template as="text()+" name="write">
+		<xsl:context-item use="absent" use-when="element-available('xsl:context-item')" />
+
 		<xsl:param as="xs:string" name="text" required="yes" />
 
 		<xsl:value-of select="tokenize($text, '\n')" separator="&#x0D;&#x0A;" />

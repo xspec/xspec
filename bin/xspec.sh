@@ -66,12 +66,16 @@ if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev
     echo
     xslt() {
         saxon \
+            --java -Dxspec.coverage.ignore="${TEST_DIR}" \
             --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --java -Dxspec.xspecfile="${XSPEC}" \
             --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
         saxon \
+            --java -Dxspec.coverage.ignore="${TEST_DIR}" \
             --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --java -Dxspec.xspecfile="${XSPEC}" \
             --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
@@ -79,12 +83,16 @@ else
     echo
     xslt() {
         java \
+            -Dxspec.coverage.ignore="${TEST_DIR}" \
             -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -Dxspec.xspecfile="${XSPEC}" \
             -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
         java \
+            -Dxspec.coverage.ignore="${TEST_DIR}" \
             -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -Dxspec.xspecfile="${XSPEC}" \
             -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
@@ -281,10 +289,11 @@ fi
 
 TARGET_FILE_NAME=$(basename "$XSPEC" | sed 's:\.[^.]*$::')
 
+COMPILED="${TEST_DIR}/${TARGET_FILE_NAME}-compiled"
 if test -n "$XSLT"; then
-    COMPILED=$TEST_DIR/$TARGET_FILE_NAME.xsl
+    COMPILED="${COMPILED}.xsl"
 else
-    COMPILED=$TEST_DIR/$TARGET_FILE_NAME.xq
+    COMPILED="${COMPILED}.xq"
 fi
 COVERAGE_XML=$TEST_DIR/$TARGET_FILE_NAME-coverage.xml
 COVERAGE_HTML=$TEST_DIR/$TARGET_FILE_NAME-coverage.html
@@ -317,12 +326,12 @@ if test -n "$SCHEMATRON"; then
         SCHEMATRON_XSLT_COMPILE_ABS="$(cd "$(dirname "${SCHEMATRON_XSLT_COMPILE}")" && pwd)/$(basename "${SCHEMATRON_XSLT_COMPILE}")"
     fi
     
-    # Get Schematron file path
+    # Get Schematron file URI
     xslt -o:"${TEST_DIR}/${TARGET_FILE_NAME}-var.txt" \
         -s:"${XSPEC}" \
-        -xsl:"${XSPEC_HOME}/src/schematron/sch-file-path.xsl" \
+        -xsl:"${XSPEC_HOME}/src/schematron/locate-schematron-uri.xsl" \
         || die "Error getting Schematron location"
-    SCH=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
+    SCH_URI=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
     
     # Generate Step 3 wrapper XSLT
     if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
@@ -336,12 +345,15 @@ if test -n "$SCHEMATRON"; then
         || die "Error generating Step 3 wrapper XSLT"
     
     SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
-    SCH_PREPROCESSED_XSL="${SCH}-preprocessed.xsl"
+    SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
+    
+    # Absolute SCH_PREPROCESSED_XSL
+    SCH_PREPROCESSED_XSL_ABS="$(cd "$(dirname "${SCH_PREPROCESSED_XSL}")" && pwd)/$(basename "${SCH_PREPROCESSED_XSL}")"
     
     echo
     echo "Converting Schematron into XSLT..."
     xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
-        -s:"$SCH" \
+        -s:"${SCH_URI}" \
         -xsl:"$SCHEMATRON_XSLT_INCLUDE" \
         -versionmsg:off \
         || die "Error preprocessing Schematron on step 1"
@@ -362,7 +374,7 @@ if test -n "$SCHEMATRON"; then
     #     -o:"$TEST_DIR/$TARGET_FILE_NAME-var.txt" \
     #     || die "Error getting preprocessed Schematron XSLT location"
     # SCH_PREPROCESSED_XSL_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
-    SCH_PREPROCESSED_XSL_URI="file:${SCH_PREPROCESSED_XSL}"
+    SCH_PREPROCESSED_XSL_URI="file:${SCH_PREPROCESSED_XSL_ABS}"
     
     echo 
     echo "Converting Schematron XSpec into XSLT XSpec..."
@@ -442,7 +454,6 @@ if test -n "$COVERAGE"; then
         -o:"$COVERAGE_HTML" \
         -s:"$COVERAGE_XML" \
         -xsl:"$XSPEC_HOME/src/reporter/coverage-report.xsl" \
-        "tests=$XSPEC" \
         inline-css=true \
         || die "Error formatting the coverage report"
     echo "Report available at $COVERAGE_HTML"

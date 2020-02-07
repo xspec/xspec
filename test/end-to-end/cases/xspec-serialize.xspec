@@ -201,4 +201,207 @@
 		</x:expect>
 	</x:scenario>
 
+	<x:scenario>
+		<x:label>When the result contains an element, the report HTML must serialize nodes in its
+			opening tag with aligned indentation. (xspec/xspec#689) So...</x:label>
+		<x:scenario>
+			<x:label>When the report XML contains an element with several namespaces</x:label>
+			<x:variable name="test">
+				<looooooooooooooooooooooooooooooooooong>
+					<test xmlns="ns" xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3">
+						<a />
+					</test>
+				</looooooooooooooooooooooooooooooooooong>
+			</x:variable>
+
+			<x:scenario>
+				<x:label>in x:result,</x:label>
+				<x:call function="exactly-one">
+					<x:param select="$test" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] with diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+				<x:expect test="false()">
+					<x:label>[Result] without diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>in x:expect,</x:label>
+				<x:call function="false" />
+				<x:expect select="$test">
+					<x:label>[Expected Result] with diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>When the report XML contains an element with several attributes</x:label>
+			<x:variable name="test">
+				<looooooooooooooooooooooooooooooooooong>
+					<test attr1="val1" attr2="val2" attr3="val3">
+						<a />
+					</test>
+				</looooooooooooooooooooooooooooooooooong>
+			</x:variable>
+
+			<x:scenario>
+				<x:label>in x:result,</x:label>
+				<x:call function="exactly-one">
+					<x:param select="$test" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] with diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+				<x:expect test="false()">
+					<x:label>[Result] without diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>in x:expect,</x:label>
+				<x:call function="false" />
+				<x:expect select="$test">
+					<x:label>[Expected Result] with diff must be serialized with aligned
+						indentation.</x:label>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario>
+		<x:label>When the result contains attribute,</x:label>
+		<x:call function="one-or-more">
+			<x:param>
+				<exact-match attr1="value1" attr2="value2" attr3="" attr4="" />
+				<name-match attr1="value1" attr2="value2" attr3="" attr4="..." />
+				<orphan attr1="value1" attr2="" attr3="..." />
+			</x:param>
+		</x:call>
+
+		<x:scenario>
+			<x:label>both in [Result] and [Expected Result] with diff,</x:label>
+			<x:expect>
+				<x:label>The exact-match (taking '...' into account) attributes must be serialized
+					as green="green". The name-match attributes must be serialized as
+					palePink="solidPink". The orphan attributes must be serialized as
+					solidPink="solidPink" regardless of their values.</x:label>
+				<exact-match attr1="value1" attr2="..." attr3="" attr4="..." />
+				<name-match attr1="VALUE1" attr2="" attr3="value3" attr4="value4" />
+				<orphan attr4="value4" attr5="" attr6="..." />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>in [Result] without diff,</x:label>
+			<x:expect test="false()">
+				<x:label>all the attributes must be serialized without color.</x:label>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario>
+		<x:label>When the result contains processing instructions,</x:label>
+		<x:call function="one-or-more">
+			<x:param>
+				<exact-match>
+					<?node1 value1?>
+					<?node2 value2?>
+					<?node3?>
+					<?node4?>
+				</exact-match>
+				<name-match>
+					<?node1 value1?>
+					<?node2 value2?>
+					<?node3?>
+					<?node4 ...?>
+				</name-match>
+				<value-match>
+					<?node1 value1?>
+					<?node2 value2?>
+					<?node3?>
+					<?node4?>
+				</value-match>
+				<no-match>
+					<different-kind>
+						<?node1 value1?>
+						<node2 />
+						<?node3?>
+						<node4 />
+						<node5 />
+					</different-kind>
+					<orphan>
+						<node1>
+							<?node1-1 value1-1?>
+							<?node1-2?>
+							<?node1-3 ...?>
+						</node1>
+						<node2 />
+					</orphan>
+				</no-match>
+			</x:param>
+		</x:call>
+
+		<x:scenario>
+			<x:label>both in [Result] and [Expected Result] with diff,</x:label>
+			<x:expect>
+				<x:label>The exact-match (taking '...' into account) processing instructions must be
+					serialized as <![CDATA[<?green green?>]]>. The name-match processing
+					instructions must be serialized as <![CDATA[<?palePink solidPink?>]]>. The
+					value-match (taking '...' into account) processing instructions must be
+					serialized as <![CDATA[<?solidPink green?>]]>. The no-match processing
+					instructions must be serialized as <![CDATA[<?solidPink solidPink?>]]>
+					regardless of their values.</x:label>
+				<exact-match>
+					<?node1 value1?>
+					<?node2 ...?>
+					<?node3?>
+					<?node4 ...?>
+				</exact-match>
+				<name-match>
+					<?node1 VALUE1?>
+					<?node2?>
+					<?node3 value3?>
+					<?node4 value4?>
+				</name-match>
+				<value-match>
+					<?NODE1 value1?>
+					<?NODE2 ...?>
+					<?NODE3?>
+					<?NODE4 ...?>
+				</value-match>
+				<no-match>
+					<different-kind>
+						<node1 />
+						<?node2 value2?>
+						<node3 />
+						<?node4?>
+						<?node5 ...?>
+					</different-kind>
+					<orphan>
+						<node1 />
+						<node2>
+							<?node2-1 value2-1?>
+							<?node2-2?>
+							<?node2-3 ...?>
+						</node2>
+					</orphan>
+				</no-match>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>in [Result] without diff,</x:label>
+			<x:expect test="false()">
+				<x:label>all the processing instructions must be serialized without color.</x:label>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>

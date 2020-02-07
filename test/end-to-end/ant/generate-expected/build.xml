@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="e2e-base.run-worker" name="generate-expected">
-	<!-- Import "e2e-base" build file -->
+	<!-- Import "e2e-base" build file.
+		Use <import> instead of <include>, otherwise "e2e-base" build file cannot override
+		a target in "run-xspec-tests" build file. -->
 	<import file="../base/build.xml" />
 </project>

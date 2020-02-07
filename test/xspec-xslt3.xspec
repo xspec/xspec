@@ -8,7 +8,7 @@
         <answer>Yes it does</answer>
       </root>
     </x:expect>
-    <x:expect label="the compiled stylesheet has version=3.0" select="3.0"
-      test="document('')/xsl:stylesheet/@version/number()"/>
+    <x:expect label="the compiled stylesheet has version=3.0" select="'3.0'"
+      test="document('')/xsl:stylesheet/@version/string()"/>
   </x:scenario>
 </x:description>

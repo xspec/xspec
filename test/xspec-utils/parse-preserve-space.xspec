@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- @preserve-space contains excessive whitespaces intentionally for testing purposes -->
+<description
+	preserve-space="
+		&#x09;&#x0A;&#x0D;&#x20;
+		element-without-prefix
+		&#x09;&#x0A;&#x0D;&#x20;
+		prefix:element-with-prefix
+		&#x09;&#x0A;&#x0D;&#x20;"
+	xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="x-urn:test:preserve-space:prefix">
+	<scenario label="Nothing..." />
+</description>

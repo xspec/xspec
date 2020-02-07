@@ -11,11 +11,13 @@
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="75%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
          <thead>
             <tr>
                <th></th>
@@ -27,21 +29,21 @@
          </thead>
          <tbody>
             <tr class="successful">
-               <th><a href="#ELEM-47">scenario 1</a></th>
+               <th><a href="#ELEM-48">scenario 1</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-60">scenario 2</a></th>
+               <th><a href="#ELEM-62">scenario 2</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-73">When the result consists of multiple elements (xspec/xspec#361)</a></th>
+               <th><a href="#ELEM-76">When the result consists of multiple elements (xspec/xspec#361)</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -49,11 +51,13 @@
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-47">
+      <div id="ELEM-48">
          <h2 class="successful">scenario 1<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-49">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-50">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>scenario 1</th>
@@ -66,11 +70,13 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-60">
+      <div id="ELEM-62">
          <h2 class="successful">scenario 2<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-62">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-64">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>scenario 2</th>
@@ -83,11 +89,13 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-73">
+      <div id="ELEM-76">
          <h2 class="failed">When the result consists of multiple elements (xspec/xspec#361)<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
-         <table class="xspec" id="ELEM-75">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-78">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="failed">
                   <th>When the result consists of multiple elements (xspec/xspec#361)</th>
@@ -98,14 +106,14 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-90">The result should be saved successfully in yet another external file which is well-formed</a></td>
+                  <td><a href="#ELEM-94">The result should be saved successfully in yet another external file which is well-formed</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-89">
+         <div id="ELEM-93">
             <h3>When the result consists of multiple elements (xspec/xspec#361)</h3>
-            <div id="ELEM-90">
+            <div id="ELEM-94">
                <h4>The result should be saved successfully in yet another external file which is well-formed</h4>
                <table class="xspecResult">
                   <thead>
@@ -120,7 +128,7 @@
                            <p><a href="HREF-3">HREF-3</a></p>
                         </td>
                         <td>
-                           <p>XPath <code>/element()</code> from:
+                           <p>XPath <code class="diff">/element()</code> from:
                            </p><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
                      </tr>
                   </tbody>

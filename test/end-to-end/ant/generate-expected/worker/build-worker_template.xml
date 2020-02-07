@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="run-all-xspec-files" name="generate-expected-worker">
-	<!-- Include "e2e-base-worker" -->
-	<include file="../../base/worker/build-worker.xml" />
+	<!-- Import "e2e-base-worker".
+		Using <import> instead of <include> is to include the core XSpec build file in one hop,
+		otherwise "xspec" target in the core XSpec build file is not "xspec.xspec" but
+		"e2e-base-worker.xspec.xspec" which breaks "run-xspec" macro in build-worker_util.xml. -->
+	<import file="../../base/worker/build-worker.xml" />
 
 	<!--
 		Transforms the actual report file (@actual-report-url) into the normalized report (@normalized-report-url)

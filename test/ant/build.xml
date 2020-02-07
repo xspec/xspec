@@ -10,6 +10,9 @@
 	<property location="${run-xspec-tests.basedir}/../" name="xspecfiles.dir" />
 	<makeurl file="${xspecfiles.dir}" property="xspecfiles.dir.url" />
 
+	<!-- Query parameter for fn:collection() -->
+	<property name="xspecfiles.dir.url.query" value="select=*.xspec" />
+
 	<!-- Gets processor capabilities -->
 	<target name="get-processor-caps">
 		<echo message="Getting processor capabilities" />
@@ -37,11 +40,22 @@
 		</condition>
 		<echo message="xslt.supports.schema=${xslt.supports.schema}" />
 
+		<!-- Checks to see if XSLT processor supports 3.0 -->
+		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
+			resultproperty="xslt3-0.compile.result">
+			<arg value="-nogo" />
+			<arg value="-xsl:${run-xspec-tests.basedir}/../caps/v3-0.xsl" />
+		</java>
+		<condition else="false" property="xslt.supports.3-0">
+			<equals arg1="${xslt3-0.compile.result}" arg2="0" />
+		</condition>
+		<echo message="xslt.supports.3-0=${xslt.supports.3-0}" />
+
 		<!-- Checks to see if XQuery processor can be schema-aware ('-sa') -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery.schema-aware.run.result">
 			<arg value="-sa" />
-			<arg value="-q:${run-xspec-tests.basedir}/caps/schema-aware.xquery" />
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/schema-aware.xquery" />
 		</java>
 		<condition else="false" property="xquery.supports.schema">
 			<equals arg1="${xquery.schema-aware.run.result}" arg2="0" />
@@ -51,7 +65,7 @@
 		<!-- Checks to see if XQuery processor supports 3.1 by default (Saxon 9.8+) -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery3-1.default.run.result">
-			<arg value="-q:${run-xspec-tests.basedir}/caps/v3-1.xquery" />
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/v3-1.xquery" />
 		</java>
 		<condition else="false" property="xquery.supports.3-1.default">
 			<equals arg1="${xquery3-1.default.run.result}" arg2="0" />
@@ -61,7 +75,7 @@
 		<!-- Checks to see if XQuery processor supports "-qversion:3.1" (Saxon 9.7) -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery3-1.qversion.run.result">
-			<arg value="-q:${run-xspec-tests.basedir}/caps/v3-1.xquery" />
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/v3-1.xquery" />
 			<arg value="-qversion:3.1" />
 		</java>
 		<condition else="false" property="xquery.supports.3-1.qversion">
@@ -76,9 +90,11 @@
 			style="worker/generate.xsl">
 			<factory name="net.sf.saxon.TransformerFactoryImpl" />
 			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
+			<param expression="${xspecfiles.dir.url.query}" name="XSPECFILES-DIR-URI-QUERY" />
 			<param expression="${xslt.supports.coverage}" name="XSLT-SUPPORTS-COVERAGE"
 				type="BOOLEAN" />
 			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN" />
+			<param expression="${xslt.supports.3-0}" name="XSLT-SUPPORTS-3-0" type="BOOLEAN" />
 			<param expression="${xquery.supports.schema}" name="XQUERY-SUPPORTS-SCHEMA"
 				type="BOOLEAN" />
 			<param expression="${xquery.supports.3-1.default}" name="XQUERY-SUPPORTS-3-1-DEFAULT"
@@ -86,6 +102,7 @@
 			<param expression="${xquery.supports.3-1.qversion}" name="XQUERY-SUPPORTS-3-1-QVERSION"
 				type="BOOLEAN" />
 			<param expression="${run-xspec-tests.now}" if="run-xspec-tests.now" name="NOW" />
+			<param expression="${thread.count}" if="thread.count" name="THREAD-COUNT" type="INT" />
 		</xslt>
 	</target>
 

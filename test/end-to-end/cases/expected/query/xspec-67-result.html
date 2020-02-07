@@ -14,11 +14,13 @@
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
-         <col width="75%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
-         <col width="6.25%" />
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
          <thead>
             <tr>
                <th></th>
@@ -30,21 +32,21 @@
          </thead>
          <tbody>
             <tr class="successful">
-               <th><a href="#ELEM-48">Comparing identical namespace</a></th>
+               <th><a href="#ELEM-49">Comparing identical namespace</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#ELEM-61">Comparing identical default namespace</a></th>
+               <th><a href="#ELEM-63">Comparing identical default namespace</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#ELEM-74">Comparing different namespaces</a></th>
+               <th><a href="#ELEM-77">Comparing different namespaces</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -52,11 +54,13 @@
             </tr>
          </tbody>
       </table>
-      <div id="ELEM-48">
+      <div id="ELEM-49">
          <h2 class="successful">Comparing identical namespace<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-50">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-51">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>Comparing identical namespace</th>
@@ -69,11 +73,13 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-61">
+      <div id="ELEM-63">
          <h2 class="successful">Comparing identical default namespace<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-63">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-65">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="successful">
                   <th>Comparing identical default namespace</th>
@@ -86,25 +92,27 @@
             </tbody>
          </table>
       </div>
-      <div id="ELEM-74">
+      <div id="ELEM-77">
          <h2 class="failed">Comparing different namespaces<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="ELEM-76">
-            <col width="75%" />
-            <col width="25%" />
+         <table class="xspec" id="ELEM-79">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
             <tbody>
                <tr class="failed">
                   <th>Comparing different namespaces</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#ELEM-88">must be Failure</a></td>
+                  <td><a href="#ELEM-92">must be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="ELEM-87">
+         <div id="ELEM-91">
             <h3>Comparing different namespaces</h3>
-            <div id="ELEM-88">
+            <div id="ELEM-92">
                <h4>must be Failure</h4>
                <table class="xspecResult">
                   <thead>
@@ -116,10 +124,10 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/*/namespace::*</code> from:
+                           <p>XPath <code class="same">/*/namespace::*</code> from:
                            </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:namespace-name="namespace-text" /&gt;</pre></td>
                         <td>
-                           <p>XPath <code>/*/namespace::*</code> from:
+                           <p>XPath <code class="same">/*/namespace::*</code> from:
                            </p><pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:another-namespace-name="another-namespace-text" /&gt;</pre></td>
                      </tr>
                   </tbody>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Catalog for function-call param URI and DOCTYPE">
+		<x:call function="exactly-one">
+			<x:param href="catalog-01:/example.xml" />
+		</x:call>
+		<x:expect label="DTD fixed attribute should take effect via DOCTYPE resolved with catalog"
+			select="'1.0'" test="$x:result/root/@dtd-version/string()" />
+	</x:scenario>
+
+	<x:scenario label="function-call param with relative href (xspec/xspec#542)">
+		<x:call function="exactly-one">
+			<x:param href="example.xml" />
+		</x:call>
+		<x:expect href="example.xml" label="x:expect with href should be Success" />
+	</x:scenario>
+</x:description>

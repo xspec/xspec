@@ -280,6 +280,9 @@
 </xsl:function>
   
 <xsl:template name="test:report-sequence" as="element()">
+  <xsl:context-item use="absent"
+    use-when="element-available('xsl:context-item')" />
+
   <xsl:param name="sequence" as="item()*" required="yes" />
   <xsl:param name="wrapper-name" as="xs:string" required="yes" />
   <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/xspec'" />
@@ -319,7 +322,8 @@
 
         <!-- Single document node -->
         <xsl:when test="$sequence instance of document-node()">
-          <!-- People do not always notice '/' in the report HTML. So express it more verbosely. -->
+          <!-- People do not always notice '/' in the report HTML. So express it more verbosely.
+            Also the expression must match the one in ../reporter/format-xspec-report.xsl. -->
           <xsl:attribute name="select" select="'/self::document-node()'" />
           <xsl:apply-templates select="$sequence" mode="test:report-node" />
         </xsl:when>
@@ -471,7 +475,7 @@
   <xsl:param name="value" as="xs:anyAtomicType" />
   <xsl:choose>
     <xsl:when test="$value instance of xs:string">
-      <xsl:value-of select="concat('''',
+      <xsl:sequence select="concat('''',
                                    replace($value, '''', ''''''),
                                    '''')" />
     </xsl:when>
@@ -479,14 +483,10 @@
     <!-- Numeric literals: http://www.w3.org/TR/xpath20/#id-literals -->
     <!-- Check integer before decimal, because of derivation -->
     <xsl:when test="$value instance of xs:integer">
-      <xsl:value-of select="$value" />
+      <xsl:sequence select="string($value)" />
     </xsl:when>
     <xsl:when test="$value instance of xs:decimal">
-      <xsl:value-of>
-        <xsl:variable as="xs:string" name="decimal-string" select="string($value)"/>
-        <xsl:sequence select="$decimal-string"/>
-        <xsl:sequence select="'.0'[not(contains($decimal-string,'.'))]"/>
-      </xsl:value-of>
+      <xsl:sequence select="x:decimal-string($value)" />
     </xsl:when>
     <!-- xs:double
              Just defer it to xsl:otherwise. Justifications below.
@@ -495,7 +495,7 @@
              - xsl:otherwise will return valid expression. It's just some more verbose than numeric literal. -->
 
     <xsl:when test="$value instance of xs:QName">
-      <xsl:value-of 
+      <xsl:sequence
         select="concat('QName(''', namespace-uri-from-QName($value), 
                               ''', ''', if (prefix-from-QName($value)) 
                                         then concat(prefix-from-QName($value), ':') 
@@ -504,7 +504,7 @@
     </xsl:when>
     <xsl:otherwise>
       <xsl:variable name="type" select="test:atom-type($value)" />
-      <xsl:value-of select="concat($type, '(',
+      <xsl:sequence select="concat($type, '(',
                                    test:report-atomic-value(string($value)), ')')" />
     </xsl:otherwise>
   </xsl:choose>

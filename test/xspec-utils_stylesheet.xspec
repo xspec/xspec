@@ -136,14 +136,19 @@
 
 	<x:scenario label="Scenario for testing function copy-namespaces">
 		<x:call function="x:copy-namespaces">
-			<x:param>
-				<input-element xmlns="default-ns" xmlns:prefix="prefixed-ns" />
+			<x:param select="//*:input-element">
+				<wrapper-element xmlns="wrapper-default-ns"
+					xmlns:wrapper-prefix="wrapper-prefixed-ns">
+					<input-element xmlns="default-ns" xmlns:prefix="prefixed-ns" />
+				</wrapper-element>
 			</x:param>
 		</x:call>
 		<x:expect label="Default namespace is copied" select="'default-ns'"
 			test="$x:result[name() eq '']/string()" />
 		<x:expect label="Prefixed namespace is copied" select="'prefixed-ns'"
 			test="$x:result[name() eq 'prefix']/string()" />
+		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
+			test="$x:result[name() eq 'wrapper-prefix']/string()" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-user-content">
@@ -457,6 +462,51 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function extract-version">
+		<x:scenario label="Saxon typical xsl:product-version">
+			<x:call function="x:extract-version">
+				<x:param select="'HE 9.9.1.5'" />
+			</x:call>
+			<x:expect label="Extracted" select="9, 9, 1, 5" />
+		</x:scenario>
+
+		<x:scenario label="Saxon likely v10 xsl:product-version">
+			<x:call function="x:extract-version">
+				<!-- This string is just a guesswork -->
+				<x:param select="'HE 10.0.0.1'" />
+			</x:call>
+			<x:expect label="Extracted" select="10, 0, 0, 1" />
+		</x:scenario>
+
+		<x:scenario label="Saxon unlicensed xsl:product-version">
+			<x:call function="x:extract-version">
+				<x:param select="'EE (unlicensed) 9.4.0.9'" />
+			</x:call>
+			<x:expect label="Extracted" select="9, 4, 0, 9" />
+		</x:scenario>
+
+		<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
+			<x:call function="x:extract-version">
+				<x:param select="'SAXON-HE 9.9.1.5J from Saxonica (build 090514)'" />
+			</x:call>
+			<x:expect label="Extracted, stripping platform suffix ('J')" select="9, 9, 1, 5" />
+		</x:scenario>
+
+		<x:scenario label="Relatively large version">
+			<x:call function="x:extract-version">
+				<x:param select="'76.0.3809.132'" />
+			</x:call>
+			<x:expect label="Extracted" select="76, 0, 3809, 132" />
+		</x:scenario>
+
+		<x:scenario label="No #.#.#.#">
+			<x:call function="x:extract-version">
+				<x:param select="'１.２.３.４'" />
+			</x:call>
+			<x:expect label="Empty sequence" />
+		</x:scenario>
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing function saxon-version">
 		<x:scenario label="Assume we test this on Saxon versions from 9.7 to 9.9">
 			<x:call function="x:saxon-version" />
@@ -465,6 +515,359 @@
 			<x:expect label="Less than 10.0.y.z"
 				test="$x:result treat as xs:integer lt x:pack-version(10,0,0,0)" />
 		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function decimal-string">
+		<x:scenario label="xs:integer">
+			<x:call function="x:decimal-string">
+				<x:param select="xs:integer(1)" />
+			</x:call>
+			<x:expect label="Numeric literal of xs:decimal" select="'1.0'" />
+		</x:scenario>
+
+		<x:scenario label="xs:decimal (no decimal point)">
+			<x:call function="x:decimal-string">
+				<x:param select="xs:decimal(1)" />
+			</x:call>
+			<x:expect label="Numeric literal of xs:decimal" select="'1.0'" />
+		</x:scenario>
+
+		<x:scenario label="xs:decimal (with decimal point)">
+			<x:call function="x:decimal-string">
+				<x:param select="xs:decimal(1.2)" />
+			</x:call>
+			<x:expect label="Numeric literal of xs:decimal" select="'1.2'" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function yes-no-synonym">
+		<x:scenario label="Valid strings">
+			<x:scenario label="Base (yes or no)">
+				<x:scenario label="'yes'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'yes'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'no'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'no'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="Synonym (true or false)">
+				<x:scenario label="'true'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'true'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'false'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'false'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="Synonym (1 or 0)">
+				<x:scenario label="'1'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'1'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'0'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'0'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function format-uri">
+		<x:scenario label="file: (%20 should be unescaped)">
+			<x:scenario label="Windows">
+				<x:scenario label="Drive">
+					<x:scenario label="Win32 (file:///C:/)">
+						<x:scenario label="Upper-case drive letter">
+							<x:call function="x:format-uri">
+								<x:param select="'file:///C:/dir/file%20name.ext'" />
+							</x:call>
+							<x:expect label="Discard everything before drive letter"
+								select="'C:/dir/file name.ext'" />
+						</x:scenario>
+
+						<x:scenario label="Lower-case drive letter">
+							<x:call function="x:format-uri">
+								<x:param select="'file:///c:/dir/file%20name.ext'" />
+							</x:call>
+							<x:expect label="Discard everything before drive letter"
+								select="'c:/dir/file name.ext'" />
+						</x:scenario>
+					</x:scenario>
+
+					<x:scenario label="Java (file:/C:/)">
+						<x:scenario label="Upper-case drive letter">
+							<x:call function="x:format-uri">
+								<x:param select="'file:/C:/dir/file%20name.ext'" />
+							</x:call>
+							<x:expect label="Discard everything before drive letter"
+								select="'C:/dir/file name.ext'" />
+						</x:scenario>
+
+						<x:scenario label="Lower-case drive letter">
+							<x:call function="x:format-uri">
+								<x:param select="'file:/c:/dir/file%20name.ext'" />
+							</x:call>
+							<x:expect label="Discard everything before drive letter"
+								select="'c:/dir/file name.ext'" />
+						</x:scenario>
+					</x:scenario>
+				</x:scenario>
+
+				<x:scenario label="UNC">
+					<x:scenario label="Win32 (file://host/)">
+						<x:call function="x:format-uri">
+							<x:param select="'file://host/share/dir/file%20name.ext'" />
+						</x:call>
+						<x:expect label="Discard file:" select="'//host/share/dir/file name.ext'" />
+					</x:scenario>
+
+					<x:scenario label="Java (file:////host/)">
+						<x:call function="x:format-uri">
+							<x:param select="'file:////host/share/dir/file%20name.ext'" />
+						</x:call>
+						<x:expect label="Discard file://" select="'//host/share/dir/file name.ext'"
+						 />
+					</x:scenario>
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="*nix">
+				<x:scenario label="One slash">
+					<x:call function="x:format-uri">
+						<x:param select="'file:/dir/file%20name.ext'" />
+					</x:call>
+					<x:expect label="Discard file:" select="'/dir/file name.ext'" />
+				</x:scenario>
+
+				<x:scenario label="Two slashes">
+					<x:call function="x:format-uri">
+						<x:param select="'file://host/dir/file%20name.ext'" />
+					</x:call>
+					<x:expect label="Discard file:" select="'//host/dir/file name.ext'" />
+				</x:scenario>
+
+				<x:scenario label="Three slashes">
+					<x:call function="x:format-uri">
+						<x:param select="'file:///dir/file%20name.ext'" />
+					</x:call>
+					<x:expect label="Discard file://" select="'/dir/file name.ext'" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Non file: (Everything including %20 should be intact)">
+			<x:call function="x:format-uri">
+				<x:param select="'http://www.example.com/dir/file%20name.ext'" />
+			</x:call>
+			<x:expect label="Intact" select="'http://www.example.com/dir/file%20name.ext'" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function parse-preserve-space">
+		<x:call function="x:parse-preserve-space">
+			<x:param href="xspec-utils/parse-preserve-space.xspec" select="x:description" />
+		</x:call>
+
+		<x:expect label="2 items" select="2" test="count($x:result)" />
+
+		<x:scenario label="1st QName">
+			<x:expect label="namespace URI" select="'http://www.jenitennison.com/xslt/xspec'"
+				test="namespace-uri-from-QName($x:result[1])" />
+			<x:expect label="namespace prefix" select="()" test="prefix-from-QName($x:result[1])" />
+			<x:expect label="local name" select="'element-without-prefix'"
+				test="local-name-from-QName($x:result[1])" />
+		</x:scenario>
+
+		<x:scenario label="2nd QName">
+			<x:expect label="namespace URI" select="'x-urn:test:preserve-space:prefix'"
+				test="namespace-uri-from-QName($x:result[2])" />
+			<x:expect label="namespace prefix" select="'prefix'"
+				test="prefix-from-QName($x:result[2])" />
+			<x:expect label="local name" select="'element-with-prefix'"
+				test="local-name-from-QName($x:result[2])" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function is-ws-only-text-node-significant">
+		<x:scenario label="xml:space">
+			<x:scenario label="override default with preserve">
+				<x:scenario label="specified by parent">
+					<x:call function="x:is-ws-only-text-node-significant">
+						<x:param select="//text()">
+							<great-grandparent>
+								<grandparent xml:space="default">
+									<parent xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</parent>
+								</grandparent>
+							</great-grandparent>
+						</x:param>
+						<x:param />
+					</x:call>
+					<x:expect label="true" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="specified by grandparent">
+					<x:call function="x:is-ws-only-text-node-significant">
+						<x:param select="//text()">
+							<great-grandparent xml:space="default">
+								<grandparent xml:space="preserve"><parent>&#x09;&#x0A;&#x0D;&#x20;</parent></grandparent>
+							</great-grandparent>
+						</x:param>
+						<x:param />
+					</x:call>
+					<x:expect label="true" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="override preserve with default">
+				<x:scenario label="specified by parent">
+					<x:call function="x:is-ws-only-text-node-significant">
+						<x:param select="//text()">
+							<great-grandparent>
+								<grandparent xml:space="preserve"><parent xml:space="default">
+										<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+									</parent></grandparent>
+							</great-grandparent>
+						</x:param>
+						<x:param />
+					</x:call>
+					<x:expect label="false" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="specified by grandparent">
+					<x:call function="x:is-ws-only-text-node-significant">
+						<x:param select="//text()">
+							<great-grandparent xml:space="preserve"><grandparent xml:space="default">
+									<parent>
+										<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+									</parent>
+								</grandparent></great-grandparent>
+						</x:param>
+						<x:param />
+					</x:call>
+					<x:expect label="false" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<!-- The other cases are tested indirectly by xspec-space.xspec -->
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function xslt-version">
+		<x:scenario label="default">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent>
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="2.0" select="2.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in self">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent>
+								<context xslt-version="999">
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in parent">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent xslt-version="999">
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in grandparent">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent xslt-version="999">
+							<parent>
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="override">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent xslt-version="9999">
+							<parent xslt-version="999">
+								<context xslt-version="99">
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take the nearest ancestor-or-self" select="99.0" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function locate-schematron-uri">
+		<!-- TODO: Use catalog -->
+		<x:call function="x:locate-schematron-uri">
+			<x:param href="../tutorial/schematron/demo-01.xspec" select="x:description" />
+		</x:call>
+		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
+		<x:expect label="filename and extension" select="'demo-01.sch'"
+			test="x:filename-and-extension($x:result)" />
+		<x:expect label="reachable" test="doc-available($x:result)" />
 	</x:scenario>
 
 </x:description>

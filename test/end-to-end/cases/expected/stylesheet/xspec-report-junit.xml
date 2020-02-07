@@ -29,4 +29,24 @@
          <failure message="expect assertion failed">Expected: ()</failure>
       </testcase>
    </testsuite>
+   <testsuite name="Document node with no children (xspec/xspec#697)"
+              tests="1"
+              failures="1">
+      <testcase name="XPath should be reported between Result title and box"
+                status="failed">
+         <failure message="expect assertion failed">Expected: ()</failure>
+      </testcase>
+   </testsuite>
+   <testsuite name="XPath is different, but serialized node looks as if same"
+              tests="2"
+              failures="2">
+      <testcase name="[Result] = document node, [Expected Result] = element XPath should be colored as different. Serialized node should be colored as same."
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+      <testcase name="[Result] = element, [Expected Result] = document node. XPath should be colored as different. Serialized node should be colored as same."
+                status="failed">
+         <failure message="expect assertion failed">Expected: /self::document-node()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>
