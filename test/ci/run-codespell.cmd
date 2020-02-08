@@ -8,5 +8,5 @@ rem Skipping nested dirs needs "./": codespell-project/codespell#99
 codespell ^
     --check-filenames ^
     --check-hidden ^
-    --quiet-level 2 ^
+    --quiet-level 6 ^
     --skip=".git,./src/schematron/iso-schematron"

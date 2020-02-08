@@ -16,7 +16,7 @@ if [ "${DO_CODESPELL}" = true ] ; then
     codespell \
         --check-filenames \
         --check-hidden \
-        --quiet-level 2 \
+        --quiet-level 6 \
         --skip=".git,./src/schematron/iso-schematron"
 else
     echo "Skip codespell"
