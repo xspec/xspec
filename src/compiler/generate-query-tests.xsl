@@ -523,7 +523,7 @@
    -->
    <xsl:template match="x:param|x:variable" mode="x:generate-declarations">
       <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-         <xsl:with-param name="global" select="true()"/>
+         <xsl:with-param name="is-global" select="true()"/>
       </xsl:apply-templates>
    </xsl:template>
 

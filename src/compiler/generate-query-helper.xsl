@@ -50,7 +50,7 @@
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
 
       <!-- True if the variable being declared is a global variable. (XQuery) -->
-      <xsl:param name="global" as="xs:boolean" select="false()" />
+      <xsl:param name="is-global" as="xs:boolean" select="false()" />
 
       <!-- True if the variable being declared is considered pending -->
       <xsl:variable name="variable-is-pending" as="xs:boolean"
@@ -77,7 +77,7 @@
       -->
       <xsl:if test="$temp-uri-name">
          <xsl:call-template name="test:declare-or-let-variable">
-            <xsl:with-param name="is-global" select="$global" />
+            <xsl:with-param name="is-global" select="$is-global" />
             <xsl:with-param name="name" select="$temp-uri-name" />
             <xsl:with-param name="type" select="'xs:anyURI'" />
             <xsl:with-param name="value" as="text()+">
@@ -101,7 +101,7 @@
       -->
       <xsl:if test="$temp-doc-name">
          <xsl:call-template name="test:declare-or-let-variable">
-            <xsl:with-param name="is-global" select="$global" />
+            <xsl:with-param name="is-global" select="$is-global" />
             <xsl:with-param name="name" select="$temp-doc-name" />
             <xsl:with-param name="type" select="'document-node()'" />
             <xsl:with-param name="value" as="node()+">
@@ -136,7 +136,7 @@
             ( EXPRESSION )
       -->
       <xsl:call-template name="test:declare-or-let-variable">
-         <xsl:with-param name="is-global" select="$global" />
+         <xsl:with-param name="is-global" select="$is-global" />
          <xsl:with-param name="name" select="$name" />
          <xsl:with-param name="type" select="if ($variable-is-pending) then () else (@as)" />
          <xsl:with-param name="value" as="text()+">
