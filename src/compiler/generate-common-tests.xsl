@@ -577,7 +577,7 @@
    <xsl:template match="x:param" mode="x:compile">
       <xsl:apply-templates select="." mode="test:generate-variable-declarations">
          <xsl:with-param name="name" select="( @name, generate-id() )[1]"/>
-         <xsl:with-param name="type" select="'variable'"/>
+         <xsl:with-param name="is-param" select="false()" />
       </xsl:apply-templates>
       <!-- Continue walking the siblings (only other x:param elements, within this
            x:call or x:context). -->
