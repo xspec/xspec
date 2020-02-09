@@ -58,15 +58,15 @@
 
   <!-- Name of the temporary runtime variable which holds a document specified by
     child::node() or @href -->
-  <xsl:variable name="var-doc" as="xs:string?"
+  <xsl:variable name="temp-doc-name" as="xs:string?"
     select="if (not($variable-is-pending) and (node() or @href))
             then concat($name, '-doc')
             else ()" />
 
   <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
   <xsl:variable name="var-doc-uri" as="xs:string?"
-    select="if ($var-doc and @href)
-            then concat($var-doc, '-uri')
+    select="if ($temp-doc-name and @href)
+            then concat($temp-doc-name, '-uri')
             else ()" />
 
   <xsl:if test="$var-doc-uri">
@@ -77,9 +77,9 @@
     </xsl:element>
   </xsl:if>
 
-  <xsl:if test="$var-doc">
+  <xsl:if test="$temp-doc-name">
     <xsl:element name="xsl:variable">
-      <xsl:attribute name="name" select="$var-doc" />
+      <xsl:attribute name="name" select="$temp-doc-name" />
       <xsl:attribute name="as" select="'document-node()'" />
       <xsl:sequence select="x:copy-namespaces(.)"/>
       <xsl:choose>
@@ -113,7 +113,7 @@
         <xsl:attribute name="as" select="'item()*'" />
       </xsl:when>
 
-      <xsl:when test="$var-doc">
+      <xsl:when test="$temp-doc-name">
         <xsl:if test="empty(@as)">
           <!-- Set @as in order not to create an unexpected document node:
             http://www.w3.org/TR/xslt20/#temporary-trees -->
@@ -121,7 +121,7 @@
         </xsl:if>
 
         <xsl:element name="xsl:for-each">
-          <xsl:attribute name="select" select="concat('$', $var-doc)" />
+          <xsl:attribute name="select" select="concat('$', $temp-doc-name)" />
           <xsl:element name="xsl:sequence">
             <xsl:attribute name="select" select="(@select, '.'[current()/@href], 'node()')[1]" />
           </xsl:element>

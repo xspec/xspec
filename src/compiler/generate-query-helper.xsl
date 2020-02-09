@@ -58,15 +58,15 @@
 
       <!-- Name of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
-      <xsl:variable name="var-doc" as="xs:string?"
+      <xsl:variable name="temp-doc-name" as="xs:string?"
          select="if (not($variable-is-pending) and (node() or @href))
                  then concat($name, '-doc')
                  else ()" />
 
       <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
       <xsl:variable name="var-doc-uri" as="xs:string?"
-         select="if ($var-doc and @href)
-                 then concat($var-doc, '-uri')
+         select="if ($temp-doc-name and @href)
+                 then concat($temp-doc-name, '-uri')
                  else ()" />
 
       <!--
@@ -99,10 +99,10 @@
          or
             document { NODE-GENERATORS }
       -->
-      <xsl:if test="$var-doc">
+      <xsl:if test="$temp-doc-name">
          <xsl:call-template name="test:declare-or-let-variable">
             <xsl:with-param name="is-global" select="$global" />
-            <xsl:with-param name="name" select="$var-doc" />
+            <xsl:with-param name="name" select="$temp-doc-name" />
             <xsl:with-param name="type" select="'document-node()'" />
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
@@ -145,9 +145,9 @@
                   <!-- Do not give variable a value (or type, above) because the value specified in test file might not be executable. -->
                   <xsl:text> </xsl:text>
                </xsl:when>
-               <xsl:when test="$var-doc">
+               <xsl:when test="$temp-doc-name">
                   <xsl:text>$</xsl:text>
-                  <xsl:value-of select="$var-doc" />
+                  <xsl:value-of select="$temp-doc-name" />
                   <xsl:text> ! ( </xsl:text>
                   <xsl:value-of select="(@select, '.'[current()/@href], 'node()')[1]" />
                   <xsl:text> )</xsl:text>
