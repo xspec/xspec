@@ -44,7 +44,7 @@
    -->
    <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
       <!-- Name of the variable being declared -->
-      <xsl:param name="var"    as="xs:string" select="@name" />
+      <xsl:param name="name" as="xs:string" select="@name" />
 
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
@@ -60,7 +60,7 @@
          child::node() or @href -->
       <xsl:variable name="var-doc" as="xs:string?"
          select="if (not($variable-is-pending) and (node() or @href))
-                 then concat($var, '-doc')
+                 then concat($name, '-doc')
                  else ()" />
 
       <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
@@ -71,9 +71,9 @@
 
       <!--
          Output
-            declare variable $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF");
+            declare variable $NAME-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF");
          or
-                         let $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
+                         let $NAME-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
       -->
       <xsl:if test="$var-doc-uri">
          <xsl:call-template name="test:declare-or-let-variable">
@@ -90,12 +90,12 @@
 
       <!--
          Output
-            declare variable $VAR-doc as document-node() := DOCUMENT;
+            declare variable $NAME-doc as document-node() := DOCUMENT;
          or
-                         let $VAR-doc as document-node() := DOCUMENT
+                         let $NAME-doc as document-node() := DOCUMENT
          
          where DOCUMENT is
-            doc($VAR-doc-uri)
+            doc($NAME-doc-uri)
          or
             document { NODE-GENERATORS }
       -->
@@ -126,18 +126,18 @@
 
       <!--
          Output
-            declare variable $VAR as TYPE := SELECTION;
+            declare variable $NAME as TYPE := SELECTION;
          or
-                         let $VAR as TYPE := SELECTION
+                         let $NAME as TYPE := SELECTION
          
          where SELECTION is
-            ( $VAR-doc ! ( EXPRESSION ) )
+            ( $NAME-doc ! ( EXPRESSION ) )
          or
             ( EXPRESSION )
       -->
       <xsl:call-template name="test:declare-or-let-variable">
          <xsl:with-param name="is-global" select="$global" />
-         <xsl:with-param name="name" select="$var" />
+         <xsl:with-param name="name" select="$name" />
          <xsl:with-param name="type" select="if ($variable-is-pending) then () else (@as)" />
          <xsl:with-param name="value" as="text()+">
             <xsl:choose>

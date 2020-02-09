@@ -44,7 +44,7 @@
 -->
 <xsl:template match="*" as="element()+" mode="test:generate-variable-declarations">
   <!-- Name of the variable being declared -->
-  <xsl:param name="var" as="xs:string" select="@name" />
+  <xsl:param name="name" as="xs:string" select="@name" />
 
   <!-- Reflects @pending or x:pending -->
   <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
@@ -60,7 +60,7 @@
     child::node() or @href -->
   <xsl:variable name="var-doc" as="xs:string?"
     select="if (not($variable-is-pending) and (node() or @href))
-            then concat($var, '-doc')
+            then concat($name, '-doc')
             else ()" />
 
   <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
@@ -102,7 +102,7 @@
 
   <xsl:element name="xsl:{$type}">
     <xsl:sequence select="x:copy-namespaces(.)"/>
-    <xsl:attribute name="name" select="$var" />
+    <xsl:attribute name="name" select="$name" />
     <xsl:sequence select="@as" />
 
     <xsl:choose>

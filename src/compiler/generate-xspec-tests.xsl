@@ -572,7 +572,7 @@
       </xsl:element>
    </xsl:variable>
    <xsl:apply-templates select="$context" mode="test:generate-variable-declarations">
-      <xsl:with-param name="var" select="'impl:context'" />
+      <xsl:with-param name="name" select="'impl:context'" />
    </xsl:apply-templates>
 </xsl:template>
 

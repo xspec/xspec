@@ -576,7 +576,7 @@
    -->
    <xsl:template match="x:param" mode="x:compile">
       <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-         <xsl:with-param name="var"  select="( @name, generate-id() )[1]"/>
+         <xsl:with-param name="name" select="( @name, generate-id() )[1]"/>
          <xsl:with-param name="type" select="'variable'"/>
       </xsl:apply-templates>
       <!-- Continue walking the siblings (only other x:param elements, within this
@@ -735,7 +735,7 @@
       <!-- Generate <xsl:variable name="impl:expected"> (XSLT)
          or "let $local:expected := ..." (XQuery) to represent the expected items -->
       <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
-         <xsl:with-param name="var" select="$var" />
+         <xsl:with-param name="name" select="$var" />
       </xsl:apply-templates>
    </xsl:template>
 
