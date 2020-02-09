@@ -59,11 +59,15 @@
   <!-- Name of the temporary runtime variable which holds a document specified by
     child::node() or @href -->
   <xsl:variable name="var-doc" as="xs:string?"
-    select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
+    select="if (not($variable-is-pending) and (node() or @href))
+            then concat($var, '-doc')
+            else ()" />
 
   <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
   <xsl:variable name="var-doc-uri" as="xs:string?"
-    select="if ($var-doc and @href) then concat($var-doc, '-uri') else ()" />
+    select="if ($var-doc and @href)
+            then concat($var-doc, '-uri')
+            else ()" />
 
   <xsl:if test="$var-doc-uri">
     <xsl:element name="xsl:variable">
