@@ -268,9 +268,7 @@
       <!-- If there are variables before x:call, the caller passed them in as $variables.
            Define them here followed by "return". -->
       <xsl:if test="exists($variables)">
-         <xsl:for-each select="$variables">
-            <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
-         </xsl:for-each>
+         <xsl:apply-templates select="$variables" mode="test:generate-variable-declarations" />
          <xsl:text>    return&#10;</xsl:text>
       </xsl:if>
 
