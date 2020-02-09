@@ -43,16 +43,25 @@
   before applying this mode and/or mode="test:create-node-generator" should be overridden.
 -->
 <xsl:template match="*" as="element()+" mode="test:generate-variable-declarations">
+  <!-- Name of the variable being declared -->
   <xsl:param name="var" as="xs:string" required="yes" />
+
+  <!-- Reflects @pending or x:pending -->
   <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
 
-  <!-- XSLT-specific parameter -->
+  <!-- Specifies whether the variable should be declared as xsl:param or xs:variable. (XSLT) -->
   <xsl:param name="type" as="xs:string" select="'variable'" />
 
+  <!-- True if the variable being declared is considered pending -->
   <xsl:variable name="variable-is-pending" as="xs:boolean"
     select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
+
+  <!-- Name of the temporary runtime variable which holds a document specified by
+    child::node() or @href -->
   <xsl:variable name="var-doc" as="xs:string?"
     select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
+
+  <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
   <xsl:variable name="var-doc-uri" as="xs:string?"
     select="if ($var-doc and @href) then concat($var-doc, '-uri') else ()" />
 
