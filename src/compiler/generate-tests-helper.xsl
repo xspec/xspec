@@ -64,14 +64,14 @@
             else ()" />
 
   <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
-  <xsl:variable name="var-doc-uri" as="xs:string?"
+  <xsl:variable name="temp-uri-name" as="xs:string?"
     select="if ($temp-doc-name and @href)
             then concat($temp-doc-name, '-uri')
             else ()" />
 
-  <xsl:if test="$var-doc-uri">
+  <xsl:if test="$temp-uri-name">
     <xsl:element name="xsl:variable">
-      <xsl:attribute name="name" select="$var-doc-uri" />
+      <xsl:attribute name="name" select="$temp-uri-name" />
       <xsl:attribute name="as" select="'xs:anyURI'" />
       <xsl:value-of select="resolve-uri(@href, base-uri())" />
     </xsl:element>
@@ -86,7 +86,7 @@
         <xsl:when test="@href">
           <xsl:attribute name="select">
             <xsl:text>doc($</xsl:text>
-            <xsl:value-of select="$var-doc-uri" />
+            <xsl:value-of select="$temp-uri-name" />
             <xsl:text>)</xsl:text>
           </xsl:attribute>
         </xsl:when>
