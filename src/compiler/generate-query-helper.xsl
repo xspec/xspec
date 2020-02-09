@@ -72,8 +72,8 @@
       <!--
          Output
             declare variable $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF");
-            or
-            let $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
+         or
+                         let $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
       -->
       <xsl:if test="$var-doc-uri">
          <xsl:call-template name="test:declare-or-let-variable">
@@ -91,12 +91,12 @@
       <!--
          Output
             declare variable $VAR-doc as document-node() := DOCUMENT;
-            or
-            let $VAR-doc as document-node() := DOCUMENT
+         or
+                         let $VAR-doc as document-node() := DOCUMENT
          
          where DOCUMENT is
             doc($VAR-doc-uri)
-            or
+         or
             document { NODE-GENERATORS }
       -->
       <xsl:if test="$var-doc">
@@ -127,12 +127,12 @@
       <!--
          Output
             declare variable $VAR as TYPE := SELECTION;
-            or
-            let $VAR as TYPE := SELECTION
+         or
+                         let $VAR as TYPE := SELECTION
          
          where SELECTION is
             ( $VAR-doc ! ( EXPRESSION ) )
-            or
+         or
             ( EXPRESSION )
       -->
       <xsl:call-template name="test:declare-or-let-variable">
@@ -164,8 +164,8 @@
    <!--
       Outputs
          declare variable $NAME as TYPE := ( VALUE );
-         or
-         let $NAME as TYPE := ( VALUE )
+      or
+                      let $NAME as TYPE := ( VALUE )
    -->
    <xsl:template name="test:declare-or-let-variable" as="node()+">
       <xsl:context-item use="absent"
