@@ -554,15 +554,11 @@
 <!-- *** x:generate-declarations *** -->
 <!-- Code to generate parameter declarations -->
 <xsl:template match="x:param" mode="x:generate-declarations">
-  <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-    <xsl:with-param name="type" select="'param'"/>
-  </xsl:apply-templates>
+  <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
 </xsl:template>
 
 <xsl:template match="x:variable" mode="x:generate-declarations">
-  <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-    <xsl:with-param name="type" select="'variable'"/>
-  </xsl:apply-templates>
+  <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
 </xsl:template>
 
 <!-- *** x:compile *** -->

@@ -50,7 +50,7 @@
   <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
 
   <!-- Specifies whether the variable should be declared as xsl:param or xs:variable. (XSLT) -->
-  <xsl:param name="type" as="xs:string" select="'variable'" />
+  <xsl:param name="type" as="xs:string" select="if (self::x:param) then 'param' else 'variable'" />
 
   <!-- True if the variable being declared is considered pending -->
   <xsl:variable name="variable-is-pending" as="xs:boolean"
