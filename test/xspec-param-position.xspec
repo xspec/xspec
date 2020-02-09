@@ -17,7 +17,7 @@
 			<x:param name="pattern" position="2" select="'b'" />
 			<x:param name="input" position="1" select="'abc'" />
 		</x:call>
-		<x:expect label="The parameters are picked up in @poisition order" select="'aBc'" />
+		<x:expect label="The parameters are picked up in @position order" select="'aBc'" />
 	</x:scenario>
 
 	<x:scenario label="When all instances of function-param have the same @position">
