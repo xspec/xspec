@@ -269,9 +269,7 @@
            Define them here followed by "return". -->
       <xsl:if test="exists($variables)">
          <xsl:for-each select="$variables">
-            <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-               <xsl:with-param name="var" select="@name"/>
-            </xsl:apply-templates>
+            <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
          </xsl:for-each>
          <xsl:text>    return&#10;</xsl:text>
       </xsl:if>
@@ -527,7 +525,6 @@
    -->
    <xsl:template match="x:param|x:variable" mode="x:generate-declarations">
       <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-         <xsl:with-param name="var"    select="@name" />
          <xsl:with-param name="global" select="true()"/>
       </xsl:apply-templates>
    </xsl:template>

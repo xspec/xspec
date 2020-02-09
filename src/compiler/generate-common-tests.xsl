@@ -348,7 +348,6 @@
       <!-- The variable declaration. -->
       <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
          <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-            <xsl:with-param name="var"  select="@name"/>
             <xsl:with-param name="type" select="'variable'"/>
          </xsl:apply-templates>
       </xsl:if>
