@@ -44,8 +44,10 @@
 -->
 <xsl:template match="*" as="element()+" mode="test:generate-variable-declarations">
   <xsl:param name="var" as="xs:string" required="yes" />
-  <xsl:param name="type" as="xs:string" select="'variable'" />
   <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
+
+  <!-- XSLT-specific parameter -->
+  <xsl:param name="type" as="xs:string" select="'variable'" />
 
   <xsl:variable name="variable-is-pending" as="xs:boolean"
     select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>

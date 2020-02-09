@@ -44,8 +44,11 @@
    -->
    <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
       <xsl:param name="var"    as="xs:string"  required="yes"/>
-      <xsl:param name="global" as="xs:boolean" select="false()"/>
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
+
+      <!-- XQuery-specific parameter -->
+      <xsl:param name="global" as="xs:boolean" select="false()" />
+
       <xsl:variable name="variable-is-pending" as="xs:boolean"
          select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
       <xsl:variable name="var-doc" as="xs:string?"
