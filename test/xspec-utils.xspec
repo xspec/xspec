@@ -130,4 +130,27 @@
 
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function decimal-string">
+		<x:scenario label="xs:integer">
+			<x:call function="x:decimal-string">
+				<x:param select="xs:integer(1)" />
+			</x:call>
+			<x:expect label="Numeric literal of xs:decimal" select="'1.0'" />
+		</x:scenario>
+
+		<x:scenario label="xs:decimal (no decimal point)">
+			<x:call function="x:decimal-string">
+				<x:param select="xs:decimal(1)" />
+			</x:call>
+			<x:expect label="Numeric literal of xs:decimal" select="'1.0'" />
+		</x:scenario>
+
+		<x:scenario label="xs:decimal (with decimal point)">
+			<x:call function="x:decimal-string">
+				<x:param select="xs:decimal(1.2)" />
+			</x:call>
+			<x:expect label="Numeric literal of xs:decimal" select="'1.2'" />
+		</x:scenario>
+	</x:scenario>
+
 </x:description>

@@ -114,13 +114,22 @@
 
   <!-- Properties indicating whether the test type is a specific type -->
   <condition property="xspec.is.schematron" else="false">
-    <equals arg1="${test.type}" arg2="s" />
+    <or>
+      <equals arg1="${test.type}" arg2="s" />
+      <equals arg1="${test.type}" arg2="schematron" casesensitive="no" />
+    </or>
   </condition>
   <condition property="xspec.is.xquery" else="false">
-    <equals arg1="${test.type}" arg2="q" />
+    <or>
+      <equals arg1="${test.type}" arg2="q" />
+      <equals arg1="${test.type}" arg2="xquery" casesensitive="no" />
+    </or>
   </condition>
   <condition property="xspec.is.xslt" else="false">
-    <equals arg1="${test.type}" arg2="t" />
+    <or>
+      <equals arg1="${test.type}" arg2="t" />
+      <equals arg1="${test.type}" arg2="xslt" casesensitive="no" />
+    </or>
   </condition>
 
   <!-- "xspec.fail" property: Documented in Wiki. DO NOT RENAME.

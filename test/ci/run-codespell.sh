@@ -11,11 +11,13 @@ if [ "${DO_CODESPELL}" = true ] ; then
         --user \
         codespell
 
+    # ".git" dir is not skipped by default: codespell-project/codespell#783
+    # Skipping nested dirs needs "./": codespell-project/codespell#99
     codespell \
         --check-filenames \
         --check-hidden \
-        --quiet-level 2 \
-        --skip="./src/schematron/iso-schematron"
+        --quiet-level 6 \
+        --skip=".git,./src/schematron/iso-schematron"
 else
     echo "Skip codespell"
 fi

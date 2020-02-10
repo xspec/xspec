@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../do-nothing.xsl"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
+          query="x-urn:test:do-nothing"
+          query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-55.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-55.xspec">
       <x:label>In a failure report HTML</x:label>
