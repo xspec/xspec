@@ -53,13 +53,13 @@
       <xsl:param name="is-global" as="xs:boolean" select="false()" />
 
       <!-- True if the variable being declared is considered pending -->
-      <xsl:variable name="variable-is-pending" as="xs:boolean"
+      <xsl:variable name="is-pending" as="xs:boolean"
          select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
 
       <!-- Name of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
       <xsl:variable name="temp-doc-name" as="xs:string?"
-         select="if (not($variable-is-pending) and (node() or @href))
+         select="if (not($is-pending) and (node() or @href))
                  then concat($name, '-doc')
                  else ()" />
 
@@ -138,10 +138,10 @@
       <xsl:call-template name="test:declare-or-let-variable">
          <xsl:with-param name="is-global" select="$is-global" />
          <xsl:with-param name="name" select="$name" />
-         <xsl:with-param name="type" select="if ($variable-is-pending) then () else (@as)" />
+         <xsl:with-param name="type" select="if ($is-pending) then () else (@as)" />
          <xsl:with-param name="value" as="text()+">
             <xsl:choose>
-               <xsl:when test="$variable-is-pending">
+               <xsl:when test="$is-pending">
                   <!-- Do not give variable a value (or type, above) because the value specified in test file might not be executable. -->
                   <xsl:text> </xsl:text>
                </xsl:when>

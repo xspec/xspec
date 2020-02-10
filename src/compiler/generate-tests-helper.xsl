@@ -53,13 +53,13 @@
   <xsl:param name="is-param" as="xs:boolean" select="exists(self::x:param)" />
 
   <!-- True if the variable being declared is considered pending -->
-  <xsl:variable name="variable-is-pending" as="xs:boolean"
+  <xsl:variable name="is-pending" as="xs:boolean"
     select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
 
   <!-- Name of the temporary runtime variable which holds a document specified by
     child::node() or @href -->
   <xsl:variable name="temp-doc-name" as="xs:string?"
-    select="if (not($variable-is-pending) and (node() or @href))
+    select="if (not($is-pending) and (node() or @href))
             then concat($name, '-doc')
             else ()" />
 
@@ -106,7 +106,7 @@
     <xsl:sequence select="@as" />
 
     <xsl:choose>
-      <xsl:when test="$variable-is-pending">
+      <xsl:when test="$is-pending">
         <!-- Do not give variable a value, because the value specified in test file
              might not be executable. Override data type, because an empty
              sequence might not be valid for the type specified in test file. -->
