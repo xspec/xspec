@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-55.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="In a failure report HTML">
-		<x:context />
+		<x:call function="true" />
 		<x:expect select="xs:decimal(1)">
 			<x:label>[Expected Result] must represent xs:decimal(1) by "1.0" (numeric literal of
 				decimal)</x:label>
