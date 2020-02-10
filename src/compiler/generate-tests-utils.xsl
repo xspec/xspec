@@ -489,10 +489,10 @@
       <xsl:sequence select="x:decimal-string($value)" />
     </xsl:when>
     <!-- xs:double
-             Just defer it to xsl:otherwise. Justifications below.
+             Just defer it to the ELSE branch. Justifications below.
              - Expression is a bit complicated: http://www.w3.org/TR/xpath-functions/#casting-to-string
              - Not used as frequently as integer
-             - xsl:otherwise will return valid expression. It's just some more verbose than numeric literal. -->
+             - The ELSE branch will return valid expression. It's just some more verbose than numeric literal. -->
 
     <xsl:when test="$value instance of xs:QName">
       <xsl:sequence
