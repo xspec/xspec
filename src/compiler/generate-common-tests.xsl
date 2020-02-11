@@ -296,9 +296,6 @@
       <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
 
       <xsl:call-template name="x:output-call">
-         <xsl:with-param name="local-name" as="xs:string">
-            <xsl:apply-templates select="." mode="x:generate-id" />
-         </xsl:with-param>
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:for-each select="x:distinct-variable-names($vars)">
@@ -320,9 +317,6 @@
       <xsl:param name="vars"    select="()" tunnel="yes" as="element(x:var)*"/>
 
       <xsl:call-template name="x:output-call">
-         <xsl:with-param name="local-name" as="xs:string">
-            <xsl:apply-templates select="." mode="x:generate-id" />
-         </xsl:with-param>
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">

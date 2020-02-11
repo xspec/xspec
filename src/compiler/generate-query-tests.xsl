@@ -185,9 +185,12 @@
       <xsl:context-item as="element()" use="required"
          use-when="element-available('xsl:context-item')" />
 
-      <xsl:param name="local-name" as="xs:string"/>
-      <xsl:param name="last"       as="xs:boolean"/>
-      <xsl:param name="params"     as="element(param)*"/>
+      <xsl:param name="last"   as="xs:boolean" />
+      <xsl:param name="params" as="element(param)*" />
+
+      <xsl:variable name="local-name" as="xs:string">
+         <xsl:apply-templates select="." mode="x:generate-id" />
+      </xsl:variable>
 
       <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
          <xsl:text>,&#10;</xsl:text>
