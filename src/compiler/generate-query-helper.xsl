@@ -59,7 +59,10 @@
       <!-- True if the variable should be declared as global -->
       <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
 
-      <!-- True if the variable should be declared as external -->
+      <!-- True if the variable should be declared as external.
+         TODO: If true, define external variable (which can have a default value in
+         XQuery 1.1, but not in 1.0, so we will need to generate an error for global
+         x:param with default value...) -->
       <!--<xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />-->
 
       <!-- Name of the temporary runtime variable which holds a document specified by

@@ -387,7 +387,7 @@
          use-when="element-available('xsl:context-item')" />
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
-      <xsl:apply-templates select="$this/(x:param|x:variable)" mode="x:generate-declarations"/>
+      <xsl:apply-templates select="$this/(x:param|x:variable)" mode="test:generate-variable-declarations"/>
    </xsl:template>
 
    <!--

@@ -518,17 +518,6 @@
       <xsl:text>&#10;};&#10;</xsl:text>
    </xsl:template>
 
-   <!-- *** x:generate-declarations *** -->
-   <!-- Code to generate parameter declarations -->
-   <!--
-       TODO: For x:param, define external variable (which can have a
-       default value in XQuery 1.1, but not in 1.0, so we will need to
-       generate an error for global x:param with default value...)
-   -->
-   <xsl:template match="x:param|x:variable" mode="x:generate-declarations">
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
-   </xsl:template>
-
    <!-- *** x:report *** -->
 
    <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
