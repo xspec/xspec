@@ -575,9 +575,8 @@
        x:param elements generate actual call param's variable.
    -->
    <xsl:template match="x:param" mode="x:compile">
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-         <xsl:with-param name="is-param" select="false()" />
-      </xsl:apply-templates>
+      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+
       <!-- Continue walking the siblings (only other x:param elements, within this
            x:call or x:context). -->
       <xsl:apply-templates select="following-sibling::*[self::x:param][1]" mode="#current"/>

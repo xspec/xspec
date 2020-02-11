@@ -59,6 +59,9 @@
       <!-- True if the variable should be declared as global -->
       <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
 
+      <!-- True if the variable should be declared as external -->
+      <!--<xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />-->
+
       <!-- Name of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
       <xsl:variable name="temp-doc-name" as="xs:string?"

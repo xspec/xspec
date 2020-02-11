@@ -46,9 +46,6 @@
   <!-- Reflects @pending or x:pending -->
   <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
 
-  <!-- True if the variable should be declared as xsl:param. (XSLT) -->
-  <xsl:param name="is-param" as="xs:boolean" select="exists(self::x:param)" />
-
   <!-- Name of the variable being declared -->
   <xsl:variable name="name" as="xs:string" select="test:variable-name(.)" />
 
@@ -61,7 +58,10 @@
     select="self::x:context/x:param, self::x:expect/x:label" />
 
   <!-- True if the variable should be declared as global -->
-  <!--<xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />-->
+  <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
+
+  <!-- True if the variable should be declared using xsl:param (not xsl:variable) -->
+  <xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />
 
   <!-- Name of the temporary runtime variable which holds a document specified by
     child::node() or @href -->
