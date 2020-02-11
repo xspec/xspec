@@ -310,7 +310,7 @@
                      <xsl:for-each select="$call/x:param">
                         <xsl:sort select="xs:integer(@position)"/>
                         <xsl:text>$</xsl:text>
-                        <xsl:value-of select="( @name, generate-id() )[1]"/>
+                        <xsl:value-of select="test:variable-name(.)" />
                         <xsl:if test="position() != last()">, </xsl:if>
                      </xsl:for-each>
                      <xsl:text>)&#10;</xsl:text>
@@ -445,7 +445,9 @@
                <xsl:text>  let $local:successful as xs:boolean := (&#x0A;</xsl:text>
                <xsl:text>    if ($local:boolean-test)&#x0A;</xsl:text>
                <xsl:text>    then boolean($local:test-result)&#x0A;</xsl:text>
-               <xsl:text>    else test:deep-equal($local:expected, $local:test-result, </xsl:text>
+               <xsl:text>    else test:deep-equal($</xsl:text>
+               <xsl:value-of select="test:variable-name(.)" />
+               <xsl:text>, $local:test-result, </xsl:text>
                <xsl:value-of select="$deep-equal-flags" />
                <xsl:text>)&#x0A;</xsl:text>
                <xsl:text>  )&#x0A;</xsl:text>
@@ -455,7 +457,9 @@
             <xsl:otherwise>
                <!-- $local:successful -->
                <xsl:text>  let $local:successful as xs:boolean :=&#x0A;</xsl:text>
-               <xsl:text>      test:deep-equal($local:expected, $</xsl:text>
+               <xsl:text>      test:deep-equal($</xsl:text>
+               <xsl:value-of select="test:variable-name(.)" />
+               <xsl:text>, $</xsl:text>
                <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>, </xsl:text>
                <xsl:value-of select="$deep-equal-flags" />
@@ -499,7 +503,9 @@
             </xsl:if>
 
             <xsl:text>&#x0A;</xsl:text>
-            <xsl:text>      { test:report-sequence($local:expected, '</xsl:text>
+            <xsl:text>      { test:report-sequence($</xsl:text>
+            <xsl:value-of select="test:variable-name(.)" />
+            <xsl:text>, '</xsl:text>
             <xsl:value-of select="x:xspec-name(.,'expect')" />
             <xsl:text>'</xsl:text>
 

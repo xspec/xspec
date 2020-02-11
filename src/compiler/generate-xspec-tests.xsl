@@ -267,7 +267,7 @@
                     <call-template name="{$call/@template}">
                       <xsl:sequence select="x:copy-namespaces($call)" />
                       <xsl:for-each select="$call/x:param">
-                        <with-param name="{@name}" select="${@name}">
+                        <with-param name="{@name}" select="${test:variable-name(.)}">
                           <xsl:copy-of select="@tunnel, @as" />
                         </with-param>
                       </xsl:for-each>
@@ -280,7 +280,7 @@
                   <!-- Set up the $impl:context variable -->
                   <xsl:apply-templates select="$context" mode="x:setup-context"/>
                   <!-- Switch to the context and call the template -->
-                  <for-each select="$impl:context">
+                  <for-each select="${test:variable-name($context)}">
                     <xsl:copy-of select="$template-call" />
                   </for-each>
                 </xsl:when>
@@ -303,7 +303,7 @@
                       <xsl:for-each select="$call/x:param">
                         <xsl:sort select="xs:integer(@position)" />
                         <xsl:text>$</xsl:text>
-                        <xsl:value-of select="if (@name) then @name else generate-id()" />
+                        <xsl:value-of select="test:variable-name(.)" />
                         <xsl:if test="position() != last()">, </xsl:if>
                       </xsl:for-each>
                       <xsl:text>)</xsl:text>
@@ -327,7 +327,7 @@
                      <xsl:sequence select="x:copy-namespaces($apply)" /><!--TODO: Check that this line works after x:apply is implemented.-->
                      <xsl:copy-of select="$apply/@select | $apply/@mode"/>
                      <xsl:for-each select="$apply/x:param">
-                       <with-param name="{ @name }" select="${ @name }">
+                       <with-param name="{ @name }" select="${ test:variable-name(.) }">
                          <xsl:copy-of select="@tunnel"/>
                        </with-param>
                      </xsl:for-each>
@@ -343,11 +343,11 @@
               <!-- Create the template call -->
               <xsl:call-template name="x:enter-sut">
                 <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
-                  <apply-templates select="$impl:context">
+                  <apply-templates select="${test:variable-name($context)}">
                     <xsl:sequence select="x:copy-namespaces($context)" />
                     <xsl:sequence select="$context/@mode" />
                     <xsl:for-each select="$context/x:param">
-                      <with-param name="{@name}" select="${@name}">
+                      <with-param name="{@name}" select="${test:variable-name(.)}">
                         <xsl:copy-of select="@tunnel, @as" />
                       </with-param>
                     </xsl:for-each>
@@ -495,11 +495,11 @@
           </xsl:if>
           <variable name="impl:successful" as="xs:boolean"
             select="if ($impl:boolean-test) then boolean($impl:test-result)
-                    else test:deep-equal($impl:expected, $impl:test-result, {$deep-equal-flags})" />
+                    else test:deep-equal(${test:variable-name(.)}, $impl:test-result, {$deep-equal-flags})" />
         </xsl:when>
         <xsl:otherwise>
           <variable name="impl:successful" as="xs:boolean" 
-            select="test:deep-equal($impl:expected, ${x:xspec-name(.,'result')}, {$deep-equal-flags})" />
+            select="test:deep-equal(${test:variable-name(.)}, ${x:xspec-name(.,'result')}, {$deep-equal-flags})" />
         </xsl:otherwise>
       </xsl:choose>
       <if test="not($impl:successful)">
@@ -537,7 +537,7 @@
             </if>
          </xsl:if>
          <call-template name="test:report-sequence">
-            <with-param name="sequence"     select="$impl:expected"/>
+            <with-param name="sequence"     select="${test:variable-name(.)}"/>
             <with-param name="wrapper-name" as="xs:string">
                <xsl:value-of select="x:xspec-name(.,'expect')" />
             </with-param>
