@@ -44,7 +44,7 @@
    -->
    <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
       <!-- Name of the variable being declared -->
-      <xsl:param name="name" as="xs:string" select="@name" />
+      <xsl:param name="name" as="xs:string" select="( @name, generate-id() )[1]" />
 
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
