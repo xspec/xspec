@@ -60,6 +60,9 @@
   <xsl:variable name="exclude" as="element()*"
     select="self::x:context/x:param, self::x:expect/x:label" />
 
+  <!-- True if the variable should be declared as global -->
+  <!--<xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />-->
+
   <!-- Name of the temporary runtime variable which holds a document specified by
     child::node() or @href -->
   <xsl:variable name="temp-doc-name" as="xs:string?"

@@ -526,9 +526,7 @@
        generate an error for global x:param with default value...)
    -->
    <xsl:template match="x:param|x:variable" mode="x:generate-declarations">
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-         <xsl:with-param name="is-global" select="true()"/>
-      </xsl:apply-templates>
+      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
    </xsl:template>
 
    <!-- *** x:report *** -->

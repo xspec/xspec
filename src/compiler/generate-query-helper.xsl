@@ -46,9 +46,6 @@
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
 
-      <!-- True if the variable being declared is a global variable. (XQuery) -->
-      <xsl:param name="is-global" as="xs:boolean" select="false()" />
-
       <!-- Name of the variable being declared -->
       <xsl:variable name="name" as="xs:string" select="test:variable-name(.)" />
 
@@ -58,6 +55,9 @@
 
       <!-- Child nodes to be excluded -->
       <xsl:variable name="exclude" as="element(x:label)?" select="self::x:expect/x:label" />
+
+      <!-- True if the variable should be declared as global -->
+      <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
 
       <!-- Name of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
