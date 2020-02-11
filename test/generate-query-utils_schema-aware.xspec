@@ -95,90 +95,89 @@
       </t:scenario>
 
       <t:scenario label="Derived numeric types">
-         <!-- TODO: xspec/xspec#58 has not been implemented for XQuery -->
 
          <t:scenario label="xs:negativeInteger">
             <t:call function="test:atom-type">
                <t:param select="xs:negativeInteger(-1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:nonPositiveInteger">
            <t:call function="test:atom-type">
               <t:param select="xs:nonPositiveInteger(0)" />
            </t:call>
-           <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+           <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:byte">
             <t:call function="test:atom-type">
                <t:param select="xs:byte(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:short">
             <t:call function="test:atom-type">
                <t:param select="xs:short(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:int">
             <t:call function="test:atom-type">
                <t:param select="xs:int(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:long">
             <t:call function="test:atom-type">
                <t:param select="xs:long(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:unsignedByte">
             <t:call function="test:atom-type">
                <t:param select="xs:unsignedByte(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:unsignedShort">
             <t:call function="test:atom-type">
                <t:param select="xs:unsignedShort(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:unsignedInt">
             <t:call function="test:atom-type">
                <t:param select="xs:unsignedInt(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:unsignedLong">
             <t:call function="test:atom-type">
                <t:param select="xs:unsignedLong(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:positiveInteger">
             <t:call function="test:atom-type">
                <t:param select="xs:positiveInteger(1)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
          <t:scenario label="xs:nonNegativeInteger">
             <t:call function="test:atom-type">
                <t:param select="xs:nonNegativeInteger(0)" />
             </t:call>
-            <t:expect label="xs:anyAtomicType" select="'xs:anyAtomicType'"/>
+            <t:expect label="xs:integer" select="'xs:integer'"/>
          </t:scenario>
 
       </t:scenario>

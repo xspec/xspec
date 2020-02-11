@@ -335,20 +335,29 @@ declare function test:report-node(
 
 declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:string
 {
+  (: Derived types must be handled before their base types :)
+
+  (: String types :)
+  (: xs:normalizedString: Requires schema-aware processor :)
   if ( $value instance of xs:string ) then
     fn:concat("'", fn:replace($value, "'", "''"), "'")
 
-  (: Numeric literals: http://www.w3.org/TR/xpath20/#id-literals :)
-  (: Check integer before decimal, because of derivation :)
+  (: Derived numeric types: Requires schema-aware processor :)
+
+  (: Numeric types which can be expressed as numeric literals:
+    http://www.w3.org/TR/xpath20/#id-literals :)
   else if ( $value instance of xs:integer ) then
     fn:string($value)
   else if ( $value instance of xs:decimal ) then
     x:decimal-string($value)
-  (: xs:double
-         Just defer it to the ELSE branch. Justifications below.
-         - Expression is a bit complicated: http://www.w3.org/TR/xpath-functions/#casting-to-string
-         - Not used as frequently as integer
-         - The ELSE branch will return valid expression. It's just some more verbose than numeric literal. :)
+  else if ( $value instance of xs:double ) then
+    (: Do not report xs:double as a numeric literal. Report as xs:double() constructor instead.
+      Justifications below.
+      * Expression of xs:double as a numeric literal is a bit complicated:
+        http://www.w3.org/TR/xpath-functions/#casting-to-string
+      * xs:double is not used as frequently as xs:integer
+      * xs:double() constructor is valid expression. It's just some more verbose than a numeric literal. :)
+    test:report-atomic-value-as-constructor($value)
 
   else if ( $value instance of xs:QName ) then
     fn:concat("QName('",
@@ -360,18 +369,46 @@ declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:stri
              '',
            fn:local-name-from-QName($value),
            "')")
+
   else
-    fn:concat(test:atom-type($value), '(', test:report-atomic-value(fn:string($value)), ')')
+    test:report-atomic-value-as-constructor($value)
+};
+
+declare function test:report-atomic-value-as-constructor($value as xs:anyAtomicType) as xs:string
+{
+  (: Constructor usually has the same name as type :)
+  let $constructor-name as xs:string := test:atom-type($value)
+
+  (: Cast as either xs:integer or xs:string :)
+  let $casted-value as xs:anyAtomicType := (
+    if ( $value instance of xs:integer )
+    then
+      (: Force casting down to integer, by first converting to string :)
+      (fn:string($value) cast as xs:integer)
+    else
+      fn:string($value)
+  )
+
+  (: Constructor parameter:
+    Either numeric literal of integer or string literal :)
+  let $costructor-param as xs:string :=
+    test:report-atomic-value($casted-value)
+
+  return fn:concat($constructor-name, '(', $costructor-param, ')')
 };
 
 declare function test:atom-type($value as xs:anyAtomicType) as xs:string
 {
-  (: Grouped as the spec does.
-     Groups are in the reversed order so that the derived types are before the primitive types,
-     otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. :)
+  (: Grouped as the spec does: http://www.w3.org/TR/xslt20/#built-in-types
+    Groups are in the reversed order so that the derived types are before the primitive types,
+    otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. :)
 
-  (: http://www.w3.org/TR/xslt20/#built-in-types
-        Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: :)
+  (: A schema-aware XSLT processor additionally supports: :)
+
+  (:    * All other built-in types defined in [XML Schema Part 2] :)
+  (: Requires schema-aware processor :)
+
+  (: Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: :)
 
   (:    * The following types defined in [XPath 2.0] :)
   if ( $value instance of xs:yearMonthDuration ) then

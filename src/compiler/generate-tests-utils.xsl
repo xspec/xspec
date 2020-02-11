@@ -566,8 +566,9 @@
         Groups are in the reversed order so that the derived types are before the primitive types,
         otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. -->
 
-    <!-- A schema-aware XSLT processor additionally supports:
-            * All other built-in types defined in [XML Schema Part 2] -->
+    <!-- A schema-aware XSLT processor additionally supports: -->
+
+    <!--    * All other built-in types defined in [XML Schema Part 2] -->
     <!-- xs:IDREFS: list -->
     <!-- xs:ENTITIES: list -->
     <xsl:when test="$value instance of xs:ID" use-when="type-available('xs:ID')">xs:ID</xsl:when>
@@ -594,8 +595,9 @@
     <xsl:when test="$value instance of xs:nonNegativeInteger" use-when="type-available('xs:nonNegativeInteger')">xs:nonNegativeInteger</xsl:when>
     <!-- xs:NOTATION: Abstract -->
 
-    <!-- Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components:
-            * The following types defined in [XPath 2.0] -->
+    <!-- Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: -->
+
+    <!--    * The following types defined in [XPath 2.0] -->
     <xsl:when test="$value instance of xs:yearMonthDuration">xs:yearMonthDuration</xsl:when>
     <xsl:when test="$value instance of xs:dayTimeDuration">xs:dayTimeDuration</xsl:when>
     <!-- xs:anyAtomicType: Abstract -->
