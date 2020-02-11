@@ -413,9 +413,7 @@
       <xsl:text>)&#10;{&#10;</xsl:text>
       <xsl:if test="not($pending-p)">
          <!-- Set up the $local:expected variable -->
-         <xsl:call-template name="x:setup-expected">
-            <xsl:with-param name="var" select="'local:expected'" />
-         </xsl:call-template>
+         <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
 
          <!-- Flags for test:deep-equal() enclosed in ''. -->
          <xsl:variable name="deep-equal-flags" as="xs:string">''</xsl:variable>

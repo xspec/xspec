@@ -278,7 +278,7 @@
               <xsl:choose>
                 <xsl:when test="$context">
                   <!-- Set up the $impl:context variable -->
-                  <xsl:apply-templates select="$context" mode="x:setup-context"/>
+                  <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
                   <!-- Switch to the context and call the template -->
                   <for-each select="${test:variable-name($context)}">
                     <xsl:copy-of select="$template-call" />
@@ -337,7 +337,7 @@
             </xsl:when>
             <xsl:when test="$context">
               <!-- Set up the $impl:context variable -->
-              <xsl:apply-templates select="$context" mode="x:setup-context"/>
+              <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
               <!-- Set up variables containing the parameter values -->
               <xsl:apply-templates select="$context/x:param[1]" mode="x:compile"/>
               <!-- Create the template call -->
@@ -440,9 +440,7 @@
       <xsl:variable name="xslt-version" as="xs:decimal" select="x:xslt-version(.)" />
 
       <!-- Set up the $impl:expected variable -->
-      <xsl:call-template name="x:setup-expected">
-        <xsl:with-param name="var" select="'impl:expected'" />
-      </xsl:call-template>
+      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
 
       <!-- Flags for test:deep-equal() enclosed in ''. -->
       <xsl:variable name="deep-equal-flags" as="xs:string"
@@ -559,21 +557,6 @@
 
 <xsl:template match="x:variable" mode="x:generate-declarations">
   <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
-</xsl:template>
-
-<!-- *** x:compile *** -->
-<!-- Helper code for the tests -->
-
-<xsl:template match="x:context" as="element()+" mode="x:setup-context">
-   <xsl:variable name="context" as="element(x:context)">
-      <xsl:element name="{x:xspec-name(.,'context')}" namespace="{$xspec-namespace}">
-         <xsl:sequence select="@*" />
-         <xsl:sequence select="node() except x:param" />
-      </xsl:element>
-   </xsl:variable>
-   <xsl:apply-templates select="$context" mode="test:generate-variable-declarations">
-      <xsl:with-param name="name" select="'impl:context'" />
-   </xsl:apply-templates>
 </xsl:template>
 
 </xsl:stylesheet>

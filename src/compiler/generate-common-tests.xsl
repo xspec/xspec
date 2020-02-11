@@ -717,27 +717,6 @@
       </xsl:choose>
    </xsl:template>
 
-   <!-- Generates variable declarations for x:expect -->
-   <xsl:template name="x:setup-expected" as="node()+">
-      <xsl:context-item as="element(x:expect)" use="required"
-         use-when="element-available('xsl:context-item')" />
-
-      <xsl:param name="var" as="xs:string" required="yes" />
-
-      <!-- Remove x:label from x:expect -->
-      <xsl:variable name="expect" as="element(x:expect)">
-         <xsl:copy>
-            <xsl:sequence select="(attribute() | node()) except x:label" />
-         </xsl:copy>
-      </xsl:variable>
-
-      <!-- Generate <xsl:variable name="impl:expected"> (XSLT)
-         or "let $local:expected := ..." (XQuery) to represent the expected items -->
-      <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
-         <xsl:with-param name="name" select="$var" />
-      </xsl:apply-templates>
-   </xsl:template>
-
    <!-- Generates the ID of current x:scenario or x:expect.
       These default templates use generate-id().
       So the default ID may not always be usable for backtracking. For such backtracking purposes,

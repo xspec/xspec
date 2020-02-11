@@ -56,6 +56,9 @@
       <xsl:variable name="is-pending" as="xs:boolean"
          select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
 
+      <!-- Child nodes to be excluded -->
+      <xsl:variable name="exclude" as="element(x:label)?" select="self::x:expect/x:label" />
+
       <!-- Name of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
       <xsl:variable name="temp-doc-name" as="xs:string?"
@@ -115,7 +118,7 @@
                   <xsl:otherwise>
                      <xsl:text>document { </xsl:text>
                      <xsl:call-template name="test:create-zero-or-more-node-generators">
-                        <xsl:with-param name="nodes" select="node()" />
+                        <xsl:with-param name="nodes" select="node() except $exclude" />
                      </xsl:call-template>
                      <xsl:text> }</xsl:text>
                   </xsl:otherwise>
