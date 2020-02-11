@@ -51,7 +51,8 @@
 
       <!-- True if the variable being declared is considered pending -->
       <xsl:variable name="is-pending" as="xs:boolean"
-         select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
+         select="self::x:variable
+            and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
 
       <!-- Child nodes to be excluded -->
       <xsl:variable name="exclude" as="element(x:label)?" select="self::x:expect/x:label" />
@@ -151,7 +152,8 @@
          <xsl:with-param name="value" as="text()+">
             <xsl:choose>
                <xsl:when test="$is-pending">
-                  <!-- Do not give variable a value (or type, above) because the value specified in test file might not be executable. -->
+                  <!-- Do not give variable a value (or type, above) because the value specified
+                    in test file might not be executable. -->
                   <xsl:text> </xsl:text>
                </xsl:when>
                <xsl:when test="$temp-doc-name">
