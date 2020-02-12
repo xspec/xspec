@@ -33,9 +33,9 @@ jobs:
 
         # latest oXygen
         Oxygen:
-          SAXON_VERSION: 9.8.0-12
-          ANT_VERSION: 1.9.8
-          XMLCALABASH_VERSION: 1.1.24-98
+          SAXON_VERSION: 9.9.1-5
+          ANT_VERSION: 1.10.7
+          XMLCALABASH_VERSION: 1.1.30-99
 
         # highest deprecated Saxon
         Saxon-9-7:
