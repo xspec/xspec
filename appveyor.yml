@@ -3,6 +3,7 @@ environment:
     # latest Ant
     ANT_VERSION: 1.10.7
 
+    # latest BaseX
     BASEX_VERSION: 9.3.1
 
   matrix:
@@ -23,9 +24,9 @@ environment:
     #   XMLCALABASH_VERSION: 1.1.30-98
 
     # latest oXygen
-    # - SAXON_VERSION: 9.8.0-12
-    #   ANT_VERSION: 1.9.8
-    #   XMLCALABASH_VERSION: 1.1.24-98
+    # - SAXON_VERSION: 9.9.1-5
+    #   ANT_VERSION: 1.10.7
+    #   XMLCALABASH_VERSION: 1.1.30-99
 
     # highest deprecated Saxon
     # - SAXON_VERSION: 9.7.0-21
