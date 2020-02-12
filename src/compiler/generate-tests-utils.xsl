@@ -473,26 +473,48 @@
 
 <xsl:function name="test:report-atomic-value" as="xs:string">
   <xsl:param name="value" as="xs:anyAtomicType" />
+
   <xsl:choose>
+    <!-- Derived types must be handled before their base types -->
+
+    <!-- String types -->
+    <xsl:when test="$value instance of xs:normalizedString" use-when="type-available('xs:normalizedString')">
+      <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
+    </xsl:when>
     <xsl:when test="$value instance of xs:string">
       <xsl:sequence select="concat('''',
                                    replace($value, '''', ''''''),
                                    '''')" />
     </xsl:when>
- 
-    <!-- Numeric literals: http://www.w3.org/TR/xpath20/#id-literals -->
-    <!-- Check integer before decimal, because of derivation -->
+
+    <!-- Derived numeric types -->
+    <xsl:when test="$value instance of xs:nonPositiveInteger" use-when="type-available('xs:nonPositiveInteger')">
+      <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
+    </xsl:when>
+    <xsl:when test="$value instance of xs:long" use-when="type-available('xs:long')">
+      <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
+    </xsl:when>
+    <xsl:when test="$value instance of xs:nonNegativeInteger" use-when="type-available('xs:nonNegativeInteger')">
+      <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
+    </xsl:when>
+
+    <!-- Numeric types which can be expressed as numeric literals:
+      http://www.w3.org/TR/xpath20/#id-literals -->
     <xsl:when test="$value instance of xs:integer">
       <xsl:sequence select="string($value)" />
     </xsl:when>
     <xsl:when test="$value instance of xs:decimal">
       <xsl:sequence select="x:decimal-string($value)" />
     </xsl:when>
-    <!-- xs:double
-             Just defer it to the ELSE branch. Justifications below.
-             - Expression is a bit complicated: http://www.w3.org/TR/xpath-functions/#casting-to-string
-             - Not used as frequently as integer
-             - The ELSE branch will return valid expression. It's just some more verbose than numeric literal. -->
+    <xsl:when test="$value instance of xs:double">
+      <!-- Do not report xs:double as a numeric literal. Report as xs:double() constructor instead.
+        Justifications below.
+        * Expression of xs:double as a numeric literal is a bit complicated:
+          http://www.w3.org/TR/xpath-functions/#casting-to-string
+        * xs:double is not used as frequently as xs:integer
+        * xs:double() constructor is valid expression. It's just some more verbose than a numeric literal. -->
+      <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
+    </xsl:when>
 
     <xsl:when test="$value instance of xs:QName">
       <xsl:sequence
@@ -502,23 +524,78 @@
                                         else '',
                               local-name-from-QName($value), ''')')" />
     </xsl:when>
+
     <xsl:otherwise>
-      <xsl:variable name="type" select="test:atom-type($value)" />
-      <xsl:sequence select="concat($type, '(',
-                                   test:report-atomic-value(string($value)), ')')" />
+      <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
     </xsl:otherwise>
   </xsl:choose>
-</xsl:function>  
-  
+</xsl:function>
+
+<xsl:function name="test:report-atomic-value-as-constructor" as="xs:string">
+  <xsl:param name="value" as="xs:anyAtomicType" />
+
+  <!-- Constructor usually has the same name as type -->
+  <xsl:variable name="constructor-name" as="xs:string" select="test:atom-type($value)" />
+
+  <!-- Cast as either xs:integer or xs:string -->
+  <xsl:variable name="casted-value" as="xs:anyAtomicType">
+    <xsl:choose>
+      <xsl:when test="$value instance of xs:integer">
+        <!-- Force casting down to integer, by first converting to string -->
+        <xsl:sequence select="string($value) cast as xs:integer" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="string($value)" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <!-- Constructor parameter:
+    Either numeric literal of integer or string literal -->
+  <xsl:variable name="costructor-param" as="xs:string"
+    select="test:report-atomic-value($casted-value)" />
+
+  <xsl:sequence select="concat($constructor-name, '(', $costructor-param, ')')" />
+</xsl:function>
+
 <xsl:function name="test:atom-type" as="xs:string">
   <xsl:param name="value" as="xs:anyAtomicType" />
-  <xsl:choose>
-    <!-- Grouped as the spec does.
-         Groups are in the reversed order so that the derived types are before the primitive types,
-         otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. -->
 
-    <!-- http://www.w3.org/TR/xslt20/#built-in-types
-            Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: -->
+  <xsl:choose>
+    <!-- Grouped as the spec does: http://www.w3.org/TR/xslt20/#built-in-types
+        Groups are in the reversed order so that the derived types are before the primitive types,
+        otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. -->
+
+    <!-- A schema-aware XSLT processor additionally supports: -->
+
+    <!--    * All other built-in types defined in [XML Schema Part 2] -->
+    <!-- xs:IDREFS: list -->
+    <!-- xs:ENTITIES: list -->
+    <xsl:when test="$value instance of xs:ID" use-when="type-available('xs:ID')">xs:ID</xsl:when>
+    <xsl:when test="$value instance of xs:IDREF" use-when="type-available('xs:IDREF')">xs:IDREF</xsl:when>
+    <xsl:when test="$value instance of xs:ENTITY" use-when="type-available('xs:ENTITY')">xs:ENTITY</xsl:when>
+    <xsl:when test="$value instance of xs:NCName" use-when="type-available('xs:NCName')">xs:NCName</xsl:when>
+    <!-- xs:NMTOKENS: list -->
+    <xsl:when test="$value instance of xs:language" use-when="type-available('xs:language')">xs:language</xsl:when>
+    <xsl:when test="$value instance of xs:Name" use-when="type-available('xs:Name')">xs:Name</xsl:when>
+    <xsl:when test="$value instance of xs:NMTOKEN" use-when="type-available('xs:NMTOKEN')">xs:NMTOKEN</xsl:when>
+    <xsl:when test="$value instance of xs:token" use-when="type-available('xs:token')">xs:token</xsl:when>
+    <xsl:when test="$value instance of xs:normalizedString" use-when="type-available('xs:normalizedString')">xs:normalizedString</xsl:when>
+    <xsl:when test="$value instance of xs:negativeInteger" use-when="type-available('xs:negativeInteger')">xs:negativeInteger</xsl:when>
+    <xsl:when test="$value instance of xs:nonPositiveInteger" use-when="type-available('xs:nonPositiveInteger')">xs:nonPositiveInteger</xsl:when>
+    <xsl:when test="$value instance of xs:byte" use-when="type-available('xs:byte')">xs:byte</xsl:when>
+    <xsl:when test="$value instance of xs:short" use-when="type-available('xs:short')">xs:short</xsl:when>
+    <xsl:when test="$value instance of xs:int" use-when="type-available('xs:int')">xs:int</xsl:when>
+    <xsl:when test="$value instance of xs:long" use-when="type-available('xs:long')">xs:long</xsl:when>
+    <xsl:when test="$value instance of xs:unsignedByte" use-when="type-available('xs:unsignedByte')">xs:unsignedByte</xsl:when>
+    <xsl:when test="$value instance of xs:unsignedShort" use-when="type-available('xs:unsignedShort')">xs:unsignedShort</xsl:when>
+    <xsl:when test="$value instance of xs:unsignedInt" use-when="type-available('xs:unsignedInt')">xs:unsignedInt</xsl:when>
+    <xsl:when test="$value instance of xs:unsignedLong" use-when="type-available('xs:unsignedLong')">xs:unsignedLong</xsl:when>
+    <xsl:when test="$value instance of xs:positiveInteger" use-when="type-available('xs:positiveInteger')">xs:positiveInteger</xsl:when>
+    <xsl:when test="$value instance of xs:nonNegativeInteger" use-when="type-available('xs:nonNegativeInteger')">xs:nonNegativeInteger</xsl:when>
+    <!-- xs:NOTATION: Abstract -->
+
+    <!-- Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: -->
 
     <!--    * The following types defined in [XPath 2.0] -->
     <xsl:when test="$value instance of xs:yearMonthDuration">xs:yearMonthDuration</xsl:when>
