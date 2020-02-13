@@ -761,6 +761,7 @@
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes</String>
+										<String>${oxygenHome}/lib/oxygenCommons.jar</String>
 										<String>${oxygenHome}/lib/oxygen.jar</String>
 										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
 										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
@@ -772,7 +773,7 @@
 										<String>${oxygenHome}/lib/xml-apis.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/guava-*.jar</String>
 									</String-array>
@@ -1124,6 +1125,7 @@
 								<field name="extensionURLs">
 									<String-array>
 										<String>${oxygenHome}/classes</String>
+										<String>${oxygenHome}/lib/oxygenCommons.jar</String>
 										<String>${oxygenHome}/lib/oxygen.jar</String>
 										<String>${oxygenHome}/lib/oxygenDeveloper.jar</String>
 										<String>${oxygenHome}/lib/oxygenEclipse.jar</String>
@@ -1135,7 +1137,7 @@
 										<String>${oxygenHome}/lib/xml-apis.jar</String>
 										<String>${oxygenHome}/lib/*resolver*.jar</String>
 										<String>${oxygenHome}/lib/*saxon*9*.jar</String>
-										<String>${oxygenHome}/lib/log4j.jar</String>
+										<String>${oxygenHome}/lib/*log4j*.jar</String>
 										<String>${oxygenHome}/lib/*xerces*.jar</String>
 										<String>${oxygenHome}/lib/guava-*.jar</String>
 									</String-array>
