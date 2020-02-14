@@ -4,9 +4,9 @@
 
 ## XSpec [![Release](https://img.shields.io/github/release/xspec/xspec.svg)](https://github.com/xspec/xspec/releases/latest)
 
-XSpec is a unit test and [behaviour driven development](http://en.wikipedia.org/wiki/Behavior_Driven_Development) (BDD) framework for XSLT and XQuery.  It is based on the Spec framework of [RSpec](http://rspec.info/), which is a BDD framework for Ruby.
+XSpec is a unit test and [behaviour-driven development](http://en.wikipedia.org/wiki/Behavior_Driven_Development) (BDD) framework for XSLT, XQuery, and Schematron.  It is based on the Spec framework of [RSpec](http://rspec.info/), which is a BDD framework for Ruby.
 
-XSpec consists of a syntax for describing the behaviour of XSLT or XQuery code and some code that enables you to test the code against those descriptions.
+XSpec consists of a syntax for describing the behaviour of XSLT, XQuery, or Schematron code, and some code that enables you to test the code against those descriptions.
 
 ## Getting Started
 
