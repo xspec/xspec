@@ -1,0 +1,71 @@
+@startuml run-xspec-tests-ant
+
+skinparam roundcorner	5
+skinparam sequence {
+	ArrowThickness		1.4
+	ParticipantFontName	Monospaced
+}
+
+hide footbox
+
+actor		"User"								as USER
+collections	".xspec files"						as XSPEC_FILES
+participant	"run-xspec-tests-ant.sh\n(or .cmd)"	as SCRIPT
+participant	"build.xml"							as MAIN_BUILD
+participant	"generate.xsl"						as GENERATOR
+participant	"build-worker.xml"					as WORKER
+participant	"XSpec\nbuild.xml"					as XSPEC_BUILD
+
+autonumber
+
+create XSPEC_FILES
+USER -> XSPEC_FILES: Put
+
+USER -> SCRIPT: Run
+activate SCRIPT
+
+SCRIPT -> MAIN_BUILD: Run
+activate MAIN_BUILD
+
+' == Generate Worker ==
+
+MAIN_BUILD -> GENERATOR: Run
+activate MAIN_BUILD
+activate GENERATOR
+
+GENERATOR -> XSPEC_FILES: Scan
+
+create WORKER
+hnote over WORKER #FEFECE: Transformed from\n""build-worker_template.xml""
+GENERATOR -> WORKER: Generate
+
+GENERATOR --> MAIN_BUILD: Done
+deactivate GENERATOR
+deactivate MAIN_BUILD
+
+' == Run Worker ==
+
+MAIN_BUILD -> WORKER: Run
+activate MAIN_BUILD
+activate WORKER
+
+loop for each .xspec file\nand every applicable test type\n(Schematron, XQuery, XSLT)
+	WORKER -> XSPEC_BUILD: Run
+	activate XSPEC_BUILD
+	XSPEC_BUILD --> WORKER: Success or Failure
+	deactivate XSPEC_BUILD
+end
+
+WORKER --> MAIN_BUILD: Success or Failure
+deactivate WORKER
+deactivate MAIN_BUILD
+
+hnote over WORKER #WhiteSmoke: Can be deleted
+
+MAIN_BUILD --> SCRIPT: Success or Failure
+deactivate MAIN_BUILD
+
+SCRIPT --> USER: Success or Failure
+deactivate SCRIPT
+
+@enduml
