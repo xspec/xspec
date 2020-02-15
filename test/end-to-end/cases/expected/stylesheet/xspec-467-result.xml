@@ -6,7 +6,7 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-467.xspec">
-   <x:scenario xspec="../../xspec-467.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-467.xspec">
       <x:label>Testing namespace differences</x:label>
       <x:call function="exactly-one">
          <x:param>
@@ -28,7 +28,7 @@
             </e2>
          </e1>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario1-expect1" successful="false">
          <x:label>Expecting the same structure but in different namespaces</x:label>
          <x:expect select="/element()">
             <e1 xmlns="ns1">

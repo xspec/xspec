@@ -296,9 +296,6 @@
       <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
 
       <xsl:call-template name="x:output-call">
-         <xsl:with-param name="local-name" as="xs:string">
-            <xsl:apply-templates select="." mode="x:generate-id" />
-         </xsl:with-param>
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:for-each select="x:distinct-variable-names($vars)">
@@ -320,9 +317,6 @@
       <xsl:param name="vars"    select="()" tunnel="yes" as="element(x:var)*"/>
 
       <xsl:call-template name="x:output-call">
-         <xsl:with-param name="local-name" as="xs:string">
-            <xsl:apply-templates select="." mode="x:generate-id" />
-         </xsl:with-param>
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
@@ -717,21 +711,49 @@
    </xsl:template>
 
    <!-- Generates the ID of current x:scenario or x:expect.
-      These default templates use generate-id().
+      These default templates assume that all the scenarios have already been gathered and unshared.
       So the default ID may not always be usable for backtracking. For such backtracking purposes,
       override these default templates and implement your own ID generation. The generated ID must
       be castable as xs:NCName, because ID is used as a part of local name. -->
    <xsl:template match="x:scenario" as="xs:string" mode="x:generate-id">
-      <xsl:sequence select="concat(local-name(), '-', generate-id())" />
+      <xsl:variable name="ancestor-or-self-tokens" as="xs:string+">
+         <xsl:for-each select="ancestor-or-self::x:scenario">
+            <!-- Find preceding sibling x:scenario, taking x:pending into account -->
+            <xsl:variable name="parent-description-or-scenario" as="element()"
+               select="ancestor::element()[self::x:description or self::x:scenario][1]" />
+            <xsl:variable name="preceding-sibling-scenarios" as="element(x:scenario)*"
+               select="$parent-description-or-scenario/descendant::x:scenario
+                  [ancestor::element()[self::x:description or self::x:scenario][1] is $parent-description-or-scenario]
+                  [current() >> .]
+                  [not(x:is-user-content(.))]" />
+
+            <xsl:sequence select="concat(
+               local-name(),
+               count($preceding-sibling-scenarios) + 1)" />
+         </xsl:for-each>
+      </xsl:variable>
+
+      <xsl:sequence select="string-join($ancestor-or-self-tokens, '-')" />
    </xsl:template>
 
    <xsl:template match="x:expect" as="xs:string" mode="x:generate-id">
+      <!-- Find preceding sibling x:expect, taking x:pending into account -->
       <xsl:variable name="scenario" as="element(x:scenario)" select="ancestor::x:scenario[1]" />
+      <xsl:variable name="preceding-sibling-expects" as="element(x:expect)*"
+         select="$scenario/descendant::x:expect
+            [ancestor::x:scenario[1] is $scenario]
+            [current() >> .]
+            [not(x:is-user-content(.))]" />
+
       <xsl:variable name="scenario-id" as="xs:string">
          <xsl:apply-templates select="$scenario" mode="#current" />
       </xsl:variable>
 
-      <xsl:sequence select="concat($scenario-id, '_', local-name(), '-', generate-id())" />
+      <xsl:sequence select="concat(
+         $scenario-id,
+         '-',
+         local-name(),
+         count($preceding-sibling-expects) + 1)" />
    </xsl:template>
 
    <!-- Generate error message for user-defined usage of names in XSpec namespace.

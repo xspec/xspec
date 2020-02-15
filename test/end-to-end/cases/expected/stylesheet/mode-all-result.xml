@@ -6,49 +6,49 @@
           stylesheet="../../mode-all.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../mode-all.xspec">
-   <x:scenario xspec="../../mode-all.xspec">
+   <x:scenario id="scenario1" xspec="../../mode-all.xspec">
       <x:label>context</x:label>
       <x:context>
          <foo/>
       </x:context>
       <x:result select="'Caught by #all mode'"/>
-      <x:test successful="true">
+      <x:test id="scenario1-expect1" successful="true">
          <x:label>should work</x:label>
          <x:expect select="'Caught by #all mode'"/>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario1-expect2" successful="false">
          <x:label>should report Expected Result correctly on failure</x:label>
          <x:expect select="/element()">
             <expected-element/>
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../mode-all.xspec">
+   <x:scenario id="scenario2" xspec="../../mode-all.xspec">
       <x:label>function-call</x:label>
       <x:call function="string">
          <x:param select="'Returned from function'"/>
       </x:call>
       <x:result select="'Returned from function'"/>
-      <x:test successful="true">
+      <x:test id="scenario2-expect1" successful="true">
          <x:label>should work</x:label>
          <x:expect select="'Returned from function'"/>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario2-expect2" successful="false">
          <x:label>should report Expected Result correctly on failure</x:label>
          <x:expect select="/element()">
             <expected-element/>
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../mode-all.xspec">
+   <x:scenario id="scenario3" xspec="../../mode-all.xspec">
       <x:label>template-call</x:label>
       <x:call template="named-template"/>
       <x:result select="'Returned from named template'"/>
-      <x:test successful="true">
+      <x:test id="scenario3-expect1" successful="true">
          <x:label>should work</x:label>
          <x:expect select="'Returned from named template'"/>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario3-expect2" successful="false">
          <x:label>should report Expected Result correctly on failure</x:label>
          <x:expect select="/element()">
             <expected-element/>

@@ -35,7 +35,8 @@
 </xsl:template>
 
 <!-- *** x:generate-tests *** -->
-<!-- Does the generation of the test stylesheet -->
+<!-- Does the generation of the test stylesheet.
+  This mode assumes that all the scenarios have already been gathered and unshared. -->
   
 <xsl:template match="x:description" as="element(xsl:stylesheet)" mode="x:generate-tests">
   <!-- True if this XSpec is testing Schematron -->
@@ -125,9 +126,12 @@
    <xsl:context-item as="element()" use="required"
       use-when="element-available('xsl:context-item')" />
 
-   <xsl:param name="local-name" as="xs:string"/>
-   <xsl:param name="last"       as="xs:boolean"/>
-   <xsl:param name="params"     as="element(param)*"/>
+   <xsl:param name="last"   as="xs:boolean" />
+   <xsl:param name="params" as="element(param)*" />
+
+   <xsl:variable name="local-name" as="xs:string">
+      <xsl:apply-templates select="." mode="x:generate-id" />
+   </xsl:variable>
 
    <call-template name="{x:xspec-name(.,$local-name)}">
       <xsl:sequence select="x:copy-namespaces(.)"/>
@@ -231,6 +235,7 @@
     </message>
 
     <xsl:element name="{x:xspec-name(.,'scenario')}" namespace="{$xspec-namespace}">
+      <xsl:attribute name="id" select="$scenario-id" />
       <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
 
       <!-- Create @pending generator -->
@@ -508,6 +513,8 @@
     </xsl:if>
 
     <xsl:element name="{x:xspec-name(.,'test')}" namespace="{$xspec-namespace}">
+      <xsl:attribute name="id" select="$expect-id" />
+
       <!-- Create @pending generator or create @successful directly -->
       <xsl:choose>
         <xsl:when test="$pending-p">

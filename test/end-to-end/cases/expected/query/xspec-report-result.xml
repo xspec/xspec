@@ -5,10 +5,10 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-report.xspec">
-   <x:scenario xspec="../../xspec-report.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-report.xspec">
       <x:label>Function (xspec/xspec#355)</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-report.xspec">
+      <x:scenario id="scenario1-scenario1" xspec="../../xspec-report.xspec">
          <x:label>Array</x:label>
          <x:call function="exactly-one">
             <x:param as="array(*)" select="['foo', 1, [2, 'bar']]"/>
@@ -16,12 +16,12 @@
          <x:result select="/*">
             <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
          </x:result>
-         <x:test successful="false">
+         <x:test id="scenario1-scenario1-expect1" successful="false">
             <x:label>Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure</x:label>
             <x:expect select="()"/>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-report.xspec">
+      <x:scenario id="scenario1-scenario2" xspec="../../xspec-report.xspec">
          <x:label>Map</x:label>
          <x:call function="exactly-one">
             <x:param as="map(*)" select="      map {       'foo': 1,       2: 'bar'      }"/>
@@ -29,13 +29,13 @@
          <x:result select="/*">
             <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
          </x:result>
-         <x:test successful="false">
+         <x:test id="scenario1-scenario2-expect1" successful="false">
             <x:label>Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure</x:label>
             <x:expect select="()"/>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-report.xspec">
+   <x:scenario id="scenario2" xspec="../../xspec-report.xspec">
       <x:label>Element, attribute (xspec/xspec#357)</x:label>
       <x:call function="one-or-more">
          <x:param as="node()+" select="elem1 | elem2/attribute()">
@@ -49,12 +49,12 @@
          </pseudo-element>
          <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="attr-val"/>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario2-expect1" successful="false">
          <x:label>@attr should be reported as an attribute</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-report.xspec">
+   <x:scenario id="scenario3" xspec="../../xspec-report.xspec">
       <x:label>Attributes of the same name (xspec/xspec#358)</x:label>
       <x:call function="one-or-more">
          <x:param as="attribute()+" select="element()/attribute()">
@@ -66,12 +66,12 @@
          <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="foo"/>
          <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="bar"/>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario3-expect1" successful="false">
          <x:label>Both @attr=foo and @attr=bar should be reported</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-report.xspec">
+   <x:scenario id="scenario4" xspec="../../xspec-report.xspec">
       <x:label>Attribute, element, attribute (xspec/xspec#360)</x:label>
       <x:call function="one-or-more">
          <x:param as="node()+" select="element()/attribute() | elem2">
@@ -87,26 +87,26 @@
          </pseudo-element>
          <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr3="attr3-val"/>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario4-expect1" successful="false">
          <x:label>[Result] should be reported</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-report.xspec">
+   <x:scenario id="scenario5" xspec="../../xspec-report.xspec">
       <x:label>Document node with no children (xspec/xspec#697)</x:label>
       <x:call function="parse-xml-fragment">
          <x:param select="''"/>
       </x:call>
       <x:result select="/self::document-node()"/>
-      <x:test successful="false">
+      <x:test id="scenario5-expect1" successful="false">
          <x:label>XPath should be reported between Result title and box</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-report.xspec">
+   <x:scenario id="scenario6" xspec="../../xspec-report.xspec">
       <x:label>XPath is different, but serialized node looks as if same</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-report.xspec">
+      <x:scenario id="scenario6-scenario1" xspec="../../xspec-report.xspec">
          <x:label>[Result] = document node, [Expected Result] = element</x:label>
          <x:call function="exactly-one">
             <x:param as="document-node()" select="/">
@@ -116,14 +116,14 @@
          <x:result select="/self::document-node()">
             <test/>
          </x:result>
-         <x:test successful="false">
+         <x:test id="scenario6-scenario1-expect1" successful="false">
             <x:label>XPath should be colored as different. Serialized node should be colored as same.</x:label>
             <x:expect select="/element()">
                <test/>
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-report.xspec">
+      <x:scenario id="scenario6-scenario2" xspec="../../xspec-report.xspec">
          <x:label>[Result] = element, [Expected Result] = document node.</x:label>
          <x:call function="exactly-one">
             <x:param as="element()">
@@ -133,7 +133,7 @@
          <x:result select="/element()">
             <test/>
          </x:result>
-         <x:test successful="false">
+         <x:test id="scenario6-scenario2-expect1" successful="false">
             <x:label>XPath should be colored as different. Serialized node should be colored as same.</x:label>
             <x:expect select="/self::document-node()">
                <test/>

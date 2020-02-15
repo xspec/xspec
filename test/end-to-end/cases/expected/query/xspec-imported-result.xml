@@ -6,24 +6,24 @@
           query="http://example.org/ns/my"
           query-at="../../../../xspec-tested.xql"
           xspec="../../xspec-imported.xspec">
-   <t:scenario xspec="../../xspec-imported.xspec">
+   <t:scenario id="scenario1" xspec="../../xspec-imported.xspec">
       <t:label>a correct scenario in an imported file</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
-      <t:test successful="true">
+      <t:test id="scenario1-expect1" successful="true">
          <t:label>must return Success</t:label>
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario xspec="../../xspec-imported.xspec">
+   <t:scenario id="scenario2" xspec="../../xspec-imported.xspec">
       <t:label>an incorrect scenario in an imported file</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
       <t:result select="4"/>
-      <t:test successful="false">
+      <t:test id="scenario2-expect1" successful="false">
          <t:label>must return Failure</t:label>
          <t:expect select="42"/>
       </t:test>
