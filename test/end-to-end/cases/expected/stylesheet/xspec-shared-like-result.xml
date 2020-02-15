@@ -6,53 +6,53 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-shared-like.xspec">
-   <x:scenario xspec="../../xspec-shared-like.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-shared-like.xspec">
       <x:label>Referenced and explicitly unshared scenario</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>
-      <x:test successful="true">
+      <x:test id="scenario1-expect1" successful="true">
          <x:label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
          <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-shared-like.xspec">
+   <x:scenario id="scenario2" xspec="../../xspec-shared-like.xspec">
       <x:label>Referenced and implicitly unshared scenario</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>
-      <x:test successful="true">
+      <x:test id="scenario2-expect1" successful="true">
          <x:label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
          <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-shared-like.xspec">
+   <x:scenario id="scenario3" xspec="../../xspec-shared-like.xspec">
       <x:label>Scenario for testing x:like which references a shared scenario</x:label>
       <x:call function="false"/>
       <x:result select="xs:boolean('false')"/>
-      <x:test successful="true">
+      <x:test id="scenario3-expect1" successful="true">
          <x:label>This nested shared x:expect should fire only at nested x:like</x:label>
          <x:expect test="true()" select="()"/>
       </x:test>
-      <x:test successful="true">
+      <x:test id="scenario3-expect2" successful="true">
          <x:label>This referenced shared x:expect should fire only at x:like</x:label>
          <x:expect test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-shared-like.xspec">
+   <x:scenario id="scenario4" xspec="../../xspec-shared-like.xspec">
       <x:label>Scenario for testing x:like which references unshared scenarios</x:label>
-      <x:scenario xspec="../../xspec-shared-like.xspec">
+      <x:scenario id="scenario4-scenario1" xspec="../../xspec-shared-like.xspec">
          <x:label>explicit one</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario1-expect1" successful="true">
             <x:label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
             <x:expect test="true()" select="()"/>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-shared-like.xspec">
+      <x:scenario id="scenario4-scenario2" xspec="../../xspec-shared-like.xspec">
          <x:label>implicit one</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario2-expect1" successful="true">
             <x:label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
             <x:expect test="true()" select="()"/>
          </x:test>

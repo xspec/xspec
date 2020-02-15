@@ -5,23 +5,23 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-448.xspec">
-   <x:scenario xspec="../../xspec-448.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-448.xspec">
       <x:label>x:scenario/</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-448.xspec">
+      <x:scenario id="scenario1-scenario1" xspec="../../xspec-448.xspec">
          <x:label>x:label containing }{ should not affect test</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>(This x:expect doesn't matter)</x:label>
             <x:expect select="xs:boolean('false')"/>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-448.xspec">
+      <x:scenario id="scenario1-scenario2" xspec="../../xspec-448.xspec">
          <x:label>@label containing }{ should not affect test</x:label>
          <x:call function="false"/>
          <x:result select="xs:boolean('false')"/>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>(This x:expect doesn't matter)</x:label>
             <x:expect select="xs:boolean('false')"/>
          </x:test>

@@ -5,7 +5,7 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-177.xspec">
-   <x:scenario xspec="../../xspec-177.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-177.xspec">
       <x:label>Given the function returns &lt;foo /&gt;</x:label>
       <x:call function="exactly-one">
          <x:param as="element(foo)">
@@ -15,7 +15,7 @@
       <x:result select="/element()">
          <foo/>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario1-expect1" successful="false">
          <x:label>When @test is "empty($x:result/self::element(foo))" (i.e. boolean),
 				then the HTML report should be
 					"Result"    = "&lt;foo /&gt;"
@@ -24,7 +24,7 @@
 				without diff.</x:label>
          <x:expect test="empty($x:result/self::element(foo))" select="()"/>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario1-expect2" successful="false">
          <x:label>When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non boolean),
 				then the HTML report should be
 					"Result"          = "&lt;foo /&gt;"

@@ -5,7 +5,7 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-346.xspec">
-   <x:scenario xspec="../../xspec-346.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-346.xspec">
       <x:label>When a function returns a node containing a space</x:label>
       <x:call function="exactly-one">
          <x:param as="element(p)" href="../../xspec-346.xml" select="element(p)"/>
@@ -17,7 +17,7 @@
             <span>bar</span>
          </p>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario1-expect1" successful="false">
          <x:label>Expecting no space should be Failure</x:label>
          <x:expect select="/element()">
             <p>

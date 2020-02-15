@@ -157,64 +157,9 @@
 		</xsl:value-of>
 	</xsl:template>
 
-	<!-- Makes @id predictable -->
-	<xsl:template as="attribute(id)" match="@id" mode="normalizer:normalize"
-		name="normalize-id-attribute">
-		<xsl:context-item as="attribute(id)" use="required"
-			use-when="element-available('xsl:context-item')" />
-
-		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-			select="local:generate-predictable-id(parent::element())" />
-	</xsl:template>
-
-	<!--
-		Makes the in-page link follow its target element
-			@id of the target element is normalized by the 'normalize-id-attribute' template. So @href has to follow it.
-	-->
-	<xsl:template as="attribute(href)" match="@href[starts-with(., '#')]"
-		mode="normalizer:normalize">
-		<!-- Substring after '#' -->
-		<xsl:variable as="xs:string" name="original-id" select="substring(., 2)" />
-
-		<xsl:variable as="element()" name="target-element"
-			select="local:element-by-id(., $original-id)" />
-		<xsl:variable as="xs:string" name="predictable-id"
-			select="local:generate-predictable-id($target-element)" />
-		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-			select="concat('#', $predictable-id)" />
-	</xsl:template>
-
 	<!--
 		Private utility functions
 	-->
-
-	<!-- Gets the positional index (1~) of element -->
-	<xsl:function as="xs:integer" name="local:element-index">
-		<xsl:param as="element()" name="element" />
-
-		<xsl:sequence select="count($element/preceding::element()) + 1" />
-	</xsl:function>
-
-	<!--
-		Returns the element whose original @id is equal to the specified ID
-	-->
-	<xsl:function as="element()?" name="local:element-by-id">
-		<xsl:param as="node()" name="context-node" />
-		<xsl:param as="xs:string" name="id" />
-
-		<xsl:variable as="document-node()" name="doc" select="root($context-node)" />
-		<xsl:sequence select="$doc/descendant::element()[@id eq $id]" />
-	</xsl:function>
-
-	<!--
-		Generates ID for element
-			Unlike fn:generate-id(), ID is generated solely from the element's positional index. So the ID value is predictable.
-	-->
-	<xsl:function as="xs:string" name="local:generate-predictable-id">
-		<xsl:param as="element()" name="element" />
-
-		<xsl:sequence select="concat('ELEM-', local:element-index($element))" />
-	</xsl:function>
 
 	<!--
 		Returns true if the HTML report is for XQuery

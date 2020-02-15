@@ -6,51 +6,51 @@
           stylesheet="../../../../xspec-xslt1.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-xslt2.xspec">
-   <x:scenario xspec="../../../../xspec-xslt1.xspec">
+   <x:scenario id="scenario1" xspec="../../../../xspec-xslt1.xspec">
       <x:label>With 2 text nodes</x:label>
       <x:call template="text-nodes"/>
-      <x:scenario xspec="../../../../xspec-xslt1.xspec">
+      <x:scenario id="scenario1-scenario1" xspec="../../../../xspec-xslt1.xspec">
          <x:label>This scenario is to verify that $x:result consists of two text nodes</x:label>
          <x:result select="/text()">12</x:result>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>Result should be text nodes</x:label>
             <x:expect test="$x:result instance of text()+" select="()"/>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario1-expect2" successful="true">
             <x:label>Result count should be 2</x:label>
             <x:result select="2"/>
             <x:expect test="count($x:result)" select="2"/>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../../../xspec-xslt1.xspec">
+      <x:scenario id="scenario1-scenario2" xspec="../../../../xspec-xslt1.xspec">
          <x:label>xslt-version=1.0 in this XSpec file should always make all of the tests in this
 				scenario Success, even when this XSpec file is imported to another XSpec file which
 				has xslt-version=2.0 or higher.</x:label>
          <x:result select="/text()">12</x:result>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>Comparing the text nodes with string</x:label>
             <x:expect select="'12'"/>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario2-expect2" successful="true">
             <x:label>Comparing the text nodes with double</x:label>
             <x:expect select="xs:double('12')"/>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario2-expect3" successful="true">
             <x:label>Comparing the text nodes with decimal</x:label>
             <x:expect select="12.0"/>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario2-expect4" successful="true">
             <x:label>Comparing the text nodes with integer</x:label>
             <x:expect select="12"/>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../../../xspec-xslt1.xspec">
+      <x:scenario id="scenario1-scenario3" xspec="../../../../xspec-xslt1.xspec">
          <x:label>xslt-version=1.0 in this XSpec file should make this scenario Success when this
 				XSpec file is executed independently. On the other hand, the result should be
 				Failure when this XSpec file is imported to another XSpec file which has
 				xslt-version=2.0 or higher.</x:label>
          <x:result select="/text()">12</x:result>
-         <x:test successful="false">
+         <x:test id="scenario1-scenario3-expect1" successful="false">
             <x:label>Expecting the compiled stylesheet to have version=1.0</x:label>
             <x:result select="'2.0'"/>
             <x:expect test="document('')/xsl:stylesheet/@version/string()" select="'1.0'"/>

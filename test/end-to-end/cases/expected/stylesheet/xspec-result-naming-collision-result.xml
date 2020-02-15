@@ -6,40 +6,40 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-result-naming-collision.xspec">
-   <x:scenario xspec="../../xspec-result-naming-collision.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-result-naming-collision.xspec">
       <x:label>scenario 1</x:label>
       <x:call function="exactly-one">
          <x:param href="../../xspec-result-naming-collision.xml"/>
       </x:call>
       <x:result href="HREF-2"/>
-      <x:test successful="true">
+      <x:test id="scenario1-expect1" successful="true">
          <x:label>The result should be saved in an external file</x:label>
          <x:expect href="HREF-3"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-result-naming-collision.xspec">
+   <x:scenario id="scenario2" xspec="../../xspec-result-naming-collision.xspec">
       <x:label>scenario 2</x:label>
       <x:call function="exactly-one">
          <x:param href="../../xspec-result-naming-collision.xml"/>
       </x:call>
       <x:result href="HREF-5"/>
-      <x:test successful="true">
+      <x:test id="scenario2-expect1" successful="true">
          <x:label>The result should be saved in another external file</x:label>
          <x:expect href="HREF-6"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-result-naming-collision.xspec">
+   <x:scenario id="scenario3" xspec="../../xspec-result-naming-collision.xspec">
       <x:label>When the result consists of multiple elements (xspec/xspec#361)</x:label>
       <x:call function="one-or-more">
          <x:param href="../../xspec-result-naming-collision.xml" select="., ."/>
       </x:call>
       <x:result href="HREF-8"/>
-      <x:test successful="true">
+      <x:test id="scenario3-expect1" successful="true">
          <x:label>x:result should be two document nodes</x:label>
          <x:result select="2"/>
          <x:expect test="count($x:result treat as document-node()+)" select="2"/>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario3-expect2" successful="false">
          <x:label>The result should be saved successfully in yet another external file which is well-formed</x:label>
          <x:expect select="/element()">
             <foo/>
