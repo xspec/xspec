@@ -70,7 +70,8 @@
    </xsl:template>
 
    <!-- *** x:generate-tests *** -->
-   <!-- Does the generation of the test stylesheet -->
+   <!-- Does the generation of the test stylesheet.
+      This mode assumes that all the scenarios have already been gathered and unshared. -->
   
    <xsl:template match="x:description" mode="x:generate-tests">
       <xsl:variable name="this" select="." as="element(x:description)" />
@@ -184,9 +185,12 @@
       <xsl:context-item as="element()" use="required"
          use-when="element-available('xsl:context-item')" />
 
-      <xsl:param name="local-name" as="xs:string"/>
-      <xsl:param name="last"       as="xs:boolean"/>
-      <xsl:param name="params"     as="element(param)*"/>
+      <xsl:param name="last"   as="xs:boolean" />
+      <xsl:param name="params" as="element(param)*" />
+
+      <xsl:variable name="local-name" as="xs:string">
+         <xsl:apply-templates select="." mode="x:generate-id" />
+      </xsl:variable>
 
       <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
          <xsl:text>,&#10;</xsl:text>
@@ -277,6 +281,7 @@
       </xsl:if>
 
       <xsl:element name="{x:xspec-name(.,'scenario')}" namespace="{$xspec-namespace}">
+         <xsl:attribute name="id" select="$scenario-id" />
          <xsl:sequence select="@xspec" />
 
          <!-- Create @pending generator -->
@@ -475,6 +480,8 @@
         return the x:test element for the report
       -->
       <xsl:element name="{x:xspec-name(.,'test')}" namespace="{$xspec-namespace}">
+         <xsl:attribute name="id" select="$expect-id" />
+
          <!-- Create @pending generator or create @successful directly -->
          <xsl:choose>
             <xsl:when test="$pending-p">

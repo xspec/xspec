@@ -36,9 +36,7 @@
    </t:scenario-->
 
    <t:scenario label="x:scenario[@label] transformed in x:compile mode">
-      <t:context mode="t:compile">
-         <t:scenario label="my label"/>
-      </t:context>
+      <t:context mode="t:compile" href="generate-xspec-tests/scenario.xspec" select="//t:scenario" />
       <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
       <!-- test also it is a QName in the namespace t:* -->
       <t:expect label="the name" test="starts-with($t:result/@name, 't:')" />
@@ -57,13 +55,9 @@
        in a mode, etc.) and test it explicitly...
    -->
    <t:scenario label="x:expect[@test] transformed in x:compile mode">
-      <t:context mode="t:compile" select="//t:expect">
+      <t:context mode="t:compile" href="generate-xspec-tests/expect.xspec" select="//t:expect">
          <t:param tunnel="yes" name="context" as="empty-sequence()"/>
          <t:param tunnel="yes" name="call" as="empty-sequence()"/>
-
-         <t:scenario>
-            <t:expect test="false()"/>
-         </t:scenario>
       </t:context>
       <t:expect label="is a template"
                 test="$t:result instance of element(xsl:template)"/>

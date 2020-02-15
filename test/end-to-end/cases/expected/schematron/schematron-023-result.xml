@@ -8,7 +8,7 @@
           date="2000-01-01T00:00:00Z"
           xspec="../../schematron-023.xspec"
           schematron="../../../../schematron/schematron-023.sch">
-   <x:scenario xspec="../../schematron-023.xspec">
+   <x:scenario id="scenario1" xspec="../../schematron-023.xspec">
       <x:label>valid with warning: expect-valid should pass</x:label>
       <x:context select="self::document-node()">
          <document>
@@ -51,13 +51,13 @@
             </svrl:successful-report>
          </svrl:schematron-output>
       </x:result>
-      <x:test successful="true">
+      <x:test id="scenario1-expect1" successful="true">
          <x:label>valid</x:label>
          <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
                    select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../schematron-023.xspec">
+   <x:scenario id="scenario2" xspec="../../schematron-023.xspec">
       <x:label>error: expect-valid should fail</x:label>
       <x:context select="self::document-node()">
          <document>
@@ -98,13 +98,13 @@
             </svrl:failed-assert>
          </svrl:schematron-output>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario2-expect1" successful="false">
          <x:label>valid</x:label>
          <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
                    select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../schematron-023.xspec">
+   <x:scenario id="scenario3" xspec="../../schematron-023.xspec">
       <x:label>fatal: expect-valid should fail</x:label>
       <x:context select="self::document-node()">
          <adocument/>
@@ -132,7 +132,7 @@
             </svrl:failed-assert>
          </svrl:schematron-output>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario3-expect1" successful="false">
          <x:label>valid</x:label>
          <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
                    select="()"/>
