@@ -7,44 +7,46 @@
           stylesheet="../../../../xspec-tested.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-focus-1.xspec">
-   <t:scenario xspec="../../xspec-focus-1.xspec"
+   <t:scenario id="scenario1"
+               xspec="../../xspec-focus-1.xspec"
                pending="testing @focus of a correct scenario">
       <t:label>an unfocused correct scenario must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:test pending="testing @focus of a correct scenario">
+      <t:test id="scenario1-expect1" pending="testing @focus of a correct scenario">
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario xspec="../../xspec-focus-1.xspec"
+   <t:scenario id="scenario2"
+               xspec="../../xspec-focus-1.xspec"
                pending="testing @focus of a correct scenario">
       <t:label>an unfocused incorrect scenario must be Pending</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
-      <t:test pending="testing @focus of a correct scenario">
+      <t:test id="scenario2-expect1" pending="testing @focus of a correct scenario">
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario xspec="../../xspec-focus-1.xspec">
+   <t:scenario id="scenario3" xspec="../../xspec-focus-1.xspec">
       <t:label>a focused correct scenario</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
-      <t:test successful="true">
+      <t:test id="scenario3-expect1" successful="true">
          <t:label>must execute the test and return Success</t:label>
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario xspec="../../xspec-focus-1.xspec">
+   <t:scenario id="scenario4" xspec="../../xspec-focus-1.xspec">
       <t:label>a focused incorrect scenario</t:label>
       <t:call function="my:square">
          <t:param select="2"/>
       </t:call>
       <t:result select="4"/>
-      <t:test successful="false">
+      <t:test id="scenario4-expect1" successful="false">
          <t:label>must execute the test and return Failure</t:label>
          <t:expect test="$t:result instance of xs:string" select="()"/>
       </t:test>

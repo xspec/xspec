@@ -6,7 +6,7 @@
           query="x-urn:test-mix"
           query-at="../../xspec-151.xquery"
           xspec="../../xspec-151.xspec">
-   <x:scenario xspec="../../xspec-151.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-151.xspec">
       <x:label>When the result is a mixture of a typed element and a string</x:label>
       <x:call function="test-mix:element-and-string"/>
       <x:result select="/*">
@@ -17,7 +17,7 @@
          </pseudo-element>
          <pseudo-atomic-value xmlns="http://www.jenitennison.com/xslt/xspec">'string'</pseudo-atomic-value>
       </x:result>
-      <x:test successful="false">
+      <x:test id="scenario1-expect1" successful="false">
          <x:label>[Result] in the failure report HTML must wrap element and string separately</x:label>
          <x:expect test="false()" select="()"/>
       </x:test>

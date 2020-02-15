@@ -6,24 +6,26 @@
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-528.xspec">
-   <x:scenario xspec="../../xspec-528.xspec" pending="Focus on 1-2">
+   <x:scenario id="scenario1" xspec="../../xspec-528.xspec" pending="Focus on 1-2">
       <x:label>Scenario 1</x:label>
       <x:call function="true"/>
-      <x:test pending="Focus on 1-2">
+      <x:test id="scenario1-expect1" pending="Focus on 1-2">
          <x:label>should be skipped (otherwise should fail)</x:label>
       </x:test>
-      <x:scenario xspec="../../xspec-528.xspec" pending="Focus on 1-2">
+      <x:scenario id="scenario1-scenario1"
+                  xspec="../../xspec-528.xspec"
+                  pending="Focus on 1-2">
          <x:label>Scenario 1-1</x:label>
          <x:call function="true"/>
-         <x:test pending="Focus on 1-2">
+         <x:test id="scenario1-scenario1-expect1" pending="Focus on 1-2">
             <x:label>should be skipped (otherwise should fail)</x:label>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-528.xspec">
+      <x:scenario id="scenario1-scenario2" xspec="../../xspec-528.xspec">
          <x:label>Scenario 1-2</x:label>
          <x:call function="true"/>
          <x:result select="xs:boolean('true')"/>
-         <x:test successful="false">
+         <x:test id="scenario1-scenario2-expect1" successful="false">
             <x:label>should fail</x:label>
             <x:expect select="xs:boolean('false')"/>
          </x:test>
