@@ -5,10 +5,10 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-447_3.xspec">
-   <x:scenario xspec="../../xspec-447_3.xspec" pending="}{">
+   <x:scenario id="scenario1" xspec="../../xspec-447_3.xspec" pending="}{">
       <x:label>x:scenario/@pending containing curly brackets should not affect test</x:label>
       <x:call function="false"/>
-      <x:test pending="}{">
+      <x:test id="scenario1-expect1" pending="}{">
          <x:label>(This x:expect doesn't matter)</x:label>
       </x:test>
    </x:scenario>

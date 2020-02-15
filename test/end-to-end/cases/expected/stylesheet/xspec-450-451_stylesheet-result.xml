@@ -7,7 +7,7 @@
           stylesheet="../../xspec-450-451.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-450-451_stylesheet.xspec">
-   <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-450-451_stylesheet.xspec">
       <x:label>context template-param containing curly brackets</x:label>
       <x:context mode="param-mirror-mode">
          <x:param name="param-items">}{<elem attr="}{">}{</elem>
@@ -16,25 +16,25 @@
       </x:context>
       <x:result select="/node()">}{<elem attr="}{">}{</elem>
       </x:result>
-      <x:test successful="true">
+      <x:test id="scenario1-expect1" successful="true">
          <x:label>should work</x:label>
          <x:expect select="/node()">}{<elem attr="}{">}{</elem>
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
+   <x:scenario id="scenario2" xspec="../../xspec-450-451_stylesheet.xspec">
       <x:label>context containing curly brackets</x:label>
       <x:context mode="context-mirror-mode">}{<elem attr="}{">}{</elem>
       </x:context>
       <x:result select="/node()">}{<elem attr="}{">}{</elem>
       </x:result>
-      <x:test successful="true">
+      <x:test id="scenario2-expect1" successful="true">
          <x:label>should work</x:label>
          <x:expect select="/node()">}{<elem attr="}{">}{</elem>
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
+   <x:scenario id="scenario3" xspec="../../xspec-450-451_stylesheet.xspec">
       <x:label>template-call template-param containing curly brackets</x:label>
       <x:call template="param-mirror-template">
          <x:param name="param-items">}{<elem attr="}{">}{</elem>
@@ -42,15 +42,15 @@
       </x:call>
       <x:result select="/node()">}{<elem attr="}{">}{</elem>
       </x:result>
-      <x:test successful="true">
+      <x:test id="scenario3-expect1" successful="true">
          <x:label>should work</x:label>
          <x:expect select="/node()">}{<elem attr="}{">}{</elem>
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
+   <x:scenario id="scenario4" xspec="../../xspec-450-451_stylesheet.xspec">
       <x:label>If value is from a variable instead of hard-coded,</x:label>
-      <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
+      <x:scenario id="scenario4-scenario1" xspec="../../xspec-450-451_stylesheet.xspec">
          <x:label>context template-param containing curly brackets</x:label>
          <x:context mode="param-mirror-mode">
             <x:param name="param-items" select="$myv:local-var"/>
@@ -58,31 +58,31 @@
          </x:context>
          <x:result select="/node()">}{<elem attr="}{">}{</elem>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario1-expect1" successful="true">
             <x:label>should work</x:label>
             <x:expect select="/node()">}{<elem attr="}{">}{</elem>
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
+      <x:scenario id="scenario4-scenario2" xspec="../../xspec-450-451_stylesheet.xspec">
          <x:label>context containing curly brackets</x:label>
          <x:context mode="context-mirror-mode" select="$myv:local-var"/>
          <x:result select="/node()">}{<elem attr="}{">}{</elem>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario2-expect1" successful="true">
             <x:label>should work</x:label>
             <x:expect select="/node()">}{<elem attr="}{">}{</elem>
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-450-451_stylesheet.xspec">
+      <x:scenario id="scenario4-scenario3" xspec="../../xspec-450-451_stylesheet.xspec">
          <x:label>template-call template-param containing curly brackets</x:label>
          <x:call template="param-mirror-template">
             <x:param name="param-items" select="$myv:local-var"/>
          </x:call>
          <x:result select="/node()">}{<elem attr="}{">}{</elem>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario3-expect1" successful="true">
             <x:label>should work</x:label>
             <x:expect select="/node()">}{<elem attr="}{">}{</elem>
             </x:expect>

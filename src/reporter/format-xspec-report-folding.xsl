@@ -26,8 +26,8 @@
 
   <script language="javascript" type="text/javascript">
 function toggle(scenarioID) {
-  table = document.getElementById("t-"+scenarioID);
-  icon = document.getElementById("icon-"+scenarioID)
+  table = document.getElementById("table_"+scenarioID);
+  icon = document.getElementById("icon_"+scenarioID)
   // need to:
   //   switch table.style.display between 'none' and 'block'
   //   switch between collapse and expand icons
@@ -65,12 +65,13 @@ function toggle(scenarioID) {
     select="exists(x:test[x:is-failed-test(.)])" />
   <xsl:variable name="any-descendant-failure" as="xs:boolean"
     select="exists(x:descendant-failed-tests(.))" />
-  <div id="{generate-id()}">
-    <h2 id="h-{generate-id()}"
+
+  <div id="top_{@id}">
+    <h2
       class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
-      <a href="javascript:toggle('{generate-id()}')">
+      <a href="javascript:toggle('{@id}')">
         <img src="{resolve-uri(concat('../../graphics/', if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'))}"
-          alt="{if ($any-descendant-failure) then 'collapse' else 'expand'}" id="icon-{generate-id()}"/>
+          alt="{if ($any-descendant-failure) then 'collapse' else 'expand'}" id="icon_{@id}"/>
       </a>
       <xsl:sequence select="x:pending-callback(@pending)"/>
       <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -80,7 +81,7 @@ function toggle(scenarioID) {
         </xsl:call-template>
       </span>
     </h2>
-    <table class="xspec" id="t-{generate-id()}" style="display: {if ($any-descendant-failure) then 'table' else 'none'}">
+    <table class="xspec" id="table_{@id}" style="display: {if ($any-descendant-failure) then 'table' else 'none'}">
       <colgroup>
         <col style="width:85%" />
         <col style="width:15%" />
@@ -111,13 +112,13 @@ function toggle(scenarioID) {
               </xsl:if>
             </xsl:for-each>
           </xsl:variable>
-          <tr id="{generate-id()}"
+          <tr id="{@id}"
             class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
             <th>
               <xsl:sequence select="x:pending-callback(@pending)"/>
               <xsl:choose>
                 <xsl:when test="$any-failure">
-                  <a href="#{generate-id()}">
+                  <a href="#{@id}">
                     <xsl:sequence select="$label" />
                   </a>
                 </xsl:when>

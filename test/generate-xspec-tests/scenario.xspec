@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec">
+	<t:scenario label="my label" />
+</t:description>

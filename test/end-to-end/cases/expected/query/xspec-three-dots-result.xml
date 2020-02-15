@@ -5,10 +5,10 @@
           query="x-urn:test:xspec-three-dots"
           query-at="../../xspec-three-dots.xquery"
           xspec="../../xspec-three-dots.xspec">
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant element (simple)</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario1-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;elem&gt;text&lt;/elem&gt;
 				</x:label>
@@ -20,7 +20,7 @@
          <x:result select="/element()">
             <elem>text</elem>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
@@ -28,12 +28,12 @@
                <elem>...</elem>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario1-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario1-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;elem /&gt;
 				</x:label>
@@ -45,7 +45,7 @@
          <x:result select="/element()">
             <elem/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
@@ -53,7 +53,7 @@
                <elem>...</elem>
             </x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario1-scenario2-expect2" successful="false">
             <x:label>expecting
 				&lt;elem attrib="..." /&gt;
 				should be Failure</x:label>
@@ -62,7 +62,7 @@
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario1-scenario3" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;elem&gt;...&lt;/elem&gt;
 				</x:label>
@@ -74,7 +74,7 @@
          <x:result select="/element()">
             <elem>...</elem>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario3-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
@@ -82,11 +82,11 @@
                <elem>...</elem>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario1-scenario3-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario1-scenario3-expect3" successful="false">
             <x:label>expecting
 				&lt;elem&gt;text&lt;/elem&gt;
 				should be Failure</x:label>
@@ -96,10 +96,10 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario2" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant element (with attribute)</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario2-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;elem attrib="val" /&gt;
 				</x:label>
@@ -111,7 +111,7 @@
          <x:result select="/element()">
             <elem attrib="val"/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario2-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;elem attrib="..." /&gt;
 				should be Success</x:label>
@@ -119,11 +119,11 @@
                <elem attrib="..."/>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario2-scenario1-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario2-scenario1-expect3" successful="false">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Failure</x:label>
@@ -133,10 +133,10 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario3" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant element (with mixed content)</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario3-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
 				</x:label>
@@ -152,7 +152,7 @@
                <inner2/>
             </outer>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario3-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;outer&gt;...&lt;/outer&gt;
 				should be Success</x:label>
@@ -160,7 +160,7 @@
                <outer>...</outer>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario3-scenario1-expect2" successful="true">
             <x:label>expecting
 				&lt;outer&gt;...&lt;inner1 /&gt;...&lt;/outer&gt;
 				should be Success</x:label>
@@ -168,12 +168,12 @@
                <outer>...<inner1/>...</outer>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario3-scenario1-expect3" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario3-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
 				</x:label>
@@ -189,7 +189,7 @@
                <inner/>
             </outer>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario3-scenario2-expect1" successful="true">
             <x:label>expecting
 				&lt;outer&gt;...&lt;/outer&gt;
 				should be Success</x:label>
@@ -197,7 +197,7 @@
                <outer>...</outer>
             </x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario3-scenario2-expect2" successful="false">
             <x:label>expecting
 				&lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt;
 				should be Failure</x:label>
@@ -208,10 +208,10 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario4" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant attribute</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario4-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 					 @attrib="val"
 				</x:label>
@@ -223,7 +223,7 @@
          <x:result select="/*/@*">
             <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="val"/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario1-expect1" successful="true">
             <x:label>expecting
 					 @attrib="..."
 					should be Success</x:label>
@@ -231,12 +231,12 @@
                <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario1-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario4-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 					 @attrib=""
 				</x:label>
@@ -248,7 +248,7 @@
          <x:result select="/*/@*">
             <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib=""/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario2-expect1" successful="true">
             <x:label>expecting
 					 @attrib="..."
 					should be Success</x:label>
@@ -257,7 +257,7 @@
             </x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario4-scenario3" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 					 @attrib="..."
 				</x:label>
@@ -269,7 +269,7 @@
          <x:result select="/*/@*">
             <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario3-expect1" successful="true">
             <x:label>expecting
 					 @attrib="..."
 					should be Success</x:label>
@@ -277,11 +277,11 @@
                <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario4-scenario3-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario4-scenario3-expect3" successful="false">
             <x:label>expecting
 					 @attrib="val"
 					should be Failure</x:label>
@@ -291,25 +291,25 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario5" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant text node</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario5-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is usual text node</x:label>
          <x:call function="exactly-one">
             <x:param as="text()" select="$Q{x-urn:test:xspec-three-dots}text-node_usual"/>
          </x:call>
          <x:result select="/text()">text</x:result>
-         <x:test successful="true">
+         <x:test id="scenario5-scenario1-expect1" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario5-scenario1-expect2" successful="false">
             <x:label>expecting '...' should be Failure</x:label>
             <x:expect select="'...'"/>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario5-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is whitespace-only text node</x:label>
          <x:call function="exactly-one">
             <x:param as="text()"
@@ -319,16 +319,16 @@
             <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
 &#xD; </test:ws>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario5-scenario2-expect1" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario5-scenario2-expect2" successful="false">
             <x:label>expecting usual text node should be Failure</x:label>
             <x:expect select="/text()">text</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario5-scenario3" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is zero-length text node</x:label>
          <x:call function="exactly-one">
             <x:param as="text()"
@@ -337,40 +337,40 @@
          <x:result select="/text()">
             <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario5-scenario3-expect1" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario5-scenario3-expect2" successful="false">
             <x:label>expecting usual text node should be Failure</x:label>
             <x:expect select="/text()">text</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario5-scenario4" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is three-dot text node</x:label>
          <x:call function="exactly-one">
             <x:param as="text()"
                      select="$Q{x-urn:test:xspec-three-dots}text-node_three-dots"/>
          </x:call>
          <x:result select="/text()">...</x:result>
-         <x:test successful="true">
+         <x:test id="scenario5-scenario4-expect1" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario5-scenario4-expect2" successful="false">
             <x:label>expecting usual text node should be Failure</x:label>
             <x:expect select="/text()">text</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario5-scenario4-expect3" successful="false">
             <x:label>expecting '...' should be Failure</x:label>
             <x:expect select="'...'"/>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario6" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant comment</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario6-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;!--comment--&gt;
 				</x:label>
@@ -378,18 +378,18 @@
             <x:param as="comment()"><!--comment--></x:param>
          </x:call>
          <x:result select="/comment()"><!--comment--></x:result>
-         <x:test successful="true">
+         <x:test id="scenario6-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;!--...--&gt;
 				should be Success</x:label>
             <x:expect select="/comment()"><!--...--></x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario6-scenario1-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario6-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;!----&gt;
 				</x:label>
@@ -397,14 +397,14 @@
             <x:param as="comment()"><!----></x:param>
          </x:call>
          <x:result select="/comment()"><!----></x:result>
-         <x:test successful="true">
+         <x:test id="scenario6-scenario2-expect1" successful="true">
             <x:label>expecting
 				&lt;!--...--&gt;
 				should be Success</x:label>
             <x:expect select="/comment()"><!--...--></x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario6-scenario3" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;!--...--&gt;
 				</x:label>
@@ -412,17 +412,17 @@
             <x:param as="comment()"><!--...--></x:param>
          </x:call>
          <x:result select="/comment()"><!--...--></x:result>
-         <x:test successful="true">
+         <x:test id="scenario6-scenario3-expect1" successful="true">
             <x:label>expecting
 				&lt;!--...--&gt;
 				should be Success</x:label>
             <x:expect select="/comment()"><!--...--></x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario6-scenario3-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario6-scenario3-expect3" successful="false">
             <x:label>expecting
 				&lt;!--comment--&gt;
 				should be Failure</x:label>
@@ -430,10 +430,10 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario7" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant processing instruction</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario7-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;?pi data?&gt;
 				</x:label>
@@ -441,18 +441,18 @@
             <x:param as="processing-instruction(pi)"><?pi data?></x:param>
          </x:call>
          <x:result select="/processing-instruction()"><?pi data?></x:result>
-         <x:test successful="true">
+         <x:test id="scenario7-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</x:label>
             <x:expect select="/processing-instruction()"><?pi ...?></x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario7-scenario1-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario7-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;?pi?&gt;
 				</x:label>
@@ -460,14 +460,14 @@
             <x:param as="processing-instruction(pi)"><?pi?></x:param>
          </x:call>
          <x:result select="/processing-instruction()"><?pi?></x:result>
-         <x:test successful="true">
+         <x:test id="scenario7-scenario2-expect1" successful="true">
             <x:label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</x:label>
             <x:expect select="/processing-instruction()"><?pi ...?></x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario7-scenario3" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;?pi ...?&gt;
 				</x:label>
@@ -475,17 +475,17 @@
             <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
          </x:call>
          <x:result select="/processing-instruction()"><?pi ...?></x:result>
-         <x:test successful="true">
+         <x:test id="scenario7-scenario3-expect1" successful="true">
             <x:label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</x:label>
             <x:expect select="/processing-instruction()"><?pi ...?></x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario7-scenario3-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario7-scenario3-expect3" successful="false">
             <x:label>expecting
 				&lt;?pi data?&gt;
 				should be Failure</x:label>
@@ -493,10 +493,10 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario8" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant document node</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario8-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;
 				</x:label>
@@ -507,18 +507,18 @@
          <x:result select="/self::document-node()"><?pi?><!--comment-->
             <elem/>
          </x:result>
-         <x:test successful="false">
+         <x:test id="scenario8-scenario1-expect1" successful="false">
             <x:label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 					should be Failure</x:label>
             <x:expect select="/self::document-node()">...</x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario8-scenario1-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario8-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;xsl:document /&gt;
 				</x:label>
@@ -527,18 +527,18 @@
                      select="$Q{x-urn:test:xspec-three-dots}document-node_empty"/>
          </x:call>
          <x:result select="/self::document-node()"/>
-         <x:test successful="true">
+         <x:test id="scenario8-scenario2-expect1" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario8-scenario2-expect2" successful="false">
             <x:label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 					should be Failure</x:label>
             <x:expect select="/self::document-node()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario8-scenario3" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 				&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 				</x:label>
@@ -547,17 +547,17 @@
                      select="$Q{x-urn:test:xspec-three-dots}document-node_three-dots"/>
          </x:call>
          <x:result select="/self::document-node()">...</x:result>
-         <x:test successful="true">
+         <x:test id="scenario8-scenario3-expect1" successful="true">
             <x:label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 					should be Success</x:label>
             <x:expect select="/self::document-node()">...</x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario8-scenario3-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario8-scenario3-expect3" successful="false">
             <x:label>expecting
 					&lt;xsl:document&gt;text&lt;/xsl:document&gt;
 					should be Failure</x:label>
@@ -565,10 +565,10 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario9" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant namespace node</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario9-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 						  xmlns:prefix="namespace-uri"
 				</x:label>
@@ -579,7 +579,7 @@
          <x:result select="/*/namespace::*">
             <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="namespace-uri"/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario9-scenario1-expect1" successful="true">
             <x:label>expecting
 					  xmlns:prefix="..."
 					should be Success</x:label>
@@ -587,12 +587,12 @@
                <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="..."/>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario9-scenario1-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario9-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 						  xmlns="namespace-uri"
 				</x:label>
@@ -603,7 +603,7 @@
          <x:result select="/*/namespace::*">
             <_0:pseudo-namespace-node xmlns="namespace-uri" xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario9-scenario2-expect1" successful="true">
             <x:label>expecting
 					  xmlns="..."
 					should be Success</x:label>
@@ -611,12 +611,12 @@
                <_0:pseudo-namespace-node xmlns="..." xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario9-scenario2-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario9-scenario3" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is
 						  xmlns:prefix="..."
 				</x:label>
@@ -627,7 +627,7 @@
          <x:result select="/*/namespace::*">
             <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="..."/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario9-scenario3-expect1" successful="true">
             <x:label>expecting
 					  xmlns:prefix="..."
 					should be Success</x:label>
@@ -635,11 +635,11 @@
                <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:prefix="..."/>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario9-scenario3-expect2" successful="true">
             <x:label>expecting ... should be Success</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario9-scenario3-expect3" successful="false">
             <x:label>expecting
 					  xmlns:prefix="namespace-uri"
 					should be Failure</x:label>
@@ -649,10 +649,10 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario10" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant sequence of multiple nodes</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario10-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is sequence of
 				&lt;elem1 /&gt;&lt;elem2 /&gt;
 				</x:label>
@@ -666,103 +666,103 @@
             <elem1/>
             <elem2/>
          </x:result>
-         <x:test successful="true">
+         <x:test id="scenario10-scenario1-expect1" successful="true">
             <x:label>expecting
 					  ...&lt;elem2 /&gt;
 					should be Success</x:label>
             <x:expect select="/node()">...<elem2/>
             </x:expect>
          </x:test>
-         <x:test successful="true">
+         <x:test id="scenario10-scenario1-expect2" successful="true">
             <x:label>expecting sequence of two ... should be Success</x:label>
             <x:expect select="/text()">......</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario10-scenario1-expect3" successful="false">
             <x:label>expecting ... should be Failure</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario10-scenario1-expect4" successful="false">
             <x:label>expecting ...... should be Failure</x:label>
             <x:expect select="/text()">......</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario10-scenario1-expect5" successful="false">
             <x:label>expecting sequence of three ... should be Failure</x:label>
             <x:expect select="/text()">.........</x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario11" xspec="../../xspec-three-dots.xspec">
       <x:label>When result is empty sequence</x:label>
       <x:call function="zero-or-one">
          <x:param select="()"/>
       </x:call>
       <x:result select="()"/>
-      <x:test successful="false">
+      <x:test id="scenario11-expect1" successful="false">
          <x:label>expecting ... should be Failure</x:label>
          <x:expect select="/text()">...</x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario12" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant atomic value</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario12-scenario1" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is 'string'</x:label>
          <x:call function="exactly-one">
             <x:param as="xs:string" select="'string'"/>
          </x:call>
          <x:result select="'string'"/>
-         <x:test successful="true">
+         <x:test id="scenario12-scenario1-expect1" successful="true">
             <x:label>expecting 'string' should be Success</x:label>
             <x:expect select="'string'"/>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario12-scenario1-expect2" successful="false">
             <x:label>expecting ... should be Failure</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario12-scenario1-expect3" successful="false">
             <x:label>expecting '...' should be Failure</x:label>
             <x:expect select="'...'"/>
          </x:test>
       </x:scenario>
-      <x:scenario xspec="../../xspec-three-dots.xspec">
+      <x:scenario id="scenario12-scenario2" xspec="../../xspec-three-dots.xspec">
          <x:label>When result is '...'</x:label>
          <x:call function="exactly-one">
             <x:param as="xs:string" select="'...'"/>
          </x:call>
          <x:result select="'...'"/>
-         <x:test successful="true">
+         <x:test id="scenario12-scenario2-expect1" successful="true">
             <x:label>expecting '...' should be Success</x:label>
             <x:expect select="'...'"/>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario12-scenario2-expect2" successful="false">
             <x:label>expecting ... should be Failure</x:label>
             <x:expect select="/text()">...</x:expect>
          </x:test>
-         <x:test successful="false">
+         <x:test id="scenario12-scenario2-expect3" successful="false">
             <x:label>expecting 'string' should be Failure</x:label>
             <x:expect select="'string'"/>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario xspec="../../xspec-three-dots.xspec">
+   <x:scenario id="scenario13" xspec="../../xspec-three-dots.xspec">
       <x:label>For any resultant item</x:label>
       <x:call function="exactly-one">
          <x:param as="text()">item</x:param>
       </x:call>
       <x:result select="/text()">item</x:result>
-      <x:test successful="false">
+      <x:test id="scenario13-expect1" successful="false">
          <x:label>expecting .... (four dots) should be Failure</x:label>
          <x:expect select="/text()">....</x:expect>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario13-expect2" successful="false">
          <x:label>expecting ...x (three dots with extra character) should be Failure</x:label>
          <x:expect select="/text()">...x</x:expect>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario13-expect3" successful="false">
          <x:label>expecting ... with surrounding whitespace should be Failure</x:label>
          <x:expect select="/text()"> ...</x:expect>
       </x:test>
-      <x:test successful="false">
+      <x:test id="scenario13-expect4" successful="false">
          <x:label>expecting '...' (xs:string) should be Failure</x:label>
          <x:expect select="'...'"/>
       </x:test>
