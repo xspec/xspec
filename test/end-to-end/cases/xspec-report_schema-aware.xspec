@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-xquery-to-support-schema?>
 <?xspec-test require-xslt-to-support-schema?>
+<?xspec-test require-type-available-in-use-when?>
 <x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
 	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
