@@ -6,263 +6,284 @@
           query="x-urn:test:do-nothing"
           query-at="../../../../do-nothing.xquery"
           xspec="../../xspec-report_schema-aware.xspec">
-   <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-report_schema-aware.xspec">
       <x:label>In a failure report HTML</x:label>
       <x:result select="()"/>
-      <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+      <x:scenario id="scenario1-scenario1" xspec="../../xspec-report_schema-aware.xspec">
          <x:label>Derived string types</x:label>
          <x:result select="()"/>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario1"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:ID</x:label>
             <x:call function="xs:ID">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="'foo'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario1-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:ID('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario2"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:IDREF</x:label>
             <x:call function="xs:IDREF">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="'foo'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario2-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:IDREF('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario3"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:ENTITY</x:label>
             <x:call function="xs:ENTITY">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="'foo'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario3-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:ENTITY('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario4"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:NCName</x:label>
             <x:call function="xs:NCName">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="'foo'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario4-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:NCName('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario5"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:language</x:label>
             <x:call function="xs:language">
                <x:param select="'en'"/>
             </x:call>
             <x:result select="'en'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario5-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:language('en')" (XSLT) or "'en'"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario6"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:Name</x:label>
             <x:call function="xs:Name">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="'foo'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario6-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:Name('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario7"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:NMTOKEN</x:label>
             <x:call function="xs:NMTOKEN">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="'foo'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario7-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:NMTOKEN('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario8"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:token</x:label>
             <x:call function="xs:token">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="'foo'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario8-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:token('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario1-scenario9"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:normalizedString</x:label>
             <x:call function="xs:normalizedString">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="'foo'"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario1-scenario9-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:normalizedString('foo')" (XSLT) or
 						"'foo'" (XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
       </x:scenario>
-      <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+      <x:scenario id="scenario1-scenario2" xspec="../../xspec-report_schema-aware.xspec">
          <x:label>Derived numeric types</x:label>
          <x:result select="()"/>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario1"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:negativeInteger</x:label>
             <x:call function="xs:negativeInteger">
                <x:param select="-1"/>
             </x:call>
             <x:result select="-1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario1-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:negativeInteger(-1)" (XSLT) or "-1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario2"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:nonPositiveInteger</x:label>
             <x:call function="xs:nonPositiveInteger">
                <x:param select="0"/>
             </x:call>
             <x:result select="0"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario2-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:nonPositiveInteger(0)" (XSLT) or "0"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario3"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:byte</x:label>
             <x:call function="xs:byte">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario3-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:byte(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario4"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:short</x:label>
             <x:call function="xs:short">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario4-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:short(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario5"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:int</x:label>
             <x:call function="xs:int">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario5-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:int(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario6"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:long</x:label>
             <x:call function="xs:long">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario6-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:long(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario7"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:unsignedByte</x:label>
             <x:call function="xs:unsignedByte">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario7-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:unsignedByte(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario8"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:unsignedShort</x:label>
             <x:call function="xs:unsignedShort">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario8-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:unsignedShort(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario9"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:unsignedInt</x:label>
             <x:call function="xs:unsignedInt">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario9-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:unsignedInt(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario10"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:unsignedLong</x:label>
             <x:call function="xs:unsignedLong">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario10-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:unsignedLong(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario11"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:positiveInteger</x:label>
             <x:call function="xs:positiveInteger">
                <x:param select="1"/>
             </x:call>
             <x:result select="1"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario11-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:positiveInteger(1)" (XSLT) or "1"
 						(XQuery)</x:label>
                <x:expect select="()"/>
             </x:test>
          </x:scenario>
-         <x:scenario xspec="../../xspec-report_schema-aware.xspec">
+         <x:scenario id="scenario1-scenario2-scenario12"
+                     xspec="../../xspec-report_schema-aware.xspec">
             <x:label>xs:nonNegativeInteger</x:label>
             <x:call function="xs:nonNegativeInteger">
                <x:param select="0"/>
             </x:call>
             <x:result select="0"/>
-            <x:test successful="false">
+            <x:test id="scenario1-scenario2-scenario12-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:nonNegativeInteger(0)" (XSLT) or "0"
 						(XQuery)</x:label>
                <x:expect select="()"/>
