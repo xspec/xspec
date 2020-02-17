@@ -94,8 +94,8 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
                         xmlns:local="local"
                         xmlns:saxon="http://saxon.sf.net/"
                         xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -163,8 +163,11 @@
             &lt;/svrl:text&gt;
    &lt;/svrl:successful-report&gt;
    &lt;svrl:fired-rule context="sec" /&gt;
-&lt;/svrl:schematron-output&gt;</pre></td>
-                        <td><pre>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 't1-1'])</pre></td>
+&lt;/svrl:schematron-output&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 't1-1'])</pre>
+                        </td>
                      </tr>
                   </tbody>
                </table>
