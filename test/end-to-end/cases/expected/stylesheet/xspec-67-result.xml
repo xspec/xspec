@@ -12,14 +12,14 @@
          <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
       </x:call>
       <x:result select="/*/namespace::*">
-         <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
-                                xmlns:namespace-name="namespace-text"/>
+         <pseudo-namespace-node xmlns:namespace-name="namespace-text"
+                                xmlns="http://www.jenitennison.com/xslt/xspec"/>
       </x:result>
       <x:test id="scenario1-expect1" successful="true">
          <x:label>must be Success</x:label>
          <x:expect select="/*/namespace::*">
-            <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
-                                   xmlns:namespace-name="namespace-text"/>
+            <pseudo-namespace-node xmlns:namespace-name="namespace-text"
+                                   xmlns="http://www.jenitennison.com/xslt/xspec"/>
          </x:expect>
       </x:test>
    </x:scenario>
@@ -46,14 +46,14 @@
          <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
       </x:call>
       <x:result select="/*/namespace::*">
-         <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
-                                xmlns:namespace-name="namespace-text"/>
+         <pseudo-namespace-node xmlns:namespace-name="namespace-text"
+                                xmlns="http://www.jenitennison.com/xslt/xspec"/>
       </x:result>
       <x:test id="scenario3-expect1" successful="false">
          <x:label>must be Failure</x:label>
          <x:expect select="/*/namespace::*">
-            <pseudo-namespace-node xmlns="http://www.jenitennison.com/xslt/xspec"
-                                   xmlns:another-namespace-name="another-namespace-text"/>
+            <pseudo-namespace-node xmlns:another-namespace-name="another-namespace-text"
+                                   xmlns="http://www.jenitennison.com/xslt/xspec"/>
          </x:expect>
       </x:test>
    </x:scenario>
