@@ -64,8 +64,7 @@
             <h3>Using user-content (not @href) in x:context should work</h3>
             <div id="scenario1-expect2">
                <h4>This expectation should be Failure and the failure report should contain svrl:active-pattern/@document[.
-                  = ''] report baz-exists
-               </h4>
+                  = ''] report baz-exists</h4>
                <table class="xspecResult">
                   <thead>
                      <tr>
@@ -76,8 +75,8 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
                         xmlns:saxon="http://saxon.sf.net/"
                         xmlns:schold="http://www.ascc.net/xml/schematron"
                         xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -94,8 +93,11 @@
                            location="/foo[1]"&gt;
       &lt;svrl:text&gt;Found bar&lt;/svrl:text&gt;
    &lt;/svrl:successful-report&gt;
-&lt;/svrl:schematron-output&gt;</pre></td>
-                        <td><pre>exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'baz-exists'])</pre></td>
+&lt;/svrl:schematron-output&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'baz-exists'])</pre>
+                        </td>
                      </tr>
                   </tbody>
                </table>

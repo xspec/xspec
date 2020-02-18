@@ -184,6 +184,14 @@
 							and (x:saxon-version() lt x:pack-version(9, 8, 0, 0))">
 						<xsl:text>Requires xspec/xspec#720 to have been fixed</xsl:text>
 					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 't')
+							and ($pis = 'require-type-available-in-use-when')
+							and (x:saxon-version() lt x:pack-version(9, 8, 0, 0))">
+						<xsl:text>Requires type-available() to be reliable in @use-when</xsl:text>
+					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 
