@@ -150,6 +150,13 @@
 
 					<xsl:when
 						test="
+							($pis = 'require-saxon-bug-3543-fixed')
+							and (x:saxon-version() lt x:pack-version(9, 8, 0, 7))">
+						<xsl:text>Requires Saxon bug #3543 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($pis = 'require-saxon-bug-3838-fixed')
 							and (x:saxon-version() ge x:pack-version(9, 8, 0, 0))
 							and (x:saxon-version() lt x:pack-version(9, 9, 0, 0))">
@@ -235,11 +242,22 @@
 									and $XQUERY-SUPPORTS-3-1-QVERSION">
 								<xsl:sequence select="'-qversion:3.1'" />
 							</xsl:if>
+
+							<xsl:sequence
+								select="
+									$pis[starts-with(., 'saxon-custom-options=')]
+									/substring-after(., 'saxon-custom-options=')"
+							 />
 						</xsl:variable>
 						<xsl:if test="exists($saxon-custom-options)">
 							<xsl:attribute name="saxon-custom-options"
 								select="$saxon-custom-options" />
 						</xsl:if>
+
+						<xsl:for-each select="$pis[starts-with(., 'additional-classpath=')]">
+							<xsl:attribute name="additional-classpath"
+								select="substring-after(., 'additional-classpath=')" />
+						</xsl:for-each>
 
 						<xsl:call-template name="on-run-xspec">
 							<xsl:with-param name="coverage-enabled" select="$enable-coverage" />

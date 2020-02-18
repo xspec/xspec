@@ -375,6 +375,7 @@
       <!-- Saxon should be included in the classpath -->
       <classpath>
         <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
       </classpath>
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
@@ -411,6 +412,7 @@
       <!-- Saxon should be included in the classpath -->
       <classpath>
         <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
         <pathelement location="${xspec.project.dir}/java" if:true="${xspec.coverage.enabled}" />
       </classpath>
 

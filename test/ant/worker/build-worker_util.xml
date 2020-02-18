@@ -42,6 +42,7 @@
 		<attribute name="test-type" />
 		<attribute default="" name="enable-coverage" />
 		<attribute default="" name="saxon-custom-options" />
+		<attribute default="" name="additional-classpath" />
 		<attribute default="" name="output-xml-url" />
 		<attribute default="" name="output-html-url" />
 		<attribute default="" name="output-coverage-url" />
@@ -102,6 +103,8 @@
 					value="@{enable-coverage}" />
 				<param name="saxon.custom.options" unless:blank="@{saxon-custom-options}"
 					value="@{saxon-custom-options}" />
+				<param name="xspec.additional.classpath" unless:blank="@{additional-classpath}"
+					value="@{additional-classpath}" />
 
 				<param if:set="output-xml-path" location="${output-xml-path}"
 					name="xspec.result.xml" />
