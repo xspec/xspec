@@ -102,8 +102,8 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
                         xmlns:saxon="http://saxon.sf.net/"
                         xmlns:schold="http://www.ascc.net/xml/schematron"
                         xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -132,8 +132,11 @@
                 title should not be all upper case
             &lt;/svrl:text&gt;
    &lt;/svrl:failed-assert&gt;
-&lt;/svrl:schematron-output&gt;</pre></td>
-                        <td><pre>boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))</pre></td>
+&lt;/svrl:schematron-output&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))</pre>
+                        </td>
                      </tr>
                   </tbody>
                </table>
@@ -172,8 +175,8 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
                         xmlns:saxon="http://saxon.sf.net/"
                         xmlns:schold="http://www.ascc.net/xml/schematron"
                         xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -193,8 +196,11 @@
                 root element must be document
             &lt;/svrl:text&gt;
    &lt;/svrl:failed-assert&gt;
-&lt;/svrl:schematron-output&gt;</pre></td>
-                        <td><pre>boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))</pre></td>
+&lt;/svrl:schematron-output&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))</pre>
+                        </td>
                      </tr>
                   </tbody>
                </table>

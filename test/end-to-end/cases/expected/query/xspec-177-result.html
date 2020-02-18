@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for x-urn:test:do-nothing (passed: 0 / pending: 0 / failed: 2 / total:
-         2)
-      </title>
+      <title>Test Report for x-urn:test:do-nothing (passed: 0 / pending: 0 / failed: 2 / total: 2)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -71,8 +69,7 @@
             <div id="scenario1-expect1">
                <h4>When @test is "empty($x:result/self::element(foo))" (i.e. boolean), then the HTML
                   report should be "Result" = "&lt;foo /&gt;" and "Expecting" = "empty($x:result/self::element(foo))"
-                  without diff.
-               </h4>
+                  without diff.</h4>
                <table class="xspecResult">
                   <thead>
                      <tr>
@@ -83,9 +80,12 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code>/element()</code> from:
-                           </p><pre>&lt;foo /&gt;</pre></td>
-                        <td><pre>empty($x:result/self::element(foo))</pre></td>
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;foo /&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>empty($x:result/self::element(foo))</pre>
+                        </td>
                      </tr>
                   </tbody>
                </table>
@@ -93,8 +93,7 @@
             <div id="scenario1-expect2">
                <h4>When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
                   boolean), then the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result"
-                  = "&lt;bar /&gt;" with diff.
-               </h4>
+                  = "&lt;bar /&gt;" with diff.</h4>
                <table class="xspecResult">
                   <thead>
                      <tr>
@@ -105,11 +104,13 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code class="same">/element()</code> from:
-                           </p><pre>&lt;<span class="diff">foo</span> /&gt;</pre></td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">foo</span> /&gt;</pre>
+                        </td>
                         <td>
-                           <p>XPath <code class="same">/element()</code> from:
-                           </p><pre>&lt;<span class="diff">bar</span> /&gt;</pre></td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">bar</span> /&gt;</pre>
+                        </td>
                      </tr>
                   </tbody>
                </table>
