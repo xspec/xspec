@@ -719,7 +719,7 @@
     set ANT_ARGS=
 
     rem Delete default output dir if exists
-    call :rmdir-if-exists ..\tutorial\schematron\xspec
+    call :rmdir-if-exist ..\tutorial\schematron\xspec
 
     rem Run
     rem * Should work without phase #168
