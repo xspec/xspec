@@ -510,6 +510,12 @@
       <if test="not($impl:successful)">
         <message>
           <xsl:text>      FAILED</xsl:text>
+	  <xsl:text>
+	 	  expected:</xsl:text>
+	  <copy-of select="$impl:expected"/>
+	  <xsl:text>
+	 	  test-result:</xsl:text>
+	  <copy-of select="$impl:test-result"/>
         </message>
       </if>
     </xsl:if>
