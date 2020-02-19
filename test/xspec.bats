@@ -86,76 +86,10 @@ teardown() {
 }
 
 #
-# Coverage and Saxon versions (CLI)
-#
-
-@test "invoking xspec -c with Saxon9HE returns error message" {
-    export SAXON_CP=/path/to/saxon9he.jar
-    run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
-}
-
-@test "invoking xspec -c with Saxon9SA returns error message" {
-    export SAXON_CP=/path/to/saxon9sa.jar
-    run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
-}
-
-@test "invoking xspec -c with Saxon9 returns error message" {
-    export SAXON_CP=/path/to/saxon9.jar
-    run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
-}
-
-@test "invoking xspec -c with Saxon8SA returns error message" {
-    export SAXON_CP=/path/to/saxon8sa.jar
-    run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
-}
-
-@test "invoking xspec -c with Saxon8 returns error message" {
-    export SAXON_CP=/path/to/saxon8.jar
-    run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE." ]
-}
-
-@test "invoking xspec -c with Saxon9EE creates test stylesheet" {
-    # Append non-Saxon jar to see if SAXON_CP is parsed correctly
-    export SAXON_CP="/path/to/saxon9ee.jar:/path/to/another.jar"
-
-    run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Creating Test Stylesheet..." ]
-}
-
-@test "invoking xspec -c with Saxon9PE creates test stylesheet" {
-    export SAXON_CP=/path/to/saxon9pe.jar
-    run ../bin/xspec.sh -c ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Creating Test Stylesheet..." ]
-}
-
-#
 # Coverage (CLI)
 #
 
 @test "invoking xspec -c creates report files" {
-    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
-        skip "XSLT_SUPPORTS_COVERAGE is not defined"
-    fi
-
     # Other stderr #204
     export JAVA_TOOL_OPTIONS=-Dfoo
 
@@ -1452,10 +1386,6 @@ teardown() {
 }
 
 @test "XSLT selecting nodes without context should be error (CLI -c) #423" {
-    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
-        skip "XSLT_SUPPORTS_COVERAGE is not defined"
-    fi
-
     run ../bin/xspec.sh -c xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1754,10 +1684,6 @@ teardown() {
 #
 
 @test "Trace listener should not hardcode output dir #655" {
-    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
-        skip "XSLT_SUPPORTS_COVERAGE is not defined"
-    fi
-
     # TEST_DIR should not contain "xspec"
     export "TEST_DIR=/tmp/XSpec-655"
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-saxon-bug-3543-fixed?>
 <?xspec-test additional-classpath=${xspec.project.dir}/java?>
-<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/line-number/enabled-config.xml"?>
+<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/src/reporter/coverage-report-config.xml"?>
 <x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
 	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
