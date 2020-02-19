@@ -20,7 +20,6 @@
 	<xsl:param as="xs:string" name="XSPECFILES-DIR-URI-QUERY" required="yes" />
 
 	<!-- XSLT processor capabilities -->
-	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
 
@@ -108,14 +107,6 @@
 
 			<xsl:variable as="xs:string?" name="skip">
 				<xsl:choose>
-					<xsl:when
-						test="
-							($test-type eq 't')
-							and $enable-coverage
-							and not($XSLT-SUPPORTS-COVERAGE)">
-						<xsl:text>Requires XSLT processor to support coverage</xsl:text>
-					</xsl:when>
-
 					<xsl:when
 						test="
 							($test-type eq 't')

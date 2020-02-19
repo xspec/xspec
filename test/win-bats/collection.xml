@@ -1008,7 +1008,7 @@
 		Coverage (Ant)
 	-->
 
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Ant for XSLT with coverage creates report files">
+	<case name="Ant for XSLT with coverage creates report files">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -1226,7 +1226,7 @@
     call :verify_line 1 x "true"
 	</case>
 
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="report-css-uri for coverage report file">
+	<case name="report-css-uri for coverage report file">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^

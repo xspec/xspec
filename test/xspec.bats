@@ -1187,10 +1187,6 @@ teardown() {
 #
 
 @test "Ant for XSLT with coverage creates report files" {
-    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
-        skip "XSLT_SUPPORTS_COVERAGE is not defined"
-    fi
-
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -1437,10 +1433,6 @@ teardown() {
 }
 
 @test "report-css-uri for coverage report file" {
-    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
-        skip "XSLT_SUPPORTS_COVERAGE is not defined"
-    fi
-
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
