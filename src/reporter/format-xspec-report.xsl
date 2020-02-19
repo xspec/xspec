@@ -369,6 +369,12 @@
   </div>
 </xsl:template>
 
+<xsl:template match="x:label" as="text()" mode="x:html-report">
+  <!-- TODO: Consider doing more whitespace normalization or normalizing
+    at an earlier stage (the compiler or the XML report) -->
+  <xsl:value-of select=" replace(., '\s+$', '')" />
+</xsl:template>
+
 <!-- Formats the Actual Result or the Expected Result in HTML -->
 <xsl:template match="element()" as="element()+" mode="x:format-result">
   <xsl:param name="result-to-compare-with" as="element()?" required="yes" />
