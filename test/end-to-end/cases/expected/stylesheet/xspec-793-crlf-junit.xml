@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="xspec-793-crlf.xspec">
+   <testsuite name="input" tests="1" failures="0">
+      <testcase name="output" status="passed"/>
+   </testsuite>
+</testsuites>
