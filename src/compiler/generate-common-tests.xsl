@@ -341,10 +341,7 @@
       <xsl:call-template name="x:detect-reserved-variable-name"/>
       <!-- The variable declaration. -->
       <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
-         <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-            <xsl:with-param name="var"  select="@name"/>
-            <xsl:with-param name="type" select="'variable'"/>
-         </xsl:apply-templates>
+         <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
       </xsl:if>
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
@@ -384,7 +381,7 @@
          use-when="element-available('xsl:context-item')" />
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
-      <xsl:apply-templates select="$this/(x:param|x:variable)" mode="x:generate-declarations"/>
+      <xsl:apply-templates select="$this/(x:param|x:variable)" mode="test:generate-variable-declarations"/>
    </xsl:template>
 
    <!--
@@ -572,10 +569,8 @@
        x:param elements generate actual call param's variable.
    -->
    <xsl:template match="x:param" mode="x:compile">
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-         <xsl:with-param name="var"  select="( @name, generate-id() )[1]"/>
-         <xsl:with-param name="type" select="'variable'"/>
-      </xsl:apply-templates>
+      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+
       <!-- Continue walking the siblings (only other x:param elements, within this
            x:call or x:context). -->
       <xsl:apply-templates select="following-sibling::*[self::x:param][1]" mode="#current"/>
@@ -713,27 +708,6 @@
             <xsl:sequence select="$instruction" />
          </xsl:otherwise>
       </xsl:choose>
-   </xsl:template>
-
-   <!-- Generates variable declarations for x:expect -->
-   <xsl:template name="x:setup-expected" as="node()+">
-      <xsl:context-item as="element(x:expect)" use="required"
-         use-when="element-available('xsl:context-item')" />
-
-      <xsl:param name="var" as="xs:string" required="yes" />
-
-      <!-- Remove x:label from x:expect -->
-      <xsl:variable name="expect" as="element(x:expect)">
-         <xsl:copy>
-            <xsl:sequence select="(attribute() | node()) except x:label" />
-         </xsl:copy>
-      </xsl:variable>
-
-      <!-- Generate <xsl:variable name="impl:expected"> (XSLT)
-         or "let $local:expected := ..." (XQuery) to represent the expected items -->
-      <xsl:apply-templates select="$expect" mode="test:generate-variable-declarations">
-         <xsl:with-param name="var" select="$var" />
-      </xsl:apply-templates>
    </xsl:template>
 
    <!-- Generates the ID of current x:scenario or x:expect.
