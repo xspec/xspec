@@ -34,7 +34,8 @@
 			select="resolve-uri('iso-schematron/iso_svrl_for_xslt2.xsl')" />
 
 		<stylesheet exclude-result-prefixes="#all" version="{x:decimal-string(x:xslt-version(.))}">
-			<!-- Standard namespace required by the wrapper stylesheet being generated -->
+			<!-- Namespaces required by the wrapper stylesheet being generated -->
+			<xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
 			<xsl:namespace name="xs" select="'http://www.w3.org/2001/XMLSchema'" />
 
 			<!-- Import the stylesheet of the Schematron Step 3 preprocessor -->
