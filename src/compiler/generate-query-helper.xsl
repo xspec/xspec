@@ -21,19 +21,18 @@
 
    <xsl:key name="functions" 
             match="xsl:function" 
-            use="resolve-QName(@name, .)"/>
+            use="resolve-QName(@name, .)" />
 
    <xsl:key name="named-templates" 
             match="xsl:template[@name]"
-            use="if ( contains(@name, ':') ) then
-                   resolve-QName(@name, .)
-                 else
-                   QName('', @name)"/>
+            use="if (contains(@name, ':'))
+                 then resolve-QName(@name, .)
+                 else QName('', @name)" />
 
    <xsl:key name="matching-templates" 
             match="xsl:template[@match]" 
             use="concat('match=', normalize-space(@match), '+',
-                        'mode=', normalize-space(@mode))"/>
+                        'mode=', normalize-space(@mode))" />
 
    <!--
       Generates XQuery variable declaration(s) from the current element.
@@ -44,7 +43,7 @@
    -->
    <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
       <!-- Reflects @pending or x:pending -->
-      <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
+      <xsl:param name="pending" select="()" tunnel="yes" as="node()?" />
 
       <!-- Name of the variable being declared -->
       <xsl:variable name="name" as="xs:string" select="test:variable-name(.)" />
@@ -52,10 +51,11 @@
       <!-- True if the variable being declared is considered pending -->
       <xsl:variable name="is-pending" as="xs:boolean"
          select="self::x:variable
-            and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
+            and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))" />
 
       <!-- Child nodes to be excluded -->
-      <xsl:variable name="exclude" as="element(x:label)?" select="self::x:expect/x:label" />
+      <xsl:variable name="exclude" as="element(x:label)?"
+         select="self::x:expect/x:label" />
 
       <!-- True if the variable should be declared as global -->
       <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
@@ -156,6 +156,7 @@
                     in test file might not be executable. -->
                   <xsl:text> </xsl:text>
                </xsl:when>
+
                <xsl:when test="$temp-doc-name">
                   <xsl:text>$</xsl:text>
                   <xsl:value-of select="$temp-doc-name" />
@@ -229,7 +230,7 @@
 
       <xsl:text> := ( </xsl:text>
 
-      <xsl:sequence select="$value"/>
+      <xsl:sequence select="$value" />
 
       <xsl:text> )</xsl:text>
 
@@ -295,12 +296,13 @@
    </xsl:template>
 
    <xsl:function name="test:matching-xslt-elements" as="element()*">
-     <xsl:param name="element-kind" as="xs:string" />
-     <xsl:param name="element-id" as="item()" />
-     <xsl:param name="stylesheet" as="document-node()" />
-     <xsl:sequence select="key($element-kind, $element-id, $stylesheet)" />
-   </xsl:function>  
-  
+      <xsl:param name="element-kind" as="xs:string" />
+      <xsl:param name="element-id" as="item()" />
+      <xsl:param name="stylesheet" as="document-node()" />
+
+      <xsl:sequence select="key($element-kind, $element-id, $stylesheet)" />
+   </xsl:function>
+
 </xsl:stylesheet>
 
 

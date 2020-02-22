@@ -90,7 +90,7 @@
   <xsl:variable name="stylesheet-string" as="xs:string"
     select="unparsed-text($stylesheet-uri)" />
   <xsl:variable name="stylesheet-lines" as="xs:string+" 
-    select="tokenize($stylesheet-string, '\n')" />
+    select="test:split-lines($stylesheet-string)" />
   <xsl:variable name="number-of-lines" as="xs:integer"
     select="count($stylesheet-lines)" />
   <xsl:variable name="number-width" as="xs:integer"
@@ -202,7 +202,7 @@
         <xsl:variable name="construct" as="xs:string" select="regex-group(1)" />
         <xsl:variable name="rest" as="xs:string" select="regex-group(20)" />
         <xsl:variable name="construct-lines" as="xs:string+"
-          select="tokenize($construct, '\n')" />
+          select="test:split-lines($construct)" />
         <xsl:variable name="endTag" as="xs:boolean" select="regex-group(9) != ''" />
         <xsl:variable name="emptyTag" as="xs:boolean" select="regex-group(19) != ''" />
         <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(11) != ''" />
@@ -366,6 +366,13 @@
     select="for $l in $line-numbers
             return concat($module, ':', $l)" />
   <xsl:sequence select="key('coverage', $keys, $trace)" />
+</xsl:function>
+
+<xsl:function name="test:split-lines" as="xs:string+">
+  <xsl:param name="input" as="xs:string" />
+
+  <!-- Regular expression is based on http://www.w3.org/TR/xpath-functions-31/#func-unparsed-text-lines -->
+  <xsl:sequence select="tokenize($input, '\r\n|\r|\n')" />
 </xsl:function>
 
 </xsl:stylesheet>
