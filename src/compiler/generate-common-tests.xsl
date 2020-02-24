@@ -299,9 +299,11 @@
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:for-each select="x:distinct-variable-names($vars)">
-               <param name="{ @name }" select="${ @name }">
-                    <xsl:sequence select="x:copy-namespaces(.)"/>
-               </param>
+               <xsl:element name="param" namespace="">
+                  <xsl:sequence select="x:copy-namespaces(.)" />
+                  <xsl:sequence select="@name" />
+                  <xsl:attribute name="select" select="concat('$', @name)" />
+               </xsl:element>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -320,12 +322,17 @@
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <param name="{x:xspec-name(.,'result')}" select="${x:xspec-name(.,'result')}" />
+               <xsl:element name="param" namespace="">
+                  <xsl:attribute name="name" select="x:xspec-name(., 'result')" />
+                  <xsl:attribute name="select" select="concat('$', x:xspec-name(., 'result'))" />
+               </xsl:element>
             </xsl:if>
             <xsl:for-each select="x:distinct-variable-names($vars)">
-               <param name="{ @name }" select="${ @name }">
+               <xsl:element name="param" namespace="">
                   <xsl:sequence select="x:copy-namespaces(.)"/>
-               </param>
+                  <xsl:sequence select="@name" />
+                  <xsl:attribute name="select" select="concat('$', @name)" />
+               </xsl:element>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -525,9 +532,11 @@
          <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:for-each select="x:distinct-variable-names($vars)">
-               <param name="{ @name }" required="yes">
+               <xsl:element name="param" namespace="">
                   <xsl:sequence select="x:copy-namespaces(.)"/>
-               </param>
+                  <xsl:sequence select="@name" />
+                  <xsl:attribute name="required" select="'yes'" />
+               </xsl:element>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
@@ -552,12 +561,17 @@
          <xsl:with-param name="call"    tunnel="yes" select="$call"/>
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <param name="{x:xspec-name(.,'result')}" required="yes" />
+               <xsl:element name="param" namespace="">
+                  <xsl:attribute name="name" select="x:xspec-name(., 'result')" />
+                  <xsl:attribute name="required" select="'yes'" />
+               </xsl:element>
             </xsl:if>
             <xsl:for-each select="x:distinct-variable-names($vars)">
-               <param name="{ @name }" required="yes">
+               <xsl:element name="param" namespace="">
                   <xsl:sequence select="x:copy-namespaces(.)"/>
-               </param>
+                  <xsl:sequence select="@name" />
+                  <xsl:attribute name="required" select="'yes'" />
+               </xsl:element>
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
