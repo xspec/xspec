@@ -355,7 +355,12 @@
           level="info" />
     <saxon-xslt in="${xspec.xspecfile.preprocessed}"
                 out="${xspec.compiled.runner}"
-                style="${xspec.compiler.xsl}" />
+                style="${xspec.compiler.xsl}">
+      <xslt-elements>
+        <param name="force-focus" expression="${xspec.force.focus}"
+               if="xspec.force.focus" />
+      </xslt-elements>
+    </saxon-xslt>
   </target>
 
   <!-- Runs the compiled XSpec for XQuery -->
@@ -441,6 +446,8 @@
                 out="${xspec.result.html}"
                 style="${xspec.html.reporter.xsl}">
       <xslt-elements>
+        <param name="force-focus" expression="${xspec.force.focus}"
+               if="xspec.force.focus" />
         <param name="inline-css" expression="true" />
         <param name="report-css-uri" expression="${xspec.result.html.css.url}"
                if="xspec.result.html.css.url" />
