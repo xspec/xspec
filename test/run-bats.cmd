@@ -15,9 +15,6 @@ if not exist "%SAXON_JAR%" (
 )
 
 rem Check capabilities
-java -jar "%SAXON_JAR%" -nogo -xsl:"%~dp0..\src\reporter\coverage-report.xsl" 2> NUL
-if not errorlevel 1 set XSLT_SUPPORTS_COVERAGE=1
-
 java -jar "%SAXON_JAR%" -nogo -xsl:"%~dp0caps\v3-0.xsl" 2> NUL
 if not errorlevel 1 set XSLT_SUPPORTS_3_0=1
 

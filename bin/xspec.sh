@@ -208,10 +208,6 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
             SCHEMATRON=1;;
         # Coverage
         -c)
-			if [[ ${SAXON_CP} != *"saxon9pe"* && ${SAXON_CP} != *"saxon9ee"* ]]; then
-				echo "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
-			    exit 1
-			fi
             COVERAGE=1;;
         # JUnit report
         -j)
@@ -266,10 +262,6 @@ if [ -n "$2" ]; then
         exit 1
     fi
 	echo "Long-form option 'coverage' deprecated, use '-c' instead."
-	if [[ ${SAXON_CP} != *"saxon9pe"* && ${SAXON_CP} != *"saxon9ee"* ]]; then
-		echo "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
-		exit 1
-	fi
 	COVERAGE=1
     if [ -n "$3" ]; then
         usage "Error: Extra option: $3"
@@ -450,7 +442,7 @@ xslt -o:"$HTML" \
 if test -n "$COVERAGE"; then
     echo
     echo "Formatting Coverage Report..."
-    xslt -l:on \
+    xslt -config:"${XSPEC_HOME}/src/reporter/coverage-report-config.xml" \
         -o:"$COVERAGE_HTML" \
         -s:"$COVERAGE_XML" \
         -xsl:"$XSPEC_HOME/src/reporter/coverage-report.xsl" \

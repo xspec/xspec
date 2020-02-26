@@ -17,17 +17,6 @@
 	<target name="get-processor-caps">
 		<echo message="Getting processor capabilities" />
 
-		<!-- Checks to see if XSLT processor can compile the coverage reporter XSLT -->
-		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
-			resultproperty="coverage-report.compile.result">
-			<arg value="-nogo" />
-			<arg value="-xsl:${run-xspec-tests.basedir}/../../src/reporter/coverage-report.xsl" />
-		</java>
-		<condition else="false" property="xslt.supports.coverage">
-			<equals arg1="${coverage-report.compile.result}" arg2="0" />
-		</condition>
-		<echo message="xslt.supports.coverage=${xslt.supports.coverage}" />
-
 		<!-- Checks to see if XSLT processor can be schema-aware ('-sa') -->
 		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
 			resultproperty="xslt.schema-aware.compile.result">
@@ -91,8 +80,6 @@
 			<factory name="net.sf.saxon.TransformerFactoryImpl" />
 			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
 			<param expression="${xspecfiles.dir.url.query}" name="XSPECFILES-DIR-URI-QUERY" />
-			<param expression="${xslt.supports.coverage}" name="XSLT-SUPPORTS-COVERAGE"
-				type="BOOLEAN" />
 			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN" />
 			<param expression="${xslt.supports.3-0}" name="XSLT-SUPPORTS-3-0" type="BOOLEAN" />
 			<param expression="${xquery.supports.schema}" name="XQUERY-SUPPORTS-SCHEMA"
