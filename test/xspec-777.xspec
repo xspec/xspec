@@ -5,7 +5,7 @@
 	<x:param as="document-node(element(test))" href="xspec-777.xml" name="my:test" />
 
 	<x:scenario>
-		<x:label>When x:param[@href] in XSpec defines $my:test and x:variable (or its XQuery
+		<x:label>When x:param[@href] in XSpec defines $my:test and xsl:variable (or its XQuery
 			equivalent) in SUT defines $my:test-doc and $my:test-doc-uri</x:label>
 
 		<x:call function="false" />
