@@ -49,65 +49,10 @@
 	</case>
 
 	<!--
-		Coverage and Saxon versions (CLI)
-	-->
-
-	<case name="invoking xspec -c with Saxon9HE returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9he.jar
-    call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
-	</case>
-
-	<case name="invoking xspec -c with Saxon9SA returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9sa.jar
-    call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
-	</case>
-
-	<case name="invoking xspec -c with Saxon9 returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9.jar
-    call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
-	</case>
-
-	<case name="invoking xspec -c with Saxon8SA returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8sa.jar
-    call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
-	</case>
-
-	<case name="invoking xspec -c with Saxon8 returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8.jar
-    call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE."
-	</case>
-
-	<case name="invoking xspec -c with Saxon9EE creates test stylesheet">
-    rem Append non-Saxon jar to see if SAXON_CP is parsed correctly
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar;%SYSTEMDRIVE%\path\to\another.jar
-
-    call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 3 x "Creating Test Stylesheet..."
-	</case>
-
-	<case name="invoking xspec -c with Saxon9PE creates test stylesheet">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9pe.jar
-    call :run ..\bin\xspec.bat -c ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 3 x "Creating Test Stylesheet..."
-	</case>
-
-	<!--
 		Coverage (CLI)
 	-->
 
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="invoking xspec -c creates report files">
+	<case name="invoking xspec -c creates report files">
     rem Other stderr #204
     set JAVA_TOOL_OPTIONS=-Dfoo
 
@@ -1063,7 +1008,7 @@
 		Coverage (Ant)
 	-->
 
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Ant for XSLT with coverage creates report files">
+	<case name="Ant for XSLT with coverage creates report files">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -1236,7 +1181,7 @@
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="XSLT selecting nodes without context should be error (CLI -c) #423">
+	<case name="XSLT selecting nodes without context should be error (CLI -c) #423">
     call :run ..\bin\xspec.bat -c xspec-423\test.xspec
     call :verify_retval 2
     call :verify_line  * r "  XPDY0002:"
@@ -1281,7 +1226,7 @@
     call :verify_line 1 x "true"
 	</case>
 
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="report-css-uri for coverage report file">
+	<case name="report-css-uri for coverage report file">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -1497,7 +1442,7 @@
 		#655
 	-->
 
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Trace listener should not hardcode output dir #655">
+	<case name="Trace listener should not hardcode output dir #655">
     rem TEST_DIR should not contain "xspec". (Assume TEMP does not contain it.)
     set "TEST_DIR=%TEMP%\XSpec-655"
 
