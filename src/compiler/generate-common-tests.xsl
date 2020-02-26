@@ -224,6 +224,7 @@
       </xsl:if>
    </xsl:template>
 
+   <!-- @priority is to avoid the ambiguity with the @match="text()" template -->
    <xsl:template match="node()|@*" as="node()" mode="x:gather-specs" priority="-1">
       <xsl:call-template name="x:identity" />
    </xsl:template>
