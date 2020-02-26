@@ -20,7 +20,6 @@
 	<xsl:param as="xs:string" name="XSPECFILES-DIR-URI-QUERY" required="yes" />
 
 	<!-- XSLT processor capabilities -->
-	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-COVERAGE" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
 
@@ -111,14 +110,6 @@
 					<xsl:when
 						test="
 							($test-type eq 't')
-							and $enable-coverage
-							and not($XSLT-SUPPORTS-COVERAGE)">
-						<xsl:text>Requires XSLT processor to support coverage</xsl:text>
-					</xsl:when>
-
-					<xsl:when
-						test="
-							($test-type eq 't')
 							and ($pis = 'require-xslt-to-support-schema')
 							and not($XSLT-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XSLT processor</xsl:text>
@@ -146,6 +137,13 @@
 							and $require-xquery-to-support-3-1
 							and not($XQUERY-SUPPORTS-3-1-DEFAULT or $XQUERY-SUPPORTS-3-1-QVERSION)">
 						<xsl:text>Requires XQuery 3.1 processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-3543-fixed')
+							and (x:saxon-version() lt x:pack-version(9, 8, 0, 7))">
+						<xsl:text>Requires Saxon bug #3543 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when
@@ -235,11 +233,22 @@
 									and $XQUERY-SUPPORTS-3-1-QVERSION">
 								<xsl:sequence select="'-qversion:3.1'" />
 							</xsl:if>
+
+							<xsl:sequence
+								select="
+									$pis[starts-with(., 'saxon-custom-options=')]
+									/substring-after(., 'saxon-custom-options=')"
+							 />
 						</xsl:variable>
 						<xsl:if test="exists($saxon-custom-options)">
 							<xsl:attribute name="saxon-custom-options"
 								select="$saxon-custom-options" />
 						</xsl:if>
+
+						<xsl:for-each select="$pis[starts-with(., 'additional-classpath=')]">
+							<xsl:attribute name="additional-classpath"
+								select="substring-after(., 'additional-classpath=')" />
+						</xsl:for-each>
 
 						<xsl:call-template name="on-run-xspec">
 							<xsl:with-param name="coverage-enabled" select="$enable-coverage" />
