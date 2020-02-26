@@ -272,11 +272,7 @@
       <!-- If there are variables before x:call, the caller passed them in as $variables.
            Define them here followed by "return". -->
       <xsl:if test="exists($variables)">
-         <xsl:for-each select="$variables">
-            <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-               <xsl:with-param name="var" select="@name"/>
-            </xsl:apply-templates>
-         </xsl:for-each>
+         <xsl:apply-templates select="$variables" mode="test:generate-variable-declarations" />
          <xsl:text>    return&#10;</xsl:text>
       </xsl:if>
 
@@ -319,7 +315,7 @@
                      <xsl:for-each select="$call/x:param">
                         <xsl:sort select="xs:integer(@position)"/>
                         <xsl:text>$</xsl:text>
-                        <xsl:value-of select="( @name, generate-id() )[1]"/>
+                        <xsl:value-of select="test:variable-name(.)" />
                         <xsl:if test="position() != last()">, </xsl:if>
                      </xsl:for-each>
                      <xsl:text>)&#10;</xsl:text>
@@ -422,9 +418,7 @@
       <xsl:text>)&#10;{&#10;</xsl:text>
       <xsl:if test="not($pending-p)">
          <!-- Set up the $local:expected variable -->
-         <xsl:call-template name="x:setup-expected">
-            <xsl:with-param name="var" select="'local:expected'" />
-         </xsl:call-template>
+         <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
 
          <!-- Flags for test:deep-equal() enclosed in ''. -->
          <xsl:variable name="deep-equal-flags" as="xs:string">''</xsl:variable>
@@ -454,7 +448,9 @@
                <xsl:text>  let $local:successful as xs:boolean := (&#x0A;</xsl:text>
                <xsl:text>    if ($local:boolean-test)&#x0A;</xsl:text>
                <xsl:text>    then boolean($local:test-result)&#x0A;</xsl:text>
-               <xsl:text>    else test:deep-equal($local:expected, $local:test-result, </xsl:text>
+               <xsl:text>    else test:deep-equal($</xsl:text>
+               <xsl:value-of select="test:variable-name(.)" />
+               <xsl:text>, $local:test-result, </xsl:text>
                <xsl:value-of select="$deep-equal-flags" />
                <xsl:text>)&#x0A;</xsl:text>
                <xsl:text>  )&#x0A;</xsl:text>
@@ -464,7 +460,9 @@
             <xsl:otherwise>
                <!-- $local:successful -->
                <xsl:text>  let $local:successful as xs:boolean :=&#x0A;</xsl:text>
-               <xsl:text>      test:deep-equal($local:expected, $</xsl:text>
+               <xsl:text>      test:deep-equal($</xsl:text>
+               <xsl:value-of select="test:variable-name(.)" />
+               <xsl:text>, $</xsl:text>
                <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>, </xsl:text>
                <xsl:value-of select="$deep-equal-flags" />
@@ -510,7 +508,9 @@
             </xsl:if>
 
             <xsl:text>&#x0A;</xsl:text>
-            <xsl:text>      { test:report-sequence($local:expected, '</xsl:text>
+            <xsl:text>      { test:report-sequence($</xsl:text>
+            <xsl:value-of select="test:variable-name(.)" />
+            <xsl:text>, '</xsl:text>
             <xsl:value-of select="x:xspec-name(.,'expect')" />
             <xsl:text>'</xsl:text>
 
@@ -523,20 +523,6 @@
          </xsl:if>
       </xsl:element>
       <xsl:text>&#10;};&#10;</xsl:text>
-   </xsl:template>
-
-   <!-- *** x:generate-declarations *** -->
-   <!-- Code to generate parameter declarations -->
-   <!--
-       TODO: For x:param, define external variable (which can have a
-       default value in XQuery 1.1, but not in 1.0, so we will need to
-       generate an error for global x:param with default value...)
-   -->
-   <xsl:template match="x:param|x:variable" mode="x:generate-declarations">
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations">
-         <xsl:with-param name="var"    select="@name" />
-         <xsl:with-param name="global" select="true()"/>
-      </xsl:apply-templates>
    </xsl:template>
 
    <!-- *** x:report *** -->

@@ -21,19 +21,18 @@
 
    <xsl:key name="functions" 
             match="xsl:function" 
-            use="resolve-QName(@name, .)"/>
+            use="resolve-QName(@name, .)" />
 
    <xsl:key name="named-templates" 
             match="xsl:template[@name]"
-            use="if ( contains(@name, ':') ) then
-                   resolve-QName(@name, .)
-                 else
-                   QName('', @name)"/>
+            use="if (contains(@name, ':'))
+                 then resolve-QName(@name, .)
+                 else QName('', @name)" />
 
    <xsl:key name="matching-templates" 
             match="xsl:template[@match]" 
             use="concat('match=', normalize-space(@match), '+',
-                        'mode=', normalize-space(@mode))"/>
+                        'mode=', normalize-space(@mode))" />
 
    <!--
       Generates XQuery variable declaration(s) from the current element.
@@ -43,26 +42,53 @@
       before applying this mode and/or mode="test:create-node-generator" should be overridden.
    -->
    <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
-      <xsl:param name="var"    as="xs:string"  required="yes"/>
-      <xsl:param name="global" as="xs:boolean" select="false()"/>
-      <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
-      <xsl:variable name="variable-is-pending" as="xs:boolean"
-         select="self::x:variable and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))"/>
-      <xsl:variable name="var-doc" as="xs:string?"
-         select="if (not($variable-is-pending) and (node() or @href)) then concat($var, '-doc') else ()" />
-      <xsl:variable name="var-doc-uri" as="xs:string?"
-         select="if ($var-doc and @href) then concat($var-doc, '-uri') else ()" />
+      <!-- Reflects @pending or x:pending -->
+      <xsl:param name="pending" select="()" tunnel="yes" as="node()?" />
+
+      <!-- Name of the variable being declared -->
+      <xsl:variable name="name" as="xs:string" select="test:variable-name(.)" />
+
+      <!-- True if the variable being declared is considered pending -->
+      <xsl:variable name="is-pending" as="xs:boolean"
+         select="self::x:variable
+            and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))" />
+
+      <!-- Child nodes to be excluded -->
+      <xsl:variable name="exclude" as="element(x:label)?"
+         select="self::x:expect/x:label" />
+
+      <!-- True if the variable should be declared as global -->
+      <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
+
+      <!-- True if the variable should be declared as external.
+         TODO: If true, define external variable (which can have a default value in
+         XQuery 1.1, but not in 1.0, so we will need to generate an error for global
+         x:param with default value...) -->
+      <!--<xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />-->
+
+      <!-- Name of the temporary runtime variable which holds a document specified by
+         child::node() or @href -->
+      <xsl:variable name="temp-doc-name" as="xs:string?"
+         select="if (not($is-pending) and (node() or @href))
+                 then concat($name, '-doc')
+                 else ()" />
+
+      <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
+      <xsl:variable name="temp-uri-name" as="xs:string?"
+         select="if ($temp-doc-name and @href)
+                 then concat($temp-doc-name, '-uri')
+                 else ()" />
 
       <!--
          Output
-            declare variable $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF");
-            or
-            let $VAR-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
+            declare variable $NAME-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF");
+         or
+                         let $NAME-doc-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
       -->
-      <xsl:if test="$var-doc-uri">
+      <xsl:if test="$temp-uri-name">
          <xsl:call-template name="test:declare-or-let-variable">
-            <xsl:with-param name="is-global" select="$global" />
-            <xsl:with-param name="name" select="$var-doc-uri" />
+            <xsl:with-param name="is-global" select="$is-global" />
+            <xsl:with-param name="name" select="$temp-uri-name" />
             <xsl:with-param name="type" select="'xs:anyURI'" />
             <xsl:with-param name="value" as="text()+">
                <xsl:text>xs:anyURI("</xsl:text>
@@ -74,32 +100,32 @@
 
       <!--
          Output
-            declare variable $VAR-doc as document-node() := DOCUMENT;
-            or
-            let $VAR-doc as document-node() := DOCUMENT
+            declare variable $NAME-doc as document-node() := DOCUMENT;
+         or
+                         let $NAME-doc as document-node() := DOCUMENT
          
          where DOCUMENT is
-            doc($VAR-doc-uri)
-            or
+            doc($NAME-doc-uri)
+         or
             document { NODE-GENERATORS }
       -->
-      <xsl:if test="$var-doc">
+      <xsl:if test="$temp-doc-name">
          <xsl:call-template name="test:declare-or-let-variable">
-            <xsl:with-param name="is-global" select="$global" />
-            <xsl:with-param name="name" select="$var-doc" />
+            <xsl:with-param name="is-global" select="$is-global" />
+            <xsl:with-param name="name" select="$temp-doc-name" />
             <xsl:with-param name="type" select="'document-node()'" />
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
                   <xsl:when test="@href">
                      <xsl:text>doc($</xsl:text>
-                     <xsl:value-of select="$var-doc-uri" />
+                     <xsl:value-of select="$temp-uri-name" />
                      <xsl:text>)</xsl:text>
                   </xsl:when>
 
                   <xsl:otherwise>
                      <xsl:text>document { </xsl:text>
                      <xsl:call-template name="test:create-zero-or-more-node-generators">
-                        <xsl:with-param name="nodes" select="node()" />
+                        <xsl:with-param name="nodes" select="node() except $exclude" />
                      </xsl:call-template>
                      <xsl:text> }</xsl:text>
                   </xsl:otherwise>
@@ -110,28 +136,30 @@
 
       <!--
          Output
-            declare variable $VAR as TYPE := SELECTION;
-            or
-            let $VAR as TYPE := SELECTION
+            declare variable $NAME as TYPE := SELECTION;
+         or
+                         let $NAME as TYPE := SELECTION
          
          where SELECTION is
-            ( $VAR-doc ! ( EXPRESSION ) )
-            or
+            ( $NAME-doc ! ( EXPRESSION ) )
+         or
             ( EXPRESSION )
       -->
       <xsl:call-template name="test:declare-or-let-variable">
-         <xsl:with-param name="is-global" select="$global" />
-         <xsl:with-param name="name" select="$var" />
-         <xsl:with-param name="type" select="if ($variable-is-pending) then () else (@as)" />
+         <xsl:with-param name="is-global" select="$is-global" />
+         <xsl:with-param name="name" select="$name" />
+         <xsl:with-param name="type" select="if ($is-pending) then () else (@as)" />
          <xsl:with-param name="value" as="text()+">
             <xsl:choose>
-               <xsl:when test="$variable-is-pending">
-                  <!-- Do not give variable a value (or type, above) because the value specified in test file might not be executable. -->
+               <xsl:when test="$is-pending">
+                  <!-- Do not give variable a value (or type, above) because the value specified
+                    in test file might not be executable. -->
                   <xsl:text> </xsl:text>
                </xsl:when>
-               <xsl:when test="$var-doc">
+
+               <xsl:when test="$temp-doc-name">
                   <xsl:text>$</xsl:text>
-                  <xsl:value-of select="$var-doc" />
+                  <xsl:value-of select="$temp-doc-name" />
                   <xsl:text> ! ( </xsl:text>
                   <xsl:value-of select="(@select, '.'[current()/@href], 'node()')[1]" />
                   <xsl:text> )</xsl:text>
@@ -146,10 +174,33 @@
    </xsl:template>
 
    <!--
+      Returns the variable name generated by mode="test:generate-variable-declarations"
+   -->
+   <xsl:function as="xs:string" name="test:variable-name">
+      <xsl:param as="element()" name="source-element" />
+
+      <xsl:variable as="xs:string" name="private-prefix" select="'local'" />
+
+      <xsl:for-each select="$source-element">
+         <xsl:choose>
+            <xsl:when test="@name">
+               <xsl:sequence select="@name" />
+            </xsl:when>
+            <xsl:when test="self::x:expect">
+               <xsl:sequence select="concat($private-prefix, ':expected')" />
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:sequence select="generate-id()" />
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:for-each>
+   </xsl:function>
+
+   <!--
       Outputs
          declare variable $NAME as TYPE := ( VALUE );
-         or
-         let $NAME as TYPE := ( VALUE )
+      or
+                      let $NAME as TYPE := ( VALUE )
    -->
    <xsl:template name="test:declare-or-let-variable" as="node()+">
       <xsl:context-item use="absent"
@@ -179,7 +230,7 @@
 
       <xsl:text> := ( </xsl:text>
 
-      <xsl:sequence select="$value"/>
+      <xsl:sequence select="$value" />
 
       <xsl:text> )</xsl:text>
 
@@ -257,12 +308,13 @@
    </xsl:template>
 
    <xsl:function name="test:matching-xslt-elements" as="element()*">
-     <xsl:param name="element-kind" as="xs:string" />
-     <xsl:param name="element-id" as="item()" />
-     <xsl:param name="stylesheet" as="document-node()" />
-     <xsl:sequence select="key($element-kind, $element-id, $stylesheet)" />
-   </xsl:function>  
-  
+      <xsl:param name="element-kind" as="xs:string" />
+      <xsl:param name="element-id" as="item()" />
+      <xsl:param name="stylesheet" as="document-node()" />
+
+      <xsl:sequence select="key($element-kind, $element-id, $stylesheet)" />
+   </xsl:function>
+
 </xsl:stylesheet>
 
 

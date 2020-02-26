@@ -60,9 +60,6 @@
 	</xsl:template>
 
 	<xsl:template as="element()+" match="x:param">
-		<xsl:apply-templates mode="test:generate-variable-declarations" select=".">
-			<xsl:with-param name="var" select="@name" />
-			<xsl:with-param name="type" select="'param'" />
-		</xsl:apply-templates>
+		<xsl:apply-templates mode="test:generate-variable-declarations" select="." />
 	</xsl:template>
 </xsl:stylesheet>

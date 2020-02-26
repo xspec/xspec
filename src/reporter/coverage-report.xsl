@@ -10,7 +10,6 @@
 <xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:saxon="http://saxon.sf.net/"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -91,7 +90,7 @@
   <xsl:variable name="stylesheet-string" as="xs:string"
     select="unparsed-text($stylesheet-uri)" />
   <xsl:variable name="stylesheet-lines" as="xs:string+" 
-    select="tokenize($stylesheet-string, '\n')" />
+    select="test:split-lines($stylesheet-string)" />
   <xsl:variable name="number-of-lines" as="xs:integer"
     select="count($stylesheet-lines)" />
   <xsl:variable name="number-width" as="xs:integer"
@@ -203,7 +202,7 @@
         <xsl:variable name="construct" as="xs:string" select="regex-group(1)" />
         <xsl:variable name="rest" as="xs:string" select="regex-group(20)" />
         <xsl:variable name="construct-lines" as="xs:string+"
-          select="tokenize($construct, '\n')" />
+          select="test:split-lines($construct)" />
         <xsl:variable name="endTag" as="xs:boolean" select="regex-group(9) != ''" />
         <xsl:variable name="emptyTag" as="xs:boolean" select="regex-group(19) != ''" />
         <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(11) != ''" />
@@ -346,7 +345,7 @@
   <xsl:param name="module" as="xs:string" />
   <xsl:for-each select="$nodes[not(self::text()[not(normalize-space())])]">
     <xsl:variable name="hits" as="element(h)*"
-      select="test:hit-on-lines(saxon:line-number(.), $module)" />
+      select="test:hit-on-lines(x:line-number(.), $module)" />
     <xsl:variable name="name" as="xs:string"
       select="concat('{', namespace-uri(.), '}', local-name(.))" />
     <xsl:for-each select="$hits">
@@ -367,6 +366,13 @@
     select="for $l in $line-numbers
             return concat($module, ':', $l)" />
   <xsl:sequence select="key('coverage', $keys, $trace)" />
+</xsl:function>
+
+<xsl:function name="test:split-lines" as="xs:string+">
+  <xsl:param name="input" as="xs:string" />
+
+  <!-- Regular expression is based on http://www.w3.org/TR/xpath-functions-31/#func-unparsed-text-lines -->
+  <xsl:sequence select="tokenize($input, '\r\n|\r|\n')" />
 </xsl:function>
 
 </xsl:stylesheet>
