@@ -372,16 +372,6 @@ if defined XSLT if defined XQUERY (
 )
 
 rem
-rem # Coverage
-rem
-if defined COVERAGE (
-    if /i not "%WIN_SAXON_JAR_N%"=="saxon9pe" if /i not "%WIN_SAXON_JAR_N%"=="saxon9ee" (
-        echo Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE.
-        exit /b 1
-    )
-)
-
-rem
 rem # JUnit report
 rem
 if defined JUNIT (
@@ -445,10 +435,6 @@ rem Deprecated 'coverage' option
 rem
 if defined WIN_DEPRECATED_COVERAGE (
     echo Long-form option 'coverage' deprecated, use '-c' instead.
-    if /i not "%WIN_SAXON_JAR_N%"=="saxon9pe" if /i not "%WIN_SAXON_JAR_N%"=="saxon9ee" (
-        echo Code coverage requires Saxon extension functions which are available only under Saxon9EE or Saxon9PE.
-        exit /b 1
-    )
     set COVERAGE=1
 )
 
@@ -564,7 +550,7 @@ call :xslt -o:"%HTML%" ^
 if defined COVERAGE (
     echo:
     echo Formatting Coverage Report...
-    call :xslt -l:on ^
+    call :xslt -config:"%XSPEC_HOME%\src\reporter\coverage-report-config.xml" ^
         -o:"%COVERAGE_HTML%" ^
         -s:"%COVERAGE_XML%" ^
         -xsl:"%XSPEC_HOME%\src\reporter\coverage-report.xsl" ^

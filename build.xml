@@ -375,6 +375,7 @@
       <!-- Saxon should be included in the classpath -->
       <classpath>
         <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
       </classpath>
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
@@ -411,6 +412,7 @@
       <!-- Saxon should be included in the classpath -->
       <classpath>
         <pathelement path="${java.class.path}" />
+        <pathelement path="${xspec.additional.classpath}" if:set="xspec.additional.classpath" />
         <pathelement location="${xspec.project.dir}/java" if:true="${xspec.coverage.enabled}" />
       </classpath>
 
@@ -467,10 +469,14 @@
                 out="${xspec.coverage.html}"
                 style="${xspec.coverage.reporter.xsl}">
       <factory-elements>
-        <attribute name="http://saxon.sf.net/feature/linenumbering"
-                   value="true"/>
+        <attribute name="http://saxon.sf.net/feature/configuration-file"
+                   value="${xspec.project.dir}/src/reporter/coverage-report-config.xml" />
       </factory-elements>
       <xslt-elements>
+        <classpath>
+          <pathelement path="${java.class.path}" />
+          <pathelement location="${xspec.project.dir}/java" />
+        </classpath>
         <param name="inline-css" expression="true" />
         <param name="report-css-uri" expression="${xspec.coverage.html.css.url}"
                if="xspec.coverage.html.css.url" />
