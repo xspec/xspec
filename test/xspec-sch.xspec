@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="../src/schemas/xspec.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:param name="allow-foreign">true</x:param>
+	<x:param name="only-child-elements">false</x:param>
+	<x:param name="visit-text">true</x:param>
+	<x:param name="x:enable-schematron-text-location" select="true()" />
+
+	<x:scenario label="Whitespace-only text node">
+		<x:scenario label="XSLT and XQuery">
+			<x:context href="xspec-space.xspec" />
+			<x:expect-assert id="text-node-should-be-non-ignorable" label="function-param"
+				location="/x:description[1]/x:scenario[1]/x:scenario[1]/x:call[1]/x:param[1]/span[1]/text()[1]" />
+			<x:expect-assert id="text-node-should-be-non-ignorable"
+				label="$global-param-span-element"
+				location="/x:description[1]/x:param[1]/span[1]/text()[1]" />
+			<x:expect-assert id="text-node-should-be-non-ignorable"
+				label="$myv:global-var-span-element"
+				location="/x:description[1]/x:variable[1]/span[1]/text()[1]" />
+			<x:expect-assert id="text-node-should-be-non-ignorable"
+				label="myv:local-var-span-element"
+				location="/x:description[1]/x:scenario[4]/x:variable[1]/span[1]/text()[1]" />
+			<x:expect-assert id="text-node-should-be-non-ignorable" label="assertion"
+				location="/x:description[1]/x:scenario[5]/x:scenario[1]/x:expect[1]/span[1]/text()[1]" />
+			<x:expect-assert id="text-node-should-be-non-ignorable" label="grandchild"
+				location="/x:description[1]/x:scenario[6]/x:scenario[3]/x:call[1]/x:param[1]/pre[1]/span[1]/text()[1]" />
+			<x:expect-assert id="text-node-should-be-non-ignorable" label="sibling node"
+				location="/x:description[1]/x:scenario[6]/x:scenario[4]/x:call[1]/x:param[1]/p[1]/span[1]/text()[1]" />
+			<x:expect-assert count="7" />
+		</x:scenario>
+
+		<x:scenario label="XSLT">
+			<x:context href="xspec-space_stylesheet.xspec" />
+			<x:expect-assert id="text-node-should-be-non-ignorable" label="context template-param"
+				location="/x:description[1]/x:scenario[1]/x:scenario[1]/x:context[1]/x:param[1]/span[1]/text()[1]" />
+			<x:expect-assert id="text-node-should-be-non-ignorable" label="context"
+				location="/x:description[1]/x:scenario[2]/x:scenario[1]/x:context[1]/span[1]/text()[1]" />
+			<x:expect-assert id="text-node-should-be-non-ignorable"
+				label="template-call template-param"
+				location="/x:description[1]/x:scenario[3]/x:scenario[1]/x:call[1]/x:param[1]/span[1]/text()[1]" />
+			<x:expect-assert count="3" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
