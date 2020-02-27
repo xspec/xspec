@@ -3,6 +3,12 @@
 	stylesheet="do-nothing.xsl"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		xspec-utils_stylesheet.xspec uses this file for testing x:is-user-content().
+		When modifying this file, check whether xspec-utils_stylesheet.xspec needs any additions or updates.
+	-->
+
 	<x:scenario label="In function-param, only user-content attribute is AVT. So...">
 		<x:scenario label="In //x:call[@function]/x:param/node(),">
 			<x:call function="exactly-one">
