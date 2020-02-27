@@ -42,6 +42,7 @@ You are also encouraged to use a scope to highlight which functionality is affec
 | `deps` | Dependencies | 
 | `report` | Test result reports | 
 | `xproc` | XProc | 
+| `schema` | Schema for .xspec files | 
 
 Note that type is mandatory and scope is optional and both values should be written in lower case.
  
