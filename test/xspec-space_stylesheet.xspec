@@ -2,6 +2,11 @@
 <x:description preserve-space="pre" stylesheet="xspec-space.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xspec-space="x-urn:test:xspec-space">
 
+	<!--
+		xspec-sch.xspec uses this file for testing ../src/schemas/xspec.sch.
+		When modifying this file, check whether xspec-sch.xspec needs any additions or updates.
+	-->
+
 	<x:scenario
 		label="In context template-param, whitespace-only text nodes in user-content are removed by default.">
 		<x:scenario>
