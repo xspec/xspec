@@ -57,7 +57,9 @@
 
     <xsl:sequence select="x:copy-namespaces(.)" />
 
-    <import href="{$stylesheet-uri}" />
+    <xsl:if test="not($is-external)">
+      <import href="{$stylesheet-uri}" />
+    </xsl:if>
     <import href="{resolve-uri('generate-tests-utils.xsl')}"/>
     <xsl:if test="$is-schematron">
       <import href="{resolve-uri('../schematron/sch-location-compare.xsl')}"/>
@@ -77,6 +79,17 @@
 
     <!-- Compile global params and global variables. -->
     <xsl:call-template name="x:compile-global-params-and-vars" />
+
+    <xsl:if test="$is-external">
+      <!-- If no $x:saxon-config is provided by global x:variable, declare a dummy one so that
+        $x:saxon-config is always available -->
+      <xsl:if test="
+        empty(
+          x:variable[x:resolve-EQName-ignoring-default-ns(@name, .) eq xs:QName('x:saxon-config')]
+        )">
+        <variable name="{x:xspec-name(., 'saxon-config')}" as="empty-sequence()" />
+      </xsl:if>
+    </xsl:if>
 
     <!-- The main compiled template. -->
     <template name="{x:xspec-name(.,'main')}">
@@ -292,17 +305,33 @@
 
           <!-- Enter SUT -->
           <xsl:choose>
-            <xsl:when test="$is-dynamic" use-when="function-available('transform')
-              and false() (: TODO: Dynamic invocation. Not implemented yet. :)">
+            <xsl:when test="$is-external" use-when="function-available('transform')">
               <!-- Set up the $impl:transform-options variable -->
               <xsl:call-template name="x:setup-transform-options" />
 
+              <!-- Generate XSLT elements which perform entering SUT -->
+              <xsl:variable name="enter-sut" as="element()+">
+                <xsl:call-template name="x:enter-sut">
+                  <xsl:with-param name="instruction" as="element(xsl:sequence)">
+                    <sequence select="transform($impl:transform-options)?output" />
+                  </xsl:with-param>
+                </xsl:call-template>
+              </xsl:variable>
+
               <!-- Invoke transform() -->
-              <xsl:call-template name="x:enter-sut">
-                <xsl:with-param name="instruction" as="element(xsl:sequence)">
-                  <sequence select="transform($impl:transform-options)?output" />
-                </xsl:with-param>
-              </xsl:call-template>
+              <xsl:choose>
+                <xsl:when test="$call/@template and $context">
+                  <for-each select="${test:variable-name($context)}">
+                    <variable name="impl:transform-options" as="map(xs:string, item()*)">
+                      <xsl:attribute name="select">Q{http://www.w3.org/2005/xpath-functions/map}put($impl:transform-options, 'global-context-item', .)</xsl:attribute>
+                    </variable>
+                    <xsl:sequence select="$enter-sut" />
+                  </for-each>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:sequence select="$enter-sut" />
+                </xsl:otherwise>
+              </xsl:choose>
             </xsl:when>
 
             <xsl:when test="$call/@template">
@@ -410,6 +439,115 @@
     </xsl:element>
   </template>
   <xsl:call-template name="x:compile-scenarios"/>
+</xsl:template>
+
+<!-- Constructs options for transform() -->
+<xsl:template name="x:setup-transform-options" as="element(xsl:variable)"
+  use-when="function-available('transform')">
+  <xsl:context-item as="element(x:scenario)" use="required"
+    use-when="element-available('xsl:context-item')" />
+
+  <xsl:param name="call" select="()" tunnel="yes" as="element(x:call)?" />
+  <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?" />
+
+  <xsl:variable name="namespace-element" as="element()" select="($call, $context)[1]" />
+
+  <variable name="impl:transform-options" as="map(xs:string, item()*)">
+    <map>
+      <xsl:sequence select="x:copy-namespaces($namespace-element)" />
+
+      <!--
+        Common options
+      -->
+      <map-entry key="'delivery-format'" select="'raw'" />
+
+      <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
+        Haven't tested.) But 'stylesheet-node' disables $x:result?err?line-number on @catch=true. -->
+      <map-entry key="'stylesheet-location'">
+        <xsl:value-of select="$stylesheet-uri" />
+      </map-entry>
+
+      <map-entry key="'stylesheet-params'">
+        <map>
+          <xsl:apply-templates select="/x:description/x:param" mode="x:param-to-map-entry" />
+        </map>
+      </map-entry>
+      <for-each select="${x:xspec-name($namespace-element, 'saxon-config')}">
+        <map-entry key="'vendor-options'">
+          <map>
+            <map-entry key="QName('http://saxon.sf.net/', 'configuration')">
+              <choose>
+                <when test="{x:xspec-name(., 'saxon-version')}()
+                  le {x:xspec-name(., 'pack-version')}((9, 9, 1, 6))">
+                  <apply-templates select="." mode="test:fixup-saxon-config" />
+                </when>
+                <otherwise>
+                  <sequence select="." />
+                </otherwise>
+              </choose>
+            </map-entry>
+          </map>
+        </map-entry>
+      </for-each>
+
+      <!--
+        Options for call-template invocation and apply-templates invocation
+      -->
+      <xsl:for-each select="($call[@template], $context)[1]">
+        <map-entry key="'template-params'">
+          <map>
+            <xsl:apply-templates
+              select="x:param[x:yes-no-synonym(@tunnel, false()) => not()]"
+              mode="x:param-to-map-entry" />
+          </map>
+        </map-entry>
+        <map-entry key="'tunnel-params'">
+          <map>
+            <xsl:apply-templates
+              select="x:param[x:yes-no-synonym(@tunnel, false())]"
+              mode="x:param-to-map-entry" />
+          </map>
+        </map-entry>
+      </xsl:for-each>
+
+      <!--
+        Invocation-specific options
+      -->
+      <xsl:choose>
+        <xsl:when test="$call/@template">
+          <map-entry key="'initial-template'"
+            select="{x:QName-expression-from-EQName-ignoring-default-ns($call/@template, $call)}" />
+        </xsl:when>
+
+        <xsl:when test="$call/@function">
+          <map-entry key="'function-params'">
+            <xsl:attribute name="select">
+              <xsl:text>[</xsl:text>
+              <xsl:value-of separator=", ">
+                <xsl:apply-templates select="$call/x:param" mode="x:param-to-select-attr">
+                  <xsl:sort select="xs:integer(@position)" />
+                </xsl:apply-templates>
+              </xsl:value-of>
+              <xsl:text>]</xsl:text>
+            </xsl:attribute>
+          </map-entry>
+          <map-entry key="'initial-function'"
+            select="{x:QName-expression-from-EQName-ignoring-default-ns($call/@function, $call)}" />
+        </xsl:when>
+
+        <xsl:when test="$context">
+          <map-entry key="if (${test:variable-name($context)} instance of node())
+                          then 'source-node'
+                          else 'initial-match-selection'"
+                     select="${test:variable-name($context)}" />
+          <xsl:if test="$context/@mode">
+            <map-entry key="'initial-mode'"
+              select="{x:QName-expression-from-EQName-ignoring-default-ns($context/@mode, $context)}" />
+          </xsl:if>
+        </xsl:when>
+      </xsl:choose>
+    </map>
+  </variable>
 </xsl:template>
 
 <xsl:template name="x:output-try-catch" as="element(xsl:try)">
@@ -585,7 +723,37 @@
          </call-template>
       </xsl:if>
     </xsl:element>
- </template>
+  </template>
+</xsl:template>
+
+<!-- *** x:param-to-map-entry *** -->
+<!-- Transforms x:param to xsl:map-entry -->
+<xsl:mode name="x:param-to-map-entry" on-no-match="fail" use-when="element-available('xsl:mode')" />
+<xsl:template match="x:param" as="element(xsl:map-entry)" mode="x:param-to-map-entry">
+  <map-entry key="{x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
+    <xsl:sequence select="x:copy-namespaces(.)" />
+    <xsl:apply-templates select="." mode="x:param-to-select-attr" />
+  </map-entry>
+</xsl:template>
+
+<!-- *** x:param-to-select-attr *** -->
+<!-- Transforms x:param to @select which is connected to the generated xsl:variable -->
+<xsl:mode name="x:param-to-select-attr" on-no-match="fail" use-when="element-available('xsl:mode')" />
+<xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
+  <xsl:attribute name="select">
+    <xsl:text>$</xsl:text>
+    <xsl:value-of select="test:variable-name(.)" />
+
+    <!-- 'treat as ...' is not mandatory here, because @as is handled when
+      mode="test:generate-variable-declarations" generates the variable. 'treat as' here is for
+      robustness and for balance between call-function/call-template/apply-templates invocations
+      of fn:transform(). Also 'treat as' sometimes helps choosing Java reflexive extension functions
+      among overloaded methods. -->
+    <xsl:for-each select="@as">
+      <xsl:text> treat as </xsl:text>
+      <xsl:value-of select="." />
+    </xsl:for-each>
+  </xsl:attribute>
 </xsl:template>
 
 </xsl:stylesheet>

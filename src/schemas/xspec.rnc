@@ -29,6 +29,13 @@ description =
 		attribute version { xsd:decimal }?,
 		attribute preserve-space { xsd:NMTOKENS }?,
 		attribute schematron { xsd:anyURI }?,
+		
+		## EXPERIMENTAL. Subject to change. Ignored on XQuery.
+		## "import" (default) integrates SUT into the test runner using xsl:import (or "import module" on XQuery).
+		## "external" invokes SUT externally using fn:transform() (or possibly fn:load-xquery-module() on XQuery?).
+		[ a:defaultValue = "import" ]
+		attribute run-as { "import" | "external" }?,
+		
 		(global-param | import | scenario | pending | variable)+ }
 
 import = 

@@ -665,6 +665,15 @@
   <xsl:sequence select="$wrap" />
 </xsl:function>
 
+<!-- This mode resolves URI in Saxon configuration to work around https://saxonica.plan.io/issues/4471
+  TODO: Cover more attributes/elements (only as needed basis).
+  TODO: Retire this mode when no longer needed (probably when Oxygen picks up Saxon 9.9.1.7). -->
+<xsl:mode name="test:fixup-saxon-config" on-no-match="shallow-copy" use-when="element-available('xsl:mode')" />
+<xsl:template match="configuration:package/@sourceLocation" as="attribute(sourceLocation)"
+  mode="test:fixup-saxon-config" xmlns:configuration="http://saxon.sf.net/ns/configuration">
+  <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="resolve-uri(., base-uri())" />
+</xsl:template>
+
 </xsl:stylesheet>
 
 

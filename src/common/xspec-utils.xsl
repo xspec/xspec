@@ -429,6 +429,11 @@
 			select="
 				(
 				$context/ancestor-or-self::*[@xslt-version][1]/@xslt-version,
+				
+				(: TODO: Remove this. Setting 3.0 here is just for making @run-as experiment
+					easier. :)
+				3.0[$context/ancestor-or-self::x:description/@run-as eq 'external'],
+				
 				2.0
 				)[1]"
 		 />
@@ -585,6 +590,21 @@
 			<xsl:value-of select="$qname" />
 			<xsl:text>')</xsl:text>
 		</xsl:value-of>
+	</xsl:function>
+
+	<!--
+		Resolves EQName (either URIQualifiedName or lexical QName, the latter is
+		resolved without using the default namespace) to xs:QName
+		and returns an XPath expression of fn:QName() which represents the resolved xs:QName.
+	-->
+	<xsl:function as="xs:string" name="x:QName-expression-from-EQName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="eqname" />
+		<xsl:param as="element()" name="element" />
+
+		<xsl:variable as="xs:QName" name="qname"
+			select="x:resolve-EQName-ignoring-default-ns($eqname, $element)" />
+
+		<xsl:sequence select="x:QName-expression($qname)" />
 	</xsl:function>
 
 </xsl:stylesheet>

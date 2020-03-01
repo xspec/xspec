@@ -223,6 +223,16 @@
 							and (x:saxon-version() lt x:pack-version((9, 8)))">
 						<xsl:text>Requires type-available() to be reliable in @use-when</xsl:text>
 					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 't')
+							and (parent::x:description/@run-as eq 'external')
+							and (x:saxon-version() lt x:pack-version((9, 8, 0, 8)))">
+						<!-- Saxon changed 'vendor-options' on 9.8.0.8
+							http://www.saxonica.com/documentation9.8/index.html#!functions/fn/transform -->
+						<xsl:text>Requires transform() vendor-options saxon:configuration</xsl:text>
+					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 

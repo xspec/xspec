@@ -1323,4 +1323,67 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario
+		label="Scenario for testing function QName-expression-from-EQName-ignoring-default-ns">
+		<x:scenario label="URIQualifiedName">
+			<x:scenario label="With URI">
+				<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+					<x:param>Q{'">&lt;#,|%7D&#x20;%7B][$^}foo</x:param>
+					<x:param>
+						<e />
+					</x:param>
+				</x:call>
+				<x:expect label="Converted with apostrophe escaped" select="string()"
+					>QName('''">&lt;#,|%7D&#x20;%7B][$^',&#x20;'foo')</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without URI">
+				<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+					<x:param select="'Q{}foo'" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Converted without affected by the default namespace"
+					select="string()">QName('',&#x20;'foo')</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Lexical QName">
+			<x:scenario label="With prefix">
+				<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+					<x:param select="'prefix:foo'" />
+					<x:param>
+						<e xmlns:prefix="prefixed-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Converted" select="string()"
+					>QName('prefixed-ns',&#x20;'prefix:foo')</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without prefix">
+				<x:scenario label="With default namespace">
+					<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="default-ns" />
+						</x:param>
+					</x:call>
+					<x:expect label="Converted without using the default namespace"
+						select="string()">QName('',&#x20;'foo')</x:expect>
+				</x:scenario>
+
+				<x:scenario label="Without default namespace">
+					<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="" />
+						</x:param>
+					</x:call>
+					<x:expect label="Converted" select="string()">QName('',&#x20;'foo')</x:expect>
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>

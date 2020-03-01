@@ -20,6 +20,8 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
+   <xsl:param name="is-external" as="xs:boolean" select="/x:description/@run-as = 'external'" />
+
    <xsl:variable name="actual-document-uri" as="xs:anyURI"
       select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
 
@@ -813,13 +815,18 @@
       <xsl:variable name="qname" as="xs:QName"
          select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
-      <xsl:if test="namespace-uri-from-QName($qname) eq $xspec-namespace">
-         <xsl:variable name="msg" as="xs:string"
-            select="concat('User-defined XSpec variable, ',
-                           @name,
-                           ', must not use the XSpec namespace.')" />
-         <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)" />
-      </xsl:if>
+      <xsl:choose>
+         <xsl:when test="$is-external and ($qname eq xs:QName('x:saxon-config'))">
+            <!-- Allow it -->
+         </xsl:when>
+         <xsl:when test="namespace-uri-from-QName($qname) eq $xspec-namespace">
+            <xsl:variable name="msg" as="xs:string"
+               select="concat('User-defined XSpec variable, ',
+                              @name,
+                              ', must not use the XSpec namespace.')" />
+            <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)" />
+         </xsl:when>
+      </xsl:choose>
    </xsl:template>
 
    <!-- Given <x:vars> elements from tunnel parameter, return distinct EQNames.
