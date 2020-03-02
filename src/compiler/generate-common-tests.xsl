@@ -150,7 +150,8 @@
       * Add @xspec (and @xspec-original-location if applicable) to each scenario to record
         absolute URI of originating .xspec file
       * Resolve x:*/@href into absolute URI
-      * Discard whitespace-only text node unless otherwise specified by an ancestor -->
+      * Discard whitespace-only text node unless otherwise specified by an ancestor
+      * Remove leading and trailing whitespace from names -->
 
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
@@ -181,6 +182,11 @@
    <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
          select="resolve-uri(., x:base-uri(.))" />
+   </xsl:template>
+
+   <xsl:template match="x:*/@as | x:*/@function | x:*/@mode | x:*/@name" as="attribute()"
+       mode="x:gather-specs">
+      <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="x:trim(.)" />
    </xsl:template>
 
    <!-- x:space has been replaced with x:text -->
@@ -779,9 +785,9 @@
       <xsl:variable name="msg" as="xs:string"
          select="concat('User-defined XSpec variable, ',@name,', must not use the XSpec namespace.')"/>
       <xsl:choose>
-         <xsl:when test="starts-with(x:left-trim(@name),'Q{')">
+         <xsl:when test="starts-with(@name, 'Q{')">
             <!-- URI-qualified name -->
-            <xsl:if test="replace(@name,'(^\s*Q\{)|(\}.*$)','') eq $xspec-namespace">
+            <xsl:if test="replace(@name,'(^Q\{)|(\}.*$)','') eq $xspec-namespace">
                <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)"/>
             </xsl:if>
          </xsl:when>
@@ -801,8 +807,8 @@
       <!-- Create sequence of xs:QName values, so we can use distinct-values to compare them all. -->
       <xsl:variable name="qnames" as="xs:QName*"
          select="for $thisvar in $vars return
-         if (starts-with(x:left-trim($thisvar/@name),'Q{'))
-         then QName(replace($thisvar/@name,'(^\s*Q\{)|(\}.*$)',''), substring-after($thisvar/@name,'}'))
+         if (starts-with($thisvar/@name, 'Q{'))
+         then QName(replace($thisvar/@name,'(^Q\{)|(\}.*$)',''), substring-after($thisvar/@name,'}'))
          else QName($thisvar/@namespace-uri, $thisvar/@name)
          "/>
       <xsl:variable name="distinctqnames" as="xs:QName*" select="distinct-values($qnames)"/>
