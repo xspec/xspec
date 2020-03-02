@@ -372,7 +372,7 @@
 <xsl:template match="x:label" as="text()" mode="x:html-report">
   <!-- TODO: Consider doing more whitespace normalization or normalizing
     at an earlier stage (the compiler or the XML report) -->
-  <xsl:value-of select=" replace(., '\s+$', '')" />
+  <xsl:value-of select="x:right-trim(.)" />
 </xsl:template>
 
 <!-- Formats the Actual Result or the Expected Result in HTML -->

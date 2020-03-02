@@ -779,7 +779,7 @@
       <xsl:variable name="msg" as="xs:string"
          select="concat('User-defined XSpec variable, ',@name,', must not use the XSpec namespace.')"/>
       <xsl:choose>
-         <xsl:when test="starts-with(normalize-space(@name),'Q{')">
+         <xsl:when test="starts-with(x:left-trim(@name),'Q{')">
             <!-- URI-qualified name -->
             <xsl:if test="replace(@name,'(^\s*Q\{)|(\}.*$)','') eq $xspec-namespace">
                <xsl:sequence select="error(xs:QName('x:XSPEC008'), $msg)"/>
@@ -801,7 +801,7 @@
       <!-- Create sequence of xs:QName values, so we can use distinct-values to compare them all. -->
       <xsl:variable name="qnames" as="xs:QName*"
          select="for $thisvar in $vars return
-         if (starts-with(normalize-space($thisvar/@name),'Q{'))
+         if (starts-with(x:left-trim($thisvar/@name),'Q{'))
          then QName(replace($thisvar/@name,'(^\s*Q\{)|(\}.*$)',''), substring-after($thisvar/@name,'}'))
          else QName($thisvar/@namespace-uri, $thisvar/@name)
          "/>
