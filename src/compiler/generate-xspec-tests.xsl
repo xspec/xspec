@@ -75,8 +75,8 @@
       <xsl:value-of select="$xspec-master-uri" />
     </variable>
 
-    <!-- Compile the test suite params (aka global params). -->
-    <xsl:call-template name="x:compile-params"/>
+    <!-- Compile global params and global variables. -->
+    <xsl:call-template name="x:compile-global-params-and-vars" />
 
     <!-- The main compiled template. -->
     <template name="{x:xspec-name(.,'main')}">
