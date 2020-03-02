@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="xspec-avt.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
+	<!--
+		xspec-utils_stylesheet.xspec uses this file for testing x:is-user-content().
+		When modifying this file, check whether xspec-utils_stylesheet.xspec needs any additions or updates.
+	-->
+
 	<x:scenario label="In context template-param, only user-content attribute is AVT. So...">
 		<x:scenario label="In //x:context/x:param/node(),">
 			<x:context mode="param-mirror-mode">
