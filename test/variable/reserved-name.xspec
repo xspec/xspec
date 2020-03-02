@@ -3,7 +3,11 @@
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                stylesheet="../do-nothing.xsl">
 
-   <x:variable name="u:foo"
+   <!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+   <x:variable name="
+                  &#x09;&#x0A;&#x0D;&#x20;
+                  u:foo
+                  &#x09;&#x0A;&#x0D;&#x20;"
                select="'str'" />
 
    <x:scenario label="QName in global variable">

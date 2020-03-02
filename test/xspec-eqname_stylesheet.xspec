@@ -5,10 +5,20 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xslt-version="3.0">
 
+	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
+
 	<x:scenario label="Using EQName in">
 		<x:scenario label="context @mode and template-param @name">
-			<x:context mode="Q{x-urn:test:xspec-eqname}param-mirror-mode">
-				<x:param name="Q{x-urn:test:xspec-eqname}param-items">
+			<x:context
+				mode="
+					&#x09;&#x0A;&#x0D;&#x20;
+					Q{x-urn:test:xspec-eqname}param-mirror-mode
+					&#x09;&#x0A;&#x0D;&#x20;">
+				<x:param
+					name="
+						&#x09;&#x0A;&#x0D;&#x20;
+						Q{x-urn:test:xspec-eqname}param-items
+						&#x09;&#x0A;&#x0D;&#x20;">
 					<template-param-child />
 				</x:param>
 				<context-child />
@@ -32,8 +42,16 @@
 		</x:scenario>
 
 		<x:scenario label="template-call @template and template-param @name">
-			<x:call template="Q{x-urn:test:xspec-eqname}param-mirror-template">
-				<x:param name="Q{x-urn:test:xspec-eqname}param-items">
+			<x:call
+				template="
+					&#x09;&#x0A;&#x0D;&#x20;
+					Q{x-urn:test:xspec-eqname}param-mirror-template
+					&#x09;&#x0A;&#x0D;&#x20;">
+				<x:param
+					name="
+						&#x09;&#x0A;&#x0D;&#x20;
+						Q{x-urn:test:xspec-eqname}param-items
+						&#x09;&#x0A;&#x0D;&#x20;">
 					<template-param-child />
 				</x:param>
 			</x:call>
@@ -44,7 +62,13 @@
 
 		<x:scenario label="template-param @as">
 			<x:call template="Q{x-urn:test:xspec-eqname}param-mirror-template">
-				<x:param name="Q{x-urn:test:xspec-eqname}param-items" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+				<x:param
+					name="Q{x-urn:test:xspec-eqname}param-items"
+					as="
+						&#x09;&#x0A;&#x0D;&#x20;
+						Q{http://www.w3.org/2001/XMLSchema}string
+						&#x09;&#x0A;&#x0D;&#x20;"
+					select="'xyz'"/>
 			</x:call>
 			<x:expect label="should be possible" select="$x:result treat as xs:string"
 				test="$x:result treat as xs:string" />
