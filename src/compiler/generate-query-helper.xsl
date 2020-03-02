@@ -257,9 +257,9 @@
       <xsl:choose>
          <xsl:when test="(. instance of attribute()) and x:is-user-content(.)">
             <!-- AVT -->
-            <temp>
+            <xsl:element name="temp" namespace="">
                <xsl:value-of select="." />
-            </temp>
+            </xsl:element>
          </xsl:when>
 
          <xsl:otherwise>
