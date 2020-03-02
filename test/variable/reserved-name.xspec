@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:description xmlns:u="http://www.jenitennison.com/xslt/xspec"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
                stylesheet="../do-nothing.xsl">
 
-   <x:variable name="x:foo" />
+   <x:variable name="u:foo"
+               select="'str'" />
+
+   <x:scenario label="QName in global variable">
+      <x:call function="exactly-one">
+         <x:param select="$u:foo" />
+      </x:call>
+      <x:expect label="takes effect" select="'str'" />
+   </x:scenario>
 
 </x:description>

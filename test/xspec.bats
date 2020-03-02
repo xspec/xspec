@@ -1465,11 +1465,19 @@ teardown() {
 # User-defined variable in XSpec namespace
 #
 
-@test "Error on user-defined variable in XSpec namespace" {
+@test "Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)" {
+    run ../bin/xspec.sh variable/reserved-eqname.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[5]}" = "  x:XSPEC008: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo," ]
+    [ "${lines[6]}" = "  must not use the XSpec namespace." ]
+}
+
+@test "Error on user-defined variable in XSpec namespace (QName in global variable)" {
     run ../bin/xspec.sh variable/reserved-name.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[5]}" =~ "x:XSPEC008:" ]]
+    [ "${lines[5]}" = "  x:XSPEC008: User-defined XSpec variable, u:foo, must not use the XSpec namespace." ]
 }
 
 #
