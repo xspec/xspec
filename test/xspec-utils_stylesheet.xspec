@@ -852,14 +852,14 @@
 			<x:call function="x:resolve-URIQualifiedName">
 				<x:param select="'Q{http://www.jenitennison.com/xslt/xspec}foo'" />
 			</x:call>
-			<x:expect label="Converted" select="xs:QName('x:foo')" />
+			<x:expect label="Resolved" select="xs:QName('x:foo')" />
 		</x:scenario>
 
 		<x:scenario label="Without URI">
 			<x:call function="x:resolve-URIQualifiedName">
 				<x:param select="'Q{}foo'" />
 			</x:call>
-			<x:expect label="Converted" select="xs:QName('foo')" />
+			<x:expect label="Resolved as no namespace" select="xs:QName('foo')" />
 		</x:scenario>
 	</x:scenario>
 

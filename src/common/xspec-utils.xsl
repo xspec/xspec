@@ -372,7 +372,7 @@
 	</xsl:function>
 
 	<!--
-		Converts URIQualifiedName to QName
+		Resolves URIQualifiedName to xs:QName
 	-->
 	<xsl:function as="xs:QName" name="x:resolve-URIQualifiedName">
 		<xsl:param as="xs:string" name="uri-qualified-name" />
