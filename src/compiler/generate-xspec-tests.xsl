@@ -357,6 +357,7 @@
               </xsl:call-template>
             </xsl:when>
             <xsl:when test="$apply">
+               <!-- TODO: x:apply not implemented yet -->
                <!-- Create the apply templates instruction.
                  This code path, particularly with @catch, has not been tested. -->
                <xsl:call-template name="x:enter-sut">
