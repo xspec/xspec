@@ -398,4 +398,27 @@
 		<xsl:sequence select="x:left-trim(x:right-trim($input))" />
 	</xsl:function>
 
+	<!--
+		Resolves URIQualifiedName to xs:QName
+	-->
+	<xsl:function as="xs:QName" name="x:resolve-URIQualifiedName">
+		<xsl:param as="xs:string" name="uri-qualified-name" />
+
+		<xsl:variable as="xs:string" name="regex" xml:space="preserve">
+			<!-- based on https://github.com/xspec/xspec/blob/fb7f63d8190a5ccfea5c6a21b2ee142164a7c92c/src/schemas/xspec.rnc#L329 -->
+			^
+				Q\{
+					([^\{\}]*)		<!-- group 1: URI -->
+				\}
+				([\i-[:]][\c-[:]]*)	<!-- group 2: local name -->
+			$
+		</xsl:variable>
+
+		<xsl:analyze-string flags="x" regex="{$regex}" select="$uri-qualified-name">
+			<xsl:matching-substring>
+				<xsl:sequence select="QName(regex-group(1), regex-group(2))" />
+			</xsl:matching-substring>
+		</xsl:analyze-string>
+	</xsl:function>
+
 </xsl:stylesheet>
