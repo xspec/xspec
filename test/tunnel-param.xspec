@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="tunnel-param.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="context template-param">
+		<x:scenario label="with @tunnel=yes">
+			<x:context mode="tunnel-param-mirror-mode">
+				<x:param name="tunnel-param-items" tunnel="yes">
+					<template-param-child />
+				</x:param>
+				<context-child />
+			</x:context>
+			<x:expect label="takes effect."
+				test="$x:result instance of element(template-param-child)" />
+		</x:scenario>
+
+		<x:scenario label="with @tunnel=no">
+			<x:context mode="param-mirror-mode">
+				<x:param name="param-items" tunnel="no">
+					<template-param-child />
+				</x:param>
+				<context-child />
+			</x:context>
+			<x:expect label="takes effect."
+				test="$x:result instance of element(template-param-child)" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="template-call template-param">
+		<x:scenario label="with @tunnel=yes">
+			<x:call template="tunnel-param-mirror-template">
+				<x:param name="tunnel-param-items" tunnel="yes">
+					<template-param-child />
+				</x:param>
+			</x:call>
+			<x:expect label="takes effect."
+				test="$x:result instance of element(template-param-child)" />
+		</x:scenario>
+
+		<x:scenario label="with @tunnel=no">
+			<x:call template="param-mirror-template">
+				<x:param name="param-items" tunnel="no">
+					<template-param-child />
+				</x:param>
+			</x:call>
+			<x:expect label="takes effect."
+				test="$x:result instance of element(template-param-child)" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
