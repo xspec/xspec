@@ -147,8 +147,8 @@
          </xsl:with-param>
       </xsl:call-template>
 
-      <!-- Compile the test suite params (aka global params). -->
-      <xsl:call-template name="x:compile-params"/>
+      <!-- Compile global params and global variables. -->
+      <xsl:call-template name="x:compile-global-params-and-vars" />
 
       <!-- Compile the top-level scenarios. -->
       <xsl:call-template name="x:compile-scenarios"/>
