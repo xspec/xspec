@@ -75,9 +75,14 @@
 
 	<!-- Generates the worker -->
 	<target depends="get-processor-caps" name="generate-worker">
+		<property location="${run-xspec-tests.basedir}/worker/config.xml" name="saxon.config" />
+
 		<xslt force="true" in="worker/build-worker_template.xml" out="${build.worker}"
 			style="worker/generate.xsl">
-			<factory name="net.sf.saxon.TransformerFactoryImpl" />
+			<factory name="net.sf.saxon.TransformerFactoryImpl">
+				<attribute name="http://saxon.sf.net/feature/configuration-file"
+					value="${saxon.config}" />
+			</factory>
 			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
 			<param expression="${xspecfiles.dir.url.query}" name="XSPECFILES-DIR-URI-QUERY" />
 			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN" />
