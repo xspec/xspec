@@ -386,10 +386,9 @@
    </xsl:template>
 
    <!--
-       Drive the compilation of test suite params (aka global params
-       and variables).
+       Drive the compilation of global params and variables.
    -->
-   <xsl:template name="x:compile-params">
+   <xsl:template name="x:compile-global-params-and-vars">
       <xsl:context-item as="element(x:description)" use="required"
          use-when="element-available('xsl:context-item')" />
 
