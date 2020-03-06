@@ -250,8 +250,7 @@
 		<xsl:variable as="xs:string" name="decimal-string" select="string($decimal)" />
 		<xsl:sequence
 			select="
-				if (contains($decimal-string, '.'))
-				then
+				if (contains($decimal-string, '.')) then
 					$decimal-string
 				else
 					concat($decimal-string, '.0')"
