@@ -150,7 +150,8 @@
       * Add @xspec (and @xspec-original-location if applicable) to each scenario to record
         absolute URI of originating .xspec file
       * Resolve x:*/@href into absolute URI
-      * Discard whitespace-only text node unless otherwise specified by an ancestor -->
+      * Discard whitespace-only text node unless otherwise specified by an ancestor
+      * Remove leading and trailing whitespace from names -->
 
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
@@ -181,6 +182,11 @@
    <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
          select="resolve-uri(., x:base-uri(.))" />
+   </xsl:template>
+
+   <xsl:template match="x:*/@as | x:*/@function | x:*/@mode | x:*/@name | x:*/@template"
+      as="attribute()" mode="x:gather-specs">
+      <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="x:trim(.)" />
    </xsl:template>
 
    <!-- x:space has been replaced with x:text -->
@@ -777,7 +783,7 @@
 
       <xsl:variable name="qname" as="xs:QName">
          <xsl:choose>
-            <xsl:when test="starts-with(normalize-space(@name), 'Q{')">
+            <xsl:when test="starts-with(@name, 'Q{')">
                <xsl:sequence select="x:resolve-URIQualifiedName(@name)" />
             </xsl:when>
             <xsl:otherwise>
@@ -806,7 +812,7 @@
       <!-- Create sequence of xs:QName values, so we can use distinct-values to compare them all. -->
       <xsl:variable name="qnames" as="xs:QName*">
          <xsl:for-each select="$vars">
-            <xsl:sequence select="if (starts-with(normalize-space(@name), 'Q{'))
+            <xsl:sequence select="if (starts-with(@name, 'Q{'))
                                   then x:resolve-URIQualifiedName(@name)
                                   else QName(@namespace-uri, @name)" />
          </xsl:for-each>
