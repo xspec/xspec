@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="../do-nothing.xsl">
+
+   <x:scenario label="URIQualifiedName in local variable">
+      <!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+      <x:variable
+         name="
+            &#x09;&#x0A;&#x0D;&#x20;
+            Q{http://www.jenitennison.com/xslt/xspec}foo
+            &#x09;&#x0A;&#x0D;&#x20;"
+         select="'str'" />
+      <x:call function="exactly-one">
+         <x:param select="$x:foo" />
+      </x:call>
+      <x:expect label="takes effect" select="'str'" />
+   </x:scenario>
+
+</x:description>
