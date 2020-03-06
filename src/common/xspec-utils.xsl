@@ -275,6 +275,22 @@
 	</xsl:function>
 
 	<!--
+		x:yes-no-synonym#1 plus default value
+	-->
+	<xsl:function as="xs:boolean" name="x:yes-no-synonym">
+		<xsl:param as="xs:string?" name="input" />
+		<xsl:param as="xs:boolean" name="default" />
+
+		<xsl:sequence
+			select="
+				if (exists($input)) then
+					x:yes-no-synonym($input)
+				else
+					$default"
+		 />
+	</xsl:function>
+
+	<!--
 		Returns a semi-formatted string of URI
 	-->
 	<xsl:function as="xs:string" name="x:format-uri">

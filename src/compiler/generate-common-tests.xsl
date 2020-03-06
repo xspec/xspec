@@ -708,11 +708,8 @@
 
       <xsl:param name="instruction" as="node()+" required="yes" />
 
-      <xsl:variable name="catch-flag" as="xs:string"
-         select="(ancestor-or-self::*[@catch][1]/@catch, 'no')[1]" />
-
       <xsl:choose>
-         <xsl:when test="x:yes-no-synonym($catch-flag)">
+         <xsl:when test="x:yes-no-synonym(ancestor-or-self::*[@catch][1]/@catch, false())">
             <xsl:call-template name="x:output-try-catch">
                <xsl:with-param name="instruction" select="$instruction" />
             </xsl:call-template>

@@ -516,7 +516,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function yes-no-synonym">
+	<x:scenario label="Scenario for testing function yes-no-synonym#1">
 		<x:scenario label="Valid strings">
 			<x:scenario label="Base (yes or no)">
 				<x:scenario label="'yes'">
@@ -564,6 +564,62 @@
 					</x:call>
 					<x:expect label="False" select="false()" />
 				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function yes-no-synonym#2">
+		<x:scenario label="Input true">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'true'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'true'" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Input false">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'false'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'false'" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Input empty">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="()" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="()" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
