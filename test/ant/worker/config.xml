@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://saxon.sf.net/ns/configuration">
+	<resources>
+		<!-- Without this <fileExtension>, Saxon 9.9.1.7 does not recognize .xspec files as XML.
+			Maybe the design change by https://saxonica.plan.io/issues/4382 -->
+		<fileExtension extension="xspec" mediaType="text/xml" />
+	</resources>
+</configuration>
