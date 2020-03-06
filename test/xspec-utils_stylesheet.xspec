@@ -862,4 +862,39 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function resolve-QName-ignoring-default-ns">
+		<x:scenario label="With prefix">
+			<x:call function="x:resolve-QName-ignoring-default-ns">
+				<x:param select="'prefix:foo'" />
+				<x:param>
+					<e xmlns:prefix="prefixed-ns" />
+				</x:param>
+			</x:call>
+			<x:expect label="Resolved" select="QName('prefixed-ns', 'prefix:foo')" />
+		</x:scenario>
+
+		<x:scenario label="Without prefix">
+			<x:scenario label="With default namespace">
+				<x:call function="x:resolve-QName-ignoring-default-ns">
+					<x:param select="'foo'" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved without using the default namespace"
+					select="QName('', 'foo')" />
+			</x:scenario>
+
+			<x:scenario label="Without default namespace">
+				<x:call function="x:resolve-QName-ignoring-default-ns">
+					<x:param select="'foo'" />
+					<x:param>
+						<e xmlns="" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved" select="QName('', 'foo')" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>

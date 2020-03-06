@@ -775,18 +775,10 @@
       <xsl:context-item as="element(x:variable)" use="required"
          use-when="element-available('xsl:context-item')" />
 
-      <xsl:variable name="qname" as="xs:QName">
-         <xsl:choose>
-            <xsl:when test="starts-with(normalize-space(@name), 'Q{')">
-               <xsl:sequence select="x:resolve-URIQualifiedName(@name)" />
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:sequence select="if (contains(@name, ':'))
-                                     then resolve-QName(@name, .)
-                                     else QName('', @name)" />
-            </xsl:otherwise>
-         </xsl:choose>
-      </xsl:variable>
+      <xsl:variable name="qname" as="xs:QName"
+         select="if (starts-with(normalize-space(@name), 'Q{'))
+                 then x:resolve-URIQualifiedName(@name)
+                 else x:resolve-QName-ignoring-default-ns(@name, .)" />
 
       <xsl:if test="namespace-uri-from-QName($qname) eq $xspec-namespace">
          <xsl:variable name="msg" as="xs:string"
