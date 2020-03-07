@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+	schematron="../../do-nothing.sch" stylesheet="../../do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		* '&#x09;&#x0A;&#x0D;&#x20;' is inserted deliberately to see what will happen.
+		  * In particular, //x:label/text()[position() = (1, 3, last())] are deliberately made as
+		    whitespace-only text nodes.
+		
+		* Comments and processing instructions inserted deliberately to verify these:
+		  * XSpec schema allows them.
+		  * XSpec compiler ignores them.
+	-->
+
+	<x:scenario>
+		<x:label>&#x09;&#x0A;&#x0D;&#x20;<!--test-->&#x09;&#x0A;&#x0D;&#x20;My<?test test?>&#x09;&#x0A;&#x0D;&#x20;<!--test-->Scenario&#x09;&#x0A;&#x0D;&#x20;<?test test?>&#x09;&#x0A;&#x0D;&#x20;</x:label>
+		<x:call function="true" />
+		<x:expect test="false()">
+			<x:label>&#x09;&#x0A;&#x0D;&#x20;<!--test-->&#x09;&#x0A;&#x0D;&#x20;My<?test test?>&#x09;&#x0A;&#x0D;&#x20;<!--test-->Expectation&#x09;&#x0A;&#x0D;&#x20;<?test test?>&#x09;&#x0A;&#x0D;&#x20;</x:label>
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="Test with x:like/@label">
+		<x:like
+			label="&#x09;&#x0A;&#x0D;&#x20;&#x09;&#x0A;&#x0D;&#x20;My&#x09;&#x0A;&#x0D;&#x20;Scenario&#x09;&#x0A;&#x0D;&#x20;&#x09;&#x0A;&#x0D;&#x20;"
+		 />
+	</x:scenario>
+
+	<x:scenario label="Test with x:like/x:label">
+		<x:like>
+			<!-- This x:label is exactly the same as /x:description/x:scenario[1]/x:label -->
+			<x:label>&#x09;&#x0A;&#x0D;&#x20;<!--test-->&#x09;&#x0A;&#x0D;&#x20;My<?test test?>&#x09;&#x0A;&#x0D;&#x20;<!--test-->Scenario&#x09;&#x0A;&#x0D;&#x20;<?test test?>&#x09;&#x0A;&#x0D;&#x20;</x:label>
+		</x:like>
+	</x:scenario>
+
+</x:description>
