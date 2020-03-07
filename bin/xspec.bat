@@ -543,7 +543,7 @@ echo:
 echo Formatting Report...
 call :xslt -o:"%HTML%" ^
     -s:"%RESULT%" ^
-    -a ^
+    -xsl:"%XSPEC_HOME%\src\reporter\format-xspec-report.xsl" ^
     inline-css=true ^
     || ( call :die "Error formatting the report" & goto :win_main_error_exit )
 

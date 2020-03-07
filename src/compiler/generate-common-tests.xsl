@@ -42,14 +42,6 @@
          )[1]"/>
    </xsl:function>
 
-   <xsl:variable name="html-reporter-pi" as="processing-instruction(xml-stylesheet)">
-      <xsl:processing-instruction name="xml-stylesheet">
-         <xsl:text>type="text/xsl" href="</xsl:text>
-         <xsl:value-of select="resolve-uri('../reporter/format-xspec-report.xsl')" />
-         <xsl:text>"</xsl:text>
-      </xsl:processing-instruction>
-   </xsl:variable>
-
    <!--
        Drive the overall compilation of a suite.  Apply template on
        the x:description element, in the mode
