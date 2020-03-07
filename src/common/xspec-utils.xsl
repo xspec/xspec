@@ -275,7 +275,7 @@
 	</xsl:function>
 
 	<!--
-		x:yes-no-synonym#1 plus default value
+		x:yes-no-synonym#1 plus default value in case of empty sequence
 	-->
 	<xsl:function as="xs:boolean" name="x:yes-no-synonym">
 		<xsl:param as="xs:string?" name="input" />
