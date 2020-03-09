@@ -4,6 +4,11 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
+		xspec-utils_stylesheet.xspec uses this file for testing x:is-user-content().
+		When modifying this file, check whether xspec-utils_stylesheet.xspec needs any additions or updates.
+	-->
+
+	<!--
 		* '&#x09;&#x0A;&#x0D;&#x20;' is inserted deliberately to see what will happen.
 		  * In particular, //x:label/text()[position() = (1, 3, last())] are deliberately made as
 		    whitespace-only text nodes.
