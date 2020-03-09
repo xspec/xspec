@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="tunnel-param.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="context template-param">
 		<x:scenario label="with @tunnel=yes">
-			<x:context mode="tunnel-param-mirror-mode">
+			<x:context mode="mirror:tunnel-param-mirror">
 				<x:param name="tunnel-param-items" tunnel="yes">
 					<template-param-child />
 				</x:param>
@@ -14,7 +15,7 @@
 		</x:scenario>
 
 		<x:scenario label="with @tunnel=no">
-			<x:context mode="param-mirror-mode">
+			<x:context mode="mirror:param-mirror">
 				<x:param name="param-items" tunnel="no">
 					<template-param-child />
 				</x:param>
@@ -27,7 +28,7 @@
 
 	<x:scenario label="template-call template-param">
 		<x:scenario label="with @tunnel=yes">
-			<x:call template="tunnel-param-mirror-template">
+			<x:call template="mirror:tunnel-param-mirror">
 				<x:param name="tunnel-param-items" tunnel="yes">
 					<template-param-child />
 				</x:param>
@@ -37,7 +38,7 @@
 		</x:scenario>
 
 		<x:scenario label="with @tunnel=no">
-			<x:call template="param-mirror-template">
+			<x:call template="mirror:param-mirror">
 				<x:param name="param-items" tunnel="no">
 					<template-param-child />
 				</x:param>

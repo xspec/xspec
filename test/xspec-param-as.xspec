@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-param-as.xsl"
+<x:description stylesheet="mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="In context template-param (i.e. //x:context/x:param),">
-		<x:context mode="param-mirror-mode">
+		<x:context mode="mirror:param-mirror">
 			<x:param as="xs:double" name="param-items" select="xs:integer(0)" />
 			<dummy />
 		</x:context>
@@ -12,14 +13,14 @@
 	</x:scenario>
 
 	<x:scenario label="In function-param (i.e. //x:call[@function]/x:param),">
-		<x:call function="exactly-one">
+		<x:call function="mirror:param-mirror">
 			<x:param as="xs:double" select="xs:integer(0)" />
 		</x:call>
 		<x:expect label="@as takes effect" test="$x:result instance of xs:double" />
 	</x:scenario>
 
 	<x:scenario label="In template-call template-param (i.e. //x:call[@template]/x:param),">
-		<x:call template="param-mirror-template">
+		<x:call template="mirror:param-mirror">
 			<x:param as="xs:double" name="param-items" select="xs:integer(0)" />
 		</x:call>
 		<x:expect label="@as takes effect" test="$x:result instance of xs:double" />

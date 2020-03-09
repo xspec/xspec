@@ -300,7 +300,7 @@
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XSLT)">
     set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
     call :mkdir "%SPECIAL_CHARS_DIR%"
-    call :copy do-nothing.xsl         "%SPECIAL_CHARS_DIR%"
+    call :copy mirror.xsl             "%SPECIAL_CHARS_DIR%"
     call :copy xspec-node-selection.* "%SPECIAL_CHARS_DIR%"
 
     set TEST_DIR=
@@ -315,7 +315,7 @@
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XQuery)">
     set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
     call :mkdir "%SPECIAL_CHARS_DIR%"
-    call :copy do-nothing.xquery      "%SPECIAL_CHARS_DIR%"
+    call :copy mirror.xquery          "%SPECIAL_CHARS_DIR%"
     call :copy xspec-node-selection.* "%SPECIAL_CHARS_DIR%"
 
     set TEST_DIR=
