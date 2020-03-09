@@ -275,6 +275,22 @@
 	</xsl:function>
 
 	<!--
+		x:yes-no-synonym#1 plus default value in case of empty sequence
+	-->
+	<xsl:function as="xs:boolean" name="x:yes-no-synonym">
+		<xsl:param as="xs:string?" name="input" />
+		<xsl:param as="xs:boolean" name="default" />
+
+		<xsl:sequence
+			select="
+				if (exists($input)) then
+					x:yes-no-synonym($input)
+				else
+					$default"
+		 />
+	</xsl:function>
+
+	<!--
 		Returns a semi-formatted string of URI
 	-->
 	<xsl:function as="xs:string" name="x:format-uri">
@@ -368,6 +384,21 @@
 
 		<!-- Resolve with catalog -->
 		<xsl:sequence select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+	</xsl:function>
+
+	<!--
+		Stub function for helping development on IDE without loading ../../java/
+	-->
+	<xsl:function as="xs:integer" name="x:line-number" override-extension-function="no"
+		use-when="
+			function-available('saxon:line-number')
+			and
+			(: Saxon 9.7 doesn't accept @override-extension-function when /xsl:stylesheet/@version
+				isn't 3.0 :) (xs:decimal(system-property('xsl:version')) ge 3.0)"
+		xmlns:saxon="http://saxon.sf.net/">
+		<xsl:param as="node()" name="node" />
+
+		<xsl:sequence select="saxon:line-number($node)" />
 	</xsl:function>
 
 	<!--
