@@ -451,4 +451,24 @@
 		</xsl:analyze-string>
 	</xsl:function>
 
+	<!--
+		Resolves lexical QName to xs:QName without using the default namespace.
+		
+		Unlike fn:resolve-QName(), this function can handle XSLT names in many cases. See
+		"Notes" in https://www.w3.org/TR/xpath-functions-31/#func-resolve-QName or more
+		specifically p.866 of XSLT 2.0 and XPath 2.0 Programmer's Reference, 4th Edition.
+	-->
+	<xsl:function as="xs:QName" name="x:resolve-QName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="lexical-qname" />
+		<xsl:param as="element()" name="element" />
+
+		<xsl:sequence
+			select="
+				if (contains($lexical-qname, ':')) then
+					resolve-QName($lexical-qname, $element)
+				else
+					QName('', $lexical-qname)"
+		 />
+	</xsl:function>
+
 </xsl:stylesheet>

@@ -25,9 +25,7 @@
 
    <xsl:key name="named-templates" 
             match="xsl:template[@name]"
-            use="if (contains(@name, ':'))
-                 then resolve-QName(@name, .)
-                 else QName('', @name)" />
+            use="x:resolve-QName-ignoring-default-ns(@name, .)" />
 
    <xsl:key name="matching-templates" 
             match="xsl:template[@match]" 
