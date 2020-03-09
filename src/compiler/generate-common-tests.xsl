@@ -714,11 +714,8 @@
 
       <xsl:param name="instruction" as="node()+" required="yes" />
 
-      <xsl:variable name="catch-flag" as="xs:string"
-         select="(ancestor-or-self::*[@catch][1]/@catch, 'no')[1]" />
-
       <xsl:choose>
-         <xsl:when test="x:yes-no-synonym($catch-flag)">
+         <xsl:when test="x:yes-no-synonym(ancestor-or-self::*[@catch][1]/@catch, false())">
             <xsl:call-template name="x:output-try-catch">
                <xsl:with-param name="instruction" select="$instruction" />
             </xsl:call-template>
@@ -781,18 +778,10 @@
       <xsl:context-item as="element(x:variable)" use="required"
          use-when="element-available('xsl:context-item')" />
 
-      <xsl:variable name="qname" as="xs:QName">
-         <xsl:choose>
-            <xsl:when test="starts-with(@name, 'Q{')">
-               <xsl:sequence select="x:resolve-URIQualifiedName(@name)" />
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:sequence select="if (contains(@name, ':'))
-                                     then resolve-QName(@name, .)
-                                     else QName('', @name)" />
-            </xsl:otherwise>
-         </xsl:choose>
-      </xsl:variable>
+      <xsl:variable name="qname" as="xs:QName"
+         select="if (starts-with(@name, 'Q{'))
+                 then x:resolve-URIQualifiedName(@name)
+                 else x:resolve-QName-ignoring-default-ns(@name, .)" />
 
       <xsl:if test="namespace-uri-from-QName($qname) eq $xspec-namespace">
          <xsl:variable name="msg" as="xs:string"
