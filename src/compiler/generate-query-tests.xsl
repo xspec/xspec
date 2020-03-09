@@ -316,6 +316,10 @@
                         <xsl:sort select="xs:integer(@position)"/>
                         <xsl:text>$</xsl:text>
                         <xsl:value-of select="test:variable-name(.)" />
+                        <xsl:for-each select="@as">
+                           <xsl:text> treat as </xsl:text>
+                           <xsl:value-of select="." />
+                        </xsl:for-each>
                         <xsl:if test="position() != last()">, </xsl:if>
                      </xsl:for-each>
                      <xsl:text>)&#10;</xsl:text>
