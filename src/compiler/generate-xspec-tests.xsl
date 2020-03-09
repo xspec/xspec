@@ -75,8 +75,8 @@
       <xsl:value-of select="$xspec-master-uri" />
     </variable>
 
-    <!-- Compile the test suite params (aka global params). -->
-    <xsl:call-template name="x:compile-params"/>
+    <!-- Compile global params and global variables. -->
+    <xsl:call-template name="x:compile-global-params-and-vars" />
 
     <!-- The main compiled template. -->
     <template name="{x:xspec-name(.,'main')}">
@@ -259,12 +259,55 @@
           </xsl:otherwise>
         </xsl:choose>
       </xsl:for-each>
+
       <xsl:if test="not($pending-p) and x:expect">
         <variable name="{x:xspec-name(.,'result')}" as="item()*">
+          <!-- Set up variables before entering SUT -->
           <xsl:choose>
-            <xsl:when test="$call/@template">
+            <xsl:when test="$call">
               <!-- Set up variables containing the parameter values -->
               <xsl:apply-templates select="$call/x:param[1]" mode="x:compile" />
+
+              <!-- Set up the $impl:context variable -->
+              <xsl:apply-templates select="$context[$call/@template]"
+                mode="test:generate-variable-declarations" />
+            </xsl:when>
+
+            <xsl:when test="$apply">
+              <!-- TODO: FIXME: ... -->
+              <xsl:message terminate="yes">
+                <xsl:text>The instruction x:apply is not supported yet!</xsl:text>
+              </xsl:message>
+
+              <!-- Set up variables containing the parameter values -->
+              <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile"/>
+            </xsl:when>
+
+            <xsl:when test="$context">
+              <!-- Set up the $impl:context variable -->
+              <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
+
+              <!-- Set up variables containing the parameter values -->
+              <xsl:apply-templates select="$context/x:param[1]" mode="x:compile"/>
+            </xsl:when>
+          </xsl:choose>
+
+          <!-- Enter SUT -->
+          <xsl:choose>
+            <xsl:when test="$is-dynamic" use-when="function-available('transform')
+              and false() (: TODO: Dynamic invocation. Not implemented yet. :)">
+              <!-- Set up the $impl:transform-options variable -->
+              <xsl:call-template name="x:setup-transform-options" />
+
+              <!-- Invoke transform() -->
+              <xsl:call-template name="x:enter-sut">
+                <xsl:with-param name="instruction" as="element(xsl:sequence)">
+                  <sequence select="transform($impl:transform-options)?output" />
+                </xsl:with-param>
+              </xsl:call-template>
+            </xsl:when>
+
+            <xsl:when test="$call/@template">
               <!-- Create the template call -->
               <xsl:variable name="template-call">
                 <xsl:call-template name="x:enter-sut">
@@ -282,8 +325,6 @@
               </xsl:variable>
               <xsl:choose>
                 <xsl:when test="$context">
-                  <!-- Set up the $impl:context variable -->
-                  <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
                   <!-- Switch to the context and call the template -->
                   <for-each select="${test:variable-name($context)}">
                     <xsl:copy-of select="$template-call" />
@@ -295,8 +336,6 @@
               </xsl:choose>
             </xsl:when>
             <xsl:when test="$call/@function">
-              <!-- Set up variables containing the parameter values -->
-              <xsl:apply-templates select="$call/x:param[1]" mode="x:compile" />
               <!-- Create the function call -->
               <xsl:call-template name="x:enter-sut">
                 <xsl:with-param name="instruction" as="element(xsl:sequence)">
@@ -318,12 +357,7 @@
               </xsl:call-template>
             </xsl:when>
             <xsl:when test="$apply">
-               <!-- TODO: FIXME: ... -->
-               <xsl:message terminate="yes">
-                  <xsl:text>The instruction t:apply is not supported yet!</xsl:text>
-               </xsl:message>
-               <!-- Set up variables containing the parameter values -->
-               <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile"/>
+               <!-- TODO: x:apply not implemented yet -->
                <!-- Create the apply templates instruction.
                  This code path, particularly with @catch, has not been tested. -->
                <xsl:call-template name="x:enter-sut">
@@ -341,10 +375,6 @@
                </xsl:call-template>
             </xsl:when>
             <xsl:when test="$context">
-              <!-- Set up the $impl:context variable -->
-              <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
-              <!-- Set up variables containing the parameter values -->
-              <xsl:apply-templates select="$context/x:param[1]" mode="x:compile"/>
               <!-- Create the template call -->
               <xsl:call-template name="x:enter-sut">
                 <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
@@ -364,8 +394,9 @@
                <!-- TODO: Adapt to a new error reporting facility (above usages too). -->
                <xsl:message terminate="yes">Error: cannot happen.</xsl:message>
             </xsl:otherwise>
-          </xsl:choose>      
+          </xsl:choose>
         </variable>
+
         <call-template name="test:report-sequence">
           <with-param name="sequence" select="${x:xspec-name(.,'result')}" />
           <with-param name="wrapper-name" as="xs:string">
