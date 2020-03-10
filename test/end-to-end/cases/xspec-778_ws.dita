@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="urn:oasis:names:tc:dita:rng:concept.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="urn:oasis:names:tc:dita:rng:concept.rng" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<concept class="- topic/concept " id="concept_it5_nxt_xkb">
+    <title class="- topic/title ">My Title</title>
+    <shortdesc class="- topic/shortdesc ">This is a topic.</shortdesc>
+    <conbody class="- topic/conbody ">
+        <p class="- topic/p ">This is a paragraph.</p>
+    </conbody>
+</concept>
