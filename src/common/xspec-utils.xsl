@@ -250,8 +250,7 @@
 		<xsl:variable as="xs:string" name="decimal-string" select="string($decimal)" />
 		<xsl:sequence
 			select="
-				if (contains($decimal-string, '.'))
-				then
+				if (contains($decimal-string, '.')) then
 					$decimal-string
 				else
 					concat($decimal-string, '.0')"
@@ -273,6 +272,22 @@
 				<xsl:sequence select="false()" />
 			</xsl:when>
 		</xsl:choose>
+	</xsl:function>
+
+	<!--
+		x:yes-no-synonym#1 plus default value in case of empty sequence
+	-->
+	<xsl:function as="xs:boolean" name="x:yes-no-synonym">
+		<xsl:param as="xs:string?" name="input" />
+		<xsl:param as="xs:boolean" name="default" />
+
+		<xsl:sequence
+			select="
+				if (exists($input)) then
+					x:yes-no-synonym($input)
+				else
+					$default"
+		 />
 	</xsl:function>
 
 	<!--
@@ -369,6 +384,91 @@
 
 		<!-- Resolve with catalog -->
 		<xsl:sequence select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+	</xsl:function>
+
+	<!--
+		Stub function for helping development on IDE without loading ../../java/
+	-->
+	<xsl:function as="xs:integer" name="x:line-number" override-extension-function="no"
+		use-when="
+			function-available('saxon:line-number')
+			and
+			(: Saxon 9.7 doesn't accept @override-extension-function when /xsl:stylesheet/@version
+				isn't 3.0 :) (xs:decimal(system-property('xsl:version')) ge 3.0)"
+		xmlns:saxon="http://saxon.sf.net/">
+		<xsl:param as="node()" name="node" />
+
+		<xsl:sequence select="saxon:line-number($node)" />
+	</xsl:function>
+
+	<!--
+		Removes leading whitespace
+	-->
+	<xsl:function as="xs:string" name="x:left-trim">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:sequence select="replace($input, '^\s+', '')" />
+	</xsl:function>
+
+	<!--
+		Removes trailing whitespace
+	-->
+	<xsl:function as="xs:string" name="x:right-trim">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:sequence select="replace($input, '\s+$', '')" />
+	</xsl:function>
+
+	<!--
+		Removes leading and trailing whitespace
+	-->
+	<xsl:function as="xs:string" name="x:trim">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:sequence select="x:left-trim(x:right-trim($input))" />
+	</xsl:function>
+
+	<!--
+		Resolves URIQualifiedName to xs:QName
+	-->
+	<xsl:function as="xs:QName" name="x:resolve-URIQualifiedName">
+		<xsl:param as="xs:string" name="uri-qualified-name" />
+
+		<xsl:variable as="xs:string" name="regex" xml:space="preserve">
+			<!-- based on https://github.com/xspec/xspec/blob/fb7f63d8190a5ccfea5c6a21b2ee142164a7c92c/src/schemas/xspec.rnc#L329 -->
+			^
+				Q\{
+					([^\{\}]*)		<!-- group 1: URI -->
+				\}
+				([\i-[:]][\c-[:]]*)	<!-- group 2: local name -->
+			$
+		</xsl:variable>
+
+		<xsl:analyze-string flags="x" regex="{$regex}" select="$uri-qualified-name">
+			<xsl:matching-substring>
+				<xsl:sequence select="QName(regex-group(1), regex-group(2))" />
+			</xsl:matching-substring>
+		</xsl:analyze-string>
+	</xsl:function>
+
+	<!--
+		Resolves lexical QName to xs:QName without using the default namespace.
+		
+		Unlike fn:resolve-QName(), this function can handle XSLT names in many cases. See
+		"Notes" in https://www.w3.org/TR/xpath-functions-31/#func-resolve-QName or more
+		specifically p.866 of XSLT 2.0 and XPath 2.0 Programmer's Reference, 4th Edition.
+	-->
+	<xsl:function as="xs:QName" name="x:resolve-QName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="lexical-qname" />
+		<xsl:param as="element()" name="element" />
+
+		<xsl:sequence
+			select="
+				if (contains($lexical-qname, ':')) then
+					resolve-QName($lexical-qname, $element)
+				else
+					QName('', $lexical-qname)"
+		 />
 	</xsl:function>
 
 </xsl:stylesheet>

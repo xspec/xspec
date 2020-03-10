@@ -25,14 +25,15 @@
 
    <xsl:key name="named-templates" 
             match="xsl:template[@name]"
-            use="if (contains(@name, ':'))
-                 then resolve-QName(@name, .)
-                 else QName('', @name)" />
+            use="x:resolve-QName-ignoring-default-ns(@name, .)" />
 
    <xsl:key name="matching-templates" 
             match="xsl:template[@match]" 
             use="concat('match=', normalize-space(@match), '+',
                         'mode=', normalize-space(@mode))" />
+
+   <!-- Namespace prefix used privately at run time -->
+   <xsl:variable as="xs:string" name="test:private-prefix" select="'impl'" />
 
    <!--
       Generates XSLT variable declaration(s) from the current element.
@@ -67,13 +68,13 @@
          child::node() or @href -->
       <xsl:variable name="temp-doc-name" as="xs:string?"
          select="if (not($is-pending) and (node() or @href))
-                 then concat($name, '-doc')
+                 then concat($test:private-prefix, ':', local-name(), '-', generate-id(), '-doc')
                  else ()" />
 
       <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
       <xsl:variable name="temp-uri-name" as="xs:string?"
          select="if ($temp-doc-name and @href)
-                 then concat($temp-doc-name, '-uri')
+                 then concat($test:private-prefix, ':', local-name(), '-', generate-id(), '-uri')
                  else ()" />
 
       <xsl:if test="$temp-uri-name">
@@ -155,21 +156,14 @@
    <xsl:function as="xs:string" name="test:variable-name">
       <xsl:param as="element()" name="source-element" />
 
-      <xsl:variable as="xs:string" name="private-prefix" select="'impl'" />
-
       <xsl:for-each select="$source-element">
          <xsl:choose>
             <xsl:when test="@name">
                <xsl:sequence select="@name" />
             </xsl:when>
-            <xsl:when test="self::x:context">
-               <xsl:sequence select="concat($private-prefix, ':', local-name())" />
-            </xsl:when>
-            <xsl:when test="self::x:expect">
-               <xsl:sequence select="concat($private-prefix, ':expected')" />
-            </xsl:when>
             <xsl:otherwise>
-               <xsl:sequence select="generate-id()" />
+               <xsl:sequence
+                  select="concat($test:private-prefix, ':', local-name(), '-', generate-id())" />
             </xsl:otherwise>
          </xsl:choose>
       </xsl:for-each>

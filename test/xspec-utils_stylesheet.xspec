@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="items.xsl" xmlns:items="x-urn:test:xspec-items"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="do-nothing.xsl" xmlns:err="http://www.w3.org/2005/xqt-errors"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
 
 	<!--
 		The test target (../src/common/xspec-utils.xsl) is included
@@ -517,7 +517,7 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function yes-no-synonym">
+	<x:scenario label="Scenario for testing function yes-no-synonym#1">
 		<x:scenario label="Valid strings">
 			<x:scenario label="Base (yes or no)">
 				<x:scenario label="'yes'">
@@ -565,6 +565,82 @@
 					</x:call>
 					<x:expect label="False" select="false()" />
 				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function yes-no-synonym#2">
+		<x:scenario label="Input true">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'true'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'true'" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Input false">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'false'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'false'" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Input empty">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="()" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="()" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario catch="true" label="Unexpected input">
+			<x:scenario label="Zero-length string">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="''" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="Error without falling back on the default value"
+					select="xs:QName('err:XTTE0780')" test="$x:result?err?code treat as xs:QName" />
+			</x:scenario>
+
+			<x:scenario label="Bogus">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'bogus'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="Error without falling back on the default value"
+					select="xs:QName('err:XTTE0780')" test="$x:result?err?code treat as xs:QName" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
@@ -845,6 +921,88 @@
 		<x:expect label="filename and extension" select="'demo-01.sch'"
 			test="x:filename-and-extension($x:result)" />
 		<x:expect label="reachable" test="doc-available($x:result)" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function left-trim">
+		<x:call function="x:left-trim">
+			<x:param
+				select="'&#x09;&#x0A;&#x0D;&#x20;foo&#x09;&#x0A;&#x0D;&#x20;bar&#x09;&#x0A;&#x0D;&#x20;'"
+			 />
+		</x:call>
+		<x:expect label="Leading trimmed. In-between and trailing intact."
+			select="'foo&#x09;&#x0A;&#x0D;&#x20;bar&#x09;&#x0A;&#x0D;&#x20;'" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function right-trim">
+		<x:call function="x:right-trim">
+			<x:param
+				select="'&#x09;&#x0A;&#x0D;&#x20;foo&#x09;&#x0A;&#x0D;&#x20;bar&#x09;&#x0A;&#x0D;&#x20;'"
+			 />
+		</x:call>
+		<x:expect label="Trailing trimmed. Leading and in-between intact."
+			select="'&#x09;&#x0A;&#x0D;&#x20;foo&#x09;&#x0A;&#x0D;&#x20;bar'" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function trim">
+		<x:call function="x:trim">
+			<x:param
+				select="'&#x09;&#x0A;&#x0D;&#x20;foo&#x09;&#x0A;&#x0D;&#x20;bar&#x09;&#x0A;&#x0D;&#x20;'"
+			 />
+		</x:call>
+		<x:expect label="Leading and trailing trimmed. In-between intact."
+			select="'foo&#x09;&#x0A;&#x0D;&#x20;bar'" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function resolve-URIQualifiedName">
+		<x:scenario label="With URI">
+			<x:variable as="xs:anyURI" name="ridiculous-uri">'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+			<x:call function="x:resolve-URIQualifiedName">
+				<x:param select="concat('Q{', $ridiculous-uri, '}foo')" />
+			</x:call>
+			<x:expect label="Resolved" select="QName($ridiculous-uri, 'foo')" />
+		</x:scenario>
+
+		<x:scenario label="Without URI">
+			<x:call function="x:resolve-URIQualifiedName">
+				<x:param select="'Q{}foo'" />
+			</x:call>
+			<x:expect label="Resolved as no namespace" select="QName('', 'foo')" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function resolve-QName-ignoring-default-ns">
+		<x:scenario label="With prefix">
+			<x:call function="x:resolve-QName-ignoring-default-ns">
+				<x:param select="'prefix:foo'" />
+				<x:param>
+					<e xmlns:prefix="prefixed-ns" />
+				</x:param>
+			</x:call>
+			<x:expect label="Resolved" select="QName('prefixed-ns', 'prefix:foo')" />
+		</x:scenario>
+
+		<x:scenario label="Without prefix">
+			<x:scenario label="With default namespace">
+				<x:call function="x:resolve-QName-ignoring-default-ns">
+					<x:param select="'foo'" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved without using the default namespace"
+					select="QName('', 'foo')" />
+			</x:scenario>
+
+			<x:scenario label="Without default namespace">
+				<x:call function="x:resolve-QName-ignoring-default-ns">
+					<x:param select="'foo'" />
+					<x:param>
+						<e xmlns="" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved" select="QName('', 'foo')" />
+			</x:scenario>
+		</x:scenario>
 	</x:scenario>
 
 </x:description>

@@ -6,9 +6,19 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xslt-version="3.0">
 
+	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
+
 	<x:scenario label="Using EQName in function-call @function and function-param @name">
-		<x:call function="Q{x-urn:test:xspec-eqname}param-mirror-function">
-			<x:param name="Q{x-urn:test:xspec-eqname}param-items">
+		<x:call
+			function="
+				&#x09;&#x0A;&#x0D;&#x20;
+				Q{x-urn:test:xspec-eqname}param-mirror-function
+				&#x09;&#x0A;&#x0D;&#x20;">
+			<x:param
+				name="
+					&#x09;&#x0A;&#x0D;&#x20;
+					Q{x-urn:test:xspec-eqname}param-items
+					&#x09;&#x0A;&#x0D;&#x20;">
 				<function-param-child />
 			</x:param>
 		</x:call>
@@ -19,13 +29,23 @@
 
 	<x:scenario label="Using EQName in function-param @as">
 		<x:call function="Q{x-urn:test:xspec-eqname}param-mirror-function">
-			<x:param name="Q{x-urn:test:xspec-eqname}param-items" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+			<x:param
+				name="Q{x-urn:test:xspec-eqname}param-items"
+				as="
+					&#x09;&#x0A;&#x0D;&#x20;
+					Q{http://www.w3.org/2001/XMLSchema}string
+					&#x09;&#x0A;&#x0D;&#x20;"
+				select="'xyz'"/>
 		</x:call>
 		<x:expect label="should be possible" test="$x:result treat as xs:string"
 			select="$x:result treat as xs:string"/>
 	</x:scenario>
 
-	<x:param name="Q{x-urn:test:xspec-eqname}global-param">
+	<x:param
+		name="
+			&#x09;&#x0A;&#x0D;&#x20;
+			Q{x-urn:test:xspec-eqname}global-param
+			&#x09;&#x0A;&#x0D;&#x20;">
 		<global-param-child />
 	</x:param>
 	<x:scenario label="Using EQName in global-param @name">
@@ -38,7 +58,13 @@
 		 />
 	</x:scenario>
 
-	<x:param name="Q{x-urn:test:xspec-eqname}global-string-param" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+	<x:param
+		name="Q{x-urn:test:xspec-eqname}global-string-param"
+		as="
+			&#x09;&#x0A;&#x0D;&#x20;
+			Q{http://www.w3.org/2001/XMLSchema}string
+			&#x09;&#x0A;&#x0D;&#x20;"
+		select="'xyz'"/>
 	<x:scenario label="Using EQName in global-param @as">
 		<x:call function="false" />
 		<x:expect label="should be possible"
@@ -46,7 +72,13 @@
 			select="$Q{x-urn:test:xspec-eqname}global-string-param treat as xs:string"/>
 	</x:scenario>
 
-	<x:variable name="Q{http://example.org/ns/my/variable}global-var" select="/Q{}global-var-child" as="element(global-var-child)">
+	<x:variable
+		name="
+			&#x09;&#x0A;&#x0D;&#x20;
+			Q{http://example.org/ns/my/variable}global-var
+			&#x09;&#x0A;&#x0D;&#x20;"
+		select="/Q{}global-var-child"
+		as="element(global-var-child)">
 		<global-var-child />
 	</x:variable>
 	<x:scenario label="Using EQName in global variable @name and @select">
@@ -58,7 +90,13 @@
 			test="$Q{http://example.org/ns/my/variable}global-var instance of element(Q{}global-var-child)"
 		/>
 	</x:scenario>
-	<x:variable name="Q{http://example.org/ns/my/variable}global-string-var" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+	<x:variable
+		name="Q{http://example.org/ns/my/variable}global-string-var"
+		as="
+			&#x09;&#x0A;&#x0D;&#x20;
+			Q{http://www.w3.org/2001/XMLSchema}string
+			&#x09;&#x0A;&#x0D;&#x20;"
+		select="'xyz'"/>
 	<x:scenario label="Using EQName in global variable @as">
 		<x:call function="false" />
 		<x:expect label="should be possible"
@@ -67,7 +105,12 @@
 	</x:scenario>
 
 	<x:scenario label="Using EQName in local variable @name and @select">
-		<x:variable name="Q{http://example.org/ns/my/variable}var" as="element(variable-child)"
+		<x:variable
+			name="
+				&#x09;&#x0A;&#x0D;&#x20;
+				Q{http://example.org/ns/my/variable}var
+				&#x09;&#x0A;&#x0D;&#x20;"
+			as="element(variable-child)"
 			select="/Q{}variable-child"><variable-child /></x:variable>
 		<!-- The following definition illustrates redefining a variable and mixing notations
 			for its name. The file xspec-variable.xspec would be a good place to test that,
@@ -103,7 +146,13 @@
 	</x:scenario>
 
 	<x:scenario label="Using EQName in local variable @as">
-		<x:variable name="Q{http://example.org/ns/my/variable}string-var" as="Q{http://www.w3.org/2001/XMLSchema}string" select="'xyz'"/>
+		<x:variable
+			name="Q{http://example.org/ns/my/variable}string-var"
+			as="
+				&#x09;&#x0A;&#x0D;&#x20;
+				Q{http://www.w3.org/2001/XMLSchema}string
+				&#x09;&#x0A;&#x0D;&#x20;"
+			select="'xyz'"/>
 		<x:call function="false" />
 		<x:expect label="should be possible"
 			test="$Q{http://example.org/ns/my/variable}string-var treat as xs:string"

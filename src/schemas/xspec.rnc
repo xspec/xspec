@@ -3,6 +3,7 @@
 # of an XSLT application. They are similar to the RSpec documents used in RoR
 # testing, but for XSLT
 default namespace x = "http://www.jenitennison.com/xslt/xspec"
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 
 start = description
 
@@ -21,6 +22,7 @@ description =
 		## XSLT version which will be declared in the compiled master stylesheet.
 		## This version may also activate a certain compatibility mode when
 		## evaluating expressions and comparing sequences.
+		[ a:defaultValue = "2.0" ]
 		attribute xslt-version { xsd:decimal }?,
 
 		attribute query-at { xsd:anyURI }?,
