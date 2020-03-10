@@ -39,10 +39,17 @@
 					<x:expect-report count="3" />
 				</x:scenario>
 			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:context">
+				<x:context expand-text="yes">
+					<context-child>}}{false()}{{</context-child>
+				</x:context>
+				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
-			<x:context href="xspec-tvt.xml" />
+			<x:context expand-text="yes" href="xspec-tvt.xml" />
 			<x:expect-report id="tvt-disabled" />
 			<x:expect-report id="x-expand-text-yes" />
 			<x:expect-report id="expand-text-yes" />
