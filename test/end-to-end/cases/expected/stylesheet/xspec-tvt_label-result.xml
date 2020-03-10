@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
+<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../do-nothing.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../xspec-tvt_label.xspec">
+   <x:scenario id="scenario1" xspec="../../xspec-tvt_label.xspec">
+      <x:label>With @expand-text=yes</x:label>
+      <x:scenario id="scenario1-scenario1" xspec="../../xspec-tvt_label.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test id="scenario1-scenario1-expect1" successful="true">
+            <x:label>}}{expect}{{</x:label>
+            <x:expect select="xs:boolean('true')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario2" xspec="../../xspec-tvt_label.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test id="scenario1-scenario2-expect1" successful="true">
+            <x:label>}}{expect}{{</x:label>
+            <x:expect select="xs:boolean('true')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario3" xspec="../../xspec-tvt_label.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test id="scenario1-scenario3-expect1" successful="true">
+            <x:label>}}{expect}{{</x:label>
+            <x:expect select="xs:boolean('true')"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario id="scenario2" xspec="../../xspec-tvt_label.xspec">
+      <x:label>With @expand-text=no</x:label>
+      <x:scenario id="scenario2-scenario1" xspec="../../xspec-tvt_label.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test id="scenario2-scenario1-expect1" successful="true">
+            <x:label>}}{expect}{{</x:label>
+            <x:expect select="xs:boolean('true')"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario2-scenario2" xspec="../../xspec-tvt_label.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:call function="true"/>
+         <x:result select="xs:boolean('true')"/>
+         <x:test id="scenario2-scenario2-expect1" successful="true">
+            <x:label>}}{expect}{{</x:label>
+            <x:expect select="xs:boolean('true')"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+</x:report>
