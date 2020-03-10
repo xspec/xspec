@@ -32,13 +32,16 @@
 
 	<x:scenario label="function-param">
 		<x:scenario label="user-content">
-			<x:call function="one-or-more">
-				<x:param>
-					<function-param-child x:expand-text="yes">}}{false()}{{</function-param-child>
-					<function-param-child expand-text="yes">}}{false()}{{</function-param-child>
-				</x:param>
-			</x:call>
-			<x:like label="user-content expect" />
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="one-or-more">
+					<x:param>
+						<function-param-child x:expand-text="yes"
+							>}}{false()}{{</function-param-child>
+						<function-param-child expand-text="yes">}}{false()}{{</function-param-child>
+					</x:param>
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
@@ -54,12 +57,15 @@
 		<global-param-child expand-text="yes">}}{false()}{{</global-param-child>
 	</x:param>
 	<x:param href="xspec-tvt.xml" name="global-param-href" />
+
 	<x:scenario label="global-param">
 		<x:scenario label="user-content">
-			<x:call function="one-or-more">
-				<x:param select="$global-param-user-content" />
-			</x:call>
-			<x:like label="user-content expect" />
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="one-or-more">
+					<x:param select="$global-param-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
@@ -75,12 +81,15 @@
 		<global-variable-child expand-text="yes">}}{false()}{{</global-variable-child>
 	</x:variable>
 	<x:variable href="xspec-tvt.xml" name="global-variable-href" />
+
 	<x:scenario label="global variable">
 		<x:scenario label="user-content">
-			<x:call function="one-or-more">
-				<x:param select="$global-variable-user-content" />
-			</x:call>
-			<x:like label="user-content expect" />
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="one-or-more">
+					<x:param select="$global-variable-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
@@ -92,19 +101,21 @@
 	</x:scenario>
 
 	<x:scenario label="local variable">
-		<x:variable name="local-variable-user-content">
-			<local-variable-child x:expand-text="yes">}}{false()}{{</local-variable-child>
-			<local-variable-child expand-text="yes">}}{false()}{{</local-variable-child>
-		</x:variable>
-		<x:variable href="xspec-tvt.xml" name="local-variable-href" />
 		<x:scenario label="user-content">
-			<x:call function="one-or-more">
-				<x:param select="$local-variable-user-content" />
-			</x:call>
-			<x:like label="user-content expect" />
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:variable name="local-variable-user-content">
+					<local-variable-child x:expand-text="yes">}}{false()}{{</local-variable-child>
+					<local-variable-child expand-text="yes">}}{false()}{{</local-variable-child>
+				</x:variable>
+				<x:call function="one-or-more">
+					<x:param select="$local-variable-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
+			<x:variable href="xspec-tvt.xml" name="local-variable-href" />
 			<x:call function="exactly-one">
 				<x:param select="$local-variable-href" />
 			</x:call>
@@ -114,15 +125,17 @@
 
 	<x:scenario label="assertion">
 		<x:scenario label="user-content">
-			<x:call function="false" />
-			<x:expect label="@x:expand-text=yes enables TVT and @x:expand-text is discarded"
-				select="assertion-child[empty(@x:expand-text)]/string()" test="'}false{'">
-				<assertion-child x:expand-text="yes">}}{false()}{{</assertion-child>
-			</x:expect>
-			<x:expect label="@expand-text=yes does not enable TVT and @expand-text is kept"
-				select="assertion-child[@expand-text eq 'yes']/string()" test="'}}{false()}{{'">
-				<assertion-child expand-text="yes">}}{false()}{{</assertion-child>
-			</x:expect>
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="false" />
+				<x:expect label="@x:expand-text=yes enables TVT and @x:expand-text is discarded"
+					select="assertion-child[empty(@x:expand-text)]/string()" test="'}false{'">
+					<assertion-child x:expand-text="yes">}}{false()}{{</assertion-child>
+				</x:expect>
+				<x:expect label="@expand-text=yes does not enable TVT and @expand-text is kept"
+					select="assertion-child[@expand-text eq 'yes']/string()" test="'}}{false()}{{'">
+					<assertion-child expand-text="yes">}}{false()}{{</assertion-child>
+				</x:expect>
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
@@ -240,14 +253,17 @@
 
 	<x:scenario label="context template-param">
 		<x:scenario label="user-content">
-			<x:context mode="param-mirror-mode">
-				<x:param name="param-items">
-					<template-param-child x:expand-text="yes">}}{false()}{{</template-param-child>
-					<template-param-child expand-text="yes">}}{false()}{{</template-param-child>
-				</x:param>
-				<context-child />
-			</x:context>
-			<x:like label="user-content expect" />
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:context mode="param-mirror-mode">
+					<x:param name="param-items">
+						<template-param-child x:expand-text="yes"
+							>}}{false()}{{</template-param-child>
+						<template-param-child expand-text="yes">}}{false()}{{</template-param-child>
+					</x:param>
+					<context-child />
+				</x:context>
+				<x:like label="user-content expect" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
@@ -261,11 +277,13 @@
 
 	<x:scenario label="context">
 		<x:scenario label="user-content">
-			<x:context mode="context-mirror-mode">
-				<context-child x:expand-text="yes">}}{false()}{{</context-child>
-				<context-child expand-text="yes">}}{false()}{{</context-child>
-			</x:context>
-			<x:like label="user-content expect" />
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:context mode="context-mirror-mode">
+					<context-child x:expand-text="yes">}}{false()}{{</context-child>
+					<context-child expand-text="yes">}}{false()}{{</context-child>
+				</x:context>
+				<x:like label="user-content expect" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
@@ -276,13 +294,16 @@
 
 	<x:scenario label="template-call template-param">
 		<x:scenario label="user-content">
-			<x:call template="param-mirror-template">
-				<x:param name="param-items">
-					<template-param-child x:expand-text="yes">}}{false()}{{</template-param-child>
-					<template-param-child expand-text="yes">}}{false()}{{</template-param-child>
-				</x:param>
-			</x:call>
-			<x:like label="user-content expect" />
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call template="param-mirror-template">
+					<x:param name="param-items">
+						<template-param-child x:expand-text="yes"
+							>}}{false()}{{</template-param-child>
+						<template-param-child expand-text="yes">}}{false()}{{</template-param-child>
+					</x:param>
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">

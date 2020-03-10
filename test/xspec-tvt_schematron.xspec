@@ -20,21 +20,23 @@
 
 	<x:scenario label="context">
 		<x:scenario label="user-content">
-			<x:scenario label="@x:expand-text=yes">
-				<x:context>
-					<context-child x:expand-text="yes">}}{false()}{{</context-child>
-				</x:context>
-				<x:like label="expect TVT to be ENABLED and expect no *:expand-text to exist" />
-			</x:scenario>
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:scenario label="@x:expand-text=yes">
+					<x:context>
+						<context-child x:expand-text="yes">}}{false()}{{</context-child>
+					</x:context>
+					<x:like label="expect TVT to be ENABLED and expect no *:expand-text to exist" />
+				</x:scenario>
 
-			<x:scenario label="@expand-text=yes">
-				<x:context>
-					<context-child expand-text="yes">}}{false()}{{</context-child>
-				</x:context>
-				<x:expect-report id="tvt-disabled" />
-				<x:expect-report id="x-expand-text-not-exist" />
-				<x:expect-report id="expand-text-yes" />
-				<x:expect-report count="3" />
+				<x:scenario label="@expand-text=yes">
+					<x:context>
+						<context-child expand-text="yes">}}{false()}{{</context-child>
+					</x:context>
+					<x:expect-report id="tvt-disabled" />
+					<x:expect-report id="x-expand-text-not-exist" />
+					<x:expect-report id="expand-text-yes" />
+					<x:expect-report count="3" />
+				</x:scenario>
 			</x:scenario>
 		</x:scenario>
 
