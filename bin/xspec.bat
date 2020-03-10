@@ -539,6 +539,8 @@ rem ## format the report #######################################################
 rem ##
 rem
 
+if not defined COVERAGE_REPORTER_XSL set "COVERAGE_REPORTER_XSL=%XSPEC_HOME%\src\reporter\coverage-report.xsl"
+
 echo:
 echo Formatting Report...
 call :xslt -o:"%HTML%" ^
@@ -553,7 +555,7 @@ if defined COVERAGE (
     call :xslt -config:"%XSPEC_HOME%\src\reporter\coverage-report-config.xml" ^
         -o:"%COVERAGE_HTML%" ^
         -s:"%COVERAGE_XML%" ^
-        -xsl:"%XSPEC_HOME%\src\reporter\coverage-report.xsl" ^
+        -xsl:"%COVERAGE_REPORTER_XSL%" ^
         inline-css=true ^
         || ( call :die "Error formatting the coverage report" & goto :win_main_error_exit )
     call :win_echo "Report available at %COVERAGE_HTML%"
