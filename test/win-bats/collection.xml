@@ -234,13 +234,19 @@
 	</case>
 
 	<!--
-		#46
+		Runtime warning
 	-->
 
 	<case name="invoking xspec that passes a non xs:boolean does not raise a warning #46">
     call :run ..\bin\xspec.bat xspec-46.xspec
     call :verify_retval 0
-    call :verify_line 6 r "Testing with"
+    call :verify_line 6 r "Testing with "
+	</case>
+
+	<case name="x:resolve-QName-ignoring-default-ns() with non-empty prefix does not raise a warning #826">
+    call :run ..\bin\xspec.bat xspec-826.xspec
+    call :verify_retval 0
+    call :verify_line 6 r "Testing with "
 	</case>
 
 	<!--
