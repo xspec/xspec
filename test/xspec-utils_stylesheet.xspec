@@ -740,25 +740,20 @@
 		<x:call function="x:parse-preserve-space">
 			<x:param href="xspec-utils/parse-preserve-space.xspec" select="x:description" />
 		</x:call>
-
 		<x:expect label="2 items" select="2" test="count($x:result)" />
-
-		<x:scenario label="1st QName">
-			<x:expect label="namespace URI" select="'http://www.jenitennison.com/xslt/xspec'"
-				test="namespace-uri-from-QName($x:result[1])" />
-			<x:expect label="namespace prefix" select="()" test="prefix-from-QName($x:result[1])" />
-			<x:expect label="local name" select="'element-without-prefix'"
-				test="local-name-from-QName($x:result[1])" />
-		</x:scenario>
-
-		<x:scenario label="2nd QName">
-			<x:expect label="namespace URI" select="'x-urn:test:preserve-space:prefix'"
-				test="namespace-uri-from-QName($x:result[2])" />
-			<x:expect label="namespace prefix" select="'prefix'"
-				test="prefix-from-QName($x:result[2])" />
-			<x:expect label="local name" select="'element-with-prefix'"
-				test="local-name-from-QName($x:result[2])" />
-		</x:scenario>
+		<x:expect label="1st QName"
+			test="
+				x:QName-exactly-equal(
+					$x:result[1],
+					QName('http://www.jenitennison.com/xslt/xspec', 'element-without-prefix')
+				)" />
+		<x:expect label="2nd QName"
+			test="
+				x:QName-exactly-equal(
+					$x:result[2],
+					QName('x-urn:test:preserve-space:prefix', 'prefix:element-with-prefix')
+				)"
+		 />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-ws-only-text-node-significant">
@@ -959,14 +954,16 @@
 			<x:call function="x:resolve-URIQualifiedName">
 				<x:param select="concat('Q{', $ridiculous-uri, '}foo')" />
 			</x:call>
-			<x:expect label="Resolved" select="QName($ridiculous-uri, 'foo')" />
+			<x:expect label="Resolved"
+				test="x:QName-exactly-equal($x:result, QName($ridiculous-uri, 'foo'))" />
 		</x:scenario>
 
 		<x:scenario label="Without URI">
 			<x:call function="x:resolve-URIQualifiedName">
 				<x:param select="'Q{}foo'" />
 			</x:call>
-			<x:expect label="Resolved as no namespace" select="QName('', 'foo')" />
+			<x:expect label="Resolved as no namespace"
+				test="x:QName-exactly-equal($x:result, QName('', 'foo'))" />
 		</x:scenario>
 	</x:scenario>
 
@@ -978,7 +975,8 @@
 					<e xmlns:prefix="prefixed-ns" />
 				</x:param>
 			</x:call>
-			<x:expect label="Resolved" select="QName('prefixed-ns', 'prefix:foo')" />
+			<x:expect label="Resolved"
+				test="x:QName-exactly-equal($x:result, QName('prefixed-ns', 'prefix:foo'))" />
 		</x:scenario>
 
 		<x:scenario label="Without prefix">
@@ -990,7 +988,7 @@
 					</x:param>
 				</x:call>
 				<x:expect label="Resolved without using the default namespace"
-					select="QName('', 'foo')" />
+					test="x:QName-exactly-equal($x:result, QName('', 'foo'))" />
 			</x:scenario>
 
 			<x:scenario label="Without default namespace">
@@ -1000,7 +998,8 @@
 						<e xmlns="" />
 					</x:param>
 				</x:call>
-				<x:expect label="Resolved" select="QName('', 'foo')" />
+				<x:expect label="Resolved" test="x:QName-exactly-equal($x:result, QName('', 'foo'))"
+				 />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
