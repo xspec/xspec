@@ -471,4 +471,27 @@
 		 />
 	</xsl:function>
 
+	<!--
+		Returns XPath expression of fn:QName() which represents the given xs:QName
+	-->
+	<xsl:function as="xs:string" name="x:QName-expression">
+		<xsl:param as="xs:QName" name="qname" />
+
+		<xsl:variable as="xs:string" name="escaped-uri"
+			select="
+				replace(
+				namespace-uri-from-QName($qname),
+				'('')',
+				'$1$1'
+				)" />
+
+		<xsl:value-of>
+			<xsl:text>QName('</xsl:text>
+			<xsl:value-of select="$escaped-uri" />
+			<xsl:text>', '</xsl:text>
+			<xsl:value-of select="$qname" />
+			<xsl:text>')</xsl:text>
+		</xsl:value-of>
+	</xsl:function>
+
 </xsl:stylesheet>
