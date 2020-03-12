@@ -1005,4 +1005,112 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function QName-exactly-equal">
+		<x:scenario label="Both have URI">
+			<x:scenario label="Both have prefix">
+				<x:scenario label="Exactly equal">
+					<x:call function="x:QName-exactly-equal">
+						<x:param select="QName('uri', 'prefix:local')" />
+						<x:param select="QName('uri', 'prefix:local')" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="Different URI">
+					<x:call function="x:QName-exactly-equal">
+						<x:param select="QName('uri', 'prefix:local')" />
+						<x:param select="QName('uri2', 'prefix:local')" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="Different prefix">
+					<x:call function="x:QName-exactly-equal">
+						<x:param select="QName('uri', 'prefix:local')" />
+						<x:param select="QName('uri', 'prefix2:local')" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="Different local">
+					<x:call function="x:QName-exactly-equal">
+						<x:param select="QName('uri', 'prefix:local')" />
+						<x:param select="QName('uri', 'prefix:local2')" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="One has prefix, the other lacks prefix">
+				<x:call function="x:QName-exactly-equal">
+					<x:param select="QName('uri', 'prefix:local')" />
+					<x:param select="QName('uri', 'local')" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+
+			<x:scenario label="Both lack prefix">
+				<x:scenario label="Exactly equal">
+					<x:call function="x:QName-exactly-equal">
+						<x:param select="QName('uri', 'local')" />
+						<x:param select="QName('uri', 'local')" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="Different URI">
+					<x:call function="x:QName-exactly-equal">
+						<x:param select="QName('uri', 'local')" />
+						<x:param select="QName('uri2', 'local')" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="Different local">
+					<x:call function="x:QName-exactly-equal">
+						<x:param select="QName('uri', 'local')" />
+						<x:param select="QName('uri', 'local2')" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="One has URI, the other lacks URI">
+			<x:scenario label="One has prefix, the other lacks prefix">
+				<x:call function="x:QName-exactly-equal">
+					<x:param select="QName('uri', 'prefix:local')" />
+					<x:param select="QName('', 'local')" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+
+			<x:scenario label="Both lack prefix">
+				<x:call function="x:QName-exactly-equal">
+					<x:param select="QName('uri', 'local')" />
+					<x:param select="QName('', 'local')" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Both lack URI">
+			<x:scenario label="Exactly equal">
+				<x:call function="x:QName-exactly-equal">
+					<x:param select="QName('', 'local')" />
+					<x:param select="QName('', 'local')" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Different local">
+				<x:call function="x:QName-exactly-equal">
+					<x:param select="QName('', 'local')" />
+					<x:param select="QName('', 'local2')" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
