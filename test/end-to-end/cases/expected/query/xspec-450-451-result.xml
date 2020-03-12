@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:myv="http://example.org/ns/my/variable"
           date="2000-01-01T00:00:00Z"
