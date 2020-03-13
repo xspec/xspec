@@ -448,6 +448,62 @@
 			</x:scenario>
 		</x:scenario>
 
+		<x:scenario label="label">
+			<x:scenario label="scenario label">
+				<x:scenario label="x:label element">
+					<x:call function="x:is-user-content">
+						<x:param href="end-to-end/cases/label-element.xspec"
+							select="//x:scenario/x:label" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="child text">
+					<x:call function="x:is-user-content">
+						<x:param href="end-to-end/cases/label-element.xspec"
+							select="(//x:scenario/x:label/text())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="assertion label">
+				<x:scenario label="x:label element">
+					<x:call function="x:is-user-content">
+						<x:param href="end-to-end/cases/label-element.xspec"
+							select="//x:expect/x:label" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="child text">
+					<x:call function="x:is-user-content">
+						<x:param href="end-to-end/cases/label-element.xspec"
+							select="(//x:expect/x:label/text())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="like label">
+				<x:scenario label="x:label element">
+					<x:call function="x:is-user-content">
+						<x:param href="end-to-end/cases/label-element.xspec"
+							select="//x:like/x:label" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="child text">
+					<x:call function="x:is-user-content">
+						<x:param href="end-to-end/cases/label-element.xspec"
+							select="(//x:like/x:label/text())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function pack-version">
