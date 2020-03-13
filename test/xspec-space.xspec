@@ -366,4 +366,35 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario xml:space="preserve">
+		<x:label>When @xml:space=preserve is specified at remote ancestor scenario,</x:label>
+		<x:scenario>
+			<x:label>its descendant scenarios inherit it.</x:label>
+			<x:scenario>
+				<x:label>So...</x:label>
+				<x:call function="exactly-one">
+					<x:param>
+						<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+					</x:param>
+				</x:call>
+				<x:expect label="whitespace-only text nodes are kept." test="deep-equal($x:result, $xspec-space:span-element-wsot)" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario
+			xml:space="default">
+			<x:label>its descendant scenarios can override it.</x:label>
+			<x:scenario>
+				<x:label>So...</x:label>
+				<x:call function="exactly-one">
+					<x:param>
+						<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+					</x:param>
+				</x:call>
+				<x:expect label="whitespace-only text nodes are removed."
+					test="deep-equal($x:result, $xspec-space:span-element-empty)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
