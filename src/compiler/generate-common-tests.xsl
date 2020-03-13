@@ -207,6 +207,12 @@
       <xsl:apply-templates mode="#current" />
    </xsl:template>
 
+   <!-- TODO: The specification of @label and x:label is not clear about whitespace.
+      Preserve it for now. -->
+   <xsl:template match="text()[parent::x:label and not(x:is-user-content(.))]" as="text()" mode="x:gather-specs">
+      <xsl:sequence select="." />
+   </xsl:template>
+
    <xsl:template match="text()" as="element(x:text)?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
 
