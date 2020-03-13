@@ -209,7 +209,11 @@
    <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="x:gather-specs">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
 
-      <xsl:if test="x:is-ws-only-text-node-significant(., $preserve-space)">
+      <xsl:if test="x:is-ws-only-text-node-significant(., $preserve-space)
+         or
+         (: TODO: The specification of @label and x:label is not clear about whitespace.
+            Preserve it for now. :)
+         (parent::x:label and not(x:is-user-content(.)))">
          <xsl:sequence select="." />
       </xsl:if>
    </xsl:template>
