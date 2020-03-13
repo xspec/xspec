@@ -1502,6 +1502,30 @@
 	</case>
 
 	<!--
+		Custom HTML reporter
+	-->
+
+	<case name="Custom HTML reporter (CLI)">
+    set HTML_REPORTER_XSL=format-xspec-report-messaging.xsl
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 0
+    call :verify_line -16 x "--- Actual Result ---"
+    call :verify_line  -9 x "--- Expected Result ---"
+	</case>
+
+	<case name="Custom HTML reporter (Ant)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dxspec.fail=false ^
+        -Dxspec.html.reporter.xsl="%CD%\format-xspec-report-messaging.xsl" ^
+        -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line -21 x "     [xslt] --- Actual Result ---"
+    call :verify_line -14 x "     [xslt] --- Expected Result ---"
+	</case>
+
+	<!--
 		Custom coverage reporter
 	-->
 

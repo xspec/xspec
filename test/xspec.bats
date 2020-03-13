@@ -1743,6 +1743,32 @@ teardown() {
 }
 
 #
+# Custom HTML reporter
+#
+
+@test "Custom HTML reporter (CLI)" {
+    export HTML_REPORTER_XSL=format-xspec-report-messaging.xsl
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-16]}" = "--- Actual Result ---" ]
+    [ "${lines[${#lines[@]}-9]}"  = "--- Expected Result ---" ]
+}
+
+@test "Custom HTML reporter (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.fail=false \
+        -Dxspec.html.reporter.xsl="${PWD}/format-xspec-report-messaging.xsl" \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-21]}" = "     [xslt] --- Actual Result ---" ]
+    [ "${lines[${#lines[@]}-14]}" = "     [xslt] --- Expected Result ---" ]
+}
+
+#
 # Custom coverage reporter
 #
 

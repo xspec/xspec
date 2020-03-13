@@ -432,6 +432,9 @@ fi
 ## format the report #########################################################
 ##
 
+if [ -z "${HTML_REPORTER_XSL}" ]; then
+    HTML_REPORTER_XSL="${XSPEC_HOME}/src/reporter/format-xspec-report.xsl"
+fi
 if [ -z "${COVERAGE_REPORTER_XSL}" ]; then
     COVERAGE_REPORTER_XSL="$XSPEC_HOME/src/reporter/coverage-report.xsl"
 fi
@@ -440,7 +443,7 @@ echo
 echo "Formatting Report..."
 xslt -o:"$HTML" \
     -s:"$RESULT" \
-    -a \
+    -xsl:"${HTML_REPORTER_XSL}" \
     inline-css=true \
     || die "Error formatting the report"
 if test -n "$COVERAGE"; then
