@@ -151,6 +151,7 @@
         absolute URI of originating .xspec file
       * Resolve x:*/@href into absolute URI
       * Discard whitespace-only text node in user-content unless otherwise specified by an ancestor
+      * Discard whitespace-only text node in non user-content unless it's in x:label
       * Remove leading and trailing whitespace from names
       * Wrap user-content text node in x:text resolving @expand-text specified by an ancestor -->
 
@@ -184,6 +185,14 @@
 
          <xsl:apply-templates mode="#current"/>
       </xsl:copy>
+   </xsl:template>
+
+   <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="x:gather-specs">
+      <xsl:if test="parent::x:label">
+         <!-- TODO: The specification of @label and x:label is not clear about whitespace.
+            Preserve it for now. -->
+         <xsl:sequence select="." />
+      </xsl:if>
    </xsl:template>
 
    <xsl:template match="@href" as="attribute(href)" mode="x:gather-specs">
@@ -868,8 +877,6 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <!-- TODO: The specification of @label and x:label is not clear about whitespace.
-         Preserve it for now. -->
       <xsl:element name="{x:xspec-name($labelled,'label')}" namespace="{$xspec-namespace}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
