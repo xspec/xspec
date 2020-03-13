@@ -1,3 +1,9 @@
+# Workaround for https://developercommunity.visualstudio.com/content/problem/947762/github-pull-request-not-triggering-azure-pipelines.html
+pr:
+  branches:
+    include:
+      - '*'
+
 variables:
   # latest Ant
   ANT_VERSION: 1.10.7

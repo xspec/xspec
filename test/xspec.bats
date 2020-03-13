@@ -1742,4 +1742,60 @@ teardown() {
     [[ "${output}" =~ "x:overridden-expect-id" ]]
 }
 
+#
+# Custom HTML reporter
+#
+
+@test "Custom HTML reporter (CLI)" {
+    export HTML_REPORTER_XSL=format-xspec-report-messaging.xsl
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-16]}" = "--- Actual Result ---" ]
+    [ "${lines[${#lines[@]}-9]}"  = "--- Expected Result ---" ]
+}
+
+@test "Custom HTML reporter (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.fail=false \
+        -Dxspec.html.reporter.xsl="${PWD}/format-xspec-report-messaging.xsl" \
+        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-21]}" = "     [xslt] --- Actual Result ---" ]
+    [ "${lines[${#lines[@]}-14]}" = "     [xslt] --- Expected Result ---" ]
+}
+
+#
+# Custom coverage reporter
+#
+
+@test "Custom coverage reporter (CLI)" {
+    export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
+    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${TEST_DIR}/demo-coverage.html"
+    echo "$output"
+    [[ "${output}" =~ "--Customized coverage report--" ]]
+}
+
+@test "Custom coverage reporter (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.coverage.enabled=true \
+        -Dxspec.coverage.reporter.xsl="${PWD}/custom-coverage-report.xsl" \
+        -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${TEST_DIR}/demo-coverage.html"
+    echo "$output"
+    [[ "${output}" =~ "--Customized coverage report--" ]]
+}
+
 
