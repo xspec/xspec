@@ -539,11 +539,13 @@ rem ## format the report #######################################################
 rem ##
 rem
 
+if not defined HTML_REPORTER_XSL set "HTML_REPORTER_XSL=%XSPEC_HOME%\src\reporter\format-xspec-report.xsl"
+
 echo:
 echo Formatting Report...
 call :xslt -o:"%HTML%" ^
     -s:"%RESULT%" ^
-    -xsl:"%XSPEC_HOME%\src\reporter\format-xspec-report.xsl" ^
+    -xsl:"%HTML_REPORTER_XSL%" ^
     inline-css=true ^
     || ( call :die "Error formatting the report" & goto :win_main_error_exit )
 
