@@ -1768,4 +1768,34 @@ teardown() {
     [ "${lines[${#lines[@]}-14]}" = "     [xslt] --- Expected Result ---" ]
 }
 
+#
+# Custom coverage reporter
+#
+
+@test "Custom coverage reporter (CLI)" {
+    export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
+    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${TEST_DIR}/demo-coverage.html"
+    echo "$output"
+    [[ "${output}" =~ "--Customized coverage report--" ]]
+}
+
+@test "Custom coverage reporter (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.coverage.enabled=true \
+        -Dxspec.coverage.reporter.xsl="${PWD}/custom-coverage-report.xsl" \
+        -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${TEST_DIR}/demo-coverage.html"
+    echo "$output"
+    [[ "${output}" =~ "--Customized coverage report--" ]]
+}
+
 
