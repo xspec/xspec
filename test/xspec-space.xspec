@@ -373,9 +373,7 @@
 			<x:scenario>
 				<x:label>So...</x:label>
 				<x:call function="exactly-one">
-					<x:param>
-						<span>&#x09;&#x0A;&#x0D;&#x20;</span>
-					</x:param>
+					<x:param><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept." test="deep-equal($x:result, $xspec-space:span-element-wsot)" />
 			</x:scenario>
