@@ -150,10 +150,16 @@
       * Add @xspec (and @xspec-original-location if applicable) to each scenario to record
         absolute URI of originating .xspec file
       * Resolve x:*/@href into absolute URI
-      * Discard whitespace-only text node unless otherwise specified by an ancestor
+      * Discard whitespace-only text node in user-content unless otherwise specified by an ancestor
       * Remove leading and trailing whitespace from names
-      * Wrap text node in x:text resolving @expand-text specified by an ancestor -->
+      * Wrap user-content text node in x:text resolving @expand-text specified by an ancestor -->
 
+   <!-- Dispatch user-content to its dedicated mode. This must be done in the highest priority. -->
+   <xsl:template match="node()[x:is-user-content(.)]" as="node()?" mode="x:gather-specs" priority="1">
+      <xsl:apply-templates select="." mode="x:gather-user-content" />
+   </xsl:template>
+
+   <!-- This mode always starts from this template -->
    <xsl:template match="x:description" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
@@ -180,18 +186,26 @@
       </xsl:copy>
    </xsl:template>
 
-   <xsl:template match="x:*/@href" as="attribute(href)" mode="x:gather-specs">
+   <xsl:template match="@href" as="attribute(href)" mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
          select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
 
-   <xsl:template match="x:*/@as | x:*/@function | x:*/@mode | x:*/@name | x:*/@template"
-      as="attribute()" mode="x:gather-specs">
+   <xsl:template match="@as | @function | @mode | @name | @template" as="attribute()"
+      mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="x:trim(.)" />
    </xsl:template>
 
+   <xsl:template match="node() | attribute()" as="node()" mode="x:gather-specs">
+      <xsl:call-template name="x:identity" />
+   </xsl:template>
+
+   <!-- *** x:gather-user-content *** -->
+   <!-- This mode works as a part of x:gather-specs mode and handles user-content. Once you enter
+      this mode, you never go back to x:gather-specs mode. -->
+
    <!-- x:space has been replaced with x:text -->
-   <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-specs">
+   <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-user-content">
       <xsl:message terminate="yes">
          <xsl:value-of select="name()" />
          <xsl:text> is obsolete. Use </xsl:text>
@@ -200,20 +214,14 @@
       </xsl:message>
    </xsl:template>
 
-   <xsl:template match="@x:expand-text" as="empty-sequence()" mode="x:gather-specs" />
+   <xsl:template match="@x:expand-text" as="empty-sequence()" mode="x:gather-user-content" />
 
-   <xsl:template match="x:text" as="element(x:text)?" mode="x:gather-specs">
+   <xsl:template match="x:text" as="element(x:text)?" mode="x:gather-user-content">
       <!-- Unwrap -->
       <xsl:apply-templates mode="#current" />
    </xsl:template>
 
-   <!-- TODO: The specification of @label and x:label is not clear about whitespace.
-      Preserve it for now. -->
-   <xsl:template match="text()[parent::x:label and not(x:is-user-content(.))]" as="text()" mode="x:gather-specs">
-      <xsl:sequence select="." />
-   </xsl:template>
-
-   <xsl:template match="text()" as="element(x:text)?" mode="x:gather-specs">
+   <xsl:template match="text()" as="element(x:text)?" mode="x:gather-user-content">
       <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
 
       <xsl:if test="normalize-space()
@@ -237,7 +245,7 @@
    </xsl:template>
 
    <!-- @priority is to avoid the ambiguity with the @match="text()" template -->
-   <xsl:template match="node()|@*" as="node()" mode="x:gather-specs" priority="-1">
+   <xsl:template match="node()|@*" as="node()" mode="x:gather-user-content" priority="-1">
       <xsl:call-template name="x:identity" />
    </xsl:template>
 
@@ -860,6 +868,8 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
+      <!-- TODO: The specification of @label and x:label is not clear about whitespace.
+         Preserve it for now. -->
       <xsl:element name="{x:xspec-name($labelled,'label')}" namespace="{$xspec-namespace}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
