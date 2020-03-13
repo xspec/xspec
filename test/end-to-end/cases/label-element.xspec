@@ -34,8 +34,10 @@
 
 	<x:scenario label="Test with x:like/x:label">
 		<x:like>
-			<!-- This x:label is exactly the same as /x:description/x:scenario[1]/x:label -->
-			<x:label>&#x09;&#x0A;&#x0D;&#x20;<!--test-->&#x09;&#x0A;&#x0D;&#x20;My<?test test?>&#x09;&#x0A;&#x0D;&#x20;<!--test-->Scenario&#x09;&#x0A;&#x0D;&#x20;<?test test?>&#x09;&#x0A;&#x0D;&#x20;</x:label>
+			<!-- This x:label is exactly the same as /x:description/x:scenario[1]/x:label,
+				except that comments and processing instructions have different text, which ensures
+				that the XSpec compiler ignores them when matching x:like/x:label to x:scenario/x:label. -->
+			<x:label>&#x09;&#x0A;&#x0D;&#x20;<!--like-->&#x09;&#x0A;&#x0D;&#x20;My<?like like?>&#x09;&#x0A;&#x0D;&#x20;<!--like-->Scenario&#x09;&#x0A;&#x0D;&#x20;<?like like?>&#x09;&#x0A;&#x0D;&#x20;</x:label>
 		</x:like>
 	</x:scenario>
 
