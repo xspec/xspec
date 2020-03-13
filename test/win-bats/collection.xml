@@ -1525,4 +1525,30 @@
     call :verify_line -14 x "     [xslt] --- Expected Result ---"
 	</case>
 
+	<!--
+		Custom coverage reporter
+	-->
+
+	<case name="Custom coverage reporter (CLI)">
+    set COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
+    call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
+    call :verify_retval 0
+
+    call :run type "%TEST_DIR%\demo-coverage.html"
+    call :verify_line * r "..*--Customized coverage report--..*"
+	</case>
+
+	<case name="Custom coverage reporter (Ant)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dxspec.coverage.enabled=true ^
+        -Dxspec.coverage.reporter.xsl="%CD%\custom-coverage-report.xsl" ^
+        -Dxspec.xml="%CD%\..\tutorial\coverage\demo.xspec"
+    call :verify_retval 0
+
+    call :run type "%TEST_DIR%\demo-coverage.html"
+    call :verify_line * r "..*--Customized coverage report--..*"
+	</case>
+
 </collection>
