@@ -21,11 +21,11 @@
 
    <xsl:key name="functions" 
             match="xsl:function" 
-            use="resolve-QName(@name, .)" />
+            use="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
    <xsl:key name="named-templates" 
             match="xsl:template[@name]"
-            use="x:resolve-QName-ignoring-default-ns(@name, .)" />
+            use="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
    <xsl:key name="matching-templates" 
             match="xsl:template[@match]" 

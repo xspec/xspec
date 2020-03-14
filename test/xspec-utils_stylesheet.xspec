@@ -1026,10 +1026,36 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function resolve-QName-ignoring-default-ns">
+	<x:scenario label="Scenario for testing function resolve-EQName-ignoring-default-ns">
+		<x:scenario label="URIQualifiedName">
+			<x:scenario label="With URI">
+				<x:variable as="xs:anyURI" name="ridiculous-uri"
+					>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+				<x:call function="x:resolve-EQName-ignoring-default-ns">
+					<x:param select="concat('Q{', $ridiculous-uri, '}foo')" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved without affected by the default namespace"
+					select="QName($ridiculous-uri, 'foo')" />
+			</x:scenario>
+
+			<x:scenario label="Without URI">
+				<x:call function="x:resolve-EQName-ignoring-default-ns">
+					<x:param select="'Q{}foo'" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved as no namespace without affected by the default namespace"
+					select="QName('', 'foo')" />
+			</x:scenario>
+		</x:scenario>
+
 		<x:scenario label="Lexical QName">
 			<x:scenario label="With prefix">
-				<x:call function="x:resolve-QName-ignoring-default-ns">
+				<x:call function="x:resolve-EQName-ignoring-default-ns">
 					<x:param select="'prefix:foo'" />
 					<x:param>
 						<e xmlns:prefix="prefixed-ns" />
@@ -1041,7 +1067,7 @@
 
 			<x:scenario label="Without prefix">
 				<x:scenario label="With default namespace">
-					<x:call function="x:resolve-QName-ignoring-default-ns">
+					<x:call function="x:resolve-EQName-ignoring-default-ns">
 						<x:param select="'foo'" />
 						<x:param>
 							<e xmlns="default-ns" />
@@ -1052,7 +1078,7 @@
 				</x:scenario>
 
 				<x:scenario label="Without default namespace">
-					<x:call function="x:resolve-QName-ignoring-default-ns">
+					<x:call function="x:resolve-EQName-ignoring-default-ns">
 						<x:param select="'foo'" />
 						<x:param>
 							<e xmlns="" />

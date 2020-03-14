@@ -452,23 +452,32 @@
 	</xsl:function>
 
 	<!--
-		Resolves lexical QName to xs:QName without using the default namespace.
+		Resolves EQName (either URIQualifiedName or lexical QName, the latter is
+		resolved without using the default namespace) to xs:QName.
 		
 		Unlike fn:resolve-QName(), this function can handle XSLT names in many cases. See
 		"Notes" in https://www.w3.org/TR/xpath-functions-31/#func-resolve-QName or more
 		specifically p.866 of XSLT 2.0 and XPath 2.0 Programmer's Reference, 4th Edition.
 	-->
-	<xsl:function as="xs:QName" name="x:resolve-QName-ignoring-default-ns">
-		<xsl:param as="xs:string" name="lexical-qname" />
+	<xsl:function as="xs:QName" name="x:resolve-EQName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="eqname" />
 		<xsl:param as="element()" name="element" />
 
-		<xsl:sequence
-			select="
-				if (contains($lexical-qname, ':')) then
-					resolve-QName($lexical-qname, $element)
-				else
-					QName('', $lexical-qname)"
-		 />
+		<xsl:choose>
+			<xsl:when test="starts-with($eqname, 'Q{')">
+				<xsl:sequence select="x:resolve-URIQualifiedName($eqname)" />
+			</xsl:when>
+
+			<xsl:otherwise>
+				<xsl:sequence
+					select="
+						if (contains($eqname, ':')) then
+							resolve-QName($eqname, $element)
+						else
+							QName('', $eqname)"
+				 />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:function>
 
 </xsl:stylesheet>
