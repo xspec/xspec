@@ -1,4 +1,10 @@
-# Workaround for https://developercommunity.visualstudio.com/content/problem/947762/github-pull-request-not-triggering-azure-pipelines.html
+# Workaround for https://status.dev.azure.com/_event/179641421
+trigger:
+  branches:
+    include:
+      - '*'
+
+# Workaround for https://status.dev.azure.com/_event/179641421
 pr:
   branches:
     include:
@@ -9,7 +15,7 @@ variables:
   ANT_VERSION: 1.10.7
 
   # latest BaseX
-  BASEX_VERSION: 9.3.1
+  BASEX_VERSION: 9.3.2
 
 jobs:
   - template: test/ci/azure-pipelines_windows.yml
