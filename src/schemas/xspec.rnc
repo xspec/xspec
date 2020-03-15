@@ -97,7 +97,7 @@ label =
 	## the word "with"; it should make sense if the labels of ancestor scenarios are 
 	## concatenated with this one. For example "with a Type attribute".
 	attribute label { text } |
-	element label { user-content }
+	element label { text }
 
 variable =
 	## A test file can define global variables. A scenario can define local variables.
