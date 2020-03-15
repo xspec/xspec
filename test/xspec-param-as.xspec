@@ -6,10 +6,20 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="In function-param (i.e. //x:call[@function]/x:param),">
-		<x:call function="exactly-one">
-			<x:param as="xs:integer" select="0" />
-		</x:call>
-		<x:expect label="@as doesn't break the param" test="$x:result instance of xs:integer" />
+		<x:scenario label="when the function has a single param,">
+			<x:call function="exactly-one">
+				<x:param as="xs:integer" select="0" />
+			</x:call>
+			<x:expect label="@as doesn't break the param" test="$x:result instance of xs:integer" />
+		</x:scenario>
+
+		<x:scenario label="when the function has multiple params,">
+			<x:call function="trace">
+				<x:param as="xs:integer" select="0" />
+				<x:param as="xs:string" select="'label'" />
+			</x:call>
+			<x:expect label="@as doesn't break the params" test="$x:result instance of xs:integer" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:param as="xs:integer" name="global-param" select="0" />
