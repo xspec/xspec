@@ -1,4 +1,10 @@
-# Workaround for https://developercommunity.visualstudio.com/content/problem/947762/github-pull-request-not-triggering-azure-pipelines.html
+# Workaround for https://status.dev.azure.com/_event/179641421
+trigger:
+  branches:
+    include:
+      - '*'
+
+# Workaround for https://status.dev.azure.com/_event/179641421
 pr:
   branches:
     include:
