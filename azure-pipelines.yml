@@ -9,7 +9,7 @@ variables:
   ANT_VERSION: 1.10.7
 
   # latest BaseX
-  BASEX_VERSION: 9.3.1
+  BASEX_VERSION: 9.3.2
 
 jobs:
   - template: test/ci/azure-pipelines_windows.yml
