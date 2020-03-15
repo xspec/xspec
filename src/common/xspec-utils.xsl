@@ -476,4 +476,21 @@
 		 />
 	</xsl:function>
 
+	<!--
+		Returns true if two QNames are exactly equal to each other.
+		
+		Unlike fn:deep-equal() or 'eq' operator, this function compares prefix.
+	-->
+	<xsl:function as="xs:boolean" name="x:QName-exactly-equal">
+		<xsl:param as="xs:QName" name="qname1" />
+		<xsl:param as="xs:QName" name="qname2" />
+
+		<xsl:sequence
+			select="
+				deep-equal($qname1, $qname2)
+				and
+				deep-equal(prefix-from-QName($qname1), prefix-from-QName($qname2))"
+		 />
+	</xsl:function>
+
 </xsl:stylesheet>
