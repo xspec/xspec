@@ -287,14 +287,21 @@ teardown() {
 }
 
 #
-# #46
+# Runtime warning
 #
 
 @test "invoking xspec that passes a non xs:boolean does not raise a warning #46" {
     run ../bin/xspec.sh xspec-46.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[5]}" =~ "Testing with" ]]
+    [[ "${lines[5]}" =~ "Testing with " ]]
+}
+
+@test "x:resolve-QName-ignoring-default-ns() with non-empty prefix does not raise a warning #826" {
+    run ../bin/xspec.sh xspec-826.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [[ "${lines[5]}" =~ "Testing with " ]]
 }
 
 #
