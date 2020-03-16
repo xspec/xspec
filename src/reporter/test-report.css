@@ -454,6 +454,25 @@ span.scenario-totals {float: right; text-align: right}
 	box-shadow: -0.5rem 0 0 0 #FC511D;
 }
 
+/* hint button */
+.xTestReport {
+	display: grid;
+	grid-template-areas:
+		"title title"
+		"table hint";
+	grid-template-columns: 1fr 1em;
+}
+.xTestReportTitle {
+	grid-area: title
+}
+.xTestReportHint {
+	grid-area: hint;
+	text-shadow: 1px 2px 3px gray;
+}
+.xspecResult {
+	grid-area: table;
+}
+
 /* ------------------------------------------------------------------------ */
 /*  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.               */
 /*                                                                          */
