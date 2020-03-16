@@ -90,8 +90,6 @@
       <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
         being tested which would otherwise govern the output of the report XML. -->
       <result-document format="{x:xspec-name(.,'report')}">
-        <xsl:apply-templates select="$html-reporter-pi" mode="test:create-node-generator" />
-
         <xsl:element name="{x:xspec-name(.,'report')}" namespace="{$xspec-namespace}">
           <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
             that the URI appears in the trace report generated from running the
