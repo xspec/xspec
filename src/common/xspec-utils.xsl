@@ -462,12 +462,34 @@
 		<xsl:param as="xs:string" name="lexical-qname" />
 		<xsl:param as="element()" name="element" />
 
+		<!-- To suppress "SXWN9000: ... QName has null namespace but non-empty prefix",
+			do not pass the lexical QName directly to fn:QName(). (xspec/xspec#826) -->
+		<xsl:variable as="xs:QName" name="qname-taking-default-ns"
+			select="resolve-QName($lexical-qname, $element)" />
+
 		<xsl:sequence
 			select="
-				if (contains($lexical-qname, ':')) then
-					resolve-QName($lexical-qname, $element)
+				if (prefix-from-QName($qname-taking-default-ns)) then
+					$qname-taking-default-ns
 				else
-					QName('', $lexical-qname)"
+					QName('', local-name-from-QName($qname-taking-default-ns))"
+		 />
+	</xsl:function>
+
+	<!--
+		Returns true if two QNames are exactly equal to each other.
+		
+		Unlike fn:deep-equal() or 'eq' operator, this function compares prefix.
+	-->
+	<xsl:function as="xs:boolean" name="x:QName-exactly-equal">
+		<xsl:param as="xs:QName" name="qname1" />
+		<xsl:param as="xs:QName" name="qname2" />
+
+		<xsl:sequence
+			select="
+				deep-equal($qname1, $qname2)
+				and
+				deep-equal(prefix-from-QName($qname1), prefix-from-QName($qname2))"
 		 />
 	</xsl:function>
 
