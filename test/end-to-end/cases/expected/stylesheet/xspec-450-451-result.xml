@@ -2,14 +2,15 @@
 <?xml-stylesheet type="text/xsl" href="../../../../../src/reporter/format-xspec-report.xsl"?>
 <x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:mirror="x-urn:test:mirror"
           xmlns:myv="http://example.org/ns/my/variable"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../do-nothing.xsl"
+          stylesheet="../../../../mirror.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-450-451.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-450-451.xspec">
       <x:label>function-param containing curly brackets</x:label>
-      <x:call function="one-or-more">
+      <x:call function="mirror:param-mirror">
          <x:param>}{<elem attr="}{">}{</elem>
          </x:param>
       </x:call>
@@ -23,7 +24,7 @@
    </x:scenario>
    <x:scenario id="scenario2" xspec="../../xspec-450-451.xspec">
       <x:label>global-param containing curly brackets</x:label>
-      <x:call function="false"/>
+      <x:call function="mirror:false"/>
       <x:result select="xs:boolean('false')"/>
       <x:test id="scenario2-expect1" successful="true">
          <x:label>should work</x:label>
@@ -35,7 +36,7 @@
    </x:scenario>
    <x:scenario id="scenario3" xspec="../../xspec-450-451.xspec">
       <x:label>global-var containing curly brackets</x:label>
-      <x:call function="false"/>
+      <x:call function="mirror:false"/>
       <x:result select="xs:boolean('false')"/>
       <x:test id="scenario3-expect1" successful="true">
          <x:label>should work</x:label>
@@ -47,7 +48,7 @@
    </x:scenario>
    <x:scenario id="scenario4" xspec="../../xspec-450-451.xspec">
       <x:label>local variable containing curly brackets</x:label>
-      <x:call function="one-or-more">
+      <x:call function="mirror:param-mirror">
          <x:param select="$myv:local-var"/>
       </x:call>
       <x:result select="/node()">}{<elem attr="}{">}{</elem>
@@ -60,7 +61,7 @@
    </x:scenario>
    <x:scenario id="scenario5" xspec="../../xspec-450-451.xspec">
       <x:label>assertion containing curly brackets</x:label>
-      <x:call function="one-or-more">
+      <x:call function="mirror:param-mirror">
          <x:param href="../../xspec-450-451.xml" select="wrap/node() treat as node()+"/>
       </x:call>
       <x:result select="/node()">}{<elem attr="}{">}{</elem>
@@ -75,7 +76,7 @@
       <x:label>If value is from a variable instead of hard-coded,</x:label>
       <x:scenario id="scenario6-scenario1" xspec="../../xspec-450-451.xspec">
          <x:label>function-param containing curly brackets</x:label>
-         <x:call function="one-or-more">
+         <x:call function="mirror:param-mirror">
             <x:param select="$myv:local-var2"/>
          </x:call>
          <x:result select="/node()">}{<elem attr="}{">}{</elem>
@@ -88,7 +89,7 @@
       </x:scenario>
       <x:scenario id="scenario6-scenario2" xspec="../../xspec-450-451.xspec">
          <x:label>assertion containing curly brackets</x:label>
-         <x:call function="one-or-more">
+         <x:call function="mirror:param-mirror">
             <x:param href="../../xspec-450-451.xml" select="wrap/node() treat as node()+"/>
          </x:call>
          <x:result select="/node()">}{<elem attr="}{">}{</elem>

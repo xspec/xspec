@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-setup-context.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Tests the effect of mode="x:setup-context" in generate-xspec-tests.xsl -->
 
@@ -11,14 +12,14 @@
 
 		<x:scenario label="mode=x:setup-context excludes x:param from context. So...">
 			<x:scenario label="When a template is called,">
-				<x:call template="context-mirror-template" />
+				<x:call template="mirror:context-mirror" />
 				<x:expect label="Only the non x:param node remains in context."
 					test="$x:result instance of element(context-child)" />
 			</x:scenario>
 
 			<x:scenario label="When templates are applied,">
 				<!-- Extend the ancestor context -->
-				<x:context mode="context-mirror-mode" />
+				<x:context mode="mirror:context-mirror" />
 				<x:expect label="Only the non x:param node remains in context."
 					test="$x:result instance of element(context-child)" />
 			</x:scenario>
@@ -26,7 +27,7 @@
 
 		<x:scenario label="mode=x:setup-context does not affect the template parameters. So...">
 			<!-- Extend the parent context -->
-			<x:context mode="param-mirror-mode" />
+			<x:context mode="mirror:param-mirror" />
 			<x:expect label="x:param works as a parameter."
 				test="exactly-one($x:result) eq 'param-string'" />
 		</x:scenario>
@@ -37,14 +38,14 @@
 
 		<x:scenario label="mode=x:setup-context does not affect @href document. So...">
 			<x:scenario label="When a template is called,">
-				<x:call template="context-mirror-template" />
+				<x:call template="mirror:context-mirror" />
 				<x:expect label="The document is kept intact."
 					test="$x:result instance of document-node(element(x:param))" />
 			</x:scenario>
 
 			<x:scenario label="When templates are applied,">
 				<!-- Extend the ancestor context -->
-				<x:context mode="context-mirror-mode" />
+				<x:context mode="mirror:context-mirror" />
 				<x:expect label="The document is kept intact."
 					test="$x:result instance of document-node(element(x:param))" />
 			</x:scenario>
@@ -52,7 +53,7 @@
 
 		<x:scenario label="x:param in @href document does not work as a parameter. So...">
 			<!-- Extend the parent context -->
-			<x:context mode="param-mirror-mode" />
+			<x:context mode="mirror:param-mirror" />
 			<x:expect label="Templates receive no parameter." test="empty($x:result)" />
 		</x:scenario>
 	</x:scenario>

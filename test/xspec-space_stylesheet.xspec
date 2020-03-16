@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description preserve-space="pre" stylesheet="xspec-space.xsl"
+<x:description preserve-space="pre" stylesheet="xspec-space.xsl" xmlns:mirror="x-urn:test:mirror"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xspec-space="x-urn:test:xspec-space">
 
 	<!--
@@ -13,7 +13,7 @@
 			<x:label>So, in
 				//x:context/x:param/element()[not(ancestor-or-self::element()/@xml:space)],
 				whitespace-only text nodes are removed.</x:label>
-			<x:context mode="param-mirror-mode">
+			<x:context mode="mirror:param-mirror">
 				<x:param name="param-items">
 					<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 				</x:param>
@@ -30,7 +30,7 @@
 				<x:label>@xml:space overrides the default. So, in
 					//x:context/x:param/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
 					= "preserve"], whitespace-only text nodes are kept.</x:label>
-				<x:context mode="param-mirror-mode">
+				<x:context mode="mirror:param-mirror">
 					<x:param name="param-items" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
 					<foo />
 				</x:context>
@@ -44,7 +44,7 @@
 				<x:label>node-selection @href is always intact. So, in
 					//x:context/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],
 					whitespace-only text nodes are kept.</x:label>
-				<x:context mode="param-mirror-mode">
+				<x:context mode="mirror:param-mirror">
 					<x:param href="xspec-space.xml" name="param-items" />
 					<foo />
 				</x:context>
@@ -60,7 +60,7 @@
 					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
 					resolve-QName($qname, /x:description))], whitespace-only text nodes are
 					kept.</x:label>
-				<x:context mode="param-mirror-mode">
+				<x:context mode="mirror:param-mirror">
 					<x:param name="param-items">
 						<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
 					</x:param>
@@ -76,7 +76,7 @@
 				<x:label>Text nodes created by x:text are intact. So, in
 					//x:context/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],
 					whitespace-only text nodes are kept.</x:label>
-				<x:context mode="param-mirror-mode">
+				<x:context mode="mirror:param-mirror">
 					<x:param name="param-items">
 						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 					</x:param>
@@ -99,7 +99,7 @@
 			<x:context>
 				<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 			</x:context>
-			<x:call template="context-mirror-template" />
+			<x:call template="mirror:context-mirror" />
 			<x:expect label="(verified via $x:result)"
 				test="deep-equal($x:result, $xspec-space:span-element-empty)" />
 			<x:expect label="(verified via wrapper document)"
@@ -113,7 +113,7 @@
 					'http://www.jenitennison.com/xslt/xspec'][ancestor-or-self::element()[@xml:space][1]/@xml:space
 					= "preserve"], whitespace-only text nodes are kept.</x:label>
 				<x:context xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:context>
-				<x:call template="context-mirror-template" />
+				<x:call template="mirror:context-mirror" />
 				<x:expect label="(verified via $x:result)"
 					test="deep-equal($x:result, $xspec-space:span-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
@@ -125,7 +125,7 @@
 					//x:context/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],
 					whitespace-only text nodes are kept.</x:label>
 				<x:context href="xspec-space.xml" />
-				<x:call template="context-mirror-template" />
+				<x:call template="mirror:context-mirror" />
 				<x:expect label="(verified via $x:result)"
 					test="deep-equal($x:result/node(), $xspec-space:span-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
@@ -141,7 +141,7 @@
 				<x:context>
 					<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
 				</x:context>
-				<x:call template="context-mirror-template" />
+				<x:call template="mirror:context-mirror" />
 				<x:expect label="(verified via $x:result)"
 					test="deep-equal($x:result, $xspec-space:pre-element-wsot)" />
 				<x:expect label="(verified via wrapper document)"
@@ -155,7 +155,7 @@
 				<x:context>
 					<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 				</x:context>
-				<x:call template="context-mirror-template" />
+				<x:call template="mirror:context-mirror" />
 				<x:expect label="(verified via $x:result)"
 					test="deep-equal($x:result, $xspec-space:wsot)" />
 				<x:expect label="(verified via wrapper document)"
@@ -170,7 +170,7 @@
 			<x:label>So, in
 				//x:call[@template]/x:param/element()[not(ancestor-or-self::element()/@xml:space)],
 				whitespace-only text nodes are removed.</x:label>
-			<x:call template="param-mirror-template">
+			<x:call template="mirror:param-mirror">
 				<x:param name="param-items">
 					<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 				</x:param>
@@ -186,7 +186,7 @@
 				<x:label>@xml:space overrides the default. So, in
 					//x:call[@template]/x:param/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
 					= "preserve"], whitespace-only text nodes are kept.</x:label>
-				<x:call template="param-mirror-template">
+				<x:call template="mirror:param-mirror">
 					<x:param name="param-items" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
 				</x:call>
 				<x:expect label="(verified via $x:result)"
@@ -199,7 +199,7 @@
 				<x:label>node-selection @href is always intact. So, in
 					//x:call[@template]/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],
 					whitespace-only text nodes are kept.</x:label>
-				<x:call template="param-mirror-template">
+				<x:call template="mirror:param-mirror">
 					<x:param href="xspec-space.xml" name="param-items" />
 				</x:call>
 				<x:expect label="(verified via $x:result)"
@@ -214,7 +214,7 @@
 					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
 					resolve-QName($qname, /x:description))], whitespace-only text nodes are
 					kept.</x:label>
-				<x:call template="param-mirror-template">
+				<x:call template="mirror:param-mirror">
 					<x:param name="param-items">
 						<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
 					</x:param>
@@ -229,7 +229,7 @@
 				<x:label>Text nodes created by x:text are intact. So, in
 					//x:call[@template]/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],
 					whitespace-only text nodes are kept.</x:label>
-				<x:call template="param-mirror-template">
+				<x:call template="mirror:param-mirror">
 					<x:param name="param-items">
 						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 					</x:param>

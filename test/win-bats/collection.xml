@@ -234,13 +234,19 @@
 	</case>
 
 	<!--
-		#46
+		Runtime warning
 	-->
 
 	<case name="invoking xspec that passes a non xs:boolean does not raise a warning #46">
     call :run ..\bin\xspec.bat xspec-46.xspec
     call :verify_retval 0
-    call :verify_line 6 r "Testing with"
+    call :verify_line 6 r "Testing with "
+	</case>
+
+	<case name="x:resolve-QName-ignoring-default-ns() with non-empty prefix does not raise a warning #826">
+    call :run ..\bin\xspec.bat xspec-826.xspec
+    call :verify_retval 0
+    call :verify_line 6 r "Testing with "
 	</case>
 
 	<!--
@@ -300,7 +306,7 @@
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XSLT)">
     set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
     call :mkdir "%SPECIAL_CHARS_DIR%"
-    call :copy do-nothing.xsl         "%SPECIAL_CHARS_DIR%"
+    call :copy mirror.xsl             "%SPECIAL_CHARS_DIR%"
     call :copy xspec-node-selection.* "%SPECIAL_CHARS_DIR%"
 
     set TEST_DIR=
@@ -315,7 +321,7 @@
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XQuery)">
     set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
     call :mkdir "%SPECIAL_CHARS_DIR%"
-    call :copy do-nothing.xquery      "%SPECIAL_CHARS_DIR%"
+    call :copy mirror.xquery          "%SPECIAL_CHARS_DIR%"
     call :copy xspec-node-selection.* "%SPECIAL_CHARS_DIR%"
 
     set TEST_DIR=
