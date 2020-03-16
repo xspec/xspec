@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-tvt.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xslt-version="3.0">
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
 
 	<!--
 		Shared scenarios
@@ -40,7 +40,7 @@
 	<x:scenario label="function-param">
 		<x:scenario label="user-content">
 			<x:scenario label="@*:expand-text=yes within user-content">
-				<x:call function="one-or-more">
+				<x:call function="mirror:param-mirror">
 					<x:param>
 						<function-param-child x:expand-text="yes"
 							>}}{false()}{{</function-param-child>
@@ -51,7 +51,7 @@
 			</x:scenario>
 
 			<x:scenario label="@expand-text=yes on x:param">
-				<x:call function="one-or-more">
+				<x:call function="mirror:param-mirror">
 					<x:param expand-text="yes"
 							>}}{false()}{{<function-param-child>}}{false()}{{</function-param-child></x:param>
 				</x:call>
@@ -60,7 +60,7 @@
 		</x:scenario>
 
 		<x:scenario label="@href">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param expand-text="yes" href="xspec-tvt.xml" />
 			</x:call>
 			<x:like label="href expect" />
@@ -78,14 +78,14 @@
 	<x:scenario label="global-param">
 		<x:scenario label="user-content">
 			<x:scenario label="@*:expand-text=yes within user-content">
-				<x:call function="one-or-more">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$global-param-user-content" />
 				</x:call>
 				<x:like label="user-content expect" />
 			</x:scenario>
 
 			<x:scenario label="@expand-text=yes on x:param">
-				<x:call function="one-or-more">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$global-param-user-content-indirect" />
 				</x:call>
 				<x:like label="user-content expect (indirect)" />
@@ -93,7 +93,7 @@
 		</x:scenario>
 
 		<x:scenario label="@href">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$global-param-href" />
 			</x:call>
 			<x:like label="href expect" />
@@ -111,14 +111,14 @@
 	<x:scenario label="global variable">
 		<x:scenario label="user-content">
 			<x:scenario label="@*:expand-text=yes within user-content">
-				<x:call function="one-or-more">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$global-variable-user-content" />
 				</x:call>
 				<x:like label="user-content expect" />
 			</x:scenario>
 
 			<x:scenario label="@expand-text=yes on x:variable">
-				<x:call function="one-or-more">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$global-variable-user-content-indirect" />
 				</x:call>
 				<x:like label="user-content expect (indirect)" />
@@ -126,7 +126,7 @@
 		</x:scenario>
 
 		<x:scenario label="@href">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$global-variable-href" />
 			</x:call>
 			<x:like label="href expect" />
@@ -140,7 +140,7 @@
 					<local-variable-child x:expand-text="yes">}}{false()}{{</local-variable-child>
 					<local-variable-child expand-text="yes">}}{false()}{{</local-variable-child>
 				</x:variable>
-				<x:call function="one-or-more">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$local-variable-user-content" />
 				</x:call>
 				<x:like label="user-content expect" />
@@ -149,7 +149,7 @@
 			<x:scenario label="@expand-text=yes on x:variable">
 				<x:variable expand-text="yes" name="local-variable-user-content"
 						>}}{false()}{{<local-variable-child>}}{false()}{{</local-variable-child></x:variable>
-				<x:call function="one-or-more">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$local-variable-user-content" />
 				</x:call>
 				<x:like label="user-content expect (indirect)" />
@@ -158,7 +158,7 @@
 
 		<x:scenario label="@href">
 			<x:variable expand-text="yes" href="xspec-tvt.xml" name="local-variable-href" />
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$local-variable-href" />
 			</x:call>
 			<x:like label="href expect" />
@@ -168,7 +168,7 @@
 	<x:scenario label="assertion">
 		<x:scenario label="user-content">
 			<x:scenario label="@*:expand-text=yes within user-content">
-				<x:call function="false" />
+				<x:call function="mirror:false" />
 				<x:expect label="@x:expand-text=yes enables TVT and @x:expand-text is discarded"
 					select="assertion-child[empty(@x:expand-text)]/string()" test="'}false{'">
 					<assertion-child x:expand-text="yes">}}{false()}{{</assertion-child>
@@ -180,7 +180,7 @@
 			</x:scenario>
 
 			<x:scenario label="@expand-text=yes on x:expect">
-				<x:call function="false" />
+				<x:call function="mirror:false" />
 				<x:expect expand-text="yes"
 					label="@expand-text=yes on x:expect enables TVT for child text node"
 					select="text()/string()" test="'}false{'">}}{false()}{{</x:expect>
@@ -193,7 +193,7 @@
 		</x:scenario>
 
 		<x:scenario label="@href">
-			<x:call function="false" />
+			<x:call function="mirror:false" />
 			<x:expect expand-text="yes" href="xspec-tvt.xml" label="TVT is never enabled"
 				select="href-doc-child/string()" test="'}}{false()}{{'" />
 			<x:expect expand-text="yes" href="xspec-tvt.xml" label="@x:expand-text is kept"
@@ -206,7 +206,7 @@
 	<x:scenario label="scenarios for testing override">
 		<x:scenario label="override @expand-text with @x:expand-text">
 			<x:scenario label="override yes with no">
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param expand-text="yes">
 						<function-param-child x:expand-text="no"
 							>}}{false()}{{</function-param-child>
@@ -217,7 +217,7 @@
 			</x:scenario>
 
 			<x:scenario label="override no with yes">
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param expand-text="no">
 						<function-param-child x:expand-text="yes"
 							>}}{false()}{{</function-param-child>
@@ -229,7 +229,7 @@
 
 		<x:scenario label="override @expand-text with @expand-text">
 			<x:scenario label="override yes with no">
-				<x:call expand-text="yes" function="exactly-one">
+				<x:call expand-text="yes" function="mirror:param-mirror">
 					<x:param expand-text="no">
 						<function-param-child>}}{false()}{{</function-param-child>
 					</x:param>
@@ -239,7 +239,7 @@
 			</x:scenario>
 
 			<x:scenario label="override no with yes">
-				<x:call expand-text="no" function="exactly-one">
+				<x:call expand-text="no" function="mirror:param-mirror">
 					<x:param expand-text="yes">
 						<function-param-child>}}{false()}{{</function-param-child>
 					</x:param>
@@ -250,7 +250,7 @@
 
 		<x:scenario label="override @x:expand-text with @x:expand-text">
 			<x:scenario label="override yes with no">
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param>
 						<function-param-child x:expand-text="yes">
 							<function-param-grandchild x:expand-text="no"
@@ -263,7 +263,7 @@
 			</x:scenario>
 
 			<x:scenario label="override no with yes">
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param>
 						<function-param-child x:expand-text="no">
 							<function-param-grandchild x:expand-text="yes"
@@ -277,7 +277,7 @@
 
 		<x:scenario label="override @x:expand-text with @expand-text">
 			<x:scenario label="override yes with no">
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param>
 						<function-param-child x:expand-text="yes">
 							<x:text expand-text="no">}}{false()}{{</x:text>
@@ -289,7 +289,7 @@
 			</x:scenario>
 
 			<x:scenario label="override no with yes">
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param>
 						<function-param-child x:expand-text="no">
 							<x:text expand-text="yes">}}{false()}{{</x:text>
@@ -308,7 +308,7 @@
 	<x:scenario label="context template-param">
 		<x:scenario label="user-content">
 			<x:scenario label="@*:expand-text=yes within user-content">
-				<x:context mode="param-mirror-mode">
+				<x:context mode="mirror:param-mirror">
 					<x:param name="param-items">
 						<template-param-child x:expand-text="yes"
 							>}}{false()}{{</template-param-child>
@@ -320,7 +320,7 @@
 			</x:scenario>
 
 			<x:scenario label="@expand-text=yes on x:param">
-				<x:context mode="param-mirror-mode">
+				<x:context mode="mirror:param-mirror">
 					<x:param expand-text="yes" name="param-items"
 							>}}{false()}{{<template-param-child>}}{false()}{{</template-param-child></x:param>
 					<context-child />
@@ -330,7 +330,7 @@
 		</x:scenario>
 
 		<x:scenario label="@href">
-			<x:context mode="param-mirror-mode">
+			<x:context mode="mirror:param-mirror">
 				<x:param expand-text="yes" href="xspec-tvt.xml" name="param-items" />
 				<context-child />
 			</x:context>
@@ -341,7 +341,7 @@
 	<x:scenario label="context">
 		<x:scenario label="user-content">
 			<x:scenario label="@*:expand-text=yes within user-content">
-				<x:context mode="context-mirror-mode">
+				<x:context mode="mirror:context-mirror">
 					<context-child x:expand-text="yes">}}{false()}{{</context-child>
 					<context-child expand-text="yes">}}{false()}{{</context-child>
 				</x:context>
@@ -349,14 +349,14 @@
 			</x:scenario>
 
 			<x:scenario label="@expand-text=yes on x:context">
-				<x:context expand-text="yes" mode="context-mirror-mode"
+				<x:context expand-text="yes" mode="mirror:context-mirror"
 						>}}{false()}{{<context-child>}}{false()}{{</context-child></x:context>
 				<x:like label="user-content expect (indirect)" />
 			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="@href">
-			<x:context expand-text="yes" href="xspec-tvt.xml" mode="context-mirror-mode" />
+			<x:context expand-text="yes" href="xspec-tvt.xml" mode="mirror:context-mirror" />
 			<x:like label="href expect" />
 		</x:scenario>
 	</x:scenario>
@@ -364,7 +364,7 @@
 	<x:scenario label="template-call template-param">
 		<x:scenario label="user-content">
 			<x:scenario label="@*:expand-text=yes within user-content">
-				<x:call template="param-mirror-template">
+				<x:call template="mirror:param-mirror">
 					<x:param name="param-items">
 						<template-param-child x:expand-text="yes"
 							>}}{false()}{{</template-param-child>
@@ -375,7 +375,7 @@
 			</x:scenario>
 
 			<x:scenario label="@expand-text=yes on x:param">
-				<x:call template="param-mirror-template">
+				<x:call template="mirror:param-mirror">
 					<x:param expand-text="yes" name="param-items"
 							>}}{false()}{{<template-param-child>}}{false()}{{</template-param-child></x:param>
 				</x:call>
@@ -384,7 +384,7 @@
 		</x:scenario>
 
 		<x:scenario label="@href">
-			<x:call template="param-mirror-template">
+			<x:call template="mirror:param-mirror">
 				<x:param expand-text="yes" href="xspec-tvt.xml" name="param-items" />
 			</x:call>
 			<x:like label="href expect" />

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- This file verifies that @expand-text does not take effect on x:label -->
 
 	<x:scenario expand-text="yes" label="With @expand-text=yes">
 		<x:scenario>
 			<x:label>}}{scenario}{{</x:label>
-			<x:call function="true" />
+			<x:call function="mirror:true" />
 			<x:expect select="true()">
 				<x:label>}}{expect}{{</x:label>
 			</x:expect>
