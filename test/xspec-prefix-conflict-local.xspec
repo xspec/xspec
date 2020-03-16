@@ -9,7 +9,7 @@
 
 	<t:scenario
 		label="Using x: prefix in function-call @function, function-param @name, @select, @as, and child node">
-		<t:call function="x:param-mirror-function" xmlns:x="x-urn:test:xspec-prefix-conflict">
+		<t:call function="x:param-mirror" xmlns:x="x-urn:test:xspec-prefix-conflict">
 			<t:param name="x:param-items" select="element(x:function-param-child)" as="element(x:function-param-child)">
 				<x:function-param-child/>
 			</t:param>
@@ -22,7 +22,7 @@
 		<x:global-param-child/>
 	</t:param>
 	<t:scenario label="Using x: prefix in global-param @name, @select, @as, and child node">
-		<t:call function="false" />
+		<t:call function="x:false" xmlns:x="x-urn:test:xspec-prefix-conflict" />
 		<t:expect label="should work" select="'x:global-param-child'" test="name($y:global-param)"
 			xmlns:y="x-urn:test:xspec-prefix-conflict"/>
 	</t:scenario>
@@ -34,7 +34,7 @@
 		<x:global-var-child/>
 	</t:variable>
 	<t:scenario label="Using x: prefix in global variable @name, @select, @as, and child node">
-		<t:call function="false" />
+		<t:call function="x:false" xmlns:x="x-urn:test:xspec-prefix-conflict" />
 		<t:expect label="should work" select="'x:global-var-child'" test="name($y:global-var)"
 			xmlns:y="x-urn:test:xspec-prefix-conflict"/>
 	</t:scenario>
@@ -43,15 +43,15 @@
 		<t:variable name="x:var" select="element(x:var-child)" as="element(x:var-child)" xmlns:x="x-urn:test:xspec-prefix-conflict">
 			<x:var-child/>
 		</t:variable>
-		<t:call function="false" />
+		<t:call function="x:false" xmlns:x="x-urn:test:xspec-prefix-conflict" />
 		<t:expect label="should work" select="'x:var-child'" test="name($y:var)" xmlns:y="x-urn:test:xspec-prefix-conflict"
 		/>
 	</t:scenario>
 
 	<t:scenario label="Using x: prefix in assertion">
-		<t:call function="exactly-one">
+		<t:call function="x:param-mirror" xmlns:x="x-urn:test:xspec-prefix-conflict">
 			<t:param>
-				<x:element xmlns:x="x-urn:test:xspec-prefix-conflict"/>
+				<x:element />
 			</t:param>
 		</t:call>
 		<t:expect label="child node, @select and @test should work" xmlns:x="x-urn:test:xspec-prefix-conflict"

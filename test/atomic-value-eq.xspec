@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Atomic values which are not exactly equal to each other -->
+
+	<x:scenario label="xs:string compared with">
+		<x:call function="xs:string">
+			<x:param select="'foo'" />
+		</x:call>
+		<x:expect label="xs:anyURI" select="xs:anyURI('foo')" />
+		<x:expect label="xs:untypedAtomic" select="xs:untypedAtomic('foo')" />
+	</x:scenario>
+
+	<x:scenario label="numeric">
+		<x:scenario label="xs:integer compared with">
+			<x:call function="xs:integer">
+				<x:param select="1" />
+			</x:call>
+			<x:expect label="xs:decimal" select="xs:decimal(1)" />
+			<x:expect label="xs:float" select="xs:float(1)" />
+			<x:expect label="xs:double" select="xs:double(1)" />
+		</x:scenario>
+
+		<x:scenario label="NaN compared with">
+			<x:call function="number">
+				<x:param select="'apple'" />
+			</x:call>
+			<x:expect label="NaN" select="number('orange')" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="date and time">
+		<x:scenario label="xs:dateTime compared with">
+			<x:call function="xs:dateTime">
+				<x:param select="'2000-01-01T00:00:00Z'" />
+			</x:call>
+			<x:expect label="different timezone" select="xs:dateTime('2000-01-01T05:00:00+05:00')"
+			 />
+		</x:scenario>
+
+		<x:scenario label="xs:date compared with">
+			<x:call function="xs:date">
+				<x:param select="'2000-01-01-12:00'" />
+			</x:call>
+			<x:expect label="different timezone" select="xs:date('2000-01-02+12:00')" />
+		</x:scenario>
+
+		<x:scenario label="xs:time compared with">
+			<x:call function="xs:time">
+				<x:param select="'00:00:00Z'" />
+			</x:call>
+			<x:expect label="different timezone" select="xs:time('05:00:00+05:00')" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="partial date">
+		<x:scenario label="xs:gMonthDay compared with">
+			<x:call function="xs:gMonthDay">
+				<x:param select="'--01-01-12:00'" />
+			</x:call>
+			<x:expect label="different timezone" select="xs:gMonthDay('--01-02+12:00')" />
+		</x:scenario>
+
+		<x:scenario label="xs:gDay compared with">
+			<x:call function="xs:gDay">
+				<x:param select="'---01-12:00'" />
+			</x:call>
+			<x:expect label="different timezone" select="xs:gDay('---02+12:00')" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="xs:QName compared with">
+		<x:call function="QName">
+			<x:param select="'ns'" />
+			<x:param select="'p1:local'" />
+		</x:call>
+		<x:expect label="different prefix" select="QName('ns', 'p2:local')" />
+	</x:scenario>
+
+	<x:scenario label="xs:duration compared with">
+		<x:call function="xs:duration">
+			<x:param select="'P0Y'" />
+		</x:call>
+		<x:expect label="xs:yearMonthDuration" select="xs:yearMonthDuration('P0M')" />
+		<x:expect label="xs:dayTimeDuration" select="xs:dayTimeDuration('P0D')" />
+	</x:scenario>
+
+</x:description>
