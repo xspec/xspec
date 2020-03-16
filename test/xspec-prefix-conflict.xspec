@@ -5,7 +5,7 @@
 
 	<t:scenario
 		label="Using x: prefix in function-call @function, function-param @name, @select, @as, and child node">
-		<t:call function="x:param-mirror-function">
+		<t:call function="x:param-mirror">
 			<t:param name="x:param-items" select="element(x:function-param-child)" as="element(x:function-param-child)">
 				<x:function-param-child />
 			</t:param>
@@ -17,7 +17,7 @@
 		<x:global-param-child />
 	</t:param>
 	<t:scenario label="Using x: prefix in global-param @name, @select, @as, and child node">
-		<t:call function="false" />
+		<t:call function="x:false" />
 		<t:expect label="should work" select="'x:global-param-child'" test="name($x:global-param)"
 		 />
 	</t:scenario>
@@ -28,7 +28,7 @@
 		<x:global-var-child />
 	</t:variable>
 	<t:scenario label="Using x: prefix in global variable @name, @select, @as, and child node">
-		<t:call function="false" />
+		<t:call function="x:false" />
 		<t:expect label="should work" select="'x:global-var-child'" test="name($x:global-var)"
 		/>
 	</t:scenario>
@@ -37,13 +37,13 @@
 		<t:variable name="x:var" select="element(x:var-child)" as="element(x:var-child)">
 			<x:var-child />
 		</t:variable>
-		<t:call function="false" />
+		<t:call function="x:false" />
 		<t:expect label="should work" select="'x:var-child'" test="name($x:var)"
 		/>
 	</t:scenario>
 
 	<t:scenario label="Using x: prefix in assertion">
-		<t:call function="exactly-one">
+		<t:call function="x:param-mirror">
 			<t:param>
 				<x:element />
 			</t:param>

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="do-nothing.xsl"
-	query="x-urn:test:do-nothing"
-	query-at="do-nothing.xquery"
+<x:description stylesheet="mirror.xsl"
+	query="x-urn:test:mirror"
+	query-at="mirror.xquery"
+	xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="In function-param (i.e. //x:call[@function]/x:param),">
 		<x:scenario label="when the function has a single param,">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param as="xs:integer" select="0" />
 			</x:call>
 			<x:expect label="@as doesn't break the param" test="$x:result instance of xs:integer" />
 		</x:scenario>
 
 		<x:scenario label="when the function has multiple params,">
-			<x:call function="trace">
+			<x:call function="mirror:trace">
 				<x:param as="xs:integer" select="0" />
 				<x:param as="xs:string" select="'label'" />
 			</x:call>
@@ -24,19 +25,19 @@
 
 	<x:param as="xs:integer" name="global-param" select="0" />
 	<x:scenario label="In global-param (i.e. /x:description/x:param),">
-		<x:call function="false" />
+		<x:call function="mirror:false" />
 		<x:expect label="@as doesn't break the param" test="$global-param instance of xs:integer" />
 	</x:scenario>
 
 	<x:variable as="xs:integer" name="myv:global-var" select="0" />
 	<x:scenario label="In global variable (i.e. /x:description/x:variable),">
-		<x:call function="false" />
+		<x:call function="mirror:false" />
 		<x:expect label="@as doesn't break the variable" test="$myv:global-var instance of xs:integer" />
 	</x:scenario>
 
 	<x:scenario label="In scenario-level variable (i.e. //x:scenario/x:variable),">
 		<x:variable as="xs:integer" name="myv:local-var" select="0" />
-		<x:call function="false" />
+		<x:call function="mirror:false" />
 		<x:expect label="@as doesn't break the variable" test="$myv:local-var instance of xs:integer" />
 	</x:scenario>
 

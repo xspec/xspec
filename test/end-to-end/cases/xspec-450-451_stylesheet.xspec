@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-450-451.xsl"
+<x:description stylesheet="../../mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="context template-param containing curly brackets">
-		<x:context mode="param-mirror-mode">
+		<x:context mode="mirror:param-mirror">
 			<x:param name="param-items">}{<elem attr="}}{{">}{</elem></x:param>
 			<context-child />
 		</x:context>
@@ -13,13 +14,13 @@
 	</x:scenario>
 
 	<x:scenario label="context containing curly brackets">
-		<x:context mode="context-mirror-mode">}{<elem attr="}}{{">}{</elem></x:context>
+		<x:context mode="mirror:context-mirror">}{<elem attr="}}{{">}{</elem></x:context>
 		<x:expect href="xspec-450-451.xml" label="should work" select="wrap/node() treat as node()+"
 		 />
 	</x:scenario>
 
 	<x:scenario label="template-call template-param containing curly brackets">
-		<x:call template="param-mirror-template">
+		<x:call template="mirror:param-mirror">
 			<x:param name="param-items">}{<elem attr="}}{{">}{</elem></x:param>
 		</x:call>
 		<x:expect href="xspec-450-451.xml" label="should work" select="wrap/node() treat as node()+"
@@ -29,7 +30,7 @@
 	<x:scenario label="If value is from a variable instead of hard-coded,">
 		<x:variable name="myv:local-var">}{<elem attr="}}{{">}{</elem></x:variable>
 		<x:scenario label="context template-param containing curly brackets">
-			<x:context mode="param-mirror-mode">
+			<x:context mode="mirror:param-mirror">
 				<x:param name="param-items" select="$myv:local-var"/>
 				<context-child />
 			</x:context>
@@ -38,13 +39,13 @@
 		</x:scenario>
 
 		<x:scenario label="context containing curly brackets">
-			<x:context mode="context-mirror-mode" select="$myv:local-var"/>
+			<x:context mode="mirror:context-mirror" select="$myv:local-var"/>
 			<x:expect href="xspec-450-451.xml" label="should work" select="wrap/node() treat as node()+"
 			/>
 		</x:scenario>
 
 		<x:scenario label="template-call template-param containing curly brackets">
-			<x:call template="param-mirror-template">
+			<x:call template="mirror:param-mirror">
 				<x:param name="param-items" select="$myv:local-var"/>
 			</x:call>
 			<x:expect href="xspec-450-451.xml" label="should work" select="wrap/node() treat as node()+"

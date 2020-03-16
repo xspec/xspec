@@ -17,22 +17,31 @@
 	</xsl:function>
 
 	<!-- Returns the items in the parameter intact -->
+	<xsl:mode on-no-match="fail" use-when="element-available('xsl:mode')" />
+
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
-		name="s1:param-mirror-template">
+		name="s1:param-mirror">
 		<xsl:param as="item()*" name="s1:param-items" />
 		<xsl:sequence select="$s1:param-items" />
 	</xsl:template>
 
-	<xsl:function as="item()*" name="s1:param-mirror-fcn">
+	<xsl:function as="item()*" name="s1:param-mirror">
 		<xsl:param as="item()*" name="s1:param-items" />
 		<xsl:sequence select="$s1:param-items" />
 	</xsl:function>
 
 	<!-- Returns the distinct namespace URIs of the matched node and parameter. -->
+	<xsl:mode name="s1:get-namespaces" on-no-match="fail" use-when="element-available('xsl:mode')" />
+
 	<xsl:template as="xs:anyURI+" match="attribute() | node()"
 		mode="s1:get-namespaces" name="s1:get-namespaces">
 		<xsl:param name="s1:input" as="element()"/>
 		<xsl:sequence select="distinct-values((namespace-uri(), namespace-uri($s1:input)))" />
 	</xsl:template>
+
+	<!-- Emulates fn:true() -->
+	<xsl:function as="xs:boolean" name="s1:true">
+		<xsl:sequence select="true()" />
+	</xsl:function>
 
 </xsl:stylesheet>
