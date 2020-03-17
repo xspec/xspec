@@ -71,3 +71,26 @@ $decimal as xs:decimal
 		else
 			concat($decimal-string, '.0')
 };
+
+(:
+	Returns XPath expression of fn:QName() which represents the given xs:QName
+:)
+declare function x:QName-expression(
+$qname as xs:QName
+) as xs:string
+{
+	let $escaped-uri as xs:string :=
+	replace(
+	namespace-uri-from-QName($qname),
+	"(')",
+	'$1$1'
+	)
+	return
+		concat(
+		"QName('",
+		$escaped-uri,
+		"', '",
+		$qname,
+		"')"
+		)
+};

@@ -517,12 +517,7 @@
     </xsl:when>
 
     <xsl:when test="$value instance of xs:QName">
-      <xsl:sequence
-        select="concat('QName(''', namespace-uri-from-QName($value), 
-                              ''', ''', if (prefix-from-QName($value)) 
-                                        then concat(prefix-from-QName($value), ':') 
-                                        else '',
-                              local-name-from-QName($value), ''')')" />
+      <xsl:sequence select="x:QName-expression($value)" />
     </xsl:when>
 
     <xsl:otherwise>
