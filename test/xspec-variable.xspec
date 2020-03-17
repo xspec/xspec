@@ -8,14 +8,14 @@
 
 
 <x:description
-	xmlns:do-nothing="x-urn:test:do-nothing"
+	xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:myv_alt="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	query="x-urn:test:do-nothing"
-	query-at="do-nothing.xquery"
-	stylesheet="do-nothing.xsl">
+	query="x-urn:test:mirror"
+	query-at="mirror.xquery"
+	stylesheet="mirror.xsl">
 
 	<!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
 	 global parameters or global variables in the file to be tested. -->
@@ -25,7 +25,7 @@
 	<x:scenario label="Variables can be defined in different ways.">
 		<x:scenario label="@select by itself">
 			<x:variable name="myv:select-only" select="'text'"/>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:select-only"/>
 			</x:call>
 			<x:expect label="uses the selection as the variable value." select="'text'"/>
@@ -34,7 +34,7 @@
 			<x:variable name="myv:select-and-content" select="//bar">
 				<foo><bar>text</bar></foo>
 			</x:variable>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:select-and-content"/>
 			</x:call>
 			<x:expect label="uses the selection from the x:variable element's content as the variable value.">
@@ -43,7 +43,7 @@
 		</x:scenario>
 		<x:scenario label="Combination of @href and @select">
 			<x:variable name="myv:href-and-select" href="xspec-variable.xml" select="/top-level-element/*[1]"/>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:href-and-select"/>
 			</x:call>
 			<x:expect label="uses the selection in the specified document as the variable value.">
@@ -52,14 +52,14 @@
 		</x:scenario>
 		<x:scenario label="Element content in x:variable">
 			<x:variable name="myv:content"><foo>text</foo></x:variable>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:content"/>
 			</x:call>
 			<x:expect label="uses the x:variable element's content as the variable value."><foo>text</foo></x:expect>
 		</x:scenario>
 		<x:scenario label="@href by itself">
 			<x:variable name="myv:href-only" href="xspec-variable.xml"/>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:href-only"/>
 			</x:call>
 			<x:expect label="uses the specified document as the variable value."
@@ -72,7 +72,7 @@
 		<!-- For tests of variables in XSLT-specific scenarios, see xspec-variable_stylesheet.xspec. -->
 		<x:scenario label="x:variable interspersed with x:call[@function] and x:expect">
 			<x:variable name="myv:before_call" select="'text'"/>
-			<x:call function="upper-case">
+			<x:call function="mirror:upper-case">
 				<x:param select="$myv:before_call"/>
 			</x:call>
 			<x:variable name="myv:after_call" select="'text_after_call'"/>
@@ -89,14 +89,14 @@
 			/>
 		</x:scenario>
 		<x:scenario label="Variable used to store node as expected value">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param><foo/></x:param>
 			</x:call>
 			<x:variable name="myv:expectedresult"><foo/></x:variable>
 			<x:expect label="can be referenced within Boolean x:expect/@test." test="deep-equal($x:result,$myv:expectedresult)"/>
 		</x:scenario>
 		<x:scenario label="Variable used to store atomic expected value">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="'text'"/>
 			</x:call>
 			<x:variable name="myv:expectedresult" select="'text'"/>
@@ -106,7 +106,7 @@
 
 	<x:scenario label="Variables can be referenced from different scopes.">
 		<x:scenario label="Reference to global variable">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:test-string"/>
 			</x:call>
 			<x:expect label="yields correct result." select="'global'"/>
@@ -114,7 +114,7 @@
 		<x:scenario label="Reference to variable inherited from outer scenario">
 			<x:variable name="myv:outer" select="'outer #1'"/>
 			<x:scenario label="[inner]">
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$myv:outer"/>
 				</x:call>
 				<x:expect label="reflects value defined in outer scenario." select="'outer #1'"/>
@@ -124,7 +124,7 @@
 			<x:scenario label="[outer]">
 				<x:variable name="myv:outer" select="'outer #2'"/>
 				<x:scenario label="[inner]">
-					<x:call function="exactly-one">
+					<x:call function="mirror:param-mirror">
 						<x:param select="$myv:outer"/>
 					</x:call>
 					<x:expect label="inherits value from ancestor scenario, not from another branch of tree." select="'outer #2'"/>
@@ -142,7 +142,7 @@
 		<x:scenario label="Local redefinition of global variable">
 			<x:variable name="myv:test-string" select="concat($myv:test-string,' (redefined locally using same prefix')" as="xs:string"/>
 			<x:variable name="myv_alt:test-string" select="concat($myv:test-string,' or different prefix)')" as="xs:string"/>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:test-string"/>
 			</x:call>
 			<x:expect label="yields correct redefined result."
@@ -154,7 +154,7 @@
 			<x:scenario label="[inner]">
 				<x:variable name="myv:outer" select="concat($myv:outer,' (redefined locally using same prefix')" as="xs:string"/>
 				<x:variable name="myv_alt:outer" select="concat($myv:outer,' or different prefix)')" as="xs:string"/>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$myv:outer"/>
 				</x:call>
 				<x:expect label="reflects value redefined in inner scenario."
@@ -166,14 +166,14 @@
 			<x:variable name="myv:local" select="'value #2'" as="xs:string"/>
 			<x:variable name="myv:local" select="concat($myv:local,' (redefined using same prefix')" as="xs:string"/>
 			<x:variable name="myv_alt:local" select="concat($myv:local,' or different prefix)')" as="xs:string"/>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:local"/>
 			</x:call>
 			<x:expect label="reflects value redefined within same scenario."
 				select="'value #2 (redefined using same prefix or different prefix)'"/>
 		</x:scenario>
 		<x:scenario label="The name 'result' in a non-XSpec namespace">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="'result of function call'"/>
 			</x:call>
 			<x:variable name="myv:result" select="'no conflict'" as="xs:string"/>
@@ -187,7 +187,7 @@
 	<x:scenario label="Nonsense variable definition in pending scenario does not cause build failure.">
 		<x:scenario label="Pending scenario 1" pending="skip on purpose">
 			<x:variable name="myv:nonsense1" select="$myv:nonexistent" as="item()+"/>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:nonsense1"/>
 			</x:call>
 			<x:expect label="nonsense result" select="0"/>
@@ -195,14 +195,14 @@
 		<x:pending label="skip on purpose">
 			<x:scenario label="Pending scenario 2">
 				<x:variable name="myv:nonsense2" href="nonexistent.xml"/>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$myv:nonsense2"/>
 				</x:call>
 				<x:expect label="nonsense result" select="0"/>
 			</x:scenario>
 		</x:pending>
 		<x:scenario label="Nonpending scenario (not needed, except to work around issue #446)">
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param><foo/></x:param>
 			</x:call>
 			<x:expect label="the result"><foo/></x:expect>
@@ -217,13 +217,13 @@
 
 	<x:scenario label="Shared scenario can use prior definition of variable.">
 		<x:scenario label="Scenario 1">
-			<x:call function="true"/>
+			<x:call function="mirror:true"/>
 			<x:variable name="myv:str" select="'cat'" as="xs:string"/>
 			<x:like label="SHARED variables"/>
 			<x:expect label="operates on variable value from Scenario 1." test="$myv:result and ($myv:bracketed eq '[cat]')"/>
 		</x:scenario>
 		<x:scenario label="Scenario 2">
-			<x:call function="true"/>
+			<x:call function="mirror:true"/>
 			<x:variable name="myv:str" select="'mouse'" as="xs:string"/>
 			<x:like label="SHARED variables"/>
 			<x:expect label="operates on variable value from Scenario 2." test="$myv:result and ($myv:bracketed eq '[mouse]')"/>

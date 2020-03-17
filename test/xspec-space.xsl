@@ -2,18 +2,7 @@
 <xsl:stylesheet version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xspec-space="x-urn:test:xspec-space">
 
-	<!-- Returns the context node intact -->
-	<xsl:template as="node()" name="context-mirror-template">
-		<xsl:sequence select="." />
-	</xsl:template>
-
-	<!-- Returns the items in the parameter intact -->
-	<xsl:template as="item()*" match="attribute() | node() | document-node()"
-		mode="param-mirror-mode" name="param-mirror-template">
-		<xsl:param as="item()*" name="param-items" />
-
-		<xsl:sequence select="$param-items" />
-	</xsl:template>
+	<xsl:include href="mirror.xsl" />
 
 	<!-- Whitespace-only text node for test -->
 	<xsl:variable as="text()" name="xspec-space:wsot">

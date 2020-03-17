@@ -462,12 +462,17 @@
 		<xsl:param as="xs:string" name="lexical-qname" />
 		<xsl:param as="element()" name="element" />
 
+		<!-- To suppress "SXWN9000: ... QName has null namespace but non-empty prefix",
+			do not pass the lexical QName directly to fn:QName(). (xspec/xspec#826) -->
+		<xsl:variable as="xs:QName" name="qname-taking-default-ns"
+			select="resolve-QName($lexical-qname, $element)" />
+
 		<xsl:sequence
 			select="
-				if (contains($lexical-qname, ':')) then
-					resolve-QName($lexical-qname, $element)
+				if (prefix-from-QName($qname-taking-default-ns)) then
+					$qname-taking-default-ns
 				else
-					QName('', $lexical-qname)"
+					QName('', local-name-from-QName($qname-taking-default-ns))"
 		 />
 	</xsl:function>
 

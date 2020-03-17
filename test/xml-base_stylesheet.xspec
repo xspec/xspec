@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="test.xsl" xml:base="xml-base/"
+<x:description stylesheet="test.xsl" xml:base="xml-base/" xmlns:mirror="x-urn:test:mirror"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="In context template-param (i.e. //x:context/x:param),">
-		<x:context mode="param-mirror-mode">
+		<x:context mode="mirror:param-mirror">
 			<x:param href="test.xml" name="param-items" xml:base="node-selection/" />
 			<dummy />
 		</x:context>
@@ -13,13 +13,13 @@
 
 	<x:scenario label="In context (i.e. //x:context),">
 		<x:context href="test.xml" xml:base="node-selection/" />
-		<x:call template="context-mirror-template" />
+		<x:call template="mirror:context-mirror" />
 		<x:expect label="@href is resolved with @xml:base"
 			test="$x:result instance of document-node(element(testing-xml-base))" />
 	</x:scenario>
 
 	<x:scenario label="In template-call template-param (i.e. //x:call[@template]/x:param),">
-		<x:call template="param-mirror-template">
+		<x:call template="mirror:param-mirror">
 			<x:param href="test.xml" name="param-items" xml:base="node-selection/" />
 		</x:call>
 		<x:expect label="@href is resolved with @xml:base"
