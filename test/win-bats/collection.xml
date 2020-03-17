@@ -186,24 +186,6 @@
 	</case>
 
 	<!--
-		JUnit and Saxon versions (CLI)
-	-->
-
-	<case name="invoking xspec with -j option with Saxon8 returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8.jar
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Saxon8 detected. JUnit report requires Saxon9."
-	</case>
-
-	<case name="invoking xspec with -j option with Saxon8-SA returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8sa.jar
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Saxon8 detected. JUnit report requires Saxon9."
-	</case>
-
-	<!--
 		JUnit (CLI)
 	-->
 
@@ -220,17 +202,6 @@
 
     rem JUnit report file
     call :verify_exist "%TEST_DIR%\escape-for-regex-junit.xml"
-	</case>
-
-	<!--
-		Saxon-B (CLI)
-	-->
-
-	<case name="invoking xspec with Saxon-B-9-1-0-8 creates test stylesheet">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxonb9-1-0-8.jar
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 3 x "Creating Test Stylesheet..."
 	</case>
 
 	<!--

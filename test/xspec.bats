@@ -235,26 +235,6 @@ teardown() {
 }
 
 #
-# JUnit and Saxon versions (CLI)
-#
-
-@test "invoking xspec with -j option with Saxon8 returns error message" {
-    export SAXON_CP=/path/to/saxon8.jar
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Saxon8 detected. JUnit report requires Saxon9." ]
-}
-
-@test "invoking xspec with -j option with Saxon8-SA returns error message" {
-    export SAXON_CP=/path/to/saxon8sa.jar
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Saxon8 detected. JUnit report requires Saxon9." ]
-}
-
-#
 # JUnit (CLI)
 #
 
@@ -272,18 +252,6 @@ teardown() {
 
     # JUnit report file
     [ -f "${TEST_DIR}/escape-for-regex-junit.xml" ]
-}
-
-#
-# Saxon-B (CLI)
-#
-
-@test "invoking xspec with Saxon-B-9-1-0-8 creates test stylesheet" {
-    export SAXON_CP=/path/to/saxonb9-1-0-8.jar
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Creating Test Stylesheet..." ]
 }
 
 #
