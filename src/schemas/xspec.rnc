@@ -229,7 +229,9 @@ assertion =
 
 test = attribute test { xpath }
 
-common-attributes = attribute xml:* { text }*
+common-attributes = attribute xml:* { text }*,
+	## Works like XSLT @expand-text
+	attribute expand-text { boolean.datatype }?
 
 user-content = mixed { (user-element | text-element)* }
 user-element = element * - x:* { attribute * { text }*, user-content }
@@ -237,7 +239,7 @@ user-element = element * - x:* { attribute * { text }*, user-content }
 text-element =
 	## Works like <xsl:text>.
 	## Text in this element is not ignored even when it's whitespace-only.
-	element text { text }
+	element text { common-attributes, text }
 
 schematron-scenario = context?,
                     like*,

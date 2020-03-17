@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="xspec-tvt.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xslt-version="3.0">
+
+	<!-- x:expect-report/@count is to verify that no other sch:report is fired -->
+
+	<x:scenario label="expect TVT to be ENABLED and expect no @*:expand-text to exist" shared="yes">
+		<x:expect-report id="tvt-enabled" />
+		<x:expect-report id="x-expand-text-not-exist" />
+		<x:expect-report id="expand-text-not-exist" />
+		<x:expect-report count="3" />
+	</x:scenario>
+
+	<x:scenario label="expect TVT to be DISABLED and expect no @*:expand-text to exist" shared="yes">
+		<x:expect-report id="tvt-disabled" />
+		<x:expect-report id="x-expand-text-not-exist" />
+		<x:expect-report id="expand-text-not-exist" />
+		<x:expect-report count="3" />
+	</x:scenario>
+
+	<x:scenario label="context">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:scenario label="@x:expand-text=yes">
+					<x:context>
+						<context-child x:expand-text="yes">}}{false()}{{</context-child>
+					</x:context>
+					<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist"
+					 />
+				</x:scenario>
+
+				<x:scenario label="@expand-text=yes">
+					<x:context>
+						<context-child expand-text="yes">}}{false()}{{</context-child>
+					</x:context>
+					<x:expect-report id="tvt-disabled" />
+					<x:expect-report id="x-expand-text-not-exist" />
+					<x:expect-report id="expand-text-yes" />
+					<x:expect-report count="3" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:context">
+				<x:context expand-text="yes">
+					<context-child>}}{false()}{{</context-child>
+				</x:context>
+				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="@href">
+			<x:context expand-text="yes" href="xspec-tvt.xml" />
+			<x:expect-report id="tvt-disabled" />
+			<x:expect-report id="x-expand-text-yes" />
+			<x:expect-report id="expand-text-yes" />
+			<x:expect-report count="3" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="scenarios for testing override">
+		<x:scenario label="override @expand-text with @x:expand-text">
+			<x:scenario label="override yes with no">
+				<x:context expand-text="yes">
+					<context-child x:expand-text="no">}}{false()}{{</context-child>
+				</x:context>
+				<x:like label="expect TVT to be DISABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+
+			<x:scenario label="override no with yes">
+				<x:context expand-text="no">
+					<context-child x:expand-text="yes">}}{false()}{{</context-child>
+				</x:context>
+				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="override @expand-text with @expand-text">
+			<x:scenario expand-text="yes" label="override yes with no">
+				<x:context expand-text="no">
+					<context-child>}}{false()}{{</context-child>
+				</x:context>
+				<x:like label="expect TVT to be DISABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+
+			<x:scenario expand-text="no" label="override no with yes">
+				<x:context expand-text="yes">
+					<context-child>}}{false()}{{</context-child>
+				</x:context>
+				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="override @x:expand-text with @x:expand-text">
+			<x:scenario label="override yes with no">
+				<x:context>
+					<context-child x:expand-text="yes">
+						<context-grandchild x:expand-text="no">}}{false()}{{</context-grandchild>
+					</context-child>
+				</x:context>
+				<x:like label="expect TVT to be DISABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+
+			<x:scenario label="override no with yes">
+				<x:context>
+					<context-child x:expand-text="no">
+						<context-grandchild x:expand-text="yes">}}{false()}{{</context-grandchild>
+					</context-child>
+				</x:context>
+				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="override @x:expand-text with @expand-text">
+			<x:scenario label="override yes with no">
+				<x:context>
+					<context-child x:expand-text="yes">
+						<x:text expand-text="no">}}{false()}{{</x:text>
+					</context-child>
+				</x:context>
+				<x:like label="expect TVT to be DISABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+
+			<x:scenario label="override no with yes">
+				<x:context>
+					<context-child x:expand-text="no">
+						<x:text expand-text="yes">}}{false()}{{</x:text>
+					</context-child>
+				</x:context>
+				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

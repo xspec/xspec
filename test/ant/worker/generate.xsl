@@ -117,7 +117,7 @@
 
 					<xsl:when
 						test="
-							($test-type eq 't')
+							($test-type = ('s', 't'))
 							and (xs:decimal(../@xslt-version) eq 3.0)
 							and not($XSLT-SUPPORTS-3-0)">
 						<xsl:text>Requires XSLT 3.0 processor</xsl:text>
