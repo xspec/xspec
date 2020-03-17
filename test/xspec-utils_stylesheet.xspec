@@ -526,12 +526,26 @@
 			<x:expect label="Extracted" select="9, 9, 1, 5" />
 		</x:scenario>
 
-		<x:scenario label="Saxon likely v10 xsl:product-version">
-			<x:call function="x:extract-version">
-				<!-- This string is just a guesswork -->
-				<x:param select="'HE 10.0.0.1'" />
-			</x:call>
-			<x:expect label="Extracted" select="10, 0, 0, 1" />
+		<x:scenario label="Saxon 10 xsl:product-version">
+			<!--
+				https://sourceforge.net/p/saxon/mailman/message/36949659/
+				> In future we intend to use two-part version numbers rather than four-part:
+				> the next major release will be 11.0, the next maintenance release 10.1.
+			-->
+
+			<x:scenario label="10.0">
+				<x:call function="x:extract-version">
+					<x:param select="'HE 10.0'" />
+				</x:call>
+				<x:expect label="Extracted as major.minor.0.0" select="10, 0, 0, 0" />
+			</x:scenario>
+
+			<x:scenario label="10.1">
+				<x:call function="x:extract-version">
+					<x:param select="'HE 10.1'" />
+				</x:call>
+				<x:expect label="Extracted as major.minor.0.0" select="10, 1, 0, 0" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="Saxon unlicensed xsl:product-version">
