@@ -17,7 +17,7 @@
     call :run ..\bin\xspec.bat
     call :verify_retval 1
     call :verify_line 2 x "SAXON_CP and SAXON_HOME both not set!"
-    call :verify_line 5 r "Usage: xspec "
+    call :verify_line 4 r "Usage: xspec "
 	</case>
 
 	<case name="invoking xspec with -h prints usage and does so even when it is 11th argument">

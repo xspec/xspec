@@ -50,7 +50,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "SAXON_CP and SAXON_HOME both not set!" ]
-    [[ "${lines[4]}" =~ "Usage: xspec " ]]
+    [[ "${lines[3]}" =~ "Usage: xspec " ]]
 }
 
 @test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
