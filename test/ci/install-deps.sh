@@ -6,7 +6,13 @@ if [ -z ${XSPEC_DEPS} ]; then
 fi
 
 # install Saxon
-export SAXON_JAR=${XSPEC_DEPS}/saxon/saxon9he.jar
+SAXON_JAR="${XSPEC_DEPS}/saxon"
+# Keep the original (not Maven) file name convention so that we can test SAXON_HOME properly
+if [ "${SAXON_VERSION:0:2}" = "9." ]; then
+    export SAXON_JAR="${SAXON_JAR}/saxon9he.jar"
+else
+    export SAXON_JAR="${SAXON_JAR}/saxon-he-${SAXON_VERSION}.jar"
+fi
 curl -fsSL --create-dirs --retry 5 -o ${SAXON_JAR} https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${SAXON_VERSION}/Saxon-HE-${SAXON_VERSION}.jar
 
 # install XML Calabash
