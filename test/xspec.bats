@@ -1376,7 +1376,8 @@ teardown() {
         -Dxspec.xml="${PWD}/../test/xspec-423/test.xspec"
     echo "$output"
     [ "$status" -eq 2 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    regex="  XPDY0002:"
+    [[ "${output}" =~ ${regex} ]]
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 }
 
@@ -1384,7 +1385,8 @@ teardown() {
     run ../bin/xspec.sh xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    regex="  XPDY0002:"
+    [[ "${output}" =~ ${regex} ]]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1392,7 +1394,8 @@ teardown() {
     run ../bin/xspec.sh -c xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    regex="  XPDY0002:"
+    [[ "${output}" =~ ${regex} ]]
     [ "${lines[${#lines[@]}-1]}" = "*** Error collecting test coverage data" ]
 }
 
@@ -1400,7 +1403,8 @@ teardown() {
     run ../bin/xspec.sh -q xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    regex="  XPDY0002:"
+    [[ "${output}" =~ ${regex} ]]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1598,32 +1602,38 @@ teardown() {
     run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-context-avt-for-template-call: Error signalled " ]]
+    regex="  error-code-of-my-context-avt-for-template-call: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 
     run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-context-param-for-matching-template: Error signalled " ]]
+    regex="  error-code-of-my-context-param-for-matching-template: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 
     run ../bin/xspec.sh catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+    regex="  error-code-of-my-function-call-param: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 
     run ../bin/xspec.sh catch/error-in-template-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-template-call-param: Error signalled " ]]
+    regex="  error-code-of-my-template-call-param: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 
     run ../bin/xspec.sh catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+    regex="  error-code-of-my-variable: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 
     run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "XPST0017:" ]]
+    regex="XPST0017:"
+    [[ "${output}" =~ ${regex} ]]
 }
 
 @test "@catch should not catch error outside SUT (XQuery)" {
@@ -1634,22 +1644,26 @@ teardown() {
     run ../bin/xspec.sh -q catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "x:XSPEC005:" ]]
+    regex="x:XSPEC005:"
+    [[ "${output}" =~ ${regex} ]]
 
     run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+    regex="  error-code-of-my-function-call-param: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 
     run ../bin/xspec.sh -q catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+    regex="  error-code-of-my-variable: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 
     run ../bin/xspec.sh -q catch/static-error-in-compiled-test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "XPST0017:" ]]
+    regex="XPST0017:"
+    [[ "${output}" =~ ${regex} ]]
 }
 
 #
@@ -1660,14 +1674,16 @@ teardown() {
     run ../bin/xspec.sh catch/no-by-default.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+    regex="  my-error-code: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 }
 
 @test "Error in SUT should not be caught by default (XQuery)" {
     run ../bin/xspec.sh -q catch/no-by-default.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+    regex="  my-error-code: Error signalled "
+    [[ "${output}" =~ ${regex} ]]
 }
 
 #
