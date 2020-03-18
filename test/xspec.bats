@@ -1480,7 +1480,8 @@ teardown() {
     run ../bin/xspec.sh variable/reserved-eqname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC008: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo," ]
+    ex="  x:XSPEC008: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo,"
+    [ "${lines[5]}" = "${ex}" ]
     [ "${lines[6]}" = "  must not use the XSpec namespace." ]
 }
 
@@ -1488,7 +1489,8 @@ teardown() {
     run ../bin/xspec.sh variable/reserved-name.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC008: User-defined XSpec variable, u:foo, must not use the XSpec namespace." ]
+    ex="  x:XSPEC008: User-defined XSpec variable, u:foo, must not use the XSpec namespace."
+    [ "${lines[5]}" = "${ex}" ]
 }
 
 #
@@ -1730,17 +1732,20 @@ teardown() {
     run ../bin/xspec.sh like/none.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC009: x:like: Scenario not found: none" ]
+    ex="  x:XSPEC009: x:like: Scenario not found: none"
+    [ "${lines[5]}" = "${ex}" ]
 
     run ../bin/xspec.sh like/multiple.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario" ]
+    ex="  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario"
+    [ "${lines[4]}" = "${ex}" ]
 
     run ../bin/xspec.sh like/loop.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario" ]
+    ex="  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario"
+    [ "${lines[4]}" = "${ex}" ]
 }
 
 #
