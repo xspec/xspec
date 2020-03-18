@@ -9,7 +9,13 @@ if not exist "%CURL%" set CURL=curl
 set "CURL=%CURL% -fsSL --create-dirs --retry 5"
 
 rem install Saxon
-set "SAXON_JAR=%XSPEC_DEPS%\saxon\saxon9he.jar"
+set "SAXON_JAR=%XSPEC_DEPS%\saxon"
+rem Keep the original (not Maven) file name convention so that we can test SAXON_HOME properly
+if "%SAXON_VERSION:~0,2%"=="9." (
+    set "SAXON_JAR=%SAXON_JAR%\saxon9he.jar"
+) else (
+    set "SAXON_JAR=%SAXON_JAR%\saxon-he-%SAXON_VERSION%.jar"
+)
 %CURL% -o "%SAXON_JAR%" "https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/%SAXON_VERSION%/Saxon-HE-%SAXON_VERSION%.jar"
 
 rem install XML Calabash
