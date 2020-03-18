@@ -373,7 +373,7 @@ teardown() {
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XSLT)" {
     special_chars_dir="${work_dir}/some'path (84) here & there"
     mkdir "${special_chars_dir}"
-    cp do-nothing.xsl         "${special_chars_dir}"
+    cp mirror.xsl             "${special_chars_dir}"
     cp xspec-node-selection.* "${special_chars_dir}"
 
     unset TEST_DIR
@@ -389,7 +389,7 @@ teardown() {
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XQuery)" {
     special_chars_dir="${work_dir}/some'path (84) here & there"
     mkdir "${special_chars_dir}"
-    cp do-nothing.xquery      "${special_chars_dir}"
+    cp mirror.xquery          "${special_chars_dir}"
     cp xspec-node-selection.* "${special_chars_dir}"
 
     unset TEST_DIR

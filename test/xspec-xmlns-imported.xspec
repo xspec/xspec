@@ -19,7 +19,7 @@
       <tv1:element/>
       <no-namespace-element/>
     </x:variable>
-    <x:call function="q1:param-mirror-fcn">
+    <x:call function="q1:param-mirror">
       <x:param name="q1:param-items">
         <tv1:element/>
         <no-namespace-element/>

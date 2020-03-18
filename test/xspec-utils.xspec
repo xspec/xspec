@@ -153,4 +153,34 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function QName-expression">
+		<x:scenario label="With URI">
+			<x:variable as="xs:string" name="ridiculous-uri" select="string()"
+				>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+
+			<x:scenario label="With prefix">
+				<x:call function="x:QName-expression">
+					<x:param select="QName($ridiculous-uri, 'prefix:foo')" />
+				</x:call>
+				<x:expect label="Converted with apostrophe escaped" select="string()"
+					>QName('''">&lt;#,|%7D&#x20;%7B][$^',&#x20;'prefix:foo')</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without prefix">
+				<x:call function="x:QName-expression">
+					<x:param select="QName($ridiculous-uri, 'foo')" />
+				</x:call>
+				<x:expect label="Converted with apostrophe escaped" select="string()"
+					>QName('''">&lt;#,|%7D&#x20;%7B][$^',&#x20;'foo')</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Without URI">
+			<x:call function="x:QName-expression">
+				<x:param select="QName('', 'foo')" />
+			</x:call>
+			<x:expect label="Converted" select="string()">QName('',&#x20;'foo')</x:expect>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
