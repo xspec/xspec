@@ -519,11 +519,13 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function extract-version">
-		<x:scenario label="Saxon typical xsl:product-version">
-			<x:call function="x:extract-version">
-				<x:param select="'HE 9.9.1.5'" />
-			</x:call>
-			<x:expect label="Extracted" select="9, 9, 1, 5" />
+		<x:scenario label="Saxon 9">
+			<x:scenario label="Saxon typical xsl:product-version">
+				<x:call function="x:extract-version">
+					<x:param select="'HE 9.9.1.5'" />
+				</x:call>
+				<x:expect label="Extracted" select="9, 9, 1, 5" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="Saxon 10 xsl:product-version">
@@ -533,18 +535,20 @@
 				> the next major release will be 11.0, the next maintenance release 10.1.
 			-->
 
-			<x:scenario label="10.0">
-				<x:call function="x:extract-version">
-					<x:param select="'HE 10.0'" />
-				</x:call>
-				<x:expect label="Extracted as major.minor.0.0" select="10, 0, 0, 0" />
-			</x:scenario>
+			<x:scenario label="Typical xsl:product-version">
+				<x:scenario label="10.0">
+					<x:call function="x:extract-version">
+						<x:param select="'HE 10.0'" />
+					</x:call>
+					<x:expect label="Extracted as major.minor.0.0" select="10, 0, 0, 0" />
+				</x:scenario>
 
-			<x:scenario label="10.1">
-				<x:call function="x:extract-version">
-					<x:param select="'HE 10.1'" />
-				</x:call>
-				<x:expect label="Extracted as major.minor.0.0" select="10, 1, 0, 0" />
+				<x:scenario label="10.1">
+					<x:call function="x:extract-version">
+						<x:param select="'HE 10.1'" />
+					</x:call>
+					<x:expect label="Extracted as major.minor.0.0" select="10, 1, 0, 0" />
+				</x:scenario>
 			</x:scenario>
 		</x:scenario>
 
