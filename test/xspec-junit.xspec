@@ -1,78 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="../src/reporter/junit-report.xsl" xslt-version="3.0">
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="../src/reporter/junit-report.xsl"
+               xslt-version="3.0">
 
     <x:scenario label="When processing a successful test">
         <x:context>
-	      <x:test successful="true">
-		 <x:label>Successful test</x:label>
-		 <x:result>
-			<p>Foo</p>
-		 </x:result>
-		 <x:expect>
-			<p>Foo</p>
-		 </x:expect>
-	      </x:test>
+            <x:test successful="true">
+                <x:label>Successful test</x:label>
+                <x:result>
+                    <p>Foo</p>
+                </x:result>
+                <x:expect>
+                    <p>Foo</p>
+                </x:expect>
+            </x:test>
         </x:context>
 
         <x:expect label="convert it to test case with status passed">
-	      <testcase name="Successful test" status="passed"/>
-		</x:expect>
+            <testcase name="Successful test" status="passed"/>
+        </x:expect>
     </x:scenario>
-
 
     <x:scenario label="When processing a failing test">
         <x:context>
-	      <x:test successful="false">
-		 <x:label>failing test</x:label>
-		 <x:result>
-			<p>Foo</p>
-		 </x:result>
-		 <x:expect>
-			<p>Bar</p>
-		 </x:expect>
-	      </x:test>
+            <x:test successful="false">
+                <x:label>failing test</x:label>
+                <x:result>
+                    <p>Foo</p>
+                </x:result>
+                <x:expect>
+                    <p>Bar</p>
+                </x:expect>
+            </x:test>
         </x:context>
 
-
         <x:expect label="convert it to test case with status failed">
-			<testcase name="failing test"
-		        status="failed">
-				<failure message="expect assertion failed"><![CDATA[<x:expect xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"><p>Bar</p></x:expect>]]></failure>
-			</testcase>
-		</x:expect>
+            <testcase name="failing test" status="failed">
+                <failure message="expect assertion failed"><![CDATA[<x:expect xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"><p>Bar</p></x:expect>]]></failure>
+            </testcase>
+        </x:expect>
     </x:scenario>
-
 
     <x:scenario label="When processing successful and failing tests">
         <x:context>
-	      <x:test successful="true">
-		 <x:label>Successful test</x:label>
-		 <x:result>
-			<p>Foo</p>
-		 </x:result>
-		 <x:expect>
-			<p>Foo</p>
-		 </x:expect>
-	      </x:test>
-	      <x:test successful="false">
-		 <x:label>Failing test</x:label>
-		 <x:result>
-			<p>Foo</p>
-		 </x:result>
-		 <x:expect>
-			<p>Bar</p>
-		 </x:expect>
-	      </x:test>
+            <x:test successful="true">
+                <x:label>Successful test</x:label>
+                <x:result>
+                    <p>Foo</p>
+                </x:result>
+                <x:expect>
+                    <p>Foo</p>
+                </x:expect>
+            </x:test>
+            <x:test successful="false">
+                <x:label>Failing test</x:label>
+                <x:result>
+                    <p>Foo</p>
+                </x:result>
+                <x:expect>
+                    <p>Bar</p>
+                </x:expect>
+            </x:test>
         </x:context>
 
         <x:expect label="convert it to test cases with status passed and failing">
-	      <testcase name="Successful test" status="passed"/>
-	     <testcase name="Failing test"
-		        status="failed">
-				<failure message="expect assertion failed"><![CDATA[<x:expect xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"><p>Bar</p></x:expect>]]></failure>
-		</testcase>
-		</x:expect>
+            <testcase name="Successful test" status="passed"/>
+            <testcase name="Failing test" status="failed">
+                <failure message="expect assertion failed"><![CDATA[<x:expect xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"><p>Bar</p></x:expect>]]></failure>
+            </testcase>
+        </x:expect>
     </x:scenario>
-
 
 </x:description>
