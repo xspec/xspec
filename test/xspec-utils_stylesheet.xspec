@@ -526,6 +526,13 @@
 				</x:call>
 				<x:expect label="Extracted" select="9, 9, 1, 5" />
 			</x:scenario>
+
+			<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
+				<x:call function="x:extract-version">
+					<x:param select="'SAXON-HE 9.9.1.5J from Saxonica (build 090514)'" />
+				</x:call>
+				<x:expect label="Extracted, stripping platform suffix ('J')" select="9, 9, 1, 5" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="Saxon 10 xsl:product-version">
@@ -557,13 +564,6 @@
 				<x:param select="'EE (unlicensed) 9.4.0.9'" />
 			</x:call>
 			<x:expect label="Extracted" select="9, 4, 0, 9" />
-		</x:scenario>
-
-		<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
-			<x:call function="x:extract-version">
-				<x:param select="'SAXON-HE 9.9.1.5J from Saxonica (build 090514)'" />
-			</x:call>
-			<x:expect label="Extracted, stripping platform suffix ('J')" select="9, 9, 1, 5" />
 		</x:scenario>
 
 		<x:scenario label="Relatively large version">
