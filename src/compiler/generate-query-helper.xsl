@@ -260,6 +260,12 @@
             </xsl:element>
          </xsl:when>
 
+         <!-- TODO: TVT
+         <xsl:when test="(. instance of text()) and x:is-user-content(.)
+            and x:yes-no-synonym(parent::x:text/@expand-text)">
+         </xsl:when>
+         -->
+
          <xsl:otherwise>
             <xsl:text>"</xsl:text>
             <xsl:value-of select="replace(., '(&quot;)', '$1$1')" />
@@ -268,6 +274,12 @@
       </xsl:choose>
 
       <xsl:text> }</xsl:text>
+   </xsl:template>
+
+   <!-- x:text represents its child text node -->
+   <xsl:template match="x:text" as="node()+" mode="test:create-node-generator">
+      <!-- Unwrap -->
+      <xsl:apply-templates mode="#current" />
    </xsl:template>
 
    <xsl:template name="test:create-zero-or-more-node-generators" as="node()+">
