@@ -37,9 +37,15 @@
         <x:expect label="convert it to test case with status failed">
 			<testcase name="failing test"
 		        status="failed">
-				<failure message="expect assertion failed"><![CDATA[<x:expect xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"><p>Bar</p></x:expect>]]></failure>
+				<failure message="expect assertion failed">...</failure>
 			</testcase>
 		</x:expect>
+        <x:expect label="failure element holds a text node of serialized x:expect"
+            test="parse-xml($x:result/failure/text())" select="/">
+            <x:expect>
+                <p>Bar</p>
+            </x:expect>
+        </x:expect>
     </x:scenario>
 
 
@@ -69,9 +75,15 @@
 	      <testcase name="Successful test" status="passed"/>
 	     <testcase name="Failing test"
 		        status="failed">
-				<failure message="expect assertion failed"><![CDATA[<x:expect xmlns:test="http://www.jenitennison.com/xslt/unit-test" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"><p>Bar</p></x:expect>]]></failure>
+				<failure message="expect assertion failed">...</failure>
 		</testcase>
 		</x:expect>
+        <x:expect label="failure element holds a text node of serialized x:expect"
+            test="parse-xml($x:result/failure/text())" select="/">
+            <x:expect>
+                <p>Bar</p>
+            </x:expect>
+        </x:expect>
     </x:scenario>
 
 
