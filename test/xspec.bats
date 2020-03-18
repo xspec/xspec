@@ -60,6 +60,22 @@ teardown() {
     [[ "${lines[1]}" =~ "Usage: xspec " ]]
 }
 
+@test "invoking xspec with unknown option prints usage" {
+    run ../bin/xspec.sh -bogus ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Error: Unknown option: -bogus" ]
+    [[ "${lines[2]}" =~ "Usage: xspec " ]]
+}
+
+@test "invoking xspec with extra arguments prints usage" {
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec bogus
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Error: Extra option: bogus" ]
+    [[ "${lines[2]}" =~ "Usage: xspec " ]]
+}
+
 #
 # Mutually exclusive test types (CLI)
 #
