@@ -34,7 +34,7 @@ jobs:
       vmImage: macOS-latest
 
     variables:
-      # latest Saxon and Jing
+      # latest Saxon 9.9 and Jing
       SAXON_VERSION: 9.9.1-7
       JING_VERSION: 20181222
       XMLCALABASH_VERSION: 1.1.30-99
