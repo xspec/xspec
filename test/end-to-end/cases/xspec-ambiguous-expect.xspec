@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
-	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xquery"
+	stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="Scenario for verifying that boolean @test precedes @href">
 		<x:scenario label="When function returns true,">
-			<x:call function="true" />
+			<x:call function="mirror:true" />
 
 			<x:expect href="xspec-ambiguous-expect.xml"
 				label="Expecting document node via @href should be Failure" />
@@ -16,7 +17,7 @@
 
 	<x:scenario label="Scenario for verifying that boolean @test precedes @select">
 		<x:scenario label="When function returns false,">
-			<x:call function="false" />
+			<x:call function="mirror:false" />
 
 			<x:expect label="Expecting false via @select should be Success" select="false()" />
 
@@ -28,7 +29,7 @@
 
 	<x:scenario label="Scenario for verifying that boolean @test precedes child node">
 		<x:scenario label="When function returns true,">
-			<x:call function="true" />
+			<x:call function="mirror:true" />
 
 			<x:expect label="Expecting element(foo) via child node should be Failure">
 				<foo />
@@ -45,7 +46,7 @@
 	<x:scenario
 		label="Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)">
 		<x:scenario label="When function returns true,">
-			<x:call function="true" />
+			<x:call function="mirror:true" />
 
 			<x:expect
 				label="Expecting empty sequence (no @href, @select or child node) should be Failure" />
