@@ -16,6 +16,10 @@ if [ ! -f "${SAXON_JAR}" ]; then
 fi
 
 # Check capabilities
+if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9." > /dev/null; then
+    export XSLT_SUPPORTS_COVERAGE=1
+fi
+
 if java -jar "${SAXON_JAR}" -nogo -xsl:${mydir}/caps/v3-0.xsl 2> /dev/null; then
     export XSLT_SUPPORTS_3_0=1
 fi
