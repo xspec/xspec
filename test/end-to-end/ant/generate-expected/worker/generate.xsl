@@ -19,11 +19,17 @@
 		Rejects specific Saxon versions
 	-->
 	<xsl:template as="document-node(element(project))" match="document-node()">
-		<xsl:if test="x:saxon-version() lt x:pack-version((9, 9, 0, 2))">
+		<xsl:if
+			test="
+				not(
+				(x:saxon-version() ge x:pack-version((9, 9, 0, 2)))
+				and
+				(x:saxon-version() lt x:pack-version(10))
+				)">
 			<xsl:message terminate="yes">
 				<xsl:text>Saxon version is </xsl:text>
 				<xsl:value-of select="system-property('xsl:product-version')" />
-				<xsl:text>. Generating the expected files on Saxon 9.9.0.1 or less will produce unrelated changes. You have to generate the expected files on 9.9.0.2 or later.</xsl:text>
+				<xsl:text>. To generate the expected files, Saxon version must be ge 9.9.0.2 and lt 10. Other versions will produce unrelated changes.</xsl:text>
 			</xsl:message>
 		</xsl:if>
 
