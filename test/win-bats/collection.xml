@@ -268,7 +268,7 @@
     call :verify_line 6 r "Testing with "
 	</case>
 
-	<case name="x:resolve-QName-ignoring-default-ns() with non-empty prefix does not raise a warning #826">
+	<case name="x:resolve-EQName-ignoring-default-ns() with non-empty prefix does not raise a warning #826">
     call :run ..\bin\xspec.bat xspec-826.xspec
     call :verify_retval 0
     call :verify_line 6 r "Testing with "

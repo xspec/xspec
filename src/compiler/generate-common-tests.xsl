@@ -811,9 +811,7 @@
          use-when="element-available('xsl:context-item')" />
 
       <xsl:variable name="qname" as="xs:QName"
-         select="if (starts-with(@name, 'Q{'))
-                 then x:resolve-URIQualifiedName(@name)
-                 else x:resolve-QName-ignoring-default-ns(@name, .)" />
+         select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
       <xsl:if test="namespace-uri-from-QName($qname) eq $xspec-namespace">
          <xsl:variable name="msg" as="xs:string"
