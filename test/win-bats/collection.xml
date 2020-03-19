@@ -26,6 +26,20 @@
     call :verify_line 2 r "Usage: xspec "
 	</case>
 
+	<case name="invoking xspec with unknown option prints usage">
+    call :run ..\bin\xspec.bat -bogus ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 1
+    call :verify_line 2 x "Error: Unknown option: -bogus"
+    call :verify_line 3 r "Usage: xspec "
+	</case>
+
+	<case name="invoking xspec with extra arguments prints usage">
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec bogus
+    call :verify_retval 1
+    call :verify_line 2 x "Error: Extra option: bogus"
+    call :verify_line 3 r "Usage: xspec "
+	</case>
+
 	<!--
 		Mutually exclusive test types (CLI)
 	-->
