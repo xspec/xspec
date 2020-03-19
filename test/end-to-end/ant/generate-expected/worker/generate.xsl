@@ -19,7 +19,7 @@
 		Rejects specific Saxon versions
 	-->
 	<xsl:template as="document-node(element(project))" match="document-node()">
-		<xsl:if test="x:saxon-version() lt x:pack-version(9, 9, 0, 2)">
+		<xsl:if test="x:saxon-version() lt x:pack-version((9, 9, 0, 2))">
 			<xsl:message terminate="yes">
 				<xsl:text>Saxon version is </xsl:text>
 				<xsl:value-of select="system-property('xsl:product-version')" />

@@ -177,23 +177,38 @@
 	</xsl:function>
 
 	<!--
-		Packs w.x.y.z version into uint64, assuming every component is uint16
+		Packs w.x.y.z version into uint64, assuming every component is uint16.
+		x, y and z are optional (0 by default).
 			Example:
-				in:  76, 0, 3809, 132
-				out: 21392098479636612 (0x004C00000EE10084)
+				(76,  0, 3809, 132) -> 21392098479636612 (0x004C00000EE10084)
+				( 1,  2,    3     ) ->   281483566841856 (0x0001000200030000)
+				(10, 11           ) ->  2814797011746816 (0x000A000B00000000)
+				( 9               ) ->  2533274790395904 (0x0009000000000000)
 	-->
 	<xsl:function as="xs:integer" name="x:pack-version">
-		<xsl:param as="xs:integer" name="w" />
-		<xsl:param as="xs:integer" name="x" />
-		<xsl:param as="xs:integer" name="y" />
-		<xsl:param as="xs:integer" name="z" />
+		<xsl:param as="xs:integer+" name="ver-components" />
 
-		<!-- Shift by multiplying 0x10000 -->
-		<xsl:variable as="xs:integer" name="high32" select="$w * 65536 + $x" />
-		<xsl:variable as="xs:integer" name="low32" select="$y * 65536 + $z" />
+		<!-- 0x10000 -->
+		<xsl:variable as="xs:integer" name="x10000" select="65536" />
 
-		<!-- Shift by multiplying 0x100000000 -->
-		<xsl:sequence select="$high32 * 4294967296 + $low32" />
+		<!-- Return a value only when the input is valid. Return nothing if not valid, which
+			effectively causes an error. -->
+		<xsl:if
+			test="
+				(: 5th+ component is not allowed :)
+				(count($ver-components) le 4)
+				
+				(: Every component must be uint16 :)
+				and empty($ver-components[. ge $x10000]) and empty($ver-components[. lt 0])">
+			<xsl:variable as="xs:integer" name="w" select="$ver-components[1]" />
+			<xsl:variable as="xs:integer" name="x" select="($ver-components[2], 0)[1]" />
+			<xsl:variable as="xs:integer" name="y" select="($ver-components[3], 0)[1]" />
+			<xsl:variable as="xs:integer" name="z" select="($ver-components[4], 0)[1]" />
+
+			<xsl:variable as="xs:integer" name="high32" select="($w * $x10000) + $x" />
+			<xsl:variable as="xs:integer" name="low32" select="($y * $x10000) + $z" />
+			<xsl:sequence select="($high32 * $x10000 * $x10000) + $low32" />
+		</xsl:if>
 	</xsl:function>
 
 	<!--
@@ -230,10 +245,9 @@
 	-->
 	<xsl:function as="xs:integer?" name="x:saxon-version">
 		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
-			<xsl:variable as="xs:integer+" name="versions"
+			<xsl:variable as="xs:integer+" name="ver-components"
 				select="x:extract-version(system-property('xsl:product-version'))" />
-			<xsl:sequence
-				select="x:pack-version($versions[1], $versions[2], $versions[3], $versions[4])" />
+			<xsl:sequence select="x:pack-version($ver-components)" />
 		</xsl:if>
 	</xsl:function>
 
