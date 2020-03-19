@@ -519,33 +519,60 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function extract-version">
-		<x:scenario label="Saxon typical xsl:product-version">
-			<x:call function="x:extract-version">
-				<x:param select="'HE 9.9.1.5'" />
-			</x:call>
-			<x:expect label="Extracted" select="9, 9, 1, 5" />
+		<x:scenario label="Saxon 9">
+			<x:scenario label="Typical xsl:product-version">
+				<x:call function="x:extract-version">
+					<x:param select="'HE 9.9.1.5'" />
+				</x:call>
+				<x:expect label="Extracted" select="9, 9, 1, 5" />
+			</x:scenario>
+
+			<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
+				<x:call function="x:extract-version">
+					<x:param select="'SAXON-HE 9.9.1.5J from Saxonica (build 090514)'" />
+				</x:call>
+				<x:expect label="Extracted, stripping platform suffix ('J')" select="9, 9, 1, 5" />
+			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="Saxon likely v10 xsl:product-version">
-			<x:call function="x:extract-version">
-				<!-- This string is just a guesswork -->
-				<x:param select="'HE 10.0.0.1'" />
-			</x:call>
-			<x:expect label="Extracted" select="10, 0, 0, 1" />
+		<x:scenario label="Saxon 10">
+			<!--
+				https://sourceforge.net/p/saxon/mailman/message/36949659/
+				> In future we intend to use two-part version numbers rather than four-part:
+				> the next major release will be 11.0, the next maintenance release 10.1.
+			-->
+
+			<x:scenario label="Typical xsl:product-version">
+				<x:scenario label="10.0">
+					<x:call function="x:extract-version">
+						<x:param select="'HE 10.0'" />
+					</x:call>
+					<x:expect label="Extracted as major.minor.0.0" select="10, 0, 0, 0" />
+				</x:scenario>
+
+				<x:scenario label="10.1">
+					<x:call function="x:extract-version">
+						<x:param select="'HE 10.1'" />
+					</x:call>
+					<x:expect label="Extracted as major.minor.0.0" select="10, 1, 0, 0" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
+				<x:call function="x:extract-version">
+					<x:param select="'SAXON-HE 10.0J from Saxonica (build 31609)'" />
+				</x:call>
+				<x:expect label="Extracted, stripping platform suffix ('J')" select="10, 0, 0, 0" />
+			</x:scenario>
 		</x:scenario>
 
 		<x:scenario label="Saxon unlicensed xsl:product-version">
+			<!-- This notation was last observed on Saxon 9.7.0.4.
+				Not observed on 9.7.0.5 or later. -->
 			<x:call function="x:extract-version">
 				<x:param select="'EE (unlicensed) 9.4.0.9'" />
 			</x:call>
 			<x:expect label="Extracted" select="9, 4, 0, 9" />
-		</x:scenario>
-
-		<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
-			<x:call function="x:extract-version">
-				<x:param select="'SAXON-HE 9.9.1.5J from Saxonica (build 090514)'" />
-			</x:call>
-			<x:expect label="Extracted, stripping platform suffix ('J')" select="9, 9, 1, 5" />
 		</x:scenario>
 
 		<x:scenario label="Relatively large version">
@@ -566,9 +593,9 @@
 	<x:scenario label="Scenario for testing function saxon-version">
 		<x:scenario label="Assume we test this on Saxon versions from 9.7 to 9.9">
 			<x:call function="x:saxon-version" />
-			<x:expect label="Greater than or equal to 9.7.y.z"
+			<x:expect label="Greater than or equal to 9.7.0.0"
 				test="$x:result treat as xs:integer ge x:pack-version(9,7,0,0)" />
-			<x:expect label="Less than 10.0.y.z"
+			<x:expect label="Less than 10.0"
 				test="$x:result treat as xs:integer lt x:pack-version(10,0,0,0)" />
 		</x:scenario>
 	</x:scenario>
