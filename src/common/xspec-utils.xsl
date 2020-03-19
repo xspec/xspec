@@ -198,22 +198,23 @@
 
 	<!--
 		Extracts 4 version integers from string, assuming it contains zero or one
-		"#.#.#.#" (# = ASCII numbers).
-		Returns an empty sequence, if string contains no "#.#.#.#".
+		"#.#.#.#" or "#.#" (# = ASCII numbers).
+		Returns an empty sequence, if string contains no "#.#.#.#" or "#.#".
 			Example:
 				"HE 9.9.1.5"  -> 9, 9, 1, 5
 				"１.２.３.４" -> ()
+				"HE 10.1"     -> 10, 1, 0, 0
 	-->
 	<xsl:function as="xs:integer*" name="x:extract-version">
 		<xsl:param as="xs:string" name="input" />
 
-		<xsl:analyze-string regex="([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)" select="$input">
+		<xsl:analyze-string regex="([0-9]+)\.([0-9]+)(\.([0-9]+)\.([0-9]+))?" select="$input">
 			<xsl:matching-substring>
 				<xsl:sequence
 					select="
-						for $i in (1 to 4)
+						for $i in (1, 2, 4, 5)
 						return
-							xs:integer(regex-group($i))"
+							xs:integer((regex-group($i)[.], 0)[1])"
 				 />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
