@@ -8,6 +8,18 @@ declare function mirror:param-mirror($param-items as item()*) as item()* {
 };
 
 (:
+	Emulates fn:trace#2
+:)
+declare function mirror:trace(
+$items as item()*,
+$label as xs:string
+)
+as item()*
+{
+	trace($items, $label)
+};
+
+(:
 	Emulates fn:true()
 :)
 declare function mirror:true() as xs:boolean {

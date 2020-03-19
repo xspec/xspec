@@ -156,9 +156,6 @@
 
       <xsl:text>document {&#x0A;</xsl:text>
 
-      <xsl:apply-templates select="$html-reporter-pi" mode="test:create-node-generator" />
-      <xsl:text>,&#x0A;</xsl:text>
-
       <xsl:element name="{x:xspec-name($this,'report')}" namespace="{$xspec-namespace}">
          <xsl:attribute name="date"  select="'{current-dateTime()}'" />
          <xsl:attribute name="query" select="$this/@query"/>
@@ -316,6 +313,10 @@
                         <xsl:sort select="xs:integer(@position)"/>
                         <xsl:text>$</xsl:text>
                         <xsl:value-of select="test:variable-name(.)" />
+                        <xsl:for-each select="@as">
+                           <xsl:text> treat as </xsl:text>
+                           <xsl:value-of select="." />
+                        </xsl:for-each>
                         <xsl:if test="position() != last()">, </xsl:if>
                      </xsl:for-each>
                      <xsl:text>)&#10;</xsl:text>

@@ -10,38 +10,6 @@
 	-->
 
 	<!--
-		Normalizes xml-stylesheet processing instruction
-			Example:
-				in:  <?xml-stylesheet type="text/xsl" href="file:/path/to/format-xspec-report.xsl"?>
-				out: <?xml-stylesheet type="text/xsl" href="../path/to/format-xspec-report.xsl"?>
-	-->
-	<xsl:template as="processing-instruction()" match="/processing-instruction(xml-stylesheet)"
-		mode="normalizer:normalize">
-		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
-
-		<xsl:variable as="xs:string" name="regex">
-			<xsl:text>^(type="text/xsl" href=")(.+)(")$</xsl:text>
-		</xsl:variable>
-
-		<xsl:variable as="xs:string" name="value">
-			<xsl:analyze-string regex="{$regex}" select=".">
-				<xsl:matching-substring>
-					<xsl:sequence
-						select="
-							concat(
-							regex-group(1),
-							normalizer:relative-uri(regex-group(2), $tunnel_document-uri),
-							regex-group(3)
-							)"
-					 />
-				</xsl:matching-substring>
-			</xsl:analyze-string>
-		</xsl:variable>
-
-		<xsl:processing-instruction name="{name()}" select="$value" />
-	</xsl:template>
-
-	<!--
 		Normalizes the link to the files
 			Example:
 				in   <x:report xspec="file:/path/to/test.xspec">

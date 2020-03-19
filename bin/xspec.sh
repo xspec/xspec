@@ -36,7 +36,7 @@ usage() {
         echo "$1"
         echo;
     fi
-    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
+    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
     echo
     echo "  file           the XSpec document"
     echo "  -t             test an XSLT stylesheet (the default)"
@@ -46,7 +46,6 @@ usage() {
     echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
     echo "  -h             display this help message"
-    echo "  coverage       deprecated, use -c instead"
 }
 
 die() {
@@ -257,16 +256,8 @@ if [ ! -f "$XSPEC" ]; then
 fi
 
 if [ -n "$2" ]; then
-    if [ "$2" != coverage ]; then
-        usage "Error: Extra option: $2"
-        exit 1
-    fi
-	echo "Long-form option 'coverage' deprecated, use '-c' instead."
-	COVERAGE=1
-    if [ -n "$3" ]; then
-        usage "Error: Extra option: $3"
-        exit 1
-    fi
+    usage "Error: Extra option: $2"
+    exit 1
 fi
 
 ##

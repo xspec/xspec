@@ -12,27 +12,15 @@
         </x:context>
         <x:expect
             label="err:code"
-            test="$x:result?err?code"
+            test="$x:result?err?code treat as xs:QName"
             select="QName('http://www.w3.org/2005/xqt-errors', 'XTMM9000')"
         />
-
-        <!-- Use TVT to simplify this series of x:expect -->
         <x:expect
-            label="err:value is a document node"
-            test="$x:result?err?value instance of document-node()"
-        />
-        <x:expect
-            label="Saxon inserts a processing instruction containing the error code"
-            test="$x:result?err?value/node()[1]"
-        ><?error-code Q{http://www.w3.org/2005/xqt-errors}XTMM9000?></x:expect>
-        <x:expect
-            label="xsl:message body"
-            test="string($x:result?err?value/node()[2] treat as text())"
-            select="$x:xspec-uri || ': error: Abbreviations without title: AbbreviationWithoutExpansion'"
-        />
-        <x:expect
-            label="No more nodes"
-            test="empty($x:result?err?value/node()[3])"
-        />
+            label="err:value should contain xsl:message body preceded by Saxon-specific processing instruction"
+            test="$x:result?err?value treat as document-node()"
+            select="/"
+            expand-text="yes"
+            xml:space="preserve"
+        ><?error-code Q{http://www.w3.org/2005/xqt-errors}XTMM9000?>{$x:xspec-uri}: error: Abbreviations without title: AbbreviationWithoutExpansion</x:expect>
     </x:scenario>
 </x:description>

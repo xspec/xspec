@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This file verifies that @expand-text does not take effect on x:label -->
+
+	<x:scenario expand-text="yes" label="With @expand-text=yes">
+		<x:scenario>
+			<x:label>}}{scenario}{{</x:label>
+			<x:call function="mirror:true" />
+			<x:expect select="true()">
+				<x:label>}}{expect}{{</x:label>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Pull using x:like/x:label">
+			<x:like>
+				<x:label>}}{scenario}{{</x:label>
+			</x:like>
+		</x:scenario>
+
+		<x:scenario label="Pull using x:like/@label">
+			<x:like label="}}{scenario}{{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario expand-text="no" label="With @expand-text=no">
+		<x:scenario label="Pull using x:like/x:label">
+			<x:like>
+				<x:label>}}{scenario}{{</x:label>
+			</x:like>
+		</x:scenario>
+
+		<x:scenario label="Pull using x:like/@label">
+			<x:like label="}}{scenario}{{" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
