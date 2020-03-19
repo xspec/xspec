@@ -133,11 +133,6 @@ fi
 
 # set SAXON_CP (either it has been by the user, or set it from SAXON_HOME)
 
-# Prefer SAXON_HOME to SAXON_CP deliberately
-if [ -n "${SAXON_HOME}" ]; then
-    SAXON_CP="${SAXON_HOME}/saxon9he.jar";
-fi
-
 if test -z "$SAXON_CP"; then
     # Set this variable in your environment or here, if you don't set SAXON_CP
     # SAXON_HOME=/path/to/saxon/dir
