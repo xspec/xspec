@@ -1190,28 +1190,28 @@
         -Dxspec.fail=false ^
         -Dxspec.xml="%CD%\..\test\xspec-423\test.xspec"
     call :verify_retval 2
-    call :verify_line  * r "     \[java\]   XPDY0002:"
+    call :verify_line  * r "     \[java\]   XPDY0002[: ]"
     call :verify_line -3 x "BUILD FAILED"
 	</case>
 
 	<case name="XSLT selecting nodes without context should be error (CLI) #423">
     call :run ..\bin\xspec.bat xspec-423\test.xspec
     call :verify_retval 2
-    call :verify_line  * r "  XPDY0002:"
+    call :verify_line  * r "  XPDY0002[: ]"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="XSLT selecting nodes without context should be error (CLI -c) #423">
     call :run ..\bin\xspec.bat -c xspec-423\test.xspec
     call :verify_retval 2
-    call :verify_line  * r "  XPDY0002:"
+    call :verify_line  * r "  XPDY0002[: ]"
     call :verify_line -1 x "*** Error collecting test coverage data"
 	</case>
 
 	<case name="XQuery selecting nodes without context should be error (CLI) #423">
     call :run ..\bin\xspec.bat -q xspec-423\test.xspec
     call :verify_retval 2
-    call :verify_line  * r "  XPDY0002:"
+    call :verify_line  * r "  XPDY0002[: ]"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
@@ -1279,14 +1279,14 @@
 	<case name="Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)">
     call :run ..\bin\xspec.bat variable\reserved-eqname.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC008: User-defined XSpec variable, Q{http://www\.jenitennison\.com/xslt/xspec}foo,$"
+    call :verify_line 6 r "  x:XSPEC008[: ] User-defined XSpec variable, Q{http://www\.jenitennison\.com/xslt/xspec}foo,$"
     call :verify_line 7 x "  must not use the XSpec namespace."
 	</case>
 
 	<case name="Error on user-defined variable in XSpec namespace (QName in global variable)">
     call :run ..\bin\xspec.bat variable\reserved-name.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC008: User-defined XSpec variable, u:foo, must not use the XSpec namespace\.$"
+    call :verify_line 6 r "  x:XSPEC008[: ] User-defined XSpec variable, u:foo, must not use the XSpec namespace\.$"
 	</case>
 
 	<!--
@@ -1393,45 +1393,45 @@
 
     call :run ..\bin\xspec.bat catch\error-in-context-avt-for-template-call.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-context-avt-for-template-call: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-context-avt-for-template-call[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\error-in-context-param-for-matching-template.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-context-param-for-matching-template: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-context-param-for-matching-template[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\error-in-function-call-param.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-function-call-param: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-function-call-param[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\error-in-template-call-param.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-template-call-param: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-template-call-param[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\error-in-variable.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-variable: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-variable[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\static-error-in-compiled-test.xspec
     call :verify_retval 2
-    call :verify_line * r ".*XPST0017:"
+    call :verify_line * r ".*XPST0017[: ]"
 	</case>
 
 	<case ifdef="XQUERY_SUPPORTS_3_1_DEFAULT" name="@catch should not catch error outside SUT (XQuery)">
     call :run ..\bin\xspec.bat -q catch\compiler-error.xspec
     call :verify_retval 2
-    call :verify_line * r ".*x:XSPEC005:"
+    call :verify_line * r ".*x:XSPEC005[: ]"
 
     call :run ..\bin\xspec.bat -q catch\error-in-function-call-param.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-function-call-param: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-function-call-param[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat -q catch\error-in-variable.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-variable: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-variable[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat -q catch\static-error-in-compiled-test.xspec
     call :verify_retval 2
-    call :verify_line * r ".*XPST0017:"
+    call :verify_line * r ".*XPST0017[: ]"
 	</case>
 
 	<!--
@@ -1441,13 +1441,13 @@
 	<case name="Error in SUT should not be caught by default (XSLT)">
     call :run ..\bin\xspec.bat catch\no-by-default.xspec
     call :verify_retval 2
-    call :verify_line * r "  my-error-code: Error signalled .*"
+    call :verify_line * r "  my-error-code[: ] Error signalled .*"
 	</case>
 
 	<case name="Error in SUT should not be caught by default (XQuery)">
     call :run ..\bin\xspec.bat -q catch\no-by-default.xspec
     call :verify_retval 2
-    call :verify_line * r "  my-error-code: Error signalled .*"
+    call :verify_line * r "  my-error-code[: ] Error signalled .*"
 	</case>
 
 	<!--
@@ -1490,15 +1490,15 @@
 	<case name="x:like errors">
     call :run ..\bin\xspec.bat like\none.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC009: x:like: Scenario not found: none$"
+    call :verify_line 6 r "  x:XSPEC009[: ] x:like: Scenario not found: none$"
 
     call :run ..\bin\xspec.bat like\multiple.xspec
     call :verify_retval 2
-    call :verify_line 5 r "  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario$"
+    call :verify_line 5 r "  x:XSPEC010[: ] x:like: 2 scenarios found with same label: shared scenario$"
 
     call :run ..\bin\xspec.bat like\loop.xspec
     call :verify_retval 2
-    call :verify_line 5 r "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario$"
+    call :verify_line 5 r "  x:XSPEC011[: ] x:like: Reference to ancestor scenario creates infinite loop: parent scenario$"
 	</case>
 
 	<!--
