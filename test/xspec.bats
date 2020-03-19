@@ -60,6 +60,22 @@ teardown() {
     [[ "${lines[1]}" =~ "Usage: xspec " ]]
 }
 
+@test "invoking xspec with unknown option prints usage" {
+    run ../bin/xspec.sh -bogus ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Error: Unknown option: -bogus" ]
+    [[ "${lines[2]}" =~ "Usage: xspec " ]]
+}
+
+@test "invoking xspec with extra arguments prints usage" {
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec bogus
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Error: Extra option: bogus" ]
+    [[ "${lines[2]}" =~ "Usage: xspec " ]]
+}
+
 #
 # Mutually exclusive test types (CLI)
 #
@@ -90,6 +106,10 @@ teardown() {
 #
 
 @test "invoking xspec -c creates report files" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     # Other stderr #204
     export JAVA_TOOL_OPTIONS=-Dfoo
 
@@ -265,7 +285,7 @@ teardown() {
     [[ "${lines[5]}" =~ "Testing with " ]]
 }
 
-@test "x:resolve-QName-ignoring-default-ns() with non-empty prefix does not raise a warning #826" {
+@test "x:resolve-EQName-ignoring-default-ns() with non-empty prefix does not raise a warning #826" {
     run ../bin/xspec.sh xspec-826.xspec
     echo "$output"
     [ "$status" -eq 0 ]
@@ -1162,6 +1182,10 @@ teardown() {
 #
 
 @test "Ant for XSLT with coverage creates report files" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -1357,6 +1381,10 @@ teardown() {
 }
 
 @test "XSLT selecting nodes without context should be error (CLI -c) #423" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     run ../bin/xspec.sh -c xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1408,6 +1436,10 @@ teardown() {
 }
 
 @test "report-css-uri for coverage report file" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -1659,6 +1691,10 @@ teardown() {
 #
 
 @test "Trace listener should not hardcode output dir #655" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     # TEST_DIR should not contain "xspec"
     export "TEST_DIR=/tmp/XSpec-655"
 
@@ -1748,6 +1784,10 @@ teardown() {
 #
 
 @test "Custom coverage reporter (CLI)" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
     run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
     echo "$output"
@@ -1759,6 +1799,10 @@ teardown() {
 }
 
 @test "Custom coverage reporter (Ant)" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \

@@ -198,22 +198,23 @@
 
 	<!--
 		Extracts 4 version integers from string, assuming it contains zero or one
-		"#.#.#.#" (# = ASCII numbers).
-		Returns an empty sequence, if string contains no "#.#.#.#".
+		"#.#.#.#" or "#.#" (# = ASCII numbers).
+		Returns an empty sequence, if string contains no "#.#.#.#" or "#.#".
 			Example:
 				"HE 9.9.1.5"  -> 9, 9, 1, 5
 				"１.２.３.４" -> ()
+				"HE 10.1"     -> 10, 1, 0, 0
 	-->
 	<xsl:function as="xs:integer*" name="x:extract-version">
 		<xsl:param as="xs:string" name="input" />
 
-		<xsl:analyze-string regex="([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)" select="$input">
+		<xsl:analyze-string regex="([0-9]+)\.([0-9]+)(\.([0-9]+)\.([0-9]+))?" select="$input">
 			<xsl:matching-substring>
 				<xsl:sequence
 					select="
-						for $i in (1 to 4)
+						for $i in (1, 2, 4, 5)
 						return
-							xs:integer(regex-group($i))"
+							xs:integer((regex-group($i)[.], 0)[1])"
 				 />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
@@ -452,28 +453,37 @@
 	</xsl:function>
 
 	<!--
-		Resolves lexical QName to xs:QName without using the default namespace.
+		Resolves EQName (either URIQualifiedName or lexical QName, the latter is
+		resolved without using the default namespace) to xs:QName.
 		
 		Unlike fn:resolve-QName(), this function can handle XSLT names in many cases. See
 		"Notes" in https://www.w3.org/TR/xpath-functions-31/#func-resolve-QName or more
 		specifically p.866 of XSLT 2.0 and XPath 2.0 Programmer's Reference, 4th Edition.
 	-->
-	<xsl:function as="xs:QName" name="x:resolve-QName-ignoring-default-ns">
-		<xsl:param as="xs:string" name="lexical-qname" />
+	<xsl:function as="xs:QName" name="x:resolve-EQName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="eqname" />
 		<xsl:param as="element()" name="element" />
 
-		<!-- To suppress "SXWN9000: ... QName has null namespace but non-empty prefix",
-			do not pass the lexical QName directly to fn:QName(). (xspec/xspec#826) -->
-		<xsl:variable as="xs:QName" name="qname-taking-default-ns"
-			select="resolve-QName($lexical-qname, $element)" />
+		<xsl:choose>
+			<xsl:when test="starts-with($eqname, 'Q{')">
+				<xsl:sequence select="x:resolve-URIQualifiedName($eqname)" />
+			</xsl:when>
 
-		<xsl:sequence
-			select="
-				if (prefix-from-QName($qname-taking-default-ns)) then
-					$qname-taking-default-ns
-				else
-					QName('', local-name-from-QName($qname-taking-default-ns))"
-		 />
+			<xsl:otherwise>
+				<!-- To suppress "SXWN9000: ... QName has null namespace but non-empty prefix",
+					do not pass the lexical QName directly to fn:QName(). (xspec/xspec#826) -->
+				<xsl:variable as="xs:QName" name="qname-taking-default-ns"
+					select="resolve-QName($eqname, $element)" />
+
+				<xsl:sequence
+					select="
+						if (prefix-from-QName($qname-taking-default-ns)) then
+							$qname-taking-default-ns
+						else
+							QName('', local-name-from-QName($qname-taking-default-ns))"
+				 />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:function>
 
 	<!--
