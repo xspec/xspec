@@ -293,6 +293,9 @@ rem Since we don't use the delayed environment variable expansion,
 rem SAXON_HOME must be set outside 'if' scope.
 rem
 
+rem Prefer SAXON_HOME to SAXON_CP deliberately
+if defined SAXON_HOME set "SAXON_CP=%SAXON_HOME%\saxon9he.jar"
+
 if not defined SAXON_CP (
     if not defined SAXON_HOME (
         echo SAXON_CP and SAXON_HOME both not set!
