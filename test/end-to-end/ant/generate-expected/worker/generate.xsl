@@ -22,9 +22,9 @@
 		<xsl:if
 			test="
 				not(
-				(x:saxon-version() ge x:pack-version(9, 9, 0, 2))
+				(x:saxon-version() ge x:pack-version((9, 9, 0, 2)))
 				and
-				(x:saxon-version() lt x:pack-version(10, 0, 0, 0))
+				(x:saxon-version() lt x:pack-version(10))
 				)">
 			<xsl:message terminate="yes">
 				<xsl:text>Saxon version is </xsl:text>
