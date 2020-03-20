@@ -22,11 +22,13 @@
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-DEFAULT" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-QVERSION" required="yes" />
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
@@ -125,6 +127,14 @@
 
 					<xsl:when
 						test="
+							($test-type eq 't')
+							and ($pis = 'require-xslt-to-support-hof')
+							and not($XSLT-SUPPORTS-HOF)">
+						<xsl:text>Requires XSLT processor to support higher-order functions</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
@@ -137,6 +147,14 @@
 							and $require-xquery-to-support-3-1
 							and not($XQUERY-SUPPORTS-3-1-DEFAULT or $XQUERY-SUPPORTS-3-1-QVERSION)">
 						<xsl:text>Requires XQuery 3.1 processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 'q')
+							and ($pis = 'require-xquery-to-support-hof')
+							and not($XQUERY-SUPPORTS-HOF)">
+						<xsl:text>Requires XQuery processor to support higher-order functions</xsl:text>
 					</xsl:when>
 
 					<xsl:when
