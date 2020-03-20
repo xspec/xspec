@@ -120,6 +120,19 @@ assert_regex() {
 }
 
 #
+# SAXON_CP has precedence over SAXON_HOME
+#
+
+@test "SAXON_CP has precedence over SAXON_HOME" {
+    export SAXON_HOME="${work_dir}/empty-saxon-home"
+    mkdir "${SAXON_HOME}"
+
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+}
+
+#
 # Coverage (CLI)
 #
 

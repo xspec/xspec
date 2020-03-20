@@ -63,6 +63,17 @@
 	</case>
 
 	<!--
+		SAXON_CP has precedence over SAXON_HOME
+	-->
+	<case name="SAXON_CP has precedence over SAXON_HOME">
+    set "SAXON_HOME=%WORK_DIR%\empty-saxon-home"
+    call :mkdir "%SAXON_HOME%"
+
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 0
+	</case>
+
+	<!--
 		Coverage (CLI)
 	-->
 
