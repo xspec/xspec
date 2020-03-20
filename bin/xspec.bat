@@ -288,6 +288,7 @@ if not defined SAXON_CP (
         set USE_SAXON_HOME=1
         for %%I in (
             "%SAXON_HOME%\saxon9?e.jar"
+            "%SAXON_HOME%\saxon-?e-??.?*.jar"
         ) do set "SAXON_CP=%%~I"
     )
 )
