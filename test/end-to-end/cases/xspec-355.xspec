@@ -7,9 +7,16 @@
 
 	<!-- array(*) and map(*) are tested in xspec-report.xspec -->
 
-	<x:scenario label="Function">
+	<x:scenario label="xs:integer()">
 		<x:call function="Q{x-urn:test:mirror}param-mirror">
 			<x:param as="function(*)" select="function-lookup(xs:QName('xs:integer'), 1)" />
+		</x:call>
+		<x:expect label="Fail deliberately" />
+	</x:scenario>
+
+	<x:scenario label="Anonymous">
+		<x:call function="Q{x-urn:test:mirror}param-mirror">
+			<x:param as="function(*)" select="function($x){$x+1}" />
 		</x:call>
 		<x:expect label="Fail deliberately" />
 	</x:scenario>

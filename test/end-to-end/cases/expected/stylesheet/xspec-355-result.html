@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for mirror.xsl (passed: 0 / pending: 0 / failed: 1 / total: 1)</title>
+      <title>Test Report for mirror.xsl (passed: 0 / pending: 0 / failed: 2 / total: 2)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -23,13 +23,20 @@
                <th></th>
                <th class="totals">passed: 0</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 1</th>
-               <th class="totals">total: 1</th>
+               <th class="totals">failed: 2</th>
+               <th class="totals">total: 2</th>
             </tr>
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#top_scenario1">Function</a></th>
+               <th><a href="#top_scenario1">xs:integer()</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario2">Anonymous</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -38,7 +45,7 @@
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="failed">Function<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <h2 class="failed">xs:integer()<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
@@ -46,7 +53,7 @@
             </colgroup>
             <tbody>
                <tr class="failed">
-                  <th>Function</th>
+                  <th>xs:integer()</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
@@ -56,7 +63,7 @@
             </tbody>
          </table>
          <div id="scenario1">
-            <h3>Function</h3>
+            <h3>xs:integer()</h3>
             <div id="scenario1-expect1">
                <h4>Fail deliberately</h4>
                <table class="xspecResult">
@@ -70,7 +77,51 @@
                      <tr>
                         <td>
                            <p>XPath <code class="diff">/*</code> from:</p>
-                           <pre>&lt;<span class="diff">pseudo-other</span> /&gt;</pre>
+                           <pre>&lt;<span class="diff">pseudo-function</span>&gt;<span class="diff">xs:integer#1</span>&lt;/pseudo-function&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario2">
+         <h2 class="failed">Anonymous<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario2">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>Anonymous</th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario2-expect1">Fail deliberately</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario2">
+            <h3>Anonymous</h3>
+            <div id="scenario2-expect1">
+               <h4>Fail deliberately</h4>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="diff">/*</code> from:</p>
+                           <pre>&lt;<span class="diff">pseudo-function</span>&gt;<span class="diff">(anonymous-function)#1</span>&lt;/pseudo-function&gt;</pre>
                         </td>
                         <td>
                            <pre>()</pre>
