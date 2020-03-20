@@ -54,7 +54,7 @@
          use-when="element-available('xsl:context-item')" />
 
       <xsl:variable name="deprecation-warning" as="xs:string?" select="
-         if (x:saxon-version() lt x:pack-version(9,8,0,0))
+         if (x:saxon-version() lt x:pack-version((9, 8)))
          then 'Saxon version 9.7 or less is deprecated. XSpec will stop supporting it in the near future.'
          else ()" />
       <xsl:message select="
