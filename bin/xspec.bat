@@ -286,8 +286,8 @@ if not defined SAXON_CP (
         echo SAXON_CP and SAXON_HOME both not set!
     ) else (
         set USE_SAXON_HOME=1
-        for %%I in ( ^
-            "%SAXON_HOME%\saxon9?e.jar" ^
+        for %%I in (
+            "%SAXON_HOME%\saxon9?e.jar"
         ) do set "SAXON_CP=%%~I"
     )
 )
