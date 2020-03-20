@@ -132,36 +132,31 @@ fi
 
 # set SAXON_CP (either it has been by the user, or set it from SAXON_HOME)
 
+unset USE_SAXON_HOME
+
 if test -z "$SAXON_CP"; then
-    # Set this variable in your environment or here, if you don't set SAXON_CP
-    # SAXON_HOME=/path/to/saxon/dir
     if test -z "$SAXON_HOME"; then
-    	echo "SAXON_CP and SAXON_HOME both not set!"
+        echo "SAXON_CP and SAXON_HOME both not set!"
 #        die "SAXON_CP and SAXON_HOME both not set!"
-    fi
-    if test -f "${SAXON_HOME}/saxon9ee.jar"; then
-	SAXON_CP="${SAXON_HOME}/saxon9ee.jar";
-    elif test -f "${SAXON_HOME}/saxon9pe.jar"; then
-	SAXON_CP="${SAXON_HOME}/saxon9pe.jar";
-    elif test -f "${SAXON_HOME}/saxon9he.jar"; then
-	SAXON_CP="${SAXON_HOME}/saxon9he.jar";
-    elif test -f "${SAXON_HOME}/saxon9sa.jar"; then
-	SAXON_CP="${SAXON_HOME}/saxon9sa.jar";
-    elif test -f "${SAXON_HOME}/saxon9.jar"; then
-	SAXON_CP="${SAXON_HOME}/saxon9.jar";
-    elif test -f "${SAXON_HOME}/saxonb9-1-0-8.jar"; then
-	SAXON_CP="${SAXON_HOME}/saxonb9-1-0-8.jar";
-    elif test -f "${SAXON_HOME}/saxon8sa.jar"; then
-	SAXON_CP="${SAXON_HOME}/saxon8sa.jar";
-    elif test -f "${SAXON_HOME}/saxon8.jar"; then
-	SAXON_CP="${SAXON_HOME}/saxon8.jar";
     else
-    	echo "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
-#        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
+        USE_SAXON_HOME=1
+        for f in \
+            "${SAXON_HOME}"/saxon9?e.jar
+        do
+            [ -f "${f}" ] && SAXON_CP="${f}"
+        done
     fi
-    if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
-	   SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar";
-	fi
+fi
+
+if [ -n "${USE_SAXON_HOME}" ]; then
+    if [ -z "${SAXON_CP}" ]; then
+        echo "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
+#        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
+    else
+        if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
+           SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar";
+        fi
+    fi
 fi
 
 CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
@@ -210,10 +205,6 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
             COVERAGE=1;;
         # JUnit report
         -j)
-			if [[ ${SAXON_CP} == *"saxon8"* || ${SAXON_CP} == *"saxon8sa"* ]]; then
-				echo "Saxon8 detected. JUnit report requires Saxon9."
-			    exit 1
-			fi
             JUNIT=1;;
         # Catalog
         -catalog)

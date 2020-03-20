@@ -279,41 +279,26 @@ rem
 rem # set SAXON_CP (either it has been by the user, or set it from SAXON_HOME)
 rem
 
-rem
-rem # Set this variable in your environment or here, if you don't set SAXON_CP
-rem # set SAXON_HOME=C:\path\to\saxon\dir
-rem
-rem Since we don't use the delayed environment variable expansion,
-rem SAXON_HOME must be set outside 'if' scope.
-rem
+set USE_SAXON_HOME=
 
 if not defined SAXON_CP (
     if not defined SAXON_HOME (
         echo SAXON_CP and SAXON_HOME both not set!
-    )
-    if        exist "%SAXON_HOME%\saxon9ee.jar" (
-        set "SAXON_CP=%SAXON_HOME%\saxon9ee.jar"
-    ) else if exist "%SAXON_HOME%\saxon9pe.jar" (
-        set "SAXON_CP=%SAXON_HOME%\saxon9pe.jar"
-    ) else if exist "%SAXON_HOME%\saxon9he.jar" (
-        set "SAXON_CP=%SAXON_HOME%\saxon9he.jar"
-    ) else if exist "%SAXON_HOME%\saxon9sa.jar" (
-        set "SAXON_CP=%SAXON_HOME%\saxon9sa.jar"
-    ) else if exist "%SAXON_HOME%\saxon9.jar" (
-        set "SAXON_CP=%SAXON_HOME%\saxon9.jar"
-    ) else if exist "%SAXON_HOME%\saxonb9-1-0-8.jar" (
-        set "SAXON_CP=%SAXON_HOME%\saxonb9-1-0-8.jar"
-    ) else if exist "%SAXON_HOME%\saxon8sa.jar" (
-        set "SAXON_CP=%SAXON_HOME%\saxon8sa.jar"
-    ) else if exist "%SAXON_HOME%\saxon8.jar" (
-        set "SAXON_CP=%SAXON_HOME%\saxon8.jar"
     ) else (
-        call :win_echo "Saxon jar cannot be found in SAXON_HOME: %SAXON_HOME%"
+        set USE_SAXON_HOME=1
+        for %%I in (
+            "%SAXON_HOME%\saxon9?e.jar"
+        ) do set "SAXON_CP=%%~I"
     )
 )
-if defined SAXON_HOME (
-    if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
-        set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
+
+if defined USE_SAXON_HOME (
+    if not defined SAXON_CP (
+        call :win_echo "Saxon jar cannot be found in SAXON_HOME: %SAXON_HOME%"
+    ) else (
+        if exist "%SAXON_HOME%\xml-resolver-1.2.jar" (
+            set "SAXON_CP=%SAXON_CP%;%SAXON_HOME%\xml-resolver-1.2.jar"
+        )
     )
 )
 
@@ -324,13 +309,6 @@ rem ##
 rem ## options ###################################################################
 rem ##
 rem
-
-rem
-rem Saxon jar filename
-rem
-set WIN_SAXON_CP=%SAXON_CP%;
-for %%I in ("%WIN_SAXON_CP:;=";"%") do if /i "%%~xI"==".jar" if /i "%%~nI" GEQ "saxon8" if /i "%%~nI" LSS "saxonb9a" set "WIN_SAXON_JAR_N=%%~nI"
-set WIN_SAXON_CP=
 
 rem
 rem Parse command line
@@ -363,16 +341,6 @@ rem
 if defined XSLT if defined XQUERY (
     call :usage "-t and -q are mutually exclusive"
     exit /b 1
-)
-
-rem
-rem # JUnit report
-rem
-if defined JUNIT (
-    if /i "%WIN_SAXON_JAR_N:~0,6%"=="saxon8" (
-        echo Saxon8 detected. JUnit report requires Saxon9.
-        exit /b 1
-    )
 )
 
 rem
@@ -425,9 +393,6 @@ if defined WIN_EXTRA_OPTION (
 )
 
 rem
-rem Env var no longer necessary
-rem
-set WIN_SAXON_JAR_N=
 
 rem
 rem ##
