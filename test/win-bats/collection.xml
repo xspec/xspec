@@ -9,7 +9,7 @@
 	<case name="invoking xspec without arguments prints usage">
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
 	</case>
 
 	<case name="invoking xspec without arguments prints usage even if Saxon environment variables are not defined">
@@ -17,7 +17,7 @@
     call :run ..\bin\xspec.bat
     call :verify_retval 1
     call :verify_line 2 x "SAXON_CP and SAXON_HOME both not set!"
-    call :verify_line 5 r "Usage: xspec "
+    call :verify_line 4 r "Usage: xspec "
 	</case>
 
 	<case name="invoking xspec with -h prints usage and does so even when it is 11th argument">
@@ -60,6 +60,17 @@
     call :run ..\bin\xspec.bat -t -q
     call :verify_retval 1
     call :verify_line 2 x "-t and -q are mutually exclusive"
+	</case>
+
+	<!--
+		SAXON_CP has precedence over SAXON_HOME
+	-->
+	<case name="SAXON_CP has precedence over SAXON_HOME">
+    set "SAXON_HOME=%WORK_DIR%\empty-saxon-home"
+    call :mkdir "%SAXON_HOME%"
+
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 0
 	</case>
 
 	<!--
@@ -200,24 +211,6 @@
 	</case>
 
 	<!--
-		JUnit and Saxon versions (CLI)
-	-->
-
-	<case name="invoking xspec with -j option with Saxon8 returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8.jar
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Saxon8 detected. JUnit report requires Saxon9."
-	</case>
-
-	<case name="invoking xspec with -j option with Saxon8-SA returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8sa.jar
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Saxon8 detected. JUnit report requires Saxon9."
-	</case>
-
-	<!--
 		JUnit (CLI)
 	-->
 
@@ -234,17 +227,6 @@
 
     rem JUnit report file
     call :verify_exist "%TEST_DIR%\escape-for-regex-junit.xml"
-	</case>
-
-	<!--
-		Saxon-B (CLI)
-	-->
-
-	<case name="invoking xspec with Saxon-B-9-1-0-8 creates test stylesheet">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxonb9-1-0-8.jar
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 3 x "Creating Test Stylesheet..."
 	</case>
 
 	<!--

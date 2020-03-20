@@ -59,7 +59,7 @@ assert_regex() {
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]" ]
+    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
 }
 
 @test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
@@ -68,7 +68,7 @@ assert_regex() {
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "SAXON_CP and SAXON_HOME both not set!" ]
-    [[ "${lines[4]}" =~ "Usage: xspec " ]]
+    [[ "${lines[3]}" =~ "Usage: xspec " ]]
 }
 
 @test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
@@ -117,6 +117,19 @@ assert_regex() {
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "-t and -q are mutually exclusive" ]
+}
+
+#
+# SAXON_CP has precedence over SAXON_HOME
+#
+
+@test "SAXON_CP has precedence over SAXON_HOME" {
+    export SAXON_HOME="${work_dir}/empty-saxon-home"
+    mkdir "${SAXON_HOME}"
+
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
 }
 
 #
@@ -273,26 +286,6 @@ assert_regex() {
 }
 
 #
-# JUnit and Saxon versions (CLI)
-#
-
-@test "invoking xspec with -j option with Saxon8 returns error message" {
-    export SAXON_CP=/path/to/saxon8.jar
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Saxon8 detected. JUnit report requires Saxon9." ]
-}
-
-@test "invoking xspec with -j option with Saxon8-SA returns error message" {
-    export SAXON_CP=/path/to/saxon8sa.jar
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Saxon8 detected. JUnit report requires Saxon9." ]
-}
-
-#
 # JUnit (CLI)
 #
 
@@ -310,18 +303,6 @@ assert_regex() {
 
     # JUnit report file
     [ -f "${TEST_DIR}/escape-for-regex-junit.xml" ]
-}
-
-#
-# Saxon-B (CLI)
-#
-
-@test "invoking xspec with Saxon-B-9-1-0-8 creates test stylesheet" {
-    export SAXON_CP=/path/to/saxonb9-1-0-8.jar
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Creating Test Stylesheet..." ]
 }
 
 #
