@@ -1096,39 +1096,67 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function resolve-QName-ignoring-default-ns">
-		<x:scenario label="With prefix">
-			<x:call function="x:resolve-QName-ignoring-default-ns">
-				<x:param select="'prefix:foo'" />
-				<x:param>
-					<e xmlns:prefix="prefixed-ns" />
-				</x:param>
-			</x:call>
-			<x:expect label="Resolved"
-				test="x:QName-exactly-equal($x:result, QName('prefixed-ns', 'prefix:foo'))" />
-		</x:scenario>
-
-		<x:scenario label="Without prefix">
-			<x:scenario label="With default namespace">
-				<x:call function="x:resolve-QName-ignoring-default-ns">
-					<x:param select="'foo'" />
+	<x:scenario label="Scenario for testing function resolve-EQName-ignoring-default-ns">
+		<x:scenario label="URIQualifiedName">
+			<x:scenario label="With URI">
+				<x:variable as="xs:anyURI" name="ridiculous-uri"
+					>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+				<x:call function="x:resolve-EQName-ignoring-default-ns">
+					<x:param select="concat('Q{', $ridiculous-uri, '}foo')" />
 					<x:param>
 						<e xmlns="default-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Resolved without using the default namespace"
-					test="x:QName-exactly-equal($x:result, QName('', 'foo'))" />
+				<x:expect label="Resolved without affected by the default namespace"
+					test="x:QName-exactly-equal($x:result, QName($ridiculous-uri, 'foo'))" />
 			</x:scenario>
 
-			<x:scenario label="Without default namespace">
-				<x:call function="x:resolve-QName-ignoring-default-ns">
-					<x:param select="'foo'" />
+			<x:scenario label="Without URI">
+				<x:call function="x:resolve-EQName-ignoring-default-ns">
+					<x:param select="'Q{}foo'" />
 					<x:param>
-						<e xmlns="" />
+						<e xmlns="default-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Resolved" test="x:QName-exactly-equal($x:result, QName('', 'foo'))"
-				 />
+				<x:expect label="Resolved as no namespace without affected by the default namespace"
+					test="x:QName-exactly-equal($x:result, QName('', 'foo'))" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Lexical QName">
+			<x:scenario label="With prefix">
+				<x:call function="x:resolve-EQName-ignoring-default-ns">
+					<x:param select="'prefix:foo'" />
+					<x:param>
+						<e xmlns:prefix="prefixed-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved"
+					test="x:QName-exactly-equal($x:result, QName('prefixed-ns', 'prefix:foo'))" />
+			</x:scenario>
+
+			<x:scenario label="Without prefix">
+				<x:scenario label="With default namespace">
+					<x:call function="x:resolve-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="default-ns" />
+						</x:param>
+					</x:call>
+					<x:expect label="Resolved without using the default namespace"
+						test="x:QName-exactly-equal($x:result, QName('', 'foo'))" />
+				</x:scenario>
+
+				<x:scenario label="Without default namespace">
+					<x:call function="x:resolve-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="" />
+						</x:param>
+					</x:call>
+					<x:expect label="Resolved"
+						test="x:QName-exactly-equal($x:result, QName('', 'foo'))" />
+				</x:scenario>
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
