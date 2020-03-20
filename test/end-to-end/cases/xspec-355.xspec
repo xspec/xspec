@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xquery-to-support-hof?>
+<?xspec-test require-xslt-to-support-hof?>
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xquery"
+	stylesheet="../../mirror.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xslt-version="3.0">
+
+	<!-- array(*) and map(*) are tested in xspec-report.xspec -->
+
+	<x:scenario label="Function">
+		<x:call function="Q{x-urn:test:mirror}param-mirror">
+			<x:param as="function(*)" select="function-lookup(xs:QName('xs:integer'), 1)" />
+		</x:call>
+		<x:expect label="Fail deliberately" />
+	</x:scenario>
+
+</x:description>
