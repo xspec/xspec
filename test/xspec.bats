@@ -34,6 +34,24 @@ teardown() {
 }
 
 #
+# Helper
+#
+
+assert_regex() {
+    if [ "$#" -ne 2 ]; then
+        echo "Invalid number of arguments: $#"
+        return 1
+    fi
+
+    if [[ "" =~ $2 ]]; then
+        echo "Regex matches zero-length string: $2"
+        return 1
+    fi
+
+    [[ $1 =~ $2 ]]
+}
+
+#
 # Usage (CLI)
 #
 
@@ -41,7 +59,7 @@ teardown() {
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]" ]
+    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
 }
 
 @test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
@@ -99,6 +117,19 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "-t and -q are mutually exclusive" ]
+}
+
+#
+# SAXON_CP has precedence over SAXON_HOME
+#
+
+@test "SAXON_CP has precedence over SAXON_HOME" {
+    export SAXON_HOME="${work_dir}/empty-saxon-home"
+    mkdir "${SAXON_HOME}"
+
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
 }
 
 #
@@ -1368,7 +1399,7 @@ teardown() {
         -Dxspec.xml="${PWD}/../test/xspec-423/test.xspec"
     echo "$output"
     [ "$status" -eq 2 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    assert_regex "${output}" '  XPDY0002:'
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 }
 
@@ -1376,7 +1407,7 @@ teardown() {
     run ../bin/xspec.sh xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    assert_regex "${output}" '  XPDY0002:'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1388,7 +1419,7 @@ teardown() {
     run ../bin/xspec.sh -c xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    assert_regex "${output}" '  XPDY0002:'
     [ "${lines[${#lines[@]}-1]}" = "*** Error collecting test coverage data" ]
 }
 
@@ -1396,7 +1427,7 @@ teardown() {
     run ../bin/xspec.sh -q xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    assert_regex "${output}" '  XPDY0002:'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1408,8 +1439,7 @@ teardown() {
     run ../bin/xspec.sh -q xquery-version/invalid.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    regex="XQST0031.+InVaLiD"
-    [[ "${output}" =~ ${regex} ]]
+    assert_regex "${output}" 'XQST0031.+InVaLiD'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1476,7 +1506,7 @@ teardown() {
     run ../bin/xspec.sh variable/reserved-eqname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC008: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo," ]
+    assert_regex "${lines[5]}" '^  x:XSPEC008: User-defined XSpec variable, Q\{http://www\.jenitennison\.com/xslt/xspec\}foo,$'
     [ "${lines[6]}" = "  must not use the XSpec namespace." ]
 }
 
@@ -1484,7 +1514,7 @@ teardown() {
     run ../bin/xspec.sh variable/reserved-name.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC008: User-defined XSpec variable, u:foo, must not use the XSpec namespace." ]
+    assert_regex "${lines[5]}" '^  x:XSPEC008: User-defined XSpec variable, u:foo, must not use the XSpec namespace\.$'
 }
 
 #
@@ -1598,32 +1628,32 @@ teardown() {
     run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-context-avt-for-template-call: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-context-avt-for-template-call: Error signalled '
 
     run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-context-param-for-matching-template: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-context-param-for-matching-template: Error signalled '
 
     run ../bin/xspec.sh catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-function-call-param: Error signalled '
 
     run ../bin/xspec.sh catch/error-in-template-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-template-call-param: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-template-call-param: Error signalled '
 
     run ../bin/xspec.sh catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-variable: Error signalled '
 
     run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "XPST0017:" ]]
+    assert_regex "${output}" 'XPST0017:'
 }
 
 @test "@catch should not catch error outside SUT (XQuery)" {
@@ -1634,22 +1664,22 @@ teardown() {
     run ../bin/xspec.sh -q catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "x:XSPEC005:" ]]
+    assert_regex "${output}" 'x:XSPEC005:'
 
     run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-function-call-param: Error signalled '
 
     run ../bin/xspec.sh -q catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-variable: Error signalled '
 
     run ../bin/xspec.sh -q catch/static-error-in-compiled-test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "XPST0017:" ]]
+    assert_regex "${output}" 'XPST0017:'
 }
 
 #
@@ -1660,14 +1690,14 @@ teardown() {
     run ../bin/xspec.sh catch/no-by-default.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+    assert_regex "${output}" '  my-error-code: Error signalled '
 }
 
 @test "Error in SUT should not be caught by default (XQuery)" {
     run ../bin/xspec.sh -q catch/no-by-default.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+    assert_regex "${output}" '  my-error-code: Error signalled '
 }
 
 #
@@ -1718,17 +1748,17 @@ teardown() {
     run ../bin/xspec.sh like/none.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC009: x:like: Scenario not found: none" ]
+    assert_regex "${lines[5]}" '^  x:XSPEC009: x:like: Scenario not found: none$'
 
     run ../bin/xspec.sh like/multiple.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario" ]
+    assert_regex "${lines[4]}" '^  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario$'
 
     run ../bin/xspec.sh like/loop.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario" ]
+    assert_regex "${lines[4]}" '^  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario$'
 }
 
 #

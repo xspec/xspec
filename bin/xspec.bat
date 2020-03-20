@@ -47,7 +47,7 @@ rem ##
         call :win_echo %1
         echo:
     )
-    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog file^|-h] file [coverage]
+    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog file^|-h] file
     echo:
     echo   file           the XSpec document
     echo   -t             test an XSLT stylesheet (the default)
@@ -57,7 +57,6 @@ rem ##
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
     echo   -h             display this help message
-    echo   coverage       deprecated, use -c instead
     goto :EOF
 
 :die
@@ -93,7 +92,6 @@ rem ##
     set JUNIT=
     set WIN_HELP=
     set WIN_UNKNOWN_OPTION=
-    set WIN_DEPRECATED_COVERAGE=
     set WIN_EXTRA_OPTION=
     set XSPEC=
     set CATALOG=
@@ -122,12 +120,8 @@ rem ##
     ) else if "%WIN_ARGV:~0,1%"=="-" (
         set "WIN_UNKNOWN_OPTION=%WIN_ARGV%"
     ) else if defined XSPEC (
-        if "%WIN_ARGV%"=="coverage" (
-            set WIN_DEPRECATED_COVERAGE=1
-        ) else (
-            set "WIN_EXTRA_OPTION=%WIN_ARGV%"
-            goto :EOF
-        )
+        set "WIN_EXTRA_OPTION=%WIN_ARGV%"
+        goto :EOF
     ) else (
         set "XSPEC=%WIN_ARGV%"
     )
@@ -399,12 +393,6 @@ if defined WIN_EXTRA_OPTION (
 )
 
 rem
-rem Deprecated 'coverage' option
-rem
-if defined WIN_DEPRECATED_COVERAGE (
-    echo Long-form option 'coverage' deprecated, use '-c' instead.
-    set COVERAGE=1
-)
 
 rem
 rem ##
