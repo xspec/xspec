@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for do-nothing.xsl (passed: 0 / pending: 0 / failed: 1 / total: 1)</title>
+      <title>Test Report for mirror.xsl (passed: 0 / pending: 0 / failed: 1 / total: 1)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
-      <p>Stylesheet: <a href="../../../../do-nothing.xsl">do-nothing.xsl</a></p>
+      <p>Stylesheet: <a href="../../../../mirror.xsl">mirror.xsl</a></p>
       <p>XSpec: <a href="../../xspec-467.xspec">xspec-467.xspec</a></p>
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
@@ -70,7 +70,8 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">e1</span> xmlns="ns1"&gt;
+                           <pre>&lt;<span class="inner-diff">e1</span> xmlns="ns1"
+    xmlns:mirror="x-urn:test:mirror"&gt;
    &lt;<span class="diff">e2</span> xmlns="ns2"
        xmlns:ns3="ns3"
        xmlns:ns4="ns4"&gt;
@@ -82,7 +83,8 @@
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">e1</span> xmlns="ns1"&gt;
+                           <pre>&lt;<span class="inner-diff">e1</span> xmlns="ns1"
+    xmlns:mirror="x-urn:test:mirror"&gt;
    &lt;<span class="diff">e2</span> xmlns="ns2!"
        xmlns:ns3="ns3"
        xmlns:ns4="ns4"&gt;
