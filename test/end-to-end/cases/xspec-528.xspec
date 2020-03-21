@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- XSpec fails to run this file on XQuery. Maybe a variant of #446? -->
 
 	<x:scenario label="Scenario 1">
-		<x:call function="true" />
+		<x:call function="mirror:true" />
 		<x:expect label="should be skipped (otherwise should fail)" select="false()" />
 
 		<x:scenario label="Scenario 1-1">
-			<x:call function="true" />
+			<x:call function="mirror:true" />
 			<x:expect label="should be skipped (otherwise should fail)" select="false()" />
 		</x:scenario>
 
 		<x:scenario focus="Focus on 1-2" label="Scenario 1-2">
-			<x:call function="true" />
+			<x:call function="mirror:true" />
 			<x:expect label="should fail" select="false()" />
 		</x:scenario>
 	</x:scenario>
