@@ -141,7 +141,8 @@ if test -z "$SAXON_CP"; then
     else
         USE_SAXON_HOME=1
         for f in \
-            "${SAXON_HOME}"/saxon9?e.jar
+            "${SAXON_HOME}"/saxon9?e.jar \
+            "${SAXON_HOME}"/saxon-?e-??.?*.jar
         do
             [ -f "${f}" ] && SAXON_CP="${f}"
         done
