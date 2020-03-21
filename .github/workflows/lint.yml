@@ -1,6 +1,6 @@
-name: lint
+name: Lint
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
 jobs:
   codespell:
