@@ -18,6 +18,7 @@ environment:
       JING_VERSION: 20181222
       XMLCALABASH_VERSION: 1.1.30-99
       DO_CODESPELL: true
+      DO_MAVEN_PACKAGE: true
 
     # latest Saxon 9.8
     # - SAXON_VERSION: 9.8.0-15
@@ -39,28 +40,28 @@ build: off
 
 test_script:
 - cmd: |
-    rem print versions and env vars
+    rem Print versions and env vars
     test\ci\print-env.cmd
 
-    rem spell check
+    rem Spell check
     test\ci\run-codespell.cmd
 
-    rem execute bats-like unit tests
+    rem Execute bats-like unit tests
     test\run-bats.cmd
 
-    rem execute XSpec unit tests
+    rem Execute XSpec unit tests
     test\run-xspec-tests-ant.cmd -silent
 
-    rem execute XSpec end-to-end tests
+    rem Execute XSpec end-to-end tests
     test\end-to-end\run-e2e-tests.cmd -silent
 
     rem Maven package
     test\ci\maven-package.cmd -q
 
-    rem compile java
+    rem Compile Java
     test\ci\compile-java.cmd -silent
 
-    rem check git status
+    rem Check git status
     test\ci\last-git-status.cmd
 
 deploy: off
