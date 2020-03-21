@@ -76,11 +76,9 @@ jobs:
 
       - script: call test\ci\maven-package.cmd --no-transfer-progress
         displayName: Maven package
-        condition: and(succeeded(), variables['DO_MAVEN_PACKAGE'])
 
       - script: call test\ci\compile-java.cmd -verbose
-        displayName: Compile java
-        condition: and(succeeded(), eq(${{ parameters.javaVersion }}, 8))
+        displayName: Compile Java
 
       - script: call test\ci\last-git-status.cmd
         displayName: Check git status

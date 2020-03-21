@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../do-nothing.xsl"
+          stylesheet="../../../../mirror.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-448.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-448.xspec">
       <x:label>x:scenario/</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../xspec-448.xspec">
          <x:label>x:label containing }{ should not affect test</x:label>
-         <x:call function="false"/>
+         <x:call function="mirror:false"/>
          <x:result select="xs:boolean('false')"/>
          <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>(This x:expect doesn't matter)</x:label>
@@ -18,7 +19,7 @@
       </x:scenario>
       <x:scenario id="scenario1-scenario2" xspec="../../xspec-448.xspec">
          <x:label>@label containing }{ should not affect test</x:label>
-         <x:call function="false"/>
+         <x:call function="mirror:false"/>
          <x:result select="xs:boolean('false')"/>
          <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>(This x:expect doesn't matter)</x:label>

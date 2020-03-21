@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:mirror="x-urn:test:mirror"
           date="2000-01-01T00:00:00Z"
-          query="x-urn:test:do-nothing"
-          query-at="../../../../do-nothing.xquery"
+          query="x-urn:test:mirror"
+          query-at="../../../../mirror.xquery"
           xspec="../../xspec-452.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-452.xspec">
       <x:label>Text</x:label>
-      <x:call function="exactly-one">
+      <x:call function="mirror:param-mirror">
          <x:param>t</x:param>
       </x:call>
       <x:result select="/text()">t</x:result>
@@ -17,7 +18,7 @@
    </x:scenario>
    <x:scenario id="scenario2" xspec="../../xspec-452.xspec">
       <x:label>Comment</x:label>
-      <x:call function="exactly-one">
+      <x:call function="mirror:param-mirror">
          <x:param><!--c--></x:param>
       </x:call>
       <x:result select="/comment()"><!--c--></x:result>
@@ -28,7 +29,7 @@
    </x:scenario>
    <x:scenario id="scenario3" xspec="../../xspec-452.xspec">
       <x:label>Processing instruction</x:label>
-      <x:call function="exactly-one">
+      <x:call function="mirror:param-mirror">
          <x:param><?p?></x:param>
       </x:call>
       <x:result select="/processing-instruction()"><?p?></x:result>
@@ -39,7 +40,7 @@
    </x:scenario>
    <x:scenario id="scenario4" xspec="../../xspec-452.xspec">
       <x:label>In element</x:label>
-      <x:call function="exactly-one">
+      <x:call function="mirror:param-mirror">
          <x:param>
             <elem>t<!--c--><?p?></elem>
          </x:param>

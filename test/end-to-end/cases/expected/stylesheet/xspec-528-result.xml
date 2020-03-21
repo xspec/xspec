@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../do-nothing.xsl"
+          stylesheet="../../../../mirror.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-528.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-528.xspec" pending="Focus on 1-2">
       <x:label>Scenario 1</x:label>
-      <x:call function="true"/>
+      <x:call function="mirror:true"/>
       <x:test id="scenario1-expect1" pending="Focus on 1-2">
          <x:label>should be skipped (otherwise should fail)</x:label>
       </x:test>
@@ -15,14 +16,14 @@
                   xspec="../../xspec-528.xspec"
                   pending="Focus on 1-2">
          <x:label>Scenario 1-1</x:label>
-         <x:call function="true"/>
+         <x:call function="mirror:true"/>
          <x:test id="scenario1-scenario1-expect1" pending="Focus on 1-2">
             <x:label>should be skipped (otherwise should fail)</x:label>
          </x:test>
       </x:scenario>
       <x:scenario id="scenario1-scenario2" xspec="../../xspec-528.xspec">
          <x:label>Scenario 1-2</x:label>
-         <x:call function="true"/>
+         <x:call function="mirror:true"/>
          <x:result select="xs:boolean('true')"/>
          <x:test id="scenario1-scenario2-expect1" successful="false">
             <x:label>should fail</x:label>
