@@ -1,0 +1,15 @@
+name: lint
+
+on: [push, pull_request]
+
+jobs:
+  codespell:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: test/ci/run-codespell.sh
+        env:
+          DO_CODESPELL: true
+
