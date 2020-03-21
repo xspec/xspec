@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
-	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xquery"
+	stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:pending label="x:pending/@label containing }{">
 		<x:scenario label="should not affect test">
-			<x:call function="false" />
+			<x:call function="mirror:false" />
 			<x:expect label="(This x:expect doesn't matter)" select="false()" />
 		</x:scenario>
 	</x:pending>
