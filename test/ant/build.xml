@@ -40,6 +40,17 @@
 		</condition>
 		<echo message="xslt.supports.3-0=${xslt.supports.3-0}" />
 
+		<!-- Checks to see if XSLT processor supports higher-order functions -->
+		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
+			resultproperty="xslt.hof.compile.result">
+			<arg value="-nogo" />
+			<arg value="-xsl:${run-xspec-tests.basedir}/../caps/hof.xsl" />
+		</java>
+		<condition else="false" property="xslt.supports.hof">
+			<equals arg1="${xslt.hof.compile.result}" arg2="0" />
+		</condition>
+		<echo message="xslt.supports.hof=${xslt.supports.hof}" />
+
 		<!-- Checks to see if XQuery processor can be schema-aware ('-sa') -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery.schema-aware.run.result">
@@ -71,6 +82,16 @@
 			<equals arg1="${xquery3-1.qversion.run.result}" arg2="0" />
 		</condition>
 		<echo message="xquery.supports.3-1.qversion=${xquery.supports.3-1.qversion}" />
+
+		<!-- Checks to see if XQuery processor supports higher-order functions -->
+		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
+			resultproperty="xquery.hof.run.result">
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/hof.xquery" />
+		</java>
+		<condition else="false" property="xquery.supports.hof">
+			<equals arg1="${xquery.hof.run.result}" arg2="0" />
+		</condition>
+		<echo message="xquery.supports.hof=${xquery.supports.hof}" />
 	</target>
 
 	<!-- Generates the worker -->
@@ -87,12 +108,14 @@
 			<param expression="${xspecfiles.dir.url.query}" name="XSPECFILES-DIR-URI-QUERY" />
 			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN" />
 			<param expression="${xslt.supports.3-0}" name="XSLT-SUPPORTS-3-0" type="BOOLEAN" />
+			<param expression="${xslt.supports.hof}" name="XSLT-SUPPORTS-HOF" type="BOOLEAN" />
 			<param expression="${xquery.supports.schema}" name="XQUERY-SUPPORTS-SCHEMA"
 				type="BOOLEAN" />
 			<param expression="${xquery.supports.3-1.default}" name="XQUERY-SUPPORTS-3-1-DEFAULT"
 				type="BOOLEAN" />
 			<param expression="${xquery.supports.3-1.qversion}" name="XQUERY-SUPPORTS-3-1-QVERSION"
 				type="BOOLEAN" />
+			<param expression="${xquery.supports.hof}" name="XQUERY-SUPPORTS-HOF" type="BOOLEAN" />
 			<param expression="${run-xspec-tests.now}" if="run-xspec-tests.now" name="NOW" />
 			<param expression="${thread.count}" if="thread.count" name="THREAD-COUNT" type="INT" />
 		</xslt>

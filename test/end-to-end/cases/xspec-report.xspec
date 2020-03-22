@@ -4,7 +4,7 @@
 	xquery-version="3.1" xslt-version="3.0">
 
 	<x:scenario label="Function (xspec/xspec#355)">
-		<!-- function(*) (excluding array(*) and map(*)) requires Saxon-PE or EE -->
+		<!-- function(*) (excluding array(*) and map(*)) is tested in xspec-355.xspec -->
 
 		<x:scenario label="Array">
 			<x:call function="Q{x-urn:test:mirror}param-mirror">
