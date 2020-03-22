@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
-          query="x-urn:test:do-nothing"
-          query-at="../../../../do-nothing.xquery"
+          query="x-urn:test:mirror"
+          query-at="../../../../mirror.xquery"
           xspec="../../xspec-report.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-report.xspec">
       <x:label>Function (xspec/xspec#355)</x:label>
       <x:result select="()"/>
       <x:scenario id="scenario1-scenario1" xspec="../../xspec-report.xspec">
          <x:label>Array</x:label>
-         <x:call function="exactly-one">
+         <x:call function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="array(*)" select="['foo', 1, [2, 'bar']]"/>
          </x:call>
          <x:result select="/*">
@@ -22,7 +22,7 @@
       </x:scenario>
       <x:scenario id="scenario1-scenario2" xspec="../../xspec-report.xspec">
          <x:label>Map</x:label>
-         <x:call function="exactly-one">
+         <x:call function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="map(*)" select="      map {       'foo': 1,       2: 'bar'      }"/>
          </x:call>
          <x:result select="/*">
@@ -36,7 +36,7 @@
    </x:scenario>
    <x:scenario id="scenario2" xspec="../../xspec-report.xspec">
       <x:label>Element, attribute (xspec/xspec#357)</x:label>
-      <x:call function="one-or-more">
+      <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="node()+" select="elem1 | elem2/attribute()">
             <elem1>text</elem1>
             <elem2 attr="attr-val"/>
@@ -55,7 +55,7 @@
    </x:scenario>
    <x:scenario id="scenario3" xspec="../../xspec-report.xspec">
       <x:label>Attributes of the same name (xspec/xspec#358)</x:label>
-      <x:call function="one-or-more">
+      <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="attribute()+" select="element()/attribute()">
             <elem1 attr="foo"/>
             <elem2 attr="bar"/>
@@ -72,7 +72,7 @@
    </x:scenario>
    <x:scenario id="scenario4" xspec="../../xspec-report.xspec">
       <x:label>Attribute, element, attribute (xspec/xspec#360)</x:label>
-      <x:call function="one-or-more">
+      <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="node()+" select="element()/attribute() | elem2">
             <elem1 attr1="attr1-val"/>
             <elem2>text</elem2>
@@ -93,8 +93,8 @@
    </x:scenario>
    <x:scenario id="scenario5" xspec="../../xspec-report.xspec">
       <x:label>Document node with no children (xspec/xspec#697)</x:label>
-      <x:call function="parse-xml-fragment">
-         <x:param select="''"/>
+      <x:call function="Q{x-urn:test:mirror}param-mirror">
+         <x:param select="parse-xml-fragment('')"/>
       </x:call>
       <x:result select="/self::document-node()"/>
       <x:test id="scenario5-expect1" successful="false">
@@ -107,7 +107,7 @@
       <x:result select="()"/>
       <x:scenario id="scenario6-scenario1" xspec="../../xspec-report.xspec">
          <x:label>[Result] = document node, [Expected Result] = element</x:label>
-         <x:call function="exactly-one">
+         <x:call function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="document-node()" select="/">
                <test/>
             </x:param>
@@ -124,7 +124,7 @@
       </x:scenario>
       <x:scenario id="scenario6-scenario2" xspec="../../xspec-report.xspec">
          <x:label>[Result] = element, [Expected Result] = document node.</x:label>
-         <x:call function="exactly-one">
+         <x:call function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="element()">
                <test/>
             </x:param>

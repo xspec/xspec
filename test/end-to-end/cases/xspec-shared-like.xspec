@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
-	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xquery"
+	stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Unreferenced shared scenario" shared="yes">
 		<x:expect label="This unreferenced shared x:expect should not fire at all" test="true()" />
@@ -15,14 +16,14 @@
 	</x:scenario>
 
 	<x:scenario label="Referenced and explicitly unshared scenario" shared="no">
-		<x:call function="false" />
+		<x:call function="mirror:false" />
 		<x:expect
 			label="This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like"
 			test="true()" />
 	</x:scenario>
 
 	<x:scenario label="Referenced and implicitly unshared scenario">
-		<x:call function="false" />
+		<x:call function="mirror:false" />
 		<x:expect
 			label="This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like"
 			test="true()" />
@@ -34,7 +35,7 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing x:like which references a shared scenario">
-		<x:call function="false" />
+		<x:call function="mirror:false" />
 		<x:like label="Referenced shared scenario" />
 	</x:scenario>
 
