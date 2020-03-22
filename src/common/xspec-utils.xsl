@@ -242,6 +242,7 @@
 			Example:
 				"EE 9.9.1.5"  -> 2533313445167109 (0x0009000900010005)
 				"HE 9.3.0.11" -> 2533287675297809 (0x0009000300000011)
+				"HE 10.0"     -> 2814749767106560 (0x000A000000000000)
 	-->
 	<xsl:function as="xs:integer?" name="x:saxon-version">
 		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
