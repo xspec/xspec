@@ -110,6 +110,14 @@
 					<xsl:when
 						test="
 							($test-type eq 't')
+							and $enable-coverage
+							and (x:saxon-version() ge x:pack-version(10))">
+						<xsl:text>XSLT Code Coverage requires Saxon version less than 10 (xspec/xspec#852)</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 't')
 							and ($pis = 'require-xslt-to-support-schema')
 							and not($XSLT-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XSLT processor</xsl:text>
