@@ -5,9 +5,11 @@
 
 	<x:variable name="global-variable" select="'global variable overridden by XSpec'" />
 
-	<x:scenario label="Regardless of x:context">
-		<x:context>
-			<context-child />
+	<x:scenario label="With x:context">
+		<x:context select="//context-grandchild">
+			<context-child>
+				<context-grandchild />
+			</context-child>
 		</x:context>
 
 		<x:scenario label="global x:param in XSpec">
@@ -20,6 +22,13 @@
 			<x:call template="get-global-variable" />
 			<x:expect label="overrides xsl:variable in SUT"
 				select="'global variable overridden by XSpec'" />
+		</x:scenario>
+
+		<x:scenario label="template context">
+			<x:call template="get-template-context" />
+			<x:expect label="x:context/@select">
+				<context-grandchild />
+			</x:expect>
 		</x:scenario>
 	</x:scenario>
 
