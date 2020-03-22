@@ -27,7 +27,10 @@
 				location="/x:description[1]/x:scenario[6]/x:scenario[3]/x:call[1]/x:param[1]/pre[1]/span[1]/text()[1]" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="sibling node"
 				location="/x:description[1]/x:scenario[6]/x:scenario[4]/x:call[1]/x:param[1]/p[1]/span[1]/text()[1]" />
-			<x:expect-assert count="7" />
+			<x:expect-assert id="text-node-should-be-non-ignorable"
+				label="override ancestor scenario"
+				location="/x:description[1]/x:scenario[7]/x:scenario[2]/x:scenario[1]/x:call[1]/x:param[1]/span[1]/text()[1]" />
+			<x:expect-assert count="8" />
 		</x:scenario>
 
 		<x:scenario label="XSLT">

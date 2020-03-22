@@ -13,7 +13,7 @@ if [ "${DO_CODESPELL}" = true ] ; then
 
     # ".git" dir is not skipped by default: codespell-project/codespell#783
     # Skipping nested dirs needs "./": codespell-project/codespell#99
-    codespell \
+    ~/.local/bin/codespell \
         --check-filenames \
         --check-hidden \
         --quiet-level 6 \

@@ -21,11 +21,11 @@
 
    <xsl:key name="functions" 
             match="xsl:function" 
-            use="resolve-QName(@name, .)" />
+            use="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
    <xsl:key name="named-templates" 
             match="xsl:template[@name]"
-            use="x:resolve-QName-ignoring-default-ns(@name, .)" />
+            use="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
    <xsl:key name="matching-templates" 
             match="xsl:template[@match]" 
@@ -190,11 +190,23 @@
                <xsl:attribute name="separator" select="." />
             </xsl:when>
 
+            <xsl:when test="(. instance of text()) and x:is-user-content(.)">
+               <!-- May be TVT -->
+               <xsl:sequence select="parent::x:text/@expand-text" />
+               <xsl:sequence select="." />
+            </xsl:when>
+
             <xsl:otherwise>
                <xsl:value-of select="." />
             </xsl:otherwise>
          </xsl:choose>
       </xsl:element>
+   </xsl:template>
+
+   <!-- x:text represents its child text node -->
+   <xsl:template match="x:text" as="element(xsl:text)" mode="test:create-node-generator">
+      <!-- Unwrap -->
+      <xsl:apply-templates mode="#current" />
    </xsl:template>
 
    <xsl:template match="xsl:*" as="element(xsl:element)" mode="test:create-node-generator">

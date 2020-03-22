@@ -9,7 +9,7 @@
 	<case name="invoking xspec without arguments prints usage">
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
 	</case>
 
 	<case name="invoking xspec without arguments prints usage even if Saxon environment variables are not defined">
@@ -17,13 +17,27 @@
     call :run ..\bin\xspec.bat
     call :verify_retval 1
     call :verify_line 2 x "SAXON_CP and SAXON_HOME both not set!"
-    call :verify_line 5 r "Usage: xspec "
+    call :verify_line 4 r "Usage: xspec "
 	</case>
 
 	<case name="invoking xspec with -h prints usage and does so even when it is 11th argument">
     call :run ..\bin\xspec.bat -t -t -t -t -t -t -t -t -t -t -h
     call :verify_retval 0
     call :verify_line 2 r "Usage: xspec "
+	</case>
+
+	<case name="invoking xspec with unknown option prints usage">
+    call :run ..\bin\xspec.bat -bogus ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 1
+    call :verify_line 2 x "Error: Unknown option: -bogus"
+    call :verify_line 3 r "Usage: xspec "
+	</case>
+
+	<case name="invoking xspec with extra arguments prints usage">
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec bogus
+    call :verify_retval 1
+    call :verify_line 2 x "Error: Extra option: bogus"
+    call :verify_line 3 r "Usage: xspec "
 	</case>
 
 	<!--
@@ -49,10 +63,21 @@
 	</case>
 
 	<!--
+		SAXON_CP has precedence over SAXON_HOME
+	-->
+	<case name="SAXON_CP has precedence over SAXON_HOME">
+    set "SAXON_HOME=%WORK_DIR%\empty-saxon-home"
+    call :mkdir "%SAXON_HOME%"
+
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 0
+	</case>
+
+	<!--
 		Coverage (CLI)
 	-->
 
-	<case name="invoking xspec -c creates report files">
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="invoking xspec -c creates report files">
     rem Other stderr #204
     set JAVA_TOOL_OPTIONS=-Dfoo
 
@@ -186,24 +211,6 @@
 	</case>
 
 	<!--
-		JUnit and Saxon versions (CLI)
-	-->
-
-	<case name="invoking xspec with -j option with Saxon8 returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8.jar
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Saxon8 detected. JUnit report requires Saxon9."
-	</case>
-
-	<case name="invoking xspec with -j option with Saxon8-SA returns error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon8sa.jar
-    call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 2 x "Saxon8 detected. JUnit report requires Saxon9."
-	</case>
-
-	<!--
 		JUnit (CLI)
 	-->
 
@@ -223,17 +230,6 @@
 	</case>
 
 	<!--
-		Saxon-B (CLI)
-	-->
-
-	<case name="invoking xspec with Saxon-B-9-1-0-8 creates test stylesheet">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxonb9-1-0-8.jar
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
-    call :verify_retval 1
-    call :verify_line 3 x "Creating Test Stylesheet..."
-	</case>
-
-	<!--
 		Runtime warning
 	-->
 
@@ -243,7 +239,7 @@
     call :verify_line 6 r "Testing with "
 	</case>
 
-	<case name="x:resolve-QName-ignoring-default-ns() with non-empty prefix does not raise a warning #826">
+	<case name="x:resolve-EQName-ignoring-default-ns() with non-empty prefix does not raise a warning #826">
     call :run ..\bin\xspec.bat xspec-826.xspec
     call :verify_retval 0
     call :verify_line 6 r "Testing with "
@@ -1014,7 +1010,7 @@
 		Coverage (Ant)
 	-->
 
-	<case name="Ant for XSLT with coverage creates report files">
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Ant for XSLT with coverage creates report files">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -1176,28 +1172,28 @@
         -Dxspec.fail=false ^
         -Dxspec.xml="%CD%\..\test\xspec-423\test.xspec"
     call :verify_retval 2
-    call :verify_line  * r "     \[java\]   XPDY0002:"
+    call :verify_line  * r "     \[java\]   XPDY0002[: ]"
     call :verify_line -3 x "BUILD FAILED"
 	</case>
 
 	<case name="XSLT selecting nodes without context should be error (CLI) #423">
     call :run ..\bin\xspec.bat xspec-423\test.xspec
     call :verify_retval 2
-    call :verify_line  * r "  XPDY0002:"
+    call :verify_line  * r "  XPDY0002[: ]"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
-	<case name="XSLT selecting nodes without context should be error (CLI -c) #423">
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="XSLT selecting nodes without context should be error (CLI -c) #423">
     call :run ..\bin\xspec.bat -c xspec-423\test.xspec
     call :verify_retval 2
-    call :verify_line  * r "  XPDY0002:"
+    call :verify_line  * r "  XPDY0002[: ]"
     call :verify_line -1 x "*** Error collecting test coverage data"
 	</case>
 
 	<case name="XQuery selecting nodes without context should be error (CLI) #423">
     call :run ..\bin\xspec.bat -q xspec-423\test.xspec
     call :verify_retval 2
-    call :verify_line  * r "  XPDY0002:"
+    call :verify_line  * r "  XPDY0002[: ]"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
@@ -1232,7 +1228,7 @@
     call :verify_line 1 x "true"
 	</case>
 
-	<case name="report-css-uri for coverage report file">
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="report-css-uri for coverage report file">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -1265,14 +1261,14 @@
 	<case name="Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)">
     call :run ..\bin\xspec.bat variable\reserved-eqname.xspec
     call :verify_retval 2
-    call :verify_line 6 x "  x:XSPEC008: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo,"
+    call :verify_line 6 r "  x:XSPEC008[: ] User-defined XSpec variable, Q{http://www\.jenitennison\.com/xslt/xspec}foo,$"
     call :verify_line 7 x "  must not use the XSpec namespace."
 	</case>
 
 	<case name="Error on user-defined variable in XSpec namespace (QName in global variable)">
     call :run ..\bin\xspec.bat variable\reserved-name.xspec
     call :verify_retval 2
-    call :verify_line 6 x "  x:XSPEC008: User-defined XSpec variable, u:foo, must not use the XSpec namespace."
+    call :verify_line 6 r "  x:XSPEC008[: ] User-defined XSpec variable, u:foo, must not use the XSpec namespace\.$"
 	</case>
 
 	<!--
@@ -1379,45 +1375,45 @@
 
     call :run ..\bin\xspec.bat catch\error-in-context-avt-for-template-call.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-context-avt-for-template-call: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-context-avt-for-template-call[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\error-in-context-param-for-matching-template.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-context-param-for-matching-template: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-context-param-for-matching-template[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\error-in-function-call-param.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-function-call-param: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-function-call-param[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\error-in-template-call-param.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-template-call-param: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-template-call-param[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\error-in-variable.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-variable: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-variable[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat catch\static-error-in-compiled-test.xspec
     call :verify_retval 2
-    call :verify_line * r ".*XPST0017:"
+    call :verify_line * r ".*XPST0017[: ]"
 	</case>
 
 	<case ifdef="XQUERY_SUPPORTS_3_1_DEFAULT" name="@catch should not catch error outside SUT (XQuery)">
     call :run ..\bin\xspec.bat -q catch\compiler-error.xspec
     call :verify_retval 2
-    call :verify_line * r ".*x:XSPEC005:"
+    call :verify_line * r ".*x:XSPEC005[: ]"
 
     call :run ..\bin\xspec.bat -q catch\error-in-function-call-param.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-function-call-param: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-function-call-param[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat -q catch\error-in-variable.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-variable: Error signalled .*"
+    call :verify_line * r "  error-code-of-my-variable[: ] Error signalled .*"
 
     call :run ..\bin\xspec.bat -q catch\static-error-in-compiled-test.xspec
     call :verify_retval 2
-    call :verify_line * r ".*XPST0017:"
+    call :verify_line * r ".*XPST0017[: ]"
 	</case>
 
 	<!--
@@ -1427,13 +1423,13 @@
 	<case name="Error in SUT should not be caught by default (XSLT)">
     call :run ..\bin\xspec.bat catch\no-by-default.xspec
     call :verify_retval 2
-    call :verify_line * r "  my-error-code: Error signalled .*"
+    call :verify_line * r "  my-error-code[: ] Error signalled .*"
 	</case>
 
 	<case name="Error in SUT should not be caught by default (XQuery)">
     call :run ..\bin\xspec.bat -q catch\no-by-default.xspec
     call :verify_retval 2
-    call :verify_line * r "  my-error-code: Error signalled .*"
+    call :verify_line * r "  my-error-code[: ] Error signalled .*"
 	</case>
 
 	<!--
@@ -1455,7 +1451,7 @@
 		#655
 	-->
 
-	<case name="Trace listener should not hardcode output dir #655">
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Trace listener should not hardcode output dir #655">
     rem TEST_DIR should not contain "xspec". (Assume TEMP does not contain it.)
     set "TEST_DIR=%TEMP%\XSpec-655"
 
@@ -1476,15 +1472,15 @@
 	<case name="x:like errors">
     call :run ..\bin\xspec.bat like\none.xspec
     call :verify_retval 2
-    call :verify_line 6 x "  x:XSPEC009: x:like: Scenario not found: none"
+    call :verify_line 6 r "  x:XSPEC009[: ] x:like: Scenario not found: none$"
 
     call :run ..\bin\xspec.bat like\multiple.xspec
     call :verify_retval 2
-    call :verify_line 5 x "  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario"
+    call :verify_line 5 r "  x:XSPEC010[: ] x:like: 2 scenarios found with same label: shared scenario$"
 
     call :run ..\bin\xspec.bat like\loop.xspec
     call :verify_retval 2
-    call :verify_line 5 x "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario"
+    call :verify_line 5 r "  x:XSPEC011[: ] x:like: Reference to ancestor scenario creates infinite loop: parent scenario$"
 	</case>
 
 	<!--
@@ -1535,7 +1531,7 @@
 		Custom coverage reporter
 	-->
 
-	<case name="Custom coverage reporter (CLI)">
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Custom coverage reporter (CLI)">
     set COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
     call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
     call :verify_retval 0
@@ -1544,7 +1540,7 @@
     call :verify_line * r "..*--Customized coverage report--..*"
 	</case>
 
-	<case name="Custom coverage reporter (Ant)">
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Custom coverage reporter (Ant)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^

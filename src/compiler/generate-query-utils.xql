@@ -360,15 +360,7 @@ declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:stri
     test:report-atomic-value-as-constructor($value)
 
   else if ( $value instance of xs:QName ) then
-    fn:concat("QName('",
-           fn:namespace-uri-from-QName($value),
-           "', '",
-           if ( fn:prefix-from-QName($value) ) then
-             fn:concat(fn:prefix-from-QName($value), ':') 
-           else
-             '',
-           fn:local-name-from-QName($value),
-           "')")
+    x:QName-expression($value)
 
   else
     test:report-atomic-value-as-constructor($value)
