@@ -637,12 +637,12 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function saxon-version">
-		<x:scenario label="Assume we test this on Saxon versions from 9.7 to 10.x">
+		<x:scenario label="Assume we test this on Saxon versions from 9.7 to 9.9">
 			<x:call function="x:saxon-version" />
 			<x:expect label="Greater than or equal to 9.7.0.0"
 				test="$x:result treat as xs:integer ge x:pack-version((9, 7))" />
-			<x:expect label="Less than 11.0"
-				test="$x:result treat as xs:integer lt x:pack-version(11)" />
+			<x:expect label="Less than 10.0"
+				test="$x:result treat as xs:integer lt x:pack-version(10)" />
 		</x:scenario>
 	</x:scenario>
 
