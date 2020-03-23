@@ -8,8 +8,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
       - run: test/ci/run-codespell.sh
-        env:
-          DO_CODESPELL: true
 
