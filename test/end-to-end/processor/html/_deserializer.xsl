@@ -12,7 +12,8 @@
 		Removes insignificant whitespace (artifact of serialization indent) from text node
 			This is an ad hoc implementation only suitable for the test result HTML.
 	-->
-	<xsl:template as="text()?" match="text()[not(parent::pre)]" mode="deserializer:unindent">
+	<xsl:template as="text()?" match="text()[not(parent::pre or parent::span/parent::pre)]"
+		mode="deserializer:unindent">
 		<xsl:choose>
 			<xsl:when test="normalize-space()">
 				<!-- Remove whitespace-only tail line -->

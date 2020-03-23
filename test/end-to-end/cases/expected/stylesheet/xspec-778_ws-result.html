@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for x-urn:test:mirror (passed: 0 / pending: 0 / failed: 1 / total: 1)</title>
+      <title>Test Report for xspec-778_ws.xsl (passed: 0 / pending: 0 / failed: 1 / total: 1)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
-      <p>Query: x-urn:test:mirror</p>
-      <p>Query-at: <a href="../../../../mirror.xquery">mirror.xquery</a></p>
-      <p>XSpec: <a href="../../xspec-346.xspec">xspec-346.xspec</a></p>
+      <p>Stylesheet: <a href="../../xspec-778_ws.xsl">xspec-778_ws.xsl</a></p>
+      <p>XSpec: <a href="../../xspec-778_ws.xspec">xspec-778_ws.xspec</a></p>
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
       <table class="xspec">
@@ -30,7 +29,7 @@
          </thead>
          <tbody>
             <tr class="failed">
-               <th><a href="#top_scenario1">When a function returns a node containing a space</a></th>
+               <th><a href="#top_scenario1">When transforming DITA</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -39,7 +38,7 @@
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="failed">When a function returns a node containing a space<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <h2 class="failed">When transforming DITA<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
@@ -47,19 +46,19 @@
             </colgroup>
             <tbody>
                <tr class="failed">
-                  <th>When a function returns a node containing a space</th>
+                  <th>When transforming DITA</th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario1-expect1">Expecting no space should be Failure</a></td>
+                  <td><a href="#scenario1-expect1">we get markdown</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
          <div id="scenario1">
-            <h3>When a function returns a node containing a space</h3>
+            <h3>When transforming DITA</h3>
             <div id="scenario1-expect1">
-               <h4>Expecting no space should be Failure</h4>
+               <h4>we get markdown</h4>
                <table class="xspecResult">
                   <thead>
                      <tr>
@@ -70,17 +69,18 @@
                   <tbody>
                      <tr>
                         <td>
-                           <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">p</span> xmlns:mirror="x-urn:test:mirror"&gt;
-   &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;<span class="diff whitespace">␣</span>&lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
-&lt;/p&gt;</pre>
+                           <p>XPath <code class="same">/text()</code> from:</p>
+                           <pre><span class="diff"># My Title</span><span class="diff whitespace">\n</span><span class="diff whitespace">\n</span><span class="diff">This is a topic.</span><span class="diff whitespace">\n</span><span class="diff whitespace">\n</span><span class="diff">This is a paragraph.</span><span class="diff whitespace">\n</span></pre>
                         </td>
                         <td>
-                           <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">p</span> xmlns:mirror="x-urn:test:mirror"&gt;
-   &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
-   &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
-&lt;/p&gt;</pre>
+                           <p>XPath <code class="same">/text()</code> from:</p>
+                           <pre><span class="diff"># My Title
+
+This is a topic.
+
+This is a paragraph.
+
+</span></pre>
                         </td>
                      </tr>
                   </tbody>
