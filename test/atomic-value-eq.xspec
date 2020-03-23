@@ -10,7 +10,7 @@
 			<x:param select="'foo'" />
 		</x:call>
 		<x:expect label="xs:anyURI" select="xs:anyURI('foo')" />
-		<x:expect label="xs:untypedAtomic" select="xs:untypedAtomic('foo')" />
+		<x:expect label="xs:untypedAtomic" select="xs:untypedAtomic('bar')" />
 	</x:scenario>
 
 	<x:scenario label="numeric">
