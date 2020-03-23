@@ -9,7 +9,7 @@
 	<case name="invoking xspec without arguments prints usage">
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h]"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
 	</case>
 
 	<case name="invoking xspec without arguments prints usage even if Saxon environment variables are not defined">
