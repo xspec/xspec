@@ -59,7 +59,7 @@ assert_regex() {
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
+    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h]" ]
 }
 
 @test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
