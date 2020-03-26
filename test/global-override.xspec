@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="global.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="global.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:param name="global-param" select="'global param overridden by XSpec'" />
 
@@ -25,7 +26,7 @@
 		</x:scenario>
 
 		<x:scenario label="template context">
-			<x:call template="get-template-context" />
+			<x:call template="mirror:context-mirror" />
 			<x:expect label="x:context/@select">
 				<context-grandchild />
 			</x:expect>
