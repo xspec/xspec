@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
+
+	<x:variable as="item()+" name="multiple-mixed-items" select="node(), 'str', 2">
+		<element />
+		<x:text>text</x:text>
+	</x:variable>
+	<x:scenario label="Make sure">
+		<x:call function="mirror:false" />
+		<x:expect label="the test variable contains a node"
+			test="exists($multiple-mixed-items[. instance of node()])" />
+		<x:expect label="the test variable contains an atomic value"
+			test="exists($multiple-mixed-items[. instance of xs:anyAtomicType])" />
+	</x:scenario>
+
+	<x:scenario label="With multiple context items containing both node and atomic value">
+		<x:context select="$multiple-mixed-items" />
+
+		<x:scenario label="Calling a named template">
+			<x:call template="mirror:context-mirror" />
+			<x:expect label="should work" select="$multiple-mixed-items" />
+		</x:scenario>
+
+		<x:scenario label="Applying templates">
+			<x:context mode="mirror:context-mirror" />
+			<x:expect label="should work" select="$multiple-mixed-items" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

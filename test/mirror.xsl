@@ -10,7 +10,13 @@
 		use-when="element-available('xsl:mode')" />
 
 	<xsl:template as="node()" match="attribute() | node() | document-node()"
-		mode="mirror:context-mirror" name="mirror:context-mirror">
+		mode="mirror:context-mirror" name="mirror:context-mirror"
+		use-when="number(system-property('xsl:version')) lt 3">
+		<xsl:sequence select="." />
+	</xsl:template>
+
+	<xsl:template as="item()" match="." mode="mirror:context-mirror" name="mirror:context-mirror"
+		use-when="number(system-property('xsl:version')) ge 3">
 		<xsl:sequence select="." />
 	</xsl:template>
 
