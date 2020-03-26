@@ -5,7 +5,7 @@
           query-at="../../../../mirror.xquery"
           xspec="../../xspec-355.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-355.xspec">
-      <x:label>Function</x:label>
+      <x:label>xs:integer()</x:label>
       <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="function(*)" select="function-lookup(xs:QName('xs:integer'), 1)"/>
       </x:call>
@@ -13,6 +13,19 @@
          <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
       </x:result>
       <x:test id="scenario1-expect1" successful="false">
+         <x:label>Fail deliberately</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+   <x:scenario id="scenario2" xspec="../../xspec-355.xspec">
+      <x:label>Anonymous</x:label>
+      <x:call function="Q{x-urn:test:mirror}param-mirror">
+         <x:param as="function(*)" select="function($x){$x+1}"/>
+      </x:call>
+      <x:result select="/*">
+         <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+      </x:result>
+      <x:test id="scenario2-expect1" successful="false">
          <x:label>Fail deliberately</x:label>
          <x:expect select="()"/>
       </x:test>
