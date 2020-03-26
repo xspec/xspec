@@ -313,13 +313,18 @@
 </xsl:template>
 
 <xsl:template match="x:test" as="element(xhtml:div)" mode="x:html-report">
-  <div id="{@id}">
+  <div id="{@id}" class="xTestReport">
 
     <xsl:variable name="result" as="element(x:result)"
       select="if (x:result) then x:result else ../x:result" />
-    <h4>
+    <h4 class="xTestReportTitle">
       <xsl:apply-templates select="x:label" mode="x:html-report" />
     </h4>
+
+    <div class="xTestReportHint">
+      <a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank"
+        title="What does this report mean?">&#x2754;</a>
+    </div>
 
     <!-- True if the expectation is boolean (i.e. x:expect/@test was an xs:boolean at runtime.) -->
     <xsl:variable as="xs:boolean" name="boolean-test" select="not(x:result) and x:expect/@test" />
