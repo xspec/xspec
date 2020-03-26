@@ -1553,4 +1553,22 @@
     call :verify_line * r "..*--Customized coverage report--..*"
 	</case>
 
+	<!--
+		Broken x:import
+	-->
+
+	<case name="x:import with unreachable @href">
+    call :run ..\bin\xspec.bat import\file-not-found.xspec
+    call :verify_retval 2
+    call :verify_line  * r "  FODC0002[: ] I/O error reported by XML parser processing$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:import without @href">
+    call :run ..\bin\xspec.bat import\no-href.xspec
+    call :verify_retval 2
+    call :verify_line  * r "  XPDY0050[: ] An empty sequence is not allowed as the value in 'treat as' expression$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
 </collection>

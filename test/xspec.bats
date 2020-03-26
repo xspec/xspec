@@ -1847,4 +1847,24 @@ assert_regex() {
     [[ "${output}" =~ "--Customized coverage report--" ]]
 }
 
+#
+# Broken x:import
+#
+
+@test "x:import with unreachable @href" {
+    run ../bin/xspec.sh import/file-not-found.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  FODC0002[: ] I/O error reported by XML parser processing'$'\n'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:import without @href" {
+    run ../bin/xspec.sh import/no-href.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] An empty sequence is not allowed as the value in '\''treat as'\'' expression'$'\n'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
 
