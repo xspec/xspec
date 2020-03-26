@@ -26,10 +26,19 @@
 		</x:scenario>
 
 		<x:scenario label="template context">
-			<x:call template="mirror:context-mirror" />
-			<x:expect label="x:context/@select">
-				<context-grandchild />
-			</x:expect>
+			<x:scenario label="apply-templates invocation">
+				<x:context mode="mirror:context-mirror" />
+				<x:expect label="x:context/@select">
+					<context-grandchild />
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="call-template invocation">
+				<x:call template="mirror:context-mirror" />
+				<x:expect label="x:context/@select">
+					<context-grandchild />
+				</x:expect>
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 
