@@ -53,6 +53,16 @@
 	</xsl:function>
 
 	<!--
+		Emulates fn:trace#2
+	-->
+	<xsl:function as="item()*" name="mirror:trace">
+		<xsl:param as="item()*" name="items" />
+		<xsl:param as="xs:string" name="label" />
+
+		<xsl:sequence select="trace($items, $label)" />
+	</xsl:function>
+
+	<!--
 		Emulates fn:true()
 	-->
 	<xsl:function as="xs:boolean" name="mirror:true">

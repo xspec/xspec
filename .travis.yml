@@ -7,45 +7,19 @@ jdk:
   - openjdk11
 
 env:
-    global:
-        # latest Ant
-        - ANT_VERSION=1.10.7
-
-        # latest BaseX
-        - BASEX_VERSION=9.3.2
-
-    jobs:
-        # Note
-        #   * XML Calabash will use Saxon jar in its own lib directory.
-        #   * BaseX test requires XML Calabash.
-
-        # latest Saxon 9.9 and Jing
-        - SAXON_VERSION=9.9.1-7
-          JING_VERSION=20181222
-          XMLCALABASH_VERSION=1.1.30-99
-          DO_CODESPELL=true
-          DO_MAVEN_PACKAGE=true
-
-        # latest Saxon 9.8
-        - SAXON_VERSION=9.8.0-15
-          XMLCALABASH_VERSION=1.1.30-98
-
-        # latest oXygen
-        - SAXON_VERSION=9.9.1-5
-          ANT_VERSION=1.10.7
-          XMLCALABASH_VERSION=1.1.30-99
-
-        # highest deprecated Saxon
-        - SAXON_VERSION=9.7.0-21
-
-install:
-    - source ./test/ci/install-deps.sh
+  jobs:
+    # saxon-9-7 is not included in favor of GitHub Actions
+    - XSPEC_TEST_ENV=saxon-10
+    - XSPEC_TEST_ENV=saxon-9-9
+    - XSPEC_TEST_ENV=saxon-9-8
+    - XSPEC_TEST_ENV=oxygen
 
 script: >
-  ./test/ci/print-env.sh
-  && ./test/ci/run-codespell.sh
-  && ./test/ci/run-core-tests.sh
-  && ./test/ci/maven-package.sh -q
-  && ./test/ci/compile-java.sh -silent
-  && ./test/ci/last-git-status.sh
+  source test/ci/set-env.sh
+  && source test/ci/install-deps.sh
+  && test/ci/print-env.sh
+  && test/ci/run-core-tests.sh
+  && test/ci/maven-package.sh -q
+  && test/ci/compile-java.sh -silent
+  && test/ci/last-git-status.sh
 

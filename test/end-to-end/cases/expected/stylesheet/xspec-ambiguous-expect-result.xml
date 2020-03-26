@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../do-nothing.xsl"
+          stylesheet="../../../../mirror.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-ambiguous-expect.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes @href</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../xspec-ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
-         <x:call function="true"/>
+         <x:call function="mirror:true"/>
          <x:result select="xs:boolean('true')"/>
          <x:test id="scenario1-scenario1-expect1" successful="false">
             <x:label>Expecting document node via @href should be Failure</x:label>
@@ -29,7 +30,7 @@
       <x:label>Scenario for verifying that boolean @test precedes @select</x:label>
       <x:scenario id="scenario2-scenario1" xspec="../../xspec-ambiguous-expect.xspec">
          <x:label>When function returns false,</x:label>
-         <x:call function="false"/>
+         <x:call function="mirror:false"/>
          <x:result select="xs:boolean('false')"/>
          <x:test id="scenario2-scenario1-expect1" successful="true">
             <x:label>Expecting false via @select should be Success</x:label>
@@ -45,7 +46,7 @@
       <x:label>Scenario for verifying that boolean @test precedes child node</x:label>
       <x:scenario id="scenario3-scenario1" xspec="../../xspec-ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
-         <x:call function="true"/>
+         <x:call function="mirror:true"/>
          <x:result select="xs:boolean('true')"/>
          <x:test id="scenario3-scenario1-expect1" successful="false">
             <x:label>Expecting element(foo) via child node should be Failure</x:label>
@@ -65,7 +66,7 @@
       <x:label>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)</x:label>
       <x:scenario id="scenario4-scenario1" xspec="../../xspec-ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
-         <x:call function="true"/>
+         <x:call function="mirror:true"/>
          <x:result select="xs:boolean('true')"/>
          <x:test id="scenario4-scenario1-expect1" successful="false">
             <x:label>Expecting empty sequence (no @href, @select or child node) should be Failure</x:label>

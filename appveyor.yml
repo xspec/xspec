@@ -1,66 +1,21 @@
 environment:
-  global:
-    # latest Ant
-    ANT_VERSION: 1.10.7
-
-    # latest BaseX
-    BASEX_VERSION: 9.3.2
-
   matrix:
-    # Non-mainstream jobs are disabled in favor of Azure Pipelines
-
-    # Note
-    #   * XML Calabash will use Saxon jar in its own lib directory.
-    #   * BaseX test requires XML Calabash.
-
-    # latest Saxon 9.9 and Jing
-    - SAXON_VERSION: 9.9.1-7
-      JING_VERSION: 20181222
-      XMLCALABASH_VERSION: 1.1.30-99
-      DO_CODESPELL: true
-
-    # latest Saxon 9.8
-    # - SAXON_VERSION: 9.8.0-15
-    #   XMLCALABASH_VERSION: 1.1.30-98
-
-    # latest oXygen
-    # - SAXON_VERSION: 9.9.1-5
-    #   ANT_VERSION: 1.10.7
-    #   XMLCALABASH_VERSION: 1.1.30-99
-
-    # highest deprecated Saxon
-    # - SAXON_VERSION: 9.7.0-21
+    # Non-mainstream jobs are not included in favor of GitHub Actions and Azure Pipelines
+    - XSPEC_TEST_ENV: saxon-9-9
 
 install:
 - cmd: |
+    test\ci\set-env.cmd
     test\ci\install-deps.cmd
 
 build: off
 
 test_script:
 - cmd: |
-    rem print versions and env vars
     test\ci\print-env.cmd
-
-    rem spell check
-    test\ci\run-codespell.cmd
-
-    rem execute bats-like unit tests
-    test\run-bats.cmd
-
-    rem execute XSpec unit tests
-    test\run-xspec-tests-ant.cmd -silent
-
-    rem execute XSpec end-to-end tests
-    test\end-to-end\run-e2e-tests.cmd -silent
-
-    rem Maven package
+    test\ci\run-core-tests.cmd
     test\ci\maven-package.cmd -q
-
-    rem compile java
     test\ci\compile-java.cmd -silent
-
-    rem check git status
     test\ci\last-git-status.cmd
 
 deploy: off

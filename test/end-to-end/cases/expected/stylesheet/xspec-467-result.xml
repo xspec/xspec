@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../do-nothing.xsl"
+          stylesheet="../../../../mirror.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-467.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-467.xspec">
       <x:label>Testing namespace differences</x:label>
-      <x:call function="exactly-one">
+      <x:call function="mirror:param-mirror">
          <x:param>
             <e1 xmlns="ns1">
                <e2 xmlns="ns2" xmlns:ns3="ns3" xmlns:ns4="ns4">

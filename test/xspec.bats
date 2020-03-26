@@ -34,6 +34,24 @@ teardown() {
 }
 
 #
+# Helper
+#
+
+assert_regex() {
+    if [ "$#" -ne 2 ]; then
+        echo "Invalid number of arguments: $#"
+        return 1
+    fi
+
+    if [[ "" =~ $2 ]]; then
+        echo "Regex matches zero-length string: $2"
+        return 1
+    fi
+
+    [[ $1 =~ $2 ]]
+}
+
+#
 # Usage (CLI)
 #
 
@@ -41,7 +59,7 @@ teardown() {
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file [coverage]" ]
+    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
 }
 
 @test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
@@ -50,7 +68,7 @@ teardown() {
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "SAXON_CP and SAXON_HOME both not set!" ]
-    [[ "${lines[4]}" =~ "Usage: xspec " ]]
+    [[ "${lines[3]}" =~ "Usage: xspec " ]]
 }
 
 @test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
@@ -58,6 +76,22 @@ teardown() {
     echo "$output"
     [ "$status" -eq 0 ]
     [[ "${lines[1]}" =~ "Usage: xspec " ]]
+}
+
+@test "invoking xspec with unknown option prints usage" {
+    run ../bin/xspec.sh -bogus ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Error: Unknown option: -bogus" ]
+    [[ "${lines[2]}" =~ "Usage: xspec " ]]
+}
+
+@test "invoking xspec with extra arguments prints usage" {
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec bogus
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "Error: Extra option: bogus" ]
+    [[ "${lines[2]}" =~ "Usage: xspec " ]]
 }
 
 #
@@ -86,10 +120,27 @@ teardown() {
 }
 
 #
+# SAXON_CP has precedence over SAXON_HOME
+#
+
+@test "SAXON_CP has precedence over SAXON_HOME" {
+    export SAXON_HOME="${work_dir}/empty-saxon-home"
+    mkdir "${SAXON_HOME}"
+
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+}
+
+#
 # Coverage (CLI)
 #
 
 @test "invoking xspec -c creates report files" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     # Other stderr #204
     export JAVA_TOOL_OPTIONS=-Dfoo
 
@@ -235,26 +286,6 @@ teardown() {
 }
 
 #
-# JUnit and Saxon versions (CLI)
-#
-
-@test "invoking xspec with -j option with Saxon8 returns error message" {
-    export SAXON_CP=/path/to/saxon8.jar
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Saxon8 detected. JUnit report requires Saxon9." ]
-}
-
-@test "invoking xspec with -j option with Saxon8-SA returns error message" {
-    export SAXON_CP=/path/to/saxon8sa.jar
-    run ../bin/xspec.sh -j ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "Saxon8 detected. JUnit report requires Saxon9." ]
-}
-
-#
 # JUnit (CLI)
 #
 
@@ -275,18 +306,6 @@ teardown() {
 }
 
 #
-# Saxon-B (CLI)
-#
-
-@test "invoking xspec with Saxon-B-9-1-0-8 creates test stylesheet" {
-    export SAXON_CP=/path/to/saxonb9-1-0-8.jar
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Creating Test Stylesheet..." ]
-}
-
-#
 # Runtime warning
 #
 
@@ -297,7 +316,7 @@ teardown() {
     [[ "${lines[5]}" =~ "Testing with " ]]
 }
 
-@test "x:resolve-QName-ignoring-default-ns() with non-empty prefix does not raise a warning #826" {
+@test "x:resolve-EQName-ignoring-default-ns() with non-empty prefix does not raise a warning #826" {
     run ../bin/xspec.sh xspec-826.xspec
     echo "$output"
     [ "$status" -eq 0 ]
@@ -1194,6 +1213,10 @@ teardown() {
 #
 
 @test "Ant for XSLT with coverage creates report files" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -1376,7 +1399,7 @@ teardown() {
         -Dxspec.xml="${PWD}/../test/xspec-423/test.xspec"
     echo "$output"
     [ "$status" -eq 2 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    assert_regex "${output}" '  XPDY0002[: ]'
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 }
 
@@ -1384,15 +1407,19 @@ teardown() {
     run ../bin/xspec.sh xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    assert_regex "${output}" '  XPDY0002[: ]'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
 @test "XSLT selecting nodes without context should be error (CLI -c) #423" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     run ../bin/xspec.sh -c xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    assert_regex "${output}" '  XPDY0002[: ]'
     [ "${lines[${#lines[@]}-1]}" = "*** Error collecting test coverage data" ]
 }
 
@@ -1400,7 +1427,7 @@ teardown() {
     run ../bin/xspec.sh -q xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  XPDY0002:" ]]
+    assert_regex "${output}" '  XPDY0002[: ]'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1412,8 +1439,7 @@ teardown() {
     run ../bin/xspec.sh -q xquery-version/invalid.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    regex="XQST0031.+InVaLiD"
-    [[ "${output}" =~ ${regex} ]]
+    assert_regex "${output}" 'XQST0031.+InVaLiD'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1440,6 +1466,10 @@ teardown() {
 }
 
 @test "report-css-uri for coverage report file" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -1476,7 +1506,7 @@ teardown() {
     run ../bin/xspec.sh variable/reserved-eqname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC008: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo," ]
+    assert_regex "${lines[5]}" '^  x:XSPEC008[: ] User-defined XSpec variable, Q\{http://www\.jenitennison\.com/xslt/xspec\}foo,$'
     [ "${lines[6]}" = "  must not use the XSpec namespace." ]
 }
 
@@ -1484,7 +1514,7 @@ teardown() {
     run ../bin/xspec.sh variable/reserved-name.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC008: User-defined XSpec variable, u:foo, must not use the XSpec namespace." ]
+    assert_regex "${lines[5]}" '^  x:XSPEC008[: ] User-defined XSpec variable, u:foo, must not use the XSpec namespace\.$'
 }
 
 #
@@ -1598,32 +1628,32 @@ teardown() {
     run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-context-avt-for-template-call: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-context-avt-for-template-call[: ] Error signalled '
 
     run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-context-param-for-matching-template: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-context-param-for-matching-template[: ] Error signalled '
 
     run ../bin/xspec.sh catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-function-call-param[: ] Error signalled '
 
     run ../bin/xspec.sh catch/error-in-template-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-template-call-param: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-template-call-param[: ] Error signalled '
 
     run ../bin/xspec.sh catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-variable[: ] Error signalled '
 
     run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "XPST0017:" ]]
+    assert_regex "${output}" 'XPST0017[: ]'
 }
 
 @test "@catch should not catch error outside SUT (XQuery)" {
@@ -1634,22 +1664,22 @@ teardown() {
     run ../bin/xspec.sh -q catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "x:XSPEC005:" ]]
+    assert_regex "${output}" 'x:XSPEC005[: ]'
 
     run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-function-call-param: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-function-call-param[: ] Error signalled '
 
     run ../bin/xspec.sh -q catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  error-code-of-my-variable: Error signalled " ]]
+    assert_regex "${output}" '  error-code-of-my-variable[: ] Error signalled '
 
     run ../bin/xspec.sh -q catch/static-error-in-compiled-test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "XPST0017:" ]]
+    assert_regex "${output}" 'XPST0017[: ]'
 }
 
 #
@@ -1660,14 +1690,14 @@ teardown() {
     run ../bin/xspec.sh catch/no-by-default.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+    assert_regex "${output}" '  my-error-code[: ] Error signalled '
 }
 
 @test "Error in SUT should not be caught by default (XQuery)" {
     run ../bin/xspec.sh -q catch/no-by-default.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "  my-error-code: Error signalled " ]]
+    assert_regex "${output}" '  my-error-code[: ] Error signalled '
 }
 
 #
@@ -1691,6 +1721,10 @@ teardown() {
 #
 
 @test "Trace listener should not hardcode output dir #655" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     # TEST_DIR should not contain "xspec"
     export "TEST_DIR=/tmp/XSpec-655"
 
@@ -1714,17 +1748,17 @@ teardown() {
     run ../bin/xspec.sh like/none.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "  x:XSPEC009: x:like: Scenario not found: none" ]
+    assert_regex "${lines[5]}" '^  x:XSPEC009[: ] x:like: Scenario not found: none$'
 
     run ../bin/xspec.sh like/multiple.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "  x:XSPEC010: x:like: 2 scenarios found with same label: shared scenario" ]
+    assert_regex "${lines[4]}" '^  x:XSPEC010[: ] x:like: 2 scenarios found with same label: shared scenario$'
 
     run ../bin/xspec.sh like/loop.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "  x:XSPEC011: x:like: Reference to ancestor scenario creates infinite loop: parent scenario" ]
+    assert_regex "${lines[4]}" '^  x:XSPEC011[: ] x:like: Reference to ancestor scenario creates infinite loop: parent scenario$'
 }
 
 #
@@ -1780,6 +1814,10 @@ teardown() {
 #
 
 @test "Custom coverage reporter (CLI)" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
     run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
     echo "$output"
@@ -1791,6 +1829,10 @@ teardown() {
 }
 
 @test "Custom coverage reporter (Ant)" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \

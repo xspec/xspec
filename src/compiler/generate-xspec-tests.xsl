@@ -346,6 +346,10 @@
                         <xsl:sort select="xs:integer(@position)" />
                         <xsl:text>$</xsl:text>
                         <xsl:value-of select="test:variable-name(.)" />
+                        <xsl:for-each select="@as">
+                          <xsl:text> treat as </xsl:text>
+                          <xsl:value-of select="." />
+                        </xsl:for-each>
                         <xsl:if test="position() != last()">, </xsl:if>
                       </xsl:for-each>
                       <xsl:text>)</xsl:text>
@@ -365,7 +369,7 @@
                      <xsl:copy-of select="$apply/@select | $apply/@mode"/>
                      <xsl:for-each select="$apply/x:param">
                        <with-param name="{ @name }" select="${ test:variable-name(.) }">
-                         <xsl:copy-of select="@tunnel"/>
+                         <xsl:copy-of select="@tunnel, @as"/>
                        </with-param>
                      </xsl:for-each>
                    </apply-templates>

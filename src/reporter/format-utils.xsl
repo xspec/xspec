@@ -318,6 +318,11 @@
       <!-- Discard -->
     </xsl:when>
 
+    <xsl:when test="preceding-sibling::node()[1]/self::test:ws
+      or following-sibling::node()[1]/self::test:ws">
+      <!-- Indentation created after or before whitespace-only text nodes. Discard. -->
+    </xsl:when>
+
     <xsl:otherwise>
       <xsl:value-of select="concat('&#x0A;', substring(., $indentation + 2))" />
     </xsl:otherwise>

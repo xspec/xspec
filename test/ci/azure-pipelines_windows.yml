@@ -11,37 +11,31 @@ jobs:
       vmImage: windows-latest
 
     strategy:
-      maxParallel: 4
+      maxParallel: 5
 
       matrix:
-        # Note
-        #   * XML Calabash will use Saxon jar in its own lib directory.
-        #   * BaseX test requires XML Calabash.
+        Saxon-10:
+          XSPEC_TEST_ENV: saxon-10
 
-        # latest Saxon and Jing
         Saxon-9-9:
-          SAXON_VERSION: 9.9.1-7
-          JING_VERSION: 20181222
-          XMLCALABASH_VERSION: 1.1.30-99
-          DO_CODESPELL: true
-          DO_MAVEN_PACKAGE: true
+          XSPEC_TEST_ENV: saxon-9-9
 
-        # latest Saxon 9.8
         Saxon-9-8:
-          SAXON_VERSION: 9.8.0-15
-          XMLCALABASH_VERSION: 1.1.30-98
+          XSPEC_TEST_ENV: saxon-9-8
 
-        # latest oXygen
         Oxygen:
-          SAXON_VERSION: 9.9.1-5
-          ANT_VERSION: 1.10.7
-          XMLCALABASH_VERSION: 1.1.30-99
+          XSPEC_TEST_ENV: oxygen
 
-        # highest deprecated Saxon
         Saxon-9-7:
-          SAXON_VERSION: 9.7.0-21
+          XSPEC_TEST_ENV: saxon-9-7
 
     steps:
+      - task: BatchScript@1
+        displayName: Set up environment variables
+        inputs:
+          filename: test\ci\set-env.cmd
+          modifyEnvironment: true
+
       - task: BatchScript@1
         displayName: Install test dependencies
         inputs:
@@ -61,10 +55,6 @@ jobs:
       - script: call test\ci\print-env.cmd
         displayName: Print versions and env vars
 
-      - script: call test\ci\run-codespell.cmd
-        displayName: Spell check
-        condition: and(succeeded(), variables['DO_CODESPELL'])
-
       - script: call test\run-bats.cmd
         displayName: Execute bats-like unit tests
 
@@ -76,11 +66,9 @@ jobs:
 
       - script: call test\ci\maven-package.cmd --no-transfer-progress
         displayName: Maven package
-        condition: and(succeeded(), variables['DO_MAVEN_PACKAGE'])
 
       - script: call test\ci\compile-java.cmd -verbose
-        displayName: Compile java
-        condition: and(succeeded(), eq(${{ parameters.javaVersion }}, 8))
+        displayName: Compile Java
 
       - script: call test\ci\last-git-status.cmd
         displayName: Check git status

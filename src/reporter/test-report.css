@@ -143,9 +143,9 @@ dd pre, li pre {
 	}
 
 /* fonts */
-body {
+body, table {
 	font-family: sans-serif;
-	font-size: small;
+	font-size: 12px;
 	}
 
 h1, h2, h3, h4, h5, h6 {
@@ -153,12 +153,12 @@ h1, h2, h3, h4, h5, h6 {
 	}
 
 h1 {
-	font-size: 173%;
+	font-size: 1.7em;
 	font-weight: bold;
 	}
 
 h2 {
-	font-size: 144%;
+	font-size: 1.4em;
 	font-weight: bold;
 	}
 
@@ -197,12 +197,12 @@ div.example, .sidebar {
 
 .note, .link {
 	font-family: sans-serif;
-	font-size: 83%;
+	/*font-size: 83%;*/
 	}
 
 .example, .string, .rtf, .code, pre, code {
 	font-family: monospace;
-  font-size: 83%;
+  /*font-size: 83%;*/
 	}
 
 .boolean {
@@ -384,6 +384,7 @@ a {
 
 body > h2:first-of-type {
     background: inherit;
+    font-size: 1.7em;
     margin-bottom: 0;
 }
 
@@ -399,8 +400,8 @@ div > table > tbody > tr > th:first-child {
     color: #474747;
 }
 
-.xspec tbody th { font-weight: normal; font-size: 0.8em; border-top: 1px #666 solid; }
-.xspec tbody td { font-size: 0.8em; color: #262626; }
+.xspec tbody th { font-weight: normal; /*font-size: 0.8em;*/ border-top: 1px #666 solid; }
+.xspec tbody td { /*font-size: 0.8em;*/ color: #262626; }
 
 .successful { background-color: #CFC; }
 .pending { background-color: #EEE; color: #666; }

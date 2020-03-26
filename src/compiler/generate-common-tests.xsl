@@ -54,7 +54,7 @@
          use-when="element-available('xsl:context-item')" />
 
       <xsl:variable name="deprecation-warning" as="xs:string?" select="
-         if (x:saxon-version() lt x:pack-version(9,8,0,0))
+         if (x:saxon-version() lt x:pack-version((9, 8)))
          then 'Saxon version 9.7 or less is deprecated. XSpec will stop supporting it in the near future.'
          else ()" />
       <xsl:message select="
@@ -811,9 +811,7 @@
          use-when="element-available('xsl:context-item')" />
 
       <xsl:variable name="qname" as="xs:QName"
-         select="if (starts-with(@name, 'Q{'))
-                 then x:resolve-URIQualifiedName(@name)
-                 else x:resolve-QName-ignoring-default-ns(@name, .)" />
+         select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
       <xsl:if test="namespace-uri-from-QName($qname) eq $xspec-namespace">
          <xsl:variable name="msg" as="xs:string"

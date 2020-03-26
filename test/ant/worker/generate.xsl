@@ -22,11 +22,13 @@
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-DEFAULT" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-QVERSION" required="yes" />
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
@@ -110,6 +112,14 @@
 					<xsl:when
 						test="
 							($test-type eq 't')
+							and $enable-coverage
+							and (x:saxon-version() ge x:pack-version(10))">
+						<xsl:text>XSLT Code Coverage requires Saxon version less than 10 (xspec/xspec#852)</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 't')
 							and ($pis = 'require-xslt-to-support-schema')
 							and not($XSLT-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XSLT processor</xsl:text>
@@ -121,6 +131,14 @@
 							and (xs:decimal(../@xslt-version) eq 3.0)
 							and not($XSLT-SUPPORTS-3-0)">
 						<xsl:text>Requires XSLT 3.0 processor</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($test-type eq 't')
+							and ($pis = 'require-xslt-to-support-hof')
+							and not($XSLT-SUPPORTS-HOF)">
+						<xsl:text>Requires XSLT processor to support higher-order functions</xsl:text>
 					</xsl:when>
 
 					<xsl:when
@@ -141,45 +159,60 @@
 
 					<xsl:when
 						test="
+							($test-type eq 'q')
+							and ($pis = 'require-xquery-to-support-hof')
+							and not($XQUERY-SUPPORTS-HOF)">
+						<xsl:text>Requires XQuery processor to support higher-order functions</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($pis = 'require-saxon-bug-3543-fixed')
-							and (x:saxon-version() lt x:pack-version(9, 8, 0, 7))">
+							and (x:saxon-version() lt x:pack-version((9, 8, 0, 7)))">
 						<xsl:text>Requires Saxon bug #3543 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when
 						test="
 							($pis = 'require-saxon-bug-3838-fixed')
-							and (x:saxon-version() ge x:pack-version(9, 8, 0, 0))
-							and (x:saxon-version() lt x:pack-version(9, 9, 0, 0))">
+							and (x:saxon-version() ge x:pack-version((9, 8)))
+							and (x:saxon-version() lt x:pack-version((9, 9)))">
 						<xsl:text>Requires Saxon bug #3838 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when
 						test="
 							($pis = 'require-saxon-bug-3889-fixed')
-							and (x:saxon-version() lt x:pack-version(9, 8, 0, 15))">
+							and (x:saxon-version() lt x:pack-version((9, 8, 0, 15)))">
 						<xsl:text>Requires Saxon bug #3889 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when
 						test="
 							($pis = 'require-saxon-bug-4315-fixed')
-							and (x:saxon-version() ge x:pack-version(9, 9, 0, 0))
-							and (x:saxon-version() le x:pack-version(9, 9, 1, 6))">
+							and (x:saxon-version() ge x:pack-version((9, 9)))
+							and (x:saxon-version() le x:pack-version((9, 9, 1, 6)))">
 						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when
 						test="
 							($pis = 'require-saxon-bug-4376-fixed')
-							and (x:saxon-version() le x:pack-version(9, 9, 1, 5))">
+							and (x:saxon-version() le x:pack-version((9, 9, 1, 5)))">
 						<xsl:text>Requires Saxon bug #4376 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when
 						test="
+							($pis = 'require-saxon-bug-4483-fixed')
+							and (x:saxon-version() eq x:pack-version(10))">
+						<xsl:text>Requires Saxon bug #4483 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($pis = 'require-xspec-issue-720-fixed')
-							and (x:saxon-version() lt x:pack-version(9, 8, 0, 0))">
+							and (x:saxon-version() lt x:pack-version((9, 8)))">
 						<xsl:text>Requires xspec/xspec#720 to have been fixed</xsl:text>
 					</xsl:when>
 
@@ -187,7 +220,7 @@
 						test="
 							($test-type eq 't')
 							and ($pis = 'require-type-available-in-use-when')
-							and (x:saxon-version() lt x:pack-version(9, 8, 0, 0))">
+							and (x:saxon-version() lt x:pack-version((9, 8)))">
 						<xsl:text>Requires type-available() to be reliable in @use-when</xsl:text>
 					</xsl:when>
 				</xsl:choose>
