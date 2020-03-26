@@ -157,6 +157,52 @@
 	</xsl:function>
 
 	<!--
+		Returns true if item is function (including map and array).
+		
+		Alternative to "instance of function(*)" which is not widely available.
+	-->
+	<xsl:function as="xs:boolean" name="x:instance-of-function">
+		<xsl:param as="item()" name="item" />
+
+		<xsl:choose>
+			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))"
+				use-when="number(system-property('xsl:version')) ge 3">
+				<xsl:sequence select="true()" />
+			</xsl:when>
+
+			<xsl:when test="$item instance of function(*)"
+				use-when="
+					((: for Saxon-EE 9.7 :) number(system-property('xsl:version')) ge 3)
+					and
+					((: for Saxon 9.x :) function-available('function-lookup'))">
+				<xsl:sequence select="true()" />
+			</xsl:when>
+
+			<xsl:when test="true()">
+				<xsl:sequence select="false()" />
+			</xsl:when>
+		</xsl:choose>
+	</xsl:function>
+
+	<!--
+		Returns type of function (including map and array).
+		
+		$function must be an instance of function(*).
+	-->
+	<xsl:function as="xs:string" name="x:function-type"
+		use-when="number(system-property('xsl:version')) ge 3">
+
+		<!-- TODO: @as="function(*)" -->
+		<xsl:param as="item()" name="function" />
+
+		<xsl:choose>
+			<xsl:when test="$function instance of array(*)">array</xsl:when>
+			<xsl:when test="$function instance of map(*)">map</xsl:when>
+			<xsl:otherwise>function</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
+	<!--
 		Returns true if node is user-content
 	-->
 	<xsl:function as="xs:boolean" name="x:is-user-content">

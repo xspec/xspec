@@ -441,10 +441,8 @@
       </xsl:element>
     </xsl:when>
 
-    <!-- "instance of function(*)" requires Saxon-PE or higher -->
-    <xsl:when test="($item instance of array(*)) or ($item instance of map(*))"
-      use-when="function-available('serialize', 2)">
-      <xsl:element name="{$local-name-prefix}function" namespace="{$wrapper-ns}">
+    <xsl:when test="x:instance-of-function($item)" use-when="function-available('serialize', 2)">
+      <xsl:element name="{$local-name-prefix}{x:function-type($item)}" namespace="{$wrapper-ns}">
         <xsl:value-of select="serialize($item, map { 'method': 'adaptive' })" />
       </xsl:element>
     </xsl:when>
