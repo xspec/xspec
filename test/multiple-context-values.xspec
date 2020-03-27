@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
+
+	<x:variable as="xs:anyAtomicType+" name="multiple-atomic-values" select="'str', 2" />
+	<x:scenario label="Make sure">
+		<x:call function="mirror:false" />
+		<x:expect label="the test variable consists of 2+ atomic values"
+			test="count($multiple-atomic-values treat as xs:anyAtomicType+) ge 2" />
+	</x:scenario>
+
+	<x:scenario label="With multiple context atomic values">
+		<x:context select="$multiple-atomic-values" />
+
+		<x:scenario label="Calling a named template">
+			<x:call template="mirror:context-mirror" />
+			<x:expect label="should work" select="$multiple-atomic-values" />
+		</x:scenario>
+
+		<x:scenario label="Applying templates">
+			<x:context mode="mirror:context-mirror" />
+			<x:expect label="should work" select="$multiple-atomic-values" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
