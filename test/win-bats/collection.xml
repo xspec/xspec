@@ -923,14 +923,22 @@
         xspec-node-selection.xspec ^
         xspec-node-selection_stylesheet.xspec
     call :verify_retval 1
-    call :verify_line 1 r ".*-child-not-allowed"
-    call :verify_line 2 r ".*-child-not-allowed"
-    call :verify_line 3 r ".*-child-not-allowed"
-    call :verify_line 4 r ".*-child-not-allowed"
-    call :verify_line 5 r ".*-child-not-allowed"
-    call :verify_line 6 r ".*-child-not-allowed"
-    call :verify_line 7 r ".*-child-not-allowed"
-    call :verify_line 8 r "Elapsed time"
+    call :verify_line 1 r "..*: error: element \"function-param-child-not-allowed\" not allowed here;"
+    call :verify_line 2 r "..*: error: element \"global-param-child-not-allowed\" not allowed here;"
+    call :verify_line 3 r "..*: error: element \"global-variable-child-not-allowed\" not allowed here;"
+    call :verify_line 4 r "..*: error: element \"assertion-child-not-allowed\" not allowed here;"
+    call :verify_line 5 r "..*: error: element \"variable-child-not-allowed\" not allowed here;"
+    call :verify_line 6 r "..*: error: element \"template-param-child-not-allowed\" not allowed here;"
+    call :verify_line 7 r "..*: error: element \"template-param-child-not-allowed\" not allowed here;"
+    call :verify_line 8 r "Elapsed time "
+	</case>
+
+	<case ifdef="JING_JAR" name="Schema detects missing @href in x:import">
+    rem '-t' for identifying the last line
+    call :run java -jar "%JING_JAR%" -c -t ..\src\schemas\xspec.rnc import\no-href.xspec
+    call :verify_retval 1
+    call :verify_line 1 r "..*: error: element \"x:import\" missing required attribute \"href\"$"
+    call :verify_line 2 r "Elapsed time "
 	</case>
 
 	<!--
@@ -1551,6 +1559,24 @@
 
     call :run type "%TEST_DIR%\demo-coverage.html"
     call :verify_line * r "..*--Customized coverage report--..*"
+	</case>
+
+	<!--
+		Broken x:import
+	-->
+
+	<case name="x:import with unreachable @href">
+    call :run ..\bin\xspec.bat import\file-not-found.xspec
+    call :verify_retval 2
+    call :verify_line  * r "  FODC0002[: ] I/O error reported by XML parser processing$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:import without @href">
+    call :run ..\bin\xspec.bat import\no-href.xspec
+    call :verify_retval 2
+    call :verify_line  * r "  XPDY0050[: ] An empty sequence is not allowed as the value in 'treat as' expression$"
+    call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 </collection>

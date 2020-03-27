@@ -25,6 +25,8 @@
 			<exclude name="test/xspec-node-selection.xspec" />
 			<exclude name="test/xspec-node-selection_stylesheet.xspec" />
 
+			<!-- Tests x:import without @href -->
+			<exclude name="test/import/no-href.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.
