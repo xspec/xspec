@@ -8,7 +8,6 @@
 
 
 <xsl:stylesheet version="2.0"
-                xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -54,7 +53,7 @@
 </xsl:template>
   
 <xsl:template match="/" mode="test:coverage-report">
-  <html>
+  <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
       <title>Test Coverage Report for <xsl:value-of select="x:format-uri($stylesheet-uri)" /></title>
       <xsl:call-template name="test:load-css">
@@ -72,14 +71,17 @@
   </html>
 </xsl:template>
    
-   
-  <xsl:param name="sonar-coverage-report-uri" as="xs:string" />
+  <!-- param to configure the sonar-coverage-report output  -->
   <xsl:param name="sonar-coverage-report-url"></xsl:param>
   
+  <!-- function to calculate the default sonar-coverage-report output  -->
   <xsl:function name="test:sonar-coverage-report-url">
     <xsl:choose>
       <xsl:when test="not($sonar-coverage-report-url)">
-        <xsl:value-of select="concat($stylesheet-uri,'/../xspec/sonar-coverage-report.xml')"/>
+        <xsl:variable name="dot" select="substring-before($stylesheet-uri,'.')"/>
+        <xsl:variable name="slash" select="tokenize(substring-before($stylesheet-uri,'.'),'/')"/>
+        <xsl:variable name="pathDirectory" select="substring-before($dot,$slash[last()])"/>
+        <xsl:value-of select="concat($pathDirectory,'/xspec/sonar-coverage-report.xml')"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="$sonar-coverage-report-url"/>
@@ -87,13 +89,26 @@
     </xsl:choose>
   </xsl:function>
   
-  <xsl:template match="/" mode="sonar">
+  <!-- function to calculate the xsl output, in order to be understood by SonarQube according to the Operating System  -->
+  <xsl:function name="test:xsl-file-location">
     <xsl:variable name="absoluteXslPath" select="substring-after($stylesheet-uri,'file:/')"/>
     <xsl:variable name="xslPathCorrected" select="replace($absoluteXslPath,'%20',' ')"/>
-    <xsl:variable name="xslUrl" select="replace($xslPathCorrected,'/','\\')"/>
+    <xsl:choose>
+      <xsl:when test="contains($xslPathCorrected,':/')">
+        <!-- windows os -->
+        <xsl:value-of select="$xslPathCorrected"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="concat('/',$xslPathCorrected)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  
+  <!-- template generate the sonar-coverage-report -->
+  <xsl:template match="/" mode="sonar">
     <xsl:result-document href="{test:sonar-coverage-report-url()}" omit-xml-declaration="yes">
     <coverage version="1">
-      <file path="{$xslUrl}">
+      <file path="{test:xsl-file-location()}">
     <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="sonar">
       <xsl:with-param name="sonar-report" select="true()" tunnel="yes"/>
     </xsl:apply-templates>
