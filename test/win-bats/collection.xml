@@ -923,14 +923,14 @@
         xspec-node-selection.xspec ^
         xspec-node-selection_stylesheet.xspec
     call :verify_retval 1
-    call :verify_line 1 r ".*-child-not-allowed"
-    call :verify_line 2 r ".*-child-not-allowed"
-    call :verify_line 3 r ".*-child-not-allowed"
-    call :verify_line 4 r ".*-child-not-allowed"
-    call :verify_line 5 r ".*-child-not-allowed"
-    call :verify_line 6 r ".*-child-not-allowed"
-    call :verify_line 7 r ".*-child-not-allowed"
-    call :verify_line 8 r "Elapsed time"
+    call :verify_line 1 r "..*: error: element \"function-param-child-not-allowed\" not allowed here;"
+    call :verify_line 2 r "..*: error: element \"global-param-child-not-allowed\" not allowed here;"
+    call :verify_line 3 r "..*: error: element \"global-variable-child-not-allowed\" not allowed here;"
+    call :verify_line 4 r "..*: error: element \"assertion-child-not-allowed\" not allowed here;"
+    call :verify_line 5 r "..*: error: element \"variable-child-not-allowed\" not allowed here;"
+    call :verify_line 6 r "..*: error: element \"template-param-child-not-allowed\" not allowed here;"
+    call :verify_line 7 r "..*: error: element \"template-param-child-not-allowed\" not allowed here;"
+    call :verify_line 8 r "Elapsed time "
 	</case>
 
 	<case ifdef="JING_JAR" name="Schema detects missing @href in x:import">

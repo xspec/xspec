@@ -1113,14 +1113,14 @@ assert_regex() {
         xspec-node-selection_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[0]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[1]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[2]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[3]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[4]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[5]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[6]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[7]}" =~ "Elapsed time" ]]
+    assert_regex "${lines[0]}" '.+: error: element "function-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[1]}" '.+: error: element "global-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[2]}" '.+: error: element "global-variable-child-not-allowed" not allowed here;'
+    assert_regex "${lines[3]}" '.+: error: element "assertion-child-not-allowed" not allowed here;'
+    assert_regex "${lines[4]}" '.+: error: element "variable-child-not-allowed" not allowed here;'
+    assert_regex "${lines[5]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[6]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[7]}" '^Elapsed time '
 }
 
 @test "Schema detects missing @href in x:import" {
