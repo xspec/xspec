@@ -39,7 +39,7 @@ import =
 	## imported document will actually be imported).
 	element import { common-attributes,
 	   ## The document URI (location) of the imported document.
-	   attribute href { xsd:anyURI }? }
+	   attribute href { xsd:anyURI } }
 
 pending = 
 	## Anything that is within a <pending> element will remain untested, but will be
