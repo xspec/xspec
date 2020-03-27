@@ -107,7 +107,7 @@
       <!-- "document($imports/@href)" without sorting -->
       <xsl:variable name="docs" as="document-node(element(x:description))*">
         <xsl:for-each select="$imports">
-          <xsl:sequence select="document(@href)" />
+          <xsl:sequence select="document(@href) treat as document-node(element(x:description))" />
         </xsl:for-each>
       </xsl:variable>
       <xsl:variable name="docs" as="document-node(element(x:description))*"

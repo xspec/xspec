@@ -1113,14 +1113,27 @@ assert_regex() {
         xspec-node-selection_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[0]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[1]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[2]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[3]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[4]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[5]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[6]}" =~ "-child-not-allowed" ]]
-    [[ "${lines[7]}" =~ "Elapsed time" ]]
+    assert_regex "${lines[0]}" '.+: error: element "function-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[1]}" '.+: error: element "global-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[2]}" '.+: error: element "global-variable-child-not-allowed" not allowed here;'
+    assert_regex "${lines[3]}" '.+: error: element "assertion-child-not-allowed" not allowed here;'
+    assert_regex "${lines[4]}" '.+: error: element "variable-child-not-allowed" not allowed here;'
+    assert_regex "${lines[5]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[6]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[7]}" '^Elapsed time '
+}
+
+@test "Schema detects missing @href in x:import" {
+    if [ -z "${JING_JAR}" ]; then
+        skip "JING_JAR is not defined"
+    fi
+
+    # '-t' for identifying the last line
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc import/no-href.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[0]}" '.+: error: element "x:import" missing required attribute "href"$'
+    assert_regex "${lines[1]}" '^Elapsed time '
 }
 
 #
@@ -1845,6 +1858,26 @@ assert_regex() {
     run cat "${TEST_DIR}/demo-coverage.html"
     echo "$output"
     [[ "${output}" =~ "--Customized coverage report--" ]]
+}
+
+#
+# Broken x:import
+#
+
+@test "x:import with unreachable @href" {
+    run ../bin/xspec.sh import/file-not-found.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  FODC0002[: ] I/O error reported by XML parser processing'$'\n'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:import without @href" {
+    run ../bin/xspec.sh import/no-href.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] An empty sequence is not allowed as the value in '\''treat as'\'' expression'$'\n'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
 

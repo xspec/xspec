@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:import href="this.file.never.exists" />
+
+	<x:scenario label="Dummy scenario">
+		<x:context />
+		<x:expect label="always successful" test="true()" />
+	</x:scenario>
+
+</x:description>
