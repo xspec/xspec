@@ -2,6 +2,7 @@
 
 * `global.env` is read first.
 * `name=value`
+* `name=` to unset
 * No quotation even if `value` contains a space.
 * Blank lines are skipped.
 * Lines starting with `#` are skipped. `#` cannot be used in other places.
