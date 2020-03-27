@@ -47,10 +47,3 @@ echo "Install XML Resolver"
 export XML_RESOLVER_JAR=${XSPEC_DEPS}/xml-resolver/resolver.jar
 curl -fsSL --create-dirs --retry 5 -o ${XML_RESOLVER_JAR} https://repo1.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
 
-echo "Install Jing"
-if [ -z ${JING_VERSION} ]; then
-    echo "Jing will not be installed";
-else
-    export JING_JAR=${XSPEC_DEPS}/jing/jing.jar;
-    curl -fsSL --create-dirs --retry 5 -o ${JING_JAR} https://repo1.maven.org/maven2/org/relaxng/jing/${JING_VERSION}/jing-${JING_VERSION}.jar;
-fi

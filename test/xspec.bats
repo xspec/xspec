@@ -37,19 +37,7 @@ teardown() {
 # Helper
 #
 
-assert_regex() {
-    if [ "$#" -ne 2 ]; then
-        echo "Invalid number of arguments: $#"
-        return 1
-    fi
-
-    if [[ "" =~ $2 ]]; then
-        echo "Regex matches zero-length string: $2"
-        return 1
-    fi
-
-    [[ $1 =~ $2 ]]
-}
+load bats-helper
 
 #
 # Usage (CLI)
@@ -1082,58 +1070,6 @@ assert_regex() {
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
-}
-
-#
-# RelaxNG Schema
-#
-
-@test "Schema detects no error in known good .xspec files" {
-    if [ -z "${JING_JAR}" ]; then
-        skip "JING_JAR is not defined"
-    fi
-
-    run ant -buildfile schema/build.xml -lib "${JING_JAR}"
-    echo "$output"
-    [ "$status" -eq 0 ]
-
-    # Verify that the fileset includes test and tutorial files recursively
-    [[ "${output}" =~ "/test/catalog/" ]]
-    [[ "${output}" =~ "/tutorial/coverage/" ]]
-}
-
-@test "Schema detects errors in node-selection test" {
-    if [ -z "${JING_JAR}" ]; then
-        skip "JING_JAR is not defined"
-    fi
-
-    # '-t' for identifying the last line
-    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
-        xspec-node-selection.xspec \
-        xspec-node-selection_stylesheet.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    assert_regex "${lines[0]}" '.+: error: element "function-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[1]}" '.+: error: element "global-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[2]}" '.+: error: element "global-variable-child-not-allowed" not allowed here;'
-    assert_regex "${lines[3]}" '.+: error: element "assertion-child-not-allowed" not allowed here;'
-    assert_regex "${lines[4]}" '.+: error: element "variable-child-not-allowed" not allowed here;'
-    assert_regex "${lines[5]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[6]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[7]}" '^Elapsed time '
-}
-
-@test "Schema detects missing @href in x:import" {
-    if [ -z "${JING_JAR}" ]; then
-        skip "JING_JAR is not defined"
-    fi
-
-    # '-t' for identifying the last line
-    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc import/no-href.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    assert_regex "${lines[0]}" '.+: error: element "x:import" missing required attribute "href"$'
-    assert_regex "${lines[1]}" '^Elapsed time '
 }
 
 #
