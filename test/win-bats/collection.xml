@@ -933,6 +933,14 @@
     call :verify_line 8 r "Elapsed time"
 	</case>
 
+	<case ifdef="JING_JAR" name="Schema detects missing @href in x:import">
+    rem '-t' for identifying the last line
+    call :run java -jar "%JING_JAR%" -c -t ..\src\schemas\xspec.rnc import\no-href.xspec
+    call :verify_retval 1
+    call :verify_line 1 r "..*: error: element \"x:import\" missing required attribute \"href\"$"
+    call :verify_line 2 r "Elapsed time "
+	</case>
+
 	<!--
 		saxon.custom.options (Ant)
 	-->

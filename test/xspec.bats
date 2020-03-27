@@ -1123,6 +1123,19 @@ assert_regex() {
     [[ "${lines[7]}" =~ "Elapsed time" ]]
 }
 
+@test "Schema detects missing @href in x:import" {
+    if [ -z "${JING_JAR}" ]; then
+        skip "JING_JAR is not defined"
+    fi
+
+    # '-t' for identifying the last line
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc import/no-href.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[0]}" '.+: error: element "x:import" missing required attribute "href"$'
+    assert_regex "${lines[1]}" '^Elapsed time '
+}
+
 #
 # saxon.custom.options (Ant)
 #
