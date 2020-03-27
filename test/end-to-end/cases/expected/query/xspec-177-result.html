@@ -66,10 +66,11 @@
          </table>
          <div id="scenario1">
             <h3>Given the function returns &lt;foo /&gt;</h3>
-            <div id="scenario1-expect1">
-               <h4>When @test is "empty($x:result/self::element(foo))" (i.e. boolean), then the HTML
+            <div id="scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">When @test is "empty($x:result/self::element(foo))" (i.e. boolean), then the HTML
                   report should be "Result" = "&lt;foo /&gt;" and "Expecting" = "empty($x:result/self::element(foo))"
                   without diff.</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">❔</a></div>
                <table class="xspecResult">
                   <thead>
                      <tr>
@@ -90,10 +91,11 @@
                   </tbody>
                </table>
             </div>
-            <div id="scenario1-expect2">
-               <h4>When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
+            <div id="scenario1-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">When x:expect expects &lt;bar /&gt; and @test is "$x:result/self::element(foo)" (i.e. non
                   boolean), then the HTML report should be "Result" = "&lt;foo /&gt;" and "Expected Result"
                   = "&lt;bar /&gt;" with diff.</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">❔</a></div>
                <table class="xspecResult">
                   <thead>
                      <tr>
