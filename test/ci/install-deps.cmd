@@ -49,13 +49,5 @@ echo Install XML Resolver
 set "XML_RESOLVER_JAR=%XSPEC_DEPS%\xml-resolver\resolver.jar"
 %CURL% -o "%XML_RESOLVER_JAR%" "https://repo1.maven.org/maven2/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar"
 
-echo Install Jing
-if not defined JING_VERSION (
-    echo Jing will not be installed
-) else (
-    set "JING_JAR=%XSPEC_DEPS%\jing\jing.jar"
-)
-if defined JING_JAR %CURL% -o "%JING_JAR%" "https://repo1.maven.org/maven2/org/relaxng/jing/%JING_VERSION%/jing-%JING_VERSION%.jar"
-
 rem clean up
 set CURL=

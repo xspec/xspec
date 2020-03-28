@@ -23,10 +23,6 @@ echo === Print XML Resolver version
 java -cp "%XML_RESOLVER_JAR%" org.apache.xml.resolver.Version
 
 echo:
-echo === Check Jing
-java -jar "%JING_JAR%"
-
-echo:
 echo === Check BaseX
 java -cp "%BASEX_JAR%" org.basex.BaseX -h
 
