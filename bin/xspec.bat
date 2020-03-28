@@ -265,7 +265,7 @@ if not defined XSPEC_HOME set "XSPEC_HOME=%~dp0.."
 rem
 rem # safety checks
 rem
-for %%I in ("%XSPEC_HOME%") do echo "%%~aI" | %SYSTEMROOT%\system32\find "d" > NUL
+for %%I in ("%XSPEC_HOME%") do echo "%%~aI" | "%SYSTEMROOT%\system32\find" "d" > NUL
 if errorlevel 1 (
     call :win_echo "ERROR: XSPEC_HOME is not a directory: %XSPEC_HOME%"
     exit /b 1
