@@ -56,14 +56,14 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "SAXON_CP and SAXON_HOME both not set!" ]
-    [[ "${lines[3]}" =~ "Usage: xspec " ]]
+    assert_regex "${lines[3]}" '^Usage: xspec '
 }
 
 @test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
     run ../bin/xspec.sh -t -t -t -t -t -t -t -t -t -t -h
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[1]}" =~ "Usage: xspec " ]]
+    assert_regex "${lines[1]}" '^Usage: xspec '
 }
 
 @test "invoking xspec with unknown option prints usage" {
@@ -71,7 +71,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Error: Unknown option: -bogus" ]
-    [[ "${lines[2]}" =~ "Usage: xspec " ]]
+    assert_regex "${lines[2]}" '^Usage: xspec '
 }
 
 @test "invoking xspec with extra arguments prints usage" {
@@ -79,7 +79,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Error: Extra option: bogus" ]
-    [[ "${lines[2]}" =~ "Usage: xspec " ]]
+    assert_regex "${lines[2]}" '^Usage: xspec '
 }
 
 #
@@ -301,14 +301,14 @@ load bats-helper
     run ../bin/xspec.sh xspec-46.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[5]}" =~ "Testing with " ]]
+    assert_regex "${lines[5]}" '^Testing with '
 }
 
 @test "x:resolve-EQName-ignoring-default-ns() with non-empty prefix does not raise a warning #826" {
     run ../bin/xspec.sh xspec-826.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[5]}" =~ "Testing with " ]]
+    assert_regex "${lines[5]}" '^Testing with '
 }
 
 #
@@ -459,7 +459,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/schematron/schematron-param-001.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 9 / pending: 0 / failed: 0 / total: 9" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 9 / pending: 0 / failed: 0 / total: 9'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -492,10 +492,10 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "I am schematron-xslt-include.xsl!" ]]
-    [[ "${output}" =~ "I am schematron-xslt-expand.xsl!" ]]
-    [[ "${output}" =~ "I am schematron-xslt-compile.xsl!" ]]
-    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-include.xsl!'$'\n'
+    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-expand.xsl!'$'\n'
+    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-compile.xsl!'$'\n'
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 3 / pending: 0 / failed: 0 / total: 3'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -649,7 +649,7 @@ load bats-helper
         ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${lines[${#lines[@]}-1]}" =~ ":passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    assert_regex "${lines[${#lines[@]}-1]}" '.+:passed: 1 / pending: 0 / failed: 0 / total: 1'
 
     # Compiled file
     [ -f "${compiled_file}" ]
@@ -690,7 +690,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    [[ "${lines[1]}" =~ ":passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    assert_regex "${lines[1]}" '.+:passed: 1 / pending: 0 / failed: 0 / total: 1'
 
     # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
@@ -721,7 +721,7 @@ load bats-helper
 
     # Default xspec.fail is true
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # Verify default output dir
@@ -760,7 +760,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify default output dir
@@ -794,7 +794,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 10 / pending: 1 / failed: 0 / total: 11'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify default output dir
@@ -886,7 +886,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
@@ -899,7 +899,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # Verify the build fails before cleanup
@@ -920,7 +920,7 @@ load bats-helper
         -Dtest.type=xslT \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
 }
 
 @test "Ant verbose test.type (XQuery)" {
@@ -930,7 +930,7 @@ load bats-helper
         -Dtest.type=xquerY \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
     echo "$output"
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
 }
 
 @test "Ant verbose test.type (Schematron)" {
@@ -941,7 +941,7 @@ load bats-helper
         -Dtest.type=schematroN \
         -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
     echo "$output"
-    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 3 / pending: 0 / failed: 0 / total: 3'$'\n'
 }
 
 #
@@ -967,7 +967,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 10 / pending: 1 / failed: 0 / total: 11" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 10 / pending: 1 / failed: 0 / total: 11'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify that -Dxspec.dir was honored and the default output dir was not created
@@ -1092,11 +1092,11 @@ load bats-helper
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 3 / pending: 0 / failed: 0 / total: 3'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify '-t'
-    [[ "${output}" =~ "Memory used:" ]]
+    assert_regex "${output}" $'\n''     \[java\] Memory used:'
 }
 
 @test "Ant for XQuery with saxon.custom.options" {
@@ -1116,11 +1116,11 @@ load bats-helper
         -Dxspec.xml="${PWD}/saxon-custom-options/test.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 3 / pending: 0 / failed: 0 / total: 3" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 3 / pending: 0 / failed: 0 / total: 3'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify '-t'
-    [[ "${output}" =~ "Memory used:" ]]
+    assert_regex "${output}" $'\n''     \[java\] Memory used:'
 }
 
 #
@@ -1139,7 +1139,7 @@ load bats-helper
     [ "${lines[${#lines[@]}-3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 
     # Verify '-t'
-    [[ "${output}" =~ "Memory used:" ]]
+    assert_regex "${output}" $'\n''Memory used:'
 }
 
 @test "invoking xspec for XQuery with SAXON_CUSTOM_OPTIONS" {
@@ -1154,7 +1154,7 @@ load bats-helper
     [ "${lines[${#lines[@]}-3]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
 
     # Verify '-t'
-    [[ "${output}" =~ "Memory used:" ]]
+    assert_regex "${output}" $'\n''Memory used:'
 }
 
 #
@@ -1173,7 +1173,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 1 / pending: 0 / failed: 0 / total: 1" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # XML and HTML report file
@@ -1196,7 +1196,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
-    [[ "${lines[${#lines[@]}-2]}" =~ "Coverage is supported only for XSLT" ]]
+    assert_regex "${lines[${#lines[@]}-2]}" 'Coverage is supported only for XSLT'
 }
 
 @test "Ant for Schematron with coverage fails" {
@@ -1209,7 +1209,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
-    [[ "${lines[${#lines[@]}-2]}" =~ "Coverage is supported only for XSLT" ]]
+    assert_regex "${lines[${#lines[@]}-2]}" 'Coverage is supported only for XSLT'
 }
 
 #
@@ -1224,7 +1224,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 
     # XML report file
@@ -1287,9 +1287,9 @@ load bats-helper
 @test "Ambiguous x:expect generates warning" {
     run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-expect.xspec
     echo "$output"
-    [[ "${lines[11]}" =~ "WARNING: x:expect has boolean @test" ]]
-    [[ "${lines[16]}" =~ "WARNING: x:expect has boolean @test" ]]
-    [[ "${lines[23]}" =~ "WARNING: x:expect has boolean @test" ]]
+    assert_regex "${lines[11]}" '^WARNING: x:expect has boolean @test'
+    assert_regex "${lines[16]}" '^WARNING: x:expect has boolean @test'
+    assert_regex "${lines[23]}" '^WARNING: x:expect has boolean @test'
     [  "${lines[32]}" =  "Formatting Report..." ]
 }
 
@@ -1301,7 +1301,7 @@ load bats-helper
     run ../bin/xspec.sh obsolete-space/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "x:space is obsolete. Use x:text instead." ]]
+    assert_regex "${output}" $'\n''x:space is obsolete\. Use x:text instead\.'$'\n'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -1320,8 +1320,8 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[${#lines[@]}-3]}" =~ "err:XPDY0002:" ]]
-    [[ "${lines[${#lines[@]}-1]}" =~ "ERROR:" ]]
+    assert_regex "${lines[${#lines[@]}-3]}" '.+err:XPDY0002:'
+    assert_regex "${lines[${#lines[@]}-1]}" '^ERROR:'
 }
 
 @test "XQuery selecting nodes without context should be error (XProc) #423" {
@@ -1335,8 +1335,8 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[${#lines[@]}-3]}" =~ "err:XPDY0002:" ]]
-    [[ "${lines[${#lines[@]}-1]}" =~ "ERROR:" ]]
+    assert_regex "${lines[${#lines[@]}-3]}" '.+err:XPDY0002:'
+    assert_regex "${lines[${#lines[@]}-1]}" '^ERROR:'
 }
 
 @test "XSLT selecting nodes without context should be error (Ant) #423" {
@@ -1348,7 +1348,7 @@ load bats-helper
         -Dxspec.xml="${PWD}/../test/xspec-423/test.xspec"
     echo "$output"
     [ "$status" -eq 2 ]
-    assert_regex "${output}" '  XPDY0002[: ]'
+    assert_regex "${output}" $'\n''     \[java\]   XPDY0002[: ]'
     [ "${lines[${#lines[@]}-3]}" = "BUILD FAILED" ]
 }
 
@@ -1356,7 +1356,7 @@ load bats-helper
     run ../bin/xspec.sh xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  XPDY0002[: ]'
+    assert_regex "${output}" $'\n''  XPDY0002[: ]'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1368,7 +1368,7 @@ load bats-helper
     run ../bin/xspec.sh -c xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  XPDY0002[: ]'
+    assert_regex "${output}" $'\n''  XPDY0002[: ]'
     [ "${lines[${#lines[@]}-1]}" = "*** Error collecting test coverage data" ]
 }
 
@@ -1376,7 +1376,7 @@ load bats-helper
     run ../bin/xspec.sh -q xspec-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  XPDY0002[: ]'
+    assert_regex "${output}" $'\n''  XPDY0002[: ]'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1388,7 +1388,7 @@ load bats-helper
     run ../bin/xspec.sh -q xquery-version/invalid.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" 'XQST0031.+InVaLiD'
+    assert_regex "${output}" '.+XQST0031.+InVaLiD'
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1444,7 +1444,7 @@ load bats-helper
     run ../bin/xspec.sh do-nothing.xsl
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${lines[4]}" =~ "Source document is not XSpec" ]]
+    assert_regex "${lines[4]}" '^Source document is not XSpec'
 }
 
 #
@@ -1478,7 +1478,7 @@ load bats-helper
     if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
         [ "${lines[3]}" = " " ]
     else
-        [[ "${lines[3]}" =~ "WARNING: Saxon version " ]]
+        assert_regex "${lines[3]}" '^WARNING: Saxon version .+'
     fi
 }
 
@@ -1557,7 +1557,7 @@ load bats-helper
     # Verify Ant makepath task
     run cat "${ant_log}"
     echo "$output"
-    [[ "${output}" =~ " [makepath] Setting xspec.schematron.file to file path ${PWD}/do-nothing.sch" ]]
+    assert_regex "${output}" $'\n'' \[makepath\] Setting xspec\.schematron\.file to file path '"${PWD}"'/do-nothing\.sch'$'\n'
 }
 
 #
@@ -1572,32 +1572,32 @@ load bats-helper
     run ../bin/xspec.sh catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [[ "${output}" =~ "ERROR in scenario " ]]
+    assert_regex "${output}" $'\n''ERROR in scenario '
 
     run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  error-code-of-my-context-avt-for-template-call[: ] Error signalled '
+    assert_regex "${output}" $'\n''  error-code-of-my-context-avt-for-template-call[: ] Error signalled '
 
     run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  error-code-of-my-context-param-for-matching-template[: ] Error signalled '
+    assert_regex "${output}" $'\n''  error-code-of-my-context-param-for-matching-template[: ] Error signalled '
 
     run ../bin/xspec.sh catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  error-code-of-my-function-call-param[: ] Error signalled '
+    assert_regex "${output}" $'\n''  error-code-of-my-function-call-param[: ] Error signalled '
 
     run ../bin/xspec.sh catch/error-in-template-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  error-code-of-my-template-call-param[: ] Error signalled '
+    assert_regex "${output}" $'\n''  error-code-of-my-template-call-param[: ] Error signalled '
 
     run ../bin/xspec.sh catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  error-code-of-my-variable[: ] Error signalled '
+    assert_regex "${output}" $'\n''  error-code-of-my-variable[: ] Error signalled '
 
     run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
     echo "$output"
@@ -1618,12 +1618,12 @@ load bats-helper
     run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  error-code-of-my-function-call-param[: ] Error signalled '
+    assert_regex "${output}" $'\n''  error-code-of-my-function-call-param[: ] Error signalled '
 
     run ../bin/xspec.sh -q catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  error-code-of-my-variable[: ] Error signalled '
+    assert_regex "${output}" $'\n''  error-code-of-my-variable[: ] Error signalled '
 
     run ../bin/xspec.sh -q catch/static-error-in-compiled-test.xspec
     echo "$output"
@@ -1639,14 +1639,14 @@ load bats-helper
     run ../bin/xspec.sh catch/no-by-default.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  my-error-code[: ] Error signalled '
+    assert_regex "${output}" $'\n''  my-error-code[: ] Error signalled '
 }
 
 @test "Error in SUT should not be caught by default (XQuery)" {
     run ../bin/xspec.sh -q catch/no-by-default.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '  my-error-code[: ] Error signalled '
+    assert_regex "${output}" $'\n''  my-error-code[: ] Error signalled '
 }
 
 #
@@ -1723,13 +1723,13 @@ load bats-helper
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [[ "${output}" =~ "passed: 5 / pending: 0 / failed: 1 / total: 6" ]]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     run cat "${TEST_DIR}/escape-for-regex-compiled.xsl"
     echo "$output"
-    [[ "${output}" =~ "x:overridden-scenario-id-" ]]
-    [[ "${output}" =~ "x:overridden-expect-id" ]]
+    assert_regex "${output}" '.+x:overridden-scenario-id-'
+    assert_regex "${output}" '.+x:overridden-expect-id'
 }
 
 #
@@ -1774,7 +1774,7 @@ load bats-helper
 
     run cat "${TEST_DIR}/demo-coverage.html"
     echo "$output"
-    [[ "${output}" =~ "--Customized coverage report--" ]]
+    assert_regex "${output}" '.+--Customized coverage report--.+'
 }
 
 @test "Custom coverage reporter (Ant)" {
@@ -1793,7 +1793,7 @@ load bats-helper
 
     run cat "${TEST_DIR}/demo-coverage.html"
     echo "$output"
-    [[ "${output}" =~ "--Customized coverage report--" ]]
+    assert_regex "${output}" '.+--Customized coverage report--.+'
 }
 
 #
