@@ -905,43 +905,6 @@
 	</case>
 
 	<!--
-		RelaxNG Schema
-	-->
-
-	<case ifdef="JING_JAR" name="Schema detects no error in known good .xspec files">
-    call :run ant -buildfile schema\build.xml -lib "%JING_JAR%"
-    call :verify_retval 0
-
-    rem Verify that the fileset includes test and tutorial files recursively
-    call :verify_line * r "..*\\test\\catalog\\..*"
-    call :verify_line * r "..*\\tutorial\\coverage\\..*"
-	</case>
-
-	<case ifdef="JING_JAR" name="Schema detects errors in node-selection test">
-    rem '-t' for identifying the last line
-    call :run java -jar "%JING_JAR%" -c -t ..\src\schemas\xspec.rnc ^
-        xspec-node-selection.xspec ^
-        xspec-node-selection_stylesheet.xspec
-    call :verify_retval 1
-    call :verify_line 1 r "..*: error: element \"function-param-child-not-allowed\" not allowed here;"
-    call :verify_line 2 r "..*: error: element \"global-param-child-not-allowed\" not allowed here;"
-    call :verify_line 3 r "..*: error: element \"global-variable-child-not-allowed\" not allowed here;"
-    call :verify_line 4 r "..*: error: element \"assertion-child-not-allowed\" not allowed here;"
-    call :verify_line 5 r "..*: error: element \"variable-child-not-allowed\" not allowed here;"
-    call :verify_line 6 r "..*: error: element \"template-param-child-not-allowed\" not allowed here;"
-    call :verify_line 7 r "..*: error: element \"template-param-child-not-allowed\" not allowed here;"
-    call :verify_line 8 r "Elapsed time "
-	</case>
-
-	<case ifdef="JING_JAR" name="Schema detects missing @href in x:import">
-    rem '-t' for identifying the last line
-    call :run java -jar "%JING_JAR%" -c -t ..\src\schemas\xspec.rnc import\no-href.xspec
-    call :verify_retval 1
-    call :verify_line 1 r "..*: error: element \"x:import\" missing required attribute \"href\"$"
-    call :verify_line 2 r "Elapsed time "
-	</case>
-
-	<!--
 		saxon.custom.options (Ant)
 	-->
 
