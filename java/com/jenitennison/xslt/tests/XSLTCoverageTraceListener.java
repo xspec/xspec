@@ -47,6 +47,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
   
   public XSLTCoverageTraceListener() {
     System.out.println("****************************************");
+    System.out.println("foo");
   }
 
   /**
