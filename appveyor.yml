@@ -4,9 +4,7 @@ environment:
     - XSPEC_TEST_ENV: saxon-9-9
 
 install:
-- cmd: |
-    test\ci\set-env.cmd
-    test\ci\install-deps.cmd
+- cmd: test\ci\install-deps.cmd
 
 build: off
 

@@ -108,6 +108,46 @@ load bats-helper
 }
 
 #
+# XSPEC_HOME
+#
+
+@test "XSPEC_HOME" {
+    export XSPEC_HOME="${BATS_TEST_DIRNAME}/.."
+
+    pushd "${work_dir}"
+
+    cp "${XSPEC_HOME}/bin/xspec.sh" my-xspec.sh
+    chmod +x my-xspec.sh
+
+    run ./my-xspec.sh "${XSPEC_HOME}/tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
+    [ "${lines[20]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
+
+    popd
+}
+
+@test "XSPEC_HOME is not a directory" {
+    export XSPEC_HOME="${work_dir}/file"
+    touch "${XSPEC_HOME}"
+
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "ERROR: XSPEC_HOME is not a directory: ${XSPEC_HOME}" ]
+}
+
+@test "XSPEC_HOME seems to be corrupted" {
+    export XSPEC_HOME="${work_dir}"
+
+    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[1]}" = "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}" ]
+}
+
+#
 # SAXON_CP has precedence over SAXON_HOME
 #
 
