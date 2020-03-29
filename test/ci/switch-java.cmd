@@ -1,5 +1,3 @@
-echo on
-
 if not defined AGENT_OSARCHITECTURE (
   verify other 2> NUL
   goto :EOF
