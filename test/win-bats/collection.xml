@@ -63,6 +63,42 @@
 	</case>
 
 	<!--
+		XSPEC_HOME
+	-->
+
+	<case name="XSPEC_HOME">
+    set "XSPEC_HOME=%PARENT_DIR_ABS%"
+
+    pushd "%WORK_DIR%"
+
+    call :copy "%XSPEC_HOME%\bin\xspec.bat" my-xspec.bat
+
+    call :run my-xspec.bat "%XSPEC_HOME%\tutorial\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line 20 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
+    call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
+
+    popd
+	</case>
+
+	<case name="XSPEC_HOME is not a directory">
+    set "XSPEC_HOME=%WORK_DIR%\file"
+    call :copy NUL "%XSPEC_HOME%"
+
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 1
+    call :verify_line 2 x "ERROR: XSPEC_HOME is not a directory: %XSPEC_HOME%"
+	</case>
+
+	<case name="XSPEC_HOME seems to be corrupted">
+    set "XSPEC_HOME=%WORK_DIR%"
+
+    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :verify_retval 1
+    call :verify_line 2 x "ERROR: XSPEC_HOME seems to be corrupted: %XSPEC_HOME%"
+	</case>
+
+	<!--
 		SAXON_CP has precedence over SAXON_HOME
 	-->
 	<case name="SAXON_CP has precedence over SAXON_HOME">

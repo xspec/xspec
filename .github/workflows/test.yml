@@ -31,8 +31,7 @@ jobs:
       - name: Run tests for *nix
         if: runner.os != 'Windows'
         run: >
-          source test/ci/set-env.sh
-          && source test/ci/install-deps.sh
+          source test/ci/install-deps.sh
           && test/ci/print-env.sh
           && test/ci/run-core-tests.sh
           && test/ci/maven-package.sh -q
@@ -43,8 +42,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: cmd
         run: >
-          call test\ci\set-env.cmd
-          && call test\ci\install-deps.cmd
+          call test\ci\install-deps.cmd
           && call test\ci\print-env.cmd
           && call test\ci\run-core-tests.cmd
           && call test\ci\maven-package.cmd -q
