@@ -250,6 +250,45 @@ load bats-helper
     rm -r ../tutorial/xspec
 }
 
+@test "invoking xspec -c without TEST_DIR set externally" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    unset TEST_DIR
+
+    # Delete default output dir if exists, to make the line numbers predictable
+    rm -rf ../tutorial/coverage/xspec
+
+    # Run
+    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # Verify message
+    # Bats bug inserts garbages into $lines: bats-core/bats-core#151
+    assert_regex "${output}" $'\n''passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
+    assert_regex "${output}" $'\n''Report available at ../tutorial/coverage/xspec/demo-coverage\.html'$'\n'
+
+    # Verify report files
+    # * XML report file is created
+    # * HTML report file is created
+    # * Coverage XML report is created
+    # * Coverage HTML report is created
+    # * JUnit is disabled by default
+    run ls ../tutorial/coverage/xspec
+    echo "$output"
+    [ "${#lines[@]}" = "5" ]
+    [ "${lines[0]}" = "demo-compiled.xsl" ]
+    [ "${lines[1]}" = "demo-coverage.html" ]
+    [ "${lines[2]}" = "demo-coverage.xml" ]
+    [ "${lines[3]}" = "demo-result.html" ]
+    [ "${lines[4]}" = "demo-result.xml" ]
+
+    # Cleanup
+    rm -r ../tutorial/coverage/xspec
+}
+
 @test "invoking xspec without TEST_DIR set externally (XQuery)" {
     unset TEST_DIR
 
@@ -578,6 +617,56 @@ load bats-helper
     [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
     [ "${lines[1]}" = "escape-for-regex-result.html" ]
     [ "${lines[2]}" = "escape-for-regex-result.xml" ]
+
+    # Cleanup
+    rm -r "${TEST_DIR}"
+}
+
+@test "invoking xspec -c with TEST_DIR creates files in TEST_DIR" {
+    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
+        skip "XSLT_SUPPORTS_COVERAGE is not defined"
+    fi
+
+    # Delete default output dir if exists
+    rm -rf ../tutorial/coverage/xspec
+
+    # Run with absolute TEST_DIR
+    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    # Bats bug inserts garbages into $lines: bats-core/bats-core#151
+    assert_regex "${output}" $'\n''Report available at '"${TEST_DIR}"'/demo-coverage\.html'
+
+    # Verify files in specified TEST_DIR
+    run ls "${TEST_DIR}"
+    echo "$output"
+    [ "${#lines[@]}" = "5" ]
+    [ "${lines[0]}" = "demo-compiled.xsl" ]
+    [ "${lines[1]}" = "demo-coverage.html" ]
+    [ "${lines[2]}" = "demo-coverage.xml" ]
+    [ "${lines[3]}" = "demo-result.html" ]
+    [ "${lines[4]}" = "demo-result.xml" ]
+
+    # Default output dir should not be created
+    [ ! -d ../tutorial/coverage/xspec ]
+
+    # Run with relative TEST_DIR
+    export TEST_DIR=../tutorial/coverage/xspec
+    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    # Bats bug inserts garbages into $lines: bats-core/bats-core#151
+    assert_regex "${output}" $'\n''Report available at '"${TEST_DIR}"'/demo-coverage\.html'
+
+    # Verify files in specified TEST_DIR
+    run ls "${TEST_DIR}"
+    echo "$output"
+    [ "${#lines[@]}" = "5" ]
+    [ "${lines[0]}" = "demo-compiled.xsl" ]
+    [ "${lines[1]}" = "demo-coverage.html" ]
+    [ "${lines[2]}" = "demo-coverage.xml" ]
+    [ "${lines[3]}" = "demo-result.html" ]
+    [ "${lines[4]}" = "demo-result.xml" ]
 
     # Cleanup
     rm -r "${TEST_DIR}"
