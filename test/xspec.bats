@@ -25,6 +25,9 @@ setup() {
     work_dir="${BATS_TMPDIR}/xspec/bats_work"
     mkdir -p "${work_dir}"
 
+    # Full path to the parent directory
+    parent_dir_abs=$(cd ..; pwd)
+
     export TEST_DIR="${work_dir}/output_${RANDOM}"
     export ANT_ARGS="-Dxspec.dir=${TEST_DIR}"
 }
@@ -112,7 +115,7 @@ load bats-helper
 #
 
 @test "XSPEC_HOME" {
-    export XSPEC_HOME="${BATS_TEST_DIRNAME}/.."
+    export XSPEC_HOME="${parent_dir_abs}"
 
     pushd "${work_dir}"
 
@@ -408,7 +411,7 @@ load bats-helper
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=end-to-end/cases/xspec-serialize.xspec \
         -o result="file:${actual_report}" \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
@@ -437,7 +440,7 @@ load bats-helper
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=end-to-end/cases/xspec-serialize.xspec \
         -o result="file:${actual_report}" \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
@@ -774,7 +777,7 @@ load bats-helper
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
         -p compiled-file="file:${compiled_file}" \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
@@ -814,7 +817,7 @@ load bats-helper
         -p endpoint=http://localhost:8984/rest \
         -p password=admin \
         -p username=admin \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/basex/basex-server-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
@@ -1445,7 +1448,7 @@ load bats-helper
 
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=xspec-423/test.xspec \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1460,7 +1463,7 @@ load bats-helper
 
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=xspec-423/test.xspec \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
