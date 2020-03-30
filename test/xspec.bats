@@ -22,17 +22,20 @@
 #
 
 setup() {
+    # Work directory
     work_dir="${BATS_TMPDIR}/xspec/bats_work"
     mkdir -p "${work_dir}"
 
     # Full path to the parent directory
     parent_dir_abs=$(cd ..; pwd)
 
+    # Set TEST_DIR and xspec.dir within the work directory so that it's cleaned up by teardown
     export TEST_DIR="${work_dir}/output_${RANDOM}"
     export ANT_ARGS="-Dxspec.dir=${TEST_DIR}"
 }
 
 teardown() {
+    # Remove the work directory
     rm -r "${work_dir}"
 }
 
