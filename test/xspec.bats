@@ -201,7 +201,6 @@ load bats-helper
 }
 
 @test "invoking xspec -c -q prints error message" {
-    export SAXON_CP=/path/to/saxon9ee.jar
     run ../bin/xspec.sh -c -q ../tutorial/xquery-tutorial.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -209,7 +208,6 @@ load bats-helper
 }
 
 @test "invoking xspec -c -s prints error message" {
-    export SAXON_CP=/path/to/saxon9ee.jar
     run ../bin/xspec.sh -c -s ../tutorial/schematron/demo-01.xspec
     echo "$output"
     [ "$status" -eq 1 ]

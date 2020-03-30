@@ -137,14 +137,12 @@
 	</case>
 
 	<case name="invoking xspec -c -q prints error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar
     call :run ..\bin\xspec.bat -c -q ..\tutorial\xquery-tutorial.xspec
     call :verify_retval 1
     call :verify_line 2 x "Coverage is supported only for XSLT"
 	</case>
 
 	<case name="invoking xspec -c -s prints error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar
     call :run ..\bin\xspec.bat -c -s ..\tutorial\schematron\demo-01.xspec
     call :verify_retval 1
     call :verify_line 2 x "Coverage is supported only for XSLT"
