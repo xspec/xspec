@@ -223,7 +223,8 @@ rem
 
     rem
     rem Run
-    rem    Launch a child process in order to localize various environment changes
+    rem    Launch a child process in order to localize various environment changes.
+    rem    Note that for CMD's /C option, the first parameter starting with a quote char may have a special meaning.
     rem
     "%COMSPEC%" /c %* > "%OUTPUT_RAW%" 2>&1
     set RETVAL=%ERRORLEVEL%
