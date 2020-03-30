@@ -10,23 +10,43 @@ rem
 for /f "eol=# usebackq delims=" %%I in (
     "%~dp0env\global.env"
     "%~dp0env\%XSPEC_TEST_ENV%.env"
-) do set "%%~I"
+) do (
+    echo set "%%~I"
+    set "%%~I"
+)
 
 rem
 rem Root dir
 rem
-if not defined XSPEC_DEPS set "XSPEC_DEPS=%TEMP%\xspec"
+if not defined XSPEC_TEST_DEPS set "XSPEC_TEST_DEPS=%TEMP%\xspec-test-deps"
 
 rem
 rem Ant
 rem
-set "ANT_HOME=%XSPEC_DEPS%\ant\apache-ant-%ANT_VERSION%"
-path %ANT_HOME%\bin;%PATH%
+
+rem Depends on the archive file structure
+set "ANT_HOME=%XSPEC_TEST_DEPS%\apache-ant-%ANT_VERSION%"
+
+rem Path component
+set "ANT_BIN=%ANT_HOME%\bin"
+
+rem Remove from PATH
+rem https://unix.stackexchange.com/a/108933
+path ;%PATH%;
+call path %%PATH:;%ANT_BIN%;=;%%
+if "%PATH:~0,1%"==";" path %PATH:~1%
+if "%PATH:~-1%" ==";" path %PATH:~0,-1%
+
+rem Prepend to PATH
+path %ANT_BIN%;%PATH%
+
+rem Clean up
+set ANT_BIN=
 
 rem
 rem Saxon
 rem
-set "SAXON_JAR=%XSPEC_DEPS%\saxon"
+set "SAXON_JAR=%XSPEC_TEST_DEPS%\saxon-%SAXON_VERSION%"
 
 rem Keep the original (not Maven) file name convention so that we can test SAXON_HOME properly
 if "%SAXON_VERSION:~0,2%"=="9." (
@@ -38,24 +58,26 @@ if "%SAXON_VERSION:~0,2%"=="9." (
 rem
 rem XML Resolver
 rem
-set "XML_RESOLVER_JAR=%XSPEC_DEPS%\xml-resolver\resolver.jar"
+set "XML_RESOLVER_JAR=%XSPEC_TEST_DEPS%\xml-resolver-%XML_RESOLVER_VERSION%\resolver.jar"
 
 rem
 rem XML Calabash
 rem
 if defined XMLCALABASH_VERSION (
-    rem Depends on the zip file structure
-    set "XMLCALABASH_JAR=%XSPEC_DEPS%\xmlcalabash\xmlcalabash-%XMLCALABASH_VERSION%\xmlcalabash-%XMLCALABASH_VERSION%.jar"
+    rem Depends on the archive file structure
+    set "XMLCALABASH_JAR=%XSPEC_TEST_DEPS%\xmlcalabash-%XMLCALABASH_VERSION%\xmlcalabash-%XMLCALABASH_VERSION%.jar"
 ) else (
     echo XML Calabash will not be installed
+    set XMLCALABASH_JAR=
 )
 
 rem
 rem BaseX
 rem
 if defined BASEX_VERSION (
-    rem Depends on the zip file structure
-    set "BASEX_JAR=%XSPEC_DEPS%\basex\basex\BaseX.jar"
+    rem Depends on the archive file structure
+    set "BASEX_JAR=%XSPEC_TEST_DEPS%\basex-%BASEX_VERSION%\basex\BaseX.jar"
 ) else (
     echo BaseX will not be installed
+    set BASEX_JAR=
 )
