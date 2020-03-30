@@ -3,6 +3,18 @@
 	xsi:schemaLocation="x-urn:xspec:test:xspec-bat collection.xsd">
 
 	<!--
+		Fail deliberately
+	-->
+
+	<case name="Parent dir missing unexpectedly">
+    call :verify_leaf_dir_not_exist C:\NEVER\system32
+	</case>
+
+	<case name="Leaf dir exists unexpectedly">
+    call :verify_leaf_dir_not_exist "%SYSTEMROOT%\system32"
+	</case>
+
+	<!--
 		Usage (CLI)
 	-->
 
