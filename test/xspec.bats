@@ -46,18 +46,6 @@ teardown() {
 load bats-helper
 
 #
-# Fail deliberately
-#
-
-@test "Parent dir missing unexpectedly" {
-    assert_leaf_dir_not_exist /NEVER/bin
-}
-
-@test "Leaf dir exists unexpectedly" {
-    assert_leaf_dir_not_exist /usr/bin
-}
-
-#
 # Usage (CLI)
 #
 
