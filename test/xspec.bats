@@ -120,7 +120,7 @@ load bats-helper
 @test "XSPEC_HOME" {
     export XSPEC_HOME="${parent_dir_abs}"
 
-    pushd "${work_dir}"
+    cd "${work_dir}"
 
     cp "${XSPEC_HOME}/bin/xspec.sh" my-xspec.sh
     chmod +x my-xspec.sh
@@ -130,8 +130,6 @@ load bats-helper
     [ "$status" -eq 0 ]
     [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
     [ "${lines[20]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
-
-    popd
 }
 
 @test "XSPEC_HOME is not a directory" {

@@ -69,7 +69,7 @@
 	<case name="XSPEC_HOME">
     set "XSPEC_HOME=%PARENT_DIR_ABS%"
 
-    pushd "%WORK_DIR%"
+    cd /d "%WORK_DIR%"
 
     call :copy "%XSPEC_HOME%\bin\xspec.bat" my-xspec.bat
 
@@ -77,8 +77,6 @@
     call :verify_retval 0
     call :verify_line 20 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
     call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
-
-    popd
 	</case>
 
 	<case name="XSPEC_HOME is not a directory">
