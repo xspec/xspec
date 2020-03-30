@@ -338,6 +338,15 @@ rem
     )
     goto :EOF
 
+:verify_leaf_dir_not_exist
+    rem Checks to see if the parent dir of the specified dir exists...
+    call :verify_exist "%~1\..\"
+
+    rem ...but the specified dir does not exist.
+    call :verify_not_exist "%~1\"
+
+    goto :EOF
+
 rem
 rem Test cases
 rem

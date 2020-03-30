@@ -502,7 +502,7 @@
     call :verify_line 3 x escape-for-regex-result.xml
 
     rem Default output dir should not be created
-    call :verify_not_exist ..\tutorial\xspec\
+    call :verify_leaf_dir_not_exist ..\tutorial\xspec
 
     rem Run with relative TEST_DIR
     set TEST_DIR=..\tutorial\xspec
@@ -540,7 +540,7 @@
     call :verify_line 5 x demo-result.xml
 
     rem Default output dir should not be created
-    call :verify_not_exist ..\tutorial\coverage\xspec\
+    call :verify_leaf_dir_not_exist ..\tutorial\coverage\xspec
 
     rem Run with relative TEST_DIR
     set TEST_DIR=..\tutorial\coverage\xspec
@@ -578,7 +578,7 @@
     call :verify_line 3 x xquery-tutorial-result.xml
 
     rem Default output dir should not be created
-    call :verify_not_exist ..\tutorial\xspec\
+    call :verify_leaf_dir_not_exist ..\tutorial\xspec
 
     rem Run with relative TEST_DIR
     set TEST_DIR=..\tutorial\xspec
@@ -614,7 +614,7 @@
     call :verify_line 3 x schematron-017-result.xml
 
     rem Default output dir should not be created
-    call :verify_not_exist xspec\
+    call :verify_leaf_dir_not_exist xspec
 
     rem Run with relative TEST_DIR
     set TEST_DIR=..\test\xspec
@@ -938,10 +938,10 @@
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
     rem Verify that -Dxspec.dir was honored and the default output dir was not created
-    call :verify_not_exist ..\tutorial\schematron\xspec\
+    call :verify_leaf_dir_not_exist ..\tutorial\schematron\xspec
 
     rem Verify clean.output.dir=true
-    call :verify_not_exist "%TEST_DIR%"
+    call :verify_leaf_dir_not_exist "%TEST_DIR%"
 	</case>
 
 	<!--

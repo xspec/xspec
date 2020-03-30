@@ -607,7 +607,7 @@ load bats-helper
     [ "${lines[2]}" = "escape-for-regex-result.xml" ]
 
     # Default output dir should not be created
-    [ ! -d ../tutorial/xspec ]
+    assert_leaf_dir_not_exist ../tutorial/xspec
 
     # Run with relative TEST_DIR
     export TEST_DIR=../tutorial/xspec
@@ -654,7 +654,7 @@ load bats-helper
     [ "${lines[4]}" = "demo-result.xml" ]
 
     # Default output dir should not be created
-    [ ! -d ../tutorial/coverage/xspec ]
+    assert_leaf_dir_not_exist ../tutorial/coverage/xspec
 
     # Run with relative TEST_DIR
     export TEST_DIR=../tutorial/coverage/xspec
@@ -697,7 +697,7 @@ load bats-helper
     [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
 
     # Default output dir should not be created
-    [ ! -d ../tutorial/xspec ]
+    assert_leaf_dir_not_exist ../tutorial/xspec
 
     # Run with relative TEST_DIR
     export TEST_DIR=../tutorial/xspec
@@ -737,7 +737,7 @@ load bats-helper
     [ "${lines[2]}" = "schematron-017-result.xml" ]
 
     # Default output dir should not be created
-    [ ! -d xspec ]
+    assert_leaf_dir_not_exist xspec
 
     # Run with relative TEST_DIR
     export TEST_DIR=../test/xspec
@@ -1106,10 +1106,10 @@ load bats-helper
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify that -Dxspec.dir was honored and the default output dir was not created
-    [ ! -d ../tutorial/schematron/xspec ]
+    assert_leaf_dir_not_exist ../tutorial/schematron/xspec
 
     # Verify clean.output.dir=true
-    [ ! -d "${TEST_DIR}" ]
+    assert_leaf_dir_not_exist "${TEST_DIR}"
 }
 
 #
