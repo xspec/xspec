@@ -350,7 +350,9 @@ rem
 
     rem Run
     setlocal
+    pushd .
     call :case_%CASE_NUM%
+    popd
     call :teardown
     endlocal
 
