@@ -153,49 +153,54 @@
 	<case name="invoking xspec without TEST_DIR set externally (XSLT)">
     set TEST_DIR=
 
-    rem Delete default output dir if exists, to make the line numbers predictable
-    call :rmdir-if-exist ..\tutorial\xspec
+    rem Use a fresh dir, to make the message line numbers predictable
+    rem and to avoid a residue of output files
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\escape-for-regex.* "%TUTORIAL_COPY%"
 
     rem Run
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :run ..\bin\xspec.bat "%TUTORIAL_COPY%\escape-for-regex.xspec"
     call :verify_retval 0
 
     rem Verify message
     call :verify_line 20 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
-    call :verify_line 21 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\escape-for-regex-result.html"
+    call :verify_line 21 x "Report available at %TUTORIAL_COPY%\xspec\escape-for-regex-result.html"
 
     rem Verify report files
     rem * XML report file is created
     rem * HTML report file is created
     rem * Coverage is disabled by default
     rem * JUnit is disabled by default
-    call :run dir /b /o:n ..\tutorial\xspec
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 3
     call :verify_line 1 x escape-for-regex-compiled.xsl
     call :verify_line 2 x escape-for-regex-result.html
     call :verify_line 3 x escape-for-regex-result.xml
 
     rem HTML report file contains CSS inline #135
-    call :run java -jar "%SAXON_JAR%" -s:..\tutorial\xspec\escape-for-regex-result.html -xsl:html-css.xsl
+    call :run java -jar "%SAXON_JAR%" ^
+        -s:"%TUTORIAL_COPY%\xspec\escape-for-regex-result.html" ^
+        -xsl:html-css.xsl
     call :verify_line 1 x "true"
-
-    rem Cleanup
-    call :rmdir ..\tutorial\xspec
 	</case>
 
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="invoking xspec -c without TEST_DIR set externally">
     set TEST_DIR=
 
-    rem Delete default output dir if exists, to make the line numbers predictable
-    call :rmdir-if-exist ..\tutorial\coverage\xspec
+    rem Use a fresh dir, to make the message line numbers predictable
+    rem and to avoid a residue of output files
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\coverage\demo* "%TUTORIAL_COPY%"
 
     rem Run
-    call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
+    call :run ..\bin\xspec.bat -c "%TUTORIAL_COPY%\demo.xspec"
     call :verify_retval 0
 
     rem Verify message
     call :verify_line 13 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-    call :verify_line 15 x "Report available at %PARENT_DIR_ABS%\tutorial\coverage\xspec\demo-coverage.html"
+    call :verify_line 15 x "Report available at %TUTORIAL_COPY%\xspec\demo-coverage.html"
 
     rem Verify report files
     rem * XML report file is created
@@ -203,75 +208,72 @@
     rem * Coverage XML report is created
     rem * Coverage HTML report is created
     rem * JUnit is disabled by default
-    call :run dir /b /o:n ..\tutorial\coverage\xspec
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 5
     call :verify_line 1 x demo-compiled.xsl
     call :verify_line 2 x demo-coverage.html
     call :verify_line 3 x demo-coverage.xml
     call :verify_line 4 x demo-result.html
     call :verify_line 5 x demo-result.xml
-
-    rem Cleanup
-    call :rmdir ..\tutorial\coverage\xspec
 	</case>
 
 	<case name="invoking xspec without TEST_DIR set externally (XQuery)">
     set TEST_DIR=
 
-    rem Delete default output dir if exists, to make the line numbers predictable
-    call :rmdir-if-exist ..\tutorial\xspec
+    rem Use a fresh dir, to make the message line numbers predictable
+    rem and to avoid a residue of output files
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\xquery-tutorial.* "%TUTORIAL_COPY%"
 
     rem Run
-    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    call :run ..\bin\xspec.bat -q "%TUTORIAL_COPY%\xquery-tutorial.xspec"
     call :verify_retval 0
 
     rem Verify message
     call :verify_line 7 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-    call :verify_line 8 x "Report available at %PARENT_DIR_ABS%\tutorial\xspec\xquery-tutorial-result.html"
+    call :verify_line 8 x "Report available at %TUTORIAL_COPY%\xspec\xquery-tutorial-result.html"
 
     rem Verify report files
     rem * XML report file is created
     rem * HTML report file is created
     rem * JUnit is disabled by default
-    call :run dir /b /o:n ..\tutorial\xspec
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 3
     call :verify_line 1 x xquery-tutorial-compiled.xq
     call :verify_line 2 x xquery-tutorial-result.html
     call :verify_line 3 x xquery-tutorial-result.xml
-
-    rem Cleanup
-    call :rmdir ..\tutorial\xspec
 	</case>
 
 	<case name="invoking xspec without TEST_DIR set externally (Schematron)">
     set TEST_DIR=
 
-    rem Delete default output dir if exists, to make the line numbers predictable
-    call :rmdir-if-exist ..\tutorial\schematron\xspec
+    rem Use a fresh dir, to make the message line numbers predictable
+    rem and to avoid a residue of output files
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\schematron\demo-03* "%TUTORIAL_COPY%"
 
     rem Run
-    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-03.xspec
+    call :run ..\bin\xspec.bat -s "%TUTORIAL_COPY%\demo-03.xspec"
     call :verify_retval 0
 
     rem Verify message
     rem * No Schematron warnings #129 #131
     call :verify_line  5 x "Converting Schematron XSpec into XSLT XSpec..."
     call :verify_line 32 x "passed: 10 / pending: 1 / failed: 0 / total: 11"
-    call :verify_line 33 x "Report available at %PARENT_DIR_ABS%\tutorial\schematron\xspec\demo-03-result.html"
+    call :verify_line 33 x "Report available at %TUTORIAL_COPY%\xspec\demo-03-result.html"
 
     rem Verify report files
     rem * XML report file is created
     rem * HTML report file is created
     rem * JUnit is disabled by default
     rem * Schematron-specific temporary files are deleted
-    call :run dir /b /o:n ..\tutorial\schematron\xspec
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 3
     call :verify_line 1 x demo-03-compiled.xsl
     call :verify_line 2 x demo-03-result.html
     call :verify_line 3 x demo-03-result.xml
-
-    rem Cleanup
-    call :rmdir ..\tutorial\schematron\xspec
 	</case>
 
 	<!--
@@ -482,11 +484,13 @@
 	-->
 
 	<case name="invoking xspec with TEST_DIR creates files in TEST_DIR (XSLT)">
-    rem Delete default output dir if exists
-    call :rmdir-if-exist ..\tutorial\xspec
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\escape-for-regex.* "%TUTORIAL_COPY%"
 
     rem Run with absolute TEST_DIR
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    call :run ..\bin\xspec.bat "%TUTORIAL_COPY%\escape-for-regex.xspec"
     call :verify_retval 0
     call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
 
@@ -498,11 +502,12 @@
     call :verify_line 3 x escape-for-regex-result.xml
 
     rem Default output dir should not be created
-    call :verify_leaf_dir_not_exist ..\tutorial\xspec
+    call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
 
     rem Run with relative TEST_DIR
-    set TEST_DIR=..\tutorial\xspec
-    call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
+    cd /d "%WORK_DIR%"
+    set "TEST_DIR=relative-test-dir %RANDOM%"
+    call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" "%TUTORIAL_COPY%\escape-for-regex.xspec""
     call :verify_retval 0
     call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
 
@@ -512,17 +517,16 @@
     call :verify_line 1 x escape-for-regex-compiled.xsl
     call :verify_line 2 x escape-for-regex-result.html
     call :verify_line 3 x escape-for-regex-result.xml
-
-    rem Cleanup
-    call :rmdir "%TEST_DIR%"
 	</case>
 
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="invoking xspec -c with TEST_DIR creates files in TEST_DIR">
-    rem Delete default output dir if exists
-    call :rmdir-if-exist ..\tutorial\coverage\xspec
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\coverage\demo* "%TUTORIAL_COPY%"
 
     rem Run with absolute TEST_DIR
-    call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
+    call :run ..\bin\xspec.bat -c "%TUTORIAL_COPY%\demo.xspec"
     call :verify_retval 0
     call :verify_line 15 x "Report available at %TEST_DIR%\demo-coverage.html"
 
@@ -536,11 +540,12 @@
     call :verify_line 5 x demo-result.xml
 
     rem Default output dir should not be created
-    call :verify_leaf_dir_not_exist ..\tutorial\coverage\xspec
+    call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
 
     rem Run with relative TEST_DIR
-    set TEST_DIR=..\tutorial\coverage\xspec
-    call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
+    cd /d "%WORK_DIR%"
+    set "TEST_DIR=relative-test-dir %RANDOM%"
+    call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -c "%TUTORIAL_COPY%\demo.xspec""
     call :verify_retval 0
     call :verify_line 15 x "Report available at %TEST_DIR%\demo-coverage.html"
 
@@ -552,17 +557,16 @@
     call :verify_line 3 x demo-coverage.xml
     call :verify_line 4 x demo-result.html
     call :verify_line 5 x demo-result.xml
-
-    rem Cleanup
-    call :rmdir "%TEST_DIR%"
 	</case>
 
 	<case name="invoking xspec with TEST_DIR creates files in TEST_DIR (XQuery)">
-    rem Delete default output dir if exists
-    call :rmdir-if-exist ..\tutorial\xspec
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\xquery-tutorial.* "%TUTORIAL_COPY%"
 
     rem Run with absolute TEST_DIR
-    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    call :run ..\bin\xspec.bat -q "%TUTORIAL_COPY%\xquery-tutorial.xspec"
     call :verify_retval 0
     call :verify_line 8 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
 
@@ -574,11 +578,12 @@
     call :verify_line 3 x xquery-tutorial-result.xml
 
     rem Default output dir should not be created
-    call :verify_leaf_dir_not_exist ..\tutorial\xspec
+    call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
 
     rem Run with relative TEST_DIR
-    set TEST_DIR=..\tutorial\xspec
-    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    cd /d "%WORK_DIR%"
+    set "TEST_DIR=relative-test-dir %RANDOM%"
+    call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -q "%TUTORIAL_COPY%\xquery-tutorial.xspec""
     call :verify_retval 0
     call :verify_line 8 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
 
@@ -588,45 +593,44 @@
     call :verify_line 1 x xquery-tutorial-compiled.xq
     call :verify_line 2 x xquery-tutorial-result.html
     call :verify_line 3 x xquery-tutorial-result.xml
-
-    rem Cleanup
-    call :rmdir "%TEST_DIR%"
 	</case>
 
 	<case name="invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)">
-    rem Delete default output dir if exists
-    call :rmdir-if-exist ..\test\xspec
+    rem Test with x:context[node()] #322
+
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\schematron\demo-03* "%TUTORIAL_COPY%"
 
     rem Run with absolute TEST_DIR
-    call :run ..\bin\xspec.bat -s schematron-017.xspec
+    call :run ..\bin\xspec.bat -s "%TUTORIAL_COPY%\demo-03.xspec"
     call :verify_retval 0
-    call :verify_line 17 x "Report available at %TEST_DIR%\schematron-017-result.html"
+    call :verify_line 33 x "Report available at %TEST_DIR%\demo-03-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
     call :verify_line_count 3
-    call :verify_line 1 x schematron-017-compiled.xsl
-    call :verify_line 2 x schematron-017-result.html
-    call :verify_line 3 x schematron-017-result.xml
+    call :verify_line 1 x demo-03-compiled.xsl
+    call :verify_line 2 x demo-03-result.html
+    call :verify_line 3 x demo-03-result.xml
 
     rem Default output dir should not be created
-    call :verify_leaf_dir_not_exist xspec
+    call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
 
     rem Run with relative TEST_DIR
-    set TEST_DIR=..\test\xspec
-    call :run ..\bin\xspec.bat -s schematron-017.xspec
+    cd /d "%WORK_DIR%"
+    set "TEST_DIR=relative-test-dir %RANDOM%"
+    call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -s "%TUTORIAL_COPY%\demo-03.xspec""
     call :verify_retval 0
-    call :verify_line 17 x "Report available at %TEST_DIR%\schematron-017-result.html"
+    call :verify_line 33 x "Report available at %TEST_DIR%\demo-03-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
     call :verify_line_count 3
-    call :verify_line 1 x schematron-017-compiled.xsl
-    call :verify_line 2 x schematron-017-result.html
-    call :verify_line 3 x schematron-017-result.xml
-
-    rem Cleanup
-    call :rmdir "%TEST_DIR%"
+    call :verify_line 1 x demo-03-compiled.xsl
+    call :verify_line 2 x demo-03-result.html
+    call :verify_line 3 x demo-03-result.xml
 	</case>
 
 	<!--
@@ -701,14 +705,16 @@
     rem Unset any preset args
     set ANT_ARGS=
 
-    rem Delete default output dir if exists
-    call :rmdir-if-exist ..\tutorial\xspec
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\escape-for-regex.* "%TUTORIAL_COPY%"
 
     rem Run
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
+        -Dxspec.xml="%TUTORIAL_COPY%\escape-for-regex.xspec"
 
     rem Default xspec.fail is true
     call :verify_retval 1
@@ -719,7 +725,7 @@
     rem * Default clean.output.dir is false
     rem * Default xspec.coverage.enabled is false
     rem * Default xspec.junit.enabled is false
-    call :run dir /b /o:n ..\tutorial\xspec
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 4
     call :verify_line 1 x escape-for-regex_xml-to-properties.xml
     call :verify_line 2 x escape-for-regex-compiled.xsl
@@ -727,26 +733,27 @@
     call :verify_line 4 x escape-for-regex-result.xml
 
     rem HTML report file contains CSS inline
-    call :run java -jar "%SAXON_JAR%" -s:..\tutorial\xspec\escape-for-regex-result.html -xsl:html-css.xsl
+    call :run java -jar "%SAXON_JAR%" ^
+        -s:"%TUTORIAL_COPY%\xspec\escape-for-regex-result.html" ^
+        -xsl:html-css.xsl
     call :verify_line 1 x "true"
-
-    rem Cleanup
-    call :rmdir ..\tutorial\xspec
 	</case>
 
 	<case name="Ant with minimum properties (XQuery)">
     rem Unset any preset args
     set ANT_ARGS=
 
-    rem Delete default output dir if exists
-    call :rmdir-if-exist ..\tutorial\xspec
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\xquery-tutorial.* "%TUTORIAL_COPY%"
 
     rem Run
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
         -Dtest.type=q ^
-        -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
+        -Dxspec.xml="%TUTORIAL_COPY%\xquery-tutorial.xspec"
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
     call :verify_line -2 x "BUILD SUCCESSFUL"
@@ -754,23 +761,22 @@
     rem Verify default output dir
     rem * Default clean.output.dir is false
     rem * Default xspec.junit.enabled is false
-    call :run dir /b /o:n ..\tutorial\xspec
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 4
     call :verify_line 1 x xquery-tutorial_xml-to-properties.xml
     call :verify_line 2 x xquery-tutorial-compiled.xq
     call :verify_line 3 x xquery-tutorial-result.html
     call :verify_line 4 x xquery-tutorial-result.xml
-
-    rem Cleanup
-    call :rmdir ..\tutorial\xspec
 	</case>
 
 	<case name="Ant with minimum properties (Schematron)">
     rem Unset any preset args
     set ANT_ARGS=
 
-    rem Delete default output dir if exists
-    call :rmdir-if-exist ..\tutorial\schematron\xspec
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\schematron\demo-03* "%TUTORIAL_COPY%"
 
     rem Run
     rem * Should work without phase #168
@@ -778,7 +784,7 @@
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
         -Dtest.type=s ^
-        -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec"
+        -Dxspec.xml="%TUTORIAL_COPY%\demo-03.xspec"
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
     call :verify_line -2 x "BUILD SUCCESSFUL"
@@ -786,7 +792,7 @@
     rem Verify default output dir
     rem * Default clean.output.dir is false
     rem * Default xspec.junit.enabled is false
-    call :run dir /b /o:n ..\tutorial\schematron\xspec
+    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
     call :verify_line_count 9
     call :verify_line 1 x demo-03_xml-to-properties.xml
     call :verify_line 2 x demo-03-compiled.xsl
@@ -797,9 +803,6 @@
     call :verify_line 7 x demo-03-sch-step3-wrapper.xsl
     call :verify_line 8 x demo-03-step1.sch
     call :verify_line 9 x demo-03-step2.sch
-
-    rem Cleanup
-    call :rmdir ..\tutorial\schematron\xspec
 	</case>
 
 	<!--
@@ -918,8 +921,10 @@
     rem For testing -Dxspec.project.dir
     call :copy ..\build.xml "%BUILD_XML%"
 
-    rem Delete default output dir if exists
-    call :rmdir-if-exist ..\tutorial\schematron\xspec
+    rem Use a fresh dir, to avoid a residue of default output dir
+    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
+    call :mkdir "%TUTORIAL_COPY%"
+    call :copy ..\tutorial\schematron\demo-03* "%TUTORIAL_COPY%"
 
     rem Run
     call :run ant ^
@@ -928,13 +933,13 @@
         -Dclean.output.dir=true ^
         -Dxspec.project.dir="%CD%\.." ^
         -Dxspec.properties="%CD%\schematron.properties" ^
-        -Dxspec.xml="%CD%\..\tutorial\schematron\demo-03.xspec"
+        -Dxspec.xml="%TUTORIAL_COPY%\demo-03.xspec"
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
     rem Verify that -Dxspec.dir was honored and the default output dir was not created
-    call :verify_leaf_dir_not_exist ..\tutorial\schematron\xspec
+    call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
 
     rem Verify clean.output.dir=true
     call :verify_leaf_dir_not_exist "%TEST_DIR%"
