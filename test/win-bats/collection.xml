@@ -82,7 +82,7 @@
 	</case>
 
 	<case name="XSPEC_HOME is not a directory">
-    set "XSPEC_HOME=%WORK_DIR%\file"
+    set "XSPEC_HOME=%WORK_DIR%\file %RANDOM%"
     call :copy NUL "%XSPEC_HOME%"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
@@ -102,7 +102,7 @@
 		SAXON_CP has precedence over SAXON_HOME
 	-->
 	<case name="SAXON_CP has precedence over SAXON_HOME">
-    set "SAXON_HOME=%WORK_DIR%\empty-saxon-home"
+    set "SAXON_HOME=%WORK_DIR%\empty-saxon-home %RANDOM%"
     call :mkdir "%SAXON_HOME%"
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
@@ -118,7 +118,7 @@
     set JAVA_TOOL_OPTIONS=-Dfoo
 
     rem Non alphanumeric path #208
-    set "SPECIAL_CHARS_DIR=%WORK_DIR%\up &amp; down"
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\up &amp; down %RANDOM%"
     call :mkdir "%SPECIAL_CHARS_DIR%"
 
     call :copy ..\tutorial\coverage\demo* "%SPECIAL_CHARS_DIR%"
@@ -368,7 +368,7 @@
 	-->
 
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XSLT)">
-    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there %RANDOM%"
     call :mkdir "%SPECIAL_CHARS_DIR%"
     call :copy mirror.xsl             "%SPECIAL_CHARS_DIR%"
     call :copy xspec-node-selection.* "%SPECIAL_CHARS_DIR%"
@@ -383,7 +383,7 @@
 	</case>
 
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XQuery)">
-    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there %RANDOM%"
     call :mkdir "%SPECIAL_CHARS_DIR%"
     call :copy mirror.xquery          "%SPECIAL_CHARS_DIR%"
     call :copy xspec-node-selection.* "%SPECIAL_CHARS_DIR%"
@@ -398,7 +398,7 @@
 	</case>
 
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)">
-    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there"
+    set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there %RANDOM%"
     call :mkdir "%SPECIAL_CHARS_DIR%"
     call :copy ..\tutorial\schematron\demo-03* "%SPECIAL_CHARS_DIR%"
 
@@ -639,8 +639,8 @@
 
 	<case ifdef="BASEX_JAR XMLCALABASH_JAR" name="XProc harness for BaseX (standalone)">
     rem Output files
-    set "COMPILED_FILE=%WORK_DIR%\compiled.xq"
-    set "EXPECTED_REPORT=%WORK_DIR%\xquery-tutorial-result.html"
+    set "COMPILED_FILE=%WORK_DIR%\compiled_%RANDOM%.xq"
+    set "EXPECTED_REPORT=%WORK_DIR%\xquery-tutorial-result_%RANDOM%.html"
 
     rem Run
     call :run java -jar "%XMLCALABASH_JAR%" ^
@@ -671,7 +671,7 @@
     call :verify_retval 0
 
     rem HTML report file
-    set "EXPECTED_REPORT=%WORK_DIR%\xquery-tutorial-result.html"
+    set "EXPECTED_REPORT=%WORK_DIR%\xquery-tutorial-result_%RANDOM%.html"
 
     rem Run
     call :run java -jar "%XMLCALABASH_JAR%" ^
@@ -917,7 +917,7 @@
 	-->
 
 	<case name="Ant for Schematron with various properties except catalog and xspec.fail">
-    set "BUILD_XML=%WORK_DIR%\build.xml"
+    set "BUILD_XML=%WORK_DIR%\build %RANDOM%.xml"
 
     rem For testing -Dxspec.project.dir
     call :copy ..\build.xml "%BUILD_XML%"
@@ -949,7 +949,7 @@
 	-->
 
 	<case ifdef="XML_RESOLVER_JAR" name="CLI with -catalog uses XML Catalog resolver and does so even with spaces in file path (XSLT)">
-    set "SPACE_DIR=%WORK_DIR%\cat a log"
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
@@ -979,7 +979,7 @@
 	-->
 
 	<case ifdef="XML_RESOLVER_JAR" name="CLI with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path (XSLT)">
-    set "SPACE_DIR=%WORK_DIR%\cat a log"
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
@@ -997,7 +997,7 @@
 	-->
 
 	<case ifdef="XML_RESOLVER_JAR" name="invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
-    set "SAXON_HOME=%WORK_DIR%\saxon"
+    set "SAXON_HOME=%WORK_DIR%\saxon %RANDOM%"
     call :mkdir "%SAXON_HOME%"
     call :copy "%SAXON_JAR%"        "%SAXON_HOME%"
     call :copy "%XML_RESOLVER_JAR%" "%SAXON_HOME%\xml-resolver-1.2.jar"
@@ -1018,7 +1018,7 @@
 
 	<case name="Ant for XSLT with saxon.custom.options">
     rem Test with a space in file name
-    set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
+    set "SAXON_CONFIG=%WORK_DIR%\saxon config %RANDOM%.xml"
     call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
 
     call :run ant ^
@@ -1036,7 +1036,7 @@
 
 	<case name="Ant for XQuery with saxon.custom.options">
     rem Test with a space in file name
-    set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
+    set "SAXON_CONFIG=%WORK_DIR%\saxon config %RANDOM%.xml"
     call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
 
     call :run ant ^
@@ -1059,7 +1059,7 @@
 
 	<case name="invoking xspec for XSLT with SAXON_CUSTOM_OPTIONS">
     rem Test with a space in file name
-    set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
+    set "SAXON_CONFIG=%WORK_DIR%\saxon config %RANDOM%.xml"
     call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
 
     set "SAXON_CUSTOM_OPTIONS=-config:"%SAXON_CONFIG%" -t"
@@ -1073,7 +1073,7 @@
 
 	<case name="invoking xspec for XQuery with SAXON_CUSTOM_OPTIONS">
     rem Test with a space in file name
-    set "SAXON_CONFIG=%WORK_DIR%\saxon config.xml"
+    set "SAXON_CONFIG=%WORK_DIR%\saxon config %RANDOM%.xml"
     call :copy saxon-custom-options\config.xml "%SAXON_CONFIG%"
 
     set "SAXON_CUSTOM_OPTIONS=-config:"%SAXON_CONFIG%" -t"
@@ -1532,7 +1532,7 @@
 
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Trace listener should not hardcode output dir #655">
     rem TEST_DIR should not contain "xspec". (Assume TEMP does not contain it.)
-    set "TEST_DIR=%TEMP%\XSpec-655"
+    set "TEST_DIR=%TEMP%\XSpec-655 %RANDOM%"
 
     call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
     call :verify_retval 0

@@ -129,7 +129,7 @@ load bats-helper
 }
 
 @test "XSPEC_HOME is not a directory" {
-    export XSPEC_HOME="${work_dir}/file"
+    export XSPEC_HOME="${work_dir}/file ${RANDOM}"
     touch "${XSPEC_HOME}"
 
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
@@ -152,7 +152,7 @@ load bats-helper
 #
 
 @test "SAXON_CP has precedence over SAXON_HOME" {
-    export SAXON_HOME="${work_dir}/empty-saxon-home"
+    export SAXON_HOME="${work_dir}/empty-saxon-home ${RANDOM}"
     mkdir "${SAXON_HOME}"
 
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
@@ -173,7 +173,7 @@ load bats-helper
     export JAVA_TOOL_OPTIONS=-Dfoo
 
     # Non alphanumeric path #208
-    special_chars_dir="${work_dir}/up & down"
+    special_chars_dir="${work_dir}/up & down ${RANDOM}"
     mkdir "${special_chars_dir}"
 
     cp ../tutorial/coverage/demo* "${special_chars_dir}"
@@ -457,7 +457,7 @@ load bats-helper
 #
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XSLT)" {
-    special_chars_dir="${work_dir}/some'path (84) here & there"
+    special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
     cp mirror.xsl             "${special_chars_dir}"
     cp xspec-node-selection.* "${special_chars_dir}"
@@ -473,7 +473,7 @@ load bats-helper
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XQuery)" {
-    special_chars_dir="${work_dir}/some'path (84) here & there"
+    special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
     cp mirror.xquery          "${special_chars_dir}"
     cp xspec-node-selection.* "${special_chars_dir}"
@@ -489,7 +489,7 @@ load bats-helper
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
-    special_chars_dir="${work_dir}/some'path (84) here & there"
+    special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
     cp ../tutorial/schematron/demo-03* "${special_chars_dir}"
 
@@ -765,8 +765,8 @@ load bats-helper
     fi
 
     # Output files
-    compiled_file="${work_dir}/compiled.xq"
-    expected_report="${work_dir}/xquery-tutorial-result.html"
+    compiled_file="${work_dir}/compiled_${RANDOM}.xq"
+    expected_report="${work_dir}/xquery-tutorial-result_${RANDOM}.html"
 
     # Run
     run java -jar "${XMLCALABASH_JAR}" \
@@ -804,7 +804,7 @@ load bats-helper
     "${basex_home}/bin/basexhttp" -S
 
     # HTML report file
-    expected_report="${work_dir}/xquery-tutorial-result.html"
+    expected_report="${work_dir}/xquery-tutorial-result_${RANDOM}.html"
 
     # Run
     run java -jar "${XMLCALABASH_JAR}" \
@@ -1078,7 +1078,7 @@ load bats-helper
 #
 
 @test "Ant for Schematron with various properties except catalog and xspec.fail" {
-    build_xml="${work_dir}/build.xml"
+    build_xml="${work_dir}/build ${RANDOM}.xml"
 
     # For testing -Dxspec.project.dir
     cp ../build.xml "${build_xml}"
@@ -1115,7 +1115,7 @@ load bats-helper
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    space_dir="${work_dir}/cat a log"
+    space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/*        "${space_dir}/01"
@@ -1160,7 +1160,7 @@ load bats-helper
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    space_dir="${work_dir}/cat a log"
+    space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/*        "${space_dir}/01"
@@ -1183,7 +1183,7 @@ load bats-helper
         skip "XML_RESOLVER_JAR is not defined"
     fi
 
-    export SAXON_HOME="${work_dir}/saxon"
+    export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
     mkdir "${SAXON_HOME}"
     cp "${SAXON_JAR}"        "${SAXON_HOME}"
     cp "${XML_RESOLVER_JAR}" "${SAXON_HOME}/xml-resolver-1.2.jar"
@@ -1207,7 +1207,7 @@ load bats-helper
 
 @test "Ant for XSLT with saxon.custom.options" {
     # Test with a space in file name
-    saxon_config="${work_dir}/saxon config.xml"
+    saxon_config="${work_dir}/saxon config ${RANDOM}.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
 
     # via properties file, to convey the options in a stable manner...
@@ -1230,7 +1230,7 @@ load bats-helper
 
 @test "Ant for XQuery with saxon.custom.options" {
     # Test with a space in file name
-    saxon_config="${work_dir}/saxon config.xml"
+    saxon_config="${work_dir}/saxon config ${RANDOM}.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
 
     # via properties file, to convey the options in a stable manner...
@@ -1258,7 +1258,7 @@ load bats-helper
 
 @test "invoking xspec for XSLT with SAXON_CUSTOM_OPTIONS" {
     # Test with a space in file name
-    saxon_config="${work_dir}/saxon config.xml"
+    saxon_config="${work_dir}/saxon config ${RANDOM}.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
 
     export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
@@ -1273,7 +1273,7 @@ load bats-helper
 
 @test "invoking xspec for XQuery with SAXON_CUSTOM_OPTIONS" {
     # Test with a space in file name
-    saxon_config="${work_dir}/saxon config.xml"
+    saxon_config="${work_dir}/saxon config ${RANDOM}.xml"
     cp saxon-custom-options/config.xml "${saxon_config}"
 
     export SAXON_CUSTOM_OPTIONS="\"-config:${saxon_config}\" -t"
@@ -1804,7 +1804,7 @@ load bats-helper
     fi
 
     # TEST_DIR should not contain "xspec"
-    export "TEST_DIR=/tmp/XSpec-655"
+    export "TEST_DIR=/tmp/XSpec-655 ${RANDOM}"
 
     run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
     echo "$output"
