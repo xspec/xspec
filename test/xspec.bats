@@ -22,14 +22,20 @@
 #
 
 setup() {
+    # Work directory
     work_dir="${BATS_TMPDIR}/xspec/bats_work"
     mkdir -p "${work_dir}"
 
+    # Full path to the parent directory
+    parent_dir_abs=$(cd ..; pwd)
+
+    # Set TEST_DIR and xspec.dir within the work directory so that it's cleaned up by teardown
     export TEST_DIR="${work_dir}/output_${RANDOM}"
     export ANT_ARGS="-Dxspec.dir=${TEST_DIR}"
 }
 
 teardown() {
+    # Remove the work directory
     rm -r "${work_dir}"
 }
 
@@ -112,9 +118,9 @@ load bats-helper
 #
 
 @test "XSPEC_HOME" {
-    export XSPEC_HOME="${BATS_TEST_DIRNAME}/.."
+    export XSPEC_HOME="${parent_dir_abs}"
 
-    pushd "${work_dir}"
+    cd "${work_dir}"
 
     cp "${XSPEC_HOME}/bin/xspec.sh" my-xspec.sh
     chmod +x my-xspec.sh
@@ -124,8 +130,6 @@ load bats-helper
     [ "$status" -eq 0 ]
     [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
     [ "${lines[20]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
-
-    popd
 }
 
 @test "XSPEC_HOME is not a directory" {
@@ -195,7 +199,6 @@ load bats-helper
 }
 
 @test "invoking xspec -c -q prints error message" {
-    export SAXON_CP=/path/to/saxon9ee.jar
     run ../bin/xspec.sh -c -q ../tutorial/xquery-tutorial.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -203,7 +206,6 @@ load bats-helper
 }
 
 @test "invoking xspec -c -s prints error message" {
-    export SAXON_CP=/path/to/saxon9ee.jar
     run ../bin/xspec.sh -c -s ../tutorial/schematron/demo-01.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -408,7 +410,7 @@ load bats-helper
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=end-to-end/cases/xspec-serialize.xspec \
         -o result="file:${actual_report}" \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
@@ -437,7 +439,7 @@ load bats-helper
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=end-to-end/cases/xspec-serialize.xspec \
         -o result="file:${actual_report}" \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
@@ -601,7 +603,7 @@ load bats-helper
     [ "${lines[2]}" = "escape-for-regex-result.xml" ]
 
     # Default output dir should not be created
-    [ ! -d ../tutorial/xspec ]
+    assert_leaf_dir_not_exist ../tutorial/xspec
 
     # Run with relative TEST_DIR
     export TEST_DIR=../tutorial/xspec
@@ -648,7 +650,7 @@ load bats-helper
     [ "${lines[4]}" = "demo-result.xml" ]
 
     # Default output dir should not be created
-    [ ! -d ../tutorial/coverage/xspec ]
+    assert_leaf_dir_not_exist ../tutorial/coverage/xspec
 
     # Run with relative TEST_DIR
     export TEST_DIR=../tutorial/coverage/xspec
@@ -691,7 +693,7 @@ load bats-helper
     [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
 
     # Default output dir should not be created
-    [ ! -d ../tutorial/xspec ]
+    assert_leaf_dir_not_exist ../tutorial/xspec
 
     # Run with relative TEST_DIR
     export TEST_DIR=../tutorial/xspec
@@ -731,7 +733,7 @@ load bats-helper
     [ "${lines[2]}" = "schematron-017-result.xml" ]
 
     # Default output dir should not be created
-    [ ! -d xspec ]
+    assert_leaf_dir_not_exist xspec
 
     # Run with relative TEST_DIR
     export TEST_DIR=../test/xspec
@@ -774,7 +776,7 @@ load bats-helper
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
         -p compiled-file="file:${compiled_file}" \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
@@ -814,7 +816,7 @@ load bats-helper
         -p endpoint=http://localhost:8984/rest \
         -p password=admin \
         -p username=admin \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/basex/basex-server-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
@@ -1100,10 +1102,10 @@ load bats-helper
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify that -Dxspec.dir was honored and the default output dir was not created
-    [ ! -d ../tutorial/schematron/xspec ]
+    assert_leaf_dir_not_exist ../tutorial/schematron/xspec
 
     # Verify clean.output.dir=true
-    [ ! -d "${TEST_DIR}" ]
+    assert_leaf_dir_not_exist "${TEST_DIR}"
 }
 
 #
@@ -1445,7 +1447,7 @@ load bats-helper
 
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=xspec-423/test.xspec \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1460,7 +1462,7 @@ load bats-helper
 
     run java -jar "${XMLCALABASH_JAR}" \
         -i source=xspec-423/test.xspec \
-        -p xspec-home="file:${PWD}/../" \
+        -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
