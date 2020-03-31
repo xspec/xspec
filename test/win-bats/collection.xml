@@ -69,7 +69,7 @@
 	<case name="XSPEC_HOME">
     set "XSPEC_HOME=%PARENT_DIR_ABS%"
 
-    pushd "%WORK_DIR%"
+    cd /d "%WORK_DIR%"
 
     call :copy "%XSPEC_HOME%\bin\xspec.bat" my-xspec.bat
 
@@ -77,8 +77,6 @@
     call :verify_retval 0
     call :verify_line 20 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
     call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
-
-    popd
 	</case>
 
 	<case name="XSPEC_HOME is not a directory">
@@ -137,14 +135,12 @@
 	</case>
 
 	<case name="invoking xspec -c -q prints error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar
     call :run ..\bin\xspec.bat -c -q ..\tutorial\xquery-tutorial.xspec
     call :verify_retval 1
     call :verify_line 2 x "Coverage is supported only for XSLT"
 	</case>
 
 	<case name="invoking xspec -c -s prints error message">
-    set SAXON_CP=%SYSTEMDRIVE%\path\to\saxon9ee.jar
     call :run ..\bin\xspec.bat -c -s ..\tutorial\schematron\demo-01.xspec
     call :verify_retval 1
     call :verify_line 2 x "Coverage is supported only for XSLT"
@@ -502,7 +498,7 @@
     call :verify_line 3 x escape-for-regex-result.xml
 
     rem Default output dir should not be created
-    call :verify_not_exist ..\tutorial\xspec\
+    call :verify_leaf_dir_not_exist ..\tutorial\xspec
 
     rem Run with relative TEST_DIR
     set TEST_DIR=..\tutorial\xspec
@@ -540,7 +536,7 @@
     call :verify_line 5 x demo-result.xml
 
     rem Default output dir should not be created
-    call :verify_not_exist ..\tutorial\coverage\xspec\
+    call :verify_leaf_dir_not_exist ..\tutorial\coverage\xspec
 
     rem Run with relative TEST_DIR
     set TEST_DIR=..\tutorial\coverage\xspec
@@ -578,7 +574,7 @@
     call :verify_line 3 x xquery-tutorial-result.xml
 
     rem Default output dir should not be created
-    call :verify_not_exist ..\tutorial\xspec\
+    call :verify_leaf_dir_not_exist ..\tutorial\xspec
 
     rem Run with relative TEST_DIR
     set TEST_DIR=..\tutorial\xspec
@@ -614,7 +610,7 @@
     call :verify_line 3 x schematron-017-result.xml
 
     rem Default output dir should not be created
-    call :verify_not_exist xspec\
+    call :verify_leaf_dir_not_exist xspec
 
     rem Run with relative TEST_DIR
     set TEST_DIR=..\test\xspec
@@ -938,10 +934,10 @@
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
     rem Verify that -Dxspec.dir was honored and the default output dir was not created
-    call :verify_not_exist ..\tutorial\schematron\xspec\
+    call :verify_leaf_dir_not_exist ..\tutorial\schematron\xspec
 
     rem Verify clean.output.dir=true
-    call :verify_not_exist "%TEST_DIR%"
+    call :verify_leaf_dir_not_exist "%TEST_DIR%"
 	</case>
 
 	<!--
