@@ -607,4 +607,14 @@
 		<xsl:sequence select="x:QName-expression($qname)" />
 	</xsl:function>
 
+	<!--
+		Constructs URIQualifiedName from namespace URI and local name
+	-->
+	<xsl:function as="xs:string" name="x:URIQualifiedName">
+		<xsl:param as="xs:string" name="namespace-uri" />
+		<xsl:param as="xs:string" name="local-name" />
+
+		<xsl:sequence select="concat('Q{', $namespace-uri, '}', $local-name)" />
+	</xsl:function>
+
 </xsl:stylesheet>

@@ -1386,4 +1386,22 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function URIQualifiedName">
+		<x:scenario label="URI length ge 1">
+			<x:call function="x:URIQualifiedName">
+				<x:param select="'my-uri'" />
+				<x:param select="'my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()">Q{my-uri}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="URI is zero-length string">
+			<x:call function="x:URIQualifiedName">
+				<x:param select="''" />
+				<x:param select="'my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()">Q{}my-local-name</x:expect>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
