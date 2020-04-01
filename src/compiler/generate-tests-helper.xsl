@@ -32,8 +32,10 @@
             use="concat('match=', normalize-space(@match), '+',
                         'mode=', normalize-space(@mode))" />
 
-   <!-- Namespace prefix used privately at run time -->
+   <!-- Namespace used privately at run time -->
    <xsl:variable as="xs:string" name="test:private-prefix" select="'impl'" />
+   <xsl:variable as="xs:anyURI" name="test:private-namespace"
+      select="xs:anyURI('urn:x-xspec:compile:xslt:impl')" />
 
    <!--
       Generates XSLT variable declaration(s) from the current element.
@@ -156,6 +158,9 @@
    <xsl:function as="xs:string" name="test:variable-name">
       <xsl:param as="element()" name="source-element" />
 
+      <!-- The generated name must be in sync with test:variable-URIQualifiedName() -->
+
+      <!-- xsl:for-each is not for iteration but for simplifying XPath -->
       <xsl:for-each select="$source-element">
          <xsl:choose>
             <xsl:when test="@name">
@@ -164,6 +169,38 @@
             <xsl:otherwise>
                <xsl:sequence
                   select="concat($test:private-prefix, ':', local-name(), '-', generate-id())" />
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:for-each>
+   </xsl:function>
+
+   <!-- URIQualifiedName version of test:variable-name() -->
+   <xsl:function as="xs:string" name="test:variable-URIQualifiedName">
+      <xsl:param as="element()" name="source-element" />
+
+      <!-- The generated name must be in sync with test:variable-name() -->
+
+      <!-- xsl:for-each is not for iteration but for simplifying XPath -->
+      <xsl:for-each select="$source-element">
+         <xsl:choose>
+            <xsl:when test="@name">
+               <xsl:variable name="qname"
+                  select="x:resolve-EQName-ignoring-default-ns(@name, $source-element)" />
+               <xsl:sequence
+                  select="
+                     x:URIQualifiedName(
+                        namespace-uri-from-QName($qname),
+                        local-name-from-QName($qname)
+                     )" />
+            </xsl:when>
+
+            <xsl:otherwise>
+               <xsl:sequence
+                  select="
+                     x:URIQualifiedName(
+                        $test:private-namespace,
+                        concat(local-name(), '-', generate-id())
+                     )" />
             </xsl:otherwise>
          </xsl:choose>
       </xsl:for-each>

@@ -450,12 +450,8 @@
   <xsl:param name="call" select="()" tunnel="yes" as="element(x:call)?" />
   <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?" />
 
-  <xsl:variable name="namespace-element" as="element()" select="($call, $context)[1]" />
-
   <variable name="impl:transform-options" as="map(xs:string, item()*)">
     <map>
-      <xsl:sequence select="x:copy-namespaces($namespace-element)" />
-
       <!--
         Common options
       -->
@@ -731,7 +727,6 @@
 <xsl:mode name="x:param-to-map-entry" on-no-match="fail" use-when="element-available('xsl:mode')" />
 <xsl:template match="x:param" as="element(xsl:map-entry)" mode="x:param-to-map-entry">
   <map-entry key="{x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
-    <xsl:sequence select="x:copy-namespaces(.)" />
     <xsl:apply-templates select="." mode="x:param-to-select-attr" />
   </map-entry>
 </xsl:template>
@@ -742,17 +737,7 @@
 <xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
   <xsl:attribute name="select">
     <xsl:text>$</xsl:text>
-    <xsl:value-of select="test:variable-name(.)" />
-
-    <!-- 'treat as ...' is not mandatory here, because @as is handled when
-      mode="test:generate-variable-declarations" generates the variable. 'treat as' here is for
-      robustness and for balance between call-function/call-template/apply-templates invocations
-      of fn:transform(). Also 'treat as' sometimes helps choosing Java reflexive extension functions
-      among overloaded methods. -->
-    <xsl:for-each select="@as">
-      <xsl:text> treat as </xsl:text>
-      <xsl:value-of select="." />
-    </xsl:for-each>
+    <xsl:value-of select="test:variable-URIQualifiedName(.)" />
   </xsl:attribute>
 </xsl:template>
 
