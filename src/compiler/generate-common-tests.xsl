@@ -855,7 +855,12 @@
             <xsl:choose>
                <xsl:when test="empty(prefix-from-QName($this-qname)) and (string-length(namespace-uri-from-QName($this-qname)) gt 0)">
                   <!-- No prefix but there is a nonempty namespace URI -->
-                  <xsl:attribute name="name" select="concat('Q{',namespace-uri-from-QName($this-qname),'}',local-name-from-QName($this-qname))"/>
+                  <xsl:attribute name="name"
+                     select="
+                        x:URIQualifiedName(
+                           namespace-uri-from-QName($this-qname),
+                           local-name-from-QName($this-qname)
+                        )" />
                </xsl:when>
                <xsl:when test="string-length(namespace-uri-from-QName($this-qname)) eq 0">
                   <!-- No namespace -->

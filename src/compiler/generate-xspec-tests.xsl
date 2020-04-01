@@ -571,8 +571,8 @@
                   <xsl:text>'</xsl:text>
                 </xsl:attribute>
                 <xsl:attribute name="select">
-                  <xsl:text>$Q{http://www.w3.org/2005/xqt-errors}</xsl:text>
-                  <xsl:value-of select="." />
+                  <xsl:text>$</xsl:text>
+                  <xsl:value-of select="x:URIQualifiedName('http://www.w3.org/2005/xqt-errors', .)" />
                 </xsl:attribute>
               </map-entry>
             </xsl:for-each>
