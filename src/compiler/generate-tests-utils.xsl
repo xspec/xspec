@@ -674,6 +674,17 @@
   <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="resolve-uri(., base-uri())" />
 </xsl:template>
 
+<!-- Checks $x:saxon-config -->
+<xsl:function name="test:is-valid-saxon-config" as="xs:boolean">
+  <xsl:param name="sequence" as="item()*" />
+
+  <xsl:sequence xmlns:config="http://saxon.sf.net/ns/configuration"
+    select="
+      ($sequence instance of element(config:configuration))
+      or
+      ($sequence instance of document-node(element(config:configuration)))" />
+</xsl:function>
+
 </xsl:stylesheet>
 
 

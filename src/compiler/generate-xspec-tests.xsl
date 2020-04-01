@@ -468,23 +468,32 @@
           <xsl:apply-templates select="/x:description/x:param" mode="x:param-to-map-entry" />
         </map>
       </map-entry>
-      <for-each select="${x:xspec-name($namespace-element, 'saxon-config')}">
+      <if test="${x:xspec-name(., 'saxon-config')} => exists()">
+        <if test="${x:xspec-name(., 'saxon-config')}
+                  => test:is-valid-saxon-config()
+                  => not()">
+          <!-- TODO: Test this: https://github.com/xspec/xspec/issues/762#issuecomment-606992174 -->
+          <message terminate="yes">
+            <xsl:text expand-text="yes">ERROR: Invalid ${x:xspec-name(., 'saxon-config')}</xsl:text>
+          </message>
+        </if>
         <map-entry key="'vendor-options'">
           <map>
             <map-entry key="QName('http://saxon.sf.net/', 'configuration')">
               <choose>
                 <when test="{x:xspec-name(., 'saxon-version')}()
                   le {x:xspec-name(., 'pack-version')}((9, 9, 1, 6))">
-                  <apply-templates select="." mode="test:fixup-saxon-config" />
+                  <apply-templates select="${x:xspec-name(., 'saxon-config')}"
+                    mode="test:fixup-saxon-config" />
                 </when>
                 <otherwise>
-                  <sequence select="." />
+                  <sequence select="${x:xspec-name(., 'saxon-config')}" />
                 </otherwise>
               </choose>
             </map-entry>
           </map>
         </map-entry>
-      </for-each>
+      </if>
 
       <!--
         Options for call-template invocation and apply-templates invocation
