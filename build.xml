@@ -161,10 +161,6 @@
     <istrue value="${xspec.is.xquery}" />
   </condition>
 
-  <!-- Converts URL to file path -->
-  <taskdef name="makepath" classname="io.xspec.xspec.ant.taskdefs.MakePath"
-    classpath="${xspec.project.dir}/java" />
-
   <!-- Performs XSLT using Saxon with common parameters including catalog -->
   <macrodef name="saxon-xslt">
     <attribute name="in" />
@@ -256,80 +252,36 @@
     </retry>
   </target>
 
-  <!-- Gets the file path (not URL) of the Schematron file -->
-  <target name="locate-schematron-file" if="${xspec.is.schematron}">
-    <xml-to-properties in="${xspec.xspecfile.original}" style="locate-schematron-uri.xsl" />
-    <makepath property="xspec.schematron.file" url="${xspec.schematron.uri}" />
-    <echo message="Path of Schematron file: ${xspec.schematron.file}"
-          level="info" />
-  </target>
-
-  <!-- Sets up the preprocessors for Schematron -->
-  <target name="setup-schematron-preprocessor" if="${xspec.is.schematron}">
-    <!-- "xspec.schematron.preprocessor.step1" property: Documented in Wiki. DO NOT RENAME.
-      File path of the Step 1 preprocessor XSLT file -->
-    <property name="xspec.schematron.preprocessor.step1"
-              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_dsdl_include.xsl" />
-
-    <!-- "xspec.schematron.preprocessor.step2" property: Documented in Wiki. DO NOT RENAME.
-      File path of the Step 2 preprocessor XSLT file -->
-    <property name="xspec.schematron.preprocessor.step2"
-              value="${xspec.project.dir}/src/schematron/iso-schematron/iso_abstract_expand.xsl" />
-
-    <!-- For Step 3: Wrap the actual preprocessor in order to inject parameters -->
-
-    <!-- File path of a temporary XSLT file which imports the actual preprocessor -->
-    <property name="xspec.schematron.preprocessor.step3.wrapper"
-              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-step3-wrapper.xsl" />
-
-    <!-- "xspec.schematron.preprocessor.step3" property: Documented in Wiki. DO NOT RENAME.
-      File path of the actual Step 3 preprocessor XSLT file -->
-    <!-- "xspec.schematron.preprocessor.step3.url" property:
-      URL of the actual preprocessor -->
+  <!-- Converts Schematron into XSLT -->
+  <target name="preprocess-schematron-xslt"
+          if="${xspec.is.schematron}">
+    <!-- URI of preprocessors -->
+    <makeurl property="xspec.schematron.preprocessor.step1.url"
+             file="${xspec.schematron.preprocessor.step1}"
+             if:set="xspec.schematron.preprocessor.step1" />
+    <makeurl property="xspec.schematron.preprocessor.step2.url"
+             file="${xspec.schematron.preprocessor.step2}"
+             if:set="xspec.schematron.preprocessor.step2" />
     <makeurl property="xspec.schematron.preprocessor.step3.url"
              file="${xspec.schematron.preprocessor.step3}"
              if:set="xspec.schematron.preprocessor.step3" />
 
-    <!-- Generate the wrapper of the actual preprocessor -->
-    <saxon-xslt in="${xspec.xspecfile.original}"
-                out="${xspec.schematron.preprocessor.step3.wrapper}"
-                style="${xspec.project.dir}/src/schematron/generate-step3-wrapper.xsl">
-      <xslt-elements>
-        <param name="ACTUAL-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step3.url}"
-               if="xspec.schematron.preprocessor.step3.url" />
-      </xslt-elements>
-    </saxon-xslt>
-  </target>
-
-  <!-- Converts Schematron into XSLT -->
-  <target name="preprocess-schematron-xslt"
-          depends="locate-schematron-file, setup-schematron-preprocessor"
-          if="${xspec.is.schematron}">
-    <!-- Location of the temporary files -->
-    <property name="xspec.schematron.preprocessed.step1"
-              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-step1.sch" />
-    <property name="xspec.schematron.preprocessed.step2"
-              value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-step2.sch" />
+    <!-- Location of the generated XSLT file -->
     <property name="xspec.schematron.preprocessed.xsl.file"
               value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-sch-preprocessed.xsl" />
 
-    <echo message="STEP 1: Include modules"
-          level="info" />
-    <saxon-xslt in="${xspec.schematron.file}"
-                out="${xspec.schematron.preprocessed.step1}"
-                style="${xspec.schematron.preprocessor.step1}" />
-
-    <echo message="STEP 2: Expand abstracts"
-          level="info" />
-    <saxon-xslt in="${xspec.schematron.preprocessed.step1}"
-                out="${xspec.schematron.preprocessed.step2}"
-                style="${xspec.schematron.preprocessor.step2}" />
-
-    <echo message="STEP 3: Convert Schematron to XSLT"
-          level="info" />
-    <saxon-xslt in="${xspec.schematron.preprocessed.step2}"
+    <saxon-xslt in="${xspec.xspecfile.original}"
                 out="${xspec.schematron.preprocessed.xsl.file}"
-                style="${xspec.schematron.preprocessor.step3.wrapper}" />
+                style="${xspec.project.dir}/src/schematron/schut-to-xslt.xsl">
+      <xslt-elements>
+        <param name="step1-preprocessor-uri" expression="${xspec.schematron.preprocessor.step1.url}"
+          if:set="xspec.schematron.preprocessor.step1.url" />
+        <param name="step2-preprocessor-uri" expression="${xspec.schematron.preprocessor.step2.url}"
+          if:set="xspec.schematron.preprocessor.step2.url" />
+        <param name="step3-preprocessor-uri" expression="${xspec.schematron.preprocessor.step3.url}"
+          if:set="xspec.schematron.preprocessor.step3.url" />
+      </xslt-elements>
+    </saxon-xslt>
   </target>
 
   <!-- Converts Schematron XSpec into XSLT XSpec -->

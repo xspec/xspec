@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="run-xspec-tests-worker-util" xmlns:if="ant:if" xmlns:unless="ant:unless">
+	<!-- Directory of this project file -->
+	<dirname file="${ant.file.run-xspec-tests-worker-util}"
+		property="run-xspec-tests-worker-util.basedir" />
+
+	<!-- Converts URL to file path -->
+	<taskdef classname="io.xspec.xspec.ant.taskdefs.MakePath"
+		classpath="${run-xspec-tests-worker-util.basedir}/../../../java" name="makepath" />
+
 	<!-- Executes an AppVeyor command to notify AppVeyor of test status.
 		https://www.appveyor.com/docs/build-worker-api/ -->
 	<macrodef if:set="appveyor.filename" name="appveyor">
