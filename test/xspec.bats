@@ -999,6 +999,56 @@ load bats-helper
 }
 
 #
+# Catalog file URI (Ant)
+#
+#     Test 'catalog' property containing multiple URIs (relative and absolute)
+#
+
+@test "Ant with catalog file URI (XSLT)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file URI (XQuery)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dtest.type=q \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file URI (Schematron)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+#
 # xspec.fail (Ant)
 #
 
@@ -1157,6 +1207,44 @@ load bats-helper
 }
 
 #
+# Catalog file URI (CLI) (-catalog)
+#
+#     Test -catalog specifying multiple file URIs (absolute, no relative)
+#
+
+@test "CLI with -catalog file URI (XSLT)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    run ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        catalog/catalog-01_stylesheet.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "CLI with -catalog file URI (XQuery)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    run ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -q \
+        catalog/catalog-01_query.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "CLI with -catalog file URI (Schematron)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    run ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -s \
+        catalog/catalog-01_schematron.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+#
 # Catalog file path (CLI) (XML_CATALOG)
 #
 #     Test XML_CATALOG containing multiple file paths (relative and absolute)
@@ -1202,6 +1290,42 @@ load bats-helper
     export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     run ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+#
+# Catalog file URI (CLI) (XML_CATALOG)
+#
+#     Test XML_CATALOG containing multiple file URIs (absolute, no relative)
+#
+
+@test "CLI with XML_CATALOG file URI (XSLT)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh "catalog/catalog-01_stylesheet.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "CLI with XML_CATALOG file URI (XQuery)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh -q "catalog/catalog-01_query.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "CLI with XML_CATALOG file URI (Schematron)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
