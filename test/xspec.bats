@@ -555,13 +555,10 @@ load bats-helper
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
 
-    run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
+    run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}"  = "I am schematron-xslt-include.xsl!" ]
-    [ "${lines[5]}"  = "I am schematron-xslt-expand.xsl!" ]
-    [ "${lines[6]}"  = "I am schematron-xslt-compile.xsl!" ]
-    [ "${lines[19]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
@@ -572,14 +569,11 @@ load bats-helper
         -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt-include.xsl" \
         -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt-expand.xsl" \
         -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt-compile.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
+        -Dxspec.xml="${PWD}/schematron/schematron-xslt.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-include.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-expand.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-compile.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 3 / pending: 0 / failed: 0 / total: 3'$'\n'
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
 #

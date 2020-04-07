@@ -454,12 +454,9 @@
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt-expand.xsl
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt-compile.xsl
 
-    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :run ..\bin\xspec.bat -s schematron\schematron-xslt.xspec
     call :verify_retval 0
-    call :verify_line  5 x "I am schematron-xslt-include.xsl!"
-    call :verify_line  6 x "I am schematron-xslt-expand.xsl!"
-    call :verify_line  7 x "I am schematron-xslt-compile.xsl!"
-    call :verify_line 20 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
+    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
 
 	<case name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)">
@@ -470,13 +467,10 @@
         -Dxspec.schematron.preprocessor.step1="%CD%\schematron\schematron-xslt-include.xsl" ^
         -Dxspec.schematron.preprocessor.step2="%CD%\schematron\schematron-xslt-expand.xsl" ^
         -Dxspec.schematron.preprocessor.step3="%CD%\schematron\schematron-xslt-compile.xsl" ^
-        -Dxspec.xml="%CD%\..\tutorial\schematron\demo-01.xspec"
+        -Dxspec.xml="%CD%\schematron\schematron-xslt.xspec"
     call :verify_retval 0
-    call :verify_line  * x "     [xslt] I am schematron-xslt-include.xsl!"
-    call :verify_line  * x "     [xslt] I am schematron-xslt-expand.xsl!"
-    call :verify_line  * x "     [xslt] I am schematron-xslt-compile.xsl!"
-    call :verify_line  * x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
-    call :verify_line -2 x "BUILD SUCCESSFUL"
+    call :verify_line -10 x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
 	<!--
