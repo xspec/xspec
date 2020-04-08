@@ -8,6 +8,7 @@
 
 
 <xsl:stylesheet version="2.0"
+                xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -16,23 +17,36 @@
                 exclude-result-prefixes="#all">
 
 <xsl:import href="format-utils.xsl" />
+
 <xsl:include href="../common/xspec-utils.xsl" />
+
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/coverage-report.xsl</pkg:import-uri>
+
 <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
+
 <xsl:param name="report-css-uri" as="xs:string?" />
-  
+
 <!-- @use-character-maps for inline CSS -->
 <xsl:output method="xhtml" use-character-maps="test:disable-escaping" />
+
 <xsl:variable name="trace" as="document-node()" select="/" />
+
 <xsl:variable name="xspec-uri" as="xs:anyURI" select="$trace/trace/@xspec" />
-<xsl:variable name="xspec-doc" as="document-node(element(x:description))" select="doc($xspec-uri)" />
-<xsl:variable name="stylesheet-uri" as="xs:anyURI" select="resolve-uri($xspec-doc/x:description/@stylesheet, $xspec-uri)" />
-<xsl:variable name="stylesheet-trees" as="document-node()+" select="test:collect-stylesheets(doc($stylesheet-uri))" />
+<xsl:variable name="xspec-doc" as="document-node(element(x:description))"
+  select="doc($xspec-uri)" />
+
+<xsl:variable name="stylesheet-uri" as="xs:anyURI"
+  select="resolve-uri($xspec-doc/x:description/@stylesheet, $xspec-uri)" />
+
+<xsl:variable name="stylesheet-trees" as="document-node()+"
+  select="test:collect-stylesheets(doc($stylesheet-uri))" />
 
 <xsl:function name="test:collect-stylesheets" as="document-node()+">
   <xsl:param name="stylesheets" as="document-node()+" />
-  <xsl:variable name="imports" as="document-node()*" select="document($stylesheets/*/(xsl:import|xsl:include)/@href)" />
-  <xsl:variable name="new-stylesheets" as="document-node()*" select="$stylesheets | $imports" />
+  <xsl:variable name="imports" as="document-node()*"
+    select="document($stylesheets/*/(xsl:import|xsl:include)/@href)" />
+  <xsl:variable name="new-stylesheets" as="document-node()*"
+    select="$stylesheets | $imports" />
   <xsl:choose>
     <xsl:when test="$imports except $stylesheets">
       <xsl:sequence select="test:collect-stylesheets($stylesheets | $imports)" />
@@ -49,11 +63,10 @@
 
 <xsl:template match="/">
   <xsl:apply-templates select="." mode="test:coverage-report" />
-  <xsl:apply-templates select="." mode="sonar"/>
 </xsl:template>
-  
+
 <xsl:template match="/" mode="test:coverage-report">
-  <html xmlns="http://www.w3.org/1999/xhtml">
+  <html>
     <head>
       <title>Test Coverage Report for <xsl:value-of select="x:format-uri($stylesheet-uri)" /></title>
       <xsl:call-template name="test:load-css">
@@ -64,106 +77,56 @@
     <body>
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="{$stylesheet-uri}"><xsl:value-of select="x:format-uri($stylesheet-uri)" /></a></p>
-      <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="test:coverage-report">
-        <xsl:with-param name="sonar-report" select="false()"/>
-      </xsl:apply-templates>
+      <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="test:coverage-report" />
     </body>
   </html>
 </xsl:template>
-   
-  <!-- param to configure the sonar-coverage-report output  -->
-  <xsl:param name="sonar-coverage-report-url"></xsl:param>
   
-  <!-- function to calculate the default sonar-coverage-report output  -->
-  <xsl:function name="test:sonar-coverage-report-url">
-    <xsl:choose>
-      <xsl:when test="not($sonar-coverage-report-url)">
-        <xsl:variable name="dot" select="substring-before($stylesheet-uri,'.')"/>
-        <xsl:variable name="slash" select="tokenize(substring-before($stylesheet-uri,'.'),'/')"/>
-        <xsl:variable name="pathDirectory" select="substring-before($dot,$slash[last()])"/>
-        <xsl:value-of select="concat($pathDirectory,'/xspec/sonar-coverage-report.xml')"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$sonar-coverage-report-url"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:function>
-  
-  <!-- function to calculate the xsl output, in order to be understood by SonarQube according to the Operating System  -->
-  <xsl:function name="test:xsl-file-location">
-    <xsl:variable name="absoluteXslPath" select="substring-after($stylesheet-uri,'file:/')"/>
-    <xsl:variable name="xslPathCorrected" select="replace($absoluteXslPath,'%20',' ')"/>
-    <xsl:choose>
-      <xsl:when test="contains($xslPathCorrected,':/')">
-        <!-- windows os -->
-        <xsl:value-of select="$xslPathCorrected"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="concat('/',$xslPathCorrected)"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:function>
-  
-  <!-- template generate the sonar-coverage-report -->
-  <xsl:template match="/" mode="sonar">
-    <xsl:result-document href="{test:sonar-coverage-report-url()}" omit-xml-declaration="yes">
-    <coverage version="1">
-      <file path="{test:xsl-file-location()}">
-    <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="sonar">
-      <xsl:with-param name="sonar-report" select="true()" tunnel="yes"/>
-    </xsl:apply-templates>
-      </file>
-    </coverage>
-    </xsl:result-document>
-  </xsl:template>
-  
-<xsl:template match="xsl:stylesheet | xsl:transform" mode="test:coverage-report sonar">
-  <xsl:param name="sonar-report" as="xs:boolean" tunnel="yes" select="false()"/>
-  <xsl:variable name="stylesheet-uri" as="xs:anyURI" select="base-uri(.)" />
-  <xsl:variable name="stylesheet-tree" as="document-node()" select=".." />
-  <xsl:variable name="stylesheet-string" as="xs:string" select="unparsed-text($stylesheet-uri)" />
-  <xsl:variable name="stylesheet-lines" as="xs:string+" select="test:split-lines($stylesheet-string)" />
-  <xsl:variable name="number-of-lines" as="xs:integer" select="count($stylesheet-lines)" />
-  <xsl:variable name="number-width" as="xs:integer" select="string-length(xs:string($number-of-lines))" />
-  <xsl:variable name="number-format" as="xs:string" select="string-join(for $i in 1 to $number-width return '0', '')" />
+<xsl:template match="xsl:stylesheet | xsl:transform" mode="test:coverage-report">
+  <xsl:variable name="stylesheet-uri" as="xs:anyURI"
+    select="base-uri(.)" />
+  <xsl:variable name="stylesheet-tree" as="document-node()"
+    select=".." />
+  <xsl:variable name="stylesheet-string" as="xs:string"
+    select="unparsed-text($stylesheet-uri)" />
+  <xsl:variable name="stylesheet-lines" as="xs:string+" 
+    select="test:split-lines($stylesheet-string)" />
+  <xsl:variable name="number-of-lines" as="xs:integer"
+    select="count($stylesheet-lines)" />
+  <xsl:variable name="number-width" as="xs:integer"
+    select="string-length(xs:string($number-of-lines))" />
+  <xsl:variable name="number-format" as="xs:string"
+  select="string-join(for $i in 1 to $number-width return '0', '')" />
   <xsl:variable name="module" as="xs:string?">
-  <xsl:variable name="uri" as="xs:string" select="if (starts-with($stylesheet-uri, '/')) then concat('file:', $stylesheet-uri) else $stylesheet-uri" />
-   <xsl:sequence select="key('modules', $uri, $trace)/@id" />
+    <xsl:variable name="uri" as="xs:string"
+      select="if (starts-with($stylesheet-uri, '/'))
+              then concat('file:', $stylesheet-uri)
+              else $stylesheet-uri" />
+    <xsl:sequence select="key('modules', $uri, $trace)/@id" />
   </xsl:variable>
-  
-  <xsl:variable name="callTemplate-output-lines">
-    <xsl:call-template name="test:output-lines">
-      <xsl:with-param name="stylesheet-string" select="$stylesheet-string" />
-      <xsl:with-param name="node" select="." />
-      <xsl:with-param name="number-format" tunnel="yes" select="$number-format" />
-      <xsl:with-param name="module" tunnel="yes" select="$module" />
-    </xsl:call-template>
-  </xsl:variable>
-  
+  <h2>
+    <xsl:text>module: </xsl:text>
+    <xsl:value-of select="x:format-uri($stylesheet-uri)" />
+    <xsl:text>; </xsl:text>
+    <xsl:value-of select="$number-of-lines" />
+    <xsl:text> lines</xsl:text>
+  </h2>
   <xsl:choose>
-    <xsl:when test="$sonar-report = false()">
-      <h2>
-        <xsl:text>module: </xsl:text>
-        <xsl:value-of select="x:format-uri($stylesheet-uri)" />
-        <xsl:text>; </xsl:text>
-        <xsl:value-of select="$number-of-lines" />
-        <xsl:text> lines</xsl:text>
-      </h2>
-      <xsl:choose>
-        <xsl:when test="empty($module)">
-          <p><span class="missed">not used</span></p>
-        </xsl:when>
-        <xsl:otherwise>
-          <pre>
-        <xsl:value-of select="format-number(1, $number-format)" />
-        <xsl:text>: </xsl:text>
-       <xsl:sequence select="$callTemplate-output-lines"/>
-      </pre>
-        </xsl:otherwise>
-      </xsl:choose>
+    <xsl:when test="empty($module)">
+      <p><span class="missed">not used</span></p>
     </xsl:when>
     <xsl:otherwise>
-      <xsl:sequence select="$callTemplate-output-lines"/>
+      <pre>
+        <xsl:value-of select="format-number(1, $number-format)" />
+        <xsl:text>: </xsl:text>
+        <xsl:call-template name="test:output-lines">
+          <xsl:with-param name="line-number" select="0" />
+          <xsl:with-param name="stylesheet-string" select="$stylesheet-string" />
+          <xsl:with-param name="node" select="." />
+          <xsl:with-param name="number-format" tunnel="yes" select="$number-format" />
+          <xsl:with-param name="module" tunnel="yes" select="$module" />
+        </xsl:call-template>
+      </pre>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
@@ -223,10 +186,10 @@
 </xsl:variable>
 
 <xsl:template name="test:output-lines">
-  <xsl:context-item use="absent" use-when="element-available('xsl:context-item')" />
-  
-  <xsl:param name="sonar-report" as="xs:boolean" tunnel="yes" select="false()"/>
-  <xsl:param name="line-number" as="xs:integer" required="no" select="0" />
+  <xsl:context-item use="absent"
+    use-when="element-available('xsl:context-item')" />
+
+  <xsl:param name="line-number" as="xs:integer" required="yes" />
   <xsl:param name="stylesheet-string" as="xs:string" required="yes" />
   <xsl:param name="node" as="node()" required="yes" />
   <xsl:param name="number-format" tunnel="yes" as="xs:string" required="yes" />
@@ -256,28 +219,14 @@
         <xsl:variable name="coverage" as="xs:string" 
           select="if ($matches) then test:coverage($node, $module) else 'ignored'" />
         <xsl:for-each select="$construct-lines">
-          <xsl:choose>
-            <xsl:when test="$sonar-report = false()">
-              <!--          <xsl:variable name="main-content">-->
-              <xsl:if test="position() != 1">
-                <xsl:text>&#xA;</xsl:text>
-                <xsl:value-of select="format-number($line-number + position(), $number-format)" />
-                <xsl:text>: </xsl:text>
-              </xsl:if>
-              <span class="{$coverage}">
-                <xsl:value-of select="." />
-              </span>
-              <!--</xsl:variable>-->
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:if test="$coverage = 'missed'">
-                  <lineToCover lineNumber="{$line-number+1}" covered="false"/>
-                </xsl:if>
-                <xsl:if test="$coverage = 'hit'">   
-                  <lineToCover lineNumber="{$line-number+1}" covered="true"/>
-                </xsl:if>
-            </xsl:otherwise>
-          </xsl:choose>
+          <xsl:if test="position() != 1">
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:value-of select="format-number($line-number + position(), $number-format)" />
+            <xsl:text>: </xsl:text>
+          </xsl:if>
+          <span class="{$coverage}">
+            <xsl:value-of select="." />
+          </span>
         </xsl:for-each>
         <!-- Capture the residue, tagging it for later analysis and processing. -->
         <test:residue matches="{$matches}" startTag="{$startTag}" rest="{$rest}" count="{count($construct-lines)}"/>
