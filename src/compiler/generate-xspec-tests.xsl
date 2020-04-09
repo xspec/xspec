@@ -314,6 +314,7 @@
                       <xsl:sequence select="x:copy-namespaces($call)" />
                       <xsl:for-each select="$call/x:param">
                         <with-param name="{@name}" select="${test:variable-name(.)}">
+                          <xsl:sequence select="x:copy-namespaces(.)" />
                           <xsl:copy-of select="@tunnel, @as" />
                         </with-param>
                       </xsl:for-each>
@@ -346,10 +347,6 @@
                         <xsl:sort select="xs:integer(@position)" />
                         <xsl:text>$</xsl:text>
                         <xsl:value-of select="test:variable-name(.)" />
-                        <xsl:for-each select="@as">
-                          <xsl:text> treat as </xsl:text>
-                          <xsl:value-of select="." />
-                        </xsl:for-each>
                         <xsl:if test="position() != last()">, </xsl:if>
                       </xsl:for-each>
                       <xsl:text>)</xsl:text>
@@ -369,7 +366,8 @@
                      <xsl:copy-of select="$apply/@select | $apply/@mode"/>
                      <xsl:for-each select="$apply/x:param">
                        <with-param name="{ @name }" select="${ test:variable-name(.) }">
-                         <xsl:copy-of select="@tunnel, @as"/>
+                         <xsl:sequence select="x:copy-namespaces(.)" /><!--TODO: Check that this line works after x:apply is implemented.-->
+                         <xsl:copy-of select="@tunnel, @as"/><!--TODO: Check that this @as works after x:apply is implemented.-->
                        </with-param>
                      </xsl:for-each>
                    </apply-templates>
@@ -385,6 +383,7 @@
                     <xsl:sequence select="$context/@mode" />
                     <xsl:for-each select="$context/x:param">
                       <with-param name="{@name}" select="${test:variable-name(.)}">
+                        <xsl:sequence select="x:copy-namespaces(.)" />
                         <xsl:copy-of select="@tunnel, @as" />
                       </with-param>
                     </xsl:for-each>
