@@ -4,6 +4,11 @@
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
+	<!--
+		To test xspec/xspec#894 properly, 'local-xs' and 'polymorph' namespace prefixes must be
+		declared only in //(x:param|x:variable)[@as] (and //x:expect in case of absolute necessity).
+	-->
+
 	<x:scenario label="In context template-param (i.e. //x:context/x:param), when @as uses a prefix defined in x:param,">
 		<x:context mode="mirror:param-mirror">
 			<x:param as="local-xs:double" name="param-items" select="xs:integer(0)" xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
