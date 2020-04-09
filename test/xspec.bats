@@ -1893,7 +1893,9 @@ load bats-helper
 }
 
 #
-# Custom coverage reporter
+# Custom coverage reporter (CLI)
+#
+#     Ant is tested by XSPEC_HOME/test/end-to-end/cases/custom-coverage-report.xspec
 #
 
 @test "Custom coverage reporter (CLI)" {
@@ -1903,25 +1905,6 @@ load bats-helper
 
     export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
     run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
-
-    run cat "${TEST_DIR}/demo-coverage.html"
-    echo "$output"
-    assert_regex "${output}" '.+--Customized coverage report--.+'
-}
-
-@test "Custom coverage reporter (Ant)" {
-    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
-        skip "XSLT_SUPPORTS_COVERAGE is not defined"
-    fi
-
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.coverage.enabled=true \
-        -Dxspec.coverage.reporter.xsl="${PWD}/custom-coverage-report.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
