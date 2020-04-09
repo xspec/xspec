@@ -13,10 +13,24 @@
 	</x:scenario>
 
 	<x:scenario label="In function-param (i.e. //x:call[@function]/x:param),">
-		<x:call function="mirror:param-mirror">
-			<x:param as="xs:double" select="xs:integer(0)" />
-		</x:call>
-		<x:expect label="@as takes effect" test="$x:result instance of xs:double" />
+		<x:scenario label="when the function has a single param and @as uses a prefix defined in x:param,">
+			<x:call function="mirror:param-mirror">
+				<x:param as="local-xs:double" select="xs:integer(0)" xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
+			</x:call>
+			<x:expect label="@as takes effect" test="$x:result instance of xs:double" />
+		</x:scenario>
+
+		<x:scenario
+			label="when the function has multiple params and all @as share the same prefix but each prefix has different URI defined in x:param,">
+			<x:call function="mirror:trace">
+				<x:param as="element(polymorph:element)" xmlns:polymorph="param-1-ns">
+					<polymorph:element />
+				</x:param>
+				<x:param as="polymorph:string" select="'label'" xmlns:polymorph="http://www.w3.org/2001/XMLSchema" />
+			</x:call>
+			<x:expect label="@as doesn't break the params"
+				test="$x:result instance of element(polymorph:element)" xmlns:polymorph="param-1-ns" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="In template-call template-param (i.e. //x:call[@template]/x:param), when @as uses a prefix defined in x:param,">
