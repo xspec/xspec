@@ -1867,7 +1867,9 @@ load bats-helper
 }
 
 #
-# Custom HTML reporter
+# Custom HTML reporter (CLI)
+#
+#     Ant is tested by XSPEC_HOME/test/end-to-end/cases/format-xspec-report-folding.xspec
 #
 
 @test "Custom HTML reporter (CLI)" {
@@ -1877,19 +1879,6 @@ load bats-helper
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]}-16]}" = "--- Actual Result ---" ]
     [ "${lines[${#lines[@]}-9]}"  = "--- Expected Result ---" ]
-}
-
-@test "Custom HTML reporter (Ant)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.fail=false \
-        -Dxspec.html.reporter.xsl="${PWD}/format-xspec-report-messaging.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-21]}" = "     [xslt] --- Actual Result ---" ]
-    [ "${lines[${#lines[@]}-14]}" = "     [xslt] --- Expected Result ---" ]
 }
 
 #

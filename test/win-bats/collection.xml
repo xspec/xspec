@@ -1578,7 +1578,9 @@
 	</case>
 
 	<!--
-		Custom HTML reporter
+		Custom HTML reporter (CLI)
+		
+			Ant is tested by XSPEC_HOME/test/end-to-end/cases/format-xspec-report-folding.xspec
 	-->
 
 	<case name="Custom HTML reporter (CLI)">
@@ -1587,18 +1589,6 @@
     call :verify_retval 0
     call :verify_line -16 x "--- Actual Result ---"
     call :verify_line  -9 x "--- Expected Result ---"
-	</case>
-
-	<case name="Custom HTML reporter (Ant)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dxspec.fail=false ^
-        -Dxspec.html.reporter.xsl="%CD%\format-xspec-report-messaging.xsl" ^
-        -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
-    call :verify_retval 0
-    call :verify_line -21 x "     [xslt] --- Actual Result ---"
-    call :verify_line -14 x "     [xslt] --- Expected Result ---"
 	</case>
 
 	<!--
