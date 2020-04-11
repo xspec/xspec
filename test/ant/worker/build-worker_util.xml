@@ -43,6 +43,7 @@
 		<attribute default="" name="enable-coverage" />
 		<attribute default="" name="saxon-custom-options" />
 		<attribute default="" name="additional-classpath" />
+		<attribute default="" name="html-reporter" />
 		<attribute default="" name="coverage-reporter" />
 		<attribute default="" name="output-xml-url" />
 		<attribute default="" name="output-html-url" />
@@ -106,6 +107,9 @@
 					value="@{saxon-custom-options}" />
 				<param name="xspec.additional.classpath" unless:blank="@{additional-classpath}"
 					value="@{additional-classpath}" />
+
+				<param name="xspec.html.reporter.xsl" unless:blank="@{html-reporter}"
+					value="@{html-reporter}" />
 				<param name="xspec.coverage.reporter.xsl" unless:blank="@{coverage-reporter}"
 					value="@{coverage-reporter}" />
 
