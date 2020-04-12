@@ -1592,25 +1592,14 @@
 	</case>
 
 	<!--
-		Custom coverage reporter
+		Custom coverage reporter (CLI)
+		
+			Ant is tested by XSPEC_HOME/test/end-to-end/cases/custom-coverage-report.xspec
 	-->
 
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Custom coverage reporter (CLI)">
     set COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
     call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
-    call :verify_retval 0
-
-    call :run type "%TEST_DIR%\demo-coverage.html"
-    call :verify_line * r "..*--Customized coverage report--..*"
-	</case>
-
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Custom coverage reporter (Ant)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dxspec.coverage.enabled=true ^
-        -Dxspec.coverage.reporter.xsl="%CD%\custom-coverage-report.xsl" ^
-        -Dxspec.xml="%CD%\..\tutorial\coverage\demo.xspec"
     call :verify_retval 0
 
     call :run type "%TEST_DIR%\demo-coverage.html"
