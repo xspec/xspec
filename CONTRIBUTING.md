@@ -14,7 +14,7 @@ All contributions are submitted under the [MIT License](https://github.com/xspec
 
 ## Git commit messages
 
-We use [Commit Lint](https://www.commit-lint.com) to enforce conventions in commit messages and pull requests and we follow the [Angular Coding Conventions](https://www.commit-lint.com/conventions). If you raise a pull request without using one of the valid prefixes for type in your last commit, the automatic checks in the pull request will report an error.
+We use [Semantic Pull Requests](https://probot.github.io/apps/semantic-pull-requests/) to enforce conventions in commit messages and pull requests and we follow the [Angular Coding Conventions](https://www.commit-lint.com/conventions). If you raise a pull request without using one of the valid prefixes for type in your last commit, the automatic checks in the pull request will report an error.
 
 These are the valid prefixes for type (see also [the Angular documentation](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#type)):
 
