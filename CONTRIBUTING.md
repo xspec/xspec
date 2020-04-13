@@ -23,7 +23,7 @@ These are the valid prefixes for type (see also [the Angular documentation](http
 | `feat` | New feature or enhancement |
 | `fix` | Bug fix |
 | `test` | Test |
-| `ci` | CI configuration (Travis, Azure Pipelines, AppVeyor) |
+| `ci` | CI configuration (GitHub Actions, Checks, etc.) |
 | `docs` | Documentation |
 | `perf` | Performance improvement |
 | `refactor` | Refactoring improvement (no new feature or bug fix) |
