@@ -992,21 +992,51 @@
 	</case>
 
 	<!--
-		Catalog (CLI) (XML_CATALOG)
+		Catalog file path (CLI) (XML_CATALOG)
+		
+			Test XML_CATALOG containing multiple file paths (relative and absolute)
 	-->
 
-	<case name="CLI with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path (XSLT)">
+	<case name="CLI with XML_CATALOG file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
     call :copy catalog\01          "%SPACE_DIR%\01"
 
     set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
-    set "XML_CATALOG=%SPACE_DIR%\01\catalog.xml"
+    set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
 
     call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01_stylesheet.xspec"
     call :verify_retval 0
     call :verify_line 16 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+	</case>
+
+	<case name="CLI with XML_CATALOG file path (XQuery)">
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    call :mkdir "%SPACE_DIR%\01"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\01          "%SPACE_DIR%\01"
+
+    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat -q "%SPACE_DIR%\catalog-01_query.xspec"
+    call :verify_retval 0
+    call :verify_line 7 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+	</case>
+
+	<case name="CLI with XML_CATALOG file path (Schematron)">
+    set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
+    call :mkdir "%SPACE_DIR%\01"
+    call :copy catalog\catalog-01* "%SPACE_DIR%"
+    call :copy catalog\01          "%SPACE_DIR%\01"
+
+    set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
+    set "XML_CATALOG=catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml"
+
+    call :run ..\bin\xspec.bat -s "%SPACE_DIR%\catalog-01_schematron.xspec"
+    call :verify_retval 0
+    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--

@@ -1155,22 +1155,54 @@ load bats-helper
 }
 
 #
-# Catalog (CLI) (XML_CATALOG)
+# Catalog file path (CLI) (XML_CATALOG)
+#
+#     Test XML_CATALOG containing multiple file paths (relative and absolute)
 #
 
-@test "CLI with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path (XSLT)" {
+@test "CLI with XML_CATALOG file path (XSLT)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/*        "${space_dir}/01"
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    export XML_CATALOG="${space_dir}/01/catalog.xml"
+    export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     run ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "CLI with XML_CATALOG file path (XQuery)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
+
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh -q "${space_dir}/catalog-01_query.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "CLI with XML_CATALOG file path (Schematron)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
+
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
