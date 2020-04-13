@@ -1018,7 +1018,7 @@
 					</test>
 				</x:param>
 			</x:call>
-			<x:expect label="2.0" select="2.0" />
+			<x:expect label="3.0" select="3.0" />
 		</x:scenario>
 
 		<x:scenario label="defined in self">
