@@ -17,6 +17,7 @@ description =
 		attribute query { xsd:anyURI }?,
 
 		## XQuery version which will be declared in the compiled main module.
+		[ a:defaultValue = "3.1" ]
 		attribute xquery-version { text }?,
 
 		## XSLT version which will be declared in the compiled master stylesheet.
