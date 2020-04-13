@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<serialized version="21.1" xml:space="preserve">
+<serialized version="22.0" xml:space="preserve">
 	<serializableOrderedMap>
 		<entry>
 			<String>document.types</String>
@@ -478,7 +478,7 @@
 												<String>catalog</String>
 											</field>
 											<field name="description">
-												<String>The path to a catalog file that will be used for all XSLTs involved in the XSpec execution.</String>
+												<String>The path to catalog files that will be used for all XSLTs involved in the XSpec execution. Separated by semicolons (;).</String>
 											</field>
 											<field name="value">
 												<String>${pd}/catalog.xml</String>
@@ -796,7 +796,7 @@
 												<String>catalog</String>
 											</field>
 											<field name="description">
-												<String>The path to a catalog file that will be used for all XSLTs involved in the XSpec execution.</String>
+												<String>The path to catalog files that will be used for all XSLTs involved in the XSpec execution. Separated by semicolons (;).</String>
 											</field>
 											<field name="value">
 												<String>${pd}/catalog.xml</String>
