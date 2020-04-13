@@ -1054,7 +1054,9 @@
     set "SAXON_LICENSE=%SAXON_JAR%\..\saxon-license.lic"
     if exist "%SAXON_LICENSE%" call :copy "%SAXON_LICENSE%" "%SAXON_HOME%"
 
-    call :run ..\bin\xspec.bat -catalog catalog\01\catalog.xml catalog\catalog-01_stylesheet.xspec
+    call :run ..\bin\xspec.bat ^
+        -catalog "catalog\01\catalog-public.xml;catalog\01\catalog-rewriteURI.xml" ^
+        catalog\catalog-01_stylesheet.xspec
     call :verify_retval 0
     call :verify_line 16 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>

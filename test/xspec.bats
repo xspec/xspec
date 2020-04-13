@@ -1222,7 +1222,9 @@ load bats-helper
         cp "${saxon_license}" "${SAXON_HOME}"
     fi
 
-    run ../bin/xspec.sh -catalog catalog/01/catalog.xml catalog/catalog-01_stylesheet.xspec
+    run ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;catalog/01/catalog-rewriteURI.xml" \
+        catalog/catalog-01_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
