@@ -1102,33 +1102,53 @@ load bats-helper
 }
 
 #
-# Catalog (CLI) (-catalog)
+# Catalog file path (CLI) (-catalog)
+#
+#     Test -catalog specifying multiple file paths (relative and absolute)
 #
 
-@test "CLI with -catalog uses XML Catalog resolver and does so even with spaces in file path (XSLT)" {
+@test "CLI with -catalog file path (XSLT)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/*        "${space_dir}/01"
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog "${space_dir}/01/catalog.xml" "${space_dir}/catalog-01_stylesheet.xspec"
+    run ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
+        "${space_dir}/catalog-01_stylesheet.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
-@test "CLI with -catalog uses XML Catalog resolver (XQuery)" {
+@test "CLI with -catalog file path (XQuery)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
+
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog catalog/01/catalog.xml -q catalog/catalog-01_query.xspec
+    run ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
+        -q \
+        "${space_dir}/catalog-01_query.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
-@test "CLI with -catalog uses XML Catalog resolver (Schematron)" {
+@test "CLI with -catalog file path (Schematron)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
+
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog catalog/01/catalog.xml -s catalog/catalog-01_schematron.xspec
+    run ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
+        -s \
+        "${space_dir}/catalog-01_schematron.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
