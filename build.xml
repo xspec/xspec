@@ -38,7 +38,7 @@
     No default value. This property is occasionally provided by the user. -->
 
   <!-- "catalog" property: Documented in Wiki. DO NOT RENAME.
-    File path (not URL) of XML catalog file -->
+    One or more XML catalog file paths. Separated by semicolons (;). -->
 
   <!-- File path of the original XSpec file specified by the user -->
   <property name="xspec.xspecfile.original" value="${xspec.xml}" />
@@ -145,13 +145,6 @@
     <istrue value="${xspec.is.schematron}" />
   </condition>
 
-  <!-- Catalog URL.
-    To work around a Saxon bug, it must be URL: https://saxonica.plan.io/issues/3025#note-8
-    To debug catalog resolution, -Dsaxon.custom.options=-t would help.
-    Oxygen 20 default transformation scenario sets catalog even when file does not exist. Hence
-    validate=false. -->
-  <makeurl property="xspec.catalog.url" file="${catalog}" validate="false" if:set="catalog" />
-
   <!-- File path of the compiled XSLT/XQuery file that finally runs the tests -->
   <property name="xspec.compiled.runner.without.ext" 
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-compiled" />
@@ -185,9 +178,7 @@
         </factory>
 
         <xmlcatalog if:set="catalog">
-          <catalogpath>
-            <pathelement location="${catalog}" />
-          </catalogpath>
+          <catalogpath path="${catalog}" />
         </xmlcatalog>
 
         <xslt-elements />
@@ -379,7 +370,7 @@
       </classpath>
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
-      <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
+      <arg value="-catalog:${catalog}" if:set="catalog" />
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-q:${xspec.compiled.runner}" />
     </java>
@@ -428,7 +419,7 @@
                    if:true="${xspec.coverage.enabled}" />
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
-      <arg value="-catalog:${xspec.catalog.url}" if:set="catalog" />
+      <arg value="-catalog:${catalog}" if:set="catalog" />
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-xsl:${xspec.compiled.runner}" />
