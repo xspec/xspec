@@ -12,9 +12,13 @@ All contributions are submitted under the [MIT License](https://github.com/xspec
 
 # Code Conventions 
 
-## Git commit messages
+## Pull request titles
 
-We use [Semantic Pull Requests](https://probot.github.io/apps/semantic-pull-requests/) to enforce conventions in commit messages and pull requests and we follow the [Angular Coding Conventions](https://www.commit-lint.com/conventions). If you raise a pull request without using one of the valid prefixes for type in your last commit, the automatic checks in the pull request will report an error.
+We use [Semantic Pull Requests](https://probot.github.io/apps/semantic-pull-requests/) to enforce conventions in pull request titles and we follow the Angular Coding Conventions (`<type>(<scope>): <subject>`). If you raise a pull request without using one of the valid prefixes in your pull request title, the automatic checks in the pull request will report an error.
+
+This convention is enforced only in the pull request title. Each commit message in the pull request are not required to follow the convention, although you're still encouraged to apply the same convention to each commit message.
+
+### Type
 
 These are the valid prefixes for type (see also [the Angular documentation](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#type)):
 
@@ -29,6 +33,8 @@ These are the valid prefixes for type (see also [the Angular documentation](http
 | `refactor` | Refactoring improvement (no new feature or bug fix) | 
 | `style` | Style change (white-space, formatting, etc.) | 
 | `build` | Build and release changes | 
+
+### Scope
 
 You are also encouraged to use a scope to highlight which functionality is affected by your change:  
 
@@ -45,8 +51,10 @@ You are also encouraged to use a scope to highlight which functionality is affec
 | `schema` | Schema for .xspec files | 
 
 Note that type is mandatory and scope is optional and both values should be written in lower case.
- 
-Here are some examples of valid commit message with type and scope:
+
+### Example
+
+Here are some examples of valid pull request title with type and scope:
 
 ```
 feat(xslt): add XSLT code coverage transformation scenario
