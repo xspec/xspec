@@ -800,27 +800,29 @@
 	</case>
 
 	<!--
-		Catalog (Ant)
+		Catalog file path (Ant)
+		
+			Test 'catalog' property containing multiple file paths (relative and absolute)
 	-->
 
-	<case name="Ant with catalog (XSLT)">
+	<case name="Ant with catalog file path (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
         -lib "%XML_RESOLVER_JAR%" ^
-        -Dcatalog="%CD%\catalog\01\catalog.xml" ^
+        -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dxspec.xml="%CD%\catalog\catalog-01_stylesheet.xspec"
     call :verify_retval 0
     call :verify_line -10 x "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4"
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case name="Ant with catalog (XQuery)">
+	<case name="Ant with catalog file path (XQuery)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
         -lib "%XML_RESOLVER_JAR%" ^
-        -Dcatalog="%CD%\catalog\01\catalog.xml" ^
+        -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dtest.type=q ^
         -Dxspec.xml="%CD%\catalog\catalog-01_query.xspec"
     call :verify_retval 0
@@ -828,12 +830,12 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case name="Ant with catalog (Schematron)">
+	<case name="Ant with catalog file path (Schematron)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
         -lib "%XML_RESOLVER_JAR%" ^
-        -Dcatalog="%CD%\catalog\01\catalog.xml" ^
+        -Dcatalog="test\catalog\01\catalog-public.xml;%CD%\catalog\01\catalog-rewriteURI.xml" ^
         -Dtest.type=s ^
         -Dxspec.xml="%CD%\catalog\catalog-01_schematron.xspec"
     call :verify_retval 0

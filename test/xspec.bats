@@ -950,15 +950,17 @@ load bats-helper
 }
 
 #
-# Catalog (Ant)
+# Catalog file path (Ant)
+#
+#     Test 'catalog' property containing multiple file paths (relative and absolute)
 #
 
-@test "Ant with catalog (XSLT)" {
+@test "Ant with catalog file path (XSLT)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
@@ -966,12 +968,12 @@ load bats-helper
     [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant with catalog (XQuery)" {
+@test "Ant with catalog file path (XQuery)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=q \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     echo "$output"
@@ -980,12 +982,12 @@ load bats-helper
     [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant with catalog (Schematron)" {
+@test "Ant with catalog file path (Schematron)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=s \
         -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
     echo "$output"
