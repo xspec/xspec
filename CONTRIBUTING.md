@@ -2,7 +2,7 @@
 
 :+1::tada: Thanks for taking the time to contribute! :tada::+1:
 
-# How to contribute
+## How to contribute
 
 - [Report an issue](https://github.com/xspec/xspec/issues/new): whether you find a bug in XSpec or have a feature request, raise an issue to let us know. Please submit code examples to reproduce a bug and read the [wiki](https://github.com/xspec/xspec/wiki) to check how XSpec is supposed to work.  
 - [Raise a pull request](https://github.com/xspec/xspec/pulls): all code changes in XSpec are initiated via pull requests towards the `master` branch and are usually reviewed by a maintainer or another contributor before merging. Your pull request will be automatically scanned by our CI systems so you may want to [run the test suite locally](https://github.com/xspec/xspec/wiki/How-to-Run-the-Test-Suite-Locally) to avoid surprises. If possible, add a test when submitting a bug fix or a new feature and consider writing some documentation in the pull request which could be later added to the wiki. Before implementing a large feature or fix, consider discussing it first with the maintainers via an issue, this usually speeds up the review process and avoids disappointment. 
@@ -10,9 +10,9 @@
 
 All contributions are submitted under the [MIT License](https://github.com/xspec/xspec/blob/master/LICENSE).
 
-# Code Conventions 
+## Code Conventions 
 
-## Git commit messages
+### Git commit messages
 
 We use [Commit Lint](https://www.commit-lint.com) to enforce conventions in commit messages and pull requests and we follow the [Angular Coding Conventions](https://www.commit-lint.com/conventions). If you raise a pull request without using one of the valid prefixes for type in your last commit, the automatic checks in the pull request will report an error.
 
