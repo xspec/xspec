@@ -803,7 +803,7 @@
 		Catalog (Ant)
 	-->
 
-	<case ifdef="XML_RESOLVER_JAR" name="Ant with catalog (XSLT)">
+	<case name="Ant with catalog (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -815,7 +815,7 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case ifdef="XML_RESOLVER_JAR" name="Ant with catalog (XQuery)">
+	<case name="Ant with catalog (XQuery)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -828,7 +828,7 @@
     call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
-	<case ifdef="XML_RESOLVER_JAR" name="Ant with catalog (Schematron)">
+	<case name="Ant with catalog (Schematron)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -943,7 +943,7 @@
 		Catalog (CLI) (-catalog)
 	-->
 
-	<case ifdef="XML_RESOLVER_JAR" name="CLI with -catalog uses XML Catalog resolver and does so even with spaces in file path (XSLT)">
+	<case name="CLI with -catalog uses XML Catalog resolver and does so even with spaces in file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
@@ -955,14 +955,14 @@
     call :verify_line 16 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
-	<case ifdef="XML_RESOLVER_JAR" name="CLI with -catalog uses XML Catalog resolver (XQuery)">
+	<case name="CLI with -catalog uses XML Catalog resolver (XQuery)">
     set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
     call :run ..\bin\xspec.bat -catalog catalog\01\catalog.xml -q catalog\catalog-01_query.xspec
     call :verify_retval 0
     call :verify_line 7 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
-	<case ifdef="XML_RESOLVER_JAR" name="CLI with -catalog uses XML Catalog resolver (Schematron)">
+	<case name="CLI with -catalog uses XML Catalog resolver (Schematron)">
     set "SAXON_CP=%SAXON_JAR%;%XML_RESOLVER_JAR%"
     call :run ..\bin\xspec.bat -catalog catalog\01\catalog.xml -s catalog\catalog-01_schematron.xspec
     call :verify_retval 0
@@ -973,7 +973,7 @@
 		Catalog (CLI) (XML_CATALOG)
 	-->
 
-	<case ifdef="XML_RESOLVER_JAR" name="CLI with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path (XSLT)">
+	<case name="CLI with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path (XSLT)">
     set "SPACE_DIR=%WORK_DIR%\cat a log %RANDOM%"
     call :mkdir "%SPACE_DIR%\01"
     call :copy catalog\catalog-01* "%SPACE_DIR%"
@@ -991,7 +991,7 @@
 		Catalog resolver and SAXON_HOME (CLI)
 	-->
 
-	<case ifdef="XML_RESOLVER_JAR" name="invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
+	<case name="invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar">
     set "SAXON_HOME=%WORK_DIR%\saxon %RANDOM%"
     call :mkdir "%SAXON_HOME%"
     call :copy "%SAXON_JAR%"        "%SAXON_HOME%"

@@ -954,10 +954,6 @@ load bats-helper
 #
 
 @test "Ant with catalog (XSLT)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -971,10 +967,6 @@ load bats-helper
 }
 
 @test "Ant with catalog (XQuery)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -989,10 +981,6 @@ load bats-helper
 }
 
 @test "Ant with catalog (Schematron)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -1116,10 +1104,6 @@ load bats-helper
 #
 
 @test "CLI with -catalog uses XML Catalog resolver and does so even with spaces in file path (XSLT)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
@@ -1133,10 +1117,6 @@ load bats-helper
 }
 
 @test "CLI with -catalog uses XML Catalog resolver (XQuery)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
     run ../bin/xspec.sh -catalog catalog/01/catalog.xml -q catalog/catalog-01_query.xspec
     echo "$output"
@@ -1145,10 +1125,6 @@ load bats-helper
 }
 
 @test "CLI with -catalog uses XML Catalog resolver (Schematron)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
     run ../bin/xspec.sh -catalog catalog/01/catalog.xml -s catalog/catalog-01_schematron.xspec
     echo "$output"
@@ -1161,10 +1137,6 @@ load bats-helper
 #
 
 @test "CLI with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path (XSLT)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
@@ -1184,10 +1156,6 @@ load bats-helper
 #
 
 @test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
     mkdir "${SAXON_HOME}"
     cp "${SAXON_JAR}"        "${SAXON_HOME}"
