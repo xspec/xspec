@@ -14,7 +14,11 @@ All contributions are submitted under the [MIT License](https://github.com/xspec
 
 ## Pull request titles
 
-We use [Semantic Pull Requests](https://probot.github.io/apps/semantic-pull-requests/) to enforce conventions in pull request titles and we follow the Angular Coding Conventions (`<type>(<scope>): <subject>`). If you raise a pull request without using one of the valid prefixes in your pull request title, the automatic checks in the pull request will report an error.
+We use [Semantic Pull Requests](https://probot.github.io/apps/semantic-pull-requests/) to enforce conventions in pull request titles and we follow the Angular Coding Conventions:
+
+`<type>(<scope>): <subject>`
+
+If you raise a pull request without using this format in its title, the automatic checks in the pull request will report an error.
 
 This convention is enforced only in the pull request title. Each commit message in the pull request are not required to follow the convention, although you're still encouraged to apply the same convention to each commit message.
 
