@@ -1272,8 +1272,16 @@
 	</case>
 
 	<!--
-		Invalid @xquery-version
+		@xquery-version
 	-->
+
+	<case name="Default @xquery-version">
+    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    call :verify_retval 0
+
+    call :run type "%TEST_DIR%\xquery-tutorial-compiled.xq"
+    call :verify_line 1 r "xquery version \"3\.1\";$"
+	</case>
 
 	<case name="Invalid @xquery-version should be error">
     call :run ..\bin\xspec.bat -q xquery-version\invalid.xspec
