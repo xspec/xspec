@@ -25,3 +25,4 @@ scopes:
   - report
   - xproc
   - schema
+  - maven
