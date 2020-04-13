@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="do-nothing.xsl" xmlns:err="http://www.w3.org/2005/xqt-errors"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
 		The test target (../src/common/xspec-utils.xsl) is included

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:xspec-items" query-at="../../items.xquery"
-    stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
+    stylesheet="../../items.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
     <x:scenario label="Comparing identical namespace">
         <x:call function="exactly-one">
             <x:param select="$Q{x-urn:test:xspec-items}namespace" />
