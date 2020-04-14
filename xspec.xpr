@@ -38,12 +38,11 @@
             <file name="test/end-to-end/ant/generate-expected/worker/generate.xsl"/>
             <file name="test/end-to-end/ant/run-e2e-tests/worker/generate.xsl"/>
             <file name="src/reporter/junit-report.xsl"/>
-            <file name="src/ant/locate-schematron-uri.xsl"/>
-            <file name="src/schematron/locate-schematron-uri.xsl"/>
             <file name="test/end-to-end/processor/coverage/normalize.xsl"/>
             <file name="test/end-to-end/processor/html/normalize.xsl"/>
             <file name="test/end-to-end/processor/junit/normalize.xsl"/>
             <file name="test/end-to-end/processor/xml/normalize.xsl"/>
+            <file name="src/schematron/schut-to-xslt.xsl"/>
             <file name="src/schematron/schut-to-xspec.xsl"/>
         </folder>
         <folder path="."/>
