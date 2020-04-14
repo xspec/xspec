@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="02/importing-stylesheet.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Calling a named template which relies on a catalog">
+		<x:call template="main" />
+		<x:expect label="should work" select="'OK'" />
+	</x:scenario>
+</x:description>

@@ -1231,6 +1231,35 @@ load bats-helper
 }
 
 #
+# Catalog Saxon bug https://saxonica.plan.io/issues/3025/
+#
+#     This test must specify the catalog parameter as an absolute native file path.
+#
+
+@test "Catalog Saxon bug 3025 (CLI)" {
+    export SAXON_CP="${SAXON_JAR}:${XML_RESOLVER_JAR}"
+    run ../bin/xspec.sh \
+        -catalog "${PWD}/catalog/02/catalog.xml" \
+        catalog/catalog-02.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "Catalog Saxon bug 3025 (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="${PWD}/catalog/02/catalog.xml" \
+        -Dxspec.xml="${PWD}/catalog/catalog-02.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+#
 # saxon.custom.options (Ant)
 #
 
