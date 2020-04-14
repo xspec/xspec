@@ -96,31 +96,19 @@
       <xsl:param name="visit" as="element(x:description)+"/>
 
       <!-- "$visit/x:import" without sorting -->
-      <xsl:variable name="imports" as="element(x:import)*">
-        <xsl:for-each select="$visit">
-          <xsl:sequence select="x:import" />
-        </xsl:for-each>
-      </xsl:variable>
       <xsl:variable name="imports" as="element(x:import)*"
-        select="x:distinct-nodes-stable($imports)" />
+                    select="x:distinct-nodes-stable($visit ! x:import)" />
 
-      <!-- "document($imports/@href)" without sorting -->
-      <xsl:variable name="docs" as="document-node(element(x:description))*">
-        <xsl:for-each select="$imports">
-          <xsl:sequence select="document(@href) treat as document-node(element(x:description))" />
-        </xsl:for-each>
-      </xsl:variable>
+      <!-- "document($imports/@href)" (and error check) without sorting -->
       <xsl:variable name="docs" as="document-node(element(x:description))*"
-        select="x:distinct-nodes-stable($docs)" />
+                    select="x:distinct-nodes-stable(
+                               $imports
+                               ! (document(@href) treat as document-node(element(x:description)))
+                            )" />
 
       <!-- "$docs/x:description" without sorting -->
-      <xsl:variable name="imported" as="element(x:description)*">
-        <xsl:for-each select="$docs">
-          <xsl:sequence select="x:description" />
-        </xsl:for-each>
-      </xsl:variable>
       <xsl:variable name="imported" as="element(x:description)*"
-        select="x:distinct-nodes-stable($imported)" />
+                    select="x:distinct-nodes-stable($docs ! x:description)" />
 
       <!-- "$imported except $visit" without sorting -->
       <xsl:variable name="imported-except-visit" as="element(x:description)*"
