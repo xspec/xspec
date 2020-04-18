@@ -219,24 +219,27 @@ load bats-helper
 @test "invoking xspec without TEST_DIR set externally (XSLT)" {
     unset TEST_DIR
 
-    # Delete default output dir if exists, to make the line numbers predictable
-    rm -rf ../tutorial/xspec
+    # Use a fresh dir, to make the message line numbers predictable
+    # and to avoid a residue of output files
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/escape-for-regex.* "${tutorial_copy}"
 
     # Run
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    run ../bin/xspec.sh "${tutorial_copy}/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
     # Verify message
     [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
-    [ "${lines[20]}" = "Report available at ../tutorial/xspec/escape-for-regex-result.html" ]
+    [ "${lines[20]}" = "Report available at ${tutorial_copy}/xspec/escape-for-regex-result.html" ]
 
     # Verify report files
     # * XML report file is created
     # * HTML report file is created
     # * Coverage is disabled by default
     # * JUnit is disabled by default
-    run ls ../tutorial/xspec
+    run ls "${tutorial_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
     [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
@@ -244,12 +247,11 @@ load bats-helper
     [ "${lines[2]}" = "escape-for-regex-result.xml" ]
 
     # HTML report file contains CSS inline #135
-    run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
+    run java -jar "${SAXON_JAR}" \
+        -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
+        -xsl:html-css.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
-
-    # Cleanup
-    rm -r ../tutorial/xspec
 }
 
 @test "invoking xspec -c without TEST_DIR set externally" {
@@ -259,18 +261,21 @@ load bats-helper
 
     unset TEST_DIR
 
-    # Delete default output dir if exists, to make the line numbers predictable
-    rm -rf ../tutorial/coverage/xspec
+    # Use a fresh dir, to make the message line numbers predictable
+    # and to avoid a residue of output files
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/coverage/demo* "${tutorial_copy}"
 
     # Run
-    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
+    run ../bin/xspec.sh -c "${tutorial_copy}/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
     # Verify message
     # Bats bug inserts garbages into $lines: bats-core/bats-core#151
     assert_regex "${output}" $'\n''passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
-    assert_regex "${output}" $'\n''Report available at ../tutorial/coverage/xspec/demo-coverage\.html'$'\n'
+    assert_regex "${output}" $'\n''Report available at '"${tutorial_copy}"'/xspec/demo-coverage\.html'$'\n'
 
     # Verify report files
     # * XML report file is created
@@ -278,7 +283,7 @@ load bats-helper
     # * Coverage XML report is created
     # * Coverage HTML report is created
     # * JUnit is disabled by default
-    run ls ../tutorial/coverage/xspec
+    run ls "${tutorial_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "5" ]
     [ "${lines[0]}" = "demo-compiled.xsl" ]
@@ -286,49 +291,49 @@ load bats-helper
     [ "${lines[2]}" = "demo-coverage.xml" ]
     [ "${lines[3]}" = "demo-result.html" ]
     [ "${lines[4]}" = "demo-result.xml" ]
-
-    # Cleanup
-    rm -r ../tutorial/coverage/xspec
 }
 
 @test "invoking xspec without TEST_DIR set externally (XQuery)" {
     unset TEST_DIR
 
-    # Delete default output dir if exists, to make the line numbers predictable
-    rm -rf ../tutorial/xspec
+    # Use a fresh dir, to make the message line numbers predictable
+    # and to avoid a residue of output files
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/xquery-tutorial.* "${tutorial_copy}"
 
     # Run
-    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
+    run ../bin/xspec.sh -q "${tutorial_copy}/xquery-tutorial.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
     # Verify message
     [ "${lines[6]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-    [ "${lines[7]}" = "Report available at ../tutorial/xspec/xquery-tutorial-result.html" ]
+    [ "${lines[7]}" = "Report available at ${tutorial_copy}/xspec/xquery-tutorial-result.html" ]
 
     # Verify report files
     # * XML report file is created
     # * HTML report file is created
     # * JUnit is disabled by default
-    run ls ../tutorial/xspec
+    run ls "${tutorial_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
     [ "${lines[0]}" = "xquery-tutorial-compiled.xq" ]
     [ "${lines[1]}" = "xquery-tutorial-result.html" ]
     [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
-
-    # Cleanup
-    rm -r ../tutorial/xspec
 }
 
 @test "invoking xspec without TEST_DIR set externally (Schematron)" {
     unset TEST_DIR
 
-    # Delete default output dir if exists, to make the line numbers predictable
-    rm -rf ../tutorial/schematron/xspec
+    # Use a fresh dir, to make the message line numbers predictable
+    # and to avoid a residue of output files
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/schematron/demo-03* "${tutorial_copy}"
 
     # Run
-    run ../bin/xspec.sh -s ../tutorial/schematron/demo-03.xspec
+    run ../bin/xspec.sh -s "${tutorial_copy}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
@@ -336,22 +341,19 @@ load bats-helper
     # * No Schematron warnings #129 #131
     [ "${lines[4]}"  = "Converting Schematron XSpec into XSLT XSpec..." ]
     [ "${lines[31]}" = "passed: 10 / pending: 1 / failed: 0 / total: 11" ]
-    [ "${lines[32]}" = "Report available at ../tutorial/schematron/xspec/demo-03-result.html" ]
+    [ "${lines[32]}" = "Report available at ${tutorial_copy}/xspec/demo-03-result.html" ]
 
     # Verify report files
     # * XML report file is created
     # * HTML report file is created
     # * JUnit is disabled by default
     # * Schematron-specific temporary files are deleted
-    run ls ../tutorial/schematron/xspec
+    run ls "${tutorial_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
-
-    # Cleanup
-    rm -r ../tutorial/schematron/xspec
 }
 
 #
@@ -553,13 +555,10 @@ load bats-helper
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
 
-    run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
+    run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}"  = "I am schematron-xslt-include.xsl!" ]
-    [ "${lines[5]}"  = "I am schematron-xslt-expand.xsl!" ]
-    [ "${lines[6]}"  = "I am schematron-xslt-compile.xsl!" ]
-    [ "${lines[19]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
@@ -570,14 +569,11 @@ load bats-helper
         -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt-include.xsl" \
         -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt-expand.xsl" \
         -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt-compile.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
+        -Dxspec.xml="${PWD}/schematron/schematron-xslt.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-include.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-expand.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-compile.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 3 / pending: 0 / failed: 0 / total: 3'$'\n'
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
 #
@@ -585,11 +581,14 @@ load bats-helper
 #
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (XSLT)" {
-    # Delete default output dir if exists
-    rm -rf ../tutorial/xspec
+    # Use a fresh dir, to make the message line numbers predictable
+    # and to avoid a residue of output files
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/escape-for-regex.* "${tutorial_copy}"
 
     # Run with absolute TEST_DIR
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    run ../bin/xspec.sh "${tutorial_copy}/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[20]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
@@ -603,11 +602,12 @@ load bats-helper
     [ "${lines[2]}" = "escape-for-regex-result.xml" ]
 
     # Default output dir should not be created
-    assert_leaf_dir_not_exist ../tutorial/xspec
+    assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
 
     # Run with relative TEST_DIR
-    export TEST_DIR=../tutorial/xspec
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
+    cd "${work_dir}"
+    export TEST_DIR="relative-test-dir ${RANDOM}"
+    run "${parent_dir_abs}/bin/xspec.sh" "${tutorial_copy}/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[20]}" = "Report available at ${TEST_DIR}/escape-for-regex-result.html" ]
@@ -619,9 +619,6 @@ load bats-helper
     [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
     [ "${lines[1]}" = "escape-for-regex-result.html" ]
     [ "${lines[2]}" = "escape-for-regex-result.xml" ]
-
-    # Cleanup
-    rm -r "${TEST_DIR}"
 }
 
 @test "invoking xspec -c with TEST_DIR creates files in TEST_DIR" {
@@ -629,11 +626,14 @@ load bats-helper
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
     fi
 
-    # Delete default output dir if exists
-    rm -rf ../tutorial/coverage/xspec
+    # Use a fresh dir, to make the message line numbers predictable
+    # and to avoid a residue of output files
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/coverage/demo* "${tutorial_copy}"
 
     # Run with absolute TEST_DIR
-    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
+    run ../bin/xspec.sh -c "${tutorial_copy}/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     # Bats bug inserts garbages into $lines: bats-core/bats-core#151
@@ -650,11 +650,12 @@ load bats-helper
     [ "${lines[4]}" = "demo-result.xml" ]
 
     # Default output dir should not be created
-    assert_leaf_dir_not_exist ../tutorial/coverage/xspec
+    assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
 
     # Run with relative TEST_DIR
-    export TEST_DIR=../tutorial/coverage/xspec
-    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
+    cd "${work_dir}"
+    export TEST_DIR="relative-test-dir ${RANDOM}"
+    run "${parent_dir_abs}/bin/xspec.sh" -c "${tutorial_copy}/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     # Bats bug inserts garbages into $lines: bats-core/bats-core#151
@@ -669,17 +670,17 @@ load bats-helper
     [ "${lines[2]}" = "demo-coverage.xml" ]
     [ "${lines[3]}" = "demo-result.html" ]
     [ "${lines[4]}" = "demo-result.xml" ]
-
-    # Cleanup
-    rm -r "${TEST_DIR}"
 }
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (XQuery)" {
-    # Delete default output dir if exists
-    rm -rf ../tutorial/xspec
+    # Use a fresh dir, to make the message line numbers predictable
+    # and to avoid a residue of output files
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/xquery-tutorial.* "${tutorial_copy}"
 
     # Run with absolute TEST_DIR
-    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
+    run ../bin/xspec.sh -q "${tutorial_copy}/xquery-tutorial.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[7]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
@@ -693,11 +694,12 @@ load bats-helper
     [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
 
     # Default output dir should not be created
-    assert_leaf_dir_not_exist ../tutorial/xspec
+    assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
 
     # Run with relative TEST_DIR
-    export TEST_DIR=../tutorial/xspec
-    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
+    cd "${work_dir}"
+    export TEST_DIR="relative-test-dir ${RANDOM}"
+    run "${parent_dir_abs}/bin/xspec.sh" -q "${tutorial_copy}/xquery-tutorial.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[7]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
@@ -709,49 +711,49 @@ load bats-helper
     [ "${lines[0]}" = "xquery-tutorial-compiled.xq" ]
     [ "${lines[1]}" = "xquery-tutorial-result.html" ]
     [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
-
-    # Cleanup
-    rm -r "${TEST_DIR}"
 }
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)" {
-    # Delete default output dir if exists
-    rm -rf ../test/xspec
+    # Test with x:context[node()] #322
+
+    # Use a fresh dir, to make the message line numbers predictable
+    # and to avoid a residue of output files
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/schematron/demo-03* "${tutorial_copy}"
 
     # Run with absolute TEST_DIR
-    run ../bin/xspec.sh -s schematron-017.xspec
+    run ../bin/xspec.sh -s "${tutorial_copy}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[16]}" = "Report available at ${TEST_DIR}/schematron-017-result.html" ]
+    [ "${lines[32]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
 
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "schematron-017-compiled.xsl" ]
-    [ "${lines[1]}" = "schematron-017-result.html" ]
-    [ "${lines[2]}" = "schematron-017-result.xml" ]
+    [ "${lines[0]}" = "demo-03-compiled.xsl" ]
+    [ "${lines[1]}" = "demo-03-result.html" ]
+    [ "${lines[2]}" = "demo-03-result.xml" ]
 
     # Default output dir should not be created
-    assert_leaf_dir_not_exist xspec
+    assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
 
     # Run with relative TEST_DIR
-    export TEST_DIR=../test/xspec
-    run ../bin/xspec.sh -s schematron-017.xspec
+    cd "${work_dir}"
+    export TEST_DIR="relative-test-dir ${RANDOM}"
+    run "${parent_dir_abs}/bin/xspec.sh" -s "${tutorial_copy}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[16]}" = "Report available at ${TEST_DIR}/schematron-017-result.html" ]
+    [ "${lines[32]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
 
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "schematron-017-compiled.xsl" ]
-    [ "${lines[1]}" = "schematron-017-result.html" ]
-    [ "${lines[2]}" = "schematron-017-result.xml" ]
-
-    # Cleanup
-    rm -r "${TEST_DIR}"
+    [ "${lines[0]}" = "demo-03-compiled.xsl" ]
+    [ "${lines[1]}" = "demo-03-result.html" ]
+    [ "${lines[2]}" = "demo-03-result.xml" ]
 }
 
 #
@@ -840,14 +842,16 @@ load bats-helper
     # Unset any preset args
     unset ANT_ARGS
 
-    # Delete default output dir if exists
-    rm -rf ../tutorial/xspec
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/escape-for-regex.* "${tutorial_copy}"
 
     # Run
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
+        -Dxspec.xml="${tutorial_copy}/escape-for-regex.xspec"
     echo "$output"
 
     # Default xspec.fail is true
@@ -859,7 +863,7 @@ load bats-helper
     # * Default clean.output.dir is false
     # * Default xspec.coverage.enabled is false
     # * Default xspec.junit.enabled is false
-    run env LC_ALL=C ls ../tutorial/xspec
+    run env LC_ALL=C ls "${tutorial_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "4" ]
     [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
@@ -868,27 +872,28 @@ load bats-helper
     [ "${lines[3]}" = "escape-for-regex_xml-to-properties.xml" ]
 
     # HTML report file contains CSS inline
-    run java -jar "${SAXON_JAR}" -s:../tutorial/xspec/escape-for-regex-result.html -xsl:html-css.xsl
+    run java -jar "${SAXON_JAR}" \
+        -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
+        -xsl:html-css.xsl
     echo "$output"
     [ "${lines[0]}" = "true" ]
-
-    # Cleanup
-    rm -r ../tutorial/xspec
 }
 
 @test "Ant with minimum properties (XQuery)" {
     # Unset any preset args
     unset ANT_ARGS
 
-    # Delete default output dir if exists
-    rm -rf ../tutorial/xspec
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/xquery-tutorial.* "${tutorial_copy}"
 
     # Run
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dtest.type=q \
-        -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
+        -Dxspec.xml="${tutorial_copy}/xquery-tutorial.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
@@ -897,24 +902,23 @@ load bats-helper
     # Verify default output dir
     # * Default clean.output.dir is false
     # * Default xspec.junit.enabled is false
-    run env LC_ALL=C ls ../tutorial/xspec
+    run env LC_ALL=C ls "${tutorial_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "4" ]
     [ "${lines[0]}" = "xquery-tutorial-compiled.xq" ]
     [ "${lines[1]}" = "xquery-tutorial-result.html" ]
     [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
     [ "${lines[3]}" = "xquery-tutorial_xml-to-properties.xml" ]
-
-    # Cleanup
-    rm -r ../tutorial/xspec
 }
 
 @test "Ant with minimum properties (Schematron)" {
     # Unset any preset args
     unset ANT_ARGS
 
-    # Delete default output dir if exists
-    rm -rf ../tutorial/schematron/xspec
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/schematron/demo-03* "${tutorial_copy}"
 
     # Run
     # * Should work without phase #168
@@ -922,7 +926,7 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dtest.type=s \
-        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
+        -Dxspec.xml="${tutorial_copy}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     assert_regex "${output}" $'\n''     \[xslt\] passed: 10 / pending: 1 / failed: 0 / total: 11'$'\n'
@@ -931,7 +935,7 @@ load bats-helper
     # Verify default output dir
     # * Default clean.output.dir is false
     # * Default xspec.junit.enabled is false
-    run env LC_ALL=C ls ../tutorial/schematron/xspec
+    run env LC_ALL=C ls "${tutorial_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "9" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
@@ -943,9 +947,6 @@ load bats-helper
     [ "${lines[6]}" = "demo-03-step1.sch" ]
     [ "${lines[7]}" = "demo-03-step2.sch" ]
     [ "${lines[8]}" = "demo-03_xml-to-properties.xml" ]
-
-    # Cleanup
-    rm -r ../tutorial/schematron/xspec
 }
 
 #
@@ -1085,8 +1086,10 @@ load bats-helper
     # For testing -Dxspec.project.dir
     cp ../build.xml "${build_xml}"
 
-    # Delete default output dir if exists
-    rm -rf ../tutorial/schematron/xspec
+    # Use a fresh dir, to avoid a residue of default output dir
+    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
+    mkdir "${tutorial_copy}"
+    cp ../tutorial/schematron/demo-03* "${tutorial_copy}"
 
     # Run
     run ant \
@@ -1095,14 +1098,14 @@ load bats-helper
         -Dclean.output.dir=true \
         -Dxspec.project.dir="${PWD}/.." \
         -Dxspec.properties="${PWD}/schematron.properties" \
-        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-03.xspec"
+        -Dxspec.xml="${tutorial_copy}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     assert_regex "${output}" $'\n''     \[xslt\] passed: 10 / pending: 1 / failed: 0 / total: 11'$'\n'
     [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 
     # Verify that -Dxspec.dir was honored and the default output dir was not created
-    assert_leaf_dir_not_exist ../tutorial/schematron/xspec
+    assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
 
     # Verify clean.output.dir=true
     assert_leaf_dir_not_exist "${TEST_DIR}"
@@ -1864,7 +1867,9 @@ load bats-helper
 }
 
 #
-# Custom HTML reporter
+# Custom HTML reporter (CLI)
+#
+#     Ant is tested by XSPEC_HOME/test/end-to-end/cases/format-xspec-report-folding.xspec
 #
 
 @test "Custom HTML reporter (CLI)" {
@@ -1876,21 +1881,10 @@ load bats-helper
     [ "${lines[${#lines[@]}-9]}"  = "--- Expected Result ---" ]
 }
 
-@test "Custom HTML reporter (Ant)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.fail=false \
-        -Dxspec.html.reporter.xsl="${PWD}/format-xspec-report-messaging.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-21]}" = "     [xslt] --- Actual Result ---" ]
-    [ "${lines[${#lines[@]}-14]}" = "     [xslt] --- Expected Result ---" ]
-}
-
 #
-# Custom coverage reporter
+# Custom coverage reporter (CLI)
+#
+#     Ant is tested by XSPEC_HOME/test/end-to-end/cases/custom-coverage-report.xspec
 #
 
 @test "Custom coverage reporter (CLI)" {
@@ -1900,25 +1894,6 @@ load bats-helper
 
     export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
     run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
-
-    run cat "${TEST_DIR}/demo-coverage.html"
-    echo "$output"
-    assert_regex "${output}" '.+--Customized coverage report--.+'
-}
-
-@test "Custom coverage reporter (Ant)" {
-    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
-        skip "XSLT_SUPPORTS_COVERAGE is not defined"
-    fi
-
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.coverage.enabled=true \
-        -Dxspec.coverage.reporter.xsl="${PWD}/custom-coverage-report.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 

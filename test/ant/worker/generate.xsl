@@ -283,6 +283,16 @@
 								select="substring-after(., 'additional-classpath=')" />
 						</xsl:for-each>
 
+						<xsl:for-each select="$pis[starts-with(., 'html-reporter=')]">
+							<xsl:attribute name="html-reporter"
+								select="substring-after(., 'html-reporter=')" />
+						</xsl:for-each>
+
+						<xsl:for-each select="$pis[starts-with(., 'coverage-reporter=')]">
+							<xsl:attribute name="coverage-reporter"
+								select="substring-after(., 'coverage-reporter=')" />
+						</xsl:for-each>
+
 						<xsl:call-template name="on-run-xspec">
 							<xsl:with-param name="coverage-enabled" select="$enable-coverage" />
 						</xsl:call-template>
