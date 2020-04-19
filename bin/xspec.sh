@@ -117,8 +117,8 @@ fi
 # set XSPEC_HOME if it has not been set by the user (set it to the
 # parent dir of this script)
 if test -z "$XSPEC_HOME"; then
-    XSPEC_HOME=`dirname "$0"`;
-    XSPEC_HOME=`dirname "$XSPEC_HOME"`;
+    XSPEC_HOME=$(dirname "$0");
+    XSPEC_HOME=$(dirname "$XSPEC_HOME");
 fi
 # safety checks
 if test \! -d "${XSPEC_HOME}"; then
@@ -306,7 +306,7 @@ if test -n "$SCHEMATRON"; then
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/locate-schematron-uri.xsl" \
         || die "Error getting Schematron location"
-    SCH_URI=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
+    SCH_URI=$(cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt")
     
     # Generate Step 3 wrapper XSLT
     if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
