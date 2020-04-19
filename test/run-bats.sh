@@ -6,7 +6,7 @@ mydirname=$(dirname -- "${myname}")
 mydir=$(cd -P -- "${mydirname}" && pwd)
 
 # Check prerequisites
-if ! which ant > /dev/null 2>&1; then
+if ! command -v ant > /dev/null 2>&1; then
     echo "Ant is not found in path" >&2
     exit 1
 fi
