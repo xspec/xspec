@@ -26,8 +26,11 @@ normalize_path() {
 }
 
 assert_leaf_dir_not_exist() {
-    local normalized=$(normalize_path "$1")
-    local parent=$(dirname -- "${normalized}")
+    local normalized
+    normalized=$(normalize_path "$1")
+
+    local parent
+    parent=$(dirname -- "${normalized}")
 
     # Checks to see if the parent dir of the specified dir exists...
     if [ -d "${parent}/" ]; then
