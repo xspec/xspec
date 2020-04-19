@@ -9,7 +9,7 @@
 #
 myname="${BASH_SOURCE:-$0}"
 mydirname=$(dirname -- "${myname}")
-mydir=$(cd -P -- "${mydirname}"; pwd)
+mydir=$(cd -P -- "${mydirname}" && pwd)
 
 #
 # Set environment variables
