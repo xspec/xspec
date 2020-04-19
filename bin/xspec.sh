@@ -101,11 +101,11 @@ fi
 ##
 
 # the command to use to open the final HTML report
-if [ $(uname) = "Darwin" ]; then
-    OPEN=open
-else
-    OPEN=see
-fi
+#if [ $(uname) = "Darwin" ]; then
+#    OPEN=open
+#else
+#    OPEN=see
+#fi
 
 # the classpath delimiter (aka ':', except ';' on Cygwin)
 if uname | grep -i cygwin >/dev/null 2>&1; then
