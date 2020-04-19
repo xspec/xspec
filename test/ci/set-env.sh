@@ -12,7 +12,8 @@ echo "Setting up ${XSPEC_TEST_ENV}"
 # Load
 #
 myname="${BASH_SOURCE:-$0}"
-mydir=$(cd -P -- $(dirname -- "${myname}"); pwd)
+mydirname=$(dirname -- "${myname}")
+mydir=$(cd -P -- "${mydirname}"; pwd)
 
 for f in \
     "${mydir}/env/global.env" \

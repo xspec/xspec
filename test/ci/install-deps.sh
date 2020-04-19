@@ -8,7 +8,8 @@
 # Get this directory
 #
 myname="${BASH_SOURCE:-$0}"
-mydir=$(cd -P -- $(dirname -- "${myname}"); pwd)
+mydirname=$(dirname -- "${myname}")
+mydir=$(cd -P -- "${mydirname}"; pwd)
 
 #
 # Set environment variables

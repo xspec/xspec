@@ -2,7 +2,8 @@
 
 # Get the directory where this script resides
 myname="${BASH_SOURCE:-$0}"
-mydir=$(cd -P -- $(dirname -- "${myname}"); pwd)
+mydirname=$(dirname -- "${myname}")
+mydir=$(cd -P -- "${mydirname}"; pwd)
 
 # Check prerequisites
 if ! which ant > /dev/null 2>&1; then

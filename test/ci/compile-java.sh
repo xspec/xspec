@@ -13,5 +13,6 @@ if [ "${SAXON_VERSION:0:3}" = "10." ]; then
 fi
 
 myname="${BASH_SOURCE:-$0}"
-mydir=$(cd -P -- $(dirname -- "${myname}"); pwd)
+mydirname=$(dirname -- "${myname}")
+mydir=$(cd -P -- "${mydirname}"; pwd)
 ant -buildfile "${mydir}/build_java.xml" "$@"

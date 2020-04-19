@@ -101,7 +101,7 @@ fi
 ##
 
 # the command to use to open the final HTML report
-if [ `uname` = "Darwin" ]; then
+if [ $(uname) = "Darwin" ]; then
     OPEN=open
 else
     OPEN=see
