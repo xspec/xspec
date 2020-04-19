@@ -378,6 +378,11 @@ echo
 ## run the suite #############################################################
 ##
 
+# Init otherwise SC2154
+saxon_custom_options_array=()
+
+# Split options taking quotes into account (like command arguments)
+# https://superuser.com/q/1066455
 declare -a "saxon_custom_options_array=(${SAXON_CUSTOM_OPTIONS})"
 
 echo "Running Tests..."
