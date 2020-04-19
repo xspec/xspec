@@ -19,3 +19,11 @@ jobs:
       - run: >
           source test/ci/install-jing.sh
           && bats --tap test/rnc.bats
+
+  shellcheck:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: brew install shellcheck
+      - run: test/ci/run-shellcheck.sh
