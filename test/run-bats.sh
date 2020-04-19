@@ -20,11 +20,11 @@ if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9." > /dev/null
     export XSLT_SUPPORTS_COVERAGE=1
 fi
 
-if java -jar "${SAXON_JAR}" -nogo -xsl:${mydir}/caps/v3-0.xsl 2> /dev/null; then
+if java -jar "${SAXON_JAR}" -nogo -xsl:"${mydir}/caps/v3-0.xsl" 2> /dev/null; then
     export XSLT_SUPPORTS_3_0=1
 fi
 
-if java -cp "${SAXON_JAR}" net.sf.saxon.Query -q:${mydir}/caps/v3-1.xquery > /dev/null 2>&1; then
+if java -cp "${SAXON_JAR}" net.sf.saxon.Query -q:"${mydir}/caps/v3-1.xquery" > /dev/null 2>&1; then
     export XQUERY_SUPPORTS_3_1_DEFAULT=1
 fi
 

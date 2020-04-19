@@ -117,8 +117,8 @@ fi
 # set XSPEC_HOME if it has not been set by the user (set it to the
 # parent dir of this script)
 if test -z "$XSPEC_HOME"; then
-    XSPEC_HOME=`dirname $0`;
-    XSPEC_HOME=`dirname $XSPEC_HOME`;
+    XSPEC_HOME=`dirname "$0"`;
+    XSPEC_HOME=`dirname "$XSPEC_HOME"`;
 fi
 # safety checks
 if test \! -d "${XSPEC_HOME}"; then

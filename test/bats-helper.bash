@@ -22,7 +22,7 @@ normalize_path() {
     do
         path=${path/${BASH_REMATCH[0]}/}
     done
-    echo $path
+    echo "$path"
 }
 
 assert_leaf_dir_not_exist() {
