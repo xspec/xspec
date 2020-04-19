@@ -14,6 +14,7 @@ mydir=$(cd -P -- "${mydirname}" && pwd)
 #
 # Set environment variables
 #
+# shellcheck source=test/ci/set-env.sh
 source "${mydir}/set-env.sh"
 
 #
