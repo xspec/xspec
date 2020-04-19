@@ -388,12 +388,12 @@ if test -n "$XSLT"; then
         xslt "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
             -o:"$RESULT" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main \
+            -it:"{http://www.jenitennison.com/xslt/xspec}main" \
             || die "Error collecting test coverage data"
     else
         xslt "${saxon_custom_options_array[@]}" \
             -o:"$RESULT" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main \
+            -it:"{http://www.jenitennison.com/xslt/xspec}main" \
             || die "Error running the test suite"
     fi
 else
