@@ -21,13 +21,13 @@ for f in \
 do
     # * "Set environment variables from file of key/value pairs": https://stackoverflow.com/a/49674707
     # * "Process substitution to 'source' do not work on Mac OS": https://stackoverflow.com/a/56060300
-    declares=$(egrep -v '^#|^$|^[^=]+=$' "${f}" | sed -e 's/.*/declare -x "&"/g')
+    declares=$(grep -E -v '^#|^$|^[^=]+=$' "${f}" | sed -e 's/.*/declare -x "&"/g')
     if [ -n "${declares}" ]; then
         echo "${declares}"
         eval "${declares}"
     fi
 
-    unsets=$(egrep -v '^#' "${f}" | egrep '^[^=]+=$' | sed -e 's/=$//' -e 's/.*/unset &/')
+    unsets=$(grep -E -v '^#' "${f}" | grep -E '^[^=]+=$' | sed -e 's/=$//' -e 's/.*/unset &/')
     if [ -n "${unsets}" ]; then
         echo "${unsets}"
         eval "${unsets}"
