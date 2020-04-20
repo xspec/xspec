@@ -21,4 +21,3 @@ script: >
   && test/ci/maven-package.sh -q
   && test/ci/compile-java.sh -silent
   && test/ci/last-git-status.sh
-
