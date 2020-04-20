@@ -52,7 +52,7 @@
       </x:result>
       <x:test id="scenario1-expect1" successful="true">
          <x:label>valid</x:label>
-         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
+         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
                    select="()"/>
       </x:test>
    </x:scenario>
@@ -99,7 +99,7 @@
       </x:result>
       <x:test id="scenario2-expect1" successful="false">
          <x:label>valid</x:label>
-         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
+         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
                    select="()"/>
       </x:test>
    </x:scenario>
@@ -133,7 +133,7 @@
       </x:result>
       <x:test id="scenario3-expect1" successful="false">
          <x:label>valid</x:label>
-         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[                 not(@role) or lower-case(@role) = ('error','fatal')]))"
+         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
                    select="()"/>
       </x:test>
    </x:scenario>

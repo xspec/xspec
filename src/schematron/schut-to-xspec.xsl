@@ -98,7 +98,7 @@
             <xsl:attribute name="select">
                 <xsl:choose>
                     <xsl:when test="@select">
-                        <xsl:text expand-text="yes">if (test:wrappable-sequence(({@select})))</xsl:text>
+                        <xsl:text expand-text="yes">if (({@select}) => test:wrappable-sequence())</xsl:text>
                         <xsl:text expand-text="yes"> then test:wrap-nodes(({@select}))</xsl:text>
 
                         <!-- Some Schematron implementations might possibly be able to handle
@@ -165,23 +165,16 @@
     </xsl:template>
 
     <xsl:template match="@location" as="text()" mode="make-predicate">
-        <xsl:variable name="escaped" as="xs:string" select="if (not(contains(., codepoints-to-string(39)))) then 
-            concat(codepoints-to-string(39), ., codepoints-to-string(39)) else 
-            concat('concat(', codepoints-to-string(39), replace(., codepoints-to-string(39), concat(codepoints-to-string(39), ', codepoints-to-string(39), ', codepoints-to-string(39))), codepoints-to-string(39), ')')"/>
-        <xsl:text expand-text="yes">[x:schematron-location-compare({$escaped}, @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]</xsl:text>
+        <xsl:text expand-text="yes">[x:schematron-location-compare({x:quote-with-apos(.)}, @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]</xsl:text>
     </xsl:template>
 
     <xsl:template match="@id | @role" as="text()" mode="make-predicate">
-        <xsl:value-of select="concat('[(@', local-name(.), 
-            ', preceding-sibling::svrl:fired-rule[1]/@',local-name(.), 
-            ', preceding-sibling::svrl:active-pattern[1]/@',local-name(.), 
-            ')[1] = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
+        <xsl:text expand-text="yes">[(@{local-name()}, preceding-sibling::svrl:fired-rule[1]/@{local-name()}, preceding-sibling::svrl:active-pattern[1]/@{local-name()})[1] = '{.}']</xsl:text>
     </xsl:template>
 
     <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" as="text()"
         mode="make-predicate">
-        <xsl:value-of select="concat('[@', local-name(.), 
-            ' = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
+        <xsl:text expand-text="yes">[@{local-name()} = '{.}']</xsl:text>
     </xsl:template>
 
     <xsl:template match="@count | @label" as="empty-sequence()" mode="make-predicate" />
@@ -201,15 +194,20 @@
     </xsl:template>
 
     <xsl:template match="x:expect-valid" as="element(x:expect)">
+        <xsl:variable name="bad-roles" as="xs:string"
+            select="
+                ($errors ! ($x:apos || . || $x:apos))
+                => string-join(',')" />
+
         <xsl:element name="x:expect">
             <xsl:attribute name="label" select="'valid'"/>
-            <xsl:attribute name="test" select="concat(
-                'boolean(svrl:schematron-output[svrl:fired-rule]) and
-                not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[
-                not(@role) or lower-case(@role) = (',
-                string-join(for $e in $errors return concat(codepoints-to-string(39), $e, codepoints-to-string(39)), ','),
-                ')]))'
-                )"/>
+            <xsl:attribute name="test">
+                <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule])</xsl:text>
+                <xsl:text> and not(boolean(</xsl:text>
+                <xsl:text>(svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)</xsl:text>
+                <xsl:text expand-text="yes">[not(@role) or lower-case(@role) = ({$bad-roles})]</xsl:text>
+                <xsl:text>))</xsl:text>
+            </xsl:attribute>
         </xsl:element>
     </xsl:template>
 

@@ -61,11 +61,15 @@
     <import href="{$stylesheet-uri}" />
     <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
     <import href="{resolve-uri('generate-tests-utils.xsl')}"/>
-    <xsl:if test="$is-schematron">
-      <import href="{resolve-uri('../schematron/sch-location-compare.xsl')}"/>
-    </xsl:if>
-
-    <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
+    <xsl:choose>
+      <xsl:when test="$is-schematron">
+        <include href="{resolve-uri('../schematron/sch-location-compare.xsl')}"/>
+        <!-- xspec-utils.xsl is included by sch-location-compare.xsl -->
+      </xsl:when>
+      <xsl:otherwise>
+        <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
+      </xsl:otherwise>
+    </xsl:choose>
 
     <!-- Serialization parameters -->
     <output name="{x:xspec-name(.,'report')}" method="xml" indent="yes" />

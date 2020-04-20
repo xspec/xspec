@@ -8,6 +8,15 @@
 		/x:description/@stylesheet.
 	-->
 
+	<x:scenario label="Scenario for testing variable capture-NCName">
+		<x:call function="replace">
+			<x:param select="'foo:bar[baz]'" />
+			<x:param select="'^.+:' || $x:capture-NCName || '.*$'" />
+			<x:param select="'$1'" />
+		</x:call>
+		<x:expect label="Captured" select="'bar'" />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing template identity">
 		<x:context>
 			<foo bar="baz">
