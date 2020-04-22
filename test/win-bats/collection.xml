@@ -1624,4 +1624,50 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
+	<!--
+		Error message from x:output-scenario template (XSLT)
+	-->
+
+	<case name="x:context both with @href and content">
+    call :run ..\bin\xspec.bat output-scenario-error\context-both-href-and-content.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:context both with @href and content.: can't set the context document using both the href attribute and the content of &amp;lt;context&amp;gt;$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:call both with @function and @template">
+    call :run ..\bin\xspec.bat output-scenario-error\call-both-function-and-template.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:call both with @function and @template.: can't call a function and a template at the same time$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:apply with x:context">
+    call :run ..\bin\xspec.bat output-scenario-error\apply-with-context.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:apply with x:context.: can't use apply and set a context at the same time$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:apply with x:call">
+    call :run ..\bin\xspec.bat output-scenario-error\apply-with-call.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:apply with x:call.: can't use apply and call at the same time$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:call[@function] with x:context">
+    call :run ..\bin\xspec.bat output-scenario-error\function-with-context.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:call\[@function\] with x:context.: can't set a context and call a function at the same time$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:expect without action">
+    call :run ..\bin\xspec.bat output-scenario-error\expect-without-action.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:expect without action.: there are tests in this scenario but no call, or apply or context has been given$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
 </collection>

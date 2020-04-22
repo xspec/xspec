@@ -1922,4 +1922,56 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
+#
+# Error message from x:output-scenario template (XSLT)
+#
+
+@test "x:context both with @href and content" {
+    run ../bin/xspec.sh output-scenario-error/context-both-href-and-content.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:context both with @href and content\": can't set the context document using both the href attribute and the content of &lt;context&gt;" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:call both with @function and @template" {
+    run ../bin/xspec.sh output-scenario-error/call-both-function-and-template.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:call both with @function and @template\": can't call a function and a template at the same time" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:apply with x:context" {
+    run ../bin/xspec.sh output-scenario-error/apply-with-context.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:apply with x:context\": can't use apply and set a context at the same time" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:apply with x:call" {
+    run ../bin/xspec.sh output-scenario-error/apply-with-call.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:apply with x:call\": can't use apply and call at the same time" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:call[@function] with x:context" {
+    run ../bin/xspec.sh output-scenario-error/function-with-context.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:call[@function] with x:context\": can't set a context and call a function at the same time" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:expect without action" {
+    run ../bin/xspec.sh output-scenario-error/expect-without-action.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:expect without action\": there are tests in this scenario but no call, or apply or context has been given" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
 
