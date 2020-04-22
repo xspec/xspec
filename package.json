@@ -2,15 +2,11 @@
   "name": "xspec",
   "version": "0.0.0",
   "description": "This package is configured only for testing the XSpec repository",
-  "main": "index.js",
-  "dependencies": {},
   "devDependencies": {
     "prettier": "^2.0.4"
   },
   "scripts": {
     "prettier-check": "prettier --check .",
     "prettier-write": "prettier --write ."
-  },
-  "author": "",
-  "license": "MIT"
+  }
 }
