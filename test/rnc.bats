@@ -54,3 +54,21 @@ load bats-helper
     assert_regex "${lines[1]}" '^Elapsed time '
 }
 
+@test "Schema detects errors in x:output-scenario test" {
+    # '-t' for identifying the last line
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
+        output-scenario-error/apply-with-call.xspec \
+        output-scenario-error/apply-with-context.xspec \
+        output-scenario-error/call-both-function-and-template.xspec \
+        output-scenario-error/context-both-href-and-content.xspec \
+        output-scenario-error/function-with-context.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[0]}" '.+: error: element "x:apply" not allowed anywhere;'
+    assert_regex "${lines[1]}" '.+: error: element "x:apply" not allowed anywhere;'
+    assert_regex "${lines[2]}" '.+: error: attribute "template" not allowed here;'
+    assert_regex "${lines[3]}" '.+: error: element "context-child" not allowed here;'
+    assert_regex "${lines[4]}" '.+: error: attribute "function" not allowed here;'
+    assert_regex "${lines[5]}" '^Elapsed time '
+}
+
