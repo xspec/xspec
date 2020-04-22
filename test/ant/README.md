@@ -1,7 +1,7 @@
 # Testing .xspec files
 
 <!-- "?v=" in the src parameter value is to invalidate cache -->
-![diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/xspec/xspec/master/test/ant/diagram.txt?v=1)
+![diagram](https://www.plantuml.com/plantuml/proxy?src=https://raw.github.com/xspec/xspec/master/test/ant/diagram.txt?v=1)
 
 1. Put `.xspec` files in a directory.
 
