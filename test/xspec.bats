@@ -1424,7 +1424,7 @@ load bats-helper
     assert_regex "${lines[11]}" '^WARNING: x:expect has boolean @test'
     assert_regex "${lines[16]}" '^WARNING: x:expect has boolean @test'
     assert_regex "${lines[23]}" '^WARNING: x:expect has boolean @test'
-    [  "${lines[32]}" =  "Formatting Report..." ]
+    [ "${lines[32]}" =  "Formatting Report..." ]
 }
 
 #
@@ -1578,7 +1578,7 @@ load bats-helper
     run ../bin/xspec.sh do-nothing.xsl
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[4]}" '^Source document is not XSpec'
+    [ "${lines[4]}" = "Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead." ]
 }
 
 #
@@ -1707,36 +1707,43 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''ERROR in scenario '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-context-avt-for-template-call[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-context-param-for-matching-template[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-function-call-param[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-template-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-template-call-param[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-variable[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" 'XPST0017[: ]'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
 @test "@catch should not catch error outside SUT (XQuery)" {
