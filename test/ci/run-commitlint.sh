@@ -6,4 +6,4 @@ echo "Run commitlint"
 npm ci || exit
 
 # Check PR title
-echo "${PR_TITLE}" | npx commitlint --verbose
+echo "${PR_TITLE}" | npx commitlint --help-url 'https://github.com/xspec/xspec/blob/master/CONTRIBUTING.md#code-conventions' --verbose
