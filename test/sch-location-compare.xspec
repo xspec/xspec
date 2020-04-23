@@ -74,6 +74,13 @@
             </x:call>
             <x:expect label="namespace wildcard removed" select="'/root/sec[2]/para[2]'"/>
         </x:scenario>
+
+        <x:scenario label="Empty sequence">
+            <x:call function="x:schematron-location-expand-xpath1">
+                <x:param />
+            </x:call>
+            <x:expect label="Zero-length string" select="''" />
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="x:schematron-location-expand-xpath1-expect">
