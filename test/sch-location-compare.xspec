@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description
+    xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     stylesheet="../src/schematron/sch-location-compare.xsl">
 
-    <x:scenario label="schematron-location-compare" xmlns:svrl="http://purl.oclc.org/dsdl/svrl">
+    <x:scenario label="schematron-location-compare">
         
         <x:scenario label="expand xpath2 svrl">
             <x:scenario label="replace namespace uri with prefix (e.g. 2 namespaces 4 elements)">
