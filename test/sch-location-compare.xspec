@@ -156,6 +156,24 @@
             </x:call>
             <x:expect label="namespace prefix applied" select="'@ex2:type'" />
         </x:scenario>
+
+        <x:scenario label="Empty sequence">
+            <x:scenario label="$location is empty">
+                <x:call function="x:schematron-location-expand-attributes">
+                    <x:param />
+                    <x:param select="$myv:namespaces" />
+                </x:call>
+                <x:expect label="Zero-length string" select="''" />
+            </x:scenario>
+
+            <x:scenario label="$namespaces is empty">
+                <x:call function="x:schematron-location-expand-attributes">
+                    <x:param select="$myv:location" />
+                    <x:param />
+                </x:call>
+                <x:expect label="same" select="$myv:location" />
+            </x:scenario>
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="x:schematron-location-compare">
