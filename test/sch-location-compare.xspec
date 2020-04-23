@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description
+    xmlns:myv="x-urn:test:sch-location-compare:variable"
     xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     stylesheet="../src/schematron/sch-location-compare.xsl">
 
     <x:scenario label="x:schematron-location-expand-xpath2">
-        <x:scenario label="replace namespace uri with prefix (e.g. 2 namespaces 4 elements)">
+        <!-- Variables to test replacing namespace uri with prefix (e.g. 2 namespaces 4 elements) -->
+        <x:variable name="myv:location" select="failed-assert/@location" as="attribute(location)">
+            <failed-assert
+                location="/root[1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/*:para[namespace-uri()='http://example.com/ns2'][2]/*:para[namespace-uri()='http://example.com/ns2'][3]" />
+        </x:variable>
+        <x:variable name="myv:namespaces-of-svrl-prefix" as="element(svrl:ns-prefix-in-attribute-values)+">
+            <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1" />
+            <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2" />
+        </x:variable>
+        <x:variable name="myv:expected-result" as="xs:string"
+            select="'/root[1]/ex1:sec[2]/ex2:para[2]/ex2:para[3]'" />
+
+        <x:scenario label="svrl:ns-prefix-in-attribute-values">
             <x:call function="x:schematron-location-expand-xpath2">
-                <x:param name="location" select="failed-assert/@location" as="attribute(location)">
-                    <failed-assert location="/root[1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/*:para[namespace-uri()='http://example.com/ns2'][2]/*:para[namespace-uri()='http://example.com/ns2'][3]"/>
-                </x:param>
-                <x:param name="namespaces">
-                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
-                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
-                </x:param>
+                <x:param select="$myv:location" />
+                <x:param select="$myv:namespaces-of-svrl-prefix" />
             </x:call>
-            <x:expect label="namespace prefixes applied" select="'/root[1]/ex1:sec[2]/ex2:para[2]/ex2:para[3]'"/>
+            <x:expect label="namespace prefixes applied" select="$myv:expected-result" />
         </x:scenario>
     </x:scenario>
 
@@ -31,6 +39,14 @@
     </x:scenario>
 
     <x:scenario label="x:schematron-location-expand-xpath1-expect">
+        <!-- Variables to test removing namespace prefixes -->
+        <x:variable name="myv:expect-location-of-removal-scenario" as="xs:string">/root/ex1:sec/ex1:sec/ex2:para</x:variable>
+        <x:variable name="myv:svrl-location-of-removal-scenario" as="xs:string">/root/*[local-name()='sec'][2]/*[local-name()='sec'][2]/*[local-name()='para'][2]</x:variable>
+        <x:variable name="myv:namespaces-of-removal-scenario" as="element(svrl:ns-prefix-in-attribute-values)+">
+            <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1" />
+            <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2" />
+        </x:variable>
+
         <x:scenario label="if no xpath1 style namespace in path return same">
             <x:call function="x:schematron-location-expand-xpath1-expect">
                 <x:param name="expect-location">/ex1:section</x:param>
@@ -44,25 +60,25 @@
 
         <x:scenario label="if xpath1 style namespace in path remove prefixes">
             <x:call function="x:schematron-location-expand-xpath1-expect">
-                <x:param name="expect-location">/root/ex1:sec/ex1:sec/ex2:para</x:param>
-                <x:param name="svrl-location">/root/*[local-name()='sec'][2]/*[local-name()='sec'][2]/*[local-name()='para'][2]</x:param>
-                <x:param name="namespaces">
-                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
-                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
-                </x:param>
+                <x:param select="$myv:expect-location-of-removal-scenario" />
+                <x:param select="$myv:svrl-location-of-removal-scenario" />
+                <x:param select="$myv:namespaces-of-removal-scenario" />
             </x:call>
             <x:expect label="namespace prefixes removed" select="'/root/sec/sec/para'"/>
         </x:scenario>
     </x:scenario>
 
     <x:scenario label="x:schematron-location-expand-attributes">
+        <x:variable name="myv:location" as="xs:string">@*[namespace-uri()='http://example.com/ns2' and local-name()='type']</x:variable>
+        <x:variable name="myv:namespaces" as="element(svrl:ns-prefix-in-attribute-values)+">
+            <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1" />
+            <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2" />
+        </x:variable>
+
         <x:scenario label="Normal scenario">
             <x:call function="x:schematron-location-expand-attributes">
-                <x:param name="location">@*[namespace-uri()='http://example.com/ns2' and local-name()='type']</x:param>
-                <x:param name="namespaces">
-                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
-                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
-                </x:param>
+                <x:param select="$myv:location" />
+                <x:param select="$myv:namespaces" />
             </x:call>
             <x:expect label="namespace prefix applied" select="'@ex2:type'" />
         </x:scenario>
