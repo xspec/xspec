@@ -2,7 +2,17 @@ name: PR Lint
 
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    # https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request
+    #   Note: By default, a workflow only runs when a pull_request's activity type is opened,
+    #   synchronize, or reopened. To trigger workflows for more activity types, use the types
+    #   keyword.
+    #
+    # 'edited' to trigger this workflow when the PR title is edited.
+    #
+    # 'synchronize' to trigger this workflow when the PR source branch is updated.
+    #   Without it, pushing a commit to the PR removes the check result of this workflow, which
+    #   prevents the protected branches from requiring this check.
+    types: [opened, edited, synchronize, reopened]
 
 jobs:
   commitlint:
