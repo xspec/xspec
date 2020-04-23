@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description
     xmlns:myv="x-urn:test:sch-location-compare:variable"
+    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
     xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     stylesheet="../src/schematron/sch-location-compare.xsl">
@@ -22,6 +23,17 @@
             <x:call function="x:schematron-location-expand-xpath2">
                 <x:param select="$myv:location" />
                 <x:param select="$myv:namespaces-of-svrl-prefix" />
+            </x:call>
+            <x:expect label="namespace prefixes applied" select="$myv:expected-result" />
+        </x:scenario>
+
+        <x:scenario label="sch:ns">
+            <x:call function="x:schematron-location-expand-xpath2">
+                <x:param select="$myv:location" />
+                <x:param>
+                    <sch:ns uri="http://example.com/ns1" prefix="ex1" />
+                    <sch:ns uri="http://example.com/ns2" prefix="ex2" />
+                </x:param>
             </x:call>
             <x:expect label="namespace prefixes applied" select="$myv:expected-result" />
         </x:scenario>
