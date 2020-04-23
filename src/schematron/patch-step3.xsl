@@ -34,11 +34,11 @@
 		Workaround for the built-in preprocessor not setting @xml:base.
 	-->
 	<xsl:template as="element(xsl:stylesheet)" match="document-node()">
-		<xsl:variable as="element(xsl:stylesheet)" name="imports-applied">
+		<xsl:variable as="element(xsl:stylesheet)" name="next-match">
 			<xsl:next-match />
 		</xsl:variable>
 
-		<xsl:for-each select="$imports-applied">
+		<xsl:for-each select="$next-match">
 			<xsl:copy>
 				<xsl:attribute name="xml:base" select="$x:schematron-uri" />
 				<xsl:sequence select="attribute() | node()" />
