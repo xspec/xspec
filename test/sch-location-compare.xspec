@@ -56,14 +56,16 @@
     </x:scenario>
 
     <x:scenario label="x:schematron-location-expand-attributes">
-        <x:call function="x:schematron-location-expand-attributes">
-            <x:param name="location">@*[namespace-uri()='http://example.com/ns2' and local-name()='type']</x:param>
-            <x:param name="namespaces">
-                <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
-                <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
-            </x:param>
-        </x:call>
-        <x:expect label="namespace prefix applied" select="'@ex2:type'"/>
+        <x:scenario label="Normal scenario">
+            <x:call function="x:schematron-location-expand-attributes">
+                <x:param name="location">@*[namespace-uri()='http://example.com/ns2' and local-name()='type']</x:param>
+                <x:param name="namespaces">
+                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1"/>
+                    <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2"/>
+                </x:param>
+            </x:call>
+            <x:expect label="namespace prefix applied" select="'@ex2:type'" />
+        </x:scenario>
     </x:scenario>
 
     <x:scenario label="x:schematron-location-compare">
