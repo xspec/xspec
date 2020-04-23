@@ -30,7 +30,7 @@
 						regex-group(1),
 						x:filename-and-extension(regex-group(2)),
 						regex-group(3)"
-					separator=" " />
+				 />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>
