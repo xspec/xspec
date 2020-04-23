@@ -47,7 +47,7 @@
             <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2" />
         </x:variable>
 
-        <x:scenario label="if no xpath1 style namespace in path return same">
+        <x:scenario label="if no xpath1 style namespace in path">
             <x:call function="x:schematron-location-expand-xpath1-expect">
                 <x:param name="expect-location">/ex1:section</x:param>
                 <x:param name="svrl-location">/section[1]</x:param>
@@ -58,7 +58,7 @@
             <x:expect label="same" select="'/ex1:section'"/>
         </x:scenario>
 
-        <x:scenario label="if xpath1 style namespace in path remove prefixes">
+        <x:scenario label="if xpath1 style namespace in path">
             <x:call function="x:schematron-location-expand-xpath1-expect">
                 <x:param select="$myv:expect-location-of-removal-scenario" />
                 <x:param select="$myv:svrl-location-of-removal-scenario" />
