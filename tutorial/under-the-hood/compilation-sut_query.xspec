@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- galtm: NOT DONE YET -->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+   xmlns:my="http://example.org/ns/my"
+   query="http://example.org/ns/my"
+   query-at="compilation-sut.xquery">
+
+   <!-- Example in Compilation.md, under "SUT" -->
+   <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
+
+   <x:scenario label="call a function">
+      <x:call function="my:f">
+         <x:param select="val1"/>
+         <x:param name="p2" as="element()">
+            <val2/>
+         </x:param>
+      </x:call>
+      <x:expect label="expectations" select="true()"/>
+   </x:scenario>
+
+</x:description>
