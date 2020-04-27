@@ -50,7 +50,7 @@ usage() {
 
 die() {
     echo
-    echo "*** $@" >&2
+    echo "*** $*" >&2
     exit 1
 }
 
@@ -60,7 +60,7 @@ die() {
 # configured it, so there is no point to duplicate the logic here.
 # Just use it.
 
-if which saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev/null 2>&1; then
+if command -v saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev/null 2>&1; then
     echo Saxon script found, use it.
     echo
     xslt() {
@@ -101,11 +101,11 @@ fi
 ##
 
 # the command to use to open the final HTML report
-if [ `uname` = "Darwin" ]; then
-    OPEN=open
-else
-    OPEN=see
-fi
+#if [ $(uname) = "Darwin" ]; then
+#    OPEN=open
+#else
+#    OPEN=see
+#fi
 
 # the classpath delimiter (aka ':', except ';' on Cygwin)
 if uname | grep -i cygwin >/dev/null 2>&1; then
@@ -117,8 +117,8 @@ fi
 # set XSPEC_HOME if it has not been set by the user (set it to the
 # parent dir of this script)
 if test -z "$XSPEC_HOME"; then
-    XSPEC_HOME=`dirname $0`;
-    XSPEC_HOME=`dirname $XSPEC_HOME`;
+    XSPEC_HOME=$(dirname "$0");
+    XSPEC_HOME=$(dirname "$XSPEC_HOME");
 fi
 # safety checks
 if test \! -d "${XSPEC_HOME}"; then
@@ -306,7 +306,7 @@ if test -n "$SCHEMATRON"; then
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/locate-schematron-uri.xsl" \
         || die "Error getting Schematron location"
-    SCH_URI=`cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt"`
+    SCH_URI=$(cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt")
     
     # Generate Step 3 wrapper XSLT
     if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
@@ -378,6 +378,11 @@ echo
 ## run the suite #############################################################
 ##
 
+# Init otherwise SC2154
+saxon_custom_options_array=()
+
+# Split options taking quotes into account (like command arguments)
+# https://superuser.com/q/1066455
 declare -a "saxon_custom_options_array=(${SAXON_CUSTOM_OPTIONS})"
 
 echo "Running Tests..."
@@ -388,12 +393,12 @@ if test -n "$XSLT"; then
         xslt "${saxon_custom_options_array[@]}" \
             -T:$COVERAGE_CLASS \
             -o:"$RESULT" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main \
+            -it:"{http://www.jenitennison.com/xslt/xspec}main" \
             || die "Error collecting test coverage data"
     else
         xslt "${saxon_custom_options_array[@]}" \
             -o:"$RESULT" -xsl:"$COMPILED" \
-            -it:{http://www.jenitennison.com/xslt/xspec}main \
+            -it:"{http://www.jenitennison.com/xslt/xspec}main" \
             || die "Error running the test suite"
     fi
 else
