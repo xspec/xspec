@@ -20,7 +20,7 @@
 ## and used instead.  You just have to ensure it is visible from here
 ## (aka "ensure it is in the $PATH").  Even without packaging support,
 ## this script is a useful way to launch Saxon from the shell.
-## 
+##
 ## TODO: With the Packaging System, there should be no need to set the
 ## XSPEC_HOME, as we could use absolute public URIs for the public
 ## components...
@@ -281,7 +281,7 @@ if [ ! -d "$TEST_DIR" ]; then
     echo "Creating XSpec Directory at $TEST_DIR..."
     mkdir "$TEST_DIR"
     echo
-fi 
+fi
 
 ##
 ## compile the suite #########################################################
@@ -289,7 +289,7 @@ fi
 
 if test -n "$SCHEMATRON"; then
     echo "Setting up Schematron preprocessors..."
-    
+
     if test -z "$SCHEMATRON_XSLT_INCLUDE"; then
         SCHEMATRON_XSLT_INCLUDE="$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl";
     fi
@@ -300,14 +300,14 @@ if test -n "$SCHEMATRON"; then
         # Absolute SCHEMATRON_XSLT_COMPILE
         SCHEMATRON_XSLT_COMPILE_ABS="$(cd "$(dirname "${SCHEMATRON_XSLT_COMPILE}")" && pwd)/$(basename "${SCHEMATRON_XSLT_COMPILE}")"
     fi
-    
+
     # Get Schematron file URI
     xslt -o:"${TEST_DIR}/${TARGET_FILE_NAME}-var.txt" \
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/locate-schematron-uri.xsl" \
         || die "Error getting Schematron location"
     SCH_URI=$(cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt")
-    
+
     # Generate Step 3 wrapper XSLT
     if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
         SCHEMATRON_XSLT_COMPILE_URI="file:${SCHEMATRON_XSLT_COMPILE_ABS}"
@@ -318,13 +318,13 @@ if test -n "$SCHEMATRON"; then
         -xsl:"${XSPEC_HOME}/src/schematron/generate-step3-wrapper.xsl" \
         "ACTUAL-PREPROCESSOR-URI=${SCHEMATRON_XSLT_COMPILE_URI}" \
         || die "Error generating Step 3 wrapper XSLT"
-    
+
     SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
     SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
-    
+
     # Absolute SCH_PREPROCESSED_XSL
     SCH_PREPROCESSED_XSL_ABS="$(cd "$(dirname "${SCH_PREPROCESSED_XSL}")" && pwd)/$(basename "${SCH_PREPROCESSED_XSL}")"
-    
+
     echo
     echo "Converting Schematron into XSLT..."
     xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
@@ -342,7 +342,7 @@ if test -n "$SCHEMATRON"; then
         -xsl:"${SCH_STEP3_WRAPPER}" \
         -versionmsg:off \
         || die "Error preprocessing Schematron on step 3"
-    
+
     # use XQuery to get full URI to preprocessed Schematron XSLT
     # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" \
     #     -s:"$SCH_PREPROCESSED_XSL" \
@@ -350,8 +350,8 @@ if test -n "$SCHEMATRON"; then
     #     || die "Error getting preprocessed Schematron XSLT location"
     # SCH_PREPROCESSED_XSL_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
     SCH_PREPROCESSED_XSL_URI="file:${SCH_PREPROCESSED_XSL_ABS}"
-    
-    echo 
+
+    echo
     echo "Converting Schematron XSpec into XSLT XSpec..."
     xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
         -s:"${XSPEC}" \
@@ -359,8 +359,8 @@ if test -n "$SCHEMATRON"; then
         stylesheet-uri="${SCH_PREPROCESSED_XSL_URI}" \
         || die "Error converting Schematron XSpec into XSLT XSpec"
     XSPEC="${SCH_PREPROCESSED_XSPEC}"
-    
-    echo 
+
+    echo
 fi
 
 if test -n "$XSLT"; then
