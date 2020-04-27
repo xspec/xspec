@@ -1,0 +1,9 @@
+{
+  "name": "xspec",
+  "version": "0.0.0",
+  "description": "This package is configured only for testing the XSpec repository",
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-angular": "^8.3.4"
+  }
+}
