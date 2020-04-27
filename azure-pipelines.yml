@@ -27,4 +27,3 @@ jobs:
           && test/ci/compile-java.sh -silent
           && test/ci/last-git-status.sh
         displayName: Test
-

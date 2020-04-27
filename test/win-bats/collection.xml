@@ -1442,7 +1442,7 @@
 		@catch should not catch error outside SUT
 	-->
 
-	<case ifdef="XSLT_SUPPORTS_3_0" name="@catch should not catch error outside SUT (XSLT)">
+	<case name="@catch should not catch error outside SUT (XSLT)">
     call :run ..\bin\xspec.bat catch\compiler-error.xspec
     call :verify_retval 2
     call :verify_line * r "ERROR in scenario .*"
@@ -1472,7 +1472,7 @@
     call :verify_line * r ".*XPST0017[: ]"
 	</case>
 
-	<case ifdef="XQUERY_SUPPORTS_3_1_DEFAULT" name="@catch should not catch error outside SUT (XQuery)">
+	<case name="@catch should not catch error outside SUT (XQuery)">
     call :run ..\bin\xspec.bat -q catch\compiler-error.xspec
     call :verify_retval 2
     call :verify_line * r ".*x:XSPEC005[: ]"
