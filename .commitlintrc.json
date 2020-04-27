@@ -5,15 +5,15 @@
       2,
       "always",
       [
-        "build",
-        "ci",
-        "docs",
         "feat",
         "fix",
+        "test",
+        "ci",
+        "docs",
         "perf",
         "refactor",
         "style",
-        "test"
+        "build"
       ]
     ],
     "scope-enum": [
