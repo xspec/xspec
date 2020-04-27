@@ -15,7 +15,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         java: [8, 11]
-        env: [saxon-10, saxon-9-9, saxon-9-8, oxygen, saxon-9-7]
+        env: [saxon-10, saxon-9-9, oxygen, saxon-9-8]
 
     steps:
       - uses: actions/checkout@v2
