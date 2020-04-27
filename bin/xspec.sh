@@ -177,7 +177,8 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
                 usage "-s and -t are mutually exclusive"
                 exit 1
             fi
-            XSLT=1;;
+            XSLT=1
+            ;;
         # XQuery
         -q)
             if test -n "$XSLT"; then
@@ -188,7 +189,8 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
                 usage "-s and -q are mutually exclusive"
                 exit 1
             fi
-            XQUERY=1;;
+            XQUERY=1
+            ;;
         # Schematron
         -s)
             if test -n "$XQUERY"; then
@@ -199,25 +201,31 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
                 usage "-s and -t are mutually exclusive"
                 exit 1
             fi
-            SCHEMATRON=1;;
+            SCHEMATRON=1
+            ;;
         # Coverage
         -c)
-            COVERAGE=1;;
+            COVERAGE=1
+            ;;
         # JUnit report
         -j)
-            JUNIT=1;;
+            JUNIT=1
+            ;;
         # Catalog
         -catalog)
             shift
-            XML_CATALOG="$1";;
+            XML_CATALOG="$1"
+            ;;
         # Help!
         -h)
             usage
-            exit 0;;
+            exit 0
+            ;;
         # Unknown option!
         -*)
             usage "Error: Unknown option: $1"
-            exit 1;;
+            exit 1
+            ;;
     esac
     shift
 done
