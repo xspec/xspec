@@ -22,7 +22,7 @@ If you raise a pull request without using this format in its title, the automati
 
 This convention is enforced only in the pull request title. Each commit message in the pull request is not required to follow the convention, although you're still encouraged to apply the same convention to each commit message.
 
-### Type
+#### Type
 
 These are the valid prefixes for type (see also [the Angular documentation](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#type)):
 
@@ -38,7 +38,7 @@ These are the valid prefixes for type (see also [the Angular documentation](http
 | `style` | Style change (white-space, formatting, etc.) |
 | `build` | Build and release changes |
 
-### Scope
+#### Scope
 
 You are also encouraged to use a scope to highlight which functionality is affected by your change:  
 
@@ -57,7 +57,7 @@ You are also encouraged to use a scope to highlight which functionality is affec
 
 Note that type is mandatory and scope is optional and both values should be written in lower case.
 
-### Example
+#### Example
 
 Here are some examples of valid pull request title with type and scope:
 
