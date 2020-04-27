@@ -26,34 +26,34 @@ This convention is enforced only in the pull request title. Each commit message 
 
 These are the valid prefixes for type (see also [the Angular documentation](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#type)):
 
-| Type | Description |
-| --- | --- |
-| `feat` | New feature or enhancement |
-| `fix` | Bug fix |
-| `test` | Test |
-| `ci` | CI configuration (GitHub Actions, Checks, etc.) |
-| `docs` | Documentation |
-| `perf` | Performance improvement |
+| Type       | Description                                         |
+| ---------- | --------------------------------------------------- |
+| `feat`     | New feature or enhancement                          |
+| `fix`      | Bug fix                                             |
+| `test`     | Test                                                |
+| `ci`       | CI configuration (GitHub Actions, Checks, etc.)     |
+| `docs`     | Documentation                                       |
+| `perf`     | Performance improvement                             |
 | `refactor` | Refactoring improvement (no new feature or bug fix) |
-| `style` | Style change (white-space, formatting, etc.) |
-| `build` | Build and release changes |
+| `style`    | Style change (white-space, formatting, etc.)        |
+| `build`    | Build and release changes                           |
 
 #### Scope
 
-You are also encouraged to use a scope to highlight which functionality is affected by your change:  
+You are also encouraged to use a scope to highlight which functionality is affected by your change:
 
-| Scope | Description |
-| --- | --- |
-| `xslt` | XSLT |
-| `xquery` | XQuery |
-| `schematron` | Schematron |
-| `oxygen` | Oxygen |
-| `basex` | BaseX |
-| `deps` | Dependencies |
-| `report` | Test result reports |
-| `xproc` | XProc |
-| `schema` | Schema for .xspec files |
-| `maven` | Maven |
+| Scope        | Description             |
+| ------------ | ----------------------- |
+| `xslt`       | XSLT                    |
+| `xquery`     | XQuery                  |
+| `schematron` | Schematron              |
+| `oxygen`     | Oxygen                  |
+| `basex`      | BaseX                   |
+| `deps`       | Dependencies            |
+| `report`     | Test result reports     |
+| `xproc`      | XProc                   |
+| `schema`     | Schema for .xspec files |
+| `maven`      | Maven                   |
 
 Note that type is mandatory and scope is optional and both values should be written in lower case.
 
