@@ -108,7 +108,7 @@ fi
 #fi
 
 # the classpath delimiter (aka ':', except ';' on Cygwin)
-if uname | grep -i cygwin >/dev/null 2>&1; then
+if uname | grep -i cygwin > /dev/null 2>&1; then
     CP_DELIM=";"
 else
     CP_DELIM=":"
@@ -165,7 +165,7 @@ CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
 ## options ###################################################################
 ##
 
-while echo "$1" | grep -- ^- >/dev/null 2>&1; do
+while echo "$1" | grep -- ^- > /dev/null 2>&1; do
     case "$1" in
         # XSLT
         -t)
