@@ -46,4 +46,3 @@ assert_leaf_dir_not_exist() {
 
     return 1
 }
-
