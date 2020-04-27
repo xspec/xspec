@@ -23,8 +23,7 @@
 #       LICENSE:  MIT License
 #
 #===============================================================================
-for xspectest in *.xspec
-do
+for xspectest in *.xspec; do
     if test "${xspectest:0:10}" = "schematron"; then
         ../bin/xspec.sh -s "$xspectest" &> result.log;
     else
