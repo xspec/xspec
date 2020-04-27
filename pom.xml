@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>1.6.0</version>
+  <version>2.0.0-SNAPSHOT</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for XSLT, XQuery and Schematron</description>
