@@ -34,7 +34,7 @@
 usage() {
     if test -n "$1"; then
         echo "$1"
-        echo;
+        echo
     fi
     echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
     echo
@@ -117,17 +117,17 @@ fi
 # set XSPEC_HOME if it has not been set by the user (set it to the
 # parent dir of this script)
 if test -z "$XSPEC_HOME"; then
-    XSPEC_HOME=$(dirname "$0");
-    XSPEC_HOME=$(dirname "$XSPEC_HOME");
+    XSPEC_HOME=$(dirname "$0")
+    XSPEC_HOME=$(dirname "$XSPEC_HOME")
 fi
 # safety checks
 if test \! -d "${XSPEC_HOME}"; then
     echo "ERROR: XSPEC_HOME is not a directory: ${XSPEC_HOME}"
-    exit 1;
+    exit 1
 fi
 if test \! -f "${XSPEC_HOME}/src/compiler/generate-common-tests.xsl"; then
     echo "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}"
-    exit 1;
+    exit 1
 fi
 
 # set SAXON_CP (either it has been by the user, or set it from SAXON_HOME)
@@ -154,7 +154,7 @@ if [ -n "${USE_SAXON_HOME}" ]; then
 #        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
     else
         if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
-           SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar";
+           SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar"
         fi
     fi
 fi
@@ -219,7 +219,7 @@ while echo "$1" | grep -- ^- >/dev/null 2>&1; do
             usage "Error: Unknown option: $1"
             exit 1;;
     esac
-    shift;
+    shift
 done
 
 # Coverage is only for XSLT
@@ -237,7 +237,7 @@ fi
 
 # set XSLT if XQuery has not been set (that's the default)
 if test -z "$XQUERY"; then
-    XSLT=1;
+    XSLT=1
 fi
 
 XSPEC=$1
@@ -289,10 +289,10 @@ if test -n "$SCHEMATRON"; then
     echo "Setting up Schematron preprocessors..."
 
     if test -z "$SCHEMATRON_XSLT_INCLUDE"; then
-        SCHEMATRON_XSLT_INCLUDE="$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl";
+        SCHEMATRON_XSLT_INCLUDE="$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl"
     fi
     if test -z "$SCHEMATRON_XSLT_EXPAND"; then
-        SCHEMATRON_XSLT_EXPAND="$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl";
+        SCHEMATRON_XSLT_EXPAND="$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl"
     fi
     if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
         # Absolute SCHEMATRON_XSLT_COMPILE
