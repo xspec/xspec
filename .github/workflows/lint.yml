@@ -1,6 +1,6 @@
 name: Lint
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
   codespell:
@@ -19,3 +19,19 @@ jobs:
       - run: >
           source test/ci/install-jing.sh
           && bats --tap test/rnc.bats
+
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo make --directory=/usr/share/doc/git/contrib/diff-highlight
+      - run: test/ci/run-prettier.sh
+
+  shellcheck:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: brew install shellcheck
+      - run: test/ci/run-shellcheck.sh
