@@ -137,7 +137,7 @@ unset USE_SAXON_HOME
 if test -z "$SAXON_CP"; then
     if test -z "$SAXON_HOME"; then
         echo "SAXON_CP and SAXON_HOME both not set!"
-#        die "SAXON_CP and SAXON_HOME both not set!"
+        # die "SAXON_CP and SAXON_HOME both not set!"
     else
         USE_SAXON_HOME=1
         for f in \
@@ -151,10 +151,10 @@ fi
 if [ -n "${USE_SAXON_HOME}" ]; then
     if [ -z "${SAXON_CP}" ]; then
         echo "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
-#        die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
+        # die "Saxon jar cannot be found in SAXON_HOME: $SAXON_HOME"
     else
         if test -f "${SAXON_HOME}/xml-resolver-1.2.jar"; then
-           SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar"
+            SAXON_CP="${SAXON_CP}${CP_DELIM}${SAXON_HOME}/xml-resolver-1.2.jar"
         fi
     fi
 fi
