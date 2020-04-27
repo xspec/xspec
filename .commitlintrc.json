@@ -28,7 +28,8 @@
         "deps",
         "report",
         "xproc",
-        "schema"
+        "schema",
+        "maven"
       ]
     ]
   }
