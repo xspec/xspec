@@ -2,10 +2,11 @@
 
 # Get the directory where this script resides
 myname="${BASH_SOURCE:-$0}"
-mydir=$(cd -P -- $(dirname -- "${myname}"); pwd)
+mydirname=$(dirname -- "${myname}")
+mydir=$(cd -P -- "${mydirname}" && pwd)
 
 # Check prerequisites
-if ! which ant > /dev/null 2>&1; then
+if ! command -v ant > /dev/null 2>&1; then
     echo "Ant is not found in path" >&2
     exit 1
 fi
@@ -39,8 +40,5 @@ unset TEST_DIR
 unset XML_CATALOG
 unset XSPEC_HOME
 
-# Run
-(
-    cd "${mydir}"
-    bats "$@" xspec.bats
-)
+# Run (in subshell for safer cd)
+(cd "${mydir}" && bats "$@" xspec.bats)
