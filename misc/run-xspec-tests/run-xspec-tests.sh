@@ -1,8 +1,8 @@
 #!/bin/bash
 #===============================================================================
 #
-#         USAGE:  ./run-xspec.tests.sh 
-#         
+#         USAGE:  ./run-xspec.tests.sh
+#
 #   DESCRIPTION:  This script is a runner for XSpec test suite inside test directory
 #		  it runs all the tests with extension .xspec in the test directory
 #		  it outputs stdout and stderr into a file result.log
@@ -23,20 +23,19 @@
 #       LICENSE:  MIT License
 #
 #===============================================================================
-for xspectest in *.xspec
-do 
+for xspectest in *.xspec; do
     if test "${xspectest:0:10}" = "schematron"; then
-        ../bin/xspec.sh -s "$xspectest" &> result.log;
-    else 
-        ../bin/xspec.sh "$xspectest" &> result.log;
+        ../bin/xspec.sh -s "$xspectest" &> result.log
+    else
+        ../bin/xspec.sh "$xspectest" &> result.log
     fi
-    if grep -q ".*failed:\s[1-9]" result.log || grep -q -E "\*+\sError\s(.*Schematron.*|(running|compiling)\sthe\stest\ssuite)" result.log;
-        then
-            echo "FAILED: $xspectest";
-            echo "---------- result.log";
-            cat result.log;
-            echo "----------";
-            exit 1;
-        else echo "OK: $xspectest";
+    if grep -q ".*failed:\s[1-9]" result.log || grep -q -E "\*+\sError\s(.*Schematron.*|(running|compiling)\sthe\stest\ssuite)" result.log; then
+        echo "FAILED: $xspectest"
+        echo "---------- result.log"
+        cat result.log
+        echo "----------"
+        exit 1
+    else
+        echo "OK: $xspectest"
     fi
 done
