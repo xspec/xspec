@@ -256,8 +256,7 @@ fi
 ##
 
 # TEST_DIR (may be relative, may not exist)
-if [ -z "$TEST_DIR" ]
-then
+if [ -z "$TEST_DIR" ]; then
     TEST_DIR=$(dirname "$XSPEC")/xspec
 fi
 
