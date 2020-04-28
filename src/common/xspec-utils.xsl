@@ -12,8 +12,7 @@
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
-		<xsl:context-item as="node()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="node()" use="required" />
 
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute() | node()" />
@@ -165,16 +164,12 @@
 		<xsl:param as="item()" name="item" />
 
 		<xsl:choose>
-			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))"
-				use-when="number(system-property('xsl:version')) ge 3">
+			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))">
 				<xsl:sequence select="true()" />
 			</xsl:when>
 
 			<xsl:when test="$item instance of function(*)"
-				use-when="
-					((: for Saxon-EE 9.7 :) number(system-property('xsl:version')) ge 3)
-					and
-					((: for Saxon 9.x :) function-available('function-lookup'))">
+				use-when="function-available('function-lookup')">
 				<xsl:sequence select="true()" />
 			</xsl:when>
 
@@ -189,8 +184,7 @@
 		
 		$function must be an instance of function(*).
 	-->
-	<xsl:function as="xs:string" name="x:function-type"
-		use-when="number(system-property('xsl:version')) ge 3">
+	<xsl:function as="xs:string" name="x:function-type">
 
 		<!-- TODO: @as="function(*)" -->
 		<xsl:param as="item()" name="function" />
@@ -452,12 +446,7 @@
 		Stub function for helping development on IDE without loading ../../java/
 	-->
 	<xsl:function as="xs:integer" name="x:line-number" override-extension-function="no"
-		use-when="
-			function-available('saxon:line-number')
-			and
-			(: Saxon 9.7 doesn't accept @override-extension-function when /xsl:stylesheet/@version
-				isn't 3.0 :) (xs:decimal(system-property('xsl:version')) ge 3.0)"
-		xmlns:saxon="http://saxon.sf.net/">
+		use-when="function-available('saxon:line-number')" xmlns:saxon="http://saxon.sf.net/">
 		<xsl:param as="node()" name="node" />
 
 		<xsl:sequence select="saxon:line-number($node)" />

@@ -134,8 +134,7 @@
 <!-- Generates a call to the template compiled from a scenario or an expect element. --> 
 
 <xsl:template name="x:output-call">
-   <xsl:context-item as="element()" use="required"
-      use-when="element-available('xsl:context-item')" />
+   <xsl:context-item as="element()" use="required" />
 
    <xsl:param name="last"   as="xs:boolean" />
    <xsl:param name="params" as="element(param)*" />
@@ -161,8 +160,7 @@
 <!-- Generates the templates that perform the tests -->
 
 <xsl:template name="x:output-scenario" as="element(xsl:template)+">
-  <xsl:context-item as="element(x:scenario)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:scenario)" use="required" />
 
   <xsl:param name="pending"   select="()" tunnel="yes" as="node()?"/>
   <xsl:param name="apply"     select="()" tunnel="yes" as="element(x:apply)?"/>
@@ -305,7 +303,7 @@
 
           <!-- Enter SUT -->
           <xsl:choose>
-            <xsl:when test="$is-external" use-when="function-available('transform')">
+            <xsl:when test="$is-external">
               <!-- Set up the $impl:transform-options variable -->
               <xsl:call-template name="x:setup-transform-options" />
 
@@ -441,10 +439,8 @@
 </xsl:template>
 
 <!-- Constructs options for transform() -->
-<xsl:template name="x:setup-transform-options" as="element(xsl:variable)"
-  use-when="function-available('transform')">
-  <xsl:context-item as="element(x:scenario)" use="required"
-    use-when="element-available('xsl:context-item')" />
+<xsl:template name="x:setup-transform-options" as="element(xsl:variable)">
+  <xsl:context-item as="element(x:scenario)" use="required" />
 
   <xsl:param name="call" select="()" tunnel="yes" as="element(x:call)?" />
   <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?" />
@@ -555,8 +551,7 @@
 </xsl:template>
 
 <xsl:template name="x:output-try-catch" as="element(xsl:try)">
-  <xsl:context-item use="absent"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item use="absent" />
 
   <xsl:param name="instruction" as="element()" required="yes" />
 
@@ -588,8 +583,7 @@
 </xsl:template>
 
 <xsl:template name="x:output-expect" as="element(xsl:template)">
-  <xsl:context-item as="element(x:expect)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:expect)" use="required" />
 
   <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
   <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
@@ -732,7 +726,7 @@
 
 <!-- *** x:param-to-map-entry *** -->
 <!-- Transforms x:param to xsl:map-entry -->
-<xsl:mode name="x:param-to-map-entry" on-no-match="fail" use-when="element-available('xsl:mode')" />
+<xsl:mode name="x:param-to-map-entry" on-no-match="fail" />
 <xsl:template match="x:param" as="element(xsl:map-entry)" mode="x:param-to-map-entry">
   <map-entry key="{x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
     <xsl:apply-templates select="." mode="x:param-to-select-attr" />
@@ -741,7 +735,7 @@
 
 <!-- *** x:param-to-select-attr *** -->
 <!-- Transforms x:param to @select which is connected to the generated xsl:variable -->
-<xsl:mode name="x:param-to-select-attr" on-no-match="fail" use-when="element-available('xsl:mode')" />
+<xsl:mode name="x:param-to-select-attr" on-no-match="fail" />
 <xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
   <xsl:attribute name="select">
     <xsl:text>$</xsl:text>

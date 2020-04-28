@@ -52,8 +52,7 @@
       <!-- Actually, xsl:context-item/@as is "document-node(element(x:description))".
          "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
          error message. -->
-      <xsl:context-item as="document-node()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="document-node()" use="required" />
 
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
@@ -265,8 +264,7 @@
        corresponding call instruction at some point).
    -->
    <xsl:template name="x:call-scenarios">
-      <xsl:context-item as="element()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element()" use="required" />
 
       <!-- Default value of $pending does not affect compiler output but is here if needed in the future -->
       <xsl:param name="pending" select="(.//@focus)[1]" tunnel="yes" as="node()?"/>
@@ -285,8 +283,7 @@
    </xsl:template>
 
    <xsl:template name="x:continue-call-scenarios">
-      <xsl:context-item as="element()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element()" use="required" />
 
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
@@ -429,8 +426,7 @@
        Drive the compilation of global params and variables.
    -->
    <xsl:template name="x:compile-global-params-and-vars">
-      <xsl:context-item as="element(x:description)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
       <xsl:apply-templates select="$this/(x:param|x:variable)" mode="test:generate-variable-declarations"/>
@@ -452,8 +448,7 @@
        templates or XQuery functions.
    -->
    <xsl:template name="x:compile-scenarios">
-      <xsl:context-item as="element()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="pending" as="node()?" select="(.//@focus)[1]" tunnel="yes"/>
 
@@ -749,8 +744,7 @@
       The actual instruction to enter SUT is provided by the caller. The instruction
       should not contain other actions. -->
    <xsl:template name="x:enter-sut" as="node()+">
-      <xsl:context-item as="element(x:scenario)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="instruction" as="node()+" required="yes" />
 
@@ -815,8 +809,7 @@
    <!-- Generate error message for user-defined usage of names in XSpec namespace.
         Context node is an x:variable element. -->
    <xsl:template name="x:detect-reserved-variable-name" as="empty-sequence()">
-      <xsl:context-item as="element(x:variable)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:variable)" use="required" />
 
       <xsl:variable name="qname" as="xs:QName"
          select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
