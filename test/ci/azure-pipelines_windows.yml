@@ -20,14 +20,11 @@ jobs:
         Saxon-9-9:
           XSPEC_TEST_ENV: saxon-9-9
 
-        Saxon-9-8:
-          XSPEC_TEST_ENV: saxon-9-8
-
         Oxygen:
           XSPEC_TEST_ENV: oxygen
 
-        Saxon-9-7:
-          XSPEC_TEST_ENV: saxon-9-7
+        Saxon-9-8:
+          XSPEC_TEST_ENV: saxon-9-8
 
     steps:
       - task: BatchScript@1
