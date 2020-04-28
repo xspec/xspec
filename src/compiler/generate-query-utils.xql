@@ -86,8 +86,8 @@ declare function test:node-deep-equal(
   else if ( ( $node1 instance of attribute() and $node2 instance of attribute() )
             or ( $node1 instance of processing-instruction()
                  and $node2 instance of processing-instruction())
-            or ( x:instance-of-namespace($node1)
-                 and x:instance-of-namespace($node2) ) ) then
+            or ( $node1 instance of namespace-node()
+                 and $node2 instance of namespace-node() ) ) then
     fn:deep-equal( fn:node-name($node1), fn:node-name($node2) )
       and ( fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' )
   else if ( $node1 instance of comment() and $node2 instance of comment() ) then
@@ -179,7 +179,7 @@ declare function test:report-sequence(
 
   let $attribute-nodes as attribute()* := $sequence[. instance of attribute()]
   let $document-nodes as document-node()* := $sequence[. instance of document-node()]
-  let $namespace-nodes as node()* := $sequence[x:instance-of-namespace(.)]
+  let $namespace-nodes as node()* := $sequence[. instance of namespace-node()]
   let $text-nodes as text()* := $sequence[. instance of text()]
 
   let $report-element as element() :=
