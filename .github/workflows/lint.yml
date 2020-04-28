@@ -33,6 +33,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - run: sudo apt-get purge shellcheck
       - run: sudo snap install shellcheck
       - run: test/ci/run-shellcheck.sh
 
