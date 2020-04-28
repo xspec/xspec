@@ -8,7 +8,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"

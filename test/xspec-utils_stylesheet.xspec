@@ -666,15 +666,6 @@
 			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="Saxon unlicensed xsl:product-version">
-			<!-- This notation was last observed on Saxon 9.7.0.4.
-				Not observed on 9.7.0.5 or later. -->
-			<x:call function="x:extract-version">
-				<x:param select="'EE (unlicensed) 9.4.0.9'" />
-			</x:call>
-			<x:expect label="Extracted" select="9, 4, 0, 9" />
-		</x:scenario>
-
 		<x:scenario label="Relatively large version">
 			<x:call function="x:extract-version">
 				<x:param select="'76.0.3809.132'" />
@@ -691,10 +682,10 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function saxon-version">
-		<x:scenario label="Assume we test this on Saxon versions from 9.7 to 10.x">
+		<x:scenario label="Assume we test this on Saxon versions from 9.8 to 10.x">
 			<x:call function="x:saxon-version" />
-			<x:expect label="Greater than or equal to 9.7.0.0"
-				test="$x:result treat as xs:integer ge x:pack-version((9, 7))" />
+			<x:expect label="Greater than or equal to 9.8.0.0"
+				test="$x:result treat as xs:integer ge x:pack-version((9, 8))" />
 			<x:expect label="Less than 11.0"
 				test="$x:result treat as xs:integer lt x:pack-version(11)" />
 		</x:scenario>
