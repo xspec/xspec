@@ -1333,7 +1333,7 @@
 	<case name="Error message when source is not XSpec #522">
     call :run ..\bin\xspec.bat do-nothing.xsl
     call :verify_retval 2
-    call :verify_line 5 r "Source document is not XSpec"
+    call :verify_line 5 x "Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead."
 	</case>
 
 	<!--
@@ -1453,31 +1453,38 @@
 	<case name="@catch should not catch error outside SUT (XSLT)">
     call :run ..\bin\xspec.bat catch\compiler-error.xspec
     call :verify_retval 2
-    call :verify_line * r "ERROR in scenario .*"
+    call :verify_line  * r "ERROR in scenario .*"
+    call :verify_line -1 x "*** Error compiling the test suite"
 
     call :run ..\bin\xspec.bat catch\error-in-context-avt-for-template-call.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-context-avt-for-template-call[: ] Error signalled .*"
+    call :verify_line  * r "  error-code-of-my-context-avt-for-template-call[: ] Error signalled .*"
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\bin\xspec.bat catch\error-in-context-param-for-matching-template.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-context-param-for-matching-template[: ] Error signalled .*"
+    call :verify_line  * r "  error-code-of-my-context-param-for-matching-template[: ] Error signalled .*"
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\bin\xspec.bat catch\error-in-function-call-param.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-function-call-param[: ] Error signalled .*"
+    call :verify_line  * r "  error-code-of-my-function-call-param[: ] Error signalled .*"
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\bin\xspec.bat catch\error-in-template-call-param.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-template-call-param[: ] Error signalled .*"
+    call :verify_line  * r "  error-code-of-my-template-call-param[: ] Error signalled .*"
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\bin\xspec.bat catch\error-in-variable.xspec
     call :verify_retval 2
-    call :verify_line * r "  error-code-of-my-variable[: ] Error signalled .*"
+    call :verify_line  * r "  error-code-of-my-variable[: ] Error signalled .*"
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\bin\xspec.bat catch\static-error-in-compiled-test.xspec
     call :verify_retval 2
-    call :verify_line * r ".*XPST0017[: ]"
+    call :verify_line  * r ".*XPST0017[: ]"
+    call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="@catch should not catch error outside SUT (XQuery)">
@@ -1629,6 +1636,77 @@
     call :run ..\bin\xspec.bat import\no-href.xspec
     call :verify_retval 2
     call :verify_line  * r "  XPDY0050[: ] An empty sequence is not allowed as the value in 'treat as' expression$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
+		Error message from x:output-scenario template (XSLT)
+	-->
+
+	<case name="x:context both with @href and content">
+    call :run ..\bin\xspec.bat output-scenario-error\context-both-href-and-content.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:context both with @href and content.: can't set the context document using both the href attribute and the content of &amp;lt;context&amp;gt;$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:call both with @function and @template">
+    call :run ..\bin\xspec.bat output-scenario-error\call-both-function-and-template.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:call both with @function and @template.: can't call a function and a template at the same time$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:apply with x:context">
+    call :run ..\bin\xspec.bat output-scenario-error\apply-with-context.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:apply with x:context.: can't use apply and set a context at the same time$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:apply with x:call">
+    call :run ..\bin\xspec.bat output-scenario-error\apply-with-call.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:apply with x:call.: can't use apply and call at the same time$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:call[@function] with x:context">
+    call :run ..\bin\xspec.bat output-scenario-error\function-with-context.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:call\[@function\] with x:context.: can't set a context and call a function at the same time$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:expect without action">
+    call :run ..\bin\xspec.bat output-scenario-error\expect-without-action.xspec
+    call :verify_retval 2
+    call :verify_line  5 r "ERROR in scenario .x:expect without action.: there are tests in this scenario but no call, or apply or context has been given$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
+		Error message from x:output-scenario template (XQuery)
+	-->
+
+	<case name="x:XSPEC003">
+    call :run ..\bin\xspec.bat -q output-scenario-error\XSPEC003.xspec
+    call :verify_retval 2
+    call :verify_line  6 r "  x:XSPEC003[: ] x:context not supported for XQuery (scenario x:context)$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:XSPEC004">
+    call :run ..\bin\xspec.bat -q output-scenario-error\XSPEC004.xspec
+    call :verify_retval 2
+    call :verify_line  6 r "  x:XSPEC004[: ] x:call/@template not supported for XQuery (scenario x:call/@template)$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:XSPEC005">
+    call :run ..\bin\xspec.bat -q output-scenario-error\XSPEC005.xspec
+    call :verify_retval 2
+    call :verify_line  6 r "  x:XSPEC005[: ] there are x:expect but no x:call in scenario 'Missing x:call'$"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
