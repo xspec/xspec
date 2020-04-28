@@ -1,6 +1,5 @@
 os: linux
 language: java
-dist: trusty
 
 jdk:
   - oraclejdk8
