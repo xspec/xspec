@@ -1,6 +1,6 @@
 name: Test
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -13,9 +13,9 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-        java: [ 8, 11 ]
-        env: [ saxon-10, saxon-9-9, saxon-9-8, oxygen, saxon-9-7 ]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        java: [8, 11]
+        env: [saxon-10, saxon-9-9, oxygen, saxon-9-8]
 
     steps:
       - uses: actions/checkout@v2
@@ -48,4 +48,3 @@ jobs:
           && call test\ci\maven-package.cmd -q
           && call test\ci\compile-java.cmd -silent
           && call test\ci\last-git-status.cmd
-

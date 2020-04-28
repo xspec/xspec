@@ -1,3 +1,4 @@
+*.bash eol=lf
 *.bat  eol=crlf
 *.cmd  eol=crlf
 *.sh   eol=lf
