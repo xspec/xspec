@@ -29,11 +29,11 @@ jobs:
       - run: test/ci/run-prettier.sh
 
   shellcheck:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - run: brew install shellcheck
+      - run: sudo snap install shellcheck
       - run: test/ci/run-shellcheck.sh
 
   shfmt:
