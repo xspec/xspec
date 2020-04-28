@@ -266,8 +266,7 @@
 
 	<!-- Override this template to provide <run-xspec> with additional nodes -->
 	<xsl:template as="empty-sequence()" name="on-run-xspec">
-		<xsl:context-item as="attribute()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute()" use="required" />
 
 		<xsl:param as="xs:boolean" name="coverage-enabled" />
 	</xsl:template>

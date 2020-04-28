@@ -280,8 +280,7 @@
 </xsl:function>
   
 <xsl:template name="test:report-sequence" as="element()">
-  <xsl:context-item use="absent"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item use="absent" />
 
   <xsl:param name="sequence" as="item()*" required="yes" />
   <xsl:param name="wrapper-name" as="xs:string" required="yes" />
@@ -441,7 +440,7 @@
       </xsl:element>
     </xsl:when>
 
-    <xsl:when test="x:instance-of-function($item)" use-when="function-available('serialize', 2)">
+    <xsl:when test="x:instance-of-function($item)">
       <xsl:element name="{$local-name-prefix}{x:function-type($item)}" namespace="{$wrapper-ns}">
         <xsl:value-of select="serialize($item, map { 'method': 'adaptive' })" />
       </xsl:element>
