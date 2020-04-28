@@ -2,8 +2,8 @@
 
 echo "Maven package"
 
-if [ "${DO_MAVEN_PACKAGE}" = true ] ; then
-	mvn package -P release "$@"
+if [ "${DO_MAVEN_PACKAGE}" = true ]; then
+    mvn package -P release "$@"
 else
-	echo "Skip Maven package"
+    echo "Skip Maven package"
 fi
