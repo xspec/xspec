@@ -3,9 +3,7 @@
 <x:description
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns="http://www.w3.org/1999/xhtml"
-    stylesheet="xspec-700.xsl"
-    xslt-version="3.0"
->
+    stylesheet="xspec-700.xsl">
     <x:scenario label="Aborts with abbreviation with no expansion" catch="yes">
         <x:context select="/">
             <abbr xml:base="{$x:xspec-uri}">AbbreviationWithoutExpansion</abbr>

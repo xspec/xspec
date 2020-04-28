@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="do-nothing.xsl" xmlns:err="http://www.w3.org/2005/xqt-errors"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
 		The test target (../src/common/xspec-utils.xsl) is included
@@ -1009,7 +1009,7 @@
 					</test>
 				</x:param>
 			</x:call>
-			<x:expect label="2.0" select="2.0" />
+			<x:expect label="3.0" select="3.0" />
 		</x:scenario>
 
 		<x:scenario label="defined in self">

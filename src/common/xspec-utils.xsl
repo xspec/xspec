@@ -429,7 +429,7 @@
 			select="
 				(
 				$context/ancestor-or-self::*[@xslt-version][1]/@xslt-version,
-				2.0
+				3.0
 				)[1]"
 		 />
 	</xsl:function>

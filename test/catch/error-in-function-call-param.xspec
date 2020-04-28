@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
-	stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xslt-version="3.0">
+	stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario catch="yes" label="With @catch=yes">
 
