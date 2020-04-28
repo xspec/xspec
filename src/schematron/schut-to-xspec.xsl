@@ -180,8 +180,7 @@
     <xsl:template match="@count | @label" mode="make-predicate"/>
     
     <xsl:template name="make-label">
-        <xsl:context-item as="element()" use="required"
-            use-when="element-available('xsl:context-item')" />
+        <xsl:context-item as="element()" use="required" />
 
         <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not','rule')], @id, @role, @location, @context, current()[@count]/string('count:'), @count), ' ')"/>
     </xsl:template>
