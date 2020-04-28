@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -21,13 +21,10 @@
 
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
-	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-3-0" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
-	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-DEFAULT" required="yes" />
-	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-3-1-QVERSION" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 
 	<!-- Saxon -now option -->
@@ -127,14 +124,6 @@
 
 					<xsl:when
 						test="
-							($test-type = ('s', 't'))
-							and (xs:decimal(../@xslt-version) eq 3.0)
-							and not($XSLT-SUPPORTS-3-0)">
-						<xsl:text>Requires XSLT 3.0 processor</xsl:text>
-					</xsl:when>
-
-					<xsl:when
-						test="
 							($test-type eq 't')
 							and ($pis = 'require-xslt-to-support-hof')
 							and not($XSLT-SUPPORTS-HOF)">
@@ -147,14 +136,6 @@
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XQuery processor</xsl:text>
-					</xsl:when>
-
-					<xsl:when
-						test="
-							($test-type eq 'q')
-							and $require-xquery-to-support-3-1
-							and not($XQUERY-SUPPORTS-3-1-DEFAULT or $XQUERY-SUPPORTS-3-1-QVERSION)">
-						<xsl:text>Requires XQuery 3.1 processor</xsl:text>
 					</xsl:when>
 
 					<xsl:when
@@ -208,21 +189,6 @@
 							and (x:saxon-version() eq x:pack-version(10))">
 						<xsl:text>Requires Saxon bug #4483 to have been fixed</xsl:text>
 					</xsl:when>
-
-					<xsl:when
-						test="
-							($pis = 'require-xspec-issue-720-fixed')
-							and (x:saxon-version() lt x:pack-version((9, 8)))">
-						<xsl:text>Requires xspec/xspec#720 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when
-						test="
-							($test-type eq 't')
-							and ($pis = 'require-type-available-in-use-when')
-							and (x:saxon-version() lt x:pack-version((9, 8)))">
-						<xsl:text>Requires type-available() to be reliable in @use-when</xsl:text>
-					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
 
@@ -257,14 +223,6 @@
 						<xsl:variable as="xs:string*" name="saxon-custom-options">
 							<xsl:if test="$NOW">
 								<xsl:sequence select="concat('-now:', $NOW)" />
-							</xsl:if>
-
-							<xsl:if
-								test="
-									($test-type eq 'q')
-									and $require-xquery-to-support-3-1
-									and $XQUERY-SUPPORTS-3-1-QVERSION">
-								<xsl:sequence select="'-qversion:3.1'" />
 							</xsl:if>
 
 							<xsl:sequence
@@ -308,8 +266,7 @@
 
 	<!-- Override this template to provide <run-xspec> with additional nodes -->
 	<xsl:template as="empty-sequence()" name="on-run-xspec">
-		<xsl:context-item as="attribute()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute()" use="required" />
 
 		<xsl:param as="xs:boolean" name="coverage-enabled" />
 	</xsl:template>

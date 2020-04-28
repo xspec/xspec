@@ -1,0 +1,18 @@
+{
+  "endOfLine": "auto",
+  "overrides": [
+    {
+      "files": ["*.css"],
+      "options": {
+        "tabWidth": 4,
+        "useTabs": true
+      }
+    },
+    {
+      "files": ["*.yml"],
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
+}

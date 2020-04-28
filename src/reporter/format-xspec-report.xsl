@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -50,13 +50,11 @@
 <!-- Named template to be overridden.
   Override this template to insert additional nodes at the end of /html/head. -->
 <xsl:template name="x:html-head-callback" as="empty-sequence()">
-  <xsl:context-item as="document-node(element(x:report))" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="document-node(element(x:report))" use="required" />
 </xsl:template>
   
 <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
-  <xsl:context-item as="element(x:scenario)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:scenario)" use="required" />
 
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />
@@ -451,8 +449,7 @@
 </xsl:template>
 
 <xsl:template name="x:totals" as="text()?">
-  <xsl:context-item use="absent"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item use="absent" />
 
   <xsl:param name="tests" as="element(x:test)*" required="yes" />
   <xsl:param name="labels" as="xs:boolean" select="false()" />

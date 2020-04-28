@@ -8,7 +8,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -200,8 +200,7 @@
                       let $NAME as TYPE := ( VALUE )
    -->
    <xsl:template name="test:declare-or-let-variable" as="node()+">
-      <xsl:context-item use="absent"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item use="absent" />
 
       <xsl:param name="is-global" as="xs:boolean" required="yes" />
       <xsl:param name="name" as="xs:string" required="yes" />
@@ -283,8 +282,7 @@
    </xsl:template>
 
    <xsl:template name="test:create-zero-or-more-node-generators" as="node()+">
-      <xsl:context-item use="absent"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item use="absent" />
 
       <xsl:param name="nodes" as="node()*" />
 

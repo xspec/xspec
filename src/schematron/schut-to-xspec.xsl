@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec" 
                 xmlns:xs="http://www.w3.org/2001/XMLSchema" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -180,8 +180,7 @@
     <xsl:template match="@count | @label" mode="make-predicate"/>
     
     <xsl:template name="make-label">
-        <xsl:context-item as="element()" use="required"
-            use-when="element-available('xsl:context-item')" />
+        <xsl:context-item as="element()" use="required" />
 
         <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not','rule')], @id, @role, @location, @context, current()[@count]/string('count:'), @count), ' ')"/>
     </xsl:template>

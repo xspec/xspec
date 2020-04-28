@@ -1,4 +1,6 @@
 #!/usr/bin/env bats
+# shellcheck disable=SC2030,SC2031
+
 #===============================================================================
 #
 #         USAGE:  bats xspec.bats 
@@ -1424,7 +1426,7 @@ load bats-helper
     assert_regex "${lines[11]}" '^WARNING: x:expect has boolean @test'
     assert_regex "${lines[16]}" '^WARNING: x:expect has boolean @test'
     assert_regex "${lines[23]}" '^WARNING: x:expect has boolean @test'
-    [  "${lines[32]}" =  "Formatting Report..." ]
+    [ "${lines[32]}" =  "Formatting Report..." ]
 }
 
 #
@@ -1515,8 +1517,17 @@ load bats-helper
 }
 
 #
-# Invalid @xquery-version
+# @xquery-version
 #
+
+@test "Default @xquery-version" {
+    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
+    [ "${lines[0]}" = 'xquery version "3.1";' ]
+}
 
 @test "Invalid @xquery-version should be error" {
     run ../bin/xspec.sh -q xquery-version/invalid.xspec
@@ -1578,7 +1589,7 @@ load bats-helper
     run ../bin/xspec.sh do-nothing.xsl
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[4]}" '^Source document is not XSpec'
+    [ "${lines[4]}" = "Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead." ]
 }
 
 #
@@ -1609,10 +1620,10 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
 
-    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
         [ "${lines[3]}" = " " ]
     else
-        assert_regex "${lines[3]}" '^WARNING: Saxon version .+'
+        [ "${lines[3]}" = "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9." ]
     fi
 }
 
@@ -1621,8 +1632,8 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1644,8 +1655,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1667,8 +1678,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1699,51 +1710,50 @@ load bats-helper
 #
 
 @test "@catch should not catch error outside SUT (XSLT)" {
-    if [ -z "${XSLT_SUPPORTS_3_0}" ]; then
-        skip "XSLT_SUPPORTS_3_0 is not defined"
-    fi
-
     run ../bin/xspec.sh catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''ERROR in scenario '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-context-avt-for-template-call[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-context-param-for-matching-template.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-context-param-for-matching-template[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-function-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-function-call-param[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-template-call-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-template-call-param[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  error-code-of-my-variable[: ] Error signalled '
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../bin/xspec.sh catch/static-error-in-compiled-test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" 'XPST0017[: ]'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
 @test "@catch should not catch error outside SUT (XQuery)" {
-    if [ -z "${XQUERY_SUPPORTS_3_1_DEFAULT}" ]; then
-        skip "XQUERY_SUPPORTS_3_1_DEFAULT is not defined"
-    fi
-
     run ../bin/xspec.sh -q catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1919,6 +1929,86 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  XPDY0050[: ] An empty sequence is not allowed as the value in '\''treat as'\'' expression'$'\n'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+#
+# Error message from x:output-scenario template (XSLT)
+#
+
+@test "x:context both with @href and content" {
+    run ../bin/xspec.sh output-scenario-error/context-both-href-and-content.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:context both with @href and content\": can't set the context document using both the href attribute and the content of &lt;context&gt;" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:call both with @function and @template" {
+    run ../bin/xspec.sh output-scenario-error/call-both-function-and-template.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:call both with @function and @template\": can't call a function and a template at the same time" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:apply with x:context" {
+    run ../bin/xspec.sh output-scenario-error/apply-with-context.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:apply with x:context\": can't use apply and set a context at the same time" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:apply with x:call" {
+    run ../bin/xspec.sh output-scenario-error/apply-with-call.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:apply with x:call\": can't use apply and call at the same time" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:call[@function] with x:context" {
+    run ../bin/xspec.sh output-scenario-error/function-with-context.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:call[@function] with x:context\": can't set a context and call a function at the same time" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:expect without action" {
+    run ../bin/xspec.sh output-scenario-error/expect-without-action.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in scenario \"x:expect without action\": there are tests in this scenario but no call, or apply or context has been given" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+#
+# Error message from x:output-scenario template (XQuery)
+#
+
+@test "x:XSPEC003" {
+    run ../bin/xspec.sh -q output-scenario-error/XSPEC003.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[5]}" '^  x:XSPEC003[: ] x:context not supported for XQuery \(scenario x:context\)$'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:XSPEC004" {
+    run ../bin/xspec.sh -q output-scenario-error/XSPEC004.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[5]}" '^  x:XSPEC004[: ] x:call/@template not supported for XQuery \(scenario x:call/@template\)$'
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:XSPEC005" {
+    run ../bin/xspec.sh -q output-scenario-error/XSPEC005.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[5]}" '^  x:XSPEC005[: ] there are x:expect but no x:call in scenario '\''Missing x:call'\''$'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
