@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="mode-all.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xslt-version="3.0">
+<x:description stylesheet="mode-all.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
 		Test with mode="#all" template in the stylesheet being tested

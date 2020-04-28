@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="xspec-xslt3.xsl" xslt-version="3.0">
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="xspec-xslt3.xsl">
   <x:scenario label="When testing the let expression in XPath 3.0">
     <x:call template="supportXPath3"/>
     <x:expect label="the expression takes effect">
