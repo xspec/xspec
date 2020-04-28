@@ -1,0 +1,13 @@
+# Third party
+/src/schematron/iso-schematron/
+
+# End-to-end test Actual and Expected
+/test/end-to-end/cases/actual__/
+/test/end-to-end/cases/expected/
+
+# Default TEST_DIR
+/test/**/xspec/
+/tutorial/**/xspec/
+
+# XHTML can be formatted by XML editors including Oxygen
+*.xhtml
