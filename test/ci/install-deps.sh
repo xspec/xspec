@@ -8,11 +8,13 @@
 # Get this directory
 #
 myname="${BASH_SOURCE:-$0}"
-mydir=$(cd -P -- $(dirname -- "${myname}"); pwd)
+mydirname=$(dirname -- "${myname}")
+mydir=$(cd -P -- "${mydirname}" && pwd)
 
 #
 # Set environment variables
 #
+# shellcheck source=test/ci/set-env.sh
 source "${mydir}/set-env.sh"
 
 #
@@ -26,8 +28,8 @@ if [ ! -d "${ANT_HOME}" ]; then
 fi
 
 curl -fsSL --retry 5 "http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz" \
-| tar -x -z -C "${ANT_HOME}/.." \
-|| return
+    | tar -x -z -C "${ANT_HOME}/.." \
+    || return
 
 #
 # Other deps

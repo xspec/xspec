@@ -10,9 +10,9 @@
 
 ## Introduction
 
-This page is an overview of how XSpec test suites are compiled into XSLT and XQuery. It shows examples of simple test suites along with their XSpec-generated stylesheets and queries. Some of these examples are in the [test directory](https://github.com/xspec/xspec/tree/master/test). 
+This page is an overview of how XSpec test suites are compiled into XSLT and XQuery. It shows examples of simple test suites along with their XSpec-generated stylesheets and queries. Some of these examples are in the [test directory](https://github.com/xspec/xspec/tree/master/test).
 
-The generated stylesheets and queries are not shown in their entirety.  In particular, the code generating parts of the final report has been removed, except in examples specifically intended to show how this is done.  The root elements of test suites are omitted, and indentation and comments have been added where appropriate.
+The generated stylesheets and queries are not shown in their entirety. In particular, the code generating parts of the final report has been removed, except in examples specifically intended to show how this is done. The root elements of test suites are omitted, and indentation and comments have been added where appropriate.
 
 The goal is to make the compilation phase clearer, mostly for development purposes.
 
@@ -142,9 +142,9 @@ declare function local:d4e4($x:result as item()*)
 ## Simple scenario
 
 Show the structure of a compiled scenario, both in XSLT and
-XQuery.  The general idea is to generate a template for the
+XQuery. The general idea is to generate a template for the
 scenario (or a function in XQuery), that calls the [SUT](#sut) (or System Under Test) and puts
-the result in a variable, `$x:result`.  A separate template (or function in
+the result in a variable, `$x:result`. A separate template (or function in
 XQuery) is generated for each expectation, and those templates (or
 functions) are called from the first one, in sequence, with the
 result as parameter.
@@ -254,7 +254,7 @@ declare function local:d4e4($x:result as item()*)
 ## SUT
 
 The SUT (or System Under Test) is the component tested in a
-scenario.  In XSpec, this is either an XSLT template (named or
+scenario. In XSpec, this is either an XSLT template (named or
 rule) or an XPath function (written either in XSLT or XQuery).
 Here, we use it to refer to the three ways to refer to the SUT
 itself, as well as parameters to use for the current scenario:
@@ -264,8 +264,8 @@ scenario).
 
 `x:apply` represents applying a template rule to a node (this is not
 possible in XQuery), and corresponds naturally to
-`xsl:apply-templates`.  `x:call` represents a call either to a named
-template or an XPath function.  `x:context` also represents applying
+`xsl:apply-templates`. `x:call` represents a call either to a named
+template or an XPath function. `x:context` also represents applying
 a template rule to a node, but in a different way than `x:apply`:
 the former represents more a full transform (e.g., the result is
 always one document node) where `x:apply` is exactly the result of a
@@ -448,7 +448,7 @@ declare function local:d4e4($x:result, $myv:var)
 ## Variable value
 
 Here is an example of three variables, one using `@select`, one
-using content, and one using `@href`.  The `@href` attribute is
+using content, and one using `@href`. The `@href` attribute is
 to load a document from a file (relative to the test suite
 document). As with `x:param`,
 content and `@href` are mutually exclusive. The `@select` attribute can appear alone or in combination with either content or `@href`.
@@ -515,7 +515,7 @@ This example shows where variables are generated depending on their scope.
 It is worth noting the first implementation of this was to generate
 variables several times if needed, e.g., if they were in scope in
 a scenario and expectations (see the revision r78, a revision before changed by [r79](https://groups.google.com/forum/#!topic/xspec-dev/K25fP9Zb--4), of this page
-for an example).  But this would lead to several evaluations of
+for an example). But this would lead to several evaluations of
 the same thing (which could lead to being less efficient, and to
 subtle bugs in case of side-effects). So instead, variables are
 evaluated once, and then passed as parameters (to templates in XSLT
