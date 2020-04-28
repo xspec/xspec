@@ -83,11 +83,9 @@
           ][1]"/>
 
       <!-- Version declaration -->
-      <xsl:if test="$this/@xquery-version">
-         <xsl:text>xquery version "</xsl:text>
-         <xsl:value-of select="$this/@xquery-version" />
-         <xsl:text>";&#x0A;</xsl:text>
-      </xsl:if>
+      <xsl:text>xquery version "</xsl:text>
+         <xsl:value-of select="($this/@xquery-version, '3.1')[1]" />
+      <xsl:text>";&#x0A;</xsl:text>
 
       <!-- Import module to be tested -->
       <xsl:text>import module </xsl:text>

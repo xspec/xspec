@@ -1517,8 +1517,17 @@ load bats-helper
 }
 
 #
-# Invalid @xquery-version
+# @xquery-version
 #
+
+@test "Default @xquery-version" {
+    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
+    [ "${lines[0]}" = 'xquery version "3.1";' ]
+}
 
 @test "Invalid @xquery-version should be error" {
     run ../bin/xspec.sh -q xquery-version/invalid.xspec
@@ -1611,10 +1620,10 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
 
-    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
         [ "${lines[3]}" = " " ]
     else
-        assert_regex "${lines[3]}" '^WARNING: Saxon version .+'
+        [ "${lines[3]}" = "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9." ]
     fi
 }
 
@@ -1623,8 +1632,8 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1646,8 +1655,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1669,8 +1678,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
