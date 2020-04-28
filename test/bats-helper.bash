@@ -18,8 +18,7 @@ normalize_path() {
     local path=${1//\/.\//\/}
 
     # Remove dir/.. sequences.
-    while [[ $path =~ ([^/][^/]*/\.\./) ]]
-    do
+    while [[ $path =~ ([^/][^/]*/\.\./) ]]; do
         path=${path/${BASH_REMATCH[0]}/}
     done
     echo "$path"
@@ -46,4 +45,3 @@ assert_leaf_dir_not_exist() {
 
     return 1
 }
-

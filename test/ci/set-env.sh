@@ -17,8 +17,7 @@ mydir=$(cd -P -- "${mydirname}" && pwd)
 
 for f in \
     "${mydir}/env/global.env" \
-    "${mydir}/env/${XSPEC_TEST_ENV}.env"
-do
+    "${mydir}/env/${XSPEC_TEST_ENV}.env"; do
     # * "Set environment variables from file of key/value pairs": https://stackoverflow.com/a/49674707
     # * "Process substitution to 'source' do not work on Mac OS": https://stackoverflow.com/a/56060300
     declares=$(grep -E -v '^#|^$|^[^=]+=$' "${f}" | sed -e 's/.*/declare -x "&"/g')

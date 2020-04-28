@@ -1517,8 +1517,17 @@ load bats-helper
 }
 
 #
-# Invalid @xquery-version
+# @xquery-version
 #
+
+@test "Default @xquery-version" {
+    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
+    [ "${lines[0]}" = 'xquery version "3.1";' ]
+}
 
 @test "Invalid @xquery-version should be error" {
     run ../bin/xspec.sh -q xquery-version/invalid.xspec
