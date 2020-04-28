@@ -56,8 +56,7 @@
 			This template makes them predictable while keeping uniqueness within document.
 	-->
 	<xsl:template as="attribute()" name="normalizer:normalize-external-link-attribute">
-		<xsl:context-item as="attribute(href)" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute(href)" use="required" />
 
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
