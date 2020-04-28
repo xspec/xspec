@@ -213,7 +213,7 @@ rem
 rem Include the command line options (and consequently the double quotes)
 rem if necessary.
 rem
-set OPEN=start "XSpec Report"
+rem set OPEN=start "XSpec Report"
 
 rem
 rem # set XSPEC_HOME if it has not been set by the user (set it to the

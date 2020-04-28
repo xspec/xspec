@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="22.0">
     <meta>
-        <filters directoryPatterns="" filePatterns="\Qxspec.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
+        <filters directoryPatterns="node_modules" filePatterns="\Qxspec.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
         <options>
             <serialized version="22.0" xml:space="preserve">
                 <serializableOrderedMap>
