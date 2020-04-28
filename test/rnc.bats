@@ -5,7 +5,7 @@
 #
 
 setup() {
-    cd "${BATS_TEST_DIRNAME}"
+    cd "${BATS_TEST_DIRNAME}" || return
 }
 
 #

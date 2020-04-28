@@ -1272,8 +1272,16 @@
 	</case>
 
 	<!--
-		Invalid @xquery-version
+		@xquery-version
 	-->
+
+	<case name="Default @xquery-version">
+    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    call :verify_retval 0
+
+    call :run type "%TEST_DIR%\xquery-tutorial-compiled.xq"
+    call :verify_line 1 r "xquery version \"3\.1\";$"
+	</case>
 
 	<case name="Invalid @xquery-version should be error">
     call :run ..\bin\xspec.bat -q xquery-version\invalid.xspec
@@ -1353,11 +1361,11 @@
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
 
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
     if errorlevel 1 (
         call :verify_line 4 x " "
     ) else (
-        call :verify_line 4 r "WARNING: Saxon version ..*"
+        call :verify_line 4 x "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9."
     )
 	</case>
 
@@ -1366,9 +1374,9 @@
 	-->
 
 	<case name="No warning on Ant (XSLT) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
     if not errorlevel 1 (
-        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
 
@@ -1389,9 +1397,9 @@
 	</case>
 
 	<case name="No warning on Ant (XQuery) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
     if not errorlevel 1 (
-        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
 
@@ -1412,9 +1420,9 @@
 	</case>
 
 	<case name="No warning on Ant (Schematron) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
     if not errorlevel 1 (
-        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
 
@@ -1442,7 +1450,7 @@
 		@catch should not catch error outside SUT
 	-->
 
-	<case ifdef="XSLT_SUPPORTS_3_0" name="@catch should not catch error outside SUT (XSLT)">
+	<case name="@catch should not catch error outside SUT (XSLT)">
     call :run ..\bin\xspec.bat catch\compiler-error.xspec
     call :verify_retval 2
     call :verify_line  * r "ERROR in scenario .*"
@@ -1479,7 +1487,7 @@
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
-	<case ifdef="XQUERY_SUPPORTS_3_1_DEFAULT" name="@catch should not catch error outside SUT (XQuery)">
+	<case name="@catch should not catch error outside SUT (XQuery)">
     call :run ..\bin\xspec.bat -q catch\compiler-error.xspec
     call :verify_retval 2
     call :verify_line * r ".*x:XSPEC005[: ]"
