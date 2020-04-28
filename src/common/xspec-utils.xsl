@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -429,12 +429,7 @@
 			select="
 				(
 				$context/ancestor-or-self::*[@xslt-version][1]/@xslt-version,
-				
-				(: TODO: Remove this. Setting 3.0 here is just for making @run-as experiment
-					easier. :)
-				3.0[$context/ancestor-or-self::x:description/@run-as eq 'external'],
-				
-				2.0
+				3.0
 				)[1]"
 		 />
 	</xsl:function>

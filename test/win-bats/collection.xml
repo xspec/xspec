@@ -454,12 +454,9 @@
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt-expand.xsl
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt-compile.xsl
 
-    call :run ..\bin\xspec.bat -s ..\tutorial\schematron\demo-01.xspec
+    call :run ..\bin\xspec.bat -s schematron\schematron-xslt.xspec
     call :verify_retval 0
-    call :verify_line  5 x "I am schematron-xslt-include.xsl!"
-    call :verify_line  6 x "I am schematron-xslt-expand.xsl!"
-    call :verify_line  7 x "I am schematron-xslt-compile.xsl!"
-    call :verify_line 20 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
+    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
 
 	<case name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)">
@@ -470,13 +467,10 @@
         -Dxspec.schematron.preprocessor.step1="%CD%\schematron\schematron-xslt-include.xsl" ^
         -Dxspec.schematron.preprocessor.step2="%CD%\schematron\schematron-xslt-expand.xsl" ^
         -Dxspec.schematron.preprocessor.step3="%CD%\schematron\schematron-xslt-compile.xsl" ^
-        -Dxspec.xml="%CD%\..\tutorial\schematron\demo-01.xspec"
+        -Dxspec.xml="%CD%\schematron\schematron-xslt.xspec"
     call :verify_retval 0
-    call :verify_line  * x "     [xslt] I am schematron-xslt-include.xsl!"
-    call :verify_line  * x "     [xslt] I am schematron-xslt-expand.xsl!"
-    call :verify_line  * x "     [xslt] I am schematron-xslt-compile.xsl!"
-    call :verify_line  * x "     [xslt] passed: 3 / pending: 0 / failed: 0 / total: 3"
-    call :verify_line -2 x "BUILD SUCCESSFUL"
+    call :verify_line -10 x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -2  x "BUILD SUCCESSFUL"
 	</case>
 
 	<!--
@@ -1278,8 +1272,16 @@
 	</case>
 
 	<!--
-		Invalid @xquery-version
+		@xquery-version
 	-->
+
+	<case name="Default @xquery-version">
+    call :run ..\bin\xspec.bat -q ..\tutorial\xquery-tutorial.xspec
+    call :verify_retval 0
+
+    call :run type "%TEST_DIR%\xquery-tutorial-compiled.xq"
+    call :verify_line 1 r "xquery version \"3\.1\";$"
+	</case>
 
 	<case name="Invalid @xquery-version should be error">
     call :run ..\bin\xspec.bat -q xquery-version\invalid.xspec
@@ -1359,11 +1361,11 @@
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
 
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
     if errorlevel 1 (
         call :verify_line 4 x " "
     ) else (
-        call :verify_line 4 r "WARNING: Saxon version ..*"
+        call :verify_line 4 x "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9."
     )
 	</case>
 
@@ -1372,9 +1374,9 @@
 	-->
 
 	<case name="No warning on Ant (XSLT) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
     if not errorlevel 1 (
-        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
 
@@ -1395,9 +1397,9 @@
 	</case>
 
 	<case name="No warning on Ant (XQuery) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
     if not errorlevel 1 (
-        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
 
@@ -1418,9 +1420,9 @@
 	</case>
 
 	<case name="No warning on Ant (Schematron) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.7."
+    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
     if not errorlevel 1 (
-        call :skip "Always expect a deprecation warning on Saxon 9.7"
+        call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
 
@@ -1448,7 +1450,7 @@
 		@catch should not catch error outside SUT
 	-->
 
-	<case ifdef="XSLT_SUPPORTS_3_0" name="@catch should not catch error outside SUT (XSLT)">
+	<case name="@catch should not catch error outside SUT (XSLT)">
     call :run ..\bin\xspec.bat catch\compiler-error.xspec
     call :verify_retval 2
     call :verify_line * r "ERROR in scenario .*"
@@ -1478,7 +1480,7 @@
     call :verify_line * r ".*XPST0017[: ]"
 	</case>
 
-	<case ifdef="XQUERY_SUPPORTS_3_1_DEFAULT" name="@catch should not catch error outside SUT (XQuery)">
+	<case name="@catch should not catch error outside SUT (XQuery)">
     call :run ..\bin\xspec.bat -q catch\compiler-error.xspec
     call :verify_retval 2
     call :verify_line * r ".*x:XSPEC005[: ]"
@@ -1584,7 +1586,9 @@
 	</case>
 
 	<!--
-		Custom HTML reporter
+		Custom HTML reporter (CLI)
+		
+			Ant is tested by XSPEC_HOME/test/end-to-end/cases/format-xspec-report-folding.xspec
 	-->
 
 	<case name="Custom HTML reporter (CLI)">
@@ -1595,38 +1599,15 @@
     call :verify_line  -9 x "--- Expected Result ---"
 	</case>
 
-	<case name="Custom HTML reporter (Ant)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dxspec.fail=false ^
-        -Dxspec.html.reporter.xsl="%CD%\format-xspec-report-messaging.xsl" ^
-        -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
-    call :verify_retval 0
-    call :verify_line -21 x "     [xslt] --- Actual Result ---"
-    call :verify_line -14 x "     [xslt] --- Expected Result ---"
-	</case>
-
 	<!--
-		Custom coverage reporter
+		Custom coverage reporter (CLI)
+		
+			Ant is tested by XSPEC_HOME/test/end-to-end/cases/custom-coverage-report.xspec
 	-->
 
 	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Custom coverage reporter (CLI)">
     set COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
     call :run ..\bin\xspec.bat -c ..\tutorial\coverage\demo.xspec
-    call :verify_retval 0
-
-    call :run type "%TEST_DIR%\demo-coverage.html"
-    call :verify_line * r "..*--Customized coverage report--..*"
-	</case>
-
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="Custom coverage reporter (Ant)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dxspec.coverage.enabled=true ^
-        -Dxspec.coverage.reporter.xsl="%CD%\custom-coverage-report.xsl" ^
-        -Dxspec.xml="%CD%\..\tutorial\coverage\demo.xspec"
     call :verify_retval 0
 
     call :run type "%TEST_DIR%\demo-coverage.html"

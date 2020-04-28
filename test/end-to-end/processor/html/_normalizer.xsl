@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:html:normalizer:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -180,5 +180,44 @@
 		<xsl:variable as="document-node(element(html))" name="doc" select="root($context-node)" />
 		<xsl:sequence select="$doc/html/body/starts-with(p[1], 'Schematron:')" />
 	</xsl:function>
+
+	<!--
+		Templates for format-xspec-report-folding.xsl
+	-->
+
+	<!--
+		Normalizes image URI in script
+	-->
+	<xsl:template as="text()" match="script/text()" mode="normalizer:normalize">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
+		<xsl:variable name="regex"><![CDATA[^( +icon\.src = ")(.+?)(" ;)$]]></xsl:variable>
+
+		<xsl:value-of>
+			<xsl:analyze-string flags="m" regex="{$regex}" select=".">
+				<xsl:matching-substring>
+					<xsl:sequence
+						select="
+							regex-group(1),
+							normalizer:relative-uri(regex-group(2), $tunnel_document-uri),
+							regex-group(3)"
+					 />
+				</xsl:matching-substring>
+				<xsl:non-matching-substring>
+					<xsl:copy />
+				</xsl:non-matching-substring>
+			</xsl:analyze-string>
+		</xsl:value-of>
+	</xsl:template>
+
+	<!--
+		Normalizes image URI
+	-->
+	<xsl:template as="attribute(src)" match="img/@src" mode="normalizer:normalize">
+		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
+
+		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+			select="normalizer:relative-uri(., $tunnel_document-uri)" />
+	</xsl:template>
 
 </xsl:stylesheet>

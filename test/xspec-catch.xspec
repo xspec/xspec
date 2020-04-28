@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
-	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xquery-version="3.1" xslt-version="3.0">
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- @catch attribute of this shared scenario is just to see how the current
 		implementation behaves. At the moment, setting @catch on a scenario has

@@ -1,4 +1,6 @@
 #!/usr/bin/env bats
+# shellcheck disable=SC2030,SC2031
+
 #===============================================================================
 #
 #         USAGE:  bats xspec.bats 
@@ -555,13 +557,10 @@ load bats-helper
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
 
-    run ../bin/xspec.sh -s ../tutorial/schematron/demo-01.xspec
+    run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[4]}"  = "I am schematron-xslt-include.xsl!" ]
-    [ "${lines[5]}"  = "I am schematron-xslt-expand.xsl!" ]
-    [ "${lines[6]}"  = "I am schematron-xslt-compile.xsl!" ]
-    [ "${lines[19]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
@@ -572,14 +571,11 @@ load bats-helper
         -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt-include.xsl" \
         -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt-expand.xsl" \
         -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt-compile.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/schematron/demo-01.xspec"
+        -Dxspec.xml="${PWD}/schematron/schematron-xslt.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-include.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-expand.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] I am schematron-xslt-compile.xsl!'$'\n'
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 3 / pending: 0 / failed: 0 / total: 3'$'\n'
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
 #
@@ -1521,8 +1517,17 @@ load bats-helper
 }
 
 #
-# Invalid @xquery-version
+# @xquery-version
 #
+
+@test "Default @xquery-version" {
+    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
+    [ "${lines[0]}" = 'xquery version "3.1";' ]
+}
 
 @test "Invalid @xquery-version should be error" {
     run ../bin/xspec.sh -q xquery-version/invalid.xspec
@@ -1615,10 +1620,10 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
 
-    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
+    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
         [ "${lines[3]}" = " " ]
     else
-        assert_regex "${lines[3]}" '^WARNING: Saxon version .+'
+        [ "${lines[3]}" = "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9." ]
     fi
 }
 
@@ -1627,8 +1632,8 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1650,8 +1655,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1673,8 +1678,8 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.7."; then
-        skip "Always expect a deprecation warning on Saxon 9.7"
+    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+        skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
     ant_log="${work_dir}/ant.log"
@@ -1705,10 +1710,6 @@ load bats-helper
 #
 
 @test "@catch should not catch error outside SUT (XSLT)" {
-    if [ -z "${XSLT_SUPPORTS_3_0}" ]; then
-        skip "XSLT_SUPPORTS_3_0 is not defined"
-    fi
-
     run ../bin/xspec.sh catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1746,10 +1747,6 @@ load bats-helper
 }
 
 @test "@catch should not catch error outside SUT (XQuery)" {
-    if [ -z "${XQUERY_SUPPORTS_3_1_DEFAULT}" ]; then
-        skip "XQUERY_SUPPORTS_3_1_DEFAULT is not defined"
-    fi
-
     run ../bin/xspec.sh -q catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
@@ -1873,7 +1870,9 @@ load bats-helper
 }
 
 #
-# Custom HTML reporter
+# Custom HTML reporter (CLI)
+#
+#     Ant is tested by XSPEC_HOME/test/end-to-end/cases/format-xspec-report-folding.xspec
 #
 
 @test "Custom HTML reporter (CLI)" {
@@ -1885,21 +1884,10 @@ load bats-helper
     [ "${lines[${#lines[@]}-9]}"  = "--- Expected Result ---" ]
 }
 
-@test "Custom HTML reporter (Ant)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.fail=false \
-        -Dxspec.html.reporter.xsl="${PWD}/format-xspec-report-messaging.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-21]}" = "     [xslt] --- Actual Result ---" ]
-    [ "${lines[${#lines[@]}-14]}" = "     [xslt] --- Expected Result ---" ]
-}
-
 #
-# Custom coverage reporter
+# Custom coverage reporter (CLI)
+#
+#     Ant is tested by XSPEC_HOME/test/end-to-end/cases/custom-coverage-report.xspec
 #
 
 @test "Custom coverage reporter (CLI)" {
@@ -1909,25 +1897,6 @@ load bats-helper
 
     export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
     run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
-
-    run cat "${TEST_DIR}/demo-coverage.html"
-    echo "$output"
-    assert_regex "${output}" '.+--Customized coverage report--.+'
-}
-
-@test "Custom coverage reporter (Ant)" {
-    if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
-        skip "XSLT_SUPPORTS_COVERAGE is not defined"
-    fi
-
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.coverage.enabled=true \
-        -Dxspec.coverage.reporter.xsl="${PWD}/custom-coverage-report.xsl" \
-        -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 

@@ -8,7 +8,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -83,11 +83,9 @@
           ][1]"/>
 
       <!-- Version declaration -->
-      <xsl:if test="$this/@xquery-version">
-         <xsl:text>xquery version "</xsl:text>
-         <xsl:value-of select="$this/@xquery-version" />
-         <xsl:text>";&#x0A;</xsl:text>
-      </xsl:if>
+      <xsl:text>xquery version "</xsl:text>
+         <xsl:value-of select="($this/@xquery-version, '3.1')[1]" />
+      <xsl:text>";&#x0A;</xsl:text>
 
       <!-- Import module to be tested -->
       <xsl:text>import module </xsl:text>
@@ -313,10 +311,6 @@
                         <xsl:sort select="xs:integer(@position)"/>
                         <xsl:text>$</xsl:text>
                         <xsl:value-of select="test:variable-name(.)" />
-                        <xsl:for-each select="@as">
-                           <xsl:text> treat as </xsl:text>
-                           <xsl:value-of select="." />
-                        </xsl:for-each>
                         <xsl:if test="position() != last()">, </xsl:if>
                      </xsl:for-each>
                      <xsl:text>)&#10;</xsl:text>

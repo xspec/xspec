@@ -8,7 +8,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -55,10 +55,16 @@
       <xsl:context-item as="document-node()" use="required"
          use-when="element-available('xsl:context-item')" />
 
-      <xsl:variable name="deprecation-warning" as="xs:string?" select="
-         if (x:saxon-version() lt x:pack-version((9, 8)))
-         then 'Saxon version 9.7 or less is deprecated. XSpec will stop supporting it in the near future.'
-         else ()" />
+      <xsl:variable name="deprecation-warning" as="xs:string?">
+         <xsl:choose>
+            <xsl:when test="x:saxon-version() lt x:pack-version((9, 8))">
+               <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
+            </xsl:when>
+            <xsl:when test="x:saxon-version() lt x:pack-version((9, 9))">
+               <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
+            </xsl:when>
+         </xsl:choose>
+      </xsl:variable>
       <xsl:message select="
          if ($deprecation-warning)
          then ('WARNING:', $deprecation-warning)
