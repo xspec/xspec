@@ -1,9 +1,9 @@
 os: linux
 language: java
-dist: trusty
 
 jdk:
-  - oraclejdk8
+  # 'oraclejdk8' needs 'dist: trusty' (xspec/xspec#585)
+  - openjdk8
   - openjdk11
 
 env:
