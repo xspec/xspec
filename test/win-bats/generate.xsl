@@ -64,7 +64,7 @@
 
 	<!-- Writes lines with CR LF -->
 	<xsl:template as="text()+" name="write">
-		<xsl:context-item use="absent" use-when="element-available('xsl:context-item')" />
+		<xsl:context-item use="absent" />
 
 		<xsl:param as="xs:string" name="text" required="yes" />
 
