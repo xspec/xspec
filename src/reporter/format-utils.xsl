@@ -418,8 +418,7 @@
 <!-- Generates <style> or <link> for CSS.
   If you enable $inline, you must use test:disable-escaping character map in serialization. -->
 <xsl:template name="test:load-css" as="element()">
-  <xsl:context-item use="absent"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item use="absent" />
 
   <xsl:param name="inline" as="xs:boolean" required="yes" />
   <xsl:param name="uri" as="xs:string?" />
