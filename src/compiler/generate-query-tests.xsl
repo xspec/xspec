@@ -8,7 +8,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -83,11 +83,9 @@
           ][1]"/>
 
       <!-- Version declaration -->
-      <xsl:if test="$this/@xquery-version">
-         <xsl:text>xquery version "</xsl:text>
-         <xsl:value-of select="$this/@xquery-version" />
-         <xsl:text>";&#x0A;</xsl:text>
-      </xsl:if>
+      <xsl:text>xquery version "</xsl:text>
+         <xsl:value-of select="($this/@xquery-version, '3.1')[1]" />
+      <xsl:text>";&#x0A;</xsl:text>
 
       <!-- Import module to be tested -->
       <xsl:text>import module </xsl:text>
@@ -179,8 +177,7 @@
    <!-- Generates a call to the function compiled from a scenario or an expect element. --> 
 
    <xsl:template name="x:output-call">
-      <xsl:context-item as="element()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="last"   as="xs:boolean" />
       <xsl:param name="params" as="element(param)*" />
@@ -222,8 +219,7 @@
    -->
 
    <xsl:template name="x:output-scenario" as="node()+">
-      <xsl:context-item as="element(x:scenario)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
       <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
@@ -346,8 +342,7 @@
    </xsl:template>
 
    <xsl:template name="x:output-try-catch" as="text()+">
-      <xsl:context-item use="absent"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item use="absent" />
 
       <xsl:param name="instruction" as="text()+" required="yes" />
 
@@ -385,8 +380,7 @@
        element for the XML report.
    -->
    <xsl:template name="x:output-expect" as="node()+">
-      <xsl:context-item as="element(x:expect)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:expect)" use="required" />
 
       <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>

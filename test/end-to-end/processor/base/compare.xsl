@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:deserializer="x-urn:xspec:test:end-to-end:processor:deserializer"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:base:compare:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"

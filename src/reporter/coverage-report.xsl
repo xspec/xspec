@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -186,8 +186,7 @@
 </xsl:variable>
 
 <xsl:template name="test:output-lines">
-  <xsl:context-item use="absent"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item use="absent" />
 
   <xsl:param name="line-number" as="xs:integer" required="yes" />
   <xsl:param name="stylesheet-string" as="xs:string" required="yes" />

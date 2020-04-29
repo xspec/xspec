@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:html:normalizer:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -30,7 +30,7 @@
 						regex-group(1),
 						x:filename-and-extension(regex-group(2)),
 						regex-group(3)"
-					separator=" " />
+				 />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>

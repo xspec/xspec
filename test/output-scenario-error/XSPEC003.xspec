@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xquery"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="x:context">
+		<x:context />
+		<x:expect label="should be error x:XSPEC003" test="true()" />
+	</x:scenario>
+</x:description>

@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -21,8 +21,7 @@
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report-folding.xsl</pkg:import-uri>
 
 <xsl:template name="x:html-head-callback" as="element(xhtml:script)">
-  <xsl:context-item as="document-node(element(x:report))" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="document-node(element(x:report))" use="required" />
 
   <script language="javascript" type="text/javascript">
 function toggle(scenarioID) {
@@ -56,8 +55,7 @@ function toggle(scenarioID) {
 </xsl:template>
 
 <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
-  <xsl:context-item as="element(x:scenario)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:scenario)" use="required" />
 
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />

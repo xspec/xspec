@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/XSL/TransformAlias"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -121,8 +121,7 @@
 <!-- Generates a call to the template compiled from a scenario or an expect element. --> 
 
 <xsl:template name="x:output-call">
-   <xsl:context-item as="element()" use="required"
-      use-when="element-available('xsl:context-item')" />
+   <xsl:context-item as="element()" use="required" />
 
    <xsl:param name="last"   as="xs:boolean" />
    <xsl:param name="params" as="element(param)*" />
@@ -148,8 +147,7 @@
 <!-- Generates the templates that perform the tests -->
 
 <xsl:template name="x:output-scenario" as="element(xsl:template)+">
-  <xsl:context-item as="element(x:scenario)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:scenario)" use="required" />
 
   <xsl:param name="pending"   select="()" tunnel="yes" as="node()?"/>
   <xsl:param name="apply"     select="()" tunnel="yes" as="element(x:apply)?"/>
@@ -292,8 +290,7 @@
 
           <!-- Enter SUT -->
           <xsl:choose>
-            <xsl:when test="$is-dynamic" use-when="function-available('transform')
-              and false() (: TODO: Dynamic invocation. Not implemented yet. :)">
+            <xsl:when test="$is-dynamic" use-when="false() (: TODO: Dynamic invocation. Not implemented yet. :)">
               <!-- Set up the $impl:transform-options variable -->
               <xsl:call-template name="x:setup-transform-options" />
 
@@ -412,8 +409,7 @@
 </xsl:template>
 
 <xsl:template name="x:output-try-catch" as="element(xsl:try)">
-  <xsl:context-item use="absent"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item use="absent" />
 
   <xsl:param name="instruction" as="element()" required="yes" />
 
@@ -445,8 +441,7 @@
 </xsl:template>
 
 <xsl:template name="x:output-expect" as="element(xsl:template)">
-  <xsl:context-item as="element(x:expect)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:expect)" use="required" />
 
   <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
   <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>

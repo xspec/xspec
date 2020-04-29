@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -418,8 +418,7 @@
 <!-- Generates <style> or <link> for CSS.
   If you enable $inline, you must use test:disable-escaping character map in serialization. -->
 <xsl:template name="test:load-css" as="element()">
-  <xsl:context-item use="absent"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item use="absent" />
 
   <xsl:param name="inline" as="xs:boolean" required="yes" />
   <xsl:param name="uri" as="xs:string?" />
