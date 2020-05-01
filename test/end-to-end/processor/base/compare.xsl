@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:deserializer="x-urn:xspec:test:end-to-end:processor:deserializer"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:base:compare:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
@@ -35,11 +35,9 @@
 		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="document-uri(/)" />
 
 		<xsl:message>
-			<xsl:text>Comparing</xsl:text>
-			<xsl:text>&#x0A;   Actual: </xsl:text>
-			<xsl:value-of select="$input-doc-uri" />
-			<xsl:text>&#x0A; Expected: </xsl:text>
-			<xsl:value-of select="$EXPECTED-DOC-URI" />
+			<xsl:text>Comparing&#x0A;</xsl:text>
+			<xsl:text expand-text="yes">   Actual: {$input-doc-uri}&#x0A;</xsl:text>
+			<xsl:text expand-text="yes"> Expected: {$EXPECTED-DOC-URI}</xsl:text>
 		</xsl:message>
 
 		<!-- Load the expected report file -->

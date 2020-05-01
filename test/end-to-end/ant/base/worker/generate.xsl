@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -20,8 +20,7 @@
 		Context node is in each .xspec file's /x:description/@*.
 	-->
 	<xsl:template as="node()+" name="on-run-xspec">
-		<xsl:context-item as="attribute()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute()" use="required" />
 
 		<xsl:param as="xs:boolean" name="coverage-enabled" required="yes" />
 
@@ -97,8 +96,7 @@
 
 	<!-- Override this template to provide <post-task> with additional nodes -->
 	<xsl:template as="empty-sequence()" name="on-post-task">
-		<xsl:context-item as="attribute()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute()" use="required" />
 
 		<xsl:param as="element(reports)" name="reports" />
 	</xsl:template>

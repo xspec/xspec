@@ -41,4 +41,3 @@ locale
 echo
 echo "=== Print environment variables"
 printenv
-

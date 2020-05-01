@@ -8,7 +8,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -50,13 +50,18 @@
       <!-- Actually, xsl:context-item/@as is "document-node(element(x:description))".
          "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
          error message. -->
-      <xsl:context-item as="document-node()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="document-node()" use="required" />
 
-      <xsl:variable name="deprecation-warning" as="xs:string?" select="
-         if (x:saxon-version() lt x:pack-version((9, 8)))
-         then 'Saxon version 9.7 or less is deprecated. XSpec will stop supporting it in the near future.'
-         else ()" />
+      <xsl:variable name="deprecation-warning" as="xs:string?">
+         <xsl:choose>
+            <xsl:when test="x:saxon-version() lt x:pack-version((9, 8))">
+               <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
+            </xsl:when>
+            <xsl:when test="x:saxon-version() lt x:pack-version((9, 9))">
+               <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
+            </xsl:when>
+         </xsl:choose>
+      </xsl:variable>
       <xsl:message select="
          if ($deprecation-warning)
          then ('WARNING:', $deprecation-warning)
@@ -96,31 +101,19 @@
       <xsl:param name="visit" as="element(x:description)+"/>
 
       <!-- "$visit/x:import" without sorting -->
-      <xsl:variable name="imports" as="element(x:import)*">
-        <xsl:for-each select="$visit">
-          <xsl:sequence select="x:import" />
-        </xsl:for-each>
-      </xsl:variable>
       <xsl:variable name="imports" as="element(x:import)*"
-        select="x:distinct-nodes-stable($imports)" />
+                    select="x:distinct-nodes-stable($visit ! x:import)" />
 
-      <!-- "document($imports/@href)" without sorting -->
-      <xsl:variable name="docs" as="document-node(element(x:description))*">
-        <xsl:for-each select="$imports">
-          <xsl:sequence select="document(@href) treat as document-node(element(x:description))" />
-        </xsl:for-each>
-      </xsl:variable>
+      <!-- "document($imports/@href)" (and error check) without sorting -->
       <xsl:variable name="docs" as="document-node(element(x:description))*"
-        select="x:distinct-nodes-stable($docs)" />
+                    select="x:distinct-nodes-stable(
+                               $imports
+                               ! (document(@href) treat as document-node(element(x:description)))
+                            )" />
 
       <!-- "$docs/x:description" without sorting -->
-      <xsl:variable name="imported" as="element(x:description)*">
-        <xsl:for-each select="$docs">
-          <xsl:sequence select="x:description" />
-        </xsl:for-each>
-      </xsl:variable>
       <xsl:variable name="imported" as="element(x:description)*"
-        select="x:distinct-nodes-stable($imported)" />
+                    select="x:distinct-nodes-stable($docs ! x:description)" />
 
       <!-- "$imported except $visit" without sorting -->
       <xsl:variable name="imported-except-visit" as="element(x:description)*"
@@ -257,8 +250,7 @@
        corresponding call instruction at some point).
    -->
    <xsl:template name="x:call-scenarios">
-      <xsl:context-item as="element()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element()" use="required" />
 
       <!-- Default value of $pending does not affect compiler output but is here if needed in the future -->
       <xsl:param name="pending" select="(.//@focus)[1]" tunnel="yes" as="node()?"/>
@@ -277,8 +269,7 @@
    </xsl:template>
 
    <xsl:template name="x:continue-call-scenarios">
-      <xsl:context-item as="element()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element()" use="required" />
 
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
@@ -421,8 +412,7 @@
        Drive the compilation of global params and variables.
    -->
    <xsl:template name="x:compile-global-params-and-vars">
-      <xsl:context-item as="element(x:description)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
       <xsl:apply-templates select="$this/(x:param|x:variable)" mode="test:generate-variable-declarations"/>
@@ -444,8 +434,7 @@
        templates or XQuery functions.
    -->
    <xsl:template name="x:compile-scenarios">
-      <xsl:context-item as="element()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="pending" as="node()?" select="(.//@focus)[1]" tunnel="yes"/>
 
@@ -741,8 +730,7 @@
       The actual instruction to enter SUT is provided by the caller. The instruction
       should not contain other actions. -->
    <xsl:template name="x:enter-sut" as="node()+">
-      <xsl:context-item as="element(x:scenario)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="instruction" as="node()+" required="yes" />
 
@@ -807,8 +795,7 @@
    <!-- Generate error message for user-defined usage of names in XSpec namespace.
         Context node is an x:variable element. -->
    <xsl:template name="x:detect-reserved-variable-name" as="empty-sequence()">
-      <xsl:context-item as="element(x:variable)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:variable)" use="required" />
 
       <xsl:variable name="qname" as="xs:QName"
          select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
