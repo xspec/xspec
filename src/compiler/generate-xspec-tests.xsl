@@ -83,7 +83,7 @@
     <!-- The main compiled template. -->
     <xsl:comment> the main template to run the suite </xsl:comment>
     <template name="{x:xspec-name(.,'main')}">
-      <xsl:text>&#10;   </xsl:text><xsl:comment> info message </xsl:comment>
+      <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
       <message>
         <text>Testing with </text>
         <value-of select="system-property('xsl:product-name')" />
