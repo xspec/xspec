@@ -171,20 +171,21 @@ result as parameter.
 ```xml
 <!-- generated from the x:scenario element -->
 <xsl:template name="x:scenario1">
-  <xsl:message>scenario</xsl:message>
-  <x:scenario id="scenario1"
-              xspec=".../compilation-simple-suite.xspec">
-     <x:label>scenario</x:label>
-     <x:call>
-        <xsl:attribute name="function">my:f</xsl:attribute>
-     </x:call>
-     <xsl:variable name="x:result" as="item()*">
-        <xsl:sequence select="my:f()"/>
-     </xsl:variable>
-   ... generate scenario data in the report ...
-     <xsl:call-template name="x:scenario1-expect1">
-        <xsl:with-param name="x:result" select="$x:result"/>
-     </xsl:call-template>
+   <xsl:message>scenario</xsl:message>
+   <x:scenario id="scenario1"
+               xspec=".../compilation-simple-suite.xspec">
+      <x:label>scenario</x:label>
+      <x:call>
+         <xsl:attribute name="function">my:f</xsl:attribute>
+      </x:call>
+      <xsl:variable name="x:result" as="item()*">
+         <xsl:sequence select="my:f()"/>
+      </xsl:variable>
+      ... generate scenario data in the report ...
+      <xsl:call-template name="x:scenario1-expect1">
+         <xsl:with-param name="x:result" select="$x:result"/>
+      </xsl:call-template>
+   </x:scenario>
 </xsl:template>
 
 <!-- generated from the x:expect element -->
@@ -192,32 +193,32 @@ result as parameter.
    <xsl:param name="x:result" required="yes"/>
    <!-- expected result -->
    <xsl:variable name="impl:expect-d6e4" select="()"/>
-   <!-- wrap $x:result into a doc node if node()+ -->
-      <xsl:variable name="impl:test-items" as="item()*">
-         <xsl:choose>
-            <xsl:when test="exists($x:result) and test:wrappable-sequence($x:result)">
-               <xsl:sequence select="test:wrap-nodes($x:result)"/>
-            </xsl:when>
-            <xsl:otherwise>
-               <xsl:sequence select="$x:result"/>
-            </xsl:otherwise>
-         </xsl:choose>
-      </xsl:variable>
+   <!-- wrap $x:result into a doc node if possible -->
+   <xsl:variable name="impl:test-items" as="item()*">
+      <xsl:choose>
+         <xsl:when test="exists($x:result) and test:wrappable-sequence($x:result)">
+            <xsl:sequence select="test:wrap-nodes($x:result)"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:sequence select="$x:result"/>
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:variable>
    <!-- evaluate the predicate with $x:result as context
         node if $x:result is a single node; if not, just
         evaluate the predicate -->
    <xsl:variable name="impl:test-result" as="item()*">
-     <xsl:choose>
-        <xsl:when test="count($impl:test-items) eq 1">
-           <xsl:for-each select="$impl:test-items">
-              <xsl:sequence select="$x:result = 1" version="2"/>
-           </xsl:for-each>
-        </xsl:when>
-        <xsl:otherwise>
-           <xsl:sequence select="$x:result = 1" version="2"/>
-        </xsl:otherwise>
-     </xsl:choose>
-  </xsl:variable>
+      <xsl:choose>
+         <xsl:when test="count($impl:test-items) eq 1">
+            <xsl:for-each select="$impl:test-items">
+               <xsl:sequence select="$x:result = 1" version="2"/>
+            </xsl:for-each>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:sequence select="$x:result = 1" version="2"/>
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:variable>
    <!-- did the test pass? -->
    <xsl:variable name="impl:boolean-test"
                  as="xs:boolean"
