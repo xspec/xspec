@@ -46,11 +46,17 @@
 
     <xsl:template match="x:import" as="node()+">
         <xsl:variable name="href" as="xs:anyURI" select="resolve-uri(@href, base-uri())"/>
-        <xsl:choose>
-            <xsl:when test="doc($href)//*[ 
+        <xsl:variable name="is-schematron-xspec" as="xs:boolean"
+            select="
+                doc($href)
+                //*[ 
                 self::x:expect-assert | self::x:expect-not-assert | 
                 self::x:expect-report | self::x:expect-not-report |
-                self::x:expect-valid | self::x:description[@schematron] ]">
+                self::x:expect-valid | self::x:description[@schematron] ]
+                => exists()" />
+
+        <xsl:choose>
+            <xsl:when test="$is-schematron-xspec">
                 <xsl:comment>BEGIN IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
                 <xsl:apply-templates select="doc($href)/x:description/node()">
                     <xsl:with-param name="imported-uri" tunnel="yes"
