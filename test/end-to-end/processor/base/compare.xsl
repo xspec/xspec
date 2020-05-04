@@ -64,9 +64,8 @@
 			<!-- Save the normalized input document -->
 			<xsl:variable as="xs:anyURI" name="save-normalized-input-uri"
 				select="
-					resolve-uri(
-					(x:filename-without-extension($input-doc-uri) || '-norm' || x:extension-without-filename($input-doc-uri)),
-					$input-doc-uri)" />
+					(x:filename-without-extension($input-doc-uri) || '-norm' || x:extension-without-filename($input-doc-uri))
+					=> resolve-uri($input-doc-uri)" />
 			<xsl:result-document format="serializer:output" href="{$save-normalized-input-uri}">
 				<xsl:sequence select="$normalized-input-doc" />
 			</xsl:result-document>

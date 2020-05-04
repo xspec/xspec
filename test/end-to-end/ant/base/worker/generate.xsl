@@ -30,9 +30,13 @@
 
 		<!-- Directory URIs where the XSpec report files are put -->
 		<xsl:variable as="xs:anyURI" name="actual-reports-dir-uri"
-			select="resolve-uri(('actual__/' || name() || '/'), $XSPECFILES-DIR-URI)" />
+			select="
+				('actual__/' || name() || '/')
+				=> resolve-uri($XSPECFILES-DIR-URI)" />
 		<xsl:variable as="xs:anyURI" name="expected-reports-dir-uri"
-			select="resolve-uri(('expected/' || name() || '/'), $XSPECFILES-DIR-URI)" />
+			select="
+				('expected/' || name() || '/')
+				=> resolve-uri($XSPECFILES-DIR-URI)" />
 
 		<!-- Get the file name without extension. i.e. Get "foo" from "scheme://host/dir/foo.xspec" -->
 		<xsl:variable as="xs:string" name="xspec-file-name-without-extension"
