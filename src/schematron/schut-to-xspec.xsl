@@ -50,9 +50,11 @@
                 @href
                 => resolve-uri(base-uri())
                 => x:resolve-xml-uri-with-catalog()" />
+        <xsl:variable name="imported-doc" as="document-node(element(x:description))"
+            select="doc($fully-resolved-href)" />
         <xsl:variable name="is-schematron-xspec" as="xs:boolean"
             select="
-                doc($fully-resolved-href)
+                $imported-doc
                 //*[ 
                 self::x:expect-assert | self::x:expect-not-assert | 
                 self::x:expect-report | self::x:expect-not-report |
@@ -62,7 +64,7 @@
         <xsl:choose>
             <xsl:when test="$is-schematron-xspec">
                 <xsl:comment>BEGIN IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
-                <xsl:apply-templates select="doc($fully-resolved-href)/x:description/node()">
+                <xsl:apply-templates select="$imported-doc/x:description/node()">
                     <xsl:with-param name="imported-uri" tunnel="yes" select="$fully-resolved-href" />
                 </xsl:apply-templates>
                 <xsl:comment>END IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
