@@ -80,8 +80,8 @@
         </testcase>
     </xsl:template>
 
-    <xsl:template match="x:expect[@select]" as="text()+">
-        <xsl:text>Expected: </xsl:text><xsl:value-of select="@select"/>
+    <xsl:template match="x:expect[@select]" as="text()">
+        <xsl:text expand-text="yes">Expected: {@select}</xsl:text>
     </xsl:template>
 
     <xsl:template match="x:expect" as="text()">
