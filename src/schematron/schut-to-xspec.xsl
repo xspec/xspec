@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="3.0"
+                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec" 
                 xmlns:xs="http://www.w3.org/2001/XMLSchema" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -32,7 +33,7 @@
         <xsl:attribute name="stylesheet" select="$stylesheet-uri"/>
         <xsl:variable name="path" as="xs:anyURI" select="resolve-uri(string(), base-uri())"/>
         <xsl:attribute name="schematron" select="$path"/>
-        <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
+        <xsl:for-each select="doc($path)/sch:schema/sch:ns">
             <xsl:namespace name="{./@prefix}" select="./@uri"/>
         </xsl:for-each>
     </xsl:template>
