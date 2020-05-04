@@ -5,7 +5,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
-    <xsl:param name="stylesheet-uri" select="concat(x:description/@schematron, '.xsl')"/>
+    <xsl:param name="stylesheet-uri" select="x:description/@schematron || '.xsl'" />
 
     <xsl:include href="../common/xspec-utils.xsl"/>
 
@@ -117,7 +117,7 @@
                 <xsl:sequence select="'(svrl:schematron-output/svrl:failed-assert'"/>
                 <xsl:apply-templates select="@*" mode="make-predicate"/>
                 <xsl:sequence select="')'"/>
-                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
+                <xsl:sequence select="current()[@count]/(' eq ' || @count)" />
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -141,7 +141,7 @@
                 <xsl:sequence select="'(svrl:schematron-output/svrl:successful-report'"/>
                 <xsl:apply-templates select="@*" mode="make-predicate"/>
                 <xsl:sequence select="')'"/>
-                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
+                <xsl:sequence select="current()[@count]/(' eq ' || @count)" />
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -206,7 +206,7 @@
                 <xsl:sequence select="'(svrl:schematron-output/svrl:fired-rule'"/>
                 <xsl:apply-templates select="@*" mode="make-predicate"/>
                 <xsl:sequence select="')'"/>
-                <xsl:sequence select="current()[@count]/concat(' eq ', @count)"/>
+                <xsl:sequence select="current()[@count]/(' eq ' || @count)" />
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
