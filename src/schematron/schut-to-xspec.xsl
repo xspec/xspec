@@ -5,19 +5,19 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
-    <xsl:param name="stylesheet-uri" select="x:description/@schematron || '.xsl'" />
+    <xsl:param name="stylesheet-uri" as="xs:string" select="x:description/@schematron || '.xsl'" />
 
     <xsl:include href="../common/xspec-utils.xsl"/>
 
-    <xsl:variable name="errors" select="('error', 'fatal')" />
-    <xsl:variable name="warns" select="('warn', 'warning')" />
-    <xsl:variable name="infos" select="('info', 'information')" />
+    <xsl:variable name="errors" as="xs:string+" select="'error', 'fatal'" />
+    <xsl:variable name="warns" as="xs:string+" select="'warn', 'warning'" />
+    <xsl:variable name="infos" as="xs:string+" select="'info', 'information'" />
 
     <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
         <xsl:call-template name="x:identity" />
     </xsl:template>
 
-    <xsl:template match="x:description[@schematron]">
+    <xsl:template match="x:description[@schematron]" as="element(x:description)">
         <xsl:element name="x:description">
             <!-- Place xsl:namespace before x:copy-namespaces(), otherwise Saxon 9.6 complains,
                 "Warning... Creating a namespace node here will fail if previous instructions create
@@ -32,18 +32,18 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="x:description/@schematron">
+    <xsl:template match="x:description/@schematron" as="node()+">
         <xsl:attribute name="xspec-original-location" select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
         <xsl:attribute name="stylesheet" select="$stylesheet-uri"/>
-        <xsl:variable name="path" select="resolve-uri(string(), base-uri())"/>
+        <xsl:variable name="path" as="xs:anyURI" select="resolve-uri(string(), base-uri())"/>
         <xsl:attribute name="schematron" select="$path"/>
         <xsl:for-each select="doc($path)/sch:schema/sch:ns" xmlns:sch="http://purl.oclc.org/dsdl/schematron">
             <xsl:namespace name="{./@prefix}" select="./@uri"/>
         </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match="x:import">
-        <xsl:variable name="href" select="resolve-uri(@href, base-uri())"/>
+    <xsl:template match="x:import" as="node()+">
+        <xsl:variable name="href" as="xs:anyURI" select="resolve-uri(@href, base-uri())"/>
         <xsl:choose>
             <xsl:when test="doc($href)//*[ 
                 self::x:expect-assert | self::x:expect-not-assert | 
@@ -62,7 +62,7 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template match="x:scenario">
+    <xsl:template match="x:scenario" as="element(x:scenario)">
         <xsl:param name="imported-uri" as="xs:anyURI?" tunnel="yes" />
 
         <xsl:copy>
@@ -109,7 +109,7 @@
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match="x:expect-assert">
+    <xsl:template match="x:expect-assert" as="element(x:expect)">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
@@ -122,7 +122,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="x:expect-not-assert">
+    <xsl:template match="x:expect-not-assert" as="element(x:expect)">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
@@ -133,7 +133,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="x:expect-report">
+    <xsl:template match="x:expect-report" as="element(x:expect)">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
@@ -147,7 +147,7 @@
     </xsl:template>
 
 
-    <xsl:template match="x:expect-not-report">
+    <xsl:template match="x:expect-not-report" as="element(x:expect)">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
@@ -158,34 +158,35 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="@location" mode="make-predicate">
-        <xsl:variable name="escaped" select="if (not(contains(., codepoints-to-string(39)))) then 
+    <xsl:template match="@location" as="xs:string" mode="make-predicate">
+        <xsl:variable name="escaped" as="xs:string" select="if (not(contains(., codepoints-to-string(39)))) then 
             concat(codepoints-to-string(39), ., codepoints-to-string(39)) else 
             concat('concat(', codepoints-to-string(39), replace(., codepoints-to-string(39), concat(codepoints-to-string(39), ', codepoints-to-string(39), ', codepoints-to-string(39))), codepoints-to-string(39), ')')"/>
         <xsl:sequence select="concat('[x:schematron-location-compare(', $escaped, ', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]')"/>
     </xsl:template>
 
-    <xsl:template match="@id | @role" mode="make-predicate">
+    <xsl:template match="@id | @role" as="xs:string" mode="make-predicate">
         <xsl:sequence select="concat('[(@', local-name(.), 
             ', preceding-sibling::svrl:fired-rule[1]/@',local-name(.), 
             ', preceding-sibling::svrl:active-pattern[1]/@',local-name(.), 
             ')[1] = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
 
-    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" mode="make-predicate">
+    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" as="xs:string"
+        mode="make-predicate">
         <xsl:sequence select="concat('[@', local-name(.), 
             ' = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
 
-    <xsl:template match="@count | @label" mode="make-predicate"/>
+    <xsl:template match="@count | @label" as="empty-sequence()" mode="make-predicate" />
 
-    <xsl:template name="make-label">
+    <xsl:template name="make-label" as="attribute(label)">
         <xsl:context-item as="element()" use="required" />
 
         <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not','rule')], @id, @role, @location, @context, current()[@count]/string('count:'), @count), ' ')"/>
     </xsl:template>
 
-    <xsl:template match="x:expect-valid">
+    <xsl:template match="x:expect-valid" as="element(x:expect)">
         <xsl:element name="x:expect">
             <xsl:attribute name="label" select="'valid'"/>
             <xsl:attribute name="test" select="concat(
@@ -198,7 +199,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="x:expect-rule">
+    <xsl:template match="x:expect-rule" as="element(x:expect)">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
