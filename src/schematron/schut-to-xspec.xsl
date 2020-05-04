@@ -168,7 +168,7 @@
         <xsl:variable name="escaped" as="xs:string" select="if (not(contains(., codepoints-to-string(39)))) then 
             concat(codepoints-to-string(39), ., codepoints-to-string(39)) else 
             concat('concat(', codepoints-to-string(39), replace(., codepoints-to-string(39), concat(codepoints-to-string(39), ', codepoints-to-string(39), ', codepoints-to-string(39))), codepoints-to-string(39), ')')"/>
-        <xsl:value-of select="concat('[x:schematron-location-compare(', $escaped, ', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]')"/>
+        <xsl:text expand-text="yes">[x:schematron-location-compare({$escaped}, @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]</xsl:text>
     </xsl:template>
 
     <xsl:template match="@id | @role" as="text()" mode="make-predicate">
