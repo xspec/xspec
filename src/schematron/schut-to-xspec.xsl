@@ -32,7 +32,7 @@
         <xsl:variable name="path" as="xs:anyURI" select="resolve-uri(string(), base-uri())"/>
 
         <xsl:for-each select="doc($path)/sch:schema/sch:ns">
-            <xsl:namespace name="{./@prefix}" select="./@uri"/>
+            <xsl:namespace name="{@prefix}" select="@uri" />
         </xsl:for-each>
 
         <xsl:attribute name="xspec-original-location" select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
