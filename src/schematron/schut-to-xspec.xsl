@@ -30,7 +30,7 @@
 
     <xsl:template match="x:description/@schematron" as="node()+">
         <xsl:variable name="resolved-schematron-uri" as="xs:anyURI"
-            select="resolve-uri(string(), base-uri())" />
+            select="resolve-uri(., base-uri())" />
 
         <xsl:for-each select="doc($resolved-schematron-uri)/sch:schema/sch:ns">
             <xsl:namespace name="{@prefix}" select="@uri" />
