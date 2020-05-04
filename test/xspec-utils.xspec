@@ -8,6 +8,12 @@
 		/x:description/@stylesheet or @query-at.
 	-->
 
+	<x:scenario label="Scenario for testing variable apos">
+		<x:call function="false" />
+		<x:expect label="One apostrophe character" select="string()"
+			test="$x:apos treat as xs:string">'</x:expect>
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing function node-type">
 		<x:scenario label="Attribute">
 			<x:call function="x:node-type">
@@ -109,6 +115,46 @@
 				<x:param select="QName('', 'foo')" />
 			</x:call>
 			<x:expect label="Converted" select="string()">QName('',&#x20;'foo')</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function quote-with-apos">
+		<x:scenario label="One">
+			<x:call function="x:quote-with-apos">
+				<x:param>foo'bar</x:param>
+			</x:call>
+			<x:expect label="Duplicated and quoted" select="string()">'foo''bar'</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Three">
+			<x:scenario label="Consecutive">
+				<x:call function="x:quote-with-apos">
+					<x:param>foo'''bar</x:param>
+				</x:call>
+				<x:expect label="Duplicated and quoted" select="string()">'foo''''''bar'</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Sparse">
+				<x:call function="x:quote-with-apos">
+					<x:param>foo'bar'baz'qux</x:param>
+				</x:call>
+				<x:expect label="Duplicated and quoted" select="string()"
+					>'foo''bar''baz''qux'</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="No apos">
+			<x:call function="x:quote-with-apos">
+				<x:param> foo bar </x:param>
+			</x:call>
+			<x:expect label="Just quoted" select="string()">' foo bar '</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Zero-length string">
+			<x:call function="x:quote-with-apos">
+				<x:param select="''" />
+			</x:call>
+			<x:expect label="Just quoted" select="string()">''</x:expect>
 		</x:scenario>
 	</x:scenario>
 
