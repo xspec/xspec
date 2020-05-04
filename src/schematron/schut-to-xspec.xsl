@@ -119,11 +119,11 @@
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:sequence select="if (@count) then 'count' else 'exists'"/>
-                <xsl:sequence select="'(svrl:schematron-output/svrl:failed-assert'"/>
-                <xsl:apply-templates select="@*" mode="make-predicate"/>
-                <xsl:sequence select="')'"/>
-                <xsl:sequence select="@count ! (' eq ' || .)" />
+                <xsl:value-of select="if (@count) then 'count' else 'exists'" />
+                <xsl:text>(svrl:schematron-output/svrl:failed-assert</xsl:text>
+                <xsl:apply-templates select="@*" mode="make-predicate" />
+                <xsl:text>)</xsl:text>
+                <xsl:value-of select="@count ! (' eq ' || .)" />
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -132,9 +132,9 @@
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:sequence select="'boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert'"/>
-                <xsl:apply-templates select="@*" mode="make-predicate"/>
-                <xsl:sequence select="')'"/>
+                <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert</xsl:text>
+                <xsl:apply-templates select="@*" mode="make-predicate" />
+                <xsl:text>)</xsl:text>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -143,11 +143,11 @@
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:sequence select="if (@count) then 'count' else 'exists'"/>
-                <xsl:sequence select="'(svrl:schematron-output/svrl:successful-report'"/>
-                <xsl:apply-templates select="@*" mode="make-predicate"/>
-                <xsl:sequence select="')'"/>
-                <xsl:sequence select="@count ! (' eq ' || .)" />
+                <xsl:value-of select="if (@count) then 'count' else 'exists'" />
+                <xsl:text>(svrl:schematron-output/svrl:successful-report</xsl:text>
+                <xsl:apply-templates select="@*" mode="make-predicate" />
+                <xsl:text>)</xsl:text>
+                <xsl:value-of select="@count ! (' eq ' || .)" />
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -157,30 +157,30 @@
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:sequence select="'boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report'"/>
-                <xsl:apply-templates select="@*" mode="make-predicate"/>
-                <xsl:sequence select="')'"/>
+                <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report</xsl:text>
+                <xsl:apply-templates select="@*" mode="make-predicate" />
+                <xsl:text>)</xsl:text>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="@location" as="xs:string" mode="make-predicate">
+    <xsl:template match="@location" as="text()" mode="make-predicate">
         <xsl:variable name="escaped" as="xs:string" select="if (not(contains(., codepoints-to-string(39)))) then 
             concat(codepoints-to-string(39), ., codepoints-to-string(39)) else 
             concat('concat(', codepoints-to-string(39), replace(., codepoints-to-string(39), concat(codepoints-to-string(39), ', codepoints-to-string(39), ', codepoints-to-string(39))), codepoints-to-string(39), ')')"/>
-        <xsl:sequence select="concat('[x:schematron-location-compare(', $escaped, ', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]')"/>
+        <xsl:value-of select="concat('[x:schematron-location-compare(', $escaped, ', @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]')"/>
     </xsl:template>
 
-    <xsl:template match="@id | @role" as="xs:string" mode="make-predicate">
-        <xsl:sequence select="concat('[(@', local-name(.), 
+    <xsl:template match="@id | @role" as="text()" mode="make-predicate">
+        <xsl:value-of select="concat('[(@', local-name(.), 
             ', preceding-sibling::svrl:fired-rule[1]/@',local-name(.), 
             ', preceding-sibling::svrl:active-pattern[1]/@',local-name(.), 
             ')[1] = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
 
-    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" as="xs:string"
+    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" as="text()"
         mode="make-predicate">
-        <xsl:sequence select="concat('[@', local-name(.), 
+        <xsl:value-of select="concat('[@', local-name(.), 
             ' = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
 
@@ -209,11 +209,11 @@
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:sequence select="if (@count) then 'count' else 'exists'"/>
-                <xsl:sequence select="'(svrl:schematron-output/svrl:fired-rule'"/>
-                <xsl:apply-templates select="@*" mode="make-predicate"/>
-                <xsl:sequence select="')'"/>
-                <xsl:sequence select="@count ! (' eq ' || .)" />
+                <xsl:value-of select="if (@count) then 'count' else 'exists'" />
+                <xsl:text>(svrl:schematron-output/svrl:fired-rule</xsl:text>
+                <xsl:apply-templates select="@*" mode="make-predicate" />
+                <xsl:text>)</xsl:text>
+                <xsl:value-of select="@count ! (' eq ' || .)" />
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
