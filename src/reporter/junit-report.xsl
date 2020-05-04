@@ -35,25 +35,20 @@
         <testsuite name="{x:label}"
                    tests="{x:descendant-tests(.) => count()}"
                    failures="{x:descendant-failed-tests(.) => count()}">
-            <xsl:apply-templates select="x:test"/>
-            <xsl:apply-templates select="x:scenario" mode="nested"/>
+            <xsl:apply-templates select="x:test, x:scenario" />
         </testsuite>
     </xsl:template>
 
-    <xsl:template match="x:scenario" as="element(testcase)+" mode="nested">
-        <xsl:param name="prefix" as="xs:string" select="''" />
+    <xsl:template match="x:scenario[ancestor::x:scenario]" as="element(testcase)+">
+        <xsl:param name="prefix" as="xs:string?" />
 
-        <xsl:variable name="prefixed-label" as="xs:string" select="$prefix || x:label || ' '" />
-        <xsl:apply-templates select="x:test">
-            <xsl:with-param name="prefix" select="$prefixed-label"/>
-        </xsl:apply-templates>
-        <xsl:apply-templates select="x:scenario" mode="nested">
-            <xsl:with-param name="prefix" select="$prefixed-label"/>
+        <xsl:apply-templates select="x:test, x:scenario">
+            <xsl:with-param name="prefix" select="$prefix || x:label || ' '" />
         </xsl:apply-templates>
     </xsl:template>
 
     <xsl:template match="x:test" as="element(testcase)">
-        <xsl:param name="prefix" as="xs:string" />
+        <xsl:param name="prefix" as="xs:string?" />
 
         <xsl:variable name="status" as="xs:string">
             <xsl:choose>
