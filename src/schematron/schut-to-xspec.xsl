@@ -13,9 +13,7 @@
     <xsl:variable name="warns" as="xs:string+" select="'warn', 'warning'" />
     <xsl:variable name="infos" as="xs:string+" select="'info', 'information'" />
 
-    <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
-        <xsl:call-template name="x:identity" />
-    </xsl:template>
+    <xsl:mode on-no-match="shallow-copy" />
 
     <xsl:template match="x:description[@schematron]" as="element(x:description)">
         <xsl:copy>
