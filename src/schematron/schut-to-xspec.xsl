@@ -55,10 +55,10 @@
         <xsl:variable name="is-schematron-xspec" as="xs:boolean"
             select="
                 $imported-doc
-                //*[ 
-                self::x:expect-assert | self::x:expect-not-assert | 
-                self::x:expect-report | self::x:expect-not-report |
-                self::x:expect-valid | self::x:description[@schematron] ]
+                /(x:description[@schematron]
+                  | descendant::x:expect-assert | descendant::x:expect-not-assert
+                  | descendant::x:expect-report | descendant::x:expect-not-report
+                  | descendant::x:expect-valid)
                 => exists()" />
 
         <xsl:choose>
