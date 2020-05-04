@@ -25,14 +25,14 @@
 
     <xsl:output indent="yes"/>
 
-    <xsl:template match="x:report">
+    <xsl:template match="x:report" as="element(testsuites)">
         <testsuites>
             <xsl:attribute name="name" select="@xspec"/>
             <xsl:apply-templates select="x:scenario"/>
         </testsuites>
     </xsl:template>
 
-    <xsl:template match="x:scenario">
+    <xsl:template match="x:scenario" as="element(testsuite)">
         <testsuite>
             <xsl:attribute name="name" select="x:label"/>
             <xsl:attribute name="tests" select="count(x:descendant-tests(.))"/>
@@ -42,9 +42,10 @@
         </testsuite>
     </xsl:template>
 
-    <xsl:template match="x:scenario" mode="nested">
-        <xsl:param name="prefix" select="''"/>
-        <xsl:variable name="prefixed-label" select="concat($prefix, x:label, ' ')"/>
+    <xsl:template match="x:scenario" as="element(testcase)+" mode="nested">
+        <xsl:param name="prefix" as="xs:string" select="''" />
+
+        <xsl:variable name="prefixed-label" as="xs:string" select="concat($prefix, x:label, ' ')" />
         <xsl:apply-templates select="x:test">
             <xsl:with-param name="prefix" select="$prefixed-label"/>
         </xsl:apply-templates>
@@ -53,8 +54,9 @@
         </xsl:apply-templates>
     </xsl:template>
 
-    <xsl:template match="x:test">
-        <xsl:param name="prefix"/>
+    <xsl:template match="x:test" as="element(testcase)">
+        <xsl:param name="prefix" as="xs:string" />
+
         <testcase>
             <xsl:attribute name="name" select="concat($prefix, x:label)"/>
             <xsl:attribute name="status">
@@ -75,11 +77,11 @@
         </testcase>
     </xsl:template>
 
-    <xsl:template match="x:expect[@select]">
+    <xsl:template match="x:expect[@select]" as="text()+">
         <xsl:text>Expected: </xsl:text><xsl:value-of select="@select"/>
     </xsl:template>
 
-    <xsl:template match="x:expect">
+    <xsl:template match="x:expect" as="text()">
         <xsl:variable as="element(output:serialization-parameters)" name="serialization-parameters"
             xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
             <output:serialization-parameters>
