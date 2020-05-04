@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- =====================================================================
 
-  Usage:	java -cp "$CP" net.sf.saxon.Transform
-		-o:"$JUNIT_RESULT" \
-	        -s:"$RESULT" \
-	        -xsl:"$XSPEC_HOME/src/reporter/junit-report.xsl"
+  Usage:        java -cp "$CP" net.sf.saxon.Transform
+                -o:"$JUNIT_RESULT" \
+                -s:"$RESULT" \
+                -xsl:"$XSPEC_HOME/src/reporter/junit-report.xsl"
   Description:  XSLT to convert XSpec XML report to JUnit report
-		Executed from bin/xspec.sh
+                Executed from bin/xspec.sh
   Input:        XSpec XML report
   Output:       JUnit report
   Dependencies: It requires XSLT 3.0 for function fn:serialize()
   Authors:      Kal Ahmed, github.com/kal
-		Sandro Cirulli, github.com/cirulls
-  License: 	MIT License (https://opensource.org/licenses/MIT)
+                Sandro Cirulli, github.com/cirulls
+  License:      MIT License (https://opensource.org/licenses/MIT)
 
   ======================================================================== -->
 <xsl:stylesheet version="3.0"
