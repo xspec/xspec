@@ -18,7 +18,7 @@
     </xsl:template>
 
     <xsl:template match="x:description[@schematron]" as="element(x:description)">
-        <xsl:element name="x:description">
+        <xsl:copy>
             <!-- Place xsl:namespace before x:copy-namespaces(), otherwise Saxon 9.6 complains,
                 "Warning... Creating a namespace node here will fail if previous instructions create
                 any children" -->
@@ -29,7 +29,7 @@
 
             <xsl:apply-templates select="@*[not(name() = ('stylesheet'))]"/>
             <xsl:apply-templates select="node()"/>
-        </xsl:element>
+        </xsl:copy>
     </xsl:template>
 
     <xsl:template match="x:description/@schematron" as="node()+">
