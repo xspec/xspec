@@ -78,7 +78,7 @@
 		<xsl:variable as="xs:integer" name="first-index" select="index-of($uris, $this-uri)[1]" />
 
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-			select="concat(upper-case(local-name()), '-', $first-index)" />
+			select="upper-case(local-name()) || '-' || $first-index" />
 	</xsl:template>
 
 	<!--
