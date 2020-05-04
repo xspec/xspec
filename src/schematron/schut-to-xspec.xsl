@@ -19,9 +19,6 @@
 
     <xsl:template match="x:description[@schematron]" as="element(x:description)">
         <xsl:copy>
-            <!-- Place xsl:namespace before x:copy-namespaces(), otherwise Saxon 9.6 complains,
-                "Warning... Creating a namespace node here will fail if previous instructions create
-                any children" -->
             <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
 
             <!-- child::x:param may use namespaces -->
