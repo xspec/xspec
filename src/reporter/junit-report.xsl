@@ -43,7 +43,7 @@
     <xsl:template match="x:scenario" as="element(testcase)+" mode="nested">
         <xsl:param name="prefix" as="xs:string" select="''" />
 
-        <xsl:variable name="prefixed-label" as="xs:string" select="concat($prefix, x:label, ' ')" />
+        <xsl:variable name="prefixed-label" as="xs:string" select="$prefix || x:label || ' '" />
         <xsl:apply-templates select="x:test">
             <xsl:with-param name="prefix" select="$prefixed-label"/>
         </xsl:apply-templates>
@@ -63,7 +63,7 @@
             </xsl:choose>
         </xsl:variable>
 
-        <testcase name="{concat($prefix, x:label)}"
+        <testcase name="{$prefix || x:label}"
                   status="{$status}">
             <xsl:choose>
                 <xsl:when test="x:is-pending-test(.)">
