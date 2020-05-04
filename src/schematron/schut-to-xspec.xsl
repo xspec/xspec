@@ -189,7 +189,7 @@
     <xsl:template name="make-label" as="attribute(label)">
         <xsl:context-item as="element()" use="required" />
 
-        <xsl:attribute name="label" select="string-join((@label, tokenize(local-name(),'-')[.=('report','assert','not','rule')], @id, @role, @location, @context, (@count ! 'count:'), @count), ' ')"/>
+        <xsl:attribute name="label" select="@label, tokenize(local-name(),'-')[.=('report','assert','not','rule')], @id, @role, @location, @context, (@count ! 'count:'), @count" />
     </xsl:template>
 
     <xsl:template match="x:expect-valid" as="element(x:expect)">
