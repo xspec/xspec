@@ -20,7 +20,7 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
-        
+
     <xsl:include href="../common/parse-report.xsl" />
 
     <xsl:output indent="yes"/>
@@ -31,7 +31,7 @@
             <xsl:apply-templates select="x:scenario"/>
         </testsuites>
     </xsl:template>
-    
+
     <xsl:template match="x:scenario">
         <testsuite>
             <xsl:attribute name="name" select="x:label"/>
@@ -52,7 +52,7 @@
             <xsl:with-param name="prefix" select="$prefixed-label"/>
         </xsl:apply-templates>
     </xsl:template>
-    
+
     <xsl:template match="x:test">
         <xsl:param name="prefix"/>
         <testcase>
@@ -74,11 +74,11 @@
             </xsl:choose>
         </testcase>
     </xsl:template>
-    
+
     <xsl:template match="x:expect[@select]">
         <xsl:text>Expected: </xsl:text><xsl:value-of select="@select"/>
     </xsl:template>
-    
+
     <xsl:template match="x:expect">
         <xsl:variable as="element(output:serialization-parameters)" name="serialization-parameters"
             xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
@@ -88,5 +88,5 @@
         </xsl:variable>
         <xsl:value-of select="serialize(., $serialization-parameters)"/>
     </xsl:template>
-    
+
 </xsl:stylesheet>
