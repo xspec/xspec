@@ -26,17 +26,15 @@
     <xsl:output indent="yes"/>
 
     <xsl:template match="x:report" as="element(testsuites)">
-        <testsuites>
-            <xsl:attribute name="name" select="@xspec"/>
+        <testsuites name="{@xspec}">
             <xsl:apply-templates select="x:scenario"/>
         </testsuites>
     </xsl:template>
 
     <xsl:template match="x:scenario" as="element(testsuite)">
-        <testsuite>
-            <xsl:attribute name="name" select="x:label"/>
-            <xsl:attribute name="tests" select="count(x:descendant-tests(.))"/>
-            <xsl:attribute name="failures" select="count(x:descendant-failed-tests(.))"/>
+        <testsuite name="{x:label}"
+                   tests="{count(x:descendant-tests(.))}"
+                   failures="{count(x:descendant-failed-tests(.))}">
             <xsl:apply-templates select="x:test"/>
             <xsl:apply-templates select="x:scenario" mode="nested"/>
         </testsuite>
@@ -57,15 +55,16 @@
     <xsl:template match="x:test" as="element(testcase)">
         <xsl:param name="prefix" as="xs:string" />
 
-        <testcase>
-            <xsl:attribute name="name" select="concat($prefix, x:label)"/>
-            <xsl:attribute name="status">
-                <xsl:choose>
-                    <xsl:when test="x:is-pending-test(.)">skipped</xsl:when>
-                    <xsl:when test="x:is-passed-test(.)">passed</xsl:when>
-                    <xsl:otherwise>failed</xsl:otherwise>
-                </xsl:choose>
-            </xsl:attribute>
+        <xsl:variable name="status" as="xs:string">
+            <xsl:choose>
+                <xsl:when test="x:is-pending-test(.)">skipped</xsl:when>
+                <xsl:when test="x:is-passed-test(.)">passed</xsl:when>
+                <xsl:otherwise>failed</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <testcase name="{concat($prefix, x:label)}"
+                  status="{$status}">
             <xsl:choose>
                 <xsl:when test="x:is-pending-test(.)"><skipped><xsl:value-of select="@pending"/></skipped></xsl:when>
                 <xsl:when test="x:is-failed-test(.)">
