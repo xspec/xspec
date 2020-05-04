@@ -9,9 +9,9 @@
 
     <xsl:include href="../common/xspec-utils.xsl"/>
 
-    <xsl:variable name="error" select="('error', 'fatal')"/>
-    <xsl:variable name="warn" select="('warn', 'warning')"/>
-    <xsl:variable name="info" select="('info', 'information')"/>
+    <xsl:variable name="errors" select="('error', 'fatal')" />
+    <xsl:variable name="warns" select="('warn', 'warning')" />
+    <xsl:variable name="infos" select="('info', 'information')" />
 
     <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
         <xsl:call-template name="x:identity" />
@@ -192,7 +192,7 @@
                 'boolean(svrl:schematron-output[svrl:fired-rule]) and
                 not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[
                 not(@role) or lower-case(@role) = (',
-                string-join(for $e in $error return concat(codepoints-to-string(39), $e, codepoints-to-string(39)), ','),
+                string-join(for $e in $errors return concat(codepoints-to-string(39), $e, codepoints-to-string(39)), ','),
                 ')]))'
                 )"/>
         </xsl:element>
