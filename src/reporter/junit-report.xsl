@@ -66,7 +66,11 @@
         <testcase name="{concat($prefix, x:label)}"
                   status="{$status}">
             <xsl:choose>
-                <xsl:when test="x:is-pending-test(.)"><skipped><xsl:value-of select="@pending"/></skipped></xsl:when>
+                <xsl:when test="x:is-pending-test(.)">
+                    <skipped>
+                        <xsl:value-of select="@pending" />
+                    </skipped>
+                </xsl:when>
                 <xsl:when test="x:is-failed-test(.)">
                     <failure message="expect assertion failed">
                         <xsl:apply-templates select="x:expect"/>
