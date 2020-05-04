@@ -36,8 +36,11 @@
             <xsl:namespace name="{@prefix}" select="@uri" />
         </xsl:for-each>
 
-        <xsl:attribute name="xspec-original-location" select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
-        <xsl:attribute name="stylesheet" select="$stylesheet-uri"/>
+        <xsl:attribute name="xspec-original-location"
+            select="
+                document-uri(/)
+                => x:resolve-xml-uri-with-catalog()" />
+        <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
         <xsl:attribute name="schematron" select="$resolved-schematron-uri" />
     </xsl:template>
 
