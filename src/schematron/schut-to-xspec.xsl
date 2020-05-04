@@ -29,15 +29,16 @@
     </xsl:template>
 
     <xsl:template match="x:description/@schematron" as="node()+">
-        <xsl:variable name="path" as="xs:anyURI" select="resolve-uri(string(), base-uri())"/>
+        <xsl:variable name="resolved-schematron-uri" as="xs:anyURI"
+            select="resolve-uri(string(), base-uri())" />
 
-        <xsl:for-each select="doc($path)/sch:schema/sch:ns">
+        <xsl:for-each select="doc($resolved-schematron-uri)/sch:schema/sch:ns">
             <xsl:namespace name="{@prefix}" select="@uri" />
         </xsl:for-each>
 
         <xsl:attribute name="xspec-original-location" select="x:resolve-xml-uri-with-catalog(document-uri(/))"/>
         <xsl:attribute name="stylesheet" select="$stylesheet-uri"/>
-        <xsl:attribute name="schematron" select="$path"/>
+        <xsl:attribute name="schematron" select="$resolved-schematron-uri" />
     </xsl:template>
 
     <xsl:template match="x:import" as="node()+">
