@@ -63,11 +63,11 @@
 
         <xsl:choose>
             <xsl:when test="$is-schematron-xspec">
-                <xsl:comment>BEGIN IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
+                <xsl:comment expand-text="yes">BEGIN IMPORT "{@href}"</xsl:comment>
                 <xsl:apply-templates select="$imported-doc/x:description/node()">
                     <xsl:with-param name="imported-uri" tunnel="yes" select="$fully-resolved-href" />
                 </xsl:apply-templates>
-                <xsl:comment>END IMPORT "<xsl:value-of select="@href"/>"</xsl:comment>
+                <xsl:comment expand-text="yes">END IMPORT "{@href}"</xsl:comment>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:next-match/>
@@ -97,19 +97,12 @@
             <xsl:attribute name="select">
                 <xsl:choose>
                     <xsl:when test="@select">
-                        <xsl:text>if (test:wrappable-sequence((</xsl:text>
-                        <xsl:value-of select="@select" />
-                        <xsl:text>))) then test:wrap-nodes((</xsl:text>
-                        <xsl:value-of select="@select" />
-                        <xsl:text>)) else </xsl:text>
+                        <xsl:text expand-text="yes">if (test:wrappable-sequence(({@select})))</xsl:text>
+                        <xsl:text expand-text="yes"> then test:wrap-nodes(({@select}))</xsl:text>
 
                         <!-- Some Schematron implementations might possibly be able to handle
                             non-document nodes. Just generate a warning and pass @select as is. -->
-                        <xsl:text>trace((</xsl:text>
-                        <xsl:value-of select="@select" />
-                        <xsl:text>), 'WARNING: Failed to wrap </xsl:text>
-                        <xsl:value-of select="name()" />
-                        <xsl:text>/@select')</xsl:text>
+                        <xsl:text expand-text="yes"> else trace(({@select}), 'WARNING: Failed to wrap {name()}/@select')</xsl:text>
                     </xsl:when>
 
                     <xsl:otherwise>
