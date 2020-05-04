@@ -4,7 +4,7 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
-    
+
     <xsl:param name="stylesheet-uri" select="concat(x:description/@schematron, '.xsl')"/>
 
     <xsl:include href="../common/xspec-utils.xsl"/>
@@ -16,7 +16,7 @@
     <xsl:template match="@* | node() | document-node()" as="node()" priority="-2">
         <xsl:call-template name="x:identity" />
     </xsl:template>
-    
+
     <xsl:template match="x:description[@schematron]">
         <xsl:element name="x:description">
             <!-- Place xsl:namespace before x:copy-namespaces(), otherwise Saxon 9.6 complains,
@@ -108,7 +108,7 @@
             <xsl:apply-templates select="node()" />
         </xsl:copy>
     </xsl:template>
-    
+
     <xsl:template match="x:expect-assert">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
@@ -171,14 +171,14 @@
             ', preceding-sibling::svrl:active-pattern[1]/@',local-name(.), 
             ')[1] = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
-    
+
     <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" mode="make-predicate">
         <xsl:sequence select="concat('[@', local-name(.), 
             ' = ', codepoints-to-string(39), ., codepoints-to-string(39), ']')"/>
     </xsl:template>
-    
+
     <xsl:template match="@count | @label" mode="make-predicate"/>
-    
+
     <xsl:template name="make-label">
         <xsl:context-item as="element()" use="required" />
 
@@ -197,7 +197,7 @@
                 )"/>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template match="x:expect-rule">
         <xsl:element name="x:expect">
             <xsl:call-template name="make-label"/>
@@ -210,10 +210,10 @@
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template match="x:*/@href" as="attribute(href)">
         <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
             select="resolve-uri(., x:base-uri(.))" />
     </xsl:template>
-    
+
 </xsl:stylesheet>
