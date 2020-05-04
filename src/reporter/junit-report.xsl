@@ -33,8 +33,8 @@
 
     <xsl:template match="x:scenario" as="element(testsuite)">
         <testsuite name="{x:label}"
-                   tests="{count(x:descendant-tests(.))}"
-                   failures="{count(x:descendant-failed-tests(.))}">
+                   tests="{x:descendant-tests(.) => count()}"
+                   failures="{x:descendant-failed-tests(.) => count()}">
             <xsl:apply-templates select="x:test"/>
             <xsl:apply-templates select="x:scenario" mode="nested"/>
         </testsuite>
