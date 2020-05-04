@@ -69,6 +69,7 @@
                 </xsl:apply-templates>
                 <xsl:comment expand-text="yes">END IMPORT "{@href}"</xsl:comment>
             </xsl:when>
+
             <xsl:otherwise>
                 <xsl:next-match/>
             </xsl:otherwise>
@@ -151,7 +152,6 @@
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
-
 
     <xsl:template match="x:expect-not-report" as="element(x:expect)">
         <xsl:element name="x:expect">
