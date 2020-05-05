@@ -45,7 +45,7 @@
 	<xsl:template as="element()" match="/*">
 		<xsl:copy>
 			<xsl:apply-templates select="attribute()" />
-			<xsl:comment>Temporary build file generated from <xsl:value-of select="document-uri(/)" /> at <xsl:value-of select="current-dateTime()" /></xsl:comment>
+			<xsl:comment expand-text="yes">Temporary build file generated from {document-uri(/)} at {current-dateTime()}</xsl:comment>
 			<xsl:apply-templates />
 		</xsl:copy>
 	</xsl:template>
@@ -204,17 +204,7 @@
 
 			<xsl:variable as="xs:string?" name="skip">
 				<xsl:if test="$skip">
-					<xsl:value-of>
-						<xsl:text>Skipping </xsl:text>
-						<xsl:value-of select="x:filename-and-extension($xspec-file-uri)" />
-						<xsl:text> [</xsl:text>
-						<xsl:value-of select="$test-type" />
-						<xsl:if test="$enable-coverage">
-							<xsl:text>c</xsl:text>
-						</xsl:if>
-						<xsl:text>]: </xsl:text>
-						<xsl:value-of select="$skip" />
-					</xsl:value-of>
+					<xsl:text expand-text="yes">Skipping {x:filename-and-extension($xspec-file-uri)} [{$test-type}{'c'[$enable-coverage]}]: {$skip}</xsl:text>
 				</xsl:if>
 			</xsl:variable>
 
@@ -232,7 +222,7 @@
 
 						<xsl:variable as="xs:string*" name="saxon-custom-options">
 							<xsl:if test="$NOW">
-								<xsl:sequence select="concat('-now:', $NOW)" />
+								<xsl:sequence select="'-now:' || $NOW" />
 							</xsl:if>
 
 							<xsl:sequence

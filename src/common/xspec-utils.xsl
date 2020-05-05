@@ -124,35 +124,12 @@
 			<xsl:when test="$node instance of comment()">comment</xsl:when>
 			<xsl:when test="$node instance of document-node()">document-node</xsl:when>
 			<xsl:when test="$node instance of element()">element</xsl:when>
-			<xsl:when test="x:instance-of-namespace($node)">namespace-node</xsl:when>
+			<xsl:when test="$node instance of namespace-node()">namespace-node</xsl:when>
 			<xsl:when test="$node instance of processing-instruction()"
 				>processing-instruction</xsl:when>
 			<xsl:when test="$node instance of text()">text</xsl:when>
 			<xsl:otherwise>node</xsl:otherwise>
 		</xsl:choose>
-	</xsl:function>
-
-	<!--
-		Returns true if item is namespace node
-	-->
-	<xsl:function as="xs:boolean" name="x:instance-of-namespace">
-		<xsl:param as="item()?" name="item" />
-
-		<!-- Unfortunately "instance of namespace-node()" is not available on XPath 2.0:
-			http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/200608/msg00719.html -->
-		<xsl:sequence
-			select="
-				($item instance of node())
-				and
-				not(
-				($item instance of attribute())
-				or ($item instance of comment())
-				or ($item instance of document-node())
-				or ($item instance of element())
-				or ($item instance of processing-instruction())
-				or ($item instance of text())
-				)"
-		 />
 	</xsl:function>
 
 	<!--

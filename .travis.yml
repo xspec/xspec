@@ -1,17 +1,20 @@
 os: linux
 language: java
-dist: trusty
 
 jdk:
-  - oraclejdk8
+  # 'oraclejdk8' needs 'dist: trusty' (xspec/xspec#585)
+  - openjdk8
   - openjdk11
 
 env:
-  jobs:
-    # saxon-9-8 is not included in favor of GitHub Actions
-    - XSPEC_TEST_ENV=saxon-10
-    - XSPEC_TEST_ENV=saxon-9-9
-    - XSPEC_TEST_ENV=oxygen
+  # saxon-9-8 is not included in favor of GitHub Actions
+  - XSPEC_TEST_ENV=saxon-10
+  - XSPEC_TEST_ENV=saxon-9-9
+  - XSPEC_TEST_ENV=oxygen
+
+# This 'install' step which just sets a successful exit code is necessary
+# for skipping Maven install: https://stackoverflow.com/q/31945809
+install: true
 
 script: >
   source test/ci/install-deps.sh

@@ -57,10 +57,14 @@
 
     <xsl:sequence select="x:copy-namespaces(.)" />
 
+    <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
     <xsl:if test="not($is-external)">
       <import href="{$stylesheet-uri}" />
     </xsl:if>
+
+    <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
     <import href="{resolve-uri('generate-tests-utils.xsl')}"/>
+
     <xsl:if test="$is-schematron">
       <import href="{resolve-uri('../schematron/sch-location-compare.xsl')}"/>
     </xsl:if>
@@ -92,7 +96,9 @@
     </xsl:if>
 
     <!-- The main compiled template. -->
+    <xsl:comment> the main template to run the suite </xsl:comment>
     <template name="{x:xspec-name(.,'main')}">
+      <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
       <message>
         <text>Testing with </text>
         <value-of select="system-property('xsl:product-name')" />
@@ -102,6 +108,7 @@
 
       <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
         being tested which would otherwise govern the output of the report XML. -->
+      <xsl:comment> set up the result document (the report) </xsl:comment>
       <result-document format="{x:xspec-name(.,'report')}">
         <xsl:element name="{x:xspec-name(.,'report')}" namespace="{$xspec-namespace}">
           <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
@@ -120,6 +127,7 @@
           </xsl:if>
 
           <!-- Generate calls to the compiled top-level scenarios. -->
+          <xsl:text>&#10;            </xsl:text><xsl:comment> a call instruction for each top-level scenario </xsl:comment>
           <xsl:call-template name="x:call-scenarios"/>
         </xsl:element>
       </result-document>
@@ -431,6 +439,7 @@
             <xsl:value-of select="x:xspec-name(.,'result')" />
           </with-param>
         </call-template>
+        <xsl:comment> a call instruction for each x:expect element </xsl:comment>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
     </xsl:element>
