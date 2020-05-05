@@ -71,13 +71,26 @@
 				out: <h2>module: module.xsl; 25 lines</h2>
 	-->
 	<xsl:template as="text()" match="/html/body/h2/text()" mode="normalizer:normalize">
-		<xsl:analyze-string flags="s" regex="^(module: )(\S+)(; [1-9][0-9]* lines)$" select=".">
+		<xsl:variable as="xs:string" name="regex" xml:space="preserve">
+			^
+				(module:[ ])		<!-- group 1 -->
+				(\S+)				<!-- group 2 -->
+				(;)					<!-- group 3 -->
+				(?:\n[ ]+)?
+				([ ][1-9][0-9]*)	<!-- group 4 -->
+				(?:\n[ ]+)?
+				([ ]lines)			<!-- group 5 -->
+			$
+		</xsl:variable>
+		<xsl:analyze-string flags="x" regex="{$regex}" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of
 					select="
 						regex-group(1),
 						x:filename-and-extension(regex-group(2)),
-						regex-group(3)"
+						regex-group(3),
+						regex-group(4),
+						regex-group(5)"
 					separator="" />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
