@@ -88,6 +88,7 @@
       <xsl:text>";&#x0A;</xsl:text>
 
       <!-- Import module to be tested -->
+      <xsl:text>(: the tested library module :)&#10;</xsl:text>
       <xsl:text>import module </xsl:text>
       <xsl:if test="exists($prefix)">
          <xsl:text>namespace </xsl:text>
@@ -103,6 +104,7 @@
       <xsl:text>";&#10;</xsl:text>
 
       <!-- Import 'test' utils -->
+      <xsl:text>(: an XSpec library module providing tools :)&#10;</xsl:text>
       <xsl:text>import module namespace test = </xsl:text>
       <xsl:text>"http://www.jenitennison.com/xslt/unit-test"</xsl:text>
       <xsl:if test="not($utils-library-at eq '#none')">
@@ -152,6 +154,8 @@
       <xsl:call-template name="x:compile-scenarios"/>
       <xsl:text>&#10;</xsl:text>
 
+      <xsl:text>(: the query body of this main module, to run the suite :)&#10;</xsl:text>
+      <xsl:text>(: set up the result document (the report) :)&#10;</xsl:text>
       <xsl:text>document {&#x0A;</xsl:text>
 
       <xsl:element name="{x:xspec-name($this,'report')}" namespace="{$xspec-namespace}">
@@ -166,6 +170,7 @@
 
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
+         <xsl:text>      (: a call instruction for each top-level scenario :)&#10;</xsl:text>
          <xsl:call-template name="x:call-scenarios"/>
          <xsl:text>&#10;}&#10;</xsl:text>
       </xsl:element>
@@ -256,6 +261,7 @@
         declare function local:...(...)
         {
       -->
+      <xsl:text>&#10;(: generated from the x:scenario element :)</xsl:text>
       <xsl:text>&#10;declare function local:</xsl:text>
       <xsl:value-of select="$scenario-id" />
       <xsl:text>(</xsl:text>
@@ -321,6 +327,7 @@
                <xsl:text>, '</xsl:text>
                <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>'),&#10;</xsl:text>
+               <xsl:text>      (: a call instruction for each x:expect element :)&#10;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                <!--
@@ -396,6 +403,7 @@
         declare function local:...($t:result as item()*)
         {
       -->
+      <xsl:text>&#10;(: generated from the x:expect element :)</xsl:text>
       <xsl:text>&#10;declare function local:</xsl:text>
       <xsl:value-of select="$expect-id" />
       <xsl:text>(</xsl:text>
