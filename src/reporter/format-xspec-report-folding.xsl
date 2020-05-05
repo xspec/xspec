@@ -74,7 +74,7 @@ function toggle(scenarioID) {
       <xsl:sequence select="x:pending-callback(@pending)"/>
       <xsl:apply-templates select="x:label" mode="x:html-report" />
       <span class="scenario-totals">
-        <xsl:call-template name="x:totals">
+        <xsl:call-template name="x:output-test-stats">
           <xsl:with-param name="tests" select="x:descendant-tests(.)" />
         </xsl:call-template>
       </span>
@@ -91,7 +91,7 @@ function toggle(scenarioID) {
             <xsl:apply-templates select="x:label" mode="x:html-report" />
           </th>
           <th>
-            <xsl:call-template name="x:totals">
+            <xsl:call-template name="x:output-test-stats">
               <xsl:with-param name="tests" select="x:descendant-tests(.)" />
             </xsl:call-template>
           </th>
@@ -126,7 +126,7 @@ function toggle(scenarioID) {
               </xsl:choose>
             </th>
             <th>
-              <xsl:call-template name="x:totals">
+              <xsl:call-template name="x:output-test-stats">
                 <xsl:with-param name="tests" select="x:test" />
               </xsl:call-template>
             </th>
