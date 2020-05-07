@@ -479,9 +479,7 @@
       <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
     </xsl:when>
     <xsl:when test="$value instance of xs:string">
-      <xsl:sequence select="concat('''',
-                                   replace($value, '''', ''''''),
-                                   '''')" />
+      <xsl:sequence select="x:quote-with-apos($value)" />
     </xsl:when>
 
     <!-- Derived numeric types -->

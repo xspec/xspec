@@ -340,7 +340,7 @@ declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:stri
   (: String types :)
   (: xs:normalizedString: Requires schema-aware processor :)
   if ( $value instance of xs:string ) then
-    fn:concat("'", fn:replace($value, "'", "''"), "'")
+    x:quote-with-apos($value)
 
   (: Derived numeric types: Requires schema-aware processor :)
 

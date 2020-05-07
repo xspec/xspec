@@ -1,6 +1,11 @@
 module namespace x = "http://www.jenitennison.com/xslt/xspec";
 
 (:
+	U+0027
+:)
+declare variable $x:apos as xs:string := "'";
+
+(:
 	Returns node type
 		Example: 'element'
 :)
@@ -59,18 +64,25 @@ declare function x:QName-expression(
 $qname as xs:QName
 ) as xs:string
 {
-	let $escaped-uri as xs:string :=
-	replace(
-	namespace-uri-from-QName($qname),
-	"(')",
-	'$1$1'
+	let $quoted-uri as xs:string := (
+	$qname
+	=> namespace-uri-from-QName()
+	=> x:quote-with-apos()
 	)
 	return
-		concat(
-		"QName('",
-		$escaped-uri,
-		"', '",
-		$qname,
-		"')"
-		)
+		('QName(' || $quoted-uri || ", '" || $qname || "')")
+};
+
+(:
+	Duplicates every apostrophe character in a string
+	and quotes the whole string with apostrophes
+:)
+declare function x:quote-with-apos(
+$input as xs:string
+)
+as xs:string
+{
+	let $escaped as xs:string := replace($input, $x:apos, ($x:apos || $x:apos))
+	return
+		($x:apos || $escaped || $x:apos)
 };
