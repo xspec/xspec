@@ -238,22 +238,27 @@
          <xsl:apply-templates select="." mode="x:generate-id" />
       </xsl:variable>
 
+      <xsl:variable name="quoted-label" as="xs:string" select="$x:apos || x:label(.) || $x:apos" />
+
       <!-- x:context and x:call/@template not supported for XQuery -->
       <xsl:if test="exists($context)">
-         <xsl:variable name="msg" select="
-             concat('x:context not supported for XQuery (scenario ', x:label(.), ')')"/>
+         <xsl:variable name="msg" as="xs:string">
+            <xsl:text expand-text="yes">x:context not supported for XQuery (scenario {$quoted-label})</xsl:text>
+         </xsl:variable>
          <xsl:sequence select="error(xs:QName('x:XSPEC003'), $msg)"/>
       </xsl:if>
       <xsl:if test="exists($call/@template)">
-         <xsl:variable name="msg" select="
-             concat('x:call/@template not supported for XQuery (scenario ', x:label(.), ')')"/>
+         <xsl:variable name="msg" as="xs:string">
+            <xsl:text expand-text="yes">x:call/@template not supported for XQuery (scenario {$quoted-label})</xsl:text>
+         </xsl:variable>
          <xsl:sequence select="error(xs:QName('x:XSPEC004'), $msg)"/>
       </xsl:if>
 
       <!-- x:call required if there are x:expect -->
       <xsl:if test="x:expect and not($call)">
-         <xsl:variable name="msg" select="
-             concat('there are x:expect but no x:call in scenario ''', x:label(.), '''')"/>
+         <xsl:variable name="msg" as="xs:string">
+            <xsl:text expand-text="yes">there are x:expect but no x:call (scenario {$quoted-label})</xsl:text>
+         </xsl:variable>
          <xsl:sequence select="error(xs:QName('x:XSPEC005'), $msg)"/>
       </xsl:if>
 

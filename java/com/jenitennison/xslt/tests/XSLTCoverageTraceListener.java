@@ -43,8 +43,14 @@ public class XSLTCoverageTraceListener implements TraceListener {
   private int moduleCount = 0;
   private StreamWriterToReceiver writer = null;
   private String ignoreDir = null;
-  private String debug = System.getenv("DEBUG_XSLT_COVERAGE_TRACE_LISTENER");
-  
+  private boolean debugPrintEnabled = (System.getenv("DEBUG_XSLT_COVERAGE_TRACE_LISTENER") != null);
+
+  private void debugPrintf(String format, Object... args) {
+    if (debugPrintEnabled) {
+      System.err.printf(format, args);
+    }
+  }
+
   public XSLTCoverageTraceListener() {
     System.out.println("****************************************");
   }
@@ -59,16 +65,12 @@ public class XSLTCoverageTraceListener implements TraceListener {
 
     // Get the directory path to ignore
     ignoreDir = System.getProperty("xspec.coverage.ignore");
-    if (debug != null) {
-      System.err.println("ignoreDir (raw)  =" + ignoreDir);
-    }
+    debugPrintf("%-17s: %s%n", "ignoreDir (raw)", ignoreDir);
 
     // Normalize the directory as URI
     File ignoreDirFile = new File(ignoreDir + File.separator);
     ignoreDir = ignoreDirFile.toURI().normalize().toString();
-    if (debug != null) {
-      System.err.println("ignoreDir (norm) =" + ignoreDir);
-    }
+    debugPrintf("%-17s: %s%n", "ignoreDir (norm)", ignoreDir);
 
     // Coverage XML file
     String outPath = System.getProperty("xspec.coverage.xml");
@@ -129,10 +131,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
 
     // Get the current file URI
     String systemId = info.getSystemId();
-    if (debug != null &&
-        xspecStylesheet == null) {
-      System.err.println(" systemId (raw)  =" + systemId);
-    }
+    debugPrintf("%-17s: %s:%d%n", "enter()", systemId, lineNumber);
 
     // Normalize the current file URI
     URI systemIdUri;
@@ -142,15 +141,13 @@ public class XSLTCoverageTraceListener implements TraceListener {
       throw new RuntimeException(e);
     }
     systemId = systemIdUri.normalize().toString();
-    if (debug != null &&
-        xspecStylesheet == null) {
-      System.err.println(" systemId (norm) =" + systemId);
-    }
+    debugPrintf("%-17s: %s%n", "systemId (norm)", systemId);
     
     int constructType = info.getConstructType();
     if (utilsStylesheet == null &&
         systemId.indexOf("generate-tests-utils.xsl") != -1) {
       utilsStylesheet = systemId;
+      debugPrintf("%-17s: %s%n", "utilsStylesheet", utilsStylesheet);
 
       try {
         writer.writeStartElement("u");
@@ -162,6 +159,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
     } else if (xspecStylesheet == null && 
                systemId.startsWith(ignoreDir)) {
       xspecStylesheet = systemId;
+      debugPrintf("%-17s: %s%n", "xspecStylesheet", xspecStylesheet);
 
       try {
         writer.writeStartElement("x");
