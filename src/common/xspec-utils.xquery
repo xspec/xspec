@@ -1,6 +1,11 @@
 module namespace x = "http://www.jenitennison.com/xslt/xspec";
 
 (:
+	U+0027
+:)
+declare variable $x:apos as xs:string := "'";
+
+(:
 	Returns node type
 		Example: 'element'
 :)
@@ -20,7 +25,7 @@ $node as node()
 				if ($node instance of element()) then
 					'element'
 				else
-					if (x:instance-of-namespace($node)) then
+					if ($node instance of namespace-node()) then
 						'namespace-node'
 					else
 						if ($node instance of processing-instruction()) then
@@ -30,26 +35,6 @@ $node as node()
 								'text'
 							else
 								'node'
-};
-
-(:
-	Returns true if item is namespace node
-:)
-declare function x:instance-of-namespace(
-$item as item()?
-) as xs:boolean
-{
-	(: Unfortunately "instance of namespace-node()" is not available on XPath 2.0 :)
-	($item instance of node())
-	and
-	not(
-	($item instance of attribute())
-	or ($item instance of comment())
-	or ($item instance of document-node())
-	or ($item instance of element())
-	or ($item instance of processing-instruction())
-	or ($item instance of text())
-	)
 };
 
 (:
@@ -79,18 +64,25 @@ declare function x:QName-expression(
 $qname as xs:QName
 ) as xs:string
 {
-	let $escaped-uri as xs:string :=
-	replace(
-	namespace-uri-from-QName($qname),
-	"(')",
-	'$1$1'
+	let $quoted-uri as xs:string := (
+	$qname
+	=> namespace-uri-from-QName()
+	=> x:quote-with-apos()
 	)
 	return
-		concat(
-		"QName('",
-		$escaped-uri,
-		"', '",
-		$qname,
-		"')"
-		)
+		('QName(' || $quoted-uri || ", '" || $qname || "')")
+};
+
+(:
+	Duplicates every apostrophe character in a string
+	and quotes the whole string with apostrophes
+:)
+declare function x:quote-with-apos(
+$input as xs:string
+)
+as xs:string
+{
+	let $escaped as xs:string := replace($input, $x:apos, ($x:apos || $x:apos))
+	return
+		($x:apos || $escaped || $x:apos)
 };

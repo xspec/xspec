@@ -57,7 +57,9 @@
 
     <xsl:sequence select="x:copy-namespaces(.)" />
 
+    <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
     <import href="{$stylesheet-uri}" />
+    <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
     <import href="{resolve-uri('generate-tests-utils.xsl')}"/>
     <xsl:if test="$is-schematron">
       <import href="{resolve-uri('../schematron/sch-location-compare.xsl')}"/>
@@ -79,7 +81,9 @@
     <xsl:call-template name="x:compile-global-params-and-vars" />
 
     <!-- The main compiled template. -->
+    <xsl:comment> the main template to run the suite </xsl:comment>
     <template name="{x:xspec-name(.,'main')}">
+      <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
       <message>
         <text>Testing with </text>
         <value-of select="system-property('xsl:product-name')" />
@@ -89,6 +93,7 @@
 
       <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
         being tested which would otherwise govern the output of the report XML. -->
+      <xsl:comment> set up the result document (the report) </xsl:comment>
       <result-document format="{x:xspec-name(.,'report')}">
         <xsl:element name="{x:xspec-name(.,'report')}" namespace="{$xspec-namespace}">
           <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
@@ -107,6 +112,7 @@
           </xsl:if>
 
           <!-- Generate calls to the compiled top-level scenarios. -->
+          <xsl:text>&#10;            </xsl:text><xsl:comment> a call instruction for each top-level scenario </xsl:comment>
           <xsl:call-template name="x:call-scenarios"/>
         </xsl:element>
       </result-document>
@@ -121,8 +127,7 @@
 <!-- Generates a call to the template compiled from a scenario or an expect element. --> 
 
 <xsl:template name="x:output-call">
-   <xsl:context-item as="element()" use="required"
-      use-when="element-available('xsl:context-item')" />
+   <xsl:context-item as="element()" use="required" />
 
    <xsl:param name="last"   as="xs:boolean" />
    <xsl:param name="params" as="element(param)*" />
@@ -148,8 +153,7 @@
 <!-- Generates the templates that perform the tests -->
 
 <xsl:template name="x:output-scenario" as="element(xsl:template)+">
-  <xsl:context-item as="element(x:scenario)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:scenario)" use="required" />
 
   <xsl:param name="pending"   select="()" tunnel="yes" as="node()?"/>
   <xsl:param name="apply"     select="()" tunnel="yes" as="element(x:apply)?"/>
@@ -292,8 +296,7 @@
 
           <!-- Enter SUT -->
           <xsl:choose>
-            <xsl:when test="$is-dynamic" use-when="function-available('transform')
-              and false() (: TODO: Dynamic invocation. Not implemented yet. :)">
+            <xsl:when test="$is-dynamic" use-when="false() (: TODO: Dynamic invocation. Not implemented yet. :)">
               <!-- Set up the $impl:transform-options variable -->
               <xsl:call-template name="x:setup-transform-options" />
 
@@ -404,6 +407,7 @@
             <xsl:value-of select="x:xspec-name(.,'result')" />
           </with-param>
         </call-template>
+        <xsl:comment> a call instruction for each x:expect element </xsl:comment>
       </xsl:if>
       <xsl:call-template name="x:call-scenarios"/>
     </xsl:element>
@@ -412,8 +416,7 @@
 </xsl:template>
 
 <xsl:template name="x:output-try-catch" as="element(xsl:try)">
-  <xsl:context-item use="absent"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item use="absent" />
 
   <xsl:param name="instruction" as="element()" required="yes" />
 
@@ -445,8 +448,7 @@
 </xsl:template>
 
 <xsl:template name="x:output-expect" as="element(xsl:template)">
-  <xsl:context-item as="element(x:expect)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:expect)" use="required" />
 
   <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
   <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
@@ -481,7 +483,7 @@
 
       <!-- Flags for test:deep-equal() enclosed in ''. -->
       <xsl:variable name="deep-equal-flags" as="xs:string"
-       select="concat('''', '1'[$xslt-version eq 1], '''')" />
+       select="$x:apos || '1'[$xslt-version eq 1] || $x:apos" />
 
       <xsl:choose>
         <xsl:when test="@test">

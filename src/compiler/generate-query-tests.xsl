@@ -88,6 +88,7 @@
       <xsl:text>";&#x0A;</xsl:text>
 
       <!-- Import module to be tested -->
+      <xsl:text>(: the tested library module :)&#10;</xsl:text>
       <xsl:text>import module </xsl:text>
       <xsl:if test="exists($prefix)">
          <xsl:text>namespace </xsl:text>
@@ -103,6 +104,7 @@
       <xsl:text>";&#10;</xsl:text>
 
       <!-- Import 'test' utils -->
+      <xsl:text>(: an XSpec library module providing tools :)&#10;</xsl:text>
       <xsl:text>import module namespace test = </xsl:text>
       <xsl:text>"http://www.jenitennison.com/xslt/unit-test"</xsl:text>
       <xsl:if test="not($utils-library-at eq '#none')">
@@ -152,6 +154,8 @@
       <xsl:call-template name="x:compile-scenarios"/>
       <xsl:text>&#10;</xsl:text>
 
+      <xsl:text>(: the query body of this main module, to run the suite :)&#10;</xsl:text>
+      <xsl:text>(: set up the result document (the report) :)&#10;</xsl:text>
       <xsl:text>document {&#x0A;</xsl:text>
 
       <xsl:element name="{x:xspec-name($this,'report')}" namespace="{$xspec-namespace}">
@@ -166,6 +170,7 @@
 
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
+         <xsl:text>      (: a call instruction for each top-level scenario :)&#10;</xsl:text>
          <xsl:call-template name="x:call-scenarios"/>
          <xsl:text>&#10;}&#10;</xsl:text>
       </xsl:element>
@@ -177,8 +182,7 @@
    <!-- Generates a call to the function compiled from a scenario or an expect element. --> 
 
    <xsl:template name="x:output-call">
-      <xsl:context-item as="element()" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="last"   as="xs:boolean" />
       <xsl:param name="params" as="element(param)*" />
@@ -220,8 +224,7 @@
    -->
 
    <xsl:template name="x:output-scenario" as="node()+">
-      <xsl:context-item as="element(x:scenario)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
       <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
@@ -235,22 +238,27 @@
          <xsl:apply-templates select="." mode="x:generate-id" />
       </xsl:variable>
 
+      <xsl:variable name="quoted-label" as="xs:string" select="$x:apos || x:label(.) || $x:apos" />
+
       <!-- x:context and x:call/@template not supported for XQuery -->
       <xsl:if test="exists($context)">
-         <xsl:variable name="msg" select="
-             concat('x:context not supported for XQuery (scenario ', x:label(.), ')')"/>
+         <xsl:variable name="msg" as="xs:string">
+            <xsl:text expand-text="yes">x:context not supported for XQuery (scenario {$quoted-label})</xsl:text>
+         </xsl:variable>
          <xsl:sequence select="error(xs:QName('x:XSPEC003'), $msg)"/>
       </xsl:if>
       <xsl:if test="exists($call/@template)">
-         <xsl:variable name="msg" select="
-             concat('x:call/@template not supported for XQuery (scenario ', x:label(.), ')')"/>
+         <xsl:variable name="msg" as="xs:string">
+            <xsl:text expand-text="yes">x:call/@template not supported for XQuery (scenario {$quoted-label})</xsl:text>
+         </xsl:variable>
          <xsl:sequence select="error(xs:QName('x:XSPEC004'), $msg)"/>
       </xsl:if>
 
       <!-- x:call required if there are x:expect -->
       <xsl:if test="x:expect and not($call)">
-         <xsl:variable name="msg" select="
-             concat('there are x:expect but no x:call in scenario ''', x:label(.), '''')"/>
+         <xsl:variable name="msg" as="xs:string">
+            <xsl:text expand-text="yes">there are x:expect but no x:call (scenario {$quoted-label})</xsl:text>
+         </xsl:variable>
          <xsl:sequence select="error(xs:QName('x:XSPEC005'), $msg)"/>
       </xsl:if>
 
@@ -258,6 +266,7 @@
         declare function local:...(...)
         {
       -->
+      <xsl:text>&#10;(: generated from the x:scenario element :)</xsl:text>
       <xsl:text>&#10;declare function local:</xsl:text>
       <xsl:value-of select="$scenario-id" />
       <xsl:text>(</xsl:text>
@@ -323,6 +332,7 @@
                <xsl:text>, '</xsl:text>
                <xsl:value-of select="x:xspec-name(.,'result')" />
                <xsl:text>'),&#10;</xsl:text>
+               <xsl:text>      (: a call instruction for each x:expect element :)&#10;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                <!--
@@ -344,8 +354,7 @@
    </xsl:template>
 
    <xsl:template name="x:output-try-catch" as="text()+">
-      <xsl:context-item use="absent"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item use="absent" />
 
       <xsl:param name="instruction" as="text()+" required="yes" />
 
@@ -383,8 +392,7 @@
        element for the XML report.
    -->
    <xsl:template name="x:output-expect" as="node()+">
-      <xsl:context-item as="element(x:expect)" use="required"
-         use-when="element-available('xsl:context-item')" />
+      <xsl:context-item as="element(x:expect)" use="required" />
 
       <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
@@ -400,6 +408,7 @@
         declare function local:...($t:result as item()*)
         {
       -->
+      <xsl:text>&#10;(: generated from the x:expect element :)</xsl:text>
       <xsl:text>&#10;declare function local:</xsl:text>
       <xsl:value-of select="$expect-id" />
       <xsl:text>(</xsl:text>

@@ -9,11 +9,15 @@
 	-->
 
 	<!--
+		U+0027
+	-->
+	<xsl:variable as="xs:string" name="x:apos">'</xsl:variable>
+
+	<!--
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
-		<xsl:context-item as="node()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="node()" use="required" />
 
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute() | node()" />
@@ -125,35 +129,12 @@
 			<xsl:when test="$node instance of comment()">comment</xsl:when>
 			<xsl:when test="$node instance of document-node()">document-node</xsl:when>
 			<xsl:when test="$node instance of element()">element</xsl:when>
-			<xsl:when test="x:instance-of-namespace($node)">namespace-node</xsl:when>
+			<xsl:when test="$node instance of namespace-node()">namespace-node</xsl:when>
 			<xsl:when test="$node instance of processing-instruction()"
 				>processing-instruction</xsl:when>
 			<xsl:when test="$node instance of text()">text</xsl:when>
 			<xsl:otherwise>node</xsl:otherwise>
 		</xsl:choose>
-	</xsl:function>
-
-	<!--
-		Returns true if item is namespace node
-	-->
-	<xsl:function as="xs:boolean" name="x:instance-of-namespace">
-		<xsl:param as="item()?" name="item" />
-
-		<!-- Unfortunately "instance of namespace-node()" is not available on XPath 2.0:
-			http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/200608/msg00719.html -->
-		<xsl:sequence
-			select="
-				($item instance of node())
-				and
-				not(
-				($item instance of attribute())
-				or ($item instance of comment())
-				or ($item instance of document-node())
-				or ($item instance of element())
-				or ($item instance of processing-instruction())
-				or ($item instance of text())
-				)"
-		 />
 	</xsl:function>
 
 	<!--
@@ -165,16 +146,12 @@
 		<xsl:param as="item()" name="item" />
 
 		<xsl:choose>
-			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))"
-				use-when="number(system-property('xsl:version')) ge 3">
+			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))">
 				<xsl:sequence select="true()" />
 			</xsl:when>
 
 			<xsl:when test="$item instance of function(*)"
-				use-when="
-					((: for Saxon-EE 9.7 :) number(system-property('xsl:version')) ge 3)
-					and
-					((: for Saxon 9.x :) function-available('function-lookup'))">
+				use-when="function-available('function-lookup')">
 				<xsl:sequence select="true()" />
 			</xsl:when>
 
@@ -189,8 +166,7 @@
 		
 		$function must be an instance of function(*).
 	-->
-	<xsl:function as="xs:string" name="x:function-type"
-		use-when="number(system-property('xsl:version')) ge 3">
+	<xsl:function as="xs:string" name="x:function-type">
 
 		<!-- TODO: @as="function(*)" -->
 		<xsl:param as="item()" name="function" />
@@ -452,12 +428,7 @@
 		Stub function for helping development on IDE without loading ../../java/
 	-->
 	<xsl:function as="xs:integer" name="x:line-number" override-extension-function="no"
-		use-when="
-			function-available('saxon:line-number')
-			and
-			(: Saxon 9.7 doesn't accept @override-extension-function when /xsl:stylesheet/@version
-				isn't 3.0 :) (xs:decimal(system-property('xsl:version')) ge 3.0)"
-		xmlns:saxon="http://saxon.sf.net/">
+		use-when="function-available('saxon:line-number')" xmlns:saxon="http://saxon.sf.net/">
 		<xsl:param as="node()" name="node" />
 
 		<xsl:sequence select="saxon:line-number($node)" />
@@ -570,21 +541,25 @@
 	<xsl:function as="xs:string" name="x:QName-expression">
 		<xsl:param as="xs:QName" name="qname" />
 
-		<xsl:variable as="xs:string" name="escaped-uri"
+		<xsl:variable as="xs:string" name="quoted-uri"
 			select="
-				replace(
-				namespace-uri-from-QName($qname),
-				'('')',
-				'$1$1'
-				)" />
+				$qname
+				=> namespace-uri-from-QName()
+				=> x:quote-with-apos()" />
 
-		<xsl:value-of>
-			<xsl:text>QName('</xsl:text>
-			<xsl:value-of select="$escaped-uri" />
-			<xsl:text>', '</xsl:text>
-			<xsl:value-of select="$qname" />
-			<xsl:text>')</xsl:text>
-		</xsl:value-of>
+		<xsl:text expand-text="yes">QName({$quoted-uri}, '{$qname}')</xsl:text>
+	</xsl:function>
+
+	<!--
+		Duplicates every apostrophe character in a string
+		and quotes the whole string with apostrophes
+	-->
+	<xsl:function as="xs:string" name="x:quote-with-apos">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:variable as="xs:string" name="escaped"
+			select="replace($input, $x:apos, ($x:apos || $x:apos))" />
+		<xsl:sequence select="$x:apos || $escaped || $x:apos" />
 	</xsl:function>
 
 </xsl:stylesheet>
