@@ -1,0 +1,31 @@
+name: Maven Deploy
+
+on:
+  push:
+    branches:
+      # TODO: Change this to `master`
+      - auto-deploy-maven
+
+jobs:
+  maven-deploy:
+    runs-on: ubuntu-latest
+
+    # Do not disturb forks
+    if: github.repository == 'xspec/xspec'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      # TODO: Fork the original repo and use xspec/action-maven-publish@v1
+      - uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709
+        with:
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          server_id: xspec-io.ossrh
+          maven_profiles: release
