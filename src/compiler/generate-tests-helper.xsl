@@ -199,7 +199,7 @@
                   select="
                      x:URIQualifiedName(
                         $test:private-namespace,
-                        concat(local-name(), '-', generate-id())
+                        (local-name() || '-' || generate-id())
                      )" />
             </xsl:otherwise>
          </xsl:choose>

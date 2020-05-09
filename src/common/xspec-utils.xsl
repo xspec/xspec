@@ -584,7 +584,7 @@
 		<xsl:param as="xs:string" name="namespace-uri" />
 		<xsl:param as="xs:string" name="local-name" />
 
-		<xsl:sequence select="concat('Q{', $namespace-uri, '}', $local-name)" />
+		<xsl:sequence select="'Q{' || $namespace-uri || '}' || $local-name" />
 	</xsl:function>
 
 </xsl:stylesheet>
