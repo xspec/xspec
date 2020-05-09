@@ -627,7 +627,7 @@
 
       <!-- Flags for test:deep-equal() enclosed in ''. -->
       <xsl:variable name="deep-equal-flags" as="xs:string"
-       select="concat('''', '1'[$xslt-version eq 1], '''')" />
+       select="$x:apos || '1'[$xslt-version eq 1] || $x:apos" />
 
       <xsl:choose>
         <xsl:when test="@test">

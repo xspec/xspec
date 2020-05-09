@@ -9,6 +9,11 @@
 	-->
 
 	<!--
+		U+0027
+	-->
+	<xsl:variable as="xs:string" name="x:apos">'</xsl:variable>
+
+	<!--
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
@@ -536,21 +541,25 @@
 	<xsl:function as="xs:string" name="x:QName-expression">
 		<xsl:param as="xs:QName" name="qname" />
 
-		<xsl:variable as="xs:string" name="escaped-uri"
+		<xsl:variable as="xs:string" name="quoted-uri"
 			select="
-				replace(
-				namespace-uri-from-QName($qname),
-				'('')',
-				'$1$1'
-				)" />
+				$qname
+				=> namespace-uri-from-QName()
+				=> x:quote-with-apos()" />
 
-		<xsl:value-of>
-			<xsl:text>QName('</xsl:text>
-			<xsl:value-of select="$escaped-uri" />
-			<xsl:text>', '</xsl:text>
-			<xsl:value-of select="$qname" />
-			<xsl:text>')</xsl:text>
-		</xsl:value-of>
+		<xsl:text expand-text="yes">QName({$quoted-uri}, '{$qname}')</xsl:text>
+	</xsl:function>
+
+	<!--
+		Duplicates every apostrophe character in a string
+		and quotes the whole string with apostrophes
+	-->
+	<xsl:function as="xs:string" name="x:quote-with-apos">
+		<xsl:param as="xs:string" name="input" />
+
+		<xsl:variable as="xs:string" name="escaped"
+			select="replace($input, $x:apos, ($x:apos || $x:apos))" />
+		<xsl:sequence select="$x:apos || $escaped || $x:apos" />
 	</xsl:function>
 
 	<!--

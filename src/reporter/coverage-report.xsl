@@ -59,7 +59,7 @@
 
 <xsl:key name="modules" match="m" use="@u" />
 <xsl:key name="constructs" match="c" use="@id" />
-<xsl:key name="coverage" match="h" use="concat(@m, ':', @l)" />
+<xsl:key name="coverage" match="h" use="@m || ':' || @l" />
 
 <xsl:template match="/">
   <xsl:apply-templates select="." mode="test:coverage-report" />
@@ -68,7 +68,9 @@
 <xsl:template match="/" mode="test:coverage-report">
   <html>
     <head>
-      <title>Test Coverage Report for <xsl:value-of select="x:format-uri($stylesheet-uri)" /></title>
+      <title>
+        <xsl:text expand-text="yes">Test Coverage Report for {x:format-uri($stylesheet-uri)}</xsl:text>
+      </title>
       <xsl:call-template name="test:load-css">
         <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
         <xsl:with-param name="uri" select="$report-css-uri" />
@@ -76,7 +78,12 @@
     </head>
     <body>
       <h1>Test Coverage Report</h1>
-      <p>Stylesheet:  <a href="{$stylesheet-uri}"><xsl:value-of select="x:format-uri($stylesheet-uri)" /></a></p>
+      <p>
+        <xsl:text>Stylesheet:  </xsl:text>
+        <a href="{$stylesheet-uri}">
+          <xsl:value-of select="x:format-uri($stylesheet-uri)" />
+        </a>
+      </p>
       <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="test:coverage-report" />
     </body>
   </html>
@@ -100,16 +107,12 @@
   <xsl:variable name="module" as="xs:string?">
     <xsl:variable name="uri" as="xs:string"
       select="if (starts-with($stylesheet-uri, '/'))
-              then concat('file:', $stylesheet-uri)
+              then ('file:' || $stylesheet-uri)
               else $stylesheet-uri" />
     <xsl:sequence select="key('modules', $uri, $trace)/@id" />
   </xsl:variable>
   <h2>
-    <xsl:text>module: </xsl:text>
-    <xsl:value-of select="x:format-uri($stylesheet-uri)" />
-    <xsl:text>; </xsl:text>
-    <xsl:value-of select="$number-of-lines" />
-    <xsl:text> lines</xsl:text>
+    <xsl:text expand-text="yes">module: {x:format-uri($stylesheet-uri)}; {$number-of-lines} lines</xsl:text>
   </h2>
   <xsl:choose>
     <xsl:when test="empty($module)">
@@ -219,9 +222,7 @@
           select="if ($matches) then test:coverage($node, $module) else 'ignored'" />
         <xsl:for-each select="$construct-lines">
           <xsl:if test="position() != 1">
-            <xsl:text>&#xA;</xsl:text>
-            <xsl:value-of select="format-number($line-number + position(), $number-format)" />
-            <xsl:text>: </xsl:text>
+            <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
           </xsl:if>
           <span class="{$coverage}">
             <xsl:value-of select="." />
@@ -232,7 +233,7 @@
       </xsl:matching-substring>
       <xsl:non-matching-substring>
         <xsl:message terminate="yes">
-          unmatched string: <xsl:value-of select="." />
+          <xsl:text expand-text="yes">unmatched string: {.}</xsl:text>
         </xsl:message>
       </xsl:non-matching-substring>
     </xsl:analyze-string>
@@ -346,7 +347,7 @@
     <xsl:variable name="hits" as="element(h)*"
       select="test:hit-on-lines(x:line-number(.), $module)" />
     <xsl:variable name="name" as="xs:string"
-      select="concat('{', namespace-uri(.), '}', local-name(.))" />
+      select="'{' || namespace-uri() || '}' || local-name()" />
     <xsl:for-each select="$hits">
       <xsl:variable name="construct" as="xs:string"
         select="key('constructs', @c)/@n" />
@@ -362,8 +363,7 @@
   <xsl:param name="line-numbers" as="xs:integer*" />
   <xsl:param name="module" as="xs:string" />
   <xsl:variable name="keys" as="xs:string*"
-    select="for $l in $line-numbers
-            return concat($module, ':', $l)" />
+    select="$line-numbers ! ($module || ':' || .)" />
   <xsl:sequence select="key('coverage', $keys, $trace)" />
 </xsl:function>
 
