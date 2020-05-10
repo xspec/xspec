@@ -580,10 +580,8 @@
                   <xsl:value-of select="." />
                   <xsl:text>'</xsl:text>
                 </xsl:attribute>
-                <xsl:attribute name="select">
-                  <xsl:text>$</xsl:text>
-                  <xsl:value-of select="x:URIQualifiedName('http://www.w3.org/2005/xqt-errors', .)" />
-                </xsl:attribute>
+                <xsl:attribute name="select"
+                  select="'$' || x:URIQualifiedName('http://www.w3.org/2005/xqt-errors', .)" />
               </map-entry>
             </xsl:for-each>
           </map>
@@ -748,10 +746,7 @@
 <!-- Transforms x:param to @select which is connected to the generated xsl:variable -->
 <xsl:mode name="x:param-to-select-attr" on-no-match="fail" />
 <xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
-  <xsl:attribute name="select">
-    <xsl:text>$</xsl:text>
-    <xsl:value-of select="test:variable-URIQualifiedName(.)" />
-  </xsl:attribute>
+  <xsl:attribute name="select" select="'$' || test:variable-URIQualifiedName(.)" />
 </xsl:template>
 
 </xsl:stylesheet>
