@@ -108,8 +108,10 @@
 			https://issues.apache.org/jira/browse/XMLCOMMONS-24 -->
 		<xsl:sequence
 			select="
-				replace(base-uri($node), '^(file:)([^/])', '$1/$2')
-				cast as xs:anyURI"
+				$node
+				=> base-uri()
+				=> replace('^(file:)([^/])', '$1/$2')
+				=> xs:anyURI()"
 		 />
 	</xsl:function>
 
@@ -252,13 +254,24 @@
 	<xsl:function as="xs:integer*" name="x:extract-version">
 		<xsl:param as="xs:string" name="input" />
 
-		<xsl:analyze-string regex="([0-9]+)\.([0-9]+)(\.([0-9]+)\.([0-9]+))?" select="$input">
+		<xsl:variable as="xs:string" name="regex" xml:space="preserve">
+			([0-9]+)		<!-- group 1 -->
+			\.
+			([0-9]+)		<!-- group 2 -->
+			(?:
+				\.
+				([0-9]+)	<!-- group 3 -->
+				\.
+				([0-9]+)	<!-- group 4 -->
+			)?
+		</xsl:variable>
+		<xsl:analyze-string flags="x" regex="{$regex}" select="$input">
 			<xsl:matching-substring>
 				<xsl:sequence
 					select="
-						for $i in (1, 2, 4, 5)
-						return
-							xs:integer((regex-group($i)[.], 0)[1])"
+						(1 to 4)
+						! (regex-group(.)[.], 0)[1]
+						! xs:integer(.)"
 				 />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
@@ -276,7 +289,9 @@
 	<xsl:function as="xs:integer?" name="x:saxon-version">
 		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
 			<xsl:variable as="xs:integer+" name="ver-components"
-				select="x:extract-version(system-property('xsl:product-version'))" />
+				select="
+					system-property('xsl:product-version')
+					=> x:extract-version()" />
 			<xsl:sequence select="x:pack-version($ver-components)" />
 		</xsl:if>
 	</xsl:function>
@@ -298,7 +313,7 @@
 				if (contains($decimal-string, '.')) then
 					$decimal-string
 				else
-					concat($decimal-string, '.0')"
+					($decimal-string || '.0')"
 		 />
 	</xsl:function>
 
@@ -373,9 +388,8 @@
 
 		<xsl:sequence
 			select="
-				for $lexical-qname in tokenize($description/@preserve-space, '\s+')[.]
-				return
-					resolve-QName($lexical-qname, $description)"
+				tokenize($description/@preserve-space, '\s+')[.]
+				! resolve-QName(., $description)"
 		 />
 	</xsl:function>
 
@@ -465,7 +479,10 @@
 	<xsl:function as="xs:string" name="x:trim">
 		<xsl:param as="xs:string" name="input" />
 
-		<xsl:sequence select="x:left-trim(x:right-trim($input))" />
+		<xsl:sequence select="
+				$input
+				=> x:right-trim()
+				=> x:left-trim()" />
 	</xsl:function>
 
 	<!--
