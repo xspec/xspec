@@ -29,8 +29,9 @@
 
    <xsl:key name="matching-templates" 
             match="xsl:template[@match]" 
-            use="concat('match=', normalize-space(@match), '+',
-                        'mode=', normalize-space(@mode))" />
+            use="'match=' || normalize-space(@match) ||
+                 '+' ||
+                 'mode=' || normalize-space(@mode)" />
 
    <!-- Namespace used privately at run time -->
    <xsl:variable as="xs:string" name="test:private-prefix" select="'impl'" />
@@ -70,13 +71,13 @@
          child::node() or @href -->
       <xsl:variable name="temp-doc-name" as="xs:string?"
          select="if (not($is-pending) and (node() or @href))
-                 then concat($test:private-prefix, ':', local-name(), '-', generate-id(), '-doc')
+                 then ($test:private-prefix || ':' || local-name() || '-' || generate-id() || '-doc')
                  else ()" />
 
       <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
       <xsl:variable name="temp-uri-name" as="xs:string?"
          select="if ($temp-doc-name and @href)
-                 then concat($test:private-prefix, ':', local-name(), '-', generate-id(), '-uri')
+                 then ($test:private-prefix || ':' || local-name() || '-' || generate-id() || '-uri')
                  else ()" />
 
       <xsl:if test="$temp-uri-name">
@@ -98,9 +99,7 @@
             <xsl:choose>
                <xsl:when test="@href">
                   <xsl:attribute name="select">
-                     <xsl:text>doc($</xsl:text>
-                     <xsl:value-of select="$temp-uri-name" />
-                     <xsl:text>)</xsl:text>
+                     <xsl:text expand-text="yes">doc(${$temp-uri-name})</xsl:text>
                   </xsl:attribute>
                </xsl:when>
 
@@ -136,7 +135,7 @@
                </xsl:if>
 
                <xsl:element name="xsl:for-each">
-                  <xsl:attribute name="select" select="concat('$', $temp-doc-name)" />
+                  <xsl:attribute name="select" select="'$' || $temp-doc-name" />
 
                   <xsl:element name="xsl:sequence">
                      <xsl:attribute name="select"
@@ -168,7 +167,7 @@
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence
-                  select="concat($test:private-prefix, ':', local-name(), '-', generate-id())" />
+                  select="$test:private-prefix || ':' || local-name() || '-' || generate-id()" />
             </xsl:otherwise>
          </xsl:choose>
       </xsl:for-each>

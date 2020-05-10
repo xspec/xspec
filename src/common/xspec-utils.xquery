@@ -54,7 +54,7 @@ $decimal as xs:decimal
 		if (contains($decimal-string, '.')) then
 			$decimal-string
 		else
-			concat($decimal-string, '.0')
+			($decimal-string || '.0')
 };
 
 (:
