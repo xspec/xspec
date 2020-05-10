@@ -329,7 +329,9 @@
                 <xsl:when test="$call/@template and $context">
                   <for-each select="${test:variable-name($context)}">
                     <variable name="impl:transform-options" as="map(xs:string, item()*)">
-                      <xsl:attribute name="select">Q{http://www.w3.org/2005/xpath-functions/map}put($impl:transform-options, 'global-context-item', .)</xsl:attribute>
+                      <xsl:attribute name="select">
+                        <xsl:text>Q{http://www.w3.org/2005/xpath-functions/map}put($impl:transform-options, 'global-context-item', .)</xsl:text>
+                      </xsl:attribute>
                     </variable>
                     <xsl:sequence select="$enter-sut" />
                   </for-each>
