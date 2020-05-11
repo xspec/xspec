@@ -232,48 +232,7 @@
 
          <xsl:when test="$node1 instance of element() and
                          $node2 instance of element()">
-            <xsl:choose>
-               <xsl:when test="node-name($node1) eq node-name($node2)">
-                  <xsl:variable name="atts1" as="attribute()*">
-                     <xsl:perform-sort select="$node1/@*">
-                        <xsl:sort select="namespace-uri(.)" />
-                        <xsl:sort select="local-name(.)" />
-                     </xsl:perform-sort>
-                  </xsl:variable>
-                  <xsl:variable name="atts2" as="attribute()*">
-                     <xsl:perform-sort select="$node2/@*">
-                        <xsl:sort select="namespace-uri(.)" />
-                        <xsl:sort select="local-name(.)" />
-                     </xsl:perform-sort>
-                  </xsl:variable>
-
-                  <xsl:choose>
-                     <xsl:when test="test:deep-equal($atts1, $atts2, $flags)">
-                        <xsl:choose>
-                           <xsl:when test="$node1/text() = '...' and count($node1/node()) = 1">
-                              <xsl:sequence select="true()" />
-                           </xsl:when>
-                           <xsl:otherwise>
-                              <xsl:variable name="children1" as="node()*" 
-                                 select="test:sorted-children($node1, $flags)" />
-                              <xsl:variable name="children2" as="node()*" 
-                                 select="test:sorted-children($node2, $flags)" />
-                              <xsl:sequence
-                                 select="test:deep-equal($children1, $children2, $flags)" />
-                           </xsl:otherwise>
-                        </xsl:choose>
-                     </xsl:when>
-
-                     <xsl:otherwise>
-                        <xsl:sequence select="false()" />
-                     </xsl:otherwise>
-                  </xsl:choose>
-               </xsl:when>
-
-               <xsl:otherwise>
-                  <xsl:sequence select="false()" />
-               </xsl:otherwise>
-            </xsl:choose>
+            <xsl:sequence select="test:element-deep-equal($node1, $node2, $flags)" />
          </xsl:when>
 
          <xsl:when test="$node1 instance of text() and
@@ -324,6 +283,42 @@
             <xsl:sequence select="false()" />
          </xsl:otherwise>
       </xsl:choose>
+   </xsl:function>
+
+   <xsl:function name="test:element-deep-equal" as="xs:boolean">
+      <xsl:param name="elem1" as="element()" />
+      <xsl:param name="elem2" as="element()" />
+      <xsl:param name="flags" as="xs:string" />
+
+      <xsl:variable name="node-name-equal" as="xs:boolean"
+         select="node-name($elem1) eq node-name($elem2)" />
+
+      <xsl:variable name="sorted-attrs1" as="attribute()*">
+         <xsl:perform-sort select="$elem1/attribute()">
+            <xsl:sort select="namespace-uri()" />
+            <xsl:sort select="local-name()" />
+         </xsl:perform-sort>
+      </xsl:variable>
+      <xsl:variable name="sorted-attrs2" as="attribute()*">
+         <xsl:perform-sort select="$elem2/attribute()">
+            <xsl:sort select="namespace-uri()" />
+            <xsl:sort select="local-name()" />
+         </xsl:perform-sort>
+      </xsl:variable>
+      <xsl:variable name="attrs-equal" as="xs:boolean"
+         select="test:deep-equal($sorted-attrs1, $sorted-attrs2, $flags)" />
+
+      <xsl:variable name="children-equal" as="xs:boolean"
+         select="
+            $elem1[count(node()) eq 1][text() = '...']
+            or
+            test:deep-equal(
+               test:sorted-children($elem1, $flags),
+               test:sorted-children($elem2, $flags),
+               $flags
+            )" />
+
+      <xsl:sequence select="$node-name-equal and $attrs-equal and $children-equal" />
    </xsl:function>
 
    <xsl:function name="test:sorted-children" as="node()*">
