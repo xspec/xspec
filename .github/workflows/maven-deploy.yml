@@ -20,7 +20,9 @@ jobs:
         with:
           java-version: 8
 
-      # TODO: Fork the original repo and use xspec/action-maven-publish@v1
+      # TODO:
+      #   Either migrate to https://github.com/actions/setup-java/pull/59
+      #   or use xspec/action-maven-publish@v1 forked from samuelmeuli/action-maven-publish
       - uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709
         with:
           nexus_username: ${{ secrets.nexus_username }}
