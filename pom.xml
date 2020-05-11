@@ -263,8 +263,6 @@
               <!--
               <autoReleaseAfterClose>true</autoReleaseAfterClose>
               -->
-              <!-- TODO: Remove skipRemoteStaging -->
-              <skipRemoteStaging>true</skipRemoteStaging>
             </configuration>
           </plugin>
         </plugins>
