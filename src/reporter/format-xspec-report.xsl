@@ -319,7 +319,7 @@
 
     <div class="xTestReportHint">
       <a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank"
-        title="What does this report mean?">&#x2754;</a>
+        title="What does this report mean?">[?]</a>
     </div>
 
     <!-- True if the expectation is boolean (i.e. x:expect/@test was an xs:boolean at runtime.) -->
