@@ -101,37 +101,7 @@
       <xsl:variable name="result" as="xs:boolean">
          <xsl:choose>
             <xsl:when test="contains($flags, '1')">
-               <xsl:variable name="flags" as="xs:string" select="translate($flags, '1', '')" />
-
-               <xsl:choose>
-                  <xsl:when test="$seq1 instance of xs:string and
-                                  $seq2 instance of text()+">
-                     <xsl:sequence
-                        select="test:deep-equal($seq1, string-join($seq2, ''), $flags)" />
-                  </xsl:when>
-
-                  <xsl:when test="$seq1 instance of xs:double and
-                                  $seq2 instance of text()+">
-                     <xsl:sequence
-                        select="test:deep-equal($seq1, xs:double(string-join($seq2, '')), $flags)" />
-                  </xsl:when>
-
-                  <xsl:when test="$seq1 instance of xs:decimal and
-                                  $seq2 instance of text()+">
-                     <xsl:sequence
-                        select="test:deep-equal($seq1, xs:decimal(string-join($seq2, '')), $flags)" />
-                  </xsl:when>
-
-                  <xsl:when test="$seq1 instance of xs:integer and
-                                  $seq2 instance of text()+">
-                     <xsl:sequence
-                        select="test:deep-equal($seq1, xs:integer(string-join($seq2, '')), $flags)" />
-                  </xsl:when>
-
-                  <xsl:otherwise>
-                     <xsl:sequence select="test:deep-equal($seq1, $seq2, $flags)" />
-                  </xsl:otherwise>
-               </xsl:choose>
+               <xsl:sequence select="test:deep-equal-v1($seq1, $seq2, $flags)" />
             </xsl:when>
 
             <xsl:when test="empty($seq1) or empty($seq2)">
@@ -183,6 +153,44 @@
       -->
 
       <xsl:sequence select="$result" />
+   </xsl:function>
+
+   <xsl:function name="test:deep-equal-v1" as="xs:boolean">
+      <xsl:param name="seq1" as="item()*" />
+      <xsl:param name="seq2" as="item()*" />
+      <xsl:param name="flags" as="xs:string" />
+
+      <xsl:variable name="seq2-adapted" as="xs:anyAtomicType?">
+         <xsl:if test="$seq2 instance of text()+">
+            <xsl:variable name="seq2-string" as="xs:string" select="string-join($seq2, '')" />
+
+            <xsl:choose>
+               <xsl:when test="$seq1 instance of xs:string">
+                  <xsl:sequence select="$seq2-string" />
+               </xsl:when>
+               <xsl:when
+                  test="($seq1 instance of xs:double) and ($seq2-string castable as xs:double)">
+                  <xsl:sequence select="$seq2-string cast as xs:double" />
+               </xsl:when>
+               <xsl:when
+                  test="($seq1 instance of xs:decimal) and ($seq2-string castable as xs:decimal)">
+                  <xsl:sequence select="$seq2-string cast as xs:decimal" />
+               </xsl:when>
+               <xsl:when
+                  test="($seq1 instance of xs:integer) and ($seq2-string castable as xs:integer)">
+                  <xsl:sequence select="$seq2-string cast as xs:integer" />
+               </xsl:when>
+            </xsl:choose>
+         </xsl:if>
+      </xsl:variable>
+
+      <xsl:sequence
+         select="
+            test:deep-equal(
+               $seq1,
+               ($seq2-adapted, $seq2)[1],
+               translate($flags, '1', '')
+            )" />
    </xsl:function>
 
    <xsl:function name="test:item-deep-equal" as="xs:boolean">
