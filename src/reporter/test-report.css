@@ -541,7 +541,6 @@ span.scenario-totals {
 }
 .xTestReportHint {
 	grid-area: hint;
-	text-shadow: 1px 2px 3px gray;
 }
 .xspecResult {
 	grid-area: table;
