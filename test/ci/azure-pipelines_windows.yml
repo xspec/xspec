@@ -20,30 +20,19 @@ jobs:
         Saxon-9-9:
           XSPEC_TEST_ENV: saxon-9-9
 
-        Saxon-9-8:
-          XSPEC_TEST_ENV: saxon-9-8
-
         Oxygen:
           XSPEC_TEST_ENV: oxygen
 
-        Saxon-9-7:
-          XSPEC_TEST_ENV: saxon-9-7
+        Saxon-9-8:
+          XSPEC_TEST_ENV: saxon-9-8
 
     steps:
-      - task: BatchScript@1
-        displayName: Set up environment variables
-        inputs:
-          filename: test\ci\set-env.cmd
-          modifyEnvironment: true
-
       - task: BatchScript@1
         displayName: Install test dependencies
         inputs:
           filename: test\ci\install-deps.cmd
           modifyEnvironment: true
 
-      # switch-java.cmd has to be called after install-deps.cmd which calls refreshenv.cmd
-      # which in turn reconstructs environment variables from registry
       - task: BatchScript@1
         displayName: Switch to Java ${{ parameters.javaVersion }}
         condition: ne(${{ parameters.javaVersion }}, 8)

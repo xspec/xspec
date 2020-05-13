@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -56,8 +56,7 @@
 			This template makes them predictable while keeping uniqueness within document.
 	-->
 	<xsl:template as="attribute()" name="normalizer:normalize-external-link-attribute">
-		<xsl:context-item as="attribute(href)" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute(href)" use="required" />
 
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
@@ -79,7 +78,7 @@
 		<xsl:variable as="xs:integer" name="first-index" select="index-of($uris, $this-uri)[1]" />
 
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-			select="concat(upper-case(local-name()), '-', $first-index)" />
+			select="upper-case(local-name()) || '-' || $first-index" />
 	</xsl:template>
 
 	<!--

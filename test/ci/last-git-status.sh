@@ -2,6 +2,6 @@
 
 echo "Check git status"
 
-output=$(git status --porcelain)
+output=$(git status --porcelain 2>&1)
 echo "${output}"
 test -z "${output}"

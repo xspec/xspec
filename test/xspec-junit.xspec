@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               stylesheet="../src/reporter/junit-report.xsl"
-               xslt-version="3.0">
+               stylesheet="../src/reporter/junit-report.xsl">
 
     <x:scenario label="When processing a successful test">
         <x:context>

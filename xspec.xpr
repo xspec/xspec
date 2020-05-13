@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="22.0">
     <meta>
-        <filters directoryPatterns="" filePatterns="\Qxspec.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
+        <filters directoryPatterns="node_modules" filePatterns="\Qxspec.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
         <options>
             <serialized version="22.0" xml:space="preserve">
                 <serializableOrderedMap>
@@ -12,11 +12,23 @@
                         </String-array>
                     </entry>
                     <entry>
+                        <String>editor.detect.indent.on.open</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
+                        <String>editor.use.tabs</String>
+                        <Boolean>false</Boolean>
+                    </entry>
+                    <entry>
                         <String>enable.project.master.files.support</String>
                         <Boolean>true</Boolean>
                     </entry>
                     <entry>
                         <String>key.editor.document.type.custom.locations.option.pane</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
+                        <String>key.editor.format.option.pane.group</String>
                         <Boolean>true</Boolean>
                     </entry>
                 </serializableOrderedMap>

@@ -254,7 +254,7 @@ rem
 rem Include the command line options (and consequently the double quotes)
 rem if necessary.
 rem
-set OPEN=start "XSpec Report"
+rem set OPEN=start "XSpec Report"
 
 rem
 rem # set XSPEC_HOME if it has not been set by the user (set it to the
@@ -265,7 +265,7 @@ if not defined XSPEC_HOME set "XSPEC_HOME=%~dp0.."
 rem
 rem # safety checks
 rem
-for %%I in ("%XSPEC_HOME%") do echo "%%~aI" | %SYSTEMROOT%\system32\find "d" > NUL
+for %%I in ("%XSPEC_HOME%") do echo "%%~aI" | "%SYSTEMROOT%\system32\find" "d" > NUL
 if errorlevel 1 (
     call :win_echo "ERROR: XSPEC_HOME is not a directory: %XSPEC_HOME%"
     exit /b 1
@@ -413,7 +413,7 @@ if defined XSLT (
     set "COMPILED=%COMPILED%.xq"
 )
 set "COVERAGE_XML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.xml"
-set "COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html"
+if not defined COVERAGE_HTML set "COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html"
 set "RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-result.xml"
 set "HTML=%TEST_DIR%\%TARGET_FILE_NAME%-result.html"
 set "JUNIT_RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-junit.xml"

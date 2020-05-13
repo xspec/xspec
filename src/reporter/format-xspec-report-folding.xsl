@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -21,8 +21,7 @@
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report-folding.xsl</pkg:import-uri>
 
 <xsl:template name="x:html-head-callback" as="element(xhtml:script)">
-  <xsl:context-item as="document-node(element(x:report))" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="document-node(element(x:report))" use="required" />
 
   <script language="javascript" type="text/javascript">
 function toggle(scenarioID) {
@@ -56,8 +55,7 @@ function toggle(scenarioID) {
 </xsl:template>
 
 <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
-  <xsl:context-item as="element(x:scenario)" use="required"
-    use-when="element-available('xsl:context-item')" />
+  <xsl:context-item as="element(x:scenario)" use="required" />
 
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />
@@ -70,13 +68,17 @@ function toggle(scenarioID) {
     <h2
       class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
       <a href="javascript:toggle('{@id}')">
-        <img src="{resolve-uri(concat('../../graphics/', if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'))}"
-          alt="{if ($any-descendant-failure) then 'collapse' else 'expand'}" id="icon_{@id}"/>
+        <xsl:variable name="graphics-dir" as="xs:anyURI" select="resolve-uri('../../graphics/')" />
+        <xsl:variable name="img-file" as="xs:string"
+          select="if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'" />
+        <img src="{resolve-uri($img-file, $graphics-dir)}"
+             alt="{if ($any-descendant-failure) then 'collapse' else 'expand'}"
+             id="icon_{@id}" />
       </a>
       <xsl:sequence select="x:pending-callback(@pending)"/>
       <xsl:apply-templates select="x:label" mode="x:html-report" />
       <span class="scenario-totals">
-        <xsl:call-template name="x:totals">
+        <xsl:call-template name="x:output-test-stats">
           <xsl:with-param name="tests" select="x:descendant-tests(.)" />
         </xsl:call-template>
       </span>
@@ -93,7 +95,7 @@ function toggle(scenarioID) {
             <xsl:apply-templates select="x:label" mode="x:html-report" />
           </th>
           <th>
-            <xsl:call-template name="x:totals">
+            <xsl:call-template name="x:output-test-stats">
               <xsl:with-param name="tests" select="x:descendant-tests(.)" />
             </xsl:call-template>
           </th>
@@ -128,7 +130,7 @@ function toggle(scenarioID) {
               </xsl:choose>
             </th>
             <th>
-              <xsl:call-template name="x:totals">
+              <xsl:call-template name="x:output-test-stats">
                 <xsl:with-param name="tests" select="x:test" />
               </xsl:call-template>
             </th>
