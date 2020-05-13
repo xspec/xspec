@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="3.0"
+<xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -64,13 +64,8 @@
   <xsl:variable name="ns-attr-indent" as="xs:string">
     <xsl:value-of>
       <xsl:text>&#xA;</xsl:text>
-      <xsl:for-each select="1 to $level">
-        <xsl:text>   </xsl:text>
-      </xsl:for-each>
-      <xsl:value-of
-        select="
-          ('&lt;' || name())
-          => replace('.', ' ')" />
+      <xsl:for-each select="1 to $level"><xsl:text>   </xsl:text></xsl:for-each>
+      <xsl:value-of select="replace(concat('&lt;', name()), '.', ' ')" />
     </xsl:value-of>
   </xsl:variable>
 
@@ -117,7 +112,13 @@
     <xsl:if test="position() ge 2">
       <xsl:value-of select="$ns-attr-indent" />
     </xsl:if>
-    <xsl:text expand-text="yes"> xmlns{name()[.] ! (':' || .)}="{.}"</xsl:text>
+    <xsl:text> xmlns</xsl:text>
+    <xsl:if test="name()">
+      <xsl:value-of select="concat(':', name())" />
+    </xsl:if>
+    <xsl:text>="</xsl:text>
+    <xsl:value-of select="." />
+    <xsl:text>"</xsl:text>
   </xsl:for-each>
 
   <!-- Output attributes while performing comparison -->
@@ -127,12 +128,9 @@
 
     <!-- Attribute value adjusted for display -->
     <xsl:variable name="display-value" as="xs:string"
-      select="
-        .
-        => replace('&quot;', '&amp;quot;')
-        => replace('\s(\s+)', '&#x0A;$1')" />
+      select="replace(replace(., '&quot;', '&amp;quot;'), '\s(\s+)', '&#x0A;$1')" />
     <xsl:variable name="display-value-in-quot" as="xs:string"
-      select="'&quot;' || $display-value || '&quot;'" />
+      select="concat('&quot;', $display-value, '&quot;')" />
 
     <xsl:if test="$new-namespaces or (position() ge 2)">
       <xsl:value-of select="$ns-attr-indent" />
@@ -199,7 +197,9 @@
       </xsl:choose>      
 
       <!-- End this element -->
-      <xsl:text expand-text="yes">&lt;/{name()}&gt;</xsl:text>
+      <xsl:text>&lt;/</xsl:text>
+      <xsl:value-of select="name()" />
+      <xsl:text>&gt;</xsl:text>
     </xsl:when>
 
     <!-- End this element without any child node -->
@@ -249,7 +249,7 @@
   <xsl:variable name="serialized" as="text()">
     <xsl:choose>
       <xsl:when test="self::comment()">
-        <xsl:value-of select="'&lt;!--' || . || '-->'" />
+        <xsl:value-of select="concat('&lt;!--', ., '-->')" />
       </xsl:when>
 
       <xsl:when test="self::text()">
@@ -324,7 +324,7 @@
     </xsl:when>
 
     <xsl:otherwise>
-      <xsl:text expand-text="yes">&#x0A;{substring(., $indentation + 2)}</xsl:text>
+      <xsl:value-of select="concat('&#x0A;', substring(., $indentation + 2))" />
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
@@ -418,7 +418,8 @@
 <!-- Generates <style> or <link> for CSS.
   If you enable $inline, you must use test:disable-escaping character map in serialization. -->
 <xsl:template name="test:load-css" as="element()">
-  <xsl:context-item use="absent" />
+  <xsl:context-item use="absent"
+    use-when="element-available('xsl:context-item')" />
 
   <xsl:param name="inline" as="xs:boolean" required="yes" />
   <xsl:param name="uri" as="xs:string?" />

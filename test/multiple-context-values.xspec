@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xslt-version="3.0">
 
 	<x:variable as="xs:anyAtomicType+" name="multiple-atomic-values" select="'str', 2" />
 	<x:scenario label="Make sure">

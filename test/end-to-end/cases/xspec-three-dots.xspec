@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:xspec-three-dots" query-at="xspec-three-dots.xquery"
-	stylesheet="xspec-three-dots.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	stylesheet="xspec-three-dots.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xslt-version="3.0">
 	<x:scenario label="For resultant element (simple)">
 		<x:scenario>
 			<x:label>When result is<![CDATA[

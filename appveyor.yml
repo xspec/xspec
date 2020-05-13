@@ -4,16 +4,18 @@ environment:
     - XSPEC_TEST_ENV: saxon-9-9
 
 install:
-  - cmd: test\ci\install-deps.cmd
+- cmd: |
+    test\ci\set-env.cmd
+    test\ci\install-deps.cmd
 
 build: off
 
 test_script:
-  - cmd: |
-      test\ci\print-env.cmd
-      test\ci\run-core-tests.cmd
-      test\ci\maven-package.cmd -q
-      test\ci\compile-java.cmd -silent
-      test\ci\last-git-status.cmd
+- cmd: |
+    test\ci\print-env.cmd
+    test\ci\run-core-tests.cmd
+    test\ci\maven-package.cmd -q
+    test\ci\compile-java.cmd -silent
+    test\ci\last-git-status.cmd
 
 deploy: off

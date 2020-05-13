@@ -7,7 +7,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="3.0"
+<xsl:stylesheet version="2.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
@@ -37,9 +37,7 @@
 
   <xsl:if test="$pending">
     <xsl:text>(</xsl:text>
-    <strong>
-      <xsl:value-of select="$pending" />
-    </strong>
+    <strong><xsl:value-of select="$pending"/></strong>
     <xsl:text>) </xsl:text>
   </xsl:if>
 </xsl:function>
@@ -52,11 +50,13 @@
 <!-- Named template to be overridden.
   Override this template to insert additional nodes at the end of /html/head. -->
 <xsl:template name="x:html-head-callback" as="empty-sequence()">
-  <xsl:context-item as="document-node(element(x:report))" use="required" />
+  <xsl:context-item as="document-node(element(x:report))" use="required"
+    use-when="element-available('xsl:context-item')" />
 </xsl:template>
   
 <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
-  <xsl:context-item as="element(x:scenario)" use="required" />
+  <xsl:context-item as="element(x:scenario)" use="required"
+    use-when="element-available('xsl:context-item')" />
 
   <xsl:variable name="pending" as="xs:boolean"
     select="exists(@pending)" />
@@ -67,9 +67,9 @@
       <xsl:sequence select="x:pending-callback(@pending)"/>
       <xsl:apply-templates select="x:label" mode="x:html-report" />
       <span class="scenario-totals">
-        <xsl:call-template name="x:output-test-stats">
+        <xsl:call-template name="x:totals">
           <xsl:with-param name="tests" select="x:descendant-tests(.)" />
-          <xsl:with-param name="insert-labels" select="true()" />
+          <xsl:with-param name="labels" select="true()"/>
         </xsl:call-template>
       </span>
     </h2>
@@ -85,9 +85,9 @@
             <xsl:apply-templates select="x:label" mode="x:html-report" />
           </th>
           <th>
-            <xsl:call-template name="x:output-test-stats">
+            <xsl:call-template name="x:totals">
               <xsl:with-param name="tests" select="x:descendant-tests(.)" />
-              <xsl:with-param name="insert-labels" select="true()" />
+              <xsl:with-param name="labels" select="true()"/>
             </xsl:call-template>
           </th>
         </tr>
@@ -120,9 +120,9 @@
               </xsl:choose>
             </th>
             <th>
-              <xsl:call-template name="x:output-test-stats">
+              <xsl:call-template name="x:totals">
                 <xsl:with-param name="tests" select="x:test" />
-                <xsl:with-param name="insert-labels" select="true()" />
+                <xsl:with-param name="labels" select="true()"/>
               </xsl:call-template>
             </th>
           </tr>
@@ -136,19 +136,21 @@
 
 <xsl:template match="document-node()" as="element(xhtml:html)">
   <xsl:message>
-    <xsl:call-template name="x:output-test-stats">
+    <xsl:call-template name="x:totals">
       <xsl:with-param name="tests" select="x:descendant-tests(.)" />
-      <xsl:with-param name="insert-labels" select="true()" />
+      <xsl:with-param name="labels" select="true()" />
     </xsl:call-template>
   </xsl:message>
 
   <html>
     <head>
       <title>
-         <xsl:text expand-text="yes">Test Report for {x:report/x:format-uri((@schematron,@stylesheet,@query)[1])} (</xsl:text>
-         <xsl:call-template name="x:output-test-stats">
+         <xsl:text>Test Report for </xsl:text>
+         <xsl:value-of select="x:report/x:format-uri((@schematron,@stylesheet,@query)[1])"/>
+         <xsl:text> (</xsl:text>
+         <xsl:call-template name="x:totals">
            <xsl:with-param name="tests" select="x:descendant-tests(.)"/>
-           <xsl:with-param name="insert-labels" select="true()" />
+           <xsl:with-param name="labels" select="true()"/>
          </xsl:call-template>
          <xsl:text>)</xsl:text>
       </title>
@@ -176,10 +178,11 @@
       <xsl:variable as="xs:string" name="attr-name" select="local-name()" />
 
       <!-- Capitalize the first character -->
-      <xsl:value-of
-        select="
-          upper-case(substring($attr-name, 1, 1))
-          || substring($attr-name, 2)" />
+      <xsl:value-of select="
+        concat(
+          upper-case(substring($attr-name, 1, 1)),
+          substring($attr-name, 2)
+        )" />
 
       <xsl:text>: </xsl:text>
 
@@ -205,7 +208,8 @@
     </a>
   </p>
   <p>
-    <xsl:text expand-text="yes">Tested: {format-dateTime(@date, '[D] [MNn] [Y] at [H01]:[m01]')}</xsl:text>
+    <xsl:text>Tested: </xsl:text>
+    <xsl:value-of select="format-dateTime(@date, '[D] [MNn] [Y] at [H01]:[m01]')" />
   </p>
   <h2>Contents</h2>
   <table class="xspec">
@@ -218,12 +222,12 @@
     </colgroup>
     <thead>
       <tr>
+        <xsl:variable name="totals" select="x:totals(x:descendant-tests(.))"/>
         <th/>
-        <xsl:for-each select="x:descendant-tests(.) => x:test-stats()">
-          <th class="totals">
-            <xsl:text expand-text="yes">{@label}:&#xA0;{@count}</xsl:text>
-          </th>
-        </xsl:for-each>
+        <th class="totals">passed:&#xa0;<xsl:value-of select="$totals[1]"/></th>
+        <th class="totals">pending:&#xa0;<xsl:value-of select="$totals[2]"/></th>
+        <th class="totals">failed:&#xa0;<xsl:value-of select="$totals[3]"/></th>
+        <th class="totals">total:&#xa0;<xsl:value-of select="$totals[4]"/></th>
       </tr>
     </thead>
     <tbody>
@@ -237,16 +241,16 @@
             <xsl:sequence select="x:pending-callback(@pending)"/>
             <a>
               <xsl:if test="x:top-level-scenario-needs-format(.)">
-                <xsl:attribute name="href" select="'#top_' || @id" />
+                <xsl:attribute name="href" select="concat('#top_', @id)" />
               </xsl:if>
               <xsl:apply-templates select="x:label" mode="x:html-report" />
             </a>
           </th>
-          <xsl:for-each select="x:descendant-tests(.) => x:test-stats()">
-            <th class="totals">
-              <xsl:value-of select="@count" />
-            </th>
-          </xsl:for-each>
+          <xsl:variable name="totals" select="x:totals(x:descendant-tests(.))"/>
+          <th class="totals"><xsl:value-of select="$totals[1]"/></th>
+          <th class="totals"><xsl:value-of select="$totals[2]"/></th>
+          <th class="totals"><xsl:value-of select="$totals[3]"/></th>
+          <th class="totals"><xsl:value-of select="$totals[4]"/></th>
         </tr>
       </xsl:for-each>
     </tbody>
@@ -405,11 +409,7 @@
 
       <xsl:choose>
         <xsl:when test="@href">
-          <p>
-            <a href="{@href}">
-              <xsl:value-of select="x:format-uri(@href)" />
-            </a>
-          </p>
+          <p><a href="{@href}"><xsl:value-of select="x:format-uri(@href)" /></a></p>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="indentation"
@@ -445,43 +445,55 @@
       </xsl:choose>
     </xsl:when>
     <xsl:otherwise>
-      <pre>
-        <xsl:value-of select="@select" />
-      </pre>
+      <pre><xsl:value-of select="@select" /></pre>
     </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
 
-<xsl:template name="x:output-test-stats" as="text()?">
-  <xsl:context-item use="absent" />
+<xsl:template name="x:totals" as="text()?">
+  <xsl:context-item use="absent"
+    use-when="element-available('xsl:context-item')" />
 
   <xsl:param name="tests" as="element(x:test)*" required="yes" />
-  <xsl:param name="insert-labels" as="xs:boolean" select="false()" />
+  <xsl:param name="labels" as="xs:boolean" select="false()" />
 
   <xsl:if test="$tests">
-    <xsl:variable name="components" as="xs:string+">
-      <xsl:for-each select="x:test-stats($tests)">
-        <xsl:sequence
-          select="
-            (@label[$insert-labels], @count)
-            => string-join(': ')" />
-      </xsl:for-each>
-    </xsl:variable>
-    <xsl:value-of select="$components" separator="{if ($insert-labels) then ' / ' else '/'}" />
+    <xsl:variable name="counts" select="x:totals($tests)"/>
+
+    <xsl:value-of>
+      <xsl:if test="$labels">passed: </xsl:if>
+      <xsl:value-of select="$counts[1]"/>
+
+      <xsl:if test="$labels"><xsl:text> </xsl:text></xsl:if>
+      <xsl:text>/</xsl:text>
+
+      <xsl:if test="$labels"> pending: </xsl:if>
+      <xsl:value-of select="$counts[2]"/>
+
+      <xsl:if test="$labels"><xsl:text> </xsl:text></xsl:if>
+      <xsl:text>/</xsl:text>
+
+      <xsl:if test="$labels"> failed: </xsl:if>
+      <xsl:value-of select="$counts[3]"/>
+
+      <xsl:if test="$labels"><xsl:text> </xsl:text></xsl:if>
+      <xsl:text>/</xsl:text>
+
+      <xsl:if test="$labels"> total: </xsl:if>
+      <xsl:value-of select="$counts[4]"/>
+    </xsl:value-of>
   </xsl:if>
 </xsl:template>
   
-<xsl:function name="x:test-stats" as="element(stat)+" xmlns="">
-  <xsl:param name="tests" as="element(x:test)*" />
-
+<xsl:function name="x:totals" as="xs:integer+">
+  <xsl:param name="tests" as="element(x:test)*"/>
   <xsl:variable name="passed" as="element(x:test)*" select="$tests[x:is-passed-test(.)]" />
   <xsl:variable name="pending" as="element(x:test)*" select="$tests[x:is-pending-test(.)]" />
   <xsl:variable name="failed" as="element(x:test)*" select="$tests[x:is-failed-test(.)]" />
-
-  <stat label="passed" count="{count($passed)}" />
-  <stat label="pending" count="{count($pending)}" />
-  <stat label="failed" count="{count($failed)}" />
-  <stat label="total" count="{count($tests)}" />
+  <xsl:sequence select="count($passed)"/>
+  <xsl:sequence select="count($pending)"/>
+  <xsl:sequence select="count($failed)"/>
+  <xsl:sequence select="count($tests)"/>
 </xsl:function>
 
 </xsl:stylesheet>

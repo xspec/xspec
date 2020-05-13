@@ -17,13 +17,12 @@ description =
 		attribute query { xsd:anyURI }?,
 
 		## XQuery version which will be declared in the compiled main module.
-		[ a:defaultValue = "3.1" ]
 		attribute xquery-version { text }?,
 
 		## XSLT version which will be declared in the compiled master stylesheet.
 		## This version may also activate a certain compatibility mode when
 		## evaluating expressions and comparing sequences.
-		[ a:defaultValue = "3.0" ]
+		[ a:defaultValue = "2.0" ]
 		attribute xslt-version { xsd:decimal }?,
 
 		attribute query-at { xsd:anyURI }?,

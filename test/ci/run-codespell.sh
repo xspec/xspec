@@ -14,4 +14,4 @@ pip install \
     --check-filenames \
     --check-hidden \
     --quiet-level 6 \
-    --skip=".git,./node_modules,./src/schematron/iso-schematron"
+    --skip=".git,./src/schematron/iso-schematron"

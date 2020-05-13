@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="test.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="test.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xquery-version="3.1" xslt-version="3.0">
 
 	<x:scenario catch="yes" label="With @catch=yes">
 

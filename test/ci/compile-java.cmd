@@ -1,16 +1,15 @@
 echo Compile Java
 
-setlocal
-
-javac -version 2>&1 | "%SYSTEMROOT%\system32\find" " 11."
-if not errorlevel 1 (
+javac -version 2>&1 | %SYSTEMROOT%\system32\find " 1.8."
+if errorlevel 1 (
     echo Skip compiling with incompatible JDK
-    exit /b 0
+    verify > NUL
+    goto :EOF
 )
 
-if "%SAXON_VERSION:~0,3%"=="10." (
+if not "%SAXON_VERSION:~0,2%"=="9." (
     echo Skip compiling with incompatible Saxon
-    exit /b 0
+    goto :EOF
 )
 
 call ant -buildfile "%~dp0build_java.xml" %*

@@ -16,7 +16,9 @@
 		<xsl:sequence select="$global-variable" />
 	</xsl:template>
 
-	<!-- Mirror -->
-	<xsl:include href="mirror.xsl" />
+	<!-- Returns the context item intact -->
+	<xsl:template as="item()?" name="get-template-context">
+		<xsl:sequence select="." />
+	</xsl:template>
 
 </xsl:stylesheet>

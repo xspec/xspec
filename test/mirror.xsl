@@ -6,16 +6,24 @@
 	<!--
 		Returns the context node intact
 	-->
-	<xsl:mode name="mirror:context-mirror" on-no-match="fail" />
+	<xsl:mode name="mirror:context-mirror" on-no-match="fail"
+		use-when="element-available('xsl:mode')" />
 
-	<xsl:template as="item()" match="." mode="mirror:context-mirror" name="mirror:context-mirror">
+	<xsl:template as="node()" match="attribute() | node() | document-node()"
+		mode="mirror:context-mirror" name="mirror:context-mirror"
+		use-when="number(system-property('xsl:version')) lt 3">
+		<xsl:sequence select="." />
+	</xsl:template>
+
+	<xsl:template as="item()" match="." mode="mirror:context-mirror" name="mirror:context-mirror"
+		use-when="number(system-property('xsl:version')) ge 3">
 		<xsl:sequence select="." />
 	</xsl:template>
 
 	<!--
 		Returns the items in the non-tunnel parameter intact
 	-->
-	<xsl:mode name="mirror:param-mirror" on-no-match="fail" />
+	<xsl:mode name="mirror:param-mirror" on-no-match="fail" use-when="element-available('xsl:mode')" />
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		mode="mirror:param-mirror" name="mirror:param-mirror">
@@ -27,7 +35,8 @@
 	<!--
 		Returns the items in the tunnel parameter intact
 	-->
-	<xsl:mode name="mirror:tunnel-param-mirror" on-no-match="fail" />
+	<xsl:mode name="mirror:tunnel-param-mirror" on-no-match="fail"
+		use-when="element-available('xsl:mode')" />
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		mode="mirror:tunnel-param-mirror" name="mirror:tunnel-param-mirror">

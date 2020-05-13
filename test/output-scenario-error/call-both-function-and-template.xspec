@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:scenario label="x:call both with @function and @template">
-		<x:call function="my-function" template="my-template" />
-		<x:expect label="should be error" test="true()" />
-	</x:scenario>
-</x:description>

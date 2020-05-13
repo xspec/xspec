@@ -3,7 +3,8 @@
 	stylesheet="xspec-eqname.xsl"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xslt-version="3.0">
 
 	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
 
@@ -113,8 +114,7 @@
 			select="/Q{}variable-child"><variable-child /></x:variable>
 		<!-- The following definition illustrates redefining a variable and mixing notations
 			for its name. The file xspec-variable.xspec would be a good place to test that,
-			except that that file did not use xslt-version="3.0".
-			TODO: The default @xslt-version has been changed. Consider relocating the test. -->
+			except that that file does not use xslt-version="3.0". -->
 		<x:variable name="Q{http://example.org/ns/my/variable}var"
 			select="($myv:var,$Q{http://example.org/ns/my/variable}var)" as="element(variable-child)+"/>
 		<x:call function="Q{x-urn:test:xspec-eqname}param-mirror-function">

@@ -27,13 +27,6 @@
 
 			<!-- Tests x:import without @href -->
 			<exclude name="test/import/no-href.xspec" />
-
-			<!-- Tests error from x:output-scenario -->
-			<exclude name="test/output-scenario-error/apply-with-call.xspec" />
-			<exclude name="test/output-scenario-error/apply-with-context.xspec" />
-			<exclude name="test/output-scenario-error/call-both-function-and-template.xspec" />
-			<exclude name="test/output-scenario-error/context-both-href-and-content.xspec" />
-			<exclude name="test/output-scenario-error/function-with-context.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.
