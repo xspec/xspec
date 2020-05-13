@@ -104,14 +104,9 @@ declare function test:sorted-children(
           $node/test:message)
 };
 
-(: Aim to be identical to:
- :
- :     <xsl:perform-sort select="$nodes">
- :        <xsl:sort select="namespace-uri(.)" />
- :        <xsl:sort select="local-name(.)" />
- :     </xsl:perform-sort>
- :)
-declare function test:sort-named-nodes($nodes as node()*) as node()*
+declare function test:sort-named-nodes(
+  $nodes as node()*
+) as node()*
 {
   if (empty($nodes)) then
     ()
