@@ -15,14 +15,8 @@ if not exist "%SAXON_JAR%" (
 )
 
 rem Check capabilities
-java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | %SYSTEMROOT%\system32\find " 9." > NUL
+java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" " 9." > NUL
 if not errorlevel 1 set XSLT_SUPPORTS_COVERAGE=1
-
-java -jar "%SAXON_JAR%" -nogo -xsl:"%~dp0caps\v3-0.xsl" 2> NUL
-if not errorlevel 1 set XSLT_SUPPORTS_3_0=1
-
-java -cp "%SAXON_JAR%" net.sf.saxon.Query -q:"%~dp0caps\v3-1.xquery" > NUL 2>&1
-if not errorlevel 1 set XQUERY_SUPPORTS_3_1_DEFAULT=1
 
 rem Unset Ant environment variables
 set ANT_ARGS=

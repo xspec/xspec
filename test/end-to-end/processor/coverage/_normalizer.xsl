@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -22,7 +22,7 @@
 					select="
 						regex-group(1),
 						x:filename-and-extension(regex-group(2))"
-					separator=" " />
+				 />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>
@@ -71,13 +71,26 @@
 				out: <h2>module: module.xsl; 25 lines</h2>
 	-->
 	<xsl:template as="text()" match="/html/body/h2/text()" mode="normalizer:normalize">
-		<xsl:analyze-string flags="s" regex="^(module: )(\S+)(; [1-9][0-9]* lines)$" select=".">
+		<xsl:variable as="xs:string" name="regex" xml:space="preserve">
+			^
+				(module:[ ])		<!-- group 1 -->
+				(\S+)				<!-- group 2 -->
+				(;)					<!-- group 3 -->
+				(?:\n[ ]+)?
+				([ ][1-9][0-9]*)	<!-- group 4 -->
+				(?:\n[ ]+)?
+				([ ]lines)			<!-- group 5 -->
+			$
+		</xsl:variable>
+		<xsl:analyze-string flags="x" regex="{$regex}" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of
 					select="
 						regex-group(1),
 						x:filename-and-extension(regex-group(2)),
-						regex-group(3)"
+						regex-group(3),
+						regex-group(4),
+						regex-group(5)"
 					separator="" />
 			</xsl:matching-substring>
 		</xsl:analyze-string>

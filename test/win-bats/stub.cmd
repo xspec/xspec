@@ -223,7 +223,8 @@ rem
 
     rem
     rem Run
-    rem    Launch a child process in order to localize various environment changes
+    rem    Launch a child process in order to localize various environment changes.
+    rem    Note that for CMD's /C option, the first parameter starting with a quote char may have a special meaning.
     rem
     "%COMSPEC%" /c %* > "%OUTPUT_RAW%" 2>&1
     set RETVAL=%ERRORLEVEL%
@@ -337,6 +338,15 @@ rem
     )
     goto :EOF
 
+:verify_leaf_dir_not_exist
+    rem Checks to see if the parent dir of the specified dir exists...
+    call :verify_exist "%~1\..\"
+
+    rem ...but the specified dir does not exist.
+    call :verify_not_exist "%~1\"
+
+    goto :EOF
+
 rem
 rem Test cases
 rem
@@ -345,12 +355,20 @@ rem
     if %CASE_NUM% GTR %NUM_CASES% goto :EOF
 
     rem Failsafe
-    if %CASE_NUM% GEQ 100 goto :EOF
-    if not defined NUM_CASES goto :EOF
+    if %CASE_NUM% GEQ 200 (
+        call :failed "Too many test cases"
+        goto :EOF
+    )
+    if not defined NUM_CASES (
+        call :failed "NUM_CASES not defined"
+        goto :EOF
+    )
 
     rem Run
     setlocal
+    pushd .
     call :case_%CASE_NUM%
+    popd
     call :teardown
     endlocal
 

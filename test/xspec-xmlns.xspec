@@ -8,8 +8,7 @@
 	xmlns:tv2_alt="http://example.org/ns/my/variable2"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	stylesheet="xspec-xmlns.xsl"
-	xslt-version="3.0">
+	stylesheet="xspec-xmlns.xsl">
 
 	<x:import href="xspec-xmlns-imported.xspec"/>
 

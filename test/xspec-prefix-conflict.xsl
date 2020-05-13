@@ -9,7 +9,7 @@
 	</xsl:template>
 
 	<!-- Returns the items in the parameter intact -->
-	<xsl:mode name="x:param-mirror" on-no-match="fail" use-when="element-available('xsl:mode')" />
+	<xsl:mode name="x:param-mirror" on-no-match="fail" />
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		mode="x:param-mirror" name="x:param-mirror">

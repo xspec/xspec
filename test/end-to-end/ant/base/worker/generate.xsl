@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -20,8 +20,7 @@
 		Context node is in each .xspec file's /x:description/@*.
 	-->
 	<xsl:template as="node()+" name="on-run-xspec">
-		<xsl:context-item as="attribute()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute()" use="required" />
 
 		<xsl:param as="xs:boolean" name="coverage-enabled" required="yes" />
 
@@ -31,9 +30,13 @@
 
 		<!-- Directory URIs where the XSpec report files are put -->
 		<xsl:variable as="xs:anyURI" name="actual-reports-dir-uri"
-			select="resolve-uri(concat('actual__/', name(), '/'), $XSPECFILES-DIR-URI)" />
+			select="
+				('actual__/' || name() || '/')
+				=> resolve-uri($XSPECFILES-DIR-URI)" />
 		<xsl:variable as="xs:anyURI" name="expected-reports-dir-uri"
-			select="resolve-uri(concat('expected/', name(), '/'), $XSPECFILES-DIR-URI)" />
+			select="
+				('expected/' || name() || '/')
+				=> resolve-uri($XSPECFILES-DIR-URI)" />
 
 		<!-- Get the file name without extension. i.e. Get "foo" from "scheme://host/dir/foo.xspec" -->
 		<xsl:variable as="xs:string" name="xspec-file-name-without-extension"
@@ -44,14 +47,14 @@
 			<reports>
 				<!-- XML -->
 				<xsl:variable as="xs:string" name="xml-file-name"
-					select="concat($xspec-file-name-without-extension, '-result.xml')" />
+					select="$xspec-file-name-without-extension || '-result.xml'" />
 				<xml actual="{resolve-uri($xml-file-name, $actual-reports-dir-uri)}"
 					expected="{resolve-uri($xml-file-name, $expected-reports-dir-uri)}"
 					processor-dir="{resolve-uri('xml/', $processor-dir-uri)}" />
 
 				<!-- HTML -->
 				<xsl:variable as="xs:string" name="html-file-name"
-					select="concat($xspec-file-name-without-extension, '-result.html')" />
+					select="$xspec-file-name-without-extension || '-result.html'" />
 				<html actual="{resolve-uri($html-file-name, $actual-reports-dir-uri)}"
 					expected="{resolve-uri($html-file-name, $expected-reports-dir-uri)}"
 					processor-dir="{resolve-uri('html/', $processor-dir-uri)}" />
@@ -59,7 +62,7 @@
 				<!-- Coverage -->
 				<xsl:if test="$coverage-enabled">
 					<xsl:variable as="xs:string" name="coverage-file-name"
-						select="concat($xspec-file-name-without-extension, '-coverage.html')" />
+						select="$xspec-file-name-without-extension || '-coverage.html'" />
 					<coverage actual="{resolve-uri($coverage-file-name, $actual-reports-dir-uri)}"
 						expected="{resolve-uri($coverage-file-name, $expected-reports-dir-uri)}"
 						processor-dir="{resolve-uri('coverage/', $processor-dir-uri)}" />
@@ -67,7 +70,7 @@
 
 				<!-- JUnit -->
 				<xsl:variable as="xs:string" name="junit-file-name"
-					select="concat($xspec-file-name-without-extension, '-junit.xml')" />
+					select="$xspec-file-name-without-extension || '-junit.xml'" />
 				<junit actual="{resolve-uri($junit-file-name, $actual-reports-dir-uri)}"
 					expected="{resolve-uri($junit-file-name, $expected-reports-dir-uri)}"
 					processor-dir="{resolve-uri('junit/', $processor-dir-uri)}" />
@@ -97,8 +100,7 @@
 
 	<!-- Override this template to provide <post-task> with additional nodes -->
 	<xsl:template as="empty-sequence()" name="on-post-task">
-		<xsl:context-item as="attribute()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute()" use="required" />
 
 		<xsl:param as="element(reports)" name="reports" />
 	</xsl:template>

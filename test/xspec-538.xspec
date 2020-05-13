@@ -2,7 +2,6 @@
 <x:description
   xmlns:x="http://www.jenitennison.com/xslt/xspec"
   xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-  xslt-version="3.0"
   stylesheet="xspec-538.xsl">
 
   <!-- The following two scenarios have a build error, even if marked as pending. -->

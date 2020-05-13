@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -16,20 +16,20 @@
 	<!--
 		Overrides an imported template for document node
 		
-		Rejects specific Saxon versions
+		Require specific Saxon versions
 	-->
 	<xsl:template as="document-node(element(project))" match="document-node()">
+		<xsl:variable as="xs:integer+" name="require-ge" select="9, 9, 0, 2" />
+		<xsl:variable as="xs:integer+" name="require-lt" select="10" />
 		<xsl:if
 			test="
 				not(
-				(x:saxon-version() ge x:pack-version((9, 9, 0, 2)))
+				(x:saxon-version() ge x:pack-version($require-ge))
 				and
-				(x:saxon-version() lt x:pack-version(10))
+				(x:saxon-version() lt x:pack-version($require-lt))
 				)">
 			<xsl:message terminate="yes">
-				<xsl:text>Saxon version is </xsl:text>
-				<xsl:value-of select="system-property('xsl:product-version')" />
-				<xsl:text>. To generate the expected files, Saxon version must be ge 9.9.0.2 and lt 10. Other versions will produce unrelated changes.</xsl:text>
+				<xsl:text expand-text="yes">Saxon version is {system-property('xsl:product-version')}. To generate the expected files, Saxon version must be ge {string-join($require-ge, '.')} and lt {string-join($require-lt, '.')}. Other versions will produce unrelated changes.</xsl:text>
 			</xsl:message>
 		</xsl:if>
 
@@ -43,8 +43,7 @@
 		Context node is in each .xspec file's /x:description/@*.
 	-->
 	<xsl:template as="element(normalize-xspec-report)+" name="on-post-task">
-		<xsl:context-item as="attribute()" use="required"
-			use-when="element-available('xsl:context-item')" />
+		<xsl:context-item as="attribute()" use="required" />
 
 		<xsl:param as="element(reports)" name="reports" required="yes" />
 
