@@ -77,7 +77,7 @@
       </body>
     </html>
   </xsl:template>
-
+ 
   <xsl:template name="body-content">
     <xsl:param name="number-of-lines" as="xs:integer"/>
     <xsl:param name="module" as="xs:string" tunnel="yes"/>
@@ -172,10 +172,10 @@
       <!-- 15-18 attribute stuff --> )* ) \s* (/?) <!-- 19: empty element tag flag --> > ) ) (.*)
       <!-- 20: the rest of the string --> $ </xsl:value-of>
   </xsl:variable>
-
+ 
   <xsl:template name="test:output-lines">
     <xsl:context-item use="absent" use-when="element-available('xsl:context-item')"/>
-
+ 
     <xsl:param name="line-number" as="xs:integer" required="yes"/>
     <xsl:param name="stylesheet-string" as="xs:string" required="yes"/>
     <xsl:param name="node" as="node()" required="yes"/>
@@ -209,7 +209,7 @@
               else
                 'ignored'"/>
           <xsl:for-each select="$construct-lines">
-            
+             
             <xsl:call-template name="line-content">
               <xsl:with-param name="coverage" select="$coverage"/>
               <xsl:with-param name="line-number" select="$line-number"/>
