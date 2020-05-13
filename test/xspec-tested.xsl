@@ -18,7 +18,7 @@
       <xsl:sequence select="$n * $n"/>
    </xsl:function>
 
-   <xsl:mode on-no-match="fail" />
+   <xsl:mode on-no-match="fail" use-when="element-available('xsl:mode')" />
 
    <xsl:template match="rule">
       <xsl:param name="p"/>

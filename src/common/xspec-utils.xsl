@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -9,15 +9,11 @@
 	-->
 
 	<!--
-		U+0027
-	-->
-	<xsl:variable as="xs:string" name="x:apos">'</xsl:variable>
-
-	<!--
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
-		<xsl:context-item as="node()" use="required" />
+		<xsl:context-item as="node()" use="required"
+			use-when="element-available('xsl:context-item')" />
 
 		<xsl:copy>
 			<xsl:apply-templates mode="#current" select="attribute() | node()" />
@@ -101,10 +97,8 @@
 			https://issues.apache.org/jira/browse/XMLCOMMONS-24 -->
 		<xsl:sequence
 			select="
-				$node
-				=> base-uri()
-				=> replace('^(file:)([^/])', '$1/$2')
-				=> xs:anyURI()"
+				replace(base-uri($node), '^(file:)([^/])', '$1/$2')
+				cast as xs:anyURI"
 		 />
 	</xsl:function>
 
@@ -131,12 +125,35 @@
 			<xsl:when test="$node instance of comment()">comment</xsl:when>
 			<xsl:when test="$node instance of document-node()">document-node</xsl:when>
 			<xsl:when test="$node instance of element()">element</xsl:when>
-			<xsl:when test="$node instance of namespace-node()">namespace-node</xsl:when>
+			<xsl:when test="x:instance-of-namespace($node)">namespace-node</xsl:when>
 			<xsl:when test="$node instance of processing-instruction()"
 				>processing-instruction</xsl:when>
 			<xsl:when test="$node instance of text()">text</xsl:when>
 			<xsl:otherwise>node</xsl:otherwise>
 		</xsl:choose>
+	</xsl:function>
+
+	<!--
+		Returns true if item is namespace node
+	-->
+	<xsl:function as="xs:boolean" name="x:instance-of-namespace">
+		<xsl:param as="item()?" name="item" />
+
+		<!-- Unfortunately "instance of namespace-node()" is not available on XPath 2.0:
+			http://www.biglist.com/lists/lists.mulberrytech.com/xsl-list/archives/200608/msg00719.html -->
+		<xsl:sequence
+			select="
+				($item instance of node())
+				and
+				not(
+				($item instance of attribute())
+				or ($item instance of comment())
+				or ($item instance of document-node())
+				or ($item instance of element())
+				or ($item instance of processing-instruction())
+				or ($item instance of text())
+				)"
+		 />
 	</xsl:function>
 
 	<!--
@@ -148,12 +165,16 @@
 		<xsl:param as="item()" name="item" />
 
 		<xsl:choose>
-			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))">
+			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))"
+				use-when="number(system-property('xsl:version')) ge 3">
 				<xsl:sequence select="true()" />
 			</xsl:when>
 
 			<xsl:when test="$item instance of function(*)"
-				use-when="function-available('function-lookup')">
+				use-when="
+					((: for Saxon-EE 9.7 :) number(system-property('xsl:version')) ge 3)
+					and
+					((: for Saxon 9.x :) function-available('function-lookup'))">
 				<xsl:sequence select="true()" />
 			</xsl:when>
 
@@ -168,7 +189,8 @@
 		
 		$function must be an instance of function(*).
 	-->
-	<xsl:function as="xs:string" name="x:function-type">
+	<xsl:function as="xs:string" name="x:function-type"
+		use-when="number(system-property('xsl:version')) ge 3">
 
 		<!-- TODO: @as="function(*)" -->
 		<xsl:param as="item()" name="function" />
@@ -247,24 +269,13 @@
 	<xsl:function as="xs:integer*" name="x:extract-version">
 		<xsl:param as="xs:string" name="input" />
 
-		<xsl:variable as="xs:string" name="regex" xml:space="preserve">
-			([0-9]+)		<!-- group 1 -->
-			\.
-			([0-9]+)		<!-- group 2 -->
-			(?:
-				\.
-				([0-9]+)	<!-- group 3 -->
-				\.
-				([0-9]+)	<!-- group 4 -->
-			)?
-		</xsl:variable>
-		<xsl:analyze-string flags="x" regex="{$regex}" select="$input">
+		<xsl:analyze-string regex="([0-9]+)\.([0-9]+)(\.([0-9]+)\.([0-9]+))?" select="$input">
 			<xsl:matching-substring>
 				<xsl:sequence
 					select="
-						(1 to 4)
-						! (regex-group(.)[.], 0)[1]
-						! xs:integer(.)"
+						for $i in (1, 2, 4, 5)
+						return
+							xs:integer((regex-group($i)[.], 0)[1])"
 				 />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
@@ -282,9 +293,7 @@
 	<xsl:function as="xs:integer?" name="x:saxon-version">
 		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
 			<xsl:variable as="xs:integer+" name="ver-components"
-				select="
-					system-property('xsl:product-version')
-					=> x:extract-version()" />
+				select="x:extract-version(system-property('xsl:product-version'))" />
 			<xsl:sequence select="x:pack-version($ver-components)" />
 		</xsl:if>
 	</xsl:function>
@@ -306,7 +315,7 @@
 				if (contains($decimal-string, '.')) then
 					$decimal-string
 				else
-					($decimal-string || '.0')"
+					concat($decimal-string, '.0')"
 		 />
 	</xsl:function>
 
@@ -381,8 +390,9 @@
 
 		<xsl:sequence
 			select="
-				tokenize($description/@preserve-space, '\s+')[.]
-				! resolve-QName(., $description)"
+				for $lexical-qname in tokenize($description/@preserve-space, '\s+')[.]
+				return
+					resolve-QName($lexical-qname, $description)"
 		 />
 	</xsl:function>
 
@@ -419,7 +429,7 @@
 			select="
 				(
 				$context/ancestor-or-self::*[@xslt-version][1]/@xslt-version,
-				3.0
+				2.0
 				)[1]"
 		 />
 	</xsl:function>
@@ -442,7 +452,12 @@
 		Stub function for helping development on IDE without loading ../../java/
 	-->
 	<xsl:function as="xs:integer" name="x:line-number" override-extension-function="no"
-		use-when="function-available('saxon:line-number')" xmlns:saxon="http://saxon.sf.net/">
+		use-when="
+			function-available('saxon:line-number')
+			and
+			(: Saxon 9.7 doesn't accept @override-extension-function when /xsl:stylesheet/@version
+				isn't 3.0 :) (xs:decimal(system-property('xsl:version')) ge 3.0)"
+		xmlns:saxon="http://saxon.sf.net/">
 		<xsl:param as="node()" name="node" />
 
 		<xsl:sequence select="saxon:line-number($node)" />
@@ -472,10 +487,7 @@
 	<xsl:function as="xs:string" name="x:trim">
 		<xsl:param as="xs:string" name="input" />
 
-		<xsl:sequence select="
-				$input
-				=> x:right-trim()
-				=> x:left-trim()" />
+		<xsl:sequence select="x:left-trim(x:right-trim($input))" />
 	</xsl:function>
 
 	<!--
@@ -558,25 +570,21 @@
 	<xsl:function as="xs:string" name="x:QName-expression">
 		<xsl:param as="xs:QName" name="qname" />
 
-		<xsl:variable as="xs:string" name="quoted-uri"
+		<xsl:variable as="xs:string" name="escaped-uri"
 			select="
-				$qname
-				=> namespace-uri-from-QName()
-				=> x:quote-with-apos()" />
+				replace(
+				namespace-uri-from-QName($qname),
+				'('')',
+				'$1$1'
+				)" />
 
-		<xsl:text expand-text="yes">QName({$quoted-uri}, '{$qname}')</xsl:text>
-	</xsl:function>
-
-	<!--
-		Duplicates every apostrophe character in a string
-		and quotes the whole string with apostrophes
-	-->
-	<xsl:function as="xs:string" name="x:quote-with-apos">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:variable as="xs:string" name="escaped"
-			select="replace($input, $x:apos, ($x:apos || $x:apos))" />
-		<xsl:sequence select="$x:apos || $escaped || $x:apos" />
+		<xsl:value-of>
+			<xsl:text>QName('</xsl:text>
+			<xsl:value-of select="$escaped-uri" />
+			<xsl:text>', '</xsl:text>
+			<xsl:value-of select="$qname" />
+			<xsl:text>')</xsl:text>
+		</xsl:value-of>
 	</xsl:function>
 
 </xsl:stylesheet>

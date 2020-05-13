@@ -6,7 +6,8 @@
 <x:description stylesheet="xspec-eqname.xsl"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xslt-version="3.0">
 
 	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
 

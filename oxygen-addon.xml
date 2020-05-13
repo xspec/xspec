@@ -10,7 +10,7 @@
 		<!-- To publish a new version, update this @href to a specific commit archive and increment
 			<xt:version>. -->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/v1.6.0.zip" />
+			href="https://github.com/xspec/xspec/archive/a410ea81538ce7e4b393d62ef4871d92fb66a35b.zip" />
 
 		<!-- The version of this add-on. Increment only the last numeric part ('z' of "0.0.z")
 			whenever we publish a new version of this add-on.
@@ -18,7 +18,7 @@
 			by this add-on. But <xt:version> consists of only three numeric parts ("x.y.z") which
 			doesn't accommodate pre-release versions of XSpec ("x.y.z-SNAPSHOT.1" or something like
 			that). Use "0.0.z" until we find a better way. -->
-		<xt:version>0.0.9</xt:version>
+		<xt:version>0.0.7</xt:version>
 
 		<!-- Note that supporting multiple oXygen versions may be hard to maintain, because
 			* oXygen add-on and framework require manual testing.

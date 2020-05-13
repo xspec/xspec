@@ -8,3 +8,4 @@ echo "Execute XSpec unit tests"
 
 echo "Execute XSpec end-to-end tests"
 ./test/end-to-end/run-e2e-tests.sh -silent || exit
+

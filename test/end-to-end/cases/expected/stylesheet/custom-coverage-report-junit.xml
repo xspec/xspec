@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="custom-coverage-report.xspec">
-   <testsuite name="'iron' element" tests="1" failures="0">
-      <testcase name="is transformed to 'shield' element" status="passed"/>
-   </testsuite>
-</testsuites>

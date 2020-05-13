@@ -8,7 +8,7 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="3.0"
+<xsl:stylesheet version="2.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -29,9 +29,8 @@
 
    <xsl:key name="matching-templates" 
             match="xsl:template[@match]" 
-            use="'match=' || normalize-space(@match) ||
-                 '+' ||
-                 'mode=' || normalize-space(@mode)" />
+            use="concat('match=', normalize-space(@match), '+',
+                        'mode=', normalize-space(@mode))" />
 
    <!-- Namespace prefix used privately at run time -->
    <xsl:variable as="xs:string" name="test:private-prefix" select="'local'" />
@@ -72,13 +71,13 @@
          child::node() or @href -->
       <xsl:variable name="temp-doc-name" as="xs:string?"
          select="if (not($is-pending) and (node() or @href))
-                 then ($test:private-prefix || ':' || local-name() || '-' || generate-id() || '-doc')
+                 then concat($test:private-prefix, ':', local-name(), '-', generate-id(), '-doc')
                  else ()" />
 
       <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
       <xsl:variable name="temp-uri-name" as="xs:string?"
          select="if ($temp-doc-name and @href)
-                 then ($test:private-prefix || ':' || local-name() || '-' || generate-id() || '-uri')
+                 then concat($test:private-prefix, ':', local-name(), '-', generate-id(), '-uri')
                  else ()" />
 
       <!--
@@ -92,8 +91,10 @@
             <xsl:with-param name="is-global" select="$is-global" />
             <xsl:with-param name="name" select="$temp-uri-name" />
             <xsl:with-param name="type" select="'xs:anyURI'" />
-            <xsl:with-param name="value" as="text()">
-               <xsl:text expand-text="yes">xs:anyURI("{resolve-uri(@href, base-uri())}")</xsl:text>
+            <xsl:with-param name="value" as="text()+">
+               <xsl:text>xs:anyURI("</xsl:text>
+               <xsl:value-of select="resolve-uri(@href, base-uri())" />
+               <xsl:text>")</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
@@ -117,7 +118,9 @@
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
                   <xsl:when test="@href">
-                     <xsl:text expand-text="yes">doc(${$temp-uri-name})</xsl:text>
+                     <xsl:text>doc($</xsl:text>
+                     <xsl:value-of select="$temp-uri-name" />
+                     <xsl:text>)</xsl:text>
                   </xsl:when>
 
                   <xsl:otherwise>
@@ -147,21 +150,24 @@
          <xsl:with-param name="is-global" select="$is-global" />
          <xsl:with-param name="name" select="$name" />
          <xsl:with-param name="type" select="if ($is-pending) then () else (@as)" />
-         <xsl:with-param name="value" as="text()?">
+         <xsl:with-param name="value" as="text()+">
             <xsl:choose>
                <xsl:when test="$is-pending">
                   <!-- Do not give variable a value (or type, above) because the value specified
                     in test file might not be executable. -->
+                  <xsl:text> </xsl:text>
                </xsl:when>
 
                <xsl:when test="$temp-doc-name">
-                  <xsl:variable name="selection" as="xs:string"
-                     select="(@select, '.'[current()/@href], 'node()')[1]" />
-                  <xsl:text expand-text="yes">${$temp-doc-name} ! ( {$selection} )</xsl:text>
+                  <xsl:text>$</xsl:text>
+                  <xsl:value-of select="$temp-doc-name" />
+                  <xsl:text> ! ( </xsl:text>
+                  <xsl:value-of select="(@select, '.'[current()/@href], 'node()')[1]" />
+                  <xsl:text> )</xsl:text>
                </xsl:when>
 
                <xsl:otherwise>
-                  <xsl:value-of select="@select" />
+                  <xsl:value-of select="(@select, '()')[1]" />
                </xsl:otherwise>
             </xsl:choose>
          </xsl:with-param>
@@ -181,7 +187,7 @@
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence
-                  select="$test:private-prefix || ':' || local-name() || '-' || generate-id()" />
+                  select="concat($test:private-prefix, ':', local-name(), '-', generate-id())" />
             </xsl:otherwise>
          </xsl:choose>
       </xsl:for-each>
@@ -194,12 +200,13 @@
                       let $NAME as TYPE := ( VALUE )
    -->
    <xsl:template name="test:declare-or-let-variable" as="node()+">
-      <xsl:context-item use="absent" />
+      <xsl:context-item use="absent"
+         use-when="element-available('xsl:context-item')" />
 
       <xsl:param name="is-global" as="xs:boolean" required="yes" />
       <xsl:param name="name" as="xs:string" required="yes" />
       <xsl:param name="type" as="xs:string?" required="yes" />
-      <xsl:param name="value" as="node()*" required="yes" />
+      <xsl:param name="value" as="node()+" required="yes" />
 
       <xsl:choose>
          <xsl:when test="$is-global">
@@ -210,10 +217,12 @@
          </xsl:otherwise>
       </xsl:choose>
 
-      <xsl:text expand-text="yes"> ${$name}</xsl:text>
+      <xsl:text> $</xsl:text>
+      <xsl:value-of select="$name" />
 
       <xsl:if test="$type">
-         <xsl:text expand-text="yes"> as {$type}</xsl:text>
+         <xsl:text> as </xsl:text>
+         <xsl:value-of select="$type" />
       </xsl:if>
 
       <xsl:text> := ( </xsl:text>
@@ -258,8 +267,9 @@
          -->
 
          <xsl:otherwise>
-            <xsl:variable name="escaped" as="xs:string" select="replace(., '(&quot;)', '$1$1')" />
-            <xsl:text expand-text="yes">"{$escaped}"</xsl:text>
+            <xsl:text>"</xsl:text>
+            <xsl:value-of select="replace(., '(&quot;)', '$1$1')" />
+            <xsl:text>"</xsl:text>
          </xsl:otherwise>
       </xsl:choose>
 
@@ -273,7 +283,8 @@
    </xsl:template>
 
    <xsl:template name="test:create-zero-or-more-node-generators" as="node()+">
-      <xsl:context-item use="absent" />
+      <xsl:context-item use="absent"
+         use-when="element-available('xsl:context-item')" />
 
       <xsl:param name="nodes" as="node()*" />
 

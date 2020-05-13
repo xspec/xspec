@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description schematron="xspec-tvt.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description schematron="xspec-tvt.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xslt-version="3.0">
 
 	<!-- x:expect-report/@count is to verify that no other sch:report is fired -->
 

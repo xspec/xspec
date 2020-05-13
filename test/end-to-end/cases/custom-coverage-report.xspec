@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test enable-coverage?>
-<?xspec-test coverage-reporter=${xspec.project.dir}/test/custom-coverage-report.xsl?>
-<x:description stylesheet="../../../tutorial/coverage/demo.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="../../../tutorial/coverage/demo.xspec" />
-</x:description>

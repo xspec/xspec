@@ -1,5 +1,5 @@
 Those test suites try to cover all features of XSpec, and are aimed to
 be run as any other suites to test a specific implementation of XSpec.
 This is NOT an automated test set, as which test must pass and which
-test must fail is not automatically checked. We need something better,
+test must fail is not automatically checked.  We need something better,
 but this is better than nothing.

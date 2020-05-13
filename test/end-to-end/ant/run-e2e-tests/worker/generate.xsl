@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
@@ -19,7 +19,8 @@
 		Context node is in each .xspec file's /x:description/@*.
 	-->
 	<xsl:template as="element(compare-xspec-report)+" name="on-post-task">
-		<xsl:context-item as="attribute()" use="required" />
+		<xsl:context-item as="attribute()" use="required"
+			use-when="element-available('xsl:context-item')" />
 
 		<xsl:param as="element(reports)" name="reports" required="yes" />
 
