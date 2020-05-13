@@ -3,7 +3,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.jenitennison.com/xslt/xspec"
     xmlns:test="http://www.jenitennison.com/xslt/unit-test" exclude-result-prefixes="xs"
     version="2.0">
- 
+
     <xsl:output indent="yes" exclude-result-prefixes="#all" omit-xml-declaration="yes"/>
 
     <xsl:import href="coverage-report.xsl"/>

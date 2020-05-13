@@ -276,7 +276,7 @@ if test -n "$XSLT"; then
 else
     COMPILED="${COMPILED}.xq"
 fi
- COVERAGE_XML=$TEST_DIR/$TARGET_FILE_NAME-coverage.xml
+COVERAGE_XML=$TEST_DIR/$TARGET_FILE_NAME-coverage.xml
 if [ -z "${COVERAGE_HTML}" ]; then
     COVERAGE_HTML="$TEST_DIR/$TARGET_FILE_NAME-coverage.html"
 fi
