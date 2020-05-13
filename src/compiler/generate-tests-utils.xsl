@@ -293,20 +293,13 @@
       <xsl:variable name="node-name-equal" as="xs:boolean"
          select="node-name($elem1) eq node-name($elem2)" />
 
-      <xsl:variable name="sorted-attrs1" as="attribute()*">
-         <xsl:perform-sort select="$elem1/attribute()">
-            <xsl:sort select="namespace-uri()" />
-            <xsl:sort select="local-name()" />
-         </xsl:perform-sort>
-      </xsl:variable>
-      <xsl:variable name="sorted-attrs2" as="attribute()*">
-         <xsl:perform-sort select="$elem2/attribute()">
-            <xsl:sort select="namespace-uri()" />
-            <xsl:sort select="local-name()" />
-         </xsl:perform-sort>
-      </xsl:variable>
       <xsl:variable name="attrs-equal" as="xs:boolean"
-         select="test:deep-equal($sorted-attrs1, $sorted-attrs2, $flags)" />
+         select="
+            test:deep-equal(
+               test:sort-named-nodes($elem1/attribute()),
+               test:sort-named-nodes($elem2/attribute()),
+               $flags
+            )" />
 
       <xsl:variable name="children-equal" as="xs:boolean"
          select="
@@ -330,6 +323,15 @@
             $node/child::node()
             except ($node/text()[not(normalize-space())][contains($flags, 'w')][not($node/self::test:ws)],
                     $node/test:message)" />
+   </xsl:function>
+
+   <xsl:function name="test:sort-named-nodes" as="node()*">
+      <xsl:param name="nodes" as="node()*" />
+
+      <xsl:perform-sort select="$nodes">
+         <xsl:sort select="namespace-uri()" />
+         <xsl:sort select="local-name()" />
+      </xsl:perform-sort>
    </xsl:function>
 
    <xsl:template name="test:report-sequence" as="element()">
