@@ -87,24 +87,16 @@ declare function test:node-deep-equal(
 {
   if ( $node1 instance of document-node() and $node2 instance of document-node() ) then
     test:deep-equal(test:sorted-children($node1, $flags), test:sorted-children($node2, $flags), $flags)
+
   else if ( $node1 instance of element() and $node2 instance of element() ) then
-    if (node-name($node1) eq node-name($node2)) then
-      let $atts1 as attribute()* := test:sort-named-nodes($node1/@*)
-      let $atts2 as attribute()* := test:sort-named-nodes($node2/@*)
-        return
-          if ( test:deep-equal($atts1, $atts2, $flags) ) then
-            if (count($node1/node()) = 1 and $node1/text() = '...') then
-              true()
-            else
-              test:deep-equal(test:sorted-children($node1, $flags), test:sorted-children($node2, $flags), $flags)
-          else
-            false()
-    else
-      false()
+    test:element-deep-equal($node1, $node2, $flags)
+
   else if ( $node1 instance of text() and $node1 = '...' ) then
     true()
+
   else if ( $node1 instance of text() and $node2 instance of text() ) then
     string($node1) eq string($node2)
+
   else if ( ( $node1 instance of attribute() and $node2 instance of attribute() )
             or ( $node1 instance of processing-instruction()
                  and $node2 instance of processing-instruction())
@@ -112,10 +104,41 @@ declare function test:node-deep-equal(
                  and $node2 instance of namespace-node() ) ) then
     deep-equal(node-name($node1), node-name($node2))
       and (string($node1) eq string($node2) or string($node1) = '...')
+
   else if ( $node1 instance of comment() and $node2 instance of comment() ) then
     string($node1) eq string($node2) or string($node1) = '...'
+
   else
     false()
+};
+
+declare function test:element-deep-equal(
+  $elem1 as element(),
+  $elem2 as element(),
+  $flags as xs:string
+) as xs:boolean
+{
+  let $node-name-equal as xs:boolean := (node-name($elem1) eq node-name($elem2))
+
+  let $attrs-equal as xs:boolean :=
+    test:deep-equal(
+      test:sort-named-nodes($elem1/attribute()),
+      test:sort-named-nodes($elem2/attribute()),
+      $flags
+    )
+
+  let $children-equal as xs:boolean := (
+    $elem1[count(node()) eq 1][text() = '...']
+    or
+    test:deep-equal(
+      test:sorted-children($elem1, $flags),
+      test:sorted-children($elem2, $flags),
+      $flags
+    )
+  )
+
+  return
+    ($node-name-equal and $attrs-equal and $children-equal)
 };
 
 declare function test:sorted-children(
@@ -128,14 +151,9 @@ declare function test:sorted-children(
           $node/test:message)
 };
 
-(: Aim to be identical to:
- :
- :     <xsl:perform-sort select="$nodes">
- :        <xsl:sort select="namespace-uri(.)" />
- :        <xsl:sort select="local-name(.)" />
- :     </xsl:perform-sort>
- :)
-declare function test:sort-named-nodes($nodes as node()*) as node()*
+declare function test:sort-named-nodes(
+  $nodes as node()*
+) as node()*
 {
   if (empty($nodes)) then
     ()
