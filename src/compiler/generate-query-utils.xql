@@ -18,27 +18,51 @@ declare function test:deep-equal(
   ) as xs:boolean
 {
   if (contains($flags, '1')) then
-    let $flags as xs:string := translate($flags, '1', '')
-      return
-        if ( $seq1 instance of xs:string and $seq2 instance of text()+ ) then
-          test:deep-equal($seq1, string-join($seq2, ''), $flags)
-        else if ( $seq1 instance of xs:double and $seq2 instance of text()+ ) then
-          test:deep-equal($seq1, xs:double(string-join($seq2, '')), $flags)
-        else if ( $seq1 instance of xs:decimal and $seq2 instance of text()+ ) then
-          test:deep-equal($seq1, xs:decimal(string-join($seq2, '')), $flags)
-        else if ( $seq1 instance of xs:integer and $seq2 instance of text()+ ) then
-          test:deep-equal($seq1, xs:integer(string-join($seq2, '')), $flags)
-        else
-          test:deep-equal($seq1, $seq2, $flags)
+    test:deep-equal-v1($seq1, $seq2, $flags)
+
   else if (empty($seq1) or empty($seq2)) then
     empty($seq1) and empty($seq2)
+
   else if (count($seq1) = count($seq2)) then
     every $i in (1 to count($seq1))
     satisfies test:item-deep-equal($seq1[$i], $seq2[$i], $flags)
+
   else if ( $seq1 instance of text() and $seq2 instance of text()+ ) then
     test:deep-equal($seq1, text { string-join($seq2, '') }, $flags)
+
   else
     false()
+};
+
+declare function test:deep-equal-v1(
+  $seq1 as item()*,
+  $seq2 as item()*,
+  $flags as xs:string
+) as xs:boolean
+{
+  let $seq2-adapted as xs:anyAtomicType? := (
+    if ($seq2 instance of text()+) then
+      let $seq2-string as xs:string := string-join($seq2, '')
+      return
+        if ($seq1 instance of xs:string) then
+          $seq2-string
+        else if (($seq1 instance of xs:double) and ($seq2-string castable as xs:double)) then
+          $seq2-string cast as xs:double
+        else if (($seq1 instance of xs:decimal) and ($seq2-string castable as xs:decimal)) then
+          $seq2-string cast as xs:decimal
+        else if (($seq1 instance of xs:integer) and ($seq2-string castable as xs:integer)) then
+          $seq2-string cast as xs:integer
+        else
+          ()
+    else
+      ()
+  )
+  return
+    test:deep-equal(
+      $seq1,
+      ($seq2-adapted, $seq2)[1],
+      translate($flags, '1', '')
+    )
 };
 
 declare function test:item-deep-equal(
