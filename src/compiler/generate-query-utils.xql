@@ -44,16 +44,12 @@ declare function test:deep-equal-v1(
     if ($seq2 instance of text()+) then
       let $seq2-string as xs:string := string-join($seq2, '')
       return
-        if ($seq1 instance of xs:string) then
-          $seq2-string
-        else if (($seq1 instance of xs:double) and ($seq2-string castable as xs:double)) then
-          $seq2-string cast as xs:double
-        else if (($seq1 instance of xs:decimal) and ($seq2-string castable as xs:decimal)) then
-          $seq2-string cast as xs:decimal
-        else if (($seq1 instance of xs:integer) and ($seq2-string castable as xs:integer)) then
-          $seq2-string cast as xs:integer
-        else
-          ()
+        typeswitch ($seq1)
+          case xs:string  return $seq2-string
+          case xs:double  return $seq2-string[. castable as xs:double]  => xs:double()
+          case xs:decimal return $seq2-string[. castable as xs:decimal] => xs:decimal()
+          case xs:integer return $seq2-string[. castable as xs:integer] => xs:integer()
+          default         return ()
     else
       ()
   )
