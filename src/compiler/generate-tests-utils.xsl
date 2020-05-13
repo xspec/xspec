@@ -168,17 +168,14 @@
                <xsl:when test="$seq1 instance of xs:string">
                   <xsl:sequence select="$seq2-string" />
                </xsl:when>
-               <xsl:when
-                  test="($seq1 instance of xs:double) and ($seq2-string castable as xs:double)">
-                  <xsl:sequence select="$seq2-string cast as xs:double" />
+               <xsl:when test="$seq1 instance of xs:double">
+                  <xsl:sequence select="$seq2-string[. castable as xs:double] => xs:double()" />
                </xsl:when>
-               <xsl:when
-                  test="($seq1 instance of xs:decimal) and ($seq2-string castable as xs:decimal)">
-                  <xsl:sequence select="$seq2-string cast as xs:decimal" />
+               <xsl:when test="$seq1 instance of xs:decimal">
+                  <xsl:sequence select="$seq2-string[. castable as xs:decimal] => xs:decimal()" />
                </xsl:when>
-               <xsl:when
-                  test="($seq1 instance of xs:integer) and ($seq2-string castable as xs:integer)">
-                  <xsl:sequence select="$seq2-string cast as xs:integer" />
+               <xsl:when test="$seq1 instance of xs:integer">
+                  <xsl:sequence select="$seq2-string[. castable as xs:integer] => xs:integer()" />
                </xsl:when>
             </xsl:choose>
          </xsl:if>
