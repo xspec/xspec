@@ -3,8 +3,7 @@ name: Maven Deploy
 on:
   push:
     branches:
-      # TODO: Change this to `master`
-      - auto-deploy-maven
+      - master
 
 jobs:
   maven-deploy:
