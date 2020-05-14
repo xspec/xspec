@@ -259,10 +259,7 @@
             <configuration>
               <serverId>xspec-io.ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <!-- TODO: Reinstate autoReleaseAfterClose -->
-              <!--
               <autoReleaseAfterClose>true</autoReleaseAfterClose>
-              -->
             </configuration>
           </plugin>
         </plugins>
