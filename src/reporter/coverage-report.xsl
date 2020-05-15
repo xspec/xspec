@@ -43,6 +43,7 @@
 
 <xsl:function name="test:collect-stylesheets" as="document-node()+">
   <xsl:param name="stylesheets" as="document-node()+" />
+
   <xsl:variable name="imports" as="document-node()*"
     select="document($stylesheets/*/(xsl:import|xsl:include)/@href)" />
   <xsl:variable name="new-stylesheets" as="document-node()*"
@@ -282,6 +283,7 @@
 <xsl:function name="test:coverage" as="xs:string">
   <xsl:param name="node" as="node()" />
   <xsl:param name="module" as="xs:string" />
+
   <xsl:variable name="coverage" as="xs:string+">
     <xsl:apply-templates select="$node" mode="test:coverage">
       <xsl:with-param name="module" tunnel="yes" select="$module" />
@@ -304,6 +306,7 @@
      their contents to hit them -->
 <xsl:template match="xsl:otherwise | xsl:when | xsl:matching-substring | xsl:non-matching-substring | xsl:for-each | xsl:for-each-group" mode="test:coverage">
   <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
+
   <xsl:variable name="hits-on-content" as="element(h)*"
     select="test:hit-on-nodes(node(), $module)" />
   <xsl:choose>
@@ -314,6 +317,7 @@
 
 <xsl:template match="* | text()" mode="test:coverage">
   <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
+
   <xsl:variable name="hit" as="element(h)*"
     select="test:hit-on-nodes(., $module)" />
   <xsl:choose>
@@ -341,6 +345,7 @@
 <xsl:function name="test:hit-on-nodes" as="element(h)*">
   <xsl:param name="nodes" as="node()*" />
   <xsl:param name="module" as="xs:string" />
+
   <xsl:for-each select="$nodes[not(self::text()[not(normalize-space())])]">
     <xsl:variable name="hits" as="element(h)*"
       select="test:hit-on-lines(x:line-number(.), $module)" />
@@ -360,6 +365,7 @@
 <xsl:function name="test:hit-on-lines" as="element(h)*">
   <xsl:param name="line-numbers" as="xs:integer*" />
   <xsl:param name="module" as="xs:string" />
+
   <xsl:variable name="keys" as="xs:string*"
     select="$line-numbers ! ($module || ':' || .)" />
   <xsl:sequence select="key('coverage', $keys, $trace)" />
