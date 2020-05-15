@@ -91,7 +91,7 @@
   
 <xsl:template match="xsl:stylesheet | xsl:transform" mode="test:coverage-report">
   <xsl:variable name="stylesheet-uri" as="xs:anyURI"
-    select="base-uri(.)" />
+    select="base-uri()" />
   <xsl:variable name="stylesheet-tree" as="document-node()"
     select=".." />
   <xsl:variable name="stylesheet-string" as="xs:string"
@@ -298,7 +298,7 @@
   <xsl:sequence select="$coverage[1]" />
 </xsl:function>
 
-<xsl:template match="text()[normalize-space(.) = '' and not(parent::xsl:text)]" mode="test:coverage">ignored</xsl:template>
+<xsl:template match="text()[normalize-space() = '' and not(parent::xsl:text)]" mode="test:coverage">ignored</xsl:template>
 
 <xsl:template match="processing-instruction() | comment()" mode="test:coverage">ignored</xsl:template>
 
@@ -320,7 +320,7 @@
     select="test:hit-on-nodes(., $module)" />
   <xsl:choose>
     <xsl:when test="exists($hit)">hit</xsl:when>
-    <xsl:when test="self::text() and normalize-space(.) = '' and not(parent::xsl:text)">ignored</xsl:when>
+    <xsl:when test="self::text() and normalize-space() = '' and not(parent::xsl:text)">ignored</xsl:when>
     <xsl:when test="self::xsl:variable">
       <xsl:sequence select="test:coverage(following-sibling::*[not(self::xsl:variable)][1], $module)" />
     </xsl:when>
