@@ -188,7 +188,9 @@
   </xsl:value-of>
 </xsl:variable>
 
-<xsl:template name="test:output-lines" as="node()+">
+<!-- TODO: Avoid recursion, because adding @as="node()+" to this xsl:template resurrects
+  xspec/xspec#215 on Saxon 9.9.1.7. -->
+<xsl:template name="test:output-lines">
   <xsl:context-item use="absent" />
 
   <xsl:param name="line-number" as="xs:integer" required="yes" />
