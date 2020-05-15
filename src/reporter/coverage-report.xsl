@@ -92,8 +92,6 @@
 <xsl:template match="xsl:stylesheet | xsl:transform" mode="test:coverage-report">
   <xsl:variable name="stylesheet-uri" as="xs:anyURI"
     select="base-uri()" />
-  <xsl:variable name="stylesheet-tree" as="document-node()"
-    select=".." />
   <xsl:variable name="stylesheet-string" as="xs:string"
     select="unparsed-text($stylesheet-uri)" />
   <xsl:variable name="stylesheet-lines" as="xs:string+" 
