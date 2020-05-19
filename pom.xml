@@ -99,6 +99,9 @@
       </resource>
     </resources>
 
+    <!-- Note: If any plugin is used in multiple places including a child POM, its version and
+      possibly its configuration should be centralized in <pluginManagement />. -->
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
