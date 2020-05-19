@@ -12,6 +12,7 @@
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xhtml="http://www.w3.org/1999/xhtml"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
@@ -43,6 +44,7 @@
 
 <xsl:function name="test:collect-stylesheets" as="document-node()+">
   <xsl:param name="stylesheets" as="document-node()+" />
+
   <xsl:variable name="imports" as="document-node()*"
     select="document($stylesheets/*/(xsl:import|xsl:include)/@href)" />
   <xsl:variable name="new-stylesheets" as="document-node()*"
@@ -61,11 +63,11 @@
 <xsl:key name="constructs" match="c" use="@id" />
 <xsl:key name="coverage" match="h" use="@m || ':' || @l" />
 
-<xsl:template match="/">
+<xsl:template match="/" as="element(xhtml:html)">
   <xsl:apply-templates select="." mode="test:coverage-report" />
 </xsl:template>
 
-<xsl:template match="/" mode="test:coverage-report">
+<xsl:template match="/" as="element(xhtml:html)" mode="test:coverage-report">
   <html>
     <head>
       <title>
@@ -89,11 +91,9 @@
   </html>
 </xsl:template>
   
-<xsl:template match="xsl:stylesheet | xsl:transform" mode="test:coverage-report">
+<xsl:template match="xsl:stylesheet | xsl:transform" as="element()+" mode="test:coverage-report">
   <xsl:variable name="stylesheet-uri" as="xs:anyURI"
-    select="base-uri(.)" />
-  <xsl:variable name="stylesheet-tree" as="document-node()"
-    select=".." />
+    select="base-uri()" />
   <xsl:variable name="stylesheet-string" as="xs:string"
     select="unparsed-text($stylesheet-uri)" />
   <xsl:variable name="stylesheet-lines" as="xs:string+" 
@@ -188,6 +188,8 @@
   </xsl:value-of>
 </xsl:variable>
 
+<!-- TODO: Avoid recursion, because adding @as="node()+" to this xsl:template resurrects
+  xspec/xspec#215 on Saxon 9.9.1.7. -->
 <xsl:template name="test:output-lines">
   <xsl:context-item use="absent" />
 
@@ -197,6 +199,7 @@
   <xsl:param name="number-format" tunnel="yes" as="xs:string" required="yes" />
   <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
 
+  <!-- $analyzed is a document node created implicitly because its xsl:variable does not have @as -->
   <xsl:variable name="analyzed">
     <xsl:analyze-string select="$stylesheet-string"
       regex="{$construct-regex}" flags="sx">
@@ -239,7 +242,7 @@
     </xsl:analyze-string>
   </xsl:variable>
   <xsl:sequence select="$analyzed/node()[not(self::test:residue)]"/>
-  <xsl:variable name="residue" select="$analyzed/test:residue"/>
+  <xsl:variable name="residue" as="element(test:residue)?" select="$analyzed/test:residue"/>
   <xsl:if test="$residue/@rest != ''">
     <!-- The last thing this template does is call itself.
          Tail recursion prevents stack overflow. -->
@@ -284,6 +287,7 @@
 <xsl:function name="test:coverage" as="xs:string">
   <xsl:param name="node" as="node()" />
   <xsl:param name="module" as="xs:string" />
+
   <xsl:variable name="coverage" as="xs:string+">
     <xsl:apply-templates select="$node" mode="test:coverage">
       <xsl:with-param name="module" tunnel="yes" select="$module" />
@@ -298,14 +302,15 @@
   <xsl:sequence select="$coverage[1]" />
 </xsl:function>
 
-<xsl:template match="text()[normalize-space(.) = '' and not(parent::xsl:text)]" mode="test:coverage">ignored</xsl:template>
+<xsl:template match="text()[normalize-space() = '' and not(parent::xsl:text)]" as="xs:string" mode="test:coverage">ignored</xsl:template>
 
-<xsl:template match="processing-instruction() | comment()" mode="test:coverage">ignored</xsl:template>
+<xsl:template match="processing-instruction() | comment()" as="xs:string" mode="test:coverage">ignored</xsl:template>
 
 <!-- A hit on these nodes doesn't really count; you have to hit
      their contents to hit them -->
-<xsl:template match="xsl:otherwise | xsl:when | xsl:matching-substring | xsl:non-matching-substring | xsl:for-each | xsl:for-each-group" mode="test:coverage">
+<xsl:template match="xsl:otherwise | xsl:when | xsl:matching-substring | xsl:non-matching-substring | xsl:for-each | xsl:for-each-group" as="xs:string" mode="test:coverage">
   <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
+
   <xsl:variable name="hits-on-content" as="element(h)*"
     select="test:hit-on-nodes(node(), $module)" />
   <xsl:choose>
@@ -314,13 +319,14 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="* | text()" mode="test:coverage">
+<xsl:template match="* | text()" as="xs:string" mode="test:coverage">
   <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
+
   <xsl:variable name="hit" as="element(h)*"
     select="test:hit-on-nodes(., $module)" />
   <xsl:choose>
     <xsl:when test="exists($hit)">hit</xsl:when>
-    <xsl:when test="self::text() and normalize-space(.) = '' and not(parent::xsl:text)">ignored</xsl:when>
+    <xsl:when test="self::text() and normalize-space() = '' and not(parent::xsl:text)">ignored</xsl:when>
     <xsl:when test="self::xsl:variable">
       <xsl:sequence select="test:coverage(following-sibling::*[not(self::xsl:variable)][1], $module)" />
     </xsl:when>
@@ -338,11 +344,12 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="/" mode="test:coverage">ignored</xsl:template>
+<xsl:template match="/" as="xs:string" mode="test:coverage">ignored</xsl:template>
 
 <xsl:function name="test:hit-on-nodes" as="element(h)*">
   <xsl:param name="nodes" as="node()*" />
   <xsl:param name="module" as="xs:string" />
+
   <xsl:for-each select="$nodes[not(self::text()[not(normalize-space())])]">
     <xsl:variable name="hits" as="element(h)*"
       select="test:hit-on-lines(x:line-number(.), $module)" />
@@ -362,6 +369,7 @@
 <xsl:function name="test:hit-on-lines" as="element(h)*">
   <xsl:param name="line-numbers" as="xs:integer*" />
   <xsl:param name="module" as="xs:string" />
+
   <xsl:variable name="keys" as="xs:string*"
     select="$line-numbers ! ($module || ':' || .)" />
   <xsl:sequence select="key('coverage', $keys, $trace)" />
