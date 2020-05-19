@@ -11,36 +11,54 @@ module namespace test = "http://www.jenitennison.com/xslt/unit-test";
 import module namespace x = "http://www.jenitennison.com/xslt/xspec"
   at "../common/xspec-utils.xquery";
 
-declare namespace fn = "http://www.w3.org/2005/xpath-functions";
-
 declare function test:deep-equal(
     $seq1 as item()*,
     $seq2 as item()*,
     $flags as xs:string
   ) as xs:boolean
 {
-  if ( fn:contains($flags, '1') ) then
-    let $flags as xs:string := fn:translate($flags, '1', '')
-      return
-        if ( $seq1 instance of xs:string and $seq2 instance of text()+ ) then
-          test:deep-equal($seq1, fn:string-join($seq2, ''), $flags)
-        else if ( $seq1 instance of xs:double and $seq2 instance of text()+ ) then
-          test:deep-equal($seq1, xs:double(fn:string-join($seq2, '')), $flags)
-        else if ( $seq1 instance of xs:decimal and $seq2 instance of text()+ ) then
-          test:deep-equal($seq1, xs:decimal(fn:string-join($seq2, '')), $flags)
-        else if ( $seq1 instance of xs:integer and $seq2 instance of text()+ ) then
-          test:deep-equal($seq1, xs:integer(fn:string-join($seq2, '')), $flags)
-        else
-          test:deep-equal($seq1, $seq2, $flags)
-  else if ( fn:empty($seq1) or fn:empty($seq2) ) then
-    fn:empty($seq1) and fn:empty($seq2)
-  else if ( fn:count($seq1) = fn:count($seq2) ) then
-    every $i in (1 to fn:count($seq1))
+  if (contains($flags, '1')) then
+    test:deep-equal-v1($seq1, $seq2, $flags)
+
+  else if (empty($seq1) or empty($seq2)) then
+    empty($seq1) and empty($seq2)
+
+  else if (count($seq1) = count($seq2)) then
+    every $i in (1 to count($seq1))
     satisfies test:item-deep-equal($seq1[$i], $seq2[$i], $flags)
+
   else if ( $seq1 instance of text() and $seq2 instance of text()+ ) then
-    test:deep-equal($seq1, text { fn:string-join($seq2, '') }, $flags)
+    test:deep-equal($seq1, text { string-join($seq2, '') }, $flags)
+
   else
-    fn:false()
+    false()
+};
+
+declare function test:deep-equal-v1(
+  $seq1 as item()*,
+  $seq2 as item()*,
+  $flags as xs:string
+) as xs:boolean
+{
+  let $seq2-adapted as xs:anyAtomicType? := (
+    if ($seq2 instance of text()+) then
+      let $seq2-string as xs:string := string-join($seq2, '')
+      return
+        typeswitch ($seq1)
+          case xs:string  return $seq2-string
+          case xs:double  return $seq2-string[. castable as xs:double]  => xs:double()
+          case xs:decimal return $seq2-string[. castable as xs:decimal] => xs:decimal()
+          case xs:integer return $seq2-string[. castable as xs:integer] => xs:integer()
+          default         return ()
+    else
+      ()
+  )
+  return
+    test:deep-equal(
+      $seq1,
+      ($seq2-adapted, $seq2)[1],
+      translate($flags, '1', '')
+    )
 };
 
 declare function test:item-deep-equal(
@@ -51,10 +69,10 @@ declare function test:item-deep-equal(
 {
   if ( $item1 instance of node() and $item2 instance of node() ) then
     test:node-deep-equal($item1, $item2, $flags)
-  else if ( fn:not($item1 instance of node()) and fn:not($item2 instance of node()) ) then
-    fn:deep-equal($item1, $item2)
+  else if (not($item1 instance of node()) and not($item2 instance of node())) then
+    deep-equal($item1, $item2)
   else
-    fn:false()
+    false()
 };
 
 declare function test:node-deep-equal(
@@ -65,35 +83,58 @@ declare function test:node-deep-equal(
 {
   if ( $node1 instance of document-node() and $node2 instance of document-node() ) then
     test:deep-equal(test:sorted-children($node1, $flags), test:sorted-children($node2, $flags), $flags)
+
   else if ( $node1 instance of element() and $node2 instance of element() ) then
-    if ( fn:node-name($node1) eq fn:node-name($node2) ) then
-      let $atts1 as attribute()* := test:sort-named-nodes($node1/@*)
-      let $atts2 as attribute()* := test:sort-named-nodes($node2/@*)
-        return
-          if ( test:deep-equal($atts1, $atts2, $flags) ) then
-            if ( fn:count($node1/node()) = 1 and $node1/text() = '...' ) then
-              fn:true()
-            else
-              test:deep-equal(test:sorted-children($node1, $flags), test:sorted-children($node2, $flags), $flags)
-          else
-            fn:false()
-    else
-      fn:false()
+    test:element-deep-equal($node1, $node2, $flags)
+
   else if ( $node1 instance of text() and $node1 = '...' ) then
-    fn:true()
+    true()
+
   else if ( $node1 instance of text() and $node2 instance of text() ) then
-    fn:string($node1) eq fn:string($node2)
+    string($node1) eq string($node2)
+
   else if ( ( $node1 instance of attribute() and $node2 instance of attribute() )
             or ( $node1 instance of processing-instruction()
                  and $node2 instance of processing-instruction())
             or ( $node1 instance of namespace-node()
                  and $node2 instance of namespace-node() ) ) then
-    fn:deep-equal( fn:node-name($node1), fn:node-name($node2) )
-      and ( fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' )
+    deep-equal(node-name($node1), node-name($node2))
+      and (string($node1) eq string($node2) or string($node1) = '...')
+
   else if ( $node1 instance of comment() and $node2 instance of comment() ) then
-    fn:string($node1) eq fn:string($node2) or fn:string($node1) = '...' 
+    string($node1) eq string($node2) or string($node1) = '...'
+
   else
-    fn:false()
+    false()
+};
+
+declare function test:element-deep-equal(
+  $elem1 as element(),
+  $elem2 as element(),
+  $flags as xs:string
+) as xs:boolean
+{
+  let $node-name-equal as xs:boolean := (node-name($elem1) eq node-name($elem2))
+
+  let $attrs-equal as xs:boolean :=
+    test:deep-equal(
+      test:sort-named-nodes($elem1/attribute()),
+      test:sort-named-nodes($elem2/attribute()),
+      $flags
+    )
+
+  let $children-equal as xs:boolean := (
+    $elem1[count(node()) eq 1][text() = '...']
+    or
+    test:deep-equal(
+      test:sorted-children($elem1, $flags),
+      test:sorted-children($elem2, $flags),
+      $flags
+    )
+  )
+
+  return
+    ($node-name-equal and $attrs-equal and $children-equal)
 };
 
 declare function test:sorted-children(
@@ -102,26 +143,21 @@ declare function test:sorted-children(
   ) as node()*
 {
   $node/child::node() 
-  except ( $node/text()[fn:not(fn:normalize-space())][fn:contains($flags, 'w')][fn:not($node/self::test:ws)],
-           $node/test:message )
+  except ($node/text()[not(normalize-space())][contains($flags, 'w')][not($node/self::test:ws)],
+          $node/test:message)
 };
 
-(: Aim to be identical to:
- :
- :     <xsl:perform-sort select="$nodes">
- :        <xsl:sort select="namespace-uri(.)" />
- :        <xsl:sort select="local-name(.)" />
- :     </xsl:perform-sort>
- :)
-declare function test:sort-named-nodes($nodes as node()*) as node()*
+declare function test:sort-named-nodes(
+  $nodes as node()*
+) as node()*
 {
-  if ( fn:empty($nodes) ) then
+  if (empty($nodes)) then
     ()
   else
     let $idx := test:named-nodes-minimum($nodes)
       return (
         $nodes[$idx],
-        test:sort-named-nodes(fn:remove($nodes, $idx))
+        test:sort-named-nodes(remove($nodes, $idx))
       )
 };
 
@@ -131,11 +167,11 @@ declare function test:sort-named-nodes($nodes as node()*) as node()*
 declare function test:named-nodes-minimum($nodes as node()+) as xs:integer
 {
   (: if there is only one node, this is the minimum :)
-  if ( fn:empty($nodes[2]) ) then
+  if (empty($nodes[2])) then
     1
   (: if not, init the temp minimum on the first one, then walk through the sequence :)
   else
-    test:named-nodes-minimum($nodes, fn:node-name($nodes[1]), 1, 2)
+    test:named-nodes-minimum($nodes, node-name($nodes[1]), 1, 2)
 };
 
 declare function test:named-nodes-minimum(
@@ -145,20 +181,20 @@ declare function test:named-nodes-minimum(
     $curr  as xs:integer
   ) as xs:integer
 {
-  if ( $curr gt fn:count($nodes) ) then
+  if ($curr gt count($nodes)) then
     $idx
-  else if ( test:qname-lt(fn:node-name($nodes[$curr]), $min) ) then
-    test:named-nodes-minimum($nodes, fn:node-name($nodes[$curr]), $curr, $curr + 1)
+  else if (test:qname-lt(node-name($nodes[$curr]), $min)) then
+    test:named-nodes-minimum($nodes, node-name($nodes[$curr]), $curr, $curr + 1)
   else
     test:named-nodes-minimum($nodes, $min, $idx, $curr + 1)
 };
 
 declare function test:qname-lt($n1 as xs:QName, $n2 as xs:QName) as xs:boolean
 {
-  if ( fn:namespace-uri-from-QName($n1) eq fn:namespace-uri-from-QName($n2) ) then
-    fn:local-name-from-QName($n1) lt fn:local-name-from-QName($n2)
+  if (namespace-uri-from-QName($n1) eq namespace-uri-from-QName($n2)) then
+    local-name-from-QName($n1) lt local-name-from-QName($n2)
   else
-    fn:namespace-uri-from-QName($n1) lt fn:namespace-uri-from-QName($n2)
+    namespace-uri-from-QName($n1) lt namespace-uri-from-QName($n2)
 };
 
 declare function test:report-sequence(
@@ -184,13 +220,13 @@ declare function test:report-sequence(
 
   let $report-element as element() :=
     element
-      { fn:QName($wrapper-ns, $wrapper-name) }
+      { QName($wrapper-ns, $wrapper-name) }
       {
         $test,
 
         (
           (: Empty :)
-          if (fn:empty($sequence))
+          if (empty($sequence))
           then attribute select { "()" }
 
           (: One or more atomic values :)
@@ -198,7 +234,7 @@ declare function test:report-sequence(
           then (
             let $atomic-value-reports as xs:string+ :=
               (for $value in $sequence return test:report-atomic-value($value))
-            return attribute select { fn:string-join($atomic-value-reports, ', ') }
+            return attribute select { string-join($atomic-value-reports, ', ') }
           )
 
           (: One or more nodes of the same type which can be a child of document node :)
@@ -209,7 +245,7 @@ declare function test:report-sequence(
             or ($sequence instance of text()+)
           )
           then (
-            attribute select { fn:concat('/', x:node-type($sequence[1]), '()') },
+            attribute select { concat('/', x:node-type($sequence[1]), '()') },
             for $node in $sequence return test:report-node($node)
           )
 
@@ -228,7 +264,7 @@ declare function test:report-sequence(
             represent the sequence precisely. That's ok, because
               * Otherwise the report will be cluttered with pseudo elements.
               * XSpec in general including its test:deep-equal() inclines to merge them. :)
-          else if (($sequence instance of node()+) and fn:not($attribute-nodes or $namespace-nodes))
+          else if (($sequence instance of node()+) and not($attribute-nodes or $namespace-nodes))
           then (
             attribute select { "/node()" },
             for $node in $sequence return test:report-node($node)
@@ -237,7 +273,7 @@ declare function test:report-sequence(
           (: Otherwise each item needs to be represented as a pseudo element :)
           else (
             attribute select {
-              fn:concat(
+              concat(
                 (: Select the pseudo elements :)
                 '/*',
 
@@ -251,12 +287,12 @@ declare function test:report-sequence(
                       'namespace::*'[$namespace-nodes],
                       'node()'[$sequence except ($attribute-nodes | $namespace-nodes)]
                     )
-                    let $multi-expr as xs:boolean := (fn:count($expressions) ge 2)
+                    let $multi-expr as xs:boolean := (count($expressions) ge 2)
                     return
-                      fn:concat(
+                      concat(
                         '/',
                         '('[$multi-expr],
-                        fn:string-join($expressions, ' | '),
+                        string-join($expressions, ' | '),
                         ')'[$multi-expr]
                       )
                   )
@@ -290,20 +326,20 @@ declare function test:report-pseudo-item(
     if ($item instance of xs:anyAtomicType)
     then
       element
-        { fn:QName($wrapper-ns, fn:concat($local-name-prefix, 'atomic-value')) }
+        { QName($wrapper-ns, concat($local-name-prefix, 'atomic-value')) }
         { test:report-atomic-value($item) }
 
     else if ($item instance of node())
     then
       element
-        { fn:QName($wrapper-ns, fn:concat($local-name-prefix, x:node-type($item))) }
+        { QName($wrapper-ns, concat($local-name-prefix, x:node-type($item))) }
         { test:report-node($item) }
 
     (: TODO: function(*) including array(*) and map(*) :)
 
     else
       element 
-        { fn:QName($wrapper-ns, fn:concat($local-name-prefix, 'other')) }
+        { QName($wrapper-ns, concat($local-name-prefix, 'other')) }
         {}
   )
 };
@@ -315,17 +351,17 @@ declare function test:report-node(
     $node as node()
     ) as node()
 {
-  if ( ($node instance of text()) and fn:not(fn:normalize-space($node)) ) then
+  if (($node instance of text()) and not(normalize-space($node))) then
     element test:ws { $node }
   else if ( $node instance of document-node() ) then
     document {
       for $child in $node/child::node() return test:report-node($child)
     }
   else if ( $node instance of element() ) then
-    element { fn:node-name($node) } {
+    element { node-name($node) } {
       (
-        for $prefix in fn:in-scope-prefixes($node)
-          return namespace { $prefix } { fn:namespace-uri-for-prefix($prefix, $node) }
+        for $prefix in in-scope-prefixes($node)
+          return namespace { $prefix } { namespace-uri-for-prefix($prefix, $node) }
       ),
       $node/attribute(),
       (for $child in $node/child::node() return test:report-node($child))
@@ -340,14 +376,14 @@ declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:stri
   (: String types :)
   (: xs:normalizedString: Requires schema-aware processor :)
   if ( $value instance of xs:string ) then
-    fn:concat("'", fn:replace($value, "'", "''"), "'")
+    x:quote-with-apos($value)
 
   (: Derived numeric types: Requires schema-aware processor :)
 
   (: Numeric types which can be expressed as numeric literals:
     http://www.w3.org/TR/xpath20/#id-literals :)
   else if ( $value instance of xs:integer ) then
-    fn:string($value)
+    string($value)
   else if ( $value instance of xs:decimal ) then
     x:decimal-string($value)
   else if ( $value instance of xs:double ) then
@@ -376,9 +412,9 @@ declare function test:report-atomic-value-as-constructor($value as xs:anyAtomicT
     if ( $value instance of xs:integer )
     then
       (: Force casting down to integer, by first converting to string :)
-      (fn:string($value) cast as xs:integer)
+      (string($value) cast as xs:integer)
     else
-      fn:string($value)
+      string($value)
   )
 
   (: Constructor parameter:
@@ -386,7 +422,7 @@ declare function test:report-atomic-value-as-constructor($value as xs:anyAtomicT
   let $costructor-param as xs:string :=
     test:report-atomic-value($casted-value)
 
-  return fn:concat($constructor-name, '(', $costructor-param, ')')
+  return concat($constructor-name, '(', $costructor-param, ')')
 };
 
 declare function test:atom-type($value as xs:anyAtomicType) as xs:string

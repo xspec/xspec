@@ -1,8 +1,12 @@
 #! /bin/bash
 
 echo
-echo "=== Print Java version"
+echo "=== Print JRE version"
 java -version
+
+echo
+echo "=== Print JDK version"
+javac -version
 
 echo
 echo "=== Print Ant version"

@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0-SNAPSHOT</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for XSLT, XQuery and Schematron</description>
@@ -250,6 +250,17 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <!--
+                    Prevent `gpg` from using pinentry programs
+                    https://github.com/samuelmeuli/action-maven-publish/issues/1#issuecomment-555756718
+                    https://github.com/samuelmeuli/action-maven-publish/issues/10#issuecomment-589245121
+                  -->
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
               </execution>
             </executions>
           </plugin>

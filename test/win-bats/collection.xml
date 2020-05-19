@@ -1692,21 +1692,21 @@
 	<case name="x:XSPEC003">
     call :run ..\bin\xspec.bat -q output-scenario-error\XSPEC003.xspec
     call :verify_retval 2
-    call :verify_line  6 r "  x:XSPEC003[: ] x:context not supported for XQuery (scenario x:context)$"
+    call :verify_line  6 r "  x:XSPEC003[: ] x:context not supported for XQuery (scenario 'x:context')$"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:XSPEC004">
     call :run ..\bin\xspec.bat -q output-scenario-error\XSPEC004.xspec
     call :verify_retval 2
-    call :verify_line  6 r "  x:XSPEC004[: ] x:call/@template not supported for XQuery (scenario x:call/@template)$"
+    call :verify_line  6 r "  x:XSPEC004[: ] x:call/@template not supported for XQuery (scenario 'x:call/@template')$"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:XSPEC005">
     call :run ..\bin\xspec.bat -q output-scenario-error\XSPEC005.xspec
     call :verify_retval 2
-    call :verify_line  6 r "  x:XSPEC005[: ] there are x:expect but no x:call in scenario 'Missing x:call'$"
+    call :verify_line  6 r "  x:XSPEC005[: ] there are x:expect but no x:call (scenario 'Missing x:call')$"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
