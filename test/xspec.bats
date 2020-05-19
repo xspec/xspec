@@ -2045,7 +2045,7 @@ load bats-helper
     run ../bin/xspec.sh -q output-scenario-error/XSPEC003.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC003[: ] x:context not supported for XQuery \(scenario x:context\)$'
+    assert_regex "${lines[5]}" '^  x:XSPEC003[: ] x:context not supported for XQuery \(scenario '\''x:context'\''\)$'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2053,7 +2053,7 @@ load bats-helper
     run ../bin/xspec.sh -q output-scenario-error/XSPEC004.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC004[: ] x:call/@template not supported for XQuery \(scenario x:call/@template\)$'
+    assert_regex "${lines[5]}" '^  x:XSPEC004[: ] x:call/@template not supported for XQuery \(scenario '\''x:call/@template'\''\)$'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2061,7 +2061,7 @@ load bats-helper
     run ../bin/xspec.sh -q output-scenario-error/XSPEC005.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC005[: ] there are x:expect but no x:call in scenario '\''Missing x:call'\''$'
+    assert_regex "${lines[5]}" '^  x:XSPEC005[: ] there are x:expect but no x:call \(scenario '\''Missing x:call'\''\)$'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 

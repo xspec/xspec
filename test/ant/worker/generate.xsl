@@ -212,7 +212,7 @@
 
 						<xsl:variable as="xs:string*" name="saxon-custom-options">
 							<xsl:if test="$NOW">
-								<xsl:sequence select="concat('-now:', $NOW)" />
+								<xsl:sequence select="'-now:' || $NOW" />
 							</xsl:if>
 
 							<xsl:sequence
