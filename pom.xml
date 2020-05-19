@@ -92,6 +92,13 @@
   <build>
     <resources>
       <resource>
+        <directory>java</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+          <exclude>io/xspec/xspec/ant/**</exclude>
+        </excludes>
+      </resource>
+      <resource>
         <directory>src</directory>
         <excludes>
           <exclude>harnesses/**</exclude>
@@ -141,15 +148,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <compileSourceRoots>
-            <compileSourceRoot>java</compileSourceRoot>
-          </compileSourceRoots>
-          <excludes>
-            <exclude>io/xspec/xspec/ant/**</exclude>
-          </excludes>
-          <testExcludes>
-            <testExclude>io/xspec/xspec/ant/**</testExclude>
-          </testExcludes>
+          <skipMain>true</skipMain>
         </configuration>
       </plugin>
       <plugin>
@@ -197,6 +196,11 @@
           <plugin>
             <artifactId>maven-source-plugin</artifactId>
             <version>3.2.1</version>
+            <configuration>
+              <excludes>
+                <exclude>**/*.class</exclude>
+              </excludes>
+            </configuration>
             <executions>
               <execution>
                 <id>attach-sources</id>
