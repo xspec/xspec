@@ -148,13 +148,32 @@
             <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns1" prefix="ex1" />
             <svrl:ns-prefix-in-attribute-values uri="http://example.com/ns2" prefix="ex2" />
         </x:variable>
+        <x:variable name="myv:expected-result" as="xs:string" select="'@ex2:type'" />
 
         <x:scenario label="Normal scenario">
             <x:call function="x:schematron-location-expand-attributes">
                 <x:param select="$myv:location" />
                 <x:param select="$myv:namespaces" />
             </x:call>
-            <x:expect label="namespace prefix applied" select="'@ex2:type'" />
+            <x:expect label="namespace prefix applied" select="$myv:expected-result" />
+        </x:scenario>
+
+        <x:scenario label="Only one namespace given">
+            <x:scenario label="Miss">
+                <x:call function="x:schematron-location-expand-attributes">
+                    <x:param select="$myv:location" />
+                    <x:param select="$myv:namespaces[1]" />
+                </x:call>
+                <x:expect label="same" select="$myv:location" />
+            </x:scenario>
+
+            <x:scenario label="Hit">
+                <x:call function="x:schematron-location-expand-attributes">
+                    <x:param select="$myv:location" />
+                    <x:param select="$myv:namespaces[2]" />
+                </x:call>
+                <x:expect label="namespace prefix applied" select="$myv:expected-result" />
+            </x:scenario>
         </x:scenario>
 
         <x:scenario label="Empty sequence">
