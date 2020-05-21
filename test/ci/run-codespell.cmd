@@ -2,7 +2,6 @@ echo Run codespell
 
 pip install ^
     --disable-pip-version-check ^
-    --quiet ^
     --requirement requirements-dev.txt
 
 rem ".git" dir is not skipped by default: codespell-project/codespell#783

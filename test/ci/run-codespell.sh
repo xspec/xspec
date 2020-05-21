@@ -4,7 +4,6 @@ echo "Run codespell"
 
 pip install \
     --disable-pip-version-check \
-    --quiet \
     --user \
     --requirement requirements-dev.txt
 
