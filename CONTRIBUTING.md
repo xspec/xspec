@@ -50,6 +50,7 @@ You are also encouraged to use a scope to highlight which functionality is affec
 | `oxygen`     | Oxygen                  |
 | `basex`      | BaseX                   |
 | `deps`       | Dependencies            |
+| `deps-dev`   | Development dependencies |
 | `report`     | Test result reports     |
 | `xproc`      | XProc                   |
 | `schema`     | Schema for .xspec files |
