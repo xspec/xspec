@@ -118,12 +118,6 @@
           <compileSourceRoots>
             <compileSourceRoot>java</compileSourceRoot>
           </compileSourceRoots>
-          <excludes>
-            <exclude>io/xspec/xspec/ant/**</exclude>
-          </excludes>
-          <testExcludes>
-            <testExclude>io/xspec/xspec/ant/**</testExclude>
-          </testExcludes>
         </configuration>
       </plugin>
       <plugin>
@@ -207,9 +201,6 @@
                 <goals><goal>jar</goal></goals>
                 <configuration>
                   <sourcepath>${project.basedir}/java</sourcepath>
-                  <sourceFileExcludes>
-                    <exclude>io/xspec/xspec/ant/**</exclude>
-                  </sourceFileExcludes>
                   <source>1.7</source>
                 </configuration>
               </execution>
