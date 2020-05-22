@@ -9,6 +9,10 @@ echo "=== Print JDK version"
 javac -version
 
 echo
+echo "=== Print Maven version"
+mvn --version
+
+echo
 echo "=== Print Ant version"
 ant -version
 

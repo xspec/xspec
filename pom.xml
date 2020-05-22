@@ -78,7 +78,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.sourceDirectory>java</project.build.sourceDirectory>
   </properties>
 
   <dependencies>
@@ -90,6 +89,8 @@
   </dependencies>
   
   <build>
+    <sourceDirectory>java</sourceDirectory>
+
     <resources>
       <resource>
         <directory>java</directory>
@@ -161,6 +162,24 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <descriptors>
+            <descriptor>assembly/enduser-files.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>enduser-files</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   
@@ -173,8 +192,10 @@
             <artifactId>maven-source-plugin</artifactId>
             <version>3.2.1</version>
             <configuration>
+              <excludeResources>true</excludeResources>
               <excludes>
                 <exclude>**/*.class</exclude>
+                <exclude>io/xspec/xspec/ant/**</exclude>
               </excludes>
             </configuration>
             <executions>
@@ -192,7 +213,6 @@
                 <id>attach-javadoc</id>
                 <goals><goal>jar</goal></goals>
                 <configuration>
-                  <sourcepath>${project.basedir}/java</sourcepath>
                   <sourceFileExcludes>
                     <exclude>io/xspec/xspec/ant/**</exclude>
                   </sourceFileExcludes>
