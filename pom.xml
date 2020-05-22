@@ -78,7 +78,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.sourceDirectory>java</project.build.sourceDirectory>
   </properties>
 
   <dependencies>
@@ -90,8 +89,11 @@
   </dependencies>
   
   <build>
+    <sourceDirectory>java</sourceDirectory>
+
     <resources>
       <resource>
+        <targetPath>io/xspec/xspec/impl/src</targetPath>
         <directory>src</directory>
         <excludes>
           <exclude>harnesses/**</exclude>
@@ -113,11 +115,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
-          <compileSourceRoots>
-            <compileSourceRoot>java</compileSourceRoot>
-          </compileSourceRoots>
+          <source>8</source>
+          <target>8</target>
           <excludes>
             <exclude>io/xspec/xspec/ant/**</exclude>
           </excludes>
@@ -191,6 +190,13 @@
           <plugin>
             <artifactId>maven-source-plugin</artifactId>
             <version>3.2.1</version>
+            <configuration>
+              <excludeResources>true</excludeResources>
+              <excludes>
+                <exclude>**/*.class</exclude>
+                <exclude>io/xspec/xspec/ant/**</exclude>
+              </excludes>
+            </configuration>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -206,11 +212,10 @@
                 <id>attach-javadoc</id>
                 <goals><goal>jar</goal></goals>
                 <configuration>
-                  <sourcepath>${project.basedir}/java</sourcepath>
                   <sourceFileExcludes>
                     <exclude>io/xspec/xspec/ant/**</exclude>
                   </sourceFileExcludes>
-                  <source>1.7</source>
+                  <source>8</source>
                 </configuration>
               </execution>
             </executions>
