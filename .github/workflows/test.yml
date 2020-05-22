@@ -48,3 +48,9 @@ jobs:
           && call test\ci\maven-package.cmd -q
           && call test\ci\compile-java.cmd -silent
           && call test\ci\last-git-status.cmd
+
+      - uses: actions/upload-artifact@v2
+        if: env.MAVEN_PACKAGE_VERSION != ''
+        with:
+          name: maven-package_${{ env.MAVEN_PACKAGE_VERSION }}_${{ matrix.os }}_java-${{ matrix.java }}_${{ matrix.env }}
+          path: target/xspec-${{ env.MAVEN_PACKAGE_VERSION }}*.*
