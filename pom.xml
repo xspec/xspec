@@ -92,6 +92,7 @@
   <build>
     <resources>
       <resource>
+        <targetPath>io/xspec/xspec/impl/src</targetPath>
         <directory>src</directory>
         <excludes>
           <exclude>harnesses/**</exclude>
