@@ -11,6 +11,10 @@ echo === Print JDK version
 javac -version
 
 echo:
+echo === Print Maven version
+call mvn --version
+
+echo:
 echo === Print Ant version
 call ant -version
 
