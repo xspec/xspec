@@ -42,18 +42,19 @@ These are the valid prefixes for type (see also [the Angular documentation](http
 
 You are also encouraged to use a scope to highlight which functionality is affected by your change:
 
-| Scope        | Description             |
-| ------------ | ----------------------- |
-| `xslt`       | XSLT                    |
-| `xquery`     | XQuery                  |
-| `schematron` | Schematron              |
-| `oxygen`     | Oxygen                  |
-| `basex`      | BaseX                   |
-| `deps`       | Dependencies            |
-| `report`     | Test result reports     |
-| `xproc`      | XProc                   |
-| `schema`     | Schema for .xspec files |
-| `maven`      | Maven                   |
+| Scope        | Description              |
+| ------------ | ------------------------ |
+| `xslt`       | XSLT                     |
+| `xquery`     | XQuery                   |
+| `schematron` | Schematron               |
+| `oxygen`     | Oxygen                   |
+| `basex`      | BaseX                    |
+| `deps`       | Dependencies             |
+| `deps-dev`   | Development dependencies |
+| `report`     | Test result reports      |
+| `xproc`      | XProc                    |
+| `schema`     | Schema for .xspec files  |
+| `maven`      | Maven                    |
 
 Note that type is mandatory and scope is optional and both values should be written in lower case.
 
