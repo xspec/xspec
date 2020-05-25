@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../xspec-three-dots.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-three-dots.xspec">
@@ -311,7 +310,7 @@
                      select="$Q{x-urn:test:xspec-three-dots}text-node_whitespace-only"/>
          </x:call>
          <x:result select="/text()">
-            <test:ws>	
+            <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
 &#xD; </test:ws>
          </x:result>
          <x:test id="scenario5-scenario2-expect1" successful="true">
@@ -330,7 +329,7 @@
                      select="$Q{x-urn:test:xspec-three-dots}text-node_zero-length"/>
          </x:call>
          <x:result select="/text()">
-            <test:ws/>
+            <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"/>
          </x:result>
          <x:test id="scenario5-scenario3-expect1" successful="true">
             <x:label>expecting ... should be Success</x:label>

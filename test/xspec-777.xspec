@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="my-namespace" query-at="xspec-777.xquery" stylesheet="xspec-777.xsl"
-	xmlns:my="my-namespace" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:my="my-namespace" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:param as="document-node(element(test))" href="xspec-777.xml" name="my:test" />
 

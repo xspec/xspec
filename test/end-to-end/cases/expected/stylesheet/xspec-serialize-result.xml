@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../../../items.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-serialize.xspec">
@@ -255,9 +253,9 @@
                <diff>actual</diff>
             </oridinary-text-node>
             <significant-whitespace-only-text-node>
-               <same xml:space="preserve"><test:ws>	
+               <same xml:space="preserve"><test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
 &#xD; </test:ws></same>
-               <diff xml:space="preserve"><test:ws>	
+               <diff xml:space="preserve"><test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
 &#xD; </test:ws></diff>
             </significant-whitespace-only-text-node>
          </test>
@@ -272,9 +270,9 @@
                   <diff>expect</diff>
                </oridinary-text-node>
                <significant-whitespace-only-text-node>
-                  <same xml:space="preserve"><test:ws>	
+                  <same xml:space="preserve"><test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
 &#xD; </test:ws></same>
-                  <diff xml:space="preserve"><test:ws> 	
+                  <diff xml:space="preserve"><test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"> 	
 &#xD;</test:ws></diff>
                </significant-whitespace-only-text-node>
             </test>

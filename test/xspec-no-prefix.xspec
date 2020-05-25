@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <description query="x-urn:test:do-nothing" query-at="do-nothing.xquery" stylesheet="do-nothing.xsl"
-	xmlns="http://www.jenitennison.com/xslt/xspec">
+	xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<scenario label="Describing scenarios using default namespace">
 		<call function="false" />

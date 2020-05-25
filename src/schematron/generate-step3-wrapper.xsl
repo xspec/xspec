@@ -34,10 +34,6 @@
 			select="resolve-uri('iso-schematron/iso_svrl_for_xslt2.xsl')" />
 
 		<stylesheet exclude-result-prefixes="#all" version="{x:decimal-string(x:xslt-version(.))}">
-			<!-- Namespaces required by the wrapper stylesheet being generated -->
-			<xsl:namespace name="impl" select="'urn:x-xspec:compile:xslt:impl'" />
-			<xsl:namespace name="xs" select="'http://www.w3.org/2001/XMLSchema'" />
-
 			<!-- Import the stylesheet of the Schematron Step 3 preprocessor -->
 			<import href="{($actual-preprocessor-uri, $builtin-preprocessor-uri)[1]}" />
 
@@ -50,7 +46,7 @@
 				so that $x:schematron-uri holding the URI is generated and made available in
 				the wrapper stylesheet being generated -->
 			<xsl:variable as="element(x:param)" name="xml-base-param">
-				<x:param as="xs:anyURI" name="x:schematron-uri">
+				<x:param as="{x:known-UQN('xs:anyURI')}" name="x:schematron-uri">
 					<xsl:value-of select="x:locate-schematron-uri(.)" />
 				</x:param>
 			</xsl:variable>

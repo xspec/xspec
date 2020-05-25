@@ -9,6 +9,7 @@
 
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:my="http://example.org/ns/my"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                query="http://example.org/ns/my"
                query-at="../../xspec-tested.xql"
                stylesheet="../../xspec-tested.xsl">

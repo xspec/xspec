@@ -4,6 +4,7 @@
     xmlns:sch="http://purl.oclc.org/dsdl/schematron"
     xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
     stylesheet="../src/schematron/sch-location-compare.xsl">
 
     <x:scenario label="x:schematron-location-expand-xpath2">
