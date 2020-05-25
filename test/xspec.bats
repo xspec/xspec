@@ -1049,6 +1049,31 @@ load bats-helper
 }
 
 #
+# Ant catalog.is.uri=true without setting catalog
+#
+
+@test "Ant catalog.is.uri=true without setting catalog" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dcatalog.is.uri=true \
+        -Dxspec.fail=false \
+        -Dxspec.xml="tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+
+    # Temporary catalog should not be created
+    run ls "${TEST_DIR}"
+    echo "$output"
+    [ "${#lines[@]}" = "3" ]
+    [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
+    [ "${lines[1]}" = "escape-for-regex-result.html" ]
+    [ "${lines[2]}" = "escape-for-regex-result.xml" ]
+}
+
+#
 # xspec.fail (Ant)
 #
 

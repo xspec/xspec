@@ -891,6 +891,29 @@
 	</case>
 
 	<!--
+		Ant catalog.is.uri=true without setting catalog
+	-->
+
+	<case name="Ant catalog.is.uri=true without setting catalog">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dcatalog.is.uri=true ^
+        -Dxspec.fail=false ^
+        -Dxspec.xml="tutorial\escape-for-regex.xspec"
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 5 / pending: 0 / failed: 1 / total: 6"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+
+    rem Temporary catalog should not be created
+    call :run dir /b /o:n "%TEST_DIR%"
+    call :verify_line_count 3
+    call :verify_line 1 x escape-for-regex-compiled.xsl
+    call :verify_line 2 x escape-for-regex-result.html
+    call :verify_line 3 x escape-for-regex-result.xml
+	</case>
+
+	<!--
 		xspec.fail (Ant)
 	-->
 
