@@ -101,37 +101,7 @@
       <xsl:variable name="result" as="xs:boolean">
          <xsl:choose>
             <xsl:when test="contains($flags, '1')">
-               <xsl:variable name="flags" as="xs:string" select="translate($flags, '1', '')" />
-
-               <xsl:choose>
-                  <xsl:when test="$seq1 instance of xs:string and
-                                  $seq2 instance of text()+">
-                     <xsl:sequence
-                        select="test:deep-equal($seq1, string-join($seq2, ''), $flags)" />
-                  </xsl:when>
-
-                  <xsl:when test="$seq1 instance of xs:double and
-                                  $seq2 instance of text()+">
-                     <xsl:sequence
-                        select="test:deep-equal($seq1, xs:double(string-join($seq2, '')), $flags)" />
-                  </xsl:when>
-
-                  <xsl:when test="$seq1 instance of xs:decimal and
-                                  $seq2 instance of text()+">
-                     <xsl:sequence
-                        select="test:deep-equal($seq1, xs:decimal(string-join($seq2, '')), $flags)" />
-                  </xsl:when>
-
-                  <xsl:when test="$seq1 instance of xs:integer and
-                                  $seq2 instance of text()+">
-                     <xsl:sequence
-                        select="test:deep-equal($seq1, xs:integer(string-join($seq2, '')), $flags)" />
-                  </xsl:when>
-
-                  <xsl:otherwise>
-                     <xsl:sequence select="test:deep-equal($seq1, $seq2, $flags)" />
-                  </xsl:otherwise>
-               </xsl:choose>
+               <xsl:sequence select="test:deep-equal-v1($seq1, $seq2, $flags)" />
             </xsl:when>
 
             <xsl:when test="empty($seq1) or empty($seq2)">
@@ -185,6 +155,41 @@
       <xsl:sequence select="$result" />
    </xsl:function>
 
+   <xsl:function name="test:deep-equal-v1" as="xs:boolean">
+      <xsl:param name="seq1" as="item()*" />
+      <xsl:param name="seq2" as="item()*" />
+      <xsl:param name="flags" as="xs:string" />
+
+      <xsl:variable name="seq2-adapted" as="xs:anyAtomicType?">
+         <xsl:if test="$seq2 instance of text()+">
+            <xsl:variable name="seq2-string" as="xs:string" select="string-join($seq2, '')" />
+
+            <xsl:choose>
+               <xsl:when test="$seq1 instance of xs:string">
+                  <xsl:sequence select="$seq2-string" />
+               </xsl:when>
+               <xsl:when test="$seq1 instance of xs:double">
+                  <xsl:sequence select="$seq2-string[. castable as xs:double] => xs:double()" />
+               </xsl:when>
+               <xsl:when test="$seq1 instance of xs:decimal">
+                  <xsl:sequence select="$seq2-string[. castable as xs:decimal] => xs:decimal()" />
+               </xsl:when>
+               <xsl:when test="$seq1 instance of xs:integer">
+                  <xsl:sequence select="$seq2-string[. castable as xs:integer] => xs:integer()" />
+               </xsl:when>
+            </xsl:choose>
+         </xsl:if>
+      </xsl:variable>
+
+      <xsl:sequence
+         select="
+            test:deep-equal(
+               $seq1,
+               ($seq2-adapted, $seq2)[1],
+               translate($flags, '1', '')
+            )" />
+   </xsl:function>
+
    <xsl:function name="test:item-deep-equal" as="xs:boolean">
       <xsl:param name="item1" as="item()" />
       <xsl:param name="item2" as="item()" />
@@ -224,48 +229,7 @@
 
          <xsl:when test="$node1 instance of element() and
                          $node2 instance of element()">
-            <xsl:choose>
-               <xsl:when test="node-name($node1) eq node-name($node2)">
-                  <xsl:variable name="atts1" as="attribute()*">
-                     <xsl:perform-sort select="$node1/@*">
-                        <xsl:sort select="namespace-uri(.)" />
-                        <xsl:sort select="local-name(.)" />
-                     </xsl:perform-sort>
-                  </xsl:variable>
-                  <xsl:variable name="atts2" as="attribute()*">
-                     <xsl:perform-sort select="$node2/@*">
-                        <xsl:sort select="namespace-uri(.)" />
-                        <xsl:sort select="local-name(.)" />
-                     </xsl:perform-sort>
-                  </xsl:variable>
-
-                  <xsl:choose>
-                     <xsl:when test="test:deep-equal($atts1, $atts2, $flags)">
-                        <xsl:choose>
-                           <xsl:when test="$node1/text() = '...' and count($node1/node()) = 1">
-                              <xsl:sequence select="true()" />
-                           </xsl:when>
-                           <xsl:otherwise>
-                              <xsl:variable name="children1" as="node()*" 
-                                 select="test:sorted-children($node1, $flags)" />
-                              <xsl:variable name="children2" as="node()*" 
-                                 select="test:sorted-children($node2, $flags)" />
-                              <xsl:sequence
-                                 select="test:deep-equal($children1, $children2, $flags)" />
-                           </xsl:otherwise>
-                        </xsl:choose>
-                     </xsl:when>
-
-                     <xsl:otherwise>
-                        <xsl:sequence select="false()" />
-                     </xsl:otherwise>
-                  </xsl:choose>
-               </xsl:when>
-
-               <xsl:otherwise>
-                  <xsl:sequence select="false()" />
-               </xsl:otherwise>
-            </xsl:choose>
+            <xsl:sequence select="test:element-deep-equal($node1, $node2, $flags)" />
          </xsl:when>
 
          <xsl:when test="$node1 instance of text() and
@@ -318,6 +282,35 @@
       </xsl:choose>
    </xsl:function>
 
+   <xsl:function name="test:element-deep-equal" as="xs:boolean">
+      <xsl:param name="elem1" as="element()" />
+      <xsl:param name="elem2" as="element()" />
+      <xsl:param name="flags" as="xs:string" />
+
+      <xsl:variable name="node-name-equal" as="xs:boolean"
+         select="node-name($elem1) eq node-name($elem2)" />
+
+      <xsl:variable name="attrs-equal" as="xs:boolean"
+         select="
+            test:deep-equal(
+               test:sort-named-nodes($elem1/attribute()),
+               test:sort-named-nodes($elem2/attribute()),
+               $flags
+            )" />
+
+      <xsl:variable name="children-equal" as="xs:boolean"
+         select="
+            $elem1[count(node()) eq 1][text() = '...']
+            or
+            test:deep-equal(
+               test:sorted-children($elem1, $flags),
+               test:sorted-children($elem2, $flags),
+               $flags
+            )" />
+
+      <xsl:sequence select="$node-name-equal and $attrs-equal and $children-equal" />
+   </xsl:function>
+
    <xsl:function name="test:sorted-children" as="node()*">
       <xsl:param name="node" as="node()" />
       <xsl:param name="flags" as="xs:string" />
@@ -327,6 +320,15 @@
             $node/child::node()
             except ($node/text()[not(normalize-space())][contains($flags, 'w')][not($node/self::test:ws)],
                     $node/test:message)" />
+   </xsl:function>
+
+   <xsl:function name="test:sort-named-nodes" as="node()*">
+      <xsl:param name="nodes" as="node()*" />
+
+      <xsl:perform-sort select="$nodes">
+         <xsl:sort select="namespace-uri()" />
+         <xsl:sort select="local-name()" />
+      </xsl:perform-sort>
    </xsl:function>
 
    <xsl:template name="test:report-sequence" as="element()">

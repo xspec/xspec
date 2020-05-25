@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0-SNAPSHOT</version>
   
   <name>XSpec implementation</name>
   <description>A unit test framework for XSLT, XQuery and Schematron</description>
@@ -78,7 +78,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.sourceDirectory>java</project.build.sourceDirectory>
   </properties>
 
   <dependencies>
@@ -90,60 +89,34 @@
   </dependencies>
   
   <build>
+    <sourceDirectory>java</sourceDirectory>
+
     <resources>
       <resource>
+        <targetPath>io/xspec/xspec/impl/src</targetPath>
         <directory>src</directory>
         <excludes>
           <exclude>harnesses/**</exclude>
         </excludes>
       </resource>
     </resources>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
-          <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.code54.mojo</groupId>
-          <artifactId>buildversion-plugin</artifactId>
-          <version>1.0.3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.2.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.3</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+
+    <!-- Note: If any plugin is used in multiple places including a child POM, its version and
+      possibly its configuration should be centralized in <pluginManagement />. -->
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
         <configuration>
-          <compileSourceRoots>
-            <compileSourceRoot>java</compileSourceRoot>
-          </compileSourceRoots>
+          <source>8</source>
+          <target>8</target>
           <excludes>
             <exclude>io/xspec/xspec/ant/**</exclude>
           </excludes>
@@ -155,6 +128,7 @@
       <plugin>
         <groupId>com.code54.mojo</groupId>
         <artifactId>buildversion-plugin</artifactId>
+        <version>1.0.3</version>
         <executions>
           <execution>
             <phase>validate</phase>
@@ -167,6 +141,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
         <configuration>
           <archive>
             <manifest>
@@ -186,6 +161,24 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <descriptors>
+            <descriptor>assembly/enduser-files.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>enduser-files</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   
@@ -197,6 +190,13 @@
           <plugin>
             <artifactId>maven-source-plugin</artifactId>
             <version>3.2.1</version>
+            <configuration>
+              <excludeResources>true</excludeResources>
+              <excludes>
+                <exclude>**/*.class</exclude>
+                <exclude>io/xspec/xspec/ant/**</exclude>
+              </excludes>
+            </configuration>
             <executions>
               <execution>
                 <id>attach-sources</id>
@@ -212,11 +212,10 @@
                 <id>attach-javadoc</id>
                 <goals><goal>jar</goal></goals>
                 <configuration>
-                  <sourcepath>${project.basedir}/java</sourcepath>
                   <sourceFileExcludes>
                     <exclude>io/xspec/xspec/ant/**</exclude>
                   </sourceFileExcludes>
-                  <source>1.7</source>
+                  <source>8</source>
                 </configuration>
               </execution>
             </executions>
@@ -232,6 +231,17 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+                <configuration>
+                  <!--
+                    Prevent `gpg` from using pinentry programs
+                    https://github.com/samuelmeuli/action-maven-publish/issues/1#issuecomment-555756718
+                    https://github.com/samuelmeuli/action-maven-publish/issues/10#issuecomment-589245121
+                  -->
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
               </execution>
             </executions>
           </plugin>
