@@ -157,6 +157,14 @@
     <istrue value="${catalog.is.uri}" />
   </condition>
 
+  <!-- True if a temporary catalog file needs to be generated -->
+  <condition property="xspec.generate.catalog" else="false">
+    <and>
+      <isset property="catalog" />
+      <istrue value="${catalog.is.uri}" />
+    </and>
+  </condition>
+
   <!-- File path of the compiled XSLT/XQuery file that finally runs the tests -->
   <property name="xspec.compiled.runner.without.ext" 
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-compiled" />
@@ -182,8 +190,7 @@
 
     <sequential>
       <local name="enable-catalog" />
-      <condition property="enable-catalog"
-                 else="false">
+      <condition property="enable-catalog" else="false">
         <and>
           <isfalse value="@{ignore-catalog}" />
           <isset property="xspec.catalog.files" />
@@ -270,7 +277,7 @@
   </target>
 
   <!-- Generates a temporary catalog file which references all URIs in "catalog" property -->
-  <target name="generate-catalog" if="${catalog.is.uri}">
+  <target name="generate-catalog" if="${xspec.generate.catalog}">
     <makeurl property="basedir.uri" file="${basedir}/" />
 
     <!-- @in doesn't matter -->
