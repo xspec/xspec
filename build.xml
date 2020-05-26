@@ -38,7 +38,8 @@
     No default value. This property is occasionally provided by the user. -->
 
   <!-- "catalog" property: Documented in Wiki. DO NOT RENAME.
-    One or more XML catalog file paths. Separated by semicolons (;). -->
+    One or more XML catalog files. Separated by semicolons (;).
+    Value is either file path or URI. Must not mix file path and URI. -->
 
   <!-- File path of the original XSpec file specified by the user -->
   <property name="xspec.xspecfile.original" value="${xspec.xml}" />
@@ -145,6 +146,25 @@
     <istrue value="${xspec.is.schematron}" />
   </condition>
 
+  <!-- True if "catalog" property consists of URIs. Otherwise file paths. -->
+  <property name="catalog.is.uri" value="false" />
+
+  <!-- One or more XML catalog file paths (not URLs). Separated by semicolons (;) -->
+  <condition property="xspec.catalog.files"
+             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}_catalog.xml"
+             else="${catalog}"
+             if:set="catalog">
+    <istrue value="${catalog.is.uri}" />
+  </condition>
+
+  <!-- True if a temporary catalog file needs to be generated -->
+  <condition property="xspec.generate.catalog" else="false">
+    <and>
+      <isset property="catalog" />
+      <istrue value="${catalog.is.uri}" />
+    </and>
+  </condition>
+
   <!-- File path of the compiled XSLT/XQuery file that finally runs the tests -->
   <property name="xspec.compiled.runner.without.ext" 
             value="${xspec.output.dir}/${xspec.xspecfile.name.without.ext}-compiled" />
@@ -159,11 +179,20 @@
     <attribute name="in" />
     <attribute name="out" />
     <attribute name="style" />
+    <attribute name="ignore-catalog" default="false" />
 
     <element name="factory-elements" optional="true" />
     <element name="xslt-elements" optional="true" />
 
     <sequential>
+      <local name="enable-catalog" />
+      <condition property="enable-catalog" else="false">
+        <and>
+          <isfalse value="@{ignore-catalog}" />
+          <isset property="xspec.catalog.files" />
+        </and>
+      </condition>
+
       <xslt in="@{in}" out="@{out}" style="@{style}" force="true">
         <factory name="net.sf.saxon.TransformerFactoryImpl">
           <factory-elements />
@@ -173,8 +202,8 @@
                      value="true"/>-->
         </factory>
 
-        <xmlcatalog if:set="catalog">
-          <catalogpath path="${catalog}" />
+        <xmlcatalog if:true="${enable-catalog}">
+          <catalogpath path="${xspec.catalog.files}" />
         </xmlcatalog>
 
         <xslt-elements />
@@ -243,6 +272,26 @@
     </retry>
   </target>
 
+  <!-- Generates a temporary catalog file which references all URIs in "catalog" property -->
+  <target name="generate-catalog" if="${xspec.generate.catalog}">
+    <makeurl property="basedir.uri" file="${basedir}/" />
+
+    <!-- @in doesn't matter -->
+    <saxon-xslt in="${ant.file}"
+                out="${xspec.catalog.files}"
+                style="${xspec.project.dir}/src/ant/generate-catalog.xsl"
+                ignore-catalog="true">
+      <factory-elements>
+        <attribute name="http://saxon.sf.net/feature/initialTemplate"
+                   value="{http://www.w3.org/1999/XSL/Transform}initial-template" />
+      </factory-elements>
+      <xslt-elements>
+        <param name="CATALOG-URIS" expression="${catalog}" />
+        <param name="BASE-URI" expression="${basedir.uri}" />
+      </xslt-elements>
+    </saxon-xslt>
+  </target>
+
   <!-- Converts Schematron into XSLT -->
   <target name="preprocess-schematron-xslt"
           if="${xspec.is.schematron}">
@@ -292,7 +341,7 @@
   </target>
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
-  <target name="compile" depends="init, preprocess-schematron-xspec">
+  <target name="compile" depends="init, generate-catalog, preprocess-schematron-xspec">
     <condition property="xspec.compiler.xsl.name"
                value="generate-query-tests.xsl"
                else="generate-xspec-tests.xsl">
@@ -322,7 +371,7 @@
       </classpath>
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
-      <arg value="-catalog:${catalog}" if:set="catalog" />
+      <arg value="-catalog:${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-q:${xspec.compiled.runner}" />
     </java>
@@ -371,7 +420,7 @@
                    if:true="${xspec.coverage.enabled}" />
 
       <arg line="${saxon.custom.options}" if:set="saxon.custom.options" />
-      <arg value="-catalog:${catalog}" if:set="catalog" />
+      <arg value="-catalog:${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-xsl:${xspec.compiled.runner}" />
