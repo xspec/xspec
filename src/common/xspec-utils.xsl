@@ -647,7 +647,7 @@
 			<xsl:choose>
 				<xsl:when test="@name">
 					<xsl:variable name="qname"
-						select="x:resolve-EQName-ignoring-default-ns(@name, $source-element)" />
+						select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 					<xsl:sequence
 						select="
 							x:URIQualifiedName(
