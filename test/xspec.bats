@@ -1263,7 +1263,7 @@ load bats-helper
         catalog/catalog-01_schematron.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
@@ -1350,7 +1350,7 @@ load bats-helper
     run ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
