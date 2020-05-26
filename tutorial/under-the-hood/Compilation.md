@@ -306,7 +306,7 @@ section "[Simple scenario](#simple-scenario)").
    <elem/>
 </x:variable>
 <x:apply select="$ctxt" mode="mode">
-   <x:param name="p1" select="val1" tunnel="yes"/>
+   <x:param name="p1" select="'val1'" tunnel="yes"/>
    <x:param name="p2" as="element()">
       <val2/>
    </x:param>
@@ -314,7 +314,7 @@ section "[Simple scenario](#simple-scenario)").
 
 <!-- call a function -->
 <x:call function="my:f">
-   <x:param select="val1"/>
+   <x:param select="'val1'"/>
    <x:param name="p2" as="element()">
       <val2/>
    </x:param>
@@ -322,7 +322,7 @@ section "[Simple scenario](#simple-scenario)").
 
 <!-- call a named template -->
 <x:call template="t">
-   <x:param name="p1" select="val1"/>
+   <x:param name="p1" select="'val1'"/>
    <x:param name="p2">
       <val2/>
    </x:param>
@@ -341,7 +341,7 @@ section "[Simple scenario](#simple-scenario)").
    <elem/>
 </xsl:variable>
 <xsl:variable name="x:result" as="item()*">
-   <xsl:variable name="p1" select="val1"/>
+   <xsl:variable name="p1" select="'val1'"/>
    <xsl:variable name="p2" as="element()">
       <val2/>
    </xsl:variable>
@@ -353,7 +353,7 @@ section "[Simple scenario](#simple-scenario)").
 </xsl:variable>
 
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}param-..." select="val1"/>
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}param-..." select="'val1'"/>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...-doc" as="document-node()">
       <xsl:document>
          <val2/>
@@ -368,7 +368,7 @@ section "[Simple scenario](#simple-scenario)").
 </xsl:variable>
 
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-   <xsl:variable name="Q{}p1" select="val1"/>
+   <xsl:variable name="Q{}p1" select="'val1'"/>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...-doc" as="document-node()">
       <xsl:document>
          <val2/>
@@ -402,8 +402,8 @@ section "[Simple scenario](#simple-scenario)").
 
 ### Query
 
-```
-let $Q{urn:x-xspec:compile:impl}param-... := ( val1 )
+```xquery
+let $Q{urn:x-xspec:compile:impl}param-... := ( 'val1' )
 let $Q{urn:x-xspec:compile:impl}param-...-doc as document-node() := ( document { <val2 xmlns:my="http://example.org/ns/my">{ () }
 </val2> } )
 let $p2 as element() := ( $Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() ) )
