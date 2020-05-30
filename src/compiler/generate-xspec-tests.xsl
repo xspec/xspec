@@ -87,12 +87,13 @@
                <value-of select="system-property('xsl:product-version')" />
             </message>
 
+            <xsl:comment> set up the result document (the report) </xsl:comment>
             <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
                being tested which would otherwise govern the output of the report XML. -->
-            <xsl:comment> set up the result document (the report) </xsl:comment>
-            <!-- xsl:result-document/@format does not accept URIQualifiedName as-is because
-               the attribute is AVT -->
-            <result-document format="{x:xspec-name(., 'report')}">
+            <result-document>
+               <!-- @format does not accept URIQualifiedName as-is because the attribute is AVT -->
+               <xsl:attribute name="format" select="x:xspec-name(., 'report')" />
+
                <xsl:element name="{x:xspec-name(., 'report')}" namespace="{$x:xspec-namespace}">
                   <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
                      that the URI appears in the trace report generated from running the
