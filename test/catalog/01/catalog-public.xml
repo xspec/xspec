@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
 	<public publicId="-//example//EN" uri="example.dtd" />
-	<rewriteURI rewritePrefix="./" uriStartString="catalog-01:/" />
 </catalog>

@@ -952,19 +952,17 @@ load bats-helper
 }
 
 #
-# Catalog (Ant)
+# Catalog file path (Ant)
+#
+#     Test 'catalog' property containing multiple file paths (relative and absolute)
 #
 
-@test "Ant with catalog (XSLT)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
+@test "Ant with catalog file path (XSLT)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
@@ -972,16 +970,12 @@ load bats-helper
     [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant with catalog (XQuery)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
+@test "Ant with catalog file path (XQuery)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=q \
         -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
     echo "$output"
@@ -990,22 +984,93 @@ load bats-helper
     [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
-@test "Ant with catalog (Schematron)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
+@test "Ant with catalog file path (Schematron)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -lib "${XML_RESOLVER_JAR}" \
-        -Dcatalog="${PWD}/catalog/01/catalog.xml" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;${PWD}/catalog/01/catalog-rewriteURI.xml" \
         -Dtest.type=s \
         -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
     [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+#
+# Catalog file URI (Ant)
+#
+#     Test 'catalog' property containing multiple URIs (relative and absolute)
+#
+
+@test "Ant with catalog file URI (XSLT)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_stylesheet.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file URI (XQuery)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dtest.type=q \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_query.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+@test "Ant with catalog file URI (Schematron)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="test/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -Dcatalog.is.uri=true \
+        -Dtest.type=s \
+        -Dxspec.xml="${PWD}/catalog/catalog-01_schematron.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+#
+# Ant catalog.is.uri=true without setting catalog
+#
+
+@test "Ant catalog.is.uri=true without setting catalog" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dcatalog.is.uri=true \
+        -Dxspec.fail=false \
+        -Dxspec.xml="tutorial/escape-for-regex.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 5 / pending: 0 / failed: 1 / total: 6'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+
+    # Temporary catalog should not be created
+    run ls "${TEST_DIR}"
+    echo "$output"
+    [ "${#lines[@]}" = "3" ]
+    [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
+    [ "${lines[1]}" = "escape-for-regex-result.html" ]
+    [ "${lines[2]}" = "escape-for-regex-result.xml" ]
 }
 
 #
@@ -1114,66 +1179,110 @@ load bats-helper
 }
 
 #
-# Catalog (CLI) (-catalog)
+# Catalog file path (CLI) (-catalog)
+#
+#     Test -catalog specifying multiple file paths (relative and absolute)
 #
 
-@test "CLI with -catalog uses XML Catalog resolver and does so even with spaces in file path (XSLT)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
+@test "CLI with -catalog file path (XSLT)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/*        "${space_dir}/01"
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog "${space_dir}/01/catalog.xml" "${space_dir}/catalog-01_stylesheet.xspec"
+    run ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
+        "${space_dir}/catalog-01_stylesheet.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
-@test "CLI with -catalog uses XML Catalog resolver (XQuery)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
+@test "CLI with -catalog file path (XQuery)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog catalog/01/catalog.xml -q catalog/catalog-01_query.xspec
+    run ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
+        -q \
+        "${space_dir}/catalog-01_query.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
 }
 
-@test "CLI with -catalog uses XML Catalog resolver (Schematron)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
+@test "CLI with -catalog file path (Schematron)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    run ../bin/xspec.sh -catalog catalog/01/catalog.xml -s catalog/catalog-01_schematron.xspec
+    run ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml" \
+        -s \
+        "${space_dir}/catalog-01_schematron.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
-# Catalog (CLI) (XML_CATALOG)
+# Catalog file URI (CLI) (-catalog)
+#
+#     Test -catalog specifying multiple file URIs (absolute, no relative)
 #
 
-@test "CLI with XML_CATALOG set uses XML Catalog resolver and does so even with spaces in file path (XSLT)" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
+@test "CLI with -catalog file URI (XSLT)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    run ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        catalog/catalog-01_stylesheet.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
 
+@test "CLI with -catalog file URI (XQuery)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    run ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -q \
+        catalog/catalog-01_query.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "CLI with -catalog file URI (Schematron)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    run ../bin/xspec.sh \
+        -catalog "file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml" \
+        -s \
+        catalog/catalog-01_schematron.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+#
+# Catalog file path (CLI) (XML_CATALOG)
+#
+#     Test XML_CATALOG containing multiple file paths (relative and absolute)
+#
+
+@test "CLI with XML_CATALOG file path (XSLT)" {
     space_dir="${work_dir}/cat a log ${RANDOM}"
     mkdir -p "${space_dir}/01"
     cp catalog/catalog-01* "${space_dir}"
     cp catalog/01/*        "${space_dir}/01"
 
     export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
-    export XML_CATALOG="${space_dir}/01/catalog.xml"
+    export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
 
     run ../bin/xspec.sh "${space_dir}/catalog-01_stylesheet.xspec"
     echo "$output"
@@ -1181,15 +1290,77 @@ load bats-helper
     [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
+@test "CLI with XML_CATALOG file path (XQuery)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
+
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh -q "${space_dir}/catalog-01_query.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "CLI with XML_CATALOG file path (Schematron)" {
+    space_dir="${work_dir}/cat a log ${RANDOM}"
+    mkdir -p "${space_dir}/01"
+    cp catalog/catalog-01* "${space_dir}"
+    cp catalog/01/*        "${space_dir}/01"
+
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="catalog/01/catalog-public.xml;${space_dir}/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+#
+# Catalog file URI (CLI) (XML_CATALOG)
+#
+#     Test XML_CATALOG containing multiple file URIs (absolute, no relative)
+#
+
+@test "CLI with XML_CATALOG file URI (XSLT)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh "catalog/catalog-01_stylesheet.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+@test "CLI with XML_CATALOG file URI (XQuery)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh -q "catalog/catalog-01_query.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "CLI with XML_CATALOG file URI (Schematron)" {
+    export SAXON_CP="$SAXON_JAR:$XML_RESOLVER_JAR"
+    export XML_CATALOG="file:${PWD}/catalog/01/catalog-public.xml;file:${PWD}/catalog/01/catalog-rewriteURI.xml"
+
+    run ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
 #
 # Catalog resolver and SAXON_HOME (CLI)
 #
 
 @test "invoking xspec using SAXON_HOME finds Saxon jar and XML Catalog Resolver jar" {
-    if [ -z "${XML_RESOLVER_JAR}" ]; then
-        skip "XML_RESOLVER_JAR is not defined"
-    fi
-
     export SAXON_HOME="${work_dir}/saxon ${RANDOM}"
     mkdir "${SAXON_HOME}"
     cp "${SAXON_JAR}"        "${SAXON_HOME}"
@@ -1202,10 +1373,41 @@ load bats-helper
         cp "${saxon_license}" "${SAXON_HOME}"
     fi
 
-    run ../bin/xspec.sh -catalog catalog/01/catalog.xml catalog/catalog-01_stylesheet.xspec
+    run ../bin/xspec.sh \
+        -catalog "catalog/01/catalog-public.xml;catalog/01/catalog-rewriteURI.xml" \
+        catalog/catalog-01_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[15]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+}
+
+#
+# Catalog Saxon bug https://saxonica.plan.io/issues/3025/
+#
+#     This test must specify the catalog parameter as an absolute native file path.
+#
+
+@test "Catalog Saxon bug 3025 (CLI)" {
+    export SAXON_CP="${SAXON_JAR}:${XML_RESOLVER_JAR}"
+    run ../bin/xspec.sh \
+        -catalog "${PWD}/catalog/02/catalog.xml" \
+        catalog/catalog-02.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[9]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "Catalog Saxon bug 3025 (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -lib "${XML_RESOLVER_JAR}" \
+        -Dcatalog="${PWD}/catalog/02/catalog.xml" \
+        -Dxspec.xml="${PWD}/catalog/catalog-02.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
 #
