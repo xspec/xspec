@@ -151,6 +151,7 @@
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
             <manifestEntries>
+              <Automatic-Module-Name>io.xspec.xspec.impl</Automatic-Module-Name>
               <Build-Tag>${build-tag}</Build-Tag>
               <Git-Commit>${build-commit}</Git-Commit>
               <Git-Commit-Abbrev>${build-commit-abbrev}</Git-Commit-Abbrev>
