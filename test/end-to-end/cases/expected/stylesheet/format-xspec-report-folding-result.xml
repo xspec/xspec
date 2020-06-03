@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../../../xspec-tested.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../format-xspec-report-folding.xspec">
    <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                id="scenario1"
                xspec="../../xspec-focus-1.xspec"
@@ -19,6 +18,7 @@
       </t:test>
    </t:scenario>
    <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                id="scenario2"
                xspec="../../xspec-focus-1.xspec"
@@ -32,6 +32,7 @@
       </t:test>
    </t:scenario>
    <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                id="scenario3"
                xspec="../../xspec-focus-1.xspec">
@@ -46,6 +47,7 @@
       </t:test>
    </t:scenario>
    <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                id="scenario4"
                xspec="../../xspec-focus-1.xspec">

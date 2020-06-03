@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           stylesheet="schematron-023-sch-preprocessed.xsl"
           date="2000-01-01T00:00:00Z"
@@ -18,7 +16,8 @@
          </document>
       </x:context>
       <x:result select="/element()">
-         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                  xmlns:saxon="http://saxon.sf.net/"
                                  xmlns:schold="http://www.ascc.net/xml/schematron"
                                  xmlns:iso="http://purl.oclc.org/dsdl/schematron"
@@ -66,7 +65,8 @@
          </document>
       </x:context>
       <x:result select="/element()">
-         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                  xmlns:saxon="http://saxon.sf.net/"
                                  xmlns:schold="http://www.ascc.net/xml/schematron"
                                  xmlns:iso="http://purl.oclc.org/dsdl/schematron"
@@ -109,7 +109,8 @@
          <adocument/>
       </x:context>
       <x:result select="/element()">
-         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                  xmlns:saxon="http://saxon.sf.net/"
                                  xmlns:schold="http://www.ascc.net/xml/schematron"
                                  xmlns:iso="http://purl.oclc.org/dsdl/schematron"

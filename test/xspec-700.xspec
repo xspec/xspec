@@ -2,6 +2,7 @@
 <?xspec-test require-saxon-bug-4376-fixed?>
 <x:description
     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns="http://www.w3.org/1999/xhtml"
     stylesheet="xspec-700.xsl">
     <x:scenario label="Aborts with abbreviation with no expansion" catch="yes">

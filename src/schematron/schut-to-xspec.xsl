@@ -17,11 +17,9 @@
     <xsl:mode on-no-match="shallow-copy" />
 
     <xsl:template match="x:description[@schematron]" as="element(x:description)">
+        <!-- Do not set xsl:copy/@copy-namespaces="no". child::x:param may use namespaces. -->
         <xsl:copy>
             <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
-
-            <!-- child::x:param may use namespaces -->
-            <xsl:sequence select="x:copy-namespaces(.)" />
 
             <xsl:apply-templates select="@*[not(name() = ('stylesheet'))]"/>
             <xsl:apply-templates select="node()"/>
@@ -98,8 +96,8 @@
             <xsl:attribute name="select">
                 <xsl:choose>
                     <xsl:when test="@select">
-                        <xsl:text expand-text="yes">if (({@select}) => test:wrappable-sequence())</xsl:text>
-                        <xsl:text expand-text="yes"> then test:wrap-nodes(({@select}))</xsl:text>
+                        <xsl:text expand-text="yes">if (({@select}) => {x:known-UQN('test:wrappable-sequence')}())</xsl:text>
+                        <xsl:text expand-text="yes"> then {x:known-UQN('test:wrap-nodes')}(({@select}))</xsl:text>
 
                         <!-- Some Schematron implementations might possibly be able to handle
                             non-document nodes. Just generate a warning and pass @select as is. -->

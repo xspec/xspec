@@ -8,7 +8,7 @@
     <xsl:function name="local:add" as="xs:integer"> 
         <xsl:param name="a" as="xs:integer"/>
         <xsl:param name="b" as="xs:integer"/>
-        <xsl:value-of select="$a + $b"/>
+        <xsl:sequence select="$a + $b"/>
     </xsl:function>
     
     <sch:phase id="PhaseA">

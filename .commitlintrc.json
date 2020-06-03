@@ -26,6 +26,7 @@
         "oxygen",
         "basex",
         "deps",
+        "deps-dev",
         "report",
         "xproc",
         "schema",

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="xspec-xslt1.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xslt-version="1.0">
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xslt-version="1.0">
 	<x:scenario label="With 2 text nodes">
 		<x:call template="text-nodes" />
 
