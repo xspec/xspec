@@ -76,10 +76,9 @@
 
   <!-- Namespace nodes -->
   <xsl:variable name="omit-namespace-uris" as="xs:string+" select="
-    'http://www.jenitennison.com/xslt/unit-test' (: test :),
-    'http://www.jenitennison.com/xslt/xspec' (: x :),
+    $x:xspec-namespace (: x :),
     'http://www.w3.org/1999/XSL/Transform' (: xsl :),
-    'http://www.w3.org/2001/XMLSchema' (: xs :),
+    $x:xs-namespace (: xs :),
     'http://www.w3.org/XML/1998/namespace' (: xml :)" />
   <xsl:variable name="namespaces" as="node()*" select="namespace::*" />
   <xsl:variable name="parent-namespaces" as="node()*" select="parent::element()/namespace::*" />

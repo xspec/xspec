@@ -25,10 +25,6 @@
    <xsl:variable name="actual-document-uri" as="xs:anyURI"
       select="document-uri(/) => x:resolve-xml-uri-with-catalog()" />
 
-   <!-- XSpec namespace URI -->
-   <xsl:variable name="xspec-namespace" as="xs:anyURI"
-      select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')" />
-
    <!-- XSpec namespace prefix -->
    <xsl:function name="x:xspec-prefix" as="xs:string">
       <xsl:param name="e" as="element()" />
@@ -36,7 +32,7 @@
       <xsl:sequence select="
          (
             in-scope-prefixes($e)
-               [namespace-uri-for-prefix(., $e) eq $xspec-namespace]
+               [namespace-uri-for-prefix(., $e) eq $x:xspec-namespace]
                [. (: Do not allow zero-length string :)],
             
             (: Fallback. Intentionally made weird in order to avoid collision. :)
@@ -79,7 +75,7 @@
       <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name($this/*,'description')}" namespace="{$xspec-namespace}">
+            <xsl:element name="{x:xspec-name($this/*, 'description')}" namespace="{$x:xspec-namespace}">
                <xsl:sequence select="x:copy-namespaces($this/x:description)" />
                <xsl:copy-of select="$this/x:description/@*"/>
                <xsl:apply-templates select="x:gather-specs($this/x:description)"
@@ -215,7 +211,7 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$xspec-namespace}">
+         <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
                   ancestor::*[if (self::x:*)
@@ -343,8 +339,8 @@
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <xsl:element name="param" namespace="">
-                  <xsl:attribute name="name" select="x:xspec-name(., 'result')" />
-                  <xsl:attribute name="select" select="'$' || x:xspec-name(., 'result')" />
+                  <xsl:attribute name="name" select="x:known-UQN('x:result')" />
+                  <xsl:attribute name="select" select="'$' || x:known-UQN('x:result')" />
                </xsl:element>
             </xsl:if>
             <xsl:for-each select="x:distinct-variable-names($vars)">
@@ -578,7 +574,7 @@
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <xsl:element name="param" namespace="">
-                  <xsl:attribute name="name" select="x:xspec-name(., 'result')" />
+                  <xsl:attribute name="name" select="x:known-UQN('x:result')" />
                   <xsl:attribute name="required" select="'yes'" />
                </xsl:element>
             </xsl:if>
@@ -790,7 +786,7 @@
          <xsl:when test="$is-external and ($qname eq xs:QName('x:saxon-config'))">
             <!-- Allow it -->
          </xsl:when>
-         <xsl:when test="namespace-uri-from-QName($qname) eq $xspec-namespace">
+         <xsl:when test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
             <xsl:variable name="msg" as="xs:string">
                <xsl:text expand-text="yes">User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
             </xsl:variable>
@@ -849,7 +845,7 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <xsl:element name="{x:xspec-name($labelled,'label')}" namespace="{$xspec-namespace}">
+      <xsl:element name="{x:xspec-name($labelled, 'label')}" namespace="{$x:xspec-namespace}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
    </xsl:function>

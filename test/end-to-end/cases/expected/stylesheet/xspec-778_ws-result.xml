@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../xspec-778_ws.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-778_ws.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-778_ws.xspec">
       <x:label>When transforming DITA</x:label>
       <x:context href="../../xspec-778_ws.dita"/>
-      <x:result select="/text()"># My Title<test:ws>
+      <x:result select="/text()"># My Title<test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
 </test:ws>
-         <test:ws>
-</test:ws>This is a topic.<test:ws>
+         <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
+</test:ws>This is a topic.<test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
 </test:ws>
-         <test:ws>
-</test:ws>This is a paragraph.<test:ws>
+         <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
+</test:ws>This is a paragraph.<test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
 </test:ws>
       </x:result>
       <x:test id="scenario1-expect1" successful="false">

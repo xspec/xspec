@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
-	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<x:scenario label="When a function returns a local date time string">
 		<x:call function="string">
 			<x:param select="xs:dateTime('2000-01-01T12:00:00+12:00')" />

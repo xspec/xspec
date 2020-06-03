@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           stylesheet="../../../../xspec-xslt1.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-xslt2.xspec">
-   <x:scenario id="scenario1" xspec="../../../../xspec-xslt1.xspec">
+   <x:scenario xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               id="scenario1"
+               xspec="../../../../xspec-xslt1.xspec">
       <x:label>With 2 text nodes</x:label>
       <x:call template="text-nodes"/>
       <x:scenario id="scenario1-scenario1" xspec="../../../../xspec-xslt1.xspec">

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:mirror="x-urn:test:mirror"
+<x:report xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:xs="http://www.w3.org/2001/XMLSchema"
           stylesheet="../../../../mirror.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-55.xspec">
