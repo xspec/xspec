@@ -484,7 +484,7 @@
             </map-entry>
             <if test="${x:known-UQN('x:saxon-config')} => exists()">
                <if
-                  test="${x:known-UQN('x:saxon-config')} => {x:known-UQN('test:is-valid-saxon-config')}() => not()">
+                  test="${x:known-UQN('x:saxon-config')} => {x:known-UQN('test:is-saxon-config')}() => not()">
                   <!-- TODO: Test this: https://github.com/xspec/xspec/issues/762#issuecomment-606992174 -->
                   <message terminate="yes">
                      <xsl:text expand-text="yes">ERROR: Invalid ${x:xspec-name(., 'saxon-config')}</xsl:text>

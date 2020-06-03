@@ -741,8 +741,8 @@
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="resolve-uri(., base-uri())" />
    </xsl:template>
 
-   <!-- Checks $x:saxon-config -->
-   <xsl:function name="test:is-valid-saxon-config" as="xs:boolean">
+   <!-- Checks that the sequence appears to be a Saxon configuration -->
+   <xsl:function name="test:is-saxon-config" as="xs:boolean">
       <xsl:param name="sequence" as="item()*" />
 
       <xsl:sequence xmlns:config="http://saxon.sf.net/ns/configuration"
