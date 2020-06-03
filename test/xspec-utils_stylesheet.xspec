@@ -1364,7 +1364,7 @@
 						<e xmlns="default-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Converted without affected by the default namespace"
+				<x:expect label="Converted without being affected by the default namespace"
 					select="string()">QName('',&#x20;'foo')</x:expect>
 			</x:scenario>
 		</x:scenario>
