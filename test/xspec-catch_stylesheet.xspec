@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="xspec-catch.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="xspec-catch.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario label="expect-error" shared="yes">
 		<x:expect label="err:code" select="xs:QName('error-code-of-my-template')"

@@ -4,7 +4,8 @@
 	query-at="mirror.xquery"
 	xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario label="In function-param (i.e. //x:call[@function]/x:param),">
 		<x:scenario label="when the function has a single param,">

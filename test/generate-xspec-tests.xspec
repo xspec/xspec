@@ -38,11 +38,8 @@
    <t:scenario label="x:scenario[@label] transformed in x:compile mode">
       <t:context mode="t:compile" href="generate-xspec-tests/scenario.xspec" select="//t:scenario" />
       <t:expect label="is a template" test="$t:result instance of element(xsl:template)"/>
-      <!-- test also it is a QName in the namespace t:* -->
-      <t:expect label="the name" test="starts-with($t:result/@name, 't:')" />
-      <t:expect label="the name is a QName"
-                test="namespace-uri-from-QName(resolve-QName($t:result/@name, $t:result/t:scenario))"
-                select="'http://www.jenitennison.com/xslt/xspec'"/>
+      <t:expect label="the name is a URIQualifiedName in XSpec namespace"
+                test="starts-with($t:result/@name, 'Q{http://www.jenitennison.com/xslt/xspec}')" />
       <t:expect label="the label message" test="$t:result/xsl:message/string()" select="'my label'"/>
       <t:expect label="the scenario" test="exists($t:result/t:scenario)"/>
       <t:expect label="the scenario label" test="$t:result/t:scenario/t:label/string()" select="'my label'"/>
@@ -62,7 +59,7 @@
       <t:expect label="is a template"
                 test="$t:result instance of element(xsl:template)"/>
       <t:expect label="@test must be transformed to @select"
-                test="$t:result/xsl:variable[@name eq 'impl:test-result']/*/xsl:otherwise/*">
+                test="$t:result/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}test-result']/*/xsl:otherwise/*">
          <xsl:sequence select="false()" version="..."/>
       </t:expect>
    </t:scenario>

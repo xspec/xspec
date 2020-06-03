@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="items.xsl" xmlns:items="x-urn:test:xspec-items"
 	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- Scenarios for testing x:expect/@test. All x:expect must have @test, even when the same
 		expectation can be expressed without @test. -->
