@@ -486,9 +486,8 @@
             <if test="${x:known-UQN('x:saxon-config')} => exists()">
                <if
                   test="${x:known-UQN('x:saxon-config')} => {x:known-UQN('test:is-saxon-config')}() => not()">
-                  <!-- TODO: Test this: https://github.com/xspec/xspec/issues/762#issuecomment-606992174 -->
                   <message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR: Invalid ${x:xspec-name(., 'saxon-config')}</xsl:text>
+                     <xsl:text expand-text="yes">ERROR: ${x:xspec-name(., 'saxon-config')} does not appear to be a Saxon configuration</xsl:text>
                   </message>
                </if>
                <map-entry key="'vendor-options'">

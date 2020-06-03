@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="../external_mirror.xsl"
+    xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+    <!-- Based on https://github.com/xspec/xspec/issues/762#issuecomment-606992174 -->
+    <x:variable name="x:saxon-config" select="'SaxonConf.xml'" />
+
+    <x:scenario label="Scenario">
+        <x:call function="mirror:false" />
+        <x:expect label="Expect" select="false()" />
+    </x:scenario>
+
+</x:description>
