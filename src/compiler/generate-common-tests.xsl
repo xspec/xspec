@@ -785,6 +785,12 @@
       <xsl:choose>
          <xsl:when test="$is-external and ($qname eq xs:QName('x:saxon-config'))">
             <!-- Allow it -->
+            <!--
+               TODO: Consider replacing this abusive <xsl:variable> with a dedicated element defined
+               in the XSpec schema, like <x:config type="saxon" href="..." />. A vendor-independent
+               element name would be better than a vendor-specific element name like <x:saxon-config>;
+               a vendor-specific attribute value seems more appropriate.
+            -->
          </xsl:when>
          <xsl:when test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
             <xsl:variable name="msg" as="xs:string">
