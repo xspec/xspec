@@ -469,6 +469,7 @@
             <!--
                Common options
             -->
+            <map-entry key="'cache'" select="false()" /><!-- cache=true() invalidates different static parameters -->
             <map-entry key="'delivery-format'" select="'raw'" />
 
             <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
