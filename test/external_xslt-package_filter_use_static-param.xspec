@@ -25,4 +25,27 @@
 		</x:expect>
 	</x:scenario>
 
+	<x:scenario label="With a different custom filter specified by another static param">
+		<x:variable name="x:saxon-config">
+			<configuration xmlns="http://saxon.sf.net/ns/configuration">
+				<xsltPackages>
+					<package name="http://example.org/filter.xsl"
+						sourceLocation="{resolve-uri('xslt-package/filter/package/filter.xsl', $x:xspec-uri)}"
+						version="1.0">
+						<withParam name="filter" select="'location = ''FR'''" />
+					</package>
+				</xsltPackages>
+			</configuration>
+		</x:variable>
+		<x:context href="xslt-package/filter/data.xml" />
+		<x:expect label="The different custom filter should take effect">
+			<report>
+				<employee>
+					<location>FR</location>
+					<name>Alice</name>
+				</employee>
+			</report>
+		</x:expect>
+	</x:scenario>
+
 </x:description>
