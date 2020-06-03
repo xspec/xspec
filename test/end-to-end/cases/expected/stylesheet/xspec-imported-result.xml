@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
           xmlns:my="http://example.org/ns/my"
           stylesheet="../../../../xspec-tested.xsl"
           date="2000-01-01T00:00:00Z"

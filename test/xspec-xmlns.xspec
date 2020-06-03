@@ -166,10 +166,10 @@
 				xmlns:xsd="http://www.w3.org/2001/XMLSchema" select="$tv2:expected-element-local-name"/>
 			<t:expect label="even if reusing 'x' prefix" xmlns:t="http://www.jenitennison.com/xslt/xspec"
 				test="local-name($x:globalvar)" xmlns:x="http://example.org/ns/my/variable1" select="'globalvar'"/>
+			<x:expect label="even if reusing 'xs' prefix"
+				test="local-name($xs:globalvar) treat as xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+				xmlns:xs="http://example.org/ns/my/variable1" select="'globalvar'"/>
 			<x:pending label="Due to issue #639, you cannot reuse specific prefixes">
-				<x:expect label="even if reusing 'xs' prefix?"
-					test="local-name($xs:globalvar) treat as xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-					xmlns:xs="http://example.org/ns/my/variable1" select="'globalvar'"/>
 				<!-- Locally reusing xsl prefix causes error, even if inside x:pending, so comment out.
 					<x:expect label="even if reusing 'xsl' prefix?"
 						test="local-name($xsl:globalvar)" xmlns:xsl="http://example.org/ns/my/variable1" select="'globalvar'"/>

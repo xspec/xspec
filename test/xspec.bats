@@ -2066,8 +2066,8 @@ load bats-helper
 
     run cat "${TEST_DIR}/escape-for-regex-compiled.xsl"
     echo "$output"
-    assert_regex "${output}" '.+x:overridden-scenario-id-'
-    assert_regex "${output}" '.+x:overridden-expect-id'
+    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-scenario-id-'
+    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-expect-id'
 }
 
 #

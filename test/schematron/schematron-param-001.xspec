@@ -3,6 +3,7 @@
                xmlns:foo="foo"
                xmlns:qux="qux"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                schematron="schematron-param-001.sch">
     <x:param name="phase">P1</x:param>
     <x:param name="selected" select="codepoints-to-string((80,49))" />

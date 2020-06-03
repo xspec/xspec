@@ -9,7 +9,7 @@
 
    <x:scenario label="call a function">
       <x:call function="my:f">
-         <x:param select="val1"/>
+         <x:param select="'val1'"/>
          <x:param name="p2" as="element()">
             <val2/>
          </x:param>

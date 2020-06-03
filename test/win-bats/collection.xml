@@ -1800,8 +1800,8 @@
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
     call :run type "%TEST_DIR%\escape-for-regex-compiled.xsl"
-    call :verify_line * r "..*x:overridden-scenario-id-"
-    call :verify_line * r "..*x:overridden-expect-id-"
+    call :verify_line * r "..*Q{http://www.jenitennison.com/xslt/xspec}overridden-scenario-id-"
+    call :verify_line * r "..*Q{http://www.jenitennison.com/xslt/xspec}overridden-expect-id-"
 	</case>
 
 	<!--

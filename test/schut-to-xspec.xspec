@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
     stylesheet="../src/schematron/schut-to-xspec.xsl">
     <x:param name="stylesheet-uri" select="'schut-to-xspec-test.sch.xsl'"/>
 

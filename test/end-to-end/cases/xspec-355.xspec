@@ -2,7 +2,8 @@
 <?xspec-test require-xquery-to-support-hof?>
 <?xspec-test require-xslt-to-support-hof?>
 <x:description query="x-urn:test:mirror" query-at="../../mirror.xquery"
-	stylesheet="../../mirror.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	stylesheet="../../mirror.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- array(*) and map(*) are tested in xspec-report.xspec -->
 
