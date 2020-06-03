@@ -2218,11 +2218,11 @@ load bats-helper
 # $x:saxon-config is not a Saxon config
 #
 
-@test '$x:saxon-config is not a Saxon config' {
+@test "\$x:saxon-config is not a Saxon config" {
     run ../bin/xspec.sh saxon-config/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[7]}" = 'ERROR: $x:saxon-config does not appear to be a Saxon configuration' ]
+    [ "${lines[7]}" = "ERROR: \$x:saxon-config does not appear to be a Saxon configuration" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
