@@ -9,7 +9,7 @@
 	-->
 
 	<x:scenario label="Scenario for testing variable legacy-namespace">
-		<x:call function="false" />
+		<x:context />
 		<x:expect label="'test' namespace URI"
 			select="
 				namespace-uri-for-prefix(
@@ -20,19 +20,19 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable xspec-namespace">
-		<x:call function="false" />
+		<x:context />
 		<x:expect label="XSpec namespace URI"
 			select="doc($x:xspec-uri)/element() => namespace-uri()"
 			test="$x:xspec-namespace treat as xs:anyURI" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable xs-namespace">
-		<x:call function="false" />
+		<x:context />
 		<x:expect label="'xs' namespace URI"
 			select="
 				namespace-uri-for-prefix(
 					'xs',
-					doc($x:xspec-uri)/element()
+					doc(resolve-uri('../src/common/xspec-utils.xsl', $x:xspec-uri))/element()
 				)"
 			test="$x:xs-namespace treat as xs:anyURI" />
 	</x:scenario>
