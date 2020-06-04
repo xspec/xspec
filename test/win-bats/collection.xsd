@@ -15,7 +15,7 @@
 	<xs:complexType name="collectionType">
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" name="case">
-				<xs:complexType mixed="true">
+				<xs:complexType>
 					<xs:simpleContent>
 						<xs:extension base="xspec-bat:scriptString">
 							<xs:attribute name="name" type="xspec-bat:nameString" use="required" />
