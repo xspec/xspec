@@ -352,10 +352,16 @@ load bats-helper
     # * Schematron-specific temporary files are deleted
     run ls "${tutorial_copy}/xspec"
     echo "$output"
-    [ "${#lines[@]}" = "3" ]
+    [ "${#lines[@]}" = "9" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
+    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
+    [ "${lines[5]}" = "demo-03-sch-step3-wrapper.xsl" ]
+    [ "${lines[6]}" = "demo-03-step1.sch" ]
+    [ "${lines[7]}" = "demo-03-step2.sch" ]
+    [ "${lines[8]}" = "demo-03-var.txt" ]
 }
 
 #
@@ -733,10 +739,16 @@ load bats-helper
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
     echo "$output"
-    [ "${#lines[@]}" = "3" ]
+    [ "${#lines[@]}" = "9" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
+    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
+    [ "${lines[5]}" = "demo-03-sch-step3-wrapper.xsl" ]
+    [ "${lines[6]}" = "demo-03-step1.sch" ]
+    [ "${lines[7]}" = "demo-03-step2.sch" ]
+    [ "${lines[8]}" = "demo-03-var.txt" ]
 
     # Default output dir should not be created
     assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
@@ -752,10 +764,16 @@ load bats-helper
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
     echo "$output"
-    [ "${#lines[@]}" = "3" ]
+    [ "${#lines[@]}" = "9" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
+    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
+    [ "${lines[5]}" = "demo-03-sch-step3-wrapper.xsl" ]
+    [ "${lines[6]}" = "demo-03-step1.sch" ]
+    [ "${lines[7]}" = "demo-03-step2.sch" ]
+    [ "${lines[8]}" = "demo-03-var.txt" ]
 }
 
 #
