@@ -33,6 +33,7 @@
       <xsl:param name="flags" as="xs:string" />
 
       <!-- Using a $param in @use-when does not work.  TODO: What to do? At run time? -->
+      <!-- See also ../../misc/archive/ for x:node-path(). -->
       <!--
       <xsl:if test="$seq1 instance of node()" use-when="$debug">
          <xsl:message select="'DEEP-EQUAL: SEQ1:', x:node-path($seq1)" />
