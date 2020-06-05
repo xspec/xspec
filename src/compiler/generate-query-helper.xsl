@@ -14,24 +14,9 @@
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                exclude-result-prefixes="#all"
-                extension-element-prefixes="test">
+                exclude-result-prefixes="#all">
   
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-query-helper.xsl</pkg:import-uri>
-
-   <xsl:key name="functions" 
-            match="xsl:function" 
-            use="x:resolve-EQName-ignoring-default-ns(@name, .)" />
-
-   <xsl:key name="named-templates" 
-            match="xsl:template[@name]"
-            use="x:resolve-EQName-ignoring-default-ns(@name, .)" />
-
-   <xsl:key name="matching-templates" 
-            match="xsl:template[@match]" 
-            use="'match=' || normalize-space(@match) ||
-                 '+' ||
-                 'mode=' || normalize-space(@mode)" />
 
    <!--
       Generates XQuery variable declaration(s) from the current element.
@@ -274,14 +259,6 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-
-   <xsl:function name="test:matching-xslt-elements" as="element()*">
-      <xsl:param name="element-kind" as="xs:string" />
-      <xsl:param name="element-id" as="item()" />
-      <xsl:param name="stylesheet" as="document-node()" />
-
-      <xsl:sequence select="key($element-kind, $element-id, $stylesheet)" />
-   </xsl:function>
 
 </xsl:stylesheet>
 
