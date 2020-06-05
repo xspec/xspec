@@ -32,6 +32,13 @@
 	<xsl:variable as="xs:string" name="x:apos">'</xsl:variable>
 
 	<!--
+		Regular expression to capture NCName
+		
+		Based on https://github.com/xspec/xspec/blob/fb7f63d8190a5ccfea5c6a21b2ee142164a7c92c/src/schemas/xspec.rnc#L329
+	-->
+	<xsl:variable as="xs:string" name="x:capture-NCName">([\i-[:]][\c-[:]]*)</xsl:variable>
+
+	<!--
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
@@ -502,14 +509,16 @@
 	<xsl:function as="xs:QName" name="x:resolve-URIQualifiedName">
 		<xsl:param as="xs:string" name="uri-qualified-name" />
 
-		<xsl:variable as="xs:string" name="regex" xml:space="preserve">
-			<!-- based on https://github.com/xspec/xspec/blob/fb7f63d8190a5ccfea5c6a21b2ee142164a7c92c/src/schemas/xspec.rnc#L329 -->
-			^
-				Q\{
-					([^\{\}]*)		<!-- group 1: URI -->
-				\}
-				([\i-[:]][\c-[:]]*)	<!-- group 2: local name -->
-			$
+		<xsl:variable as="xs:string" name="regex">
+			<xsl:value-of xml:space="preserve">
+				<!-- based on https://github.com/xspec/xspec/blob/fb7f63d8190a5ccfea5c6a21b2ee142164a7c92c/src/schemas/xspec.rnc#L329 -->
+				^
+					Q\{
+						([^\{\}]*)								<!-- group 1: URI -->
+					\}
+					<xsl:value-of select="$x:capture-NCName" />	<!-- group 2: local name -->
+				$
+			</xsl:value-of>
 		</xsl:variable>
 
 		<xsl:analyze-string flags="x" regex="{$regex}" select="$uri-qualified-name">

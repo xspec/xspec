@@ -5,6 +5,8 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
+    <xsl:include href="../common/xspec-utils.xsl" />
+
     <!-- function x:schematron-location-compare
       
       This function is used in Schematron tests to compare 
@@ -29,23 +31,40 @@
         <xsl:param name="expect-location" as="xs:string?"/>
         <xsl:param name="svrl-location" as="xs:string?"/>
         <xsl:param name="namespaces" as="element()*"/>
-        <xsl:variable name="svrl-expand1"
+
+        <xsl:variable name="expect-expanded" as="xs:string"
             select="
-                x:schematron-location-expand-xpath1(
-                x:schematron-location-expand-attributes($svrl-location, $namespaces))"/>
-        <xsl:variable name="svrl-expand2" select="x:schematron-location-expand-xpath2($svrl-expand1, $namespaces)"/>
-        <xsl:variable name="expect-expand"
+                $expect-location
+                => x:schematron-location-expand-attributes($namespaces)
+                => x:schematron-location-expand-xpath1-expect($svrl-location, $namespaces)" />
+        <xsl:variable name="svrl-expanded" as="xs:string"
             select="
-                x:schematron-location-expand-xpath1-expect(
-                x:schematron-location-expand-attributes($expect-location, $namespaces), $svrl-location, $namespaces)"/>
-        <!--xsl:variable name="expect-parts" select="tokenize($expect-expand, '/')[.]"/>
-        <xsl:variable name="svrl-parts" select="tokenize($svrl-expand2, '/')[.]"/-->
-        <xsl:sequence select="
-                ($expect-location = $svrl-location) or
-                (replace($svrl-expand2, '^/|\[1\]', '') = replace($expect-expand, '^/|\[1\]', ''))
-                "/>
-        <!-- (: every $i in (1 to max((count($svrl-parts),count($expect-parts)))) satisfies
-        replace($expect-parts[$i], '\[1\]$', '') = replace($svrl-parts[$i], '\[1\]$', '') :) -->
+                $svrl-location
+                => x:schematron-location-expand-attributes($namespaces)
+                => x:schematron-location-expand-xpath1()
+                => x:schematron-location-expand-xpath2($namespaces)" />
+
+        <xsl:variable name="trim-match" as="xs:string" select="'^/|\[1\]'" />
+        <xsl:sequence
+            select="
+                ($expect-location = $svrl-location)
+                or (replace($expect-expanded, $trim-match, '')
+                    eq replace($svrl-expanded, $trim-match, ''))" />
+
+        <!--
+        <xsl:variable name="expect-parts" as="xs:string+"
+            select="tokenize($expect-expanded, '/')[.]" />
+        <xsl:variable name="svrl-parts" as="xs:string+"
+            select="tokenize($svrl-expanded, '/')[.]" />
+        <xsl:variable name="trim-match" as="xs:string" select="'\[1\]$'" />
+        <xsl:sequence
+            select="
+                every $i
+                in (1 to max((count($svrl-parts), count($expect-parts))))
+                satisfies
+                    (replace($expect-parts[$i], $trim-match, '')
+                     eq replace($svrl-parts[$i], $trim-match, ''))" />
+        -->
     </xsl:function>
 
     <!-- function x:schematron-location-expand-xpath2
@@ -55,22 +74,35 @@
       using namespace prefixes defined in Schematron ns elements.
       
       The XPath 2.0 format produced by Schematron is:
-      *:name[namespace-uri()='http://example.com/ns1']
+      *:NCName[namespace-uri()='http://example.com/ns1']
     -->
     <xsl:function name="x:schematron-location-expand-xpath2" as="xs:string">
         <xsl:param name="location" as="xs:string?"/>
         <xsl:param name="namespaces" as="element()*"/>
+
         <xsl:choose>
-            <xsl:when test="$namespaces">
-                <xsl:variable name="match"
-                    select="concat('\*:([^\[]+)\[namespace\-uri\(\)=', codepoints-to-string(39), replace($namespaces[1]/@uri, '([\.\\\?\*\+\|\^\$\{\}\(\)\[\]])', '\\$1'), codepoints-to-string(39), '\]')"/>
-                <xsl:variable name="replace" select="concat($namespaces[1]/@prefix, ':$1')"/>
-                <xsl:value-of
-                    select="x:schematron-location-expand-xpath2(replace($location, $match, $replace), subsequence($namespaces, 2))"
-                />
+            <xsl:when test="exists($namespaces)">
+                <xsl:iterate select="$namespaces">
+                    <xsl:param name="location" as="xs:string?" select="$location" />
+
+                    <xsl:on-completion>
+                        <xsl:sequence select="$location" />
+                    </xsl:on-completion>
+
+                    <xsl:variable name="match" as="xs:string">
+                        <xsl:text expand-text="yes">\*:{$x:capture-NCName}\[namespace-uri\(\)='{x:escape-for-match(@uri)}'\]</xsl:text>
+                    </xsl:variable>
+                    <xsl:variable name="replacement" as="xs:string" select="@prefix || ':$1'" />
+
+                    <xsl:next-iteration>
+                        <xsl:with-param name="location"
+                            select="replace($location, $match, $replacement)" />
+                    </xsl:next-iteration>
+                </xsl:iterate>
             </xsl:when>
+
             <xsl:otherwise>
-                <xsl:value-of select="$location"/>
+                <xsl:sequence select="string($location)" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
@@ -82,32 +114,37 @@
       Namespace URIs are not available so effectively the XPath does not recognize namespaces.
       
       The XPath 1.0 format produced by Schematron is:
-      *[local-name()='name']
-  -->
+      *[local-name()='NCName']
+    -->
     <xsl:function name="x:schematron-location-expand-xpath1" as="xs:string">
         <xsl:param name="location" as="xs:string?"/>
-        <xsl:variable name="match"
-            select="concat('\*\[local-name\(\)=', codepoints-to-string(39), '([^', codepoints-to-string(39), ']+)', codepoints-to-string(39), '\]')"/>
-        <xsl:value-of select="replace($location, $match, '$1')"/>
+
+        <xsl:variable name="match" as="xs:string">
+            <xsl:text expand-text="yes">\*\[local-name\(\)='{$x:capture-NCName}'\]</xsl:text>
+        </xsl:variable>
+        <xsl:sequence select="replace($location, $match, '$1')" />
     </xsl:function>
 
     <!-- function schematron-location-expand-xpath1-expect
     
     
-  -->
+    -->
     <xsl:function name="x:schematron-location-expand-xpath1-expect" as="xs:string">
         <xsl:param name="expect-location" as="xs:string?"/>
         <xsl:param name="svrl-location" as="xs:string?"/>
         <xsl:param name="namespaces" as="element()*"/>
-        <xsl:value-of
-            select="
-                if ($namespaces and contains($svrl-location, '*[local-name()=')) then
-                    replace($expect-location, concat('(', string-join(for $prefix in $namespaces/@prefix
-                    return
-                        concat($prefix, ':'), '|'), ')'), '')
-                else
-                    $expect-location"
-        />
+
+        <xsl:choose>
+            <xsl:when test="$namespaces and contains($svrl-location, '*[local-name()=')">
+                <xsl:variable name="match" as="xs:string"
+                    select="($namespaces/@prefix ! (. || ':')) => string-join('|')" />
+                <xsl:sequence select="replace($expect-location, $match, '')" />
+            </xsl:when>
+
+            <xsl:otherwise>
+                <xsl:sequence select="string($expect-location)" />
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:function>
 
     <!-- function schematron-location-expand-attributes
@@ -118,25 +155,43 @@
     The XPath format produced by Schematron for XPath 1 and 2, which is also 
     produced by oXygen's Copy XPath function, is:
     
-    @*[namespace-uri()='http://example.com/ns2' and local-name()='type']
+    @*[namespace-uri()='http://example.com/ns2' and local-name()='NCName']
     -->
     <xsl:function name="x:schematron-location-expand-attributes" as="xs:string">
         <xsl:param name="location" as="xs:string?"/>
         <xsl:param name="namespaces" as="element()*"/>
+
         <xsl:choose>
-            <xsl:when test="$namespaces">
-                <xsl:variable name="match"
-                    select="concat('@\*\[namespace-uri\(\)=', codepoints-to-string(39), replace($namespaces[1]/@uri, '([\.\\\?\*\+\|\^\$\{\}\(\)\[\]])', '\\$1'), codepoints-to-string(39), ' and local-name\(\)=', codepoints-to-string(39), '([^', codepoints-to-string(39), ']+)', codepoints-to-string(39), '\]')"/>
-                <xsl:variable name="replace" select="concat('@', $namespaces[1]/@prefix, ':$1')"/>
-                <xsl:value-of
-                    select="x:schematron-location-expand-attributes(replace($location, $match, $replace), subsequence($namespaces, 2))"
-                />
+            <xsl:when test="exists($namespaces)">
+                <xsl:iterate select="$namespaces">
+                    <xsl:param name="location" as="xs:string?" select="$location" />
+
+                    <xsl:on-completion>
+                        <xsl:sequence select="$location" />
+                    </xsl:on-completion>
+
+                    <xsl:variable name="match" as="xs:string">
+                        <xsl:text expand-text="yes">@\*\[namespace-uri\(\)='{x:escape-for-match(@uri)}' and local-name\(\)='{$x:capture-NCName}'\]</xsl:text>
+                    </xsl:variable>
+                    <xsl:variable name="replacement" as="xs:string" select="'@' || @prefix || ':$1'" />
+
+                    <xsl:next-iteration>
+                        <xsl:with-param name="location"
+                            select="replace($location, $match, $replacement)" />
+                    </xsl:next-iteration>
+                </xsl:iterate>
             </xsl:when>
+
             <xsl:otherwise>
-                <xsl:value-of select="$location"/>
+                <xsl:sequence select="string($location)" />
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
 
+    <xsl:function name="x:escape-for-match" as="xs:string">
+        <xsl:param name="input" as="xs:string" />
+
+        <xsl:sequence select="replace($input, '([\.\\\?\*\+\|\^\$\{\}\(\)\[\]])', '\\$1')" />
+    </xsl:function>
 
 </xsl:stylesheet>
