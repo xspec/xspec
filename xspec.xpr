@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project version="22.0">
+<project version="22.1">
     <meta>
         <filters directoryPatterns="node_modules" filePatterns="\Qxspec.xpr\E" positiveFilePatterns="" showHiddenFiles="false"/>
         <options>
-            <serialized version="22.0" xml:space="preserve">
+            <serialized version="22.1" xml:space="preserve">
                 <serializableOrderedMap>
                     <entry>
                         <String>additional.frameworks.directories</String>
@@ -75,6 +75,7 @@
             <file name="test/end-to-end/processor/html/normalize.xsl"/>
             <file name="test/end-to-end/processor/junit/normalize.xsl"/>
             <file name="test/end-to-end/processor/xml/normalize.xsl"/>
+            <file name="src/schematron/sch-location-compare.xsl"/>
             <file name="src/schematron/schut-to-xslt.xsl"/>
             <file name="src/schematron/schut-to-xspec.xsl"/>
         </folder>
