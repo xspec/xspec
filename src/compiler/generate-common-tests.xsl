@@ -20,8 +20,7 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
-   <xsl:variable name="actual-document-uri" as="xs:anyURI"
-      select="document-uri(/) => x:resolve-xml-uri-with-catalog()" />
+   <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
 
    <!-- XSpec namespace prefix -->
    <xsl:function name="x:xspec-prefix" as="xs:string">
@@ -108,8 +107,14 @@
                     select="x:distinct-nodes-stable($docs ! x:description)" />
 
       <!-- "$imported except $visit" without sorting -->
+      <xsl:variable name="visited-actual-uris" as="xs:anyURI+"
+         select="$visit ! x:actual-document-uri(/)" />
       <xsl:variable name="imported-except-visit" as="element(x:description)*"
-                    select="$imported[empty($visit intersect .)]"/>
+         select="
+            $imported[empty(. intersect $visit)]
+
+            (: xspec/xspec#987 :)
+            [not(x:actual-document-uri(/) = $visited-actual-uris)]" />
 
       <xsl:choose>
          <xsl:when test="empty($imported-except-visit)">
@@ -142,8 +147,7 @@
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
-         <xsl:with-param name="xspec-module-uri" tunnel="yes"
-            select="document-uri(/) => x:resolve-xml-uri-with-catalog()" />
+         <xsl:with-param name="xspec-module-uri" tunnel="yes" select="x:actual-document-uri(/)" />
       </xsl:apply-templates>
    </xsl:template>
 

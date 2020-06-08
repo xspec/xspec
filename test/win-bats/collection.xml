@@ -1371,10 +1371,10 @@
 	</case>
 
 	<!--
-		#185
+		Import order #185
 	-->
 
-	<case name="Import order #185">
+	<case name="Import order #185 (CLI)">
     call :run ..\bin\xspec.bat xspec-185\import-1.xspec
     call :verify_retval 0
     call :verify_line  7 x "Scenario 1-1"
@@ -1388,7 +1388,7 @@
     call :verify_line 15 x "Formatting Report..."
 	</case>
 
-	<case name="Import order with Ant #185">
+	<case name="Import order #185 (Ant)">
     set "ANT_LOG=%WORK_DIR%\ant.log"
 
     call :run ant ^
@@ -1408,6 +1408,68 @@
     call :verify_line  7 x "     [java] Scenario 2b-1"
     call :verify_line  8 x "     [java] Scenario 2b-2"
     call :verify_line  9 x "     [java] Scenario 3"
+	</case>
+
+	<!--
+		Circular import #987
+	-->
+
+	<case name="Circular import #987 (CLI)">
+    call :run ..\bin\xspec.bat xspec-987_child.xspec
+    call :verify_retval 0
+    call :verify_line  7 x "Scenario in child"
+    call :verify_line  9 x "Scenario in parent"
+    call :verify_line 12 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+
+    rem Use a fresh dir, to make the message line numbers predictable
+    set "TEST_DIR=%TEST_DIR%\parent %RANDOM%"
+    call :run ..\bin\xspec.bat xspec-987_parent.xspec
+    call :verify_retval 0
+    call :verify_line  7 x "Scenario in parent"
+    call :verify_line  9 x "Scenario in child"
+    call :verify_line 12 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+	</case>
+
+	<case name="Circular import #987 (Ant)">
+    rem
+    rem Child
+    rem
+    set "ANT_LOG=%WORK_DIR%\ant_child.log"
+
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -logfile "%ANT_LOG%" ^
+        -Dxspec.xml="%CD%\xspec-987_child.xspec"
+    call :verify_retval 0
+
+    call :run type "%ANT_LOG%"
+    call :verify_line -10 x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+
+    call :run %SYSTEMROOT%\system32\find " Scenario in " "%ANT_LOG%"
+    call :verify_line_count 3
+    call :verify_line 2 x "     [java] Scenario in child"
+    call :verify_line 3 x "     [java] Scenario in parent"
+
+    rem
+    rem Parent
+    rem
+    set "ANT_LOG=%WORK_DIR%\ant_parent.log"
+
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -logfile "%ANT_LOG%" ^
+        -Dxspec.xml="%CD%\xspec-987_parent.xspec"
+    call :verify_retval 0
+
+    call :run type "%ANT_LOG%"
+    call :verify_line -10 x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+
+    call :run %SYSTEMROOT%\system32\find " Scenario in " "%ANT_LOG%"
+    call :verify_line_count 3
+    call :verify_line 2 x "     [java] Scenario in parent"
+    call :verify_line 3 x "     [java] Scenario in child"
 	</case>
 
 	<!--
