@@ -1576,10 +1576,10 @@ load bats-helper
 }
 
 #
-# #185
+# Import order #185
 #
 
-@test "Import order #185" {
+@test "Import order #185 (CLI)" {
     run ../bin/xspec.sh xspec-185/import-1.xspec
     echo "$output"
     [ "$status" -eq 0 ]
@@ -1594,7 +1594,7 @@ load bats-helper
     [ "${lines[14]}" = "Formatting Report..." ]
 }
 
-@test "Import order with Ant #185" {
+@test "Import order #185 (Ant)" {
     ant_log="${work_dir}/ant.log"
 
     run ant \
@@ -1605,7 +1605,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
 
-    run grep " Scenario " "${ant_log}"
+    run grep -F " Scenario " "${ant_log}"
     echo "$output"
     [ "${#lines[@]}" = "8" ]
     [ "${lines[0]}" = "     [java] Scenario 1-1" ]
@@ -1616,6 +1616,76 @@ load bats-helper
     [ "${lines[5]}" = "     [java] Scenario 2b-1" ]
     [ "${lines[6]}" = "     [java] Scenario 2b-2" ]
     [ "${lines[7]}" = "     [java] Scenario 3" ]
+}
+
+#
+# Circular import #987
+#
+
+@test "Circular import #987 (CLI)" {
+    run ../bin/xspec.sh xspec-987_child.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}"  = "Scenario in child" ]
+    [ "${lines[8]}"  = "Scenario in parent" ]
+    [ "${lines[11]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+
+    # Use a fresh dir, to make the message line numbers predictable
+    export TEST_DIR="${TEST_DIR}/parent ${RANDOM}"
+    run ../bin/xspec.sh xspec-987_parent.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}"  = "Scenario in parent" ]
+    [ "${lines[8]}"  = "Scenario in child" ]
+    [ "${lines[11]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+}
+
+@test "Circular import #987 (Ant)" {
+    #
+    # Child
+    #
+    ant_log="${work_dir}/ant_child.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -Dxspec.xml="${PWD}/xspec-987_child.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${ant_log}"
+    echo "$output"
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+
+    run grep -F " Scenario in " "${ant_log}"
+    echo "$output"
+    [ "${#lines[@]}" = "2" ]
+    [ "${lines[0]}" = "     [java] Scenario in child" ]
+    [ "${lines[1]}" = "     [java] Scenario in parent" ]
+
+    #
+    # Parent
+    #
+    ant_log="${work_dir}/ant_parent.log"
+
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -logfile "${ant_log}" \
+        -Dxspec.xml="${PWD}/xspec-987_parent.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    run cat "${ant_log}"
+    echo "$output"
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+
+    run grep -F " Scenario in " "${ant_log}"
+    echo "$output"
+    [ "${#lines[@]}" = "2" ]
+    [ "${lines[0]}" = "     [java] Scenario in parent" ]
+    [ "${lines[1]}" = "     [java] Scenario in child" ]
 }
 
 #

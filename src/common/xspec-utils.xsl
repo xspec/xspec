@@ -113,7 +113,25 @@
 		<!-- https://sourceforge.net/p/saxon/mailman/message/36339785/
 			"document-uri() returns the (absolutized) requested URI, while base-uri() returns
 			the actual document location after catalog resolution." -->
-		<xsl:sequence select="x:base-uri(doc($xml-uri))" />
+		<xsl:sequence select="
+				$xml-uri
+				=> doc()
+				=> x:base-uri()" />
+	</xsl:function>
+
+
+	<!--
+		Returns the actual document URI (i.e. resolved with the currently enabled catalog),
+		working around an XML resolver bug
+	-->
+	<xsl:function as="xs:anyURI" name="x:actual-document-uri">
+		<xsl:param as="document-node()" name="doc" />
+
+		<xsl:sequence
+			select="
+				$doc
+				=> document-uri()
+				=> x:resolve-xml-uri-with-catalog()" />
 	</xsl:function>
 
 	<!--

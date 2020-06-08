@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:param name="global-param" />
+
+	<x:import href="xspec-987_child.xspec" />
+
+	<x:scenario label="Scenario in parent">
+		<x:context />
+		<x:expect label="Expect in parent" test="true()" />
+	</x:scenario>
+
+</x:description>
