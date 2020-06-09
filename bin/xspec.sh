@@ -299,13 +299,13 @@ if test -n "$SCHEMATRON"; then
 
     SCHUT_TO_XSLT_PARAMS=()
     if [ -n "${SCHEMATRON_XSLT_INCLUDE}" ]; then
-        SCHUT_TO_XSLT_PARAMS+=("+step1-preprocessor-doc=${SCHEMATRON_XSLT_INCLUDE}")
+        SCHUT_TO_XSLT_PARAMS+=("+STEP1-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_INCLUDE}")
     fi
     if [ -n "${SCHEMATRON_XSLT_EXPAND}" ]; then
-        SCHUT_TO_XSLT_PARAMS+=("+step2-preprocessor-doc=${SCHEMATRON_XSLT_EXPAND}")
+        SCHUT_TO_XSLT_PARAMS+=("+STEP2-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_EXPAND}")
     fi
     if [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
-        SCHUT_TO_XSLT_PARAMS+=("+step3-preprocessor-doc=${SCHEMATRON_XSLT_COMPILE}")
+        SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_COMPILE}")
     fi
 
     echo

@@ -314,11 +314,11 @@
                 out="${xspec.schematron.preprocessed.xsl.file}"
                 style="${xspec.project.dir}/src/schematron/schut-to-xslt.xsl">
       <xslt-elements>
-        <param name="step1-preprocessor-uri" expression="${xspec.schematron.preprocessor.step1.url}"
+        <param name="STEP1-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step1.url}"
           if:set="xspec.schematron.preprocessor.step1.url" />
-        <param name="step2-preprocessor-uri" expression="${xspec.schematron.preprocessor.step2.url}"
+        <param name="STEP2-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step2.url}"
           if:set="xspec.schematron.preprocessor.step2.url" />
-        <param name="step3-preprocessor-uri" expression="${xspec.schematron.preprocessor.step3.url}"
+        <param name="STEP3-PREPROCESSOR-URI" expression="${xspec.schematron.preprocessor.step3.url}"
           if:set="xspec.schematron.preprocessor.step3.url" />
       </xslt-elements>
     </saxon-xslt>

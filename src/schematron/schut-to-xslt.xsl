@@ -5,20 +5,20 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		$step?-preprocessor-doc is for ../../bin/xspec.* who can pass a document node as a
+		$STEP?-PREPROCESSOR-DOC is for ../../bin/xspec.* who can pass a document node as a
 		stylesheet parameter but can not handle URI natively.
 		Those who can pass a URI as a stylesheet parameter natively will probably prefer
-		$step?-preprocessor-uri.
+		$STEP?-PREPROCESSOR-URI.
 	-->
-	<xsl:param as="document-node()?" name="step1-preprocessor-doc" />
-	<xsl:param as="document-node()?" name="step2-preprocessor-doc" />
-	<xsl:param as="document-node()?" name="step3-preprocessor-doc" />
+	<xsl:param as="document-node()?" name="STEP1-PREPROCESSOR-DOC" />
+	<xsl:param as="document-node()?" name="STEP2-PREPROCESSOR-DOC" />
+	<xsl:param as="document-node()?" name="STEP3-PREPROCESSOR-DOC" />
 
-	<xsl:param as="xs:string" name="step1-preprocessor-uri"
+	<xsl:param as="xs:string" name="STEP1-PREPROCESSOR-URI"
 		select="'iso-schematron/iso_dsdl_include.xsl'" />
-	<xsl:param as="xs:string" name="step2-preprocessor-uri"
+	<xsl:param as="xs:string" name="STEP2-PREPROCESSOR-URI"
 		select="'iso-schematron/iso_abstract_expand.xsl'" />
-	<xsl:param as="xs:string" name="step3-preprocessor-uri"
+	<xsl:param as="xs:string" name="STEP3-PREPROCESSOR-URI"
 		select="
 			(: Zero-length string signals generate-step3-wrapper.xsl to use the default Step 3
 				preprocessor :)
@@ -45,10 +45,10 @@
 					<xsl:map>
 						<xsl:map-entry key="xs:QName('ACTUAL-PREPROCESSOR-URI')"
 							select="
-								if ($step3-preprocessor-doc) then
-									document-uri($step3-preprocessor-doc)
+								if ($STEP3-PREPROCESSOR-DOC) then
+									document-uri($STEP3-PREPROCESSOR-DOC)
 								else
-									$step3-preprocessor-uri"
+									$STEP3-PREPROCESSOR-URI"
 						 />
 					</xsl:map>
 				</xsl:map-entry>
@@ -67,11 +67,11 @@
 				<xsl:sequence select="$common-options-map" />
 				<xsl:map-entry key="'source-location'" select="$schematron-uri" />
 				<xsl:choose>
-					<xsl:when test="$step1-preprocessor-doc">
-						<xsl:map-entry key="'stylesheet-node'" select="$step1-preprocessor-doc" />
+					<xsl:when test="$STEP1-PREPROCESSOR-DOC">
+						<xsl:map-entry key="'stylesheet-node'" select="$STEP1-PREPROCESSOR-DOC" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:map-entry key="'stylesheet-location'" select="$step1-preprocessor-uri"
+						<xsl:map-entry key="'stylesheet-location'" select="$STEP1-PREPROCESSOR-URI"
 						 />
 					</xsl:otherwise>
 				</xsl:choose>
@@ -88,11 +88,11 @@
 				<xsl:sequence select="$common-options-map" />
 				<xsl:map-entry key="'source-node'" select="$step1-transformed-doc" />
 				<xsl:choose>
-					<xsl:when test="$step2-preprocessor-doc">
-						<xsl:map-entry key="'stylesheet-node'" select="$step2-preprocessor-doc" />
+					<xsl:when test="$STEP2-PREPROCESSOR-DOC">
+						<xsl:map-entry key="'stylesheet-node'" select="$STEP2-PREPROCESSOR-DOC" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:map-entry key="'stylesheet-location'" select="$step2-preprocessor-uri"
+						<xsl:map-entry key="'stylesheet-location'" select="$STEP2-PREPROCESSOR-URI"
 						 />
 					</xsl:otherwise>
 				</xsl:choose>
