@@ -20,12 +20,7 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
-   <xsl:variable name="actual-document-uri" as="xs:anyURI"
-      select="document-uri(/) => x:resolve-xml-uri-with-catalog()" />
-
-   <!-- XSpec namespace URI -->
-   <xsl:variable name="xspec-namespace" as="xs:anyURI"
-      select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')" />
+   <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
 
    <!-- XSpec namespace prefix -->
    <xsl:function name="x:xspec-prefix" as="xs:string">
@@ -34,7 +29,7 @@
       <xsl:sequence select="
          (
             in-scope-prefixes($e)
-               [namespace-uri-for-prefix(., $e) eq $xspec-namespace]
+               [namespace-uri-for-prefix(., $e) eq $x:xspec-namespace]
                [. (: Do not allow zero-length string :)],
             
             (: Fallback. Intentionally made weird in order to avoid collision. :)
@@ -77,7 +72,7 @@
       <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name($this/*,'description')}" namespace="{$xspec-namespace}">
+            <xsl:element name="{x:xspec-name($this/*, 'description')}" namespace="{$x:xspec-namespace}">
                <xsl:sequence select="x:copy-namespaces($this/x:description)" />
                <xsl:copy-of select="$this/x:description/@*"/>
                <xsl:apply-templates select="x:gather-specs($this/x:description)"
@@ -112,8 +107,14 @@
                     select="x:distinct-nodes-stable($docs ! x:description)" />
 
       <!-- "$imported except $visit" without sorting -->
+      <xsl:variable name="visited-actual-uris" as="xs:anyURI+"
+         select="$visit ! x:actual-document-uri(/)" />
       <xsl:variable name="imported-except-visit" as="element(x:description)*"
-                    select="$imported[empty($visit intersect .)]"/>
+         select="
+            $imported[empty(. intersect $visit)]
+
+            (: xspec/xspec#987 :)
+            [not(x:actual-document-uri(/) = $visited-actual-uris)]" />
 
       <xsl:choose>
          <xsl:when test="empty($imported-except-visit)">
@@ -146,8 +147,7 @@
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
-         <xsl:with-param name="xspec-module-uri" tunnel="yes"
-            select="document-uri(/) => x:resolve-xml-uri-with-catalog()" />
+         <xsl:with-param name="xspec-module-uri" tunnel="yes" select="x:actual-document-uri(/)" />
       </xsl:apply-templates>
    </xsl:template>
 
@@ -213,7 +213,7 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$xspec-namespace}">
+         <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
                   ancestor::*[if (self::x:*)
@@ -341,8 +341,8 @@
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <xsl:element name="param" namespace="">
-                  <xsl:attribute name="name" select="x:xspec-name(., 'result')" />
-                  <xsl:attribute name="select" select="'$' || x:xspec-name(., 'result')" />
+                  <xsl:attribute name="name" select="x:known-UQN('x:result')" />
+                  <xsl:attribute name="select" select="'$' || x:known-UQN('x:result')" />
                </xsl:element>
             </xsl:if>
             <xsl:for-each select="x:distinct-variable-names($vars)">
@@ -576,7 +576,7 @@
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <xsl:element name="param" namespace="">
-                  <xsl:attribute name="name" select="x:xspec-name(., 'result')" />
+                  <xsl:attribute name="name" select="x:known-UQN('x:result')" />
                   <xsl:attribute name="required" select="'yes'" />
                </xsl:element>
             </xsl:if>
@@ -784,7 +784,7 @@
       <xsl:variable name="qname" as="xs:QName"
          select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
-      <xsl:if test="namespace-uri-from-QName($qname) eq $xspec-namespace">
+      <xsl:if test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
          <xsl:variable name="msg" as="xs:string">
             <xsl:text expand-text="yes">User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
          </xsl:variable>
@@ -819,7 +819,11 @@
                <xsl:when test="empty(prefix-from-QName($this-qname)) and (string-length(namespace-uri-from-QName($this-qname)) gt 0)">
                   <!-- No prefix but there is a nonempty namespace URI -->
                   <xsl:attribute name="name"
-                     select="'Q{' || namespace-uri-from-QName($this-qname) || '}' || local-name-from-QName($this-qname)"/>
+                     select="
+                        x:URIQualifiedName(
+                           namespace-uri-from-QName($this-qname),
+                           local-name-from-QName($this-qname)
+                        )"/>
                </xsl:when>
                <xsl:when test="string-length(namespace-uri-from-QName($this-qname)) eq 0">
                   <!-- No namespace -->
@@ -838,7 +842,7 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <xsl:element name="{x:xspec-name($labelled,'label')}" namespace="{$xspec-namespace}">
+      <xsl:element name="{x:xspec-name($labelled, 'label')}" namespace="{$x:xspec-namespace}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
    </xsl:function>
@@ -871,51 +875,6 @@
       <xsl:param name="nodes" as="node()*"/>
 
       <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
-   </xsl:function>
-
-   <!--
-       Debugging tool.  Return a human-readable path of a node.
-   -->
-   <xsl:function name="x:node-path" as="xs:string">
-      <xsl:param name="n" as="node()" />
-
-      <xsl:value-of>
-         <xsl:for-each select="$n/ancestor-or-self::*">
-            <xsl:variable name="prec" select="
-                preceding-sibling::*[node-name(.) eq node-name(current())]"/>
-            <xsl:text expand-text="yes">/{name()}</xsl:text>
-            <xsl:if test="exists($prec)">
-               <xsl:text expand-text="yes">[{count($prec) + 1}]</xsl:text>
-            </xsl:if>
-         </xsl:for-each>
-         <xsl:choose>
-            <xsl:when test="$n instance of attribute()">
-               <xsl:text expand-text="yes">/@{name($n)}</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of text()">
-               <xsl:text>/{text: </xsl:text>
-               <xsl:value-of select="substring($n, 1, 5)"/>
-               <xsl:text>...}</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of comment()">
-               <xsl:text>/{comment}</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of processing-instruction()">
-               <xsl:text>/{pi: </xsl:text>
-               <xsl:value-of select="name($n)"/>
-               <xsl:text>}</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of document-node()">
-               <xsl:text>/</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of element()"/>
-            <xsl:otherwise>
-               <xsl:text>/{ns: </xsl:text>
-               <xsl:value-of select="name($n)"/>
-               <xsl:text>}</xsl:text>
-            </xsl:otherwise>
-         </xsl:choose>
-      </xsl:value-of>
    </xsl:function>
 
 </xsl:stylesheet>

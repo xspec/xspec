@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="do-nothing.xsl" xmlns:err="http://www.w3.org/2005/xqt-errors"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!--
 		The test target (../src/common/xspec-utils.xsl) is included
 		implicitly by the XSpec compiler. You don't need to specify it in
 		/x:description/@stylesheet.
 	-->
+
+	<x:scenario label="Scenario for testing variable legacy-namespace">
+		<x:call function="false" />
+		<x:expect label="'test' namespace URI"
+			select="
+				namespace-uri-for-prefix(
+					'test',
+					doc(resolve-uri('../src/compiler/generate-tests-utils.xsl', $x:xspec-uri))/element()
+				)"
+			test="$x:legacy-namespace treat as xs:anyURI" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing variable xspec-namespace">
+		<x:call function="false" />
+		<x:expect label="XSpec namespace URI"
+			select="doc($x:xspec-uri)/element() => namespace-uri()"
+			test="$x:xspec-namespace treat as xs:anyURI" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing variable xs-namespace">
+		<x:call function="false" />
+		<x:expect label="'xs' namespace URI"
+			select="
+				namespace-uri-for-prefix(
+					'xs',
+					doc($x:xspec-uri)/element()
+				)"
+			test="$x:xs-namespace treat as xs:anyURI" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing variable capture-NCName">
+		<x:call function="replace">
+			<x:param select="'foo:bar[baz]'" />
+			<x:param select="'^.+:' || $x:capture-NCName || '.*$'" />
+			<x:param select="'$1'" />
+		</x:call>
+		<x:expect label="Captured" select="'bar'" />
+	</x:scenario>
 
 	<x:scenario label="Scenario for testing template identity">
 		<x:context>
@@ -119,7 +157,23 @@
 		</x:call>
 		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
 		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
-			test="starts-with(substring-after($x:result, ':'), '/')" />
+			test="
+				$x:result
+				=> substring-after(':')
+				=> starts-with('/')" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function actual-document-uri">
+		<!-- TODO: Use catalog -->
+		<x:call function="x:actual-document-uri">
+			<x:param select="doc('')" />
+		</x:call>
+		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
+		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
+			test="
+				$x:result
+				=> substring-after(':')
+				=> starts-with('/')" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function base-uri">
@@ -1126,7 +1180,7 @@
 		<x:scenario label="With URI">
 			<x:variable as="xs:anyURI" name="ridiculous-uri">'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
 			<x:call function="x:resolve-URIQualifiedName">
-				<x:param select="concat('Q{', $ridiculous-uri, '}foo')" />
+				<x:param select="x:URIQualifiedName($ridiculous-uri, 'foo')" />
 			</x:call>
 			<x:expect label="Resolved"
 				test="x:QName-exactly-equal($x:result, QName($ridiculous-uri, 'foo'))" />
@@ -1147,7 +1201,7 @@
 				<x:variable as="xs:anyURI" name="ridiculous-uri"
 					>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
 				<x:call function="x:resolve-EQName-ignoring-default-ns">
-					<x:param select="concat('Q{', $ridiculous-uri, '}foo')" />
+					<x:param select="x:URIQualifiedName($ridiculous-uri, 'foo')" />
 					<x:param>
 						<e xmlns="default-ns" />
 					</x:param>
@@ -1311,6 +1365,82 @@
 				</x:call>
 				<x:expect label="False" select="false()" />
 			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function URIQualifiedName">
+		<x:scenario label="URI length ge 1">
+			<x:call function="x:URIQualifiedName">
+				<x:param select="'my-uri'" />
+				<x:param select="'my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()">Q{my-uri}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="URI is zero-length string">
+			<x:call function="x:URIQualifiedName">
+				<x:param select="''" />
+				<x:param select="'my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()">Q{}my-local-name</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function known-UQN">
+		<x:scenario label="impl">
+			<x:call function="x:known-UQN">
+				<x:param select="'impl:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{urn:x-xspec:compile:impl}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="test">
+			<x:call function="x:known-UQN">
+				<x:param select="'test:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.jenitennison.com/xslt/unit-test}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="x">
+			<x:call function="x:known-UQN">
+				<x:param select="'x:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.jenitennison.com/xslt/xspec}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="xs">
+			<x:call function="x:known-UQN">
+				<x:param select="'xs:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.w3.org/2001/XMLSchema}my-local-name</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function variable-name"
+		xmlns:my-element-prefix="my-element-namespace">
+		<x:scenario label="With @name">
+			<x:call function="x:variable-name">
+				<x:param>
+					<my-element-prefix:my-element name="my-name-prefix:my-name"
+						xmlns:my-name-prefix="my-name-namespace" />
+				</x:param>
+			</x:call>
+			<x:expect label="URIQualifiedName with namespace and local name specified in @name"
+				select="string()">Q{my-name-namespace}my-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Without @name">
+			<x:call function="x:variable-name">
+				<x:param>
+					<my-element-prefix:my-element />
+				</x:param>
+			</x:call>
+			<x:expect label="URIQualifiedName with predefined namespace and dynamic ID"
+				test="matches($x:result, '^Q\{urn:x-xspec:compile:impl\}my-element-\S+$')" />
 		</x:scenario>
 	</x:scenario>
 

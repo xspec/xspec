@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description
+   xmlns:x="http://www.jenitennison.com/xslt/xspec"
+   stylesheet="compilation-sut.xsl"
+   xml:base="../tutorial/under-the-hood/">
+
+   <!-- If any of these tests changes, check whether the file
+        ../tutorials/under-the-hood/Compilation.md needs updates. -->
+   <x:import href="compilation-sut_stylesheet.xspec" />
+</x:description>

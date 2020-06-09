@@ -2,7 +2,8 @@
 <x:description stylesheet="mirror.xsl"
 	xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!--
 		To test xspec/xspec#894 properly, 'local-xs' and 'polymorph' namespace prefixes must be

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           xmlns:local="local"
           stylesheet="import-demo-02-PhaseB-sch-preprocessed.xsl"
@@ -13,7 +11,8 @@
       <x:label>Pattern 2</x:label>
       <x:context href="../../../../../tutorial/schematron/demo-02.xml"/>
       <x:result select="/element()">
-         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                  xmlns:saxon="http://saxon.sf.net/"
                                  xmlns:schold="http://www.ascc.net/xml/schematron"
                                  xmlns:iso="http://purl.oclc.org/dsdl/schematron"
@@ -95,7 +94,8 @@
       <x:label>Pattern 3 - Shared</x:label>
       <x:context href="../../../../../tutorial/schematron/demo-02.xml"/>
       <x:result select="/element()">
-         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                  xmlns:saxon="http://saxon.sf.net/"
                                  xmlns:schold="http://www.ascc.net/xml/schematron"
                                  xmlns:iso="http://purl.oclc.org/dsdl/schematron"
@@ -172,7 +172,8 @@
       <x:label>Pattern 4 - example of a second level of imported scenarios</x:label>
       <x:context href="../../../../../tutorial/schematron/demo-02.xml"/>
       <x:result select="/element()">
-         <svrl:schematron-output xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                  xmlns:saxon="http://saxon.sf.net/"
                                  xmlns:schold="http://www.ascc.net/xml/schematron"
                                  xmlns:iso="http://purl.oclc.org/dsdl/schematron"
@@ -244,7 +245,8 @@
                    select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario4"
+   <x:scenario xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               id="scenario4"
                xspec="../../../../../tutorial/schematron/demo-02-import3.xspec">
       <x:label>XSpec function scenario imported</x:label>
       <x:call function="local:add">

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                query="x-urn:test:do-nothing"
                query-at="do-nothing.xquery">
 
@@ -8,7 +7,7 @@
        Test the source file generate-query-utils.xql.
 
        The test target is included implicitly by the XSpec compiler. You don't need
-       to specify it in /t:description/@query-at.
+       to specify it in /t:description/@query-at. 'test' prefix is not available, though.
    -->
 
    <!--
@@ -20,7 +19,7 @@
          <!-- These scenarios do not run on XSLT. XSLT implements the tested function as a template. -->
 
          <t:scenario label="Integer">
-            <t:call function="test:report-sequence">
+            <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
                <t:param name="sequence" select="1" as="xs:integer" />
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
@@ -30,7 +29,7 @@
          </t:scenario>
 
          <t:scenario label="Empty Sequence">
-            <t:call function="test:report-sequence">
+            <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
                <t:param name="sequence" select="()" />
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
@@ -40,7 +39,7 @@
          </t:scenario>
 
          <t:scenario label="String">
-            <t:call function="test:report-sequence">
+            <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
                <t:param name="sequence" select="'test'" as="xs:string" />
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
@@ -50,7 +49,7 @@
          </t:scenario>
 
          <t:scenario label="URI">
-            <t:call function="test:report-sequence">
+            <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
                <t:param name="sequence" select="xs:anyURI('test.xml')" />
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
@@ -60,7 +59,7 @@
          </t:scenario>
 
          <t:scenario label="QName">
-            <t:call function="test:report-sequence">
+            <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
                <t:param name="sequence" select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
@@ -70,7 +69,7 @@
          </t:scenario>
 
          <t:scenario label="Attributes">
-            <t:call function="test:report-sequence">
+            <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
                <t:param name="sequence" select="/*/@*" as="attribute()+">
                   <doc a="1" b="2" />
                </t:param>
@@ -85,7 +84,7 @@
          </t:scenario>
 
          <t:scenario label="Attributes and content">
-            <t:call function="test:report-sequence">
+            <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}report-sequence">
                <t:param name="sequence" select="/*/@*, /*/foo" as="node()+">
                   <doc a="1" b="2">
                      <foo />
