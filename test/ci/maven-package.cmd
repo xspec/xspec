@@ -8,6 +8,9 @@ if "%DO_MAVEN_PACKAGE%"=="true" (
         for /f %%I in ('call mvn help:evaluate --quiet "-Dexpression=project.version" -DforceStdout') do (
             echo ::set-env name=MAVEN_PACKAGE_VERSION::%%I
         )
+
+        rem And also Saxon for testing
+         echo ::set-env name=SAXON_JAR::%SAXON_JAR%
     )
 
     call mvn package -P release %*
