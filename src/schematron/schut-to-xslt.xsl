@@ -18,11 +18,8 @@
 		select="'iso-schematron/iso_dsdl_include.xsl'" />
 	<xsl:param as="xs:string" name="STEP2-PREPROCESSOR-URI"
 		select="'iso-schematron/iso_abstract_expand.xsl'" />
-	<xsl:param as="xs:string" name="STEP3-PREPROCESSOR-URI"
-		select="
-			(: Zero-length string signals generate-step3-wrapper.xsl to use the default Step 3
-				preprocessor :)
-			''" />
+	<xsl:param as="xs:string?" name="STEP3-PREPROCESSOR-URI"
+		select="document-uri($STEP3-PREPROCESSOR-DOC)" />
 
 	<xsl:include href="../common/xspec-utils.xsl" />
 
@@ -44,12 +41,7 @@
 				<xsl:map-entry key="'stylesheet-params'">
 					<xsl:map>
 						<xsl:map-entry key="xs:QName('ACTUAL-PREPROCESSOR-URI')"
-							select="
-								if ($STEP3-PREPROCESSOR-DOC) then
-									document-uri($STEP3-PREPROCESSOR-DOC)
-								else
-									$STEP3-PREPROCESSOR-URI"
-						 />
+							select="$STEP3-PREPROCESSOR-URI" />
 					</xsl:map>
 				</xsl:map-entry>
 			</xsl:map>
