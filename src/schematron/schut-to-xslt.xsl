@@ -21,13 +21,15 @@
 	<xsl:param as="xs:string?" name="STEP3-PREPROCESSOR-URI"
 		select="document-uri($STEP3-PREPROCESSOR-DOC)" />
 
+	<xsl:param as="xs:boolean" name="CACHE" select="false()" />
+
 	<xsl:include href="../common/xspec-utils.xsl" />
 
 	<xsl:mode on-no-match="fail" />
 
 	<xsl:template as="document-node()" match="document-node(element(x:description))">
 		<xsl:variable as="map(xs:string, item())+" name="common-options-map">
-			<xsl:map-entry key="'cache'" select="false()" />
+			<xsl:map-entry key="'cache'" select="$CACHE" />
 		</xsl:variable>
 
 		<!--
