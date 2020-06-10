@@ -14,13 +14,15 @@
   </xsl:template>
 
   <xsl:template match="/" mode="test:coverage-sonar-report" exclude-result-prefixes="#all">
-    <xsl:variable name="iteration" select="(1 to count(trace/m/@u) - 1)"/>
-    <xsl:variable name="context" select="trace/m"/>
+    <xsl:variable name="context" as="node()*" select="trace/m"/>
+    
     <coverage version="1">
-      <xsl:for-each select="$iteration">
-        <xsl:variable name="position" select="position()"/>
-        <file path="{test:xsl-file-location($context[@id = $position]/@u)}">
-          <xsl:apply-templates select="doc($context[$position + 1]/@u)/xsl:*" mode="test:coverage-report" exclude-result-prefixes="#all"/>
+      <xsl:for-each select="$context[not(contains(@u,'xspec-utils.xsl'))]">
+        <xsl:variable name="mId" as="xs:string" select="@id"/>
+        <xsl:variable name="mPath" as="xs:string" select="$context[@id = $mId]/@u"/>
+        
+        <file path="{test:xsl-file-location($mPath)}">
+          <xsl:apply-templates select="doc($mPath)/xsl:*" mode="test:coverage-report" exclude-result-prefixes="#all"/>
         </file>
       </xsl:for-each>
     </coverage>
