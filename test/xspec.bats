@@ -341,9 +341,9 @@ load bats-helper
 
     # Verify message
     # * No Schematron warnings #129 #131
-    [ "${lines[4]}"  = "Converting Schematron XSpec into XSLT XSpec..." ]
-    [ "${lines[31]}" = "passed: 10 / pending: 1 / failed: 0 / total: 11" ]
-    [ "${lines[32]}" = "Report available at ${tutorial_copy}/xspec/demo-03-result.html" ]
+    [ "${lines[3]}"  = "Converting Schematron XSpec into XSLT XSpec..." ]
+    [ "${lines[30]}" = "passed: 10 / pending: 1 / failed: 0 / total: 11" ]
+    [ "${lines[31]}" = "Report available at ${tutorial_copy}/xspec/demo-03-result.html" ]
 
     # Verify report files
     # * XML report file is created
@@ -505,7 +505,7 @@ load bats-helper
     run ../bin/xspec.sh -s "${special_chars_dir}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[32]}" = "Report available at ${expected_report}" ]
+    [ "${lines[31]}" = "Report available at ${expected_report}" ]
     [ -f "${expected_report}" ]
 }
 
@@ -532,7 +532,7 @@ load bats-helper
     run ../bin/xspec.sh -s schematron/schematron-param-001.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[20]}" = "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
+    [ "${lines[19]}" = "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
 }
 
 @test "Schematron phase/parameters are passed to Schematron compile (Ant)" {
@@ -560,7 +560,7 @@ load bats-helper
     run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[12]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[11]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
 }
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
@@ -728,7 +728,7 @@ load bats-helper
     run ../bin/xspec.sh -s "${tutorial_copy}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[32]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
+    [ "${lines[31]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
 
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
@@ -747,7 +747,7 @@ load bats-helper
     run "${parent_dir_abs}/bin/xspec.sh" -s "${tutorial_copy}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[32]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
+    [ "${lines[31]}" = "Report available at ${TEST_DIR}/demo-03-result.html" ]
 
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
@@ -939,16 +939,13 @@ load bats-helper
     # * Default xspec.junit.enabled is false
     run env LC_ALL=C ls "${tutorial_copy}/xspec"
     echo "$output"
-    [ "${#lines[@]}" = "9" ]
+    [ "${#lines[@]}" = "6" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
     [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
     [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
-    [ "${lines[5]}" = "demo-03-sch-step3-wrapper.xsl" ]
-    [ "${lines[6]}" = "demo-03-step1.sch" ]
-    [ "${lines[7]}" = "demo-03-step2.sch" ]
-    [ "${lines[8]}" = "demo-03_xml-to-properties.xml" ]
+    [ "${lines[5]}" = "demo-03_xml-to-properties.xml" ]
 }
 
 #
@@ -1228,7 +1225,7 @@ load bats-helper
         "${space_dir}/catalog-01_schematron.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
@@ -1266,7 +1263,7 @@ load bats-helper
         catalog/catalog-01_schematron.xspec
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
@@ -1317,7 +1314,7 @@ load bats-helper
     run ../bin/xspec.sh -s "${space_dir}/catalog-01_schematron.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
@@ -1353,7 +1350,7 @@ load bats-helper
     run ../bin/xspec.sh -s "catalog/catalog-01_schematron.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
+    [ "${lines[17]}" = "passed: 4 / pending: 0 / failed: 0 / total: 4" ]
 }
 
 #
@@ -1970,11 +1967,6 @@ load bats-helper
     run grep -F -i "warning" "${ant_log}"
     echo "$output"
     [ "$status" -eq 1 ]
-
-    # Verify Ant makepath task
-    run cat "${ant_log}"
-    echo "$output"
-    assert_regex "${output}" $'\n'' \[makepath\] Setting xspec\.schematron\.file to file path '"${PWD}"'/do-nothing\.sch'$'\n'
 }
 
 #

@@ -117,12 +117,6 @@
         <configuration>
           <source>8</source>
           <target>8</target>
-          <excludes>
-            <exclude>io/xspec/xspec/ant/**</exclude>
-          </excludes>
-          <testExcludes>
-            <testExclude>io/xspec/xspec/ant/**</testExclude>
-          </testExcludes>
         </configuration>
       </plugin>
       <plugin>
@@ -212,9 +206,6 @@
                 <id>attach-javadoc</id>
                 <goals><goal>jar</goal></goals>
                 <configuration>
-                  <sourceFileExcludes>
-                    <exclude>io/xspec/xspec/ant/**</exclude>
-                  </sourceFileExcludes>
                   <source>8</source>
                 </configuration>
               </execution>

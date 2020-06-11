@@ -131,69 +131,29 @@ rem ##
 
 
 :preprocess_schematron
-    echo Setting up Schematron preprocessors...
-    
-    if not defined SCHEMATRON_XSLT_INCLUDE set "SCHEMATRON_XSLT_INCLUDE=%XSPEC_HOME%\src\schematron\iso-schematron\iso_dsdl_include.xsl"
-    if not defined SCHEMATRON_XSLT_EXPAND set "SCHEMATRON_XSLT_EXPAND=%XSPEC_HOME%\src\schematron\iso-schematron\iso_abstract_expand.xsl"
-    
-    rem # Absolute SCHEMATRON_XSLT_COMPILE
-    if defined SCHEMATRON_XSLT_COMPILE for %%I in ("%SCHEMATRON_XSLT_COMPILE%") do set "SCHEMATRON_XSLT_COMPILE_ABS=%%~fI"
-    
-    rem # Get Schematron file URI
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
-        -s:"%XSPEC%" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\locate-schematron-uri.xsl" ^
-        || ( call :die "Error getting Schematron location" & goto :win_main_error_exit )
-    set /P SCH_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    
-    rem # Generate Step 3 wrapper XSLT
-    if defined SCHEMATRON_XSLT_COMPILE set "SCHEMATRON_XSLT_COMPILE_URI=file:///%SCHEMATRON_XSLT_COMPILE_ABS:\=/%"
-    set "SCH_STEP3_WRAPPER=%TEST_DIR%\%TARGET_FILE_NAME%-sch-step3-wrapper.xsl"
-    call :xslt -o:"%SCH_STEP3_WRAPPER%" ^
-        -s:"%XSPEC%" ^
-        -xsl:"%XSPEC_HOME%\src\schematron\generate-step3-wrapper.xsl" ^
-        "ACTUAL-PREPROCESSOR-URI=%SCHEMATRON_XSLT_COMPILE_URI%" ^
-        || ( call :die "Error generating Step 3 wrapper XSLT" & goto :win_main_error_exit )
-    
     set "SCH_PREPROCESSED_XSPEC=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xspec"
     set "SCH_PREPROCESSED_XSL=%TEST_DIR%\%TARGET_FILE_NAME%-sch-preprocessed.xsl"
     
-    rem # Absolute SCH_PREPROCESSED_XSL
-    for %%I in ("%SCH_PREPROCESSED_XSL%") do set "SCH_PREPROCESSED_XSL_ABS=%%~fI"
+    set SCHUT_TO_XSLT_PARAMS=
+    if defined SCHEMATRON_XSLT_INCLUDE set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP1-PREPROCESSOR-DOC="%SCHEMATRON_XSLT_INCLUDE%"
+    if defined SCHEMATRON_XSLT_EXPAND  set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP2-PREPROCESSOR-DOC="%SCHEMATRON_XSLT_EXPAND%"
+    if defined SCHEMATRON_XSLT_COMPILE set SCHUT_TO_XSLT_PARAMS=%SCHUT_TO_XSLT_PARAMS% +STEP3-PREPROCESSOR-DOC="%SCHEMATRON_XSLT_COMPILE%"
     
     echo:
     echo Converting Schematron into XSLT...
-    rem Defer resolving SCH_URI by duplicating PERCENT SIGN, because the variable may contain percent-encoding
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" ^
-        -s:"%%SCH_URI%%" ^
-        -xsl:"%SCHEMATRON_XSLT_INCLUDE%" ^
-        -versionmsg:off ^
-        || ( call :die "Error preprocessing Schematron on step 1" & goto :win_main_error_exit )
-    call :xslt -o:"%TEST_DIR%\%TARGET_FILE_NAME%-step2.sch" ^
-        -s:"%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" ^
-        -xsl:"%SCHEMATRON_XSLT_EXPAND%" ^
-        -versionmsg:off ^
-        || ( call :die "Error preprocessing Schematron on step 2" & goto :win_main_error_exit )
-    call :xslt -o:"%SCH_PREPROCESSED_XSL%" ^
-        -s:"%TEST_DIR%\%TARGET_FILE_NAME%-step2.sch" ^
-        -xsl:"%SCH_STEP3_WRAPPER%" ^
-        -versionmsg:off ^
-        || ( call :die "Error preprocessing Schematron on step 3" & goto :win_main_error_exit )
-    
-    rem use XQuery to get full URI to preprocessed Schematron XSLT
-    rem call :xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" ^
-    rem     -s:"%SCH_PREPROCESSED_XSL%" ^
-    rem     -o:"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" ^
-    rem     || ( call :die "Error getting preprocessed Schematron XSLT location" & goto :win_main_error_exit )
-    rem set /P SCH_PREPROCESSED_XSL_URI=<"%TEST_DIR%\%TARGET_FILE_NAME%-var.txt"
-    set "SCH_PREPROCESSED_XSL_URI=file:///%SCH_PREPROCESSED_XSL_ABS:\=/%"
+    call :xslt ^
+        -o:"%SCH_PREPROCESSED_XSL%" ^
+        -s:"%XSPEC%" ^
+        -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xslt.xsl" ^
+        %SCHUT_TO_XSLT_PARAMS% ^
+        || ( call :die "Error converting Schematron into XSLT" & goto :win_main_error_exit )
     
     echo:
     echo Converting Schematron XSpec into XSLT XSpec...
     call :xslt -o:"%SCH_PREPROCESSED_XSPEC%" ^
         -s:"%XSPEC%" ^
         -xsl:"%XSPEC_HOME%\src\schematron\schut-to-xspec.xsl" ^
-        stylesheet-uri="%SCH_PREPROCESSED_XSL_URI%" ^
+        +stylesheet-doc="%SCH_PREPROCESSED_XSL%" ^
         || ( call :die "Error converting Schematron XSpec into XSLT XSpec" & goto :win_main_error_exit )
     set "XSPEC=%SCH_PREPROCESSED_XSPEC%"
     echo:
@@ -205,7 +165,6 @@ rem ##
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" 2>nul
 		del "%TEST_DIR%\%TARGET_FILE_NAME%-step2.sch" 2>nul
-		del "%SCH_STEP3_WRAPPER%" 2>nul
 		del "%SCH_PREPROCESSED_XSL%" 2>nul
 	)
 	goto :EOF
