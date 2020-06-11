@@ -6,12 +6,12 @@
   <groupId>io.xspec</groupId>
   <artifactId>xspec</artifactId>
   <version>2.0-SNAPSHOT</version>
-  
+
   <name>XSpec implementation</name>
   <description>A unit test framework for XSLT, XQuery and Schematron</description>
   <inceptionYear>2008</inceptionYear>
   <url>https://github.com/xspec/xspec</url>
-  
+
   <licenses>
     <license>
       <name>The MIT License</name>
@@ -20,7 +20,7 @@
       <comments>Copyright (c) 2008-2019 Jeni Tennison</comments>
     </license>
   </licenses>
-  
+
   <developers>
     <developer>
       <name>Jeni Tennison</name>
@@ -57,7 +57,7 @@
       </roles>
     </developer>
   </developers>
-  
+
   <scm>
     <connection>scm:git:https://github.com/xspec/xspec.git</connection>
     <developerConnection>scm:git:https://github.com/xspec/xspec.git</developerConnection>
@@ -87,7 +87,7 @@
       <version>9.9.1-7</version>
     </dependency>
   </dependencies>
-  
+
   <build>
     <sourceDirectory>java</sourceDirectory>
 
@@ -183,7 +183,7 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <profiles>
     <profile>
       <id>release</id>
@@ -201,7 +201,9 @@
             <executions>
               <execution>
                 <id>attach-sources</id>
-                <goals><goal>jar</goal></goals>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>
@@ -211,7 +213,9 @@
             <executions>
               <execution>
                 <id>attach-javadoc</id>
-                <goals><goal>jar</goal></goals>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
                 <configuration>
                   <source>8</source>
                 </configuration>
