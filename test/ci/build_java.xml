@@ -2,19 +2,42 @@
 <project name="compile-java">
 
 	<property environment="env" />
-	<property location="../../java/" name="root.source.dir" />
+
+	<!--
+		Production
+	-->
+
+	<property location="../../java/" name="root.source.dir.production" />
 
 	<touch>
-		<fileset dir="${root.source.dir}">
+		<fileset dir="${root.source.dir.production}">
 			<include name="**/*.java" />
 		</fileset>
 	</touch>
 
 	<javac debug="true" debuglevel="lines,source" includeAntRuntime="false"
-		srcdir="${root.source.dir}">
+		srcdir="${root.source.dir.production}">
+		<classpath>
+			<pathelement location="${env.SAXON_JAR}" />
+		</classpath>
+	</javac>
+
+	<!--
+		Development
+	-->
+
+	<property location="../ant/worker/java/" name="root.source.dir.development" />
+
+	<touch>
+		<fileset dir="${root.source.dir.development}">
+			<include name="**/*.java" />
+		</fileset>
+	</touch>
+
+	<javac debug="true" debuglevel="lines,source" includeAntRuntime="false"
+		srcdir="${root.source.dir.development}">
 		<classpath>
 			<pathelement location="${env.ANT_HOME}/lib/ant.jar" />
-			<pathelement location="${env.SAXON_JAR}" />
 		</classpath>
 	</javac>
 

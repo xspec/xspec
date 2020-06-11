@@ -9,5 +9,8 @@
 /test/**/xspec/
 /tutorial/**/xspec/
 
+# Negate /test/ant/worker/java/**/xspec/
+!/test/ant/worker/java/**
+
 # XHTML can be formatted by XML editors including Oxygen
 *.xhtml

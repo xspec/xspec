@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="test-maven-jar">
 
-	<delete verbose="true">
-		<!-- TODO: Remove @excludes after xspec/xspec#969 -->
-		<fileset dir="../../java/" excludes="io/xspec/xspec/ant/**" includes="**/*.class" />
-	</delete>
+	<delete dir="../../java/" includes="**/*.class" verbose="true" />
 
 	<ant antfile="../end-to-end/ant/run-e2e-tests/build.xml" useNativeBasedir="true">
 		<property name="xspecfiles.dir.url.query" value="select=coverage-tutorial.xspec" />

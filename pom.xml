@@ -96,7 +96,6 @@
         <directory>java</directory>
         <excludes>
           <exclude>**/*.java</exclude>
-          <exclude>io/xspec/xspec/ant/**</exclude>
         </excludes>
       </resource>
       <resource>
@@ -197,7 +196,6 @@
               <excludeResources>true</excludeResources>
               <excludes>
                 <exclude>**/*.class</exclude>
-                <exclude>io/xspec/xspec/ant/**</exclude>
               </excludes>
             </configuration>
             <executions>
@@ -215,9 +213,6 @@
                 <id>attach-javadoc</id>
                 <goals><goal>jar</goal></goals>
                 <configuration>
-                  <sourceFileExcludes>
-                    <exclude>io/xspec/xspec/ant/**</exclude>
-                  </sourceFileExcludes>
                   <source>8</source>
                 </configuration>
               </execution>
