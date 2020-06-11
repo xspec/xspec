@@ -2,30 +2,22 @@ echo Test Maven jar
 
 setlocal
 
-if not defined MAVEN_PACKAGE_VERSION (
+if not "%DO_MAVEN_PACKAGE%"=="true" (
     echo Skip Testing Maven jar
     exit /b
 )
 
-rem Coverage HTML report file
-set "ACTUAL_REPORT_DIR=%CD%\test\end-to-end\cases\actual__\stylesheet"
-if not exist "%ACTUAL_REPORT_DIR%" mkdir "%ACTUAL_REPORT_DIR%" || exit /b
-set "COVERAGE_HTML=%ACTUAL_REPORT_DIR%\coverage-tutorial-coverage.html"
-del "%COVERAGE_HTML%" || exit /b
+for /f %%I in ('call mvn help:evaluate --quiet "-Dexpression=project.version" -DforceStdout') do (
+    set "MAVEN_PACKAGE_VERSION=%%I"
+)
 
-rem Replace *.class...
-echo Delete *.class
-del /s java\*.class || exit /b
+if "%GITHUB_ACTIONS%"=="true" (
+    rem Propagate the project version as an environment variable to any actions running next in a job
+    echo ::set-env name=MAVEN_PACKAGE_VERSION::%MAVEN_PACKAGE_VERSION%
+)
 
-rem ...with jar
-set "SAXON_CP=%SAXON_JAR%;target\xspec-%MAVEN_PACKAGE_VERSION%.jar"
-
-rem Run
-call bin\xspec.bat -c test\end-to-end\cases\coverage-tutorial.xspec ^
-    || exit /b
-
-rem Verify Coverage HTML report
-java -jar "%SAXON_JAR%" ^
-    -s:"%COVERAGE_HTML%" ^
-    -xsl:test\end-to-end\processor\coverage\compare.xsl ^
-    EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/stylesheet/coverage-tutorial-coverage.html"
+call ant ^
+    -buildfile "%~dp0build_test-maven-jar.xml" ^
+    -lib "%SAXON_JAR%" ^
+    -lib "%~dp0..\..\target\xspec-%MAVEN_PACKAGE_VERSION%.jar" ^
+    %*
