@@ -14,7 +14,7 @@
 	-->
 
 	<!-- Absolute URI of the actual stylesheet of the Schematron Step 3 preprocessor.
-		Zero-length string is ignored. -->
+		Empty sequence means the built-in preprocessor. -->
 	<xsl:param as="xs:string?" name="ACTUAL-PREPROCESSOR-URI" />
 
 	<xsl:include href="../common/xspec-utils.xsl" />
@@ -25,20 +25,16 @@
 	<xsl:namespace-alias result-prefix="xsl" stylesheet-prefix="#default" />
 
 	<xsl:template as="element(xsl:stylesheet)" match="x:description">
-		<!-- Discard zero-length string -->
-		<xsl:variable as="xs:string?" name="actual-preprocessor-uri"
-			select="$ACTUAL-PREPROCESSOR-URI[.]" />
-
 		<!-- Absolute URI of the stylesheet of the built-in Schematron Step 3 preprocessor -->
 		<xsl:variable as="xs:anyURI" name="builtin-preprocessor-uri"
 			select="resolve-uri('iso-schematron/iso_svrl_for_xslt2.xsl')" />
 
 		<stylesheet exclude-result-prefixes="#all" version="{x:decimal-string(x:xslt-version(.))}">
 			<!-- Import the stylesheet of the Schematron Step 3 preprocessor -->
-			<import href="{($actual-preprocessor-uri, $builtin-preprocessor-uri)[1]}" />
+			<import href="{($ACTUAL-PREPROCESSOR-URI, $builtin-preprocessor-uri)[1]}" />
 
 			<!-- Import the private patch -->
-			<xsl:if test="empty($actual-preprocessor-uri)">
+			<xsl:if test="empty($ACTUAL-PREPROCESSOR-URI)">
 				<import href="{resolve-uri('patch-step3.xsl')}" />
 			</xsl:if>
 

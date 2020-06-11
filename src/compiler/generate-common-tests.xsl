@@ -20,8 +20,7 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
-   <xsl:variable name="actual-document-uri" as="xs:anyURI"
-      select="document-uri(/) => x:resolve-xml-uri-with-catalog()" />
+   <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
 
    <!-- XSpec namespace prefix -->
    <xsl:function name="x:xspec-prefix" as="xs:string">
@@ -108,8 +107,14 @@
                     select="x:distinct-nodes-stable($docs ! x:description)" />
 
       <!-- "$imported except $visit" without sorting -->
+      <xsl:variable name="visited-actual-uris" as="xs:anyURI+"
+         select="$visit ! x:actual-document-uri(/)" />
       <xsl:variable name="imported-except-visit" as="element(x:description)*"
-                    select="$imported[empty($visit intersect .)]"/>
+         select="
+            $imported[empty(. intersect $visit)]
+
+            (: xspec/xspec#987 :)
+            [not(x:actual-document-uri(/) = $visited-actual-uris)]" />
 
       <xsl:choose>
          <xsl:when test="empty($imported-except-visit)">
@@ -142,8 +147,7 @@
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
-         <xsl:with-param name="xspec-module-uri" tunnel="yes"
-            select="document-uri(/) => x:resolve-xml-uri-with-catalog()" />
+         <xsl:with-param name="xspec-module-uri" tunnel="yes" select="x:actual-document-uri(/)" />
       </xsl:apply-templates>
    </xsl:template>
 
@@ -871,51 +875,6 @@
       <xsl:param name="nodes" as="node()*"/>
 
       <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
-   </xsl:function>
-
-   <!--
-       Debugging tool.  Return a human-readable path of a node.
-   -->
-   <xsl:function name="x:node-path" as="xs:string">
-      <xsl:param name="n" as="node()" />
-
-      <xsl:value-of>
-         <xsl:for-each select="$n/ancestor-or-self::*">
-            <xsl:variable name="prec" select="
-                preceding-sibling::*[node-name(.) eq node-name(current())]"/>
-            <xsl:text expand-text="yes">/{name()}</xsl:text>
-            <xsl:if test="exists($prec)">
-               <xsl:text expand-text="yes">[{count($prec) + 1}]</xsl:text>
-            </xsl:if>
-         </xsl:for-each>
-         <xsl:choose>
-            <xsl:when test="$n instance of attribute()">
-               <xsl:text expand-text="yes">/@{name($n)}</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of text()">
-               <xsl:text>/{text: </xsl:text>
-               <xsl:value-of select="substring($n, 1, 5)"/>
-               <xsl:text>...}</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of comment()">
-               <xsl:text>/{comment}</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of processing-instruction()">
-               <xsl:text>/{pi: </xsl:text>
-               <xsl:value-of select="name($n)"/>
-               <xsl:text>}</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of document-node()">
-               <xsl:text>/</xsl:text>
-            </xsl:when>
-            <xsl:when test="$n instance of element()"/>
-            <xsl:otherwise>
-               <xsl:text>/{ns: </xsl:text>
-               <xsl:value-of select="name($n)"/>
-               <xsl:text>}</xsl:text>
-            </xsl:otherwise>
-         </xsl:choose>
-      </xsl:value-of>
    </xsl:function>
 
 </xsl:stylesheet>

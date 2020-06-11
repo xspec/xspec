@@ -260,9 +260,9 @@
 
     rem Verify message
     rem * No Schematron warnings #129 #131
-    call :verify_line  5 x "Converting Schematron XSpec into XSLT XSpec..."
-    call :verify_line 32 x "passed: 10 / pending: 1 / failed: 0 / total: 11"
-    call :verify_line 33 x "Report available at %TUTORIAL_COPY%\xspec\demo-03-result.html"
+    call :verify_line  4 x "Converting Schematron XSpec into XSLT XSpec..."
+    call :verify_line 31 x "passed: 10 / pending: 1 / failed: 0 / total: 11"
+    call :verify_line 32 x "Report available at %TUTORIAL_COPY%\xspec\demo-03-result.html"
 
     rem Verify report files
     rem * XML report file is created
@@ -410,7 +410,7 @@
 
     call :run ..\bin\xspec.bat -s "%SPECIAL_CHARS_DIR%\demo-03.xspec"
     call :verify_retval 0
-    call :verify_line 33 x "Report available at %EXPECTED_REPORT%"
+    call :verify_line 32 x "Report available at %EXPECTED_REPORT%"
     call :verify_exist "%EXPECTED_REPORT%"
 	</case>
 
@@ -435,7 +435,7 @@
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-param-001-step3.xsl
     call :run ..\bin\xspec.bat -s schematron\schematron-param-001.xspec
     call :verify_retval 0
-    call :verify_line 21 x "passed: 9 / pending: 0 / failed: 0 / total: 9"
+    call :verify_line 20 x "passed: 9 / pending: 0 / failed: 0 / total: 9"
 	</case>
 
 	<case name="Schematron phase/parameters are passed to Schematron compile (Ant)">
@@ -461,7 +461,7 @@
 
     call :run ..\bin\xspec.bat -s schematron\schematron-xslt.xspec
     call :verify_retval 0
-    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 12 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
 
 	<case name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)">
@@ -605,7 +605,7 @@
     rem Run with absolute TEST_DIR
     call :run ..\bin\xspec.bat -s "%TUTORIAL_COPY%\demo-03.xspec"
     call :verify_retval 0
-    call :verify_line 33 x "Report available at %TEST_DIR%\demo-03-result.html"
+    call :verify_line 32 x "Report available at %TEST_DIR%\demo-03-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -628,7 +628,7 @@
     set "TEST_DIR=relative-test-dir %RANDOM%"
     call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -s "%TUTORIAL_COPY%\demo-03.xspec""
     call :verify_retval 0
-    call :verify_line 33 x "Report available at %TEST_DIR%\demo-03-result.html"
+    call :verify_line 32 x "Report available at %TEST_DIR%\demo-03-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -804,16 +804,13 @@
     rem * Default clean.output.dir is false
     rem * Default xspec.junit.enabled is false
     call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
-    call :verify_line_count 9
+    call :verify_line_count 6
     call :verify_line 1 x demo-03_xml-to-properties.xml
     call :verify_line 2 x demo-03-compiled.xsl
     call :verify_line 3 x demo-03-result.html
     call :verify_line 4 x demo-03-result.xml
     call :verify_line 5 x demo-03-sch-preprocessed.xsl
     call :verify_line 6 x demo-03-sch-preprocessed.xspec
-    call :verify_line 7 x demo-03-sch-step3-wrapper.xsl
-    call :verify_line 8 x demo-03-step1.sch
-    call :verify_line 9 x demo-03-step2.sch
 	</case>
 
 	<!--
@@ -1075,7 +1072,7 @@
         -s ^
         "%SPACE_DIR%\catalog-01_schematron.xspec"
     call :verify_retval 0
-    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1110,7 +1107,7 @@
         -s ^
         catalog\catalog-01_schematron.xspec
     call :verify_retval 0
-    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1158,7 +1155,7 @@
 
     call :run ..\bin\xspec.bat -s "%SPACE_DIR%\catalog-01_schematron.xspec"
     call :verify_retval 0
-    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1191,7 +1188,7 @@
 
     call :run ..\bin\xspec.bat -s "catalog\catalog-01_schematron.xspec"
     call :verify_retval 0
-    call :verify_line 19 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1388,10 +1385,10 @@
 	</case>
 
 	<!--
-		#185
+		Import order #185
 	-->
 
-	<case name="Import order #185">
+	<case name="Import order #185 (CLI)">
     call :run ..\bin\xspec.bat xspec-185\import-1.xspec
     call :verify_retval 0
     call :verify_line  7 x "Scenario 1-1"
@@ -1405,7 +1402,7 @@
     call :verify_line 15 x "Formatting Report..."
 	</case>
 
-	<case name="Import order with Ant #185">
+	<case name="Import order #185 (Ant)">
     set "ANT_LOG=%WORK_DIR%\ant.log"
 
     call :run ant ^
@@ -1425,6 +1422,68 @@
     call :verify_line  7 x "     [java] Scenario 2b-1"
     call :verify_line  8 x "     [java] Scenario 2b-2"
     call :verify_line  9 x "     [java] Scenario 3"
+	</case>
+
+	<!--
+		Circular import #987
+	-->
+
+	<case name="Circular import #987 (CLI)">
+    call :run ..\bin\xspec.bat xspec-987_child.xspec
+    call :verify_retval 0
+    call :verify_line  7 x "Scenario in child"
+    call :verify_line  9 x "Scenario in parent"
+    call :verify_line 12 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+
+    rem Use a fresh dir, to make the message line numbers predictable
+    set "TEST_DIR=%TEST_DIR%\parent %RANDOM%"
+    call :run ..\bin\xspec.bat xspec-987_parent.xspec
+    call :verify_retval 0
+    call :verify_line  7 x "Scenario in parent"
+    call :verify_line  9 x "Scenario in child"
+    call :verify_line 12 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+	</case>
+
+	<case name="Circular import #987 (Ant)">
+    rem
+    rem Child
+    rem
+    set "ANT_LOG=%WORK_DIR%\ant_child.log"
+
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -logfile "%ANT_LOG%" ^
+        -Dxspec.xml="%CD%\xspec-987_child.xspec"
+    call :verify_retval 0
+
+    call :run type "%ANT_LOG%"
+    call :verify_line -10 x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+
+    call :run %SYSTEMROOT%\system32\find " Scenario in " "%ANT_LOG%"
+    call :verify_line_count 3
+    call :verify_line 2 x "     [java] Scenario in child"
+    call :verify_line 3 x "     [java] Scenario in parent"
+
+    rem
+    rem Parent
+    rem
+    set "ANT_LOG=%WORK_DIR%\ant_parent.log"
+
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -logfile "%ANT_LOG%" ^
+        -Dxspec.xml="%CD%\xspec-987_parent.xspec"
+    call :verify_retval 0
+
+    call :run type "%ANT_LOG%"
+    call :verify_line -10 x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+
+    call :run %SYSTEMROOT%\system32\find " Scenario in " "%ANT_LOG%"
+    call :verify_line_count 3
+    call :verify_line 2 x "     [java] Scenario in parent"
+    call :verify_line 3 x "     [java] Scenario in child"
 	</case>
 
 	<!--
@@ -1676,10 +1735,6 @@
 
     call :run %SYSTEMROOT%\system32\find /i "warning" "%ANT_LOG%"
     call :verify_retval 1
-
-    rem Verify Ant makepath task
-    call :run type "%ANT_LOG%"
-    call :verify_line * x " [makepath] Setting xspec.schematron.file to file path %CD%\do-nothing.sch"
 	</case>
 
 	<!--

@@ -294,75 +294,35 @@ fi
 ##
 
 if test -n "$SCHEMATRON"; then
-    echo "Setting up Schematron preprocessors..."
-
-    if test -z "$SCHEMATRON_XSLT_INCLUDE"; then
-        SCHEMATRON_XSLT_INCLUDE="$XSPEC_HOME/src/schematron/iso-schematron/iso_dsdl_include.xsl"
-    fi
-    if test -z "$SCHEMATRON_XSLT_EXPAND"; then
-        SCHEMATRON_XSLT_EXPAND="$XSPEC_HOME/src/schematron/iso-schematron/iso_abstract_expand.xsl"
-    fi
-    if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
-        # Absolute SCHEMATRON_XSLT_COMPILE
-        SCHEMATRON_XSLT_COMPILE_ABS="$(cd "$(dirname "${SCHEMATRON_XSLT_COMPILE}")" && pwd)/$(basename "${SCHEMATRON_XSLT_COMPILE}")"
-    fi
-
-    # Get Schematron file URI
-    xslt -o:"${TEST_DIR}/${TARGET_FILE_NAME}-var.txt" \
-        -s:"${XSPEC}" \
-        -xsl:"${XSPEC_HOME}/src/schematron/locate-schematron-uri.xsl" \
-        || die "Error getting Schematron location"
-    SCH_URI=$(cat "${TEST_DIR}/${TARGET_FILE_NAME}-var.txt")
-
-    # Generate Step 3 wrapper XSLT
-    if test -n "${SCHEMATRON_XSLT_COMPILE}"; then
-        SCHEMATRON_XSLT_COMPILE_URI="file:${SCHEMATRON_XSLT_COMPILE_ABS}"
-    fi
-    SCH_STEP3_WRAPPER="${TEST_DIR}/${TARGET_FILE_NAME}-sch-step3-wrapper.xsl"
-    xslt -o:"${SCH_STEP3_WRAPPER}" \
-        -s:"${XSPEC}" \
-        -xsl:"${XSPEC_HOME}/src/schematron/generate-step3-wrapper.xsl" \
-        "ACTUAL-PREPROCESSOR-URI=${SCHEMATRON_XSLT_COMPILE_URI}" \
-        || die "Error generating Step 3 wrapper XSLT"
-
     SCH_PREPROCESSED_XSPEC="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xspec"
     SCH_PREPROCESSED_XSL="${TEST_DIR}/${TARGET_FILE_NAME}-sch-preprocessed.xsl"
 
-    # Absolute SCH_PREPROCESSED_XSL
-    SCH_PREPROCESSED_XSL_ABS="$(cd "$(dirname "${SCH_PREPROCESSED_XSL}")" && pwd)/$(basename "${SCH_PREPROCESSED_XSL}")"
+    SCHUT_TO_XSLT_PARAMS=()
+    if [ -n "${SCHEMATRON_XSLT_INCLUDE}" ]; then
+        SCHUT_TO_XSLT_PARAMS+=("+STEP1-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_INCLUDE}")
+    fi
+    if [ -n "${SCHEMATRON_XSLT_EXPAND}" ]; then
+        SCHUT_TO_XSLT_PARAMS+=("+STEP2-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_EXPAND}")
+    fi
+    if [ -n "${SCHEMATRON_XSLT_COMPILE}" ]; then
+        SCHUT_TO_XSLT_PARAMS+=("+STEP3-PREPROCESSOR-DOC=${SCHEMATRON_XSLT_COMPILE}")
+    fi
 
     echo
     echo "Converting Schematron into XSLT..."
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
-        -s:"${SCH_URI}" \
-        -xsl:"$SCHEMATRON_XSLT_INCLUDE" \
-        -versionmsg:off \
-        || die "Error preprocessing Schematron on step 1"
-    xslt -o:"$TEST_DIR/$TARGET_FILE_NAME-step2.sch" \
-        -s:"$TEST_DIR/$TARGET_FILE_NAME-step1.sch" \
-        -xsl:"$SCHEMATRON_XSLT_EXPAND" \
-        -versionmsg:off \
-        || die "Error preprocessing Schematron on step 2"
-    xslt -o:"${SCH_PREPROCESSED_XSL}" \
-        -s:"${TEST_DIR}/${TARGET_FILE_NAME}-step2.sch" \
-        -xsl:"${SCH_STEP3_WRAPPER}" \
-        -versionmsg:off \
-        || die "Error preprocessing Schematron on step 3"
-
-    # use XQuery to get full URI to preprocessed Schematron XSLT
-    # xquery -qs:"declare namespace output = 'http://www.w3.org/2010/xslt-xquery-serialization'; declare option output:method 'text'; replace(iri-to-uri(document-uri(/)), concat(codepoints-to-string(94), 'file:/'), '')" \
-    #     -s:"$SCH_PREPROCESSED_XSL" \
-    #     -o:"$TEST_DIR/$TARGET_FILE_NAME-var.txt" \
-    #     || die "Error getting preprocessed Schematron XSLT location"
-    # SCH_PREPROCESSED_XSL_URI=`cat "$TEST_DIR/$TARGET_FILE_NAME-var.txt"`
-    SCH_PREPROCESSED_XSL_URI="file:${SCH_PREPROCESSED_XSL_ABS}"
+    xslt \
+        -o:"${SCH_PREPROCESSED_XSL}" \
+        -s:"${XSPEC}" \
+        -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xslt.xsl" \
+        "${SCHUT_TO_XSLT_PARAMS[@]}" \
+        || die "Error converting Schematron into XSLT"
 
     echo
     echo "Converting Schematron XSpec into XSLT XSpec..."
     xslt -o:"${SCH_PREPROCESSED_XSPEC}" \
         -s:"${XSPEC}" \
         -xsl:"${XSPEC_HOME}/src/schematron/schut-to-xspec.xsl" \
-        stylesheet-uri="${SCH_PREPROCESSED_XSL_URI}" \
+        +stylesheet-doc="${SCH_PREPROCESSED_XSL}" \
         || die "Error converting Schematron XSpec into XSLT XSpec"
     XSPEC="${SCH_PREPROCESSED_XSPEC}"
 

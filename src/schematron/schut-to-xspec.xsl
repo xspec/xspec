@@ -6,7 +6,15 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
-    <xsl:param name="stylesheet-uri" as="xs:string" select="x:description/@schematron || '.xsl'" />
+    <!--
+        $stylesheet-doc is for ../../bin/xspec.* who can pass a document node as a stylesheet
+        parameter but can not handle URI natively.
+        Those who can pass a URI as a stylesheet parameter natively will probably prefer
+        $stylesheet-uri.
+    -->
+    <xsl:param name="stylesheet-doc" as="document-node()?" />
+
+    <xsl:param name="stylesheet-uri" as="xs:string" select="document-uri($stylesheet-doc)" />
 
     <xsl:include href="../common/xspec-utils.xsl"/>
 
@@ -34,10 +42,7 @@
             <xsl:namespace name="{@prefix}" select="@uri" />
         </xsl:for-each>
 
-        <xsl:attribute name="xspec-original-location"
-            select="
-                document-uri(/)
-                => x:resolve-xml-uri-with-catalog()" />
+        <xsl:attribute name="xspec-original-location" select="x:actual-document-uri(/)" />
         <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
         <xsl:attribute name="schematron" select="$resolved-schematron-uri" />
     </xsl:template>
