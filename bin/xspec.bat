@@ -372,7 +372,7 @@ if defined XSLT (
     set "COMPILED=%COMPILED%.xq"
 )
 set "COVERAGE_XML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.xml"
-set "COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html"
+if not defined COVERAGE_HTML set "COVERAGE_HTML=%TEST_DIR%\%TARGET_FILE_NAME%-coverage.html"
 set "RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-result.xml"
 set "HTML=%TEST_DIR%\%TARGET_FILE_NAME%-result.html"
 set "JUNIT_RESULT=%TEST_DIR%\%TARGET_FILE_NAME%-junit.xml"
