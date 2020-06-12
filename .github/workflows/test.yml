@@ -37,6 +37,7 @@ jobs:
           && test/ci/maven-package.sh -q
           && test/ci/compile-java.sh -silent
           && test/ci/last-git-status.sh
+          && test/ci/test-maven-jar.sh -silent
 
       - name: Run tests for Windows
         if: runner.os == 'Windows'
@@ -48,6 +49,7 @@ jobs:
           && call test\ci\maven-package.cmd -q
           && call test\ci\compile-java.cmd -silent
           && call test\ci\last-git-status.cmd
+          && call test\ci\test-maven-jar.cmd -silent
 
       - uses: actions/upload-artifact@v2
         if: env.MAVEN_PACKAGE_VERSION != ''
