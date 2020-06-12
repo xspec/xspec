@@ -15,5 +15,6 @@ test_script:
       test\ci\maven-package.cmd -q
       test\ci\compile-java.cmd -silent
       test\ci\last-git-status.cmd
+      test\ci\test-maven-jar.cmd -silent
 
 deploy: off

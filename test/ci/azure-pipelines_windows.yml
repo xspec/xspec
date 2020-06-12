@@ -61,3 +61,6 @@ jobs:
 
       - script: call test\ci\last-git-status.cmd
         displayName: Check git status
+
+      - script: call test\ci\test-maven-jar.cmd
+        displayName: Test Maven jar
