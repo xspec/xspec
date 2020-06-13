@@ -159,16 +159,6 @@ rem ##
     echo:
     goto :EOF
 
-:cleanup
-	if defined SCHEMATRON (
-		del "%SCH_PREPROCESSED_XSPEC%" 2>nul
-		del "%TEST_DIR%\%TARGET_FILE_NAME%-var.txt" 2>nul
-		del "%TEST_DIR%\%TARGET_FILE_NAME%-step1.sch" 2>nul
-		del "%TEST_DIR%\%TARGET_FILE_NAME%-step2.sch" 2>nul
-		del "%SCH_PREPROCESSED_XSL%" 2>nul
-	)
-	goto :EOF
-
 :win_echo
     rem
     rem Prints a message removing its surrounding quotes (")
@@ -484,8 +474,6 @@ if defined COVERAGE (
     call :win_echo "Report available at %HTML%"
     rem %OPEN% "%HTML%"
 )
-
-call :cleanup
 
 echo Done.
 exit /b
