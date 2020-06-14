@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="x-context.xsl" xmlns:items="x-urn:test:xspec-items"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Node
+	-->
+
+	<!-- Shared x:expect -->
+	<x:scenario label="Expect the identical single node" shared="yes">
+		<x:expect label="Identical node" test="$x:context is $items:element" />
+	</x:scenario>
+	<x:scenario label="Expect the identical multiple nodes" shared="yes">
+		<x:expect label="Identical nodes" select="$items:all-nodes ! generate-id()"
+			test="$x:context ! generate-id()" />
+	</x:scenario>
+
+	<!-- Test -->
+	<x:scenario label="Node">
+		<x:scenario label="Single">
+			<x:context select="$items:element" />
+			<x:like label="Expect the identical single node" />
+
+			<x:scenario label="With template call">
+				<x:call template="null" />
+				<x:like label="Expect the identical single node" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Multiple">
+			<x:context select="$items:all-nodes" />
+			<x:like label="Expect the identical multiple nodes" />
+
+			<x:scenario label="With template call">
+				<x:call template="null" />
+				<x:like label="Expect the identical multiple nodes" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		Atomic value
+	-->
+
+	<!-- Shared x:expect -->
+	<x:scenario label="Expect the same single atomic value" shared="yes">
+		<x:expect label="Same value" select="$items:integer" test="$x:context" />
+	</x:scenario>
+	<x:scenario label="Expect the same multiple atomic values" shared="yes">
+		<x:expect label="Same values" select="$items:integer, $items:integer" test="$x:context" />
+	</x:scenario>
+
+	<!-- Test -->
+	<x:scenario label="Atomic value">
+		<x:scenario label="Single">
+			<x:context select="$items:integer" />
+			<x:like label="Expect the same single atomic value" />
+
+			<x:scenario label="With template call">
+				<x:call template="null" />
+				<x:like label="Expect the same single atomic value" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Multiple">
+			<x:context select="$items:integer, $items:integer" />
+			<x:like label="Expect the same multiple atomic values" />
+
+			<x:scenario label="With template call">
+				<x:call template="null" />
+				<x:like label="Expect the same multiple atomic values" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		Mixture of nodes and atomic values
+	-->
+
+	<!-- Shared x:expect -->
+	<x:scenario label="Expect the same sequence of the identical nodes and the same atomic values"
+		shared="yes">
+		<x:expect label="Same items" select="$items:all-nodes, $items:integer" test="$x:context" />
+		<x:expect label="Identical nodes" select="$items:all-nodes ! generate-id()"
+			test="$x:context[. instance of node()] ! generate-id()" />
+	</x:scenario>
+
+	<!-- Test -->
+	<x:scenario label="Mixture of nodes and atomic values">
+		<x:context select="$items:all-nodes, $items:integer" />
+		<x:like label="Expect the same sequence of the identical nodes and the same atomic values" />
+
+		<x:scenario label="With template call">
+			<x:call template="null" />
+			<x:like
+				label="Expect the same sequence of the identical nodes and the same atomic values"
+			 />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
