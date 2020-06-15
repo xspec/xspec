@@ -38,12 +38,10 @@
 			<xsl:next-match />
 		</xsl:variable>
 
-		<xsl:for-each select="$next-match">
-			<xsl:copy>
-				<xsl:attribute name="xml:base" select="$x:schematron-uri" />
-				<xsl:sequence select="attribute() | node()" />
-			</xsl:copy>
-		</xsl:for-each>
+		<xsl:copy select="$next-match">
+			<xsl:attribute name="xml:base" select="$x:schematron-uri" />
+			<xsl:sequence select="attribute() | node()" />
+		</xsl:copy>
 	</xsl:template>
 
 </xsl:stylesheet>
