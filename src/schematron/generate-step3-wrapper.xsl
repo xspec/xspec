@@ -42,7 +42,7 @@
 				so that $x:schematron-uri holding the URI is generated and made available in
 				the wrapper stylesheet being generated -->
 			<xsl:variable as="element(x:param)" name="xml-base-param">
-				<x:param as="{x:known-UQN('xs:anyURI')}" name="x:schematron-uri">
+				<x:param as="{x:known-UQName('xs:anyURI')}" name="x:schematron-uri">
 					<xsl:value-of select="x:locate-schematron-uri(.)" />
 				</x:param>
 			</xsl:variable>

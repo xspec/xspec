@@ -137,7 +137,7 @@
 		<!-- Note: For x:variable elements that are direct children of x:description, expanded QNames must be unique.
 		 This test scenario is about *local* redefinitions of global or local variables. -->
 		<!-- For now, we assume any prefixes used in variable names are defined on x:description. -->
-		<!-- For a test that redefines a variable using URI-qualified notation, see xspec-eqname.xspec,
+		<!-- For a test that redefines a variable using URIQualifiedName, see xspec-eqname.xspec,
 		 which had xslt-version="3.0".
 		 TODO: The default @xslt-version has been changed. Consider relocating the test. -->
 		<x:scenario label="Local redefinition of global variable">
