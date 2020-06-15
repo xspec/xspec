@@ -14,7 +14,7 @@
             <x:call function="xs:ID">
                <x:param select="'foo'"/>
             </x:call>
-            <x:result select="xs:ID('foo')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}ID('foo')"/>
             <x:test id="scenario1-scenario1-scenario1-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:ID('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
@@ -27,7 +27,7 @@
             <x:call function="xs:IDREF">
                <x:param select="'foo'"/>
             </x:call>
-            <x:result select="xs:IDREF('foo')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}IDREF('foo')"/>
             <x:test id="scenario1-scenario1-scenario2-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:IDREF('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
@@ -40,7 +40,7 @@
             <x:call function="xs:ENTITY">
                <x:param select="'foo'"/>
             </x:call>
-            <x:result select="xs:ENTITY('foo')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}ENTITY('foo')"/>
             <x:test id="scenario1-scenario1-scenario3-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:ENTITY('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
@@ -53,7 +53,7 @@
             <x:call function="xs:NCName">
                <x:param select="'foo'"/>
             </x:call>
-            <x:result select="xs:NCName('foo')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}NCName('foo')"/>
             <x:test id="scenario1-scenario1-scenario4-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:NCName('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
@@ -66,7 +66,7 @@
             <x:call function="xs:language">
                <x:param select="'en'"/>
             </x:call>
-            <x:result select="xs:language('en')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}language('en')"/>
             <x:test id="scenario1-scenario1-scenario5-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:language('en')" (XSLT) or "'en'"
 						(XQuery)</x:label>
@@ -79,7 +79,7 @@
             <x:call function="xs:Name">
                <x:param select="'foo'"/>
             </x:call>
-            <x:result select="xs:Name('foo')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}Name('foo')"/>
             <x:test id="scenario1-scenario1-scenario6-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:Name('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
@@ -92,7 +92,7 @@
             <x:call function="xs:NMTOKEN">
                <x:param select="'foo'"/>
             </x:call>
-            <x:result select="xs:NMTOKEN('foo')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}NMTOKEN('foo')"/>
             <x:test id="scenario1-scenario1-scenario7-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:NMTOKEN('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
@@ -105,7 +105,7 @@
             <x:call function="xs:token">
                <x:param select="'foo'"/>
             </x:call>
-            <x:result select="xs:token('foo')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}token('foo')"/>
             <x:test id="scenario1-scenario1-scenario8-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:token('foo')" (XSLT) or "'foo'"
 						(XQuery)</x:label>
@@ -118,7 +118,7 @@
             <x:call function="xs:normalizedString">
                <x:param select="'foo'"/>
             </x:call>
-            <x:result select="xs:normalizedString('foo')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}normalizedString('foo')"/>
             <x:test id="scenario1-scenario1-scenario9-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:normalizedString('foo')" (XSLT) or
 						"'foo'" (XQuery)</x:label>
@@ -134,7 +134,7 @@
             <x:call function="xs:negativeInteger">
                <x:param select="-1"/>
             </x:call>
-            <x:result select="xs:negativeInteger(-1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}negativeInteger(-1)"/>
             <x:test id="scenario1-scenario2-scenario1-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:negativeInteger(-1)" (XSLT) or "-1"
 						(XQuery)</x:label>
@@ -147,7 +147,7 @@
             <x:call function="xs:nonPositiveInteger">
                <x:param select="0"/>
             </x:call>
-            <x:result select="xs:nonPositiveInteger(0)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger(0)"/>
             <x:test id="scenario1-scenario2-scenario2-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:nonPositiveInteger(0)" (XSLT) or "0"
 						(XQuery)</x:label>
@@ -160,7 +160,7 @@
             <x:call function="xs:byte">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:byte(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}byte(1)"/>
             <x:test id="scenario1-scenario2-scenario3-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:byte(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -173,7 +173,7 @@
             <x:call function="xs:short">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:short(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}short(1)"/>
             <x:test id="scenario1-scenario2-scenario4-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:short(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -186,7 +186,7 @@
             <x:call function="xs:int">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:int(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}int(1)"/>
             <x:test id="scenario1-scenario2-scenario5-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:int(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -199,7 +199,7 @@
             <x:call function="xs:long">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:long(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}long(1)"/>
             <x:test id="scenario1-scenario2-scenario6-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:long(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -212,7 +212,7 @@
             <x:call function="xs:unsignedByte">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:unsignedByte(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}unsignedByte(1)"/>
             <x:test id="scenario1-scenario2-scenario7-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:unsignedByte(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -225,7 +225,7 @@
             <x:call function="xs:unsignedShort">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:unsignedShort(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}unsignedShort(1)"/>
             <x:test id="scenario1-scenario2-scenario8-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:unsignedShort(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -238,7 +238,7 @@
             <x:call function="xs:unsignedInt">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:unsignedInt(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}unsignedInt(1)"/>
             <x:test id="scenario1-scenario2-scenario9-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:unsignedInt(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -251,7 +251,7 @@
             <x:call function="xs:unsignedLong">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:unsignedLong(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}unsignedLong(1)"/>
             <x:test id="scenario1-scenario2-scenario10-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:unsignedLong(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -264,7 +264,7 @@
             <x:call function="xs:positiveInteger">
                <x:param select="1"/>
             </x:call>
-            <x:result select="xs:positiveInteger(1)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}positiveInteger(1)"/>
             <x:test id="scenario1-scenario2-scenario11-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:positiveInteger(1)" (XSLT) or "1"
 						(XQuery)</x:label>
@@ -277,7 +277,7 @@
             <x:call function="xs:nonNegativeInteger">
                <x:param select="0"/>
             </x:call>
-            <x:result select="xs:nonNegativeInteger(0)"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger(0)"/>
             <x:test id="scenario1-scenario2-scenario12-expect1" successful="false">
                <x:label>[Result] must represent it by "xs:nonNegativeInteger(0)" (XSLT) or "0"
 						(XQuery)</x:label>

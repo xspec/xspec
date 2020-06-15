@@ -54,7 +54,7 @@
                <t:param name="wrapper-name" select="'t:result'" />
             </t:call>
             <t:expect label="t:result with @select of xs:anyURI">
-               <t:result select="xs:anyURI('test.xml')" />
+               <t:result select="Q{{http://www.w3.org/2001/XMLSchema}}anyURI('test.xml')" />
             </t:expect>
          </t:scenario>
 
