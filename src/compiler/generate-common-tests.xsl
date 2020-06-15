@@ -469,6 +469,7 @@
             @pending
           else
             $pending"/>
+
       <!-- The new apply. -->
       <xsl:variable name="new-apply" as="element(x:apply)?">
          <xsl:choose>
@@ -489,6 +490,7 @@
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
+
       <!-- The new context. -->
       <xsl:variable name="new-context" as="element(x:context)?">
          <xsl:choose>
@@ -515,6 +517,7 @@
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
+
       <!-- The new call. -->
       <xsl:variable name="new-call" as="element(x:call)?">
          <xsl:choose>
@@ -535,14 +538,17 @@
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
+
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-scenario">
          <xsl:with-param name="pending"   select="$new-pending" tunnel="yes"/>
          <xsl:with-param name="apply"     select="$new-apply"   tunnel="yes"/>
          <xsl:with-param name="call"      select="$new-call"    tunnel="yes"/>
          <xsl:with-param name="context"   select="$new-context" tunnel="yes"/>
+
          <!-- the variable declarations preceding the x:call or x:context (if any). -->
          <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable"/>
+
          <xsl:with-param name="params" as="element(param)*">
             <xsl:for-each select="x:distinct-variable-names($vars)">
                <xsl:element name="param" namespace="">
@@ -553,6 +559,7 @@
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
+
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
