@@ -95,8 +95,8 @@
             <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
                being tested which would otherwise govern the output of the report XML. -->
             <result-document>
-               <!-- @format does not accept URIQualifiedName as-is because the attribute is AVT -->
-               <xsl:attribute name="format" select="x:xspec-name(., 'report')" />
+               <!-- Escape curly braces because @format is AVT -->
+               <xsl:attribute name="format" select="'Q{{' || $x:xspec-namespace || '}}report'" />
 
                <xsl:element name="{x:xspec-name(., 'report')}" namespace="{$x:xspec-namespace}">
                   <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
