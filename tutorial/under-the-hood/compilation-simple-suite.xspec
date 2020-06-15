@@ -4,7 +4,7 @@
    xmlns:x="http://www.jenitennison.com/xslt/xspec"
    stylesheet="compilation-simple-suite.xsl"
    query="http://example.org/ns/my"
-   query-at="compilation-simple-suite.xquery">
+   query-at="compilation-simple-suite.xqm">
 
    <!-- Example in Compilation.md, under "Simple suite" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->

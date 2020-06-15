@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-xquery-to-support-schema?>
 <?xspec-test require-xslt-to-support-schema?>
-<x:description query="x-urn:test-mix" query-at="xspec-151.xquery" stylesheet="xspec-151.xsl"
+<x:description query="x-urn:test-mix" query-at="xspec-151.xqm" stylesheet="xspec-151.xsl"
 	xmlns:test-mix="x-urn:test-mix" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="When the result is a mixture of a typed element and a string">
 		<x:call function="test-mix:element-and-string" />

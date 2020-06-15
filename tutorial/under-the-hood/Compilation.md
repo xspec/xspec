@@ -31,7 +31,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    xmlns:x="http://www.jenitennison.com/xslt/xspec"
    stylesheet="compilation-simple-suite.xsl"
    query="http://example.org/ns/my"
-   query-at="compilation-simple-suite.xquery">
+   query-at="compilation-simple-suite.xqm">
 
    <x:scenario label="scenario">
       <x:call function="my:f"/>
@@ -98,12 +98,12 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 ```xquery
 (: the tested library module :)
 import module namespace my = "http://example.org/ns/my"
-  at ".../compilation-simple-suite.xquery";
+  at ".../compilation-simple-suite.xqm";
 (: an XSpec library module providing tools :)
 import module "http://www.jenitennison.com/xslt/unit-test"
-  at ".../src/compiler/generate-query-utils.xql";
+  at ".../src/compiler/generate-query-utils.xqm";
 import module "http://www.jenitennison.com/xslt/xspec"
-  at ".../src/common/xspec-utils.xquery";
+  at ".../src/common/xspec-utils.xqm";
 
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";
 
@@ -132,7 +132,7 @@ document {
           xmlns:my="http://example.org/ns/my"
           date="{current-dateTime()}"
           query="http://example.org/ns/my"
-          query-at=".../compilation-simple-suite.xquery"
+          query-at=".../compilation-simple-suite.xqm"
           xspec=".../compilation-simple-suite.xspec"> {
       (: a call instruction for each top-level scenario :)
       let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1() return (

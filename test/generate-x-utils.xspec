@@ -11,11 +11,11 @@
                xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                query="x-urn:test:xspec-items"
-               query-at="items.xquery"
+               query-at="items.xqm"
                stylesheet="items.xsl">
 
    <!--
-       Test the source files generate-tests-utils.xsl and generate-query-utils.xql.
+       Test the source files generate-tests-utils.xsl and generate-query-utils.xqm.
 
        The test target is included implicitly by the XSpec compiler. You don't need
        to specify it in /t:description/@stylesheet or @query-at. 'test' prefix is not

@@ -31,7 +31,7 @@
     <p:variable name="formatter" select="resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)"/>
     <!-- Saxon's resolve-uri() returns file:/ with only one slashes, which Zorba
         does not understand. -->
-    <p:variable name="utils-tmp" select="resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)"/>
+    <p:variable name="utils-tmp" select="resolve-uri('src/compiler/generate-query-utils.xqm', $xspec-home)"/>
     <p:variable name="utils-lib" select="if ( starts-with($utils-tmp, 'file:/') and not(starts-with($utils-tmp, 'file:///')) ) then concat('file:///', substring($utils-tmp, 7)) else $utils-tmp"/>
 
     <p:string-replace match="xsl:import/@href" name="compiler">

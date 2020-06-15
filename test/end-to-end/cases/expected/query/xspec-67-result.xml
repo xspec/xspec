@@ -2,7 +2,7 @@
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test:xspec-items"
-          query-at="../../../../items.xquery"
+          query-at="../../../../items.xqm"
           xspec="../../xspec-67.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-67.xspec">
       <x:label>Comparing identical namespace</x:label>

@@ -25,7 +25,7 @@
 
    <!--
        The URI to use in the "at" clause of the import statement (aka
-       the "location hint") for the library generate-query-utils.xql.
+       the "location hint") for the library generate-query-utils.xqm.
        The special value '#none' is used to generate no "at" clause at
        all.
 
@@ -36,7 +36,7 @@
        MarkLogic).
    -->
    <xsl:param name="utils-library-at" as="xs:string"
-      select="resolve-uri('generate-query-utils.xql')" />
+      select="resolve-uri('generate-query-utils.xqm')" />
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?" select="
@@ -105,7 +105,7 @@
       <!-- Import common utils -->
       <xsl:text expand-text="yes">import module "{$x:xspec-namespace}"</xsl:text>
       <xsl:if test="$utils-library-at ne '#none'">
-         <xsl:text expand-text="yes">&#x0A;  at "{resolve-uri('../common/xspec-utils.xquery')}"</xsl:text>
+         <xsl:text expand-text="yes">&#x0A;  at "{resolve-uri('../common/xspec-utils.xqm')}"</xsl:text>
       </xsl:if>
       <xsl:text>;&#x0A;</xsl:text>
 

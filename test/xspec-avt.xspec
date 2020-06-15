@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:mirror" query-at="mirror.xquery" stylesheet="mirror.xsl"
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
 	xmlns:mirror="x-urn:test:mirror" xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 

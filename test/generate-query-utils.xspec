@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
                query="x-urn:test:do-nothing"
-               query-at="do-nothing.xquery">
+               query-at="do-nothing.xqm">
 
    <!--
-       Test the source file generate-query-utils.xql.
+       Test the source file generate-query-utils.xqm.
 
        The test target is included implicitly by the XSpec compiler. You don't need
        to specify it in /t:description/@query-at. 'test' prefix is not available, though.
