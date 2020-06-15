@@ -133,18 +133,18 @@
       <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="last"   as="xs:boolean" />
-      <xsl:param name="params" as="element(param)*" />
+
+      <!-- URIQualifiedNames of the variables that will be passed as the parameters (of the same
+         URIQualifiedName) to the call -->
+      <xsl:param name="with-param-uqnames" as="xs:string*" />
 
       <xsl:variable name="local-name" as="xs:string">
          <xsl:apply-templates select="." mode="x:generate-id" />
       </xsl:variable>
 
       <call-template name="{x:known-UQN('x:' || $local-name)}">
-         <xsl:sequence select="x:copy-namespaces(.)" />
-         <xsl:for-each select="$params">
-            <with-param name="{ @name }" select="{ @select }">
-               <xsl:sequence select="x:copy-namespaces(.)" />
-            </with-param>
+         <xsl:for-each select="$with-param-uqnames">
+            <with-param name="{.}" select="${.}" />
          </xsl:for-each>
       </call-template>
 
@@ -162,10 +162,13 @@
       <xsl:param name="apply"     select="()" tunnel="yes" as="element(x:apply)?" />
       <xsl:param name="call"      select="()" tunnel="yes" as="element(x:call)?" />
       <xsl:param name="context"   select="()" tunnel="yes" as="element(x:context)?" />
-      <xsl:param name="variables" as="element(x:variable)*" />
-      <xsl:param name="params"    as="element(param)*" />
+      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
-      <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
+      <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
+         select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable" />
+
+      <xsl:variable name="pending-p" as="xs:boolean"
+         select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
 
       <xsl:variable name="scenario-id" as="xs:string">
          <xsl:apply-templates select="." mode="x:generate-id" />
@@ -220,10 +223,8 @@
       <template name="{x:known-UQN('x:' || $scenario-id)}">
          <xsl:sequence select="x:copy-namespaces(.)" />
 
-         <xsl:for-each select="$params">
-            <param name="{ @name }" required="yes">
-               <xsl:sequence select="x:copy-namespaces(.)" />
-            </param>
+         <xsl:for-each select="distinct-values($stacked-variables ! x:variable-name(.))">
+            <param name="{.}" required="yes" />
          </xsl:for-each>
 
          <message>
@@ -255,7 +256,7 @@
 
             <!-- Handle variables and apply/call/context in document order,
                instead of apply/call/context first and variables second. -->
-            <xsl:for-each select="$variables | x:apply | x:call | x:context">
+            <xsl:for-each select="$local-preceding-variables | x:apply | x:call | x:context">
                <xsl:choose>
                   <xsl:when test="self::x:apply or self::x:call or self::x:context">
                      <!-- Create report generator -->
@@ -465,7 +466,9 @@
       <xsl:param name="pending" select="()"    tunnel="yes" as="node()?" />
       <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?" />
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?" />
-      <xsl:param name="params"  required="yes"              as="element(param)*" />
+
+      <!-- URIQualifiedNames of the (required) parameters of the template being generated -->
+      <xsl:param name="param-uqnames" required="yes" as="xs:string*" />
 
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)" />
 
@@ -476,10 +479,8 @@
       <template name="{x:known-UQN('x:' || $expect-id)}">
          <xsl:sequence select="x:copy-namespaces(.)" />
 
-         <xsl:for-each select="$params">
-            <param name="{ @name }" required="{ @required }">
-               <xsl:sequence select="x:copy-namespaces(.)" />
-            </param>
+         <xsl:for-each select="$param-uqnames">
+            <param name="{.}" required="yes" />
          </xsl:for-each>
 
          <message>
