@@ -215,7 +215,7 @@ declare function test:report-sequence(
 
   let $attribute-nodes as attribute()* := $sequence[. instance of attribute()]
   let $document-nodes as document-node()* := $sequence[. instance of document-node()]
-  let $namespace-nodes as node()* := $sequence[. instance of namespace-node()]
+  let $namespace-nodes as namespace-node()* := $sequence[. instance of namespace-node()]
   let $text-nodes as text()* := $sequence[. instance of text()]
 
   let $report-element as element() :=
