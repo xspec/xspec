@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="2.0">
-    <xsl:import href="../../src/schematron/iso-schematron/iso_svrl_for_xslt2.xsl" />
+    <xsl:import href="../../lib/iso-schematron/iso_svrl_for_xslt2.xsl" />
 
     <xsl:template match="sch:let[@name eq 'hook-me']" as="element(xsl:variable)">
         <xsl:element name="xsl:variable">
