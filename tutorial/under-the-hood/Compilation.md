@@ -55,7 +55,8 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <xsl:import href=".../xspec/src/compiler/generate-tests-utils.xsl"/>
    <xsl:include href=".../xspec/src/common/xspec-utils.xsl"/>
    <xsl:output name="Q{http://www.jenitennison.com/xslt/xspec}report" method="xml" indent="yes"/>
-   <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri" as="xs:anyURI">.../compilation-simple-suite.xspec</xsl:variable>
+   <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri"
+                 as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xspec</xsl:variable>
    <!-- the main template to run the suite -->
    <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}main">
       <!-- info message -->
