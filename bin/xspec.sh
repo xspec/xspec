@@ -426,15 +426,4 @@ else
     #$OPEN "$HTML"
 fi
 
-##
-## cleanup
-##
-if test -n "$SCHEMATRON"; then
-    rm -f "$SCH_PREPROCESSED_XSPEC"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-var.txt"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-step1.sch"
-    rm -f "$TEST_DIR/$TARGET_FILE_NAME-step2.sch"
-    rm -f "$SCH_PREPROCESSED_XSL"
-fi
-
 echo "Done."

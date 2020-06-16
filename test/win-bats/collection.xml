@@ -268,12 +268,13 @@
     rem * XML report file is created
     rem * HTML report file is created
     rem * JUnit is disabled by default
-    rem * Schematron-specific temporary files are deleted
     call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
-    call :verify_line_count 3
+    call :verify_line_count 5
     call :verify_line 1 x demo-03-compiled.xsl
     call :verify_line 2 x demo-03-result.html
     call :verify_line 3 x demo-03-result.xml
+    call :verify_line 4 x demo-03-sch-preprocessed.xsl
+    call :verify_line 5 x demo-03-sch-preprocessed.xspec
 	</case>
 
 	<!--
@@ -604,10 +605,12 @@
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
-    call :verify_line_count 3
+    call :verify_line_count 5
     call :verify_line 1 x demo-03-compiled.xsl
     call :verify_line 2 x demo-03-result.html
     call :verify_line 3 x demo-03-result.xml
+    call :verify_line 4 x demo-03-sch-preprocessed.xsl
+    call :verify_line 5 x demo-03-sch-preprocessed.xspec
 
     rem Default output dir should not be created
     call :verify_leaf_dir_not_exist "%TUTORIAL_COPY%\xspec"
@@ -621,10 +624,12 @@
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
-    call :verify_line_count 3
+    call :verify_line_count 5
     call :verify_line 1 x demo-03-compiled.xsl
     call :verify_line 2 x demo-03-result.html
     call :verify_line 3 x demo-03-result.xml
+    call :verify_line 4 x demo-03-sch-preprocessed.xsl
+    call :verify_line 5 x demo-03-sch-preprocessed.xspec
 	</case>
 
 	<!--

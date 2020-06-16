@@ -349,13 +349,14 @@ load bats-helper
     # * XML report file is created
     # * HTML report file is created
     # * JUnit is disabled by default
-    # * Schematron-specific temporary files are deleted
     run ls "${tutorial_copy}/xspec"
     echo "$output"
-    [ "${#lines[@]}" = "3" ]
+    [ "${#lines[@]}" = "5" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
+    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
 }
 
 #
@@ -733,10 +734,12 @@ load bats-helper
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
     echo "$output"
-    [ "${#lines[@]}" = "3" ]
+    [ "${#lines[@]}" = "5" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
+    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
 
     # Default output dir should not be created
     assert_leaf_dir_not_exist "${tutorial_copy}/xspec"
@@ -752,10 +755,12 @@ load bats-helper
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
     echo "$output"
-    [ "${#lines[@]}" = "3" ]
+    [ "${#lines[@]}" = "5" ]
     [ "${lines[0]}" = "demo-03-compiled.xsl" ]
     [ "${lines[1]}" = "demo-03-result.html" ]
     [ "${lines[2]}" = "demo-03-result.xml" ]
+    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
 }
 
 #
