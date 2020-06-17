@@ -78,6 +78,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <xspec.resources.target.root>io/xspec/xspec/impl</xspec.resources.target.root>
   </properties>
 
   <dependencies>
@@ -99,7 +100,11 @@
         </excludes>
       </resource>
       <resource>
-        <targetPath>io/xspec/xspec/impl/src</targetPath>
+        <targetPath>${xspec.resources.target.root}/lib</targetPath>
+        <directory>lib</directory>
+      </resource>
+      <resource>
+        <targetPath>${xspec.resources.target.root}/src</targetPath>
         <directory>src</directory>
         <excludes>
           <exclude>harnesses/**</exclude>
