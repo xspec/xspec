@@ -284,10 +284,10 @@
       <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/xspec'" />
       <xsl:param name="test" as="attribute(test)?" />
 
-      <xsl:variable name="attribute-nodes" as="attribute()*"     select="$sequence[. instance of attribute()]" />
-      <xsl:variable name="document-nodes"  as="document-node()*" select="$sequence[. instance of document-node()]" />
-      <xsl:variable name="namespace-nodes" as="node()*"          select="$sequence[. instance of namespace-node()]" />
-      <xsl:variable name="text-nodes"      as="text()*"          select="$sequence[. instance of text()]" />
+      <xsl:variable name="attribute-nodes" as="attribute()*"      select="$sequence[. instance of attribute()]" />
+      <xsl:variable name="document-nodes"  as="document-node()*"  select="$sequence[. instance of document-node()]" />
+      <xsl:variable name="namespace-nodes" as="namespace-node()*" select="$sequence[. instance of namespace-node()]" />
+      <xsl:variable name="text-nodes"      as="text()*"           select="$sequence[. instance of text()]" />
 
       <xsl:variable name="report-element" as="element()">
          <xsl:element name="{$wrapper-name}" namespace="{$wrapper-ns}">
