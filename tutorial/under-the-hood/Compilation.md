@@ -66,7 +66,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
          <xsl:value-of select="system-property('xsl:product-version')"/>
       </xsl:message>
       <!-- set up the result document (the report) -->
-      <xsl:result-document format="x:report">
+      <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}report">
          <x:report stylesheet=".../compilation-simple-suite.xsl"
                    date="{current-dateTime()}"
                    xspec=".../compilation-simple-suite.xspec">
