@@ -10,11 +10,11 @@
       <x:call function="xs:untypedAtomic">
          <x:param select="'0123'"/>
       </x:call>
-      <x:result select="xs:untypedAtomic('0123')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}untypedAtomic('0123')"/>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>must generate a failure report HTML which reads [Result] =
 				"xs:untypedAtomic('0123')" and [Expected Result] = "xs:hexBinary('0123')"</x:label>
-         <x:expect select="xs:hexBinary('0123')"/>
+         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}hexBinary('0123')"/>
       </x:test>
    </x:scenario>
 </x:report>

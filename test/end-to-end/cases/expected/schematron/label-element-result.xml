@@ -13,7 +13,7 @@
 &#xD; 	
 &#xD; </x:label>
       <x:call function="true"/>
-      <x:result select="xs:boolean('true')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>	
 &#xD; 	
@@ -32,7 +32,7 @@
 &#xD; 	
 &#xD; </x:label>
       <x:call function="true"/>
-      <x:result select="xs:boolean('true')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <x:test id="scenario2-expect1" successful="false">
          <x:label>	
 &#xD; 	
@@ -51,7 +51,7 @@
 &#xD; 	
 &#xD; </x:label>
       <x:call function="true"/>
-      <x:result select="xs:boolean('true')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <x:test id="scenario3-expect1" successful="false">
          <x:label>	
 &#xD; 	

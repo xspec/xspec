@@ -26,7 +26,7 @@
       <x:scenario id="scenario1-scenario2" xspec="../../xspec-serialize.xspec">
          <x:label>When x:expect in the report XML contains a comment node,</x:label>
          <x:call function="false"/>
-         <x:result select="xs:boolean('false')"/>
+         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <x:test id="scenario1-scenario2-expect1" successful="false">
             <x:label>[Expected Result] with diff must be serialized as
 					&lt;!-- --&gt;.</x:label>
@@ -79,7 +79,7 @@
             <x:label>When x:expect in the report XML file is a sequence of simple nested
 					elements serialized with indentation,</x:label>
             <x:call function="false"/>
-            <x:result select="xs:boolean('false')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <x:test id="scenario2-scenario1-scenario2-expect1" successful="false">
                <x:label>all elements in [Expected Result] with diff must be serialized with
 						indentation.</x:label>
@@ -324,7 +324,7 @@
          <x:scenario id="scenario5-scenario1-scenario2" xspec="../../xspec-serialize.xspec">
             <x:label>in x:expect,</x:label>
             <x:call function="false"/>
-            <x:result select="xs:boolean('false')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <x:test id="scenario5-scenario1-scenario2-expect1" successful="false">
                <x:label>[Expected Result] with diff must be serialized with aligned
 						indentation.</x:label>
@@ -367,7 +367,7 @@
          <x:scenario id="scenario5-scenario2-scenario2" xspec="../../xspec-serialize.xspec">
             <x:label>in x:expect,</x:label>
             <x:call function="false"/>
-            <x:result select="xs:boolean('false')"/>
+            <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <x:test id="scenario5-scenario2-scenario2-expect1" successful="false">
                <x:label>[Expected Result] with diff must be serialized with aligned
 						indentation.</x:label>

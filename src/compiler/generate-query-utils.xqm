@@ -427,73 +427,77 @@ declare function test:report-atomic-value-as-constructor($value as xs:anyAtomicT
 
 declare function test:atom-type($value as xs:anyAtomicType) as xs:string
 {
-  (: Grouped as the spec does: http://www.w3.org/TR/xslt20/#built-in-types
-    Groups are in the reversed order so that the derived types are before the primitive types,
-    otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. :)
+  let $local-name as xs:string := (
+    (: Grouped as the spec does: http://www.w3.org/TR/xslt20/#built-in-types
+      Groups are in the reversed order so that the derived types are before the primitive types,
+      otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. :)
 
-  (: A schema-aware XSLT processor additionally supports: :)
+    (: A schema-aware XSLT processor additionally supports: :)
 
-  (:    * All other built-in types defined in [XML Schema Part 2] :)
-  (: Requires schema-aware processor :)
+    (:    * All other built-in types defined in [XML Schema Part 2] :)
+    (: Requires schema-aware processor :)
 
-  (: Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: :)
+    (: Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: :)
 
-  (:    * The following types defined in [XPath 2.0] :)
-  if ( $value instance of xs:yearMonthDuration ) then
-    'xs:yearMonthDuration'
-  else if ($value instance of xs:dayTimeDuration ) then
-    'xs:dayTimeDuration'
-  (: xs:anyAtomicType: Abstract :)
-  (: xs:untyped: Not atomic :)
-  else if ( $value instance of xs:untypedAtomic ) then
-    'xs:untypedAtomic'
+    (:    * The following types defined in [XPath 2.0] :)
+    if ( $value instance of xs:yearMonthDuration ) then
+      'yearMonthDuration'
+    else if ($value instance of xs:dayTimeDuration ) then
+      'dayTimeDuration'
+    (: xs:anyAtomicType: Abstract :)
+    (: xs:untyped: Not atomic :)
+    else if ( $value instance of xs:untypedAtomic ) then
+      'untypedAtomic'
 
-  (:    * The types xs:anyType and xs:anySimpleType. :)
-  (: Not atomic :)
+    (:    * The types xs:anyType and xs:anySimpleType. :)
+    (: Not atomic :)
 
-  (:    * The derived atomic type xs:integer defined in [XML Schema Part 2]. :)
-  else if ( $value instance of xs:integer ) then
-    'xs:integer'
+    (:    * The derived atomic type xs:integer defined in [XML Schema Part 2]. :)
+    else if ( $value instance of xs:integer ) then
+      'integer'
 
-  (:    * All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION. :)
-  else if ( $value instance of xs:string ) then
-    'xs:string'
-  else if ( $value instance of xs:boolean ) then
-    'xs:boolean'
-  else if ( $value instance of xs:decimal ) then
-    'xs:decimal'
-  else if ( $value instance of xs:double ) then
-    'xs:double'
-  else if ( $value instance of xs:float ) then
-    'xs:float'
-  else if ( $value instance of xs:date ) then
-    'xs:date'
-  else if ( $value instance of xs:time ) then
-    'xs:time'
-  else if ( $value instance of xs:dateTime ) then
-    'xs:dateTime'
-  else if ( $value instance of xs:duration ) then
-    'xs:duration'
-  else if ( $value instance of xs:QName ) then
-    'xs:QName'
-  else if ( $value instance of xs:anyURI ) then
-    'xs:anyURI'
-  else if ( $value instance of xs:gDay ) then
-    'xs:gDay'
-  else if ( $value instance of xs:gMonthDay ) then
-    'xs:gMonthDay'
-  else if ( $value instance of xs:gMonth ) then
-    'xs:gMonth'
-  else if ( $value instance of xs:gYearMonth ) then
-    'xs:gYearMonth'
-  else if ( $value instance of xs:gYear ) then
-    'xs:gYear'
-  else if ( $value instance of xs:base64Binary ) then
-    'xs:base64Binary'
-  else if ( $value instance of xs:hexBinary ) then
-    'xs:hexBinary'
-  else
-    'xs:anyAtomicType'
+    (:    * All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION. :)
+    else if ( $value instance of xs:string ) then
+      'string'
+    else if ( $value instance of xs:boolean ) then
+      'boolean'
+    else if ( $value instance of xs:decimal ) then
+      'decimal'
+    else if ( $value instance of xs:double ) then
+      'double'
+    else if ( $value instance of xs:float ) then
+      'float'
+    else if ( $value instance of xs:date ) then
+      'date'
+    else if ( $value instance of xs:time ) then
+      'time'
+    else if ( $value instance of xs:dateTime ) then
+      'dateTime'
+    else if ( $value instance of xs:duration ) then
+      'duration'
+    else if ( $value instance of xs:QName ) then
+      'QName'
+    else if ( $value instance of xs:anyURI ) then
+      'anyURI'
+    else if ( $value instance of xs:gDay ) then
+      'gDay'
+    else if ( $value instance of xs:gMonthDay ) then
+      'gMonthDay'
+    else if ( $value instance of xs:gMonth ) then
+      'gMonth'
+    else if ( $value instance of xs:gYearMonth ) then
+      'gYearMonth'
+    else if ( $value instance of xs:gYear ) then
+      'gYear'
+    else if ( $value instance of xs:base64Binary ) then
+      'base64Binary'
+    else if ( $value instance of xs:hexBinary ) then
+      'hexBinary'
+    else
+      'anyAtomicType'
+  )
+  return
+    ('Q{http://www.w3.org/2001/XMLSchema}' || $local-name)
 };
 
 
