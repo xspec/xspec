@@ -1,5 +1,5 @@
 # Third party
-/src/schematron/iso-schematron/
+/lib/
 
 # End-to-end test Actual and Expected
 /test/end-to-end/cases/actual__/
