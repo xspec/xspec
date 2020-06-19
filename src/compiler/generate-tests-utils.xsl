@@ -403,12 +403,10 @@
             </xsl:result-document>
 
             <!-- Alter the report element, discarding its stale @select -->
-            <xsl:for-each select="$report-element">
-               <xsl:copy>
-                  <xsl:sequence select="attribute() except @select" />
-                  <xsl:attribute name="href" select="$href" />
-               </xsl:copy>
-            </xsl:for-each>
+            <xsl:copy select="$report-element">
+               <xsl:sequence select="attribute() except @select" />
+               <xsl:attribute name="href" select="$href" />
+            </xsl:copy>
          </xsl:when>
 
          <!-- Not too many nodes. Just output the report element as is. -->
