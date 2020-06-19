@@ -445,67 +445,69 @@
             @pending
           else
             $pending"/>
+
       <!-- The new apply. -->
       <xsl:variable name="new-apply" as="element(x:apply)?">
          <xsl:choose>
             <xsl:when test="x:apply">
-               <xsl:variable name="local-params" as="element(x:param)*" select="x:apply/x:param"/>
-               <xsl:for-each select="x:apply">
-                  <xsl:copy>
-                     <xsl:sequence select="$apply/@*"/>
-                     <xsl:sequence select="@*"/>
-                     <xsl:sequence select="
+               <xsl:copy select="x:apply">
+                  <xsl:sequence select="($apply, .) ! attribute()" />
+
+                  <xsl:variable name="local-params" as="element(x:param)*" select="x:param"/>
+                  <xsl:sequence
+                     select="
                         $apply/x:param[not(@name = $local-params/@name)],
-                        $local-params"/>
-                     <!-- TODO: Test that "x:apply/(node() except x:param)" is empty. -->
-                  </xsl:copy>
-               </xsl:for-each>
+                        $local-params" />
+               </xsl:copy>
+               <!-- TODO: Test that "x:apply/(node() except x:param)" is empty. -->
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$apply"/>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
+
       <!-- The new context. -->
       <xsl:variable name="new-context" as="element(x:context)?">
          <xsl:choose>
             <xsl:when test="x:context">
-               <xsl:variable name="local-params" as="element(x:param)*" select="x:context/x:param"/>
-               <xsl:for-each select="x:context">
-                  <xsl:copy>
-                     <xsl:sequence select="$context/@*"/>
-                     <xsl:sequence select="@*"/>
-                     <xsl:sequence select="
-                       $context/x:param[not(@name = $local-params/@name)],
-                       $local-params"/>
-                     <xsl:sequence select="
-                       if ( ./(node() except x:param) ) then
-                       ./(node() except x:param)
-                       else
-                       $context/(node() except x:param)"/>
-                  </xsl:copy>
-               </xsl:for-each>
+               <xsl:copy select="x:context">
+                  <xsl:sequence select="($context, .)  ! attribute()" />
+
+                  <xsl:variable name="local-params" as="element(x:param)*" select="x:param"/>
+                  <xsl:sequence
+                     select="
+                        $context/x:param[not(@name = $local-params/@name)],
+                        $local-params"/>
+
+                  <xsl:sequence
+                     select="
+                        if (node() except x:param) then
+                           (node() except x:param)
+                        else
+                           $context/(node() except x:param)" />
+               </xsl:copy>
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$context"/>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
+
       <!-- The new call. -->
       <xsl:variable name="new-call" as="element(x:call)?">
          <xsl:choose>
             <xsl:when test="x:call">
-               <xsl:variable name="local-params" as="element(x:param)*" select="x:call/x:param"/>
-               <xsl:for-each select="x:call">
-                  <xsl:copy>
-                     <xsl:sequence select="$call/@*"/>
-                     <xsl:sequence select="@*"/>
-                     <xsl:sequence select="
+               <xsl:copy select="x:call">
+                  <xsl:sequence select="($call, .) ! attribute()" />
+
+                  <xsl:variable name="local-params" as="element(x:param)*" select="x:param"/>
+                  <xsl:sequence
+                     select="
                         $call/x:param[not(@name = $local-params/@name)],
                         $local-params"/>
-                     <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
-                  </xsl:copy>
-               </xsl:for-each>
+               </xsl:copy>
+               <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$call"/>
