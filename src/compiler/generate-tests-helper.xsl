@@ -112,24 +112,27 @@
             </xsl:when>
 
             <xsl:when test="$temp-doc-uqname">
-               <xsl:if test="empty(@as)">
-                  <!-- Set @as in order not to create an unexpected document node:
-                     http://www.w3.org/TR/xslt20/#temporary-trees -->
-                  <xsl:attribute name="as" select="'item()*'" />
-               </xsl:if>
+               <xsl:variable name="selection" as="xs:string"
+                  select="(@select, '.'[current()/@href], 'node()')[1]" />
+               <xsl:attribute name="select">
+                  <xsl:text expand-text="yes">${$temp-doc-uqname} ! ( {$selection} )</xsl:text>
+               </xsl:attribute>
+            </xsl:when>
 
-               <xsl:element name="xsl:for-each">
-                  <xsl:attribute name="select" select="'$' || $temp-doc-uqname" />
+            <xsl:when test="empty(@as) and empty(@select)">
+               <!--
+                  Prevent the variable from being an unexpected zero-length string.
 
-                  <xsl:element name="xsl:sequence">
-                     <xsl:attribute name="select"
-                        select="(@select, '.'[current()/@href], 'node()')[1]" />
-                  </xsl:element>
-               </xsl:element>
+                  https://www.w3.org/TR/xslt-30/#variable-values
+                        <xsl:variable name="x"/>
+                     is equivalent to
+                        <xsl:variable name="x" select="''"/>
+               -->
+               <xsl:attribute name="select" select="'()'" />
             </xsl:when>
 
             <xsl:otherwise>
-               <xsl:attribute name="select" select="(@select, '()')[1]" />
+               <xsl:sequence select="@select" />
             </xsl:otherwise>
          </xsl:choose>
       </xsl:element>
