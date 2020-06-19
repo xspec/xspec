@@ -22,15 +22,15 @@ declare variable $items:attribute as attribute(attribute-name) := attribute attr
 declare variable $items:comment as comment() := comment {"comment-text"};
 declare variable $items:document as document-node() := document {"document-text"};
 declare variable $items:element as element(element-name) := element element-name { (: Insert non wrappable nodes just in case :)$items:non-wrappable-nodes, "element-text"};
-declare variable $items:namespace as node() := namespace namespace-name {"namespace-text"};
+declare variable $items:namespace as namespace-node() := namespace namespace-name {"namespace-text"};
 declare variable $items:processing-instruction as processing-instruction(processing-instruction-name) := processing-instruction processing-instruction-name {"processing-instruction-text"};
 declare variable $items:text as text() := text {"text"};
 
 (:
 	Other namespace nodes
 :)
-declare variable $items:another-namespace as node() := namespace another-namespace-name {"another-namespace-text"};
-declare variable $items:default-namespace as node() := namespace {""} {"default-namespace-text"};
+declare variable $items:another-namespace as namespace-node() := namespace another-namespace-name {"another-namespace-text"};
+declare variable $items:default-namespace as namespace-node() := namespace {""} {"default-namespace-text"};
 
 (:
 	Atomic values

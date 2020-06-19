@@ -27,7 +27,7 @@
 	<xsl:template as="element(xsl:stylesheet)" match="x:description">
 		<!-- Absolute URI of the stylesheet of the built-in Schematron Step 3 preprocessor -->
 		<xsl:variable as="xs:anyURI" name="builtin-preprocessor-uri"
-			select="resolve-uri('iso-schematron/iso_svrl_for_xslt2.xsl')" />
+			select="resolve-uri('../../lib/iso-schematron/iso_svrl_for_xslt2.xsl')" />
 
 		<stylesheet exclude-result-prefixes="#all" version="{x:decimal-string(x:xslt-version(.))}">
 			<!-- Import the stylesheet of the Schematron Step 3 preprocessor -->

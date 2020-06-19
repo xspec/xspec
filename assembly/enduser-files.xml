@@ -16,6 +16,7 @@
                 <include>/bin/</include>
                 <include>/graphics/</include>
                 <include>/java/**/*.class</include>
+                <include>/lib/</include>
                 <include>/src/</include>
                 <include>/templates/</include>
                 <include>/build.xml</include>

@@ -30,28 +30,32 @@
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:ID('foo')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:IDREF">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:IDREF('foo')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:ENTITY">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:ENTITY('foo')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:NCName">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:NCName('foo')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
          <!-- xs:NMTOKENS: list -->
@@ -60,35 +64,40 @@
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:language('en')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:Name">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:Name('foo')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:NMTOKEN">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:NMTOKEN('foo')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:token">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:token('foo')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:normalizedString">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:normalizedString('foo')" />
             </t:call>
-            <t:expect label="xs:string" select="'xs:string'"/>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
          </t:scenario>
 
       </t:scenario>
@@ -99,84 +108,96 @@
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:negativeInteger(-1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:nonPositiveInteger">
            <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
               <t:param select="xs:nonPositiveInteger(0)" />
            </t:call>
-           <t:expect label="xs:integer" select="'xs:integer'"/>
+           <t:expect label="xs:integer" select="string()"
+              >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:byte">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:byte(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:short">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:short(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:int">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:int(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:long">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:long(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:unsignedByte">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:unsignedByte(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:unsignedShort">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:unsignedShort(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:unsignedInt">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:unsignedInt(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:unsignedLong">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:unsignedLong(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:positiveInteger">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:positiveInteger(1)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:nonNegativeInteger">
             <t:call function="Q{http://www.jenitennison.com/xslt/unit-test}atom-type">
                <t:param select="xs:nonNegativeInteger(0)" />
             </t:call>
-            <t:expect label="xs:integer" select="'xs:integer'"/>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
          </t:scenario>
 
       </t:scenario>
