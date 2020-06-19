@@ -48,7 +48,7 @@
 	<!--
 		Namespace node
 	-->
-	<xsl:function as="node()" name="xspec-three-dots:namespace-node">
+	<xsl:function as="namespace-node()" name="xspec-three-dots:namespace-node">
 		<xsl:param as="xs:string" name="prefix" />
 		<xsl:param as="xs:string" name="namespace-uri" />
 

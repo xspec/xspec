@@ -154,7 +154,7 @@
 	<!--
 		Copies namespaces of element
 	-->
-	<xsl:function as="node()*" name="x:copy-namespaces">
+	<xsl:function as="namespace-node()*" name="x:copy-namespaces">
 		<xsl:param as="element()" name="e" />
 
 		<xsl:for-each select="in-scope-prefixes($e)">
