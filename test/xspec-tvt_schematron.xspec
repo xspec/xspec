@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description schematron="xspec-tvt.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description schematron="xspec-tvt.sch" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- x:expect-report/@count is to verify that no other sch:report is fired -->
+
+	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
 
 	<x:scenario label="expect TVT to be ENABLED and expect no @*:expand-text to exist" shared="yes">
 		<x:expect-report id="tvt-enabled" />
@@ -22,7 +25,7 @@
 			<x:scenario label="@*:expand-text=yes within user-content">
 				<x:scenario label="@x:expand-text=yes">
 					<x:context>
-						<context-child x:expand-text="yes">}}{false()}{{</context-child>
+						<context-child x:expand-text="yes">}}{myfn:false()}{{</context-child>
 					</x:context>
 					<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist"
 					 />
@@ -41,7 +44,7 @@
 
 			<x:scenario label="@expand-text=yes on x:context">
 				<x:context expand-text="yes">
-					<context-child>}}{false()}{{</context-child>
+					<context-child>}}{myfn:false()}{{</context-child>
 				</x:context>
 				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
 			</x:scenario>
@@ -67,7 +70,7 @@
 
 			<x:scenario label="override no with yes">
 				<x:context expand-text="no">
-					<context-child x:expand-text="yes">}}{false()}{{</context-child>
+					<context-child x:expand-text="yes">}}{myfn:false()}{{</context-child>
 				</x:context>
 				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
 			</x:scenario>
@@ -83,7 +86,7 @@
 
 			<x:scenario expand-text="no" label="override no with yes">
 				<x:context expand-text="yes">
-					<context-child>}}{false()}{{</context-child>
+					<context-child>}}{myfn:false()}{{</context-child>
 				</x:context>
 				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
 			</x:scenario>
@@ -102,7 +105,8 @@
 			<x:scenario label="override no with yes">
 				<x:context>
 					<context-child x:expand-text="no">
-						<context-grandchild x:expand-text="yes">}}{false()}{{</context-grandchild>
+						<context-grandchild x:expand-text="yes"
+							>}}{myfn:false()}{{</context-grandchild>
 					</context-child>
 				</x:context>
 				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
@@ -122,7 +126,7 @@
 			<x:scenario label="override no with yes">
 				<x:context>
 					<context-child x:expand-text="no">
-						<x:text expand-text="yes">}}{false()}{{</x:text>
+						<x:text expand-text="yes">}}{myfn:false()}{{</x:text>
 					</context-child>
 				</x:context>
 				<x:like label="expect TVT to be ENABLED and expect no @*:expand-text to exist" />
