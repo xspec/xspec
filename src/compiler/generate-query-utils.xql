@@ -369,37 +369,36 @@ declare function test:report-node(
   else $node
 };
 
-declare function test:report-atomic-value($value as xs:anyAtomicType) as xs:string
+declare function test:report-atomic-value(
+  $value as xs:anyAtomicType
+) as xs:string
 {
-  (: Derived types must be handled before their base types :)
+  typeswitch ($value)
+    (: Derived types must be handled before their base types :)
 
-  (: String types :)
-  (: xs:normalizedString: Requires schema-aware processor :)
-  if ( $value instance of xs:string ) then
-    x:quote-with-apos($value)
+    (: String types :)
+    (: xs:normalizedString: Requires schema-aware processor :)
+    case xs:string return x:quote-with-apos($value)
 
-  (: Derived numeric types: Requires schema-aware processor :)
+    (: Derived numeric types: Requires schema-aware processor :)
 
-  (: Numeric types which can be expressed as numeric literals:
-    http://www.w3.org/TR/xpath20/#id-literals :)
-  else if ( $value instance of xs:integer ) then
-    string($value)
-  else if ( $value instance of xs:decimal ) then
-    x:decimal-string($value)
-  else if ( $value instance of xs:double ) then
-    (: Do not report xs:double as a numeric literal. Report as xs:double() constructor instead.
-      Justifications below.
-      * Expression of xs:double as a numeric literal is a bit complicated:
-        http://www.w3.org/TR/xpath-functions/#casting-to-string
-      * xs:double is not used as frequently as xs:integer
-      * xs:double() constructor is valid expression. It's just some more verbose than a numeric literal. :)
-    test:report-atomic-value-as-constructor($value)
+    (: Numeric types which can be expressed as numeric literals:
+      http://www.w3.org/TR/xpath20/#id-literals :)
+    case xs:integer return string($value)
+    case xs:decimal return x:decimal-string($value)
+    case xs:double
+      return
+        (: Do not report xs:double as a numeric literal. Report as xs:double() constructor instead.
+          Justifications below.
+          * Expression of xs:double as a numeric literal is a bit complicated:
+            http://www.w3.org/TR/xpath-functions/#casting-to-string
+          * xs:double is not used as frequently as xs:integer
+          * xs:double() constructor is valid expression. It's just some more verbose than a numeric literal. :)
+        test:report-atomic-value-as-constructor($value)
 
-  else if ( $value instance of xs:QName ) then
-    x:QName-expression($value)
+    case xs:QName return x:QName-expression($value)
 
-  else
-    test:report-atomic-value-as-constructor($value)
+    default return test:report-atomic-value-as-constructor($value)
 };
 
 declare function test:report-atomic-value-as-constructor($value as xs:anyAtomicType) as xs:string

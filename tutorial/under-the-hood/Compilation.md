@@ -360,11 +360,9 @@ section "[Simple scenario](#simple-scenario)").
          <val2/>
       </xsl:document>
    </xsl:variable>
-   <xsl:variable name="Q{}p2" as="element()">
-      <xsl:for-each select="$Q{urn:x-xspec:compile:impl}param-...-doc">
-         <xsl:sequence select="node()"/>
-      </xsl:for-each>
-   </xsl:variable>
+   <xsl:variable name="Q{}p2"
+                 as="element()"
+                 select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )"/>
    <xsl:sequence select="my:f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
 </xsl:variable>
 
@@ -375,11 +373,8 @@ section "[Simple scenario](#simple-scenario)").
          <val2/>
       </xsl:document>
    </xsl:variable>
-   <xsl:variable name="Q{}p2" as="item()*">
-      <xsl:for-each select="$Q{urn:x-xspec:compile:impl}param-...-doc">
-         <xsl:sequence select="node()"/>
-      </xsl:for-each>
-   </xsl:variable>
+   <xsl:variable name="Q{}p2"
+                 select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )" />
    <xsl:call-template name="t">
       <xsl:with-param name="p1" select="$Q{}p1"/>
       <xsl:with-param name="p2" select="$Q{}p2"/>
@@ -392,11 +387,8 @@ section "[Simple scenario](#simple-scenario)").
          <elem/>
       </xsl:document>
    </xsl:variable>
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}context-..." as="item()*">
-      <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...-doc">
-         <xsl:sequence select="node()"/>
-      </xsl:for-each>
-   </xsl:variable>
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}context-..."
+                 select="$Q{urn:x-xspec:compile:impl}context-...-doc ! ( node() )"/>
    <xsl:apply-templates select="$Q{urn:x-xspec:compile:impl}context-..."/>
 </xsl:variable>
 ```
@@ -525,20 +517,17 @@ this accessibility.
 <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-doc"
               as="document-node()"
               select="doc($Q{urn:x-xspec:compile:impl}variable-...-uri)"/>
-<xsl:variable name="Q{http://example.org/ns/my/variable}href" as="item()*">
-   <xsl:for-each select="$Q{urn:x-xspec:compile:impl}variable-...-doc">
-      <xsl:sequence select="."/>
-   </xsl:for-each>
-</xsl:variable>
+<xsl:variable name="Q{http://example.org/ns/my/variable}href"
+              select="$Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )"/>
 
 <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-doc" as="document-node()">
    <xsl:document>
       <elem/>
    </xsl:document>
 </xsl:variable>
-<xsl:variable name="Q{http://example.org/ns/my/variable}content" as="element()">
-   <xsl:for-each select="$Q{urn:x-xspec:compile:impl}variable-...-doc">
-      <xsl:sequence select="node()"/>
+<xsl:variable name="Q{http://example.org/ns/my/variable}content"
+              as="element()"
+              select="$Q{urn:x-xspec:compile:impl}variable-...-doc ! ( node() )"/>
    </xsl:for-each>
 </xsl:variable>
 ```
