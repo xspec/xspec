@@ -4,7 +4,7 @@
 
 	<!-- x:expect-report/@count is to verify that no other sch:report is fired -->
 
-	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
+	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in TVT -->
 
 	<x:scenario label="expect TVT to be ENABLED and expect no @*:expand-text to exist" shared="yes">
 		<x:expect-report id="tvt-enabled" />

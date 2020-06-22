@@ -3,7 +3,7 @@
 	xmlns:myfn="http://www.w3.org/2005/xpath-functions"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
+	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in TVT -->
 
 	<!--
 		Shared scenarios
