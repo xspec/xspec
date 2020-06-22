@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<x:description run-as="external" stylesheet="xslt-package/arith/use-1.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<x:variable href="xslt-package/arith/package/config.xml" name="x:saxon-config" />
+
+	<x:scenario label="Calling a named template in the main stylesheet which uses a package">
+		<x:call template="xsl:initial-template" />
+		<x:expect label="should return the expected text" xml:space="preserve">The sum of the two numbers is 5 + 7i</x:expect>
+	</x:scenario>
+
+</x:description>
