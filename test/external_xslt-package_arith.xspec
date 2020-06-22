@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<x:description run-as="external" stylesheet="xslt-package/arith/package/complex-arithmetic.xsl"
+	xmlns:f="http://example.org/complex-arithmetic.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Calling a public function in the package">
+		<x:call function="f:complex-number">
+			<x:param select="2" />
+			<x:param select="5" />
+		</x:call>
+		<x:expect label="should be possible" select="
+			map {
+				0: 2.0e0,
+				1: 5.0e0
+			}" />
+	</x:scenario>
+
+</x:description>
