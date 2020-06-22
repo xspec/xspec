@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<x:description run-as="external" stylesheet="xslt-package/filter/package/filter.xsl"
+	xmlns:f="http://example.org/filter.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Calling a public function in the package">
+		<x:call function="f:filter">
+			<x:param>
+				<employee />
+			</x:param>
+		</x:call>
+		<x:expect label="should be possible" select="true()" />
+	</x:scenario>
+
+</x:description>

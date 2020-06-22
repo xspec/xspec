@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<x:description run-as="external" stylesheet="xslt-package/filter/use.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:variable href="xslt-package/filter/package/config.xml" name="x:saxon-config" />
+
+	<x:scenario label="Using the default 'true' filter">
+		<x:context href="xslt-package/filter/data.xml" />
+		<x:expect label="All employees should be returned">
+			<report>
+				<employee>
+					<location>FR</location>
+					<name>Alice</name>
+				</employee>
+				<employee>
+					<location>UK</location>
+					<name>Bob</name>
+				</employee>
+			</report>
+		</x:expect>
+	</x:scenario>
+
+</x:description>

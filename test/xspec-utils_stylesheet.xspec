@@ -9,7 +9,7 @@
 	-->
 
 	<x:scenario label="Scenario for testing variable legacy-namespace">
-		<x:call function="false" />
+		<x:context />
 		<x:expect label="'test' namespace URI"
 			select="
 				namespace-uri-for-prefix(
@@ -20,19 +20,19 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable xspec-namespace">
-		<x:call function="false" />
+		<x:context />
 		<x:expect label="XSpec namespace URI"
 			select="doc($x:xspec-uri)/element() => namespace-uri()"
 			test="$x:xspec-namespace treat as xs:anyURI" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable xs-namespace">
-		<x:call function="false" />
+		<x:context />
 		<x:expect label="'xs' namespace URI"
 			select="
 				namespace-uri-for-prefix(
 					'xs',
-					doc($x:xspec-uri)/element()
+					doc(resolve-uri('../src/common/xspec-utils.xsl', $x:xspec-uri))/element()
 				)"
 			test="$x:xs-namespace treat as xs:anyURI" />
 	</x:scenario>
@@ -1368,6 +1368,69 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario
+		label="Scenario for testing function QName-expression-from-EQName-ignoring-default-ns">
+		<x:scenario label="URIQualifiedName">
+			<x:scenario label="With URI">
+				<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+					<x:param>Q{'">&lt;#,|%7D&#x20;%7B][$^}foo</x:param>
+					<x:param>
+						<e />
+					</x:param>
+				</x:call>
+				<x:expect label="Converted with apostrophe escaped" select="string()"
+					>QName('''">&lt;#,|%7D&#x20;%7B][$^',&#x20;'foo')</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without URI">
+				<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+					<x:param select="'Q{}foo'" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Converted without being affected by the default namespace"
+					select="string()">QName('',&#x20;'foo')</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Lexical QName">
+			<x:scenario label="With prefix">
+				<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+					<x:param select="'prefix:foo'" />
+					<x:param>
+						<e xmlns:prefix="prefixed-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Converted" select="string()"
+					>QName('prefixed-ns',&#x20;'prefix:foo')</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without prefix">
+				<x:scenario label="With default namespace">
+					<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="default-ns" />
+						</x:param>
+					</x:call>
+					<x:expect label="Converted without using the default namespace"
+						select="string()">QName('',&#x20;'foo')</x:expect>
+				</x:scenario>
+
+				<x:scenario label="Without default namespace">
+					<x:call function="x:QName-expression-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="" />
+						</x:param>
+					</x:call>
+					<x:expect label="Converted" select="string()">QName('',&#x20;'foo')</x:expect>
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing function UQName">
 		<x:scenario label="URI length ge 1">
 			<x:call function="x:UQName">
@@ -1393,6 +1456,14 @@
 			</x:call>
 			<x:expect label="Constructed" select="string()"
 				>Q{urn:x-xspec:compile:impl}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="map">
+			<x:call function="x:known-UQName">
+				<x:param select="'map:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.w3.org/2005/xpath-functions/map}my-local-name</x:expect>
 		</x:scenario>
 
 		<x:scenario label="test">

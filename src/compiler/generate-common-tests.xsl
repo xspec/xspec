@@ -20,6 +20,8 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
+   <xsl:param name="is-external" as="xs:boolean" select="/x:description/@run-as = 'external'" />
+
    <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
 
    <!-- XSpec namespace prefix -->
@@ -469,81 +471,86 @@
             @pending
           else
             $pending"/>
+
       <!-- The new apply. -->
       <xsl:variable name="new-apply" as="element(x:apply)?">
          <xsl:choose>
             <xsl:when test="x:apply">
-               <xsl:variable name="local-params" as="element(x:param)*" select="x:apply/x:param"/>
-               <xsl:for-each select="x:apply">
-                  <xsl:copy>
-                     <xsl:sequence select="$apply/@*"/>
-                     <xsl:sequence select="@*"/>
-                     <xsl:sequence select="
+               <xsl:copy select="x:apply">
+                  <xsl:sequence select="($apply, .) ! attribute()" />
+
+                  <xsl:variable name="local-params" as="element(x:param)*" select="x:param"/>
+                  <xsl:sequence
+                     select="
                         $apply/x:param[not(@name = $local-params/@name)],
-                        $local-params"/>
-                     <!-- TODO: Test that "x:apply/(node() except x:param)" is empty. -->
-                  </xsl:copy>
-               </xsl:for-each>
+                        $local-params" />
+               </xsl:copy>
+               <!-- TODO: Test that "x:apply/(node() except x:param)" is empty. -->
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$apply"/>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
+
       <!-- The new context. -->
       <xsl:variable name="new-context" as="element(x:context)?">
          <xsl:choose>
             <xsl:when test="x:context">
-               <xsl:variable name="local-params" as="element(x:param)*" select="x:context/x:param"/>
-               <xsl:for-each select="x:context">
-                  <xsl:copy>
-                     <xsl:sequence select="$context/@*"/>
-                     <xsl:sequence select="@*"/>
-                     <xsl:sequence select="
-                       $context/x:param[not(@name = $local-params/@name)],
-                       $local-params"/>
-                     <xsl:sequence select="
-                       if ( ./(node() except x:param) ) then
-                       ./(node() except x:param)
-                       else
-                       $context/(node() except x:param)"/>
-                  </xsl:copy>
-               </xsl:for-each>
+               <xsl:copy select="x:context">
+                  <xsl:sequence select="($context, .)  ! attribute()" />
+
+                  <xsl:variable name="local-params" as="element(x:param)*" select="x:param"/>
+                  <xsl:sequence
+                     select="
+                        $context/x:param[not(@name = $local-params/@name)],
+                        $local-params"/>
+
+                  <xsl:sequence
+                     select="
+                        if (node() except x:param) then
+                           (node() except x:param)
+                        else
+                           $context/(node() except x:param)" />
+               </xsl:copy>
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$context"/>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
+
       <!-- The new call. -->
       <xsl:variable name="new-call" as="element(x:call)?">
          <xsl:choose>
             <xsl:when test="x:call">
-               <xsl:variable name="local-params" as="element(x:param)*" select="x:call/x:param"/>
-               <xsl:for-each select="x:call">
-                  <xsl:copy>
-                     <xsl:sequence select="$call/@*"/>
-                     <xsl:sequence select="@*"/>
-                     <xsl:sequence select="
+               <xsl:copy select="x:call">
+                  <xsl:sequence select="($call, .) ! attribute()" />
+
+                  <xsl:variable name="local-params" as="element(x:param)*" select="x:param"/>
+                  <xsl:sequence
+                     select="
                         $call/x:param[not(@name = $local-params/@name)],
                         $local-params"/>
-                     <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
-                  </xsl:copy>
-               </xsl:for-each>
+               </xsl:copy>
+               <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
             </xsl:when>
             <xsl:otherwise>
                <xsl:sequence select="$call"/>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>
+
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-scenario">
          <xsl:with-param name="pending"   select="$new-pending" tunnel="yes"/>
          <xsl:with-param name="apply"     select="$new-apply"   tunnel="yes"/>
          <xsl:with-param name="call"      select="$new-call"    tunnel="yes"/>
          <xsl:with-param name="context"   select="$new-context" tunnel="yes"/>
+
          <!-- the variable declarations preceding the x:call or x:context (if any). -->
          <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable"/>
+
          <xsl:with-param name="params" as="element(param)*">
             <xsl:for-each select="x:distinct-variable-names($vars)">
                <xsl:element name="param" namespace="">
@@ -554,6 +561,7 @@
             </xsl:for-each>
          </xsl:with-param>
       </xsl:call-template>
+
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
@@ -784,12 +792,23 @@
       <xsl:variable name="qname" as="xs:QName"
          select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
-      <xsl:if test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
-         <xsl:variable name="msg" as="xs:string">
-            <xsl:text expand-text="yes">User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
-         </xsl:variable>
-         <xsl:sequence select="xs:QName('x:XSPEC008') => error($msg)" />
-      </xsl:if>
+      <xsl:choose>
+         <xsl:when test="$is-external and ($qname eq xs:QName('x:saxon-config'))">
+            <!-- Allow it -->
+            <!--
+               TODO: Consider replacing this abusive <xsl:variable> with a dedicated element defined
+               in the XSpec schema, like <x:config type="saxon" href="..." />. A vendor-independent
+               element name would be better than a vendor-specific element name like <x:saxon-config>;
+               a vendor-specific attribute value seems more appropriate.
+            -->
+         </xsl:when>
+         <xsl:when test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
+            <xsl:variable name="msg" as="xs:string">
+               <xsl:text expand-text="yes">User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
+            </xsl:variable>
+            <xsl:sequence select="xs:QName('x:XSPEC008') => error($msg)" />
+         </xsl:when>
+      </xsl:choose>
    </xsl:template>
 
    <!-- Given <x:vars> elements from tunnel parameter, return distinct EQNames.
@@ -823,7 +842,7 @@
                         x:UQName(
                            namespace-uri-from-QName($this-qname),
                            local-name-from-QName($this-qname)
-                        )"/>
+                        )" />
                </xsl:when>
                <xsl:when test="string-length(namespace-uri-from-QName($this-qname)) eq 0">
                   <!-- No namespace -->
