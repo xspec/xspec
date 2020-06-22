@@ -49,7 +49,7 @@ declare function xspec-three-dots:namespace-node(
 $prefix as xs:string,
 $namespace-uri as xs:string
 )
-as node()
+as namespace-node()
 {
 	namespace {$prefix} {$namespace-uri}
 };

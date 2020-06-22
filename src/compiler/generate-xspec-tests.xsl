@@ -109,8 +109,18 @@
             <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
                being tested which would otherwise govern the output of the report XML. -->
             <result-document>
-               <!-- @format does not accept URIQualifiedName as-is because the attribute is AVT -->
-               <xsl:attribute name="format" select="x:xspec-name(., 'report')" />
+               <xsl:attribute name="format">
+                  <xsl:choose>
+                     <xsl:when test="x:saxon-version() lt x:pack-version((9, 9, 1, 1))">
+                        <!-- Workaround for a Saxon bug: https://saxonica.plan.io/issues/4093 -->
+                        <xsl:sequence select="x:xspec-name(., 'report')" />
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <!-- Escape curly braces because @format is AVT -->
+                        <xsl:sequence select="'Q{{' || $x:xspec-namespace || '}}report'" />
+                     </xsl:otherwise>
+                  </xsl:choose>
+               </xsl:attribute>
 
                <xsl:element name="{x:xspec-name(., 'report')}" namespace="{$x:xspec-namespace}">
                   <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
