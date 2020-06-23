@@ -20,6 +20,8 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
+   <xsl:param name="is-external" as="xs:boolean" select="/x:description/@run-as = 'external'" />
+
    <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
 
    <!-- XSpec namespace prefix -->
@@ -790,12 +792,23 @@
       <xsl:variable name="qname" as="xs:QName"
          select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
 
-      <xsl:if test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
-         <xsl:variable name="msg" as="xs:string">
-            <xsl:text expand-text="yes">User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
-         </xsl:variable>
-         <xsl:sequence select="xs:QName('x:XSPEC008') => error($msg)" />
-      </xsl:if>
+      <xsl:choose>
+         <xsl:when test="$is-external and ($qname eq xs:QName('x:saxon-config'))">
+            <!-- Allow it -->
+            <!--
+               TODO: Consider replacing this abusive <xsl:variable> with a dedicated element defined
+               in the XSpec schema, like <x:config type="saxon" href="..." />. A vendor-independent
+               element name would be better than a vendor-specific element name like <x:saxon-config>;
+               a vendor-specific attribute value seems more appropriate.
+            -->
+         </xsl:when>
+         <xsl:when test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
+            <xsl:variable name="msg" as="xs:string">
+               <xsl:text expand-text="yes">User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
+            </xsl:variable>
+            <xsl:sequence select="xs:QName('x:XSPEC008') => error($msg)" />
+         </xsl:when>
+      </xsl:choose>
    </xsl:template>
 
    <!-- Given <x:vars> elements from tunnel parameter, return distinct EQNames.
@@ -829,7 +842,7 @@
                         x:URIQualifiedName(
                            namespace-uri-from-QName($this-qname),
                            local-name-from-QName($this-qname)
-                        )"/>
+                        )" />
                </xsl:when>
                <xsl:when test="string-length(namespace-uri-from-QName($this-qname)) eq 0">
                   <!-- No namespace -->
