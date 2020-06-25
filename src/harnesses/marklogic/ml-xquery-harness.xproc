@@ -79,7 +79,7 @@
         </p:otherwise>
     </p:choose>
 
-    <p:escape-markup/>
+    <t:escape-markup />
 
     <ml:adhoc-query name="run">
         <p:with-option name="host" select="$host"/>

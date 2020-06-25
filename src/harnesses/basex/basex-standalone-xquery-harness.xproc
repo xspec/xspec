@@ -73,7 +73,7 @@
       </t:compile-xquery>
 
       <!-- escape the query as text -->
-      <p:escape-markup name="escape"/>
+      <t:escape-markup name="escape" />
 
       <!-- store it on disk in order to pass it to BaseX -->
       <p:store method="text" name="store">

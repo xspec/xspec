@@ -77,7 +77,7 @@
         </p:otherwise>
     </p:choose>
 
-    <p:escape-markup name="escape"/>
+    <t:escape-markup name="escape" />
 
     <p:choose>
         <p:when test="p:value-available('compiled-uri')">

@@ -60,7 +60,7 @@
         <p:with-param name="utils-library-at" select="$utils-lib"/>
     </p:xslt>
 
-    <p:escape-markup name="escape"/>
+    <t:escape-markup name="escape" />
 
     <p:store method="text" name="store">
         <p:with-option name="href" select="$compiled-file"/>

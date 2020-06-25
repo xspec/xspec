@@ -266,7 +266,8 @@
 
    <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
       For the XQuery XSpec, these Private Use Area characters should be considered as reserved by
-      test:disable-escaping. -->
+      test:disable-escaping.
+      This mapping should be in sync with t:escape-markup in ../harnesses/harness-lib.xpl. -->
    <xsl:character-map name="test:disable-escaping">
       <xsl:output-character character="&#xE801;" string="&lt;" />
       <xsl:output-character character="&#xE803;" string="&gt;" />
