@@ -143,11 +143,11 @@
                <xsl:when test="$temp-doc-name">
                   <xsl:variable name="selection" as="xs:string"
                      select="(@select, '.'[current()/@href], 'node()')[1]" />
-                  <xsl:text expand-text="yes">${$temp-doc-name} ! ( {$selection} )</xsl:text>
+                  <xsl:text expand-text="yes">${$temp-doc-name} ! ( {test:disable-escaping($selection)} )</xsl:text>
                </xsl:when>
 
                <xsl:otherwise>
-                  <xsl:value-of select="@select" />
+                  <xsl:value-of select="test:disable-escaping(@select)" />
                </xsl:otherwise>
             </xsl:choose>
          </xsl:with-param>
@@ -213,6 +213,10 @@
       <xsl:choose>
          <xsl:when test="(. instance of attribute()) and x:is-user-content(.)">
             <!-- AVT -->
+            <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
+               characters) should be escaped outside expressions. In other words,
+               attr="&gt; {0 &gt; 1} &lt; {0 &lt; 1}" should be treated as equal to
+               attr="&gt; false &lt; true". -->
             <xsl:element name="temp" namespace="">
                <xsl:value-of select="." />
             </xsl:element>
@@ -259,6 +263,33 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
+
+   <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
+      For the XQuery XSpec, these Private Use Area characters should be considered as reserved by
+      test:disable-escaping. -->
+   <xsl:character-map name="test:disable-escaping">
+      <xsl:output-character character="&#xE801;" string="&lt;" />
+      <xsl:output-character character="&#xE803;" string="&gt;" />
+   </xsl:character-map>
+
+   <!-- Replaces < > characters with the reserved characters.
+      The serializer will convert those reserved characters back to < > characters,
+      provided that test:disable-escaping character map is specified as a serialization
+      parameter.
+      Returns a zero-length string if the input is an empty sequence. -->
+   <xsl:function name="test:disable-escaping" as="xs:string">
+      <xsl:param name="input" as="xs:string?" />
+
+      <xsl:sequence select="
+         doc('')
+         /xsl:*
+         /xsl:character-map[@name eq 'test:disable-escaping']
+         /translate(
+            $input,
+            string-join(xsl:output-character/@string, ''),
+            string-join(xsl:output-character/@character, '')
+         )"/>
+   </xsl:function>
 
 </xsl:stylesheet>
 
