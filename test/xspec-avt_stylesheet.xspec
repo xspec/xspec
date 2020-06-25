@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myfn="http://www.w3.org/2005/xpath-functions"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
@@ -7,11 +8,15 @@
 		When modifying this file, check whether xspec-utils_stylesheet.xspec needs any additions or updates.
 	-->
 
+	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
+
+
 	<x:scenario label="In context template-param, only user-content attribute is AVT. So...">
 		<x:scenario label="In //x:context/x:param/node(),">
 			<x:context mode="mirror:param-mirror">
 				<x:param name="param-items">
-					<template-param-child attr="}}{false()}{{">}}{false()}{{</template-param-child>
+					<template-param-child attr="}}{myfn:false()}{{"
+						>}}{false()}{{</template-param-child>
 				</x:param>
 				<context-child />
 			</x:context>
@@ -36,7 +41,7 @@
 	<x:scenario label="In context, only user-content attribute is AVT. So...">
 		<x:scenario label="In //x:context/node(),">
 			<x:context mode="mirror:context-mirror">
-				<context-child attr="}}{false()}{{">}}{false()}{{</context-child>
+				<context-child attr="}}{myfn:false()}{{">}}{false()}{{</context-child>
 			</x:context>
 			<x:expect label="attribute is AVT." select="'}false{'"
 				test="$x:result/self::context-child/@attr/string()" />
@@ -57,7 +62,8 @@
 		<x:scenario label="In //x:call[@template]/x:param/node(),">
 			<x:call template="mirror:param-mirror">
 				<x:param name="param-items">
-					<template-param-child attr="}}{false()}{{">}}{false()}{{</template-param-child>
+					<template-param-child attr="}}{myfn:false()}{{"
+						>}}{false()}{{</template-param-child>
 				</x:param>
 			</x:call>
 			<x:expect label="attribute is AVT." select="'}false{'"
