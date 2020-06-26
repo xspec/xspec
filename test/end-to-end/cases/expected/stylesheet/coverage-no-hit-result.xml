@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../coverage-no-hit.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../coverage-no-hit.xspec">
+   <x:scenario id="scenario1" xspec="../../coverage-no-hit.xspec">
+      <x:label>Testing a stylesheet without any matching context</x:label>
+      <x:context/>
+      <x:result select="()"/>
+      <x:test id="scenario1-expect1" successful="true">
+         <x:label>should be reported as 'not used' in the coverage report</x:label>
+         <x:expect select="()"/>
+      </x:test>
+   </x:scenario>
+</x:report>
