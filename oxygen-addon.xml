@@ -7,8 +7,11 @@
 	<!-- This @id value assumes that https://github.com/xspec/ community owns "xspec.io". -->
 	<xt:extension id="io.xspec.xspec">
 
-		<!-- To publish a new version, update this @href to a specific commit archive and increment
-			<xt:version>. -->
+		<!-- To publish a new version,
+			* Update this @href to a specific commit archive
+			* Increment <xt:version>
+			* Disable the new add-on version in the project options stored in xspec.xpr
+			  (Options - Preferences - Document Type Association) -->
 		<xt:location
 			href="https://github.com/xspec/xspec/archive/aebf4ba6581bff57e122b5862ad4529992820dc3.zip" />
 
