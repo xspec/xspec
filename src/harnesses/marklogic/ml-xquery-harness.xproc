@@ -26,14 +26,16 @@
     <p:option name="query-at"/>
     <p:option name="utils-lib" select="'xspec/generate-query-utils.xql'"/>
     <p:option name="host" required="true"/>
+
     <!-- this must be the port of an XDBC server -->
     <p:option name="port" required="true"/>
+
     <p:option name="user" required="true"/>
     <p:option name="password" required="true"/>
 
     <p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
-    <!-- TODO: Use the absolute URIs through the EXPath Packaging System. -->
 
+    <!-- TODO: Use the absolute URIs through the EXPath Packaging System. -->
     <p:variable name="compiler" select="resolve-uri('src/compiler/generate-query-tests.xsl', $xspec-home)"/>
     <p:variable name="formatter" select="resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)"/>
 

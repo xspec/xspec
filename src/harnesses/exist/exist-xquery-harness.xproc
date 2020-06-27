@@ -26,8 +26,10 @@
     <p:option name="query-at"/>
     <p:option name="utils-lib" select="'xmldb:exist:///db/xspec/generate-query-utils.xql'"/>
     <p:option name="endpoint" select="'http://localhost:8080/exist/rest/db/'"/>
+
     <!-- if set, then save the generated query at this URI -->
     <p:option name="compiled-uri"/>
+
     <!-- if set, then save the generated query at this URI -->
     <p:option name="report-uri"/>
 
