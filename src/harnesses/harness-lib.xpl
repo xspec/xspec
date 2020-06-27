@@ -188,18 +188,15 @@
              else
                'http://www.jenitennison.com/xslt/xspec/generate-query-tests.xsl'"/>
          <!-- wrap the generated query in a c:query element -->
-         <p:string-replace match="xsl:import/@href" name="compiler">
-            <p:with-option name="replace" select="concat('''', $compiler, '''')"/>
+         <p:string-replace match="/xsl:*/xsl:import/@href" name="compiler">
+            <p:with-option name="replace" select="'''' || $compiler || ''''"/>
             <p:input port="source">
                <p:inline>
-                  <!-- TODO: I think this is due to a bug in Calabash, if I don't create a node
-                       using the prefix 't', then the biding is not visible to Saxon and it throws
-                       a compilation error for this stylesheet... -->
-                  <xsl:stylesheet version="2.0" t:dummy="...">
-                     <xsl:import href="..."/>
+                  <xsl:stylesheet version="3.0">
+                     <xsl:import href="[to be replaced]" />
                      <xsl:template match="/">
                         <c:query>
-                           <xsl:call-template name="t:generate-tests"/>
+                           <xsl:next-match />
                         </c:query>
                      </xsl:template>
                   </xsl:stylesheet>
