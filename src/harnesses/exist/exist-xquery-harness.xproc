@@ -34,7 +34,8 @@
         in the option 'xspec-home'.</p>
    </p:documentation>
 
-   <p:serialization port="result" indent="true"/>
+   <p:serialization port="result" indent="true"
+      method="xhtml" encoding="UTF-8" include-content-type="true" />
 
    <p:option name="project-dir" required="true"/>
 
