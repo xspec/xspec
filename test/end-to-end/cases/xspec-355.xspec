@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-xquery-to-support-hof?>
 <?xspec-test require-xslt-to-support-hof?>
-<x:description query="x-urn:test:mirror" query-at="../../mirror.xquery"
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm"
 	stylesheet="../../mirror.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

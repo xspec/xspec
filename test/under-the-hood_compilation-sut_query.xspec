@@ -3,7 +3,7 @@
    xmlns:x="http://www.jenitennison.com/xslt/xspec"
    xmlns:my="http://example.org/ns/my"
    query="http://example.org/ns/my"
-   query-at="compilation-sut.xquery"
+   query-at="compilation-sut.xqm"
    xml:base="../tutorial/under-the-hood/">
 
    <!-- If any of these tests changes, check whether the file

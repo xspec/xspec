@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:transform" query-at="transform.xquery" stylesheet="transform.xsl"
+<x:description query="x-urn:test:transform" query-at="transform.xqm" stylesheet="transform.xsl"
 	xmlns:transform="x-urn:test:transform" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Invoking a function which in turn invokes transform()">

@@ -2,7 +2,7 @@
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test:mirror"
-          query-at="../../../../mirror.xquery"
+          query-at="../../../../mirror.xqm"
           xspec="../../xspec-report.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-report.xspec">
       <x:label>Function (xspec/xspec#355)</x:label>
