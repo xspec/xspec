@@ -2,11 +2,11 @@
 
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:functx="http://www.functx.com"
-               stylesheet="escape-for-regex.xslt">
+               stylesheet="escape-for-regex.xsl">
 
    <!--
        This is a sample test suite written in the XSpec language.  It
-       tests the stylesheet escape-for-regex.xslt.  It contains three
+       tests the stylesheet escape-for-regex.xsl.  It contains three
        main scenarios (the second of which in turn contains two sub-
        scenarios).
        
