@@ -3,7 +3,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test:do-nothing"
-          query-at="../../../../do-nothing.xquery"
+          query-at="../../../../do-nothing.xqm"
           xspec="../../xspec-report_schema-aware.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-report_schema-aware.xspec">
       <x:label>In a failure report HTML</x:label>
