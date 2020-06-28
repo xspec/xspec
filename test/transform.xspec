@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:transform" query-at="transform.xqm" stylesheet="transform.xsl"
+	xmlns:transform="x-urn:test:transform" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Invoking a function which in turn invokes transform()">
+		<x:call function="transform:square">
+			<x:param select="3" />
+		</x:call>
+		<x:expect label="should be possible" select="9" />
+	</x:scenario>
+
+</x:description>

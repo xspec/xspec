@@ -3,7 +3,7 @@
           xmlns:test-mix="x-urn:test-mix"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test-mix"
-          query-at="../../xspec-151.xquery"
+          query-at="../../xspec-151.xqm"
           xspec="../../xspec-151.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-151.xspec">
       <x:label>When the result is a mixture of a typed element and a string</x:label>

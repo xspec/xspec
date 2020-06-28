@@ -3,7 +3,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test:do-nothing"
-          query-at="../../../../do-nothing.xquery"
+          query-at="../../../../do-nothing.xqm"
           xspec="../../xspec-153.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-153.xspec">
       <x:label>When a function returns a local date time string</x:label>
@@ -13,15 +13,15 @@
       <x:result select="'2000-01-01T12:00:00+12:00'"/>
       <x:test id="scenario1-expect1" successful="true">
          <x:label>Comparing the function result with the same date time in UTC will report Success</x:label>
-         <x:result select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
+         <x:result select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T12:00:00+12:00')"/>
          <x:expect test="xs:dateTime($x:result)"
-                   select="xs:dateTime('2000-01-01T00:00:00Z')"/>
+                   select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T00:00:00Z')"/>
       </x:test>
       <x:test id="scenario1-expect2" successful="false">
          <x:label>Comparing the function result with a different date time will report Failure</x:label>
-         <x:result select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
+         <x:result select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T12:00:00+12:00')"/>
          <x:expect test="xs:dateTime($x:result)"
-                   select="xs:dateTime('1234-01-01T00:00:00Z')"/>
+                   select="Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-01T00:00:00Z')"/>
       </x:test>
    </x:scenario>
 </x:report>

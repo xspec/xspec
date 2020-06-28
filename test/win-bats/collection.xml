@@ -129,7 +129,13 @@
     call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.xml"
     call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.html"
 
-    rem Coverage report file is created and contains CSS inline #194
+    rem Check the coverage report XML file contents
+    call :run java -jar "%SAXON_JAR%" ^
+        -s:"%SPECIAL_CHARS_DIR%\xspec\demo-coverage.xml" ^
+        -xsl:check-coverage-xml.xsl
+    call :verify_retval 0
+
+    rem Coverage report HTML file is created and contains CSS inline #194
     call :run java -jar "%SAXON_JAR%" -s:"%SPECIAL_CHARS_DIR%\xspec\demo-coverage.html" -xsl:html-css.xsl
     call :verify_line 1 x "true"
 	</case>
@@ -384,7 +390,7 @@
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XQuery)">
     set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there %RANDOM%"
     call :mkdir "%SPECIAL_CHARS_DIR%"
-    call :copy mirror.xquery          "%SPECIAL_CHARS_DIR%"
+    call :copy mirror.xqm             "%SPECIAL_CHARS_DIR%"
     call :copy xspec-node-selection.* "%SPECIAL_CHARS_DIR%"
 
     set TEST_DIR=
@@ -1987,6 +1993,16 @@
     call :verify_retval 2
     call :verify_line  6 r "  x:XSPEC005[: ] there are x:expect but no x:call (scenario 'Missing x:call')$"
     call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
+		$x:saxon-config is not a Saxon config
+	-->
+	<case name="$x:saxon-config is not a Saxon config">
+    call :run ..\bin\xspec.bat saxon-config\test.xspec
+    call :verify_retval 2
+    call :verify_line  8 x "ERROR: $x:saxon-config does not appear to be a Saxon configuration"
+    call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 </collection>

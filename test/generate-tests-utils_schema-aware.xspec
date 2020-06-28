@@ -35,28 +35,32 @@
             <t:call function="test:atom-type">
                <t:param select="xs:ID('foo')" />
             </t:call>
-            <t:expect label="xs:ID" select="'xs:ID'"/>
+            <t:expect label="xs:ID" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}ID</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:IDREF">
             <t:call function="test:atom-type">
                <t:param select="xs:IDREF('foo')" />
             </t:call>
-            <t:expect label="xs:IDREF" select="'xs:IDREF'"/>
+            <t:expect label="xs:IDREF" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}IDREF</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:ENTITY">
             <t:call function="test:atom-type">
                <t:param select="xs:ENTITY('foo')" />
             </t:call>
-            <t:expect label="xs:ENTITY" select="'xs:ENTITY'"/>
+            <t:expect label="xs:ENTITY" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}ENTITY</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:NCName">
             <t:call function="test:atom-type">
                <t:param select="xs:NCName('foo')" />
             </t:call>
-            <t:expect label="xs:NCName" select="'xs:NCName'"/>
+            <t:expect label="xs:NCName" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}NCName</t:expect>
          </t:scenario>
 
          <!-- xs:NMTOKENS: list -->
@@ -65,35 +69,40 @@
             <t:call function="test:atom-type">
                <t:param select="xs:language('en')" />
             </t:call>
-            <t:expect label="xs:language" select="'xs:language'"/>
+            <t:expect label="xs:language" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}language</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:Name">
             <t:call function="test:atom-type">
                <t:param select="xs:Name('foo')" />
             </t:call>
-            <t:expect label="xs:Name" select="'xs:Name'"/>
+            <t:expect label="xs:Name" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}Name</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:NMTOKEN">
             <t:call function="test:atom-type">
                <t:param select="xs:NMTOKEN('foo')" />
             </t:call>
-            <t:expect label="xs:NMTOKEN" select="'xs:NMTOKEN'"/>
+            <t:expect label="xs:NMTOKEN" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}NMTOKEN</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:token">
             <t:call function="test:atom-type">
                <t:param select="xs:token('foo')" />
             </t:call>
-            <t:expect label="xs:token" select="'xs:token'"/>
+            <t:expect label="xs:token" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}token</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:normalizedString">
             <t:call function="test:atom-type">
                <t:param select="xs:normalizedString('foo')" />
             </t:call>
-            <t:expect label="xs:normalizedString" select="'xs:normalizedString'"/>
+            <t:expect label="xs:normalizedString" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}normalizedString</t:expect>
          </t:scenario>
 
       </t:scenario>
@@ -104,84 +113,96 @@
             <t:call function="test:atom-type">
                <t:param select="xs:negativeInteger(-1)" />
             </t:call>
-            <t:expect label="xs:negativeInteger" select="'xs:negativeInteger'"/>
+            <t:expect label="xs:negativeInteger" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}negativeInteger</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:nonPositiveInteger">
            <t:call function="test:atom-type">
               <t:param select="xs:nonPositiveInteger(0)" />
            </t:call>
-           <t:expect label="xs:nonPositiveInteger" select="'xs:nonPositiveInteger'"/>
+           <t:expect label="xs:nonPositiveInteger" select="string()"
+              >Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:byte">
             <t:call function="test:atom-type">
                <t:param select="xs:byte(1)" />
             </t:call>
-            <t:expect label="xs:byte" select="'xs:byte'"/>
+            <t:expect label="xs:byte" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}byte</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:short">
             <t:call function="test:atom-type">
                <t:param select="xs:short(1)" />
             </t:call>
-            <t:expect label="xs:short" select="'xs:short'"/>
+            <t:expect label="xs:short" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}short</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:int">
             <t:call function="test:atom-type">
                <t:param select="xs:int(1)" />
             </t:call>
-            <t:expect label="xs:int" select="'xs:int'"/>
+            <t:expect label="xs:int" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}int</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:long">
             <t:call function="test:atom-type">
                <t:param select="xs:long(1)" />
             </t:call>
-            <t:expect label="xs:long" select="'xs:long'"/>
+            <t:expect label="xs:long" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}long</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:unsignedByte">
             <t:call function="test:atom-type">
                <t:param select="xs:unsignedByte(1)" />
             </t:call>
-            <t:expect label="xs:unsignedByte" select="'xs:unsignedByte'"/>
+            <t:expect label="xs:unsignedByte" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}unsignedByte</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:unsignedShort">
             <t:call function="test:atom-type">
                <t:param select="xs:unsignedShort(1)" />
             </t:call>
-            <t:expect label="xs:unsignedShort" select="'xs:unsignedShort'"/>
+            <t:expect label="xs:unsignedShort" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}unsignedShort</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:unsignedInt">
             <t:call function="test:atom-type">
                <t:param select="xs:unsignedInt(1)" />
             </t:call>
-            <t:expect label="xs:unsignedInt" select="'xs:unsignedInt'"/>
+            <t:expect label="xs:unsignedInt" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}unsignedInt</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:unsignedLong">
             <t:call function="test:atom-type">
                <t:param select="xs:unsignedLong(1)" />
             </t:call>
-            <t:expect label="xs:unsignedLong" select="'xs:unsignedLong'"/>
+            <t:expect label="xs:unsignedLong" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}unsignedLong</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:positiveInteger">
             <t:call function="test:atom-type">
                <t:param select="xs:positiveInteger(1)" />
             </t:call>
-            <t:expect label="xs:positiveInteger" select="'xs:positiveInteger'"/>
+            <t:expect label="xs:positiveInteger" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}positiveInteger</t:expect>
          </t:scenario>
 
          <t:scenario label="xs:nonNegativeInteger">
             <t:call function="test:atom-type">
                <t:param select="xs:nonNegativeInteger(0)" />
             </t:call>
-            <t:expect label="xs:nonNegativeInteger" select="'xs:nonNegativeInteger'"/>
+            <t:expect label="xs:nonNegativeInteger" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger</t:expect>
          </t:scenario>
 
       </t:scenario>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:xspec-eqname" query-at="xspec-eqname.xquery"
+<x:description query="x-urn:test:xspec-eqname" query-at="xspec-eqname.xqm"
 	stylesheet="xspec-eqname.xsl"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"

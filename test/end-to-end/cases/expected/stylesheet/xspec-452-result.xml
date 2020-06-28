@@ -12,7 +12,7 @@
       <x:result select="/text()">t</x:result>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>Expect</x:label>
-         <x:expect select="xs:boolean('false')"/>
+         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       </x:test>
    </x:scenario>
    <x:scenario id="scenario2" xspec="../../xspec-452.xspec">
@@ -23,7 +23,7 @@
       <x:result select="/comment()"><!--c--></x:result>
       <x:test id="scenario2-expect1" successful="false">
          <x:label>Expect</x:label>
-         <x:expect select="xs:boolean('false')"/>
+         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       </x:test>
    </x:scenario>
    <x:scenario id="scenario3" xspec="../../xspec-452.xspec">
@@ -34,7 +34,7 @@
       <x:result select="/processing-instruction()"><?p?></x:result>
       <x:test id="scenario3-expect1" successful="false">
          <x:label>Expect</x:label>
-         <x:expect select="xs:boolean('false')"/>
+         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       </x:test>
    </x:scenario>
    <x:scenario id="scenario4" xspec="../../xspec-452.xspec">
@@ -49,7 +49,7 @@
       </x:result>
       <x:test id="scenario4-expect1" successful="false">
          <x:label>Expect</x:label>
-         <x:expect select="xs:boolean('false')"/>
+         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       </x:test>
    </x:scenario>
 </x:report>

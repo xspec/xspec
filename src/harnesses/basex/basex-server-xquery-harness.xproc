@@ -28,7 +28,7 @@
       <p>The XQuery library module to test must already be on the BaseX instance
         (its URI is passed through the option 'query-at').  The instance endpoint
         is passed in the option 'endpoint'.  The runtime utils library (also known
-        as generate-query-utils.xql) must also be on the instance (its location
+        as generate-query-utils.xqm) must also be on the instance (its location
         hint, that is the 'at' clause to use) is passed in the option 'utils-lib'.
         The dir where you unzipped the XSpec archive on your filesystem is passed
         in the option 'xspec-home'.  User credentials are passed through options

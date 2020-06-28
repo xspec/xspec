@@ -31,7 +31,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    xmlns:x="http://www.jenitennison.com/xslt/xspec"
    stylesheet="compilation-simple-suite.xsl"
    query="http://example.org/ns/my"
-   query-at="compilation-simple-suite.xquery">
+   query-at="compilation-simple-suite.xqm">
 
    <x:scenario label="scenario">
       <x:call function="my:f"/>
@@ -55,7 +55,8 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <xsl:import href=".../xspec/src/compiler/generate-tests-utils.xsl"/>
    <xsl:include href=".../xspec/src/common/xspec-utils.xsl"/>
    <xsl:output name="Q{http://www.jenitennison.com/xslt/xspec}report" method="xml" indent="yes"/>
-   <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri" as="xs:anyURI">.../compilation-simple-suite.xspec</xsl:variable>
+   <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri"
+                 as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xspec</xsl:variable>
    <!-- the main template to run the suite -->
    <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}main">
       <!-- info message -->
@@ -66,7 +67,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
          <xsl:value-of select="system-property('xsl:product-version')"/>
       </xsl:message>
       <!-- set up the result document (the report) -->
-      <xsl:result-document format="x:report">
+      <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}report">
          <x:report stylesheet=".../compilation-simple-suite.xsl"
                    date="{current-dateTime()}"
                    xspec=".../compilation-simple-suite.xspec">
@@ -98,12 +99,12 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 ```xquery
 (: the tested library module :)
 import module namespace my = "http://example.org/ns/my"
-  at ".../compilation-simple-suite.xquery";
+  at ".../compilation-simple-suite.xqm";
 (: an XSpec library module providing tools :)
 import module "http://www.jenitennison.com/xslt/unit-test"
-  at ".../src/compiler/generate-query-utils.xql";
+  at ".../src/compiler/generate-query-utils.xqm";
 import module "http://www.jenitennison.com/xslt/xspec"
-  at ".../src/common/xspec-utils.xquery";
+  at ".../src/common/xspec-utils.xqm";
 
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";
 
@@ -132,7 +133,7 @@ document {
           xmlns:my="http://example.org/ns/my"
           date="{current-dateTime()}"
           query="http://example.org/ns/my"
-          query-at=".../compilation-simple-suite.xquery"
+          query-at=".../compilation-simple-suite.xqm"
           xspec=".../compilation-simple-suite.xspec"> {
       (: a call instruction for each top-level scenario :)
       let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1() return (
@@ -359,11 +360,9 @@ section "[Simple scenario](#simple-scenario)").
          <val2/>
       </xsl:document>
    </xsl:variable>
-   <xsl:variable name="Q{}p2" as="element()">
-      <xsl:for-each select="$Q{urn:x-xspec:compile:impl}param-...-doc">
-         <xsl:sequence select="node()"/>
-      </xsl:for-each>
-   </xsl:variable>
+   <xsl:variable name="Q{}p2"
+                 as="element()"
+                 select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )"/>
    <xsl:sequence select="my:f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
 </xsl:variable>
 
@@ -374,11 +373,8 @@ section "[Simple scenario](#simple-scenario)").
          <val2/>
       </xsl:document>
    </xsl:variable>
-   <xsl:variable name="Q{}p2" as="item()*">
-      <xsl:for-each select="$Q{urn:x-xspec:compile:impl}param-...-doc">
-         <xsl:sequence select="node()"/>
-      </xsl:for-each>
-   </xsl:variable>
+   <xsl:variable name="Q{}p2"
+                 select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )" />
    <xsl:call-template name="t">
       <xsl:with-param name="p1" select="$Q{}p1"/>
       <xsl:with-param name="p2" select="$Q{}p2"/>
@@ -391,11 +387,8 @@ section "[Simple scenario](#simple-scenario)").
          <elem/>
       </xsl:document>
    </xsl:variable>
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}context-..." as="item()*">
-      <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...-doc">
-         <xsl:sequence select="node()"/>
-      </xsl:for-each>
-   </xsl:variable>
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}context-..."
+                 select="$Q{urn:x-xspec:compile:impl}context-...-doc ! ( node() )"/>
    <xsl:apply-templates select="$Q{urn:x-xspec:compile:impl}context-..."/>
 </xsl:variable>
 ```
@@ -524,20 +517,17 @@ this accessibility.
 <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-doc"
               as="document-node()"
               select="doc($Q{urn:x-xspec:compile:impl}variable-...-uri)"/>
-<xsl:variable name="Q{http://example.org/ns/my/variable}href" as="item()*">
-   <xsl:for-each select="$Q{urn:x-xspec:compile:impl}variable-...-doc">
-      <xsl:sequence select="."/>
-   </xsl:for-each>
-</xsl:variable>
+<xsl:variable name="Q{http://example.org/ns/my/variable}href"
+              select="$Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )"/>
 
 <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-doc" as="document-node()">
    <xsl:document>
       <elem/>
    </xsl:document>
 </xsl:variable>
-<xsl:variable name="Q{http://example.org/ns/my/variable}content" as="element()">
-   <xsl:for-each select="$Q{urn:x-xspec:compile:impl}variable-...-doc">
-      <xsl:sequence select="node()"/>
+<xsl:variable name="Q{http://example.org/ns/my/variable}content"
+              as="element()"
+              select="$Q{urn:x-xspec:compile:impl}variable-...-doc ! ( node() )"/>
    </xsl:for-each>
 </xsl:variable>
 ```

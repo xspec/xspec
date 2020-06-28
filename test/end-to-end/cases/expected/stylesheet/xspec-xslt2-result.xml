@@ -32,7 +32,7 @@
          </x:test>
          <x:test id="scenario1-scenario2-expect2" successful="true">
             <x:label>Comparing the text nodes with double</x:label>
-            <x:expect select="xs:double('12')"/>
+            <x:expect select="Q{http://www.w3.org/2001/XMLSchema}double('12')"/>
          </x:test>
          <x:test id="scenario1-scenario2-expect3" successful="true">
             <x:label>Comparing the text nodes with decimal</x:label>

@@ -2,7 +2,7 @@
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test:do-nothing"
-          query-at="../../../../do-nothing.xquery"
+          query-at="../../../../do-nothing.xqm"
           xspec="../../label-element.xspec">
    <x:scenario id="scenario1" xspec="../../label-element.xspec">
       <x:label>	
@@ -12,7 +12,7 @@
 &#xD; 	
 &#xD; </x:label>
       <x:call function="true"/>
-      <x:result select="xs:boolean('true')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>	
 &#xD; 	
@@ -31,7 +31,7 @@
 &#xD; 	
 &#xD; </x:label>
       <x:call function="true"/>
-      <x:result select="xs:boolean('true')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <x:test id="scenario2-expect1" successful="false">
          <x:label>	
 &#xD; 	
@@ -50,7 +50,7 @@
 &#xD; 	
 &#xD; </x:label>
       <x:call function="true"/>
-      <x:result select="xs:boolean('true')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <x:test id="scenario3-expect1" successful="false">
          <x:label>	
 &#xD; 	
