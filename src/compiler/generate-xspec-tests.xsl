@@ -46,11 +46,13 @@
       <!-- The generated xsl:stylesheet must not have @exclude-result-prefixes. The test result
          report XML may use namespace prefixes in XPath expressions even when the prefixes are not
          used in node names. -->
-      <stylesheet version="{x:decimal-string(x:xslt-version(.))}">
+      <stylesheet version="{x:xslt-version(.) => x:decimal-string()}">
          <xsl:sequence select="x:copy-namespaces(.)" />
 
-         <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
-         <import href="{$stylesheet-uri}" />
+         <xsl:if test="not($is-external)">
+            <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
+            <import href="{$stylesheet-uri}" />
+         </xsl:if>
 
          <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
          <import href="{resolve-uri('generate-tests-utils.xsl')}" />
@@ -78,6 +80,18 @@
          <!-- Compile global params and global variables. -->
          <xsl:call-template name="x:compile-global-params-and-vars" />
 
+         <xsl:if test="$is-external">
+            <!-- If no $x:saxon-config is provided by global x:variable, declare a dummy one so that
+               $x:saxon-config is always available -->
+            <xsl:if
+               test="
+                  empty(
+                     x:variable[x:resolve-EQName-ignoring-default-ns(@name, .) eq xs:QName('x:saxon-config')]
+                  )">
+               <variable name="{x:known-UQN('x:saxon-config')}" as="empty-sequence()" />
+            </xsl:if>
+         </xsl:if>
+
          <!-- The main compiled template. -->
          <xsl:comment> the main template to run the suite </xsl:comment>
          <template name="{x:known-UQN('x:main')}">
@@ -95,8 +109,18 @@
             <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
                being tested which would otherwise govern the output of the report XML. -->
             <result-document>
-               <!-- @format does not accept URIQualifiedName as-is because the attribute is AVT -->
-               <xsl:attribute name="format" select="x:xspec-name(., 'report')" />
+               <xsl:attribute name="format">
+                  <xsl:choose>
+                     <xsl:when test="x:saxon-version() lt x:pack-version((9, 9, 1, 1))">
+                        <!-- Workaround for a Saxon bug: https://saxonica.plan.io/issues/4093 -->
+                        <xsl:sequence select="x:xspec-name(., 'report')" />
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <!-- Escape curly braces because @format is AVT -->
+                        <xsl:sequence select="'Q{{' || $x:xspec-namespace || '}}report'" />
+                     </xsl:otherwise>
+                  </xsl:choose>
+               </xsl:attribute>
 
                <xsl:element name="{x:xspec-name(., 'report')}" namespace="{$x:xspec-namespace}">
                   <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
@@ -127,7 +151,7 @@
    </xsl:template>
 
    <!-- *** x:output-call *** -->
-   <!-- Generates a call to the template compiled from a scenario or an expect element. --> 
+   <!-- Generates a call to the template compiled from a scenario or an expect element. -->
 
    <xsl:template name="x:output-call">
       <xsl:context-item as="element()" use="required" />
@@ -301,17 +325,36 @@
 
                   <!-- Enter SUT -->
                   <xsl:choose>
-                     <xsl:when test="$is-dynamic" use-when="false() (: TODO: Dynamic invocation. Not implemented yet. :)">
+                     <xsl:when test="$is-external">
                         <!-- Set up the $impl:transform-options variable -->
                         <xsl:call-template name="x:setup-transform-options" />
 
-                        <!-- Invoke transform() -->
-                        <xsl:call-template name="x:enter-sut">
-                           <xsl:with-param name="instruction" as="element(xsl:sequence)">
+                        <!-- Generate XSLT elements which perform entering SUT -->
+                        <xsl:variable name="enter-sut" as="element()+">
+                           <xsl:call-template name="x:enter-sut">
+                              <xsl:with-param name="instruction" as="element(xsl:sequence)">
                               <sequence
                                  select="transform(${x:known-UQN('impl:transform-options')})?output" />
-                           </xsl:with-param>
-                        </xsl:call-template>
+                              </xsl:with-param>
+                           </xsl:call-template>
+                        </xsl:variable>
+
+                        <!-- Invoke transform() -->
+                        <xsl:choose>
+                           <xsl:when test="$call/@template and $context">
+                              <for-each select="${x:variable-name($context)}">
+                                 <variable name="{x:known-UQN('impl:transform-options')}" as="map({x:known-UQN('xs:string')}, item()*)">
+                                    <xsl:attribute name="select">
+                                       <xsl:text expand-text="yes">{x:known-UQN('map:put')}(${x:known-UQN('impl:transform-options')}, 'global-context-item', .)</xsl:text>
+                                    </xsl:attribute>
+                                 </variable>
+                                 <xsl:sequence select="$enter-sut" />
+                              </for-each>
+                           </xsl:when>
+                           <xsl:otherwise>
+                              <xsl:sequence select="$enter-sut" />
+                           </xsl:otherwise>
+                        </xsl:choose>
                      </xsl:when>
 
                      <xsl:when test="$call/@template">
@@ -424,7 +467,118 @@
             <xsl:call-template name="x:call-scenarios" />
          </xsl:element>
       </template>
+
       <xsl:call-template name="x:compile-scenarios" />
+   </xsl:template>
+
+   <!-- Constructs options for transform() -->
+   <xsl:template name="x:setup-transform-options" as="element(xsl:variable)">
+      <xsl:context-item as="element(x:scenario)" use="required" />
+
+      <xsl:param name="call" select="()" tunnel="yes" as="element(x:call)?" />
+      <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?" />
+
+      <variable name="{x:known-UQN('impl:transform-options')}" as="map({x:known-UQN('xs:string')}, item()*)">
+         <map>
+            <!--
+               Common options
+            -->
+            <map-entry key="'cache'" select="false()" /><!-- cache=true() invalidates different static parameters -->
+            <map-entry key="'delivery-format'" select="'raw'" />
+
+            <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
+               Haven't tested.) But 'stylesheet-node' disables $x:result?err?line-number on @catch=true. -->
+            <map-entry key="'stylesheet-location'">
+               <xsl:value-of select="$stylesheet-uri" />
+            </map-entry>
+
+            <map-entry key="'stylesheet-params'">
+               <map>
+                  <xsl:apply-templates select="/x:description/x:param" mode="x:param-to-map-entry" />
+               </map>
+            </map-entry>
+            <if test="${x:known-UQN('x:saxon-config')} => exists()">
+               <if
+                  test="${x:known-UQN('x:saxon-config')} => {x:known-UQN('test:is-saxon-config')}() => not()">
+                  <message terminate="yes">
+                     <xsl:text expand-text="yes">ERROR: ${x:xspec-name(., 'saxon-config')} does not appear to be a Saxon configuration</xsl:text>
+                  </message>
+               </if>
+               <map-entry key="'vendor-options'">
+                  <map>
+                     <map-entry key="QName('http://saxon.sf.net/', 'configuration')">
+                        <choose>
+                           <when
+                              test="{x:known-UQN('x:saxon-version')}() le {x:known-UQN('x:pack-version')}((9, 9, 1, 6))">
+                              <apply-templates select="${x:known-UQN('x:saxon-config')}"
+                                 mode="{x:known-UQN('test:fixup-saxon-config')}" />
+                           </when>
+                           <otherwise>
+                              <sequence select="${x:known-UQN('x:saxon-config')}" />
+                           </otherwise>
+                        </choose>
+                     </map-entry>
+                  </map>
+               </map-entry>
+            </if>
+
+            <!--
+               Options for call-template invocation and apply-templates invocation
+            -->
+            <xsl:for-each select="($call[@template], $context)[1]">
+               <map-entry key="'template-params'">
+                  <map>
+                     <xsl:apply-templates
+                        select="x:param[x:yes-no-synonym(@tunnel, false()) => not()]"
+                        mode="x:param-to-map-entry" />
+                  </map>
+               </map-entry>
+               <map-entry key="'tunnel-params'">
+                  <map>
+                     <xsl:apply-templates
+                        select="x:param[x:yes-no-synonym(@tunnel, false())]"
+                        mode="x:param-to-map-entry" />
+                  </map>
+               </map-entry>
+            </xsl:for-each>
+
+            <!--
+               Invocation-specific options
+            -->
+            <xsl:choose>
+               <xsl:when test="$call/@template">
+                  <map-entry key="'initial-template'"
+                     select="{x:QName-expression-from-EQName-ignoring-default-ns($call/@template, $call)}" />
+               </xsl:when>
+
+               <xsl:when test="$call/@function">
+                  <map-entry key="'function-params'">
+                     <xsl:attribute name="select">
+                        <xsl:text>[</xsl:text>
+                        <xsl:value-of separator=", ">
+                           <xsl:apply-templates select="$call/x:param" mode="x:param-to-select-attr">
+                              <xsl:sort select="xs:integer(@position)" />
+                           </xsl:apply-templates>
+                        </xsl:value-of>
+                        <xsl:text>]</xsl:text>
+                     </xsl:attribute>
+                  </map-entry>
+                  <map-entry key="'initial-function'"
+                     select="{x:QName-expression-from-EQName-ignoring-default-ns($call/@function, $call)}" />
+               </xsl:when>
+
+               <xsl:when test="$context">
+                  <map-entry
+                     key="if (${x:variable-name($context)} instance of node()) then 'source-node' else 'initial-match-selection'"
+                     select="${x:variable-name($context)}" />
+                  <xsl:if test="$context/@mode">
+                     <map-entry key="'initial-mode'"
+                        select="{x:QName-expression-from-EQName-ignoring-default-ns($context/@mode, $context)}" />
+                  </xsl:if>
+               </xsl:when>
+            </xsl:choose>
+         </map>
+      </variable>
    </xsl:template>
 
    <xsl:template name="x:output-try-catch" as="element(xsl:try)">
@@ -446,10 +600,8 @@
                               <xsl:value-of select="." />
                               <xsl:text>'</xsl:text>
                            </xsl:attribute>
-                           <xsl:attribute name="select">
-                              <xsl:text>$Q{http://www.w3.org/2005/xqt-errors}</xsl:text>
-                              <xsl:value-of select="." />
-                           </xsl:attribute>
+                           <xsl:attribute name="select"
+                              select="'$' || x:URIQualifiedName('http://www.w3.org/2005/xqt-errors', .)" />
                         </map-entry>
                      </xsl:for-each>
                   </map>
@@ -513,7 +665,8 @@
                            $x:result as if they were *children* of the context node.
                            Have to experiment a bit to see if that really is the case.
                            TODO: To remove. Use directly $x:result instead.  See issue 14. -->
-                        <when test="exists(${x:known-UQN('x:result')}) and {x:known-UQN('test:wrappable-sequence')}(${x:known-UQN('x:result')})">
+                        <when
+                           test="exists(${x:known-UQN('x:result')}) and {x:known-UQN('test:wrappable-sequence')}(${x:known-UQN('x:result')})">
                            <sequence select="{x:known-UQN('test:wrap-nodes')}(${x:known-UQN('x:result')})" />
                         </when>
                         <otherwise>
@@ -622,6 +775,22 @@
             </xsl:if>
          </xsl:element>
       </template>
+   </xsl:template>
+
+   <!-- *** x:param-to-map-entry *** -->
+   <!-- Transforms x:param to xsl:map-entry -->
+   <xsl:mode name="x:param-to-map-entry" on-no-match="fail" />
+   <xsl:template match="x:param" as="element(xsl:map-entry)" mode="x:param-to-map-entry">
+      <map-entry key="{x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
+         <xsl:apply-templates select="." mode="x:param-to-select-attr" />
+      </map-entry>
+   </xsl:template>
+
+   <!-- *** x:param-to-select-attr *** -->
+   <!-- Transforms x:param to @select which is connected to the generated xsl:variable -->
+   <xsl:mode name="x:param-to-select-attr" on-no-match="fail" />
+   <xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
+      <xsl:attribute name="select" select="'$' || x:variable-name(.)" />
    </xsl:template>
 
 </xsl:stylesheet>

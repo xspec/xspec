@@ -8,7 +8,7 @@
    <x:scenario id="scenario1" xspec="../../xspec-55.xspec">
       <x:label>In a failure report HTML</x:label>
       <x:call function="mirror:true"/>
-      <x:result select="xs:boolean('true')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>[Expected Result] must represent xs:decimal(1) by "1.0" (numeric literal of
 				decimal)</x:label>
@@ -17,7 +17,7 @@
       <x:test id="scenario1-expect2" successful="false">
          <x:label>[Expected Result] must represent xs:double(1) by "xs:double('1')" (constructor
 				of double)</x:label>
-         <x:expect select="xs:double('1')"/>
+         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}double('1')"/>
       </x:test>
       <x:test id="scenario1-expect3" successful="false">
          <x:label>[Expected Result] must represent xs:integer(1) by "1" (numeric literal of

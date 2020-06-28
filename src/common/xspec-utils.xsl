@@ -15,13 +15,13 @@
 		select="xs:anyURI('http://www.jenitennison.com/xslt/unit-test')" />
 
 	<!--
-		XSpec namespace URI
+		XSpec 'x' namespace URI
 	-->
 	<xsl:variable as="xs:anyURI" name="x:xspec-namespace"
 		select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')" />
 
 	<!--
-		'xs' namespace URI
+		Standard 'xs' namespace URI
 	-->
 	<xsl:variable as="xs:anyURI" name="x:xs-namespace"
 		select="xs:anyURI('http://www.w3.org/2001/XMLSchema')" />
@@ -154,7 +154,7 @@
 	<!--
 		Copies namespaces of element
 	-->
-	<xsl:function as="node()*" name="x:copy-namespaces">
+	<xsl:function as="namespace-node()*" name="x:copy-namespaces">
 		<xsl:param as="element()" name="e" />
 
 		<xsl:for-each select="in-scope-prefixes($e)">
@@ -625,6 +625,21 @@
 	</xsl:function>
 
 	<!--
+		Resolves EQName (either URIQualifiedName or lexical QName, the latter is
+		resolved without using the default namespace) to xs:QName
+		and returns an XPath expression of fn:QName() which represents the resolved xs:QName.
+	-->
+	<xsl:function as="xs:string" name="x:QName-expression-from-EQName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="eqname" />
+		<xsl:param as="element()" name="element" />
+
+		<xsl:variable as="xs:QName" name="qname"
+			select="x:resolve-EQName-ignoring-default-ns($eqname, $element)" />
+
+		<xsl:sequence select="x:QName-expression($qname)" />
+	</xsl:function>
+
+	<!--
 		Constructs URIQualifiedName from namespace URI and local name
 	-->
 	<xsl:function as="xs:string" name="x:URIQualifiedName">
@@ -647,6 +662,9 @@
 			<xsl:choose>
 				<xsl:when test="$prefix eq 'impl'">
 					<xsl:sequence select="'urn:x-xspec:compile:impl'" />
+				</xsl:when>
+				<xsl:when test="$prefix eq 'map'">
+					<xsl:sequence select="'http://www.w3.org/2005/xpath-functions/map'" />
 				</xsl:when>
 				<xsl:when test="$prefix eq 'test'">
 					<xsl:sequence select="$x:legacy-namespace" />

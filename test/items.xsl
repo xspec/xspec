@@ -43,7 +43,7 @@
         </xsl:element>
     </xsl:variable>
 
-    <xsl:variable as="node()" name="items:namespace">
+    <xsl:variable as="namespace-node()" name="items:namespace">
         <xsl:namespace name="namespace-name">namespace-text</xsl:namespace>
     </xsl:variable>
 
@@ -59,11 +59,11 @@
     <!--
         Other namespace nodes
     -->
-    <xsl:variable as="node()" name="items:another-namespace">
+    <xsl:variable as="namespace-node()" name="items:another-namespace">
         <xsl:namespace name="another-namespace-name">another-namespace-text</xsl:namespace>
     </xsl:variable>
 
-    <xsl:variable as="node()" name="items:default-namespace">
+    <xsl:variable as="namespace-node()" name="items:default-namespace">
         <xsl:namespace name="">default-namespace-text</xsl:namespace>
     </xsl:variable>
 

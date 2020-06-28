@@ -193,7 +193,14 @@ load bats-helper
     [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
     [ -f "${special_chars_dir}/xspec/demo-result.html" ]
 
-    # Coverage report file is created and contains CSS inline #194
+    # Check the coverage report XML file contents
+    run java -jar "${SAXON_JAR}" \
+        -s:"${special_chars_dir}/xspec/demo-coverage.xml" \
+        -xsl:check-coverage-xml.xsl
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # Coverage report HTML file is created and contains CSS inline #194
     unset JAVA_TOOL_OPTIONS
     run java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:html-css.xsl
     echo "$output"
@@ -2279,6 +2286,18 @@ load bats-helper
     [ "$status" -eq 1 ]
     assert_regex "${lines[5]}" '^  x:XSPEC005[: ] there are x:expect but no x:call \(scenario '\''Missing x:call'\''\)$'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+#
+# $x:saxon-config is not a Saxon config
+#
+
+@test "\$x:saxon-config is not a Saxon config" {
+    run ../bin/xspec.sh saxon-config/test.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[7]}" = "ERROR: \$x:saxon-config does not appear to be a Saxon configuration" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
 

@@ -7,14 +7,14 @@
    <x:scenario id="scenario1" xspec="../../xspec-449.xspec">
       <x:label>x:expect/</x:label>
       <x:call function="mirror:false"/>
-      <x:result select="xs:boolean('false')"/>
+      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <x:test id="scenario1-expect1" successful="true">
          <x:label>x:label containing }{ should not affect test</x:label>
-         <x:expect select="xs:boolean('false')"/>
+         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       </x:test>
       <x:test id="scenario1-expect2" successful="true">
          <x:label>@label containing }{ should not affect test</x:label>
-         <x:expect select="xs:boolean('false')"/>
+         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       </x:test>
    </x:scenario>
 </x:report>

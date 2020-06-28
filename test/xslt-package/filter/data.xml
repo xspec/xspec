@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<employee>
+		<location>FR</location>
+		<name>Alice</name>
+	</employee>
+	<employee>
+		<location>UK</location>
+		<name>Bob</name>
+	</employee>
+</data>

@@ -22,10 +22,10 @@
       <x:scenario id="scenario1-scenario2" xspec="../../xspec-528.xspec">
          <x:label>Scenario 1-2</x:label>
          <x:call function="mirror:true"/>
-         <x:result select="xs:boolean('true')"/>
+         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <x:test id="scenario1-scenario2-expect1" successful="false">
             <x:label>should fail</x:label>
-            <x:expect select="xs:boolean('false')"/>
+            <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          </x:test>
       </x:scenario>
    </x:scenario>

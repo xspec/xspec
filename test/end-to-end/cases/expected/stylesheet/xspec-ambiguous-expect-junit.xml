@@ -17,7 +17,7 @@
                 status="passed"/>
       <testcase name="When function returns false, Expecting false via @select along with @test=$x:result should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: xs:boolean('false')</failure>
+         <failure message="expect assertion failed">Expected: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
       </testcase>
    </testsuite>
    <testsuite name="Scenario for verifying that boolean @test precedes child node"

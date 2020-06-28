@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="coverage-no-hit.xspec">
+   <testsuite name="Testing a stylesheet without any matching context"
+              tests="1"
+              failures="0">
+      <testcase name="should be reported as 'not used' in the coverage report"
+                status="passed"/>
+   </testsuite>
+</testsuites>

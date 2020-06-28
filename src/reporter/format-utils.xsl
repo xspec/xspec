@@ -80,10 +80,10 @@
     'http://www.w3.org/1999/XSL/Transform' (: xsl :),
     $x:xs-namespace (: xs :),
     'http://www.w3.org/XML/1998/namespace' (: xml :)" />
-  <xsl:variable name="namespaces" as="node()*" select="namespace::*" />
-  <xsl:variable name="parent-namespaces" as="node()*" select="parent::element()/namespace::*" />
-  <xsl:variable name="significant-namespaces" as="node()*" select="$namespaces[not(string() = $omit-namespace-uris)]" />
-  <xsl:variable name="new-namespaces" as="node()*">
+  <xsl:variable name="namespaces" as="namespace-node()*" select="namespace::*" />
+  <xsl:variable name="parent-namespaces" as="namespace-node()*" select="parent::element()/namespace::*" />
+  <xsl:variable name="significant-namespaces" as="namespace-node()*" select="$namespaces[not(string() = $omit-namespace-uris)]" />
+  <xsl:variable name="new-namespaces" as="namespace-node()*">
     <xsl:choose>
       <xsl:when test="$level eq 0">
         <!-- Take all -->
