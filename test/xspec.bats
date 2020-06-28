@@ -193,7 +193,14 @@ load bats-helper
     [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
     [ -f "${special_chars_dir}/xspec/demo-result.html" ]
 
-    # Coverage report file is created and contains CSS inline #194
+    # Check the coverage report XML file contents
+    run java -jar "${SAXON_JAR}" \
+        -s:"${special_chars_dir}/xspec/demo-coverage.xml" \
+        -xsl:check-coverage-xml.xsl
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # Coverage report HTML file is created and contains CSS inline #194
     unset JAVA_TOOL_OPTIONS
     run java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:html-css.xsl
     echo "$output"
