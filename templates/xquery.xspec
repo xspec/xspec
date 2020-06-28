@@ -5,7 +5,7 @@
     * Write your test scenario. See https://github.com/xspec/xspec/wiki/Writing-Scenarios for details.
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    query="http://www.example.com/my-module" query-at="path/to/my-module.xquery">
+    query="http://www.example.com/my-module" query-at="path/to/my-module.xqm">
 
     <x:scenario label="Scenario for testing a function">
         <x:call function="function-name">

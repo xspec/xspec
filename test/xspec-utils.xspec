@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:xspec-items" query-at="items.xquery" stylesheet="items.xsl"
+<x:description query="x-urn:test:xspec-items" query-at="items.xqm" stylesheet="items.xsl"
 	xmlns:items="x-urn:test:xspec-items" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!--
-		The test target (../src/common/xspec-utils.xsl or xspec-utils.xquery) is included
+		The test target (../src/common/xspec-utils.xsl or xspec-utils.xqm) is included
 		implicitly by the XSpec compiler. You don't need to specify it in
 		/x:description/@stylesheet or @query-at.
 	-->

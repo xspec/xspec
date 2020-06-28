@@ -14,7 +14,7 @@
         <p><b>Primary output:</b> A formatted HTML XSpec report.</p>
         <p>The XQuery library module to test must already be on the eXist instance.
             The instance endpoint is passed in the option 'endpoint'.  The runtime
-            utils library (also known as generate-query-utils.xql) must also be on
+            utils library (also known as generate-query-utils.xqm) must also be on
             the instance (its location hint, that is the 'at' clause to use) is
             passed in the option 'utils-lib'.  The dir where you unzipped the XSpec
             archive on your filesystem is passed in the option 'xspec-home'.</p>
@@ -24,7 +24,7 @@
 
     <p:option name="xspec-home" required="true"/>
     <p:option name="query-at"/>
-    <p:option name="utils-lib" select="'xmldb:exist:///db/xspec/generate-query-utils.xql'"/>
+    <p:option name="utils-lib" select="'xmldb:exist:///db/xspec/generate-query-utils.xqm'"/>
     <p:option name="endpoint" select="'http://localhost:8080/exist/rest/db/'"/>
     <!-- if set, then save the generated query at this URI -->
     <p:option name="compiled-uri"/>

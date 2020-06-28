@@ -4,7 +4,7 @@
    xmlns:x="http://www.jenitennison.com/xslt/xspec"
    stylesheet="compilation-simple-suite.xsl"
    query="http://example.org/ns/my"
-   query-at="compilation-simple-suite.xquery"
+   query-at="compilation-simple-suite.xqm"
    xml:base="../tutorial/under-the-hood/">
 
    <!-- If any of these tests changes, check whether the file
