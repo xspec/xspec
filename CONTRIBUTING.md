@@ -18,6 +18,7 @@ All contributions are submitted under the [MIT License](https://github.com/xspec
 | --------- | --------------------- |
 | `xq`      | XQuery main module    |
 | `xqm`     | XQuery library module |
+| `xsl`     | XSLT stylesheet       |
 
 ### Pull request titles
 
