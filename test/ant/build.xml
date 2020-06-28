@@ -44,7 +44,7 @@
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery.schema-aware.run.result">
 			<arg value="-sa" />
-			<arg value="-q:${run-xspec-tests.basedir}/../caps/schema-aware.xquery" />
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/schema-aware.xq" />
 		</java>
 		<condition else="false" property="xquery.supports.schema">
 			<equals arg1="${xquery.schema-aware.run.result}" arg2="0" />
@@ -54,7 +54,7 @@
 		<!-- Checks to see if XQuery processor supports higher-order functions -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery.hof.run.result">
-			<arg value="-q:${run-xspec-tests.basedir}/../caps/hof.xquery" />
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/hof.xq" />
 		</java>
 		<condition else="false" property="xquery.supports.hof">
 			<equals arg1="${xquery.hof.run.result}" arg2="0" />

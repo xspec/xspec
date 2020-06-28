@@ -1,5 +1,5 @@
 (::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::)
-(:  File:       test/xspec-tested.xql                                       :)
+(:  File:       test/xspec-tested.xqm                                       :)
 (:  Author:     Jeni Tennison                                               :)
 (:  Tags:                                                                   :)
 (:    Copyright (c) 2010 Jeni Tennison (see end of file.)                   :)

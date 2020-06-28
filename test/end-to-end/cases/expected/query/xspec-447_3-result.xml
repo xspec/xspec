@@ -3,7 +3,7 @@
           xmlns:mirror="x-urn:test:mirror"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test:mirror"
-          query-at="../../../../mirror.xquery"
+          query-at="../../../../mirror.xqm"
           xspec="../../xspec-447_3.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-447_3.xspec" pending="}{">
       <x:label>x:scenario/@pending containing curly brackets should not affect test</x:label>

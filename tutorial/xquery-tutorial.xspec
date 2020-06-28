@@ -2,7 +2,7 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" 
                xmlns:functx="http://www.functx.com"
                query="http://www.functx.com" 
-               query-at="xquery-tutorial.xq">
+               query-at="xquery-tutorial.xqm">
 
   <x:scenario label="Calling function capitalize-first">
     <x:call function="functx:capitalize-first">

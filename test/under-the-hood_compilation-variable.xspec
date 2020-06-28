@@ -5,7 +5,7 @@
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                stylesheet="xspec-tested.xsl"
                query="http://example.org/ns/my"
-               query-at="xspec-tested.xql">
+               query-at="xspec-tested.xqm">
 
    <!-- If any of these tests changes, check whether the file
         ../tutorials/under-the-hood/Compilation.md needs updates. -->
