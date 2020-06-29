@@ -153,6 +153,10 @@
             <xsl:attribute name="name" select="name()" />
          </xsl:if>
 
+         <xsl:if test=". instance of attribute()">
+            <xsl:attribute name="namespace" select="namespace-uri()" />
+         </xsl:if>
+
          <xsl:choose>
             <xsl:when test="(. instance of attribute()) and x:is-user-content(.)">
                <!-- AVT -->
