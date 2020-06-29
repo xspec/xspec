@@ -20,7 +20,7 @@
             name="exist-xquery-harness"
             type="t:exist-xquery-harness"
             version="1.0">
-	
+
    <p:documentation>
       <p>This pipeline executes an XSpec test suite on an eXist instance.</p>
       <p><b>Primary input:</b> A XSpec test suite document.</p>
@@ -78,6 +78,7 @@
       <!-- construct the eXist REST query element around the query itself -->
       <p:rename new-name="exist:text" match="/*"/>
       <p:wrap wrapper="exist:query" match="/*"/>
+
       <!-- construct the HTTP request following eXist REST interface -->
       <p:wrap wrapper="c:body" match="/*"/>
       <p:add-attribute attribute-name="content-type" attribute-value="application/xml" match="/*"/>

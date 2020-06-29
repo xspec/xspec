@@ -48,16 +48,19 @@
           /c:param-set/c:param[@name eq 'basex-jar']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
+
       <!-- TODO: Use a robust way to get a tmp file name from the OS... -->
       <p:variable name="compiled-file" select="
           ( /c:param-set/c:param[@name eq 'compiled-file']/@value,
             'file:/tmp/xspec-basex-compiled-suite.xq' )[1]">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
+
       <p:variable name="utils-library-at" select="
           /c:param-set/c:param[@name eq 'utils-library-at']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
+
       <!-- either no at location hint, or resolved from xspec-home if packaging not supported -->
       <p:variable name="utils-lib" select="
           if ( $utils-library-at ) then
