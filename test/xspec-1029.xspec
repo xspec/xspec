@@ -37,7 +37,7 @@
 	</x:scenario>
 
 	<x:scenario catch="yes"
-		label="catch=yes with xsl:message[@terminate=yes]in matching xsl:template">
+		label="catch=yes with xsl:message[@terminate=yes] in matching xsl:template">
 		<x:scenario label="[@as=xs:integer]">
 			<x:context mode="xspec-1029:as-integer">
 				<context-child />
