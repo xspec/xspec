@@ -287,8 +287,8 @@
          /xsl:character-map[@name eq 'test:disable-escaping']
          /translate(
             $input,
-            string-join(xsl:output-character/@string, ''),
-            string-join(xsl:output-character/@character, '')
+            string-join(xsl:output-character/@string),
+            string-join(xsl:output-character/@character)
          )"/>
    </xsl:function>
 
