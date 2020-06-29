@@ -73,9 +73,12 @@
       <p:input  port="source"     primary="true"/>
       <p:input  port="parameters" primary="true" kind="parameter"/>
       <p:output port="result"     primary="true"/>
+
       <p:option name="if-set" required="true"/>
+
       <!-- retrieve the params -->
       <t:parameters name="params"/>
+
       <p:group>
          <p:variable name="uri" select="/c:param-set/c:param[@name eq $if-set]/@value">
             <p:pipe step="params" port="parameters"/>
@@ -106,8 +109,10 @@
       <p:input  port="source"     primary="true"/>
       <p:input  port="parameters" primary="true" kind="parameter"/>
       <p:output port="result"     primary="true"/>
+
       <!-- retrieve the params -->
       <t:parameters name="params"/>
+
       <p:group>
          <p:variable name="xspec-home" select="
              /c:param-set/c:param[@name eq 'xspec-home']/@value">
@@ -117,6 +122,7 @@
              /c:param-set/c:param[@name eq 'compiler-uri']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
+
          <!-- if compiler-uri is not passed, then use xspec-home to resolve the compiler -->
          <!-- if xspec-home is not passed, then use the packaging public URI -->
          <p:variable name="compiler" select="
@@ -126,10 +132,12 @@
                resolve-uri('src/compiler/generate-xspec-tests.xsl', $xspec-home)
              else
                'http://www.jenitennison.com/xslt/xspec/generate-xspec-tests.xsl'"/>
+
          <!-- load the compiler -->
          <p:load name="compiler" pkg:kind="xslt">
             <p:with-option name="href" select="$compiler"/>
          </p:load>
+
          <!-- actually compile the suite in a stylesheet -->
          <p:xslt>
             <p:input port="source">
@@ -143,6 +151,7 @@
             </p:input>
          </p:xslt>
       </p:group>
+
       <!-- log the result? -->
       <t:log if-set="log-compilation">
          <p:input port="parameters">
@@ -164,8 +173,10 @@
       <p:input  port="source" primary="true"/>
       <p:input  port="parameters" kind="parameter"/>
       <p:output port="result" primary="true"/>
+
       <!-- retrieve the params -->
       <t:parameters name="params"/>
+
       <p:group>
         <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
              is not supported -->
@@ -173,11 +184,13 @@
              /c:param-set/c:param[@name eq 'xspec-home']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
+
          <!-- param: compiler-uri: the URI of the XSpec compiler to XQuery -->
          <p:variable name="compiler-uri" select="
              /c:param-set/c:param[@name eq 'compiler-uri']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
+
          <!-- if compiler-uri is not passed, then use xspec-home to resolve the compiler -->
          <!-- if xspec-home is not passed, then use the packaging public URI -->
          <p:variable name="compiler" select="
@@ -187,6 +200,7 @@
                resolve-uri('src/compiler/generate-query-tests.xsl', $xspec-home)
              else
                'http://www.jenitennison.com/xslt/xspec/generate-query-tests.xsl'"/>
+
          <!-- wrap the generated query in a c:query element -->
          <p:string-replace match="xsl:import/@href" name="compiler">
             <p:with-option name="replace" select="concat('''', $compiler, '''')"/>
@@ -206,6 +220,7 @@
                </p:inline>
             </p:input>
          </p:string-replace>
+
          <!-- actually compile the suite in a query -->
          <p:xslt name="do-it">
             <p:input port="source">
@@ -216,6 +231,7 @@
             </p:input>
          </p:xslt>
       </p:group>
+
       <!-- log the result? -->
       <t:log if-set="log-compilation">
          <p:input port="parameters">

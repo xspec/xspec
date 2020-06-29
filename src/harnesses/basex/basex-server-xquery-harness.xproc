@@ -71,11 +71,13 @@
       <!-- construct the BaseX REST query element around the query itself -->
       <p:rename new-name="rest:text" match="/*"/>
       <p:wrap wrapper="rest:query" match="/*"/>
+
       <!-- construct the HTTP request following BaseX REST interface -->
       <p:wrap wrapper="c:body" match="/*"/>
       <p:add-attribute attribute-name="content-type" attribute-value="application/xml" match="/*"/>
       <p:wrap wrapper="c:request" match="/*"/>
       <p:add-attribute attribute-name="method" attribute-value="POST" match="/*"/>
+
       <!-- inject variable values -->
       <p:add-attribute attribute-name="href" match="/*">
          <p:with-option name="attribute-value" select="$endpoint"/>

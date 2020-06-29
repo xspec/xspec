@@ -20,7 +20,7 @@
             name="ml-xquery-harness"
             type="t:ml-xquery-harness"
             version="1.0">
-	
+
    <p:documentation>
       <p>This pipeline executes an XSpec test suite on a MarkLogic instance.</p>
       <p><b>Primary input:</b> A XSpec test suite document.</p>
