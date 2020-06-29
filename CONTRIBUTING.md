@@ -12,6 +12,14 @@ All contributions are submitted under the [MIT License](https://github.com/xspec
 
 ## Code Conventions
 
+### Filename extensions
+
+| Extension | Type                  |
+| --------- | --------------------- |
+| `xq`      | XQuery main module    |
+| `xqm`     | XQuery library module |
+| `xsl`     | XSLT stylesheet       |
+
 ### Pull request titles
 
 We use GitHub Checks to enforce conventions in pull request titles and we follow the Angular Coding Conventions:

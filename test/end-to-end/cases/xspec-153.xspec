@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xquery"
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xqm"
 	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<x:scenario label="When a function returns a local date time string">

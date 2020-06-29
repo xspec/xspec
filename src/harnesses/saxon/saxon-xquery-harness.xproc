@@ -48,7 +48,7 @@
           if ( $utils-library-at ) then
             $utils-library-at
           else if ( $xspec-home ) then
-            resolve-uri('src/compiler/generate-query-utils.xql', $xspec-home)
+            resolve-uri('src/compiler/generate-query-utils.xqm', $xspec-home)
           else
             ''"/>
 

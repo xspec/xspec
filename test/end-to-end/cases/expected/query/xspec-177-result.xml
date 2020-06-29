@@ -2,7 +2,7 @@
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test:do-nothing"
-          query-at="../../../../do-nothing.xquery"
+          query-at="../../../../do-nothing.xqm"
           xspec="../../xspec-177.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-177.xspec">
       <x:label>Given the function returns &lt;foo /&gt;</x:label>

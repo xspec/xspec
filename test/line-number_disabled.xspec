@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test additional-classpath=${xspec.project.dir}/java?>
 <?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/line-number/disabled-config.xml"?>
-<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xquery"
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
 	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:import href="line-number/common.xspec" />

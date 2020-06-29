@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description preserve-space="pre" query="x-urn:test:xspec-space" query-at="xspec-space.xquery"
+<x:description preserve-space="pre" query="x-urn:test:xspec-space" query-at="xspec-space.xqm"
 	stylesheet="xspec-space.xsl"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
