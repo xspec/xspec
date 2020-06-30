@@ -1,7 +1,7 @@
 module namespace test = "http://www.jenitennison.com/xslt/unit-test";
 
 (::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::)
-(:  File:       generate-query-utils.xql                                    :)
+(:  File:       generate-query-utils.xqm                                    :)
 (:  Author:     Jeni Tennison                                               :)
 (:  URL:        http://github.com/xspec/xspec                               :)
 (:  Tags:                                                                   :)
@@ -9,7 +9,7 @@ module namespace test = "http://www.jenitennison.com/xslt/unit-test";
 (: ------------------------------------------------------------------------ :)
 
 import module namespace x = "http://www.jenitennison.com/xslt/xspec"
-  at "../common/xspec-utils.xquery";
+  at "../common/xspec-utils.xqm";
 
 declare function test:deep-equal(
     $seq1 as item()*,

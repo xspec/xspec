@@ -666,6 +666,9 @@
 				<xsl:when test="$prefix eq 'map'">
 					<xsl:sequence select="'http://www.w3.org/2005/xpath-functions/map'" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'output'">
+					<xsl:sequence select="'http://www.w3.org/2010/xslt-xquery-serialization'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'test'">
 					<xsl:sequence select="$x:legacy-namespace" />
 				</xsl:when>

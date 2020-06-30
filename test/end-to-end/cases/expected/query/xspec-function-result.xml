@@ -4,7 +4,7 @@
           xmlns:t="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="http://example.org/ns/my"
-          query-at="../../../../xspec-tested.xql"
+          query-at="../../../../xspec-tested.xqm"
           xspec="../../xspec-function.xspec">
    <t:scenario id="scenario1" xspec="../../xspec-function.xspec">
       <t:label>when calling a function and expecting correctly</t:label>

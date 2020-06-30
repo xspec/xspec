@@ -21,11 +21,11 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-query-tests.xsl</pkg:import-uri>
 
-   <xsl:output omit-xml-declaration="yes"/>
+   <xsl:output omit-xml-declaration="yes" use-character-maps="test:disable-escaping" />
 
    <!--
        The URI to use in the "at" clause of the import statement (aka
-       the "location hint") for the library generate-query-utils.xql.
+       the "location hint") for the library generate-query-utils.xqm.
        The special value '#none' is used to generate no "at" clause at
        all.
 
@@ -36,7 +36,7 @@
        MarkLogic).
    -->
    <xsl:param name="utils-library-at" as="xs:string"
-      select="resolve-uri('generate-query-utils.xql')" />
+      select="resolve-uri('generate-query-utils.xqm')" />
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?" select="
@@ -105,7 +105,7 @@
       <!-- Import common utils -->
       <xsl:text expand-text="yes">import module "{$x:xspec-namespace}"</xsl:text>
       <xsl:if test="$utils-library-at ne '#none'">
-         <xsl:text expand-text="yes">&#x0A;  at "{resolve-uri('../common/xspec-utils.xquery')}"</xsl:text>
+         <xsl:text expand-text="yes">&#x0A;  at "{resolve-uri('../common/xspec-utils.xqm')}"</xsl:text>
       </xsl:if>
       <xsl:text>;&#x0A;</xsl:text>
 
@@ -113,11 +113,10 @@
       <xsl:apply-templates select="$this" mode="x:decl-ns">
          <xsl:with-param name="except" select="$prefix, 'test'"/>
       </xsl:apply-templates>
-      <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
 
       <!-- Serialization parameters -->
-      <xsl:text>declare option output:method "xml";&#x0A;</xsl:text>
-      <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">declare option {x:known-UQN('output:method')} "xml";&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">declare option {x:known-UQN('output:indent')} "yes";&#x0A;</xsl:text>
 
       <!-- Absolute URI of the master .xspec file -->
       <xsl:call-template name="test:declare-or-let-variable">
@@ -392,7 +391,7 @@
                <!-- $local:test-result
                   TODO: Evaluate @test in the context of $local:test-items, if
                     $local:test-items is a node -->
-               <xsl:text expand-text="yes">  let $local:test-result as item()* := ({@test})&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">  let $local:test-result as item()* := ({test:disable-escaping(@test)})&#x0A;</xsl:text>
 
                <!-- $local:boolean-test -->
                <xsl:text>  let $local:boolean-test as xs:boolean :=&#x0A;</xsl:text>

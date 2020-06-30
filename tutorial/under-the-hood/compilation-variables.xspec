@@ -5,7 +5,7 @@
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                stylesheet="../../test/xspec-tested.xsl"
                query="http://example.org/ns/my"
-               query-at="../../test/xspec-tested.xql">
+               query-at="../../test/xspec-tested.xqm">
 
    <!-- First example (embellished a bit to make it runnable) in Compilation.md, under "Variables" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
