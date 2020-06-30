@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!--
+		- '...' tests special characters in strings
+		- [...] tests bare special characters in expressions
+	-->
+
+	<x:import href="xspec-1020/shared.xspec" />
+
+	<x:scenario label="function-param">
+		<x:scenario label="Only @select">
+			<x:call function="mirror:param-mirror">
+				<x:param
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
+				 />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With @href">
+			<x:call function="mirror:param-mirror">
+				<x:param href="xspec-1020/dummy.xml"
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
+				 />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With child::node()">
+			<x:call function="mirror:param-mirror">
+				<x:param
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
+					<function-param-child />
+				</x:param>
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:param name="myv:global-param-only-select"
+		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+	<x:param href="xspec-1020/dummy.xml" name="myv:global-param-with-href"
+		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+	<x:param name="myv:global-param-with-child-node"
+		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
+		<global-param-child />
+	</x:param>
+	<x:scenario label="global-param">
+		<x:scenario label="Only @select">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-param-only-select" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With @href">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-param-with-href" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With child::node()">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-param-with-child-node" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:variable name="myv:global-variable-only-select"
+		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+	<x:variable href="xspec-1020/dummy.xml" name="myv:global-variable-with-href"
+		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+	<x:variable name="myv:global-variable-with-child-node"
+		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
+		<global-variable-child />
+	</x:variable>
+	<x:scenario label="global variable">
+		<x:scenario label="Only @select">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-variable-only-select" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With @href">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-variable-with-href" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With child::node">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-variable-with-child-node" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="local variable">
+		<x:scenario label="Only @select">
+			<x:variable name="myv:local-variable"
+				select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:local-variable" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With @href">
+			<x:variable href="xspec-1020/dummy.xml" name="myv:local-variable"
+				select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:local-variable" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With child::node()">
+			<x:variable name="myv:local-variable"
+				select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
+				<local-variable-child />
+			</x:variable>
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:local-variable" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="assertion">
+		<x:call function="mirror:false" />
+		<x:expect label="Only @select"
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
+			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a] treat as xs:string" />
+		<x:expect href="xspec-1020/dummy.xml" label="With @href"
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
+			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a] treat as xs:string" />
+		<x:expect label="With child::node()"
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
+			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a] treat as xs:string">
+			<assertion-child />
+		</x:expect>
+	</x:scenario>
+
+</x:description>

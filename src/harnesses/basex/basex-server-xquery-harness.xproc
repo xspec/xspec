@@ -66,7 +66,7 @@
       <t:compile-xquery/>
 
       <!-- escape the query as text -->
-      <p:escape-markup/>
+      <t:escape-markup />
 
       <!-- construct the BaseX REST query element around the query itself -->
       <p:rename new-name="rest:text" match="/*"/>
