@@ -113,11 +113,10 @@
       <xsl:apply-templates select="$this" mode="x:decl-ns">
          <xsl:with-param name="except" select="$prefix, 'test'"/>
       </xsl:apply-templates>
-      <xsl:text>declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";&#x0A;</xsl:text>
 
       <!-- Serialization parameters -->
-      <xsl:text>declare option output:method "xml";&#x0A;</xsl:text>
-      <xsl:text>declare option output:indent "yes";&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">declare option {x:known-UQN('output:method')} "xml";&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">declare option {x:known-UQN('output:indent')} "yes";&#x0A;</xsl:text>
 
       <!-- Absolute URI of the master .xspec file -->
       <xsl:call-template name="test:declare-or-let-variable">
