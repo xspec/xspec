@@ -38,6 +38,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
 
   private String xspecStylesheet = null;
   private String utilsStylesheet = null;
+  private String legacyUtilsStylesheet = null;
   private HashMap<String, Integer> modules = new HashMap<String, Integer>();
   private HashSet<Integer> constructs = new HashSet<Integer>();
   private int moduleCount = 0;
@@ -145,9 +146,21 @@ public class XSLTCoverageTraceListener implements TraceListener {
     
     int constructType = info.getConstructType();
     if (utilsStylesheet == null &&
-        systemId.indexOf("generate-tests-utils.xsl") != -1) {
+        systemId.indexOf("/src/common/xspec-utils.xsl") != -1) {
       utilsStylesheet = systemId;
       debugPrintf("%-17s: %s%n", "utilsStylesheet", utilsStylesheet);
+
+      try {
+        writer.writeStartElement("u");
+        writer.writeAttribute("u", systemId);
+        writer.writeEndElement();
+      } catch(XMLStreamException e) {
+        throw new RuntimeException(e);
+      }
+    } else if (legacyUtilsStylesheet == null &&
+        systemId.indexOf("/src/compiler/generate-tests-utils.xsl") != -1) {
+      legacyUtilsStylesheet = systemId;
+      debugPrintf("%-17s: %s%n", "legacyUtilsStylesheet", legacyUtilsStylesheet);
 
       try {
         writer.writeStartElement("u");
@@ -169,7 +182,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
         throw new RuntimeException(e);
       }
     } 
-    if (systemId != xspecStylesheet && systemId != utilsStylesheet) {
+    if (systemId != xspecStylesheet && systemId != utilsStylesheet && systemId != legacyUtilsStylesheet) {
       Integer module;
       if (modules.containsKey(systemId)) {
         module = (Integer)modules.get(systemId);

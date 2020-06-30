@@ -14,7 +14,7 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	query="x-urn:test:mirror"
-	query-at="mirror.xquery"
+	query-at="mirror.xqm"
 	stylesheet="mirror.xsl">
 
 	<!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with

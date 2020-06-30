@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="https://github.com/xspec/xspec/issues/59#issuecomment-281689650"
-	query-at="xspec-59_use-case-2.xquery" stylesheet="xspec-59_use-case-2.xsl"
+	query-at="xspec-59_use-case-2.xqm" stylesheet="xspec-59_use-case-2.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"

@@ -27,18 +27,18 @@ jobs:
           XSPEC_TEST_ENV: saxon-9-8
 
     steps:
+      - task: JavaToolInstaller@0
+        displayName: Install Java ${{ parameters.javaVersion }}
+        inputs:
+          versionSpec: ${{ parameters.javaVersion }}
+          jdkArchitectureOption: x64
+          jdkSourceOption: PreInstalled
+          cleanDestinationDirectory: false
+
       - task: BatchScript@1
         displayName: Install test dependencies
         inputs:
           filename: test\ci\install-deps.cmd
-          modifyEnvironment: true
-
-      - task: BatchScript@1
-        displayName: Switch to Java ${{ parameters.javaVersion }}
-        condition: ne(${{ parameters.javaVersion }}, 8)
-        inputs:
-          filename: test\ci\switch-java.cmd
-          arguments: ${{ parameters.javaVersion }}
           modifyEnvironment: true
 
       - script: call test\ci\print-env.cmd

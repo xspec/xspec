@@ -193,7 +193,14 @@ load bats-helper
     [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
     [ -f "${special_chars_dir}/xspec/demo-result.html" ]
 
-    # Coverage report file is created and contains CSS inline #194
+    # Check the coverage report XML file contents
+    run java -jar "${SAXON_JAR}" \
+        -s:"${special_chars_dir}/xspec/demo-coverage.xml" \
+        -xsl:check-coverage-xml.xsl
+    echo "$output"
+    [ "$status" -eq 0 ]
+
+    # Coverage report HTML file is created and contains CSS inline #194
     unset JAVA_TOOL_OPTIONS
     run java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:html-css.xsl
     echo "$output"
@@ -459,6 +466,22 @@ load bats-helper
     [ "$status" -eq 0 ]
 }
 
+@test "XProc harness for Saxon (XQuery with special characters in expression #1020)" {
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -jar "${XMLCALABASH_JAR}" \
+        -i source=xspec-1020.xspec \
+        -o result="file:${work_dir}/xspec-1020-result_${RANDOM}.html" \
+        -p xspec-home="file:${parent_dir_abs}/" \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${#lines[@]}" = "2" ]
+    assert_regex "${lines[1]}" '.+:passed: 15 / pending: 0 / failed: 0 / total: 15'
+}
+
 #
 # Path containing special chars (CLI)
 #
@@ -482,7 +505,7 @@ load bats-helper
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XQuery)" {
     special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
-    cp mirror.xquery          "${special_chars_dir}"
+    cp mirror.xqm             "${special_chars_dir}"
     cp xspec-node-selection.* "${special_chars_dir}"
 
     unset TEST_DIR
@@ -777,11 +800,11 @@ load bats-helper
 
     # Output files
     compiled_file="${work_dir}/compiled_${RANDOM}.xq"
-    expected_report="${work_dir}/xquery-tutorial-result_${RANDOM}.html"
+    expected_report="${work_dir}/xspec-1020-result_${RANDOM}.html"
 
-    # Run
+    # Run (also test with special characters in expression #1020)
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=../tutorial/xquery-tutorial.xspec \
+        -i source=xspec-1020.xspec \
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
         -p compiled-file="file:${compiled_file}" \
@@ -789,7 +812,7 @@ load bats-helper
         ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
-    assert_regex "${lines[${#lines[@]}-1]}" '.+:passed: 1 / pending: 0 / failed: 0 / total: 1'
+    assert_regex "${lines[${#lines[@]}-1]}" '.+:passed: 15 / pending: 0 / failed: 0 / total: 15'
 
     # Compiled file
     [ -f "${compiled_file}" ]
@@ -815,11 +838,11 @@ load bats-helper
     "${basex_home}/bin/basexhttp" -S
 
     # HTML report file
-    expected_report="${work_dir}/xquery-tutorial-result_${RANDOM}.html"
+    expected_report="${work_dir}/xspec-1020-result_${RANDOM}.html"
 
-    # Run
+    # Run (also test with special characters in expression #1020)
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=../tutorial/xquery-tutorial.xspec \
+        -i source=xspec-1020.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
         -p endpoint=http://localhost:8984/rest \
@@ -830,7 +853,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 1 / pending: 0 / failed: 0 / total: 1'
+    assert_regex "${lines[1]}" '.+:passed: 15 / pending: 0 / failed: 0 / total: 15'
 
     # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
