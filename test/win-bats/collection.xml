@@ -368,6 +368,17 @@
     call :verify_retval 0
 	</case>
 
+	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XQuery with special characters in expression #1020)">
+    call :run java -jar "%XMLCALABASH_JAR%" ^
+        -i source=xspec-1020.xspec ^
+        -o result="file:///%WORK_DIR:\=/%/xspec-1020-result_%RANDOM%.html" ^
+        -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        ..\src\harnesses\saxon\saxon-xquery-harness.xproc
+    call :verify_retval 0
+    call :verify_line_count 2
+    call :verify_line 2 r "..*:passed: 15 / pending: 0 / failed: 0 / total: 15"
+	</case>
+
 	<!--
 		Path containing special chars (CLI)
 	-->
@@ -645,18 +656,18 @@
 	<case ifdef="BASEX_JAR XMLCALABASH_JAR" name="XProc harness for BaseX (standalone)">
     rem Output files
     set "COMPILED_FILE=%WORK_DIR%\compiled_%RANDOM%.xq"
-    set "EXPECTED_REPORT=%WORK_DIR%\xquery-tutorial-result_%RANDOM%.html"
+    set "EXPECTED_REPORT=%WORK_DIR%\xspec-1020-result_%RANDOM%.html"
 
-    rem Run
+    rem Run (also test with special characters in expression #1020)
     call :run java -jar "%XMLCALABASH_JAR%" ^
-        -i source=../tutorial/xquery-tutorial.xspec ^
+        -i source=xspec-1020.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p basex-jar="%BASEX_JAR%" ^
         -p compiled-file="file:///%COMPILED_FILE:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\basex\basex-standalone-xquery-harness.xproc
     call :verify_retval 0
-    call :verify_line -1 r "..*:passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -1 r "..*:passed: 15 / pending: 0 / failed: 0 / total: 15"
 
     rem Compiled file
     call :verify_exist "%COMPILED_FILE%"
@@ -676,11 +687,11 @@
     call :verify_retval 0
 
     rem HTML report file
-    set "EXPECTED_REPORT=%WORK_DIR%\xquery-tutorial-result_%RANDOM%.html"
+    set "EXPECTED_REPORT=%WORK_DIR%\xspec-1020-result_%RANDOM%.html"
 
-    rem Run
+    rem Run (also test with special characters in expression #1020)
     call :run java -jar "%XMLCALABASH_JAR%" ^
-        -i source=../tutorial/xquery-tutorial.xspec ^
+        -i source=xspec-1020.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p auth-method=Basic ^
         -p endpoint=http://localhost:8984/rest ^
@@ -690,7 +701,7 @@
         ..\src\harnesses\basex\basex-server-xquery-harness.xproc
     call :verify_retval 0
     call :verify_line_count 2
-    call :verify_line 2 r "..*:passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 2 r "..*:passed: 15 / pending: 0 / failed: 0 / total: 15"
 
     rem HTML report file should be created and its charset should be UTF-8 #72
     call :run java -jar "%SAXON_JAR%" -s:"%EXPECTED_REPORT%" -xsl:html-charset.xsl

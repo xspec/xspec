@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:import href="xspec-1020/shared.xspec" />
+
+	<x:scenario label="context template-param">
+		<x:scenario label="Only @select">
+			<x:context mode="mirror:param-mirror">
+				<x:param name="param-items"
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+				<context-child />
+			</x:context>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With @href">
+			<x:context mode="mirror:param-mirror">
+				<x:param href="xspec-1020/dummy.xml" name="param-items"
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+				<context-child />
+			</x:context>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With child::node()">
+			<x:context mode="mirror:param-mirror">
+				<x:param name="param-items"
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
+					<template-param-child />
+				</x:param>
+				<context-child />
+			</x:context>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="AVT">
+			<x:context mode="mirror:param-mirror">
+				<x:param name="param-items" select="template-param-child/@avt/string()">
+					<template-param-child
+						avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}"
+					 />
+				</x:param>
+				<context-child />
+			</x:context>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="TVT">
+			<x:context mode="mirror:param-mirror">
+				<x:param expand-text="yes" name="param-items" select="string()"
+					>{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt;
+					1][map{'a':true()}?a]}</x:param>
+				<context-child />
+			</x:context>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="context">
+		<x:scenario label="Only @select">
+			<x:context mode="mirror:context-mirror"
+				select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With @href">
+			<x:context href="xspec-1020/dummy.xml" mode="mirror:context-mirror"
+				select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With child::node()">
+			<x:context mode="mirror:context-mirror"
+				select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
+				<context-child />
+			</x:context>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="AVT">
+			<x:context mode="mirror:context-mirror" select="context-child/@avt/string()">
+				<context-child
+					avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}"
+				 />
+			</x:context>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="TVT">
+			<x:context expand-text="yes" mode="mirror:context-mirror" select="string()"
+				>{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt;
+				1][map{'a':true()}?a]}</x:context>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="template-call template-param">
+		<x:scenario label="Only @select">
+			<x:call template="mirror:param-mirror">
+				<x:param name="param-items"
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
+				 />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With @href">
+			<x:call template="mirror:param-mirror">
+				<x:param href="xspec-1020/dummy.xml" name="param-items"
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
+				 />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With child::node()">
+			<x:call template="mirror:param-mirror">
+				<x:param name="param-items"
+					select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
+					<template-param-child />
+				</x:param>
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="AVT">
+			<x:call template="mirror:param-mirror">
+				<x:param name="param-items" select="template-param-child/@avt/string()">
+					<template-param-child
+						avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}"
+					 />
+				</x:param>
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="TVT">
+			<x:call template="mirror:param-mirror">
+				<x:param expand-text="yes" name="param-items" select="string()"
+					>{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt;
+					1][map{'a':true()}?a]}</x:param>
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		The following scenarios do not work on XQuery, because
+		- AVT is escaped on XQuery.
+		- TVT is not supported on XQuery.
+	-->
+
+	<x:scenario label="function-param">
+		<x:scenario label="AVT">
+			<x:call function="mirror:param-mirror">
+				<x:param select="function-param-child/@avt/string()">
+					<function-param-child
+						avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}"
+					 />
+				</x:param>
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="TVT">
+			<x:call function="mirror:param-mirror">
+				<x:param expand-text="yes" select="string()">{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1
+					&gt; 0][0 &lt; 1][map{'a':true()}?a]}</x:param>
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:param name="myv:global-param-avt" select="global-param-child/@avt/string()">
+		<global-param-child
+			avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}" />
+	</x:param>
+	<x:param expand-text="yes" name="myv:global-param-tvt" select="string()"
+		>{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}</x:param>
+	<x:scenario label="global-param">
+		<x:scenario label="AVT">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-param-avt" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="TVT">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-param-tvt" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:variable name="myv:global-variable-avt" select="global-variable-child/@avt/string()">
+		<global-variable-child
+			avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}" />
+	</x:variable>
+	<x:variable expand-text="yes" name="myv:global-variable-tvt" select="string()"
+		>{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}</x:variable>
+	<x:scenario label="global variable">
+		<x:scenario label="AVT">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-variable-avt" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="TVT">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:global-variable-tvt" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="local variable">
+		<x:scenario label="AVT">
+			<x:variable name="myv:local-variable" select="local-variable-child/@avt/string()">
+				<local-variable-child
+					avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}"
+				 />
+			</x:variable>
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:local-variable" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="TVT">
+			<x:variable expand-text="yes" name="myv:local-variable" select="string()"
+				>{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt;
+				1][map{'a':true()}?a]}</x:variable>
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:local-variable" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="assertion">
+		<x:call function="mirror:param-mirror">
+			<x:param as="xs:string" select="string()[string-length() eq 7]"
+				>&amp;&apos;&gt;&lt;&quot;}{</x:param>
+		</x:call>
+		<x:expect label="AVT" select="assertion-child/@avt/string()">
+			<assertion-child
+				avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}"
+			 />
+		</x:expect>
+		<x:expect expand-text="yes" label="TVT" select="string()"
+			>{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}</x:expect>
+	</x:scenario>
+
+</x:description>
