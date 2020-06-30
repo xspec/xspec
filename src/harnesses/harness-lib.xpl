@@ -320,6 +320,16 @@
       </t:log>
    </p:declare-step>
 
+   <!-- Escapes markup. Also mimics @use-character-maps="test:disable-escaping" in
+      ../compiler/generate-query-tests.xsl. -->
+   <p:declare-step type="t:escape-markup" name="escape-markup">
+      <p:input  port="source" primary="true"/>
+      <p:output port="result" primary="true"/>
+
+      <p:escape-markup />
+      <p:string-replace match="text()" replace="translate(., '&#xE801;&#xE803;', '&lt;&gt;')" />
+   </p:declare-step>
+
    <!-- Serializes the source document with indentation and reloads it -->
    <p:declare-step type="t:indent" name="indent">
       <p:input port="source" primary="true" />
