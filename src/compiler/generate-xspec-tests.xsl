@@ -67,9 +67,6 @@
             </xsl:otherwise>
          </xsl:choose>
 
-         <!-- Serialization parameters -->
-         <output name="{x:known-UQN('x:report')}" method="xml" indent="yes" />
-
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
             select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
@@ -106,18 +103,20 @@
             </message>
 
             <xsl:comment> set up the result document (the report) </xsl:comment>
-            <!-- Use <xsl:result-document> to avoid clashes with <xsl:output> in the stylesheet
+            <!-- Use xsl:result-document/@format to avoid clashes with <xsl:output> in the stylesheet
                being tested which would otherwise govern the output of the report XML. -->
             <result-document>
                <xsl:attribute name="format">
                   <xsl:choose>
                      <xsl:when test="x:saxon-version() lt x:pack-version((9, 9, 1, 1))">
                         <!-- Workaround for a Saxon bug: https://saxonica.plan.io/issues/4093 -->
-                        <xsl:sequence select="x:xspec-name(., 'report')" />
+                        <xsl:sequence
+                           select="x:xspec-name(., 'xml-report-serialization-parameters')" />
                      </xsl:when>
                      <xsl:otherwise>
                         <!-- Escape curly braces because @format is AVT -->
-                        <xsl:sequence select="'Q{{' || $x:xspec-namespace || '}}report'" />
+                        <xsl:sequence
+                           select="'Q{{' || $x:xspec-namespace || '}}xml-report-serialization-parameters'" />
                      </xsl:otherwise>
                   </xsl:choose>
                </xsl:attribute>
