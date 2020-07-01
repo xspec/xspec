@@ -58,7 +58,7 @@
       </t:compile-xquery>
 
       <!-- escape the query as text -->
-      <p:escape-markup name="escape"/>
+      <t:escape-markup name="escape" />
 
       <!-- run it on saxon -->
       <p:xquery name="run">
