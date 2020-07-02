@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-saxon-bug-4621-fixed?>
+<x:description stylesheet="xspec-1029.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xspec-1029="x-urn:test:xspec-1029">
+
+	<x:scenario label="expectations" shared="yes">
+		<x:expect label="should catch err:XTMM9000"
+			select="QName('http://www.w3.org/2005/xqt-errors', 'XTMM9000')"
+			test="$x:result?err?code treat as xs:QName" />
+		<x:expect label="should catch its message body" test="$x:result?err?value/text()"
+			><![CDATA[my error message]]></x:expect>
+	</x:scenario>
+
+	<x:scenario catch="yes" label="catch=yes with xsl:message[@terminate=yes] in xsl:function">
+		<x:scenario label="[@as=xs:integer]">
+			<x:call function="xspec-1029:as-integer" />
+			<x:like label="expectations" />
+		</x:scenario>
+
+		<x:scenario label="[empty(@as)]">
+			<x:call function="xspec-1029:no-as" />
+			<x:like label="expectations" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario catch="yes"
+		label="catch=yes with xsl:message[@terminate=yes] in calling xsl:template">
+		<x:scenario label="[@as=xs:integer]">
+			<x:call template="xspec-1029:as-integer" />
+			<x:like label="expectations" />
+		</x:scenario>
+
+		<x:scenario label="[empty(@as)]">
+			<x:call template="xspec-1029:no-as" />
+			<x:like label="expectations" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario catch="yes"
+		label="catch=yes with xsl:message[@terminate=yes] in matching xsl:template">
+		<x:scenario label="[@as=xs:integer]">
+			<x:context mode="xspec-1029:as-integer">
+				<context-child />
+			</x:context>
+			<x:like label="expectations" />
+		</x:scenario>
+
+		<x:scenario label="[empty(@as)]">
+			<x:context mode="xspec-1029:no-as">
+				<context-child />
+			</x:context>
+			<x:like label="expectations" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

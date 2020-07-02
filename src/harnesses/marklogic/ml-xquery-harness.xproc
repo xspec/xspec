@@ -82,7 +82,7 @@
       </t:compile-xquery>
 
       <!-- escape the query as text -->
-      <p:escape-markup/>
+      <t:escape-markup />
 
       <!-- run it on marklogic -->
       <ml:adhoc-query name="run">

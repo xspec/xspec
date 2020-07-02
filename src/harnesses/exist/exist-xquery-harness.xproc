@@ -73,7 +73,7 @@
       </t:compile-xquery>
 
       <!-- escape the query as text -->
-      <p:escape-markup name="escape"/>
+      <t:escape-markup name="escape" />
 
       <!-- construct the eXist REST query element around the query itself -->
       <p:rename new-name="exist:text" match="/*"/>
