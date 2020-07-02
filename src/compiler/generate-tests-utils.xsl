@@ -107,7 +107,7 @@
 
       <xsl:variable name="seq2-adapted" as="xs:anyAtomicType?">
          <xsl:if test="$seq2 instance of text()+">
-            <xsl:variable name="seq2-string" as="xs:string" select="string-join($seq2, '')" />
+            <xsl:variable name="seq2-string" as="xs:string" select="string-join($seq2)" />
 
             <xsl:choose>
                <xsl:when test="$seq1 instance of xs:string">
