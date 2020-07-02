@@ -447,7 +447,7 @@
          <xsl:when test="x:instance-of-function($item)">
             <xsl:element name="{$local-name-prefix}{x:function-type($item)}"
                namespace="{$wrapper-ns}">
-               <xsl:value-of select="serialize($item, map { 'method': 'adaptive' })" />
+               <xsl:value-of select="test:serialize-adaptive($item)" />
             </xsl:element>
          </xsl:when>
 
@@ -636,6 +636,20 @@
       </xsl:variable>
 
       <xsl:sequence select="x:known-UQN('xs:' || $local-name)" />
+   </xsl:function>
+
+   <xsl:function name="test:serialize-adaptive" as="xs:string">
+      <xsl:param name="item" as="item()" />
+
+      <xsl:sequence
+         select="
+            serialize(
+               $item,
+               map {
+                  'indent': true(),
+                  'method': 'adaptive'
+               }
+            )" />
    </xsl:function>
 
    <!-- Returns true if every item in sequence can be wrapped in document node.

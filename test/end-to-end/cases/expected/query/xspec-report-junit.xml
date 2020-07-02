@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="xspec-report.xspec">
    <testsuite name="Function (xspec/xspec#355)" tests="2" failures="2">
-      <testcase name="Array Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure"
+      <testcase name="Array Serialized array should be reported upon failure"
                 status="failed">
          <failure message="expect assertion failed">Expected: ()</failure>
       </testcase>
-      <testcase name="Map Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure"
+      <testcase name="Map Serialized map should be reported upon failure"
                 status="failed">
          <failure message="expect assertion failed">Expected: ()</failure>
       </testcase>

@@ -200,9 +200,9 @@
 				<xsl:sequence select="true()" />
 			</xsl:when>
 
-			<xsl:when test="true()">
+			<xsl:otherwise>
 				<xsl:sequence select="false()" />
-			</xsl:when>
+			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:function>
 

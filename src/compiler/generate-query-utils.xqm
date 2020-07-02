@@ -317,29 +317,30 @@ declare function test:report-sequence(
 };
 
 declare function test:report-pseudo-item(
-    $item as item(),
-    $wrapper-ns as xs:string
-  ) as element()
+  $item as item(),
+  $wrapper-ns as xs:string
+) as element()
 {
   let $local-name-prefix as xs:string := 'pseudo-'
   return (
-    if ($item instance of xs:anyAtomicType)
-    then
+    if ($item instance of xs:anyAtomicType) then
       element
-        { QName($wrapper-ns, concat($local-name-prefix, 'atomic-value')) }
+        { QName($wrapper-ns, ($local-name-prefix || 'atomic-value')) }
         { test:report-atomic-value($item) }
 
-    else if ($item instance of node())
-    then
+    else if ($item instance of node()) then
       element
-        { QName($wrapper-ns, concat($local-name-prefix, x:node-type($item))) }
+        { QName($wrapper-ns, ($local-name-prefix || x:node-type($item))) }
         { test:report-node($item) }
 
-    (: TODO: function(*) including array(*) and map(*) :)
+    else if (x:instance-of-function($item)) then
+      element
+        { QName($wrapper-ns, ($local-name-prefix || x:function-type($item))) }
+        { test:serialize-adaptive($item) }
 
     else
-      element 
-        { QName($wrapper-ns, concat($local-name-prefix, 'other')) }
+      element
+        { QName($wrapper-ns, ($local-name-prefix || 'other')) }
         {}
   )
 };
@@ -477,6 +478,19 @@ declare function test:atom-type(
   )
   return
     ('Q{http://www.w3.org/2001/XMLSchema}' || $local-name)
+};
+
+declare function test:serialize-adaptive(
+  $item as item()
+) as xs:string
+{
+  serialize(
+    $item,
+    map {
+      'indent': true(),
+      'method': 'adaptive'
+    }
+  )
 };
 
 
