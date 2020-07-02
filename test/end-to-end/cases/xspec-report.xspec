@@ -90,4 +90,13 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Sequence of multiple atomic values">
+		<x:call function="Q{x-urn:test:mirror}param-mirror">
+			<x:param select="'foo', 1, 2, 'bar'" />
+		</x:call>
+		<x:expect
+			label="Atomic values in [Result] and [Expected Result] are separated by comma and new line"
+			select="Q{http://www.w3.org/2001/XMLSchema}QName('foo'), 1, 2, 'bar'" />
+	</x:scenario>
+
 </x:description>

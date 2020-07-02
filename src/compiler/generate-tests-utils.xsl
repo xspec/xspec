@@ -310,7 +310,7 @@
                <xsl:when test="$sequence instance of xs:anyAtomicType+">
                   <xsl:variable as="xs:string+" name="atomic-value-reports"
                      select="for $value in $sequence return test:report-atomic-value($value)" />
-                  <xsl:attribute name="select" select="string-join($atomic-value-reports, ', ')" />
+                  <xsl:attribute name="select" select="string-join($atomic-value-reports, ',&#x0A;')" />
                </xsl:when>
 
                <!-- One or more nodes of the same type which can be a child of document node -->

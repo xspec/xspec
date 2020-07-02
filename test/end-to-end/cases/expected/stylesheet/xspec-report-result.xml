@@ -137,4 +137,15 @@
          </x:test>
       </x:scenario>
    </x:scenario>
+   <x:scenario id="scenario7" xspec="../../xspec-report.xspec">
+      <x:label>Sequence of multiple atomic values</x:label>
+      <x:call function="Q{x-urn:test:mirror}param-mirror">
+         <x:param select="'foo', 1, 2, 'bar'"/>
+      </x:call>
+      <x:result select="'foo',&#xA;1,&#xA;2,&#xA;'bar'"/>
+      <x:test id="scenario7-expect1" successful="false">
+         <x:label>Atomic values in [Result] and [Expected Result] are separated by comma and new line</x:label>
+         <x:expect select="QName('', 'foo'),&#xA;1,&#xA;2,&#xA;'bar'"/>
+      </x:test>
+   </x:scenario>
 </x:report>

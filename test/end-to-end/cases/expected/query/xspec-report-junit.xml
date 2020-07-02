@@ -49,4 +49,13 @@
          <failure message="expect assertion failed">Expected: /self::document-node()</failure>
       </testcase>
    </testsuite>
+   <testsuite name="Sequence of multiple atomic values" tests="1" failures="1">
+      <testcase name="Atomic values in [Result] and [Expected Result] are separated by comma and new line"
+                status="failed">
+         <failure message="expect assertion failed">Expected: QName('', 'foo'),
+1,
+2,
+'bar'</failure>
+      </testcase>
+   </testsuite>
 </testsuites>
