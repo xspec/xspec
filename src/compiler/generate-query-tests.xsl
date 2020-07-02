@@ -111,7 +111,7 @@
 
       <!-- Declare namespaces -->
       <xsl:apply-templates select="$this" mode="x:decl-ns">
-         <xsl:with-param name="except" select="$prefix, 'test'"/>
+         <xsl:with-param name="except" select="$prefix"/>
       </xsl:apply-templates>
 
       <!-- Serialization parameters -->
