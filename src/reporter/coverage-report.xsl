@@ -91,26 +91,11 @@
   </html>
 </xsl:template>
   
-<xsl:template match="xsl:stylesheet | xsl:transform" as="element()+" mode="test:coverage-report">
-  <xsl:variable name="stylesheet-uri" as="xs:anyURI"
-    select="base-uri()" />
-  <xsl:variable name="stylesheet-string" as="xs:string"
-    select="unparsed-text($stylesheet-uri)" />
-  <xsl:variable name="stylesheet-lines" as="xs:string+" 
-    select="test:split-lines($stylesheet-string)" />
-  <xsl:variable name="number-of-lines" as="xs:integer"
-    select="count($stylesheet-lines)" />
-  <xsl:variable name="number-width" as="xs:integer"
-    select="string-length(xs:string($number-of-lines))" />
-  <xsl:variable name="number-format" as="xs:string"
-  select="string-join(for $i in 1 to $number-width return '0', '')" />
-  <xsl:variable name="module" as="xs:string?">
-    <xsl:variable name="uri" as="xs:string"
-      select="if (starts-with($stylesheet-uri, '/'))
-              then ('file:' || $stylesheet-uri)
-              else $stylesheet-uri" />
-    <xsl:sequence select="key('modules', $uri, $trace)/@id" />
-  </xsl:variable>
+<xsl:template name="body-content">
+  <xsl:param name="module" as="xs:string?" tunnel="yes"/>
+  <xsl:param name="number-format" as="xs:string" tunnel="yes"/>
+  <xsl:param name="number-of-lines" as="xs:integer"/>
+  <xsl:param name="stylesheet-string" as="xs:string"/>
   <h2>
     <xsl:text expand-text="yes">module: {x:format-uri($stylesheet-uri)}; {$number-of-lines} lines</xsl:text>
   </h2>
@@ -132,6 +117,48 @@
       </pre>
     </xsl:otherwise>
   </xsl:choose>
+</xsl:template>
+  
+<xsl:template name="line-content">
+  <xsl:param name="line-number" as="xs:integer"/>
+  <xsl:param name="coverage" as="xs:string"/>
+  <xsl:param name="number-format" as="xs:string" tunnel="yes"/>
+  <xsl:if test="position() != 1">
+    <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
+    </xsl:if>
+  <span class="{$coverage}">
+    <xsl:value-of select="." />
+  </span>
+</xsl:template>
+  
+<xsl:template match="xsl:stylesheet | xsl:transform" as="element()+" mode="test:coverage-report">
+  <xsl:variable name="stylesheet-uri" as="xs:anyURI"
+    select="base-uri()" />
+  <xsl:variable name="stylesheet-string" as="xs:string"
+    select="unparsed-text($stylesheet-uri)" />
+  <xsl:variable name="stylesheet-lines" as="xs:string+" 
+    select="test:split-lines($stylesheet-string)" />
+  <xsl:variable name="number-of-lines" as="xs:integer"
+    select="count($stylesheet-lines)" />
+  <xsl:variable name="number-width" as="xs:integer"
+    select="string-length(xs:string($number-of-lines))" />
+  <xsl:variable name="number-format" as="xs:string"
+  select="string-join(for $i in 1 to $number-width return '0', '')" />
+  <xsl:variable name="module" as="xs:string?">
+    <xsl:variable name="uri" as="xs:string"
+      select="if (starts-with($stylesheet-uri, '/'))
+              then ('file:' || $stylesheet-uri)
+              else $stylesheet-uri" />
+    <xsl:sequence select="key('modules', $uri, $trace)/@id" />
+  </xsl:variable>
+  
+  <xsl:call-template name="body-content">
+    <xsl:with-param name="module" select="$module" tunnel="yes"/>
+    <xsl:with-param name="number-format" select="$number-format" tunnel="yes"/>
+    <xsl:with-param name="number-of-lines" select="$number-of-lines"/>
+    <xsl:with-param name="stylesheet-string" select="$stylesheet-string"/>
+  </xsl:call-template>
+  
 </xsl:template>
 
 <xsl:variable name="attribute-regex" as="xs:string">
@@ -224,12 +251,12 @@
         <xsl:variable name="coverage" as="xs:string" 
           select="if ($matches) then test:coverage($node, $module) else 'ignored'" />
         <xsl:for-each select="$construct-lines">
-          <xsl:if test="position() != 1">
-            <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
-          </xsl:if>
-          <span class="{$coverage}">
-            <xsl:value-of select="." />
-          </span>
+        
+        <xsl:call-template name="line-content">
+          <xsl:with-param name="coverage" select="$coverage"/>
+          <xsl:with-param name="line-number" select="$line-number"/>
+        </xsl:call-template>
+        
         </xsl:for-each>
         <!-- Capture the residue, tagging it for later analysis and processing. -->
         <test:residue matches="{$matches}" startTag="{$startTag}" rest="{$rest}" count="{count($construct-lines)}"/>
