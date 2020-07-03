@@ -37,6 +37,12 @@
 			test="$x:xs-namespace treat as xs:anyURI" />
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing variable xsl-namespace">
+		<x:context />
+		<x:expect label="'xsl' namespace URI" select="doc('')/element() => namespace-uri()"
+			test="$x:xsl-namespace treat as xs:anyURI" />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing variable capture-NCName">
 		<x:call function="replace">
 			<x:param select="'foo:bar[baz]'" />
@@ -1464,6 +1470,14 @@
 			</x:call>
 			<x:expect label="Constructed" select="string()"
 				>Q{http://www.w3.org/2005/xpath-functions/map}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="output">
+			<x:call function="x:known-UQName">
+				<x:param select="'output:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.w3.org/2010/xslt-xquery-serialization}my-local-name</x:expect>
 		</x:scenario>
 
 		<x:scenario label="test">

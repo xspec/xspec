@@ -27,6 +27,12 @@
 		select="xs:anyURI('http://www.w3.org/2001/XMLSchema')" />
 
 	<!--
+		Standard 'xsl' namespace URI
+	-->
+	<xsl:variable as="xs:anyURI" name="x:xsl-namespace"
+		select="xs:anyURI('http://www.w3.org/1999/XSL/Transform')" />
+
+	<!--
 		U+0027
 	-->
 	<xsl:variable as="xs:string" name="x:apos">'</xsl:variable>
@@ -665,6 +671,9 @@
 				</xsl:when>
 				<xsl:when test="$prefix eq 'map'">
 					<xsl:sequence select="'http://www.w3.org/2005/xpath-functions/map'" />
+				</xsl:when>
+				<xsl:when test="$prefix eq 'output'">
+					<xsl:sequence select="'http://www.w3.org/2010/xslt-xquery-serialization'" />
 				</xsl:when>
 				<xsl:when test="$prefix eq 'test'">
 					<xsl:sequence select="$x:legacy-namespace" />

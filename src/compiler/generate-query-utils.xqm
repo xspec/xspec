@@ -28,7 +28,7 @@ declare function test:deep-equal(
     satisfies test:item-deep-equal($seq1[$i], $seq2[$i], $flags)
 
   else if ( $seq1 instance of text() and $seq2 instance of text()+ ) then
-    test:deep-equal($seq1, text { string-join($seq2, '') }, $flags)
+    test:deep-equal($seq1, text { string-join($seq2) }, $flags)
 
   else
     false()
@@ -42,7 +42,7 @@ declare function test:deep-equal-v1(
 {
   let $seq2-adapted as xs:anyAtomicType? := (
     if ($seq2 instance of text()+) then
-      let $seq2-string as xs:string := string-join($seq2, '')
+      let $seq2-string as xs:string := string-join($seq2)
       return
         typeswitch ($seq1)
           case xs:string  return $seq2-string
