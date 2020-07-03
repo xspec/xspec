@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="my-namespace" query-at="xspec-777.xquery" stylesheet="xspec-777.xsl"
+<x:description query="my-namespace" query-at="xspec-777.xqm" stylesheet="xspec-777.xsl"
 	xmlns:my="my-namespace" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 

@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:mirror" query-at="mirror.xquery" stylesheet="mirror.xsl"
-	xmlns:mirror="x-urn:test:mirror" xmlns:myv="http://example.org/ns/my/variable"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
 		xspec-utils_stylesheet.xspec uses this file for testing x:is-user-content().
 		When modifying this file, check whether xspec-utils_stylesheet.xspec needs any additions or updates.
 	-->
 
+	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
+
 	<x:scenario label="In function-param, only user-content attribute is AVT. So...">
 		<x:scenario label="In //x:call[@function]/x:param/node(),">
 			<x:call function="mirror:param-mirror">
 				<x:param>
-					<function-param-child attr="}}{false()}{{">}}{false()}{{</function-param-child>
+					<function-param-child attr="}}{myfn:false()}{{"
+						>}}{false()}{{</function-param-child>
 				</x:param>
 			</x:call>
 			<x:expect label="attribute is AVT." select="'}false{'"
@@ -33,7 +36,7 @@
 	</x:scenario>
 
 	<x:param name="global-param-no-href">
-		<global-param-child attr="}}{false()}{{">}}{false()}{{</global-param-child>
+		<global-param-child attr="}}{myfn:false()}{{">}}{false()}{{</global-param-child>
 	</x:param>
 	<x:param href="xspec-avt.xml" name="global-param-with-href" />
 	<x:scenario label="In global-param, only user-content attribute is AVT. So...">
@@ -55,7 +58,7 @@
 	</x:scenario>
 
 	<x:variable name="myv:global-var-no-href">
-		<global-var-child attr="}}{false()}{{">}}{false()}{{</global-var-child>
+		<global-var-child attr="}}{myfn:false()}{{">}}{false()}{{</global-var-child>
 	</x:variable>
 	<x:variable href="xspec-avt.xml" name="myv:global-var-with-href" />
 	<x:scenario label="In global-var, only user-content attribute is AVT. So...">
@@ -78,7 +81,7 @@
 
 	<x:scenario label="In local variable, only user-content attribute is AVT. So...">
 		<x:variable name="myv:var-no-href">
-			<variable-child attr="}}{false()}{{">}}{false()}{{</variable-child>
+			<variable-child attr="}}{myfn:false()}{{">}}{false()}{{</variable-child>
 		</x:variable>
 		<x:variable href="xspec-avt.xml" name="myv:var-with-href" />
 		<x:scenario label="In //x:scenario/x:variable/node(),">
@@ -103,7 +106,7 @@
 			<x:call function="mirror:false" />
 			<x:expect label="attribute is AVT." select="assertion-child/@attr/string()"
 				test="'}false{'">
-				<assertion-child attr="}}{false()}{{" />
+				<assertion-child attr="}}{myfn:false()}{{" />
 			</x:expect>
 			<x:expect label="text node is intact." select="assertion-child/text()/string()"
 				test="'}}{false()}{{'">

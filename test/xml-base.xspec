@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:xml-base" query-at="test.xquery" stylesheet="test.xsl"
+<x:description query="x-urn:test:xml-base" query-at="test.xqm" stylesheet="test.xsl"
 	xml:base="xml-base/"
 	xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">

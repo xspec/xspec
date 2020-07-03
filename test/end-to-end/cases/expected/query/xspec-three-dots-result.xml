@@ -3,7 +3,7 @@
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="x-urn:test:xspec-three-dots"
-          query-at="../../xspec-three-dots.xquery"
+          query-at="../../xspec-three-dots.xqm"
           xspec="../../xspec-three-dots.xspec">
    <x:scenario id="scenario1" xspec="../../xspec-three-dots.xspec">
       <x:label>For resultant element (simple)</x:label>

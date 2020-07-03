@@ -2,7 +2,7 @@
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
    xmlns:my="http://example.org/ns/my"
    query="http://example.org/ns/my"
-   query-at="compilation-sut.xquery">
+   query-at="compilation-sut.xqm">
 
    <!-- Example in Compilation.md, under "SUT" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
