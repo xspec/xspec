@@ -470,7 +470,7 @@
 
    <xsl:template match="text()[not(normalize-space())]" as="element(test:ws)"
       mode="test:report-node">
-      <xsl:element name="test:ws">
+      <xsl:element name="test:ws" namespace="{$x:legacy-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
    </xsl:template>
