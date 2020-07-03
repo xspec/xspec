@@ -27,6 +27,12 @@
 		select="xs:anyURI('http://www.w3.org/2001/XMLSchema')" />
 
 	<!--
+		Standard 'xsl' namespace URI
+	-->
+	<xsl:variable as="xs:anyURI" name="x:xsl-namespace"
+		select="xs:anyURI('http://www.w3.org/1999/XSL/Transform')" />
+
+	<!--
 		U+0027
 	-->
 	<xsl:variable as="xs:string" name="x:apos">'</xsl:variable>
