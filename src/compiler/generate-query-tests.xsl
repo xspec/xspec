@@ -48,24 +48,6 @@
       <xsl:call-template name="x:generate-tests"/>
    </xsl:template>
 
-   <xsl:template match="x:description" as="text()+" mode="x:decl-ns">
-      <xsl:param name="except" as="xs:string*" />
-
-      <xsl:variable name="e" as="element()" select="."/>
-      <xsl:for-each select="in-scope-prefixes($e)[not(. = ('xml', $except))]">
-         <xsl:variable name="prefix" as="xs:string" select="." />
-         <xsl:text>declare </xsl:text>
-         <xsl:if test="not($prefix)">
-            <xsl:text>default element </xsl:text>
-         </xsl:if>
-         <xsl:text>namespace </xsl:text>
-         <xsl:if test="$prefix">
-            <xsl:text expand-text="yes">{$prefix} = </xsl:text>
-         </xsl:if>
-         <xsl:text expand-text="yes">"{namespace-uri-for-prefix($prefix, $e)}";&#10;</xsl:text>
-      </xsl:for-each>
-   </xsl:template>
-
    <!-- *** x:generate-tests *** -->
    <!-- Does the generation of the test stylesheet.
       This mode assumes that all the scenarios have already been gathered and unshared. -->
@@ -110,9 +92,9 @@
       <xsl:text>;&#x0A;</xsl:text>
 
       <!-- Declare namespaces -->
-      <xsl:apply-templates select="$this" mode="x:decl-ns">
-         <xsl:with-param name="except" select="$prefix, 'test'"/>
-      </xsl:apply-templates>
+      <xsl:for-each select="in-scope-prefixes($this)[not(. = ('', 'xml', $prefix))]">
+         <xsl:text expand-text="yes">declare namespace {.} = "{namespace-uri-for-prefix(., $this)}";&#x0A;</xsl:text>
+      </xsl:for-each>
 
       <!-- Serialization parameters -->
       <xsl:text expand-text="yes">declare option {x:known-UQN('output:method')} "xml";&#x0A;</xsl:text>
