@@ -120,7 +120,7 @@
     </xsl:template>
 
     <xsl:template match="x:expect-assert" as="element(x:expect)">
-        <xsl:element name="x:expect">
+        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
@@ -133,7 +133,7 @@
     </xsl:template>
 
     <xsl:template match="x:expect-not-assert" as="element(x:expect)">
-        <xsl:element name="x:expect">
+        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
                 <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert</xsl:text>
@@ -144,7 +144,7 @@
     </xsl:template>
 
     <xsl:template match="x:expect-report" as="element(x:expect)">
-        <xsl:element name="x:expect">
+        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
@@ -157,7 +157,7 @@
     </xsl:template>
 
     <xsl:template match="x:expect-not-report" as="element(x:expect)">
-        <xsl:element name="x:expect">
+        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
                 <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report</xsl:text>
@@ -202,7 +202,7 @@
                 ($errors ! ($x:apos || . || $x:apos))
                 => string-join(',')" />
 
-        <xsl:element name="x:expect">
+        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:attribute name="label" select="'valid'"/>
             <xsl:attribute name="test">
                 <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule])</xsl:text>
@@ -215,7 +215,7 @@
     </xsl:template>
 
     <xsl:template match="x:expect-rule" as="element(x:expect)">
-        <xsl:element name="x:expect">
+        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
