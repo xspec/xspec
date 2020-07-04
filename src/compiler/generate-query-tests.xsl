@@ -114,9 +114,8 @@
          <xsl:with-param name="except" select="$prefix, 'test'"/>
       </xsl:apply-templates>
 
-      <!-- Serialization parameters -->
-      <xsl:text expand-text="yes">declare option {x:known-UQN('output:method')} "xml";&#x0A;</xsl:text>
-      <xsl:text expand-text="yes">declare option {x:known-UQN('output:indent')} "yes";&#x0A;</xsl:text>
+      <!-- Serialization parameters for the test result report XML -->
+      <xsl:text expand-text="yes">declare option {x:known-UQN('output:parameter-document')} "{resolve-uri('xml-report-serialization-parameters.xml')}";&#x0A;</xsl:text>
 
       <!-- Absolute URI of the master .xspec file -->
       <xsl:call-template name="test:declare-or-let-variable">
