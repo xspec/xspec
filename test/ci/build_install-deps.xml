@@ -52,7 +52,7 @@
 			</filterchain>
 		</loadresource>
 		<get dest="${basex.zip}"
-			src="http://files.basex.org/releases/${env.BASEX_VERSION}/BaseX${basex.version.without.dot}.zip" />
+			src="https://files.basex.org/releases/${env.BASEX_VERSION}/BaseX${basex.version.without.dot}.zip" />
 
 		<dirname file="${env.BASEX_JAR}" property="basex.jar.dir" />
 		<dirname file="${basex.jar.dir}" property="basex.unzip.dest" />
