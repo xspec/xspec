@@ -44,12 +44,15 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable capture-NCName">
-		<x:call function="replace">
-			<x:param select="'foo:bar[baz]'" />
-			<x:param select="'^.+:' || $x:capture-NCName || '.*$'" />
-			<x:param select="'$1'" />
-		</x:call>
-		<x:expect label="Captured" select="'bar'" />
+		<x:context />
+		<x:expect label="Captured" select="'bar'"
+			test="
+				replace(
+					'foo:bar[baz]',
+					'^.+:' || $x:capture-NCName || '.*$',
+					'$1'
+				)"
+		 />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable saxon-version">
