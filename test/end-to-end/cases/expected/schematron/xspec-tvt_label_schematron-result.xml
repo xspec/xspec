@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           stylesheet="xspec-tvt_label_schematron-sch-preprocessed.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../xspec-tvt_label_schematron.xspec"
@@ -13,7 +12,8 @@
             <context-child/>
          </x:context>
          <x:result select="/element()">
-            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -30,7 +30,7 @@
          </x:result>
          <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>valid</x:label>
-            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+            <x:expect test="boolean(Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule]) and not(boolean((Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert union Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
                       select="()"/>
          </x:test>
       </x:scenario>
@@ -40,7 +40,8 @@
             <context-child/>
          </x:context>
          <x:result select="/element()">
-            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -57,7 +58,7 @@
          </x:result>
          <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>valid</x:label>
-            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+            <x:expect test="boolean(Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule]) and not(boolean((Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert union Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
                       select="()"/>
          </x:test>
       </x:scenario>
@@ -67,7 +68,8 @@
             <context-child/>
          </x:context>
          <x:result select="/element()">
-            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -84,7 +86,7 @@
          </x:result>
          <x:test id="scenario1-scenario3-expect1" successful="true">
             <x:label>valid</x:label>
-            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+            <x:expect test="boolean(Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule]) and not(boolean((Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert union Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
                       select="()"/>
          </x:test>
       </x:scenario>
@@ -97,7 +99,8 @@
             <context-child/>
          </x:context>
          <x:result select="/element()">
-            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -114,7 +117,7 @@
          </x:result>
          <x:test id="scenario2-scenario1-expect1" successful="true">
             <x:label>valid</x:label>
-            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+            <x:expect test="boolean(Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule]) and not(boolean((Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert union Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
                       select="()"/>
          </x:test>
       </x:scenario>
@@ -124,7 +127,8 @@
             <context-child/>
          </x:context>
          <x:result select="/element()">
-            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                     xmlns:saxon="http://saxon.sf.net/"
                                     xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -141,7 +145,7 @@
          </x:result>
          <x:test id="scenario2-scenario2-expect1" successful="true">
             <x:label>valid</x:label>
-            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+            <x:expect test="boolean(Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule]) and not(boolean((Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert union Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
                       select="()"/>
          </x:test>
       </x:scenario>

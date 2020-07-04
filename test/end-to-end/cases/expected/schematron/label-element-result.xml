@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
           stylesheet="label-element-sch-preprocessed.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../label-element.xspec"
