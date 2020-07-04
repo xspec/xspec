@@ -51,10 +51,10 @@
 
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
-            <xsl:when test="x:saxon-version() lt x:pack-version((9, 8))">
+            <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
                <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
             </xsl:when>
-            <xsl:when test="x:saxon-version() lt x:pack-version((9, 9))">
+            <xsl:when test="$x:saxon-version lt x:pack-version((9, 9))">
                <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
             </xsl:when>
          </xsl:choose>
@@ -374,7 +374,7 @@
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
          <xsl:with-param name="vars" tunnel="yes" as="element(x:var)+">
             <xsl:sequence select="$vars"/>
-            <xsl:element name="x:var">
+            <xsl:element name="x:var" namespace="{$x:xspec-namespace}">
                <xsl:attribute name="name" select="@name"/>
                <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
                   <xsl:attribute name="namespace-uri"
@@ -623,7 +623,7 @@
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
          <xsl:with-param name="vars" tunnel="yes" as="element(x:var)+">
             <xsl:sequence select="$vars"/>
-            <xsl:element name="x:var">
+            <xsl:element name="x:var" namespace="{$x:xspec-namespace}">
                <xsl:attribute name="name" select="@name"/>
                <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
                   <xsl:attribute name="namespace-uri"
@@ -833,7 +833,7 @@
       <xsl:for-each select="$distinct-qnames">
          <xsl:variable name="this-qname" select="."/>
          <xsl:variable name="this-prefix" select="prefix-from-QName($this-qname)"/>
-         <xsl:element name="x:var">
+         <xsl:element name="x:var" namespace="{$x:xspec-namespace}">
             <xsl:choose>
                <xsl:when test="empty(prefix-from-QName($this-qname)) and (string-length(namespace-uri-from-QName($this-qname)) gt 0)">
                   <!-- No prefix but there is a nonempty namespace URI -->

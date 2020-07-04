@@ -65,7 +65,7 @@
       </xsl:variable>
 
       <xsl:if test="$temp-uri-name">
-         <xsl:element name="xsl:variable">
+         <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
             <xsl:attribute name="name" select="$temp-uri-name" />
             <xsl:attribute name="as" select="x:known-UQN('xs:anyURI')" />
 
@@ -74,7 +74,7 @@
       </xsl:if>
 
       <xsl:if test="$temp-doc-name">
-         <xsl:element name="xsl:variable">
+         <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
             <xsl:attribute name="name" select="$temp-doc-name" />
             <xsl:attribute name="as" select="'document-node()'" />
 
@@ -88,7 +88,7 @@
                </xsl:when>
 
                <xsl:otherwise>
-                  <xsl:element name="xsl:document">
+                  <xsl:element name="xsl:document" namespace="{$x:xsl-namespace}">
                      <xsl:apply-templates select="node() except $exclude"
                         mode="test:create-node-generator" />
                   </xsl:element>
@@ -97,7 +97,8 @@
          </xsl:element>
       </xsl:if>
 
-      <xsl:element name="xsl:{if ($is-param) then 'param' else 'variable'}">
+      <xsl:element name="xsl:{if ($is-param) then 'param' else 'variable'}"
+         namespace="{$x:xsl-namespace}">
          <xsl:sequence select="x:copy-namespaces(.)" />
 
          <xsl:attribute name="name" select="$name" />
@@ -147,9 +148,13 @@
       as="element()" mode="test:create-node-generator">
       <!-- As for attribute(), do not just throw XSLT attributes (@xsl:*) into identity
          template. If you do so, the attribute being generated becomes a generator... -->
-      <xsl:element name="xsl:{x:node-type(.)}">
+      <xsl:element name="xsl:{x:node-type(.)}" namespace="{$x:xsl-namespace}">
          <xsl:if test="(. instance of attribute()) or (. instance of processing-instruction())">
             <xsl:attribute name="name" select="name()" />
+         </xsl:if>
+
+         <xsl:if test=". instance of attribute()">
+            <xsl:attribute name="namespace" select="namespace-uri()" />
          </xsl:if>
 
          <xsl:choose>
@@ -181,12 +186,13 @@
    <xsl:template match="xsl:*" as="element(xsl:element)" mode="test:create-node-generator">
       <!-- Do not just throw XSLT elements (xsl:*) into identity template.
          If you do so, the element being generated becomes a generator... -->
-      <xsl:element name="xsl:element">
+      <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="name()" />
+         <xsl:attribute name="namespace" select="namespace-uri()" />
 
          <xsl:variable name="context-element" as="element()" select="." />
          <xsl:for-each select="in-scope-prefixes($context-element)[not(. eq 'xml')]">
-            <xsl:element name="xsl:namespace">
+            <xsl:element name="xsl:namespace" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="name" select="." />
                <xsl:value-of select="namespace-uri-for-prefix(., $context-element)" />
             </xsl:element>

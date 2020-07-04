@@ -37,6 +37,12 @@
 			test="$x:xs-namespace treat as xs:anyURI" />
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing variable xsl-namespace">
+		<x:context />
+		<x:expect label="'xsl' namespace URI" select="doc('')/element() => namespace-uri()"
+			test="$x:xsl-namespace treat as xs:anyURI" />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing variable capture-NCName">
 		<x:context />
 		<x:expect label="Captured" select="'bar'"
@@ -47,6 +53,16 @@
 					'$1'
 				)"
 		 />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing variable saxon-version">
+		<x:scenario label="Assume we test this on Saxon versions from 9.8 to 10.x">
+			<x:context />
+			<x:expect label="Greater than or equal to 9.8.0.0"
+				test="($x:saxon-version treat as xs:integer) ge x:pack-version((9, 8))" />
+			<x:expect label="Less than 11.0"
+				test="($x:saxon-version treat as xs:integer) lt x:pack-version(11)" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing template identity">
@@ -735,16 +751,6 @@
 				<x:param select="'１.２.３.４'" />
 			</x:call>
 			<x:expect label="Empty sequence" />
-		</x:scenario>
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function saxon-version">
-		<x:scenario label="Assume we test this on Saxon versions from 9.8 to 10.x">
-			<x:call function="x:saxon-version" />
-			<x:expect label="Greater than or equal to 9.8.0.0"
-				test="$x:result treat as xs:integer ge x:pack-version((9, 8))" />
-			<x:expect label="Less than 11.0"
-				test="$x:result treat as xs:integer lt x:pack-version(11)" />
 		</x:scenario>
 	</x:scenario>
 
