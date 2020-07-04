@@ -167,7 +167,7 @@
 &lt;/svrl:schematron-output&gt;</pre>
                         </td>
                         <td>
-                           <pre>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 't1-1'])</pre>
+                           <pre>svrl:schematron-output[svrl:fired-rule] and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 't1-1'])</pre>
                         </td>
                      </tr>
                   </tbody>

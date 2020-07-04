@@ -85,7 +85,7 @@
       </x:test>
       <x:test id="scenario1-expect2" successful="false">
          <x:label>not assert t1-1</x:label>
-         <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 't1-1'])"
+         <x:expect test="svrl:schematron-output[svrl:fired-rule] and empty(svrl:schematron-output/svrl:failed-assert[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 't1-1'])"
                    select="()"/>
       </x:test>
    </x:scenario>
