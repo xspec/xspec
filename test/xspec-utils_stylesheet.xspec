@@ -37,6 +37,12 @@
 			test="$x:xs-namespace treat as xs:anyURI" />
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing variable xsl-namespace">
+		<x:context />
+		<x:expect label="'xsl' namespace URI" select="doc('')/element() => namespace-uri()"
+			test="$x:xsl-namespace treat as xs:anyURI" />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing variable capture-NCName">
 		<x:call function="replace">
 			<x:param select="'foo:bar[baz]'" />

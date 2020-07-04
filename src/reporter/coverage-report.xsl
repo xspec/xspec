@@ -103,7 +103,7 @@
   <xsl:variable name="number-width" as="xs:integer"
     select="string-length(xs:string($number-of-lines))" />
   <xsl:variable name="number-format" as="xs:string"
-  select="string-join(for $i in 1 to $number-width return '0', '')" />
+  select="string-join(for $i in 1 to $number-width return '0')" />
   <xsl:variable name="module" as="xs:string?">
     <xsl:variable name="uri" as="xs:string"
       select="if (starts-with($stylesheet-uri, '/'))
