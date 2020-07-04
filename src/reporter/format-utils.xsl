@@ -21,8 +21,6 @@
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-utils.xsl</pkg:import-uri>
 
-<xsl:output name="x:report" method="xml" indent="yes"/>
-
 <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
   For the test result report HTML, these Private Use Area characters should be considered
   as reserved by test:disable-escaping. -->
