@@ -45,6 +45,25 @@
 	<xsl:variable as="xs:string" name="x:capture-NCName">([\i-[:]][\c-[:]]*)</xsl:variable>
 
 	<!--
+		Saxon version packed as uint64, based on 'xsl:product-version' system property, ignoring
+		edition (EE, PE, HE).
+		An empty sequence, if XSLT processor is not Saxon.
+			Example:
+				"EE 9.9.1.5"  -> 2533313445167109 (0x0009000900010005)
+				"HE 9.3.0.11" -> 2533287675297809 (0x0009000300000011)
+				"HE 10.0"     -> 2814749767106560 (0x000A000000000000)
+	-->
+	<xsl:variable as="xs:integer?" name="x:saxon-version">
+		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
+			<xsl:variable as="xs:integer+" name="ver-components"
+				select="
+					system-property('xsl:product-version')
+					=> x:extract-version()" />
+			<xsl:sequence select="x:pack-version($ver-components)" />
+		</xsl:if>
+	</xsl:variable>
+
+	<!--
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
@@ -317,25 +336,6 @@
 				 />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
-	</xsl:function>
-
-	<!--
-		Returns Saxon version packed as uint64, based on 'xsl:product-version' system property,
-		ignoring edition (EE, PE, HE).
-		Returns an empty sequence, if XSLT processor is not Saxon.
-			Example:
-				"EE 9.9.1.5"  -> 2533313445167109 (0x0009000900010005)
-				"HE 9.3.0.11" -> 2533287675297809 (0x0009000300000011)
-				"HE 10.0"     -> 2814749767106560 (0x000A000000000000)
-	-->
-	<xsl:function as="xs:integer?" name="x:saxon-version">
-		<xsl:if test="system-property('xsl:product-name') eq 'SAXON'">
-			<xsl:variable as="xs:integer+" name="ver-components"
-				select="
-					system-property('xsl:product-version')
-					=> x:extract-version()" />
-			<xsl:sequence select="x:pack-version($ver-components)" />
-		</xsl:if>
 	</xsl:function>
 
 	<!--
