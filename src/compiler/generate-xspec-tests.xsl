@@ -108,7 +108,7 @@
             <result-document>
                <xsl:attribute name="format">
                   <xsl:choose>
-                     <xsl:when test="x:saxon-version() lt x:pack-version((9, 9, 1, 1))">
+                     <xsl:when test="$x:saxon-version lt x:pack-version((9, 9, 1, 1))">
                         <!-- Workaround for a Saxon bug: https://saxonica.plan.io/issues/4093 -->
                         <xsl:sequence
                            select="x:xspec-name(., 'xml-report-serialization-parameters')" />
@@ -508,7 +508,7 @@
                      <map-entry key="QName('http://saxon.sf.net/', 'configuration')">
                         <choose>
                            <when
-                              test="{x:known-UQN('x:saxon-version')}() le {x:known-UQN('x:pack-version')}((9, 9, 1, 6))">
+                              test="${x:known-UQN('x:saxon-version')} le {x:known-UQN('x:pack-version')}((9, 9, 1, 6))">
                               <apply-templates select="${x:known-UQN('x:saxon-config')}"
                                  mode="{x:known-UQN('test:fixup-saxon-config')}" />
                            </when>
