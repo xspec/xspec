@@ -92,16 +92,8 @@
       <xsl:text>;&#x0A;</xsl:text>
 
       <!-- Declare namespaces -->
-      <xsl:for-each select="in-scope-prefixes($this)[not(. = ('xml', $prefix))]">
-         <xsl:text>declare </xsl:text>
-         <xsl:if test="not(.)">
-            <xsl:text>default element </xsl:text>
-         </xsl:if>
-         <xsl:text>namespace </xsl:text>
-         <xsl:if test=".">
-            <xsl:text expand-text="yes">{.} = </xsl:text>
-         </xsl:if>
-         <xsl:text expand-text="yes">"{namespace-uri-for-prefix(., $this)}";&#x0A;</xsl:text>
+      <xsl:for-each select="in-scope-prefixes($this)[not(. = ('', 'xml', $prefix))]">
+         <xsl:text expand-text="yes">declare namespace {.} = "{namespace-uri-for-prefix(., $this)}";&#x0A;</xsl:text>
       </xsl:for-each>
 
       <!-- Serialization parameters for the test result report XML -->
