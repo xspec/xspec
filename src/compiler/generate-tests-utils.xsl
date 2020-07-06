@@ -643,7 +643,7 @@
          </xsl:choose>
       </xsl:variable>
 
-      <xsl:sequence select="x:known-UQN('xs:' || $local-name)" />
+      <xsl:sequence select="x:known-UQName('xs:' || $local-name)" />
    </xsl:function>
 
    <xsl:function name="test:serialize-adaptive" as="xs:string">
