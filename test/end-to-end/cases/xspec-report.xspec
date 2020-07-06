@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm"
-	stylesheet="../../mirror.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Function (xspec/xspec#355)">
 		<!-- function(*) (excluding array(*) and map(*)) is tested in xspec-355.xspec -->
@@ -9,9 +9,7 @@
 			<x:call function="Q{x-urn:test:mirror}param-mirror">
 				<x:param as="array(*)" select="['foo', 1, [2, 'bar']]" />
 			</x:call>
-			<x:expect
-				label="Serialized array (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure"
-			 />
+			<x:expect label="Serialized array should be reported upon failure" />
 		</x:scenario>
 
 		<x:scenario label="Map">
@@ -22,9 +20,7 @@
 						2: 'bar'
 					}" />
 			</x:call>
-			<x:expect
-				label="Serialized map (XSLT) or empty 'pseudo-other' element (XQuery) should be reported upon failure"
-			 />
+			<x:expect label="Serialized map should be reported upon failure" />
 		</x:scenario>
 	</x:scenario>
 

@@ -456,7 +456,7 @@
          <xsl:when test="x:instance-of-function($item)">
             <xsl:element name="{$local-name-prefix}{x:function-type($item)}"
                namespace="{$wrapper-ns}">
-               <xsl:value-of select="serialize($item, map { 'method': 'adaptive' })" />
+               <xsl:value-of select="test:serialize-adaptive($item)" />
             </xsl:element>
          </xsl:when>
 
@@ -521,13 +521,12 @@
             <xsl:sequence select="x:decimal-string($value)" />
          </xsl:when>
          <xsl:when test="$value instance of xs:double">
-            <!-- Do not report xs:double as a numeric literal. Report as xs:double() constructor instead.
-               Justifications below.
-               * Expression of xs:double as a numeric literal is a bit complicated:
-                  http://www.w3.org/TR/xpath-functions/#casting-to-string
-               * xs:double is not used as frequently as xs:integer
-               * xs:double() constructor is valid expression. It's just some more verbose than a numeric literal. -->
-            <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
+            <xsl:sequence
+               select="
+                  if (string($value) = ('NaN', 'INF', '-INF')) then
+                     test:report-atomic-value-as-constructor($value)
+                  else
+                     test:serialize-adaptive($value)" />
          </xsl:when>
 
          <xsl:when test="$value instance of xs:QName">
@@ -645,6 +644,20 @@
       </xsl:variable>
 
       <xsl:sequence select="x:known-UQN('xs:' || $local-name)" />
+   </xsl:function>
+
+   <xsl:function name="test:serialize-adaptive" as="xs:string">
+      <xsl:param name="item" as="item()" />
+
+      <xsl:sequence
+         select="
+            serialize(
+               $item,
+               map {
+                  'indent': true(),
+                  'method': 'adaptive'
+               }
+            )" />
    </xsl:function>
 
    <!-- Returns true if every item in sequence can be wrapped in document node.

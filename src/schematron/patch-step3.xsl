@@ -21,7 +21,7 @@
 
 		<xsl:if test="$x:enable-schematron-text-location">
 			<axsl:template match="text()" mode="schematron-select-full-path">
-				<xsl:comment>This template was injected by <xsl:value-of select="static-base-uri()" /></xsl:comment>
+				<xsl:comment expand-text="yes">This template was injected by {static-base-uri()}</xsl:comment>
 				<axsl:apply-templates mode="#current" select="parent::element()" />
 				<axsl:text>/text()[</axsl:text>
 				<axsl:value-of select="count(preceding-sibling::text()) + 1" />

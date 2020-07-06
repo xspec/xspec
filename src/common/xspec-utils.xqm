@@ -38,6 +38,49 @@ $node as node()
 };
 
 (:
+	Returns true if item is function (including map and array).
+	
+	Alternative to "instance of function(*)" which is not widely available.
+:)
+declare function x:instance-of-function(
+$item as item()
+) as xs:boolean
+{
+	if (($item instance of array(*)) or ($item instance of map(*))) then
+		true()
+	else
+		(: TODO: Enable this 'if' when function(*) is made available on all the supported XQuery processors :)
+		(:
+		if ($item instance of function(*)) then
+			true()
+		else
+		:)
+		false()
+};
+
+(:
+	Returns type of function (including map and array).
+	
+	$function must be an instance of function(*).
+:)
+declare function x:function-type(
+(: TODO: "as function(*)" :)
+$function as item()
+) as xs:string
+{
+	typeswitch ($function)
+		case array(*)
+			return
+				'array'
+		case map(*)
+			return
+				'map'
+		default
+			return
+				'function'
+};
+
+(:
 	Returns numeric literal of xs:decimal
 		http://www.w3.org/TR/xpath20/#id-literals
 
