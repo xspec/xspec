@@ -21,8 +21,6 @@
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-utils.xsl</pkg:import-uri>
 
-<xsl:output name="x:report" method="xml" indent="yes"/>
-
 <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
   For the test result report HTML, these Private Use Area characters should be considered
   as reserved by test:disable-escaping. -->
@@ -77,9 +75,9 @@
   <!-- Namespace nodes -->
   <xsl:variable name="omit-namespace-uris" as="xs:string+" select="
     $x:xspec-namespace (: x :),
-    'http://www.w3.org/1999/XSL/Transform' (: xsl :),
-    $x:xs-namespace (: xs :),
-    'http://www.w3.org/XML/1998/namespace' (: xml :)" />
+    'http://www.w3.org/XML/1998/namespace' (: xml :),
+    $x:xs-namespace,
+    $x:xsl-namespace" />
   <xsl:variable name="namespaces" as="namespace-node()*" select="x:copy-namespaces(.)" />
   <xsl:variable name="parent-namespaces" as="namespace-node()*" select="parent::element() => x:copy-namespaces()" />
   <xsl:variable name="significant-namespaces" as="namespace-node()*" select="$namespaces[not(string() = $omit-namespace-uris)]" />

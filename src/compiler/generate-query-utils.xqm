@@ -388,14 +388,12 @@ declare function test:report-atomic-value(
     case xs:integer return string($value)
     case xs:decimal return x:decimal-string($value)
     case xs:double
-      return
-        (: Do not report xs:double as a numeric literal. Report as xs:double() constructor instead.
-          Justifications below.
-          * Expression of xs:double as a numeric literal is a bit complicated:
-            http://www.w3.org/TR/xpath-functions/#casting-to-string
-          * xs:double is not used as frequently as xs:integer
-          * xs:double() constructor is valid expression. It's just some more verbose than a numeric literal. :)
-        test:report-atomic-value-as-constructor($value)
+      return (
+        if (string($value) = ('NaN', 'INF', '-INF')) then
+          test:report-atomic-value-as-constructor($value)
+        else
+          test:serialize-adaptive($value)
+      )
 
     case xs:QName return x:QName-expression($value)
 

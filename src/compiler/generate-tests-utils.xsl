@@ -18,6 +18,13 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-utils.xsl</pkg:import-uri>
 
+   <!-- Serialization parameters for the test result report XML
+      TODO: Put @parameter-document="xml-report-serialization-parameters.xml" and remove the other
+         parameters after the fixes for https://saxonica.plan.io/issues/4599 and
+         https://saxonica.plan.io/issues/4602 are made available on all the supported versions of
+         Saxon. -->
+   <xsl:output name="x:xml-report-serialization-parameters" method="xml" indent="yes" />
+
    <!--
       TODO: Implement this debugging feature??
       TODO: @name must not pollute the other modules: xspec/xspec#985
@@ -398,7 +405,9 @@
 
             <!-- Save the report element as the external file.
                You can't unwrap the report element, because not all nodes can be located in the document root. -->
-            <xsl:result-document href="{$href}" format="x:report">
+            <!-- Use @format to avoid clashes with <xsl:output> in another stylesheet which would
+               otherwise govern the output of the external file. -->
+            <xsl:result-document href="{$href}" format="x:xml-report-serialization-parameters">
                <xsl:sequence select="$report-element" />
             </xsl:result-document>
 
@@ -470,7 +479,7 @@
 
    <xsl:template match="text()[not(normalize-space())]" as="element(test:ws)"
       mode="test:report-node">
-      <xsl:element name="test:ws">
+      <xsl:element name="test:ws" namespace="{$x:legacy-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
    </xsl:template>
@@ -512,13 +521,12 @@
             <xsl:sequence select="x:decimal-string($value)" />
          </xsl:when>
          <xsl:when test="$value instance of xs:double">
-            <!-- Do not report xs:double as a numeric literal. Report as xs:double() constructor instead.
-               Justifications below.
-               * Expression of xs:double as a numeric literal is a bit complicated:
-                  http://www.w3.org/TR/xpath-functions/#casting-to-string
-               * xs:double is not used as frequently as xs:integer
-               * xs:double() constructor is valid expression. It's just some more verbose than a numeric literal. -->
-            <xsl:sequence select="test:report-atomic-value-as-constructor($value)" />
+            <xsl:sequence
+               select="
+                  if (string($value) = ('NaN', 'INF', '-INF')) then
+                     test:report-atomic-value-as-constructor($value)
+                  else
+                     test:serialize-adaptive($value)" />
          </xsl:when>
 
          <xsl:when test="$value instance of xs:QName">
