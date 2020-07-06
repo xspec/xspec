@@ -44,12 +44,15 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable capture-NCName">
-		<x:call function="replace">
-			<x:param select="'foo:bar[baz]'" />
-			<x:param select="'^.+:' || $x:capture-NCName || '.*$'" />
-			<x:param select="'$1'" />
-		</x:call>
-		<x:expect label="Captured" select="'bar'" />
+		<x:context />
+		<x:expect label="Captured" select="'bar'"
+			test="
+				replace(
+					'foo:bar[baz]',
+					'^.+:' || $x:capture-NCName || '.*$',
+					'$1'
+				)"
+		 />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable saxon-version">
@@ -219,60 +222,6 @@
 			test="$x:result[name() eq 'prefix']/string()" />
 		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
 			test="$x:result[name() eq 'wrapper-prefix']/string()" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function instance-of-function">
-		<x:scenario label="Node">
-			<x:call function="x:instance-of-function">
-				<x:param>
-					<e />
-				</x:param>
-			</x:call>
-			<x:expect label="False" select="false()" />
-		</x:scenario>
-
-		<x:scenario label="Atomic value">
-			<x:call function="x:instance-of-function">
-				<x:param select="1" />
-			</x:call>
-			<x:expect label="False" select="false()" />
-		</x:scenario>
-
-		<x:scenario label="function(*)">
-			<x:scenario label="Array">
-				<x:call function="x:instance-of-function">
-					<x:param select="[ 0, 1 ]" />
-				</x:call>
-				<x:expect label="True" select="true()" />
-			</x:scenario>
-
-			<x:scenario label="Map">
-				<x:call function="x:instance-of-function">
-					<x:param select="map { 0: 1 }" />
-				</x:call>
-				<x:expect label="True" select="true()" />
-			</x:scenario>
-
-			<!-- Function (excluding map and array) is tested in xspec-utils_stylesheet_hof.xspec -->
-		</x:scenario>
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function function-type">
-		<x:scenario label="Array">
-			<x:call function="x:function-type">
-				<x:param select="[ 0, 1 ]" />
-			</x:call>
-			<x:expect label="array" select="'array'" />
-		</x:scenario>
-
-		<x:scenario label="Map">
-			<x:call function="x:function-type">
-				<x:param select="map { 0: 1 }" />
-			</x:call>
-			<x:expect label="map" select="'map'" />
-		</x:scenario>
-
-		<!-- Function (excluding map and array) is tested in xspec-utils_stylesheet_hof.xspec -->
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-user-content">
