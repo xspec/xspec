@@ -24,6 +24,12 @@
 
 	<xsl:namespace-alias result-prefix="xsl" stylesheet-prefix="#default" />
 
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
+	<xsl:template as="element(xsl:stylesheet)" match="document-node(element(x:description))">
+		<xsl:apply-templates select="x:description" />
+	</xsl:template>
+
 	<xsl:template as="element(xsl:stylesheet)" match="x:description">
 		<!-- Absolute URI of the stylesheet of the built-in Schematron Step 3 preprocessor -->
 		<xsl:variable as="xs:anyURI" name="builtin-preprocessor-uri"
@@ -55,4 +61,5 @@
 	<xsl:template as="element()+" match="x:param">
 		<xsl:apply-templates mode="test:generate-variable-declarations" select="." />
 	</xsl:template>
+
 </xsl:stylesheet>

@@ -25,7 +25,9 @@
       whitespace-only text node in a special manner, the text node should be handled specially
       before applying this mode and/or mode="test:create-node-generator" should be overridden.
    -->
-   <xsl:template match="*" as="node()+" mode="test:generate-variable-declarations">
+   <xsl:mode name="test:generate-variable-declarations" on-multiple-match="fail" on-no-match="fail" />
+
+   <xsl:template match="element()" as="node()+" mode="test:generate-variable-declarations">
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?" />
 
@@ -194,6 +196,11 @@
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
    </xsl:template>
+
+   <!--
+      mode="test:create-node-generator"
+   -->
+   <xsl:mode name="test:create-node-generator" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="element()" as="element()" mode="test:create-node-generator">
       <xsl:copy>

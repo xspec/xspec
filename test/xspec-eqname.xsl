@@ -3,6 +3,8 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!-- Returns the items in the parameter intact -->
+	<xsl:mode name="Q{x-urn:test:xspec-eqname}param-mirror-mode" on-multiple-match="fail"
+		on-no-match="fail" />
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		mode="Q{x-urn:test:xspec-eqname}param-mirror-mode"
 		name="Q{x-urn:test:xspec-eqname}param-mirror-template">
@@ -17,4 +19,5 @@
 
 		<xsl:sequence select="$Q{x-urn:test:xspec-eqname}param-items" />
 	</xsl:function>
+
 </xsl:stylesheet>

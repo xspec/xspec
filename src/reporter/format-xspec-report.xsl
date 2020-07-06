@@ -134,7 +134,12 @@
   </div>
 </xsl:template>
 
-<xsl:template match="document-node()" as="element(xhtml:html)">
+<!--
+  mode="#default"
+-->
+<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
+<xsl:template match="document-node(element(x:report))" as="element(xhtml:html)">
   <xsl:message>
     <xsl:call-template name="x:output-test-stats">
       <xsl:with-param name="tests" select="x:descendant-tests(.)" />
@@ -168,6 +173,54 @@
 <xsl:template match="x:report" as="element()+">
    <xsl:apply-templates select="." mode="x:html-report"/>
 </xsl:template>
+
+<!-- Returns true if the top level x:scenario needs to be processed by x:format-top-level-scenario template -->
+<xsl:function name="x:top-level-scenario-needs-format" as="xs:boolean">
+  <xsl:param name="scenario-elem" as="element(x:scenario)" />
+
+  <xsl:sequence select="$scenario-elem/(
+    empty(@pending)
+    or exists(x:descendant-tests(.)[not(x:is-pending-test(.))])
+    )"/>
+</xsl:function>
+
+<!--
+  mode="x:html-summary"
+-->
+<xsl:mode name="x:html-summary" on-multiple-match="fail" on-no-match="fail" />
+
+<xsl:template match="x:test[x:is-pending-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
+  <tr class="pending">
+    <td>
+      <xsl:sequence select="x:pending-callback(@pending)"/>
+      <xsl:apply-templates select="x:label" mode="x:html-report" />
+    </td>
+    <td>Pending</td>
+  </tr>
+</xsl:template>
+
+<xsl:template match="x:test[x:is-passed-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
+  <tr class="successful">
+  	<td><xsl:apply-templates select="x:label" mode="x:html-report" /></td>
+    <td>Success</td>
+  </tr>
+</xsl:template>
+
+<xsl:template match="x:test[x:is-failed-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
+  <tr class="failed">
+    <td>
+      <a href="#{@id}">
+      	<xsl:apply-templates select="x:label" mode="x:html-report" />
+      </a>
+    </td>
+    <td>Failure</td>
+  </tr>
+</xsl:template>
+
+<!--
+  mode="x:html-report"
+-->
+<xsl:mode name="x:html-report" on-multiple-match="fail" on-no-match="fail" />
 
 <xsl:template match="x:report" as="element()+" mode="x:html-report">
   <!-- Write URIs, ignoring @stylesheet when actual test target is Schematron -->
@@ -256,44 +309,6 @@
   </xsl:for-each>
 </xsl:template>
 
-<!-- Returns true if the top level x:scenario needs to be processed by x:format-top-level-scenario template -->
-<xsl:function name="x:top-level-scenario-needs-format" as="xs:boolean">
-  <xsl:param name="scenario-elem" as="element(x:scenario)" />
-
-  <xsl:sequence select="$scenario-elem/(
-    empty(@pending)
-    or exists(x:descendant-tests(.)[not(x:is-pending-test(.))])
-    )"/>
-</xsl:function>
-
-<xsl:template match="x:test[x:is-pending-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
-  <tr class="pending">
-    <td>
-      <xsl:sequence select="x:pending-callback(@pending)"/>
-      <xsl:apply-templates select="x:label" mode="x:html-report" />
-    </td>
-    <td>Pending</td>
-  </tr>
-</xsl:template>
-
-<xsl:template match="x:test[x:is-passed-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
-  <tr class="successful">
-  	<td><xsl:apply-templates select="x:label" mode="x:html-report" /></td>
-    <td>Success</td>
-  </tr>
-</xsl:template>
-
-<xsl:template match="x:test[x:is-failed-test(.)]" as="element(xhtml:tr)" mode="x:html-summary">
-  <tr class="failed">
-    <td>
-      <a href="#{@id}">
-      	<xsl:apply-templates select="x:label" mode="x:html-report" />
-      </a>
-    </td>
-    <td>Failure</td>
-  </tr>
-</xsl:template>
-
 <xsl:template match="x:scenario" as="element(xhtml:div)" mode="x:html-report">
   <div id="{@id}">
     <h3>
@@ -376,7 +391,12 @@
   <xsl:value-of select="x:right-trim(.)" />
 </xsl:template>
 
-<!-- Formats the Actual Result or the Expected Result in HTML -->
+<!--
+  mode="x:format-result"
+  Formats the Actual Result or the Expected Result in HTML
+-->
+<xsl:mode name="x:format-result" on-multiple-match="fail" on-no-match="fail" />
+
 <xsl:template match="element()" as="element()+" mode="x:format-result">
   <xsl:param name="result-to-compare-with" as="element()?" required="yes" />
 
