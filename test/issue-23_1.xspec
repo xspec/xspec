@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xslt-to-support-schema?>
+<x:description stylesheet="issue-23_1.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<!-- https://github.com/xspec/xspec/issues/23#issue-194040893 -->
+
+	<x:scenario label="Test-1">
+		<x:call function="exactly-one">
+			<x:param select="$foo-strict" />
+		</x:call>
+		<x:expect label="Result-1" select="$foo-strip" />
+	</x:scenario>
+
+	<x:scenario label="Test-2">
+		<x:call function="exactly-one">
+			<x:param select="$foo-strip" />
+		</x:call>
+		<x:expect label="Result-2" select="$foo-strict" />
+	</x:scenario>
+</x:description>
