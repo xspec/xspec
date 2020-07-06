@@ -44,12 +44,25 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable capture-NCName">
-		<x:call function="replace">
-			<x:param select="'foo:bar[baz]'" />
-			<x:param select="'^.+:' || $x:capture-NCName || '.*$'" />
-			<x:param select="'$1'" />
-		</x:call>
-		<x:expect label="Captured" select="'bar'" />
+		<x:context />
+		<x:expect label="Captured" select="'bar'"
+			test="
+				replace(
+					'foo:bar[baz]',
+					'^.+:' || $x:capture-NCName || '.*$',
+					'$1'
+				)"
+		 />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing variable saxon-version">
+		<x:scenario label="Assume we test this on Saxon versions from 9.8 to 10.x">
+			<x:context />
+			<x:expect label="Greater than or equal to 9.8.0.0"
+				test="($x:saxon-version treat as xs:integer) ge x:pack-version((9, 8))" />
+			<x:expect label="Less than 11.0"
+				test="($x:saxon-version treat as xs:integer) lt x:pack-version(11)" />
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing template identity">
@@ -209,60 +222,6 @@
 			test="$x:result[name() eq 'prefix']/string()" />
 		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
 			test="$x:result[name() eq 'wrapper-prefix']/string()" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function instance-of-function">
-		<x:scenario label="Node">
-			<x:call function="x:instance-of-function">
-				<x:param>
-					<e />
-				</x:param>
-			</x:call>
-			<x:expect label="False" select="false()" />
-		</x:scenario>
-
-		<x:scenario label="Atomic value">
-			<x:call function="x:instance-of-function">
-				<x:param select="1" />
-			</x:call>
-			<x:expect label="False" select="false()" />
-		</x:scenario>
-
-		<x:scenario label="function(*)">
-			<x:scenario label="Array">
-				<x:call function="x:instance-of-function">
-					<x:param select="[ 0, 1 ]" />
-				</x:call>
-				<x:expect label="True" select="true()" />
-			</x:scenario>
-
-			<x:scenario label="Map">
-				<x:call function="x:instance-of-function">
-					<x:param select="map { 0: 1 }" />
-				</x:call>
-				<x:expect label="True" select="true()" />
-			</x:scenario>
-
-			<!-- Function (excluding map and array) is tested in xspec-utils_stylesheet_hof.xspec -->
-		</x:scenario>
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function function-type">
-		<x:scenario label="Array">
-			<x:call function="x:function-type">
-				<x:param select="[ 0, 1 ]" />
-			</x:call>
-			<x:expect label="array" select="'array'" />
-		</x:scenario>
-
-		<x:scenario label="Map">
-			<x:call function="x:function-type">
-				<x:param select="map { 0: 1 }" />
-			</x:call>
-			<x:expect label="map" select="'map'" />
-		</x:scenario>
-
-		<!-- Function (excluding map and array) is tested in xspec-utils_stylesheet_hof.xspec -->
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-user-content">
@@ -741,16 +700,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function saxon-version">
-		<x:scenario label="Assume we test this on Saxon versions from 9.8 to 10.x">
-			<x:call function="x:saxon-version" />
-			<x:expect label="Greater than or equal to 9.8.0.0"
-				test="$x:result treat as xs:integer ge x:pack-version((9, 8))" />
-			<x:expect label="Less than 11.0"
-				test="$x:result treat as xs:integer lt x:pack-version(11)" />
-		</x:scenario>
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing function yes-no-synonym#1">
 		<x:scenario label="Valid strings">
 			<x:scenario label="Base (yes or no)">
@@ -1182,18 +1131,18 @@
 			select="'foo&#x09;&#x0A;&#x0D;&#x20;bar'" />
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function resolve-URIQualifiedName">
+	<x:scenario label="Scenario for testing function resolve-UQName">
 		<x:scenario label="With URI">
 			<x:variable as="xs:anyURI" name="ridiculous-uri">'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
-			<x:call function="x:resolve-URIQualifiedName">
-				<x:param select="x:URIQualifiedName($ridiculous-uri, 'foo')" />
+			<x:call function="x:resolve-UQName">
+				<x:param select="x:UQName($ridiculous-uri, 'foo')" />
 			</x:call>
 			<x:expect label="Resolved"
 				test="x:QName-exactly-equal($x:result, QName($ridiculous-uri, 'foo'))" />
 		</x:scenario>
 
 		<x:scenario label="Without URI">
-			<x:call function="x:resolve-URIQualifiedName">
+			<x:call function="x:resolve-UQName">
 				<x:param select="'Q{}foo'" />
 			</x:call>
 			<x:expect label="Resolved as no namespace"
@@ -1207,7 +1156,7 @@
 				<x:variable as="xs:anyURI" name="ridiculous-uri"
 					>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
 				<x:call function="x:resolve-EQName-ignoring-default-ns">
-					<x:param select="x:URIQualifiedName($ridiculous-uri, 'foo')" />
+					<x:param select="x:UQName($ridiculous-uri, 'foo')" />
 					<x:param>
 						<e xmlns="default-ns" />
 					</x:param>
@@ -1437,9 +1386,9 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function URIQualifiedName">
+	<x:scenario label="Scenario for testing function UQName">
 		<x:scenario label="URI length ge 1">
-			<x:call function="x:URIQualifiedName">
+			<x:call function="x:UQName">
 				<x:param select="'my-uri'" />
 				<x:param select="'my-local-name'" />
 			</x:call>
@@ -1447,7 +1396,7 @@
 		</x:scenario>
 
 		<x:scenario label="URI is zero-length string">
-			<x:call function="x:URIQualifiedName">
+			<x:call function="x:UQName">
 				<x:param select="''" />
 				<x:param select="'my-local-name'" />
 			</x:call>
@@ -1455,9 +1404,9 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function known-UQN">
+	<x:scenario label="Scenario for testing function known-UQName">
 		<x:scenario label="impl">
-			<x:call function="x:known-UQN">
+			<x:call function="x:known-UQName">
 				<x:param select="'impl:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -1465,7 +1414,7 @@
 		</x:scenario>
 
 		<x:scenario label="map">
-			<x:call function="x:known-UQN">
+			<x:call function="x:known-UQName">
 				<x:param select="'map:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -1473,7 +1422,7 @@
 		</x:scenario>
 
 		<x:scenario label="output">
-			<x:call function="x:known-UQN">
+			<x:call function="x:known-UQName">
 				<x:param select="'output:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -1481,7 +1430,7 @@
 		</x:scenario>
 
 		<x:scenario label="test">
-			<x:call function="x:known-UQN">
+			<x:call function="x:known-UQName">
 				<x:param select="'test:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -1489,7 +1438,7 @@
 		</x:scenario>
 
 		<x:scenario label="x">
-			<x:call function="x:known-UQN">
+			<x:call function="x:known-UQName">
 				<x:param select="'x:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -1497,7 +1446,7 @@
 		</x:scenario>
 
 		<x:scenario label="xs">
-			<x:call function="x:known-UQN">
+			<x:call function="x:known-UQName">
 				<x:param select="'xs:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -1505,10 +1454,10 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function variable-name"
+	<x:scenario label="Scenario for testing function variable-UQName"
 		xmlns:my-element-prefix="my-element-namespace">
 		<x:scenario label="With @name">
-			<x:call function="x:variable-name">
+			<x:call function="x:variable-UQName">
 				<x:param>
 					<my-element-prefix:my-element name="my-name-prefix:my-name"
 						xmlns:my-name-prefix="my-name-namespace" />
@@ -1519,7 +1468,7 @@
 		</x:scenario>
 
 		<x:scenario label="Without @name">
-			<x:call function="x:variable-name">
+			<x:call function="x:variable-UQName">
 				<x:param>
 					<my-element-prefix:my-element />
 				</x:param>

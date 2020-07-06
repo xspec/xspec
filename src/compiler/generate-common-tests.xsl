@@ -51,10 +51,10 @@
 
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
-            <xsl:when test="x:saxon-version() lt x:pack-version((9, 8))">
+            <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
                <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
             </xsl:when>
-            <xsl:when test="x:saxon-version() lt x:pack-version((9, 9))">
+            <xsl:when test="$x:saxon-version lt x:pack-version((9, 9))">
                <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
             </xsl:when>
          </xsl:choose>
@@ -318,7 +318,7 @@
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="with-param-uqnames"
-            select="x:distinct-strings-stable($stacked-variables ! x:variable-name(.))" />
+            select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
       </xsl:call-template>
    </xsl:template>
 
@@ -335,10 +335,10 @@
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <xsl:sequence select="x:known-UQN('x:result')" />
+               <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
             <xsl:sequence
-               select="x:distinct-strings-stable($stacked-variables ! x:variable-name(.))" />
+               select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>
@@ -546,10 +546,10 @@
          <xsl:with-param name="call"    tunnel="yes" select="$call"/>
          <xsl:with-param name="param-uqnames" as="xs:string*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <xsl:sequence select="x:known-UQN('x:result')" />
+               <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
             <xsl:sequence
-               select="x:distinct-strings-stable($stacked-variables ! x:variable-name(.))" />
+               select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
          </xsl:with-param>
       </xsl:call-template>
       <!-- Continue walking the siblings. -->

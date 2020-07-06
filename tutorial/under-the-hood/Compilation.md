@@ -54,7 +54,6 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <!-- an XSpec stylesheet providing tools -->
    <xsl:import href=".../xspec/src/compiler/generate-tests-utils.xsl"/>
    <xsl:include href=".../xspec/src/common/xspec-utils.xsl"/>
-   <xsl:output name="Q{http://www.jenitennison.com/xslt/xspec}report" method="xml" indent="yes"/>
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri"
                  as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xspec</xsl:variable>
    <!-- the main template to run the suite -->
@@ -67,7 +66,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
          <xsl:value-of select="system-property('xsl:product-version')"/>
       </xsl:message>
       <!-- set up the result document (the report) -->
-      <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}report">
+      <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}xml-report-serialization-parameters">
          <x:report stylesheet=".../compilation-simple-suite.xsl"
                    date="{current-dateTime()}"
                    xspec=".../compilation-simple-suite.xspec">
