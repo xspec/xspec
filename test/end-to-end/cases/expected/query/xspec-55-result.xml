@@ -16,9 +16,9 @@
          <x:expect select="1.0"/>
       </x:test>
       <x:test id="scenario1-expect2" successful="false">
-         <x:label>[Expected Result] must represent xs:double(1) by "xs:double('1')" (constructor
-				of double)</x:label>
-         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}double('1')"/>
+         <x:label>[Expected Result] must represent xs:double(1) by "1.0e0" (numeric literal of
+				double)</x:label>
+         <x:expect select="1.0e0"/>
       </x:test>
       <x:test id="scenario1-expect3" successful="false">
          <x:label>[Expected Result] must represent xs:integer(1) by "1" (numeric literal of
