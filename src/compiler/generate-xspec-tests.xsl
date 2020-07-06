@@ -65,7 +65,7 @@
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
             select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
-         <variable name="{x:known-UQN('x:xspec-uri')}" as="{x:known-UQN('xs:anyURI')}">
+         <variable name="{x:known-UQName('x:xspec-uri')}" as="{x:known-UQName('xs:anyURI')}">
             <xsl:value-of select="$xspec-master-uri" />
          </variable>
 
@@ -80,13 +80,13 @@
                   empty(
                      x:variable[x:resolve-EQName-ignoring-default-ns(@name, .) eq xs:QName('x:saxon-config')]
                   )">
-               <variable name="{x:known-UQN('x:saxon-config')}" as="empty-sequence()" />
+               <variable name="{x:known-UQName('x:saxon-config')}" as="empty-sequence()" />
             </xsl:if>
          </xsl:if>
 
          <!-- The main compiled template. -->
          <xsl:comment> the main template to run the suite </xsl:comment>
-         <template name="{x:known-UQN('x:main')}">
+         <template name="{x:known-UQName('x:main')}">
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
             <message>
                <text>Testing with </text>
@@ -157,7 +157,7 @@
          <xsl:apply-templates select="." mode="x:generate-id" />
       </xsl:variable>
 
-      <call-template name="{x:known-UQN('x:' || $local-name)}">
+      <call-template name="{x:known-UQName('x:' || $local-name)}">
          <xsl:sequence select="x:copy-namespaces(.)" />
          <xsl:for-each select="$params">
             <with-param name="{ @name }" select="{ @select }">
@@ -235,7 +235,7 @@
          </xsl:message>
       </xsl:if>
 
-      <template name="{x:known-UQN('x:' || $scenario-id)}">
+      <template name="{x:known-UQName('x:' || $scenario-id)}">
          <xsl:sequence select="x:copy-namespaces(.)" />
 
          <xsl:for-each select="$params">
@@ -286,7 +286,7 @@
             </xsl:for-each>
 
             <xsl:if test="not($pending-p) and x:expect">
-               <variable name="{x:known-UQN('x:result')}" as="item()*">
+               <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables before entering SUT -->
                   <xsl:choose>
                      <xsl:when test="$call">
@@ -327,8 +327,8 @@
                         <xsl:variable name="enter-sut" as="element()+">
                            <xsl:call-template name="x:enter-sut">
                               <xsl:with-param name="instruction" as="element(xsl:sequence)">
-                              <sequence
-                                 select="transform(${x:known-UQN('impl:transform-options')})?output" />
+                                 <sequence
+                                    select="transform(${x:known-UQName('impl:transform-options')})?output" />
                               </xsl:with-param>
                            </xsl:call-template>
                         </xsl:variable>
@@ -336,10 +336,10 @@
                         <!-- Invoke transform() -->
                         <xsl:choose>
                            <xsl:when test="$call/@template and $context">
-                              <for-each select="${x:variable-name($context)}">
-                                 <variable name="{x:known-UQN('impl:transform-options')}" as="map({x:known-UQN('xs:string')}, item()*)">
+                              <for-each select="${x:variable-UQName($context)}">
+                                 <variable name="{x:known-UQName('impl:transform-options')}" as="map({x:known-UQName('xs:string')}, item()*)">
                                     <xsl:attribute name="select">
-                                       <xsl:text expand-text="yes">{x:known-UQN('map:put')}(${x:known-UQN('impl:transform-options')}, 'global-context-item', .)</xsl:text>
+                                       <xsl:text expand-text="yes">{x:known-UQName('map:put')}(${x:known-UQName('impl:transform-options')}, 'global-context-item', .)</xsl:text>
                                     </xsl:attribute>
                                  </variable>
                                  <xsl:sequence select="$enter-sut" />
@@ -359,7 +359,7 @@
                                  <call-template name="{$call/@template}">
                                     <xsl:sequence select="x:copy-namespaces($call)" />
                                     <xsl:for-each select="$call/x:param">
-                                       <with-param name="{@name}" select="${x:variable-name(.)}">
+                                       <with-param name="{@name}" select="${x:variable-UQName(.)}">
                                           <xsl:sequence select="x:copy-namespaces(.)" />
                                           <xsl:copy-of select="@tunnel, @as" />
                                        </with-param>
@@ -372,7 +372,7 @@
                         <xsl:choose>
                            <xsl:when test="$context">
                               <!-- Switch to the context and call the template -->
-                              <for-each select="${x:variable-name($context)}">
+                              <for-each select="${x:variable-UQName($context)}">
                                  <xsl:copy-of select="$template-call" />
                               </for-each>
                            </xsl:when>
@@ -394,7 +394,7 @@
                                     <xsl:for-each select="$call/x:param">
                                        <xsl:sort select="xs:integer(@position)" />
                                        <xsl:text>$</xsl:text>
-                                       <xsl:value-of select="x:variable-name(.)" />
+                                       <xsl:value-of select="x:variable-UQName(.)" />
                                        <xsl:if test="position() != last()">, </xsl:if>
                                     </xsl:for-each>
                                     <xsl:text>)</xsl:text>
@@ -414,7 +414,7 @@
                                  <xsl:sequence select="x:copy-namespaces($apply)" /><!--TODO: Check that this line works after x:apply is implemented.-->
                                  <xsl:copy-of select="$apply/@select | $apply/@mode" />
                                  <xsl:for-each select="$apply/x:param">
-                                    <with-param name="{ @name }" select="${ x:variable-name(.) }">
+                                    <with-param name="{ @name }" select="${ x:variable-UQName(.) }">
                                        <xsl:sequence select="x:copy-namespaces(.)" /><!--TODO: Check that this line works after x:apply is implemented.-->
                                        <xsl:copy-of select="@tunnel, @as" /><!--TODO: Check that this @as works after x:apply is implemented.-->
                                     </with-param>
@@ -428,11 +428,11 @@
                         <!-- Create the template call -->
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
-                              <apply-templates select="${x:variable-name($context)}">
+                              <apply-templates select="${x:variable-UQName($context)}">
                                  <xsl:sequence select="x:copy-namespaces($context)" />
                                  <xsl:sequence select="$context/@mode" />
                                  <xsl:for-each select="$context/x:param">
-                                    <with-param name="{@name}" select="${x:variable-name(.)}">
+                                    <with-param name="{@name}" select="${x:variable-UQName(.)}">
                                        <xsl:sequence select="x:copy-namespaces(.)" />
                                        <xsl:copy-of select="@tunnel, @as" />
                                     </with-param>
@@ -449,9 +449,9 @@
                   </xsl:choose>
                </variable>
 
-               <call-template name="{x:known-UQN('test:report-sequence')}">
-                  <with-param name="sequence" select="${x:known-UQN('x:result')}" />
-                  <with-param name="wrapper-name" as="{x:known-UQN('xs:string')}">
+               <call-template name="{x:known-UQName('test:report-sequence')}">
+                  <with-param name="sequence" select="${x:known-UQName('x:result')}" />
+                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
                      <xsl:value-of select="x:xspec-name(., 'result')" />
                   </with-param>
                </call-template>
@@ -472,7 +472,7 @@
       <xsl:param name="call" select="()" tunnel="yes" as="element(x:call)?" />
       <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?" />
 
-      <variable name="{x:known-UQN('impl:transform-options')}" as="map({x:known-UQN('xs:string')}, item()*)">
+      <variable name="{x:known-UQName('impl:transform-options')}" as="map({x:known-UQName('xs:string')}, item()*)">
          <map>
             <!--
                Common options
@@ -491,9 +491,9 @@
                   <xsl:apply-templates select="/x:description/x:param" mode="x:param-to-map-entry" />
                </map>
             </map-entry>
-            <if test="${x:known-UQN('x:saxon-config')} => exists()">
+            <if test="${x:known-UQName('x:saxon-config')} => exists()">
                <if
-                  test="${x:known-UQN('x:saxon-config')} => {x:known-UQN('test:is-saxon-config')}() => not()">
+                  test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('test:is-saxon-config')}() => not()">
                   <message terminate="yes">
                      <xsl:text expand-text="yes">ERROR: ${x:xspec-name(., 'saxon-config')} does not appear to be a Saxon configuration</xsl:text>
                   </message>
@@ -503,12 +503,12 @@
                      <map-entry key="QName('http://saxon.sf.net/', 'configuration')">
                         <choose>
                            <when
-                              test="${x:known-UQN('x:saxon-version')} le {x:known-UQN('x:pack-version')}((9, 9, 1, 6))">
-                              <apply-templates select="${x:known-UQN('x:saxon-config')}"
-                                 mode="{x:known-UQN('test:fixup-saxon-config')}" />
+                              test="${x:known-UQName('x:saxon-version')} le {x:known-UQName('x:pack-version')}((9, 9, 1, 6))">
+                              <apply-templates select="${x:known-UQName('x:saxon-config')}"
+                                 mode="{x:known-UQName('test:fixup-saxon-config')}" />
                            </when>
                            <otherwise>
-                              <sequence select="${x:known-UQN('x:saxon-config')}" />
+                              <sequence select="${x:known-UQName('x:saxon-config')}" />
                            </otherwise>
                         </choose>
                      </map-entry>
@@ -563,8 +563,8 @@
 
                <xsl:when test="$context">
                   <map-entry
-                     key="if (${x:variable-name($context)} instance of node()) then 'source-node' else 'initial-match-selection'"
-                     select="${x:variable-name($context)}" />
+                     key="if (${x:variable-UQName($context)} instance of node()) then 'source-node' else 'initial-match-selection'"
+                     select="${x:variable-UQName($context)}" />
                   <xsl:if test="$context/@mode">
                      <map-entry key="'initial-mode'"
                         select="{x:QName-expression-from-EQName-ignoring-default-ns($context/@mode, $context)}" />
@@ -595,7 +595,7 @@
                               <xsl:text>'</xsl:text>
                            </xsl:attribute>
                            <xsl:attribute name="select"
-                              select="'$' || x:URIQualifiedName('http://www.w3.org/2005/xqt-errors', .)" />
+                              select="'$' || x:UQName('http://www.w3.org/2005/xqt-errors', .)" />
                         </map-entry>
                      </xsl:for-each>
                   </map>
@@ -619,7 +619,7 @@
          <xsl:apply-templates select="." mode="x:generate-id" />
       </xsl:variable>
 
-      <template name="{x:known-UQN('x:' || $expect-id)}">
+      <template name="{x:known-UQName('x:' || $expect-id)}">
          <xsl:sequence select="x:copy-namespaces(.)" />
 
          <xsl:for-each select="$params">
@@ -652,7 +652,7 @@
                      template generated from x:expect) to the template
                      generated from x:scenario. It depends only on
                      $x:result, so could be computed only once. -->
-                  <variable name="{x:known-UQN('impl:test-items')}" as="item()*">
+                  <variable name="{x:known-UQName('impl:test-items')}" as="item()*">
                      <choose>
                         <!-- From trying this out, it seems like it's useful for the test
                            to be able to test the nodes that are generated in the
@@ -660,19 +660,19 @@
                            Have to experiment a bit to see if that really is the case.
                            TODO: To remove. Use directly $x:result instead.  See issue 14. -->
                         <when
-                           test="exists(${x:known-UQN('x:result')}) and {x:known-UQN('test:wrappable-sequence')}(${x:known-UQN('x:result')})">
-                           <sequence select="{x:known-UQN('test:wrap-nodes')}(${x:known-UQN('x:result')})" />
+                           test="exists(${x:known-UQName('x:result')}) and {x:known-UQName('test:wrappable-sequence')}(${x:known-UQName('x:result')})">
+                           <sequence select="{x:known-UQName('test:wrap-nodes')}(${x:known-UQName('x:result')})" />
                         </when>
                         <otherwise>
-                           <sequence select="${x:known-UQN('x:result')}" />
+                           <sequence select="${x:known-UQName('x:result')}" />
                         </otherwise>
                      </choose>
                   </variable>
 
-                  <variable name="{x:known-UQN('impl:test-result')}" as="item()*">
+                  <variable name="{x:known-UQName('impl:test-result')}" as="item()*">
                      <choose>
-                        <when test="count(${x:known-UQN('impl:test-items')}) eq 1">
-                           <for-each select="${x:known-UQN('impl:test-items')}">
+                        <when test="count(${x:known-UQName('impl:test-items')}) eq 1">
+                           <for-each select="${x:known-UQName('impl:test-items')}">
                               <sequence select="{ @test }" version="{ $xslt-version }" />
                            </for-each>
                         </when>
@@ -684,38 +684,38 @@
 
                   <!-- TODO: A predicate should always return exactly one boolean, or
                      this is an error.  See issue 5.-->
-                  <variable name="{x:known-UQN('impl:boolean-test')}" as="{x:known-UQN('xs:boolean')}"
-                     select="${x:known-UQN('impl:test-result')} instance of {x:known-UQN('xs:boolean')}" />
+                  <variable name="{x:known-UQName('impl:boolean-test')}" as="{x:known-UQName('xs:boolean')}"
+                     select="${x:known-UQName('impl:test-result')} instance of {x:known-UQName('xs:boolean')}" />
 
                   <xsl:if test="@href or @select or (node() except x:label)">
-                     <if test="${x:known-UQN('impl:boolean-test')}">
+                     <if test="${x:known-UQName('impl:boolean-test')}">
                         <message>
                            <text>WARNING: <xsl:value-of select="name(.)" /> has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</text>
                         </message>
                      </if>
                   </xsl:if>
 
-                  <variable name="{x:known-UQN('impl:successful')}" as="{x:known-UQN('xs:boolean')}">
+                  <variable name="{x:known-UQName('impl:successful')}" as="{x:known-UQName('xs:boolean')}">
                      <choose>
-                        <when test="${x:known-UQN('impl:boolean-test')}">
+                        <when test="${x:known-UQName('impl:boolean-test')}">
                            <!-- Without boolean(), Saxon warning SXWN9000 (xspec/xspec#46).
                               "cast as" does not work (xspec/xspec#153). -->
-                           <sequence select="boolean(${x:known-UQN('impl:test-result')})" />
+                           <sequence select="boolean(${x:known-UQName('impl:test-result')})" />
                         </when>
                         <otherwise>
-                           <sequence select="{x:known-UQN('test:deep-equal')}(${x:variable-name(.)}, ${x:known-UQN('impl:test-result')}, {$deep-equal-flags})" />
+                           <sequence select="{x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('impl:test-result')}, {$deep-equal-flags})" />
                         </otherwise>
                      </choose>
                   </variable>
                </xsl:when>
 
                <xsl:otherwise>
-                  <variable name="{x:known-UQN('impl:successful')}" as="{x:known-UQN('xs:boolean')}"
-                     select="{x:known-UQN('test:deep-equal')}(${x:variable-name(.)}, ${x:known-UQN('x:result')}, {$deep-equal-flags})" />
+                  <variable name="{x:known-UQName('impl:successful')}" as="{x:known-UQName('xs:boolean')}"
+                     select="{x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('x:result')}, {$deep-equal-flags})" />
                </xsl:otherwise>
             </xsl:choose>
 
-            <if test="not(${x:known-UQN('impl:successful')})">
+            <if test="not(${x:known-UQName('impl:successful')})">
                <message>
                   <xsl:text>      FAILED</xsl:text>
                </message>
@@ -735,7 +735,7 @@
                   <xsl:attribute name="successful">
                      <!-- Output AVT -->
                      <xsl:text>{$</xsl:text>
-                     <xsl:value-of select="x:known-UQN('impl:successful')" />
+                     <xsl:value-of select="x:known-UQName('impl:successful')" />
                      <xsl:text>}</xsl:text>
                   </xsl:attribute>
                </xsl:otherwise>
@@ -747,19 +747,19 @@
             <!-- Report -->
             <xsl:if test="not($pending-p)">
                <xsl:if test="@test">
-                  <if test="not(${x:known-UQN('impl:boolean-test')})">
-                     <call-template name="{x:known-UQN('test:report-sequence')}">
-                        <with-param name="sequence" select="${x:known-UQN('impl:test-result')}" />
-                        <with-param name="wrapper-name" as="{x:known-UQN('xs:string')}">
+                  <if test="not(${x:known-UQName('impl:boolean-test')})">
+                     <call-template name="{x:known-UQName('test:report-sequence')}">
+                        <with-param name="sequence" select="${x:known-UQName('impl:test-result')}" />
+                        <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
                            <xsl:value-of select="x:xspec-name(., 'result')" />
                         </with-param>
                      </call-template>
                   </if>
                </xsl:if>
 
-               <call-template name="{x:known-UQN('test:report-sequence')}">
-                  <with-param name="sequence" select="${x:variable-name(.)}" />
-                  <with-param name="wrapper-name" as="{x:known-UQN('xs:string')}">
+               <call-template name="{x:known-UQName('test:report-sequence')}">
+                  <with-param name="sequence" select="${x:variable-UQName(.)}" />
+                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
                      <xsl:value-of select="x:xspec-name(., 'expect')" />
                   </with-param>
                   <with-param name="test" as="attribute(test)?">
@@ -788,7 +788,7 @@
    -->
    <xsl:mode name="x:param-to-select-attr" on-multiple-match="fail" on-no-match="fail" />
    <xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
-      <xsl:attribute name="select" select="'$' || x:variable-name(.)" />
+      <xsl:attribute name="select" select="'$' || x:variable-UQName(.)" />
    </xsl:template>
 
 </xsl:stylesheet>

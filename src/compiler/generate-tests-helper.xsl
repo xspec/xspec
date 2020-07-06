@@ -31,8 +31,8 @@
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?" />
 
-      <!-- Name of the variable being declared -->
-      <xsl:variable name="name" as="xs:string" select="x:variable-name(.)" />
+      <!-- URIQualifiedName of the variable being declared -->
+      <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
       <!-- True if the variable being declared is considered pending -->
       <xsl:variable name="is-pending" as="xs:boolean"
@@ -49,35 +49,35 @@
       <!-- True if the variable should be declared using xsl:param (not xsl:variable) -->
       <xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />
 
-      <!-- Name of the temporary runtime variable which holds a document specified by
+      <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
-      <xsl:variable name="temp-doc-name" as="xs:string?">
+      <xsl:variable name="temp-doc-uqname" as="xs:string?">
          <xsl:if test="not($is-pending) and (node() or @href)">
             <xsl:sequence
-               select="x:known-UQN('impl:' || local-name() || '-' || generate-id() || '-doc')" />
+               select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-doc')" />
          </xsl:if>
       </xsl:variable>
 
-      <!-- Name of the temporary runtime variable which holds the resolved URI of @href -->
-      <xsl:variable name="temp-uri-name" as="xs:string?">
-         <xsl:if test="$temp-doc-name and @href">
+      <!-- URIQualifiedName of the temporary runtime variable which holds the resolved URI of @href -->
+      <xsl:variable name="temp-uri-uqname" as="xs:string?">
+         <xsl:if test="$temp-doc-uqname and @href">
             <xsl:sequence
-               select="x:known-UQN('impl:' || local-name() || '-' || generate-id() || '-uri')" />
+               select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-uri')" />
          </xsl:if>
       </xsl:variable>
 
-      <xsl:if test="$temp-uri-name">
+      <xsl:if test="$temp-uri-uqname">
          <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="$temp-uri-name" />
-            <xsl:attribute name="as" select="x:known-UQN('xs:anyURI')" />
+            <xsl:attribute name="name" select="$temp-uri-uqname" />
+            <xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
 
             <xsl:value-of select="resolve-uri(@href, base-uri())" />
          </xsl:element>
       </xsl:if>
 
-      <xsl:if test="$temp-doc-name">
+      <xsl:if test="$temp-doc-uqname">
          <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="$temp-doc-name" />
+            <xsl:attribute name="name" select="$temp-doc-uqname" />
             <xsl:attribute name="as" select="'document-node()'" />
 
             <xsl:sequence select="x:copy-namespaces(.)" />
@@ -85,7 +85,7 @@
             <xsl:choose>
                <xsl:when test="@href">
                   <xsl:attribute name="select">
-                     <xsl:text expand-text="yes">doc(${$temp-uri-name})</xsl:text>
+                     <xsl:text expand-text="yes">doc(${$temp-uri-uqname})</xsl:text>
                   </xsl:attribute>
                </xsl:when>
 
@@ -103,7 +103,7 @@
          namespace="{$x:xsl-namespace}">
          <xsl:sequence select="x:copy-namespaces(.)" />
 
-         <xsl:attribute name="name" select="$name" />
+         <xsl:attribute name="name" select="$uqname" />
          <xsl:sequence select="@as" />
 
          <xsl:choose>
@@ -114,11 +114,11 @@
                <xsl:attribute name="as" select="'item()*'" />
             </xsl:when>
 
-            <xsl:when test="$temp-doc-name">
+            <xsl:when test="$temp-doc-uqname">
                <xsl:variable name="selection" as="xs:string"
                   select="(@select, '.'[current()/@href], 'node()')[1]" />
                <xsl:attribute name="select">
-                  <xsl:text expand-text="yes">${$temp-doc-name} ! ( {$selection} )</xsl:text>
+                  <xsl:text expand-text="yes">${$temp-doc-uqname} ! ( {$selection} )</xsl:text>
                </xsl:attribute>
             </xsl:when>
 
