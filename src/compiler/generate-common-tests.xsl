@@ -343,8 +343,8 @@
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <xsl:element name="param" namespace="">
-                  <xsl:attribute name="name" select="x:known-UQN('x:result')" />
-                  <xsl:attribute name="select" select="'$' || x:known-UQN('x:result')" />
+                  <xsl:attribute name="name" select="x:known-UQName('x:result')" />
+                  <xsl:attribute name="select" select="'$' || x:known-UQName('x:result')" />
                </xsl:element>
             </xsl:if>
             <xsl:for-each select="x:distinct-variable-names($vars)">
@@ -584,7 +584,7 @@
          <xsl:with-param name="params" as="element(param)*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <xsl:element name="param" namespace="">
-                  <xsl:attribute name="name" select="x:known-UQN('x:result')" />
+                  <xsl:attribute name="name" select="x:known-UQName('x:result')" />
                   <xsl:attribute name="required" select="'yes'" />
                </xsl:element>
             </xsl:if>
@@ -821,7 +821,7 @@
       <xsl:variable name="qnames" as="xs:QName*">
          <xsl:for-each select="$vars">
             <xsl:sequence select="if (starts-with(@name, 'Q{'))
-                                  then x:resolve-URIQualifiedName(@name)
+                                  then x:resolve-UQName(@name)
                                   else QName(@namespace-uri, @name)" />
          </xsl:for-each>
       </xsl:variable>
@@ -839,7 +839,7 @@
                   <!-- No prefix but there is a nonempty namespace URI -->
                   <xsl:attribute name="name"
                      select="
-                        x:URIQualifiedName(
+                        x:UQName(
                            namespace-uri-from-QName($this-qname),
                            local-name-from-QName($this-qname)
                         )" />
