@@ -456,7 +456,7 @@
          <xsl:when test="x:instance-of-function($item)">
             <xsl:element name="{$local-name-prefix}{x:function-type($item)}"
                namespace="{$wrapper-ns}">
-               <xsl:value-of select="serialize($item, map { 'method': 'adaptive' })" />
+               <xsl:value-of select="test:serialize-adaptive($item)" />
             </xsl:element>
          </xsl:when>
 
