@@ -128,7 +128,7 @@
          </xsl:if>
          <xsl:attribute name="xspec" select="$actual-document-uri"/>
 
-         <xsl:sequence select="x:copy-namespaces($this)" />
+         <xsl:sequence select="x:copy-of-namespaces($this)" />
 
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->

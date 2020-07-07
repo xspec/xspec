@@ -207,8 +207,8 @@
 			test="starts-with(substring-after($x:result, ':'), '/')" />
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function copy-namespaces">
-		<x:call function="x:copy-namespaces">
+	<x:scenario label="Scenario for testing function copy-of-namespaces">
+		<x:call function="x:copy-of-namespaces">
 			<x:param select="//*:input-element">
 				<wrapper-element xmlns="wrapper-default-ns"
 					xmlns:wrapper-prefix="wrapper-prefixed-ns">

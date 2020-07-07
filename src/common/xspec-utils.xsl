@@ -177,13 +177,13 @@
 	</xsl:function>
 
 	<!--
-		Copies namespaces of element
+		Makes copies of namespaces from element
 	-->
-	<xsl:function as="namespace-node()*" name="x:copy-namespaces">
-		<xsl:param as="element()" name="e" />
+	<xsl:function as="namespace-node()*" name="x:copy-of-namespaces">
+		<xsl:param as="element()" name="element" />
 
-		<xsl:for-each select="in-scope-prefixes($e)">
-			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $e)" />
+		<xsl:for-each select="in-scope-prefixes($element)">
+			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $element)" />
 		</xsl:for-each>
 	</xsl:function>
 
