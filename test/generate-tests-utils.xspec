@@ -254,7 +254,7 @@
          <t:expect label="No child node" test="empty($t:result/node())" />
       </t:scenario>
 
-      <!-- Scenarios for schema-aware processor are in xspec-47.xspec -->
+      <!-- Scenarios for schema-aware processor are in issue-47.xspec -->
    </t:scenario>
 
 </t:description>

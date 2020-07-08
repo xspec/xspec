@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-449.xspec">
+   <testsuite name="x:expect/" tests="2" failures="0">
+      <testcase name="x:label containing }{ should not affect test" status="passed"/>
+      <testcase name="@label containing }{ should not affect test" status="passed"/>
+   </testsuite>
+</testsuites>

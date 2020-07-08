@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-447_3.xspec">
+   <testsuite name="x:scenario/@pending containing curly brackets should not affect test"
+              tests="1"
+              failures="0">
+      <testcase name="(This x:expect doesn't matter)" status="skipped">
+         <skipped>}{</skipped>
+      </testcase>
+   </testsuite>
+</testsuites>
