@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../issue-214.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../issue-214.xspec">
+   <x:scenario id="scenario1" xspec="../../issue-214.xspec">
+      <x:label>input</x:label>
+      <x:context>
+         <input/>
+      </x:context>
+      <x:result select="/element()">
+         <output>
+test
+</output>
+      </x:result>
+      <x:test id="scenario1-expect1" successful="true">
+         <x:label>output</x:label>
+         <x:expect select="/element()">
+            <output>
+test
+</output>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>

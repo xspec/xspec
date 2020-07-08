@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- full description at https://github.com/xspec/xspec/issues/30 -->
+<x:description stylesheet="issue-30.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+  <x:scenario label="When an XML is passed via the href attribute of x:context">
+    <x:context href="issue-30.xml" />
+    <x:expect href="issue-30.xml" label="the href attribute of x:expect works" />
+  </x:scenario>
+</x:description>

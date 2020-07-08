@@ -292,7 +292,7 @@
               <xsl:if test="x:top-level-scenario-needs-format(.)">
                 <xsl:attribute name="href" select="'#top_' || @id" />
               </xsl:if>
-              <xsl:apply-templates select="x:label" mode="x:html-report" />
+              <xsl:apply-templates select="x:label" mode="#current" />
             </a>
           </th>
           <xsl:for-each select="x:descendant-tests(.) => x:test-stats()">
@@ -313,13 +313,13 @@
   <div id="{@id}">
     <h3>
       <xsl:for-each select="ancestor-or-self::x:scenario">
-        <xsl:apply-templates select="x:label" mode="x:html-report" />
+        <xsl:apply-templates select="x:label" mode="#current" />
         <xsl:if test="position() != last()">
           <xsl:sequence select="x:separator-callback()"/>
         </xsl:if>
       </xsl:for-each>
     </h3>
-    <xsl:apply-templates select="x:test[x:is-failed-test(.)]" mode="x:html-report" />
+    <xsl:apply-templates select="x:test[x:is-failed-test(.)]" mode="#current" />
   </div>
 </xsl:template>
 
@@ -329,7 +329,7 @@
     <xsl:variable name="result" as="element(x:result)"
       select="if (x:result) then x:result else ../x:result" />
     <h4 class="xTestReportTitle">
-      <xsl:apply-templates select="x:label" mode="x:html-report" />
+      <xsl:apply-templates select="x:label" mode="#current" />
     </h4>
 
     <div class="xTestReportHint">

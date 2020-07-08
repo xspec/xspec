@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" stylesheet="do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:variable as="document-node()" href="issue-412.xml" name="doc" />
+
+	<x:scenario>
+		<!-- These scenarios return Success without fixing xspec/xspec#412 -->
+
+		<x:label>When a document contains <![CDATA[<e1/> followed by <e2/>]]>,</x:label>
+
+		<x:scenario>
+			<x:label>@select="e2, e1, e1" should produce (e2, e1, e1). (No sort. Duplicates are
+				intact.)</x:label>
+
+			<x:scenario label="Test @select without @href or child node">
+				<x:call function="one-or-more">
+					<x:param as="element()+" select="$doc//e2, $doc//e1, $doc//e1" />
+				</x:call>
+				<x:expect label="3 items" test="count($x:result) eq 3" />
+				<x:expect label="1st item" test="$x:result[1]">
+					<e2 />
+				</x:expect>
+				<x:expect label="2nd item" test="$x:result[2]">
+					<e1 />
+				</x:expect>
+				<x:expect label="3rd item" test="$x:result[3]">
+					<e1 />
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>@select="(e2, e1, e1)/." should produce (e1, e2). (Sorted in document order.
+				Duplicates are eliminated.)</x:label>
+
+			<x:scenario label="Test @select without @href or child node">
+				<x:call function="one-or-more">
+					<x:param as="element()+" select="($doc//e2, $doc//e1, $doc//e1)/." />
+				</x:call>
+				<x:expect label="2 items" test="count($x:result) eq 2" />
+				<x:expect label="1st item" test="$x:result[1]">
+					<e1 />
+				</x:expect>
+				<x:expect label="2nd item" test="$x:result[2]">
+					<e2 />
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Test @select with child node">
+				<x:call function="one-or-more">
+					<x:param as="element()+"
+						select="(descendant::e2, descendant::e1, descendant::e1)/.">
+						<p>
+							<e1 />
+							<e2 />
+						</p>
+					</x:param>
+				</x:call>
+				<x:expect label="2 items" test="count($x:result) eq 2" />
+				<x:expect label="1st item" test="$x:result[1]">
+					<e1 />
+				</x:expect>
+				<x:expect label="2nd item" test="$x:result[2]">
+					<e2 />
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Test @select with @href">
+				<x:call function="one-or-more">
+					<x:param as="element()+" href="issue-412.xml" select="(//e2, //e1, //e1)/." />
+				</x:call>
+				<x:expect label="2 items" test="count($x:result) eq 2" />
+				<x:expect label="1st item" test="$x:result[1]">
+					<e1 />
+				</x:expect>
+				<x:expect label="2nd item" test="$x:result[2]">
+					<e2 />
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario>
+		<!-- These scenarios should return Success after fixing xspec/xspec#412 -->
+
+		<x:label>When a document contains <![CDATA[<e1/> followed by <e2/>]]>, @select="e2, e1, e1"
+			should produce (e2, e1, e1). (No sort. Duplicates are intact.)</x:label>
+
+		<x:scenario label="Test @select with child node">
+			<x:call function="one-or-more">
+				<x:param as="element()+" select="descendant::e2, descendant::e1, descendant::e1">
+					<p>
+						<e1 />
+						<e2 />
+					</p>
+				</x:param>
+			</x:call>
+			<x:expect label="3 items" test="count($x:result) eq 3" />
+			<x:expect label="1st item" test="$x:result[1]">
+				<e2 />
+			</x:expect>
+			<x:expect label="2nd item" test="$x:result[2]">
+				<e1 />
+			</x:expect>
+			<x:expect label="3rd item" test="$x:result[3]">
+				<e1 />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Test @select with @href">
+			<x:call function="one-or-more">
+				<x:param as="element()+" href="issue-412.xml" select="//e2, //e1, //e1" />
+			</x:call>
+			<x:expect label="3 items" test="count($x:result) eq 3" />
+			<x:expect label="1st item" test="$x:result[1]">
+				<e2 />
+			</x:expect>
+			<x:expect label="2nd item" test="$x:result[2]">
+				<e1 />
+			</x:expect>
+			<x:expect label="3rd item" test="$x:result[3]">
+				<e1 />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

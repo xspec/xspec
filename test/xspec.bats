@@ -204,7 +204,7 @@ load bats-helper
     [ "${lines[0]}" = "true" ]
 
     # Coverage report HTML file is created and contains CSS inline #194
-    run java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:html-css.xsl
+    run java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:check-html-css.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
@@ -261,7 +261,7 @@ load bats-helper
     # HTML report file contains CSS inline #135
     run java -jar "${SAXON_JAR}" \
         -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
-        -xsl:html-css.xsl
+        -xsl:check-html-css.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
@@ -395,14 +395,14 @@ load bats-helper
 #
 
 @test "invoking xspec that passes a non xs:boolean does not raise a warning #46" {
-    run ../bin/xspec.sh xspec-46.xspec
+    run ../bin/xspec.sh issue-46.xspec
     echo "$output"
     [ "$status" -eq 0 ]
     assert_regex "${lines[5]}" '^Testing with '
 }
 
 @test "x:resolve-EQName-ignoring-default-ns() with non-empty prefix does not raise a warning #826" {
-    run ../bin/xspec.sh xspec-826.xspec
+    run ../bin/xspec.sh issue-826.xspec
     echo "$output"
     [ "$status" -eq 0 ]
     assert_regex "${lines[5]}" '^Testing with '
@@ -420,11 +420,11 @@ load bats-helper
     # HTML report file
     actual_report_dir="${PWD}/end-to-end/cases/actual__/stylesheet"
     mkdir -p "${actual_report_dir}"
-    actual_report="${actual_report_dir}/xspec-serialize-result.html"
+    actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=end-to-end/cases/xspec-serialize.xspec \
+        -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
@@ -435,7 +435,7 @@ load bats-helper
     run java -jar "${SAXON_JAR}" \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/xspec-serialize-result.html" \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     echo "$output"
     [ "$status" -eq 0 ]
@@ -449,11 +449,11 @@ load bats-helper
     # HTML report file
     actual_report_dir="${PWD}/end-to-end/cases/actual__/query"
     mkdir -p "${actual_report_dir}"
-    actual_report="${actual_report_dir}/xspec-serialize-result.html"
+    actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=end-to-end/cases/xspec-serialize.xspec \
+        -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
@@ -464,7 +464,7 @@ load bats-helper
     run java -jar "${SAXON_JAR}" \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
-        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/xspec-serialize-result.html" \
+        EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     echo "$output"
     [ "$status" -eq 0 ]
@@ -476,8 +476,8 @@ load bats-helper
     fi
 
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-1020.xspec \
-        -o result="file:${work_dir}/xspec-1020-result_${RANDOM}.html" \
+        -i source=issue-1020.xspec \
+        -o result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
@@ -493,13 +493,13 @@ load bats-helper
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XSLT)" {
     special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
-    cp mirror.xsl             "${special_chars_dir}"
-    cp xspec-node-selection.* "${special_chars_dir}"
+    cp mirror.xsl       "${special_chars_dir}"
+    cp node-selection.* "${special_chars_dir}"
 
     unset TEST_DIR
-    expected_report="${special_chars_dir}/xspec/xspec-node-selection-result.html"
+    expected_report="${special_chars_dir}/xspec/node-selection-result.html"
 
-    run ../bin/xspec.sh "${special_chars_dir}/xspec-node-selection.xspec"
+    run ../bin/xspec.sh "${special_chars_dir}/node-selection.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[29]}" = "Report available at ${expected_report}" ]
@@ -509,13 +509,13 @@ load bats-helper
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (XQuery)" {
     special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
-    cp mirror.xqm             "${special_chars_dir}"
-    cp xspec-node-selection.* "${special_chars_dir}"
+    cp mirror.xqm       "${special_chars_dir}"
+    cp node-selection.* "${special_chars_dir}"
 
     unset TEST_DIR
-    expected_report="${special_chars_dir}/xspec/xspec-node-selection-result.html"
+    expected_report="${special_chars_dir}/xspec/node-selection-result.html"
 
-    run ../bin/xspec.sh -q "${special_chars_dir}/xspec-node-selection.xspec"
+    run ../bin/xspec.sh -q "${special_chars_dir}/node-selection.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[7]}" = "Report available at ${expected_report}" ]
@@ -804,11 +804,11 @@ load bats-helper
 
     # Output files
     compiled_file="${work_dir}/compiled_${RANDOM}.xq"
-    expected_report="${work_dir}/xspec-1020-result_${RANDOM}.html"
+    expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-1020.xspec \
+        -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
         -p compiled-file="file:${compiled_file}" \
@@ -822,7 +822,7 @@ load bats-helper
     [ -f "${compiled_file}" ]
 
     # HTML report file should be created and its charset should be UTF-8 #72
-    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
+    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
@@ -843,11 +843,11 @@ load bats-helper
     "${basex_home}/bin/basexhttp" -S
 
     # HTML report file
-    expected_report="${work_dir}/xspec-1020-result_${RANDOM}.html"
+    expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-1020.xspec \
+        -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
         -p endpoint=http://localhost:8984/rest \
@@ -861,7 +861,7 @@ load bats-helper
     assert_regex "${lines[1]}" '.+:passed: 15 / pending: 0 / failed: 0 / total: 15'
 
     # HTML report file should be created and its charset should be UTF-8 #72
-    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:html-charset.xsl
+    run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
@@ -910,7 +910,7 @@ load bats-helper
     # HTML report file contains CSS inline
     run java -jar "${SAXON_JAR}" \
         -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
-        -xsl:html-css.xsl
+        -xsl:check-html-css.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
@@ -1551,7 +1551,7 @@ load bats-helper
     [ -f "${TEST_DIR}/demo-result.html" ]
 
     # Coverage report file is created and contains CSS inline
-    run java -jar "${SAXON_JAR}" -s:"${TEST_DIR}/demo-coverage.html" -xsl:html-css.xsl
+    run java -jar "${SAXON_JAR}" -s:"${TEST_DIR}/demo-coverage.html" -xsl:check-html-css.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
@@ -1613,7 +1613,7 @@ load bats-helper
 #
 
 @test "Import order #185 (CLI)" {
-    run ../bin/xspec.sh xspec-185/import-1.xspec
+    run ../bin/xspec.sh issue-185/import-1.xspec
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[6]}"  = "Scenario 1-1" ]
@@ -1634,7 +1634,7 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
-        -Dxspec.xml="${PWD}/xspec-185/import-1.xspec"
+        -Dxspec.xml="${PWD}/issue-185/import-1.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
@@ -1656,7 +1656,7 @@ load bats-helper
 #
 
 @test "Circular import #987 (CLI)" {
-    run ../bin/xspec.sh xspec-987_child.xspec
+    run ../bin/xspec.sh issue-987_child.xspec
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[6]}"  = "Scenario in child" ]
@@ -1665,7 +1665,7 @@ load bats-helper
 
     # Use a fresh dir, to make the message line numbers predictable
     export TEST_DIR="${TEST_DIR}/parent ${RANDOM}"
-    run ../bin/xspec.sh xspec-987_parent.xspec
+    run ../bin/xspec.sh issue-987_parent.xspec
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[6]}"  = "Scenario in parent" ]
@@ -1683,7 +1683,7 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
-        -Dxspec.xml="${PWD}/xspec-987_child.xspec"
+        -Dxspec.xml="${PWD}/issue-987_child.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
@@ -1706,7 +1706,7 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
-        -Dxspec.xml="${PWD}/xspec-987_parent.xspec"
+        -Dxspec.xml="${PWD}/issue-987_parent.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
@@ -1726,7 +1726,7 @@ load bats-helper
 #
 
 @test "Ambiguous x:expect generates warning" {
-    run ../bin/xspec.sh end-to-end/cases/xspec-ambiguous-expect.xspec
+    run ../bin/xspec.sh end-to-end/cases/ambiguous-expect.xspec
     echo "$output"
     assert_regex "${lines[11]}" '^WARNING: x:expect has boolean @test'
     assert_regex "${lines[16]}" '^WARNING: x:expect has boolean @test'
@@ -1756,7 +1756,7 @@ load bats-helper
     fi
 
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-423/test.xspec \
+        -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
     echo "$output"
@@ -1771,7 +1771,7 @@ load bats-helper
     fi
 
     run java -jar "${XMLCALABASH_JAR}" \
-        -i source=xspec-423/test.xspec \
+        -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
@@ -1786,7 +1786,7 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dxspec.fail=false \
-        -Dxspec.xml="${PWD}/../test/xspec-423/test.xspec"
+        -Dxspec.xml="${PWD}/../test/issue-423/test.xspec"
     echo "$output"
     [ "$status" -eq 2 ]
     assert_regex "${output}" $'\n''     \[java\]   XPDY0002[: ]'
@@ -1794,7 +1794,7 @@ load bats-helper
 }
 
 @test "XSLT selecting nodes without context should be error (CLI) #423" {
-    run ../bin/xspec.sh xspec-423/test.xspec
+    run ../bin/xspec.sh issue-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  XPDY0002[: ]'
@@ -1806,7 +1806,7 @@ load bats-helper
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
     fi
 
-    run ../bin/xspec.sh -c xspec-423/test.xspec
+    run ../bin/xspec.sh -c issue-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  XPDY0002[: ]'
@@ -1814,7 +1814,7 @@ load bats-helper
 }
 
 @test "XQuery selecting nodes without context should be error (CLI) #423" {
-    run ../bin/xspec.sh -q xspec-423/test.xspec
+    run ../bin/xspec.sh -q issue-423/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${output}" $'\n''  XPDY0002[: ]'
@@ -1851,14 +1851,14 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dxspec.fail=false \
-        -Dxspec.result.html.css="${PWD}/html-css.css" \
+        -Dxspec.result.html.css="${PWD}/check-html-css.css" \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
     run java -jar "${SAXON_JAR}" \
         -s:"${TEST_DIR}/escape-for-regex-result.html" \
-        -xsl:html-css.xsl \
+        -xsl:check-html-css.xsl \
         STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
     echo "$output"
     [ "$status" -eq 0 ]
@@ -1874,14 +1874,14 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dxspec.coverage.enabled=true \
-        -Dxspec.coverage.html.css="${PWD}/html-css.css" \
+        -Dxspec.coverage.html.css="${PWD}/check-html-css.css" \
         -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
 
     run java -jar "${SAXON_JAR}" \
         -s:"${TEST_DIR}/demo-coverage.html" \
-        -xsl:html-css.xsl \
+        -xsl:check-html-css.xsl \
         STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
     echo "$output"
     [ "$status" -eq 0 ]

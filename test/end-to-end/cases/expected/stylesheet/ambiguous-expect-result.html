@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for mirror.xsl (passed: 5 / pending: 0 / failed: 5 / total: 10)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Stylesheet: <a href="../../../../mirror.xsl">mirror.xsl</a></p>
+      <p>XSpec: <a href="../../ambiguous-expect.xspec">ambiguous-expect.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 5</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 5</th>
+               <th class="totals">total: 10</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="failed">
+               <th><a href="#top_scenario1">Scenario for verifying that boolean @test precedes @href</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">2</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario2">Scenario for verifying that boolean @test precedes @select</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">2</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario3">Scenario for verifying that boolean @test precedes child node</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">2</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario4">Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
+                     or child node)</a></th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">4</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="top_scenario1">
+         <h2 class="successful">Scenario for verifying that boolean @test precedes @href<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario1">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Scenario for verifying that boolean @test precedes @href</th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario1-scenario1">When function returns true,</a></th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-scenario1-expect1">Expecting document node via @href should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="successful">
+                  <td>Expecting document node via @href along with @test=$x:result should be Success</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario1-scenario1">
+            <h3>Scenario for verifying that boolean @test precedes @href When function returns true,</h3>
+            <div id="scenario1-scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">Expecting document node via @href should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}boolean('true')</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="diff">/self::document-node()</code> from:</p>
+                           <pre>&lt;<span class="diff">foo</span> xmlns:mirror="x-urn:test:mirror" /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario2">
+         <h2 class="successful">Scenario for verifying that boolean @test precedes @select<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario2">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Scenario for verifying that boolean @test precedes @select</th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario2-scenario1">When function returns false,</a></th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <td>Expecting false via @select should be Success</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario2-scenario1-expect2">Expecting false via @select along with @test=$x:result should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario2-scenario1">
+            <h3>Scenario for verifying that boolean @test precedes @select When function returns false,</h3>
+            <div id="scenario2-scenario1-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">Expecting false via @select along with @test=$x:result should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}boolean('false')</pre>
+                        </td>
+                        <td>
+                           <pre>$x:result treat as xs:boolean</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario3">
+         <h2 class="successful">Scenario for verifying that boolean @test precedes child node<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario3">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Scenario for verifying that boolean @test precedes child node</th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario3-scenario1">When function returns true,</a></th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario3-scenario1-expect1">Expecting element(foo) via child node should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="successful">
+                  <td>Expecting element(foo) via child node along with @test=$x:result should be Success</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario3-scenario1">
+            <h3>Scenario for verifying that boolean @test precedes child node When function returns
+               true,</h3>
+            <div id="scenario3-scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">Expecting element(foo) via child node should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}boolean('true')</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="diff">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">foo</span> xmlns:mirror="x-urn:test:mirror" /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario4">
+         <h2 class="successful">Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
+            or child node)<span class="scenario-totals">passed: 2 / pending: 0 / failed: 2 / total: 4</span></h2>
+         <table class="xspec" id="table_scenario4">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
+                     or child node)</th>
+                  <th>passed: 2 / pending: 0 / failed: 2 / total: 4</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario4-scenario1">When function returns true,</a></th>
+                  <th>passed: 2 / pending: 0 / failed: 2 / total: 4</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario4-scenario1-expect1">Expecting empty sequence (no @href, @select or child node) should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario4-scenario1-expect2">Ditto using x:label</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="successful">
+                  <td>Expecting empty sequence (no @href, @select or child node) along with @test=$x:result
+                     should be Success</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>Ditto using x:label</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario4-scenario1">
+            <h3>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select
+               or child node) When function returns true,</h3>
+            <div id="scenario4-scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">Expecting empty sequence (no @href, @select or child node) should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}boolean('true')</pre>
+                        </td>
+                        <td>
+                           <pre>()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="scenario4-scenario1-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">Ditto using x:label</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}boolean('true')</pre>
+                        </td>
+                        <td>
+                           <pre>()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

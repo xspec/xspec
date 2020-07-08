@@ -302,7 +302,7 @@
        value for children.
    -->
    <xsl:template match="x:pending" mode="x:generate-calls">
-      <xsl:apply-templates select="*[1]" mode="x:generate-calls">
+      <xsl:apply-templates select="*[1]" mode="#current">
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
 
@@ -432,7 +432,7 @@
        value for children.
    -->
    <xsl:template match="x:pending" mode="x:compile">
-      <xsl:apply-templates select="*[1]" mode="x:compile">
+      <xsl:apply-templates select="*[1]" mode="#current">
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
 

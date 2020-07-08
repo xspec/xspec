@@ -10,7 +10,7 @@ as xs:integer
 		'delivery-format': 'raw',
 		'function-params': [$n],
 		'initial-function': QName('http://example.org/ns/my', 'square'),
-		'stylesheet-location': 'external_xspec-tested.xsl'
+		'stylesheet-location': 'external_tested.xsl'
 	}
 	)?output
 };

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Function (xspec/xspec#355)">
+		<!-- function(*) (excluding array(*) and map(*)) is tested in issue-355.xspec -->
+
+		<x:scenario label="Array">
+			<x:call function="Q{x-urn:test:mirror}param-mirror">
+				<x:param as="array(*)" select="['foo', 1, [2, 'bar']]" />
+			</x:call>
+			<x:expect label="Serialized array should be reported upon failure" />
+		</x:scenario>
+
+		<x:scenario label="Map">
+			<x:call function="Q{x-urn:test:mirror}param-mirror">
+				<x:param as="map(*)" select="
+					map {
+						'foo': 1,
+						2: 'bar'
+					}" />
+			</x:call>
+			<x:expect label="Serialized map should be reported upon failure" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Element, attribute (xspec/xspec#357)">
+		<x:call function="Q{x-urn:test:mirror}param-mirror">
+			<x:param as="node()+" select="elem1 | elem2/attribute()">
+				<elem1>text</elem1>
+				<elem2 attr="attr-val" />
+			</x:param>
+		</x:call>
+		<x:expect label="@attr should be reported as an attribute" />
+	</x:scenario>
+
+	<x:scenario label="Attributes of the same name (xspec/xspec#358)">
+		<x:call function="Q{x-urn:test:mirror}param-mirror">
+			<x:param as="attribute()+" select="element()/attribute()">
+				<elem1 attr="foo" />
+				<elem2 attr="bar" />
+			</x:param>
+		</x:call>
+		<x:expect label="Both @attr=foo and @attr=bar should be reported" />
+	</x:scenario>
+
+	<x:scenario label="Attribute, element, attribute (xspec/xspec#360)">
+		<x:call function="Q{x-urn:test:mirror}param-mirror">
+			<x:param as="node()+" select="element()/attribute() | elem2">
+				<elem1 attr1="attr1-val" />
+				<elem2>text</elem2>
+				<elem3 attr3="attr3-val" />
+			</x:param>
+		</x:call>
+		<x:expect label="[Result] should be reported" />
+	</x:scenario>
+
+	<x:scenario label="Document node with no children (xspec/xspec#697)">
+		<x:call function="Q{x-urn:test:mirror}param-mirror">
+			<x:param select="parse-xml-fragment('')" />
+		</x:call>
+		<x:expect label="XPath should be reported between Result title and box" />
+	</x:scenario>
+
+	<x:scenario label="XPath is different, but serialized node looks as if same">
+		<x:scenario label="[Result] = document node, [Expected Result] = element">
+			<x:call function="Q{x-urn:test:mirror}param-mirror">
+				<x:param as="document-node()" select="/">
+					<test />
+				</x:param>
+			</x:call>
+			<x:expect
+				label="XPath should be colored as different. Serialized node should be colored as same."
+				select="element() treat as element()">
+				<test />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="[Result] = element, [Expected Result] = document node.">
+			<x:call function="Q{x-urn:test:mirror}param-mirror">
+				<x:param as="element()">
+					<test />
+				</x:param>
+			</x:call>
+			<x:expect
+				label="XPath should be colored as different. Serialized node should be colored as same."
+				select="/self::document-node() treat as document-node()">
+				<test />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
