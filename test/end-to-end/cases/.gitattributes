@@ -1,3 +1,3 @@
-/xspec-793-cr.xsl   binary
-/xspec-793-crlf.xsl eol=crlf
-/xspec-793-lf.xsl   eol=lf
+/issue-793-cr.xsl   binary
+/issue-793-crlf.xsl eol=crlf
+/issue-793-lf.xsl   eol=lf
