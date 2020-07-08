@@ -43,7 +43,7 @@
        Drive the overall compilation of a suite.  Apply template on
        the x:description element, in the mode
    -->
-   <xsl:template name="x:generate-tests">
+   <xsl:template name="x:generate-tests" as="node()+">
       <!-- Actually, xsl:context-item/@as is "document-node(element(x:description))".
          "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
          error message. -->
@@ -71,26 +71,41 @@
          </xsl:message>
       </xsl:if>
 
-      <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
-      <xsl:variable name="all-specs" as="document-node(element(x:description))">
+      <xsl:variable name="this" select="." as="document-node(element(x:description))" />
+
+      <!-- Collect all the instances of x:description by resolving x:import -->
+      <xsl:variable name="descriptions" as="element(x:description)+"
+         select="x:gather-descriptions($this/x:description)" />
+
+      <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
+         including x:variable, x:import and comments. -->
+      <xsl:variable name="specs" as="node()+">
+         <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
+      </xsl:variable>
+
+      <!-- Combine all the children of x:description into a single document, taking x:description
+         from the initial XSpec document. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name($this/*, 'description')}" namespace="{$x:xspec-namespace}">
+            <xsl:element name="{x:xspec-name($this/x:description, 'description')}"
+               namespace="{$x:xspec-namespace}">
                <xsl:sequence select="x:copy-namespaces($this/x:description)" />
-               <xsl:copy-of select="$this/x:description/@*"/>
-               <xsl:apply-templates select="x:gather-specs($this/x:description)"
-                                    mode="x:gather-specs"/>
+               <xsl:sequence select="$this/x:description/attribute()" />
+               <xsl:sequence select="$specs" />
             </xsl:element>
          </xsl:document>
       </xsl:variable>
-      <xsl:variable name="unshared-scenarios" as="document-node()">
-         <xsl:document>
-            <xsl:apply-templates select="$all-specs/*" mode="x:unshare-scenarios"/>
-         </xsl:document>
+
+      <!-- Resolve x:like and @shared -->
+      <xsl:variable name="unshared-doc" as="document-node(element(x:description))">
+         <xsl:apply-templates select="$combined-doc" mode="x:unshare-scenarios" />
       </xsl:variable>
-      <xsl:apply-templates select="$unshared-scenarios/*" mode="x:generate-tests"/>
+
+      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
+      <xsl:apply-templates select="$unshared-doc/element()" mode="x:generate-tests" />
    </xsl:template>
 
-   <xsl:function name="x:gather-specs" as="element(x:description)+">
+   <xsl:function name="x:gather-descriptions" as="element(x:description)+">
       <xsl:param name="visit" as="element(x:description)+"/>
 
       <!-- "$visit/x:import" without sorting -->
@@ -123,7 +138,7 @@
             <xsl:sequence select="$visit"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="($visit, $imported-except-visit) => x:gather-specs()" />
+            <xsl:sequence select="($visit, $imported-except-visit) => x:gather-descriptions()" />
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
