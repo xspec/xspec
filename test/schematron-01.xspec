@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    xspec-no-prefix_schematron.xspec copies this file for testing no-prefix cases.
-    When modifying this file, check whether xspec-no-prefix_schematron.xspec needs any additions or updates.
+    no-prefix_schematron.xspec copies this file for testing no-prefix cases.
+    When modifying this file, check whether no-prefix_schematron.xspec needs any additions or updates.
 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron-01.sch">
     <x:scenario label="schematron-01">

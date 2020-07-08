@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:issue-453="x-urn:test:issue-453"
+	xmlns:mirror="x-urn:test:mirror" xmlns:stylesheet="http://www.w3.org/1999/XSL/Transform"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<!-- This XSpec file declares all the namespaces at /x:description -->
+
+	<x:scenario label="When a function returns an element in XSLT namespace using">
+		<x:scenario label="usual prefix (xsl:)">
+			<x:call function="mirror:param-mirror">
+				<x:param as="element(xsl:element)">
+					<xsl:element />
+				</x:param>
+			</x:call>
+			<x:expect label="Expecting the same element should be Success"
+				select="element() treat as element(xsl:element)">
+				<xsl:element />
+			</x:expect>
+			<x:expect label="name()" select="'xsl:element'" test="name($x:result)" />
+			<x:expect label="namespace-uri()" select="'http://www.w3.org/1999/XSL/Transform'"
+				test="namespace-uri($x:result)" />
+		</x:scenario>
+
+		<x:scenario label="unusual prefix (stylesheet:)">
+			<x:call function="mirror:param-mirror">
+				<x:param as="element(stylesheet:element)">
+					<stylesheet:element />
+				</x:param>
+			</x:call>
+			<x:expect label="Expecting the same element should be Success"
+				select="element() treat as element(stylesheet:element)">
+				<stylesheet:element />
+			</x:expect>
+			<x:expect label="name()" select="'stylesheet:element'" test="name($x:result)" />
+			<x:expect label="namespace-uri()" select="'http://www.w3.org/1999/XSL/Transform'"
+				test="namespace-uri($x:result)" />
+		</x:scenario>
+
+		<x:scenario label="the default namespace">
+			<x:call function="mirror:param-mirror">
+				<x:param as="element(xsl:element)">
+					<element />
+				</x:param>
+			</x:call>
+			<x:expect label="Expecting the same element should be Success"
+				select="element() treat as element(xsl:element)">
+				<element />
+			</x:expect>
+			<x:expect label="name()" select="'element'" test="name($x:result)" />
+			<x:expect label="namespace-uri()" select="'http://www.w3.org/1999/XSL/Transform'"
+				test="namespace-uri($x:result)" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="When a function returns an attribute in XSLT namespace using">
+		<x:scenario label="usual prefix (xsl:)">
+			<x:call function="mirror:param-mirror">
+				<x:param as="attribute(xsl:use-when)" select="*/@*">
+					<issue-453:foo xsl:use-when="false()" />
+				</x:param>
+			</x:call>
+			<x:expect label="Expecting the same attribute should be Success"
+				select="*/@* treat as attribute(xsl:use-when)">
+				<issue-453:foo xsl:use-when="false()" />
+			</x:expect>
+			<x:expect label="name()" select="'xsl:use-when'" test="name($x:result)" />
+			<x:expect label="namespace-uri()" select="'http://www.w3.org/1999/XSL/Transform'"
+				test="namespace-uri($x:result)" />
+		</x:scenario>
+
+		<x:scenario label="unusual prefix (stylesheet:)">
+			<x:call function="mirror:param-mirror">
+				<x:param as="attribute(stylesheet:use-when)" select="*/@*">
+					<issue-453:foo stylesheet:use-when="false()" />
+				</x:param>
+			</x:call>
+			<x:expect label="Expecting the same attribute should be Success"
+				select="*/@* treat as attribute(stylesheet:use-when)">
+				<issue-453:foo stylesheet:use-when="false()" />
+			</x:expect>
+			<x:expect label="name()" select="'stylesheet:use-when'" test="name($x:result)" />
+			<x:expect label="namespace-uri()" select="'http://www.w3.org/1999/XSL/Transform'"
+				test="namespace-uri($x:result)" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="When a function returns an element with an attribute in XSLT namespace using">
+		<x:scenario label="usual prefix (xsl:)">
+			<x:call function="mirror:param-mirror">
+				<x:param as="element(issue-453:foo)">
+					<issue-453:foo xsl:use-when="false()" />
+				</x:param>
+			</x:call>
+			<x:expect label="Expecting the same element should be Success"
+				select="element() treat as element(issue-453:foo)">
+				<issue-453:foo xsl:use-when="false()" />
+			</x:expect>
+			<x:expect label="name()" select="'xsl:use-when'" test="name($x:result/@*)" />
+			<x:expect label="namespace-uri()" select="'http://www.w3.org/1999/XSL/Transform'"
+				test="namespace-uri($x:result/@*)" />
+		</x:scenario>
+
+		<x:scenario label="unusual prefix (stylesheet:)">
+			<x:call function="mirror:param-mirror">
+				<x:param as="element(issue-453:foo)">
+					<issue-453:foo stylesheet:use-when="false()" />
+				</x:param>
+			</x:call>
+			<x:expect label="Expecting the same element should be Success"
+				select="element() treat as element(issue-453:foo)">
+				<issue-453:foo stylesheet:use-when="false()" />
+			</x:expect>
+			<x:expect label="name()" select="'stylesheet:use-when'" test="name($x:result/@*)" />
+			<x:expect label="namespace-uri()" select="'http://www.w3.org/1999/XSL/Transform'"
+				test="namespace-uri($x:result/@*)" />
+		</x:scenario>
+	</x:scenario>
+</x:description>

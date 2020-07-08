@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="tvt_label_schematron.xspec">
+   <testsuite name="With @expand-text=yes" tests="3" failures="0">
+      <testcase name="}}{scenario}{{ valid" status="passed"/>
+      <testcase name="}}{scenario}{{ valid" status="passed"/>
+      <testcase name="}}{scenario}{{ valid" status="passed"/>
+   </testsuite>
+   <testsuite name="With @expand-text=no" tests="2" failures="0">
+      <testcase name="}}{scenario}{{ valid" status="passed"/>
+      <testcase name="}}{scenario}{{ valid" status="passed"/>
+   </testsuite>
+</testsuites>

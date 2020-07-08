@@ -17,13 +17,13 @@
 			<!-- Tests x:* which is not allowed in user-content -->
 			<exclude name="test/generate-query-utils.xspec" />
 			<exclude name="test/generate-tests-utils.xspec" />
+			<exclude name="test/junit.xspec" />
 			<exclude name="test/obsolete-space/test.xspec" />
-			<exclude name="test/xspec-junit.xspec" />
 
 			<!-- Tests user-content when it's not allowed
 				https://github.com/xspec/xspec/pull/307 -->
-			<exclude name="test/xspec-node-selection.xspec" />
-			<exclude name="test/xspec-node-selection_stylesheet.xspec" />
+			<exclude name="test/node-selection.xspec" />
+			<exclude name="test/node-selection_stylesheet.xspec" />
 
 			<!-- Tests x:import without @href -->
 			<exclude name="test/import/no-href.xspec" />

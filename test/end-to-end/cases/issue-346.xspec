@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="When a function returns a node containing a space">
+		<x:call function="mirror:param-mirror">
+			<x:param as="element(p)" href="issue-346.xml" select="element(p)" />
+		</x:call>
+		<x:expect label="Expecting no space should be Failure">
+			<p><span>foo</span><span>bar</span></p>
+		</x:expect>
+	</x:scenario>
+</x:description>

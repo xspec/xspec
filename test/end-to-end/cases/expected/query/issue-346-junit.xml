@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-346.xspec">
+   <testsuite name="When a function returns a node containing a space"
+              tests="1"
+              failures="1">
+      <testcase name="Expecting no space should be Failure" status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

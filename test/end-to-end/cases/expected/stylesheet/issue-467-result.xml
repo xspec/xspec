@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:mirror="x-urn:test:mirror"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          stylesheet="../../../../mirror.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../issue-467.xspec">
+   <x:scenario id="scenario1" xspec="../../issue-467.xspec">
+      <x:label>Testing namespace differences</x:label>
+      <x:call function="mirror:param-mirror">
+         <x:param>
+            <e1 xmlns="ns1">
+               <e2 xmlns="ns2" xmlns:ns3="ns3" xmlns:ns4="ns4">
+                  <ns3:e3>
+                     <e4/>
+                  </ns3:e3>
+               </e2>
+            </e1>
+         </x:param>
+      </x:call>
+      <x:result select="/element()">
+         <e1 xmlns="ns1">
+            <e2 xmlns="ns2" xmlns:ns3="ns3" xmlns:ns4="ns4">
+               <ns3:e3>
+                  <e4/>
+               </ns3:e3>
+            </e2>
+         </e1>
+      </x:result>
+      <x:test id="scenario1-expect1" successful="false">
+         <x:label>Expecting the same structure but in different namespaces</x:label>
+         <x:expect select="/element()">
+            <e1 xmlns="ns1">
+               <e2 xmlns="ns2!" xmlns:ns3="ns3" xmlns:ns4="ns4">
+                  <ns3:e3 xmlns:ns3="ns3!">
+                     <e4 xmlns=""/>
+                  </ns3:e3>
+               </e2>
+            </e1>
+         </x:expect>
+      </x:test>
+   </x:scenario>
+</x:report>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for demo-02.sch (passed: 4 / pending: 0 / failed: 1 / total: 5)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Schematron: <a href="../../../../../tutorial/schematron/demo-02.sch">demo-02.sch</a></p>
+      <p>XSpec: <a href="../../sch-import-demo-02-PhaseB.xspec">sch-import-demo-02-PhaseB.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 4</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 1</th>
+               <th class="totals">total: 5</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="failed">
+               <th><a href="#top_scenario1">Pattern 2</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">2</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario2">Pattern 3 - Shared</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario3">Pattern 4 - example of a second level of imported scenarios</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario4">XSpec function scenario imported</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="top_scenario1">
+         <h2 class="failed">Pattern 2<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario1">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>Pattern 2</th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <td>assert t2-1 error</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-expect2">not assert t1-1</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario1">
+            <h3>Pattern 2</h3>
+            <div id="scenario1-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">not assert t1-1</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;svrl:schematron-output xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                        xmlns:local="local"
+                        xmlns:saxon="http://saxon.sf.net/"
+                        xmlns:schold="http://www.ascc.net/xml/schematron"
+                        xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                        title=""
+                        schemaVersion=""&gt;&lt;!--   
+		   
+		   
+		 --&gt;
+   &lt;svrl:ns-prefix-in-attribute-values uri="local"
+                                       prefix="local" /&gt;
+   &lt;svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
+                        id="Pattern1"
+                        name="Pattern1" /&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:failed-assert test="@sec-type"
+                       id="t1-1"
+                       role="warn"
+                       location="/article[1]/body[1]/sec[2]"&gt;
+      &lt;svrl:text&gt;
+                sec element should have a sec-type attribute.
+            &lt;/svrl:text&gt;
+   &lt;/svrl:failed-assert&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
+                        id="Pattern2"
+                        name="Pattern2" /&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:failed-assert test="@sec-type"
+                       id="t2-1"
+                       role="error"
+                       location="/article[1]/body[1]/sec[2]"&gt;
+      &lt;svrl:text&gt;
+                sec element should have a sec-type attribute.
+            &lt;/svrl:text&gt;
+   &lt;/svrl:failed-assert&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
+                        id="Pattern3"
+                        name="Pattern3" /&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:failed-assert test="title"
+                       id="t3-1"
+                       location="/article[1]/body[1]/sec[2]"&gt;
+      &lt;svrl:text&gt;
+                section should have a title
+            &lt;/svrl:text&gt;
+   &lt;/svrl:failed-assert&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
+                        id="Pattern4"
+                        name="Pattern4" /&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+   &lt;svrl:successful-report test="count(p) = 1"
+                           id="t4-1"
+                           role="warn"
+                           location="/article[1]/body[1]/sec[2]"&gt;
+      &lt;svrl:text&gt;
+                Short section has only one paragraph.
+            &lt;/svrl:text&gt;
+   &lt;/svrl:successful-report&gt;
+   &lt;svrl:fired-rule context="sec" /&gt;
+&lt;/svrl:schematron-output&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>boolean(Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule]) and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 't1-1'])</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario2">
+         <h2 class="successful">Pattern 3 - Shared<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario2">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Pattern 3 - Shared</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>assert t3-1</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario3">
+         <h2 class="successful">Pattern 4 - example of a second level of imported scenarios<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario3">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Pattern 4 - example of a second level of imported scenarios</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>report t4-1 warn</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario4">
+         <h2 class="successful">XSpec function scenario imported<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario4">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>XSpec function scenario imported</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>add 5 + 2</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </body>
+</html>

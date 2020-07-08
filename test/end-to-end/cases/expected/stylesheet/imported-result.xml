@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          xmlns:my="http://example.org/ns/my"
+          stylesheet="../../../../tested.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../imported.xspec">
+   <t:scenario id="scenario1" xspec="../../imported.xspec">
+      <t:label>a correct scenario in an imported file</t:label>
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:result select="9"/>
+      <t:test id="scenario1-expect1" successful="true">
+         <t:label>must return Success</t:label>
+         <t:expect select="9"/>
+      </t:test>
+   </t:scenario>
+   <t:scenario id="scenario2" xspec="../../imported.xspec">
+      <t:label>an incorrect scenario in an imported file</t:label>
+      <t:call function="my:square">
+         <t:param select="2"/>
+      </t:call>
+      <t:result select="4"/>
+      <t:test id="scenario2-expect1" successful="false">
+         <t:label>must return Failure</t:label>
+         <t:expect select="42"/>
+      </t:test>
+   </t:scenario>
+</t:report>

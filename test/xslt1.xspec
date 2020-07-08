@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xslt1.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xslt-version="1.0">
+	<x:scenario label="With 2 text nodes">
+		<x:call template="text-nodes" />
+
+		<x:scenario label="This scenario is to verify that $x:result consists of two text nodes">
+			<x:expect label="Result should be text nodes" test="$x:result instance of text()+" />
+			<x:expect label="Result count should be 2" select="2" test="count($x:result)" />
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>xslt-version=1.0 in this XSpec file should always make all of the tests in this
+				scenario Success, even when this XSpec file is imported to another XSpec file which
+				has xslt-version=2.0 or higher.</x:label>
+			<x:expect label="Comparing the text nodes with string" select="'12'" />
+			<x:expect label="Comparing the text nodes with double" select="xs:double('12')" />
+			<x:expect label="Comparing the text nodes with decimal" select="xs:decimal('12')" />
+			<x:expect label="Comparing the text nodes with integer" select="xs:integer('12')" />
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>xslt-version=1.0 in this XSpec file should make this scenario Success when this
+				XSpec file is executed independently. On the other hand, the result should be
+				Failure when this XSpec file is imported to another XSpec file which has
+				xslt-version=2.0 or higher.</x:label>
+			<x:expect label="Expecting the compiled stylesheet to have version=1.0" select="'1.0'"
+				test="document('')/xsl:stylesheet/@version/string()" />
+		</x:scenario>
+	</x:scenario>
+</x:description>
