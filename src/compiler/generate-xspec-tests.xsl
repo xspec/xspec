@@ -55,7 +55,7 @@
          </xsl:if>
 
          <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
-         <import href="{resolve-uri('generate-tests-utils.xsl')}" />
+         <include href="{resolve-uri('generate-tests-utils.xsl')}" />
 
          <xsl:choose>
             <xsl:when test="$is-schematron">
