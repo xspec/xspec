@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="issue-538.xsl" xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+  xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+  <!-- The following two scenarios have a build error, even if marked as pending. -->
+  <x:scenario label="Testing a moded template with a map parameter">
+    <x:context mode="mymode">
+      <x:param name="myparam" select="map{'key': 'myvalue'}" />
+      <myelement />
+    </x:context>
+    <x:expect label="should succeed even if map parameter uses map{} syntax">myvalue</x:expect>
+  </x:scenario>
+  <x:scenario label="Testing a template rule with a map parameter">
+    <x:context>
+      <x:param name="myparam" select="map{'key': 'myvalue'}" />
+      <myelement />
+    </x:context>
+    <x:expect label="should succeed even if map parameter uses map{} syntax">myvalue</x:expect>
+  </x:scenario>
+
+  <!-- The following two scenarios represent a potential workaround. -->
+  <x:scenario label="Testing a moded template with a map parameter">
+    <x:context mode="mymode">
+      <x:param name="myparam"
+        select="
+          map:merge((
+            map:entry('key1','myvalue1'),
+            map:entry('key2','myvalue2'),
+            map:entry('key','myvalue')
+          ))" />
+      <myelement />
+    </x:context>
+    <x:expect label="succeeds if map parameter uses map:merge">myvalue</x:expect>
+  </x:scenario>
+  <x:scenario label="Testing a template rule with a map parameter">
+    <x:context>
+      <x:param name="myparam"
+        select="
+          map:merge((
+            map:entry('key1','myvalue1'),
+            map:entry('key2','myvalue2'),
+            map:entry('key','myvalue')
+          ))" />
+      <myelement />
+    </x:context>
+    <x:expect label="succeeds if map parameter uses map:merge">myvalue</x:expect>
+  </x:scenario>
+
+  <!-- The following scenario is a similar usage that is not a problem. -->
+  <x:scenario label="Testing a named template with a map parameter">
+    <x:call template="mytemplate">
+      <x:param name="myparam" select="map{'key': 'myvalue'}" />
+    </x:call>
+    <x:expect label="succeeds">myvalue</x:expect>
+  </x:scenario>
+
+</x:description>

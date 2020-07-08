@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for mirror.xsl (passed: 6 / pending: 0 / failed: 0 / total: 6)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Stylesheet: <a href="../../../../mirror.xsl">mirror.xsl</a></p>
+      <p>XSpec: <a href="../../shared-like.xspec">shared-like.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 6</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 0</th>
+               <th class="totals">total: 6</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><a href="#top_scenario1">Referenced and explicitly unshared scenario</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario2">Referenced and implicitly unshared scenario</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario3">Scenario for testing x:like which references a shared scenario</a></th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario4">Scenario for testing x:like which references unshared scenarios</a></th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="top_scenario1">
+         <h2 class="successful">Referenced and explicitly unshared scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario1">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Referenced and explicitly unshared scenario</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>This referenced and explicitly unshared x:expect should fire both at its original
+                     x:scenario and x:like</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario2">
+         <h2 class="successful">Referenced and implicitly unshared scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario2">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Referenced and implicitly unshared scenario</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>This referenced and implicitly unshared x:expect should fire both at its original
+                     x:scenario and x:like</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario3">
+         <h2 class="successful">Scenario for testing x:like which references a shared scenario<span class="scenario-totals">passed: 2 / pending: 0 / failed: 0 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario3">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Scenario for testing x:like which references a shared scenario</th>
+                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <td>This nested shared x:expect should fire only at nested x:like</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <td>This referenced shared x:expect should fire only at x:like</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario4">
+         <h2 class="successful">Scenario for testing x:like which references unshared scenarios<span class="scenario-totals">passed: 2 / pending: 0 / failed: 0 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario4">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Scenario for testing x:like which references unshared scenarios</th>
+                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <th>explicit one</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>This referenced and explicitly unshared x:expect should fire both at its original
+                     x:scenario and x:like</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="successful">
+                  <th>implicit one</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>This referenced and implicitly unshared x:expect should fire both at its original
+                     x:scenario and x:like</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </body>
+</html>

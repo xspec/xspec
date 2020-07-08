@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-saxon-bug-4315-fixed?>
+<x:description stylesheet="issue-638.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Regardless of xsl:output in the stylesheet being tested">
+		<x:context>
+			<foo />
+		</x:context>
+		<x:expect label="XSpec report XML should be created successfully" test="true()" />
+	</x:scenario>
+</x:description>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="function-param containing curly brackets">
+		<x:call function="mirror:param-mirror">
+			<x:param>}{<elem attr="}}{{">}{</elem></x:param>
+		</x:call>
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		 />
+	</x:scenario>
+
+	<x:param name="global-param">}{<elem attr="}}{{">}{</elem></x:param>
+	<x:scenario label="global-param containing curly brackets">
+		<x:call function="mirror:false" />
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+			test="$global-param treat as node()+" />
+	</x:scenario>
+
+	<x:variable name="myv:global-var">}{<elem attr="}}{{">}{</elem></x:variable>
+	<x:scenario label="global-var containing curly brackets">
+		<x:call function="mirror:false" />
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+			test="$myv:global-var treat as node()+" />
+	</x:scenario>
+
+	<x:scenario label="local variable containing curly brackets">
+		<x:variable name="myv:local-var">}{<elem attr="}}{{">}{</elem></x:variable>
+		<x:call function="mirror:param-mirror">
+			<x:param select="$myv:local-var" />
+		</x:call>
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		 />
+	</x:scenario>
+
+	<x:scenario label="assertion containing curly brackets">
+		<x:call function="mirror:param-mirror">
+			<x:param href="issue-450-451.xml" select="wrap/node() treat as node()+" />
+		</x:call>
+		<x:expect label="should work">}{<elem attr="}}{{">}{</elem></x:expect>
+	</x:scenario>
+
+	<x:scenario label="If value is from a variable instead of hard-coded,">
+		<x:variable name="myv:local-var2">}{<elem attr="}}{{">}{</elem></x:variable>
+		<x:scenario label="function-param containing curly brackets">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:local-var2" />
+			</x:call>
+			<x:expect href="issue-450-451.xml" label="should work"
+				select="wrap/node() treat as node()+" />
+		</x:scenario>
+		<x:scenario label="assertion containing curly brackets">
+			<x:call function="mirror:param-mirror">
+				<x:param href="issue-450-451.xml" select="wrap/node() treat as node()+" />
+			</x:call>
+			<x:expect label="should work" select="$myv:local-var2" />
+		</x:scenario>
+	</x:scenario>
+</x:description>
