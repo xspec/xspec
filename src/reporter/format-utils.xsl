@@ -21,8 +21,6 @@
 
 <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-utils.xsl</pkg:import-uri>
 
-<xsl:output name="x:report" method="xml" indent="yes"/>
-
 <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
   For the test result report HTML, these Private Use Area characters should be considered
   as reserved by test:disable-escaping. -->
@@ -181,7 +179,7 @@
         <xsl:when test="$perform-comparison">
           <xsl:for-each select="node()">
             <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
-            <xsl:apply-templates select="." mode="test:serialize">
+            <xsl:apply-templates select="." mode="#current">
               <xsl:with-param name="level" select="$level + 1" tunnel="yes" />
               <xsl:with-param name="node-to-compare-with" select="$node-to-compare-with/node()[test:significant-position(.) eq $significant-pos]" />
               <xsl:with-param name="expected" select="$expected" />
@@ -191,7 +189,7 @@
 
         <!-- Serialize the child nodes without performing comparison -->
         <xsl:otherwise>
-          <xsl:apply-templates mode="test:serialize">
+          <xsl:apply-templates mode="#current">
             <xsl:with-param name="level" select="$level + 1" tunnel="yes" />
           </xsl:apply-templates>
         </xsl:otherwise>

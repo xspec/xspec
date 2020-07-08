@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Circular import. Should be discarded.
+		TODO: And should be warned or error out? Any valid use cases? -->
+	<x:import href="issue-987_parent.xspec" />
+
+	<x:scenario label="Scenario in child">
+		<x:context />
+		<x:expect label="Expect in child" test="true()" />
+	</x:scenario>
+
+</x:description>

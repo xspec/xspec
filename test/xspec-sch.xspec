@@ -9,7 +9,7 @@
 
 	<x:scenario label="Whitespace-only text node">
 		<x:scenario label="XSLT and XQuery">
-			<x:context href="xspec-space.xspec" />
+			<x:context href="ws-only-text.xspec" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="function-param"
 				location="/x:description[1]/x:scenario[1]/x:scenario[1]/x:call[1]/x:param[1]/span[1]/text()[1]" />
 			<x:expect-assert id="text-node-should-be-non-ignorable"
@@ -34,7 +34,7 @@
 		</x:scenario>
 
 		<x:scenario label="XSLT">
-			<x:context href="xspec-space_stylesheet.xspec" />
+			<x:context href="ws-only-text_stylesheet.xspec" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="context template-param"
 				location="/x:description[1]/x:scenario[1]/x:scenario[1]/x:context[1]/x:param[1]/span[1]/text()[1]" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="context"

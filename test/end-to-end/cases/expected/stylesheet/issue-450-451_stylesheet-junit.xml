@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-450-451_stylesheet.xspec">
+   <testsuite name="context template-param containing curly brackets"
+              tests="1"
+              failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
+   <testsuite name="context containing curly brackets" tests="1" failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
+   <testsuite name="template-call template-param containing curly brackets"
+              tests="1"
+              failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
+   <testsuite name="If value is from a variable instead of hard-coded,"
+              tests="3"
+              failures="0">
+      <testcase name="context template-param containing curly brackets should work"
+                status="passed"/>
+      <testcase name="context containing curly brackets should work" status="passed"/>
+      <testcase name="template-call template-param containing curly brackets should work"
+                status="passed"/>
+   </testsuite>
+</testsuites>

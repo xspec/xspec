@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-447_2.xspec">
+   <testsuite name="should not affect test" tests="1" failures="0">
+      <testcase name="(This x:expect doesn't matter)" status="skipped">
+         <skipped>x:pending/@label containing }{</skipped>
+      </testcase>
+   </testsuite>
+</testsuites>

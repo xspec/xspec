@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:mirror="x-urn:test:mirror"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<scenario label="Describing scenarios using default namespace">
+		<call function="mirror:false" />
+		<expect label="should work"
+			test="($Q{http://www.jenitennison.com/xslt/xspec}result treat as xs:boolean) eq false()"
+		 />
+	</scenario>
+
+	<scenario label="Element of another default namespace">
+		<call function="mirror:param-mirror">
+			<param>
+				<function-param-child xmlns="another-namespace" />
+			</param>
+		</call>
+		<expect label="should retain namespace URI" select="'another-namespace'"
+			test="$Q{http://www.jenitennison.com/xslt/xspec}result => namespace-uri()" />
+		<expect label="should retain name" select="'function-param-child'"
+			test="$Q{http://www.jenitennison.com/xslt/xspec}result => name()" />
+		<expect label="should be able to be expected in the same way">
+			<function-param-child xmlns="another-namespace" />
+		</expect>
+	</scenario>
+
+	<scenario label="Element of undeclared default namespace">
+		<call function="mirror:param-mirror">
+			<!-- @as and @select without prefix should work -->
+			<param as="element(function-param-child)" select="function-param-child">
+				<function-param-child xmlns="" />
+			</param>
+		</call>
+		<expect label="should retain namespace URI" select="''"
+			test="$Q{http://www.jenitennison.com/xslt/xspec}result => namespace-uri()" />
+		<expect label="should retain name" select="'function-param-child'"
+			test="$Q{http://www.jenitennison.com/xslt/xspec}result => name()" />
+		<expect label="should be able to be expected in the same way">
+			<function-param-child xmlns="" />
+		</expect>
+		<expect label="should be able to be selected by expression without prefix"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result/self::function-param-child
+				=> exists()" />
+	</scenario>
+
+	<scenario label="Variable with unprefixed name">
+		<call function="mirror:false" />
+		<variable name="result" select="'variable not in a namespace'"/>
+		<expect label="does not produce error x:XSPEC008, has correct value,"
+			test="$result = 'variable not in a namespace'"
+		/>
+		<expect label="and does not conflict with XSpec result"
+			select="false()"
+		/>
+	</scenario>
+
+</description>

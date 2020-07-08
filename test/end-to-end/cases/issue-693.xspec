@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="issue-693.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Using user-content (not @href) in x:context should work">
+		<x:context>
+			<foo>
+				<bar />
+				<!--<baz />-->
+			</foo>
+		</x:context>
+		<x:expect-report id="bar-exists" label="This expectation should be Success" />
+		<x:expect-report id="baz-exists"
+			label="This expectation should be Failure and the failure report should contain svrl:active-pattern/@document[. = '']"
+		 />
+	</x:scenario>
+</x:description>

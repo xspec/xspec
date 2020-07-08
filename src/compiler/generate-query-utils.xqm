@@ -317,29 +317,30 @@ declare function test:report-sequence(
 };
 
 declare function test:report-pseudo-item(
-    $item as item(),
-    $wrapper-ns as xs:string
-  ) as element()
+  $item as item(),
+  $wrapper-ns as xs:string
+) as element()
 {
   let $local-name-prefix as xs:string := 'pseudo-'
   return (
-    if ($item instance of xs:anyAtomicType)
-    then
+    if ($item instance of xs:anyAtomicType) then
       element
-        { QName($wrapper-ns, concat($local-name-prefix, 'atomic-value')) }
+        { QName($wrapper-ns, ($local-name-prefix || 'atomic-value')) }
         { test:report-atomic-value($item) }
 
-    else if ($item instance of node())
-    then
+    else if ($item instance of node()) then
       element
-        { QName($wrapper-ns, concat($local-name-prefix, x:node-type($item))) }
+        { QName($wrapper-ns, ($local-name-prefix || x:node-type($item))) }
         { test:report-node($item) }
 
-    (: TODO: function(*) including array(*) and map(*) :)
+    else if (x:instance-of-function($item)) then
+      element
+        { QName($wrapper-ns, ($local-name-prefix || x:function-type($item))) }
+        { test:serialize-adaptive($item) }
 
     else
-      element 
-        { QName($wrapper-ns, concat($local-name-prefix, 'other')) }
+      element
+        { QName($wrapper-ns, ($local-name-prefix || 'other')) }
         {}
   )
 };
@@ -387,14 +388,12 @@ declare function test:report-atomic-value(
     case xs:integer return string($value)
     case xs:decimal return x:decimal-string($value)
     case xs:double
-      return
-        (: Do not report xs:double as a numeric literal. Report as xs:double() constructor instead.
-          Justifications below.
-          * Expression of xs:double as a numeric literal is a bit complicated:
-            http://www.w3.org/TR/xpath-functions/#casting-to-string
-          * xs:double is not used as frequently as xs:integer
-          * xs:double() constructor is valid expression. It's just some more verbose than a numeric literal. :)
-        test:report-atomic-value-as-constructor($value)
+      return (
+        if (string($value) = ('NaN', 'INF', '-INF')) then
+          test:report-atomic-value-as-constructor($value)
+        else
+          test:serialize-adaptive($value)
+      )
 
     case xs:QName return x:QName-expression($value)
 
@@ -477,6 +476,19 @@ declare function test:atom-type(
   )
   return
     ('Q{http://www.w3.org/2001/XMLSchema}' || $local-name)
+};
+
+declare function test:serialize-adaptive(
+  $item as item()
+) as xs:string
+{
+  serialize(
+    $item,
+    map {
+      'indent': true(),
+      'method': 'adaptive'
+    }
+  )
 };
 
 

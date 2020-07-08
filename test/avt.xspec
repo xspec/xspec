@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		xspec-utils_stylesheet.xspec uses this file for testing x:is-user-content().
+		When modifying this file, check whether xspec-utils_stylesheet.xspec needs any additions or updates.
+	-->
+
+	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
+
+	<x:scenario label="In function-param, only user-content attribute is AVT. So...">
+		<x:scenario label="In //x:call[@function]/x:param/node(),">
+			<x:call function="mirror:param-mirror">
+				<x:param>
+					<function-param-child attr="}}{myfn:false()}{{"
+						>}}{false()}{{</function-param-child>
+				</x:param>
+			</x:call>
+			<x:expect label="attribute is AVT." select="'}false{'"
+				test="$x:result/self::function-param-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$x:result/self::function-param-child/text()/string()" />
+		</x:scenario>
+
+		<x:scenario label="In //x:call[@function]/x:param/doc(@href),">
+			<x:call function="mirror:param-mirror">
+				<x:param href="avt.xml" />
+			</x:call>
+			<x:expect label="attribute is intact." select="'}}{false()}{{'"
+				test="$x:result/href-doc-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$x:result/href-doc-child/text()/string()" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:param name="global-param-no-href">
+		<global-param-child attr="}}{myfn:false()}{{">}}{false()}{{</global-param-child>
+	</x:param>
+	<x:param href="avt.xml" name="global-param-with-href" />
+	<x:scenario label="In global-param, only user-content attribute is AVT. So...">
+		<x:scenario label="In /x:description/x:param/node(),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is AVT." select="'}false{'"
+				test="$global-param-no-href/self::global-param-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$global-param-no-href/self::global-param-child/text()/string()" />
+		</x:scenario>
+
+		<x:scenario label="In /x:description/x:param/doc(@href),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is intact." select="'}}{false()}{{'"
+				test="$global-param-with-href/href-doc-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$global-param-with-href/href-doc-child/text()/string()" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:variable name="myv:global-var-no-href">
+		<global-var-child attr="}}{myfn:false()}{{">}}{false()}{{</global-var-child>
+	</x:variable>
+	<x:variable href="avt.xml" name="myv:global-var-with-href" />
+	<x:scenario label="In global-var, only user-content attribute is AVT. So...">
+		<x:scenario label="In /x:description/x:variable/node(),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is AVT." select="'}false{'"
+				test="$myv:global-var-no-href/self::global-var-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:global-var-no-href/self::global-var-child/text()/string()" />
+		</x:scenario>
+
+		<x:scenario label="In /x:description/x:variable/doc(@href),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is intact." select="'}}{false()}{{'"
+				test="$myv:global-var-with-href/href-doc-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:global-var-with-href/href-doc-child/text()/string()" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="In local variable, only user-content attribute is AVT. So...">
+		<x:variable name="myv:var-no-href">
+			<variable-child attr="}}{myfn:false()}{{">}}{false()}{{</variable-child>
+		</x:variable>
+		<x:variable href="avt.xml" name="myv:var-with-href" />
+		<x:scenario label="In //x:scenario/x:variable/node(),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is AVT." select="'}false{'"
+				test="$myv:var-no-href/self::variable-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:var-no-href/self::variable-child/text()/string()" />
+		</x:scenario>
+
+		<x:scenario label="In //x:scenario/x:variable/doc(@href),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is intact." select="'}}{false()}{{'"
+				test="$myv:var-with-href/href-doc-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$myv:var-with-href/href-doc-child/text()/string()" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="In assertion, only user-content attribute is AVT. So...">
+		<x:scenario label="In //x:expect/node(),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is AVT." select="assertion-child/@attr/string()"
+				test="'}false{'">
+				<assertion-child attr="}}{myfn:false()}{{" />
+			</x:expect>
+			<x:expect label="text node is intact." select="assertion-child/text()/string()"
+				test="'}}{false()}{{'">
+				<assertion-child>}}{false()}{{</assertion-child>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="In //x:expect/doc(@href),">
+			<x:call function="mirror:false" />
+			<x:expect href="avt.xml" label="attribute is intact."
+				select="href-doc-child/@attr/string()" test="'}}{false()}{{'" />
+			<x:expect href="avt.xml" label="text node is intact."
+				select="href-doc-child/text()/string()" test="'}}{false()}{{'" />
+		</x:scenario>
+	</x:scenario>
+</x:description>
