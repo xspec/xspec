@@ -86,7 +86,7 @@
           <xsl:value-of select="x:format-uri($stylesheet-uri)" />
         </a>
       </p>
-      <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="test:coverage-report" />
+      <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="#current" />
     </body>
   </html>
 </xsl:template>
