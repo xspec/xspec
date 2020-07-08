@@ -300,9 +300,10 @@
        value for children.
    -->
    <xsl:template match="x:pending" mode="x:generate-calls">
-      <xsl:apply-templates select="*[1]" mode="x:generate-calls">
+      <xsl:apply-templates select="*[1]" mode="#current">
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
+
       <!-- Continue walking the siblings. -->
       <xsl:call-template name="x:continue-call-scenarios"/>
    </xsl:template>
@@ -313,19 +314,12 @@
        Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:scenario" mode="x:generate-calls">
-      <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
+      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
-         <xsl:with-param name="params" as="element(param)*">
-            <xsl:for-each select="x:distinct-variable-names($vars)">
-               <xsl:element name="param" namespace="">
-                  <xsl:sequence select="x:copy-namespaces(.)" />
-                  <xsl:sequence select="@name" />
-                  <xsl:attribute name="select" select="'$' || @name" />
-               </xsl:element>
-            </xsl:for-each>
-         </xsl:with-param>
+         <xsl:with-param name="with-param-uqnames"
+            select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
       </xsl:call-template>
    </xsl:template>
 
@@ -336,52 +330,38 @@
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
-      <xsl:param name="vars"    select="()" tunnel="yes" as="element(x:var)*"/>
+      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
-         <xsl:with-param name="params" as="element(param)*">
+         <xsl:with-param name="with-param-uqnames" as="xs:string*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <xsl:element name="param" namespace="">
-                  <xsl:attribute name="name" select="x:known-UQName('x:result')" />
-                  <xsl:attribute name="select" select="'$' || x:known-UQName('x:result')" />
-               </xsl:element>
+               <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
-            <xsl:for-each select="x:distinct-variable-names($vars)">
-               <xsl:element name="param" namespace="">
-                  <xsl:sequence select="x:copy-namespaces(.)"/>
-                  <xsl:sequence select="@name" />
-                  <xsl:attribute name="select" select="'$' || @name" />
-               </xsl:element>
-            </xsl:for-each>
+            <xsl:sequence
+               select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>
 
    <!--
-       x:variable element generates a variable declaration and adds a
-       variable on the stack (the tunnel param $vars).
+       x:variable element generates a variable declaration and adds itself
+       on the stack (the tunnel param $stacked-variables).
    -->
    <xsl:template match="x:variable" mode="x:generate-calls">
-      <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
+      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
-      <xsl:call-template name="x:detect-reserved-variable-name"/>
+      <!-- Reject reserved variables -->
+      <xsl:call-template name="x:detect-reserved-variable-name" />
+
       <!-- The variable declaration. -->
       <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
          <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
       </xsl:if>
+
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
-         <xsl:with-param name="vars" tunnel="yes" as="element(x:var)+">
-            <xsl:sequence select="$vars"/>
-            <xsl:element name="x:var" namespace="{$x:xspec-namespace}">
-               <xsl:attribute name="name" select="@name"/>
-               <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
-                  <xsl:attribute name="namespace-uri"
-                     select="@name => resolve-QName(.) => namespace-uri-from-QName()" />
-               </xsl:if>
-            </xsl:element>
-         </xsl:with-param>
+         <xsl:with-param name="stacked-variables" tunnel="yes" select="$stacked-variables, ." />
       </xsl:apply-templates>
    </xsl:template>
 
@@ -391,8 +371,6 @@
        They are declared globally.
    -->
    <xsl:template match="x:description/x:param|x:description/x:variable" mode="x:generate-calls">
-      <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
-
       <xsl:if test="self::x:variable">
         <xsl:call-template name="x:detect-reserved-variable-name"/>
       </xsl:if>
@@ -446,9 +424,10 @@
        value for children.
    -->
    <xsl:template match="x:pending" mode="x:compile">
-      <xsl:apply-templates select="*[1]" mode="x:compile">
+      <xsl:apply-templates select="*[1]" mode="#current">
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
+
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
@@ -461,7 +440,6 @@
       <xsl:param name="apply"   select="()" tunnel="yes" as="element(x:apply)?"/>
       <xsl:param name="call"    select="()" tunnel="yes" as="element(x:call)?"/>
       <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
-      <xsl:param name="vars"    select="()" tunnel="yes" as="element(x:var)*"/>
 
       <!-- The new $pending. -->
       <xsl:variable name="new-pending" as="node()?" select="
@@ -547,19 +525,6 @@
          <xsl:with-param name="apply"     select="$new-apply"   tunnel="yes"/>
          <xsl:with-param name="call"      select="$new-call"    tunnel="yes"/>
          <xsl:with-param name="context"   select="$new-context" tunnel="yes"/>
-
-         <!-- the variable declarations preceding the x:call or x:context (if any). -->
-         <xsl:with-param name="variables" select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable"/>
-
-         <xsl:with-param name="params" as="element(param)*">
-            <xsl:for-each select="x:distinct-variable-names($vars)">
-               <xsl:element name="param" namespace="">
-                  <xsl:sequence select="x:copy-namespaces(.)"/>
-                  <xsl:sequence select="@name" />
-                  <xsl:attribute name="required" select="'yes'" />
-               </xsl:element>
-            </xsl:for-each>
-         </xsl:with-param>
       </xsl:call-template>
 
       <!-- Continue walking the siblings. -->
@@ -573,7 +538,7 @@
       <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
       <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
-      <xsl:param name="vars"    select="()"    tunnel="yes" as="element(x:var)*"/>
+      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-expect">
@@ -581,20 +546,12 @@
              ( $pending, ancestor::x:scenario/@pending )[1]"/>
          <xsl:with-param name="context" tunnel="yes" select="$context"/>
          <xsl:with-param name="call"    tunnel="yes" select="$call"/>
-         <xsl:with-param name="params" as="element(param)*">
+         <xsl:with-param name="param-uqnames" as="xs:string*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
-               <xsl:element name="param" namespace="">
-                  <xsl:attribute name="name" select="x:known-UQName('x:result')" />
-                  <xsl:attribute name="required" select="'yes'" />
-               </xsl:element>
+               <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
-            <xsl:for-each select="x:distinct-variable-names($vars)">
-               <xsl:element name="param" namespace="">
-                  <xsl:sequence select="x:copy-namespaces(.)"/>
-                  <xsl:sequence select="@name" />
-                  <xsl:attribute name="required" select="'yes'" />
-               </xsl:element>
-            </xsl:for-each>
+            <xsl:sequence
+               select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
          </xsl:with-param>
       </xsl:call-template>
       <!-- Continue walking the siblings. -->
@@ -614,23 +571,14 @@
 
    <!--
        x:variable element adds a variable on the stack (the tunnel
-       param $vars).
+       param $stacked-variables).
    -->
    <xsl:template match="x:variable" mode="x:compile">
-      <xsl:param name="vars" select="()" tunnel="yes" as="element(x:var)*"/>
+      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <!-- Continue walking the siblings, adding a new variable on the stack. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
-         <xsl:with-param name="vars" tunnel="yes" as="element(x:var)+">
-            <xsl:sequence select="$vars"/>
-            <xsl:element name="x:var" namespace="{$x:xspec-namespace}">
-               <xsl:attribute name="name" select="@name"/>
-               <xsl:if test="not(contains(@name,'Q{')) and contains(@name,':')">
-                  <xsl:attribute name="namespace-uri"
-                     select="@name => resolve-QName(.) => namespace-uri-from-QName()" />
-               </xsl:if>
-            </xsl:element>
-         </xsl:with-param>
+         <xsl:with-param name="stacked-variables" tunnel="yes" select="$stacked-variables, ." />
       </xsl:apply-templates>
    </xsl:template>
 
@@ -811,53 +759,6 @@
       </xsl:choose>
    </xsl:template>
 
-   <!-- Given <x:vars> elements from tunnel parameter, return distinct EQNames.
-        The tunnel parameter originates in the match="x:variable" template with
-        mode="x:generate-calls" or mode="x:compile". -->
-   <xsl:function name="x:distinct-variable-names" as="element(x:var)*">
-      <xsl:param name="vars" as="element(x:var)*"/>
-
-      <!-- Create sequence of xs:QName values, so we can use distinct-values to compare them all. -->
-      <xsl:variable name="qnames" as="xs:QName*">
-         <xsl:for-each select="$vars">
-            <xsl:sequence select="if (starts-with(@name, 'Q{'))
-                                  then x:resolve-UQName(@name)
-                                  else QName(@namespace-uri, @name)" />
-         </xsl:for-each>
-      </xsl:variable>
-      <xsl:variable name="distinct-qnames" as="xs:QName*" select="distinct-values($qnames)"/>
-
-      <!-- Return distinctly named <x:var> elements. Any unprefixed name with nonempty URI
-         or any prefixed name that is not uniquely bound in the set of variables
-         uses Q{} notation to record the namespace URI. -->
-      <xsl:for-each select="$distinct-qnames">
-         <xsl:variable name="this-qname" select="."/>
-         <xsl:variable name="this-prefix" select="prefix-from-QName($this-qname)"/>
-         <xsl:element name="x:var" namespace="{$x:xspec-namespace}">
-            <xsl:choose>
-               <xsl:when test="empty(prefix-from-QName($this-qname)) and (string-length(namespace-uri-from-QName($this-qname)) gt 0)">
-                  <!-- No prefix but there is a nonempty namespace URI -->
-                  <xsl:attribute name="name"
-                     select="
-                        x:UQName(
-                           namespace-uri-from-QName($this-qname),
-                           local-name-from-QName($this-qname)
-                        )" />
-               </xsl:when>
-               <xsl:when test="string-length(namespace-uri-from-QName($this-qname)) eq 0">
-                  <!-- No namespace -->
-                  <xsl:attribute name="name" select="local-name-from-QName($this-qname)"/>
-               </xsl:when>
-               <xsl:otherwise>
-                  <!-- Prefix bound to a namespace -->
-                  <xsl:namespace name="{$this-prefix}" select="namespace-uri-from-QName($this-qname)"/>
-                  <xsl:attribute name="name" select="$this-qname"/>
-               </xsl:otherwise>
-            </xsl:choose>
-         </xsl:element>
-      </xsl:for-each>
-   </xsl:function>
-
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
@@ -894,6 +795,16 @@
       <xsl:param name="nodes" as="node()*"/>
 
       <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
+   </xsl:function>
+
+   <!-- Removes duplicate strings from a sequence of strings. (Removes a string if it appears
+     in a prior position of the sequence.)
+     Unlike fn:distinct-values(), the order of the returned sequence is stable.
+     Based on http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable -->
+   <xsl:function name="x:distinct-strings-stable" as="xs:string*">
+      <xsl:param name="strings" as="xs:string*" />
+
+      <xsl:sequence select="$strings[not(subsequence($strings, 1, position() - 1) = .)]"/>
    </xsl:function>
 
 </xsl:stylesheet>

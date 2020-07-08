@@ -147,7 +147,10 @@
       <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="last"   as="xs:boolean" />
-      <xsl:param name="params" as="element(param)*" />
+
+      <!-- URIQualifiedNames of the variables that will be passed as the parameters to the call.
+         Their order must be stable, because they are passed to a function. -->
+      <xsl:param name="with-param-uqnames" as="xs:string*" />
 
       <xsl:variable name="local-name" as="xs:string">
          <xsl:apply-templates select="." mode="x:generate-id" />
@@ -156,9 +159,16 @@
       <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
          <xsl:text>,&#10;</xsl:text>
       </xsl:if>
-      <xsl:text expand-text="yes">      let ${x:known-UQName('x:tmp')} := local:{$local-name}(</xsl:text>
-      <xsl:value-of select="$params ! @select" separator=", " />
-      <xsl:text>) return (&#10;</xsl:text>
+      <xsl:text expand-text="yes">      let ${x:known-UQName('x:tmp')} := local:{$local-name}(&#x0A;</xsl:text>
+      <xsl:for-each select="$with-param-uqnames">
+         <xsl:text expand-text="yes">        ${.}</xsl:text>
+         <xsl:if test="position() ne last()">
+            <xsl:text>,</xsl:text>
+         </xsl:if>
+         <xsl:text>&#x0A;</xsl:text>
+      </xsl:for-each>
+      <xsl:text>      )&#x0A;</xsl:text>
+      <xsl:text>      return (&#10;</xsl:text>
       <xsl:text expand-text="yes">        ${x:known-UQName('x:tmp')}</xsl:text>
       <xsl:if test="not($last)">
          <xsl:text>,</xsl:text>
@@ -182,8 +192,10 @@
       <!-- No $apply for XQuery -->
       <xsl:param name="context"   as="element(x:context)?"  tunnel="yes" />
       <xsl:param name="call"      as="element(x:call)?"     tunnel="yes" />
-      <xsl:param name="variables" as="element(x:variable)*" />
-      <xsl:param name="params"    as="element(param)*" />
+      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
+
+      <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
+         select="x:call/preceding-sibling::x:variable" />
 
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
@@ -221,14 +233,22 @@
         {
       -->
       <xsl:text>&#10;(: generated from the x:scenario element :)</xsl:text>
-      <xsl:text expand-text="yes">&#10;declare function local:{$scenario-id}(</xsl:text>
-      <xsl:value-of select="$params ! ('$' || @name)" separator=", " />
+      <xsl:text expand-text="yes">&#10;declare function local:{$scenario-id}(&#x0A;</xsl:text>
+
+      <!-- Function parameters. Their order must be stable, because this is a function. -->
+      <xsl:for-each select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))">
+         <xsl:text expand-text="yes">  ${.}</xsl:text>
+         <xsl:if test="position() ne last()">
+            <xsl:text>,</xsl:text>
+         </xsl:if>
+         <xsl:text>&#x0A;</xsl:text>
+      </xsl:for-each>
+
       <xsl:text>)&#10;{&#10;</xsl:text>
 
-      <!-- If there are variables before x:call, the caller passed them in as $variables.
-           Define them here followed by "return". -->
-      <xsl:if test="exists($variables)">
-         <xsl:apply-templates select="$variables" mode="test:generate-variable-declarations" />
+      <!-- If there are variables before x:call, define them here followed by "return". -->
+      <xsl:if test="exists($local-preceding-variables)">
+         <xsl:apply-templates select="$local-preceding-variables" mode="test:generate-variable-declarations" />
          <xsl:text>    return&#10;</xsl:text>
       </xsl:if>
 
@@ -339,7 +359,10 @@
       <xsl:param name="pending" as="node()?"                         tunnel="yes" />
       <!-- No $context for XQuery -->
       <xsl:param name="call"    as="element(x:call)?" required="yes" tunnel="yes" />
-      <xsl:param name="params"  as="element(param)*"  required="yes" />
+
+      <!-- URIQualifiedNames of the parameters of the function being generated.
+         Their order must be stable, because they are function parameters. -->
+      <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
 
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor::*/@focus)" />
@@ -353,8 +376,14 @@
         {
       -->
       <xsl:text>&#10;(: generated from the x:expect element :)</xsl:text>
-      <xsl:text expand-text="yes">&#10;declare function local:{$expect-id}(</xsl:text>
-      <xsl:value-of select="$params ! ('$' || @name)" separator=", " />
+      <xsl:text expand-text="yes">&#10;declare function local:{$expect-id}(&#x0A;</xsl:text>
+      <xsl:for-each select="$param-uqnames">
+         <xsl:text expand-text="yes">  ${.}</xsl:text>
+         <xsl:if test="position() ne last()">
+            <xsl:text>,</xsl:text>
+         </xsl:if>
+         <xsl:text>&#x0A;</xsl:text>
+      </xsl:for-each>
       <xsl:text>)&#10;{&#10;</xsl:text>
       <xsl:if test="not($pending-p)">
          <!-- Set up the $local:expected variable -->
