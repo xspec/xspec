@@ -17,7 +17,7 @@
 	</xsl:function>
 
 	<!-- Returns the items in the parameter intact -->
-	<xsl:mode on-no-match="fail" />
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		name="s1:param-mirror">
@@ -31,7 +31,7 @@
 	</xsl:function>
 
 	<!-- Returns the distinct namespace URIs of the matched node and parameter. -->
-	<xsl:mode name="s1:get-namespaces" on-no-match="fail" />
+	<xsl:mode name="s1:get-namespaces" on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="xs:anyURI+" match="attribute() | node()"
 		mode="s1:get-namespaces" name="s1:get-namespaces">

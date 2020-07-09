@@ -6,7 +6,7 @@
 	<!--
 		Returns the context node intact
 	-->
-	<xsl:mode name="mirror:context-mirror" on-no-match="fail" />
+	<xsl:mode name="mirror:context-mirror" on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="item()" match="." mode="mirror:context-mirror" name="mirror:context-mirror">
 		<xsl:sequence select="." />
@@ -15,7 +15,7 @@
 	<!--
 		Returns the items in the non-tunnel parameter intact
 	-->
-	<xsl:mode name="mirror:param-mirror" on-no-match="fail" />
+	<xsl:mode name="mirror:param-mirror" on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		mode="mirror:param-mirror" name="mirror:param-mirror">
@@ -27,7 +27,7 @@
 	<!--
 		Returns the items in the tunnel parameter intact
 	-->
-	<xsl:mode name="mirror:tunnel-param-mirror" on-no-match="fail" />
+	<xsl:mode name="mirror:tunnel-param-mirror" on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		mode="mirror:tunnel-param-mirror" name="mirror:tunnel-param-mirror">

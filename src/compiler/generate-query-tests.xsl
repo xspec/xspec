@@ -44,15 +44,10 @@
    <!--xsl:param name="query-at" as="xs:string?" select="
        /x:description/@query-at"/-->
 
-   <xsl:template match="/">
-      <xsl:call-template name="x:generate-tests"/>
-   </xsl:template>
-
-   <!-- *** x:generate-tests *** -->
-   <!-- Does the generation of the test stylesheet.
-      This mode assumes that all the scenarios have already been gathered and unshared. -->
-  
-   <xsl:template match="x:description" mode="x:generate-tests">
+   <!--
+      mode="x:generate-tests"
+   -->
+   <xsl:template match="x:description" as="node()+" mode="x:generate-tests">
       <xsl:variable name="this" select="." as="element(x:description)" />
 
       <!-- Look for a prefix defined for the target namespace on x:description. -->
@@ -128,7 +123,7 @@
          </xsl:if>
          <xsl:attribute name="xspec" select="$actual-document-uri"/>
 
-         <xsl:sequence select="x:copy-namespaces($this)" />
+         <xsl:sequence select="x:copy-of-namespaces($this)" />
 
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
@@ -475,8 +470,9 @@
       <xsl:text>&#10;};&#10;</xsl:text>
    </xsl:template>
 
-   <!-- *** x:report *** -->
-
+   <!--
+      mode="x:report"
+   -->
    <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
       <xsl:text>{ </xsl:text>
       <xsl:apply-imports />
