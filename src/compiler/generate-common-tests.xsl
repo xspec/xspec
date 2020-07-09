@@ -74,7 +74,7 @@
       <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name($this/*, 'description')}" namespace="{$x:xspec-namespace}">
+            <xsl:element name="{x:xspec-name('description', $this/x:description)}" namespace="{$x:xspec-namespace}">
                <xsl:sequence select="x:copy-namespaces($this/x:description)" />
                <xsl:copy-of select="$this/x:description/@*"/>
                <xsl:apply-templates select="x:gather-specs($this/x:description)"
@@ -199,7 +199,7 @@
    <!-- x:space has been replaced with x:text -->
    <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-user-content">
       <xsl:message terminate="yes">
-         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name(., 'text')} instead.</xsl:text>
+         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
       </xsl:message>
    </xsl:template>
 
@@ -215,7 +215,7 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$x:xspec-namespace}">
+         <xsl:element name="{x:xspec-name('text', parent::element())}" namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
                   ancestor::*[if (self::x:*)
@@ -762,7 +762,7 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <xsl:element name="{x:xspec-name($labelled, 'label')}" namespace="{$x:xspec-namespace}">
+      <xsl:element name="{x:xspec-name('label', $labelled)}" namespace="{$x:xspec-namespace}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
    </xsl:function>
@@ -780,10 +780,10 @@
    <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.
       Usually 'x:local-name'. -->
    <xsl:function name="x:xspec-name" as="xs:string">
-      <xsl:param name="context" as="element()"/>
       <xsl:param name="local-name" as="xs:string" />
+      <xsl:param name="context-element" as="element()" />
 
-      <xsl:variable name="prefix" as="xs:string" select="x:xspec-prefix($context)" />
+      <xsl:variable name="prefix" as="xs:string" select="x:xspec-prefix($context-element)" />
       <xsl:sequence select="$prefix || ':'[$prefix] || $local-name" />
    </xsl:function>
 
