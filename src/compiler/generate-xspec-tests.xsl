@@ -30,14 +30,9 @@
    <xsl:variable name="stylesheet-uri" as="xs:anyURI"
       select="/x:description/resolve-uri(@stylesheet, base-uri())" />
 
-   <xsl:template match="/">
-      <xsl:call-template name="x:generate-tests" />
-   </xsl:template>
-
-   <!-- *** x:generate-tests *** -->
-   <!-- Does the generation of the test stylesheet.
-      This mode assumes that all the scenarios have already been gathered and unshared. -->
-
+   <!--
+      mode="x:generate-tests"
+   -->
    <xsl:template match="x:description" as="element(xsl:stylesheet)" mode="x:generate-tests">
       <!-- True if this XSpec is testing Schematron -->
       <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@xspec-original-location)" />
@@ -771,18 +766,22 @@
       </template>
    </xsl:template>
 
-   <!-- *** x:param-to-map-entry *** -->
-   <!-- Transforms x:param to xsl:map-entry -->
-   <xsl:mode name="x:param-to-map-entry" on-no-match="fail" />
+   <!--
+      mode="x:param-to-map-entry"
+      Transforms x:param to xsl:map-entry
+   -->
+   <xsl:mode name="x:param-to-map-entry" on-multiple-match="fail" on-no-match="fail" />
    <xsl:template match="x:param" as="element(xsl:map-entry)" mode="x:param-to-map-entry">
       <map-entry key="{x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
          <xsl:apply-templates select="." mode="x:param-to-select-attr" />
       </map-entry>
    </xsl:template>
 
-   <!-- *** x:param-to-select-attr *** -->
-   <!-- Transforms x:param to @select which is connected to the generated xsl:variable -->
-   <xsl:mode name="x:param-to-select-attr" on-no-match="fail" />
+   <!--
+      mode="x:param-to-select-attr"
+      Transforms x:param to @select which is connected to the generated xsl:variable
+   -->
+   <xsl:mode name="x:param-to-select-attr" on-multiple-match="fail" on-no-match="fail" />
    <xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
       <xsl:attribute name="select" select="'$' || x:variable-UQName(.)" />
    </xsl:template>

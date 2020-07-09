@@ -44,14 +44,9 @@
    <!--xsl:param name="query-at" as="xs:string?" select="
        /x:description/@query-at"/-->
 
-   <xsl:template match="/">
-      <xsl:call-template name="x:generate-tests"/>
-   </xsl:template>
-
-   <!-- *** x:generate-tests *** -->
-   <!-- Does the generation of the test stylesheet.
-      This mode assumes that all the scenarios have already been gathered and unshared. -->
-  
+   <!--
+      mode="x:generate-tests"
+   -->
    <xsl:template match="x:description" mode="x:generate-tests">
       <xsl:variable name="this" select="." as="element(x:description)" />
 
@@ -475,8 +470,9 @@
       <xsl:text>&#10;};&#10;</xsl:text>
    </xsl:template>
 
-   <!-- *** x:report *** -->
-
+   <!--
+      mode="x:report"
+   -->
    <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
       <xsl:text>{ </xsl:text>
       <xsl:apply-imports />

@@ -16,6 +16,8 @@
 	<xsl:include href="_normalizer.xsl" />
 	<xsl:include href="_serializer.xsl" />
 
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
 	<xsl:template as="empty-sequence()" match="document-node()">
 		<!-- Absolute URI of input document -->
 		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="document-uri(/)" />
@@ -32,4 +34,5 @@
 			</xsl:apply-templates>
 		</xsl:result-document>
 	</xsl:template>
+
 </xsl:stylesheet>
