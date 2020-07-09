@@ -98,7 +98,7 @@
          <xsl:document>
             <xsl:element name="{x:xspec-name($this/x:description, 'description')}"
                namespace="{$x:xspec-namespace}">
-               <xsl:sequence select="x:copy-namespaces($this/x:description)" />
+               <xsl:sequence select="x:copy-of-namespaces($this/x:description)" />
                <xsl:sequence select="$this/x:description/attribute()" />
                <xsl:sequence select="$specs" />
             </xsl:element>
