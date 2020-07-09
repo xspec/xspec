@@ -25,7 +25,9 @@
       whitespace-only text node in a special manner, the text node should be handled specially
       before applying this mode and/or mode="test:create-node-generator" should be overridden.
    -->
-   <xsl:template match="*" as="element()+" mode="test:generate-variable-declarations">
+   <xsl:mode name="test:generate-variable-declarations" on-multiple-match="fail" on-no-match="fail" />
+
+   <xsl:template match="element()" as="element()+" mode="test:generate-variable-declarations">
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?" />
 
@@ -78,7 +80,7 @@
             <xsl:attribute name="name" select="$temp-doc-uqname" />
             <xsl:attribute name="as" select="'document-node()'" />
 
-            <xsl:sequence select="x:copy-namespaces(.)" />
+            <xsl:sequence select="x:copy-of-namespaces(.)" />
 
             <xsl:choose>
                <xsl:when test="@href">
@@ -99,7 +101,7 @@
 
       <xsl:element name="xsl:{if ($is-param) then 'param' else 'variable'}"
          namespace="{$x:xsl-namespace}">
-         <xsl:sequence select="x:copy-namespaces(.)" />
+         <xsl:sequence select="x:copy-of-namespaces(.)" />
 
          <xsl:attribute name="name" select="$uqname" />
          <xsl:sequence select="@as" />
@@ -138,6 +140,11 @@
          </xsl:choose>
       </xsl:element>
    </xsl:template>
+
+   <!--
+      mode="test:create-node-generator"
+   -->
+   <xsl:mode name="test:create-node-generator" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="element()" as="element()" mode="test:create-node-generator">
       <!-- Non XSLT elements (non xsl:* elements) can be just thrown into identity template -->

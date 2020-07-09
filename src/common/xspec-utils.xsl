@@ -177,14 +177,14 @@
 	</xsl:function>
 
 	<!--
-		Copies namespaces of element
+		Makes copies of namespaces from element
 		The standard 'xml' namespace is excluded.
 	-->
-	<xsl:function as="namespace-node()*" name="x:copy-namespaces">
-		<xsl:param as="element()" name="e" />
+	<xsl:function as="namespace-node()*" name="x:copy-of-namespaces">
+		<xsl:param as="element()" name="element" />
 
-		<xsl:for-each select="in-scope-prefixes($e)[. ne 'xml']">
-			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $e)" />
+		<xsl:for-each select="in-scope-prefixes($element)[. ne 'xml']">
+			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $element)" />
 		</xsl:for-each>
 	</xsl:function>
 
@@ -667,6 +667,9 @@
 
 		<xsl:variable as="xs:string" name="namespace">
 			<xsl:choose>
+				<xsl:when test="$prefix eq 'err'">
+					<xsl:sequence select="'http://www.w3.org/2005/xqt-errors'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'impl'">
 					<xsl:sequence select="'urn:x-xspec:compile:impl'" />
 				</xsl:when>

@@ -468,13 +468,14 @@
 
    <!--
       mode="test:report-node"
-      Copies the nodes while wrapping whitespace-only text nodes in <test:ws>
+      Copies the nodes while wrapping whitespace-only text nodes in <test:ws>.
+      You can't use @on-no-match="shallow-copy", because SUT may have xsl:template[@mode="#all"].
    -->
+   <xsl:mode name="test:report-node" on-multiple-match="fail" on-no-match="fail" />
+
    <xsl:template match="document-node() | attribute() | node()" as="node()"
       mode="test:report-node">
-      <xsl:copy>
-         <xsl:apply-templates select="attribute() | node()" mode="#current" />
-      </xsl:copy>
+      <xsl:call-template name="x:identity" />
    </xsl:template>
 
    <xsl:template match="text()[not(normalize-space())]" as="element(test:ws)"
@@ -698,7 +699,7 @@
    <!-- This mode resolves URI in Saxon configuration to work around https://saxonica.plan.io/issues/4471
       TODO: Cover more attributes/elements (only as needed basis).
       TODO: Retire this mode when no longer needed (probably when Oxygen picks up Saxon 9.9.1.7). -->
-   <xsl:mode name="test:fixup-saxon-config" on-no-match="shallow-copy" />
+   <xsl:mode name="test:fixup-saxon-config" on-multiple-match="fail" on-no-match="shallow-copy" />
    <xsl:template match="configuration:package/@sourceLocation" as="attribute(sourceLocation)"
       mode="test:fixup-saxon-config" xmlns:configuration="http://saxon.sf.net/ns/configuration">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="resolve-uri(., base-uri())" />
