@@ -700,15 +700,7 @@
 		<xsl:for-each select="$source-element">
 			<xsl:choose>
 				<xsl:when test="@name">
-					<xsl:variable name="qname"
-						select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
-					<xsl:sequence
-						select="
-							x:UQName(
-							namespace-uri-from-QName($qname),
-							local-name-from-QName($qname)
-							)"
-					 />
+					<xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
 				</xsl:when>
 
 				<xsl:otherwise>
@@ -717,6 +709,25 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each>
+	</xsl:function>
+
+	<!--
+		Expands EQName (either URIQualifiedName or lexical QName, the latter is
+		resolved without using the default namespace) to URIQualifiedName.
+	-->
+	<xsl:function as="xs:string" name="x:UQName-from-EQName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="eqname" />
+		<xsl:param as="element()" name="element" />
+
+		<xsl:variable as="xs:QName" name="qname"
+			select="x:resolve-EQName-ignoring-default-ns($eqname, $element)" />
+		<xsl:sequence
+			select="
+				x:UQName(
+				namespace-uri-from-QName($qname),
+				local-name-from-QName($qname)
+				)"
+		 />
 	</xsl:function>
 
 </xsl:stylesheet>
