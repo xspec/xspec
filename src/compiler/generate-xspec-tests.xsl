@@ -50,7 +50,7 @@
          </xsl:if>
 
          <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
-         <import href="{resolve-uri('generate-tests-utils.xsl')}" />
+         <include href="{resolve-uri('generate-tests-utils.xsl')}" />
 
          <xsl:choose>
             <xsl:when test="$is-schematron">
@@ -587,17 +587,11 @@
             <map>
                <map-entry key="'err'">
                   <map>
-                     <!-- Variables available within xsl:catch: https://www.w3.org/TR/xslt-30/#element-catch -->
-                     <xsl:for-each select="'code', 'description', 'value', 'module', 'line-number', 'column-number'">
-                        <map-entry>
-                           <xsl:attribute name="key">
-                              <xsl:text>'</xsl:text>
-                              <xsl:value-of select="." />
-                              <xsl:text>'</xsl:text>
-                           </xsl:attribute>
-                           <xsl:attribute name="select"
-                              select="'$' || x:UQName('http://www.w3.org/2005/xqt-errors', .)" />
-                        </map-entry>
+                     <!-- Variables available within xsl:catch:
+                        https://www.w3.org/TR/xslt-30/#element-catch -->
+                     <xsl:for-each
+                        select="'code', 'description', 'value', 'module', 'line-number', 'column-number'">
+                        <map-entry key="'{.}'" select="${x:known-UQName('err:' || .)}" />
                      </xsl:for-each>
                   </map>
                </map-entry>
