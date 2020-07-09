@@ -191,7 +191,7 @@
          <xsl:attribute name="namespace" select="namespace-uri()" />
 
          <xsl:variable name="context-element" as="element()" select="." />
-         <xsl:for-each select="in-scope-prefixes($context-element)[not(. eq 'xml')]">
+         <xsl:for-each select="in-scope-prefixes($context-element)">
             <xsl:element name="xsl:namespace" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="name" select="." />
                <xsl:value-of select="namespace-uri-for-prefix(., $context-element)" />

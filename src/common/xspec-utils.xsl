@@ -178,11 +178,12 @@
 
 	<!--
 		Copies namespaces of element
+		The standard 'xml' namespace is excluded.
 	-->
 	<xsl:function as="namespace-node()*" name="x:copy-namespaces">
 		<xsl:param as="element()" name="e" />
 
-		<xsl:for-each select="in-scope-prefixes($e)">
+		<xsl:for-each select="in-scope-prefixes($e)[. ne 'xml']">
 			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $e)" />
 		</xsl:for-each>
 	</xsl:function>
