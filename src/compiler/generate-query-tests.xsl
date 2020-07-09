@@ -47,7 +47,7 @@
    <!--
       mode="x:generate-tests"
    -->
-   <xsl:template match="x:description" mode="x:generate-tests">
+   <xsl:template match="x:description" as="node()+" mode="x:generate-tests">
       <xsl:variable name="this" select="." as="element(x:description)" />
 
       <!-- Look for a prefix defined for the target namespace on x:description. -->
