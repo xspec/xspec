@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+          stylesheet="tvt_label_schematron-sch-preprocessed.xsl"
+          date="2000-01-01T00:00:00Z"
+          xspec="../../tvt_label_schematron.xspec"
+          schematron="../../tvt_label.sch">
+   <x:scenario id="scenario1" xspec="../../tvt_label_schematron.xspec">
+      <x:label>With @expand-text=yes</x:label>
+      <x:scenario id="scenario1-scenario1" xspec="../../tvt_label_schematron.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:context select="self::document-node()">
+            <context-child/>
+         </x:context>
+         <x:result select="/element()">
+            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:saxon="http://saxon.sf.net/"
+                                    xmlns:schold="http://www.ascc.net/xml/schematron"
+                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                    title=""
+                                    schemaVersion=""><!--   
+		   
+		   
+		 -->
+               <svrl:active-pattern document=""/>
+               <svrl:fired-rule context="context-child"/>
+            </svrl:schematron-output>
+         </x:result>
+         <x:test id="scenario1-scenario1-expect1" successful="true">
+            <x:label>valid</x:label>
+            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+                      select="()"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario2" xspec="../../tvt_label_schematron.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:context select="self::document-node()">
+            <context-child/>
+         </x:context>
+         <x:result select="/element()">
+            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:saxon="http://saxon.sf.net/"
+                                    xmlns:schold="http://www.ascc.net/xml/schematron"
+                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                    title=""
+                                    schemaVersion=""><!--   
+		   
+		   
+		 -->
+               <svrl:active-pattern document=""/>
+               <svrl:fired-rule context="context-child"/>
+            </svrl:schematron-output>
+         </x:result>
+         <x:test id="scenario1-scenario2-expect1" successful="true">
+            <x:label>valid</x:label>
+            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+                      select="()"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario1-scenario3" xspec="../../tvt_label_schematron.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:context select="self::document-node()">
+            <context-child/>
+         </x:context>
+         <x:result select="/element()">
+            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:saxon="http://saxon.sf.net/"
+                                    xmlns:schold="http://www.ascc.net/xml/schematron"
+                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                    title=""
+                                    schemaVersion=""><!--   
+		   
+		   
+		 -->
+               <svrl:active-pattern document=""/>
+               <svrl:fired-rule context="context-child"/>
+            </svrl:schematron-output>
+         </x:result>
+         <x:test id="scenario1-scenario3-expect1" successful="true">
+            <x:label>valid</x:label>
+            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+                      select="()"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario id="scenario2" xspec="../../tvt_label_schematron.xspec">
+      <x:label>With @expand-text=no</x:label>
+      <x:scenario id="scenario2-scenario1" xspec="../../tvt_label_schematron.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:context select="self::document-node()">
+            <context-child/>
+         </x:context>
+         <x:result select="/element()">
+            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:saxon="http://saxon.sf.net/"
+                                    xmlns:schold="http://www.ascc.net/xml/schematron"
+                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                    title=""
+                                    schemaVersion=""><!--   
+		   
+		   
+		 -->
+               <svrl:active-pattern document=""/>
+               <svrl:fired-rule context="context-child"/>
+            </svrl:schematron-output>
+         </x:result>
+         <x:test id="scenario2-scenario1-expect1" successful="true">
+            <x:label>valid</x:label>
+            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+                      select="()"/>
+         </x:test>
+      </x:scenario>
+      <x:scenario id="scenario2-scenario2" xspec="../../tvt_label_schematron.xspec">
+         <x:label>}}{scenario}{{</x:label>
+         <x:context select="self::document-node()">
+            <context-child/>
+         </x:context>
+         <x:result select="/element()">
+            <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                    xmlns:saxon="http://saxon.sf.net/"
+                                    xmlns:schold="http://www.ascc.net/xml/schematron"
+                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                    title=""
+                                    schemaVersion=""><!--   
+		   
+		   
+		 -->
+               <svrl:active-pattern document=""/>
+               <svrl:fired-rule context="context-child"/>
+            </svrl:schematron-output>
+         </x:result>
+         <x:test id="scenario2-scenario2-expect1" successful="true">
+            <x:label>valid</x:label>
+            <x:expect test="boolean(svrl:schematron-output[svrl:fired-rule]) and not(boolean((svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)[not(@role) or lower-case(@role) = ('error','fatal')]))"
+                      select="()"/>
+         </x:test>
+      </x:scenario>
+   </x:scenario>
+</x:report>

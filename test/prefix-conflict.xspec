@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description query="x-urn:test:prefix-conflict" query-at="prefix-conflict.xqm"
+	stylesheet="prefix-conflict.xsl" xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="x-urn:test:prefix-conflict">
+
+	<t:scenario
+		label="Using x: prefix in function-call @function, function-param @name, @select, @as, and child node">
+		<t:call function="x:param-mirror">
+			<t:param as="element(x:function-param-child)" name="x:param-items"
+				select="element(x:function-param-child)">
+				<x:function-param-child />
+			</t:param>
+		</t:call>
+		<t:expect label="should work" select="'x:function-param-child'" test="name($t:result)" />
+	</t:scenario>
+
+	<t:param as="element(x:global-param-child)" name="x:global-param"
+		select="element(x:global-param-child)">
+		<x:global-param-child />
+	</t:param>
+	<t:scenario label="Using x: prefix in global-param @name, @select, @as, and child node">
+		<t:call function="x:false" />
+		<t:expect label="should work" select="'x:global-param-child'" test="name($x:global-param)"
+		 />
+	</t:scenario>
+
+	<!-- Naming an XSpec variable (global or local) using a namespace also used in the
+		system under test is not necessarily recommended, but it should still work. -->
+	<t:variable as="element(x:global-var-child)" name="x:global-var"
+		select="element(x:global-var-child)">
+		<x:global-var-child />
+	</t:variable>
+	<t:scenario label="Using x: prefix in global variable @name, @select, @as, and child node">
+		<t:call function="x:false" />
+		<t:expect label="should work" select="'x:global-var-child'" test="name($x:global-var)" />
+	</t:scenario>
+
+	<t:scenario label="Using x: prefix in local variable @name, @select, @as, and child node">
+		<t:variable as="element(x:var-child)" name="x:var" select="element(x:var-child)">
+			<x:var-child />
+		</t:variable>
+		<t:call function="x:false" />
+		<t:expect label="should work" select="'x:var-child'" test="name($x:var)" />
+	</t:scenario>
+
+	<t:scenario label="Using x: prefix in assertion">
+		<t:call function="x:param-mirror">
+			<t:param>
+				<x:element />
+			</t:param>
+		</t:call>
+		<t:expect label="child node, @select and @test should work"
+			select="name(element(x:element))" test="name($t:result/self::element(x:element))">
+			<x:element />
+		</t:expect>
+		<t:expect label="boolean @test should work" test="$t:result instance of element(x:element)"
+		 />
+	</t:scenario>
+
+</t:description>

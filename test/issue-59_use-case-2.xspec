@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="https://github.com/xspec/xspec/issues/59#issuecomment-281689650"
+	query-at="issue-59_use-case-2.xqm" stylesheet="issue-59_use-case-2.xsl"
+	xmlns:issue-59="https://github.com/xspec/xspec/issues/59#issuecomment-281689650"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<x:scenario
+		label="Use case from https://github.com/xspec/xspec/issues/59#issuecomment-281689650">
+		<x:scenario label="One of the attributes is zero-length">
+			<x:call function="issue-59:extract-local-name-and-namespace-from-lexical-qname">
+				<x:param as="xs:string" select="'local'" />
+			</x:call>
+			<x:expect label="All the two attributes are picked up by @select" select="_dummy/@*">
+				<_dummy local-name="local" namespace="" />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Both attributes are longer than zero-length">
+			<x:call function="issue-59:extract-local-name-and-namespace-from-lexical-qname">
+				<x:param as="xs:string" select="'issue-59:local'" />
+			</x:call>
+			<x:expect label="All the two attributes are picked up by @select" select="_dummy/@*">
+				<_dummy local-name="local"
+					namespace="https://github.com/xspec/xspec/issues/59#issuecomment-281689650" />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+</x:description>
