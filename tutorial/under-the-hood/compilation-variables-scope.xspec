@@ -2,7 +2,6 @@
 <x:description xmlns:my="http://example.org/ns/my"
                xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                stylesheet="../../test/tested.xsl"
                query="http://example.org/ns/my"
                query-at="../../test/tested.xqm">
@@ -16,7 +15,7 @@
       <x:scenario label="inner">
          <x:variable name="myv:var-2" select="'var-2-value'"/>
          <x:call function="my:square">
-            <x:param select="xs:integer(0)"/>
+            <x:param select="0"/>
          </x:call>
          <x:variable name="myv:var-3" select="'var-3-value'"/>
          <x:expect label="expect one" test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3)"/>
