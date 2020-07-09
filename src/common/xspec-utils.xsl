@@ -666,6 +666,9 @@
 
 		<xsl:variable as="xs:string" name="namespace">
 			<xsl:choose>
+				<xsl:when test="$prefix eq 'err'">
+					<xsl:sequence select="'http://www.w3.org/2005/xqt-errors'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'impl'">
 					<xsl:sequence select="'urn:x-xspec:compile:impl'" />
 				</xsl:when>
