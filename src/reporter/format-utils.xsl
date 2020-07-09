@@ -36,6 +36,7 @@
   mode="test:serialize"
     All the whitespace-only text nodes except the ones in <test:ws> are considered to be of indentation.
 -->
+<xsl:mode name="test:serialize" on-multiple-match="fail" on-no-match="fail" />
 
 <xsl:template match="element()" as="node()+" mode="test:serialize">
   <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
@@ -324,10 +325,6 @@
       <xsl:text expand-text="yes">&#x0A;{substring(., $indentation + 2)}</xsl:text>
     </xsl:otherwise>
   </xsl:choose>
-</xsl:template>
-
-<xsl:template match="document-node() | attribute() | node()" as="empty-sequence()" mode="test:serialize" priority="-1">
-  <xsl:message select="'Unhandled node'" terminate="yes" />
 </xsl:template>
 
 <!-- Returns the position of the node, ignoring the preceding-sibling whitespace-only text nodes.

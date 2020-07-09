@@ -1157,7 +1157,7 @@
 						<e xmlns="default-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Resolved without affected by the default namespace"
+				<x:expect label="Resolved without being affected by the default namespace"
 					test="x:QName-exactly-equal($x:result, QName($ridiculous-uri, 'foo'))" />
 			</x:scenario>
 
@@ -1168,7 +1168,8 @@
 						<e xmlns="default-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Resolved as no namespace without affected by the default namespace"
+				<x:expect
+					label="Resolved as no namespace without being affected by the default namespace"
 					test="x:QName-exactly-equal($x:result, QName('', 'foo'))" />
 			</x:scenario>
 		</x:scenario>
@@ -1401,6 +1402,14 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function known-UQName">
+		<x:scenario label="err">
+			<x:call function="x:known-UQName">
+				<x:param select="'err:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.w3.org/2005/xqt-errors}my-local-name</x:expect>
+		</x:scenario>
+
 		<x:scenario label="impl">
 			<x:call function="x:known-UQName">
 				<x:param select="'impl:my-local-name'" />

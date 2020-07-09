@@ -27,11 +27,13 @@
 
 	<!-- Matching template -->
 
+	<xsl:mode name="issue-1029:as-integer" on-multiple-match="fail" on-no-match="fail" />
 	<xsl:template as="xs:integer" match="context-child" mode="issue-1029:as-integer">
 		<xsl:message select="'my error message'" terminate="yes" />
 		<xsl:sequence select="1" />
 	</xsl:template>
 
+	<xsl:mode name="issue-1029:no-as" on-multiple-match="fail" on-no-match="fail" />
 	<xsl:template match="context-child" mode="issue-1029:no-as">
 		<xsl:message select="'my error message'" terminate="yes" />
 	</xsl:template>

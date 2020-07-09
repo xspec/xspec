@@ -44,14 +44,9 @@
    <!--xsl:param name="query-at" as="xs:string?" select="
        /x:description/@query-at"/-->
 
-   <xsl:template match="/">
-      <xsl:call-template name="x:generate-tests"/>
-   </xsl:template>
-
-   <!-- *** x:generate-tests *** -->
-   <!-- Does the generation of the test stylesheet.
-      This mode assumes that all the scenarios have already been gathered and unshared. -->
-  
+   <!--
+      mode="x:generate-tests"
+   -->
    <xsl:template match="x:description" mode="x:generate-tests">
       <xsl:variable name="this" select="." as="element(x:description)" />
 
@@ -332,9 +327,7 @@
       <!-- Variables available within the catch clause: https://www.w3.org/TR/xquery-31/#id-try-catch
          $err:additional doesn't work on Saxon 9.8: https://saxonica.plan.io/issues/4133 -->
       <xsl:for-each select="'code', 'description', 'value', 'module', 'line-number', 'column-number'">
-         <xsl:variable name="err-variable" as="xs:string"
-            select="'$Q{http://www.w3.org/2005/xqt-errors}' || ." />
-         <xsl:text expand-text="yes">                 '{.}': {$err-variable}</xsl:text>
+         <xsl:text expand-text="yes">                 '{.}': ${x:known-UQName('err:' || .)}</xsl:text>
          <xsl:if test="position() ne last()">
             <xsl:text>,</xsl:text>
          </xsl:if>
@@ -477,8 +470,9 @@
       <xsl:text>&#10;};&#10;</xsl:text>
    </xsl:template>
 
-   <!-- *** x:report *** -->
-
+   <!--
+      mode="x:report"
+   -->
    <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
       <xsl:text>{ </xsl:text>
       <xsl:apply-imports />
