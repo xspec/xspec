@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xspec-test require-saxon-bug-4376-fixed?>
+<x:description
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://www.w3.org/1999/xhtml"
+    stylesheet="issue-700.xsl">
+    <x:scenario label="Aborts with abbreviation with no expansion" catch="yes">
+        <x:context select="/">
+            <abbr xml:base="{$x:xspec-uri}">AbbreviationWithoutExpansion</abbr>
+        </x:context>
+        <x:expect
+            label="err:code"
+            test="$x:result?err?code treat as xs:QName"
+            select="QName('http://www.w3.org/2005/xqt-errors', 'XTMM9000')"
+        />
+        <x:expect
+            label="err:value should contain xsl:message body preceded by Saxon-specific processing instruction"
+            test="$x:result?err?value treat as document-node()"
+            select="/"
+            expand-text="yes"
+            xml:space="preserve"
+        ><?error-code Q{http://www.w3.org/2005/xqt-errors}XTMM9000?>{$x:xspec-uri}: error: Abbreviations without title: AbbreviationWithoutExpansion</x:expect>
+    </x:scenario>
+</x:description>

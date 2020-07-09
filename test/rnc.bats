@@ -31,8 +31,8 @@ load bats-helper
 @test "Schema detects errors in node-selection test" {
     # '-t' for identifying the last line
     run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
-        xspec-node-selection.xspec \
-        xspec-node-selection_stylesheet.xspec
+        node-selection.xspec \
+        node-selection_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${lines[0]}" '.+: error: element "function-param-child-not-allowed" not allowed here;'

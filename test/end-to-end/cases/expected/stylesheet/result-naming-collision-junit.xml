@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="result-naming-collision.xspec">
+   <testsuite name="scenario 1" tests="1" failures="0">
+      <testcase name="The result should be saved in an external file" status="passed"/>
+   </testsuite>
+   <testsuite name="scenario 2" tests="1" failures="0">
+      <testcase name="The result should be saved in another external file"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="When the result consists of multiple elements (xspec/xspec#361)"
+              tests="2"
+              failures="1">
+      <testcase name="x:result should be two document nodes" status="passed"/>
+      <testcase name="The result should be saved successfully in yet another external file which is well-formed"
+                status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

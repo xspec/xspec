@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description stylesheet="prefix-conflict.xsl" xmlns:t="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="x-urn:test:prefix-conflict">
+
+	<t:scenario label="Using x: prefix in">
+		<t:scenario label="context @mode, template-param @name, @select, @as, and child node">
+			<t:context mode="x:param-mirror">
+				<t:param as="element(x:template-param-child)" name="x:param-items"
+					select="element(x:template-param-child)">
+					<x:template-param-child />
+				</t:param>
+				<x:context-child />
+			</t:context>
+			<t:expect label="should work" select="'x:template-param-child'" test="name($t:result)"
+			 />
+		</t:scenario>
+
+		<t:scenario label="context child node">
+			<t:context>
+				<x:context-child />
+			</t:context>
+			<t:call template="x:context-mirror" />
+			<t:expect label="should work" select="'x:context-child'" test="name($t:result)" />
+		</t:scenario>
+
+		<t:scenario label="context @select">
+			<t:variable as="element(x:context-child)" name="x:context"
+				select="element(x:context-child)">
+				<x:context-child />
+			</t:variable>
+			<t:context select="$x:context" />
+			<t:call template="x:context-mirror" />
+			<t:expect label="should work" select="'x:context-child'" test="name($t:result)" />
+		</t:scenario>
+
+		<t:scenario
+			label="template-call @template, template-param @name, @select, @as, and child node">
+			<t:call template="x:param-mirror">
+				<t:param as="element(x:template-param-child)" name="x:param-items"
+					select="element(x:template-param-child)">
+					<x:template-param-child />
+				</t:param>
+			</t:call>
+			<t:expect label="should work" select="'x:template-param-child'" test="name($t:result)"
+			 />
+		</t:scenario>
+	</t:scenario>
+
+</t:description>

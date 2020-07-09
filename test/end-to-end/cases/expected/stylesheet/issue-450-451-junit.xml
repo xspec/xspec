@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-450-451.xspec">
+   <testsuite name="function-param containing curly brackets"
+              tests="1"
+              failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
+   <testsuite name="global-param containing curly brackets"
+              tests="1"
+              failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
+   <testsuite name="global-var containing curly brackets" tests="1" failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
+   <testsuite name="local variable containing curly brackets"
+              tests="1"
+              failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
+   <testsuite name="assertion containing curly brackets" tests="1" failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
+   <testsuite name="If value is from a variable instead of hard-coded,"
+              tests="2"
+              failures="0">
+      <testcase name="function-param containing curly brackets should work"
+                status="passed"/>
+      <testcase name="assertion containing curly brackets should work" status="passed"/>
+   </testsuite>
+</testsuites>
