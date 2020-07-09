@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" stylesheet="do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="When $x:result is element(foo)">
+		<x:call function="exactly-one">
+			<x:param as="element(foo)">
+				<foo />
+			</x:param>
+		</x:call>
+
+		<x:expect label="Expecting element(foo) with @label should be Success">
+			<foo />
+		</x:expect>
+
+		<x:expect>
+			<x:label>Expecting element(foo) with x:label should be Success, too</x:label>
+			<foo />
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="x:setup-expected template does not affect @href document. So...">
+		<x:call function="exactly-one">
+			<x:param as="document-node(element(x:label))" href="issue-308.xml" />
+		</x:call>
+		<x:expect href="issue-308.xml"
+			label="When x:expect has @href document containing x:label, the x:label participates in comparison."
+		 />
+	</x:scenario>
+</x:description>

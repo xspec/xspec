@@ -63,11 +63,22 @@
 <xsl:key name="constructs" match="c" use="@id" />
 <xsl:key name="coverage" match="h" use="@m || ':' || @l" />
 
-<xsl:template match="/" as="element(xhtml:html)">
+<!--
+  mode="#default"
+-->
+<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
+<xsl:template match="document-node(element(trace))" as="element(xhtml:html)">
   <xsl:apply-templates select="." mode="test:coverage-report" />
 </xsl:template>
 
-<xsl:template match="/" as="element(xhtml:html)" mode="test:coverage-report">
+<!--
+  mode="test:coverage-report"
+-->
+<xsl:mode name="test:coverage-report" on-multiple-match="fail" on-no-match="fail" />
+
+<xsl:template match="document-node(element(trace))" as="element(xhtml:html)"
+  mode="test:coverage-report">
   <html>
     <head>
       <title>
@@ -302,6 +313,11 @@
   <xsl:sequence select="$coverage[1]" />
 </xsl:function>
 
+<!--
+  mode="test:coverage"
+-->
+<xsl:mode name="test:coverage" on-multiple-match="fail" on-no-match="fail" />
+
 <xsl:template match="text()[normalize-space() = '' and not(parent::xsl:text)]" as="xs:string" mode="test:coverage">ignored</xsl:template>
 
 <xsl:template match="processing-instruction() | comment()" as="xs:string" mode="test:coverage">ignored</xsl:template>
@@ -319,7 +335,7 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="* | text()" as="xs:string" mode="test:coverage">
+<xsl:template match="element() | text()" as="xs:string" mode="test:coverage">
   <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
 
   <xsl:variable name="hit" as="element(h)*"
@@ -344,7 +360,7 @@
   </xsl:choose>
 </xsl:template>
 
-<xsl:template match="/" as="xs:string" mode="test:coverage">ignored</xsl:template>
+<xsl:template match="document-node()" as="xs:string" mode="test:coverage">ignored</xsl:template>
 
 <xsl:function name="test:hit-on-nodes" as="element(h)*">
   <xsl:param name="nodes" as="node()*" />

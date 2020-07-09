@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<x:scenario label="Scenario for verifying that boolean @test precedes @href">
+		<x:scenario label="When function returns true,">
+			<x:call function="mirror:true" />
+
+			<x:expect href="ambiguous-expect.xml"
+				label="Expecting document node via @href should be Failure" />
+
+			<x:expect href="ambiguous-expect.xml"
+				label="Expecting document node via @href along with @test=$x:result should be Success"
+				test="$x:result treat as xs:boolean" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for verifying that boolean @test precedes @select">
+		<x:scenario label="When function returns false,">
+			<x:call function="mirror:false" />
+
+			<x:expect label="Expecting false via @select should be Success" select="false()" />
+
+			<x:expect
+				label="Expecting false via @select along with @test=$x:result should be Failure"
+				select="false()" test="$x:result treat as xs:boolean" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for verifying that boolean @test precedes child node">
+		<x:scenario label="When function returns true,">
+			<x:call function="mirror:true" />
+
+			<x:expect label="Expecting element(foo) via child node should be Failure">
+				<foo />
+			</x:expect>
+
+			<x:expect
+				label="Expecting element(foo) via child node along with @test=$x:result should be Success"
+				test="$x:result treat as xs:boolean">
+				<foo />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario
+		label="Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)">
+		<x:scenario label="When function returns true,">
+			<x:call function="mirror:true" />
+
+			<x:expect
+				label="Expecting empty sequence (no @href, @select or child node) should be Failure" />
+			<x:expect>
+				<x:label>Ditto using x:label</x:label>
+			</x:expect>
+
+			<x:expect
+				label="Expecting empty sequence (no @href, @select or child node) along with @test=$x:result should be Success"
+				test="$x:result treat as xs:boolean" />
+			<x:expect test="$x:result treat as xs:boolean">
+				<x:label>Ditto using x:label</x:label>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+</x:description>

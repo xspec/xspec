@@ -13,11 +13,8 @@
 			Removes side effect of loading indented XML
 	-->
 
-	<!-- Identity template, in lowest priority -->
-	<xsl:template as="node()" match="document-node() | attribute() | node()"
-		mode="deserializer:unindent" priority="-1">
-		<xsl:call-template name="x:identity" />
-	</xsl:template>
+	<!-- Shallow-copy by default -->
+	<xsl:mode name="deserializer:unindent" on-multiple-match="fail" on-no-match="shallow-copy" />
 
 	<!-- The other processing depends on each processor... -->
 </xsl:stylesheet>

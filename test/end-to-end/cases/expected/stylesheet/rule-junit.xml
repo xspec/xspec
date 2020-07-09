@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="rule.xspec">
+   <testsuite name="x:context with correct x:expect" tests="1" failures="0">
+      <testcase name="must return Success" status="passed"/>
+   </testsuite>
+   <testsuite name="x:context with incorrect x:expect" tests="1" failures="1">
+      <testcase name="must return Failure" status="failed">
+         <failure message="expect assertion failed">Expected: /element()</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

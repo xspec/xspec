@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../xspec-tested.xsl"
+          stylesheet="../../../../tested.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../format-xspec-report-folding.xspec">
    <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                id="scenario1"
-               xspec="../../xspec-focus-1.xspec"
+               xspec="../../focus-1.xspec"
                pending="testing @focus of a correct scenario">
       <t:label>an unfocused correct scenario must be Pending</t:label>
       <t:call function="my:square">
@@ -21,7 +21,7 @@
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                id="scenario2"
-               xspec="../../xspec-focus-1.xspec"
+               xspec="../../focus-1.xspec"
                pending="testing @focus of a correct scenario">
       <t:label>an unfocused incorrect scenario must be Pending</t:label>
       <t:call function="my:square">
@@ -35,7 +35,7 @@
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                id="scenario3"
-               xspec="../../xspec-focus-1.xspec">
+               xspec="../../focus-1.xspec">
       <t:label>a focused correct scenario</t:label>
       <t:call function="my:square">
          <t:param select="3"/>
@@ -50,7 +50,7 @@
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                id="scenario4"
-               xspec="../../xspec-focus-1.xspec">
+               xspec="../../focus-1.xspec">
       <t:label>a focused incorrect scenario</t:label>
       <t:call function="my:square">
          <t:param select="2"/>

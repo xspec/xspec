@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="shared-like.xspec">
+   <testsuite name="Referenced and explicitly unshared scenario"
+              tests="1"
+              failures="0">
+      <testcase name="This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="Referenced and implicitly unshared scenario"
+              tests="1"
+              failures="0">
+      <testcase name="This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="Scenario for testing x:like which references a shared scenario"
+              tests="2"
+              failures="0">
+      <testcase name="This nested shared x:expect should fire only at nested x:like"
+                status="passed"/>
+      <testcase name="This referenced shared x:expect should fire only at x:like"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="Scenario for testing x:like which references unshared scenarios"
+              tests="2"
+              failures="0">
+      <testcase name="explicit one This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like"
+                status="passed"/>
+      <testcase name="implicit one This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like"
+                status="passed"/>
+   </testsuite>
+</testsuites>

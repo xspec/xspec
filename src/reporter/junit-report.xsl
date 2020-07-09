@@ -17,6 +17,12 @@
 
     <xsl:output indent="yes"/>
 
+    <xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
+    <xsl:template match="document-node(element(x:report))" as="element(testsuites)">
+        <xsl:apply-templates select="x:report" />
+    </xsl:template>
+
     <xsl:template match="x:report" as="element(testsuites)">
         <testsuites name="{@xspec}">
             <xsl:apply-templates select="x:scenario"/>
