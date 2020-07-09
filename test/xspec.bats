@@ -189,6 +189,8 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
 
+    unset JAVA_TOOL_OPTIONS
+
     # XML and HTML report file
     [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
     [ -f "${special_chars_dir}/xspec/demo-result.html" ]
@@ -199,11 +201,12 @@ load bats-helper
         -xsl:check-coverage-xml.xsl
     echo "$output"
     [ "$status" -eq 0 ]
+    [ "${lines[0]}" = "true" ]
 
     # Coverage report HTML file is created and contains CSS inline #194
-    unset JAVA_TOOL_OPTIONS
     run java -jar "${SAXON_JAR}" -s:"${special_chars_dir}/xspec/demo-coverage.html" -xsl:check-html-css.xsl
     echo "$output"
+    [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
 
@@ -260,6 +263,7 @@ load bats-helper
         -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
         -xsl:check-html-css.xsl
     echo "$output"
+    [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
 
@@ -820,6 +824,7 @@ load bats-helper
     # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
     echo "$output"
+    [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
 
@@ -858,6 +863,7 @@ load bats-helper
     # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
     echo "$output"
+    [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 
     # Stop BaseX server
@@ -906,6 +912,7 @@ load bats-helper
         -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
         -xsl:check-html-css.xsl
     echo "$output"
+    [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
 
@@ -1546,6 +1553,7 @@ load bats-helper
     # Coverage report file is created and contains CSS inline
     run java -jar "${SAXON_JAR}" -s:"${TEST_DIR}/demo-coverage.html" -xsl:check-html-css.xsl
     echo "$output"
+    [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
 
@@ -1853,6 +1861,7 @@ load bats-helper
         -xsl:check-html-css.xsl \
         STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
     echo "$output"
+    [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
 
@@ -1875,6 +1884,7 @@ load bats-helper
         -xsl:check-html-css.xsl \
         STYLE-CONTAINS="This CSS file is for testing report-css-uri parameter"
     echo "$output"
+    [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
 }
 

@@ -86,11 +86,8 @@
 			Normalizes the transient parts of the document such as @href, @id, datetime and file path
 	-->
 
-	<!-- Identity template, in lowest priority -->
-	<xsl:template as="node()" match="document-node() | attribute() | node()"
-		mode="normalizer:normalize" priority="-1">
-		<xsl:call-template name="x:identity" />
-	</xsl:template>
+	<!-- Shallow-copy by default -->
+	<xsl:mode name="normalizer:normalize" on-multiple-match="fail" on-no-match="shallow-copy" />
 
 	<!-- The other processing depends on each processor... -->
 </xsl:stylesheet>

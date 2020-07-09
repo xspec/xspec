@@ -13,7 +13,7 @@
 		<!-- The error is raised by fn:error() at a line in the stylesheet being tested -->
 		<x:expect label="err:module" select="resolve-uri('catch.xsl', $x:xspec-uri)"
 			test="$x:result?err?module treat as xs:string" />
-		<x:expect label="err:line-number" select="14"
+		<x:expect label="err:line-number" select="15"
 			test="$x:result?err?line-number treat as xs:integer" />
 		<x:expect label="err:column-number"
 			test="($x:result?err?column-number treat as xs:integer) ge 1" />

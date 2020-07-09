@@ -5,7 +5,9 @@
 
 	<xsl:output method="text" />
 
-	<xsl:template as="text()+" match="document-node()">
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
+	<xsl:template as="text()+" match="document-node(element(collection))">
 		<xsl:apply-templates select="collection" />
 	</xsl:template>
 
