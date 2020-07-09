@@ -84,7 +84,7 @@
       <xsl:variable name="all-specs" as="document-node(element(x:description))">
          <xsl:document>
             <xsl:element name="{x:xspec-name($this/*, 'description')}" namespace="{$x:xspec-namespace}">
-               <xsl:sequence select="x:copy-namespaces($this/x:description)" />
+               <xsl:sequence select="x:copy-of-namespaces($this/x:description)" />
                <xsl:copy-of select="$this/x:description/@*"/>
                <xsl:apply-templates select="x:gather-specs($this/x:description)"
                                     mode="x:gather-specs"/>
