@@ -40,15 +40,14 @@
    </xsl:function>
 
    <!--
-       Drive the overall compilation of a suite.  Apply template on
-       the x:description element, in the mode
+      mode="#default"
    -->
-   <xsl:template name="x:generate-tests">
-      <!-- Actually, xsl:context-item/@as is "document-node(element(x:description))".
-         "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
-         error message. -->
-      <xsl:context-item as="document-node()" use="required" />
+   <xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
+   <!-- Actually, xsl:template/@match is "document-node(element(x:description))".
+      "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
+      error message. -->
+   <xsl:template match="document-node()" as="node()+">
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
             <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
@@ -71,26 +70,51 @@
          </xsl:message>
       </xsl:if>
 
-      <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
-      <xsl:variable name="all-specs" as="document-node(element(x:description))">
+      <xsl:call-template name="x:generate-tests"/>
+   </xsl:template>
+
+   <!--
+      Drive the overall compilation of a suite. Apply template on the x:description element, in the
+      mode
+   -->
+   <xsl:template name="x:generate-tests" as="node()+">
+      <xsl:context-item as="document-node(element(x:description))" use="required" />
+
+      <xsl:variable name="this" select="." as="document-node(element(x:description))" />
+
+      <!-- Collect all the instances of x:description by resolving x:import -->
+      <xsl:variable name="descriptions" as="element(x:description)+"
+         select="x:gather-descriptions($this/x:description)" />
+
+      <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
+         including x:variable, x:import and comments. -->
+      <xsl:variable name="specs" as="node()+">
+         <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
+      </xsl:variable>
+
+      <!-- Combine all the children of x:description into a single document, taking x:description
+         from the initial XSpec document. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name($this/*, 'description')}" namespace="{$x:xspec-namespace}">
-               <xsl:sequence select="x:copy-namespaces($this/x:description)" />
-               <xsl:copy-of select="$this/x:description/@*"/>
-               <xsl:apply-templates select="x:gather-specs($this/x:description)"
-                                    mode="x:gather-specs"/>
+            <xsl:element name="{x:xspec-name($this/x:description, 'description')}"
+               namespace="{$x:xspec-namespace}">
+               <xsl:sequence select="x:copy-of-namespaces($this/x:description)" />
+               <xsl:sequence select="$this/x:description/attribute()" />
+               <xsl:sequence select="$specs" />
             </xsl:element>
          </xsl:document>
       </xsl:variable>
-      <xsl:variable name="unshared-scenarios" as="document-node()">
-         <xsl:document>
-            <xsl:apply-templates select="$all-specs/*" mode="x:unshare-scenarios"/>
-         </xsl:document>
+
+      <!-- Resolve x:like and @shared -->
+      <xsl:variable name="unshared-doc" as="document-node(element(x:description))">
+         <xsl:apply-templates select="$combined-doc" mode="x:unshare-scenarios" />
       </xsl:variable>
-      <xsl:apply-templates select="$unshared-scenarios/*" mode="x:generate-tests"/>
+
+      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
+      <xsl:apply-templates select="$unshared-doc/element()" mode="x:generate-tests" />
    </xsl:template>
 
-   <xsl:function name="x:gather-specs" as="element(x:description)+">
+   <xsl:function name="x:gather-descriptions" as="element(x:description)+">
       <xsl:param name="visit" as="element(x:description)+"/>
 
       <!-- "$visit/x:import" without sorting -->
@@ -123,21 +147,24 @@
             <xsl:sequence select="$visit"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="($visit, $imported-except-visit) => x:gather-specs()" />
+            <xsl:sequence select="($visit, $imported-except-visit) => x:gather-descriptions()" />
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
 
-   <!-- *** x:gather-specs *** -->
-   <!-- This mode makes each spec less context-dependent by performing these transformations:
+   <!--
+      mode="x:gather-specs"
+      This mode makes each spec less context-dependent by performing these transformations:
       * Copy @xslt-version from x:description to descendant x:scenario
-      * Add @xspec (and @xspec-original-location if applicable) to each scenario to record
-        absolute URI of originating .xspec file
+      * Add @xspec (and @xspec-original-location if applicable) to each scenario to record absolute
+        URI of originating .xspec file
       * Resolve x:*/@href into absolute URI
       * Discard whitespace-only text node in user-content unless otherwise specified by an ancestor
       * Discard whitespace-only text node in non user-content unless it's in x:label
       * Remove leading and trailing whitespace from names
-      * Wrap user-content text node in x:text resolving @expand-text specified by an ancestor -->
+      * Wrap user-content text node in x:text resolving @expand-text specified by an ancestor
+   -->
+   <xsl:mode name="x:gather-specs" on-multiple-match="fail" on-no-match="shallow-copy" />
 
    <!-- Dispatch user-content to its dedicated mode. This must be done in the highest priority. -->
    <xsl:template match="node()[x:is-user-content(.)]" as="node()?" mode="x:gather-specs" priority="1">
@@ -188,13 +215,12 @@
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="x:trim(.)" />
    </xsl:template>
 
-   <xsl:template match="node() | attribute()" as="node()" mode="x:gather-specs">
-      <xsl:call-template name="x:identity" />
-   </xsl:template>
-
-   <!-- *** x:gather-user-content *** -->
-   <!-- This mode works as a part of x:gather-specs mode and handles user-content. Once you enter
-      this mode, you never go back to x:gather-specs mode. -->
+   <!--
+      mode="x:gather-user-content"
+      This mode works as a part of x:gather-specs mode and handles user-content. Once you enter this
+      mode, you never go back to x:gather-specs mode.
+   -->
+   <xsl:mode name="x:gather-user-content" on-multiple-match="fail" on-no-match="shallow-copy" />
 
    <!-- x:space has been replaced with x:text -->
    <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-user-content">
@@ -233,11 +259,6 @@
       </xsl:if>
    </xsl:template>
 
-   <!-- @priority is to avoid the ambiguity with the @match="text()" template -->
-   <xsl:template match="node()|@*" as="node()" mode="x:gather-user-content" priority="-1">
-      <xsl:call-template name="x:identity" />
-   </xsl:template>
-
    <!--
        Drive the compilation of scenarios to generate call
        instructions (the scenarios are compiled to an XSLT named
@@ -269,6 +290,11 @@
    </xsl:template>
 
    <!--
+      mode="x:generate-calls"
+   -->
+   <xsl:mode name="x:generate-calls" on-multiple-match="fail" on-no-match="fail" />
+
+   <!--
        Those elements are ignored in this mode.
        
        x:label elements can be ignored, they are used by x:label()
@@ -284,15 +310,6 @@
    <xsl:template match="x:apply|x:call|x:context|x:import|x:label" mode="x:generate-calls">
       <!-- Nothing, but must continue the sibling-walking... -->
       <xsl:call-template name="x:continue-call-scenarios"/>
-   </xsl:template>
-
-   <!--
-       Default rule for that mode generates an error.
-   -->
-   <xsl:template match="@*|node()" mode="x:generate-calls">
-      <xsl:sequence select="
-         xs:QName('x:XSPEC001')
-         => error('Unhandled node in x:generate-calls mode: ' || name())" />
    </xsl:template>
 
    <!--
@@ -374,6 +391,7 @@
       <xsl:if test="self::x:variable">
         <xsl:call-template name="x:detect-reserved-variable-name"/>
       </xsl:if>
+
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
@@ -418,6 +436,11 @@
          <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
       </xsl:apply-templates>
    </xsl:template>
+
+   <!--
+      mode="x:compile"
+   -->
+   <xsl:mode name="x:compile" on-multiple-match="fail" on-no-match="fail" />
 
    <!--
        At x:pending elements, we switch the $pending tunnel param
@@ -554,24 +577,24 @@
                select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
          </xsl:with-param>
       </xsl:call-template>
+
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
 
    <!--
-       x:param elements generate actual call param's variable.
+      x:param elements generate actual call param's variable.
    -->
    <xsl:template match="x:param" mode="x:compile">
       <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
 
-      <!-- Continue walking the siblings (only other x:param elements, within this
-           x:call or x:context). -->
+      <!-- Continue walking the siblings (only other x:param elements, within this x:call or
+         x:context). -->
       <xsl:apply-templates select="following-sibling::*[self::x:param][1]" mode="#current"/>
    </xsl:template>
 
    <!--
-       x:variable element adds a variable on the stack (the tunnel
-       param $stacked-variables).
+      x:variable element adds a variable on the stack (the tunnel param $stacked-variables).
    -->
    <xsl:template match="x:variable" mode="x:compile">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
@@ -601,24 +624,19 @@
                         |x:call
                         |x:context
                         |x:import
-                        |x:label" mode="x:compile">
+                        |x:label"
+                 mode="x:compile">
       <!-- Nothing... -->
+
       <!-- Continue walking the siblings. -->
       <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
    </xsl:template>
 
    <!--
-       Default rule for that mode generates an error.
+      mode="x:unshare-scenarios"
+      This mode resolves all the <like> elements to bring in the scenarios that they specify
    -->
-   <xsl:template match="@*|node()" mode="x:compile">
-      <xsl:sequence select="
-         xs:QName('x:XSPEC002')
-         => error('Unhandled node in x:compile mode: ' || name())" />
-   </xsl:template>
-
-   <!-- *** x:unshare-scenarios *** -->
-   <!-- This mode resolves all the <like> elements to bring in the scenarios that
-        they specify -->
+   <xsl:mode name="x:unshare-scenarios" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:key name="scenarios" match="x:scenario[not(x:is-user-content(.))]" use="x:label(.)" />
 
@@ -666,7 +684,19 @@
       </xsl:choose>
    </xsl:template>
 
-   <!-- *** x:report *** -->
+   <!--
+      mode="x:generate-tests"
+      Does the generation of the test stylesheet.
+      This mode assumes that all the scenarios have already been gathered and unshared.
+      Actual processing of this mode depends on generate-query-tests.xsl and
+      generate-xspec-tests.xsl.
+   -->
+   <xsl:mode name="x:generate-tests" on-multiple-match="fail" on-no-match="fail" />
+
+   <!--
+      mode="x:report"
+   -->
+   <xsl:mode name="x:report" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
       <xsl:apply-templates select="." mode="test:create-node-generator" />
@@ -692,11 +722,16 @@
       </xsl:choose>
    </xsl:template>
 
-   <!-- Generates the ID of current x:scenario or x:expect.
+   <!--
+      mode="x:generate-id"
+      Generates the ID of current x:scenario or x:expect.
       These default templates assume that all the scenarios have already been gathered and unshared.
       So the default ID may not always be usable for backtracking. For such backtracking purposes,
       override these default templates and implement your own ID generation. The generated ID must
-      be castable as xs:NCName, because ID is used as a part of local name. -->
+      be castable as xs:NCName, because ID is used as a part of local name.
+   -->
+   <xsl:mode name="x:generate-id" on-multiple-match="fail" on-no-match="fail" />
+
    <xsl:template match="x:scenario" as="xs:string" mode="x:generate-id">
       <xsl:variable name="ancestor-or-self-tokens" as="xs:string+">
          <xsl:for-each select="ancestor-or-self::x:scenario">

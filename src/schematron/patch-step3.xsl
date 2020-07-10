@@ -16,7 +16,7 @@
 	<!--
 		Workaround for schematron-select-full-path not working with text nodes
 	-->
-	<xsl:template match="*" mode="stylesheetbody">
+	<xsl:template match="element()" mode="stylesheetbody">
 		<xsl:next-match />
 
 		<xsl:if test="$x:enable-schematron-text-location">

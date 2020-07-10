@@ -208,7 +208,7 @@
                <p:inline>
                   <xsl:stylesheet version="3.0">
                      <xsl:import href="[to be replaced]" />
-                     <xsl:template match="/">
+                     <xsl:template match="document-node()" as="node()+">
                         <c:query>
                            <xsl:next-match />
                         </c:query>
