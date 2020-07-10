@@ -4,7 +4,7 @@
 
 	<xsl:import href="../src/reporter/coverage-report.xsl" />
 
-	<xsl:template as="node()+" match="/">
+	<xsl:template as="node()+" match="document-node(element(trace))">
 		<!-- Just insert a comment into the document -->
 		<xsl:comment>Customized coverage report</xsl:comment>
 

@@ -11,6 +11,8 @@
 
 	<xsl:output indent="yes" />
 
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
 	<xsl:template as="element(catalog:catalog)" name="xsl:initial-template">
 		<xsl:context-item use="absent" />
 
