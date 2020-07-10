@@ -11,8 +11,8 @@
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                query="http://example.org/ns/my"
-               query-at="../../tested.xqm"
-               stylesheet="../../tested.xsl">
+               query-at="../../square.xqm"
+               stylesheet="../../square.xsl">
 
    <t:import href="imported.xspec"/>
 

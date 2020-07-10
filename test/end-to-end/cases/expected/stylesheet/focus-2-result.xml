@@ -2,7 +2,7 @@
 <t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:my="http://example.org/ns/my"
-          stylesheet="../../../../tested.xsl"
+          stylesheet="../../../../square.xsl"
           date="2000-01-01T00:00:00Z"
           xspec="../../focus-2.xspec">
    <t:scenario id="scenario1"

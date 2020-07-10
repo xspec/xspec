@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test html-reporter=${xspec.project.dir}/src/reporter/format-xspec-report-folding.xsl?>
-<x:description stylesheet="../../tested.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="../../square.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
     <x:import href="focus-1.xspec" />
 </x:description>

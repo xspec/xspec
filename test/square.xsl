@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       tested.xsl                                               -->
+<!--  File:       square.xsl                                               -->
 <!--  Author:     Jeni Tennison                                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
@@ -10,29 +10,13 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:my="http://example.org/ns/my"
-                exclude-result-prefixes="xs"
-                version="2.0">
+                exclude-result-prefixes="#all"
+                version="3.0">
 
    <xsl:function name="my:square" as="xs:integer">
       <xsl:param name="n" as="xs:integer"/>
       <xsl:sequence select="$n * $n"/>
    </xsl:function>
-
-   <xsl:mode on-multiple-match="fail" on-no-match="fail" />
-
-   <xsl:template match="rule">
-      <xsl:param name="p"/>
-      <transformed/>
-   </xsl:template>
-
-   <xsl:template match="foo">
-      <xsl:param name="p"/>
-      <bar>
-         <foobaz>
-            <xsl:value-of select="$p"/>
-         </foobaz>
-      </bar>
-   </xsl:template>
 
 </xsl:stylesheet>
 

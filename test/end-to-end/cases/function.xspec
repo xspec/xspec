@@ -11,8 +11,8 @@
                xmlns:my="http://example.org/ns/my"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                query="http://example.org/ns/my"
-               query-at="../../tested.xqm"
-               stylesheet="../../tested.xsl">
+               query-at="../../square.xqm"
+               stylesheet="../../square.xsl">
 
    <t:scenario label="when calling a function and expecting correctly">
       <t:call function="my:square">

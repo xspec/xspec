@@ -4,7 +4,7 @@
           xmlns:t="http://www.jenitennison.com/xslt/xspec"
           date="2000-01-01T00:00:00Z"
           query="http://example.org/ns/my"
-          query-at="../../../../tested.xqm"
+          query-at="../../../../square.xqm"
           xspec="../../pending.xspec">
    <t:scenario id="scenario1"
                xspec="../../pending.xspec"
