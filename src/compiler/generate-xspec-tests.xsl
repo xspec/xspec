@@ -42,7 +42,7 @@
          report XML may use namespace prefixes in XPath expressions even when the prefixes are not
          used in node names. -->
       <stylesheet version="{x:xslt-version(.) => x:decimal-string()}">
-         <xsl:sequence select="x:copy-namespaces(.)" />
+         <xsl:sequence select="x:copy-of-namespaces(.)" />
 
          <xsl:if test="not($is-external)">
             <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
@@ -239,7 +239,7 @@
       </xsl:if>
 
       <template name="{x:known-UQName('x:' || $scenario-id)}">
-         <xsl:sequence select="x:copy-namespaces(.)" />
+         <xsl:sequence select="x:copy-of-namespaces(.)" />
 
          <xsl:for-each select="distinct-values($stacked-variables ! x:variable-UQName(.))">
             <param name="{.}" required="yes" />
@@ -358,10 +358,10 @@
                            <xsl:call-template name="x:enter-sut">
                               <xsl:with-param name="instruction" as="element(xsl:call-template)">
                                  <call-template name="{$call/@template}">
-                                    <xsl:sequence select="x:copy-namespaces($call)" />
+                                    <xsl:sequence select="x:copy-of-namespaces($call)" />
                                     <xsl:for-each select="$call/x:param">
                                        <with-param name="{@name}" select="${x:variable-UQName(.)}">
-                                          <xsl:sequence select="x:copy-namespaces(.)" />
+                                          <xsl:sequence select="x:copy-of-namespaces(.)" />
                                           <xsl:copy-of select="@tunnel, @as" />
                                        </with-param>
                                     </xsl:for-each>
@@ -388,7 +388,7 @@
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:sequence)">
                               <sequence>
-                                 <xsl:sequence select="x:copy-namespaces($call)" />
+                                 <xsl:sequence select="x:copy-of-namespaces($call)" />
                                  <xsl:attribute name="select">
                                     <xsl:value-of select="$call/@function" />
                                     <xsl:text>(</xsl:text>
@@ -412,11 +412,11 @@
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                               <apply-templates>
-                                 <xsl:sequence select="x:copy-namespaces($apply)" /><!--TODO: Check that this line works after x:apply is implemented.-->
+                                 <xsl:sequence select="x:copy-of-namespaces($apply)" /><!--TODO: Check that this line works after x:apply is implemented.-->
                                  <xsl:copy-of select="$apply/@select | $apply/@mode" />
                                  <xsl:for-each select="$apply/x:param">
                                     <with-param name="{ @name }" select="${ x:variable-UQName(.) }">
-                                       <xsl:sequence select="x:copy-namespaces(.)" /><!--TODO: Check that this line works after x:apply is implemented.-->
+                                       <xsl:sequence select="x:copy-of-namespaces(.)" /><!--TODO: Check that this line works after x:apply is implemented.-->
                                        <xsl:copy-of select="@tunnel, @as" /><!--TODO: Check that this @as works after x:apply is implemented.-->
                                     </with-param>
                                  </xsl:for-each>
@@ -430,11 +430,11 @@
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                               <apply-templates select="${x:variable-UQName($context)}">
-                                 <xsl:sequence select="x:copy-namespaces($context)" />
+                                 <xsl:sequence select="x:copy-of-namespaces($context)" />
                                  <xsl:sequence select="$context/@mode" />
                                  <xsl:for-each select="$context/x:param">
                                     <with-param name="{@name}" select="${x:variable-UQName(.)}">
-                                       <xsl:sequence select="x:copy-namespaces(.)" />
+                                       <xsl:sequence select="x:copy-of-namespaces(.)" />
                                        <xsl:copy-of select="@tunnel, @as" />
                                     </with-param>
                                  </xsl:for-each>
@@ -617,7 +617,7 @@
       </xsl:variable>
 
       <template name="{x:known-UQName('x:' || $expect-id)}">
-         <xsl:sequence select="x:copy-namespaces(.)" />
+         <xsl:sequence select="x:copy-of-namespaces(.)" />
 
          <xsl:for-each select="$param-uqnames">
             <param name="{.}" required="yes" />

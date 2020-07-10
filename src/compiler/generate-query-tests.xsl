@@ -47,7 +47,7 @@
    <!--
       mode="x:generate-tests"
    -->
-   <xsl:template match="x:description" mode="x:generate-tests">
+   <xsl:template match="x:description" as="node()+" mode="x:generate-tests">
       <xsl:variable name="this" select="." as="element(x:description)" />
 
       <!-- Look for a prefix defined for the target namespace on x:description. -->
@@ -123,7 +123,7 @@
          </xsl:if>
          <xsl:attribute name="xspec" select="$actual-document-uri"/>
 
-         <xsl:sequence select="x:copy-namespaces($this)" />
+         <xsl:sequence select="x:copy-of-namespaces($this)" />
 
          <xsl:text> {&#10;</xsl:text>
          <!-- Generate calls to the compiled top-level scenarios. -->
