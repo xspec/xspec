@@ -11,13 +11,4 @@
       <transformed/>
    </xsl:template>
 
-   <xsl:template match="foo">
-      <xsl:param name="p"/>
-      <bar>
-         <foobaz>
-            <xsl:value-of select="$p"/>
-         </foobaz>
-      </bar>
-   </xsl:template>
-
 </xsl:stylesheet>
