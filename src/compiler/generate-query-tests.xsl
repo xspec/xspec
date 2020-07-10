@@ -51,7 +51,7 @@
       <xsl:variable name="this" select="." as="element(x:description)" />
 
       <!-- Look for a prefix defined for the target namespace on x:description. -->
-      <xsl:variable name="prefix" as="xs:string?" select="
+      <xsl:variable name="sut-prefix" as="xs:string?" select="
           in-scope-prefixes($this)[
             namespace-uri-for-prefix(., $this) eq xs:anyURI($this/@query)
           ][1]"/>
@@ -62,8 +62,8 @@
       <!-- Import module to be tested -->
       <xsl:text>(: the tested library module :)&#10;</xsl:text>
       <xsl:text>import module </xsl:text>
-      <xsl:if test="exists($prefix)">
-         <xsl:text expand-text="yes">namespace {$prefix} = </xsl:text>
+      <xsl:if test="exists($sut-prefix)">
+         <xsl:text expand-text="yes">namespace {$sut-prefix} = </xsl:text>
       </xsl:if>
       <xsl:text expand-text="yes">"{$this/@query}"</xsl:text>
       <xsl:if test="exists($query-at)">
@@ -87,8 +87,8 @@
       <xsl:text>;&#x0A;</xsl:text>
 
       <!-- Declare namespaces -->
-      <xsl:for-each select="in-scope-prefixes($this)[not(. = ('', 'xml', $prefix))]">
-         <xsl:text expand-text="yes">declare namespace {.} = "{namespace-uri-for-prefix(., $this)}";&#x0A;</xsl:text>
+      <xsl:for-each select="x:copy-of-namespaces($this)[not(name() = ('', $sut-prefix))]">
+         <xsl:text expand-text="yes">declare namespace {name()} = "{string()}";&#x0A;</xsl:text>
       </xsl:for-each>
 
       <!-- Serialization parameters for the test result report XML -->
