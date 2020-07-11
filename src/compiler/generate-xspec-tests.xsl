@@ -106,7 +106,7 @@
                      <xsl:when test="$x:saxon-version lt x:pack-version((9, 9, 1, 1))">
                         <!-- Workaround for a Saxon bug: https://saxonica.plan.io/issues/4093 -->
                         <xsl:sequence
-                           select="x:xspec-name(., 'xml-report-serialization-parameters')" />
+                           select="x:xspec-name('xml-report-serialization-parameters', .)" />
                      </xsl:when>
                      <xsl:otherwise>
                         <!-- Escape curly braces because @format is AVT -->
@@ -116,7 +116,7 @@
                   </xsl:choose>
                </xsl:attribute>
 
-               <xsl:element name="{x:xspec-name(., 'report')}" namespace="{$x:xspec-namespace}">
+               <xsl:element name="{x:xspec-name('report', .)}" namespace="{$x:xspec-namespace}">
                   <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
                      that the URI appears in the trace report generated from running the
                      test stylesheet, which can then be picked up by stylesheets that
@@ -260,7 +260,7 @@
             <xsl:value-of select="normalize-space(x:label(.))" />
          </message>
 
-         <xsl:element name="{x:xspec-name(., 'scenario')}" namespace="{$x:xspec-namespace}">
+         <xsl:element name="{x:xspec-name('scenario', .)}" namespace="{$x:xspec-namespace}">
             <xsl:attribute name="id" select="$scenario-id" />
             <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
 
@@ -453,7 +453,7 @@
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:known-UQName('x:result')}" />
                   <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                     <xsl:value-of select="x:xspec-name(., 'result')" />
+                     <xsl:value-of select="x:xspec-name('result', .)" />
                   </with-param>
                </call-template>
                <xsl:comment> a call instruction for each x:expect element </xsl:comment>
@@ -496,7 +496,7 @@
                <if
                   test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('test:is-saxon-config')}() => not()">
                   <message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR: ${x:xspec-name(., 'saxon-config')} does not appear to be a Saxon configuration</xsl:text>
+                     <xsl:text expand-text="yes">ERROR: ${x:xspec-name('saxon-config', .)} does not appear to be a Saxon configuration</xsl:text>
                   </message>
                </if>
                <map-entry key="'vendor-options'">
@@ -717,7 +717,7 @@
             </if>
          </xsl:if>
 
-         <xsl:element name="{x:xspec-name(., 'test')}" namespace="{$x:xspec-namespace}">
+         <xsl:element name="{x:xspec-name('test', .)}" namespace="{$x:xspec-namespace}">
             <xsl:attribute name="id" select="$expect-id" />
 
             <!-- Create @pending generator or create @successful directly -->
@@ -746,7 +746,7 @@
                      <call-template name="{x:known-UQName('test:report-sequence')}">
                         <with-param name="sequence" select="${x:known-UQName('impl:test-result')}" />
                         <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                           <xsl:value-of select="x:xspec-name(., 'result')" />
+                           <xsl:value-of select="x:xspec-name('result', .)" />
                         </with-param>
                      </call-template>
                   </if>
@@ -755,7 +755,7 @@
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:variable-UQName(.)}" />
                   <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                     <xsl:value-of select="x:xspec-name(., 'expect')" />
+                     <xsl:value-of select="x:xspec-name('expect', .)" />
                   </with-param>
                   <with-param name="test" as="attribute(test)?">
                      <xsl:apply-templates select="@test" mode="test:create-node-generator" />
