@@ -116,21 +116,36 @@
                   </xsl:choose>
                </xsl:attribute>
 
-               <xsl:element name="{x:xspec-name('report', .)}" namespace="{$x:xspec-namespace}">
-                  <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
-                     that the URI appears in the trace report generated from running the
-                     test stylesheet, which can then be picked up by stylesheets that
-                     process *that* to generate a coverage report -->
-                  <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+               <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
+                  <xsl:attribute name="name" select="x:xspec-name('report', .)" />
+                  <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
-                  <xsl:attribute name="date" select="'{current-dateTime()}'" />
-                  <xsl:attribute name="xspec" select="$xspec-master-uri" />
+                  <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
+                     mode="test:create-node-generator"/>
 
-                  <!-- Do not always copy @schematron.
-                     @schematron may exist even when this XSpec is not testing Schematron. -->
-                  <xsl:if test="$is-schematron">
-                     <xsl:sequence select="@schematron" />
-                  </xsl:if>
+                  <xsl:variable name="attributes" as="attribute()+">
+                     <xsl:attribute name="xspec" select="$xspec-master-uri" />
+
+                     <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
+                        that the URI appears in the trace report generated from running the
+                        test stylesheet, which can then be picked up by stylesheets that
+                        process *that* to generate a coverage report -->
+                     <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+
+                     <!-- Do not always copy @schematron.
+                        @schematron may exist even when this XSpec is not testing Schematron. -->
+                     <xsl:if test="$is-schematron">
+                        <xsl:sequence select="@schematron" />
+                     </xsl:if>
+                  </xsl:variable>
+                  <xsl:apply-templates select="$attributes" mode="test:create-node-generator" />
+
+                  <!-- @date must be evaluated at run time -->
+                  <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
+                     <xsl:attribute name="name" select="'date'" />
+                     <xsl:attribute name="namespace" />
+                     <xsl:attribute name="select" select="'current-dateTime()'" />
+                  </xsl:element>
 
                   <!-- Generate calls to the compiled top-level scenarios. -->
                   <xsl:text>&#10;            </xsl:text><xsl:comment> a call instruction for each top-level scenario </xsl:comment>

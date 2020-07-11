@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../issue-452.xspec"
           stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../issue-452.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-452.xspec">
       <x:label>Text</x:label>
       <x:call function="mirror:param-mirror">

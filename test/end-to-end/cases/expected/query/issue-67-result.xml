@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          date="2000-01-01T00:00:00Z"
+          xspec="../../issue-67.xspec"
           query="x-urn:test:xspec-items"
           query-at="../../../../items.xqm"
-          xspec="../../issue-67.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-67.xspec">
       <x:label>Comparing identical namespace</x:label>
       <x:call function="exactly-one">
