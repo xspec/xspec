@@ -10,8 +10,8 @@
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:my="http://example.org/ns/my"
                query="http://example.org/ns/my"
-               query-at="../../tested.xqm"
-               stylesheet="../../tested.xsl">
+               query-at="../../square.xqm"
+               stylesheet="../../square.xsl">
 
    <t:scenario label="a correct scenario in an imported file">
       <t:call function="my:square">

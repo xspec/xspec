@@ -8,7 +8,7 @@
 
 
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               stylesheet="../../tested.xsl">
+               stylesheet="rule.xsl">
 
    <t:scenario label="x:context with correct x:expect">
       <t:context>

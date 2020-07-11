@@ -3,9 +3,9 @@
                xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               stylesheet="../../test/tested.xsl"
+               stylesheet="../../test/square.xsl"
                query="http://example.org/ns/my"
-               query-at="../../test/tested.xqm">
+               query-at="../../test/square.xqm">
 
    <!-- Example (embellished a bit to make it runnable) in Compilation.md, under "Variables scope" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
