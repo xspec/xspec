@@ -301,7 +301,7 @@
        (which selects either the x:label element or the label
        attribute).
        
-       TODO: Imports are "resolved" in x:gather-specs().  But this is
+       TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
        resolving x:import elements in place.  Bur for now, those
@@ -612,7 +612,7 @@
        (which selects either the x:label element or the label
        attribute).
        
-       TODO: Imports are "resolved" in x:gather-specs().  But this is
+       TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
        resolving x:import elements in place.  Bur for now, those
