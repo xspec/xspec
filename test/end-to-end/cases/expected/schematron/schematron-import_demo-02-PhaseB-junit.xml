@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="sch-import-demo-02-PhaseB.xspec">
+<testsuites name="schematron-import_demo-02-PhaseB.xspec">
    <testsuite name="Pattern 2" tests="2" failures="1">
       <testcase name="assert t2-1 error" status="passed"/>
       <testcase name="not assert t1-1" status="failed">
