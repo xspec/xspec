@@ -222,6 +222,11 @@
 			test="$x:result[name() eq 'prefix']/string()" />
 		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
 			test="$x:result[name() eq 'wrapper-prefix']/string()" />
+		<x:expect label="'xml' namespace is not copied"
+			test="
+				$x:result[(name() eq 'xml') or (string() eq 'http://www.w3.org/XML/1998/namespace')]
+				=> empty()"
+		 />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-user-content">

@@ -51,7 +51,7 @@
       <xsl:variable name="this" select="." as="element(x:description)" />
 
       <!-- Look for a prefix defined for the target namespace on x:description. -->
-      <xsl:variable name="prefix" as="xs:string?" select="
+      <xsl:variable name="sut-prefix" as="xs:string?" select="
           in-scope-prefixes($this)[
             namespace-uri-for-prefix(., $this) eq xs:anyURI($this/@query)
           ][1]"/>
@@ -62,8 +62,8 @@
       <!-- Import module to be tested -->
       <xsl:text>(: the tested library module :)&#10;</xsl:text>
       <xsl:text>import module </xsl:text>
-      <xsl:if test="exists($prefix)">
-         <xsl:text expand-text="yes">namespace {$prefix} = </xsl:text>
+      <xsl:if test="exists($sut-prefix)">
+         <xsl:text expand-text="yes">namespace {$sut-prefix} = </xsl:text>
       </xsl:if>
       <xsl:text expand-text="yes">"{$this/@query}"</xsl:text>
       <xsl:if test="exists($query-at)">
@@ -87,8 +87,8 @@
       <xsl:text>;&#x0A;</xsl:text>
 
       <!-- Declare namespaces -->
-      <xsl:for-each select="in-scope-prefixes($this)[not(. = ('', 'xml', $prefix))]">
-         <xsl:text expand-text="yes">declare namespace {.} = "{namespace-uri-for-prefix(., $this)}";&#x0A;</xsl:text>
+      <xsl:for-each select="x:copy-of-namespaces($this)[not(name() = ('', $sut-prefix))]">
+         <xsl:text expand-text="yes">declare namespace {name()} = "{string()}";&#x0A;</xsl:text>
       </xsl:for-each>
 
       <!-- Serialization parameters for the test result report XML -->
@@ -115,7 +115,7 @@
       <xsl:text>(: set up the result document (the report) :)&#10;</xsl:text>
       <xsl:text>document {&#x0A;</xsl:text>
 
-      <xsl:element name="{x:xspec-name($this, 'report')}" namespace="{$x:xspec-namespace}">
+      <xsl:element name="{x:xspec-name('report', $this)}" namespace="{$x:xspec-namespace}">
          <xsl:attribute name="date"  select="'{current-dateTime()}'" />
          <xsl:attribute name="query" select="$this/@query"/>
          <xsl:if test="exists($query-at)">
@@ -247,7 +247,7 @@
          <xsl:text>    return&#10;</xsl:text>
       </xsl:if>
 
-      <xsl:element name="{x:xspec-name(., 'scenario')}" namespace="{$x:xspec-namespace}">
+      <xsl:element name="{x:xspec-name('scenario', .)}" namespace="{$x:xspec-namespace}">
          <xsl:attribute name="id" select="$scenario-id" />
          <xsl:sequence select="@xspec" />
 
@@ -291,7 +291,7 @@
                </xsl:call-template>
                <xsl:text>  )&#10;</xsl:text>
                <xsl:text>    return (&#10;</xsl:text>
-               <xsl:text expand-text="yes">      {x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, '{x:xspec-name(., 'result')}'),&#10;</xsl:text>
+               <xsl:text expand-text="yes">      {x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, '{x:xspec-name('result', .)}'),&#10;</xsl:text>
                <xsl:text>      (: a call instruction for each x:expect element :)&#10;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -425,7 +425,7 @@
       <!--
         return the x:test element for the report
       -->
-      <xsl:element name="{x:xspec-name(., 'test')}" namespace="{$x:xspec-namespace}">
+      <xsl:element name="{x:xspec-name('test', .)}" namespace="{$x:xspec-namespace}">
          <xsl:attribute name="id" select="$expect-id" />
 
          <!-- Create @pending generator or create @successful directly -->
@@ -450,14 +450,14 @@
                <xsl:text>&#x0A;</xsl:text>
                <xsl:text>      { if ( $local:boolean-test )&#x0A;</xsl:text>
                <xsl:text>        then ()&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">        else {x:known-UQName('test:report-sequence')}($local:test-result, '{x:xspec-name(., 'result')}')</xsl:text>
+               <xsl:text expand-text="yes">        else {x:known-UQName('test:report-sequence')}($local:test-result, '{x:xspec-name('result', .)}')</xsl:text>
                <xsl:text> }</xsl:text>
             </xsl:if>
 
             <xsl:text>&#x0A;</xsl:text>
             <xsl:text>      { </xsl:text>
             <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(</xsl:text>
-            <xsl:text expand-text="yes">${x:variable-UQName(.)}, '{x:xspec-name(., 'expect')}'</xsl:text>
+            <xsl:text expand-text="yes">${x:variable-UQName(.)}, '{x:xspec-name('expect', .)}'</xsl:text>
 
             <xsl:if test="@test">
                <xsl:text>, </xsl:text>
