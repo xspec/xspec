@@ -77,29 +77,44 @@
       Drive the overall compilation of a suite. Apply template on the x:description element, in the
       mode
    -->
-   <xsl:template name="x:generate-tests">
+   <xsl:template name="x:generate-tests" as="node()+">
       <xsl:context-item as="document-node(element(x:description))" use="required" />
 
-      <xsl:variable name="this" select="." as="document-node(element(x:description))"/>
-      <xsl:variable name="all-specs" as="document-node(element(x:description))">
+      <xsl:variable name="this" select="." as="document-node(element(x:description))" />
+
+      <!-- Collect all the instances of x:description by resolving x:import -->
+      <xsl:variable name="descriptions" as="element(x:description)+"
+         select="x:gather-descriptions($this/x:description)" />
+
+      <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
+         including x:variable, x:import and comments. -->
+      <xsl:variable name="specs" as="node()+">
+         <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
+      </xsl:variable>
+
+      <!-- Combine all the children of x:description into a single document, taking x:description
+         from the initial XSpec document. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name($this/*, 'description')}" namespace="{$x:xspec-namespace}">
+            <xsl:element name="{x:xspec-name('description', $this/x:description)}"
+               namespace="{$x:xspec-namespace}">
                <xsl:sequence select="x:copy-of-namespaces($this/x:description)" />
-               <xsl:copy-of select="$this/x:description/@*"/>
-               <xsl:apply-templates select="x:gather-specs($this/x:description)"
-                                    mode="x:gather-specs"/>
+               <xsl:sequence select="$this/x:description/attribute()" />
+               <xsl:sequence select="$specs" />
             </xsl:element>
          </xsl:document>
       </xsl:variable>
-      <xsl:variable name="unshared-scenarios" as="document-node()">
-         <xsl:document>
-            <xsl:apply-templates select="$all-specs/*" mode="x:unshare-scenarios"/>
-         </xsl:document>
+
+      <!-- Resolve x:like and @shared -->
+      <xsl:variable name="unshared-doc" as="document-node(element(x:description))">
+         <xsl:apply-templates select="$combined-doc" mode="x:unshare-scenarios" />
       </xsl:variable>
-      <xsl:apply-templates select="$unshared-scenarios/*" mode="x:generate-tests"/>
+
+      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
+      <xsl:apply-templates select="$unshared-doc/element()" mode="x:generate-tests" />
    </xsl:template>
 
-   <xsl:function name="x:gather-specs" as="element(x:description)+">
+   <xsl:function name="x:gather-descriptions" as="element(x:description)+">
       <xsl:param name="visit" as="element(x:description)+"/>
 
       <!-- "$visit/x:import" without sorting -->
@@ -132,7 +147,7 @@
             <xsl:sequence select="$visit"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="($visit, $imported-except-visit) => x:gather-specs()" />
+            <xsl:sequence select="($visit, $imported-except-visit) => x:gather-descriptions()" />
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
@@ -210,7 +225,7 @@
    <!-- x:space has been replaced with x:text -->
    <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-user-content">
       <xsl:message terminate="yes">
-         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name(., 'text')} instead.</xsl:text>
+         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
       </xsl:message>
    </xsl:template>
 
@@ -226,7 +241,7 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$x:xspec-namespace}">
+         <xsl:element name="{x:xspec-name('text', parent::element())}" namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
                   ancestor::*[if (self::x:*)
@@ -286,7 +301,7 @@
        (which selects either the x:label element or the label
        attribute).
        
-       TODO: Imports are "resolved" in x:gather-specs().  But this is
+       TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
        resolving x:import elements in place.  Bur for now, those
@@ -597,7 +612,7 @@
        (which selects either the x:label element or the label
        attribute).
        
-       TODO: Imports are "resolved" in x:gather-specs().  But this is
+       TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
        resolving x:import elements in place.  Bur for now, those
@@ -782,7 +797,7 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <xsl:element name="{x:xspec-name($labelled, 'label')}" namespace="{$x:xspec-namespace}">
+      <xsl:element name="{x:xspec-name('label', $labelled)}" namespace="{$x:xspec-namespace}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
    </xsl:function>
@@ -800,10 +815,10 @@
    <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.
       Usually 'x:local-name'. -->
    <xsl:function name="x:xspec-name" as="xs:string">
-      <xsl:param name="context" as="element()"/>
       <xsl:param name="local-name" as="xs:string" />
+      <xsl:param name="context-element" as="element()" />
 
-      <xsl:variable name="prefix" as="xs:string" select="x:xspec-prefix($context)" />
+      <xsl:variable name="prefix" as="xs:string" select="x:xspec-prefix($context-element)" />
       <xsl:sequence select="$prefix || ':'[$prefix] || $local-name" />
    </xsl:function>
 
