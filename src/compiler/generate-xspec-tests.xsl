@@ -372,12 +372,19 @@
                         <xsl:variable name="template-call">
                            <xsl:call-template name="x:enter-sut">
                               <xsl:with-param name="instruction" as="element(xsl:call-template)">
-                                 <call-template name="{$call/@template}">
-                                    <xsl:sequence select="x:copy-of-namespaces($call)" />
+                                 <call-template
+                                    name="{$call ! x:UQName-from-EQName-ignoring-default-ns(@template, .)}">
                                     <xsl:for-each select="$call/x:param">
-                                       <with-param name="{@name}" select="${x:variable-UQName(.)}">
+                                       <with-param>
+                                          <!-- @as may use namespace prefixes -->
                                           <xsl:sequence select="x:copy-of-namespaces(.)" />
-                                          <xsl:copy-of select="@tunnel, @as" />
+
+                                          <xsl:attribute name="name"
+                                             select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
+                                          <xsl:attribute name="select"
+                                             select="'$' || x:variable-UQName(.)" />
+
+                                          <xsl:sequence select="@tunnel, @as" />
                                        </with-param>
                                     </xsl:for-each>
                                  </call-template>
@@ -403,15 +410,25 @@
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:sequence)">
                               <sequence>
-                                 <xsl:sequence select="x:copy-of-namespaces($call)" />
+                                 <xsl:variable name="function-name" as="xs:string">
+                                    <xsl:choose>
+                                       <xsl:when test="contains($call/@function, ':')">
+                                          <xsl:sequence
+                                             select="$call ! x:UQName-from-EQName-ignoring-default-ns(@function, .)" />
+                                       </xsl:when>
+                                       <xsl:otherwise>
+                                          <!-- Function name without prefix is not Q{}local but fn:local -->
+                                          <xsl:sequence select="$call/@function" />
+                                       </xsl:otherwise>
+                                    </xsl:choose>
+                                 </xsl:variable>
+
                                  <xsl:attribute name="select">
-                                    <xsl:value-of select="$call/@function" />
-                                    <xsl:text>(</xsl:text>
+                                    <xsl:text expand-text="yes">{$function-name}(</xsl:text>
                                     <xsl:for-each select="$call/x:param">
                                        <xsl:sort select="xs:integer(@position)" />
-                                       <xsl:text>$</xsl:text>
-                                       <xsl:value-of select="x:variable-UQName(.)" />
-                                       <xsl:if test="position() != last()">, </xsl:if>
+                                       <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
+                                       <xsl:if test="position() ne last()">, </xsl:if>
                                     </xsl:for-each>
                                     <xsl:text>)</xsl:text>
                                  </xsl:attribute>
@@ -422,17 +439,33 @@
 
                      <xsl:when test="$apply">
                         <!-- TODO: x:apply not implemented yet -->
-                        <!-- Create the apply templates instruction.
-                           This code path, particularly with @catch, has not been tested. -->
+                        <!-- Create the apply templates instruction -->
+                        <!-- TODO: This code path (including @catch, namespaces and @as) has not been tested. -->
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                               <apply-templates>
-                                 <xsl:sequence select="x:copy-of-namespaces($apply)" /><!--TODO: Check that this line works after x:apply is implemented.-->
-                                 <xsl:copy-of select="$apply/@select | $apply/@mode" />
+                                 <!-- $apply/@select may use namespace prefixes and/or the default
+                                    namespace such as xs:QName('foo') -->
+                                 <xsl:sequence select="x:copy-of-namespaces($apply)" />
+
+                                 <xsl:sequence select="$apply/@select" />
+
+                                 <xsl:if test="$apply/@mode => exists()">
+                                    <xsl:attribute name="mode"
+                                       select="$apply ! x:UQName-from-EQName-ignoring-default-ns(@mode, .)" />
+                                 </xsl:if>
+
                                  <xsl:for-each select="$apply/x:param">
-                                    <with-param name="{ @name }" select="${ x:variable-UQName(.) }">
-                                       <xsl:sequence select="x:copy-of-namespaces(.)" /><!--TODO: Check that this line works after x:apply is implemented.-->
-                                       <xsl:copy-of select="@tunnel, @as" /><!--TODO: Check that this @as works after x:apply is implemented.-->
+                                    <with-param>
+                                       <!-- @as may use namespace prefixes -->
+                                       <xsl:sequence select="x:copy-of-namespaces(.)" />
+
+                                       <xsl:attribute name="name"
+                                          select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
+                                       <xsl:attribute name="select"
+                                          select="'$' || x:variable-UQName(.)" />
+
+                                       <xsl:sequence select="@tunnel, @as" />
                                     </with-param>
                                  </xsl:for-each>
                               </apply-templates>
@@ -445,12 +478,22 @@
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                               <apply-templates select="${x:variable-UQName($context)}">
-                                 <xsl:sequence select="x:copy-of-namespaces($context)" />
-                                 <xsl:sequence select="$context/@mode" />
+                                 <xsl:if test="$context/@mode => exists()">
+                                    <xsl:attribute name="mode"
+                                       select="$context ! x:UQName-from-EQName-ignoring-default-ns(@mode, .)" />
+                                 </xsl:if>
+
                                  <xsl:for-each select="$context/x:param">
-                                    <with-param name="{@name}" select="${x:variable-UQName(.)}">
+                                    <with-param>
+                                       <!-- @as may use namespace prefixes -->
                                        <xsl:sequence select="x:copy-of-namespaces(.)" />
-                                       <xsl:copy-of select="@tunnel, @as" />
+
+                                       <xsl:attribute name="name"
+                                          select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
+                                       <xsl:attribute name="select"
+                                          select="'$' || x:variable-UQName(.)" />
+
+                                       <xsl:sequence select="@tunnel, @as" />
                                     </with-param>
                                  </xsl:for-each>
                               </apply-templates>

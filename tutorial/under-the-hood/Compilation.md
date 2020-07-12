@@ -184,7 +184,7 @@ result as parameter.
          <xsl:attribute name="function">my:f</xsl:attribute>
       </x:call>
       <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-         <xsl:sequence select="my:f()"/>
+         <xsl:sequence select="Q{http://example.org/ns/my}f()"/>
       </xsl:variable>
       ... generate scenario data in the report ...
       <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1">
@@ -377,7 +377,7 @@ section "[Simple scenario](#simple-scenario)").
    <xsl:variable name="Q{}p2"
                  as="element()"
                  select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )"/>
-   <xsl:sequence select="my:f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
+   <xsl:sequence select="Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
 </xsl:variable>
 
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
@@ -389,9 +389,9 @@ section "[Simple scenario](#simple-scenario)").
    </xsl:variable>
    <xsl:variable name="Q{}p2"
                  select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )" />
-   <xsl:call-template name="t">
-      <xsl:with-param name="p1" select="$Q{}p1"/>
-      <xsl:with-param name="p2" select="$Q{}p2"/>
+   <xsl:call-template name="Q{}t">
+      <xsl:with-param name="Q{}p1" select="$Q{}p1"/>
+      <xsl:with-param name="Q{}p2" select="$Q{}p2"/>
    </xsl:call-template>
 </xsl:variable>
 
@@ -600,7 +600,9 @@ and functions in XQuery).
    <x:variable name="myv:var-1" ...>
    <x:scenario label="inner">
       <x:variable name="myv:var-2" ...>
-      <x:call function="my:f"/>
+      <x:call function="my:square">
+         <x:param select="0"/>
+      </x:call>
       <x:variable name="myv:var-3" ...>
       <x:expect label="expect one" ...>
       <x:variable name="myv:var-4" ...>
@@ -632,7 +634,7 @@ and functions in XQuery).
    <!-- the generated variable -->
    <xsl:variable name="Q{http://example.org/ns/my/variable}var-2" ...>
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-      <xsl:sequence select="my:f()"/>
+      <xsl:sequence select="Q{http://example.org/ns/my}square(...)"/>
    </xsl:variable>
    ...
    <!-- the generated variable -->
@@ -713,7 +715,7 @@ declare function local:scenario1-scenario1(
   let $Q{http://example.org/ns/my/variable}var-2 := ...
   ...
   let $Q{http://www.jenitennison.com/xslt/xspec}result := (
-    my:f()
+    my:square(...)
   )
     return (
       ...,
