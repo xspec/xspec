@@ -542,6 +542,17 @@
          </xsl:choose>
       </xsl:variable>
 
+      <!-- Check duplicate parameter name -->
+      <xsl:for-each select="$new-apply, $new-call, $new-context">
+         <xsl:variable name="param-owner-name" as="xs:string" select="name()" />
+         <xsl:variable name="param-uqnames" as="xs:string*" select="x:param ! x:variable-UQName(.)" />
+         <xsl:for-each select="$param-uqnames[subsequence($param-uqnames, 1, position() - 1) = .]">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">Duplicate parameter name, {.}, used in {$param-owner-name}.</xsl:text>
+            </xsl:message>
+         </xsl:for-each>
+      </xsl:for-each>
+
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-scenario">
          <xsl:with-param name="pending"   select="$new-pending" tunnel="yes"/>

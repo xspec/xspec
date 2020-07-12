@@ -2326,4 +2326,40 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
+#
+# Duplicate param name
+#
+
+@test "Duplicate function-call param name (XSLT)" {
+    run ../bin/xspec.sh dup-param-name/function-call.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Duplicate function-call param name (XQuery)" {
+    run ../bin/xspec.sh -q dup-param-name/function-call.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Duplicate context param name" {
+    run ../bin/xspec.sh dup-param-name/context.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:context." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Duplicate template-call param name" {
+    run ../bin/xspec.sh dup-param-name/template-call.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
 
