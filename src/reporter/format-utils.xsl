@@ -36,6 +36,7 @@
   mode="test:serialize"
     All the whitespace-only text nodes except the ones in <test:ws> are considered to be of indentation.
 -->
+<xsl:mode name="test:serialize" on-multiple-match="fail" on-no-match="fail" />
 
 <xsl:template match="element()" as="node()+" mode="test:serialize">
   <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
@@ -73,14 +74,11 @@
   </xsl:variable>
 
   <!-- Namespace nodes -->
-  <xsl:variable name="omit-namespace-uris" as="xs:string+" select="
-    $x:xspec-namespace (: x :),
-    'http://www.w3.org/XML/1998/namespace' (: xml :),
-    $x:xs-namespace,
-    $x:xsl-namespace" />
-  <xsl:variable name="namespaces" as="namespace-node()*" select="x:copy-namespaces(.)" />
-  <xsl:variable name="parent-namespaces" as="namespace-node()*" select="parent::element() => x:copy-namespaces()" />
-  <xsl:variable name="significant-namespaces" as="namespace-node()*" select="$namespaces[not(string() = $omit-namespace-uris)]" />
+  <xsl:variable name="namespaces" as="namespace-node()*" select="x:copy-of-namespaces(.)" />
+  <xsl:variable name="parent-namespaces" as="namespace-node()*"
+    select="parent::element() => x:copy-of-namespaces()" />
+  <xsl:variable name="significant-namespaces" as="namespace-node()*"
+    select="$namespaces[not(string() = ($x:xs-namespace, $x:xsl-namespace, $x:xspec-namespace))]" />
   <xsl:variable name="new-namespaces" as="namespace-node()*">
     <xsl:choose>
       <xsl:when test="$level eq 0">
@@ -324,10 +322,6 @@
       <xsl:text expand-text="yes">&#x0A;{substring(., $indentation + 2)}</xsl:text>
     </xsl:otherwise>
   </xsl:choose>
-</xsl:template>
-
-<xsl:template match="document-node() | attribute() | node()" as="empty-sequence()" mode="test:serialize" priority="-1">
-  <xsl:message select="'Unhandled node'" terminate="yes" />
 </xsl:template>
 
 <!-- Returns the position of the node, ignoring the preceding-sibling whitespace-only text nodes.

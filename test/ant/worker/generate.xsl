@@ -35,14 +35,11 @@
 
 	<!--
 		mode=#default
-			Transforms a template of Ant build file into a working build file.
+		Transforms a template of Ant build file into a working build file.
 	-->
+	<xsl:mode on-multiple-match="fail" on-no-match="shallow-copy" />
 
-	<xsl:template as="node()" match="document-node() | attribute() | node()">
-		<xsl:call-template name="x:identity" />
-	</xsl:template>
-
-	<xsl:template as="element()" match="/*">
+	<xsl:template as="element()" match="/element()">
 		<xsl:copy>
 			<xsl:apply-templates select="attribute()" />
 			<xsl:comment expand-text="yes">Temporary build file generated from {document-uri(/)} at {current-dateTime()}</xsl:comment>
@@ -80,11 +77,12 @@
 
 	<!--
 		mode=xspec
-			Transforms a .xspec document into a series of <run-xspec> elements (or comment nodes if skipped)
-			based on /x:description/@*
+		Transforms a .xspec document into a series of <run-xspec> elements (or comment nodes if skipped)
+		based on /x:description/@*
 	-->
+	<xsl:mode name="xspec" on-multiple-match="fail" on-no-match="fail" />
 
-	<xsl:template as="node()+" match="document-node()" mode="xspec">
+	<xsl:template as="node()+" match="document-node(element(x:description))" mode="xspec">
 		<xsl:variable as="xs:anyURI" name="xspec-file-uri" select="document-uri(/)" />
 
 		<xsl:variable as="processing-instruction(xspec-test)*" name="pis"

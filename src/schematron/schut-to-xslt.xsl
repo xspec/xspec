@@ -25,7 +25,7 @@
 
 	<xsl:include href="../common/xspec-utils.xsl" />
 
-	<xsl:mode on-no-match="fail" />
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="document-node()" match="document-node(element(x:description))">
 		<xsl:variable as="map(xs:string, item())+" name="common-options-map">

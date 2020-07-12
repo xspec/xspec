@@ -9,11 +9,14 @@
 		Finds any test failure in XSpec test result XML file.
 		Output XML structure is for Ant <xmlproperty> task.
 	-->
-	<xsl:template as="element(xspec)" match="document-node()">
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
+	<xsl:template as="element(xspec)" match="document-node(element(x:report))">
 		<xspec>
 			<passed>
-				<xsl:value-of select="empty(x:descendant-failed-tests(.))" />
+				<xsl:value-of select="x:descendant-failed-tests(.) => empty()" />
 			</passed>
 		</xspec>
 	</xsl:template>
+
 </xsl:stylesheet>

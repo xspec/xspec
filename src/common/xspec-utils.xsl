@@ -177,13 +177,14 @@
 	</xsl:function>
 
 	<!--
-		Copies namespaces of element
+		Makes copies of namespaces from element
+		The standard 'xml' namespace is excluded.
 	-->
-	<xsl:function as="namespace-node()*" name="x:copy-namespaces">
-		<xsl:param as="element()" name="e" />
+	<xsl:function as="namespace-node()*" name="x:copy-of-namespaces">
+		<xsl:param as="element()" name="element" />
 
-		<xsl:for-each select="in-scope-prefixes($e)">
-			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $e)" />
+		<xsl:for-each select="in-scope-prefixes($element)[. ne 'xml']">
+			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $element)" />
 		</xsl:for-each>
 	</xsl:function>
 
@@ -666,6 +667,9 @@
 
 		<xsl:variable as="xs:string" name="namespace">
 			<xsl:choose>
+				<xsl:when test="$prefix eq 'err'">
+					<xsl:sequence select="'http://www.w3.org/2005/xqt-errors'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'impl'">
 					<xsl:sequence select="'urn:x-xspec:compile:impl'" />
 				</xsl:when>
@@ -700,15 +704,7 @@
 		<xsl:for-each select="$source-element">
 			<xsl:choose>
 				<xsl:when test="@name">
-					<xsl:variable name="qname"
-						select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
-					<xsl:sequence
-						select="
-							x:UQName(
-							namespace-uri-from-QName($qname),
-							local-name-from-QName($qname)
-							)"
-					 />
+					<xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
 				</xsl:when>
 
 				<xsl:otherwise>
@@ -717,6 +713,25 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each>
+	</xsl:function>
+
+	<!--
+		Expands EQName (either URIQualifiedName or lexical QName, the latter is
+		resolved without using the default namespace) to URIQualifiedName.
+	-->
+	<xsl:function as="xs:string" name="x:UQName-from-EQName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="eqname" />
+		<xsl:param as="element()" name="element" />
+
+		<xsl:variable as="xs:QName" name="qname"
+			select="x:resolve-EQName-ignoring-default-ns($eqname, $element)" />
+		<xsl:sequence
+			select="
+				x:UQName(
+				namespace-uri-from-QName($qname),
+				local-name-from-QName($qname)
+				)"
+		 />
 	</xsl:function>
 
 </xsl:stylesheet>

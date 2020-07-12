@@ -12,7 +12,7 @@
 					'delivery-format': 'raw',
 					'function-params': [$n],
 					'initial-function': QName('http://example.org/ns/my', 'square'),
-					'stylesheet-location': 'external_tested.xsl'
+					'stylesheet-location': 'external_square.xsl'
 				}
 				)?output"
 		 />

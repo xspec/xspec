@@ -30,6 +30,8 @@
 
 	<xsl:param as="xs:boolean" name="DEBUG" select="false()" />
 
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
 	<xsl:template as="empty-sequence()" match="document-node()">
 		<!-- Absolute URI of input document -->
 		<xsl:variable as="xs:anyURI" name="input-doc-uri" select="document-uri(/)" />

@@ -207,8 +207,8 @@
 			test="starts-with(substring-after($x:result, ':'), '/')" />
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function copy-namespaces">
-		<x:call function="x:copy-namespaces">
+	<x:scenario label="Scenario for testing function copy-of-namespaces">
+		<x:call function="x:copy-of-namespaces">
 			<x:param select="//*:input-element">
 				<wrapper-element xmlns="wrapper-default-ns"
 					xmlns:wrapper-prefix="wrapper-prefixed-ns">
@@ -222,6 +222,11 @@
 			test="$x:result[name() eq 'prefix']/string()" />
 		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
 			test="$x:result[name() eq 'wrapper-prefix']/string()" />
+		<x:expect label="'xml' namespace is not copied"
+			test="
+				$x:result[(name() eq 'xml') or (string() eq 'http://www.w3.org/XML/1998/namespace')]
+				=> empty()"
+		 />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-user-content">
@@ -1157,7 +1162,7 @@
 						<e xmlns="default-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Resolved without affected by the default namespace"
+				<x:expect label="Resolved without being affected by the default namespace"
 					test="x:QName-exactly-equal($x:result, QName($ridiculous-uri, 'foo'))" />
 			</x:scenario>
 
@@ -1168,7 +1173,8 @@
 						<e xmlns="default-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Resolved as no namespace without affected by the default namespace"
+				<x:expect
+					label="Resolved as no namespace without being affected by the default namespace"
 					test="x:QName-exactly-equal($x:result, QName('', 'foo'))" />
 			</x:scenario>
 		</x:scenario>
@@ -1401,6 +1407,14 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function known-UQName">
+		<x:scenario label="err">
+			<x:call function="x:known-UQName">
+				<x:param select="'err:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.w3.org/2005/xqt-errors}my-local-name</x:expect>
+		</x:scenario>
+
 		<x:scenario label="impl">
 			<x:call function="x:known-UQName">
 				<x:param select="'impl:my-local-name'" />
@@ -1471,6 +1485,70 @@
 			</x:call>
 			<x:expect label="URIQualifiedName with predefined namespace and dynamic ID"
 				test="matches($x:result, '^Q\{urn:x-xspec:compile:impl\}my-element-\S+$')" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function UQName-from-EQName-ignoring-default-ns">
+		<x:scenario label="URIQualifiedName">
+			<x:scenario label="With URI">
+				<x:variable as="xs:anyURI" name="ridiculous-uri"
+					>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+				<x:variable as="xs:string" name="uqname" select="x:UQName($ridiculous-uri, 'foo')" />
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="$uqname" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Intact" select="$uqname" />
+			</x:scenario>
+
+			<x:scenario label="Without URI">
+				<x:variable as="xs:string" name="uqname">Q{}foo</x:variable>
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="$uqname" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Intact" select="$uqname" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Lexical QName">
+			<x:scenario label="With prefix">
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="'prefix:foo'" />
+					<x:param>
+						<e xmlns:prefix="prefixed-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved with prefix" select="string()"
+					>Q{prefixed-ns}foo</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without prefix">
+				<x:scenario label="With default namespace">
+					<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="default-ns" />
+						</x:param>
+					</x:call>
+					<x:expect label="Resolved without using the default namespace" select="string()"
+						>Q{}foo</x:expect>
+				</x:scenario>
+
+				<x:scenario label="Without default namespace">
+					<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="" />
+						</x:param>
+					</x:call>
+					<x:expect label="Resolved as no prefix" select="string()">Q{}foo</x:expect>
+				</x:scenario>
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 

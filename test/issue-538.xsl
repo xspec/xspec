@@ -4,7 +4,8 @@
   xmlns:x="http://www.jenitennison.com/xslt/xspec"
   exclude-result-prefixes="xs"
   version="3.0">
-  
+
+  <xsl:mode name="mymode" on-multiple-match="fail" on-no-match="fail" />
   <xsl:template match="myelement" mode="mymode">
     <xsl:param name="myparam" as="map(*)"/>
     <xsl:value-of select="$myparam('key')"/>

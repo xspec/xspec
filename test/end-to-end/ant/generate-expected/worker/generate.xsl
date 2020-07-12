@@ -18,7 +18,7 @@
 		
 		Require specific Saxon versions
 	-->
-	<xsl:template as="document-node(element(project))" match="document-node()">
+	<xsl:template as="document-node(element(project))" match="document-node(element(project))">
 		<xsl:variable as="xs:integer+" name="require-ge" select="9, 9, 0, 2" />
 		<xsl:variable as="xs:integer+" name="require-lt" select="10" />
 		<xsl:if
@@ -54,4 +54,5 @@
 				normalizer-xsl-url="{resolve-uri('normalize.xsl', @processor-dir)}" />
 		</xsl:for-each>
 	</xsl:template>
+
 </xsl:stylesheet>
