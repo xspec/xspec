@@ -10,7 +10,7 @@
       <x:call function="mirror:param-mirror">
          <x:param>
             <e1 xmlns="ns1">
-               <e2 xmlns:ns4="ns4" xmlns:ns3="ns3" xmlns="ns2">
+               <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2">
                   <ns3:e3>
                      <e4/>
                   </ns3:e3>
@@ -20,7 +20,7 @@
       </x:call>
       <x:result select="/element()">
          <e1 xmlns="ns1">
-            <e2 xmlns:ns4="ns4" xmlns:ns3="ns3" xmlns="ns2">
+            <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2">
                <ns3:e3>
                   <e4/>
                </ns3:e3>
@@ -31,7 +31,7 @@
          <x:label>Expecting the same structure but in different namespaces</x:label>
          <x:expect select="/element()">
             <e1 xmlns="ns1">
-               <e2 xmlns:ns4="ns4" xmlns:ns3="ns3" xmlns="ns2!">
+               <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2!">
                   <ns3:e3 xmlns:ns3="ns3!">
                      <e4 xmlns=""/>
                   </ns3:e3>

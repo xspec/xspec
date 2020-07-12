@@ -704,15 +704,6 @@
    -->
    <xsl:mode name="x:generate-tests" on-multiple-match="fail" on-no-match="fail" />
 
-   <!--
-      mode="x:report"
-   -->
-   <xsl:mode name="x:report" on-multiple-match="fail" on-no-match="fail" />
-
-   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
-      <xsl:apply-templates select="." mode="test:create-node-generator" />
-   </xsl:template>
-
    <!-- Generates a gateway from x:scenario to System Under Test.
       The actual instruction to enter SUT is provided by the caller. The instruction
       should not contain other actions. -->
@@ -813,14 +804,10 @@
       </xsl:element>
    </xsl:function>
 
-   <xsl:function name="x:create-pending-attr-generator" as="node()+">
+   <xsl:function name="x:pending-attribute-from-pending-node" as="attribute(pending)">
       <xsl:param name="pending-node" as="node()" />
 
-      <xsl:variable name="pending-attr" as="attribute(pending)">
-         <xsl:attribute name="pending" select="$pending-node" />
-      </xsl:variable>
-
-      <xsl:apply-templates select="$pending-attr" mode="test:create-node-generator" />
+      <xsl:attribute name="pending" select="$pending-node" />
    </xsl:function>
 
    <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.

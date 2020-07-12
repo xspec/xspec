@@ -281,7 +281,8 @@
 
             <!-- Create @pending generator -->
             <xsl:if test="$pending-p">
-               <xsl:sequence select="x:create-pending-attr-generator($pending)" />
+               <xsl:apply-templates select="x:pending-attribute-from-pending-node($pending)"
+                  mode="test:create-node-generator" />
             </xsl:if>
 
             <!-- Create x:label directly -->
@@ -292,11 +293,14 @@
             <xsl:for-each select="$local-preceding-variables | x:apply | x:call | x:context">
                <xsl:choose>
                   <xsl:when test="self::x:apply or self::x:call or self::x:context">
-                     <!-- Create report generator -->
-                     <xsl:apply-templates select="." mode="x:report" />
+                     <!-- Copy the input to the test result report XML -->
+                     <xsl:apply-templates select="." mode="test:create-node-generator" />
+                  </xsl:when>
+                  <xsl:when test="self::x:variable">
+                     <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
                   </xsl:when>
                   <xsl:otherwise>
-                     <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+                     <xsl:message select="'Unhandled', name()" terminate="yes" />
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:for-each>
@@ -786,7 +790,8 @@
             <!-- Create @pending generator or create @successful directly -->
             <xsl:choose>
                <xsl:when test="$pending-p">
-                  <xsl:sequence select="x:create-pending-attr-generator($pending)" />
+                  <xsl:apply-templates select="x:pending-attribute-from-pending-node($pending)"
+                     mode="test:create-node-generator" />
                </xsl:when>
 
                <xsl:otherwise>
