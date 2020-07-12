@@ -3,9 +3,9 @@
                xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               stylesheet="tested.xsl"
+               stylesheet="square.xsl"
                query="http://example.org/ns/my"
-               query-at="tested.xqm">
+               query-at="square.xqm">
 
    <!-- If any of these tests changes, check whether the file
         ../tutorials/under-the-hood/Compilation.md needs updates. -->
