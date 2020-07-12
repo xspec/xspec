@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="http://example.org/ns/my" query-at="../subtract.xqm"
+	stylesheet="../subtract.xsl" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario
+		label="Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name">
+		<!-- The 2nd x:param is deliberately not @name="right". (xspec/xspec#1062) -->
+		<x:call function="my:subtract">
+			<x:param name="left" select="2" />
+			<x:param name="left" select="1" />
+		</x:call>
+		<x:expect label="should be a compiler error" select="1" />
+	</x:scenario>
+
+</x:description>
