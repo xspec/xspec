@@ -1488,4 +1488,68 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function UQName-from-EQName-ignoring-default-ns">
+		<x:scenario label="URIQualifiedName">
+			<x:scenario label="With URI">
+				<x:variable as="xs:anyURI" name="ridiculous-uri"
+					>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+				<x:variable as="xs:string" name="uqname" select="x:UQName($ridiculous-uri, 'foo')" />
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="$uqname" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Intact" select="$uqname" />
+			</x:scenario>
+
+			<x:scenario label="Without URI">
+				<x:variable as="xs:string" name="uqname">Q{}foo</x:variable>
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="$uqname" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Intact" select="$uqname" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Lexical QName">
+			<x:scenario label="With prefix">
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="'prefix:foo'" />
+					<x:param>
+						<e xmlns:prefix="prefixed-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved with prefix" select="string()"
+					>Q{prefixed-ns}foo</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without prefix">
+				<x:scenario label="With default namespace">
+					<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="default-ns" />
+						</x:param>
+					</x:call>
+					<x:expect label="Resolved without using the default namespace" select="string()"
+						>Q{}foo</x:expect>
+				</x:scenario>
+
+				<x:scenario label="Without default namespace">
+					<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="" />
+						</x:param>
+					</x:call>
+					<x:expect label="Resolved as no prefix" select="string()">Q{}foo</x:expect>
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
