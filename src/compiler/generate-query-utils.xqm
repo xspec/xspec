@@ -234,7 +234,7 @@ declare function test:report-sequence(
           then (
             let $atomic-value-reports as xs:string+ :=
               (for $value in $sequence return test:report-atomic-value($value))
-            return attribute select { string-join($atomic-value-reports, ', ') }
+            return attribute select { string-join($atomic-value-reports, ',&#x0A;') }
           )
 
           (: One or more nodes of the same type which can be a child of document node :)
