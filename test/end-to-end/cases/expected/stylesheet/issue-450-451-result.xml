@@ -2,9 +2,9 @@
 <x:report xmlns:mirror="x-urn:test:mirror"
           xmlns:myv="http://example.org/ns/my/variable"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../issue-450-451.xspec"
           stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../issue-450-451.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-450-451.xspec">
       <x:label>function-param containing curly brackets</x:label>
       <x:call function="mirror:param-mirror">

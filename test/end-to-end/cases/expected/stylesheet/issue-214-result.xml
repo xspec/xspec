@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../issue-214.xspec"
           stylesheet="../../issue-214.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../issue-214.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-214.xspec">
       <x:label>input</x:label>
       <x:context>

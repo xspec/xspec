@@ -121,26 +121,32 @@
       <xsl:text>document {&#x0A;</xsl:text>
 
       <!-- <x:report> -->
-      <xsl:element name="{x:xspec-name('report', $this)}" namespace="{$x:xspec-namespace}">
-         <xsl:attribute name="date" select="'{current-dateTime()}'" />
-         <xsl:attribute name="query" select="$this/@query"/>
-         <xsl:if test="exists($query-at)">
-            <xsl:attribute name="query-at" select="$query-at"/>
-         </xsl:if>
-         <xsl:attribute name="xspec" select="$actual-document-uri"/>
+      <xsl:text>element { </xsl:text>
+      <xsl:value-of select="QName($x:xspec-namespace, x:xspec-name('report', $this)) => x:QName-expression()" />
+      <xsl:text> } {&#x0A;</xsl:text>
 
-         <xsl:sequence select="x:copy-of-namespaces($this)" />
+      <xsl:call-template name="test:create-zero-or-more-node-generators">
+         <xsl:with-param name="nodes" as="node()+">
+            <xsl:sequence select="x:element-additional-namespace-nodes(.)" />
 
-         <xsl:text> {&#10;</xsl:text>
-         <!-- Generate calls to the compiled top-level scenarios. -->
-         <xsl:text>(: a call instruction for each top-level scenario :)&#x0A;</xsl:text>
-         <xsl:call-template name="x:call-scenarios"/>
-         <xsl:text>}&#x0A;</xsl:text>
+            <xsl:attribute name="xspec" select="$actual-document-uri" />
+            <xsl:attribute name="query" select="$this/@query" />
+            <xsl:if test="exists($query-at)">
+               <xsl:attribute name="query-at" select="$query-at" />
+            </xsl:if>
+         </xsl:with-param>
+      </xsl:call-template>
+      <xsl:text>,&#x0A;</xsl:text>
+
+      <!-- @date must be evaluated at run time -->
+      <xsl:text>attribute { QName('', 'date') } { current-dateTime() },&#x0A;</xsl:text>
+
+      <!-- Generate calls to the compiled top-level scenarios. -->
+      <xsl:text>(: a call instruction for each top-level scenario :)&#x0A;</xsl:text>
+      <xsl:call-template name="x:call-scenarios"/>
 
       <!-- </x:report> -->
-      </xsl:element>
-
-      <xsl:text>&#x0A;</xsl:text>
+      <xsl:text>}&#x0A;</xsl:text>
 
       <!-- End of the document constructor -->
       <xsl:text>}&#x0A;</xsl:text>
