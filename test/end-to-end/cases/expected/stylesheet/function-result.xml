@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          xmlns:my="http://example.org/ns/my"
+<t:report xmlns:my="http://example.org/ns/my"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../function.xspec"
           stylesheet="../../../../square.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../function.xspec">
+          date="2000-01-01T00:00:00Z">
    <t:scenario id="scenario1" xspec="../../function.xspec">
       <t:label>when calling a function and expecting correctly</t:label>
       <t:call function="my:square">

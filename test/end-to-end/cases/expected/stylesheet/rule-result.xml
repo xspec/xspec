@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../rule.xspec"
           stylesheet="../../rule.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../rule.xspec">
+          date="2000-01-01T00:00:00Z">
    <t:scenario id="scenario1" xspec="../../rule.xspec">
       <t:label>x:context with correct x:expect</t:label>
       <t:context>

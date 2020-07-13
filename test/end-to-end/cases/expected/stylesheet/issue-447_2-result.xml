@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../issue-447_2.xspec"
           stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../issue-447_2.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1"
                xspec="../../issue-447_2.xspec"
                pending="x:pending/@label containing }{">
