@@ -178,6 +178,12 @@
       <xsl:variable name="maybe-avt" as="xs:boolean" select="x:is-user-content(.)" />
 
       <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
+         <xsl:if test="$maybe-avt">
+            <!-- AVT may use namespace prefixes and/or the default namespace such as
+               xs:QName('foo') -->
+            <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
+         </xsl:if>
+
          <xsl:attribute name="name" select="name()" />
          <xsl:attribute name="namespace" select="namespace-uri()" />
 
@@ -197,7 +203,12 @@
    <xsl:template match="text()" as="element(xsl:text)" mode="test:create-node-generator">
       <xsl:element name="xsl:text" namespace="{$x:xsl-namespace}">
          <xsl:if test="x:is-user-content(.)">
-            <!-- TVT -->
+            <xsl:if test="parent::x:text/@expand-text/x:yes-no-synonym(.)">
+               <!-- TVT may use namespace prefixes and/or the default namespace such as
+                  xs:QName('foo') -->
+               <xsl:sequence select="x:copy-of-namespaces(parent::x:text)" />
+            </xsl:if>
+
             <xsl:sequence select="parent::x:text/@expand-text" />
          </xsl:if>
 

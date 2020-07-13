@@ -226,7 +226,8 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name('text', parent::element())}" namespace="{$x:xspec-namespace}">
+         <xsl:element name="{x:xspec-name('text', parent::element())}"
+            namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
                   ancestor::*[if (self::x:*)
@@ -236,6 +237,12 @@
                       then self::attribute(expand-text)
                       else self::attribute(x:expand-text)]" />
             <xsl:if test="$expand-text">
+               <xsl:if test="x:yes-no-synonym($expand-text)">
+                  <!-- TVT may use namespace prefixes and/or the default namespace such as
+                     xs:QName('foo') -->
+                  <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
+               </xsl:if>
+
                <xsl:attribute name="expand-text" select="$expand-text"/>
             </xsl:if>
 
