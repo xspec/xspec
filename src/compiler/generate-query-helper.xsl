@@ -31,6 +31,8 @@
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?" />
 
+      <xsl:param name="comment" as="xs:string?" />
+
       <!-- URIQualifiedName of the variable being declared -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
@@ -109,11 +111,12 @@
                   </xsl:when>
 
                   <xsl:otherwise>
-                     <xsl:text>document { </xsl:text>
+                     <xsl:text>document {&#x0A;</xsl:text>
                      <xsl:call-template name="test:create-zero-or-more-node-generators">
                         <xsl:with-param name="nodes" select="node() except $exclude" />
                      </xsl:call-template>
-                     <xsl:text> }</xsl:text>
+                     <xsl:text>&#x0A;</xsl:text>
+                     <xsl:text>}</xsl:text>
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:with-param>
@@ -148,11 +151,12 @@
                   <xsl:text expand-text="yes">${$temp-doc-uqname} ! ( {test:disable-escaping($selection)} )</xsl:text>
                </xsl:when>
 
-               <xsl:otherwise>
+               <xsl:when test="@select">
                   <xsl:value-of select="test:disable-escaping(@select)" />
-               </xsl:otherwise>
+               </xsl:when>
             </xsl:choose>
          </xsl:with-param>
+         <xsl:with-param name="comment" select="$comment" />
       </xsl:call-template>
    </xsl:template>
 
@@ -169,13 +173,14 @@
       <xsl:param name="name" as="xs:string" required="yes" />
       <xsl:param name="type" as="xs:string?" required="yes" />
       <xsl:param name="value" as="node()*" required="yes" />
+      <xsl:param name="comment" as="xs:string?" />
 
       <xsl:choose>
          <xsl:when test="$is-global">
             <xsl:text>declare variable</xsl:text>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:text>  let</xsl:text>
+            <xsl:text>let</xsl:text>
          </xsl:otherwise>
       </xsl:choose>
 
@@ -185,11 +190,22 @@
          <xsl:text expand-text="yes"> as {$type}</xsl:text>
       </xsl:if>
 
-      <xsl:text> := ( </xsl:text>
+      <xsl:if test="$comment">
+         <xsl:text expand-text="yes"> (:{$comment}:)</xsl:text>
+      </xsl:if>
 
-      <xsl:sequence select="$value" />
+      <xsl:text> := (&#x0A;</xsl:text>
 
-      <xsl:text> )</xsl:text>
+      <xsl:choose>
+         <xsl:when test="$value">
+            <xsl:sequence select="$value" />
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:text>()</xsl:text>
+         </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:text>&#x0A;)</xsl:text>
 
       <xsl:if test="$is-global">
          <xsl:text>;</xsl:text>

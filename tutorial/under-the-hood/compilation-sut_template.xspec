@@ -6,31 +6,6 @@
    <!-- Example in Compilation.md, under "SUT" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
 
-<!-- x:apply is not implemented or in the schema yet.
-   <x:scenario label="apply template rules on a node (with x:apply)">
-      <x:variable name="ctxt">
-         <elem/>
-      </x:variable>
-      <x:apply select="$ctxt" mode="mode">
-         <x:param name="p1" select="val1" tunnel="yes"/>
-         <x:param name="p2" as="element()">
-            <val2/>
-         </x:param>
-      </x:apply>
-      <x:expect label="expectations" select="true()"/>
-   </x:scenario>
--->
-
-   <x:scenario label="call a function">
-      <x:call function="my:f">
-         <x:param select="'val1'"/>
-         <x:param name="p2" as="element()">
-            <val2/>
-         </x:param>
-      </x:call>
-      <x:expect label="expectations" select="true()"/>
-   </x:scenario>
-
    <x:scenario label="call a named template">
       <x:call template="t">
          <x:param name="p1" select="'val1'"/>
@@ -49,5 +24,20 @@
    </x:scenario>
    
   
+
+<!-- x:apply is not implemented or in the schema yet.
+   <x:scenario label="apply template rules on a node (with x:apply)">
+      <x:variable name="ctxt">
+         <elem/>
+      </x:variable>
+      <x:apply select="$ctxt" mode="mode">
+         <x:param name="p1" select="val1" tunnel="yes"/>
+         <x:param name="p2" as="element()">
+            <val2/>
+         </x:param>
+      </x:apply>
+      <x:expect label="expectations" select="true()"/>
+   </x:scenario>
+-->
 
 </x:description>
