@@ -2,10 +2,10 @@
 <t:report xmlns:my="http://example.org/ns/my"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
           xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          date="2000-01-01T00:00:00Z"
+          xspec="../../focus-2.xspec"
           query="http://example.org/ns/my"
           query-at="../../../../square.xqm"
-          xspec="../../focus-2.xspec">
+          date="2000-01-01T00:00:00Z">
    <t:scenario id="scenario1"
                xspec="../../focus-2.xspec"
                pending="testing x:pending">

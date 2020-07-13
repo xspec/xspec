@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:report xmlns:my="http://example.org/ns/my"
           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:my="http://example.org/ns/my"
+          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../pending.xspec"
           stylesheet="../../../../square.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../pending.xspec">
+          date="2000-01-01T00:00:00Z">
    <t:scenario id="scenario1"
                xspec="../../pending.xspec"
                pending="testing x:pending">

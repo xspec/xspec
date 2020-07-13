@@ -1552,4 +1552,48 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario label="Scenario for testing function element-additional-namespace-nodes">
+		<x:scenario label="Element has a prefix">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<prefix1:e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''][. eq 'default-ns'] => exists()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'] => empty()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
+		</x:scenario>
+
+		<x:scenario label="Element does not have a prefix">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''] => empty()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'][. eq 'ns1'] => exists()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
+		</x:scenario>
+
+		<x:scenario label="Element namespace is undeclared">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<e xmlns="" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''] => empty()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'][. eq 'ns1'] => exists()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
