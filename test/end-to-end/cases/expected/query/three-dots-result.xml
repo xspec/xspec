@@ -7,7 +7,6 @@
           date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../three-dots.xspec">
       <x:label>For resultant element (simple)</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario1-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
 				&lt;elem&gt;text&lt;/elem&gt;
@@ -98,7 +97,6 @@
    </x:scenario>
    <x:scenario id="scenario2" xspec="../../three-dots.xspec">
       <x:label>For resultant element (with attribute)</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario2-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
 				&lt;elem attrib="val" /&gt;
@@ -135,7 +133,6 @@
    </x:scenario>
    <x:scenario id="scenario3" xspec="../../three-dots.xspec">
       <x:label>For resultant element (with mixed content)</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario3-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
 				&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
@@ -210,7 +207,6 @@
    </x:scenario>
    <x:scenario id="scenario4" xspec="../../three-dots.xspec">
       <x:label>For resultant attribute</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario4-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
 					 @attrib="val"
@@ -293,7 +289,6 @@
    </x:scenario>
    <x:scenario id="scenario5" xspec="../../three-dots.xspec">
       <x:label>For resultant text node</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario5-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is usual text node</x:label>
          <x:call function="exactly-one">
@@ -366,7 +361,6 @@
    </x:scenario>
    <x:scenario id="scenario6" xspec="../../three-dots.xspec">
       <x:label>For resultant comment</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario6-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
 				&lt;!--comment--&gt;
@@ -429,7 +423,6 @@
    </x:scenario>
    <x:scenario id="scenario7" xspec="../../three-dots.xspec">
       <x:label>For resultant processing instruction</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario7-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
 				&lt;?pi data?&gt;
@@ -492,7 +485,6 @@
    </x:scenario>
    <x:scenario id="scenario8" xspec="../../three-dots.xspec">
       <x:label>For resultant document node</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario8-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
 				&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;
@@ -564,7 +556,6 @@
    </x:scenario>
    <x:scenario id="scenario9" xspec="../../three-dots.xspec">
       <x:label>For resultant namespace node</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario9-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
 						  xmlns:prefix="namespace-uri"
@@ -648,7 +639,6 @@
    </x:scenario>
    <x:scenario id="scenario10" xspec="../../three-dots.xspec">
       <x:label>For resultant sequence of multiple nodes</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario10-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is sequence of
 				&lt;elem1 /&gt;&lt;elem2 /&gt;
@@ -701,7 +691,6 @@
    </x:scenario>
    <x:scenario id="scenario12" xspec="../../three-dots.xspec">
       <x:label>For resultant atomic value</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario12-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is 'string'</x:label>
          <x:call function="exactly-one">

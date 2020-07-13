@@ -8,7 +8,6 @@
           date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes @href</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario1-scenario1" xspec="../../ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
          <x:call function="mirror:true"/>
@@ -29,7 +28,6 @@
    </x:scenario>
    <x:scenario id="scenario2" xspec="../../ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes @select</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario2-scenario1" xspec="../../ambiguous-expect.xspec">
          <x:label>When function returns false,</x:label>
          <x:call function="mirror:false"/>
@@ -47,7 +45,6 @@
    </x:scenario>
    <x:scenario id="scenario3" xspec="../../ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes child node</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario3-scenario1" xspec="../../ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
          <x:call function="mirror:true"/>
@@ -68,7 +65,6 @@
    </x:scenario>
    <x:scenario id="scenario4" xspec="../../ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario4-scenario1" xspec="../../ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
          <x:call function="mirror:true"/>
