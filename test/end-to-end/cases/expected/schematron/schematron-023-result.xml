@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="schematron-023-sch-preprocessed.xsl"
-          date="2000-01-01T00:00:00Z"
           xspec="../../schematron-023.xspec"
-          schematron="../../../../schematron/schematron-023.sch">
+          stylesheet="schematron-023-sch-preprocessed.xsl"
+          schematron="../../../../schematron/schematron-023.sch"
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../schematron-023.xspec">
       <x:label>valid with warning: expect-valid should pass</x:label>
       <x:context select="self::document-node()">

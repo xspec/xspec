@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="label-element-sch-preprocessed.xsl"
-          date="2000-01-01T00:00:00Z"
           xspec="../../label-element.xspec"
-          schematron="../../../../do-nothing.sch">
+          stylesheet="label-element-sch-preprocessed.xsl"
+          schematron="../../../../do-nothing.sch"
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../label-element.xspec">
       <x:label>	
 &#xD; 	

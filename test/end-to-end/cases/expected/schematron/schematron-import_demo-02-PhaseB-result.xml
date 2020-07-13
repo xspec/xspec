@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xmlns:local="local"
-          stylesheet="schematron-import_demo-02-PhaseB-sch-preprocessed.xsl"
-          date="2000-01-01T00:00:00Z"
+<x:report xmlns:local="local"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../schematron-import_demo-02-PhaseB.xspec"
-          schematron="../../../../../tutorial/schematron/demo-02.sch">
+          stylesheet="schematron-import_demo-02-PhaseB-sch-preprocessed.xsl"
+          schematron="../../../../../tutorial/schematron/demo-02.sch"
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1"
                xspec="../../../../../tutorial/schematron/demo-02-PhaseB.xspec">
       <x:label>Pattern 2</x:label>

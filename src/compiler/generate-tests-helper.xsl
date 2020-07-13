@@ -151,36 +151,57 @@
       <xsl:call-template name="x:identity" />
    </xsl:template>
 
-   <xsl:template match="attribute() | comment() | processing-instruction() | text()"
-      as="element()" mode="test:create-node-generator">
-      <!-- As for attribute(), do not just throw XSLT attributes (@xsl:*) into identity
-         template. If you do so, the attribute being generated becomes a generator... -->
-      <xsl:element name="xsl:{x:node-type(.)}" namespace="{$x:xsl-namespace}">
-         <xsl:if test="(. instance of attribute()) or (. instance of processing-instruction())">
-            <xsl:attribute name="name" select="name()" />
-         </xsl:if>
+   <xsl:template match="namespace-node()" as="element(xsl:namespace)"
+      mode="test:create-node-generator">
+      <xsl:element name="xsl:namespace" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="name()" />
+         <xsl:value-of select="." />
+      </xsl:element>
+   </xsl:template>
 
-         <xsl:if test=". instance of attribute()">
-            <xsl:attribute name="namespace" select="namespace-uri()" />
-         </xsl:if>
+   <xsl:template match="attribute()" as="element(xsl:attribute)" mode="test:create-node-generator">
+      <xsl:variable name="maybe-avt" as="xs:boolean" select="x:is-user-content(.)" />
+
+      <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="name()" />
+         <xsl:attribute name="namespace" select="namespace-uri()" />
 
          <xsl:choose>
-            <xsl:when test="(. instance of attribute()) and x:is-user-content(.)">
-               <!-- AVT -->
+            <xsl:when test="$maybe-avt">
                <xsl:attribute name="select">'', ''</xsl:attribute>
                <xsl:attribute name="separator" select="." />
-            </xsl:when>
-
-            <xsl:when test="(. instance of text()) and x:is-user-content(.)">
-               <!-- May be TVT -->
-               <xsl:sequence select="parent::x:text/@expand-text" />
-               <xsl:sequence select="." />
             </xsl:when>
 
             <xsl:otherwise>
                <xsl:value-of select="." />
             </xsl:otherwise>
          </xsl:choose>
+      </xsl:element>
+   </xsl:template>
+
+   <xsl:template match="text()" as="element(xsl:text)" mode="test:create-node-generator">
+      <xsl:element name="xsl:text" namespace="{$x:xsl-namespace}">
+         <xsl:if test="x:is-user-content(.)">
+            <!-- TVT -->
+            <xsl:sequence select="parent::x:text/@expand-text" />
+         </xsl:if>
+
+         <xsl:sequence select="." />
+      </xsl:element>
+   </xsl:template>
+
+   <xsl:template match="processing-instruction()" as="element(xsl:processing-instruction)"
+      mode="test:create-node-generator">
+      <xsl:element name="xsl:processing-instruction" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="name()" />
+
+         <xsl:value-of select="." />
+      </xsl:element>
+   </xsl:template>
+
+   <xsl:template match="comment()" as="element(xsl:comment)" mode="test:create-node-generator">
+      <xsl:element name="xsl:comment" namespace="{$x:xsl-namespace}">
+         <xsl:value-of select="." />
       </xsl:element>
    </xsl:template>
 
@@ -198,7 +219,7 @@
          <xsl:attribute name="namespace" select="namespace-uri()" />
 
          <xsl:variable name="context-element" as="element()" select="." />
-         <xsl:for-each select="in-scope-prefixes($context-element)[not(. eq 'xml')]">
+         <xsl:for-each select="in-scope-prefixes($context-element)">
             <xsl:element name="xsl:namespace" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="name" select="." />
                <xsl:value-of select="namespace-uri-for-prefix(., $context-element)" />

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="issue-693-sch-preprocessed.xsl"
-          date="2000-01-01T00:00:00Z"
           xspec="../../issue-693.xspec"
-          schematron="../../issue-693.sch">
+          stylesheet="issue-693-sch-preprocessed.xsl"
+          schematron="../../issue-693.sch"
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-693.xspec">
       <x:label>Using user-content (not @href) in x:context should work</x:label>
       <x:context select="self::document-node()">

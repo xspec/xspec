@@ -8,7 +8,6 @@
 
 
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                stylesheet="../src/compiler/generate-xspec-tests.xsl">
 
@@ -19,11 +18,6 @@
        version (generate-query-tests.xsl), because its output is textual XQuery.
        Unless, of course, we use XQueryX (XML representation of XQuery)...
    -->
-
-   <!-- $xspec-prefix in generate-common-tests.xsl accesses the initial context node or the
-      source document which is not available at XSpec runtime. So hardcode $xspec-prefix here.
-      TODO: XSpec had better provide a way to define the source document... -->
-   <t:variable name="xspec-prefix" select="'t'" />
 
    <!--t:scenario label="FIRST TEST.......">
       <t:variable name="ctxt" as="document-node()">

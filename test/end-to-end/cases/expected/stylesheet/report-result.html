@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for mirror.xsl (passed: 0 / pending: 0 / failed: 8 / total: 8)</title>
+      <title>Test Report for mirror.xsl (passed: 0 / pending: 0 / failed: 9 / total: 9)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -23,8 +23,8 @@
                <th></th>
                <th class="totals">passed: 0</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 8</th>
-               <th class="totals">total: 8</th>
+               <th class="totals">failed: 9</th>
+               <th class="totals">total: 9</th>
             </tr>
          </thead>
          <tbody>
@@ -69,6 +69,13 @@
                <th class="totals">0</th>
                <th class="totals">2</th>
                <th class="totals">2</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario7">Sequence of multiple atomic values</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
             </tr>
          </tbody>
       </table>
@@ -423,6 +430,56 @@
                         <td>
                            <p>XPath <code class="diff">/self::document-node()</code> from:</p>
                            <pre>&lt;<span class="same">test</span> /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario7">
+         <h2 class="failed">Sequence of multiple atomic values<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario7">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>Sequence of multiple atomic values</th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario7-expect1">Atomic values in [Result] and [Expected Result] are separated by comma and new line</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario7">
+            <h3>Sequence of multiple atomic values</h3>
+            <div id="scenario7-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">Atomic values in [Result] and [Expected Result] are separated by comma and new line</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>'foo',
+1,
+2,
+'bar'</pre>
+                        </td>
+                        <td>
+                           <pre>QName('', 'foo'),
+1,
+2,
+'bar'</pre>
                         </td>
                      </tr>
                   </tbody>

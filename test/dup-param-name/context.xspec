@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../subtract.xsl" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario
+		label="Multiple instances of context template-param (i.e. //x:context/x:param) of the same name">
+		<!-- The 2nd x:param is deliberately not @name="right". -->
+		<x:context>
+			<x:param name="left" select="2" />
+			<x:param name="left" select="1" />
+			<context-child />
+		</x:context>
+		<x:expect label="should be a compiler error" select="1" />
+	</x:scenario>
+
+</x:description>

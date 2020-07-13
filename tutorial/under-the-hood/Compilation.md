@@ -67,12 +67,14 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       </xsl:message>
       <!-- set up the result document (the report) -->
       <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}xml-report-serialization-parameters">
-         <x:report stylesheet=".../compilation-simple-suite.xsl"
-                   date="{current-dateTime()}"
-                   xspec=".../compilation-simple-suite.xspec">
+         <xsl:element name="x:report" namespace="http://www.jenitennison.com/xslt/xspec">
+            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+            <xsl:attribute name="xspec" namespace="">.../compilation-simple-suite.xspec</xsl:attribute>
+            <xsl:attribute name="stylesheet" namespace="">.../compilation-simple-suite.xsl</xsl:attribute>
+            <xsl:attribute name="date" namespace="" select="current-dateTime()"/>
             <!-- a call instruction for each top-level scenario -->
             <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"/>
-         </x:report>
+         </xsl:element>
       </xsl:result-document>
    </xsl:template>
 
@@ -134,21 +136,20 @@ declare function local:scenario1-expect1(
 (: the query body of this main module, to run the suite :)
 (: set up the result document (the report) :)
 document {
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xmlns:my="http://example.org/ns/my"
-          date="{current-dateTime()}"
-          query="http://example.org/ns/my"
-          query-at=".../compilation-simple-suite.xqm"
-          xspec=".../compilation-simple-suite.xspec"> {
+element { QName('http://www.jenitennison.com/xslt/xspec', 'x:report') } {
+namespace { "my" } { 'http://example.org/ns/my' },
+attribute { QName('', 'xspec') } { '.../compilation-simple-suite.xspec' },
+attribute { QName('', 'query') } { 'http://example.org/ns/my' },
+attribute { QName('', 'query-at') } { '.../compilation-simple-suite.xqm' },
+attribute { QName('', 'date') } { current-dateTime() },
       (: a call instruction for each top-level scenario :)
       let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1(
       )
       return (
         $Q{http://www.jenitennison.com/xslt/xspec}tmp
       )
-
 }
-</x:report> }
+}
 ```
 
 ## Simple scenario
@@ -183,7 +184,7 @@ result as parameter.
          <xsl:attribute name="function">my:f</xsl:attribute>
       </x:call>
       <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-         <xsl:sequence select="my:f()"/>
+         <xsl:sequence select="Q{http://example.org/ns/my}f()"/>
       </xsl:variable>
       ... generate scenario data in the report ...
       <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1">
@@ -376,7 +377,7 @@ section "[Simple scenario](#simple-scenario)").
    <xsl:variable name="Q{}p2"
                  as="element()"
                  select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )"/>
-   <xsl:sequence select="my:f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
+   <xsl:sequence select="Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
 </xsl:variable>
 
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
@@ -388,9 +389,9 @@ section "[Simple scenario](#simple-scenario)").
    </xsl:variable>
    <xsl:variable name="Q{}p2"
                  select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )" />
-   <xsl:call-template name="t">
-      <xsl:with-param name="p1" select="$Q{}p1"/>
-      <xsl:with-param name="p2" select="$Q{}p2"/>
+   <xsl:call-template name="Q{}t">
+      <xsl:with-param name="Q{}p1" select="$Q{}p1"/>
+      <xsl:with-param name="Q{}p2" select="$Q{}p2"/>
    </xsl:call-template>
 </xsl:variable>
 
@@ -410,7 +411,8 @@ section "[Simple scenario](#simple-scenario)").
 
 ```xquery
 let $Q{urn:x-xspec:compile:impl}param-... := ( 'val1' )
-let $Q{urn:x-xspec:compile:impl}param-...-doc as document-node() := ( document { <val2 xmlns:my="http://example.org/ns/my">{ () }
+let $Q{urn:x-xspec:compile:impl}param-...-doc as document-node() := ( document {
+<val2 xmlns:my="http://example.org/ns/my">{ () }
 </val2> } )
 let $p2 as element() := ( $Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() ) )
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
@@ -475,9 +477,11 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
 declare function local:scenario1(
 )
 {
-  let $Q{http://example.org/ns/my/variable}var := ( 'value' )        (: the generated variable :)
+  let $Q{http://example.org/ns/my/variable}var := ( 'value' ) (: the generated variable :)
   ...
-  let $Q{http://www.jenitennison.com/xslt/xspec}result := ... exercise the SUT ...
+  let $Q{http://www.jenitennison.com/xslt/xspec}result := (
+    ... exercise the SUT ...
+  )
     return (
       ...,
       let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-expect1(
@@ -564,7 +568,8 @@ let $Q{urn:x-xspec:compile:impl}variable-...-uri as xs:anyURI := ( xs:anyURI("..
 let $Q{urn:x-xspec:compile:impl}variable-...-doc as document-node() := ( doc($Q{urn:x-xspec:compile:impl}variable-...-uri) )
 let $Q{http://example.org/ns/my/variable}href := ( $Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . ) )
 
-let $Q{urn:x-xspec:compile:impl}variable-...-doc as document-node() := ( document { <elem xmlns:my="http://example.org/ns/my" xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">{ () }
+let $Q{urn:x-xspec:compile:impl}variable-...-doc as document-node() := ( document {
+<elem xmlns:my="http://example.org/ns/my" xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">{ () }
 </elem> } )
 let $Q{http://example.org/ns/my/variable}content as element() := ( $Q{urn:x-xspec:compile:impl}variable-...-doc ! ( node() ) )
 ```
@@ -595,7 +600,9 @@ and functions in XQuery).
    <x:variable name="myv:var-1" ...>
    <x:scenario label="inner">
       <x:variable name="myv:var-2" ...>
-      <x:call function="my:f"/>
+      <x:call function="my:square">
+         <x:param select="0"/>
+      </x:call>
       <x:variable name="myv:var-3" ...>
       <x:expect label="expect one" ...>
       <x:variable name="myv:var-4" ...>
@@ -627,7 +634,7 @@ and functions in XQuery).
    <!-- the generated variable -->
    <xsl:variable name="Q{http://example.org/ns/my/variable}var-2" ...>
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-      <xsl:sequence select="my:f()"/>
+      <xsl:sequence select="Q{http://example.org/ns/my}square(...)"/>
    </xsl:variable>
    ...
    <!-- the generated variable -->
@@ -708,7 +715,7 @@ declare function local:scenario1-scenario1(
   let $Q{http://example.org/ns/my/variable}var-2 := ...
   ...
   let $Q{http://www.jenitennison.com/xslt/xspec}result := (
-    my:f()
+    my:square(...)
   )
     return (
       ...,

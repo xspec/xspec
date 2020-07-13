@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../tvt_label.xspec"
           stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../tvt_label.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../tvt_label.xspec">
       <x:label>With @expand-text=yes</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../tvt_label.xspec">

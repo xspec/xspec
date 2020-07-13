@@ -1,5 +1,5 @@
 (::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::)
-(:  File:       tested.xqm                                                  :)
+(:  File:       square.xqm                                                  :)
 (:  Author:     Jeni Tennison                                               :)
 (:  Tags:                                                                   :)
 (:    Copyright (c) 2010 Jeni Tennison (see end of file.)                   :)
