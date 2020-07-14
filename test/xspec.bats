@@ -1907,15 +1907,14 @@ load bats-helper
     run ../bin/xspec.sh variable/reserved-eqname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC008[: ] User-defined XSpec variable, Q\{http://www\.jenitennison\.com/xslt/xspec\}foo,$'
-    [ "${lines[6]}" = "  must not use the XSpec namespace." ]
+    [ "${lines[4]}" = "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace." ]
 }
 
 @test "Error on user-defined variable in XSpec namespace (QName in global variable)" {
     run ../bin/xspec.sh variable/reserved-name.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC008[: ] User-defined XSpec variable, u:foo, must not use the XSpec namespace\.$'
+    [ "${lines[4]}" = "ERROR: User-defined XSpec variable, u:foo, must not use the XSpec namespace." ]
 }
 
 #
@@ -2139,21 +2138,25 @@ load bats-helper
 # x:like errors
 #
 
-@test "x:like errors" {
+@test "x:like error (scenario not found)" {
     run ../bin/xspec.sh like/none.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC009[: ] x:like: Scenario not found: none$'
+    [ "${lines[4]}" = "ERROR in x:like: Scenario not found: 'none'" ]
+}
 
+@test "x:like error (multiple scenarios)" {
     run ../bin/xspec.sh like/multiple.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[4]}" '^  x:XSPEC010[: ] x:like: 2 scenarios found with same label: shared scenario$'
+    [ "${lines[4]}" = "ERROR in x:like: 2 scenarios found with same label: 'shared scenario'" ]
+}
 
+@test "x:like error (infinite loop)" {
     run ../bin/xspec.sh like/loop.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[4]}" '^  x:XSPEC011[: ] x:like: Reference to ancestor scenario creates infinite loop: parent scenario$'
+    [ "${lines[4]}" = "ERROR in x:like: Reference to ancestor scenario creates infinite loop: 'parent scenario'" ]
 }
 
 #

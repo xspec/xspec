@@ -1652,14 +1652,13 @@
 	<case name="Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)">
     call :run ..\bin\xspec.bat variable\reserved-eqname.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC008[: ] User-defined XSpec variable, Q{http://www\.jenitennison\.com/xslt/xspec}foo,$"
-    call :verify_line 7 x "  must not use the XSpec namespace."
+    call :verify_line 5 x "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace."
 	</case>
 
 	<case name="Error on user-defined variable in XSpec namespace (QName in global variable)">
     call :run ..\bin\xspec.bat variable\reserved-name.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC008[: ] User-defined XSpec variable, u:foo, must not use the XSpec namespace\.$"
+    call :verify_line 5 x "ERROR: User-defined XSpec variable, u:foo, must not use the XSpec namespace."
 	</case>
 
 	<!--
@@ -1863,18 +1862,22 @@
 		x:like errors
 	-->
 
-	<case name="x:like errors">
+	<case name="x:like error (scenario not found)">
     call :run ..\bin\xspec.bat like\none.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC009[: ] x:like: Scenario not found: none$"
+    call :verify_line 5 x "ERROR in x:like: Scenario not found: 'none'"
+	</case>
 
+	<case name="x:like error (multiple scenarios)">
     call :run ..\bin\xspec.bat like\multiple.xspec
     call :verify_retval 2
-    call :verify_line 5 r "  x:XSPEC010[: ] x:like: 2 scenarios found with same label: shared scenario$"
+    call :verify_line 5 x "ERROR in x:like: 2 scenarios found with same label: 'shared scenario'"
+	</case>
 
+	<case name="x:like error (infinite loop)">
     call :run ..\bin\xspec.bat like\loop.xspec
     call :verify_retval 2
-    call :verify_line 5 r "  x:XSPEC011[: ] x:like: Reference to ancestor scenario creates infinite loop: parent scenario$"
+    call :verify_line 5 x "ERROR in x:like: Reference to ancestor scenario creates infinite loop: 'parent scenario'"
 	</case>
 
 	<!--
