@@ -220,26 +220,26 @@
 
       <xsl:variable name="quoted-label" as="xs:string" select="$x:apos || x:label(.) || $x:apos" />
 
-      <!-- x:context and x:call/@template not supported for XQuery -->
-      <xsl:if test="exists($context)">
-         <xsl:variable name="msg" as="xs:string">
-            <xsl:text expand-text="yes">x:context not supported for XQuery (scenario {$quoted-label})</xsl:text>
-         </xsl:variable>
-         <xsl:sequence select="xs:QName('x:XSPEC003') => error($msg)" />
+      <xsl:if test="$context">
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text expand-text="yes">{name($context)} not supported for XQuery</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
-      <xsl:if test="exists($call/@template)">
-         <xsl:variable name="msg" as="xs:string">
-            <xsl:text expand-text="yes">x:call/@template not supported for XQuery (scenario {$quoted-label})</xsl:text>
-         </xsl:variable>
-         <xsl:sequence select="xs:QName('x:XSPEC004') => error($msg)" />
+      <xsl:if test="$call/@template">
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text expand-text="yes">{name($call)}/@template not supported for XQuery</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
-
-      <!-- x:call required if there are x:expect -->
-      <xsl:if test="x:expect and not($call)">
-         <xsl:variable name="msg" as="xs:string">
-            <xsl:text expand-text="yes">there are x:expect but no x:call (scenario {$quoted-label})</xsl:text>
-         </xsl:variable>
-         <xsl:sequence select="xs:QName('x:XSPEC005') => error($msg)" />
+      <xsl:if test="x:expect and empty($call)">
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
 
       <!--

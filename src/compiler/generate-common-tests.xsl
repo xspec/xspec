@@ -790,6 +790,16 @@
       </xsl:choose>
    </xsl:template>
 
+   <xsl:template name="x:output-scenario-error" as="empty-sequence()">
+      <xsl:context-item as="element(x:scenario)" use="required" />
+
+      <xsl:param name="message" as="xs:string" />
+
+      <xsl:message terminate="yes">
+         <xsl:text expand-text="yes">ERROR in {name()} ('{x:label(.)}'): {$message}</xsl:text>
+      </xsl:message>
+   </xsl:template>
+
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
