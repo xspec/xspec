@@ -31,6 +31,8 @@
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?" />
 
+      <xsl:param name="comment" as="xs:string?" />
+
       <!-- URIQualifiedName of the variable being declared -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
@@ -138,6 +140,10 @@
                <xsl:sequence select="@select" />
             </xsl:otherwise>
          </xsl:choose>
+
+         <xsl:if test="$comment">
+            <xsl:comment select="$comment" />
+         </xsl:if>
       </xsl:element>
    </xsl:template>
 
