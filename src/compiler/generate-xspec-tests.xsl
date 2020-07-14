@@ -693,7 +693,9 @@
             <xsl:variable name="xslt-version" as="xs:decimal" select="x:xslt-version(.)" />
 
             <!-- Set up the $impl:expected variable -->
-            <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+            <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+               <xsl:with-param name="comment" select="'expected result'" />
+            </xsl:apply-templates>
 
             <!-- Flags for test:deep-equal() enclosed in ''. -->
             <xsl:variable name="deep-equal-flags" as="xs:string"
@@ -701,6 +703,7 @@
 
             <xsl:choose>
                <xsl:when test="@test">
+                  <xsl:comment> wrap $x:result into a doc node if possible </xsl:comment>
                   <!-- This variable declaration could be moved from here (the
                      template generated from x:expect) to the template
                      generated from x:scenario. It depends only on
@@ -722,6 +725,7 @@
                      </choose>
                   </variable>
 
+                  <xsl:comment> evaluate the predicate with $x:result as context node if $x:result is a single node; if not, just evaluate the predicate </xsl:comment>
                   <variable name="{x:known-UQName('impl:test-result')}" as="item()*">
                      <choose>
                         <when test="count(${x:known-UQName('impl:test-items')}) eq 1">
@@ -748,6 +752,7 @@
                      </if>
                   </xsl:if>
 
+                  <xsl:comment> did the test pass? </xsl:comment>
                   <variable name="{x:known-UQName('impl:successful')}" as="{x:known-UQName('xs:boolean')}">
                      <choose>
                         <when test="${x:known-UQName('impl:boolean-test')}">
