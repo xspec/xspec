@@ -24,21 +24,6 @@
 
    <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
 
-   <!-- XSpec namespace prefix -->
-   <xsl:function name="x:xspec-prefix" as="xs:string">
-      <xsl:param name="e" as="element()" />
-
-      <xsl:sequence select="
-         (
-            in-scope-prefixes($e)
-               [namespace-uri-for-prefix(., $e) eq $x:xspec-namespace]
-               [. (: Do not allow zero-length string :)],
-            
-            (: Fallback. Intentionally made weird in order to avoid collision. :)
-            'XsPeC'
-         )[1]"/>
-   </xsl:function>
-
    <!--
       mode="#default"
    -->
@@ -821,6 +806,21 @@
       </xsl:variable>
 
       <xsl:apply-templates select="$pending-attr" mode="test:create-node-generator" />
+   </xsl:function>
+
+   <!-- Returns an XSpec namespace prefix that can be used at run time -->
+   <xsl:function name="x:xspec-prefix" as="xs:string">
+      <xsl:param name="context-element" as="element()" />
+
+      <xsl:sequence select="
+         (
+            in-scope-prefixes($context-element)
+               [namespace-uri-for-prefix(., $context-element) eq $x:xspec-namespace]
+               [. (: Do not allow zero-length string :)],
+            
+            (: Fallback. Intentionally made weird in order to avoid collision. :)
+            'XsPeC'
+         )[1]"/>
    </xsl:function>
 
    <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.
