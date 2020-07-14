@@ -7,7 +7,6 @@
    <x:scenario id="scenario1" xspec="../../serialize.xspec">
       <x:label>When the result is a comment node, the report HTML must serialize it as
 			&lt;!-- --&gt;. (xspec/xspec#356) So...</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario1-scenario1" xspec="../../serialize.xspec">
          <x:label>When x:result in the report XML contains a comment node,</x:label>
          <x:call function="exactly-one">
@@ -37,10 +36,8 @@
    <x:scenario id="scenario2" xspec="../../serialize.xspec">
       <x:label>When the result is indented in the report XML file, the report HTML must serialize
 			it with indentation.</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario2-scenario1" xspec="../../serialize.xspec">
          <x:label>So... (xspec/xspec#359)</x:label>
-         <x:result select="()"/>
          <x:scenario id="scenario2-scenario1-scenario1" xspec="../../serialize.xspec">
             <x:label>When x:result in the report XML file is a sequence of simple nested
 					elements serialized with indentation,</x:label>
@@ -97,11 +94,9 @@
       </x:scenario>
       <x:scenario id="scenario2-scenario2" xspec="../../serialize.xspec">
          <x:label>But the diff must not be affected by indentation. So...</x:label>
-         <x:result select="()"/>
          <x:scenario id="scenario2-scenario2-scenario1" xspec="../../serialize.xspec">
             <x:label>When a node is indented, the diff of the indented node itself must not be
 					affected. (xspec/xspec#367) So...</x:label>
-            <x:result select="()"/>
             <x:scenario id="scenario2-scenario2-scenario1-scenario1"
                         xspec="../../serialize.xspec">
                <x:label>When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in
@@ -171,7 +166,6 @@
          <x:scenario id="scenario2-scenario2-scenario2" xspec="../../serialize.xspec">
             <x:label>When a child node of an element is indented, the diff of the element must
 					not be affected.</x:label>
-            <x:result select="()"/>
             <x:scenario id="scenario2-scenario2-scenario2-scenario1"
                         xspec="../../serialize.xspec">
                <x:label>So, when the same &lt;bar&gt; in &lt;foo&gt; is indented in x:result
@@ -294,10 +288,8 @@
    <x:scenario id="scenario5" xspec="../../serialize.xspec">
       <x:label>When the result contains an element, the report HTML must serialize nodes in its
 			opening tag with aligned indentation. (xspec/xspec#689) So...</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario5-scenario1" xspec="../../serialize.xspec">
          <x:label>When the report XML contains an element with several namespaces</x:label>
-         <x:result select="()"/>
          <x:scenario id="scenario5-scenario1-scenario1" xspec="../../serialize.xspec">
             <x:label>in x:result,</x:label>
             <x:call function="exactly-one">
@@ -340,7 +332,6 @@
       </x:scenario>
       <x:scenario id="scenario5-scenario2" xspec="../../serialize.xspec">
          <x:label>When the report XML contains an element with several attributes</x:label>
-         <x:result select="()"/>
          <x:scenario id="scenario5-scenario2-scenario1" xspec="../../serialize.xspec">
             <x:label>in x:result,</x:label>
             <x:call function="exactly-one">
@@ -391,11 +382,6 @@
             <orphan attr1="value1" attr2="" attr3="..."/>
          </x:param>
       </x:call>
-      <x:result select="/element()">
-         <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
-         <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
-         <orphan attr1="value1" attr2="" attr3="..."/>
-      </x:result>
       <x:scenario id="scenario6-scenario1" xspec="../../serialize.xspec">
          <x:label>both in [Result] and [Expected Result] with diff,</x:label>
          <x:result select="/element()">
@@ -449,23 +435,6 @@
             </no-match>
          </x:param>
       </x:call>
-      <x:result select="/element()">
-         <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
-         <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
-         <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
-         <no-match>
-            <different-kind><?node1 value1?>
-               <node2/>
-               <?node3?>
-               <node4/>
-               <node5/>
-            </different-kind>
-            <orphan>
-               <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
-               <node2/>
-            </orphan>
-         </no-match>
-      </x:result>
       <x:scenario id="scenario7-scenario1" xspec="../../serialize.xspec">
          <x:label>both in [Result] and [Expected Result] with diff,</x:label>
          <x:result select="/element()">

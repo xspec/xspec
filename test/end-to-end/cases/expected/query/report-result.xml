@@ -6,7 +6,6 @@
           date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../report.xspec">
       <x:label>Function (xspec/xspec#355)</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario1-scenario1" xspec="../../report.xspec">
          <x:label>Array</x:label>
          <x:call function="Q{x-urn:test:mirror}param-mirror">
@@ -104,7 +103,6 @@
    </x:scenario>
    <x:scenario id="scenario6" xspec="../../report.xspec">
       <x:label>XPath is different, but serialized node looks as if same</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario6-scenario1" xspec="../../report.xspec">
          <x:label>[Result] = document node, [Expected Result] = element</x:label>
          <x:call function="Q{x-urn:test:mirror}param-mirror">

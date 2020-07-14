@@ -289,7 +289,7 @@
 
          <xsl:text>{&#x0A;</xsl:text>
          <xsl:choose>
-            <xsl:when test="not($pending-p)">
+            <xsl:when test="not($pending-p) and x:expect">
                <!--
                  let $xxx-param1 := ...
                  let $xxx-param2 := ...
@@ -302,15 +302,8 @@
                <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
                <xsl:call-template name="x:enter-sut">
                   <xsl:with-param name="instruction" as="text()+">
-                     <xsl:text expand-text="yes">{$call/@function}(</xsl:text>
-                     <xsl:for-each select="$call/x:param">
-                        <xsl:sort select="xs:integer(@position)" />
-                        <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
-                        <xsl:if test="position() ne last()">
-                           <xsl:text>, </xsl:text>
-                        </xsl:if>
-                     </xsl:for-each>
-                     <xsl:text>)&#10;</xsl:text>
+                     <xsl:sequence select="x:function-call-text($call)" />
+                     <xsl:text>&#x0A;</xsl:text>
                   </xsl:with-param>
                </xsl:call-template>
                <xsl:text>)&#x0A;</xsl:text>

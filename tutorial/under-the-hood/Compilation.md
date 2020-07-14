@@ -264,7 +264,7 @@ declare function local:scenario1(
 ... generate scenario data in the report ...
 
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
-my:f()
+Q{http://example.org/ns/my}f()
 )
 return (
 Q{http://www.jenitennison.com/xslt/unit-test}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'x:result'),
@@ -445,7 +445,7 @@ let $p2 as element() := (
 $Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )
 )
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
-my:f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)
+Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)
 )
 ```
 
@@ -811,7 +811,7 @@ let $Q{http://example.org/ns/my/variable}var-2 := (
 return
 ...
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
-my:square(...)
+Q{http://example.org/ns/my}square(...)
 )
 return (
 ...,
