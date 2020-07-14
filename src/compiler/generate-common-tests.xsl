@@ -331,8 +331,8 @@
        Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
-      <xsl:param name="pending" tunnel="yes" as="node()?"/>
-      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
@@ -444,10 +444,10 @@
        Compile a scenario.
    -->
    <xsl:template match="x:scenario" mode="x:compile">
-      <xsl:param name="pending" tunnel="yes" as="node()?"/>
-      <xsl:param name="apply"   tunnel="yes" as="element(x:apply)?"/>
-      <xsl:param name="call"    tunnel="yes" as="element(x:call)?"/>
-      <xsl:param name="context" tunnel="yes" as="element(x:context)?"/>
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="apply" as="element(x:apply)?" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" tunnel="yes"/>
+      <xsl:param name="context" as="element(x:context)?" tunnel="yes"/>
 
       <!-- The new $pending. -->
       <xsl:variable name="new-pending" as="node()?" select="
@@ -554,10 +554,10 @@
        Compile an expectation.
    -->
    <xsl:template match="x:expect" mode="x:compile">
-      <xsl:param name="pending"                tunnel="yes" as="node()?"/>
-      <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
-      <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
-      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
+      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-expect">

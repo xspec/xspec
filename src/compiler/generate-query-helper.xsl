@@ -29,7 +29,7 @@
 
    <xsl:template match="element()" as="node()+" mode="test:generate-variable-declarations">
       <!-- Reflects @pending or x:pending -->
-      <xsl:param name="pending" tunnel="yes" as="node()?" />
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
 
       <xsl:param name="comment" as="xs:string?" />
 
