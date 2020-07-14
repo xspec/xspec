@@ -178,11 +178,12 @@
 
 	<!--
 		Makes copies of namespaces from element
+		The standard 'xml' namespace is excluded.
 	-->
 	<xsl:function as="namespace-node()*" name="x:copy-of-namespaces">
 		<xsl:param as="element()" name="element" />
 
-		<xsl:for-each select="in-scope-prefixes($element)">
+		<xsl:for-each select="in-scope-prefixes($element)[. ne 'xml']">
 			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $element)" />
 		</xsl:for-each>
 	</xsl:function>
@@ -703,15 +704,7 @@
 		<xsl:for-each select="$source-element">
 			<xsl:choose>
 				<xsl:when test="@name">
-					<xsl:variable name="qname"
-						select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
-					<xsl:sequence
-						select="
-							x:UQName(
-							namespace-uri-from-QName($qname),
-							local-name-from-QName($qname)
-							)"
-					 />
+					<xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
 				</xsl:when>
 
 				<xsl:otherwise>
@@ -720,6 +713,50 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:for-each>
+	</xsl:function>
+
+	<!--
+		Expands EQName (either URIQualifiedName or lexical QName, the latter is
+		resolved without using the default namespace) to URIQualifiedName.
+	-->
+	<xsl:function as="xs:string" name="x:UQName-from-EQName-ignoring-default-ns">
+		<xsl:param as="xs:string" name="eqname" />
+		<xsl:param as="element()" name="element" />
+
+		<xsl:variable as="xs:QName" name="qname"
+			select="x:resolve-EQName-ignoring-default-ns($eqname, $element)" />
+		<xsl:sequence
+			select="
+				x:UQName(
+				namespace-uri-from-QName($qname),
+				local-name-from-QName($qname)
+				)"
+		 />
+	</xsl:function>
+
+	<!--
+		Returns namespace nodes in the element excluding the same prefix as the element name.
+		'xml' is excluded in the first place.
+
+			Example:
+				in:  <prefix1:e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				out: xmlns="default-ns" and xmlns:prefix2="ns2"
+	-->
+	<xsl:function as="namespace-node()*" name="x:element-additional-namespace-nodes">
+		<xsl:param as="element()" name="element" />
+
+		<xsl:variable as="xs:string" name="element-name-prefix"
+			select="
+				$element
+				=> node-name()
+				=> prefix-from-QName()
+				=> string()" />
+
+		<!-- Sort for better serialization (hopefully) -->
+		<xsl:perform-sort
+			select="x:copy-of-namespaces($element)[not(name() eq $element-name-prefix)]">
+			<xsl:sort select="name()" />
+		</xsl:perform-sort>
 	</xsl:function>
 
 </xsl:stylesheet>

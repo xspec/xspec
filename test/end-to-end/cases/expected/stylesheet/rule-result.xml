@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          stylesheet="../../../../tested.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../rule.xspec">
+          xspec="../../rule.xspec"
+          stylesheet="../../rule.xsl"
+          date="2000-01-01T00:00:00Z">
    <t:scenario id="scenario1" xspec="../../rule.xspec">
       <t:label>x:context with correct x:expect</t:label>
       <t:context>
          <rule/>
       </t:context>
       <t:result select="/element()">
-         <transformed xmlns:my="http://example.org/ns/my"/>
+         <transformed/>
       </t:result>
       <t:test id="scenario1-expect1" successful="true">
          <t:label>must return Success</t:label>
@@ -24,7 +24,7 @@
          <rule/>
       </t:context>
       <t:result select="/element()">
-         <transformed xmlns:my="http://example.org/ns/my"/>
+         <transformed/>
       </t:result>
       <t:test id="scenario2-expect1" successful="false">
          <t:label>must return Failure</t:label>

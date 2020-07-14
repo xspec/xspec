@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../xslt2.xspec"
           stylesheet="../../../../xslt1.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../xslt2.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario xmlns:xs="http://www.w3.org/2001/XMLSchema"
                id="scenario1"
                xspec="../../../../xslt1.xspec">

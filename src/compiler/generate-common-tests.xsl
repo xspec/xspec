@@ -24,21 +24,6 @@
 
    <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
 
-   <!-- XSpec namespace prefix -->
-   <xsl:function name="x:xspec-prefix" as="xs:string">
-      <xsl:param name="e" as="element()" />
-
-      <xsl:sequence select="
-         (
-            in-scope-prefixes($e)
-               [namespace-uri-for-prefix(., $e) eq $x:xspec-namespace]
-               [. (: Do not allow zero-length string :)],
-            
-            (: Fallback. Intentionally made weird in order to avoid collision. :)
-            'XsPeC'
-         )[1]"/>
-   </xsl:function>
-
    <!--
       mode="#default"
    -->
@@ -96,7 +81,7 @@
          from the initial XSpec document. -->
       <xsl:variable name="combined-doc" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name($this/x:description, 'description')}"
+            <xsl:element name="{x:xspec-name('description', $this/x:description)}"
                namespace="{$x:xspec-namespace}">
                <xsl:sequence select="x:copy-of-namespaces($this/x:description)" />
                <xsl:sequence select="$this/x:description/attribute()" />
@@ -225,7 +210,7 @@
    <!-- x:space has been replaced with x:text -->
    <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-user-content">
       <xsl:message terminate="yes">
-         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name(., 'text')} instead.</xsl:text>
+         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
       </xsl:message>
    </xsl:template>
 
@@ -241,7 +226,7 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name(parent::*, 'text')}" namespace="{$x:xspec-namespace}">
+         <xsl:element name="{x:xspec-name('text', parent::element())}" namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
                   ancestor::*[if (self::x:*)
@@ -301,7 +286,7 @@
        (which selects either the x:label element or the label
        attribute).
        
-       TODO: Imports are "resolved" in x:gather-specs().  But this is
+       TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
        resolving x:import elements in place.  Bur for now, those
@@ -542,6 +527,17 @@
          </xsl:choose>
       </xsl:variable>
 
+      <!-- Check duplicate parameter name -->
+      <xsl:for-each select="$new-apply, $new-call, $new-context">
+         <xsl:variable name="param-owner-name" as="xs:string" select="name()" />
+         <xsl:variable name="param-uqnames" as="xs:string*" select="x:param ! x:variable-UQName(.)" />
+         <xsl:for-each select="$param-uqnames[subsequence($param-uqnames, 1, position() - 1) = .]">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">Duplicate parameter name, {.}, used in {$param-owner-name}.</xsl:text>
+            </xsl:message>
+         </xsl:for-each>
+      </xsl:for-each>
+
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-scenario">
          <xsl:with-param name="pending"   select="$new-pending" tunnel="yes"/>
@@ -612,7 +608,7 @@
        (which selects either the x:label element or the label
        attribute).
        
-       TODO: Imports are "resolved" in x:gather-specs().  But this is
+       TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
        resolving x:import elements in place.  Bur for now, those
@@ -797,7 +793,7 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <xsl:element name="{x:xspec-name($labelled, 'label')}" namespace="{$x:xspec-namespace}">
+      <xsl:element name="{x:xspec-name('label', $labelled)}" namespace="{$x:xspec-namespace}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
    </xsl:function>
@@ -812,13 +808,28 @@
       <xsl:apply-templates select="$pending-attr" mode="test:create-node-generator" />
    </xsl:function>
 
+   <!-- Returns an XSpec namespace prefix that can be used at run time -->
+   <xsl:function name="x:xspec-prefix" as="xs:string">
+      <xsl:param name="context-element" as="element()" />
+
+      <xsl:sequence select="
+         (
+            in-scope-prefixes($context-element)
+               [namespace-uri-for-prefix(., $context-element) eq $x:xspec-namespace]
+               [. (: Do not allow zero-length string :)],
+            
+            (: Fallback. Intentionally made weird in order to avoid collision. :)
+            'XsPeC'
+         )[1]"/>
+   </xsl:function>
+
    <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.
       Usually 'x:local-name'. -->
    <xsl:function name="x:xspec-name" as="xs:string">
-      <xsl:param name="context" as="element()"/>
       <xsl:param name="local-name" as="xs:string" />
+      <xsl:param name="context-element" as="element()" />
 
-      <xsl:variable name="prefix" as="xs:string" select="x:xspec-prefix($context)" />
+      <xsl:variable name="prefix" as="xs:string" select="x:xspec-prefix($context-element)" />
       <xsl:sequence select="$prefix || ':'[$prefix] || $local-name" />
    </xsl:function>
 
@@ -840,6 +851,40 @@
       <xsl:param name="strings" as="xs:string*" />
 
       <xsl:sequence select="$strings[not(subsequence($strings, 1, position() - 1) = .)]"/>
+   </xsl:function>
+
+   <!-- Returns a text node of the function call expression. The names of the function and the
+      parameter variables are URIQualifiedName. -->
+   <xsl:function name="x:function-call-text" as="text()">
+      <xsl:param name="call" as="element(x:call)" />
+
+      <!-- xsl:for-each is not for iteration but for simplifying XPath -->
+      <xsl:for-each select="$call">
+         <xsl:variable name="function-uqname" as="xs:string">
+            <xsl:choose>
+               <xsl:when test="contains(@function, ':')">
+                  <xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@function, .)" />
+               </xsl:when>
+               <xsl:otherwise>
+                  <!-- Function name without prefix is not Q{}local but fn:local -->
+                  <xsl:sequence select="@function/string()" />
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:variable>
+
+         <xsl:value-of>
+            <xsl:text expand-text="yes">{$function-uqname}(</xsl:text>
+            <xsl:for-each select="x:param">
+               <xsl:sort select="xs:integer(@position)" />
+
+               <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
+               <xsl:if test="position() ne last()">
+                  <xsl:text>, </xsl:text>
+               </xsl:if>
+            </xsl:for-each>
+            <xsl:text>)</xsl:text>
+         </xsl:value-of>
+      </xsl:for-each>
    </xsl:function>
 
 </xsl:stylesheet>

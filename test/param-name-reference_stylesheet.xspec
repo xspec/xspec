@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="subtract.xsl" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario
+		label="Two instances of context template-param (i.e. //x:context/x:param), the latter referencing the former,">
+		<x:context>
+			<x:param name="left" select="2" />
+			<x:param name="right" select="$left + 3" />
+			<context-child />
+		</x:context>
+		<x:expect label="should be used successfully, resolving the reference" select="-3" />
+	</x:scenario>
+
+	<x:scenario
+		label="Two instances of template-call template-param (i.e. //x:call[@template]/x:param), the latter referencing the former,">
+		<x:call template="my:subtract">
+			<x:param name="left" select="2" />
+			<x:param name="right" select="$left + 3" />
+		</x:call>
+		<x:expect label="should be used successfully, resolving the reference" select="-3" />
+	</x:scenario>
+
+</x:description>

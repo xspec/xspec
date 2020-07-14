@@ -222,6 +222,11 @@
 			test="$x:result[name() eq 'prefix']/string()" />
 		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
 			test="$x:result[name() eq 'wrapper-prefix']/string()" />
+		<x:expect label="'xml' namespace is not copied"
+			test="
+				$x:result[(name() eq 'xml') or (string() eq 'http://www.w3.org/XML/1998/namespace')]
+				=> empty()"
+		 />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-user-content">
@@ -1480,6 +1485,114 @@
 			</x:call>
 			<x:expect label="URIQualifiedName with predefined namespace and dynamic ID"
 				test="matches($x:result, '^Q\{urn:x-xspec:compile:impl\}my-element-\S+$')" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function UQName-from-EQName-ignoring-default-ns">
+		<x:scenario label="URIQualifiedName">
+			<x:scenario label="With URI">
+				<x:variable as="xs:anyURI" name="ridiculous-uri"
+					>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+				<x:variable as="xs:string" name="uqname" select="x:UQName($ridiculous-uri, 'foo')" />
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="$uqname" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Intact" select="$uqname" />
+			</x:scenario>
+
+			<x:scenario label="Without URI">
+				<x:variable as="xs:string" name="uqname">Q{}foo</x:variable>
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="$uqname" />
+					<x:param>
+						<e xmlns="default-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Intact" select="$uqname" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Lexical QName">
+			<x:scenario label="With prefix">
+				<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+					<x:param select="'prefix:foo'" />
+					<x:param>
+						<e xmlns:prefix="prefixed-ns" />
+					</x:param>
+				</x:call>
+				<x:expect label="Resolved with prefix" select="string()"
+					>Q{prefixed-ns}foo</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without prefix">
+				<x:scenario label="With default namespace">
+					<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="default-ns" />
+						</x:param>
+					</x:call>
+					<x:expect label="Resolved without using the default namespace" select="string()"
+						>Q{}foo</x:expect>
+				</x:scenario>
+
+				<x:scenario label="Without default namespace">
+					<x:call function="x:UQName-from-EQName-ignoring-default-ns">
+						<x:param select="'foo'" />
+						<x:param>
+							<e xmlns="" />
+						</x:param>
+					</x:call>
+					<x:expect label="Resolved as no prefix" select="string()">Q{}foo</x:expect>
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function element-additional-namespace-nodes">
+		<x:scenario label="Element has a prefix">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<prefix1:e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''][. eq 'default-ns'] => exists()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'] => empty()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
+		</x:scenario>
+
+		<x:scenario label="Element does not have a prefix">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''] => empty()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'][. eq 'ns1'] => exists()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
+		</x:scenario>
+
+		<x:scenario label="Element namespace is undeclared">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<e xmlns="" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''] => empty()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'][. eq 'ns1'] => exists()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
 		</x:scenario>
 	</x:scenario>
 

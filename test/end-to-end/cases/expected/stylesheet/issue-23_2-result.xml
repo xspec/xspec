@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<x:report xmlns:xs="http://www.w3.org/2001/XMLSchema"
+          xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../issue-23_2.xspec"
           stylesheet="../../issue-23_2.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../issue-23_2.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-23_2.xspec">
       <x:label>Test</x:label>
       <x:context href="../../issue-23_2_context.xml"/>

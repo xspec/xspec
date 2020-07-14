@@ -2,26 +2,32 @@
 <x:description xmlns:my="http://example.org/ns/my"
                xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               stylesheet="../../test/tested.xsl"
+               stylesheet="../../test/square.xsl"
                query="http://example.org/ns/my"
-               query-at="../../test/tested.xqm">
+               query-at="../../test/square.xqm">
 
    <!-- Example (embellished a bit to make it runnable) in Compilation.md, under "Variables scope" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
 
    <x:variable name="myv:global" select="'global-value'"/>
+
    <x:scenario label="outer">
       <x:variable name="myv:var-1" select="'var-1-value'"/>
+
       <x:scenario label="inner">
          <x:variable name="myv:var-2" select="'var-2-value'"/>
          <x:call function="my:square">
-            <x:param select="xs:integer(0)"/>
+            <x:param select="0"/>
          </x:call>
+
          <x:variable name="myv:var-3" select="'var-3-value'"/>
-         <x:expect label="expect one" test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3)"/>
+         <x:expect label="expect one"
+            test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3)"/>
+
          <x:variable name="myv:var-4" select="'var-4-value'"/>
-         <x:expect label="expect two" test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3) and exists($myv:var-4)"/>
+         <x:expect label="expect two"
+            test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3) and exists($myv:var-4)"/>
       </x:scenario>
    </x:scenario>
+
 </x:description>
