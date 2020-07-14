@@ -116,21 +116,36 @@
                   </xsl:choose>
                </xsl:attribute>
 
-               <xsl:element name="{x:xspec-name('report', .)}" namespace="{$x:xspec-namespace}">
-                  <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
-                     that the URI appears in the trace report generated from running the
-                     test stylesheet, which can then be picked up by stylesheets that
-                     process *that* to generate a coverage report -->
-                  <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+               <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
+                  <xsl:attribute name="name" select="x:xspec-name('report', .)" />
+                  <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
-                  <xsl:attribute name="date" select="'{current-dateTime()}'" />
-                  <xsl:attribute name="xspec" select="$xspec-master-uri" />
+                  <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
+                     mode="test:create-node-generator"/>
 
-                  <!-- Do not always copy @schematron.
-                     @schematron may exist even when this XSpec is not testing Schematron. -->
-                  <xsl:if test="$is-schematron">
-                     <xsl:sequence select="@schematron" />
-                  </xsl:if>
+                  <xsl:variable name="attributes" as="attribute()+">
+                     <xsl:attribute name="xspec" select="$xspec-master-uri" />
+
+                     <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
+                        that the URI appears in the trace report generated from running the
+                        test stylesheet, which can then be picked up by stylesheets that
+                        process *that* to generate a coverage report -->
+                     <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+
+                     <!-- Do not always copy @schematron.
+                        @schematron may exist even when this XSpec is not testing Schematron. -->
+                     <xsl:if test="$is-schematron">
+                        <xsl:sequence select="@schematron" />
+                     </xsl:if>
+                  </xsl:variable>
+                  <xsl:apply-templates select="$attributes" mode="test:create-node-generator" />
+
+                  <!-- @date must be evaluated at run time -->
+                  <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
+                     <xsl:attribute name="name" select="'date'" />
+                     <xsl:attribute name="namespace" />
+                     <xsl:attribute name="select" select="'current-dateTime()'" />
+                  </xsl:element>
 
                   <!-- Generate calls to the compiled top-level scenarios. -->
                   <xsl:text>&#10;            </xsl:text><xsl:comment> a call instruction for each top-level scenario </xsl:comment>
@@ -678,7 +693,9 @@
             <xsl:variable name="xslt-version" as="xs:decimal" select="x:xslt-version(.)" />
 
             <!-- Set up the $impl:expected variable -->
-            <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+            <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+               <xsl:with-param name="comment" select="'expected result'" />
+            </xsl:apply-templates>
 
             <!-- Flags for test:deep-equal() enclosed in ''. -->
             <xsl:variable name="deep-equal-flags" as="xs:string"
@@ -686,6 +703,7 @@
 
             <xsl:choose>
                <xsl:when test="@test">
+                  <xsl:comment> wrap $x:result into a doc node if possible </xsl:comment>
                   <!-- This variable declaration could be moved from here (the
                      template generated from x:expect) to the template
                      generated from x:scenario. It depends only on
@@ -707,6 +725,7 @@
                      </choose>
                   </variable>
 
+                  <xsl:comment> evaluate the predicate with $x:result as context node if $x:result is a single node; if not, just evaluate the predicate </xsl:comment>
                   <variable name="{x:known-UQName('impl:test-result')}" as="item()*">
                      <choose>
                         <when test="count(${x:known-UQName('impl:test-items')}) eq 1">
@@ -733,6 +752,7 @@
                      </if>
                   </xsl:if>
 
+                  <xsl:comment> did the test pass? </xsl:comment>
                   <variable name="{x:known-UQName('impl:successful')}" as="{x:known-UQName('xs:boolean')}">
                      <choose>
                         <when test="${x:known-UQName('impl:boolean-test')}">

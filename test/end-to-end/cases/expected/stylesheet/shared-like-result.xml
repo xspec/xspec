@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:mirror="x-urn:test:mirror"
           xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../shared-like.xspec"
           stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../shared-like.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../shared-like.xspec">
       <x:label>Referenced and explicitly unshared scenario</x:label>
       <x:call function="mirror:false"/>

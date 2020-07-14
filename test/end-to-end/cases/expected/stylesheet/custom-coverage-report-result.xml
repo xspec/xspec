@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../custom-coverage-report.xspec"
           stylesheet="../../../../../tutorial/coverage/demo.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../custom-coverage-report.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../../../../tutorial/coverage/demo.xspec">
       <x:label>'iron' element</x:label>
       <x:context>

@@ -31,6 +31,8 @@
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" select="()" tunnel="yes" as="node()?" />
 
+      <xsl:param name="comment" as="xs:string?" />
+
       <!-- URIQualifiedName of the variable being declared -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
@@ -109,11 +111,12 @@
                   </xsl:when>
 
                   <xsl:otherwise>
-                     <xsl:text>document { </xsl:text>
+                     <xsl:text>document {&#x0A;</xsl:text>
                      <xsl:call-template name="test:create-zero-or-more-node-generators">
                         <xsl:with-param name="nodes" select="node() except $exclude" />
                      </xsl:call-template>
-                     <xsl:text> }</xsl:text>
+                     <xsl:text>&#x0A;</xsl:text>
+                     <xsl:text>}</xsl:text>
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:with-param>
@@ -148,11 +151,12 @@
                   <xsl:text expand-text="yes">${$temp-doc-uqname} ! ( {test:disable-escaping($selection)} )</xsl:text>
                </xsl:when>
 
-               <xsl:otherwise>
+               <xsl:when test="@select">
                   <xsl:value-of select="test:disable-escaping(@select)" />
-               </xsl:otherwise>
+               </xsl:when>
             </xsl:choose>
          </xsl:with-param>
+         <xsl:with-param name="comment" select="$comment" />
       </xsl:call-template>
    </xsl:template>
 
@@ -169,13 +173,14 @@
       <xsl:param name="name" as="xs:string" required="yes" />
       <xsl:param name="type" as="xs:string?" required="yes" />
       <xsl:param name="value" as="node()*" required="yes" />
+      <xsl:param name="comment" as="xs:string?" />
 
       <xsl:choose>
          <xsl:when test="$is-global">
             <xsl:text>declare variable</xsl:text>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:text>  let</xsl:text>
+            <xsl:text>let</xsl:text>
          </xsl:otherwise>
       </xsl:choose>
 
@@ -185,11 +190,22 @@
          <xsl:text expand-text="yes"> as {$type}</xsl:text>
       </xsl:if>
 
-      <xsl:text> := ( </xsl:text>
+      <xsl:if test="$comment">
+         <xsl:text expand-text="yes"> (:{$comment}:)</xsl:text>
+      </xsl:if>
 
-      <xsl:sequence select="$value" />
+      <xsl:text> := (&#x0A;</xsl:text>
 
-      <xsl:text> )</xsl:text>
+      <xsl:choose>
+         <xsl:when test="$value">
+            <xsl:sequence select="$value" />
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:text>()</xsl:text>
+         </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:text>&#x0A;)</xsl:text>
 
       <xsl:if test="$is-global">
          <xsl:text>;</xsl:text>
@@ -212,13 +228,21 @@
       </xsl:copy>
    </xsl:template>
 
-   <xsl:template match="attribute() | comment() | processing-instruction() | text()"
-      as="node()+" mode="test:create-node-generator">
-      <xsl:value-of select="x:node-type(.), name()" />
-      <xsl:text> { </xsl:text>
+   <xsl:template match="namespace-node()" as="text()+" mode="test:create-node-generator">
+      <xsl:text>namespace { "</xsl:text>
+      <xsl:value-of select="name()" />
+      <xsl:text>" } { </xsl:text>
+      <xsl:value-of select="x:quote-with-apos(.)" />
+      <xsl:text> }</xsl:text>
+   </xsl:template>
+
+   <xsl:template match="attribute()" as="node()+" mode="test:create-node-generator">
+      <xsl:text>attribute { </xsl:text>
+      <xsl:value-of select="node-name() => x:QName-expression()" />
+      <xsl:text> } { </xsl:text>
 
       <xsl:choose>
-         <xsl:when test="(. instance of attribute()) and x:is-user-content(.)">
+         <xsl:when test="x:is-user-content(.)">
             <!-- AVT -->
             <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
                characters) should be escaped outside expressions. In other words,
@@ -228,19 +252,42 @@
                <xsl:value-of select="." />
             </xsl:element>
          </xsl:when>
-
-         <!-- TODO: TVT
-         <xsl:when test="(. instance of text()) and x:is-user-content(.)
-            and x:yes-no-synonym(parent::x:text/@expand-text)">
-         </xsl:when>
-         -->
-
          <xsl:otherwise>
-            <xsl:variable name="escaped" as="xs:string" select="replace(., '(&quot;)', '$1$1')" />
-            <xsl:text expand-text="yes">"{$escaped}"</xsl:text>
+            <xsl:value-of select="x:quote-with-apos(.)" />
          </xsl:otherwise>
       </xsl:choose>
 
+      <xsl:text> }</xsl:text>
+   </xsl:template>
+
+   <xsl:template match="text()" as="text()+" mode="test:create-node-generator">
+      <xsl:text>text { </xsl:text>
+
+      <xsl:choose>
+         <!-- TODO: TVT
+         <xsl:when test="x:is-user-content(.) and parent::x:text/@expand-text/x:yes-no-synonym(.)">
+         </xsl:when>
+         -->
+
+         <xsl:when test="true()">
+            <xsl:value-of select="x:quote-with-apos(.)" />
+         </xsl:when>
+      </xsl:choose>
+
+      <xsl:text> }</xsl:text>
+   </xsl:template>
+
+   <xsl:template match="processing-instruction()" as="text()+" mode="test:create-node-generator">
+      <xsl:text>processing-instruction { "</xsl:text>
+      <xsl:value-of select="name()" />
+      <xsl:text>" } { </xsl:text>
+      <xsl:value-of select="x:quote-with-apos(.)" />
+      <xsl:text> }</xsl:text>
+   </xsl:template>
+
+   <xsl:template match="comment()" as="text()+" mode="test:create-node-generator">
+      <xsl:text>comment { </xsl:text>
+      <xsl:value-of select="x:quote-with-apos(.)" />
       <xsl:text> }</xsl:text>
    </xsl:template>
 

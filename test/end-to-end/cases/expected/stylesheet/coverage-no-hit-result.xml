@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
+          xspec="../../coverage-no-hit.xspec"
           stylesheet="../../coverage-no-hit.xsl"
-          date="2000-01-01T00:00:00Z"
-          xspec="../../coverage-no-hit.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../coverage-no-hit.xspec">
       <x:label>Testing a stylesheet without any matching context</x:label>
       <x:context/>

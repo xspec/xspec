@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          date="2000-01-01T00:00:00Z"
+          xspec="../../serialize.xspec"
           query="x-urn:test:xspec-items"
           query-at="../../../../items.xqm"
-          xspec="../../serialize.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../serialize.xspec">
       <x:label>When the result is a comment node, the report HTML must serialize it as
 			&lt;!-- --&gt;. (xspec/xspec#356) So...</x:label>

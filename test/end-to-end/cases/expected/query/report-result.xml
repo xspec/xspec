@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          date="2000-01-01T00:00:00Z"
+          xspec="../../report.xspec"
           query="x-urn:test:mirror"
           query-at="../../../../mirror.xqm"
-          xspec="../../report.xspec">
+          date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../report.xspec">
       <x:label>Function (xspec/xspec#355)</x:label>
       <x:result select="()"/>
