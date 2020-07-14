@@ -222,7 +222,7 @@
    </xsl:template>
 
    <xsl:template match="text()" as="element(x:text)?" mode="x:gather-user-content">
-      <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
+      <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" />
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
@@ -331,7 +331,7 @@
        Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
-      <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
+      <xsl:param name="pending" tunnel="yes" as="node()?"/>
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <xsl:call-template name="x:output-call">
@@ -444,10 +444,10 @@
        Compile a scenario.
    -->
    <xsl:template match="x:scenario" mode="x:compile">
-      <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
-      <xsl:param name="apply"   select="()" tunnel="yes" as="element(x:apply)?"/>
-      <xsl:param name="call"    select="()" tunnel="yes" as="element(x:call)?"/>
-      <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
+      <xsl:param name="pending" tunnel="yes" as="node()?"/>
+      <xsl:param name="apply"   tunnel="yes" as="element(x:apply)?"/>
+      <xsl:param name="call"    tunnel="yes" as="element(x:call)?"/>
+      <xsl:param name="context" tunnel="yes" as="element(x:context)?"/>
 
       <!-- The new $pending. -->
       <xsl:variable name="new-pending" as="node()?" select="
@@ -554,7 +554,7 @@
        Compile an expectation.
    -->
    <xsl:template match="x:expect" mode="x:compile">
-      <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
+      <xsl:param name="pending"                tunnel="yes" as="node()?"/>
       <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />

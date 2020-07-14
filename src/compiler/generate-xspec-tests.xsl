@@ -191,10 +191,10 @@
    <xsl:template name="x:output-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="pending"   select="()" tunnel="yes" as="node()?" />
-      <xsl:param name="apply"     select="()" tunnel="yes" as="element(x:apply)?" />
-      <xsl:param name="call"      select="()" tunnel="yes" as="element(x:call)?" />
-      <xsl:param name="context"   select="()" tunnel="yes" as="element(x:context)?" />
+      <xsl:param name="pending"           tunnel="yes" as="node()?" />
+      <xsl:param name="apply"             tunnel="yes" as="element(x:apply)?" />
+      <xsl:param name="call"              tunnel="yes" as="element(x:call)?" />
+      <xsl:param name="context"           tunnel="yes" as="element(x:context)?" />
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
@@ -507,8 +507,8 @@
    <xsl:template name="x:setup-transform-options" as="element(xsl:variable)">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="call" select="()" tunnel="yes" as="element(x:call)?" />
-      <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?" />
+      <xsl:param name="call" tunnel="yes" as="element(x:call)?" />
+      <xsl:param name="context" tunnel="yes" as="element(x:context)?" />
 
       <variable name="{x:known-UQName('impl:transform-options')}" as="map({x:known-UQName('xs:string')}, item()*)">
          <map>
@@ -640,7 +640,7 @@
    <xsl:template name="x:output-expect" as="element(xsl:template)">
       <xsl:context-item as="element(x:expect)" use="required" />
 
-      <xsl:param name="pending" select="()"    tunnel="yes" as="node()?" />
+      <xsl:param name="pending"                tunnel="yes" as="node()?" />
       <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?" />
       <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?" />
 
