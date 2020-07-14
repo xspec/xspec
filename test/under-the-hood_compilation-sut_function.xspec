@@ -4,9 +4,10 @@
    xmlns:my="http://example.org/ns/my"
    query="http://example.org/ns/my"
    query-at="compilation-sut.xqm"
+   stylesheet="compilation-sut.xsl"
    xml:base="../tutorial/under-the-hood/">
 
    <!-- If any of these tests changes, check whether the file
         ../tutorials/under-the-hood/Compilation.md needs updates. -->
-   <x:import href="compilation-sut_query.xspec"/>
+   <x:import href="compilation-sut_function.xspec"/>
 </x:description>
