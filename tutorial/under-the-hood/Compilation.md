@@ -190,9 +190,10 @@ result as parameter.
    <x:scenario id="scenario1"
                xspec=".../compilation-simple-suite.xspec">
       <x:label>scenario</x:label>
-      <x:call>
+      <xsl:element name="x:call" namespace="http://www.jenitennison.com/xslt/xspec">
+         <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
          <xsl:attribute name="function" namespace="">my:f</xsl:attribute>
-      </x:call>
+      </xsl:element>
       <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
          <xsl:sequence select="Q{http://example.org/ns/my}f()"/>
       </xsl:variable>
@@ -264,7 +265,7 @@ declare function local:scenario1(
 ... generate scenario data in the report ...
 
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
-my:f()
+Q{http://example.org/ns/my}f()
 )
 return (
 Q{http://www.jenitennison.com/xslt/unit-test}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'x:result'),
@@ -355,6 +356,7 @@ section "[Simple scenario](#simple-scenario)").
 </x:context>
 
 <!-- apply template rules on a node (with x:apply) -->
+<!-- TODO: x:apply not implemented yet -->
 <x:variable name="ctxt">
    <elem/>
 </x:variable>
@@ -375,7 +377,10 @@ section "[Simple scenario](#simple-scenario)").
    <xsl:variable name="Q{urn:x-xspec:compile:impl}param-..." select="'val1'"/>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...-doc" as="document-node()">
       <xsl:document>
-         <val2/>
+         <xsl:element name="val2" namespace="">
+            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+            <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
+         </xsl:element>
       </xsl:document>
    </xsl:variable>
    <xsl:variable name="Q{}p2"
@@ -389,7 +394,10 @@ section "[Simple scenario](#simple-scenario)").
    <xsl:variable name="Q{}p1" select="'val1'"/>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...-doc" as="document-node()">
       <xsl:document>
-         <val2/>
+         <xsl:element name="val2" namespace="">
+            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+            <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
+         </xsl:element>
       </xsl:document>
    </xsl:variable>
    <xsl:variable name="Q{}p2"
@@ -404,7 +412,10 @@ section "[Simple scenario](#simple-scenario)").
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
    <xsl:variable name="Q{urn:x-xspec:compile:impl}context-...-doc" as="document-node()">
       <xsl:document>
-         <elem/>
+         <xsl:element name="elem" namespace="">
+            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+            <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
+         </xsl:element>
       </xsl:document>
    </xsl:variable>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}context-..."
@@ -413,6 +424,7 @@ section "[Simple scenario](#simple-scenario)").
 </xsl:variable>
 
 <!-- "apply template rules on a node (with x:apply)" -->
+<!-- TODO: x:apply not implemented yet -->
 <xsl:variable name="ctxt" as="item()*">
    <elem/>
 </xsl:variable>
@@ -437,15 +449,17 @@ let $Q{urn:x-xspec:compile:impl}param-... := (
 )
 let $Q{urn:x-xspec:compile:impl}param-...-doc as document-node() := (
 document {
-<val2 xmlns:my="http://example.org/ns/my">{ () }
-</val2>
+element { QName('', 'val2') } {
+namespace { "my" } { 'http://example.org/ns/my' },
+namespace { "x" } { 'http://www.jenitennison.com/xslt/xspec' }
+}
 }
 )
 let $p2 as element() := (
 $Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )
 )
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
-my:f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)
+Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)
 )
 ```
 
@@ -598,7 +612,12 @@ this accessibility.
    <!-- $myv:content -->
    <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-doc" as="document-node()">
       <xsl:document>
-         <elem/>
+         <xsl:element name="elem" namespace="">
+            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+            <xsl:namespace name="myv">http://example.org/ns/my/variable</xsl:namespace>
+            <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
+            <xsl:namespace name="xs">http://www.w3.org/2001/XMLSchema</xsl:namespace>
+         </xsl:element>
       </xsl:document>
    </xsl:variable>
    <xsl:variable name="Q{http://example.org/ns/my/variable}content"
@@ -636,8 +655,12 @@ $Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )
 (: $myv:content :)
 let $Q{urn:x-xspec:compile:impl}variable-...-doc as document-node() := (
 document {
-<elem xmlns:my="http://example.org/ns/my" xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">{ () }
-</elem>
+element { QName('', 'elem') } {
+namespace { "my" } { 'http://example.org/ns/my' },
+namespace { "myv" } { 'http://example.org/ns/my/variable' },
+namespace { "x" } { 'http://www.jenitennison.com/xslt/xspec' },
+namespace { "xs" } { 'http://www.w3.org/2001/XMLSchema' }
+}
 }
 )
 let $Q{http://example.org/ns/my/variable}content as element() := (
@@ -811,7 +834,7 @@ let $Q{http://example.org/ns/my/variable}var-2 := (
 return
 ...
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
-my:square(...)
+Q{http://example.org/ns/my}square(...)
 )
 return (
 ...,

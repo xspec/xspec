@@ -281,7 +281,8 @@
 
             <!-- Create @pending generator -->
             <xsl:if test="$pending-p">
-               <xsl:sequence select="x:create-pending-attr-generator($pending)" />
+               <xsl:apply-templates select="x:pending-attribute-from-pending-node($pending)"
+                  mode="test:create-node-generator" />
             </xsl:if>
 
             <!-- Create x:label directly -->
@@ -292,11 +293,14 @@
             <xsl:for-each select="$local-preceding-variables | x:apply | x:call | x:context">
                <xsl:choose>
                   <xsl:when test="self::x:apply or self::x:call or self::x:context">
-                     <!-- Create report generator -->
-                     <xsl:apply-templates select="." mode="x:report" />
+                     <!-- Copy the input to the test result report XML -->
+                     <xsl:apply-templates select="." mode="test:create-node-generator" />
+                  </xsl:when>
+                  <xsl:when test="self::x:variable">
+                     <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
                   </xsl:when>
                   <xsl:otherwise>
-                     <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+                     <xsl:message select="'Unhandled', name()" terminate="yes" />
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:for-each>
@@ -410,28 +414,7 @@
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:sequence)">
                               <sequence>
-                                 <xsl:variable name="function-name" as="xs:string">
-                                    <xsl:choose>
-                                       <xsl:when test="contains($call/@function, ':')">
-                                          <xsl:sequence
-                                             select="$call ! x:UQName-from-EQName-ignoring-default-ns(@function, .)" />
-                                       </xsl:when>
-                                       <xsl:otherwise>
-                                          <!-- Function name without prefix is not Q{}local but fn:local -->
-                                          <xsl:sequence select="$call/@function" />
-                                       </xsl:otherwise>
-                                    </xsl:choose>
-                                 </xsl:variable>
-
-                                 <xsl:attribute name="select">
-                                    <xsl:text expand-text="yes">{$function-name}(</xsl:text>
-                                    <xsl:for-each select="$call/x:param">
-                                       <xsl:sort select="xs:integer(@position)" />
-                                       <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
-                                       <xsl:if test="position() ne last()">, </xsl:if>
-                                    </xsl:for-each>
-                                    <xsl:text>)</xsl:text>
-                                 </xsl:attribute>
+                                 <xsl:attribute name="select" select="x:function-call-text($call)" />
                               </sequence>
                            </xsl:with-param>
                         </xsl:call-template>
@@ -786,7 +769,8 @@
             <!-- Create @pending generator or create @successful directly -->
             <xsl:choose>
                <xsl:when test="$pending-p">
-                  <xsl:sequence select="x:create-pending-attr-generator($pending)" />
+                  <xsl:apply-templates select="x:pending-attribute-from-pending-node($pending)"
+                     mode="test:create-node-generator" />
                </xsl:when>
 
                <xsl:otherwise>

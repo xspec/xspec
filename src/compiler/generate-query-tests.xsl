@@ -271,25 +271,27 @@
 
       <!-- <x:scenario> -->
       <xsl:element name="{x:xspec-name('scenario', .)}" namespace="{$x:xspec-namespace}">
-         <xsl:attribute name="id" select="$scenario-id" />
-         <xsl:sequence select="@xspec" />
-
-         <!-- Create @pending generator -->
-         <xsl:if test="$pending-p">
-            <xsl:text>{ </xsl:text>
-            <xsl:sequence select="x:create-pending-attr-generator($pending)" />
-            <xsl:text> }&#x0A;</xsl:text>
-         </xsl:if>
-
-         <!-- Create x:label generator -->
-         <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
-
-         <!-- Create report generator -->
-         <xsl:apply-templates select="x:call" mode="x:report"/>
-
          <xsl:text>{&#x0A;</xsl:text>
+
+         <xsl:call-template name="test:create-zero-or-more-node-generators">
+            <xsl:with-param name="nodes" as="node()+">
+               <xsl:attribute name="id" select="$scenario-id" />
+               <xsl:sequence select="@xspec" />
+
+               <xsl:if test="$pending-p">
+                  <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
+               </xsl:if>
+
+               <xsl:sequence select="x:label(.)" />
+
+               <!-- Copy the input to the test result report XML -->
+               <xsl:sequence select="x:call" />
+            </xsl:with-param>
+         </xsl:call-template>
+         <xsl:text>,&#x0A;</xsl:text>
+
          <xsl:choose>
-            <xsl:when test="not($pending-p)">
+            <xsl:when test="not($pending-p) and x:expect">
                <!--
                  let $xxx-param1 := ...
                  let $xxx-param2 := ...
@@ -302,15 +304,8 @@
                <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
                <xsl:call-template name="x:enter-sut">
                   <xsl:with-param name="instruction" as="text()+">
-                     <xsl:text expand-text="yes">{$call/@function}(</xsl:text>
-                     <xsl:for-each select="$call/x:param">
-                        <xsl:sort select="xs:integer(@position)" />
-                        <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
-                        <xsl:if test="position() ne last()">
-                           <xsl:text>, </xsl:text>
-                        </xsl:if>
-                     </xsl:for-each>
-                     <xsl:text>)&#10;</xsl:text>
+                     <xsl:sequence select="x:function-call-text($call)" />
+                     <xsl:text>&#x0A;</xsl:text>
                   </xsl:with-param>
                </xsl:call-template>
                <xsl:text>)&#x0A;</xsl:text>
@@ -474,26 +469,25 @@
       <xsl:element name="{x:xspec-name('test', .)}" namespace="{$x:xspec-namespace}">
          <xsl:attribute name="id" select="$expect-id" />
 
-         <!-- Create @pending generator or create @successful directly -->
+         <xsl:text>{&#x0A;</xsl:text>
+
          <xsl:choose>
             <xsl:when test="$pending-p">
-               <xsl:text>{ </xsl:text>
-               <xsl:sequence select="x:create-pending-attr-generator($pending)" />
-               <xsl:text> }&#x0A;</xsl:text>
+               <xsl:apply-templates select="x:pending-attribute-from-pending-node($pending)"
+                  mode="test:create-node-generator" />
+               <xsl:text>,&#x0A;</xsl:text>
             </xsl:when>
-
             <xsl:otherwise>
-               <xsl:attribute name="successful" select="'{ $local:successful }'"/>
+               <!-- @successful must be evaluated at run time -->
+               <xsl:text>attribute { QName('', 'successful') } { $local:successful },&#x0A;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
 
-         <!-- Create x:label generator -->
          <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
 
          <!-- Report -->
          <xsl:if test="not($pending-p)">
-            <xsl:text>&#x0A;</xsl:text>
-            <xsl:text>{&#x0A;</xsl:text>
+            <xsl:text>,&#x0A;</xsl:text>
 
             <xsl:if test="@test">
                <xsl:text>(&#x0A;</xsl:text>
@@ -509,9 +503,9 @@
                <xsl:apply-templates select="@test" mode="test:create-node-generator" />
             </xsl:if>
             <xsl:text>)&#x0A;</xsl:text>
-
-            <xsl:text>}</xsl:text>
          </xsl:if>
+
+         <xsl:text>}</xsl:text>
 
       <!-- </x:test> -->
       </xsl:element>
@@ -520,15 +514,6 @@
 
       <!-- End of the function -->
       <xsl:text>};&#x0A;</xsl:text>
-   </xsl:template>
-
-   <!--
-      mode="x:report"
-   -->
-   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
-      <xsl:text>{ </xsl:text>
-      <xsl:apply-imports />
-      <xsl:text> }&#x0A;</xsl:text>
    </xsl:template>
 
 </xsl:stylesheet>

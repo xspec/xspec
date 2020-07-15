@@ -689,15 +689,6 @@
    -->
    <xsl:mode name="x:generate-tests" on-multiple-match="fail" on-no-match="fail" />
 
-   <!--
-      mode="x:report"
-   -->
-   <xsl:mode name="x:report" on-multiple-match="fail" on-no-match="fail" />
-
-   <xsl:template match="document-node() | attribute() | node()" as="node()+" mode="x:report">
-      <xsl:apply-templates select="." mode="test:create-node-generator" />
-   </xsl:template>
-
    <!-- Generates a gateway from x:scenario to System Under Test.
       The actual instruction to enter SUT is provided by the caller. The instruction
       should not contain other actions. -->
@@ -798,14 +789,10 @@
       </xsl:element>
    </xsl:function>
 
-   <xsl:function name="x:create-pending-attr-generator" as="node()+">
+   <xsl:function name="x:pending-attribute-from-pending-node" as="attribute(pending)">
       <xsl:param name="pending-node" as="node()" />
 
-      <xsl:variable name="pending-attr" as="attribute(pending)">
-         <xsl:attribute name="pending" select="$pending-node" />
-      </xsl:variable>
-
-      <xsl:apply-templates select="$pending-attr" mode="test:create-node-generator" />
+      <xsl:attribute name="pending" select="$pending-node" />
    </xsl:function>
 
    <!-- Returns an XSpec namespace prefix that can be used at run time -->
@@ -851,6 +838,40 @@
       <xsl:param name="strings" as="xs:string*" />
 
       <xsl:sequence select="$strings[not(subsequence($strings, 1, position() - 1) = .)]"/>
+   </xsl:function>
+
+   <!-- Returns a text node of the function call expression. The names of the function and the
+      parameter variables are URIQualifiedName. -->
+   <xsl:function name="x:function-call-text" as="text()">
+      <xsl:param name="call" as="element(x:call)" />
+
+      <!-- xsl:for-each is not for iteration but for simplifying XPath -->
+      <xsl:for-each select="$call">
+         <xsl:variable name="function-uqname" as="xs:string">
+            <xsl:choose>
+               <xsl:when test="contains(@function, ':')">
+                  <xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@function, .)" />
+               </xsl:when>
+               <xsl:otherwise>
+                  <!-- Function name without prefix is not Q{}local but fn:local -->
+                  <xsl:sequence select="@function/string()" />
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:variable>
+
+         <xsl:value-of>
+            <xsl:text expand-text="yes">{$function-uqname}(</xsl:text>
+            <xsl:for-each select="x:param">
+               <xsl:sort select="xs:integer(@position)" />
+
+               <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
+               <xsl:if test="position() ne last()">
+                  <xsl:text>, </xsl:text>
+               </xsl:if>
+            </xsl:for-each>
+            <xsl:text>)</xsl:text>
+         </xsl:value-of>
+      </xsl:for-each>
    </xsl:function>
 
 </xsl:stylesheet>
