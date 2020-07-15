@@ -60,6 +60,7 @@
       <xsl:text expand-text="yes">xquery version "{($this/@xquery-version, '3.1')[1]}";&#x0A;</xsl:text>
 
       <!-- Import module to be tested -->
+      <xsl:text>&#x0A;</xsl:text>
       <xsl:text>(: the tested library module :)&#10;</xsl:text>
       <xsl:text>import module </xsl:text>
       <xsl:if test="exists($sut-prefix)">
@@ -67,24 +68,28 @@
       </xsl:if>
       <xsl:text expand-text="yes">"{$this/@query}"</xsl:text>
       <xsl:if test="exists($query-at)">
-         <xsl:text expand-text="yes">&#10;  at "{$query-at}"</xsl:text>
+         <xsl:text expand-text="yes">&#x0A;at "{$query-at}"</xsl:text>
       </xsl:if>
       <xsl:text>;&#10;</xsl:text>
 
+      <xsl:text>&#x0A;</xsl:text>
+      <xsl:text>(: XSpec library modules providing tools :)&#x0A;</xsl:text>
+
       <!-- Import 'test' utils -->
-      <xsl:text>(: an XSpec library module providing tools :)&#10;</xsl:text>
       <xsl:text expand-text="yes">import module "{$x:legacy-namespace}"</xsl:text>
       <xsl:if test="$utils-library-at ne '#none'">
-         <xsl:text expand-text="yes">&#10;  at "{$utils-library-at}"</xsl:text>
+         <xsl:text expand-text="yes">&#x0A;at "{$utils-library-at}"</xsl:text>
       </xsl:if>
       <xsl:text>;&#10;</xsl:text>
 
       <!-- Import common utils -->
       <xsl:text expand-text="yes">import module "{$x:xspec-namespace}"</xsl:text>
       <xsl:if test="$utils-library-at ne '#none'">
-         <xsl:text expand-text="yes">&#x0A;  at "{resolve-uri('../common/xspec-utils.xqm')}"</xsl:text>
+         <xsl:text expand-text="yes">&#x0A;at "{resolve-uri('../common/xspec-utils.xqm')}"</xsl:text>
       </xsl:if>
       <xsl:text>;&#x0A;</xsl:text>
+
+      <xsl:text>&#x0A;</xsl:text>
 
       <!-- Declare namespaces -->
       <xsl:for-each select="x:copy-of-namespaces($this)[not(name() = ('', $sut-prefix))]">
@@ -137,12 +142,13 @@
       <xsl:text>attribute { QName('', 'date') } { current-dateTime() },&#x0A;</xsl:text>
 
       <!-- Generate calls to the compiled top-level scenarios. -->
-      <xsl:text>      (: a call instruction for each top-level scenario :)&#x0A;</xsl:text>
+      <xsl:text>(: a call instruction for each top-level scenario :)&#x0A;</xsl:text>
       <xsl:call-template name="x:call-scenarios"/>
 
       <!-- </x:report> -->
       <xsl:text>}&#x0A;</xsl:text>
 
+      <!-- End of the document constructor -->
       <xsl:text>}&#x0A;</xsl:text>
    </xsl:template>
 
@@ -165,24 +171,26 @@
       <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
          <xsl:text>,&#10;</xsl:text>
       </xsl:if>
-      <xsl:text expand-text="yes">      let ${x:known-UQName('x:tmp')} := local:{$local-name}(&#x0A;</xsl:text>
+
+      <xsl:text expand-text="yes">let ${x:known-UQName('x:tmp')} := local:{$local-name}(&#x0A;</xsl:text>
       <xsl:for-each select="$with-param-uqnames">
-         <xsl:text expand-text="yes">        ${.}</xsl:text>
+         <xsl:text expand-text="yes">${.}</xsl:text>
          <xsl:if test="position() ne last()">
             <xsl:text>,</xsl:text>
          </xsl:if>
          <xsl:text>&#x0A;</xsl:text>
       </xsl:for-each>
-      <xsl:text>      )&#x0A;</xsl:text>
-      <xsl:text>      return (&#10;</xsl:text>
-      <xsl:text expand-text="yes">        ${x:known-UQName('x:tmp')}</xsl:text>
+      <xsl:text>)&#x0A;</xsl:text>
+
+      <xsl:text>return (&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">${x:known-UQName('x:tmp')}</xsl:text>
       <xsl:if test="not($last)">
          <xsl:text>,</xsl:text>
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
       <!-- Continue compiling calls. -->
       <xsl:call-template name="x:continue-call-scenarios"/>
-      <xsl:text>      )&#10;</xsl:text>
+      <xsl:text>)&#x0A;</xsl:text>
    </xsl:template>
 
    <!-- *** x:compile *** -->
@@ -243,21 +251,25 @@
 
       <!-- Function parameters. Their order must be stable, because this is a function. -->
       <xsl:for-each select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))">
-         <xsl:text expand-text="yes">  ${.}</xsl:text>
+         <xsl:text expand-text="yes">${.}</xsl:text>
          <xsl:if test="position() ne last()">
             <xsl:text>,</xsl:text>
          </xsl:if>
          <xsl:text>&#x0A;</xsl:text>
       </xsl:for-each>
 
-      <xsl:text>)&#10;{&#10;</xsl:text>
+      <xsl:text>)&#x0A;</xsl:text>
+
+      <!-- Start of the function body -->
+      <xsl:text>{&#x0A;</xsl:text>
 
       <!-- If there are variables before x:call, define them here followed by "return". -->
       <xsl:if test="exists($local-preceding-variables)">
          <xsl:apply-templates select="$local-preceding-variables" mode="test:generate-variable-declarations" />
-         <xsl:text>    return&#10;</xsl:text>
+         <xsl:text>return&#x0A;</xsl:text>
       </xsl:if>
 
+      <!-- <x:scenario> -->
       <xsl:element name="{x:xspec-name('scenario', .)}" namespace="{$x:xspec-namespace}">
          <xsl:attribute name="id" select="$scenario-id" />
          <xsl:sequence select="@xspec" />
@@ -275,9 +287,9 @@
          <!-- Create report generator -->
          <xsl:apply-templates select="x:call" mode="x:report"/>
 
-         <xsl:text>      &#10;{&#10;</xsl:text>
+         <xsl:text>{&#x0A;</xsl:text>
          <xsl:choose>
-            <xsl:when test="not($pending-p)">
+            <xsl:when test="not($pending-p) and x:expect">
                <!--
                  let $xxx-param1 := ...
                  let $xxx-param2 := ...
@@ -286,39 +298,46 @@
                      test:report-sequence($t:result, 'x:result'),
                -->
                <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
-               <xsl:text expand-text="yes">  let ${x:known-UQName('x:result')} := (&#10;</xsl:text>
+
+               <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
                <xsl:call-template name="x:enter-sut">
                   <xsl:with-param name="instruction" as="text()+">
-                     <xsl:text expand-text="yes">    {$call/@function}(</xsl:text>
-                     <xsl:for-each select="$call/x:param">
-                        <xsl:sort select="xs:integer(@position)" />
-                        <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
-                        <xsl:if test="position() ne last()">
-                           <xsl:text>, </xsl:text>
-                        </xsl:if>
-                     </xsl:for-each>
-                     <xsl:text>)&#10;</xsl:text>
+                     <xsl:sequence select="x:function-call-text($call)" />
+                     <xsl:text>&#x0A;</xsl:text>
                   </xsl:with-param>
                </xsl:call-template>
-               <xsl:text>  )&#10;</xsl:text>
-               <xsl:text>    return (&#10;</xsl:text>
-               <xsl:text expand-text="yes">      {x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, '{x:xspec-name('result', .)}'),&#10;</xsl:text>
-               <xsl:text>      (: a call instruction for each x:expect element :)&#10;</xsl:text>
+               <xsl:text>)&#x0A;</xsl:text>
+
+               <xsl:text>return (&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, '{x:xspec-name('result', .)}'),&#x0A;</xsl:text>
+
+               <xsl:text>&#x0A;</xsl:text>
+               <xsl:text>(: a call instruction for each x:expect element :)&#x0A;</xsl:text>
             </xsl:when>
+
             <xsl:otherwise>
                <!--
                  let $t:result := ()
                    return (
                -->
-               <xsl:text expand-text="yes">  let ${x:known-UQName('x:result')} := ()&#10;</xsl:text>
-               <xsl:text>    return (&#10;</xsl:text>
+               <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := ()&#x0A;</xsl:text>
+               <xsl:text>return (&#x0A;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
+
          <xsl:call-template name="x:call-scenarios"/>
-         <xsl:text>    )&#10;</xsl:text>
-         <xsl:text>}&#10;</xsl:text>
+         <xsl:text>)&#x0A;</xsl:text>
+
+         <xsl:text>}&#x0A;</xsl:text>
+
+      <!-- </x:scenario> -->
       </xsl:element>
-      <xsl:text>&#10;};&#10;</xsl:text>
+
+      <xsl:text>&#x0A;</xsl:text>
+
+      <!-- End of the function -->
+      <xsl:text>};&#x0A;</xsl:text>
+
       <xsl:call-template name="x:compile-scenarios"/>
    </xsl:template>
 
@@ -327,27 +346,32 @@
 
       <xsl:param name="instruction" as="text()+" required="yes" />
 
-      <xsl:text>    try {&#x0A;</xsl:text>
-      <xsl:text>  </xsl:text>
+      <xsl:text>try {&#x0A;</xsl:text>
       <xsl:sequence select="$instruction" />
-      <xsl:text>    }&#x0A;</xsl:text>
-      <xsl:text>    catch * {&#x0A;</xsl:text>
-      <xsl:text>      map {&#x0A;</xsl:text>
-      <xsl:text>        'err': map {&#x0A;</xsl:text>
+      <xsl:text>}&#x0A;</xsl:text>
+
+      <xsl:text>catch * {&#x0A;</xsl:text>
+      <xsl:text>map {&#x0A;</xsl:text>
+      <xsl:text>'err': map {&#x0A;</xsl:text>
 
       <!-- Variables available within the catch clause: https://www.w3.org/TR/xquery-31/#id-try-catch
          $err:additional doesn't work on Saxon 9.8: https://saxonica.plan.io/issues/4133 -->
       <xsl:for-each select="'code', 'description', 'value', 'module', 'line-number', 'column-number'">
-         <xsl:text expand-text="yes">                 '{.}': ${x:known-UQName('err:' || .)}</xsl:text>
+         <xsl:text expand-text="yes">'{.}': ${x:known-UQName('err:' || .)}</xsl:text>
          <xsl:if test="position() ne last()">
             <xsl:text>,</xsl:text>
          </xsl:if>
          <xsl:text>&#x0A;</xsl:text>
       </xsl:for-each>
 
-      <xsl:text>               }&#x0A;</xsl:text>
-      <xsl:text>      }&#x0A;</xsl:text>
-      <xsl:text>    }&#x0A;</xsl:text>
+      <!-- End of 'err' map -->
+      <xsl:text>}&#x0A;</xsl:text>
+
+      <!-- End of $x:result map -->
+      <xsl:text>}&#x0A;</xsl:text>
+
+      <!-- End of catch -->
+      <xsl:text>}&#x0A;</xsl:text>
    </xsl:template>
 
    <!--
@@ -382,16 +406,22 @@
       <xsl:text>&#10;(: generated from the x:expect element :)</xsl:text>
       <xsl:text expand-text="yes">&#10;declare function local:{$expect-id}(&#x0A;</xsl:text>
       <xsl:for-each select="$param-uqnames">
-         <xsl:text expand-text="yes">  ${.}</xsl:text>
+         <xsl:text expand-text="yes">${.}</xsl:text>
          <xsl:if test="position() ne last()">
             <xsl:text>,</xsl:text>
          </xsl:if>
          <xsl:text>&#x0A;</xsl:text>
       </xsl:for-each>
-      <xsl:text>)&#10;{&#10;</xsl:text>
+      <xsl:text>)&#x0A;</xsl:text>
+
+      <!-- Start of the function body -->
+      <xsl:text>{&#x0A;</xsl:text>
+
       <xsl:if test="not($pending-p)">
          <!-- Set up the $local:expected variable -->
-         <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+         <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+            <xsl:with-param name="comment" select="'expected result'" />
+         </xsl:apply-templates>
 
          <!-- Flags for test:deep-equal() enclosed in ''. -->
          <xsl:variable name="deep-equal-flags" as="xs:string">''</xsl:variable>
@@ -400,42 +430,40 @@
             <xsl:when test="@test">
                <!-- $local:test-items
                   TODO: Wrap $x:result in a document node if possible -->
-               <xsl:text expand-text="yes">  let $local:test-items as item()* := ${x:known-UQName('x:result')}&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">let $local:test-items as item()* := ${x:known-UQName('x:result')}&#x0A;</xsl:text>
 
                <!-- $local:test-result
                   TODO: Evaluate @test in the context of $local:test-items, if
                     $local:test-items is a node -->
-               <xsl:text expand-text="yes">  let $local:test-result as item()* := ({test:disable-escaping(@test)})&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">let $local:test-result as item()* (: evaluate the predicate :) := (&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">{test:disable-escaping(@test)}&#x0A;</xsl:text>
+               <xsl:text>)&#x0A;</xsl:text>
 
                <!-- $local:boolean-test -->
-               <xsl:text>  let $local:boolean-test as xs:boolean :=&#x0A;</xsl:text>
-               <xsl:text>    ($local:test-result instance of xs:boolean)&#x0A;</xsl:text>
+               <xsl:text>let $local:boolean-test as xs:boolean := ($local:test-result instance of xs:boolean)&#x0A;</xsl:text>
 
                <!-- TODO: xspec/xspec#309 -->
 
                <!-- $local:successful -->
-               <xsl:text>  let $local:successful as xs:boolean := (&#x0A;</xsl:text>
-               <xsl:text>    if ($local:boolean-test)&#x0A;</xsl:text>
-               <xsl:text>    then boolean($local:test-result)&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">    else {x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, $local:test-result, {$deep-equal-flags})&#x0A;</xsl:text>
-               <xsl:text>  )&#x0A;</xsl:text>
+               <xsl:text>let $local:successful as xs:boolean (: did the test pass? :) := (&#x0A;</xsl:text>
+               <xsl:text>if ($local:boolean-test)&#x0A;</xsl:text>
+               <xsl:text>then boolean($local:test-result)&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">else {x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, $local:test-result, {$deep-equal-flags})&#x0A;</xsl:text>
+               <xsl:text>)&#x0A;</xsl:text>
 
             </xsl:when>
 
             <xsl:otherwise>
                <!-- $local:successful -->
-               <xsl:text>  let $local:successful as xs:boolean :=&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">      {x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('x:result')}, {$deep-equal-flags})&#x0A;</xsl:text>
+               <xsl:text>let $local:successful as xs:boolean :=&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">{x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('x:result')}, {$deep-equal-flags})&#x0A;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
 
-         <xsl:text>    return&#x0A;</xsl:text>
-         <xsl:text>      </xsl:text>
+         <xsl:text>return&#x0A;</xsl:text>
       </xsl:if>
 
-      <!--
-        return the x:test element for the report
-      -->
+      <!-- <x:test> -->
       <xsl:element name="{x:xspec-name('test', .)}" namespace="{$x:xspec-namespace}">
          <xsl:attribute name="id" select="$expect-id" />
 
@@ -457,28 +485,34 @@
 
          <!-- Report -->
          <xsl:if test="not($pending-p)">
+            <xsl:text>&#x0A;</xsl:text>
+            <xsl:text>{&#x0A;</xsl:text>
+
             <xsl:if test="@test">
-               <xsl:text>&#x0A;</xsl:text>
-               <xsl:text>      { if ( $local:boolean-test )&#x0A;</xsl:text>
-               <xsl:text>        then ()&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">        else {x:known-UQName('test:report-sequence')}($local:test-result, '{x:xspec-name('result', .)}')</xsl:text>
-               <xsl:text> }</xsl:text>
+               <xsl:text>(&#x0A;</xsl:text>
+               <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
+               <xsl:text>then ()&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">else {x:known-UQName('test:report-sequence')}($local:test-result, '{x:xspec-name('result', .)}')&#x0A;</xsl:text>
+               <xsl:text>),&#x0A;</xsl:text>
             </xsl:if>
 
-            <xsl:text>&#x0A;</xsl:text>
-            <xsl:text>      { </xsl:text>
-            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(</xsl:text>
-            <xsl:text expand-text="yes">${x:variable-UQName(.)}, '{x:xspec-name('expect', .)}'</xsl:text>
-
+            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:variable-UQName(.)}, '{x:xspec-name('expect', .)}'</xsl:text>
             <xsl:if test="@test">
                <xsl:text>, </xsl:text>
                <xsl:apply-templates select="@test" mode="test:create-node-generator" />
             </xsl:if>
+            <xsl:text>)&#x0A;</xsl:text>
 
-            <xsl:text>) }</xsl:text>
+            <xsl:text>}</xsl:text>
          </xsl:if>
+
+      <!-- </x:test> -->
       </xsl:element>
-      <xsl:text>&#10;};&#10;</xsl:text>
+
+      <xsl:text>&#x0A;</xsl:text>
+
+      <!-- End of the function -->
+      <xsl:text>};&#x0A;</xsl:text>
    </xsl:template>
 
    <!--

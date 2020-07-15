@@ -137,7 +137,7 @@
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:text expand-text="yes">boolean({x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}]) and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')}</xsl:text>
+                <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
             </xsl:attribute>
@@ -161,7 +161,7 @@
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:text expand-text="yes">boolean({x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}]) and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')}</xsl:text>
+                <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
             </xsl:attribute>
@@ -206,12 +206,12 @@
         <xsl:variable name="bad-roles" as="xs:string"
             select="
                 ($errors ! ($x:apos || . || $x:apos))
-                => string-join(',')" />
+                => string-join(', ')" />
 
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:attribute name="label" select="'valid'"/>
             <xsl:attribute name="test">
-                <xsl:text expand-text="yes">boolean({x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}]) and not(boolean(({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')} union {x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')})[not(@role) or lower-case(@role) = ({$bad-roles})]))</xsl:text>
+                <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/({x:known-UQName('svrl:failed-assert')} | {x:known-UQName('svrl:successful-report')})[empty(@role) or (lower-case(@role) = ({$bad-roles}))])</xsl:text>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>

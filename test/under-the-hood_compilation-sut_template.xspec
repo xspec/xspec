@@ -6,5 +6,5 @@
 
    <!-- If any of these tests changes, check whether the file
         ../tutorials/under-the-hood/Compilation.md needs updates. -->
-   <x:import href="compilation-sut_stylesheet.xspec" />
+   <x:import href="compilation-sut_template.xspec" />
 </x:description>

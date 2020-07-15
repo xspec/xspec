@@ -410,28 +410,7 @@
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:sequence)">
                               <sequence>
-                                 <xsl:variable name="function-name" as="xs:string">
-                                    <xsl:choose>
-                                       <xsl:when test="contains($call/@function, ':')">
-                                          <xsl:sequence
-                                             select="$call ! x:UQName-from-EQName-ignoring-default-ns(@function, .)" />
-                                       </xsl:when>
-                                       <xsl:otherwise>
-                                          <!-- Function name without prefix is not Q{}local but fn:local -->
-                                          <xsl:sequence select="$call/@function" />
-                                       </xsl:otherwise>
-                                    </xsl:choose>
-                                 </xsl:variable>
-
-                                 <xsl:attribute name="select">
-                                    <xsl:text expand-text="yes">{$function-name}(</xsl:text>
-                                    <xsl:for-each select="$call/x:param">
-                                       <xsl:sort select="xs:integer(@position)" />
-                                       <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
-                                       <xsl:if test="position() ne last()">, </xsl:if>
-                                    </xsl:for-each>
-                                    <xsl:text>)</xsl:text>
-                                 </xsl:attribute>
+                                 <xsl:attribute name="select" select="x:function-call-text($call)" />
                               </sequence>
                            </xsl:with-param>
                         </xsl:call-template>
@@ -693,7 +672,9 @@
             <xsl:variable name="xslt-version" as="xs:decimal" select="x:xslt-version(.)" />
 
             <!-- Set up the $impl:expected variable -->
-            <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+            <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+               <xsl:with-param name="comment" select="'expected result'" />
+            </xsl:apply-templates>
 
             <!-- Flags for test:deep-equal() enclosed in ''. -->
             <xsl:variable name="deep-equal-flags" as="xs:string"
@@ -701,6 +682,7 @@
 
             <xsl:choose>
                <xsl:when test="@test">
+                  <xsl:comment> wrap $x:result into a doc node if possible </xsl:comment>
                   <!-- This variable declaration could be moved from here (the
                      template generated from x:expect) to the template
                      generated from x:scenario. It depends only on
@@ -722,6 +704,7 @@
                      </choose>
                   </variable>
 
+                  <xsl:comment> evaluate the predicate with $x:result as context node if $x:result is a single node; if not, just evaluate the predicate </xsl:comment>
                   <variable name="{x:known-UQName('impl:test-result')}" as="item()*">
                      <choose>
                         <when test="count(${x:known-UQName('impl:test-items')}) eq 1">
@@ -748,6 +731,7 @@
                      </if>
                   </xsl:if>
 
+                  <xsl:comment> did the test pass? </xsl:comment>
                   <variable name="{x:known-UQName('impl:successful')}" as="{x:known-UQName('xs:boolean')}">
                      <choose>
                         <when test="${x:known-UQName('impl:boolean-test')}">
