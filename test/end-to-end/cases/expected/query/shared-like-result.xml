@@ -38,7 +38,6 @@
    </x:scenario>
    <x:scenario id="scenario4" xspec="../../shared-like.xspec">
       <x:label>Scenario for testing x:like which references unshared scenarios</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario4-scenario1" xspec="../../shared-like.xspec">
          <x:label>explicit one</x:label>
          <x:call function="mirror:false"/>

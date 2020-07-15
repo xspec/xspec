@@ -72,7 +72,6 @@
    </x:scenario>
    <x:scenario id="scenario6" xspec="../../issue-450-451.xspec">
       <x:label>If value is from a variable instead of hard-coded,</x:label>
-      <x:result select="()"/>
       <x:scenario id="scenario6-scenario1" xspec="../../issue-450-451.xspec">
          <x:label>function-param containing curly brackets</x:label>
          <x:call function="mirror:param-mirror">

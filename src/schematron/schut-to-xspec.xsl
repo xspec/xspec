@@ -139,7 +139,7 @@
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:failed-assert</xsl:text>
+                <xsl:text>svrl:schematron-output[svrl:fired-rule] and empty(svrl:schematron-output/svrl:failed-assert</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
             </xsl:attribute>
@@ -163,7 +163,7 @@
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule]) and empty(svrl:schematron-output/svrl:successful-report</xsl:text>
+                <xsl:text>svrl:schematron-output[svrl:fired-rule] and empty(svrl:schematron-output/svrl:successful-report</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
             </xsl:attribute>
@@ -208,16 +208,12 @@
         <xsl:variable name="bad-roles" as="xs:string"
             select="
                 ($errors ! ($x:apos || . || $x:apos))
-                => string-join(',')" />
+                => string-join(', ')" />
 
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:attribute name="label" select="'valid'"/>
             <xsl:attribute name="test">
-                <xsl:text>boolean(svrl:schematron-output[svrl:fired-rule])</xsl:text>
-                <xsl:text> and not(boolean(</xsl:text>
-                <xsl:text>(svrl:schematron-output/svrl:failed-assert union svrl:schematron-output/svrl:successful-report)</xsl:text>
-                <xsl:text expand-text="yes">[not(@role) or lower-case(@role) = ({$bad-roles})]</xsl:text>
-                <xsl:text>))</xsl:text>
+                <xsl:text expand-text="yes">svrl:schematron-output[svrl:fired-rule] and empty(svrl:schematron-output/(svrl:failed-assert | svrl:successful-report)[empty(@role) or (lower-case(@role) = ({$bad-roles}))])</xsl:text>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
