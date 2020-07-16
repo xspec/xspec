@@ -258,7 +258,7 @@
          <xsl:text>&#x0A;</xsl:text>
       </xsl:for-each>
 
-      <xsl:text>)&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">) as element({x:known-UQName('x:scenario')})&#x0A;</xsl:text>
 
       <!-- Start of the function body -->
       <xsl:text>{&#x0A;</xsl:text>

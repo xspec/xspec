@@ -40,7 +40,7 @@
             - the generator (xsl:element) of the x:scenario/x:label element
          </t:label>
          <xsl:template name="Q{{http://www.jenitennison.com/xslt/xspec}}scenario1"
-                       as="element()+">
+                       as="element(Q{{http://www.jenitennison.com/xslt/xspec}}scenario)">
             <xsl:message>my label</xsl:message>
             <xsl:element name="t:scenario"
                          namespace="http://www.jenitennison.com/xslt/xspec">
