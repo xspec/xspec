@@ -187,9 +187,12 @@ result as parameter.
 <!-- generated from the x:scenario element -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1">
    <xsl:message>scenario</xsl:message>
-   <x:scenario id="scenario1"
-               xspec=".../compilation-simple-suite.xspec">
-      <x:label>scenario</x:label>
+   <xsl:element name="x:scenario" namespace="http://www.jenitennison.com/xslt/xspec">
+      <xsl:attribute name="id" namespace="">scenario1</xsl:attribute>
+      <xsl:attribute name="xspec" namespace="">.../compilation-simple-suite.xspec</xsl:attribute>
+      <xsl:element name="x:label" namespace="http://www.jenitennison.com/xslt/xspec">
+         <xsl:text>scenario</xsl:text>
+      </xsl:element>
       <xsl:element name="x:call" namespace="http://www.jenitennison.com/xslt/xspec">
          <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
          <xsl:attribute name="function" namespace="">my:f</xsl:attribute>
@@ -204,7 +207,7 @@ result as parameter.
       <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1">
          <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result" select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
       </xsl:call-template>
-   </x:scenario>
+   </x:element>
 </xsl:template>
 
 <!-- generated from the x:expect element -->
@@ -278,6 +281,7 @@ return (
 $Q{http://www.jenitennison.com/xslt/xspec}tmp
 )
 )
+}
 };
 
 (: generated from the x:expect element :)
@@ -866,6 +870,7 @@ $Q{http://www.jenitennison.com/xslt/xspec}tmp
 )
 )
 )
+}
 };
 
 (: generated from the expect one :)
