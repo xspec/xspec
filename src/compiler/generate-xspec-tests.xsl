@@ -191,11 +191,11 @@
    <xsl:template name="x:output-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="pending"   select="()" tunnel="yes" as="node()?" />
-      <xsl:param name="apply"     select="()" tunnel="yes" as="element(x:apply)?" />
-      <xsl:param name="call"      select="()" tunnel="yes" as="element(x:call)?" />
-      <xsl:param name="context"   select="()" tunnel="yes" as="element(x:context)?" />
-      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="apply" as="element(x:apply)?" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
+      <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
+      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable" />
@@ -511,8 +511,8 @@
    <xsl:template name="x:setup-transform-options" as="element(xsl:variable)">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="call" select="()" tunnel="yes" as="element(x:call)?" />
-      <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?" />
+      <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
+      <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
       <variable name="{x:known-UQName('impl:transform-options')}" as="map({x:known-UQName('xs:string')}, item()*)">
          <map>
@@ -644,12 +644,12 @@
    <xsl:template name="x:output-expect" as="element(xsl:template)">
       <xsl:context-item as="element(x:expect)" use="required" />
 
-      <xsl:param name="pending" select="()"    tunnel="yes" as="node()?" />
-      <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?" />
-      <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?" />
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
 
       <!-- URIQualifiedNames of the (required) parameters of the template being generated -->
-      <xsl:param name="param-uqnames" required="yes" as="xs:string*" />
+      <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
 
       <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)" />
 
