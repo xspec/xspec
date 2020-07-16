@@ -218,14 +218,20 @@
    -->
    <xsl:mode name="test:create-node-generator" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="element()" mode="test:create-node-generator">
-      <xsl:copy>
-         <xsl:text>{ </xsl:text>
-         <xsl:call-template name="test:create-zero-or-more-node-generators">
-            <xsl:with-param name="nodes" select="attribute() | node()" />
-         </xsl:call-template>
-         <xsl:text> }&#x0A;</xsl:text>
-      </xsl:copy>
+   <xsl:template match="element()" as="node()+" mode="test:create-node-generator">
+      <xsl:text>element { </xsl:text>
+      <xsl:value-of select="node-name() => x:QName-expression()" />
+      <xsl:text> } {&#x0A;</xsl:text>
+
+      <xsl:call-template name="test:create-zero-or-more-node-generators">
+         <xsl:with-param name="nodes"
+            select="
+               x:element-additional-namespace-nodes(.),
+               attribute(),
+               node()" />
+      </xsl:call-template>
+
+      <xsl:text>&#x0A;}</xsl:text>
    </xsl:template>
 
    <xsl:template match="namespace-node()" as="text()+" mode="test:create-node-generator">

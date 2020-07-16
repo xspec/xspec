@@ -297,7 +297,7 @@
             </x:call>
             <x:result select="/element()">
                <looooooooooooooooooooooooooooooooooong>
-                  <test xmlns:ns3="ns3" xmlns:ns2="ns2" xmlns:ns1="ns1" xmlns="ns">
+                  <test xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3" xmlns="ns">
                      <a/>
                   </test>
                </looooooooooooooooooooooooooooooooooong>
@@ -322,7 +322,7 @@
 						indentation.</x:label>
                <x:expect select="/element()">
                   <looooooooooooooooooooooooooooooooooong>
-                     <test xmlns:ns3="ns3" xmlns:ns2="ns2" xmlns:ns1="ns1" xmlns="ns">
+                     <test xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3" xmlns="ns">
                         <a/>
                      </test>
                   </looooooooooooooooooooooooooooooooooong>

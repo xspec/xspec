@@ -152,9 +152,18 @@
    -->
    <xsl:mode name="test:create-node-generator" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="element()" mode="test:create-node-generator">
-      <!-- Non XSLT elements (non xsl:* elements) can be just thrown into identity template -->
-      <xsl:call-template name="x:identity" />
+   <xsl:template match="element()" as="element(xsl:element)" mode="test:create-node-generator">
+      <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="name()" />
+         <xsl:attribute name="namespace" select="namespace-uri()" />
+
+         <xsl:apply-templates
+            select="
+               x:element-additional-namespace-nodes(.),
+               attribute(),
+               node()"
+            mode="#current" />
+      </xsl:element>
    </xsl:template>
 
    <xsl:template match="namespace-node()" as="element(xsl:namespace)"
@@ -215,25 +224,6 @@
    <xsl:template match="x:text" as="element(xsl:text)" mode="test:create-node-generator">
       <!-- Unwrap -->
       <xsl:apply-templates mode="#current" />
-   </xsl:template>
-
-   <xsl:template match="xsl:*" as="element(xsl:element)" mode="test:create-node-generator">
-      <!-- Do not just throw XSLT elements (xsl:*) into identity template.
-         If you do so, the element being generated becomes a generator... -->
-      <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-         <xsl:attribute name="name" select="name()" />
-         <xsl:attribute name="namespace" select="namespace-uri()" />
-
-         <xsl:variable name="context-element" as="element()" select="." />
-         <xsl:for-each select="in-scope-prefixes($context-element)">
-            <xsl:element name="xsl:namespace" namespace="{$x:xsl-namespace}">
-               <xsl:attribute name="name" select="." />
-               <xsl:value-of select="namespace-uri-for-prefix(., $context-element)" />
-            </xsl:element>
-         </xsl:for-each>
-
-         <xsl:apply-templates select="attribute() | node()" mode="#current" />
-      </xsl:element>
    </xsl:template>
 
 </xsl:stylesheet>
