@@ -63,9 +63,9 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       <!-- info message -->
       <xsl:message>
          <xsl:text>Testing with </xsl:text>
-         <xsl:value-of select="system-property('xsl:product-name')"/>
+         <xsl:value-of select="system-property('Q{http://www.w3.org/1999/XSL/Transform}product-name')"/>
          <xsl:text> </xsl:text>
-         <xsl:value-of select="system-property('xsl:product-version')"/>
+         <xsl:value-of select="system-property('Q{http://www.w3.org/1999/XSL/Transform}product-version')"/>
       </xsl:message>
       <!-- set up the result document (the report) -->
       <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}xml-report-serialization-parameters">

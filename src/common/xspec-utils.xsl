@@ -688,6 +688,9 @@
 				<xsl:when test="$prefix eq 'xs'">
 					<xsl:sequence select="$x:xs-namespace" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'xsl'">
+					<xsl:sequence select="$x:xsl-namespace" />
+				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
 

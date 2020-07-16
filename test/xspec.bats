@@ -1932,6 +1932,9 @@ load bats-helper
     else
         [ "${lines[3]}" = "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9." ]
     fi
+
+    [ "${lines[4]}" = "Running Tests..." ]
+    assert_regex "${lines[5]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
 }
 
 #

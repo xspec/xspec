@@ -1676,6 +1676,9 @@
     ) else (
         call :verify_line 4 x "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9."
     )
+
+    call :verify_line 5 x "Running Tests..."
+    call :verify_line 6 r "Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*"
 	</case>
 
 	<!--
