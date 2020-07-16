@@ -86,7 +86,7 @@
 
          <!-- The main compiled template. -->
          <xsl:comment> the main template to run the suite </xsl:comment>
-         <template name="{x:known-UQName('x:main')}">
+         <template name="{x:known-UQName('x:main')}" as="empty-sequence()">
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
             <message>
                <text>Testing with </text>
@@ -657,7 +657,7 @@
          <xsl:apply-templates select="." mode="x:generate-id" />
       </xsl:variable>
 
-      <template name="{x:known-UQName('x:' || $expect-id)}">
+      <template name="{x:known-UQName('x:' || $expect-id)}" as="element({x:known-UQName('x:test')})">
          <xsl:sequence select="x:copy-of-namespaces(.)" />
 
          <xsl:for-each select="$param-uqnames">
@@ -763,28 +763,28 @@
             </if>
          </xsl:if>
 
-         <xsl:element name="{x:xspec-name('test', .)}" namespace="{$x:xspec-namespace}">
-            <xsl:attribute name="id" select="$expect-id" />
+         <!-- <x:test> -->
+         <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="name" select="x:xspec-name('test', .)" />
+            <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
-            <!-- Create @pending generator or create @successful directly -->
-            <xsl:choose>
-               <xsl:when test="$pending-p">
-                  <xsl:apply-templates select="x:pending-attribute-from-pending-node($pending)"
-                     mode="test:create-node-generator" />
-               </xsl:when>
+            <xsl:variable name="test-element-attributes" as="attribute()+">
+               <xsl:attribute name="id" select="$expect-id" />
+               <xsl:if test="$pending-p">
+                  <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
+               </xsl:if>
+            </xsl:variable>
+            <xsl:apply-templates select="$test-element-attributes" mode="test:create-node-generator" />
 
-               <xsl:otherwise>
-                  <xsl:attribute name="successful">
-                     <!-- Output AVT -->
-                     <xsl:text>{$</xsl:text>
-                     <xsl:value-of select="x:known-UQName('impl:successful')" />
-                     <xsl:text>}</xsl:text>
-                  </xsl:attribute>
-               </xsl:otherwise>
-            </xsl:choose>
+            <xsl:if test="not($pending-p)">
+               <!-- @successful must be evaluated at run time -->
+               <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
+                  <xsl:attribute name="name" select="'successful'" />
+                  <xsl:attribute name="select" select="'$' || x:known-UQName('impl:successful')" />
+               </xsl:element>
+            </xsl:if>
 
-            <!-- Create x:label directly -->
-            <xsl:sequence select="x:label(.)" />
+            <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
 
             <!-- Report -->
             <xsl:if test="not($pending-p)">
@@ -809,6 +809,8 @@
                   </with-param>
                </call-template>
             </xsl:if>
+
+         <!-- </x:test> -->
          </xsl:element>
       </template>
    </xsl:template>
