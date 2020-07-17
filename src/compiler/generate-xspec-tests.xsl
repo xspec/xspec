@@ -807,12 +807,20 @@
 
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:variable-UQName(.)}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                     <xsl:value-of select="x:xspec-name('expect', .)" />
-                  </with-param>
-                  <with-param name="test" as="attribute(test)?">
-                     <xsl:apply-templates select="@test" mode="test:create-node-generator" />
-                  </with-param>
+                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}"
+                     select="'{name()}'" />
+
+                  <xsl:if test="@test">
+                     <with-param name="test-attr" as="attribute(test)">
+                        <xsl:apply-templates select="@test" mode="test:create-node-generator" />
+                     </with-param>
+                     <with-param name="additional-namespaces" as="namespace-node()*">
+                        <!-- $test-attr may use namespace prefixes and/or the default namespace such
+                           as xs:QName('foo') -->
+                        <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
+                           mode="test:create-node-generator" />
+                     </with-param>
+                  </xsl:if>
                </call-template>
             </xsl:if>
 

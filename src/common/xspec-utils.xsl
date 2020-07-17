@@ -757,7 +757,7 @@
 
 		<!-- Sort for better serialization (hopefully) -->
 		<xsl:perform-sort
-			select="x:copy-of-namespaces($element)[not(name() eq $element-name-prefix)]">
+			select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
 			<xsl:sort select="name()" />
 		</xsl:perform-sort>
 	</xsl:function>

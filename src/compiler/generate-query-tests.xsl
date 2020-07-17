@@ -497,10 +497,24 @@
             <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
-         <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:variable-UQName(.)}, '{x:xspec-name('expect', .)}'</xsl:text>
+         <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(&#x0A;</xsl:text>
+         <xsl:text expand-text="yes">${x:variable-UQName(.)},&#x0A;</xsl:text>
+         <xsl:text expand-text="yes">'{name()}'</xsl:text>
          <xsl:if test="@test">
-            <xsl:text>, </xsl:text>
+            <xsl:text>,&#x0A;</xsl:text>
+            <xsl:text>( </xsl:text>
             <xsl:apply-templates select="@test" mode="test:create-node-generator" />
+            <xsl:text> ),&#x0A;</xsl:text>
+            <xsl:text>(&#x0A;</xsl:text>
+            <xsl:call-template name="test:create-zero-or-more-node-generators">
+               <xsl:with-param name="nodes" as="namespace-node()*">
+                  <!-- $test-attr may use namespace prefixes and/or the default namespace such as
+                     xs:QName('foo') -->
+                  <xsl:sequence select="x:element-additional-namespace-nodes(.)" />
+               </xsl:with-param>
+            </xsl:call-template>
+            <xsl:text>&#x0A;</xsl:text>
+            <xsl:text>)&#x0A;</xsl:text>
          </xsl:if>
          <xsl:text>)&#x0A;</xsl:text>
       </xsl:if>
