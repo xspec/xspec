@@ -1932,6 +1932,9 @@ load bats-helper
     else
         [ "${lines[3]}" = "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9." ]
     fi
+
+    [ "${lines[4]}" = "Running Tests..." ]
+    assert_regex "${lines[5]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
 }
 
 #
@@ -2015,7 +2018,7 @@ load bats-helper
     run ../bin/xspec.sh catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''ERROR in scenario '
+    assert_regex "${output}" $'\n''ERROR in x:scenario '
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 
     run ../bin/xspec.sh catch/error-in-context-avt-for-template-call.xspec
@@ -2059,7 +2062,7 @@ load bats-helper
     run ../bin/xspec.sh -q catch/compiler-error.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" 'x:XSPEC005[: ]'
+    assert_regex "${output}" $'\n''ERROR in x:scenario '
 
     run ../bin/xspec.sh -q catch/error-in-function-call-param.xspec
     echo "$output"
@@ -2242,7 +2245,7 @@ load bats-helper
     run ../bin/xspec.sh output-scenario-error/context-both-href-and-content.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in scenario \"x:context both with @href and content\": can't set the context document using both the href attribute and the content of &lt;context&gt;" ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2250,7 +2253,7 @@ load bats-helper
     run ../bin/xspec.sh output-scenario-error/call-both-function-and-template.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in scenario \"x:call both with @function and @template\": can't call a function and a template at the same time" ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2258,7 +2261,7 @@ load bats-helper
     run ../bin/xspec.sh output-scenario-error/apply-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in scenario \"x:apply with x:context\": can't use apply and set a context at the same time" ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2266,7 +2269,7 @@ load bats-helper
     run ../bin/xspec.sh output-scenario-error/apply-with-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in scenario \"x:apply with x:call\": can't use apply and call at the same time" ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2274,7 +2277,7 @@ load bats-helper
     run ../bin/xspec.sh output-scenario-error/function-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in scenario \"x:call[@function] with x:context\": can't set a context and call a function at the same time" ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2282,7 +2285,7 @@ load bats-helper
     run ../bin/xspec.sh output-scenario-error/expect-without-action.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in scenario \"x:expect without action\": there are tests in this scenario but no call, or apply or context has been given" ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call, x:apply or x:context has been given" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2290,27 +2293,27 @@ load bats-helper
 # Error message from x:output-scenario template (XQuery)
 #
 
-@test "x:XSPEC003" {
-    run ../bin/xspec.sh -q output-scenario-error/XSPEC003.xspec
+@test "x:context (XQuery)" {
+    run ../bin/xspec.sh -q output-scenario-error/xquery_context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC003[: ] x:context not supported for XQuery \(scenario '\''x:context'\''\)$'
+    [ "${lines[4]}" = "ERROR in x:scenario ('x:context'): x:context not supported for XQuery" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "x:XSPEC004" {
-    run ../bin/xspec.sh -q output-scenario-error/XSPEC004.xspec
+@test "x:call/@template (XQuery)" {
+    run ../bin/xspec.sh -q output-scenario-error/xquery_template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC004[: ] x:call/@template not supported for XQuery \(scenario '\''x:call/@template'\''\)$'
+    [ "${lines[4]}" = "ERROR in x:scenario ('x:call/@template'): x:call/@template not supported for XQuery" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "x:XSPEC005" {
-    run ../bin/xspec.sh -q output-scenario-error/XSPEC005.xspec
+@test "No x:call (XQuery)" {
+    run ../bin/xspec.sh -q output-scenario-error/xquery_no-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[5]}" '^  x:XSPEC005[: ] there are x:expect but no x:call \(scenario '\''Missing x:call'\''\)$'
+    [ "${lines[4]}" = "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 

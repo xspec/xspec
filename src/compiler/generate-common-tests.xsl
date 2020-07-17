@@ -222,7 +222,7 @@
    </xsl:template>
 
    <xsl:template match="text()" as="element(x:text)?" mode="x:gather-user-content">
-      <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" select="()"/>
+      <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" />
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
@@ -331,8 +331,8 @@
        Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
-      <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
-      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
@@ -444,10 +444,10 @@
        Compile a scenario.
    -->
    <xsl:template match="x:scenario" mode="x:compile">
-      <xsl:param name="pending" select="()" tunnel="yes" as="node()?"/>
-      <xsl:param name="apply"   select="()" tunnel="yes" as="element(x:apply)?"/>
-      <xsl:param name="call"    select="()" tunnel="yes" as="element(x:call)?"/>
-      <xsl:param name="context" select="()" tunnel="yes" as="element(x:context)?"/>
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="apply" as="element(x:apply)?" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" tunnel="yes"/>
+      <xsl:param name="context" as="element(x:context)?" tunnel="yes"/>
 
       <!-- The new $pending. -->
       <xsl:variable name="new-pending" as="node()?" select="
@@ -554,10 +554,10 @@
        Compile an expectation.
    -->
    <xsl:template match="x:expect" mode="x:compile">
-      <xsl:param name="pending" select="()"    tunnel="yes" as="node()?"/>
-      <xsl:param name="context" required="yes" tunnel="yes" as="element(x:context)?"/>
-      <xsl:param name="call"    required="yes" tunnel="yes" as="element(x:call)?"/>
-      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
+      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
+      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-expect">
@@ -779,6 +779,16 @@
             <xsl:sequence select="xs:QName('x:XSPEC008') => error($msg)" />
          </xsl:when>
       </xsl:choose>
+   </xsl:template>
+
+   <xsl:template name="x:output-scenario-error" as="empty-sequence()">
+      <xsl:context-item as="element(x:scenario)" use="required" />
+
+      <xsl:param name="message" as="xs:string" />
+
+      <xsl:message terminate="yes">
+         <xsl:text expand-text="yes">ERROR in {name()} ('{x:label(.)}'): {$message}</xsl:text>
+      </xsl:message>
    </xsl:template>
 
    <xsl:function name="x:label" as="element(x:label)">
