@@ -219,19 +219,19 @@
         <xsl:variable name="rest" as="xs:string" select="regex-group(11)" />
         <xsl:variable name="construct-lines" as="xs:string+"
           select="test:split-lines($construct)" />
-        <xsl:variable name="endTag" as="xs:boolean" select="regex-group(6) != ''" />
-        <xsl:variable name="emptyTag" as="xs:boolean" select="regex-group(10) != ''" />
-        <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(8) != ''" />
+        <xsl:variable name="endTag" as="xs:boolean" select="regex-group(6) ne ''" />
+        <xsl:variable name="emptyTag" as="xs:boolean" select="regex-group(10) ne ''" />
+        <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(8)" />
         <xsl:variable name="matches" as="xs:boolean"
           select="($node instance of text() and
-                   (regex-group(2) != '' or regex-group(5) != '')) or
+                   (regex-group(2) or regex-group(5))) or
                   ($node instance of element() and
                    ($startTag or $endTag or $emptyTag) and
                    name($node) = (regex-group(7), regex-group(9))) or
                   ($node instance of comment() and
-                   regex-group(3) != '') or
+                   regex-group(3)) or
                   ($node instance of processing-instruction() and
-                  regex-group(4) != '')" />
+                   regex-group(4))" />
         <xsl:variable name="coverage" as="xs:string" 
           select="if ($matches) then test:coverage($node, $module) else 'ignored'" />
         <xsl:for-each select="$construct-lines">
@@ -254,7 +254,7 @@
   </xsl:variable>
   <xsl:sequence select="$analyzed/node()[not(self::test:residue)]"/>
   <xsl:variable name="residue" as="element(test:residue)?" select="$analyzed/test:residue"/>
-  <xsl:if test="$residue/@rest != ''">
+  <xsl:if test="$residue/@rest ne ''">
     <!-- The last thing this template does is call itself.
          Tail recursion prevents stack overflow. -->
     <xsl:call-template name="test:output-lines">
