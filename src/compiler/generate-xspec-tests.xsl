@@ -253,7 +253,8 @@
          </xsl:call-template>
       </xsl:if>
 
-      <template name="{x:known-UQName('x:' || $scenario-id)}">
+      <template name="{x:known-UQName('x:' || $scenario-id)}"
+         as="element({x:known-UQName('x:scenario')})">
          <xsl:sequence select="x:copy-of-namespaces(.)" />
 
          <xsl:for-each select="distinct-values($stacked-variables ! x:variable-UQName(.))">
@@ -275,18 +276,21 @@
             <xsl:value-of select="normalize-space(x:label(.))" />
          </message>
 
-         <xsl:element name="{x:xspec-name('scenario', .)}" namespace="{$x:xspec-namespace}">
-            <xsl:attribute name="id" select="$scenario-id" />
-            <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
+         <!-- <x:scenario> -->
+         <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="name" select="x:xspec-name('scenario', .)" />
+            <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
-            <!-- Create @pending generator -->
-            <xsl:if test="$pending-p">
-               <xsl:apply-templates select="x:pending-attribute-from-pending-node($pending)"
-                  mode="test:create-node-generator" />
-            </xsl:if>
+            <xsl:variable name="scenario-attributes" as="attribute()+">
+               <xsl:attribute name="id" select="$scenario-id" />
+               <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
+               <xsl:if test="$pending-p">
+                  <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
+               </xsl:if>
+            </xsl:variable>
+            <xsl:apply-templates select="$scenario-attributes" mode="test:create-node-generator" />
 
-            <!-- Create x:label directly -->
-            <xsl:sequence select="x:label(.)" />
+            <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
 
             <!-- Handle variables and apply/call/context in document order,
                instead of apply/call/context first and variables second. -->
@@ -400,11 +404,11 @@
                            <xsl:when test="$context">
                               <!-- Switch to the context and call the template -->
                               <for-each select="${x:variable-UQName($context)}">
-                                 <xsl:copy-of select="$template-call" />
+                                 <xsl:sequence select="$template-call" />
                               </for-each>
                            </xsl:when>
                            <xsl:otherwise>
-                              <xsl:copy-of select="$template-call" />
+                              <xsl:sequence select="$template-call" />
                            </xsl:otherwise>
                         </xsl:choose>
                      </xsl:when>
@@ -501,6 +505,8 @@
             </xsl:if>
 
             <xsl:call-template name="x:call-scenarios" />
+
+         <!-- </x:scenario> -->
          </xsl:element>
       </template>
 
