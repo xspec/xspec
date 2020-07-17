@@ -146,7 +146,7 @@
 </xsl:template>
 
 <xsl:variable name="attribute-regex" as="xs:string">
-  <xsl:value-of>
+  <xsl:value-of xml:space="preserve">
     \s+
     (?:[^>\s]+)    <!-- ?: the name of the attribute -->
     \s*
@@ -161,7 +161,7 @@
 </xsl:variable>
 
 <xsl:variable name="construct-regex" as="xs:string">
-  <xsl:value-of>
+  <xsl:value-of xml:space="preserve">
     ^
     (                                <!-- 1: the construct -->
       ([^&lt;]+)                     <!-- 2: some text -->
