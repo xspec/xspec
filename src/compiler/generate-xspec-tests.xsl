@@ -88,13 +88,14 @@
          <xsl:comment> the main template to run the suite </xsl:comment>
          <template name="{x:known-UQName('x:main')}">
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
+            <!-- Message content must be constructed at run time -->
             <message>
                <text>Testing with </text>
-               <value-of select="system-property('xsl:product-name')" />
+               <value-of select="system-property('{x:known-UQName('xsl:product-name')}')" />
                <text>
                   <xsl:text> </xsl:text>
                </text>
-               <value-of select="system-property('xsl:product-version')" />
+               <value-of select="system-property('{x:known-UQName('xsl:product-version')}')" />
             </message>
 
             <xsl:comment> set up the result document (the report) </xsl:comment>

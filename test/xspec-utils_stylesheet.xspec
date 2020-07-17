@@ -1462,6 +1462,14 @@
 			<x:expect label="Constructed" select="string()"
 				>Q{http://www.w3.org/2001/XMLSchema}my-local-name</x:expect>
 		</x:scenario>
+
+		<x:scenario label="xsl">
+			<x:call function="x:known-UQName">
+				<x:param select="'xsl:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.w3.org/1999/XSL/Transform}my-local-name</x:expect>
+		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function variable-UQName"
