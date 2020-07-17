@@ -1604,4 +1604,7 @@
 		</x:scenario>
 	</x:scenario>
 
+	<!-- x:xspec-name() is tested in xspec-name.xspec which is externalized because of its violating
+		the XSpec schema. -->
+
 </x:description>
