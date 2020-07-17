@@ -538,6 +538,14 @@
          </xsl:for-each>
       </xsl:for-each>
 
+      <!-- Check x:apply -->
+      <!-- TODO: Remove this after implementing x:apply -->
+      <xsl:if test="$new-apply">
+         <xsl:message>
+            <xsl:text expand-text="yes">WARNING: The instruction {name($new-apply)} is not supported yet!</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-scenario">
          <xsl:with-param name="pending"   select="$new-pending" tunnel="yes"/>

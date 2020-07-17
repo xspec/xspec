@@ -323,11 +323,6 @@
                      </xsl:when>
 
                      <xsl:when test="$apply">
-                        <!-- TODO: FIXME: ... -->
-                        <xsl:message terminate="yes">
-                           <xsl:text>The instruction x:apply is not supported yet!</xsl:text>
-                        </xsl:message>
-
                         <!-- Set up variables containing the parameter values -->
                         <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile" />
                      </xsl:when>
