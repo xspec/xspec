@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xqm"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:scenario label="Missing x:call">
-		<x:expect label="should be error x:XSPEC005" test="true()" />
+	<x:scenario label="No x:call">
+		<x:expect label="should be error" test="true()" />
 	</x:scenario>
 </x:description>

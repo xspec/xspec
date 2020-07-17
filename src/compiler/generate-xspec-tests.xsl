@@ -210,47 +210,46 @@
       <!-- We have to create these error messages at this stage because before now
          we didn't have merged versions of the environment -->
       <xsl:if test="$context/@href and ($context/node() except $context/x:param)">
-         <xsl:message terminate="yes">
-            <xsl:text>ERROR in scenario "</xsl:text>
-            <xsl:value-of select="x:label(.)" />
-            <xsl:text>": can't set the context document using both the href</xsl:text>
-            <xsl:text> attribute and the content of &lt;context&gt;</xsl:text>
-         </xsl:message>
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text expand-text="yes">Can't set the context document using both the href attribute and the content of the {name($context)} element</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
       <xsl:if test="$call/@template and $call/@function">
-         <xsl:message terminate="yes">
-            <xsl:text>ERROR in scenario "</xsl:text>
-            <xsl:value-of select="x:label(.)" />
-            <xsl:text>": can't call a function and a template at the same time</xsl:text>
-         </xsl:message>
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text>Can't call a function and a template at the same time</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
       <xsl:if test="$apply and $context">
-         <xsl:message terminate="yes">
-            <xsl:text>ERROR in scenario "</xsl:text>
-            <xsl:value-of select="x:label(.)" />
-            <xsl:text>": can't use apply and set a context at the same time</xsl:text>
-         </xsl:message>
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text expand-text="yes">Can't use {name($apply)} and set a context at the same time</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
       <xsl:if test="$apply and $call">
-         <xsl:message terminate="yes">
-            <xsl:text>ERROR in scenario "</xsl:text>
-            <xsl:value-of select="x:label(.)" />
-            <xsl:text>": can't use apply and call at the same time</xsl:text>
-         </xsl:message>
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text expand-text="yes">Can't use {name($apply)} and {name($call)} at the same time</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
       <xsl:if test="$context and $call/@function">
-         <xsl:message terminate="yes">
-            <xsl:text>ERROR in scenario "</xsl:text>
-            <xsl:value-of select="x:label(.)" />
-            <xsl:text>": can't set a context and call a function at the same time</xsl:text>
-         </xsl:message>
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text>Can't set a context and call a function at the same time</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
-      <xsl:if test="x:expect and not($call) and not($apply) and not($context)">
-         <xsl:message terminate="yes">
-            <xsl:text>ERROR in scenario "</xsl:text>
-            <xsl:value-of select="x:label(.)" />
-            <xsl:text>": there are tests in this scenario but no call, or apply or context has been given</xsl:text>
-         </xsl:message>
+      <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
+         <xsl:call-template name="x:output-scenario-error">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:if>
 
       <template name="{x:known-UQName('x:' || $scenario-id)}">
