@@ -258,7 +258,7 @@
          <xsl:text>&#x0A;</xsl:text>
       </xsl:for-each>
 
-      <xsl:text>)&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">) as element({x:known-UQName('x:scenario')})&#x0A;</xsl:text>
 
       <!-- Start of the function body -->
       <xsl:text>{&#x0A;</xsl:text>
@@ -270,72 +270,69 @@
       </xsl:if>
 
       <!-- <x:scenario> -->
-      <xsl:element name="{x:xspec-name('scenario', .)}" namespace="{$x:xspec-namespace}">
-         <xsl:text>{&#x0A;</xsl:text>
+      <xsl:text>element { </xsl:text>
+      <xsl:value-of select="QName($x:xspec-namespace, x:xspec-name('scenario', .)) => x:QName-expression()" />
+      <xsl:text> } {&#x0A;</xsl:text>
 
-         <xsl:call-template name="test:create-zero-or-more-node-generators">
-            <xsl:with-param name="nodes" as="node()+">
-               <xsl:attribute name="id" select="$scenario-id" />
-               <xsl:sequence select="@xspec" />
+      <xsl:call-template name="test:create-zero-or-more-node-generators">
+         <xsl:with-param name="nodes" as="node()+">
+            <xsl:attribute name="id" select="$scenario-id" />
+            <xsl:sequence select="@xspec" />
 
-               <xsl:if test="$pending-p">
-                  <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
-               </xsl:if>
+            <xsl:if test="$pending-p">
+               <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
+            </xsl:if>
 
-               <xsl:sequence select="x:label(.)" />
+            <xsl:sequence select="x:label(.)" />
 
-               <!-- Copy the input to the test result report XML -->
-               <xsl:sequence select="x:call" />
-            </xsl:with-param>
-         </xsl:call-template>
-         <xsl:text>,&#x0A;</xsl:text>
+            <!-- Copy the input to the test result report XML -->
+            <xsl:sequence select="x:call" />
+         </xsl:with-param>
+      </xsl:call-template>
+      <xsl:text>,&#x0A;</xsl:text>
 
-         <xsl:choose>
-            <xsl:when test="not($pending-p) and x:expect">
-               <!--
-                 let $xxx-param1 := ...
-                 let $xxx-param2 := ...
-                 let $t:result   := ...($xxx-param1, $xxx-param2)
-                   return (
-                     test:report-sequence($t:result, 'x:result'),
-               -->
-               <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
+      <xsl:choose>
+         <xsl:when test="not($pending-p) and x:expect">
+            <!--
+              let $xxx-param1 := ...
+              let $xxx-param2 := ...
+              let $t:result   := ...($xxx-param1, $xxx-param2)
+              return (
+                test:report-sequence($t:result, 'x:result'),
+            -->
+            <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
 
-               <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
-               <xsl:call-template name="x:enter-sut">
-                  <xsl:with-param name="instruction" as="text()+">
-                     <xsl:sequence select="x:function-call-text($call)" />
-                     <xsl:text>&#x0A;</xsl:text>
-                  </xsl:with-param>
-               </xsl:call-template>
-               <xsl:text>)&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
+            <xsl:call-template name="x:enter-sut">
+               <xsl:with-param name="instruction" as="text()+">
+                  <xsl:sequence select="x:function-call-text($call)" />
+                  <xsl:text>&#x0A;</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+            <xsl:text>)&#x0A;</xsl:text>
 
-               <xsl:text>return (&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, '{x:xspec-name('result', .)}'),&#x0A;</xsl:text>
+            <xsl:text>return (&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, '{x:xspec-name('result', .)}'),&#x0A;</xsl:text>
 
-               <xsl:text>&#x0A;</xsl:text>
-               <xsl:text>(: a call instruction for each x:expect element :)&#x0A;</xsl:text>
-            </xsl:when>
+            <xsl:text>&#x0A;</xsl:text>
+            <xsl:text>(: a call instruction for each x:expect element :)&#x0A;</xsl:text>
+         </xsl:when>
 
-            <xsl:otherwise>
-               <!--
-                 let $t:result := ()
-                   return (
-               -->
-               <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := ()&#x0A;</xsl:text>
-               <xsl:text>return (&#x0A;</xsl:text>
-            </xsl:otherwise>
-         </xsl:choose>
+         <xsl:otherwise>
+            <!--
+               let $t:result := ()
+               return (
+            -->
+            <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := ()&#x0A;</xsl:text>
+            <xsl:text>return (&#x0A;</xsl:text>
+         </xsl:otherwise>
+      </xsl:choose>
 
-         <xsl:call-template name="x:call-scenarios"/>
-         <xsl:text>)&#x0A;</xsl:text>
-
-         <xsl:text>}&#x0A;</xsl:text>
+      <xsl:call-template name="x:call-scenarios"/>
+      <xsl:text>)&#x0A;</xsl:text>
 
       <!-- </x:scenario> -->
-      </xsl:element>
-
-      <xsl:text>&#x0A;</xsl:text>
+      <xsl:text>}&#x0A;</xsl:text>
 
       <!-- End of the function -->
       <xsl:text>};&#x0A;</xsl:text>
@@ -414,7 +411,7 @@
          </xsl:if>
          <xsl:text>&#x0A;</xsl:text>
       </xsl:for-each>
-      <xsl:text>)&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">) as element({x:known-UQName('x:test')})&#x0A;</xsl:text>
 
       <!-- Start of the function body -->
       <xsl:text>{&#x0A;</xsl:text>
@@ -466,51 +463,64 @@
       </xsl:if>
 
       <!-- <x:test> -->
-      <xsl:element name="{x:xspec-name('test', .)}" namespace="{$x:xspec-namespace}">
-         <xsl:attribute name="id" select="$expect-id" />
+      <xsl:text>element { </xsl:text>
+      <xsl:value-of select="QName($x:xspec-namespace, x:xspec-name('test', .)) => x:QName-expression()" />
+      <xsl:text> } {&#x0A;</xsl:text>
 
-         <xsl:text>{&#x0A;</xsl:text>
+      <xsl:call-template name="test:create-zero-or-more-node-generators">
+         <xsl:with-param name="nodes" as="node()+">
+            <xsl:attribute name="id" select="$expect-id" />
 
-         <xsl:choose>
-            <xsl:when test="$pending-p">
-               <xsl:apply-templates select="x:pending-attribute-from-pending-node($pending)"
-                  mode="test:create-node-generator" />
-               <xsl:text>,&#x0A;</xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
-               <!-- @successful must be evaluated at run time -->
-               <xsl:text>attribute { QName('', 'successful') } { $local:successful },&#x0A;</xsl:text>
-            </xsl:otherwise>
-         </xsl:choose>
-
-         <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
-
-         <!-- Report -->
-         <xsl:if test="not($pending-p)">
-            <xsl:text>,&#x0A;</xsl:text>
-
-            <xsl:if test="@test">
-               <xsl:text>(&#x0A;</xsl:text>
-               <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
-               <xsl:text>then ()&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">else {x:known-UQName('test:report-sequence')}($local:test-result, '{x:xspec-name('result', .)}')&#x0A;</xsl:text>
-               <xsl:text>),&#x0A;</xsl:text>
+            <xsl:if test="$pending-p">
+               <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
             </xsl:if>
+         </xsl:with-param>
+      </xsl:call-template>
+      <xsl:text>,&#x0A;</xsl:text>
 
-            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:variable-UQName(.)}, '{x:xspec-name('expect', .)}'</xsl:text>
-            <xsl:if test="@test">
-               <xsl:text>, </xsl:text>
-               <xsl:apply-templates select="@test" mode="test:create-node-generator" />
-            </xsl:if>
-            <xsl:text>)&#x0A;</xsl:text>
+      <xsl:if test="not($pending-p)">
+         <!-- @successful must be evaluated at run time -->
+         <xsl:text>attribute { QName('', 'successful') } { $local:successful },&#x0A;</xsl:text>
+      </xsl:if>
+
+      <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
+
+      <!-- Report -->
+      <xsl:if test="not($pending-p)">
+         <xsl:text>,&#x0A;</xsl:text>
+
+         <xsl:if test="@test">
+            <xsl:text>(&#x0A;</xsl:text>
+            <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
+            <xsl:text>then ()&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">else {x:known-UQName('test:report-sequence')}($local:test-result, '{x:xspec-name('result', .)}')&#x0A;</xsl:text>
+            <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
-         <xsl:text>}</xsl:text>
+         <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(&#x0A;</xsl:text>
+         <xsl:text expand-text="yes">${x:variable-UQName(.)},&#x0A;</xsl:text>
+         <xsl:text expand-text="yes">'{name()}'</xsl:text>
+         <xsl:if test="@test">
+            <xsl:text>,&#x0A;</xsl:text>
+            <xsl:text>( </xsl:text>
+            <xsl:apply-templates select="@test" mode="test:create-node-generator" />
+            <xsl:text> ),&#x0A;</xsl:text>
+            <xsl:text>(&#x0A;</xsl:text>
+            <xsl:call-template name="test:create-zero-or-more-node-generators">
+               <xsl:with-param name="nodes" as="namespace-node()*">
+                  <!-- $test-attr may use namespace prefixes and/or the default namespace such as
+                     xs:QName('foo') -->
+                  <xsl:sequence select="x:element-additional-namespace-nodes(.)" />
+               </xsl:with-param>
+            </xsl:call-template>
+            <xsl:text>&#x0A;</xsl:text>
+            <xsl:text>)&#x0A;</xsl:text>
+         </xsl:if>
+         <xsl:text>)&#x0A;</xsl:text>
+      </xsl:if>
 
       <!-- </x:test> -->
-      </xsl:element>
-
-      <xsl:text>&#x0A;</xsl:text>
+      <xsl:text>}&#x0A;</xsl:text>
 
       <!-- End of the function -->
       <xsl:text>};&#x0A;</xsl:text>
