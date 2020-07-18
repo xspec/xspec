@@ -70,9 +70,23 @@
       </t:context>
       <t:expect label="is a template"
                 test="$t:result instance of element(xsl:template)"/>
-      <t:expect label="@test must be transformed to @select"
-                test="$t:result/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}test-result']/*/xsl:otherwise/*">
-         <xsl:sequence select="false()" version="3" />
+      <t:expect label="@test must be transformed to xsl:sequence/@select"
+                test="$t:result/xsl:variable[@name eq 'Q{urn:x-xspec:compile:impl}test-result']">
+         <xsl:variable name="Q{{urn:x-xspec:compile:impl}}test-result"
+                       as="item()*">
+            <xsl:choose>
+               <xsl:when test="count($Q{{urn:x-xspec:compile:impl}}test-items) eq 1">
+                  <xsl:for-each select="$Q{{urn:x-xspec:compile:impl}}test-items">
+                     <xsl:sequence select="false()"
+                                   version="3" />
+                  </xsl:for-each>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:sequence select="false()"
+                                version="3" />
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:variable>
       </t:expect>
    </t:scenario>
 

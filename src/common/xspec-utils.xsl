@@ -679,6 +679,9 @@
 				<xsl:when test="$prefix eq 'output'">
 					<xsl:sequence select="'http://www.w3.org/2010/xslt-xquery-serialization'" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'svrl'">
+					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'test'">
 					<xsl:sequence select="$x:legacy-namespace" />
 				</xsl:when>
@@ -757,7 +760,7 @@
 
 		<!-- Sort for better serialization (hopefully) -->
 		<xsl:perform-sort
-			select="x:copy-of-namespaces($element)[not(name() eq $element-name-prefix)]">
+			select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
 			<xsl:sort select="name()" />
 		</xsl:perform-sort>
 	</xsl:function>
