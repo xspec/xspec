@@ -25,7 +25,8 @@
 				Failure when this XSpec file is imported to another XSpec file which has
 				xslt-version=2.0 or higher.</x:label>
 			<x:expect label="Expecting the compiled stylesheet to have version=1.0" select="'1.0'"
-				test="document('')/xsl:stylesheet/@version/string()" />
+				test="document('')/xsl:stylesheet/@version/string()"
+				xmlns:xsl="http://www.w3.org/1999/XSL/Transform" />
 		</x:scenario>
 	</x:scenario>
 </x:description>
