@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
     schematron="..." xspec-original-location="..."
     stylesheet="schut-to-xspec-test.sch.xsl">
     <x:scenario label="Schematron test scenario">
@@ -15,7 +15,7 @@
     </x:scenario>
     <x:scenario label="pending assertions">
         <x:pending>
-            <x:expect label="assert" test="exists(svrl:schematron-output/svrl:failed-assert)"/>
+            <x:expect label="assert" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"/>
         </x:pending>
     </x:scenario>
 </x:description>

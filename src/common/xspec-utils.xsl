@@ -679,6 +679,9 @@
 				<xsl:when test="$prefix eq 'output'">
 					<xsl:sequence select="'http://www.w3.org/2010/xslt-xquery-serialization'" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'svrl'">
+					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'test'">
 					<xsl:sequence select="$x:legacy-namespace" />
 				</xsl:when>
@@ -687,6 +690,9 @@
 				</xsl:when>
 				<xsl:when test="$prefix eq 'xs'">
 					<xsl:sequence select="$x:xs-namespace" />
+				</xsl:when>
+				<xsl:when test="$prefix eq 'xsl'">
+					<xsl:sequence select="$x:xsl-namespace" />
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>

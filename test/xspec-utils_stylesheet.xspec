@@ -1439,6 +1439,14 @@
 				>Q{http://www.w3.org/2010/xslt-xquery-serialization}my-local-name</x:expect>
 		</x:scenario>
 
+		<x:scenario label="svrl">
+			<x:call function="x:known-UQName">
+				<x:param select="'svrl:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://purl.oclc.org/dsdl/svrl}my-local-name</x:expect>
+		</x:scenario>
+
 		<x:scenario label="test">
 			<x:call function="x:known-UQName">
 				<x:param select="'test:my-local-name'" />
@@ -1461,6 +1469,14 @@
 			</x:call>
 			<x:expect label="Constructed" select="string()"
 				>Q{http://www.w3.org/2001/XMLSchema}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="xsl">
+			<x:call function="x:known-UQName">
+				<x:param select="'xsl:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://www.w3.org/1999/XSL/Transform}my-local-name</x:expect>
 		</x:scenario>
 	</x:scenario>
 
