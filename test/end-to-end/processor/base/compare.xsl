@@ -193,17 +193,14 @@
 	</xsl:function>
 
 	<!--
-		Returns true if elements or attributes have the same name including namespace URI and namespace prefix
+		Returns true if elements or attributes have the same name including namespace URI and
+		namespace prefix
 	-->
 	<xsl:function as="xs:boolean" name="local:node-name-equal">
 		<xsl:param as="node()" name="node1" />
 		<xsl:param as="node()" name="node2" />
 
-		<xsl:sequence
-			select="
-				(namespace-uri($node1) eq namespace-uri($node2))
-				and (name($node1) eq name($node2))"
-		 />
+		<xsl:sequence select="x:QName-exactly-equal(node-name($node1), node-name($node2))" />
 	</xsl:function>
 
 	<!--

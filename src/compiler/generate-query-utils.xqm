@@ -202,13 +202,14 @@ declare function test:report-sequence(
     $wrapper-name as xs:string
   ) as element()
 {
-  test:report-sequence($sequence, $wrapper-name, ())
+  test:report-sequence($sequence, $wrapper-name, (), ())
 };
 
 declare function test:report-sequence(
     $sequence as item()*,
     $wrapper-name as xs:string,
-    $test as attribute(test)?
+    $test-attr as attribute(test)?,
+    $additional-namespaces as namespace-node()*
   ) as element()
 {
   let $wrapper-ns as xs:string := 'http://www.jenitennison.com/xslt/xspec'
@@ -222,7 +223,8 @@ declare function test:report-sequence(
     element
       { QName($wrapper-ns, $wrapper-name) }
       {
-        $test,
+        $additional-namespaces,
+        $test-attr,
 
         (
           (: Empty :)
