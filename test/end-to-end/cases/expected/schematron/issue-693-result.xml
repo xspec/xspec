@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../issue-693.xspec"
           stylesheet="issue-693-sch-preprocessed.xsl"
           schematron="../../issue-693.sch"
@@ -14,7 +13,8 @@
          </foo>
       </x:context>
       <x:result select="/element()">
-         <svrl:schematron-output xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                                  xmlns:saxon="http://saxon.sf.net/"
                                  xmlns:schold="http://www.ascc.net/xml/schematron"
@@ -34,12 +34,12 @@
       </x:result>
       <x:test id="scenario1-expect1" successful="true">
          <x:label>This expectation should be Success report bar-exists</x:label>
-         <x:expect test="exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'bar-exists'])"
+         <x:expect test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'bar-exists'])"
                    select="()"/>
       </x:test>
       <x:test id="scenario1-expect2" successful="false">
          <x:label>This expectation should be Failure and the failure report should contain svrl:active-pattern/@document[. = ''] report baz-exists</x:label>
-         <x:expect test="exists(svrl:schematron-output/svrl:successful-report[(@id, preceding-sibling::svrl:fired-rule[1]/@id, preceding-sibling::svrl:active-pattern[1]/@id)[1] = 'baz-exists'])"
+         <x:expect test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'baz-exists'])"
                    select="()"/>
       </x:test>
    </x:scenario>

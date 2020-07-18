@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="xslt3.xsl">
+<x:description stylesheet="xslt3.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
   <x:scenario label="When testing the let expression in XPath 3.0">
-    <x:call template="supportXPath3"/>
+    <x:call template="supportXPath3" />
     <x:expect label="the expression takes effect">
       <root>
         <question>Does XSpec support XPath 3.0?</question>
@@ -9,6 +9,7 @@
       </root>
     </x:expect>
     <x:expect label="the compiled stylesheet has version=3.0" select="'3.0'"
-      test="document('')/xsl:stylesheet/@version/string()"/>
+      test="document('')/xsl:stylesheet/@version/string()"
+      xmlns:xsl="http://www.w3.org/1999/XSL/Transform" />
   </x:scenario>
 </x:description>

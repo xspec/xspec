@@ -81,12 +81,10 @@
          from the initial XSpec document. -->
       <xsl:variable name="combined-doc" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name('description', $this/x:description)}"
-               namespace="{$x:xspec-namespace}">
-               <xsl:sequence select="x:copy-of-namespaces($this/x:description)" />
-               <xsl:sequence select="$this/x:description/attribute()" />
+            <xsl:copy select="$this/x:description">
+               <xsl:sequence select="attribute()" />
                <xsl:sequence select="$specs" />
-            </xsl:element>
+            </xsl:copy>
          </xsl:document>
       </xsl:variable>
 
