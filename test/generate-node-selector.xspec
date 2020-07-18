@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/schematron/generate-node-selector.xsl"
+	xmlns:myv="x-urn:test:generate-node-selector:variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<x:scenario label="Expect stylesheet" shared="yes">
+		<!-- Expected stylesheet.
+			Since XSpec ignores in-scope namespace nodes when comparing elements, namespace nodes
+			should be tested separately. -->
+		<x:expect label="Generated" select="/">
+			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0">
+				<xsl:mode on-multiple-match="fail" on-no-match="fail" />
+				<xsl:template as="node()?" match="attribute() | document-node() | node()">
+					<xsl:sequence select="/xpath/to/my/target/node" version="3" />
+				</xsl:template>
+			</xsl:stylesheet>
+		</x:expect>
+	</x:scenario>
+
+	<x:scenario label="Without namespace nodes">
+		<x:call template="xsl:initial-template">
+			<x:param name="expression">/xpath/to/my/target/node</x:param>
+			<x:param name="xslt-version" select="3.0" />
+		</x:call>
+		<x:like label="Expect stylesheet" />
+		<x:expect label="xsl:sequence has no extra namespaces" select="()"
+			test="exactly-one(descendant::xsl:sequence)/namespace::*[not(name() = ('xml', 'xsl'))]"
+		 />
+	</x:scenario>
+
+	<x:scenario label="With namespace nodes">
+		<x:variable as="namespace-node()" name="myv:namespace-node" select="e/namespace::my-prefix">
+			<e xmlns:my-prefix="my-uri" />
+		</x:variable>
+		<x:call template="xsl:initial-template">
+			<x:param name="expression">/xpath/to/my/target/node</x:param>
+			<x:param name="namespace-nodes" select="$myv:namespace-node" />
+			<x:param name="xslt-version" select="3.0" />
+		</x:call>
+		<x:like label="Expect stylesheet" />
+		<x:expect label="xsl:sequence has only the given namespace" select="$myv:namespace-node"
+			test="exactly-one(descendant::xsl:sequence)/namespace::*[not(name() = ('xml', 'xsl'))]"
+		 />
+	</x:scenario>
+
+</x:description>
