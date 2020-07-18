@@ -255,9 +255,7 @@
          <x:param name="b" select="2" as="xs:integer"/>
       </x:call>
       <x:result select="7"/>
-      <x:test xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              id="scenario4-expect1"
-              successful="true">
+      <x:test id="scenario4-expect1" successful="true">
          <x:label>add 5 + 2</x:label>
          <x:expect select="7"/>
       </x:test>

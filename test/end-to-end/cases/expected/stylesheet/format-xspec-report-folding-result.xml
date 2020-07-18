@@ -13,10 +13,7 @@
               function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:test xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:my="http://example.org/ns/my"
-              id="scenario1-expect1"
-              pending="testing @focus of a correct scenario">
+      <t:test id="scenario1-expect1" pending="testing @focus of a correct scenario">
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
@@ -30,10 +27,7 @@
               function="my:square">
          <t:param select="2"/>
       </t:call>
-      <t:test xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:my="http://example.org/ns/my"
-              id="scenario2-expect1"
-              pending="testing @focus of a correct scenario">
+      <t:test id="scenario2-expect1" pending="testing @focus of a correct scenario">
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>
@@ -47,10 +41,7 @@
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
-      <t:test xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:my="http://example.org/ns/my"
-              id="scenario3-expect1"
-              successful="true">
+      <t:test id="scenario3-expect1" successful="true">
          <t:label>must execute the test and return Success</t:label>
          <t:expect select="9"/>
       </t:test>
@@ -65,12 +56,12 @@
          <t:param select="2"/>
       </t:call>
       <t:result select="4"/>
-      <t:test xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:my="http://example.org/ns/my"
-              id="scenario4-expect1"
-              successful="false">
+      <t:test id="scenario4-expect1" successful="false">
          <t:label>must execute the test and return Failure</t:label>
-         <t:expect test="$t:result instance of xs:string" select="()"/>
+         <t:expect xmlns:my="http://example.org/ns/my"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   test="$t:result instance of xs:string"
+                   select="()"/>
       </t:test>
    </t:scenario>
 </x:report>
