@@ -101,21 +101,28 @@
             <xsl:comment> set up the result document (the report) </xsl:comment>
             <!-- Use xsl:result-document/@format to avoid clashes with <xsl:output> in the stylesheet
                being tested which would otherwise govern the output of the report XML. -->
-            <result-document>
-               <xsl:attribute name="format">
-                  <xsl:choose>
-                     <xsl:when test="$x:saxon-version lt x:pack-version((9, 9, 1, 1))">
-                        <!-- Workaround for a Saxon bug: https://saxonica.plan.io/issues/4093 -->
-                        <xsl:sequence
-                           select="x:xspec-name('xml-report-serialization-parameters', .)" />
-                     </xsl:when>
-                     <xsl:otherwise>
-                        <!-- Escape curly braces because @format is AVT -->
-                        <xsl:sequence
-                           select="'Q{{' || $x:xspec-namespace || '}}xml-report-serialization-parameters'" />
-                     </xsl:otherwise>
-                  </xsl:choose>
-               </xsl:attribute>
+            <xsl:element name="xsl:result-document" namespace="{$x:xsl-namespace}">
+               <xsl:choose>
+                  <xsl:when test="$x:saxon-version lt x:pack-version((9, 9, 1, 1))">
+                     <!-- Workaround for a Saxon bug: https://saxonica.plan.io/issues/4093 -->
+
+                     <!-- Create a temp XSpec namespace node, because non-zero-length XSpec prefix
+                        is not always available here. Any non-zero-length non-xsl prefix will do,
+                        because the temp namespace node is only for the xsl:result-document element -->
+                     <xsl:variable name="temp-prefix" as="xs:string"
+                        select="'workaround-for-saxon-bug-4093'" />
+                     <xsl:namespace name="{$temp-prefix}" select="$x:xspec-namespace" />
+
+                     <xsl:attribute name="format"
+                        select="$temp-prefix || ':xml-report-serialization-parameters'" />
+                  </xsl:when>
+
+                  <xsl:otherwise>
+                     <!-- Escape curly braces because @format is AVT -->
+                     <xsl:attribute name="format"
+                        select="'Q{{' || $x:xspec-namespace || '}}xml-report-serialization-parameters'" />
+                  </xsl:otherwise>
+               </xsl:choose>
 
                <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
                   <xsl:attribute name="name" select="x:xspec-name('report', .)" />
@@ -152,7 +159,7 @@
                   <xsl:text>&#10;            </xsl:text><xsl:comment> a call instruction for each top-level scenario </xsl:comment>
                   <xsl:call-template name="x:call-scenarios" />
                </xsl:element>
-            </result-document>
+            </xsl:element>
          </template>
 
          <!-- Compile the top-level scenarios. -->
@@ -323,11 +330,6 @@
                      </xsl:when>
 
                      <xsl:when test="$apply">
-                        <!-- TODO: FIXME: ... -->
-                        <xsl:message terminate="yes">
-                           <xsl:text>The instruction x:apply is not supported yet!</xsl:text>
-                        </xsl:message>
-
                         <!-- Set up variables containing the parameter values -->
                         <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile" />
                      </xsl:when>
