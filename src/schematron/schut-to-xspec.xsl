@@ -28,11 +28,10 @@
     <xsl:mode on-multiple-match="fail" on-no-match="shallow-copy" />
 
     <xsl:template match="x:description[@schematron]" as="element(x:description)">
-        <!-- Do not set xsl:copy/@copy-namespaces="no". child::x:param may use namespaces. -->
+        <!-- Do not set xsl:copy/@copy-namespaces="no". child::x:param may use namespace prefixes
+            and/or the default namespace such as xs:QName('foo'). -->
         <xsl:copy>
-            <xsl:namespace name="svrl" select="'http://purl.oclc.org/dsdl/svrl'"/>
-
-            <xsl:apply-templates select="@*[not(name() = ('stylesheet'))]"/>
+            <xsl:apply-templates select="attribute() except @stylesheet" />
             <xsl:apply-templates select="node()"/>
         </xsl:copy>
     </xsl:template>
@@ -127,7 +126,7 @@
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
-                <xsl:text>(svrl:schematron-output/svrl:failed-assert</xsl:text>
+                <xsl:text expand-text="yes">({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
                 <xsl:value-of select="@count ! (' eq ' || .)" />
@@ -139,7 +138,7 @@
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:text>svrl:schematron-output[svrl:fired-rule] and empty(svrl:schematron-output/svrl:failed-assert</xsl:text>
+                <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
             </xsl:attribute>
@@ -151,7 +150,7 @@
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
-                <xsl:text>(svrl:schematron-output/svrl:successful-report</xsl:text>
+                <xsl:text expand-text="yes">({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
                 <xsl:value-of select="@count ! (' eq ' || .)" />
@@ -163,7 +162,7 @@
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
-                <xsl:text>svrl:schematron-output[svrl:fired-rule] and empty(svrl:schematron-output/svrl:successful-report</xsl:text>
+                <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
             </xsl:attribute>
@@ -176,11 +175,11 @@
     <xsl:mode name="make-predicate" on-multiple-match="fail" on-no-match="fail" />
 
     <xsl:template match="@location" as="text()" mode="make-predicate">
-        <xsl:text expand-text="yes">[x:schematron-location-compare({x:quote-with-apos(.)}, @location, preceding-sibling::svrl:ns-prefix-in-attribute-values)]</xsl:text>
+        <xsl:text expand-text="yes">[{x:known-UQName('x:schematron-location-compare')}({x:quote-with-apos(.)}, @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')})]</xsl:text>
     </xsl:template>
 
     <xsl:template match="@id | @role" as="text()" mode="make-predicate">
-        <xsl:text expand-text="yes">[(@{local-name()}, preceding-sibling::svrl:fired-rule[1]/@{local-name()}, preceding-sibling::svrl:active-pattern[1]/@{local-name()})[1] = '{.}']</xsl:text>
+        <xsl:text expand-text="yes">[(@{local-name()}, preceding-sibling::{x:known-UQName('svrl:fired-rule')}[1]/@{local-name()}, preceding-sibling::{x:known-UQName('svrl:active-pattern')}[1]/@{local-name()})[1] = '{.}']</xsl:text>
     </xsl:template>
 
     <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" as="text()"
@@ -213,7 +212,7 @@
         <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
             <xsl:attribute name="label" select="'valid'"/>
             <xsl:attribute name="test">
-                <xsl:text expand-text="yes">svrl:schematron-output[svrl:fired-rule] and empty(svrl:schematron-output/(svrl:failed-assert | svrl:successful-report)[empty(@role) or (lower-case(@role) = ({$bad-roles}))])</xsl:text>
+                <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/({x:known-UQName('svrl:failed-assert')} | {x:known-UQName('svrl:successful-report')})[empty(@role) or (lower-case(@role) = ({$bad-roles}))])</xsl:text>
             </xsl:attribute>
         </xsl:element>
     </xsl:template>
@@ -223,7 +222,7 @@
             <xsl:call-template name="make-label"/>
             <xsl:attribute name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
-                <xsl:text>(svrl:schematron-output/svrl:fired-rule</xsl:text>
+                <xsl:text expand-text="yes">({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:fired-rule')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
                 <xsl:value-of select="@count ! (' eq ' || .)" />

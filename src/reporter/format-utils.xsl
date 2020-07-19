@@ -41,7 +41,7 @@
 <xsl:template match="element()" as="node()+" mode="test:serialize">
   <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
   <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
-  <xsl:param name="node-to-compare-with" as="node()?" select="()" />
+  <xsl:param name="node-to-compare-with" as="node()?" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
 
   <!-- Open the start tag of this element -->
@@ -204,7 +204,7 @@
 
 <xsl:template match="processing-instruction()" as="node()+" mode="test:serialize">
   <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
-  <xsl:param name="node-to-compare-with" as="node()?" select="()" />
+  <xsl:param name="node-to-compare-with" as="node()?" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
 
   <xsl:text>&lt;?</xsl:text>
@@ -238,7 +238,7 @@
 
 <xsl:template match="comment() | text() | test:ws" as="node()" mode="test:serialize">
   <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
-  <xsl:param name="node-to-compare-with" as="node()?" select="()" />
+  <xsl:param name="node-to-compare-with" as="node()?" />
   <xsl:param name="expected" as="xs:boolean" select="true()" />
 
   <xsl:variable name="serialized" as="text()">

@@ -19,6 +19,7 @@
 			<exclude name="test/generate-tests-utils.xspec" />
 			<exclude name="test/junit.xspec" />
 			<exclude name="test/obsolete-space/test.xspec" />
+			<exclude name="test/xspec-name.xspec" />
 
 			<!-- Tests user-content when it's not allowed
 				https://github.com/xspec/xspec/pull/307 -->

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description stylesheet="do-nothing.xsl" xmlns="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		The test target (../src/common/xspec-utils.xsl) is included implicitly by the XSpec
+		compiler. You don't need to specify it in /x:description/@stylesheet.
+	-->
+
+	<scenario label="Scenario for testing function xspec-name">
+		<scenario label="Element name is in XSpec namespace">
+			<scenario label="Element name uses the default namespace">
+				<scenario label="No other XSpec prefixes">
+					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+						<param select="'local-name'" />
+						<param>
+							<elem xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:p1="u1"
+								xmlns:p2="u2" />
+						</param>
+					</call>
+					<expect label="Element's prefix (no prefix)" select="'local-name'" />
+				</scenario>
+
+				<scenario label="Some other XSpec prefixes">
+					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+						<param select="'local-name'" />
+						<param>
+							<elem xmlns="http://www.jenitennison.com/xslt/xspec"
+								xmlns:p1="http://www.jenitennison.com/xslt/xspec"
+								xmlns:p2="http://www.jenitennison.com/xslt/xspec" />
+						</param>
+					</call>
+					<expect label="Element's preifx (no prefix)" select="'local-name'" />
+				</scenario>
+			</scenario>
+
+			<scenario label="Element name uses a prefix">
+				<scenario label="Some other XSpec prefixes">
+					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+						<param select="'local-name'" />
+						<param>
+							<p2:elem xmlns="http://www.jenitennison.com/xslt/xspec"
+								xmlns:p1="http://www.jenitennison.com/xslt/xspec"
+								xmlns:p2="http://www.jenitennison.com/xslt/xspec" />
+						</param>
+					</call>
+					<expect label="Element's prefix" select="'p2:local-name'" />
+				</scenario>
+
+				<scenario label="No other XSpec prefixes">
+					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+						<param select="'local-name'" />
+						<param>
+							<p2:elem xmlns="u" xmlns:p1="u1"
+								xmlns:p2="http://www.jenitennison.com/xslt/xspec" />
+						</param>
+					</call>
+					<expect label="Element's prefix" select="'p2:local-name'" />
+				</scenario>
+			</scenario>
+		</scenario>
+
+		<scenario label="Element name is not in XSpec namespace">
+
+			<scenario label="Element name uses the default namespace">
+				<scenario catch="yes" label="No XSpec prefixes">
+					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+						<param select="'local-name'" />
+						<param>
+							<elem xmlns="u" xmlns:p1="u1" xmlns:p2="u2" />
+						</param>
+					</call>
+					<like label="Expect error in x:xspec-name()" />
+				</scenario>
+
+				<scenario label="Some XSpec prefixes">
+					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+						<param select="'local-name'" />
+						<param>
+							<elem xmlns="u" xmlns:p1="http://www.jenitennison.com/xslt/xspec"
+								xmlns:p2="http://www.jenitennison.com/xslt/xspec" />
+						</param>
+					</call>
+					<expect label="1st XSpec namespace prefix (sorted by prefix)"
+						select="'p1:local-name'" />
+				</scenario>
+			</scenario>
+
+			<scenario label="Element name uses a prefix">
+				<scenario label="Some XSpec prefixes">
+					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+						<param select="'local-name'" />
+						<param>
+							<p1:elem xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:p1="u1"
+								xmlns:p2="http://www.jenitennison.com/xslt/xspec" />
+						</param>
+					</call>
+					<expect label="1st XSpec namespace prefix (sorted by prefix)"
+						select="'local-name'" />
+				</scenario>
+
+				<scenario catch="yes" label="No XSpec prefixes">
+					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+						<param select="'local-name'" />
+						<param>
+							<p1:elem xmlns="u" xmlns:p1="u1" xmlns:p2="u2" />
+						</param>
+					</call>
+					<like label="Expect error in x:xspec-name()" />
+				</scenario>
+			</scenario>
+		</scenario>
+	</scenario>
+
+	<scenario label="Expect error in x:xspec-name()" shared="yes">
+		<expect label="Error (code)" select="QName('http://www.w3.org/2005/xqt-errors', 'XTTE0570')"
+			test="$Q{http://www.jenitennison.com/xslt/xspec}result?err?code" />
+		<expect label="Error (description)"
+			select="'An empty sequence is not allowed as the value of variable $xspec-prefixes'"
+			test="$Q{http://www.jenitennison.com/xslt/xspec}result?err?description" />
+	</scenario>
+
+</description>

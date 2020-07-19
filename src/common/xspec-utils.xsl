@@ -679,6 +679,9 @@
 				<xsl:when test="$prefix eq 'output'">
 					<xsl:sequence select="'http://www.w3.org/2010/xslt-xquery-serialization'" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'svrl'">
+					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'test'">
 					<xsl:sequence select="$x:legacy-namespace" />
 				</xsl:when>
@@ -687,6 +690,9 @@
 				</xsl:when>
 				<xsl:when test="$prefix eq 'xs'">
 					<xsl:sequence select="$x:xs-namespace" />
+				</xsl:when>
+				<xsl:when test="$prefix eq 'xsl'">
+					<xsl:sequence select="$x:xsl-namespace" />
 				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
@@ -754,9 +760,47 @@
 
 		<!-- Sort for better serialization (hopefully) -->
 		<xsl:perform-sort
-			select="x:copy-of-namespaces($element)[not(name() eq $element-name-prefix)]">
+			select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
 			<xsl:sort select="name()" />
 		</xsl:perform-sort>
+	</xsl:function>
+
+	<!--
+		Returns a lexical QName in the XSpec namespace. Usually 'x:local-name'.
+		The prefix is taken from the context element's namespaces.
+		If multiple namespace prefixes have the XSpec namespace URI,
+			- The context element name's prefix is preferred.
+			- If the context element's name is not in the XSpec namespace, the first prefix is used
+			  after sorting them in a way that the default namespace is preferred.
+	-->
+	<xsl:function as="xs:string" name="x:xspec-name">
+		<xsl:param as="xs:string" name="local-name" />
+		<xsl:param as="element()" name="context-element" />
+
+		<xsl:variable as="xs:QName" name="context-node-name" select="node-name($context-element)" />
+
+		<xsl:variable as="xs:string?" name="prefix">
+			<xsl:choose>
+				<xsl:when test="namespace-uri-from-QName($context-node-name) eq $x:xspec-namespace">
+					<xsl:sequence select="prefix-from-QName($context-node-name)" />
+				</xsl:when>
+
+				<xsl:otherwise>
+					<xsl:variable as="xs:string+" name="xspec-prefixes"
+						select="
+							in-scope-prefixes($context-element)
+							[namespace-uri-for-prefix(., $context-element) eq $x:xspec-namespace]" />
+					<xsl:variable as="xs:string+" name="xspec-prefixes-sorted">
+						<xsl:perform-sort select="$xspec-prefixes">
+							<xsl:sort select="." />
+						</xsl:perform-sort>
+					</xsl:variable>
+					<xsl:sequence select="$xspec-prefixes-sorted[1]" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:sequence select="($prefix[.], $local-name) => string-join(':')" />
 	</xsl:function>
 
 </xsl:stylesheet>
