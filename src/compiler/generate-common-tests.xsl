@@ -811,31 +811,6 @@
       <xsl:attribute name="pending" select="$pending-node" />
    </xsl:function>
 
-   <!-- Returns an XSpec namespace prefix that can be used at run time -->
-   <xsl:function name="x:xspec-prefix" as="xs:string">
-      <xsl:param name="context-element" as="element()" />
-
-      <xsl:sequence select="
-         (
-            in-scope-prefixes($context-element)
-               [namespace-uri-for-prefix(., $context-element) eq $x:xspec-namespace]
-               [. (: Do not allow zero-length string :)],
-            
-            (: Fallback. Intentionally made weird in order to avoid collision. :)
-            'XsPeC'
-         )[1]"/>
-   </xsl:function>
-
-   <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.
-      Usually 'x:local-name'. -->
-   <xsl:function name="x:xspec-name" as="xs:string">
-      <xsl:param name="local-name" as="xs:string" />
-      <xsl:param name="context-element" as="element()" />
-
-      <xsl:variable name="prefix" as="xs:string" select="x:xspec-prefix($context-element)" />
-      <xsl:sequence select="$prefix || ':'[$prefix] || $local-name" />
-   </xsl:function>
-
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
      in a prior position of the sequence.)
      This function does not sort nodes in document order.
