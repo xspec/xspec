@@ -28,7 +28,8 @@
     <xsl:mode on-multiple-match="fail" on-no-match="shallow-copy" />
 
     <xsl:template match="x:description[@schematron]" as="element(x:description)">
-        <!-- Do not set xsl:copy/@copy-namespaces="no". child::x:param may use namespaces. -->
+        <!-- Do not set xsl:copy/@copy-namespaces="no". child::x:param may use namespace prefixes
+            and/or the default namespace such as xs:QName('foo'). -->
         <xsl:copy>
             <xsl:apply-templates select="attribute() except @stylesheet" />
             <xsl:apply-templates select="node()"/>
@@ -174,7 +175,7 @@
     <xsl:mode name="make-predicate" on-multiple-match="fail" on-no-match="fail" />
 
     <xsl:template match="@location" as="text()" mode="make-predicate">
-        <xsl:text expand-text="yes">[x:schematron-location-compare({x:quote-with-apos(.)}, @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')})]</xsl:text>
+        <xsl:text expand-text="yes">[{x:known-UQName('x:schematron-location-compare')}({x:quote-with-apos(.)}, @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')})]</xsl:text>
     </xsl:template>
 
     <xsl:template match="@id | @role" as="text()" mode="make-predicate">
