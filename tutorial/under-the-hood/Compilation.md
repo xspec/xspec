@@ -70,7 +70,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       </xsl:message>
       <!-- set up the result document (the report) -->
       <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}xml-report-serialization-parameters">
-         <xsl:element name="x:report" namespace="http://www.jenitennison.com/xslt/xspec">
+         <xsl:element name="report" namespace="http://www.jenitennison.com/xslt/xspec">
             <xsl:attribute name="xspec" namespace="">.../compilation-simple-suite.xspec</xsl:attribute>
             <xsl:attribute name="stylesheet" namespace="">.../compilation-simple-suite.xsl</xsl:attribute>
             <xsl:attribute name="date" namespace="" select="current-dateTime()"/>
@@ -146,7 +146,7 @@ $Q{http://www.jenitennison.com/xslt/xspec}result
 (: the query body of this main module, to run the suite :)
 (: set up the result document (the report) :)
 document {
-element { QName('http://www.jenitennison.com/xslt/xspec', 'x:report') } {
+element { QName('http://www.jenitennison.com/xslt/xspec', 'report') } {
 attribute { QName('', 'xspec') } { '.../compilation-simple-suite.xspec' },
 attribute { QName('', 'query') } { 'http://example.org/ns/my' },
 attribute { QName('', 'query-at') } { '.../compilation-simple-suite.xqm' },

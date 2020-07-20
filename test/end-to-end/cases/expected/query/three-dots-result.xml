@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../three-dots.xspec"
-          query="x-urn:test:three-dots"
-          query-at="../../three-dots.xqm"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../three-dots.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../three-dots.xspec"
+        query="x-urn:test:three-dots"
+        query-at="../../three-dots.xqm"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant element (simple)</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
@@ -12,18 +14,18 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(elem)">
-               <elem>text</elem>
+               <elem xmlns="">text</elem>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">text</elem>
+            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">text</elem>
          </x:result>
          <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...</elem>
             </x:expect>
          </x:test>
          <x:test id="scenario1-scenario1-expect2" successful="true">
@@ -37,18 +39,18 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(elem)">
-               <elem/>
+               <elem xmlns=""/>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns=""/>
          </x:result>
          <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...</elem>
             </x:expect>
          </x:test>
          <x:test id="scenario1-scenario2-expect2" successful="false">
@@ -56,7 +58,7 @@
 				&lt;elem attrib="..." /&gt;
 				should be Failure</x:label>
             <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="..."/>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="" attrib="..."/>
             </x:expect>
          </x:test>
       </x:scenario>
@@ -66,18 +68,18 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(elem)">
-               <elem>...</elem>
+               <elem xmlns="">...</elem>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...</elem>
          </x:result>
          <x:test id="scenario1-scenario3-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...</elem>
             </x:expect>
          </x:test>
          <x:test id="scenario1-scenario3-expect2" successful="true">
@@ -89,12 +91,14 @@
 				&lt;elem&gt;text&lt;/elem&gt;
 				should be Failure</x:label>
             <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">text</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">text</elem>
             </x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant element (with attribute)</x:label>
       <x:scenario id="scenario2-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
@@ -102,18 +106,18 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(elem)">
-               <elem attrib="val"/>
+               <elem xmlns="" attrib="val"/>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="val"/>
+            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="" attrib="val"/>
          </x:result>
          <x:test id="scenario2-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;elem attrib="..." /&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="..."/>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="" attrib="..."/>
             </x:expect>
          </x:test>
          <x:test id="scenario2-scenario1-expect2" successful="true">
@@ -125,12 +129,14 @@
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Failure</x:label>
             <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...</elem>
             </x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario3" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant element (with mixed content)</x:label>
       <x:scenario id="scenario3-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
@@ -138,13 +144,13 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(outer)">
-               <outer>text<inner1/>
+               <outer xmlns="">text<inner1/>
                   <inner2/>
                </outer>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">text<inner1/>
+            <outer xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">text<inner1/>
                <inner2/>
             </outer>
          </x:result>
@@ -153,7 +159,7 @@
 				&lt;outer&gt;...&lt;/outer&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...</outer>
+               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...</outer>
             </x:expect>
          </x:test>
          <x:test id="scenario3-scenario1-expect2" successful="true">
@@ -161,7 +167,7 @@
 				&lt;outer&gt;...&lt;inner1 /&gt;...&lt;/outer&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...<inner1/>...</outer>
+               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...<inner1/>...</outer>
             </x:expect>
          </x:test>
          <x:test id="scenario3-scenario1-expect3" successful="true">
@@ -175,13 +181,13 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(outer)">
-               <outer>
+               <outer xmlns="">
                   <inner/>
                </outer>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <outer xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">
                <inner/>
             </outer>
          </x:result>
@@ -190,7 +196,7 @@
 				&lt;outer&gt;...&lt;/outer&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...</outer>
+               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...</outer>
             </x:expect>
          </x:test>
          <x:test id="scenario3-scenario2-expect2" successful="false">
@@ -198,13 +204,15 @@
 				&lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt;
 				should be Failure</x:label>
             <x:expect select="/element()">
-               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...<inner/>
+               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="">...<inner/>
                </outer>
             </x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario4" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario4"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant attribute</x:label>
       <x:scenario id="scenario4-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
@@ -212,18 +220,18 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="attribute(attrib)" select="elem/@*">
-               <elem attrib="val"/>
+               <elem xmlns="" attrib="val"/>
             </x:param>
          </x:call>
          <x:result select="/*/@*">
-            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="val"/>
+            <pseudo-attribute attrib="val"/>
          </x:result>
          <x:test id="scenario4-scenario1-expect1" successful="true">
             <x:label>expecting
 					 @attrib="..."
 					should be Success</x:label>
             <x:expect select="/*/@*">
-               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
+               <pseudo-attribute attrib="..."/>
             </x:expect>
          </x:test>
          <x:test id="scenario4-scenario1-expect2" successful="true">
@@ -237,18 +245,18 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="attribute(attrib)" select="elem/@*">
-               <elem attrib=""/>
+               <elem xmlns="" attrib=""/>
             </x:param>
          </x:call>
          <x:result select="/*/@*">
-            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib=""/>
+            <pseudo-attribute attrib=""/>
          </x:result>
          <x:test id="scenario4-scenario2-expect1" successful="true">
             <x:label>expecting
 					 @attrib="..."
 					should be Success</x:label>
             <x:expect select="/*/@*">
-               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
+               <pseudo-attribute attrib="..."/>
             </x:expect>
          </x:test>
       </x:scenario>
@@ -258,18 +266,18 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="attribute(attrib)" select="elem/@*">
-               <elem attrib="..."/>
+               <elem xmlns="" attrib="..."/>
             </x:param>
          </x:call>
          <x:result select="/*/@*">
-            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
+            <pseudo-attribute attrib="..."/>
          </x:result>
          <x:test id="scenario4-scenario3-expect1" successful="true">
             <x:label>expecting
 					 @attrib="..."
 					should be Success</x:label>
             <x:expect select="/*/@*">
-               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
+               <pseudo-attribute attrib="..."/>
             </x:expect>
          </x:test>
          <x:test id="scenario4-scenario3-expect2" successful="true">
@@ -281,12 +289,14 @@
 					 @attrib="val"
 					should be Failure</x:label>
             <x:expect select="/*/@*">
-               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="val"/>
+               <pseudo-attribute attrib="val"/>
             </x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario5" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario5"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant text node</x:label>
       <x:scenario id="scenario5-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is usual text node</x:label>
@@ -309,8 +319,8 @@
             <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_whitespace-only"/>
          </x:call>
          <x:result select="/text()">
-            <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
-&#xD; </test:ws>
+            <ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+&#xD; </ws>
          </x:result>
          <x:test id="scenario5-scenario2-expect1" successful="true">
             <x:label>expecting ... should be Success</x:label>
@@ -327,7 +337,7 @@
             <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_zero-length"/>
          </x:call>
          <x:result select="/text()">
-            <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"/>
+            <ws xmlns="http://www.jenitennison.com/xslt/unit-test"/>
          </x:result>
          <x:test id="scenario5-scenario3-expect1" successful="true">
             <x:label>expecting ... should be Success</x:label>
@@ -358,7 +368,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario6" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario6"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant comment</x:label>
       <x:scenario id="scenario6-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
@@ -420,7 +432,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario7" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario7"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant processing instruction</x:label>
       <x:scenario id="scenario7-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
@@ -482,7 +496,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario8" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario8"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant document node</x:label>
       <x:scenario id="scenario8-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
@@ -493,7 +509,7 @@
                      select="$Q{x-urn:test:three-dots}document-node_multiple-nodes"/>
          </x:call>
          <x:result select="/self::document-node()"><?pi?><!--comment-->
-            <elem/>
+            <elem xmlns=""/>
          </x:result>
          <x:test id="scenario8-scenario1-expect1" successful="false">
             <x:label>expecting
@@ -553,7 +569,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario9" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario9"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant namespace node</x:label>
       <x:scenario id="scenario9-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is
@@ -565,14 +583,14 @@
             <x:param select="'namespace-uri'"/>
          </x:call>
          <x:result select="/*/namespace::*">
-            <pseudo-namespace-node xmlns:prefix="namespace-uri" xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            <pseudo-namespace-node xmlns:prefix="namespace-uri"/>
          </x:result>
          <x:test id="scenario9-scenario1-expect1" successful="true">
             <x:label>expecting
 					  xmlns:prefix="..."
 					should be Success</x:label>
             <x:expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               <pseudo-namespace-node xmlns:prefix="..."/>
             </x:expect>
          </x:test>
          <x:test id="scenario9-scenario1-expect2" successful="true">
@@ -615,14 +633,14 @@
             <x:param select="'...'"/>
          </x:call>
          <x:result select="/*/namespace::*">
-            <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            <pseudo-namespace-node xmlns:prefix="..."/>
          </x:result>
          <x:test id="scenario9-scenario3-expect1" successful="true">
             <x:label>expecting
 					  xmlns:prefix="..."
 					should be Success</x:label>
             <x:expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               <pseudo-namespace-node xmlns:prefix="..."/>
             </x:expect>
          </x:test>
          <x:test id="scenario9-scenario3-expect2" successful="true">
@@ -634,12 +652,14 @@
 					  xmlns:prefix="namespace-uri"
 					should be Failure</x:label>
             <x:expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="namespace-uri" xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               <pseudo-namespace-node xmlns:prefix="namespace-uri"/>
             </x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario10" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario10"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant sequence of multiple nodes</x:label>
       <x:scenario id="scenario10-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is sequence of
@@ -647,19 +667,19 @@
 				</x:label>
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="one-or-more">
             <x:param as="element()+">
-               <elem1/>
-               <elem2/>
+               <elem1 xmlns=""/>
+               <elem2 xmlns=""/>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem1 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-            <elem2 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <elem1 xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns=""/>
+            <elem2 xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns=""/>
          </x:result>
          <x:test id="scenario10-scenario1-expect1" successful="true">
             <x:label>expecting
 					  ...&lt;elem2 /&gt;
 					should be Success</x:label>
-            <x:expect select="/node()">...<elem2 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <x:expect select="/node()">...<elem2 xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns=""/>
             </x:expect>
          </x:test>
          <x:test id="scenario10-scenario1-expect2" successful="true">
@@ -680,7 +700,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario11" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario11"
+               xspec="../../three-dots.xspec">
       <x:label>When result is empty sequence</x:label>
       <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="zero-or-one">
          <x:param select="()"/>
@@ -691,7 +713,9 @@
          <x:expect select="/text()">...</x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario12" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario12"
+               xspec="../../three-dots.xspec">
       <x:label>For resultant atomic value</x:label>
       <x:scenario id="scenario12-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is 'string'</x:label>
@@ -732,7 +756,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario13" xspec="../../three-dots.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario13"
+               xspec="../../three-dots.xspec">
       <x:label>For any resultant item</x:label>
       <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
          <x:param as="text()">item</x:param>
@@ -755,4 +781,4 @@
          <x:expect select="'...'"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>

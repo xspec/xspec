@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-447_2.xspec"
-          query="x-urn:test:mirror"
-          query-at="../../../../mirror.xqm"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1"
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-447_2.xspec"
+        query="x-urn:test:mirror"
+        query-at="../../../../mirror.xqm"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
                xspec="../../issue-447_2.xspec"
                pending="x:pending/@label containing }{">
       <x:label>should not affect test</x:label>
@@ -13,4 +14,4 @@
          <x:label>(This x:expect doesn't matter)</x:label>
       </x:test>
    </x:scenario>
-</x:report>
+</report>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../shared-like.xspec"
-          query="x-urn:test:mirror"
-          query-at="../../../../mirror.xqm"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../shared-like.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../shared-like.xspec"
+        query="x-urn:test:mirror"
+        query-at="../../../../mirror.xqm"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../shared-like.xspec">
       <x:label>Referenced and explicitly unshared scenario</x:label>
       <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
       <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
@@ -13,7 +15,9 @@
          <x:expect xmlns:mirror="x-urn:test:mirror" test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../shared-like.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../shared-like.xspec">
       <x:label>Referenced and implicitly unshared scenario</x:label>
       <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
       <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
@@ -22,7 +26,9 @@
          <x:expect xmlns:mirror="x-urn:test:mirror" test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario3" xspec="../../shared-like.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../shared-like.xspec">
       <x:label>Scenario for testing x:like which references a shared scenario</x:label>
       <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
       <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
@@ -35,7 +41,9 @@
          <x:expect xmlns:mirror="x-urn:test:mirror" test="true()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario4" xspec="../../shared-like.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario4"
+               xspec="../../shared-like.xspec">
       <x:label>Scenario for testing x:like which references unshared scenarios</x:label>
       <x:scenario id="scenario4-scenario1" xspec="../../shared-like.xspec">
          <x:label>explicit one</x:label>
@@ -56,4 +64,4 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-</x:report>
+</report>

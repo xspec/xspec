@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../schematron-import_demo-02-PhaseB.xspec"
-          stylesheet="schematron-import_demo-02-PhaseB-sch-preprocessed.xsl"
-          schematron="../../../../../tutorial/schematron/demo-02.sch"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1"
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../schematron-import_demo-02-PhaseB.xspec"
+        stylesheet="schematron-import_demo-02-PhaseB-sch-preprocessed.xsl"
+        schematron="../../../../../tutorial/schematron/demo-02.sch"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
                xspec="../../../../../tutorial/schematron/demo-02-PhaseB.xspec">
       <x:label>Pattern 2</x:label>
       <x:context xmlns:local="local" href="../../../../../tutorial/schematron/demo-02.xml"/>
@@ -91,7 +92,8 @@
                    select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario2"
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
                xspec="../../../../../tutorial/schematron/demo-02-import1.xspec">
       <x:label>Pattern 3 - Shared</x:label>
       <x:context xmlns:local="local" href="../../../../../tutorial/schematron/demo-02.xml"/>
@@ -172,7 +174,8 @@
                    select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario3"
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
                xspec="../../../../../tutorial/schematron/demo-02-import2.xspec">
       <x:label>Pattern 4 - example of a second level of imported scenarios</x:label>
       <x:context xmlns:local="local" href="../../../../../tutorial/schematron/demo-02.xml"/>
@@ -253,7 +256,8 @@
                    select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario4"
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario4"
                xspec="../../../../../tutorial/schematron/demo-02-import3.xspec">
       <x:label>XSpec function scenario imported</x:label>
       <x:call xmlns:local="local"
@@ -268,4 +272,4 @@
          <x:expect select="7"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>

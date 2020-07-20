@@ -122,7 +122,7 @@
 
       <!-- <x:report> -->
       <xsl:text>element { </xsl:text>
-      <xsl:value-of select="QName($x:xspec-namespace, x:xspec-name('report', $this)) => x:QName-expression()" />
+      <xsl:value-of select="QName($x:xspec-namespace, 'report') => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
       <xsl:call-template name="test:create-zero-or-more-node-generators">
@@ -284,6 +284,8 @@
             <xsl:sequence select="x:label(.)" />
 
             <!-- Copy the input to the test result report XML -->
+            <!-- TODO: Undeclare the default namespace in the wrapper element, because x:param/@select may
+               use the default namespace such as xs:QName('foo'). -->
             <xsl:sequence select="x:call" />
          </xsl:with-param>
       </xsl:call-template>
@@ -495,6 +497,8 @@
             <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
+         <!-- TODO: Undeclare the default namespace in the wrapper element, because x:expect/@test may use
+            the default namespace such as xs:QName('foo'). -->
          <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(&#x0A;</xsl:text>
          <xsl:text expand-text="yes">${x:variable-UQName(.)},&#x0A;</xsl:text>
          <xsl:text expand-text="yes">'{name()}'</xsl:text>
