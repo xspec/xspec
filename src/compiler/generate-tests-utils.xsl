@@ -288,7 +288,7 @@
 
       <xsl:param name="sequence" as="item()*" required="yes" />
       <xsl:param name="wrapper-name" as="xs:string" required="yes" />
-      <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/xspec'" />
+      <xsl:param name="wrapper-ns" as="xs:string" select="$x:xspec-namespace" />
       <xsl:param name="test-attr" as="attribute(test)?" />
       <xsl:param name="additional-namespaces" as="namespace-node()*" />
 

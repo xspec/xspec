@@ -778,7 +778,9 @@
             <t:call function="test:report-atomic-value">
                <t:param select="xs:QName('t:foo')" />
             </t:call>
-            <t:expect label="Function" select="'QName(''http://www.jenitennison.com/xslt/xspec'', ''t:foo'')'" />
+            <t:expect label="Function" select="string()">
+               <t:text expand-text="yes" xml:space="preserve">QName('{$t:xspec-namespace}', 't:foo')</t:text>
+            </t:expect>
          </t:scenario>
 
          <t:scenario label="In namespace, without prefix">
