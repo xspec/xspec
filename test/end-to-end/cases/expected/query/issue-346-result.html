@@ -72,13 +72,15 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">p</span> xmlns:mirror="x-urn:test:mirror"&gt;
+                           <pre>&lt;<span class="inner-diff">p</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+   <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
    &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;<span class="diff whitespace">␣</span>&lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
 &lt;/p&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">p</span> xmlns:mirror="x-urn:test:mirror"&gt;
+                           <pre>&lt;<span class="inner-diff">p</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+   <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
    &lt;<span class="same">span</span>&gt;<span class="same">foo</span>&lt;/span&gt;
    &lt;<span class="diff">span</span>&gt;<span class="diff">bar</span>&lt;/span&gt;
 &lt;/p&gt;</pre>

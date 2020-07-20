@@ -77,18 +77,16 @@
   <xsl:variable name="namespaces" as="namespace-node()*" select="x:copy-of-namespaces(.)" />
   <xsl:variable name="parent-namespaces" as="namespace-node()*"
     select="parent::element() => x:copy-of-namespaces()" />
-  <xsl:variable name="significant-namespaces" as="namespace-node()*"
-    select="$namespaces[not(string() = ($x:xs-namespace, $x:xsl-namespace, $x:xspec-namespace))]" />
   <xsl:variable name="new-namespaces" as="namespace-node()*">
     <xsl:choose>
       <xsl:when test="$level eq 0">
         <!-- Take all -->
-        <xsl:sequence select="$significant-namespaces" />
+        <xsl:sequence select="$namespaces" />
       </xsl:when>
 
       <xsl:otherwise>
         <!-- Take only the ones not appeared in the parent -->
-        <xsl:sequence select="for $ns in $significant-namespaces
+        <xsl:sequence select="for $ns in $namespaces
           return $ns
            [empty(
               $parent-namespaces
@@ -101,7 +99,8 @@
 
   <!-- Output xmlns="" to undeclare the default namespace -->
   <xsl:if test="exists($parent-namespaces[name() = '']) and empty($namespaces[name() = ''])">
-    <xsl:text> xmlns=""</xsl:text>
+    <xsl:text> </xsl:text>
+    <span class="xmlns">xmlns=""</span>
   </xsl:if>
 
   <!-- Output namespace nodes -->
@@ -112,7 +111,14 @@
     <xsl:if test="position() ge 2">
       <xsl:value-of select="$ns-attr-indent" />
     </xsl:if>
-    <xsl:text expand-text="yes"> xmlns{name()[.] ! (':' || .)}="{.}"</xsl:text>
+    <xsl:text> </xsl:text>
+    <span
+      class="{
+        'xmlns',
+        'trivial'[current() = ($x:xs-namespace, $x:xspec-namespace)]
+      }">
+      <xsl:text expand-text="yes">xmlns{name()[.] ! (':' || .)}="{.}"</xsl:text>
+    </span>
   </xsl:for-each>
 
   <!-- Output attributes while performing comparison -->
