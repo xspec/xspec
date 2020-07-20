@@ -263,10 +263,10 @@
 
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
-         <xsl:sequence select="
-            xs:QName('x:XSPEC006')
-            => error('$this must be a description or a scenario, but is: ' || name())" />
+         <xsl:message terminate="yes"
+            select="'$this must be a description or a scenario, but is: ' || name()" />
       </xsl:if>
+
       <xsl:apply-templates select="$this/*[1]" mode="x:generate-calls">
          <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
       </xsl:apply-templates>
@@ -420,9 +420,8 @@
 
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
-         <xsl:sequence select="
-            xs:QName('x:XSPEC007')
-            => error('$this must be a description or a scenario, but is: ' || name())" />
+         <xsl:message terminate="yes"
+            select="'$this must be a description or a scenario, but is: ' || name()" />
       </xsl:if>
       <xsl:apply-templates select="$this/*[1]" mode="x:compile">
          <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
@@ -669,19 +668,19 @@
             <xsl:variable name="scenario" as="element(x:scenario)*" select="key('scenarios', $label)" />
             <xsl:choose>
                <xsl:when test="empty($scenario)">
-                  <xsl:sequence select="
-                     xs:QName('x:XSPEC009')
-                     => error(name() || ': Scenario not found: ' || $label)" />
+                  <xsl:message terminate="yes">
+                     <xsl:text expand-text="yes">ERROR in {name()}: Scenario not found: '{$label}'</xsl:text>
+                  </xsl:message>
                </xsl:when>
                <xsl:when test="$scenario[2]">
-                  <xsl:sequence select="
-                     xs:QName('x:XSPEC010')
-                     => error(name() || ': ' || count($scenario) || ' scenarios found with same label: ' || $label)" />
+                  <xsl:message terminate="yes">
+                     <xsl:text expand-text="yes">ERROR in {name()}: {count($scenario)} scenarios found with same label: '{$label}'</xsl:text>
+                  </xsl:message>
                </xsl:when>
                <xsl:when test="$scenario intersect ancestor::x:scenario">
-                  <xsl:sequence select="
-                     xs:QName('x:XSPEC011')
-                     => error(name() || ': Reference to ancestor scenario creates infinite loop: ' || $label)" />
+                  <xsl:message terminate="yes">
+                     <xsl:text expand-text="yes">ERROR in {name()}: Reference to ancestor scenario creates infinite loop: '{$label}'</xsl:text>
+                  </xsl:message>
                </xsl:when>
                <xsl:otherwise>
                   <xsl:apply-templates select="$scenario/element()" mode="#current" />
@@ -789,10 +788,9 @@
             -->
          </xsl:when>
          <xsl:when test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
-            <xsl:variable name="msg" as="xs:string">
-               <xsl:text expand-text="yes">User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
-            </xsl:variable>
-            <xsl:sequence select="xs:QName('x:XSPEC008') => error($msg)" />
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">ERROR: User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
+            </xsl:message>
          </xsl:when>
       </xsl:choose>
    </xsl:template>
