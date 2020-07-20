@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Shared scenarios
+	-->
+
+	<x:scenario label="user-content expect" shared="yes">
+		<x:expect label="@x:expand-text=yes enables TVT" select="'}false{'"
+			test="$x:result[1]/string()" />
+		<x:expect label="@x:expand-text is discarded" test="empty($x:result//@x:expand-text)" />
+
+		<x:expect label="@expand-text=yes does not enable TVT" select="'}}{false()}{{'"
+			test="$x:result[2]/string()" />
+		<x:expect label="@expand-text is kept" select="'yes'"
+			test="$x:result[2]/@expand-text/string()" />
+	</x:scenario>
+
+	<x:scenario label="user-content expect (indirect)" shared="yes">
+		<x:expect label="@expand-text=yes on x:* enables TVT for child text node" select="'}false{'"
+			test="$x:result[1]/self::text()/string()" />
+		<x:expect label="@expand-text=yes on x:* enables TVT for descendant text node"
+			select="'}false{'" test="$x:result[2]/self::element()/string()" />
+	</x:scenario>
+
+	<x:scenario label="href expect" shared="yes">
+		<x:expect label="TVT is never enabled" select="'}}{false()}{{'"
+			test="$x:result/href-doc-child/string()" />
+		<x:expect label="@x:expand-text is kept" select="'yes'"
+			test="$x:result/href-doc-child/@x:expand-text/string()" />
+		<x:expect label="@expand-text is kept" select="'yes'"
+			test="$x:result/href-doc-child/@expand-text/string()" />
+	</x:scenario>
+
+</x:description>

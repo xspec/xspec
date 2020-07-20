@@ -81,12 +81,10 @@
          from the initial XSpec document. -->
       <xsl:variable name="combined-doc" as="document-node(element(x:description))">
          <xsl:document>
-            <xsl:element name="{x:xspec-name('description', $this/x:description)}"
-               namespace="{$x:xspec-namespace}">
-               <xsl:sequence select="x:copy-of-namespaces($this/x:description)" />
-               <xsl:sequence select="$this/x:description/attribute()" />
+            <xsl:copy select="$this/x:description">
+               <xsl:sequence select="attribute()" />
                <xsl:sequence select="$specs" />
-            </xsl:element>
+            </xsl:copy>
          </xsl:document>
       </xsl:variable>
 
@@ -226,7 +224,8 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name('text', parent::element())}" namespace="{$x:xspec-namespace}">
+         <xsl:element name="{x:xspec-name('text', parent::element())}"
+            namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
                   ancestor::*[if (self::x:*)
@@ -236,6 +235,12 @@
                       then self::attribute(expand-text)
                       else self::attribute(x:expand-text)]" />
             <xsl:if test="$expand-text">
+               <xsl:if test="x:yes-no-synonym($expand-text)">
+                  <!-- TVT may use namespace prefixes and/or the default namespace such as
+                     xs:QName('foo') -->
+                  <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
+               </xsl:if>
+
                <xsl:attribute name="expand-text" select="$expand-text"/>
             </xsl:if>
 
@@ -537,6 +542,14 @@
          </xsl:for-each>
       </xsl:for-each>
 
+      <!-- Check x:apply -->
+      <!-- TODO: Remove this after implementing x:apply -->
+      <xsl:if test="$new-apply">
+         <xsl:message>
+            <xsl:text expand-text="yes">WARNING: The instruction {name($new-apply)} is not supported yet!</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <!-- Call the serializing template (for XSLT or XQuery). -->
       <xsl:call-template name="x:output-scenario">
          <xsl:with-param name="pending"   select="$new-pending" tunnel="yes"/>
@@ -801,31 +814,6 @@
       <xsl:param name="pending-node" as="node()" />
 
       <xsl:attribute name="pending" select="$pending-node" />
-   </xsl:function>
-
-   <!-- Returns an XSpec namespace prefix that can be used at run time -->
-   <xsl:function name="x:xspec-prefix" as="xs:string">
-      <xsl:param name="context-element" as="element()" />
-
-      <xsl:sequence select="
-         (
-            in-scope-prefixes($context-element)
-               [namespace-uri-for-prefix(., $context-element) eq $x:xspec-namespace]
-               [. (: Do not allow zero-length string :)],
-            
-            (: Fallback. Intentionally made weird in order to avoid collision. :)
-            'XsPeC'
-         )[1]"/>
-   </xsl:function>
-
-   <!-- Returns a lexical QName in XSpec namespace that can be used at runtime.
-      Usually 'x:local-name'. -->
-   <xsl:function name="x:xspec-name" as="xs:string">
-      <xsl:param name="local-name" as="xs:string" />
-      <xsl:param name="context-element" as="element()" />
-
-      <xsl:variable name="prefix" as="xs:string" select="x:xspec-prefix($context-element)" />
-      <xsl:sequence select="$prefix || ':'[$prefix] || $local-name" />
    </xsl:function>
 
    <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears

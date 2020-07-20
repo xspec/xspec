@@ -1931,6 +1931,9 @@ load bats-helper
     else
         [ "${lines[3]}" = "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9." ]
     fi
+
+    [ "${lines[4]}" = "Running Tests..." ]
+    assert_regex "${lines[5]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
 }
 
 #
@@ -2261,7 +2264,8 @@ load bats-helper
     run ../bin/xspec.sh output-scenario-error/apply-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time" ]
+    [ "${lines[4]}" = "WARNING: The instruction x:apply is not supported yet!" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2269,7 +2273,8 @@ load bats-helper
     run ../bin/xspec.sh output-scenario-error/apply-with-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time" ]
+    [ "${lines[4]}" = "WARNING: The instruction x:apply is not supported yet!" ]
+    [ "${lines[5]}" = "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 

@@ -146,55 +146,55 @@
 </xsl:template>
 
 <xsl:variable name="attribute-regex" as="xs:string">
-  <xsl:value-of>
+  <xsl:value-of xml:space="preserve">
     \s+
-    ([^>\s]+)      <!-- 1: the name of the attribute -->
+    (?:[^>\s]+)    <!-- ?: the name of the attribute -->
     \s*
     =
     \s*
-    (          <!-- 2: the value of the attribute (with quotes) -->
-      "([^"]*)"  <!-- 3: the value without quotes -->
+    (?:            <!-- ?: the value of the attribute (with quotes) -->
+      "(?:[^"]*)"  <!-- ?: the value without quotes -->
       |
-      '([^']*)'  <!-- 4: also the value without quotes -->
+      '(?:[^']*)'  <!-- ?: also the value without quotes -->
     )
   </xsl:value-of>
 </xsl:variable>
 
 <xsl:variable name="construct-regex" as="xs:string">
-  <xsl:value-of>
+  <xsl:value-of xml:space="preserve">
     ^
-    (             <!-- 1: the construct -->
-      ([^&lt;]+)    <!-- 2: some text -->
+    (                                <!-- 1: the construct -->
+      ([^&lt;]+)                     <!-- 2: some text -->
       |
-      (&lt;!--     <!-- 3: a comment -->
-        ([^-]|-[^-])*  <!-- 4: the content of the comment -->
+      (&lt;!--                       <!-- 3: a comment -->
+        (?:[^-]|-[^-])*              <!-- ?: the content of the comment -->
        --&gt;)
       |
-      (&lt;\?      <!-- 5: a PI -->
-        ([^?]|\?[^>])*  <!-- 6: the content of the PI -->
+      (&lt;\?                        <!-- 4: a PI -->
+        (?:[^?]|\?[^>])*             <!-- ?: the content of the PI -->
        \?&gt;)
       |
-      (&lt;!\[CDATA\[   <!-- 7: a CDATA section -->
-        ([^\]]|\][^\]]|\]\][^>])*  <!-- 8: the content of the CDATA section -->
+      (&lt;!\[CDATA\[                <!-- 5: a CDATA section -->
+        (?:[^\]]|\][^\]]|\]\][^>])*  <!-- ?: the content of the CDATA section -->
        \]\]>)
       |
-      (&lt;/     <!-- 9: a close tag -->
-        ([^>]+)   <!-- 10: the name of the element being closed -->
+      (&lt;/                         <!-- 6: a close tag -->
+        ([^>]+)                      <!-- 7: the name of the element being closed -->
        >)
       |
-      (&lt;      <!-- 11: an open tag -->
-        ([^>/\s]+)    <!-- 12: the name of the element being opened -->
-        (        <!-- 13: the attributes of the element -->
-          (      <!-- 14: wrapper for the attribute regex -->
-            <xsl:value-of select="$attribute-regex" />  <!-- 15-18 attribute stuff -->
+      (&lt;                          <!-- 8: an open tag -->
+        ([^>/\s]+)                   <!-- 9: the name of the element being opened -->
+        (?:                          <!-- ?: the attributes of the element -->
+          (?:                        <!-- ?: wrapper for the attribute regex -->
+            <xsl:value-of select="$attribute-regex" />
           )*
         )
         \s*
-        (/?)      <!-- 19: empty element tag flag -->
+        (/?)                         <!-- 10: empty element tag flag -->
         >
       )
     )
-    (.*)          <!-- 20: the rest of the string -->
+    (.*)                             <!-- 11: the rest of the string -->
     $
   </xsl:value-of>
 </xsl:variable>
@@ -216,22 +216,22 @@
       regex="{$construct-regex}" flags="sx">
       <xsl:matching-substring>
         <xsl:variable name="construct" as="xs:string" select="regex-group(1)" />
-        <xsl:variable name="rest" as="xs:string" select="regex-group(20)" />
+        <xsl:variable name="rest" as="xs:string" select="regex-group(11)" />
         <xsl:variable name="construct-lines" as="xs:string+"
           select="test:split-lines($construct)" />
-        <xsl:variable name="endTag" as="xs:boolean" select="regex-group(9) != ''" />
-        <xsl:variable name="emptyTag" as="xs:boolean" select="regex-group(19) != ''" />
-        <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(11) != ''" />
+        <xsl:variable name="endTag" as="xs:boolean" select="regex-group(6) ne ''" />
+        <xsl:variable name="emptyTag" as="xs:boolean" select="regex-group(10) ne ''" />
+        <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and regex-group(8)" />
         <xsl:variable name="matches" as="xs:boolean"
           select="($node instance of text() and
-                   (regex-group(2) != '' or regex-group(7) != '')) or
+                   (regex-group(2) or regex-group(5))) or
                   ($node instance of element() and
                    ($startTag or $endTag or $emptyTag) and
-                   name($node) = (regex-group(10), regex-group(12))) or
+                   name($node) = (regex-group(7), regex-group(9))) or
                   ($node instance of comment() and
-                   regex-group(3) != '') or
+                   regex-group(3)) or
                   ($node instance of processing-instruction() and
-                  regex-group(5) != '')" />
+                   regex-group(4))" />
         <xsl:variable name="coverage" as="xs:string" 
           select="if ($matches) then test:coverage($node, $module) else 'ignored'" />
         <xsl:for-each select="$construct-lines">
@@ -254,7 +254,7 @@
   </xsl:variable>
   <xsl:sequence select="$analyzed/node()[not(self::test:residue)]"/>
   <xsl:variable name="residue" as="element(test:residue)?" select="$analyzed/test:residue"/>
-  <xsl:if test="$residue/@rest != ''">
+  <xsl:if test="$residue/@rest ne ''">
     <!-- The last thing this template does is call itself.
          Tail recursion prevents stack overflow. -->
     <xsl:call-template name="test:output-lines">
