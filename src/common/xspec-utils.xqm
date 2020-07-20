@@ -1,6 +1,11 @@
 module namespace x = "http://www.jenitennison.com/xslt/xspec";
 
 (:
+	XSpec 'x' namespace URI
+:)
+declare variable $x:xspec-namespace as xs:anyURI := xs:anyURI('http://www.jenitennison.com/xslt/xspec');
+
+(:
 	U+0027
 :)
 declare variable $x:apos as xs:string := "'";
