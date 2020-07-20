@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../three-dots.xspec"
           query="x-urn:test:three-dots"
           query-at="../../three-dots.xqm"
@@ -11,20 +10,20 @@
          <x:label>When result is
 				&lt;elem&gt;text&lt;/elem&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(elem)">
                <elem>text</elem>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem>text</elem>
+            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">text</elem>
          </x:result>
          <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <elem>...</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
             </x:expect>
          </x:test>
          <x:test id="scenario1-scenario1-expect2" successful="true">
@@ -36,20 +35,20 @@
          <x:label>When result is
 				&lt;elem /&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(elem)">
                <elem/>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem/>
+            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
          </x:result>
          <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <elem>...</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
             </x:expect>
          </x:test>
          <x:test id="scenario1-scenario2-expect2" successful="false">
@@ -57,7 +56,7 @@
 				&lt;elem attrib="..." /&gt;
 				should be Failure</x:label>
             <x:expect select="/element()">
-               <elem attrib="..."/>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="..."/>
             </x:expect>
          </x:test>
       </x:scenario>
@@ -65,20 +64,20 @@
          <x:label>When result is
 				&lt;elem&gt;...&lt;/elem&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(elem)">
                <elem>...</elem>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem>...</elem>
+            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
          </x:result>
          <x:test id="scenario1-scenario3-expect1" successful="true">
             <x:label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <elem>...</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
             </x:expect>
          </x:test>
          <x:test id="scenario1-scenario3-expect2" successful="true">
@@ -90,7 +89,7 @@
 				&lt;elem&gt;text&lt;/elem&gt;
 				should be Failure</x:label>
             <x:expect select="/element()">
-               <elem>text</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">text</elem>
             </x:expect>
          </x:test>
       </x:scenario>
@@ -101,20 +100,20 @@
          <x:label>When result is
 				&lt;elem attrib="val" /&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(elem)">
                <elem attrib="val"/>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem attrib="val"/>
+            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="val"/>
          </x:result>
          <x:test id="scenario2-scenario1-expect1" successful="true">
             <x:label>expecting
 				&lt;elem attrib="..." /&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <elem attrib="..."/>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="..."/>
             </x:expect>
          </x:test>
          <x:test id="scenario2-scenario1-expect2" successful="true">
@@ -126,7 +125,7 @@
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Failure</x:label>
             <x:expect select="/element()">
-               <elem>...</elem>
+               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
             </x:expect>
          </x:test>
       </x:scenario>
@@ -137,7 +136,7 @@
          <x:label>When result is
 				&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(outer)">
                <outer>text<inner1/>
                   <inner2/>
@@ -145,7 +144,7 @@
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <outer>text<inner1/>
+            <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">text<inner1/>
                <inner2/>
             </outer>
          </x:result>
@@ -154,7 +153,7 @@
 				&lt;outer&gt;...&lt;/outer&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <outer>...</outer>
+               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...</outer>
             </x:expect>
          </x:test>
          <x:test id="scenario3-scenario1-expect2" successful="true">
@@ -162,7 +161,7 @@
 				&lt;outer&gt;...&lt;inner1 /&gt;...&lt;/outer&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <outer>...<inner1/>...</outer>
+               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...<inner1/>...</outer>
             </x:expect>
          </x:test>
          <x:test id="scenario3-scenario1-expect3" successful="true">
@@ -174,7 +173,7 @@
          <x:label>When result is
 				&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="element(outer)">
                <outer>
                   <inner/>
@@ -182,7 +181,7 @@
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <outer>
+            <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">
                <inner/>
             </outer>
          </x:result>
@@ -191,7 +190,7 @@
 				&lt;outer&gt;...&lt;/outer&gt;
 				should be Success</x:label>
             <x:expect select="/element()">
-               <outer>...</outer>
+               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...</outer>
             </x:expect>
          </x:test>
          <x:test id="scenario3-scenario2-expect2" successful="false">
@@ -199,7 +198,7 @@
 				&lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt;
 				should be Failure</x:label>
             <x:expect select="/element()">
-               <outer>...<inner/>
+               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...<inner/>
                </outer>
             </x:expect>
          </x:test>
@@ -211,7 +210,7 @@
          <x:label>When result is
 					 @attrib="val"
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="attribute(attrib)" select="elem/@*">
                <elem attrib="val"/>
             </x:param>
@@ -236,7 +235,7 @@
          <x:label>When result is
 					 @attrib=""
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="attribute(attrib)" select="elem/@*">
                <elem attrib=""/>
             </x:param>
@@ -257,7 +256,7 @@
          <x:label>When result is
 					 @attrib="..."
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="attribute(attrib)" select="elem/@*">
                <elem attrib="..."/>
             </x:param>
@@ -291,7 +290,7 @@
       <x:label>For resultant text node</x:label>
       <x:scenario id="scenario5-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is usual text node</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_usual"/>
          </x:call>
          <x:result select="/text()">text</x:result>
@@ -306,7 +305,7 @@
       </x:scenario>
       <x:scenario id="scenario5-scenario2" xspec="../../three-dots.xspec">
          <x:label>When result is whitespace-only text node</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_whitespace-only"/>
          </x:call>
          <x:result select="/text()">
@@ -324,7 +323,7 @@
       </x:scenario>
       <x:scenario id="scenario5-scenario3" xspec="../../three-dots.xspec">
          <x:label>When result is zero-length text node</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_zero-length"/>
          </x:call>
          <x:result select="/text()">
@@ -341,7 +340,7 @@
       </x:scenario>
       <x:scenario id="scenario5-scenario4" xspec="../../three-dots.xspec">
          <x:label>When result is three-dot text node</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_three-dots"/>
          </x:call>
          <x:result select="/text()">...</x:result>
@@ -365,7 +364,7 @@
          <x:label>When result is
 				&lt;!--comment--&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="comment()"><!--comment--></x:param>
          </x:call>
          <x:result select="/comment()"><!--comment--></x:result>
@@ -384,7 +383,7 @@
          <x:label>When result is
 				&lt;!----&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="comment()"><!----></x:param>
          </x:call>
          <x:result select="/comment()"><!----></x:result>
@@ -399,7 +398,7 @@
          <x:label>When result is
 				&lt;!--...--&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="comment()"><!--...--></x:param>
          </x:call>
          <x:result select="/comment()"><!--...--></x:result>
@@ -427,7 +426,7 @@
          <x:label>When result is
 				&lt;?pi data?&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="processing-instruction(pi)"><?pi data?></x:param>
          </x:call>
          <x:result select="/processing-instruction()"><?pi data?></x:result>
@@ -446,7 +445,7 @@
          <x:label>When result is
 				&lt;?pi?&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="processing-instruction(pi)"><?pi?></x:param>
          </x:call>
          <x:result select="/processing-instruction()"><?pi?></x:result>
@@ -461,7 +460,7 @@
          <x:label>When result is
 				&lt;?pi ...?&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
          </x:call>
          <x:result select="/processing-instruction()"><?pi ...?></x:result>
@@ -489,7 +488,7 @@
          <x:label>When result is
 				&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="document-node()"
                      select="$Q{x-urn:test:three-dots}document-node_multiple-nodes"/>
          </x:call>
@@ -511,7 +510,7 @@
          <x:label>When result is
 				&lt;xsl:document /&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="document-node()"
                      select="$Q{x-urn:test:three-dots}document-node_empty"/>
          </x:call>
@@ -531,7 +530,7 @@
          <x:label>When result is
 				&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 				</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="document-node()"
                      select="$Q{x-urn:test:three-dots}document-node_three-dots"/>
          </x:call>
@@ -560,7 +559,8 @@
          <x:label>When result is
 						  xmlns:prefix="namespace-uri"
 				</x:label>
-         <x:call function="Q{x-urn:test:three-dots}namespace-node">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 function="Q{x-urn:test:three-dots}namespace-node">
             <x:param select="'prefix'"/>
             <x:param select="'namespace-uri'"/>
          </x:call>
@@ -584,7 +584,8 @@
          <x:label>When result is
 						  xmlns="namespace-uri"
 				</x:label>
-         <x:call function="Q{x-urn:test:three-dots}namespace-node">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 function="Q{x-urn:test:three-dots}namespace-node">
             <x:param select="''"/>
             <x:param select="'namespace-uri'"/>
          </x:call>
@@ -608,7 +609,8 @@
          <x:label>When result is
 						  xmlns:prefix="..."
 				</x:label>
-         <x:call function="Q{x-urn:test:three-dots}namespace-node">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 function="Q{x-urn:test:three-dots}namespace-node">
             <x:param select="'prefix'"/>
             <x:param select="'...'"/>
          </x:call>
@@ -643,21 +645,21 @@
          <x:label>When result is sequence of
 				&lt;elem1 /&gt;&lt;elem2 /&gt;
 				</x:label>
-         <x:call function="one-or-more">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="one-or-more">
             <x:param as="element()+">
                <elem1/>
                <elem2/>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <elem1/>
-            <elem2/>
+            <elem1 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            <elem2 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
          </x:result>
          <x:test id="scenario10-scenario1-expect1" successful="true">
             <x:label>expecting
 					  ...&lt;elem2 /&gt;
 					should be Success</x:label>
-            <x:expect select="/node()">...<elem2/>
+            <x:expect select="/node()">...<elem2 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
             </x:expect>
          </x:test>
          <x:test id="scenario10-scenario1-expect2" successful="true">
@@ -680,7 +682,7 @@
    </x:scenario>
    <x:scenario id="scenario11" xspec="../../three-dots.xspec">
       <x:label>When result is empty sequence</x:label>
-      <x:call function="zero-or-one">
+      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="zero-or-one">
          <x:param select="()"/>
       </x:call>
       <x:result select="()"/>
@@ -693,7 +695,7 @@
       <x:label>For resultant atomic value</x:label>
       <x:scenario id="scenario12-scenario1" xspec="../../three-dots.xspec">
          <x:label>When result is 'string'</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="xs:string" select="'string'"/>
          </x:call>
          <x:result select="'string'"/>
@@ -712,7 +714,7 @@
       </x:scenario>
       <x:scenario id="scenario12-scenario2" xspec="../../three-dots.xspec">
          <x:label>When result is '...'</x:label>
-         <x:call function="exactly-one">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
             <x:param as="xs:string" select="'...'"/>
          </x:call>
          <x:result select="'...'"/>
@@ -732,7 +734,7 @@
    </x:scenario>
    <x:scenario id="scenario13" xspec="../../three-dots.xspec">
       <x:label>For any resultant item</x:label>
-      <x:call function="exactly-one">
+      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
          <x:param as="text()">item</x:param>
       </x:call>
       <x:result select="/text()">item</x:result>

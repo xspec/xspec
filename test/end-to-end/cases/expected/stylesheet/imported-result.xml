@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:my="http://example.org/ns/my"
-          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
           xspec="../../imported.xspec"
           stylesheet="../../../../square.xsl"
           date="2000-01-01T00:00:00Z">
    <t:scenario id="scenario1" xspec="../../imported.xspec">
       <t:label>a correct scenario in an imported file</t:label>
-      <t:call function="my:square">
+      <t:call xmlns:my="http://example.org/ns/my" function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
@@ -17,7 +16,7 @@
    </t:scenario>
    <t:scenario id="scenario2" xspec="../../imported.xspec">
       <t:label>an incorrect scenario in an imported file</t:label>
-      <t:call function="my:square">
+      <t:call xmlns:my="http://example.org/ns/my" function="my:square">
          <t:param select="2"/>
       </t:call>
       <t:result select="4"/>

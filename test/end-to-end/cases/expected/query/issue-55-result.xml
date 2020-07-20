@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../issue-55.xspec"
           query="x-urn:test:mirror"
           query-at="../../../../mirror.xqm"
           date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-55.xspec">
       <x:label>In a failure report HTML</x:label>
-      <x:call function="mirror:true"/>
+      <x:call xmlns:mirror="x-urn:test:mirror"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="mirror:true"/>
       <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>[Expected Result] must represent xs:decimal(1) by "1.0" (numeric literal of

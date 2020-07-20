@@ -91,7 +91,7 @@
 
       <xsl:text>&#x0A;</xsl:text>
 
-      <!-- Declare namespaces -->
+      <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes. -->
       <xsl:for-each select="x:copy-of-namespaces($this)[not(name() = ('', $sut-prefix))]">
          <xsl:text expand-text="yes">declare namespace {name()} = "{string()}";&#x0A;</xsl:text>
       </xsl:for-each>
@@ -126,9 +126,7 @@
       <xsl:text> } {&#x0A;</xsl:text>
 
       <xsl:call-template name="test:create-zero-or-more-node-generators">
-         <xsl:with-param name="nodes" as="node()+">
-            <xsl:sequence select="x:element-additional-namespace-nodes(.)" />
-
+         <xsl:with-param name="nodes" as="attribute()+">
             <xsl:attribute name="xspec" select="$actual-document-uri" />
             <xsl:attribute name="query" select="$this/@query" />
             <xsl:if test="exists($query-at)">

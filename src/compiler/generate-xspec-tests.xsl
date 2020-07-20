@@ -128,9 +128,6 @@
                   <xsl:attribute name="name" select="x:xspec-name('report', .)" />
                   <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
-                  <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
-                     mode="test:create-node-generator"/>
-
                   <xsl:variable name="attributes" as="attribute()+">
                      <xsl:attribute name="xspec" select="$xspec-master-uri" />
 
@@ -788,6 +785,7 @@
                <!-- @successful must be evaluated at run time -->
                <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
                   <xsl:attribute name="name" select="'successful'" />
+                  <xsl:attribute name="namespace" />
                   <xsl:attribute name="select" select="'$' || x:known-UQName('impl:successful')" />
                </xsl:element>
             </xsl:if>
