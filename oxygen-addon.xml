@@ -7,15 +7,18 @@
 	<!-- This @id value assumes that https://github.com/xspec/ community owns "xspec.io". -->
 	<xt:extension id="io.xspec.xspec">
 
-		<!-- To publish a new version,
+		<!--
+			To publish a new version,
 			* Update this @href to a specific commit archive
 			* Increment <xt:version>
 			* Disable the new add-on version in the project options stored in xspec.xpr
-			  (Options - Preferences - Document Type Association) -->
+			  (Options - Preferences - Document Type Association)
+			* Update the changelog in xt:description
+		-->
 		<xt:location
-			href="https://github.com/xspec/xspec/archive/aebf4ba6581bff57e122b5862ad4529992820dc3.zip" />
+			href="https://github.com/xspec/xspec/archive/61a11b74b1757ab6e42674d79482e17848c8148b.zip" />
 
-		<xt:version>2.0.1</xt:version>
+		<xt:version>2.0.2</xt:version>
 
 		<!-- Note that supporting multiple oXygen versions may be hard to maintain, because
 			* oXygen add-on and framework require manual testing.

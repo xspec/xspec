@@ -9,6 +9,13 @@
 		/x:description/@stylesheet or @query-at.
 	-->
 
+	<x:scenario label="Scenario for testing variable xspec-namespace">
+		<x:call function="false" />
+		<x:expect label="XSpec namespace URI"
+			select="doc($x:xspec-uri)/element() => namespace-uri()"
+			test="$x:xspec-namespace treat as xs:anyURI" />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing variable apos">
 		<x:call function="false" />
 		<x:expect label="One apostrophe character" select="string()"

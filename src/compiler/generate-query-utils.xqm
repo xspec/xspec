@@ -212,7 +212,7 @@ declare function test:report-sequence(
     $additional-namespaces as namespace-node()*
   ) as element()
 {
-  let $wrapper-ns as xs:string := 'http://www.jenitennison.com/xslt/xspec'
+  let $wrapper-ns as xs:string := string($x:xspec-namespace)
 
   let $attribute-nodes as attribute()* := $sequence[. instance of attribute()]
   let $document-nodes as document-node()* := $sequence[. instance of document-node()]
