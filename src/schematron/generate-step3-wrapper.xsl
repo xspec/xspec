@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
-	xmlns="http://www.w3.org/1999/XSL/TransformAlias"
 	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -22,8 +21,6 @@
 
 	<xsl:output indent="yes" />
 
-	<xsl:namespace-alias result-prefix="xsl" stylesheet-prefix="#default" />
-
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="element(xsl:stylesheet)" match="document-node(element(x:description))">
@@ -35,31 +32,41 @@
 		<xsl:variable as="xs:anyURI" name="builtin-preprocessor-uri"
 			select="resolve-uri('../../lib/iso-schematron/iso_svrl_for_xslt2.xsl')" />
 
-		<stylesheet exclude-result-prefixes="#all" version="{x:decimal-string(x:xslt-version(.))}">
-			<!-- Import the stylesheet of the Schematron Step 3 preprocessor -->
-			<import href="{($ACTUAL-PREPROCESSOR-URI, $builtin-preprocessor-uri)[1]}" />
+		<xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
+			<xsl:attribute name="exclude-result-prefixes" select="'#all'" />
+			<xsl:attribute name="version" select="x:xslt-version(.) => x:decimal-string()" />
 
-			<!-- Import the private patch -->
+			<!-- Import the stylesheet of the Schematron Step 3 preprocessor -->
+			<xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
+				<xsl:attribute name="href"
+					select="($ACTUAL-PREPROCESSOR-URI, $builtin-preprocessor-uri)[1]" />
+			</xsl:element>
+
+			<!-- Import the private patch. This must be after importing the Step 3 preprocessor
+				for the patch to take precedence. -->
 			<xsl:if test="empty($ACTUAL-PREPROCESSOR-URI)">
-				<import href="{resolve-uri('patch-step3.xsl')}" />
+				<xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
+					<xsl:attribute name="href" select="resolve-uri('patch-step3.xsl')" />
+				</xsl:element>
 			</xsl:if>
 
 			<!-- Set up a pseudo x:param which holds the fully-resolved Schematron file URI
 				so that $x:schematron-uri holding the URI is generated and made available in
 				the wrapper stylesheet being generated -->
 			<xsl:variable as="element(x:param)" name="xml-base-param">
-				<x:param as="{x:known-UQName('xs:anyURI')}" name="x:schematron-uri">
+				<!-- Use x:xspec-name() for the element name just for cleanness -->
+				<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
+					<xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
+					<xsl:attribute name="name" select="x:known-UQName('x:schematron-uri')" />
+
 					<xsl:value-of select="x:locate-schematron-uri(.)" />
-				</x:param>
+				</xsl:element>
 			</xsl:variable>
 
 			<!-- Resolve x:param -->
-			<xsl:apply-templates select="$xml-base-param, x:param" />
-		</stylesheet>
-	</xsl:template>
-
-	<xsl:template as="element()+" match="x:param">
-		<xsl:apply-templates mode="test:generate-variable-declarations" select="." />
+			<xsl:apply-templates mode="test:generate-variable-declarations"
+				select="$xml-base-param, x:param" />
+		</xsl:element>
 	</xsl:template>
 
 </xsl:stylesheet>

@@ -1728,10 +1728,10 @@ load bats-helper
 @test "Ambiguous x:expect generates warning" {
     run ../bin/xspec.sh end-to-end/cases/ambiguous-expect.xspec
     echo "$output"
-    assert_regex "${lines[11]}" '^WARNING: x:expect has boolean @test'
-    assert_regex "${lines[16]}" '^WARNING: x:expect has boolean @test'
-    assert_regex "${lines[23]}" '^WARNING: x:expect has boolean @test'
-    [ "${lines[32]}" =  "Formatting Report..." ]
+    [ "${lines[11]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
+    [ "${lines[16]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
+    [ "${lines[23]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
+    [ "${lines[32]}" = "Formatting Report..." ]
 }
 
 #
@@ -2327,7 +2327,7 @@ load bats-helper
 #
 
 @test "\$x:saxon-config is not a Saxon config" {
-    run ../bin/xspec.sh saxon-config/test.xspec
+    run ../bin/xspec.sh x-saxon-config/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[7]}" = "ERROR: \$x:saxon-config does not appear to be a Saxon configuration" ]
