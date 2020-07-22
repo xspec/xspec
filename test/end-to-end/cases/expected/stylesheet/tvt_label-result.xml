@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../tvt_label.xspec"
           stylesheet="../../../../mirror.xsl"
           date="2000-01-01T00:00:00Z">
@@ -8,7 +7,7 @@
       <x:label>With @expand-text=yes</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../tvt_label.xspec">
          <x:label>}}{scenario}{{</x:label>
-         <x:call function="mirror:true"/>
+         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:true"/>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>}}{expect}{{</x:label>
@@ -17,7 +16,7 @@
       </x:scenario>
       <x:scenario id="scenario1-scenario2" xspec="../../tvt_label.xspec">
          <x:label>}}{scenario}{{</x:label>
-         <x:call function="mirror:true"/>
+         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:true"/>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>}}{expect}{{</x:label>
@@ -26,7 +25,7 @@
       </x:scenario>
       <x:scenario id="scenario1-scenario3" xspec="../../tvt_label.xspec">
          <x:label>}}{scenario}{{</x:label>
-         <x:call function="mirror:true"/>
+         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:true"/>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <x:test id="scenario1-scenario3-expect1" successful="true">
             <x:label>}}{expect}{{</x:label>
@@ -38,7 +37,7 @@
       <x:label>With @expand-text=no</x:label>
       <x:scenario id="scenario2-scenario1" xspec="../../tvt_label.xspec">
          <x:label>}}{scenario}{{</x:label>
-         <x:call function="mirror:true"/>
+         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:true"/>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <x:test id="scenario2-scenario1-expect1" successful="true">
             <x:label>}}{expect}{{</x:label>
@@ -47,7 +46,7 @@
       </x:scenario>
       <x:scenario id="scenario2-scenario2" xspec="../../tvt_label.xspec">
          <x:label>}}{scenario}{{</x:label>
-         <x:call function="mirror:true"/>
+         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:true"/>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <x:test id="scenario2-scenario2-expect1" successful="true">
             <x:label>}}{expect}{{</x:label>

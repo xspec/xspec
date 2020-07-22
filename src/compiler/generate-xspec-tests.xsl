@@ -126,9 +126,6 @@
                   <xsl:attribute name="name" select="x:xspec-name('report', .)" />
                   <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
-                  <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
-                     mode="test:create-node-generator"/>
-
                   <xsl:variable name="attributes" as="attribute()+">
                      <xsl:attribute name="xspec" select="$xspec-master-uri" />
 
@@ -171,7 +168,7 @@
    <xsl:template name="x:output-call">
       <xsl:context-item as="element()" use="required" />
 
-      <xsl:param name="last"   as="xs:boolean" />
+      <xsl:param name="last" as="xs:boolean" />
 
       <!-- URIQualifiedNames of the variables that will be passed as the parameters (of the same
          URIQualifiedName) to the call -->
@@ -270,9 +267,7 @@
             <xsl:if test="$pending-p">
                <xsl:text>PENDING: </xsl:text>
                <xsl:if test="$pending != ''">
-                  <xsl:text>(</xsl:text>
-                  <xsl:value-of select="normalize-space($pending)" />
-                  <xsl:text>) </xsl:text>
+                  <xsl:text expand-text="yes">({normalize-space($pending)}) </xsl:text>
                </xsl:if>
             </xsl:if>
             <xsl:if test="parent::x:scenario">
@@ -657,7 +652,8 @@
       <!-- URIQualifiedNames of the (required) parameters of the template being generated -->
       <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
 
-      <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)" />
+      <xsl:variable name="pending-p" as="xs:boolean"
+         select="exists($pending) and empty(ancestor::*/@focus)" />
 
       <xsl:variable name="expect-id" as="xs:string">
          <xsl:apply-templates select="." mode="x:generate-id" />
@@ -673,9 +669,11 @@
          <message>
             <xsl:if test="$pending-p">
                <xsl:text>PENDING: </xsl:text>
-               <xsl:if test="normalize-space($pending) != ''">(<xsl:value-of select="normalize-space($pending)" />) </xsl:if>
+               <xsl:if test="normalize-space($pending)">
+                  <xsl:text expand-text="yes">({normalize-space($pending)}) </xsl:text>
+               </xsl:if>
             </xsl:if>
-            <xsl:value-of select="normalize-space(x:label(.))" />
+            <xsl:value-of select="x:label(.) => normalize-space()" />
          </message>
 
          <xsl:if test="not($pending-p)">
@@ -736,7 +734,7 @@
                   <xsl:if test="@href or @select or (node() except x:label)">
                      <if test="${x:known-UQName('impl:boolean-test')}">
                         <message>
-                           <text>WARNING: <xsl:value-of select="name(.)" /> has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</text>
+                           <xsl:text expand-text="yes">WARNING: {name()} has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</xsl:text>
                         </message>
                      </if>
                   </xsl:if>
@@ -786,6 +784,7 @@
                <!-- @successful must be evaluated at run time -->
                <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
                   <xsl:attribute name="name" select="'successful'" />
+                  <xsl:attribute name="namespace" />
                   <xsl:attribute name="select" select="'$' || x:known-UQName('impl:successful')" />
                </xsl:element>
             </xsl:if>
