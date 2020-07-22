@@ -1728,10 +1728,10 @@ load bats-helper
 @test "Ambiguous x:expect generates warning" {
     run ../bin/xspec.sh end-to-end/cases/ambiguous-expect.xspec
     echo "$output"
-    assert_regex "${lines[11]}" '^WARNING: x:expect has boolean @test'
-    assert_regex "${lines[16]}" '^WARNING: x:expect has boolean @test'
-    assert_regex "${lines[23]}" '^WARNING: x:expect has boolean @test'
-    [ "${lines[32]}" =  "Formatting Report..." ]
+    [ "${lines[11]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
+    [ "${lines[16]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
+    [ "${lines[23]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
+    [ "${lines[32]}" = "Formatting Report..." ]
 }
 
 #

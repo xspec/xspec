@@ -158,7 +158,7 @@
    <xsl:template name="x:output-call">
       <xsl:context-item as="element()" use="required" />
 
-      <xsl:param name="last"   as="xs:boolean" />
+      <xsl:param name="last" as="xs:boolean" />
 
       <!-- URIQualifiedNames of the variables that will be passed as the parameters to the call.
          Their order must be stable, because they are passed to a function. -->
