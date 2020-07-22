@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../issue-448.xspec"
           query="x-urn:test:mirror"
           query-at="../../../../mirror.xqm"
@@ -9,7 +8,7 @@
       <x:label>x:scenario/</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../issue-448.xspec">
          <x:label>x:label containing }{ should not affect test</x:label>
-         <x:call function="mirror:false"/>
+         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>(This x:expect doesn't matter)</x:label>
@@ -18,7 +17,7 @@
       </x:scenario>
       <x:scenario id="scenario1-scenario2" xspec="../../issue-448.xspec">
          <x:label>@label containing }{ should not affect test</x:label>
-         <x:call function="mirror:false"/>
+         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <x:test id="scenario1-scenario2-expect1" successful="true">
             <x:label>(This x:expect doesn't matter)</x:label>
