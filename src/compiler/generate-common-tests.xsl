@@ -141,7 +141,7 @@
       * Copy @xslt-version from x:description to descendant x:scenario
       * Add @xspec (and @xspec-original-location if applicable) to each scenario to record absolute
         URI of originating .xspec file
-      * Resolve x:*/@href into absolute URI
+      * Resolve x:*/@href and x:helper/(@query-at|@stylesheet) into absolute URI
       * Discard whitespace-only text node in user-content unless otherwise specified by an ancestor
       * Discard whitespace-only text node in non user-content unless it's in x:label
       * Remove leading and trailing whitespace from names
@@ -188,7 +188,9 @@
       </xsl:if>
    </xsl:template>
 
-   <xsl:template match="@href" as="attribute(href)" mode="x:gather-specs">
+   <!-- TODO: Perhaps, @query-at hint should not always be resolved??? (e.g. for MarkLogic) -->
+   <xsl:template match="@href | (@query-at | @stylesheet)[parent::x:helper]" as="attribute()"
+      mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
          select="resolve-uri(., x:base-uri(.))" />
    </xsl:template>
@@ -376,8 +378,13 @@
        Global x:variable and x:param elements are not handled like
        local variables and params (which are passed through calls).
        They are declared globally.
+       
+       x:helper is global.
    -->
-   <xsl:template match="x:description/x:param|x:description/x:variable" mode="x:generate-calls">
+   <xsl:template match="x:description/x:helper
+                       |x:description/x:param
+                       |x:description/x:variable"
+                 mode="x:generate-calls">
       <xsl:if test="self::x:variable">
         <xsl:call-template name="x:detect-reserved-variable-name"/>
       </xsl:if>
@@ -626,7 +633,8 @@
        resolving x:import elements in place.  Bur for now, those
        elements are still here, so we have to ignore them...
    -->
-   <xsl:template match="x:description/x:param
+   <xsl:template match="x:description/x:helper
+                        |x:description/x:param
                         |x:description/x:variable
                         |x:apply
                         |x:call

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" stylesheet="do-nothing.xsl"
+	xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Import the helper 'mirror' module.
+		XSLT should ignore query modules. XQuery should ignore stylesheets. -->
+	<x:helper query="x-urn:test:mirror" query-at="mirror.xqm" />
+	<x:helper stylesheet="mirror.xsl" />
+
+	<x:scenario label="Use the imported helper">
+		<x:call function="mirror:param-mirror">
+			<x:param select="$items:all-nodes" />
+		</x:call>
+		<x:expect label="Expect using the helper" select="mirror:param-mirror($items:all-nodes)" />
+	</x:scenario>
+
+	<!-- Import the helper 'items' module (indirectly via x:import) -->
+	<x:import href="helper/imported.xspec" />
+
+</x:description>

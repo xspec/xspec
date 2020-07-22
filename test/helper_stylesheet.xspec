@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/xslt-package/arith/package/config.xml"?>
+<x:description stylesheet="items.xsl" xmlns:f="http://example.org/complex-arithmetic.xsl"
+	xmlns:items="x-urn:test:xspec-items" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:helper stylesheet="helper/override.xsl" />
+	<x:helper package-name="http://example.org/complex-arithmetic.xsl" package-version="1.0" />
+
+	<x:scenario label="Use the helper package">
+		<x:call function="f:complex-number">
+			<x:param select="2" />
+			<x:param select="5" />
+		</x:call>
+		<x:expect label="Expect using the helper package, with an overridden variable"
+			select="f:complex-number($items:all-nodes treat as xs:integer, 5)" />
+	</x:scenario>
+
+</x:description>
