@@ -7,6 +7,8 @@
 		When modifying this file, check whether xspec-sch.xspec needs any additions or updates.
 	-->
 
+	<x:helper stylesheet="mirror.xsl" />
+
 	<x:scenario
 		label="In context template-param, whitespace-only text nodes in user-content are removed by default.">
 		<x:scenario>
