@@ -1504,9 +1504,9 @@
 
 	<case name="Ambiguous x:expect generates warning">
     call :run ..\bin\xspec.bat end-to-end\cases\ambiguous-expect.xspec
-    call :verify_line 12 r "WARNING: x:expect has boolean @test"
-    call :verify_line 17 r "WARNING: x:expect has boolean @test"
-    call :verify_line 24 r "WARNING: x:expect has boolean @test"
+    call :verify_line 12 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
+    call :verify_line 17 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
+    call :verify_line 24 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
     call :verify_line 33 x "Formatting Report..."
 	</case>
 
@@ -2027,7 +2027,7 @@
 		$x:saxon-config is not a Saxon config
 	-->
 	<case name="$x:saxon-config is not a Saxon config">
-    call :run ..\bin\xspec.bat saxon-config\test.xspec
+    call :run ..\bin\xspec.bat x-saxon-config\test.xspec
     call :verify_retval 2
     call :verify_line  8 x "ERROR: $x:saxon-config does not appear to be a Saxon configuration"
     call :verify_line -1 x "*** Error running the test suite"

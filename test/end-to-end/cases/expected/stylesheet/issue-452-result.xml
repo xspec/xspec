@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../issue-452.xspec"
           stylesheet="../../../../mirror.xsl"
           date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-452.xspec">
       <x:label>Text</x:label>
-      <x:call function="mirror:param-mirror">
+      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
          <x:param>t</x:param>
       </x:call>
       <x:result select="/text()">t</x:result>
@@ -17,7 +16,7 @@
    </x:scenario>
    <x:scenario id="scenario2" xspec="../../issue-452.xspec">
       <x:label>Comment</x:label>
-      <x:call function="mirror:param-mirror">
+      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
          <x:param><!--c--></x:param>
       </x:call>
       <x:result select="/comment()"><!--c--></x:result>
@@ -28,7 +27,7 @@
    </x:scenario>
    <x:scenario id="scenario3" xspec="../../issue-452.xspec">
       <x:label>Processing instruction</x:label>
-      <x:call function="mirror:param-mirror">
+      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
          <x:param><?p?></x:param>
       </x:call>
       <x:result select="/processing-instruction()"><?p?></x:result>
@@ -39,13 +38,13 @@
    </x:scenario>
    <x:scenario id="scenario4" xspec="../../issue-452.xspec">
       <x:label>In element</x:label>
-      <x:call function="mirror:param-mirror">
+      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
          <x:param>
             <elem>t<!--c--><?p?></elem>
          </x:param>
       </x:call>
       <x:result select="/element()">
-         <elem>t<!--c--><?p?></elem>
+         <elem xmlns:mirror="x-urn:test:mirror">t<!--c--><?p?></elem>
       </x:result>
       <x:test id="scenario4-expect1" successful="false">
          <x:label>Expect</x:label>
