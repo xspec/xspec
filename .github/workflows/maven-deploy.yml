@@ -15,18 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-java@v1
+      # TODO: Use @v1 after 1277492cb960949b3aa534bc5d33419a20ccc147 is included in a v1 release
+      - uses: actions/setup-java@1277492cb960949b3aa534bc5d33419a20ccc147
         with:
           java-version: 8
+          server-id: xspec-io.ossrh
+          server-username: NEXUS_USERNAME
+          server-password: NEXUS_PASSWORD
+          gpg-private-key: ${{ secrets.gpg_private_key }}
 
-      # TODO:
-      #   Either migrate to https://github.com/actions/setup-java/pull/59
-      #   or use xspec/action-maven-publish@v1 forked from samuelmeuli/action-maven-publish
-      - uses: samuelmeuli/action-maven-publish@201a45a3f311b2ee888f252ba9f4194257545709
-        with:
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          server_id: xspec-io.ossrh
-          maven_profiles: release
+      - run: mvn clean deploy --batch-mode --activate-profiles release
+        env:
+          NEXUS_USERNAME: ${{ secrets.nexus_username }}
+          NEXUS_PASSWORD: ${{ secrets.nexus_password }}
+          GPG_PASSPHRASE: ${{ secrets.gpg_passphrase }}
