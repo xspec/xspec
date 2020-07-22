@@ -38,11 +38,9 @@
       <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@xspec-original-location)" />
 
       <!-- The compiled stylesheet element. -->
-      <!-- The generated xsl:stylesheet must not have @exclude-result-prefixes. The test result
-         report XML may use namespace prefixes in XPath expressions even when the prefixes are not
-         used in node names. -->
-      <stylesheet version="{x:xslt-version(.) => x:decimal-string()}">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
+      <xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="exclude-result-prefixes" select="'#all'" />
+         <xsl:attribute name="version" select="x:xslt-version(.) => x:decimal-string()" />
 
          <xsl:if test="not($is-external)">
             <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
@@ -164,7 +162,7 @@
 
          <!-- Compile the top-level scenarios. -->
          <xsl:call-template name="x:compile-scenarios" />
-      </stylesheet>
+      </xsl:element>
    </xsl:template>
 
    <!-- *** x:output-call *** -->
