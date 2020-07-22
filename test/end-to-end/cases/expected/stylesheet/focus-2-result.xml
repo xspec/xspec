@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:my="http://example.org/ns/my"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
           xspec="../../focus-2.xspec"
           stylesheet="../../../../square.xsl"
           date="2000-01-01T00:00:00Z">
@@ -9,7 +7,9 @@
                xspec="../../focus-2.xspec"
                pending="testing x:pending">
       <t:label>an unfocused correct scenario in x:pending must be Pending</t:label>
-      <t:call function="my:square">
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:test id="scenario1-expect1" pending="testing x:pending">
@@ -18,7 +18,9 @@
    </t:scenario>
    <t:scenario id="scenario2" xspec="../../focus-2.xspec">
       <t:label>a focused correct scenario in x:pending</t:label>
-      <t:call function="my:square">
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
@@ -31,7 +33,9 @@
                xspec="../../focus-2.xspec"
                pending="testing @focus in x:pending">
       <t:label>a non-pending correct scenario alongside a focused scenario must be Pending</t:label>
-      <t:call function="my:square">
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:test id="scenario3-expect1" pending="testing @focus in x:pending">
@@ -40,7 +44,9 @@
    </t:scenario>
    <t:scenario id="scenario4" xspec="../../focus-2.xspec">
       <t:label>a focused correct scenario alongside another focused scenario</t:label>
-      <t:call function="my:square">
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>
@@ -53,7 +59,9 @@
                xspec="../../focus-2.xspec"
                pending="testing @pending without @focus">
       <t:label>a correct scenario with @pending must be Pending</t:label>
-      <t:call function="my:square">
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:test id="scenario5-expect1" pending="testing @pending without @focus">
@@ -62,7 +70,9 @@
    </t:scenario>
    <t:scenario id="scenario6" xspec="../../focus-2.xspec">
       <t:label>a correct scenario with both @pending and @focus (not recommended as ambiguous)</t:label>
-      <t:call function="my:square">
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:result select="9"/>

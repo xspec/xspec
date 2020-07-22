@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../issue-447_3.xspec"
           query="x-urn:test:mirror"
           query-at="../../../../mirror.xqm"
           date="2000-01-01T00:00:00Z">
    <x:scenario id="scenario1" xspec="../../issue-447_3.xspec" pending="}{">
       <x:label>x:scenario/@pending containing curly brackets should not affect test</x:label>
-      <x:call function="mirror:false"/>
+      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
       <x:test id="scenario1-expect1" pending="}{">
          <x:label>(This x:expect doesn't matter)</x:label>
       </x:test>
