@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
           xspec="../../report_schema-aware.xspec"
           stylesheet="../../../../do-nothing.xsl"
           date="2000-01-01T00:00:00Z">
@@ -11,7 +10,7 @@
          <x:scenario id="scenario1-scenario1-scenario1"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:ID</x:label>
-            <x:call function="xs:ID">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:ID">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}ID('foo')"/>
@@ -24,7 +23,7 @@
          <x:scenario id="scenario1-scenario1-scenario2"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:IDREF</x:label>
-            <x:call function="xs:IDREF">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:IDREF">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}IDREF('foo')"/>
@@ -37,7 +36,7 @@
          <x:scenario id="scenario1-scenario1-scenario3"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:ENTITY</x:label>
-            <x:call function="xs:ENTITY">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:ENTITY">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}ENTITY('foo')"/>
@@ -50,7 +49,7 @@
          <x:scenario id="scenario1-scenario1-scenario4"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:NCName</x:label>
-            <x:call function="xs:NCName">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:NCName">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}NCName('foo')"/>
@@ -63,7 +62,7 @@
          <x:scenario id="scenario1-scenario1-scenario5"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:language</x:label>
-            <x:call function="xs:language">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:language">
                <x:param select="'en'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}language('en')"/>
@@ -76,7 +75,7 @@
          <x:scenario id="scenario1-scenario1-scenario6"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:Name</x:label>
-            <x:call function="xs:Name">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:Name">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}Name('foo')"/>
@@ -89,7 +88,7 @@
          <x:scenario id="scenario1-scenario1-scenario7"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:NMTOKEN</x:label>
-            <x:call function="xs:NMTOKEN">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:NMTOKEN">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}NMTOKEN('foo')"/>
@@ -102,7 +101,7 @@
          <x:scenario id="scenario1-scenario1-scenario8"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:token</x:label>
-            <x:call function="xs:token">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:token">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}token('foo')"/>
@@ -115,7 +114,7 @@
          <x:scenario id="scenario1-scenario1-scenario9"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:normalizedString</x:label>
-            <x:call function="xs:normalizedString">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:normalizedString">
                <x:param select="'foo'"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}normalizedString('foo')"/>
@@ -131,7 +130,7 @@
          <x:scenario id="scenario1-scenario2-scenario1"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:negativeInteger</x:label>
-            <x:call function="xs:negativeInteger">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:negativeInteger">
                <x:param select="-1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}negativeInteger(-1)"/>
@@ -144,7 +143,8 @@
          <x:scenario id="scenario1-scenario2-scenario2"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:nonPositiveInteger</x:label>
-            <x:call function="xs:nonPositiveInteger">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    function="xs:nonPositiveInteger">
                <x:param select="0"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger(0)"/>
@@ -157,7 +157,7 @@
          <x:scenario id="scenario1-scenario2-scenario3"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:byte</x:label>
-            <x:call function="xs:byte">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:byte">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}byte(1)"/>
@@ -170,7 +170,7 @@
          <x:scenario id="scenario1-scenario2-scenario4"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:short</x:label>
-            <x:call function="xs:short">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:short">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}short(1)"/>
@@ -183,7 +183,7 @@
          <x:scenario id="scenario1-scenario2-scenario5"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:int</x:label>
-            <x:call function="xs:int">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:int">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}int(1)"/>
@@ -196,7 +196,7 @@
          <x:scenario id="scenario1-scenario2-scenario6"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:long</x:label>
-            <x:call function="xs:long">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:long">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}long(1)"/>
@@ -209,7 +209,7 @@
          <x:scenario id="scenario1-scenario2-scenario7"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:unsignedByte</x:label>
-            <x:call function="xs:unsignedByte">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:unsignedByte">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}unsignedByte(1)"/>
@@ -222,7 +222,7 @@
          <x:scenario id="scenario1-scenario2-scenario8"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:unsignedShort</x:label>
-            <x:call function="xs:unsignedShort">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:unsignedShort">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}unsignedShort(1)"/>
@@ -235,7 +235,7 @@
          <x:scenario id="scenario1-scenario2-scenario9"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:unsignedInt</x:label>
-            <x:call function="xs:unsignedInt">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:unsignedInt">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}unsignedInt(1)"/>
@@ -248,7 +248,7 @@
          <x:scenario id="scenario1-scenario2-scenario10"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:unsignedLong</x:label>
-            <x:call function="xs:unsignedLong">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:unsignedLong">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}unsignedLong(1)"/>
@@ -261,7 +261,7 @@
          <x:scenario id="scenario1-scenario2-scenario11"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:positiveInteger</x:label>
-            <x:call function="xs:positiveInteger">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="xs:positiveInteger">
                <x:param select="1"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}positiveInteger(1)"/>
@@ -274,7 +274,8 @@
          <x:scenario id="scenario1-scenario2-scenario12"
                      xspec="../../report_schema-aware.xspec">
             <x:label>xs:nonNegativeInteger</x:label>
-            <x:call function="xs:nonNegativeInteger">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    function="xs:nonNegativeInteger">
                <x:param select="0"/>
             </x:call>
             <x:result select="Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger(0)"/>

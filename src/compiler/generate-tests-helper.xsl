@@ -82,8 +82,6 @@
             <xsl:attribute name="name" select="$temp-doc-uqname" />
             <xsl:attribute name="as" select="'document-node()'" />
 
-            <xsl:sequence select="x:copy-of-namespaces(.)" />
-
             <xsl:choose>
                <xsl:when test="@href">
                   <xsl:attribute name="select">
@@ -103,7 +101,11 @@
 
       <xsl:element name="xsl:{if ($is-param) then 'param' else 'variable'}"
          namespace="{$x:xsl-namespace}">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
+         <!-- @as or @select may use namespace prefixes. @select may use the default namespace such
+            as xs:QName('foo'). -->
+         <xsl:if test="@as or @select">
+            <xsl:sequence select="x:copy-of-namespaces(.)" />
+         </xsl:if>
 
          <xsl:attribute name="name" select="$uqname" />
          <xsl:sequence select="@as" />
