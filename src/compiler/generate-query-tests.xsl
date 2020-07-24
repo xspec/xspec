@@ -483,7 +483,7 @@
             <xsl:text>(&#x0A;</xsl:text>
             <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
             <xsl:text>then ()&#x0A;</xsl:text>
-            <xsl:text expand-text="yes">else {x:known-UQName('test:report-sequence')}($local:test-result, '{x:xspec-name('result', .)}')&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">else {x:known-UQName('test:report-sequence')}($local:test-result, 'result')&#x0A;</xsl:text>
             <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
