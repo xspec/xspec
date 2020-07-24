@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../coverage-tutorial.xspec"
-          stylesheet="../../../../../tutorial/coverage/demo.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../../../../tutorial/coverage/demo.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../coverage-tutorial.xspec"
+        stylesheet="../../../../../tutorial/coverage/demo.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../../../../tutorial/coverage/demo.xspec">
       <x:label>'iron' element</x:label>
       <x:context>
-         <iron weight="1"/>
+         <iron xmlns="" weight="1"/>
       </x:context>
       <x:result select="/element()">
-         <shield weight="1"/>
+         <shield xmlns="" weight="1"/>
       </x:result>
       <x:test id="scenario1-expect1" successful="true">
          <x:label>is transformed to 'shield' element</x:label>
          <x:expect select="/element()">
-            <shield weight="1"/>
+            <shield xmlns="" weight="1"/>
          </x:expect>
       </x:test>
    </x:scenario>
-</x:report>
+</report>
