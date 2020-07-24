@@ -3,14 +3,24 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
+		Common shared
+	-->
+	<x:scenario label="Use $x:context both in @select and @test" shared="yes">
+		<x:expect label="$x:context should be available both in @select and @test"
+			select="$x:context" test="$x:context treat as item()+" />
+	</x:scenario>
+
+	<!--
 		Node
 	-->
 
 	<!-- Shared x:expect -->
 	<x:scenario label="Expect the identical single node" shared="yes">
+		<x:like label="Use $x:context both in @select and @test" />
 		<x:expect label="Identical node" test="$x:context is $items:element" />
 	</x:scenario>
 	<x:scenario label="Expect the identical multiple nodes" shared="yes">
+		<x:like label="Use $x:context both in @select and @test" />
 		<x:expect label="Identical nodes" select="$items:all-nodes ! generate-id()"
 			test="$x:context ! generate-id()" />
 	</x:scenario>
@@ -44,9 +54,11 @@
 
 	<!-- Shared x:expect -->
 	<x:scenario label="Expect the same single atomic value" shared="yes">
+		<x:like label="Use $x:context both in @select and @test" />
 		<x:expect label="Same value" select="$items:integer" test="$x:context" />
 	</x:scenario>
 	<x:scenario label="Expect the same multiple atomic values" shared="yes">
+		<x:like label="Use $x:context both in @select and @test" />
 		<x:expect label="Same values" select="$items:integer, $items:integer" test="$x:context" />
 	</x:scenario>
 
@@ -80,6 +92,7 @@
 	<!-- Shared x:expect -->
 	<x:scenario label="Expect the same sequence of the identical nodes and the same atomic values"
 		shared="yes">
+		<x:like label="Use $x:context both in @select and @test" />
 		<x:expect label="Same items" select="$items:all-nodes, $items:integer" test="$x:context" />
 		<x:expect label="Identical nodes" select="$items:all-nodes ! generate-id()"
 			test="$x:context[. instance of node()] ! generate-id()" />
