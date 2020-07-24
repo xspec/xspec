@@ -11,7 +11,7 @@
 			* Transforms /x:description/x:param into /xsl:stylesheet/xsl:param.
 			* Imports the private patch (only for the built-in preprocessor).
 			* Generates $x:schematron-uri global parameter.
-		See ../test/generate-step3-wrapper_*.xspec for examples.
+		See ../../test/generate-step3-wrapper_*.xspec for examples.
 	-->
 
 	<!-- Absolute URI of the actual stylesheet of the Schematron Step 3 preprocessor.
