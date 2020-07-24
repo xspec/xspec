@@ -484,9 +484,7 @@
 
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:known-UQName('x:result')}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                     <xsl:value-of select="x:xspec-name('result', .)" />
-                  </with-param>
+                  <with-param name="wrapper-name" select="'result'" />
                </call-template>
                <xsl:comment> a call instruction for each x:expect element </xsl:comment>
             </xsl:if>

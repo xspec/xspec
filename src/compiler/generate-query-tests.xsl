@@ -302,7 +302,7 @@
             <xsl:text>)&#x0A;</xsl:text>
 
             <xsl:text>return (&#x0A;</xsl:text>
-            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, '{x:xspec-name('result', .)}'),&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, 'result'),&#x0A;</xsl:text>
 
             <xsl:text>&#x0A;</xsl:text>
             <xsl:text>(: a call instruction for each x:expect element :)&#x0A;</xsl:text>
