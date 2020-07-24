@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../tvt_label_schematron.xspec"
-          stylesheet="tvt_label_schematron-sch-preprocessed.xsl"
-          schematron="../../tvt_label.sch"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../tvt_label_schematron.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../tvt_label_schematron.xspec"
+        stylesheet="tvt_label_schematron-sch-preprocessed.xsl"
+        schematron="../../tvt_label.sch"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../tvt_label_schematron.xspec">
       <x:label>With @expand-text=yes</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../tvt_label_schematron.xspec">
          <x:label>}}{scenario}{{</x:label>
          <x:context select="self::document-node()">
-            <context-child/>
+            <context-child xmlns=""/>
          </x:context>
          <x:result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -37,7 +39,7 @@
       <x:scenario id="scenario1-scenario2" xspec="../../tvt_label_schematron.xspec">
          <x:label>}}{scenario}{{</x:label>
          <x:context select="self::document-node()">
-            <context-child/>
+            <context-child xmlns=""/>
          </x:context>
          <x:result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -65,7 +67,7 @@
       <x:scenario id="scenario1-scenario3" xspec="../../tvt_label_schematron.xspec">
          <x:label>}}{scenario}{{</x:label>
          <x:context select="self::document-node()">
-            <context-child/>
+            <context-child xmlns=""/>
          </x:context>
          <x:result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -91,12 +93,14 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../tvt_label_schematron.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../tvt_label_schematron.xspec">
       <x:label>With @expand-text=no</x:label>
       <x:scenario id="scenario2-scenario1" xspec="../../tvt_label_schematron.xspec">
          <x:label>}}{scenario}{{</x:label>
          <x:context select="self::document-node()">
-            <context-child/>
+            <context-child xmlns=""/>
          </x:context>
          <x:result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -124,7 +128,7 @@
       <x:scenario id="scenario2-scenario2" xspec="../../tvt_label_schematron.xspec">
          <x:label>}}{scenario}{{</x:label>
          <x:context select="self::document-node()">
-            <context-child/>
+            <context-child xmlns=""/>
          </x:context>
          <x:result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -150,4 +154,4 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-</x:report>
+</report>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../imported.xspec"
-          query="http://example.org/ns/my"
-          query-at="../../../../square.xqm"
-          date="2000-01-01T00:00:00Z">
-   <t:scenario id="scenario1" xspec="../../imported.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../imported.xspec"
+        query="http://example.org/ns/my"
+        query-at="../../../../square.xqm"
+        date="2000-01-01T00:00:00Z">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../imported.xspec">
       <t:label>a correct scenario in an imported file</t:label>
       <t:call xmlns:my="http://example.org/ns/my" function="my:square">
          <t:param select="3"/>
@@ -15,7 +17,9 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario2" xspec="../../imported.xspec">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../imported.xspec">
       <t:label>an incorrect scenario in an imported file</t:label>
       <t:call xmlns:my="http://example.org/ns/my" function="my:square">
          <t:param select="2"/>
@@ -26,4 +30,4 @@
          <t:expect select="42"/>
       </t:test>
    </t:scenario>
-</t:report>
+</report>

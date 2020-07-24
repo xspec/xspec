@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../schematron-023.xspec"
-          stylesheet="schematron-023-sch-preprocessed.xsl"
-          schematron="../../../../schematron/schematron-023.sch"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../schematron-023.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../schematron-023.xspec"
+        stylesheet="schematron-023-sch-preprocessed.xsl"
+        schematron="../../../../schematron/schematron-023.sch"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../schematron-023.xspec">
       <x:label>valid with warning: expect-valid should pass</x:label>
       <x:context select="self::document-node()">
-         <document>
+         <document xmlns="">
             <section>
                <title>INTRODUCTION</title>
                <p>Some text</p>
@@ -55,10 +57,12 @@
                    select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../schematron-023.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../schematron-023.xspec">
       <x:label>error: expect-valid should fail</x:label>
       <x:context select="self::document-node()">
-         <document>
+         <document xmlns="">
             <section>
                <title>INTRODUCTION</title>
             </section>
@@ -104,10 +108,12 @@
                    select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario3" xspec="../../schematron-023.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../schematron-023.xspec">
       <x:label>fatal: expect-valid should fail</x:label>
       <x:context select="self::document-node()">
-         <adocument/>
+         <adocument xmlns=""/>
       </x:context>
       <x:result select="/element()">
          <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
@@ -140,4 +146,4 @@
                    select="()"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>
