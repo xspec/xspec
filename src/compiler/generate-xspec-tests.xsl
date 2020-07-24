@@ -771,8 +771,8 @@
 
          <!-- <x:test> -->
          <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="x:xspec-name('test', .)" />
-            <xsl:attribute name="namespace" select="$x:xspec-namespace" />
+            <xsl:attribute name="name" select="'test'" />
+            <xsl:attribute name="namespace" select="namespace-uri()" />
 
             <xsl:variable name="test-element-attributes" as="attribute()+">
                <xsl:attribute name="id" select="$expect-id" />

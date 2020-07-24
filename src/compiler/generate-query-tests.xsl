@@ -454,7 +454,7 @@
 
       <!-- <x:test> -->
       <xsl:text>element { </xsl:text>
-      <xsl:value-of select="QName($x:xspec-namespace, x:xspec-name('test', .)) => x:QName-expression()" />
+      <xsl:value-of select="QName(namespace-uri(), 'test') => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
       <xsl:call-template name="test:create-zero-or-more-node-generators">
