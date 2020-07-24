@@ -108,7 +108,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 xquery version "3.1";
 
 (: the tested library module :)
-import module namespace my = "http://example.org/ns/my"
+import module "http://example.org/ns/my"
 at ".../compilation-simple-suite.xqm";
 
 (: XSpec library modules providing tools :)
@@ -117,6 +117,7 @@ at ".../src/compiler/generate-query-utils.xqm";
 import module "http://www.jenitennison.com/xslt/xspec"
 at ".../src/common/xspec-utils.xqm";
 
+declare namespace my = "http://example.org/ns/my";
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";
 declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}parameter-document ".../xml-report-serialization-parameters.xml";
 declare variable $Q{http://www.jenitennison.com/xslt/xspec}xspec-uri as xs:anyURI := (
