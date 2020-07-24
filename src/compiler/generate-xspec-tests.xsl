@@ -310,31 +310,21 @@
             </xsl:for-each>
 
             <xsl:if test="not($pending-p) and x:expect">
+               <xsl:if test="$context">
+                  <!-- Set up the variable of x:context -->
+                  <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
+
+                  <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
+                  <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
+                     <xsl:attribute name="name" select="x:known-UQName('x:context')" />
+                     <xsl:attribute name="select" select="'$' || x:variable-UQName($context)" />
+                  </xsl:element>
+               </xsl:if>
+
                <variable name="{x:known-UQName('x:result')}" as="item()*">
-                  <!-- Set up variables before entering SUT -->
-                  <xsl:choose>
-                     <xsl:when test="$call">
-                        <!-- Set up variables containing the parameter values -->
-                        <xsl:apply-templates select="$call/x:param[1]" mode="x:compile" />
-
-                        <!-- Set up the $impl:context variable -->
-                        <xsl:apply-templates select="$context[$call/@template]"
-                           mode="test:generate-variable-declarations" />
-                     </xsl:when>
-
-                     <xsl:when test="$apply">
-                        <!-- Set up variables containing the parameter values -->
-                        <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile" />
-                     </xsl:when>
-
-                     <xsl:when test="$context">
-                        <!-- Set up the $impl:context variable -->
-                        <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
-
-                        <!-- Set up variables containing the parameter values -->
-                        <xsl:apply-templates select="$context/x:param[1]" mode="x:compile" />
-                     </xsl:when>
-                  </xsl:choose>
+                  <!-- Set up variables containing the parameter values -->
+                  <xsl:apply-templates select="($call, $apply, $context)[1]/x:param[1]"
+                     mode="x:compile" />
 
                   <!-- Enter SUT -->
                   <xsl:choose>
