@@ -193,10 +193,10 @@ result as parameter.
               name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    <xsl:message>scenario</xsl:message>
-   <xsl:element name="x:scenario" namespace="http://www.jenitennison.com/xslt/xspec">
+   <xsl:element name="scenario" namespace="http://www.jenitennison.com/xslt/xspec">
       <xsl:attribute name="id" namespace="">scenario1</xsl:attribute>
       <xsl:attribute name="xspec" namespace="">.../compilation-simple-suite.xspec</xsl:attribute>
-      <xsl:element name="x:label" namespace="http://www.jenitennison.com/xslt/xspec">
+      <xsl:element name="label" namespace="http://www.jenitennison.com/xslt/xspec">
          <xsl:text>scenario</xsl:text>
       </xsl:element>
       <xsl:element name="x:call" namespace="http://www.jenitennison.com/xslt/xspec">
@@ -284,7 +284,7 @@ let $Q{http://www.jenitennison.com/xslt/xspec}result := (
 Q{http://example.org/ns/my}f()
 )
 return (
-Q{http://www.jenitennison.com/xslt/unit-test}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'x:result'),
+Q{http://www.jenitennison.com/xslt/unit-test}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'result'),
 
 (: a call instruction for each x:expect element :)
 let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-expect1(
