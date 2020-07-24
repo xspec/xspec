@@ -10,6 +10,8 @@
 		While generating the wrapper stylesheet, the following adjustments are made:
 			* Transforms /x:description/x:param into /xsl:stylesheet/xsl:param.
 			* Imports the private patch (only for the built-in preprocessor).
+			* Generates $x:schematron-uri global parameter.
+		See ../test/generate-step3-wrapper_*.xspec for examples.
 	-->
 
 	<!-- Absolute URI of the actual stylesheet of the Schematron Step 3 preprocessor.
@@ -53,19 +55,31 @@
 			<!-- Set up a pseudo x:param which holds the fully-resolved Schematron file URI
 				so that $x:schematron-uri holding the URI is generated and made available in
 				the wrapper stylesheet being generated -->
-			<xsl:variable as="element(x:param)" name="xml-base-param">
-				<!-- Use x:xspec-name() for the element name just for cleanness -->
-				<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
-					<xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
-					<xsl:attribute name="name" select="x:known-UQName('x:schematron-uri')" />
+			<xsl:variable as="element(x:description)" name="pseudo-description">
+				<!--
+					- Wrap x:param in x:description so that it's recognized as a global x:param.
+					- Use x:xspec-name() for the element names just for cleanness.
+				-->
+				<xsl:element name="{x:xspec-name('description', .)}"
+					namespace="{$x:xspec-namespace}">
+					<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
+						<xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
+						<xsl:attribute name="name" select="x:known-UQName('x:schematron-uri')" />
 
-					<xsl:value-of select="x:locate-schematron-uri(.)" />
+						<!-- Output as a text node so that we don't need to take care of escaping -->
+						<xsl:value-of select="x:locate-schematron-uri(.)" />
+					</xsl:element>
 				</xsl:element>
 			</xsl:variable>
 
-			<!-- Resolve x:param -->
+			<!-- Generate $x:schematron-uri xsl:param even when the private patch is not imported,
+				because the preprocessor specified by $ACTUAL-PREPROCESSOR-URI may want to make use
+				of it. -->
 			<xsl:apply-templates mode="test:generate-variable-declarations"
-				select="$xml-base-param, x:param" />
+				select="$pseudo-description/x:param" />
+
+			<!-- Resolve x:param -->
+			<xsl:apply-templates mode="test:generate-variable-declarations" select="x:param" />
 		</xsl:element>
 	</xsl:template>
 
