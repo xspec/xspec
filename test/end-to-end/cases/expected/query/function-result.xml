@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../function.xspec"
-          query="http://example.org/ns/my"
-          query-at="../../../../square.xqm"
-          date="2000-01-01T00:00:00Z">
-   <t:scenario id="scenario1" xspec="../../function.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../function.xspec"
+        query="http://example.org/ns/my"
+        query-at="../../../../square.xqm"
+        date="2000-01-01T00:00:00Z">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../function.xspec">
       <t:label>when calling a function and expecting correctly</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -24,7 +26,9 @@
                    select="()"/>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario2" xspec="../../function.xspec">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../function.xspec">
       <t:label>when calling a function and expecting incorrectly</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -44,4 +48,4 @@
                    select="()"/>
       </t:test>
    </t:scenario>
-</t:report>
+</report>

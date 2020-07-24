@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../label-element.xspec"
-          stylesheet="../../../../do-nothing.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../label-element.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../label-element.xspec"
+        stylesheet="../../../../do-nothing.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../label-element.xspec">
       <x:label>	
 &#xD; 	
 &#xD; My	
@@ -22,7 +24,9 @@
          <x:expect test="false()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../label-element.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../label-element.xspec">
       <x:label>	
 &#xD; 	
 &#xD; My	
@@ -41,7 +45,9 @@
          <x:expect test="false()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario3" xspec="../../label-element.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../label-element.xspec">
       <x:label>	
 &#xD; 	
 &#xD; My	
@@ -60,4 +66,4 @@
          <x:expect test="false()" select="()"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>

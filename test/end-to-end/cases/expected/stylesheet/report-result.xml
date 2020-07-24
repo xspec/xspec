@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../report.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../report.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../report.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../report.xspec">
       <x:label>Function (xspec/xspec#355)</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../report.xspec">
          <x:label>Array</x:label>
@@ -11,7 +13,7 @@
             <x:param as="array(*)" select="['foo', 1, [2, 'bar']]"/>
          </x:call>
          <x:result select="/*">
-            <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">["foo",1,[2,"bar"]]</pseudo-array>
+            <pseudo-array>["foo",1,[2,"bar"]]</pseudo-array>
          </x:result>
          <x:test id="scenario1-scenario1-expect1" successful="false">
             <x:label>Serialized array should be reported upon failure</x:label>
@@ -24,7 +26,7 @@
             <x:param as="map(*)" select="      map {       'foo': 1,       2: 'bar'      }"/>
          </x:call>
          <x:result select="/*">
-            <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{2:"bar","foo":1}</pseudo-map>
+            <pseudo-map>map{2:"bar","foo":1}</pseudo-map>
          </x:result>
          <x:test id="scenario1-scenario2-expect1" successful="false">
             <x:label>Serialized map should be reported upon failure</x:label>
@@ -32,64 +34,72 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../report.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../report.xspec">
       <x:label>Element, attribute (xspec/xspec#357)</x:label>
       <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="node()+" select="elem1 | elem2/attribute()">
-            <elem1>text</elem1>
-            <elem2 attr="attr-val"/>
+            <elem1 xmlns="">text</elem1>
+            <elem2 xmlns="" attr="attr-val"/>
          </x:param>
       </x:call>
       <x:result select="/*/(@* | node())">
-         <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+         <pseudo-element>
             <elem1 xmlns="">text</elem1>
          </pseudo-element>
-         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="attr-val"/>
+         <pseudo-attribute attr="attr-val"/>
       </x:result>
       <x:test id="scenario2-expect1" successful="false">
          <x:label>@attr should be reported as an attribute</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario3" xspec="../../report.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../report.xspec">
       <x:label>Attributes of the same name (xspec/xspec#358)</x:label>
       <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="attribute()+" select="element()/attribute()">
-            <elem1 attr="foo"/>
-            <elem2 attr="bar"/>
+            <elem1 xmlns="" attr="foo"/>
+            <elem2 xmlns="" attr="bar"/>
          </x:param>
       </x:call>
       <x:result select="/*/@*">
-         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="foo"/>
-         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="bar"/>
+         <pseudo-attribute attr="foo"/>
+         <pseudo-attribute attr="bar"/>
       </x:result>
       <x:test id="scenario3-expect1" successful="false">
          <x:label>Both @attr=foo and @attr=bar should be reported</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario4" xspec="../../report.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario4"
+               xspec="../../report.xspec">
       <x:label>Attribute, element, attribute (xspec/xspec#360)</x:label>
       <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="node()+" select="element()/attribute() | elem2">
-            <elem1 attr1="attr1-val"/>
-            <elem2>text</elem2>
-            <elem3 attr3="attr3-val"/>
+            <elem1 xmlns="" attr1="attr1-val"/>
+            <elem2 xmlns="">text</elem2>
+            <elem3 xmlns="" attr3="attr3-val"/>
          </x:param>
       </x:call>
       <x:result select="/*/(@* | node())">
-         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr1="attr1-val"/>
-         <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+         <pseudo-attribute attr1="attr1-val"/>
+         <pseudo-element>
             <elem2 xmlns="">text</elem2>
          </pseudo-element>
-         <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr3="attr3-val"/>
+         <pseudo-attribute attr3="attr3-val"/>
       </x:result>
       <x:test id="scenario4-expect1" successful="false">
          <x:label>[Result] should be reported</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario5" xspec="../../report.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario5"
+               xspec="../../report.xspec">
       <x:label>Document node with no children (xspec/xspec#697)</x:label>
       <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param select="parse-xml-fragment('')"/>
@@ -100,22 +110,24 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario6" xspec="../../report.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario6"
+               xspec="../../report.xspec">
       <x:label>XPath is different, but serialized node looks as if same</x:label>
       <x:scenario id="scenario6-scenario1" xspec="../../report.xspec">
          <x:label>[Result] = document node, [Expected Result] = element</x:label>
          <x:call function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="document-node()" select="/">
-               <test/>
+               <test xmlns=""/>
             </x:param>
          </x:call>
          <x:result select="/self::document-node()">
-            <test/>
+            <test xmlns=""/>
          </x:result>
          <x:test id="scenario6-scenario1-expect1" successful="false">
             <x:label>XPath should be colored as different. Serialized node should be colored as same.</x:label>
             <x:expect select="/element()">
-               <test/>
+               <test xmlns=""/>
             </x:expect>
          </x:test>
       </x:scenario>
@@ -123,21 +135,23 @@
          <x:label>[Result] = element, [Expected Result] = document node.</x:label>
          <x:call function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="element()">
-               <test/>
+               <test xmlns=""/>
             </x:param>
          </x:call>
          <x:result select="/element()">
-            <test/>
+            <test xmlns=""/>
          </x:result>
          <x:test id="scenario6-scenario2-expect1" successful="false">
             <x:label>XPath should be colored as different. Serialized node should be colored as same.</x:label>
             <x:expect select="/self::document-node()">
-               <test/>
+               <test xmlns=""/>
             </x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario7" xspec="../../report.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario7"
+               xspec="../../report.xspec">
       <x:label>Sequence of multiple atomic values</x:label>
       <x:call function="Q{x-urn:test:mirror}param-mirror">
          <x:param select="'foo', 1, 2, 'bar'"/>
@@ -148,4 +162,4 @@
          <x:expect select="QName('', 'foo'),&#xA;1,&#xA;2,&#xA;'bar'"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>

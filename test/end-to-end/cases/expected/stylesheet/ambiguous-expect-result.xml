@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../ambiguous-expect.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../ambiguous-expect.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../ambiguous-expect.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes @href</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
@@ -14,7 +16,7 @@
          <x:test id="scenario1-scenario1-expect1" successful="false">
             <x:label>Expecting document node via @href should be Failure</x:label>
             <x:expect select="/self::document-node()">
-               <foo/>
+               <foo xmlns=""/>
             </x:expect>
          </x:test>
          <x:test id="scenario1-scenario1-expect2" successful="true">
@@ -23,12 +25,14 @@
                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
                       test="$x:result treat as xs:boolean"
                       select="/self::document-node()">
-               <foo/>
+               <foo xmlns=""/>
             </x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../ambiguous-expect.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes @select</x:label>
       <x:scenario id="scenario2-scenario1" xspec="../../ambiguous-expect.xspec">
          <x:label>When function returns false,</x:label>
@@ -49,7 +53,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario3" xspec="../../ambiguous-expect.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes child node</x:label>
       <x:scenario id="scenario3-scenario1" xspec="../../ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
@@ -60,7 +66,9 @@
          <x:test id="scenario3-scenario1-expect1" successful="false">
             <x:label>Expecting element(foo) via child node should be Failure</x:label>
             <x:expect select="/element()">
-               <foo xmlns:mirror="x-urn:test:mirror" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               <foo xmlns:mirror="x-urn:test:mirror"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns=""/>
             </x:expect>
          </x:test>
          <x:test id="scenario3-scenario1-expect2" successful="true">
@@ -69,12 +77,14 @@
                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
                       test="$x:result treat as xs:boolean"
                       select="/element()">
-               <foo/>
+               <foo xmlns=""/>
             </x:expect>
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario4" xspec="../../ambiguous-expect.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario4"
+               xspec="../../ambiguous-expect.xspec">
       <x:label>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)</x:label>
       <x:scenario id="scenario4-scenario1" xspec="../../ambiguous-expect.xspec">
          <x:label>When function returns true,</x:label>
@@ -106,4 +116,4 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-</x:report>
+</report>

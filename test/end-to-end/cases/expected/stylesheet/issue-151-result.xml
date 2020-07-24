@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-151.xspec"
-          stylesheet="../../issue-151.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-151.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-151.xspec"
+        stylesheet="../../issue-151.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../issue-151.xspec">
       <x:label>When the result is a mixture of a typed element and a string</x:label>
       <x:call xmlns:test-mix="x-urn:test-mix" function="test-mix:element-and-string"/>
       <x:result select="/*">
-         <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+         <pseudo-element>
             <test-mix:fooElement xmlns:test-mix="x-urn:test-mix">
                <test-mix:barElement/>
             </test-mix:fooElement>
          </pseudo-element>
-         <pseudo-atomic-value xmlns="http://www.jenitennison.com/xslt/xspec">'string'</pseudo-atomic-value>
+         <pseudo-atomic-value>'string'</pseudo-atomic-value>
       </x:result>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>[Result] in the failure report HTML must wrap element and string separately</x:label>
          <x:expect xmlns:test-mix="x-urn:test-mix" test="false()" select="()"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>
