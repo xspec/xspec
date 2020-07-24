@@ -278,8 +278,8 @@
 
          <!-- <x:scenario> -->
          <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="x:xspec-name('scenario', .)" />
-            <xsl:attribute name="namespace" select="$x:xspec-namespace" />
+            <xsl:attribute name="name" select="local-name()" />
+            <xsl:attribute name="namespace" select="namespace-uri()" />
 
             <xsl:variable name="scenario-attributes" as="attribute()+">
                <xsl:attribute name="id" select="$scenario-id" />
