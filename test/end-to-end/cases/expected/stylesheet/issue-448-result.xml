@@ -3,27 +3,29 @@
         xspec="../../issue-448.xspec"
         stylesheet="../../../../mirror.xsl"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../issue-448.xspec">
-      <x:label>x:scenario/</x:label>
-      <x:scenario id="scenario1-scenario1" xspec="../../issue-448.xspec">
-         <x:label>x:label containing }{ should not affect test</x:label>
-         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
-         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-         <x:test id="scenario1-scenario1-expect1" successful="true">
-            <x:label>(This x:expect doesn't matter)</x:label>
-            <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario1-scenario2" xspec="../../issue-448.xspec">
-         <x:label>@label containing }{ should not affect test</x:label>
-         <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
-         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-         <x:test id="scenario1-scenario2-expect1" successful="true">
-            <x:label>(This x:expect doesn't matter)</x:label>
-            <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
+   <scenario id="scenario1" xspec="../../issue-448.xspec">
+      <label>x:scenario/</label>
+      <scenario id="scenario1-scenario1" xspec="../../issue-448.xspec">
+         <label>x:label containing }{ should not affect test</label>
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <test id="scenario1-scenario1-expect1" successful="true">
+            <label>(This x:expect doesn't matter)</label>
+            <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../issue-448.xspec">
+         <label>@label containing }{ should not affect test</label>
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <test id="scenario1-scenario2-expect1" successful="true">
+            <label>(This x:expect doesn't matter)</label>
+            <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         </test>
+      </scenario>
+   </scenario>
 </report>

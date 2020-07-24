@@ -3,25 +3,23 @@
         xspec="../../issue-214.xspec"
         stylesheet="../../issue-214.xsl"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../issue-214.xspec">
-      <x:label>input</x:label>
-      <x:context>
+   <scenario id="scenario1" xspec="../../issue-214.xspec">
+      <label>input</label>
+      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
          <input xmlns=""/>
       </x:context>
-      <x:result select="/element()">
+      <result select="/element()">
          <output xmlns="">
 test
 </output>
-      </x:result>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>output</x:label>
-         <x:expect select="/element()">
-            <output xmlns="">
+      </result>
+      <test id="scenario1-expect1" successful="true">
+         <label>output</label>
+         <expect select="/element()">
+            <output xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
 test
 </output>
-         </x:expect>
-      </x:test>
-   </x:scenario>
+         </expect>
+      </test>
+   </scenario>
 </report>
