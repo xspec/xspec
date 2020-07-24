@@ -416,17 +416,20 @@ section "[Simple scenario](#simple-scenario)").
 </xsl:variable>
 
 <!-- "apply template rules on a node (with x:context)" -->
+<xsl:variable name="Q{urn:x-xspec:compile:impl}context-...-doc"
+              as="document-node()">
+   <xsl:document>
+      <xsl:element name="elem" namespace="">
+         <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+         <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
+      </xsl:element>
+   </xsl:document>
+</xsl:variable>
+<xsl:variable name="Q{urn:x-xspec:compile:impl}context-..."
+              select="$Q{urn:x-xspec:compile:impl}context-...-doc ! ( node() )"/>
+<xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}context"
+              select="$Q{urn:x-xspec:compile:impl}context-..."/>
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}context-...-doc" as="document-node()">
-      <xsl:document>
-         <xsl:element name="elem" namespace="">
-            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
-            <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
-         </xsl:element>
-      </xsl:document>
-   </xsl:variable>
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}context-..."
-                 select="$Q{urn:x-xspec:compile:impl}context-...-doc ! ( node() )"/>
    <xsl:apply-templates select="$Q{urn:x-xspec:compile:impl}context-..."/>
 </xsl:variable>
 
