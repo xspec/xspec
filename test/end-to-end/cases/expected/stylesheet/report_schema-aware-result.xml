@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../report_schema-aware.xspec"
-          stylesheet="../../../../do-nothing.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../report_schema-aware.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../report_schema-aware.xspec"
+        stylesheet="../../../../do-nothing.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../report_schema-aware.xspec">
       <x:label>In a failure report HTML</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../report_schema-aware.xspec">
          <x:label>Derived string types</x:label>
@@ -287,4 +289,4 @@
          </x:scenario>
       </x:scenario>
    </x:scenario>
-</x:report>
+</report>

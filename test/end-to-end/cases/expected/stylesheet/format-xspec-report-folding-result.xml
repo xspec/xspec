@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../format-xspec-report-folding.xspec"
-          stylesheet="../../../../square.xsl"
-          date="2000-01-01T00:00:00Z">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../format-xspec-report-folding.xspec"
+        stylesheet="../../../../square.xsl"
+        date="2000-01-01T00:00:00Z">
    <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
                id="scenario1"
                xspec="../../focus-1.xspec"
                pending="testing @focus of a correct scenario">
       <t:label>an unfocused correct scenario must be Pending</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
               function="my:square">
          <t:param select="3"/>
@@ -23,6 +24,7 @@
                pending="testing @focus of a correct scenario">
       <t:label>an unfocused incorrect scenario must be Pending</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
               function="my:square">
          <t:param select="2"/>
@@ -36,6 +38,7 @@
                xspec="../../focus-1.xspec">
       <t:label>a focused correct scenario</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
               function="my:square">
          <t:param select="3"/>
@@ -51,6 +54,7 @@
                xspec="../../focus-1.xspec">
       <t:label>a focused incorrect scenario</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
               function="my:square">
          <t:param select="2"/>
@@ -59,9 +63,10 @@
       <t:test id="scenario4-expect1" successful="false">
          <t:label>must execute the test and return Failure</t:label>
          <t:expect xmlns:my="http://example.org/ns/my"
+                   xmlns:x="http://www.jenitennison.com/xslt/xspec"
                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
                    test="$t:result instance of xs:string"
                    select="()"/>
       </t:test>
    </t:scenario>
-</x:report>
+</report>

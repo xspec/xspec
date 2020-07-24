@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../pending.xspec"
-          query="http://example.org/ns/my"
-          query-at="../../../../square.xqm"
-          date="2000-01-01T00:00:00Z">
-   <t:scenario id="scenario1"
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../pending.xspec"
+        query="http://example.org/ns/my"
+        query-at="../../../../square.xqm"
+        date="2000-01-01T00:00:00Z">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
                xspec="../../pending.xspec"
                pending="testing x:pending">
       <t:label>a correct scenario in x:pending must be Pending</t:label>
@@ -17,7 +18,8 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario2"
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
                xspec="../../pending.xspec"
                pending="testing x:pending">
       <t:label>an incorrect scenario in x:pending must be Pending</t:label>
@@ -30,7 +32,9 @@
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario3" xspec="../../pending.xspec">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../pending.xspec">
       <t:label>a non-pending correct scenario alongside a pending scenario</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -43,7 +47,9 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario4" xspec="../../pending.xspec">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario4"
+               xspec="../../pending.xspec">
       <t:label>a non-pending incorrect scenario alongside a pending scenario</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -59,7 +65,8 @@
                    select="()"/>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario5"
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario5"
                xspec="../../pending.xspec"
                pending="testing @pending of a correct scenario">
       <t:label>a correct scenario with @pending must be Pending</t:label>
@@ -72,7 +79,8 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario6"
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario6"
                xspec="../../pending.xspec"
                pending="testing @pending of an incorrect scenario">
       <t:label>an incorrect scenario with @pending must be Pending</t:label>
@@ -86,4 +94,4 @@
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-</t:report>
+</report>

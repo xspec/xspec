@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../serialize.xspec"
-          stylesheet="../../../../items.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../serialize.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../serialize.xspec"
+        stylesheet="../../../../items.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../serialize.xspec">
       <x:label>When the result is a comment node, the report HTML must serialize it as
 			&lt;!-- --&gt;. (xspec/xspec#356) So...</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../serialize.xspec">
@@ -32,7 +34,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../serialize.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../serialize.xspec">
       <x:label>When the result is indented in the report XML file, the report HTML must serialize
 			it with indentation.</x:label>
       <x:scenario id="scenario2-scenario1" xspec="../../serialize.xspec">
@@ -42,21 +46,21 @@
 					elements serialized with indentation,</x:label>
             <x:call function="one-or-more">
                <x:param as="element()+">
-                  <foo/>
-                  <bar>
+                  <foo xmlns=""/>
+                  <bar xmlns="">
                      <baz/>
                   </bar>
-                  <qux>
+                  <qux xmlns="">
                      <quux/>
                   </qux>
                </x:param>
             </x:call>
             <x:result select="/element()">
-               <foo/>
-               <bar>
+               <foo xmlns=""/>
+               <bar xmlns="">
                   <baz/>
                </bar>
-               <qux>
+               <qux xmlns="">
                   <quux/>
                </qux>
             </x:result>
@@ -80,11 +84,11 @@
                <x:label>all elements in [Expected Result] with diff must be serialized with
 						indentation.</x:label>
                <x:expect select="/element()">
-                  <foo/>
-                  <bar>
+                  <foo xmlns=""/>
+                  <bar xmlns="">
                      <baz/>
                   </bar>
-                  <qux>
+                  <qux xmlns="">
                      <quux/>
                   </qux>
                </x:expect>
@@ -102,7 +106,7 @@
 						x:result of the report XML file,</x:label>
                <x:call function="exactly-one">
                   <x:param as="element(test)">
-                     <test>
+                     <test xmlns="">
                         <elem1><!--foo-->
                            <bar/>
                         </elem1>
@@ -111,7 +115,7 @@
                   </x:param>
                </x:call>
                <x:result select="/element()">
-                  <test>
+                  <test xmlns="">
                      <elem1><!--foo-->
                         <bar/>
                      </elem1>
@@ -121,7 +125,7 @@
                <x:test id="scenario2-scenario2-scenario1-scenario1-expect1" successful="false">
                   <x:label>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</x:label>
                   <x:expect select="/element()">
-                     <test>
+                     <test xmlns="">
                         <elem1>foo<bar/>
                         </elem1>
                         <elem2>foo<?bar?></elem2>
@@ -135,7 +139,7 @@
 						x:expect of the report XML file,</x:label>
                <x:call function="exactly-one">
                   <x:param as="element(test)">
-                     <test>
+                     <test xmlns="">
                         <elem1>foo<bar/>
                         </elem1>
                         <elem2>foo<?bar?></elem2>
@@ -143,7 +147,7 @@
                   </x:param>
                </x:call>
                <x:result select="/element()">
-                  <test>
+                  <test xmlns="">
                      <elem1>foo<bar/>
                      </elem1>
                      <elem2>foo<?bar?></elem2>
@@ -152,7 +156,7 @@
                <x:test id="scenario2-scenario2-scenario1-scenario2-expect1" successful="false">
                   <x:label>both &lt;bar&gt; and &lt;?bar?&gt; must be green.</x:label>
                   <x:expect select="/element()">
-                     <test>
+                     <test xmlns="">
                         <elem1><!--foo-->
                            <bar/>
                         </elem1>
@@ -172,7 +176,7 @@
 						length,</x:label>
                <x:call function="exactly-one">
                   <x:param as="element(test)">
-                     <test>
+                     <test xmlns="">
                         <foo>
                            <bar/>
                         </foo>
@@ -181,7 +185,7 @@
                   </x:param>
                </x:call>
                <x:result select="/element()">
-                  <test>
+                  <test xmlns="">
                      <foo>
                         <bar/>
                      </foo>
@@ -191,7 +195,7 @@
                <x:test id="scenario2-scenario2-scenario2-scenario1-expect1" successful="false">
                   <x:label>&lt;foo&gt; must be green.</x:label>
                   <x:expect select="/element()">
-                     <test>
+                     <test xmlns="">
                         <foo>
                            <bar/>
                         </foo>
@@ -203,18 +207,20 @@
          </x:scenario>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario3" xspec="../../serialize.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../serialize.xspec">
       <x:label>When x:expect has an element of '...',</x:label>
       <x:call function="exactly-one">
          <x:param as="element(foo)">
-            <foo>
+            <foo xmlns="">
                <bar/>
                <baz/>
             </foo>
          </x:param>
       </x:call>
       <x:result select="/element()">
-         <foo>
+         <foo xmlns="">
             <bar/>
             <baz/>
          </foo>
@@ -223,16 +229,18 @@
          <x:label>the corresponding nodes in [Result] with diff must be serialized in green.
 				(xspec/xspec#379)</x:label>
          <x:expect select="/element()">
-            <foo>...</foo>
-            <qux/>
+            <foo xmlns="">...</foo>
+            <qux xmlns=""/>
          </x:expect>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario4" xspec="../../serialize.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario4"
+               xspec="../../serialize.xspec">
       <x:label>When the result contains significant text nodes,</x:label>
       <x:call function="exactly-one">
          <x:param as="element(test)">
-            <test>
+            <test xmlns="">
                <oridinary-text-node>
                   <same>same</same>
                   <diff>actual</diff>
@@ -247,16 +255,16 @@
          </x:param>
       </x:call>
       <x:result select="/element()">
-         <test>
+         <test xmlns="">
             <oridinary-text-node>
                <same>same</same>
                <diff>actual</diff>
             </oridinary-text-node>
             <significant-whitespace-only-text-node>
-               <same xml:space="preserve"><test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
-&#xD; </test:ws></same>
-               <diff xml:space="preserve"><test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
-&#xD; </test:ws></diff>
+               <same xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+&#xD; </ws></same>
+               <diff xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+&#xD; </ws></diff>
             </significant-whitespace-only-text-node>
          </test>
       </x:result>
@@ -264,16 +272,16 @@
          <x:label>both in [Result] and [Expected Result] with diff, the significant text nodes
 				must be serialized with color. (xspec/xspec#386)</x:label>
          <x:expect select="/element()">
-            <test>
+            <test xmlns="">
                <oridinary-text-node>
                   <same>same</same>
                   <diff>expect</diff>
                </oridinary-text-node>
                <significant-whitespace-only-text-node>
-                  <same xml:space="preserve"><test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
-&#xD; </test:ws></same>
-                  <diff xml:space="preserve"><test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"> 	
-&#xD;</test:ws></diff>
+                  <same xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+&#xD; </ws></same>
+                  <diff xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/unit-test"> 	
+&#xD;</ws></diff>
                </significant-whitespace-only-text-node>
             </test>
          </x:expect>
@@ -284,7 +292,9 @@
          <x:expect test="false()" select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario5" xspec="../../serialize.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario5"
+               xspec="../../serialize.xspec">
       <x:label>When the result contains an element, the report HTML must serialize nodes in its
 			opening tag with aligned indentation. (xspec/xspec#689) So...</x:label>
       <x:scenario id="scenario5-scenario1" xspec="../../serialize.xspec">
@@ -295,7 +305,7 @@
                <x:param select="$test"/>
             </x:call>
             <x:result select="/element()">
-               <looooooooooooooooooooooooooooooooooong>
+               <looooooooooooooooooooooooooooooooooong xmlns="">
                   <test xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3" xmlns="ns">
                      <a/>
                   </test>
@@ -320,7 +330,7 @@
                <x:label>[Expected Result] with diff must be serialized with aligned
 						indentation.</x:label>
                <x:expect select="/element()">
-                  <looooooooooooooooooooooooooooooooooong>
+                  <looooooooooooooooooooooooooooooooooong xmlns="">
                      <test xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3" xmlns="ns">
                         <a/>
                      </test>
@@ -337,7 +347,7 @@
                <x:param select="$test"/>
             </x:call>
             <x:result select="/element()">
-               <looooooooooooooooooooooooooooooooooong>
+               <looooooooooooooooooooooooooooooooooong xmlns="">
                   <test attr1="val1" attr2="val2" attr3="val3">
                      <a/>
                   </test>
@@ -362,7 +372,7 @@
                <x:label>[Expected Result] with diff must be serialized with aligned
 						indentation.</x:label>
                <x:expect select="/element()">
-                  <looooooooooooooooooooooooooooooooooong>
+                  <looooooooooooooooooooooooooooooooooong xmlns="">
                      <test attr1="val1" attr2="val2" attr3="val3">
                         <a/>
                      </test>
@@ -372,21 +382,23 @@
          </x:scenario>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario6" xspec="../../serialize.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario6"
+               xspec="../../serialize.xspec">
       <x:label>When the result contains attribute,</x:label>
       <x:call function="one-or-more">
          <x:param>
-            <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
-            <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
-            <orphan attr1="value1" attr2="" attr3="..."/>
+            <exact-match xmlns="" attr1="value1" attr2="value2" attr3="" attr4=""/>
+            <name-match xmlns="" attr1="value1" attr2="value2" attr3="" attr4="..."/>
+            <orphan xmlns="" attr1="value1" attr2="" attr3="..."/>
          </x:param>
       </x:call>
       <x:scenario id="scenario6-scenario1" xspec="../../serialize.xspec">
          <x:label>both in [Result] and [Expected Result] with diff,</x:label>
          <x:result select="/element()">
-            <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
-            <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
-            <orphan attr1="value1" attr2="" attr3="..."/>
+            <exact-match xmlns="" attr1="value1" attr2="value2" attr3="" attr4=""/>
+            <name-match xmlns="" attr1="value1" attr2="value2" attr3="" attr4="..."/>
+            <orphan xmlns="" attr1="value1" attr2="" attr3="..."/>
          </x:result>
          <x:test id="scenario6-scenario1-expect1" successful="false">
             <x:label>The exact-match (taking '...' into account) attributes must be serialized
@@ -394,18 +406,18 @@
 					palePink="solidPink". The orphan attributes must be serialized as
 					solidPink="solidPink" regardless of their values.</x:label>
             <x:expect select="/element()">
-               <exact-match attr1="value1" attr2="..." attr3="" attr4="..."/>
-               <name-match attr1="VALUE1" attr2="" attr3="value3" attr4="value4"/>
-               <orphan attr4="value4" attr5="" attr6="..."/>
+               <exact-match xmlns="" attr1="value1" attr2="..." attr3="" attr4="..."/>
+               <name-match xmlns="" attr1="VALUE1" attr2="" attr3="value3" attr4="value4"/>
+               <orphan xmlns="" attr4="value4" attr5="" attr6="..."/>
             </x:expect>
          </x:test>
       </x:scenario>
       <x:scenario id="scenario6-scenario2" xspec="../../serialize.xspec">
          <x:label>in [Result] without diff,</x:label>
          <x:result select="/element()">
-            <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
-            <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
-            <orphan attr1="value1" attr2="" attr3="..."/>
+            <exact-match xmlns="" attr1="value1" attr2="value2" attr3="" attr4=""/>
+            <name-match xmlns="" attr1="value1" attr2="value2" attr3="" attr4="..."/>
+            <orphan xmlns="" attr1="value1" attr2="" attr3="..."/>
          </x:result>
          <x:test id="scenario6-scenario2-expect1" successful="false">
             <x:label>all the attributes must be serialized without color.</x:label>
@@ -413,14 +425,16 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario7" xspec="../../serialize.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario7"
+               xspec="../../serialize.xspec">
       <x:label>When the result contains processing instructions,</x:label>
       <x:call function="one-or-more">
          <x:param>
-            <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
-            <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
-            <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
-            <no-match>
+            <exact-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
+            <name-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
+            <value-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+            <no-match xmlns="">
                <different-kind><?node1 value1?>
                   <node2/>
                   <?node3?>
@@ -437,10 +451,10 @@
       <x:scenario id="scenario7-scenario1" xspec="../../serialize.xspec">
          <x:label>both in [Result] and [Expected Result] with diff,</x:label>
          <x:result select="/element()">
-            <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
-            <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
-            <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
-            <no-match>
+            <exact-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
+            <name-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
+            <value-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+            <no-match xmlns="">
                <different-kind><?node1 value1?>
                   <node2/>
                   <?node3?>
@@ -462,10 +476,10 @@
 					instructions must be serialized as &lt;?solidPink solidPink?&gt;
 					regardless of their values.</x:label>
             <x:expect select="/element()">
-               <exact-match><?node1 value1?><?node2 ...?><?node3?><?node4 ...?></exact-match>
-               <name-match><?node1 VALUE1?><?node2?><?node3 value3?><?node4 value4?></name-match>
-               <value-match><?NODE1 value1?><?NODE2 ...?><?NODE3?><?NODE4 ...?></value-match>
-               <no-match>
+               <exact-match xmlns=""><?node1 value1?><?node2 ...?><?node3?><?node4 ...?></exact-match>
+               <name-match xmlns=""><?node1 VALUE1?><?node2?><?node3 value3?><?node4 value4?></name-match>
+               <value-match xmlns=""><?NODE1 value1?><?NODE2 ...?><?NODE3?><?NODE4 ...?></value-match>
+               <no-match xmlns="">
                   <different-kind>
                      <node1/>
                      <?node2 value2?>
@@ -484,10 +498,10 @@
       <x:scenario id="scenario7-scenario2" xspec="../../serialize.xspec">
          <x:label>in [Result] without diff,</x:label>
          <x:result select="/element()">
-            <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
-            <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
-            <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
-            <no-match>
+            <exact-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
+            <name-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
+            <value-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+            <no-match xmlns="">
                <different-kind><?node1 value1?>
                   <node2/>
                   <?node3?>
@@ -506,4 +520,4 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-</x:report>
+</report>

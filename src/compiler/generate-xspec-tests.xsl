@@ -123,7 +123,7 @@
                </xsl:choose>
 
                <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-                  <xsl:attribute name="name" select="x:xspec-name('report', .)" />
+                  <xsl:attribute name="name" select="'report'" />
                   <xsl:attribute name="namespace" select="$x:xspec-namespace" />
 
                   <xsl:variable name="attributes" as="attribute()+">
@@ -298,6 +298,8 @@
                <xsl:choose>
                   <xsl:when test="self::x:apply or self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
+                     <!-- TODO: Undeclare the default namespace in the wrapper element, because
+                        x:param/@select may use the default namespace such as xs:QName('foo'). -->
                      <xsl:apply-templates select="." mode="test:create-node-generator" />
                   </xsl:when>
                   <xsl:when test="self::x:variable">
@@ -806,6 +808,8 @@
                   </if>
                </xsl:if>
 
+               <!-- TODO: Undeclare the default namespace in the wrapper element, because x:expect/@test
+                  may use the default namespace such as xs:QName('foo'). -->
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:variable-UQName(.)}" />
                   <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}"

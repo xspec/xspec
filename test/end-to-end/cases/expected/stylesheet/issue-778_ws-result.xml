@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-778_ws.xspec"
-          stylesheet="../../issue-778_ws.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-778_ws.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-778_ws.xspec"
+        stylesheet="../../issue-778_ws.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../issue-778_ws.xspec">
       <x:label>When transforming DITA</x:label>
       <x:context href="../../issue-778_ws.dita"/>
-      <x:result select="/text()"># My Title<test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
-</test:ws>
-         <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
-</test:ws>This is a topic.<test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
-</test:ws>
-         <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
-</test:ws>This is a paragraph.<test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">
-</test:ws>
+      <x:result select="/text()"># My Title<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+</ws>
+         <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+</ws>This is a topic.<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+</ws>
+         <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+</ws>This is a paragraph.<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+</ws>
       </x:result>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>we get markdown</x:label>
@@ -26,4 +28,4 @@ This is a paragraph.
 </x:expect>
       </x:test>
    </x:scenario>
-</x:report>
+</report>

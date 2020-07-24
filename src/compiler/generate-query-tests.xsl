@@ -50,23 +50,13 @@
    <xsl:template match="x:description" as="node()+" mode="x:generate-tests">
       <xsl:variable name="this" select="." as="element(x:description)" />
 
-      <!-- Look for a prefix defined for the target namespace on x:description. -->
-      <xsl:variable name="sut-prefix" as="xs:string?" select="
-          in-scope-prefixes($this)[
-            namespace-uri-for-prefix(., $this) eq xs:anyURI($this/@query)
-          ][1]"/>
-
       <!-- Version declaration -->
       <xsl:text expand-text="yes">xquery version "{($this/@xquery-version, '3.1')[1]}";&#x0A;</xsl:text>
 
       <!-- Import module to be tested -->
       <xsl:text>&#x0A;</xsl:text>
       <xsl:text>(: the tested library module :)&#10;</xsl:text>
-      <xsl:text>import module </xsl:text>
-      <xsl:if test="exists($sut-prefix)">
-         <xsl:text expand-text="yes">namespace {$sut-prefix} = </xsl:text>
-      </xsl:if>
-      <xsl:text expand-text="yes">"{$this/@query}"</xsl:text>
+      <xsl:text expand-text="yes">import module "{$this/@query}"</xsl:text>
       <xsl:if test="exists($query-at)">
          <xsl:text expand-text="yes">&#x0A;at "{$query-at}"</xsl:text>
       </xsl:if>
@@ -92,7 +82,7 @@
       <xsl:text>&#x0A;</xsl:text>
 
       <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes. -->
-      <xsl:for-each select="x:copy-of-namespaces($this)[not(name() = ('', $sut-prefix))]">
+      <xsl:for-each select="x:copy-of-namespaces($this)[name() (: Exclude the default namespace :)]">
          <xsl:text expand-text="yes">declare namespace {name()} = "{string()}";&#x0A;</xsl:text>
       </xsl:for-each>
 
@@ -122,7 +112,7 @@
 
       <!-- <x:report> -->
       <xsl:text>element { </xsl:text>
-      <xsl:value-of select="QName($x:xspec-namespace, x:xspec-name('report', $this)) => x:QName-expression()" />
+      <xsl:value-of select="QName($x:xspec-namespace, 'report') => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
       <xsl:call-template name="test:create-zero-or-more-node-generators">
@@ -284,6 +274,8 @@
             <xsl:sequence select="x:label(.)" />
 
             <!-- Copy the input to the test result report XML -->
+            <!-- TODO: Undeclare the default namespace in the wrapper element, because x:param/@select may
+               use the default namespace such as xs:QName('foo'). -->
             <xsl:sequence select="x:call" />
          </xsl:with-param>
       </xsl:call-template>
@@ -495,6 +487,8 @@
             <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
+         <!-- TODO: Undeclare the default namespace in the wrapper element, because x:expect/@test may use
+            the default namespace such as xs:QName('foo'). -->
          <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(&#x0A;</xsl:text>
          <xsl:text expand-text="yes">${x:variable-UQName(.)},&#x0A;</xsl:text>
          <xsl:text expand-text="yes">'{name()}'</xsl:text>

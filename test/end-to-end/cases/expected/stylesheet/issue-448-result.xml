@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-448.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-448.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-448.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../issue-448.xspec">
       <x:label>x:scenario/</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../issue-448.xspec">
          <x:label>x:label containing }{ should not affect test</x:label>
@@ -24,4 +26,4 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-</x:report>
+</report>

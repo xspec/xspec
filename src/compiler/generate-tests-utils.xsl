@@ -478,7 +478,9 @@
 
    <xsl:template match="text()[not(normalize-space())]" as="element(test:ws)"
       mode="test:report-node">
-      <xsl:element name="test:ws" namespace="{$x:legacy-namespace}">
+      <!-- This element name is not 'test:ws' but 'ws'. This prefix-less name is a workaround for
+         https://sourceforge.net/p/saxon/mailman/message/37066342/ -->
+      <xsl:element name="ws" namespace="{$x:legacy-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
    </xsl:template>

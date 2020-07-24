@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../coverage-no-hit.xspec"
-          stylesheet="../../coverage-no-hit.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../coverage-no-hit.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../coverage-no-hit.xspec"
+        stylesheet="../../coverage-no-hit.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../coverage-no-hit.xspec">
       <x:label>Testing a stylesheet without any matching context</x:label>
       <x:context/>
       <x:result select="()"/>
@@ -12,4 +14,4 @@
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>
