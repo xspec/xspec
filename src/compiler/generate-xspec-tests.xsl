@@ -652,8 +652,6 @@
       </xsl:variable>
 
       <template name="{x:known-UQName('x:' || $expect-id)}" as="element({x:known-UQName('x:test')})">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
-
          <xsl:for-each select="$param-uqnames">
             <param name="{.}" required="yes" />
          </xsl:for-each>
@@ -709,11 +707,25 @@
                      <choose>
                         <when test="count(${x:known-UQName('impl:test-items')}) eq 1">
                            <for-each select="${x:known-UQName('impl:test-items')}">
-                              <sequence select="{ @test }" version="{ $xslt-version }" />
+                              <xsl:element name="xsl:sequence" namespace="{$x:xsl-namespace}">
+                                 <!-- @test may use namespace prefixes and/or the default namespace
+                                    such as xs:QName('foo') -->
+                                 <xsl:sequence select="x:copy-of-namespaces(.)" />
+
+                                 <xsl:attribute name="select" select="@test" />
+                                 <xsl:attribute name="version" select="$xslt-version" />
+                              </xsl:element>
                            </for-each>
                         </when>
                         <otherwise>
-                           <sequence select="{ @test }" version="{ $xslt-version }" />
+                           <xsl:element name="xsl:sequence" namespace="{$x:xsl-namespace}">
+                              <!-- @test may use namespace prefixes and/or the default namespace
+                                 such as xs:QName('foo') -->
+                              <xsl:sequence select="x:copy-of-namespaces(.)" />
+
+                              <xsl:attribute name="select" select="@test" />
+                              <xsl:attribute name="version" select="$xslt-version" />
+                           </xsl:element>
                         </otherwise>
                      </choose>
                   </variable>
