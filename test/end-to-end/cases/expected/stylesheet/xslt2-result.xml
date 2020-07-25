@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../xslt2.xspec"
-          stylesheet="../../../../xslt1.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../../../xslt1.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../xslt2.xspec"
+        stylesheet="../../../../xslt1.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../../../xslt1.xspec">
       <x:label>With 2 text nodes</x:label>
       <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" template="text-nodes"/>
       <x:scenario id="scenario1-scenario1" xspec="../../../../xslt1.xspec">
@@ -61,4 +63,4 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-</x:report>
+</report>

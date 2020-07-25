@@ -69,7 +69,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       </xsl:message>
       <!-- set up the result document (the report) -->
       <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}xml-report-serialization-parameters">
-         <xsl:element name="x:report" namespace="http://www.jenitennison.com/xslt/xspec">
+         <xsl:element name="report" namespace="http://www.jenitennison.com/xslt/xspec">
             <xsl:attribute name="xspec" namespace="">.../compilation-simple-suite.xspec</xsl:attribute>
             <xsl:attribute name="stylesheet" namespace="">.../compilation-simple-suite.xsl</xsl:attribute>
             <xsl:attribute name="date" namespace="" select="current-dateTime()"/>
@@ -108,7 +108,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 xquery version "3.1";
 
 (: the tested library module :)
-import module namespace my = "http://example.org/ns/my"
+import module "http://example.org/ns/my"
 at ".../compilation-simple-suite.xqm";
 
 (: XSpec library modules providing tools :)
@@ -117,6 +117,7 @@ at ".../src/compiler/generate-query-utils.xqm";
 import module "http://www.jenitennison.com/xslt/xspec"
 at ".../src/common/xspec-utils.xqm";
 
+declare namespace my = "http://example.org/ns/my";
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";
 declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}parameter-document ".../xml-report-serialization-parameters.xml";
 declare variable $Q{http://www.jenitennison.com/xslt/xspec}xspec-uri as xs:anyURI := (
@@ -149,7 +150,7 @@ $Q{http://www.jenitennison.com/xslt/xspec}result
 (: the query body of this main module, to run the suite :)
 (: set up the result document (the report) :)
 document {
-element { QName('http://www.jenitennison.com/xslt/xspec', 'x:report') } {
+element { QName('http://www.jenitennison.com/xslt/xspec', 'report') } {
 attribute { QName('', 'xspec') } { '.../compilation-simple-suite.xspec' },
 attribute { QName('', 'query') } { 'http://example.org/ns/my' },
 attribute { QName('', 'query-at') } { '.../compilation-simple-suite.xqm' },
@@ -633,11 +634,9 @@ this accessibility.
    <xsl:variable name="Q{http://example.org/ns/my/variable}select" select="'value'"/>
 
    <!-- $myv:href -->
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-uri"
-                 as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../test-data.xml</xsl:variable>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-doc"
                  as="document-node()"
-                 select="doc($Q{urn:x-xspec:compile:impl}variable-...-uri)"/>
+                 select="doc('.../test-data.xml')"/>
    <xsl:variable name="Q{http://example.org/ns/my/variable}href"
                  select="$Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )"/>
 
@@ -674,11 +673,8 @@ let $Q{http://example.org/ns/my/variable}select := (
 )
 
 (: $myv:href :)
-let $Q{urn:x-xspec:compile:impl}variable-...-uri as xs:anyURI := (
-xs:anyURI(".../test-data.xml")
-)
 let $Q{urn:x-xspec:compile:impl}variable-...-doc as document-node() := (
-doc($Q{urn:x-xspec:compile:impl}variable-...-uri)
+doc('.../test-data.xml')
 )
 let $Q{http://example.org/ns/my/variable}href := (
 $Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )

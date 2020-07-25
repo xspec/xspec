@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../tvt_label.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../tvt_label.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../tvt_label.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../tvt_label.xspec">
       <x:label>With @expand-text=yes</x:label>
       <x:scenario id="scenario1-scenario1" xspec="../../tvt_label.xspec">
          <x:label>}}{scenario}{{</x:label>
@@ -33,7 +35,9 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../tvt_label.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../tvt_label.xspec">
       <x:label>With @expand-text=no</x:label>
       <x:scenario id="scenario2-scenario1" xspec="../../tvt_label.xspec">
          <x:label>}}{scenario}{{</x:label>
@@ -54,4 +58,4 @@
          </x:test>
       </x:scenario>
    </x:scenario>
-</x:report>
+</report>

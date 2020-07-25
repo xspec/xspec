@@ -100,7 +100,11 @@
   </xsl:variable>
 
   <!-- Output xmlns="" to undeclare the default namespace -->
-  <xsl:if test="exists($parent-namespaces[name() = '']) and empty($namespaces[name() = ''])">
+  <xsl:if
+    test="
+      ($level ge 1)
+      and exists($parent-namespaces[name() = ''])
+      and empty($namespaces[name() = ''])">
     <xsl:text> xmlns=""</xsl:text>
   </xsl:if>
 

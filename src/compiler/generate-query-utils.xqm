@@ -355,7 +355,9 @@ declare function test:report-node(
     ) as node()
 {
   if (($node instance of text()) and not(normalize-space($node))) then
-    element test:ws { $node }
+    (: This element name is not 'test:ws' but 'ws'. This prefix-less name is a workaround for
+      https://sourceforge.net/p/saxon/mailman/message/37066342/ :)
+    element { QName($x:legacy-namespace, 'ws') } { $node }
   else if ( $node instance of document-node() ) then
     document {
       for $child in $node/child::node() return test:report-node($child)

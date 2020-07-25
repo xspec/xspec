@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../focus-1.xspec"
-          stylesheet="../../../../square.xsl"
-          date="2000-01-01T00:00:00Z">
-   <t:scenario id="scenario1"
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../focus-1.xspec"
+        stylesheet="../../../../square.xsl"
+        date="2000-01-01T00:00:00Z">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
                xspec="../../focus-1.xspec"
                pending="testing @focus of a correct scenario">
       <t:label>an unfocused correct scenario must be Pending</t:label>
@@ -16,7 +17,8 @@
          <t:label>it would return Success if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario2"
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
                xspec="../../focus-1.xspec"
                pending="testing @focus of a correct scenario">
       <t:label>an unfocused incorrect scenario must be Pending</t:label>
@@ -29,7 +31,9 @@
          <t:label>it would return Failure if it were not Pending</t:label>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario3" xspec="../../focus-1.xspec">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../focus-1.xspec">
       <t:label>a focused correct scenario</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -42,7 +46,9 @@
          <t:expect select="9"/>
       </t:test>
    </t:scenario>
-   <t:scenario id="scenario4" xspec="../../focus-1.xspec">
+   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               id="scenario4"
+               xspec="../../focus-1.xspec">
       <t:label>a focused incorrect scenario</t:label>
       <t:call xmlns:my="http://example.org/ns/my"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -58,4 +64,4 @@
                    select="()"/>
       </t:test>
    </t:scenario>
-</t:report>
+</report>

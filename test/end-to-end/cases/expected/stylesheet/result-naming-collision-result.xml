@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../result-naming-collision.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../result-naming-collision.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../result-naming-collision.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../result-naming-collision.xspec">
       <x:label>scenario 1</x:label>
       <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
          <x:param href="../../result-naming-collision.xml"/>
@@ -14,7 +16,9 @@
          <x:expect href="HREF-3"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../result-naming-collision.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../result-naming-collision.xspec">
       <x:label>scenario 2</x:label>
       <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
          <x:param href="../../result-naming-collision.xml"/>
@@ -25,7 +29,9 @@
          <x:expect href="HREF-6"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario3" xspec="../../result-naming-collision.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario3"
+               xspec="../../result-naming-collision.xspec">
       <x:label>When the result consists of multiple elements (xspec/xspec#361)</x:label>
       <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
          <x:param href="../../result-naming-collision.xml" select="., ."/>
@@ -41,8 +47,8 @@
       <x:test id="scenario3-expect2" successful="false">
          <x:label>The result should be saved successfully in yet another external file which is well-formed</x:label>
          <x:expect select="/element()">
-            <foo xmlns:mirror="x-urn:test:mirror"/>
+            <foo xmlns:mirror="x-urn:test:mirror" xmlns=""/>
          </x:expect>
       </x:test>
    </x:scenario>
-</x:report>
+</report>
