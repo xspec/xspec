@@ -60,23 +60,6 @@
          </xsl:if>
       </xsl:variable>
 
-      <!-- URIQualifiedName of the temporary runtime variable which holds the resolved URI of @href -->
-      <xsl:variable name="temp-uri-uqname" as="xs:string?">
-         <xsl:if test="$temp-doc-uqname and @href">
-            <xsl:sequence
-               select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-uri')" />
-         </xsl:if>
-      </xsl:variable>
-
-      <xsl:if test="$temp-uri-uqname">
-         <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="$temp-uri-uqname" />
-            <xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
-
-            <xsl:value-of select="resolve-uri(@href, base-uri())" />
-         </xsl:element>
-      </xsl:if>
-
       <xsl:if test="$temp-doc-uqname">
          <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
             <xsl:attribute name="name" select="$temp-doc-uqname" />
@@ -85,7 +68,7 @@
             <xsl:choose>
                <xsl:when test="@href">
                   <xsl:attribute name="select">
-                     <xsl:text expand-text="yes">doc(${$temp-uri-uqname})</xsl:text>
+                     <xsl:text expand-text="yes">doc({@href => resolve-uri(base-uri()) => x:quote-with-apos()})</xsl:text>
                   </xsl:attribute>
                </xsl:when>
 

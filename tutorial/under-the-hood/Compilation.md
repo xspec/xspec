@@ -92,9 +92,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    </xsl:template>
 
    <!-- generated from the x:expect element -->
-   <xsl:template xmlns:my="http://example.org/ns/my"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
+   <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
                  as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
       ...
    </xsl:template>
@@ -219,9 +217,7 @@ result as parameter.
 </xsl:template>
 
 <!-- generated from the x:expect element -->
-<xsl:template xmlns:my="http://example.org/ns/my"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
+<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <xsl:message>expectations</xsl:message>
@@ -242,11 +238,17 @@ result as parameter.
       <xsl:choose>
          <xsl:when test="count($Q{urn:x-xspec:compile:impl}test-items) eq 1">
             <xsl:for-each select="$Q{urn:x-xspec:compile:impl}test-items">
-               <xsl:sequence select="$x:result = 1" version="2"/>
+               <xsl:sequence xmlns:my="http://example.org/ns/my"
+                             xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                             select="$x:result = 1"
+                             version="3"/>
             </xsl:for-each>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="$x:result = 1" version="2"/>
+            <xsl:sequence xmlns:my="http://example.org/ns/my"
+                          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                          select="$x:result = 1"
+                          version="3"/>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
@@ -525,11 +527,7 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
 </xsl:template>
 
 <!-- generated from the x:expect element -->
-<xsl:template xmlns:my="http://example.org/ns/my"
-              xmlns:myv="http://example.org/ns/my/variable"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
+<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <xsl:param name="Q{http://example.org/ns/my/variable}var" required="yes"/>
@@ -634,11 +632,9 @@ this accessibility.
    <xsl:variable name="Q{http://example.org/ns/my/variable}select" select="'value'"/>
 
    <!-- $myv:href -->
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-uri"
-                 as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../test-data.xml</xsl:variable>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-doc"
                  as="document-node()"
-                 select="doc($Q{urn:x-xspec:compile:impl}variable-...-uri)"/>
+                 select="doc('.../test-data.xml')"/>
    <xsl:variable name="Q{http://example.org/ns/my/variable}href"
                  select="$Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )"/>
 
@@ -675,11 +671,8 @@ let $Q{http://example.org/ns/my/variable}select := (
 )
 
 (: $myv:href :)
-let $Q{urn:x-xspec:compile:impl}variable-...-uri as xs:anyURI := (
-xs:anyURI(".../test-data.xml")
-)
 let $Q{urn:x-xspec:compile:impl}variable-...-doc as document-node() := (
-doc($Q{urn:x-xspec:compile:impl}variable-...-uri)
+doc('.../test-data.xml')
 )
 let $Q{http://example.org/ns/my/variable}href := (
 $Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )
@@ -817,10 +810,7 @@ and functions in XQuery).
 </xsl:template>
 
 <!-- generated from the expect one -->
-<xsl:template xmlns:my="http://example.org/ns/my"
-              xmlns:myv="http://example.org/ns/my/variable"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1"
+<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <!-- the variables are passed as param -->
@@ -831,10 +821,7 @@ and functions in XQuery).
 </xsl:template>
 
 <!-- generated from the expect two -->
-<xsl:template xmlns:my="http://example.org/ns/my"
-              xmlns:myv="http://example.org/ns/my/variable"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect2"
+<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect2"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <!-- the variables are passed as param -->

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/schematron/generate-step3-wrapper.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:param name="ACTUAL-PREPROCESSOR-URI" select="'uri-of-actual-step3-preprocessor'" />
+
+	<x:scenario label="With $ACTUAL-PREPROCESSOR-URI">
+		<x:context href="../tutorial/schematron/demo-02-PhaseA.xspec" />
+		<x:expect>
+			<x:label><![CDATA[
+				- The given preprocessor should be imported.
+				- patch-step3.xsl should not be imported.
+				- $x:schematron-uri global parameter should be generated.
+				- /x:description/x:param should be transformed into /xsl:stylesheet/xsl:param.
+			]]></x:label>
+			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
+				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+				<xsl:import href="uri-of-actual-step3-preprocessor" />
+				<xsl:variable as="document-node()" name="...">
+					<xsl:document>
+						<xsl:text x:expand-text="yes">{resolve-uri('../tutorial/schematron/demo-02.sch', $x:xspec-uri)}</xsl:text>
+					</xsl:document>
+				</xsl:variable>
+				<xsl:param as="Q{{http://www.w3.org/2001/XMLSchema}}anyURI"
+					name="Q{{http://www.jenitennison.com/xslt/xspec}}schematron-uri" select="..." />
+				<xsl:variable as="document-node()" name="...">
+					<xsl:document>
+						<xsl:text>PhaseA</xsl:text>
+					</xsl:document>
+				</xsl:variable>
+				<xsl:param name="Q{{}}phase" select="..." />
+			</xsl:stylesheet>
+		</x:expect>
+	</x:scenario>
+
+</x:description>
