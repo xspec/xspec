@@ -19,7 +19,10 @@
       </x:result>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>[Result] in the failure report HTML must wrap element and string separately</x:label>
-         <x:expect xmlns:test-mix="x-urn:test-mix" test="false()" select="()"/>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:test-mix="x-urn:test-mix" test="false()"/>
+         </expect-test-wrap>
+         <x:expect select="()"/>
       </x:test>
    </x:scenario>
 </report>

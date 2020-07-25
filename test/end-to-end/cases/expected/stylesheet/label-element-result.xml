@@ -21,7 +21,10 @@
 &#xD; Expectation	
 &#xD; 	
 &#xD; </x:label>
-         <x:expect test="false()" select="()"/>
+         <expect-test-wrap xmlns="">
+            <x:expect test="false()"/>
+         </expect-test-wrap>
+         <x:expect select="()"/>
       </x:test>
    </x:scenario>
    <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -42,7 +45,10 @@
 &#xD; Expectation	
 &#xD; 	
 &#xD; </x:label>
-         <x:expect test="false()" select="()"/>
+         <expect-test-wrap xmlns="">
+            <x:expect test="false()"/>
+         </expect-test-wrap>
+         <x:expect select="()"/>
       </x:test>
    </x:scenario>
    <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -63,7 +69,10 @@
 &#xD; Expectation	
 &#xD; 	
 &#xD; </x:label>
-         <x:expect test="false()" select="()"/>
+         <expect-test-wrap xmlns="">
+            <x:expect test="false()"/>
+         </expect-test-wrap>
+         <x:expect select="()"/>
       </x:test>
    </x:scenario>
 </report>

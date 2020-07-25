@@ -13,16 +13,19 @@
          <x:result select="/text()">12</x:result>
          <x:test id="scenario1-scenario1-expect1" successful="true">
             <x:label>Result should be text nodes</x:label>
-            <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      test="$x:result instance of text()+"
-                      select="()"/>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         test="$x:result instance of text()+"/>
+            </expect-test-wrap>
+            <x:expect select="()"/>
          </x:test>
          <x:test id="scenario1-scenario1-expect2" successful="true">
             <x:label>Result count should be 2</x:label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema" test="count($x:result)"/>
+            </expect-test-wrap>
             <x:result select="2"/>
-            <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      test="count($x:result)"
-                      select="2"/>
+            <x:expect select="2"/>
          </x:test>
       </x:scenario>
       <x:scenario id="scenario1-scenario2" xspec="../../../../xslt1.xspec">
@@ -55,11 +58,13 @@
          <x:result select="/text()">12</x:result>
          <x:test id="scenario1-scenario3-expect1" successful="false">
             <x:label>Expecting the compiled stylesheet to have version=1.0</x:label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                         test="document('')/xsl:stylesheet/@version/string()"/>
+            </expect-test-wrap>
             <x:result select="'2.0'"/>
-            <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                      test="document('')/xsl:stylesheet/@version/string()"
-                      select="'1.0'"/>
+            <x:expect select="'1.0'"/>
          </x:test>
       </x:scenario>
    </x:scenario>

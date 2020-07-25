@@ -484,7 +484,7 @@
 
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:known-UQName('x:result')}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
+                  <with-param name="report-name" as="{x:known-UQName('xs:string')}">
                      <xsl:value-of select="x:xspec-name('result', .)" />
                   </with-param>
                </call-template>
@@ -798,40 +798,62 @@
             <!-- Report -->
             <xsl:if test="not($pending-p)">
                <xsl:if test="@test">
+                  <xsl:call-template name="x:report-test-attribute" />
+
                   <if test="not(${x:known-UQName('impl:boolean-test')})">
                      <call-template name="{x:known-UQName('test:report-sequence')}">
                         <with-param name="sequence" select="${x:known-UQName('impl:test-result')}" />
-                        <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
+                        <with-param name="report-name" as="{x:known-UQName('xs:string')}">
                            <xsl:value-of select="x:xspec-name('result', .)" />
                         </with-param>
                      </call-template>
                   </if>
                </xsl:if>
 
-               <!-- TODO: Undeclare the default namespace in the wrapper element, because x:expect/@test
-                  may use the default namespace such as xs:QName('foo'). -->
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:variable-UQName(.)}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}"
-                     select="'{name()}'" />
-
-                  <xsl:if test="@test">
-                     <with-param name="test-attr" as="attribute(test)">
-                        <xsl:apply-templates select="@test" mode="test:create-node-generator" />
-                     </with-param>
-                     <with-param name="additional-namespaces" as="namespace-node()*">
-                        <!-- $test-attr may use namespace prefixes and/or the default namespace such
-                           as xs:QName('foo') -->
-                        <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
-                           mode="test:create-node-generator" />
-                     </with-param>
-                  </xsl:if>
+                  <with-param name="report-name" select="'{name()}'" />
                </call-template>
             </xsl:if>
 
          <!-- </x:test> -->
          </xsl:element>
       </template>
+   </xsl:template>
+
+   <xsl:template name="x:report-test-attribute" as="element(xsl:element)">
+      <xsl:context-item as="element(x:expect)" use="required" />
+
+      <!-- Undeclare the default namespace in the wrapper element, because @test may use the default
+         namespace such as xs:QName('foo'). -->
+      <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+         <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
+         <xsl:with-param name="node-generators" as="element(xsl:element)">
+            <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="name" select="name()" />
+               <xsl:attribute name="namespace" select="namespace-uri()" />
+
+               <!-- @test may use namespace prefixes and/or the default namespace such as
+                  xs:QName('foo') -->
+               <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
+                  mode="test:create-node-generator" />
+
+               <xsl:apply-templates select="@test" mode="test:create-node-generator" />
+            </xsl:element>
+         </xsl:with-param>
+      </xsl:call-template>
+   </xsl:template>
+
+   <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="element(xsl:element)">
+      <xsl:param name="wrapper-name" as="xs:string" />
+      <xsl:param name="node-generators" as="element()" />
+
+      <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="$wrapper-name" />
+         <xsl:attribute name="namespace" />
+
+         <xsl:sequence select="$node-generators" />
+      </xsl:element>
    </xsl:template>
 
    <!--

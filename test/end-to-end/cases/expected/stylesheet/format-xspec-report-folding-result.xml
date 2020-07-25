@@ -62,11 +62,13 @@
       <t:result select="4"/>
       <t:test id="scenario4-expect1" successful="false">
          <t:label>must execute the test and return Failure</t:label>
-         <t:expect xmlns:my="http://example.org/ns/my"
-                   xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                   test="$t:result instance of xs:string"
-                   select="()"/>
+         <expect-test-wrap xmlns="">
+            <t:expect xmlns:my="http://example.org/ns/my"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      test="$t:result instance of xs:string"/>
+         </expect-test-wrap>
+         <t:expect select="()"/>
       </t:test>
    </t:scenario>
 </report>

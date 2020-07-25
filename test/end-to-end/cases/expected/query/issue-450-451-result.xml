@@ -35,15 +35,17 @@
       <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <x:test id="scenario2-expect1" successful="true">
          <x:label>should work</x:label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      test="$global-param treat as node()+"/>
+         </expect-test-wrap>
          <x:result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
                   xmlns:myv="http://example.org/ns/my/variable"
                   xmlns=""
                   attr="}{">}{</elem>
          </x:result>
-         <x:expect xmlns:mirror="x-urn:test:mirror"
-                   xmlns:myv="http://example.org/ns/my/variable"
-                   test="$global-param treat as node()+"
-                   select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+         <x:expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
          </x:expect>
       </x:test>
    </x:scenario>
@@ -57,15 +59,17 @@
       <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <x:test id="scenario3-expect1" successful="true">
          <x:label>should work</x:label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      test="$myv:global-var treat as node()+"/>
+         </expect-test-wrap>
          <x:result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
                   xmlns:myv="http://example.org/ns/my/variable"
                   xmlns=""
                   attr="}{">}{</elem>
          </x:result>
-         <x:expect xmlns:mirror="x-urn:test:mirror"
-                   xmlns:myv="http://example.org/ns/my/variable"
-                   test="$myv:global-var treat as node()+"
-                   select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+         <x:expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
          </x:expect>
       </x:test>
    </x:scenario>

@@ -21,7 +21,10 @@
          </x:test>
          <x:test id="scenario1-scenario1-expect2" successful="false">
             <x:label>[Result] without diff must be serialized as &lt;!-- --&gt;.</x:label>
-            <x:expect test="false()" select="()"/>
+            <expect-test-wrap xmlns="">
+               <x:expect test="false()"/>
+            </expect-test-wrap>
+            <x:expect select="()"/>
          </x:test>
       </x:scenario>
       <x:scenario id="scenario1-scenario2" xspec="../../serialize.xspec">
@@ -73,7 +76,10 @@
             <x:test id="scenario2-scenario1-scenario1-expect2" successful="false">
                <x:label>all elements in [Result] without diff must be serialized with
 						indentation.</x:label>
-               <x:expect test="false()" select="()"/>
+               <expect-test-wrap xmlns="">
+                  <x:expect test="false()"/>
+               </expect-test-wrap>
+               <x:expect select="()"/>
             </x:test>
          </x:scenario>
          <x:scenario id="scenario2-scenario1-scenario2" xspec="../../serialize.xspec">
@@ -290,7 +296,10 @@
       <x:test id="scenario4-expect2" successful="false">
          <x:label>in [Result] without diff, the significant text nodes must be serialized without
 				color.</x:label>
-         <x:expect test="false()" select="()"/>
+         <expect-test-wrap xmlns="">
+            <x:expect test="false()"/>
+         </expect-test-wrap>
+         <x:expect select="()"/>
       </x:test>
    </x:scenario>
    <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -320,7 +329,10 @@
             <x:test id="scenario5-scenario1-scenario1-expect2" successful="false">
                <x:label>[Result] without diff must be serialized with aligned
 						indentation.</x:label>
-               <x:expect test="false()" select="()"/>
+               <expect-test-wrap xmlns="">
+                  <x:expect test="false()"/>
+               </expect-test-wrap>
+               <x:expect select="()"/>
             </x:test>
          </x:scenario>
          <x:scenario id="scenario5-scenario1-scenario2" xspec="../../serialize.xspec">
@@ -362,7 +374,10 @@
             <x:test id="scenario5-scenario2-scenario1-expect2" successful="false">
                <x:label>[Result] without diff must be serialized with aligned
 						indentation.</x:label>
-               <x:expect test="false()" select="()"/>
+               <expect-test-wrap xmlns="">
+                  <x:expect test="false()"/>
+               </expect-test-wrap>
+               <x:expect select="()"/>
             </x:test>
          </x:scenario>
          <x:scenario id="scenario5-scenario2-scenario2" xspec="../../serialize.xspec">
@@ -422,7 +437,10 @@
          </x:result>
          <x:test id="scenario6-scenario2-expect1" successful="false">
             <x:label>all the attributes must be serialized without color.</x:label>
-            <x:expect test="false()" select="()"/>
+            <expect-test-wrap xmlns="">
+               <x:expect test="false()"/>
+            </expect-test-wrap>
+            <x:expect select="()"/>
          </x:test>
       </x:scenario>
    </x:scenario>
@@ -517,7 +535,10 @@
          </x:result>
          <x:test id="scenario7-scenario2-expect1" successful="false">
             <x:label>all the processing instructions must be serialized without color.</x:label>
-            <x:expect test="false()" select="()"/>
+            <expect-test-wrap xmlns="">
+               <x:expect test="false()"/>
+            </expect-test-wrap>
+            <x:expect select="()"/>
          </x:test>
       </x:scenario>
    </x:scenario>
