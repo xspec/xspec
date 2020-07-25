@@ -808,8 +808,7 @@
                   may use the default namespace such as xs:QName('foo'). -->
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:variable-UQName(.)}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}"
-                     select="'{name()}'" />
+                  <with-param name="wrapper-name" select="'{local-name()}'" />
 
                   <xsl:if test="@test">
                      <with-param name="test-attr" as="attribute(test)">

@@ -491,7 +491,7 @@
             the default namespace such as xs:QName('foo'). -->
          <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(&#x0A;</xsl:text>
          <xsl:text expand-text="yes">${x:variable-UQName(.)},&#x0A;</xsl:text>
-         <xsl:text expand-text="yes">'{name()}'</xsl:text>
+         <xsl:text expand-text="yes">'{local-name()}'</xsl:text>
          <xsl:if test="@test">
             <xsl:text>,&#x0A;</xsl:text>
             <xsl:text>( </xsl:text>
