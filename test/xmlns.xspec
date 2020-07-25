@@ -169,7 +169,7 @@
 			<x:expect label="even if reusing 'xs' prefix"
 				test="local-name($xs:globalvar) treat as xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 				xmlns:xs="http://example.org/ns/my/variable1" select="'globalvar'"/>
-			<x:expect label="even if reusing 'xsl' prefix?"
+			<x:expect label="even if reusing 'xsl' prefix"
 				test="local-name($xsl:globalvar)" xmlns:xsl="http://example.org/ns/my/variable1" select="'globalvar'"/>
 		</x:scenario>
 		<x:scenario label="relying on default element namespace">
