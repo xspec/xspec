@@ -48,8 +48,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:my="http://example.org/ns/my"
+                exclude-result-prefixes="#all"
                 version="3.0">
    <!-- the tested stylesheet -->
    <xsl:import href=".../compilation-simple-suite.xsl"/>
@@ -70,8 +69,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       </xsl:message>
       <!-- set up the result document (the report) -->
       <xsl:result-document format="Q{{http://www.jenitennison.com/xslt/xspec}}xml-report-serialization-parameters">
-         <xsl:element name="x:report" namespace="http://www.jenitennison.com/xslt/xspec">
-            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+         <xsl:element name="report" namespace="http://www.jenitennison.com/xslt/xspec">
             <xsl:attribute name="xspec" namespace="">.../compilation-simple-suite.xspec</xsl:attribute>
             <xsl:attribute name="stylesheet" namespace="">.../compilation-simple-suite.xsl</xsl:attribute>
             <xsl:attribute name="date" namespace="" select="current-dateTime()"/>
@@ -82,7 +80,9 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    </xsl:template>
 
    <!-- generated from the x:scenario element -->
-   <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
+   <xsl:template xmlns:my="http://example.org/ns/my"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
                  as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
       ...
       <!-- a call instruction for each x:expect element -->
@@ -106,7 +106,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 xquery version "3.1";
 
 (: the tested library module :)
-import module namespace my = "http://example.org/ns/my"
+import module "http://example.org/ns/my"
 at ".../compilation-simple-suite.xqm";
 
 (: XSpec library modules providing tools :)
@@ -115,6 +115,7 @@ at ".../src/compiler/generate-query-utils.xqm";
 import module "http://www.jenitennison.com/xslt/xspec"
 at ".../src/common/xspec-utils.xqm";
 
+declare namespace my = "http://example.org/ns/my";
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";
 declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}parameter-document ".../xml-report-serialization-parameters.xml";
 declare variable $Q{http://www.jenitennison.com/xslt/xspec}xspec-uri as xs:anyURI := (
@@ -147,8 +148,7 @@ $Q{http://www.jenitennison.com/xslt/xspec}result
 (: the query body of this main module, to run the suite :)
 (: set up the result document (the report) :)
 document {
-element { QName('http://www.jenitennison.com/xslt/xspec', 'x:report') } {
-namespace { "my" } { 'http://example.org/ns/my' },
+element { QName('http://www.jenitennison.com/xslt/xspec', 'report') } {
 attribute { QName('', 'xspec') } { '.../compilation-simple-suite.xspec' },
 attribute { QName('', 'query') } { 'http://example.org/ns/my' },
 attribute { QName('', 'query-at') } { '.../compilation-simple-suite.xqm' },
@@ -188,7 +188,9 @@ result as parameter.
 
 ```xml
 <!-- generated from the x:scenario element -->
-<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
+<xsl:template xmlns:my="http://example.org/ns/my"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    <xsl:message>scenario</xsl:message>
    <xsl:element name="x:scenario" namespace="http://www.jenitennison.com/xslt/xspec">
@@ -236,11 +238,17 @@ result as parameter.
       <xsl:choose>
          <xsl:when test="count($Q{urn:x-xspec:compile:impl}test-items) eq 1">
             <xsl:for-each select="$Q{urn:x-xspec:compile:impl}test-items">
-               <xsl:sequence select="$x:result = 1" version="2"/>
+               <xsl:sequence xmlns:my="http://example.org/ns/my"
+                             xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                             select="$x:result = 1"
+                             version="3"/>
             </xsl:for-each>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="$x:result = 1" version="2"/>
+            <xsl:sequence xmlns:my="http://example.org/ns/my"
+                          xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                          select="$x:result = 1"
+                          version="3"/>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
@@ -418,17 +426,20 @@ section "[Simple scenario](#simple-scenario)").
 </xsl:variable>
 
 <!-- "apply template rules on a node (with x:context)" -->
+<xsl:variable name="Q{urn:x-xspec:compile:impl}context-...-doc"
+              as="document-node()">
+   <xsl:document>
+      <xsl:element name="elem" namespace="">
+         <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
+         <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
+      </xsl:element>
+   </xsl:document>
+</xsl:variable>
+<xsl:variable name="Q{urn:x-xspec:compile:impl}context-..."
+              select="$Q{urn:x-xspec:compile:impl}context-...-doc ! ( node() )"/>
+<xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}context"
+              select="$Q{urn:x-xspec:compile:impl}context-..."/>
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}context-...-doc" as="document-node()">
-      <xsl:document>
-         <xsl:element name="elem" namespace="">
-            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
-            <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
-         </xsl:element>
-      </xsl:document>
-   </xsl:variable>
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}context-..."
-                 select="$Q{urn:x-xspec:compile:impl}context-...-doc ! ( node() )"/>
    <xsl:apply-templates select="$Q{urn:x-xspec:compile:impl}context-..."/>
 </xsl:variable>
 
@@ -494,7 +505,11 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
 
 ```xml
 <!-- generated from the x:scenario element -->
-<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
+<xsl:template xmlns:my="http://example.org/ns/my"
+              xmlns:myv="http://example.org/ns/my/variable"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    ...
    <!-- the generated variable -->
@@ -605,7 +620,11 @@ this accessibility.
 ### Stylesheet
 
 ```xml
-<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
+<xsl:template xmlns:my="http://example.org/ns/my"
+              xmlns:myv="http://example.org/ns/my/variable"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    ...
 
@@ -613,11 +632,9 @@ this accessibility.
    <xsl:variable name="Q{http://example.org/ns/my/variable}select" select="'value'"/>
 
    <!-- $myv:href -->
-   <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-uri"
-                 as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../test-data.xml</xsl:variable>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}variable-...-doc"
                  as="document-node()"
-                 select="doc($Q{urn:x-xspec:compile:impl}variable-...-uri)"/>
+                 select="doc('.../test-data.xml')"/>
    <xsl:variable name="Q{http://example.org/ns/my/variable}href"
                  select="$Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )"/>
 
@@ -654,11 +671,8 @@ let $Q{http://example.org/ns/my/variable}select := (
 )
 
 (: $myv:href :)
-let $Q{urn:x-xspec:compile:impl}variable-...-uri as xs:anyURI := (
-xs:anyURI(".../test-data.xml")
-)
 let $Q{urn:x-xspec:compile:impl}variable-...-doc as document-node() := (
-doc($Q{urn:x-xspec:compile:impl}variable-...-uri)
+doc('.../test-data.xml')
 )
 let $Q{http://example.org/ns/my/variable}href := (
 $Q{urn:x-xspec:compile:impl}variable-...-doc ! ( . )
@@ -730,11 +744,17 @@ and functions in XQuery).
 
 ```xml
 <!-- the generated global variable -->
-<xsl:variable name="Q{http://example.org/ns/my/variable}global"
+<xsl:variable xmlns:my="http://example.org/ns/my"
+              xmlns:myv="http://example.org/ns/my/variable"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              name="Q{http://example.org/ns/my/variable}global"
               select="'global-value'"/>
 
 <!-- generated from the scenario outer -->
-<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
+<xsl:template xmlns:my="http://example.org/ns/my"
+              xmlns:myv="http://example.org/ns/my/variable"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    <!-- the generated variable -->
    <xsl:variable name="Q{http://example.org/ns/my/variable}var-1" select="'var-1-value'" />
@@ -746,7 +766,10 @@ and functions in XQuery).
 </xsl:template>
 
 <!-- generated from the scenario inner -->
-<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1"
+<xsl:template xmlns:my="http://example.org/ns/my"
+              xmlns:myv="http://example.org/ns/my/variable"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    <!-- the variable is passed as param -->
    <xsl:param name="Q{http://example.org/ns/my/variable}var-1" required="yes"/>

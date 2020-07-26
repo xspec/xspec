@@ -192,11 +192,14 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">elem</span> /&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">elem</span> <span class="diff">attrib</span>=<span class="diff">"..."</span> /&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+      <span class="diff">attrib</span>=<span class="diff">"..."</span> /&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
@@ -219,11 +222,13 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">elem</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">elem</span>&gt;<span class="diff">text</span>&lt;/elem&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>&gt;<span class="diff">text</span>&lt;/elem&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
@@ -277,11 +282,14 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">elem</span> <span class="diff">attrib</span>=<span class="diff">"val"</span> /&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+      <span class="diff">attrib</span>=<span class="diff">"val"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">elem</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>&gt;<span class="diff">...</span>&lt;/elem&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
@@ -347,13 +355,15 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">outer</span>&gt;
+                           <pre>&lt;<span class="inner-diff">outer</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>&gt;
    &lt;<span class="same">inner</span> /&gt;
 &lt;/outer&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">outer</span>&gt;<span class="same">...</span>&lt;<span class="diff">inner</span> /&gt;
+                           <pre>&lt;<span class="inner-diff">outer</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>&gt;<span class="same">...</span>&lt;<span class="diff">inner</span> /&gt;
 &lt;/outer&gt;</pre>
                         </td>
                      </tr>
@@ -428,11 +438,15 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/*/@*</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">pseudo-attribute</span> <span class="inner-diff">attrib</span>=<span class="diff">"..."</span> /&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">pseudo-attribute</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
+                  <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+                  <span class="inner-diff">attrib</span>=<span class="diff">"..."</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/*/@*</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">pseudo-attribute</span> <span class="inner-diff">attrib</span>=<span class="diff">"val"</span> /&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">pseudo-attribute</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
+                  <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+                  <span class="inner-diff">attrib</span>=<span class="diff">"val"</span> /&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
@@ -865,7 +879,7 @@
                         <td>
                            <p>XPath <code class="same">/self::document-node()</code> from:</p>
                            <pre>&lt;?<span class="same">pi</span> <span class="same"></span>?&gt;<span class="diff">&lt;!--comment--&gt;</span>
-&lt;<span class="diff">elem</span> /&gt;</pre>
+&lt;<span class="diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/self::document-node()</code> from:</p>
@@ -1001,11 +1015,15 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/*/namespace::*</code> from:</p>
-                           <pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:prefix="..." /&gt;</pre>
+                           <pre>&lt;<span class="same">pseudo-namespace-node</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
+                       <span class="xmlns">xmlns:prefix="..."</span>
+                       <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/*/namespace::*</code> from:</p>
-                           <pre>&lt;<span class="same">pseudo-namespace-node</span> xmlns:prefix="namespace-uri" /&gt;</pre>
+                           <pre>&lt;<span class="same">pseudo-namespace-node</span> <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>
+                       <span class="xmlns">xmlns:prefix="namespace-uri"</span>
+                       <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
@@ -1068,8 +1086,10 @@
                      <tr>
                         <td>
                            <p>XPath <code class="diff">/element()</code> from:</p>
-                           <pre>&lt;<span class="same">elem1</span> /&gt;
-&lt;<span class="diff">elem2</span> /&gt;</pre>
+                           <pre>&lt;<span class="same">elem1</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;
+&lt;<span class="diff">elem2</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="diff">/text()</code> from:</p>
@@ -1093,8 +1113,10 @@
                      <tr>
                         <td>
                            <p>XPath <code class="diff">/element()</code> from:</p>
-                           <pre>&lt;<span class="diff">elem1</span> /&gt;
-&lt;<span class="diff">elem2</span> /&gt;</pre>
+                           <pre>&lt;<span class="diff">elem1</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;
+&lt;<span class="diff">elem2</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="diff">/text()</code> from:</p>
@@ -1118,8 +1140,10 @@
                      <tr>
                         <td>
                            <p>XPath <code class="diff">/element()</code> from:</p>
-                           <pre>&lt;<span class="diff">elem1</span> /&gt;
-&lt;<span class="diff">elem2</span> /&gt;</pre>
+                           <pre>&lt;<span class="diff">elem1</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;
+&lt;<span class="diff">elem2</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+       <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="diff">/text()</code> from:</p>

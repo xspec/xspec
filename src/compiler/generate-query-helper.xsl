@@ -63,31 +63,6 @@
          </xsl:if>
       </xsl:variable>
 
-      <!-- URIQualifiedName of the temporary runtime variable which holds the resolved URI of @href -->
-      <xsl:variable name="temp-uri-uqname" as="xs:string?">
-         <xsl:if test="$temp-doc-uqname and @href">
-            <xsl:sequence
-               select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-uri')" />
-         </xsl:if>
-      </xsl:variable>
-
-      <!--
-         Output
-            declare variable $TEMPORARYNAME-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF");
-         or
-                         let $TEMPORARYNAME-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
-      -->
-      <xsl:if test="$temp-uri-uqname">
-         <xsl:call-template name="test:declare-or-let-variable">
-            <xsl:with-param name="is-global" select="$is-global" />
-            <xsl:with-param name="name" select="$temp-uri-uqname" />
-            <xsl:with-param name="type" select="'xs:anyURI'" />
-            <xsl:with-param name="value" as="text()">
-               <xsl:text expand-text="yes">xs:anyURI("{resolve-uri(@href, base-uri())}")</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
-      </xsl:if>
-
       <!--
          Output
             declare variable $TEMPORARYNAME-doc as document-node() := DOCUMENT;
@@ -95,7 +70,7 @@
                          let $TEMPORARYNAME-doc as document-node() := DOCUMENT
          
          where DOCUMENT is
-            doc($TEMPORARYNAME-uri)
+            doc('RESOLVED-HREF')
          or
             document { NODE-GENERATORS }
       -->
@@ -107,7 +82,7 @@
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
                   <xsl:when test="@href">
-                     <xsl:text expand-text="yes">doc(${$temp-uri-uqname})</xsl:text>
+                     <xsl:text expand-text="yes">doc({@href => resolve-uri(base-uri()) => x:quote-with-apos()})</xsl:text>
                   </xsl:when>
 
                   <xsl:otherwise>
@@ -249,14 +224,7 @@
 
       <xsl:choose>
          <xsl:when test="x:is-user-content(.)">
-            <!-- AVT -->
-            <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
-               characters) should be escaped outside expressions. In other words,
-               attr="&gt; {0 &gt; 1} &lt; {0 &lt; 1}" should be treated as equal to
-               attr="&gt; false &lt; true". -->
-            <xsl:element name="temp" namespace="">
-               <xsl:value-of select="." />
-            </xsl:element>
+            <xsl:call-template name="test:avt-or-tvt" />
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="x:quote-with-apos(.)" />
@@ -266,18 +234,16 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="text()" as="text()+" mode="test:create-node-generator">
+   <xsl:template match="text()" as="node()+" mode="test:create-node-generator">
       <xsl:text>text { </xsl:text>
 
       <xsl:choose>
-         <!-- TODO: TVT
          <xsl:when test="x:is-user-content(.) and parent::x:text/@expand-text/x:yes-no-synonym(.)">
+            <xsl:call-template name="test:avt-or-tvt" />
          </xsl:when>
-         -->
-
-         <xsl:when test="true()">
+         <xsl:otherwise>
             <xsl:value-of select="x:quote-with-apos(.)" />
-         </xsl:when>
+         </xsl:otherwise>
       </xsl:choose>
 
       <xsl:text> }</xsl:text>
@@ -301,6 +267,26 @@
    <xsl:template match="x:text" as="node()+" mode="test:create-node-generator">
       <!-- Unwrap -->
       <xsl:apply-templates mode="#current" />
+   </xsl:template>
+
+   <xsl:template name="test:avt-or-tvt" as="node()+">
+      <xsl:context-item as="node()" use="required" />
+
+      <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
+         characters) should be escaped outside expressions. In other words, an attribute
+         attr="&gt; {0 &gt; 1} &lt; {0 &lt; 1}" in user-content in an XSpec file should be treated
+         as equal to attr="&gt; false &lt; true". -->
+      <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
+         created element does not pollute the namespaces copied for AVT/TVT. -->
+      <xsl:element name="{x:xspec-name('dummy', parent::element())}"
+         namespace="{$x:xspec-namespace}">
+         <!-- AVT/TVT may use namespace prefixes and/or the default namespace such as
+            xs:QName('foo') -->
+         <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
+
+         <xsl:attribute name="vt" select="." />
+      </xsl:element>
+      <xsl:text>/@vt</xsl:text>
    </xsl:template>
 
    <xsl:template name="test:create-zero-or-more-node-generators" as="node()+">

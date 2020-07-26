@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-355.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-355.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-355.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../issue-355.xspec">
       <x:label>xs:integer()</x:label>
-      <x:call function="Q{x-urn:test:mirror}param-mirror">
+      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="function(*)" select="function-lookup(xs:QName('xs:integer'), 1)"/>
       </x:call>
       <x:result select="/*">
-         <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">xs:integer#1</pseudo-function>
+         <pseudo-function>xs:integer#1</pseudo-function>
       </x:result>
       <x:test id="scenario1-expect1" successful="false">
          <x:label>Fail deliberately</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-   <x:scenario id="scenario2" xspec="../../issue-355.xspec">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario2"
+               xspec="../../issue-355.xspec">
       <x:label>Anonymous</x:label>
-      <x:call function="Q{x-urn:test:mirror}param-mirror">
+      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              function="Q{x-urn:test:mirror}param-mirror">
          <x:param as="function(*)" select="function($x){$x+1}"/>
       </x:call>
       <x:result select="/*">
-         <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">(anonymous-function)#1</pseudo-function>
+         <pseudo-function>(anonymous-function)#1</pseudo-function>
       </x:result>
       <x:test id="scenario2-expect1" successful="false">
          <x:label>Fail deliberately</x:label>
          <x:expect select="()"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>

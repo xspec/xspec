@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-153.xspec"
-          stylesheet="../../../../do-nothing.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-153.xspec">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-153.xspec"
+        stylesheet="../../../../do-nothing.xsl"
+        date="2000-01-01T00:00:00Z">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               id="scenario1"
+               xspec="../../issue-153.xspec">
       <x:label>When a function returns a local date time string</x:label>
-      <x:call function="string">
+      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="string">
          <x:param select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
       </x:call>
       <x:result select="'2000-01-01T12:00:00+12:00'"/>
       <x:test id="scenario1-expect1" successful="true">
          <x:label>Comparing the function result with the same date time in UTC will report Success</x:label>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T12:00:00+12:00')"/>
-         <x:expect test="xs:dateTime($x:result)"
+         <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   test="xs:dateTime($x:result)"
                    select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T00:00:00Z')"/>
       </x:test>
       <x:test id="scenario1-expect2" successful="false">
          <x:label>Comparing the function result with a different date time will report Failure</x:label>
          <x:result select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T12:00:00+12:00')"/>
-         <x:expect test="xs:dateTime($x:result)"
+         <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   test="xs:dateTime($x:result)"
                    select="Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-01T00:00:00Z')"/>
       </x:test>
    </x:scenario>
-</x:report>
+</report>

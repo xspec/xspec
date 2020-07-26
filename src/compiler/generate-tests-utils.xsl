@@ -288,7 +288,7 @@
 
       <xsl:param name="sequence" as="item()*" required="yes" />
       <xsl:param name="wrapper-name" as="xs:string" required="yes" />
-      <xsl:param name="wrapper-ns" as="xs:string" select="'http://www.jenitennison.com/xslt/xspec'" />
+      <xsl:param name="wrapper-ns" as="xs:string" select="$x:xspec-namespace" />
       <xsl:param name="test-attr" as="attribute(test)?" />
       <xsl:param name="additional-namespaces" as="namespace-node()*" />
 
@@ -478,7 +478,9 @@
 
    <xsl:template match="text()[not(normalize-space())]" as="element(test:ws)"
       mode="test:report-node">
-      <xsl:element name="test:ws" namespace="{$x:legacy-namespace}">
+      <!-- This element name is not 'test:ws' but 'ws'. This prefix-less name is a workaround for
+         https://sourceforge.net/p/saxon/mailman/message/37066342/ -->
+      <xsl:element name="ws" namespace="{$x:legacy-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
    </xsl:template>

@@ -104,7 +104,7 @@
                         </td>
                         <td>
                            <p>XPath <code class="diff">/self::document-node()</code> from:</p>
-                           <pre>&lt;<span class="diff">foo</span> xmlns:mirror="x-urn:test:mirror" /&gt;</pre>
+                           <pre>&lt;<span class="diff">foo</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
@@ -210,7 +210,9 @@
                         </td>
                         <td>
                            <p>XPath <code class="diff">/element()</code> from:</p>
-                           <pre>&lt;<span class="diff">foo</span> xmlns:mirror="x-urn:test:mirror" /&gt;</pre>
+                           <pre>&lt;<span class="diff">foo</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+     <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+     <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
                         </td>
                      </tr>
                   </tbody>

@@ -8,24 +8,6 @@
 		/x:description/@stylesheet.
 	-->
 
-	<x:scenario label="Scenario for testing variable legacy-namespace">
-		<x:context />
-		<x:expect label="'test' namespace URI"
-			select="
-				namespace-uri-for-prefix(
-					'test',
-					doc(resolve-uri('../src/compiler/generate-tests-utils.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:legacy-namespace treat as xs:anyURI" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing variable xspec-namespace">
-		<x:context />
-		<x:expect label="XSpec namespace URI"
-			select="doc($x:xspec-uri)/element() => namespace-uri()"
-			test="$x:xspec-namespace treat as xs:anyURI" />
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing variable xs-namespace">
 		<x:context />
 		<x:expect label="'xs' namespace URI"
@@ -929,7 +911,7 @@
 			test="
 				x:QName-exactly-equal(
 					$x:result[1],
-					QName('http://www.jenitennison.com/xslt/xspec', 'element-without-prefix')
+					QName($x:xspec-namespace, 'element-without-prefix')
 				)" />
 		<x:expect label="2nd QName"
 			test="
