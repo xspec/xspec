@@ -25,8 +25,7 @@
 		</x:call>
 		<x:like label="Expect stylesheet" />
 		<x:expect label="xsl:sequence has no extra namespaces" select="()"
-			test="exactly-one(descendant::xsl:sequence)/namespace::*[not(name() = ('xml', 'xsl'))]"
-		 />
+			test="x:copy-of-namespaces(descendant::xsl:sequence)[not(name() = ('xml', 'xsl'))]" />
 	</x:scenario>
 
 	<x:scenario label="With namespace nodes">
@@ -40,8 +39,7 @@
 		</x:call>
 		<x:like label="Expect stylesheet" />
 		<x:expect label="xsl:sequence has only the given namespace" select="$myv:namespace-node"
-			test="exactly-one(descendant::xsl:sequence)/namespace::*[not(name() = ('xml', 'xsl'))]"
-		 />
+			test="x:copy-of-namespaces(descendant::xsl:sequence)[not(name() = ('xml', 'xsl'))]" />
 	</x:scenario>
 
 </x:description>
