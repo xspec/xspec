@@ -72,11 +72,12 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">e1</span> xmlns="ns1"
-    xmlns:mirror="x-urn:test:mirror"&gt;
-   &lt;<span class="diff">e2</span> xmlns="ns2"
-       xmlns:ns3="ns3"
-       xmlns:ns4="ns4"&gt;
+                           <pre>&lt;<span class="inner-diff">e1</span> <span class="xmlns">xmlns="ns1"</span>
+    <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+    <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;<span class="diff">e2</span> <span class="xmlns">xmlns="ns2"</span>
+       <span class="xmlns">xmlns:ns3="ns3"</span>
+       <span class="xmlns">xmlns:ns4="ns4"</span>&gt;
       &lt;<span class="diff">ns3:e3</span>&gt;
          &lt;<span class="diff">e4</span> /&gt;
       &lt;/ns3:e3&gt;
@@ -85,13 +86,14 @@
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">e1</span> xmlns="ns1"
-    xmlns:mirror="x-urn:test:mirror"&gt;
-   &lt;<span class="diff">e2</span> xmlns="ns2!"
-       xmlns:ns3="ns3"
-       xmlns:ns4="ns4"&gt;
-      &lt;<span class="diff">ns3:e3</span> xmlns:ns3="ns3!"&gt;
-         &lt;<span class="diff">e4</span> xmlns="" /&gt;
+                           <pre>&lt;<span class="inner-diff">e1</span> <span class="xmlns">xmlns="ns1"</span>
+    <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+    <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;<span class="diff">e2</span> <span class="xmlns">xmlns="ns2!"</span>
+       <span class="xmlns">xmlns:ns3="ns3"</span>
+       <span class="xmlns">xmlns:ns4="ns4"</span>&gt;
+      &lt;<span class="diff">ns3:e3</span> <span class="xmlns">xmlns:ns3="ns3!"</span>&gt;
+         &lt;<span class="diff">e4</span> <span class="xmlns">xmlns=""</span> /&gt;
       &lt;/ns3:e3&gt;
    &lt;/e2&gt;
 &lt;/e1&gt;</pre>
