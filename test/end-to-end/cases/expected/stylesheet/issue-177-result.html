@@ -81,7 +81,7 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:</p>
-                           <pre>&lt;foo /&gt;</pre>
+                           <pre>&lt;foo <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
                         </td>
                         <td>
                            <pre>empty($x:result/self::element(foo))</pre>
@@ -106,11 +106,11 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="diff">foo</span> /&gt;</pre>
+                           <pre>&lt;<span class="diff">foo</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
-                           <pre>&lt;<span class="diff">bar</span> /&gt;</pre>
+                           <pre>&lt;<span class="diff">bar</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
