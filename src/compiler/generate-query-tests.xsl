@@ -500,35 +500,6 @@
       <xsl:text>};&#x0A;</xsl:text>
    </xsl:template>
 
-   <xsl:template name="x:report-test-attribute" as="text()+">
-      <xsl:context-item as="element(x:expect)" use="required" />
-
-      <!-- Undeclare the default namespace in the wrapper element, because @test may use the default
-         namespace such as xs:QName('foo'). -->
-      <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
-         <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
-         <xsl:with-param name="node-generators" as="text()+">
-            <!-- <x:expect> -->
-            <xsl:text>element { </xsl:text>
-            <xsl:value-of select="node-name() => x:QName-expression()" />
-            <xsl:text> } {&#x0A;</xsl:text>
-
-            <xsl:call-template name="test:create-zero-or-more-node-generators">
-               <xsl:with-param name="nodes" as="node()+">
-                  <!-- @test may use namespace prefixes and/or the default namespace such as
-                     xs:QName('foo') -->
-                  <xsl:sequence select="x:element-additional-namespace-nodes(.)" />
-
-                  <xsl:sequence select="@test" />
-               </xsl:with-param>
-            </xsl:call-template>
-
-            <!-- </x:expect> -->
-            <xsl:text>}&#x0A;</xsl:text>
-         </xsl:with-param>
-      </xsl:call-template>
-   </xsl:template>
-
    <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="node()+">
       <xsl:param name="wrapper-name" as="xs:string" />
       <xsl:param name="node-generators" as="node()+" />
