@@ -39,18 +39,18 @@
             - the generator (xsl:element) of the x:scenario element
             - the generator (xsl:element) of the x:scenario/x:label element
          </t:label>
-         <xsl:template name="Q{{http://www.jenitennison.com/xslt/xspec}}scenario1"
+         <xsl:template name="Q{{http://www.jenitennison.com/xslt/xspec}}dummy-scenario-id"
                        as="element(Q{{http://www.jenitennison.com/xslt/xspec}}scenario)">
-            <xsl:message>my label</xsl:message>
+            <xsl:message>my scenario label</xsl:message>
             <xsl:element name="t:scenario"
                          namespace="http://www.jenitennison.com/xslt/xspec">
                <xsl:attribute name="id"
-                              namespace="">scenario1</xsl:attribute>
+                              namespace="">dummy-scenario-id</xsl:attribute>
                <xsl:attribute name="xspec"
                               namespace="" />
                <xsl:element name="t:label"
                             namespace="http://www.jenitennison.com/xslt/xspec">
-                  <xsl:text>my label</xsl:text>
+                  <xsl:text>my scenario label</xsl:text>
                </xsl:element>
             </xsl:element>
          </xsl:template>
