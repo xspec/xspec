@@ -4,16 +4,15 @@
         stylesheet="tvt_label_schematron-sch-preprocessed.xsl"
         schematron="../../tvt_label.sch"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../tvt_label_schematron.xspec">
-      <x:label>With @expand-text=yes</x:label>
-      <x:scenario id="scenario1-scenario1" xspec="../../tvt_label_schematron.xspec">
-         <x:label>}}{scenario}{{</x:label>
-         <x:context select="self::document-node()">
+   <scenario id="scenario1" xspec="../../tvt_label_schematron.xspec">
+      <label>With @expand-text=yes</label>
+      <scenario id="scenario1-scenario1" xspec="../../tvt_label_schematron.xspec">
+         <label>}}{scenario}{{</label>
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
             <context-child xmlns=""/>
          </x:context>
-         <x:result select="/element()">
+         <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -29,19 +28,20 @@
                <svrl:active-pattern document=""/>
                <svrl:fired-rule context="context-child"/>
             </svrl:schematron-output>
-         </x:result>
-         <x:test id="scenario1-scenario1-expect1" successful="true">
-            <x:label>valid</x:label>
-            <x:expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
-                      select="()"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario1-scenario2" xspec="../../tvt_label_schematron.xspec">
-         <x:label>}}{scenario}{{</x:label>
-         <x:context select="self::document-node()">
+         </result>
+         <test id="scenario1-scenario1-expect1" successful="true">
+            <label>valid</label>
+            <expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
+                    select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../tvt_label_schematron.xspec">
+         <label>}}{scenario}{{</label>
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
             <context-child xmlns=""/>
          </x:context>
-         <x:result select="/element()">
+         <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -57,19 +57,20 @@
                <svrl:active-pattern document=""/>
                <svrl:fired-rule context="context-child"/>
             </svrl:schematron-output>
-         </x:result>
-         <x:test id="scenario1-scenario2-expect1" successful="true">
-            <x:label>valid</x:label>
-            <x:expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
-                      select="()"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario1-scenario3" xspec="../../tvt_label_schematron.xspec">
-         <x:label>}}{scenario}{{</x:label>
-         <x:context select="self::document-node()">
+         </result>
+         <test id="scenario1-scenario2-expect1" successful="true">
+            <label>valid</label>
+            <expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
+                    select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3" xspec="../../tvt_label_schematron.xspec">
+         <label>}}{scenario}{{</label>
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
             <context-child xmlns=""/>
          </x:context>
-         <x:result select="/element()">
+         <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -85,24 +86,23 @@
                <svrl:active-pattern document=""/>
                <svrl:fired-rule context="context-child"/>
             </svrl:schematron-output>
-         </x:result>
-         <x:test id="scenario1-scenario3-expect1" successful="true">
-            <x:label>valid</x:label>
-            <x:expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
-                      select="()"/>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario2"
-               xspec="../../tvt_label_schematron.xspec">
-      <x:label>With @expand-text=no</x:label>
-      <x:scenario id="scenario2-scenario1" xspec="../../tvt_label_schematron.xspec">
-         <x:label>}}{scenario}{{</x:label>
-         <x:context select="self::document-node()">
+         </result>
+         <test id="scenario1-scenario3-expect1" successful="true">
+            <label>valid</label>
+            <expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
+                    select="()"/>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario2" xspec="../../tvt_label_schematron.xspec">
+      <label>With @expand-text=no</label>
+      <scenario id="scenario2-scenario1" xspec="../../tvt_label_schematron.xspec">
+         <label>}}{scenario}{{</label>
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
             <context-child xmlns=""/>
          </x:context>
-         <x:result select="/element()">
+         <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -118,19 +118,20 @@
                <svrl:active-pattern document=""/>
                <svrl:fired-rule context="context-child"/>
             </svrl:schematron-output>
-         </x:result>
-         <x:test id="scenario2-scenario1-expect1" successful="true">
-            <x:label>valid</x:label>
-            <x:expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
-                      select="()"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario2-scenario2" xspec="../../tvt_label_schematron.xspec">
-         <x:label>}}{scenario}{{</x:label>
-         <x:context select="self::document-node()">
+         </result>
+         <test id="scenario2-scenario1-expect1" successful="true">
+            <label>valid</label>
+            <expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
+                    select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario2-scenario2" xspec="../../tvt_label_schematron.xspec">
+         <label>}}{scenario}{{</label>
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
             <context-child xmlns=""/>
          </x:context>
-         <x:result select="/element()">
+         <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
                                     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -146,12 +147,12 @@
                <svrl:active-pattern document=""/>
                <svrl:fired-rule context="context-child"/>
             </svrl:schematron-output>
-         </x:result>
-         <x:test id="scenario2-scenario2-expect1" successful="true">
-            <x:label>valid</x:label>
-            <x:expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
-                      select="()"/>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
+         </result>
+         <test id="scenario2-scenario2-expect1" successful="true">
+            <label>valid</label>
+            <expect test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"
+                    select="()"/>
+         </test>
+      </scenario>
+   </scenario>
 </report>

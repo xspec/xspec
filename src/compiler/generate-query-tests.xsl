@@ -259,7 +259,7 @@
 
       <!-- <x:scenario> -->
       <xsl:text>element { </xsl:text>
-      <xsl:value-of select="QName($x:xspec-namespace, x:xspec-name('scenario', .)) => x:QName-expression()" />
+      <xsl:value-of select="QName(namespace-uri(), local-name()) => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
       <xsl:call-template name="test:create-zero-or-more-node-generators">
@@ -302,7 +302,7 @@
             <xsl:text>)&#x0A;</xsl:text>
 
             <xsl:text>return (&#x0A;</xsl:text>
-            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, '{x:xspec-name('result', .)}'),&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, 'result'),&#x0A;</xsl:text>
 
             <xsl:text>&#x0A;</xsl:text>
             <xsl:text>(: a call instruction for each x:expect element :)&#x0A;</xsl:text>
@@ -454,7 +454,7 @@
 
       <!-- <x:test> -->
       <xsl:text>element { </xsl:text>
-      <xsl:value-of select="QName($x:xspec-namespace, x:xspec-name('test', .)) => x:QName-expression()" />
+      <xsl:value-of select="QName(namespace-uri(), 'test') => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
       <xsl:call-template name="test:create-zero-or-more-node-generators">
@@ -483,7 +483,7 @@
             <xsl:text>(&#x0A;</xsl:text>
             <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
             <xsl:text>then ()&#x0A;</xsl:text>
-            <xsl:text expand-text="yes">else {x:known-UQName('test:report-sequence')}($local:test-result, '{x:xspec-name('result', .)}')&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">else {x:known-UQName('test:report-sequence')}($local:test-result, 'result')&#x0A;</xsl:text>
             <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
@@ -491,7 +491,7 @@
             the default namespace such as xs:QName('foo'). -->
          <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(&#x0A;</xsl:text>
          <xsl:text expand-text="yes">${x:variable-UQName(.)},&#x0A;</xsl:text>
-         <xsl:text expand-text="yes">'{name()}'</xsl:text>
+         <xsl:text expand-text="yes">'{local-name()}'</xsl:text>
          <xsl:if test="@test">
             <xsl:text>,&#x0A;</xsl:text>
             <xsl:text>( </xsl:text>

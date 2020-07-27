@@ -3,15 +3,13 @@
         xspec="../../coverage-no-hit.xspec"
         stylesheet="../../coverage-no-hit.xsl"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../coverage-no-hit.xspec">
-      <x:label>Testing a stylesheet without any matching context</x:label>
-      <x:context/>
-      <x:result select="()"/>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>should be reported as 'not used' in the coverage report</x:label>
-         <x:expect select="()"/>
-      </x:test>
-   </x:scenario>
+   <scenario id="scenario1" xspec="../../coverage-no-hit.xspec">
+      <label>Testing a stylesheet without any matching context</label>
+      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+      <result select="()"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>should be reported as 'not used' in the coverage report</label>
+         <expect select="()"/>
+      </test>
+   </scenario>
 </report>

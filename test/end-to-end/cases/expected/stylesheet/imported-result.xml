@@ -3,30 +3,30 @@
         xspec="../../imported.xspec"
         stylesheet="../../../../square.xsl"
         date="2000-01-01T00:00:00Z">
-   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../imported.xspec">
-      <t:label>a correct scenario in an imported file</t:label>
-      <t:call xmlns:my="http://example.org/ns/my" function="my:square">
+   <scenario id="scenario1" xspec="../../imported.xspec">
+      <label>a correct scenario in an imported file</label>
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:t="http://www.jenitennison.com/xslt/xspec"
+              function="my:square">
          <t:param select="3"/>
       </t:call>
-      <t:result select="9"/>
-      <t:test id="scenario1-expect1" successful="true">
-         <t:label>must return Success</t:label>
-         <t:expect select="9"/>
-      </t:test>
-   </t:scenario>
-   <t:scenario xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               id="scenario2"
-               xspec="../../imported.xspec">
-      <t:label>an incorrect scenario in an imported file</t:label>
-      <t:call xmlns:my="http://example.org/ns/my" function="my:square">
+      <result select="9"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>must return Success</label>
+         <expect select="9"/>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../imported.xspec">
+      <label>an incorrect scenario in an imported file</label>
+      <t:call xmlns:my="http://example.org/ns/my"
+              xmlns:t="http://www.jenitennison.com/xslt/xspec"
+              function="my:square">
          <t:param select="2"/>
       </t:call>
-      <t:result select="4"/>
-      <t:test id="scenario2-expect1" successful="false">
-         <t:label>must return Failure</t:label>
-         <t:expect select="42"/>
-      </t:test>
-   </t:scenario>
+      <result select="4"/>
+      <test id="scenario2-expect1" successful="false">
+         <label>must return Failure</label>
+         <expect select="42"/>
+      </test>
+   </scenario>
 </report>
