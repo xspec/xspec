@@ -43,7 +43,7 @@ helper =
 	## The test runner will import this stylesheet (XSLT) or query (XQuery) module after importing
 	## the SUT module.
 	## Specifying an XSLT package will just insert the equivalent <xsl:use-package> in the test
-	## runner. To get the inserted <xsl:use-package> work, the user should set up a Saxon
+	## runner. To make the inserted <xsl:use-package> work, the user should set up a Saxon
 	## configuration and specify the package information in it. The Saxon configuration is usually
 	## set up by SAXON_CUSTOM_OPTIONS (CLI) or saxon.custom.options (Ant).
 	## XSLT ignores query modules. XQuery ignores stylesheets and packages.
