@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../rule.xspec"
-          stylesheet="../../rule.xsl"
-          date="2000-01-01T00:00:00Z">
-   <t:scenario id="scenario1" xspec="../../rule.xspec">
-      <t:label>x:context with correct x:expect</t:label>
-      <t:context>
-         <rule/>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../rule.xspec"
+        stylesheet="../../rule.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../rule.xspec">
+      <label>x:context with correct x:expect</label>
+      <t:context xmlns:t="http://www.jenitennison.com/xslt/xspec">
+         <rule xmlns=""/>
       </t:context>
-      <t:result select="/element()">
-         <transformed/>
-      </t:result>
-      <t:test id="scenario1-expect1" successful="true">
-         <t:label>must return Success</t:label>
-         <t:expect select="/element()">
-            <transformed/>
-         </t:expect>
-      </t:test>
-   </t:scenario>
-   <t:scenario id="scenario2" xspec="../../rule.xspec">
-      <t:label>x:context with incorrect x:expect</t:label>
-      <t:context>
-         <rule/>
+      <result select="/element()">
+         <transformed xmlns=""/>
+      </result>
+      <test id="scenario1-expect1" successful="true">
+         <label>must return Success</label>
+         <expect select="/element()">
+            <transformed xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+         </expect>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../rule.xspec">
+      <label>x:context with incorrect x:expect</label>
+      <t:context xmlns:t="http://www.jenitennison.com/xslt/xspec">
+         <rule xmlns=""/>
       </t:context>
-      <t:result select="/element()">
-         <transformed/>
-      </t:result>
-      <t:test id="scenario2-expect1" successful="false">
-         <t:label>must return Failure</t:label>
-         <t:expect select="/element()">
-            <erroneous/>
-         </t:expect>
-      </t:test>
-   </t:scenario>
-</t:report>
+      <result select="/element()">
+         <transformed xmlns=""/>
+      </result>
+      <test id="scenario2-expect1" successful="false">
+         <label>must return Failure</label>
+         <expect select="/element()">
+            <erroneous xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+         </expect>
+      </test>
+   </scenario>
+</report>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-467.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-467.xspec">
-      <x:label>Testing namespace differences</x:label>
-      <x:call function="mirror:param-mirror">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-467.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-467.xspec">
+      <label>Testing namespace differences</label>
+      <x:call xmlns:mirror="x-urn:test:mirror"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              function="mirror:param-mirror">
          <x:param>
             <e1 xmlns="ns1">
                <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2">
@@ -17,26 +18,30 @@
             </e1>
          </x:param>
       </x:call>
-      <x:result select="/element()">
-         <e1 xmlns="ns1">
+      <result select="/element()">
+         <e1 xmlns:mirror="x-urn:test:mirror"
+             xmlns:x="http://www.jenitennison.com/xslt/xspec"
+             xmlns="ns1">
             <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2">
                <ns3:e3>
                   <e4/>
                </ns3:e3>
             </e2>
          </e1>
-      </x:result>
-      <x:test id="scenario1-expect1" successful="false">
-         <x:label>Expecting the same structure but in different namespaces</x:label>
-         <x:expect select="/element()">
-            <e1 xmlns="ns1">
+      </result>
+      <test id="scenario1-expect1" successful="false">
+         <label>Expecting the same structure but in different namespaces</label>
+         <expect select="/element()">
+            <e1 xmlns:mirror="x-urn:test:mirror"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns="ns1">
                <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2!">
                   <ns3:e3 xmlns:ns3="ns3!">
                      <e4 xmlns=""/>
                   </ns3:e3>
                </e2>
             </e1>
-         </x:expect>
-      </x:test>
-   </x:scenario>
-</x:report>
+         </expect>
+      </test>
+   </scenario>
+</report>

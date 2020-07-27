@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-346.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-346.xspec">
-      <x:label>When a function returns a node containing a space</x:label>
-      <x:call function="mirror:param-mirror">
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-346.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-346.xspec">
+      <label>When a function returns a node containing a space</label>
+      <x:call xmlns:mirror="x-urn:test:mirror"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              function="mirror:param-mirror">
          <x:param as="element(p)" href="../../issue-346.xml" select="element(p)"/>
       </x:call>
-      <x:result select="/element()">
-         <p>
+      <result select="/element()">
+         <p xmlns="">
             <span>foo</span>
-            <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"> </test:ws>
+            <ws xmlns="http://www.jenitennison.com/xslt/unit-test"> </ws>
             <span>bar</span>
          </p>
-      </x:result>
-      <x:test id="scenario1-expect1" successful="false">
-         <x:label>Expecting no space should be Failure</x:label>
-         <x:expect select="/element()">
-            <p>
+      </result>
+      <test id="scenario1-expect1" successful="false">
+         <label>Expecting no space should be Failure</label>
+         <expect select="/element()">
+            <p xmlns:mirror="x-urn:test:mirror"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns="">
                <span>foo</span>
                <span>bar</span>
             </p>
-         </x:expect>
-      </x:test>
-   </x:scenario>
-</x:report>
+         </expect>
+      </test>
+   </scenario>
+</report>
