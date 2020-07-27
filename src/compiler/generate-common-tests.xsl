@@ -188,7 +188,8 @@
       </xsl:if>
    </xsl:template>
 
-   <!-- TODO: Perhaps, @query-at hint should not always be resolved??? (e.g. for MarkLogic) -->
+   <!-- TODO: Perhaps, @query-at hint should not always be resolved???
+      (See https://github.com/xspec/xspec/blob/6d2442dc938cb233b815c4cc2b43f4eb2a075ccb/src/compiler/generate-query-tests.xsl#L41) -->
    <xsl:template match="@href | (@query-at | @stylesheet)[parent::x:helper]" as="attribute()"
       mode="x:gather-specs">
       <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
