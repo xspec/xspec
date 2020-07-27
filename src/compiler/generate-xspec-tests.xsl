@@ -269,8 +269,8 @@
 
          <!-- <x:scenario> -->
          <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="x:xspec-name('scenario', .)" />
-            <xsl:attribute name="namespace" select="$x:xspec-namespace" />
+            <xsl:attribute name="name" select="local-name()" />
+            <xsl:attribute name="namespace" select="namespace-uri()" />
 
             <xsl:variable name="scenario-attributes" as="attribute()+">
                <xsl:sequence select="@id" />
@@ -475,9 +475,7 @@
 
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:known-UQName('x:result')}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                     <xsl:value-of select="x:xspec-name('result', .)" />
-                  </with-param>
+                  <with-param name="wrapper-name" select="'result'" />
                </call-template>
                <xsl:comment> a call instruction for each x:expect element </xsl:comment>
             </xsl:if>
@@ -760,8 +758,8 @@
 
          <!-- <x:test> -->
          <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="x:xspec-name('test', .)" />
-            <xsl:attribute name="namespace" select="$x:xspec-namespace" />
+            <xsl:attribute name="name" select="'test'" />
+            <xsl:attribute name="namespace" select="namespace-uri()" />
 
             <xsl:variable name="test-element-attributes" as="attribute()+">
                <xsl:sequence select="@id" />
@@ -788,9 +786,7 @@
                   <if test="not(${x:known-UQName('impl:boolean-test')})">
                      <call-template name="{x:known-UQName('test:report-sequence')}">
                         <with-param name="sequence" select="${x:known-UQName('impl:test-result')}" />
-                        <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                           <xsl:value-of select="x:xspec-name('result', .)" />
-                        </with-param>
+                        <with-param name="wrapper-name" select="'result'" />
                      </call-template>
                   </if>
                </xsl:if>
@@ -799,8 +795,7 @@
                   may use the default namespace such as xs:QName('foo'). -->
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:variable-UQName(.)}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}"
-                     select="'{name()}'" />
+                  <with-param name="wrapper-name" select="'{local-name()}'" />
 
                   <xsl:if test="@test">
                      <with-param name="test-attr" as="attribute(test)">

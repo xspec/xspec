@@ -42,13 +42,13 @@
          <xsl:template name="Q{{http://www.jenitennison.com/xslt/xspec}}dummy-scenario-id"
                        as="element(Q{{http://www.jenitennison.com/xslt/xspec}}scenario)">
             <xsl:message>my scenario label</xsl:message>
-            <xsl:element name="t:scenario"
+            <xsl:element name="scenario"
                          namespace="http://www.jenitennison.com/xslt/xspec">
                <xsl:attribute name="id"
                               namespace="">dummy-scenario-id</xsl:attribute>
                <xsl:attribute name="xspec"
                               namespace="" />
-               <xsl:element name="t:label"
+               <xsl:element name="label"
                             namespace="http://www.jenitennison.com/xslt/xspec">
                   <xsl:text>my scenario label</xsl:text>
                </xsl:element>
