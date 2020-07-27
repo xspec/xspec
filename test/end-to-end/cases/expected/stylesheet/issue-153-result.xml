@@ -13,17 +13,23 @@
       <result select="'2000-01-01T12:00:00+12:00'"/>
       <test id="scenario1-expect1" successful="true">
          <label>Comparing the function result with the same date time in UTC will report Success</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="xs:dateTime($x:result)"/>
+         </expect-test-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T12:00:00+12:00')"/>
-         <expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 test="xs:dateTime($x:result)"
-                 select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T00:00:00Z')"/>
+         <expect select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T00:00:00Z')"/>
       </test>
       <test id="scenario1-expect2" successful="false">
          <label>Comparing the function result with a different date time will report Failure</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="xs:dateTime($x:result)"/>
+         </expect-test-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}dateTime('2000-01-01T12:00:00+12:00')"/>
-         <expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 test="xs:dateTime($x:result)"
-                 select="Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-01T00:00:00Z')"/>
+         <expect select="Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-01T00:00:00Z')"/>
       </test>
    </scenario>
 </report>

@@ -13,16 +13,22 @@
          <result select="/text()">12</result>
          <test id="scenario1-scenario1-expect1" successful="true">
             <label>Result should be text nodes</label>
-            <expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    test="$x:result instance of text()+"
-                    select="()"/>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result instance of text()+"/>
+            </expect-test-wrap>
+            <expect select="()"/>
          </test>
          <test id="scenario1-scenario1-expect2" successful="true">
             <label>Result count should be 2</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($x:result)"/>
+            </expect-test-wrap>
             <result select="2"/>
-            <expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    test="count($x:result)"
-                    select="2"/>
+            <expect select="2"/>
          </test>
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../../../xslt1.xspec">
@@ -55,11 +61,14 @@
          <result select="/text()">12</result>
          <test id="scenario1-scenario3-expect1" successful="false">
             <label>Expecting the compiled stylesheet to have version=1.0</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="document('')/xsl:stylesheet/@version/string()"/>
+            </expect-test-wrap>
             <result select="'2.0'"/>
-            <expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                    test="document('')/xsl:stylesheet/@version/string()"
-                    select="'1.0'"/>
+            <expect select="'1.0'"/>
          </test>
       </scenario>
    </scenario>

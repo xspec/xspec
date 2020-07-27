@@ -39,10 +39,13 @@
       <result href="HREF-8"/>
       <test id="scenario3-expect1" successful="true">
          <label>x:result should be two document nodes</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="count($x:result treat as document-node()+)"/>
+         </expect-test-wrap>
          <result select="2"/>
-         <expect xmlns:mirror="x-urn:test:mirror"
-                 test="count($x:result treat as document-node()+)"
-                 select="2"/>
+         <expect select="2"/>
       </test>
       <test id="scenario3-expect2" successful="false">
          <label>The result should be saved successfully in yet another external file which is well-formed</label>

@@ -21,10 +21,13 @@
          </test>
          <test id="scenario1-scenario1-expect2" successful="true">
             <label>Expecting document node via @href along with @test=$x:result should be Success</label>
-            <expect xmlns:mirror="x-urn:test:mirror"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    test="$x:result treat as xs:boolean"
-                    select="/self::document-node()">
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result treat as xs:boolean"/>
+            </expect-test-wrap>
+            <expect select="/self::document-node()">
                <foo xmlns=""/>
             </expect>
          </test>
@@ -45,10 +48,13 @@
          </test>
          <test id="scenario2-scenario1-expect2" successful="false">
             <label>Expecting false via @select along with @test=$x:result should be Failure</label>
-            <expect xmlns:mirror="x-urn:test:mirror"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    test="$x:result treat as xs:boolean"
-                    select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result treat as xs:boolean"/>
+            </expect-test-wrap>
+            <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          </test>
       </scenario>
    </scenario>
@@ -72,11 +78,17 @@
          </test>
          <test id="scenario3-scenario1-expect2" successful="true">
             <label>Expecting element(foo) via child node along with @test=$x:result should be Success</label>
-            <expect xmlns:mirror="x-urn:test:mirror"
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result treat as xs:boolean"/>
+            </expect-test-wrap>
+            <expect select="/element()">
+               <foo xmlns:mirror="x-urn:test:mirror"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    test="$x:result treat as xs:boolean"
-                    select="/element()">
-               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+                    xmlns=""/>
             </expect>
          </test>
       </scenario>
@@ -100,17 +112,23 @@
          </test>
          <test id="scenario4-scenario1-expect3" successful="true">
             <label>Expecting empty sequence (no @href, @select or child node) along with @test=$x:result should be Success</label>
-            <expect xmlns:mirror="x-urn:test:mirror"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    test="$x:result treat as xs:boolean"
-                    select="()"/>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result treat as xs:boolean"/>
+            </expect-test-wrap>
+            <expect select="()"/>
          </test>
          <test id="scenario4-scenario1-expect4" successful="true">
             <label>Ditto using x:label</label>
-            <expect xmlns:mirror="x-urn:test:mirror"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    test="$x:result treat as xs:boolean"
-                    select="()"/>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="$x:result treat as xs:boolean"/>
+            </expect-test-wrap>
+            <expect select="()"/>
          </test>
       </scenario>
    </scenario>
