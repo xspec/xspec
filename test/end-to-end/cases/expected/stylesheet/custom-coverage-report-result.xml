@@ -3,21 +3,19 @@
         xspec="../../custom-coverage-report.xspec"
         stylesheet="../../../../../tutorial/coverage/demo.xsl"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../../../../tutorial/coverage/demo.xspec">
-      <x:label>'iron' element</x:label>
-      <x:context>
+   <scenario id="scenario1" xspec="../../../../../tutorial/coverage/demo.xspec">
+      <label>'iron' element</label>
+      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
          <iron xmlns="" weight="1"/>
       </x:context>
-      <x:result select="/element()">
+      <result select="/element()">
          <shield xmlns="" weight="1"/>
-      </x:result>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>is transformed to 'shield' element</x:label>
-         <x:expect select="/element()">
-            <shield xmlns="" weight="1"/>
-         </x:expect>
-      </x:test>
-   </x:scenario>
+      </result>
+      <test id="scenario1-expect1" successful="true">
+         <label>is transformed to 'shield' element</label>
+         <expect select="/element()">
+            <shield xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="" weight="1"/>
+         </expect>
+      </test>
+   </scenario>
 </report>

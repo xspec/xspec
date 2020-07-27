@@ -829,7 +829,9 @@
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <xsl:element name="{x:xspec-name('label', $labelled)}" namespace="{$x:xspec-namespace}">
+      <!-- Create an x:label element without a prefix in its name. This prefix-less name aligns with
+         the other elements in the test result report XML. -->
+      <xsl:element name="label" namespace="{namespace-uri($labelled)}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
    </xsl:function>

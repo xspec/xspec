@@ -4,76 +4,70 @@
         query="x-urn:test:do-nothing"
         query-at="../../../../do-nothing.xqm"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../label-element.xspec">
-      <x:label>	
+   <scenario id="scenario1" xspec="../../label-element.xspec">
+      <label>	
 &#xD; 	
 &#xD; My	
 &#xD; Scenario	
 &#xD; 	
-&#xD; </x:label>
-      <x:call function="true"/>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
-      <x:test id="scenario1-expect1" successful="false">
-         <x:label>	
+&#xD; </label>
+      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+      <test id="scenario1-expect1" successful="false">
+         <label>	
 &#xD; 	
 &#xD; My	
 &#xD; Expectation	
 &#xD; 	
-&#xD; </x:label>
+&#xD; </label>
          <expect-test-wrap xmlns="">
-            <x:expect test="false()"/>
+            <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="false()"/>
          </expect-test-wrap>
-         <x:expect select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario2"
-               xspec="../../label-element.xspec">
-      <x:label>	
+         <expect select="()"/>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../label-element.xspec">
+      <label>	
 &#xD; 	
 &#xD; My	
 &#xD; Scenario	
 &#xD; 	
-&#xD; </x:label>
-      <x:call function="true"/>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
-      <x:test id="scenario2-expect1" successful="false">
-         <x:label>	
+&#xD; </label>
+      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+      <test id="scenario2-expect1" successful="false">
+         <label>	
 &#xD; 	
 &#xD; My	
 &#xD; Expectation	
 &#xD; 	
-&#xD; </x:label>
+&#xD; </label>
          <expect-test-wrap xmlns="">
-            <x:expect test="false()"/>
+            <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="false()"/>
          </expect-test-wrap>
-         <x:expect select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario3"
-               xspec="../../label-element.xspec">
-      <x:label>	
+         <expect select="()"/>
+      </test>
+   </scenario>
+   <scenario id="scenario3" xspec="../../label-element.xspec">
+      <label>	
 &#xD; 	
 &#xD; My	
 &#xD; Scenario	
 &#xD; 	
-&#xD; </x:label>
-      <x:call function="true"/>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
-      <x:test id="scenario3-expect1" successful="false">
-         <x:label>	
+&#xD; </label>
+      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+      <test id="scenario3-expect1" successful="false">
+         <label>	
 &#xD; 	
 &#xD; My	
 &#xD; Expectation	
 &#xD; 	
-&#xD; </x:label>
+&#xD; </label>
          <expect-test-wrap xmlns="">
-            <x:expect test="false()"/>
+            <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="false()"/>
          </expect-test-wrap>
-         <x:expect select="()"/>
-      </x:test>
-   </x:scenario>
+         <expect select="()"/>
+      </test>
+   </scenario>
 </report>

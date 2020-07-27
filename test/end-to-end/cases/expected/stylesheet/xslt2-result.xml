@@ -3,69 +3,73 @@
         xspec="../../xslt2.xspec"
         stylesheet="../../../../xslt1.xsl"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../../../xslt1.xspec">
-      <x:label>With 2 text nodes</x:label>
-      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" template="text-nodes"/>
-      <x:scenario id="scenario1-scenario1" xspec="../../../../xslt1.xspec">
-         <x:label>This scenario is to verify that $x:result consists of two text nodes</x:label>
-         <x:result select="/text()">12</x:result>
-         <x:test id="scenario1-scenario1-expect1" successful="true">
-            <x:label>Result should be text nodes</x:label>
+   <scenario id="scenario1" xspec="../../../../xslt1.xspec">
+      <label>With 2 text nodes</label>
+      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              template="text-nodes"/>
+      <scenario id="scenario1-scenario1" xspec="../../../../xslt1.xspec">
+         <label>This scenario is to verify that $x:result consists of two text nodes</label>
+         <result select="/text()">12</result>
+         <test id="scenario1-scenario1-expect1" successful="true">
+            <label>Result should be text nodes</label>
             <expect-test-wrap xmlns="">
                <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
                          test="$x:result instance of text()+"/>
             </expect-test-wrap>
-            <x:expect select="()"/>
-         </x:test>
-         <x:test id="scenario1-scenario1-expect2" successful="true">
-            <x:label>Result count should be 2</x:label>
+            <expect select="()"/>
+         </test>
+         <test id="scenario1-scenario1-expect2" successful="true">
+            <label>Result count should be 2</label>
             <expect-test-wrap xmlns="">
-               <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema" test="count($x:result)"/>
+               <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="count($x:result)"/>
             </expect-test-wrap>
-            <x:result select="2"/>
-            <x:expect select="2"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario1-scenario2" xspec="../../../../xslt1.xspec">
-         <x:label>xslt-version=1.0 in this XSpec file should always make all of the tests in this
+            <result select="2"/>
+            <expect select="2"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../../../xslt1.xspec">
+         <label>xslt-version=1.0 in this XSpec file should always make all of the tests in this
 				scenario Success, even when this XSpec file is imported to another XSpec file which
-				has xslt-version=2.0 or higher.</x:label>
-         <x:result select="/text()">12</x:result>
-         <x:test id="scenario1-scenario2-expect1" successful="true">
-            <x:label>Comparing the text nodes with string</x:label>
-            <x:expect select="'12'"/>
-         </x:test>
-         <x:test id="scenario1-scenario2-expect2" successful="true">
-            <x:label>Comparing the text nodes with double</x:label>
-            <x:expect select="1.2e1"/>
-         </x:test>
-         <x:test id="scenario1-scenario2-expect3" successful="true">
-            <x:label>Comparing the text nodes with decimal</x:label>
-            <x:expect select="12.0"/>
-         </x:test>
-         <x:test id="scenario1-scenario2-expect4" successful="true">
-            <x:label>Comparing the text nodes with integer</x:label>
-            <x:expect select="12"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario1-scenario3" xspec="../../../../xslt1.xspec">
-         <x:label>xslt-version=1.0 in this XSpec file should make this scenario Success when this
+				has xslt-version=2.0 or higher.</label>
+         <result select="/text()">12</result>
+         <test id="scenario1-scenario2-expect1" successful="true">
+            <label>Comparing the text nodes with string</label>
+            <expect select="'12'"/>
+         </test>
+         <test id="scenario1-scenario2-expect2" successful="true">
+            <label>Comparing the text nodes with double</label>
+            <expect select="1.2e1"/>
+         </test>
+         <test id="scenario1-scenario2-expect3" successful="true">
+            <label>Comparing the text nodes with decimal</label>
+            <expect select="12.0"/>
+         </test>
+         <test id="scenario1-scenario2-expect4" successful="true">
+            <label>Comparing the text nodes with integer</label>
+            <expect select="12"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3" xspec="../../../../xslt1.xspec">
+         <label>xslt-version=1.0 in this XSpec file should make this scenario Success when this
 				XSpec file is executed independently. On the other hand, the result should be
 				Failure when this XSpec file is imported to another XSpec file which has
-				xslt-version=2.0 or higher.</x:label>
-         <x:result select="/text()">12</x:result>
-         <x:test id="scenario1-scenario3-expect1" successful="false">
-            <x:label>Expecting the compiled stylesheet to have version=1.0</x:label>
+				xslt-version=2.0 or higher.</label>
+         <result select="/text()">12</result>
+         <test id="scenario1-scenario3-expect1" successful="false">
+            <label>Expecting the compiled stylesheet to have version=1.0</label>
             <expect-test-wrap xmlns="">
                <x:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
                          xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
                          test="document('')/xsl:stylesheet/@version/string()"/>
             </expect-test-wrap>
-            <x:result select="'2.0'"/>
-            <x:expect select="'1.0'"/>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
+            <result select="'2.0'"/>
+            <expect select="'1.0'"/>
+         </test>
+      </scenario>
+   </scenario>
 </report>

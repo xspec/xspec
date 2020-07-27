@@ -3,54 +3,57 @@
         xspec="../../result-naming-collision.xspec"
         stylesheet="../../../../mirror.xsl"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../result-naming-collision.xspec">
-      <x:label>scenario 1</x:label>
-      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
+   <scenario id="scenario1" xspec="../../result-naming-collision.xspec">
+      <label>scenario 1</label>
+      <x:call xmlns:mirror="x-urn:test:mirror"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              function="mirror:param-mirror">
          <x:param href="../../result-naming-collision.xml"/>
       </x:call>
-      <x:result href="HREF-2"/>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>The result should be saved in an external file</x:label>
-         <x:expect href="HREF-3"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario2"
-               xspec="../../result-naming-collision.xspec">
-      <x:label>scenario 2</x:label>
-      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
+      <result href="HREF-2"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>The result should be saved in an external file</label>
+         <expect href="HREF-3"/>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../result-naming-collision.xspec">
+      <label>scenario 2</label>
+      <x:call xmlns:mirror="x-urn:test:mirror"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              function="mirror:param-mirror">
          <x:param href="../../result-naming-collision.xml"/>
       </x:call>
-      <x:result href="HREF-5"/>
-      <x:test id="scenario2-expect1" successful="true">
-         <x:label>The result should be saved in another external file</x:label>
-         <x:expect href="HREF-6"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario3"
-               xspec="../../result-naming-collision.xspec">
-      <x:label>When the result consists of multiple elements (xspec/xspec#361)</x:label>
-      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:param-mirror">
+      <result href="HREF-5"/>
+      <test id="scenario2-expect1" successful="true">
+         <label>The result should be saved in another external file</label>
+         <expect href="HREF-6"/>
+      </test>
+   </scenario>
+   <scenario id="scenario3" xspec="../../result-naming-collision.xspec">
+      <label>When the result consists of multiple elements (xspec/xspec#361)</label>
+      <x:call xmlns:mirror="x-urn:test:mirror"
+              xmlns:x="http://www.jenitennison.com/xslt/xspec"
+              function="mirror:param-mirror">
          <x:param href="../../result-naming-collision.xml" select="., ."/>
       </x:call>
-      <x:result href="HREF-8"/>
-      <x:test id="scenario3-expect1" successful="true">
-         <x:label>x:result should be two document nodes</x:label>
+      <result href="HREF-8"/>
+      <test id="scenario3-expect1" successful="true">
+         <label>x:result should be two document nodes</label>
          <expect-test-wrap xmlns="">
             <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
                       test="count($x:result treat as document-node()+)"/>
          </expect-test-wrap>
-         <x:result select="2"/>
-         <x:expect select="2"/>
-      </x:test>
-      <x:test id="scenario3-expect2" successful="false">
-         <x:label>The result should be saved successfully in yet another external file which is well-formed</x:label>
-         <x:expect select="/element()">
-            <foo xmlns:mirror="x-urn:test:mirror" xmlns=""/>
-         </x:expect>
-      </x:test>
-   </x:scenario>
+         <result select="2"/>
+         <expect select="2"/>
+      </test>
+      <test id="scenario3-expect2" successful="false">
+         <label>The result should be saved successfully in yet another external file which is well-formed</label>
+         <expect select="/element()">
+            <foo xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 xmlns=""/>
+         </expect>
+      </test>
+   </scenario>
 </report>
