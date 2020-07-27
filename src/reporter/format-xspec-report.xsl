@@ -338,11 +338,7 @@
         title="What does this report mean?">[?]</a>
     </div>
 
-    <!-- x:expect/@test which may or may not be an xs:boolean at run time -->
-    <xsl:variable as="attribute(test)?" name="test-attr" select="expect-test-wrap/x:expect/@test" />
-
-    <!-- True if the expectation is boolean (i.e. x:expect/@test was an xs:boolean at runtime.) -->
-    <xsl:variable as="xs:boolean" name="boolean-test" select="empty(x:result) and $test-attr" />
+    <xsl:variable as="xs:boolean" name="boolean-test" select="x:is-boolean-test(.)" />
 
     <table class="xspecResult">
       <thead>
@@ -370,7 +366,7 @@
               <!-- Boolean expectation -->
               <xsl:when test="$boolean-test">
                 <pre>
-                  <xsl:value-of select="$test-attr" />
+                  <xsl:value-of select="x:test-attr(.)" />
                 </pre>
               </xsl:when>
 
