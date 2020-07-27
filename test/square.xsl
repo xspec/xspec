@@ -10,13 +10,24 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:my="http://example.org/ns/my"
+                xmlns:myinternal="http://example.org/ns/myinternal"
                 exclude-result-prefixes="#all"
                 version="3.0">
 
    <xsl:function name="my:square" as="xs:integer">
       <xsl:param name="n" as="xs:integer"/>
-      <xsl:sequence select="$n * $n"/>
+
+      <!-- Delegate to a worker template -->
+      <xsl:call-template name="myinternal:square-worker">
+         <xsl:with-param name="n" select="$n" />
+      </xsl:call-template>
    </xsl:function>
+
+   <xsl:template name="myinternal:square-worker" as="xs:integer">
+      <xsl:param name="n" as="xs:integer"/>
+
+      <xsl:sequence select="$n * $n" />
+   </xsl:template>
 
 </xsl:stylesheet>
 
