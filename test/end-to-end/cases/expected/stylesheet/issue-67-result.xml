@@ -3,57 +3,51 @@
         xspec="../../issue-67.xspec"
         stylesheet="../../../../items.xsl"
         date="2000-01-01T00:00:00Z">
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario1"
-               xspec="../../issue-67.xspec">
-      <x:label>Comparing identical namespace</x:label>
-      <x:call function="exactly-one">
+   <scenario id="scenario1" xspec="../../issue-67.xspec">
+      <label>Comparing identical namespace</label>
+      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
          <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
       </x:call>
-      <x:result select="/*/namespace::*">
+      <result select="/*/namespace::*">
          <pseudo-namespace-node xmlns:namespace-name="namespace-text"/>
-      </x:result>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>must be Success</x:label>
-         <x:expect select="/*/namespace::*">
+      </result>
+      <test id="scenario1-expect1" successful="true">
+         <label>must be Success</label>
+         <expect select="/*/namespace::*">
             <pseudo-namespace-node xmlns:namespace-name="namespace-text"/>
-         </x:expect>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario2"
-               xspec="../../issue-67.xspec">
-      <x:label>Comparing identical default namespace</x:label>
-      <x:call function="exactly-one">
+         </expect>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../issue-67.xspec">
+      <label>Comparing identical default namespace</label>
+      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
          <x:param select="$Q{x-urn:test:xspec-items}default-namespace"/>
       </x:call>
-      <x:result select="/*/namespace::*">
+      <result select="/*/namespace::*">
          <_0:pseudo-namespace-node xmlns="default-namespace-text"
                                    xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
-      </x:result>
-      <x:test id="scenario2-expect1" successful="true">
-         <x:label>must be Success</x:label>
-         <x:expect select="/*/namespace::*">
+      </result>
+      <test id="scenario2-expect1" successful="true">
+         <label>must be Success</label>
+         <expect select="/*/namespace::*">
             <_0:pseudo-namespace-node xmlns="default-namespace-text"
                                       xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
-         </x:expect>
-      </x:test>
-   </x:scenario>
-   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               id="scenario3"
-               xspec="../../issue-67.xspec">
-      <x:label>Comparing different namespaces</x:label>
-      <x:call function="exactly-one">
+         </expect>
+      </test>
+   </scenario>
+   <scenario id="scenario3" xspec="../../issue-67.xspec">
+      <label>Comparing different namespaces</label>
+      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
          <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
       </x:call>
-      <x:result select="/*/namespace::*">
+      <result select="/*/namespace::*">
          <pseudo-namespace-node xmlns:namespace-name="namespace-text"/>
-      </x:result>
-      <x:test id="scenario3-expect1" successful="false">
-         <x:label>must be Failure</x:label>
-         <x:expect select="/*/namespace::*">
+      </result>
+      <test id="scenario3-expect1" successful="false">
+         <label>must be Failure</label>
+         <expect select="/*/namespace::*">
             <pseudo-namespace-node xmlns:another-namespace-name="another-namespace-text"/>
-         </x:expect>
-      </x:test>
-   </x:scenario>
+         </expect>
+      </test>
+   </scenario>
 </report>
