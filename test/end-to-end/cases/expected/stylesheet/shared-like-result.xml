@@ -5,9 +5,11 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../shared-like.xspec">
       <label>Referenced and explicitly unshared scenario</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:false"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <test id="scenario1-expect1" successful="true">
          <label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</label>
@@ -21,9 +23,11 @@
    </scenario>
    <scenario id="scenario2" xspec="../../shared-like.xspec">
       <label>Referenced and implicitly unshared scenario</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:false"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <test id="scenario2-expect1" successful="true">
          <label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</label>
@@ -37,9 +41,11 @@
    </scenario>
    <scenario id="scenario3" xspec="../../shared-like.xspec">
       <label>Scenario for testing x:like which references a shared scenario</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:false"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <test id="scenario3-expect1" successful="true">
          <label>This nested shared x:expect should fire only at nested x:like</label>
@@ -64,9 +70,11 @@
       <label>Scenario for testing x:like which references unshared scenarios</label>
       <scenario id="scenario4-scenario1" xspec="../../shared-like.xspec">
          <label>explicit one</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:false"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:false"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <test id="scenario4-scenario1-expect1" successful="true">
             <label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</label>
@@ -80,9 +88,11 @@
       </scenario>
       <scenario id="scenario4-scenario2" xspec="../../shared-like.xspec">
          <label>implicit one</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:false"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:false"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <test id="scenario4-scenario2-expect1" successful="true">
             <label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</label>

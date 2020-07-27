@@ -11,11 +11,13 @@
          <scenario id="scenario1-scenario1-scenario1"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:ID</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:ID">
-               <x:param select="'foo'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:ID">
+                  <x:param select="'foo'"/>
+               </x:call>
+            </input-wrap>
             <result select="'foo'"/>
             <test id="scenario1-scenario1-scenario1-expect1" successful="false">
                <label>[Result] must represent it by "xs:ID('foo')" (XSLT) or "'foo'"
@@ -26,11 +28,13 @@
          <scenario id="scenario1-scenario1-scenario2"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:IDREF</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:IDREF">
-               <x:param select="'foo'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:IDREF">
+                  <x:param select="'foo'"/>
+               </x:call>
+            </input-wrap>
             <result select="'foo'"/>
             <test id="scenario1-scenario1-scenario2-expect1" successful="false">
                <label>[Result] must represent it by "xs:IDREF('foo')" (XSLT) or "'foo'"
@@ -41,11 +45,13 @@
          <scenario id="scenario1-scenario1-scenario3"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:ENTITY</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:ENTITY">
-               <x:param select="'foo'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:ENTITY">
+                  <x:param select="'foo'"/>
+               </x:call>
+            </input-wrap>
             <result select="'foo'"/>
             <test id="scenario1-scenario1-scenario3-expect1" successful="false">
                <label>[Result] must represent it by "xs:ENTITY('foo')" (XSLT) or "'foo'"
@@ -56,11 +62,13 @@
          <scenario id="scenario1-scenario1-scenario4"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:NCName</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:NCName">
-               <x:param select="'foo'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:NCName">
+                  <x:param select="'foo'"/>
+               </x:call>
+            </input-wrap>
             <result select="'foo'"/>
             <test id="scenario1-scenario1-scenario4-expect1" successful="false">
                <label>[Result] must represent it by "xs:NCName('foo')" (XSLT) or "'foo'"
@@ -71,11 +79,13 @@
          <scenario id="scenario1-scenario1-scenario5"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:language</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:language">
-               <x:param select="'en'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:language">
+                  <x:param select="'en'"/>
+               </x:call>
+            </input-wrap>
             <result select="'en'"/>
             <test id="scenario1-scenario1-scenario5-expect1" successful="false">
                <label>[Result] must represent it by "xs:language('en')" (XSLT) or "'en'"
@@ -86,11 +96,13 @@
          <scenario id="scenario1-scenario1-scenario6"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:Name</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:Name">
-               <x:param select="'foo'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:Name">
+                  <x:param select="'foo'"/>
+               </x:call>
+            </input-wrap>
             <result select="'foo'"/>
             <test id="scenario1-scenario1-scenario6-expect1" successful="false">
                <label>[Result] must represent it by "xs:Name('foo')" (XSLT) or "'foo'"
@@ -101,11 +113,13 @@
          <scenario id="scenario1-scenario1-scenario7"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:NMTOKEN</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:NMTOKEN">
-               <x:param select="'foo'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:NMTOKEN">
+                  <x:param select="'foo'"/>
+               </x:call>
+            </input-wrap>
             <result select="'foo'"/>
             <test id="scenario1-scenario1-scenario7-expect1" successful="false">
                <label>[Result] must represent it by "xs:NMTOKEN('foo')" (XSLT) or "'foo'"
@@ -116,11 +130,13 @@
          <scenario id="scenario1-scenario1-scenario8"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:token</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:token">
-               <x:param select="'foo'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:token">
+                  <x:param select="'foo'"/>
+               </x:call>
+            </input-wrap>
             <result select="'foo'"/>
             <test id="scenario1-scenario1-scenario8-expect1" successful="false">
                <label>[Result] must represent it by "xs:token('foo')" (XSLT) or "'foo'"
@@ -131,11 +147,13 @@
          <scenario id="scenario1-scenario1-scenario9"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:normalizedString</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:normalizedString">
-               <x:param select="'foo'"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:normalizedString">
+                  <x:param select="'foo'"/>
+               </x:call>
+            </input-wrap>
             <result select="'foo'"/>
             <test id="scenario1-scenario1-scenario9-expect1" successful="false">
                <label>[Result] must represent it by "xs:normalizedString('foo')" (XSLT) or
@@ -149,11 +167,13 @@
          <scenario id="scenario1-scenario2-scenario1"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:negativeInteger</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:negativeInteger">
-               <x:param select="-1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:negativeInteger">
+                  <x:param select="-1"/>
+               </x:call>
+            </input-wrap>
             <result select="-1"/>
             <test id="scenario1-scenario2-scenario1-expect1" successful="false">
                <label>[Result] must represent it by "xs:negativeInteger(-1)" (XSLT) or "-1"
@@ -164,11 +184,13 @@
          <scenario id="scenario1-scenario2-scenario2"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:nonPositiveInteger</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:nonPositiveInteger">
-               <x:param select="0"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:nonPositiveInteger">
+                  <x:param select="0"/>
+               </x:call>
+            </input-wrap>
             <result select="0"/>
             <test id="scenario1-scenario2-scenario2-expect1" successful="false">
                <label>[Result] must represent it by "xs:nonPositiveInteger(0)" (XSLT) or "0"
@@ -179,11 +201,13 @@
          <scenario id="scenario1-scenario2-scenario3"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:byte</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:byte">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:byte">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario3-expect1" successful="false">
                <label>[Result] must represent it by "xs:byte(1)" (XSLT) or "1"
@@ -194,11 +218,13 @@
          <scenario id="scenario1-scenario2-scenario4"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:short</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:short">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:short">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario4-expect1" successful="false">
                <label>[Result] must represent it by "xs:short(1)" (XSLT) or "1"
@@ -209,11 +235,13 @@
          <scenario id="scenario1-scenario2-scenario5"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:int</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:int">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:int">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario5-expect1" successful="false">
                <label>[Result] must represent it by "xs:int(1)" (XSLT) or "1"
@@ -224,11 +252,13 @@
          <scenario id="scenario1-scenario2-scenario6"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:long</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:long">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:long">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario6-expect1" successful="false">
                <label>[Result] must represent it by "xs:long(1)" (XSLT) or "1"
@@ -239,11 +269,13 @@
          <scenario id="scenario1-scenario2-scenario7"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:unsignedByte</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:unsignedByte">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:unsignedByte">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario7-expect1" successful="false">
                <label>[Result] must represent it by "xs:unsignedByte(1)" (XSLT) or "1"
@@ -254,11 +286,13 @@
          <scenario id="scenario1-scenario2-scenario8"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:unsignedShort</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:unsignedShort">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:unsignedShort">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario8-expect1" successful="false">
                <label>[Result] must represent it by "xs:unsignedShort(1)" (XSLT) or "1"
@@ -269,11 +303,13 @@
          <scenario id="scenario1-scenario2-scenario9"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:unsignedInt</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:unsignedInt">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:unsignedInt">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario9-expect1" successful="false">
                <label>[Result] must represent it by "xs:unsignedInt(1)" (XSLT) or "1"
@@ -284,11 +320,13 @@
          <scenario id="scenario1-scenario2-scenario10"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:unsignedLong</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:unsignedLong">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:unsignedLong">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario10-expect1" successful="false">
                <label>[Result] must represent it by "xs:unsignedLong(1)" (XSLT) or "1"
@@ -299,11 +337,13 @@
          <scenario id="scenario1-scenario2-scenario11"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:positiveInteger</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:positiveInteger">
-               <x:param select="1"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:positiveInteger">
+                  <x:param select="1"/>
+               </x:call>
+            </input-wrap>
             <result select="1"/>
             <test id="scenario1-scenario2-scenario11-expect1" successful="false">
                <label>[Result] must represent it by "xs:positiveInteger(1)" (XSLT) or "1"
@@ -314,11 +354,13 @@
          <scenario id="scenario1-scenario2-scenario12"
                    xspec="../../report_schema-aware.xspec">
             <label>xs:nonNegativeInteger</label>
-            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="xs:nonNegativeInteger">
-               <x:param select="0"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="xs:nonNegativeInteger">
+                  <x:param select="0"/>
+               </x:call>
+            </input-wrap>
             <result select="0"/>
             <test id="scenario1-scenario2-scenario12-expect1" successful="false">
                <label>[Result] must represent it by "xs:nonNegativeInteger(0)" (XSLT) or "0"

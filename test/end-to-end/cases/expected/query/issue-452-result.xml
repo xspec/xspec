@@ -6,11 +6,13 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-452.xspec">
       <label>Text</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param>t</x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>t</x:param>
+         </x:call>
+      </input-wrap>
       <result select="/text()">t</result>
       <test id="scenario1-expect1" successful="false">
          <label>Expect</label>
@@ -19,11 +21,13 @@
    </scenario>
    <scenario id="scenario2" xspec="../../issue-452.xspec">
       <label>Comment</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param><!--c--></x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param><!--c--></x:param>
+         </x:call>
+      </input-wrap>
       <result select="/comment()"><!--c--></result>
       <test id="scenario2-expect1" successful="false">
          <label>Expect</label>
@@ -32,11 +36,13 @@
    </scenario>
    <scenario id="scenario3" xspec="../../issue-452.xspec">
       <label>Processing instruction</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param><?p?></x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param><?p?></x:param>
+         </x:call>
+      </input-wrap>
       <result select="/processing-instruction()"><?p?></result>
       <test id="scenario3-expect1" successful="false">
          <label>Expect</label>
@@ -45,13 +51,15 @@
    </scenario>
    <scenario id="scenario4" xspec="../../issue-452.xspec">
       <label>In element</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param>
-            <elem xmlns="">t<!--c--><?p?></elem>
-         </x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>
+               <elem>t<!--c--><?p?></elem>
+            </x:param>
+         </x:call>
+      </input-wrap>
       <result select="/element()">
          <elem xmlns:mirror="x-urn:test:mirror"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"

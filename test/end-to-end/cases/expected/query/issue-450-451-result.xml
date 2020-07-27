@@ -6,13 +6,15 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-450-451.xspec">
       <label>function-param containing curly brackets</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:myv="http://example.org/ns/my/variable"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param>}{<elem xmlns="" attr="}{">}{</elem>
-         </x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>}{<elem attr="}{">}{</elem>
+            </x:param>
+         </x:call>
+      </input-wrap>
       <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
                xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -27,10 +29,12 @@
    </scenario>
    <scenario id="scenario2" xspec="../../issue-450-451.xspec">
       <label>global-param containing curly brackets</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:myv="http://example.org/ns/my/variable"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:false"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <test id="scenario2-expect1" successful="true">
          <label>should work</label>
@@ -52,10 +56,12 @@
    </scenario>
    <scenario id="scenario3" xspec="../../issue-450-451.xspec">
       <label>global-var containing curly brackets</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:myv="http://example.org/ns/my/variable"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:false"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <test id="scenario3-expect1" successful="true">
          <label>should work</label>
@@ -77,12 +83,14 @@
    </scenario>
    <scenario id="scenario4" xspec="../../issue-450-451.xspec">
       <label>local variable containing curly brackets</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:myv="http://example.org/ns/my/variable"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param select="$myv:local-var"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param select="$myv:local-var"/>
+         </x:call>
+      </input-wrap>
       <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
                xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -97,12 +105,14 @@
    </scenario>
    <scenario id="scenario5" xspec="../../issue-450-451.xspec">
       <label>assertion containing curly brackets</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:myv="http://example.org/ns/my/variable"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param href="../../issue-450-451.xml" select="wrap/node() treat as node()+"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param href="../../issue-450-451.xml" select="wrap/node() treat as node()+"/>
+         </x:call>
+      </input-wrap>
       <result select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
       </result>
       <test id="scenario5-expect1" successful="true">
@@ -119,12 +129,14 @@
       <label>If value is from a variable instead of hard-coded,</label>
       <scenario id="scenario6-scenario1" xspec="../../issue-450-451.xspec">
          <label>function-param containing curly brackets</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:myv="http://example.org/ns/my/variable"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:param-mirror">
-            <x:param select="$myv:local-var2"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:myv="http://example.org/ns/my/variable"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:param-mirror">
+               <x:param select="$myv:local-var2"/>
+            </x:call>
+         </input-wrap>
          <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
                   xmlns:myv="http://example.org/ns/my/variable"
                   xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -139,12 +151,14 @@
       </scenario>
       <scenario id="scenario6-scenario2" xspec="../../issue-450-451.xspec">
          <label>assertion containing curly brackets</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:myv="http://example.org/ns/my/variable"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:param-mirror">
-            <x:param href="../../issue-450-451.xml" select="wrap/node() treat as node()+"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:myv="http://example.org/ns/my/variable"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:param-mirror">
+               <x:param href="../../issue-450-451.xml" select="wrap/node() treat as node()+"/>
+            </x:call>
+         </input-wrap>
          <result select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
          </result>
          <test id="scenario6-scenario2-expect1" successful="true">
