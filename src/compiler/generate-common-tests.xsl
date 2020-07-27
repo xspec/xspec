@@ -93,8 +93,13 @@
          <xsl:apply-templates select="$combined-doc" mode="x:unshare-scenarios" />
       </xsl:variable>
 
+      <!-- Assign @id -->
+      <xsl:variable name="doc-with-id" as="document-node(element(x:description))">
+         <xsl:apply-templates select="$unshared-doc" mode="x:assign-id" />
+      </xsl:variable>
+
       <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$unshared-doc/element()" mode="x:generate-tests" />
+      <xsl:apply-templates select="$doc-with-id/element()" mode="x:generate-tests" />
    </xsl:template>
 
    <xsl:function name="x:gather-descriptions" as="element(x:description)+">
@@ -696,6 +701,22 @@
    </xsl:template>
 
    <!--
+      mode="x:assign-id"
+      This mode assigns ID to x:scenario and x:expect
+   -->
+   <xsl:mode name="x:assign-id" on-multiple-match="fail" on-no-match="shallow-copy" />
+
+   <xsl:template match="(x:scenario | x:expect)[x:is-user-content(.) => not()]" as="element()"
+      mode="x:assign-id">
+      <xsl:copy>
+         <xsl:attribute name="id">
+            <xsl:apply-templates select="." mode="x:generate-id" />
+         </xsl:attribute>
+         <xsl:apply-templates select="attribute() | node()" mode="#current" />
+      </xsl:copy>
+   </xsl:template>
+
+   <!--
       mode="x:generate-tests"
       Does the generation of the test stylesheet.
       This mode assumes that all the scenarios have already been gathered and unshared.
@@ -735,6 +756,13 @@
    <xsl:mode name="x:generate-id" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="x:scenario" as="xs:string" mode="x:generate-id">
+      <!-- Some ID generators may depend on @xspec, although this default generator doesn't. -->
+      <xsl:if test="empty(@xspec)">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">@xspec not exist when generating ID for {name()}.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <xsl:variable name="ancestor-or-self-tokens" as="xs:string+">
          <xsl:for-each select="ancestor-or-self::x:scenario">
             <!-- Find preceding sibling x:scenario, taking x:pending into account -->
@@ -803,6 +831,27 @@
       <xsl:message terminate="yes">
          <xsl:text expand-text="yes">ERROR in {name()} ('{x:label(.)}'): {$message}</xsl:text>
       </xsl:message>
+   </xsl:template>
+
+   <xsl:template name="x:report-test-attribute" as="node()+">
+      <xsl:context-item as="element(x:expect)" use="required" />
+
+      <xsl:variable name="expect-test" as="element(x:expect)">
+         <!-- Do not set xsl:copy/@copy-namespaces="no". @test may use namespace prefixes and/or the
+            default namespace such as xs:QName('foo') -->
+         <xsl:copy>
+            <xsl:sequence select="@test" />
+         </xsl:copy>
+      </xsl:variable>
+
+      <!-- Undeclare the default namespace in the wrapper element, because @test may use the default
+         namespace such as xs:QName('foo'). -->
+      <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+         <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
+         <xsl:with-param name="node-generators" as="node()+">
+            <xsl:apply-templates select="$expect-test" mode="test:create-node-generator" />
+         </xsl:with-param>
+      </xsl:call-template>
    </xsl:template>
 
    <xsl:function name="x:label" as="element(x:label)">

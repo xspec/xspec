@@ -18,7 +18,12 @@
       </result>
       <test id="scenario1-expect1" successful="false">
          <label>[Result] in the failure report HTML must wrap element and string separately</label>
-         <expect xmlns:test-mix="x-urn:test-mix" test="false()" select="()"/>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:test-mix="x-urn:test-mix"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="false()"/>
+         </expect-test-wrap>
+         <expect select="()"/>
       </test>
    </scenario>
 </report>

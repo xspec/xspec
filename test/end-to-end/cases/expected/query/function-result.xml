@@ -19,10 +19,13 @@
       </test>
       <test id="scenario1-expect2" successful="true">
          <label>expecting the correct type must return Success</label>
-         <expect xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 test="$t:result instance of xs:integer"
-                 select="()"/>
+         <expect-test-wrap xmlns="">
+            <t:expect xmlns:my="http://example.org/ns/my"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                      test="$t:result instance of xs:integer"/>
+         </expect-test-wrap>
+         <expect select="()"/>
       </test>
    </scenario>
    <scenario id="scenario2" xspec="../../function.xspec">
@@ -40,10 +43,13 @@
       </test>
       <test id="scenario2-expect2" successful="false">
          <label>expecting an incorrect type must return Failure</label>
-         <expect xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 test="$t:result instance of xs:string"
-                 select="()"/>
+         <expect-test-wrap xmlns="">
+            <t:expect xmlns:my="http://example.org/ns/my"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                      test="$t:result instance of xs:string"/>
+         </expect-test-wrap>
+         <expect select="()"/>
       </test>
    </scenario>
 </report>

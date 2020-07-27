@@ -152,15 +152,11 @@
          Their order must be stable, because they are passed to a function. -->
       <xsl:param name="with-param-uqnames" as="xs:string*" />
 
-      <xsl:variable name="local-name" as="xs:string">
-         <xsl:apply-templates select="." mode="x:generate-id" />
-      </xsl:variable>
-
       <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
          <xsl:text>,&#10;</xsl:text>
       </xsl:if>
 
-      <xsl:text expand-text="yes">let ${x:known-UQName('x:tmp')} := local:{$local-name}(&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">let ${x:known-UQName('x:tmp')} := local:{@id}(&#x0A;</xsl:text>
       <xsl:for-each select="$with-param-uqnames">
          <xsl:text expand-text="yes">${.}</xsl:text>
          <xsl:if test="position() ne last()">
@@ -202,10 +198,6 @@
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
 
-      <xsl:variable name="scenario-id" as="xs:string">
-         <xsl:apply-templates select="." mode="x:generate-id" />
-      </xsl:variable>
-
       <xsl:variable name="quoted-label" as="xs:string" select="$x:apos || x:label(.) || $x:apos" />
 
       <xsl:if test="$context">
@@ -235,7 +227,7 @@
         {
       -->
       <xsl:text>&#10;(: generated from the x:scenario element :)</xsl:text>
-      <xsl:text expand-text="yes">&#10;declare function local:{$scenario-id}(&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">&#10;declare function local:{@id}(&#x0A;</xsl:text>
 
       <!-- Function parameters. Their order must be stable, because this is a function. -->
       <xsl:for-each select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))">
@@ -264,8 +256,7 @@
 
       <xsl:call-template name="test:create-zero-or-more-node-generators">
          <xsl:with-param name="nodes" as="node()+">
-            <xsl:attribute name="id" select="$scenario-id" />
-            <xsl:sequence select="@xspec" />
+            <xsl:sequence select="@id, @xspec" />
 
             <xsl:if test="$pending-p">
                <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
@@ -384,16 +375,12 @@
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor::*/@focus)" />
 
-      <xsl:variable name="expect-id" as="xs:string">
-         <xsl:apply-templates select="." mode="x:generate-id" />
-      </xsl:variable>
-
       <!--
         declare function local:...($t:result as item()*)
         {
       -->
       <xsl:text>&#10;(: generated from the x:expect element :)</xsl:text>
-      <xsl:text expand-text="yes">&#10;declare function local:{$expect-id}(&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">&#10;declare function local:{@id}(&#x0A;</xsl:text>
       <xsl:for-each select="$param-uqnames">
          <xsl:text expand-text="yes">${.}</xsl:text>
          <xsl:if test="position() ne last()">
@@ -459,7 +446,7 @@
 
       <xsl:call-template name="test:create-zero-or-more-node-generators">
          <xsl:with-param name="nodes" as="node()+">
-            <xsl:attribute name="id" select="$expect-id" />
+            <xsl:sequence select="@id" />
 
             <xsl:if test="$pending-p">
                <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
@@ -480,6 +467,9 @@
          <xsl:text>,&#x0A;</xsl:text>
 
          <xsl:if test="@test">
+            <xsl:call-template name="x:report-test-attribute" />
+            <xsl:text>,&#x0A;</xsl:text>
+
             <xsl:text>(&#x0A;</xsl:text>
             <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
             <xsl:text>then ()&#x0A;</xsl:text>
@@ -487,28 +477,7 @@
             <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
-         <!-- TODO: Undeclare the default namespace in the wrapper element, because x:expect/@test may use
-            the default namespace such as xs:QName('foo'). -->
-         <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(&#x0A;</xsl:text>
-         <xsl:text expand-text="yes">${x:variable-UQName(.)},&#x0A;</xsl:text>
-         <xsl:text expand-text="yes">'{local-name()}'</xsl:text>
-         <xsl:if test="@test">
-            <xsl:text>,&#x0A;</xsl:text>
-            <xsl:text>( </xsl:text>
-            <xsl:apply-templates select="@test" mode="test:create-node-generator" />
-            <xsl:text> ),&#x0A;</xsl:text>
-            <xsl:text>(&#x0A;</xsl:text>
-            <xsl:call-template name="test:create-zero-or-more-node-generators">
-               <xsl:with-param name="nodes" as="namespace-node()*">
-                  <!-- $test-attr may use namespace prefixes and/or the default namespace such as
-                     xs:QName('foo') -->
-                  <xsl:sequence select="x:element-additional-namespace-nodes(.)" />
-               </xsl:with-param>
-            </xsl:call-template>
-            <xsl:text>&#x0A;</xsl:text>
-            <xsl:text>)&#x0A;</xsl:text>
-         </xsl:if>
-         <xsl:text>)&#x0A;</xsl:text>
+         <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:variable-UQName(.)}, '{local-name()}')&#x0A;</xsl:text>
       </xsl:if>
 
       <!-- </x:test> -->
@@ -516,6 +485,17 @@
 
       <!-- End of the function -->
       <xsl:text>};&#x0A;</xsl:text>
+   </xsl:template>
+
+   <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="node()+">
+      <xsl:param name="wrapper-name" as="xs:string" />
+      <xsl:param name="node-generators" as="node()+" />
+
+      <xsl:text>element { QName('', '</xsl:text>
+      <xsl:value-of select="$wrapper-name" />
+      <xsl:text>') } {&#x0A;</xsl:text>
+      <xsl:sequence select="$node-generators" />
+      <xsl:text>}</xsl:text>
    </xsl:template>
 
 </xsl:stylesheet>

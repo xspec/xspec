@@ -34,16 +34,19 @@
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <test id="scenario2-expect1" successful="true">
          <label>should work</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$global-param treat as node()+"/>
+         </expect-test-wrap>
          <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
                   xmlns:myv="http://example.org/ns/my/variable"
                   xmlns:x="http://www.jenitennison.com/xslt/xspec"
                   xmlns=""
                   attr="}{">}{</elem>
          </result>
-         <expect xmlns:mirror="x-urn:test:mirror"
-                 xmlns:myv="http://example.org/ns/my/variable"
-                 test="$global-param treat as node()+"
-                 select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+         <expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
          </expect>
       </test>
    </scenario>
@@ -56,16 +59,19 @@
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
       <test id="scenario3-expect1" successful="true">
          <label>should work</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$myv:global-var treat as node()+"/>
+         </expect-test-wrap>
          <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
                   xmlns:myv="http://example.org/ns/my/variable"
                   xmlns:x="http://www.jenitennison.com/xslt/xspec"
                   xmlns=""
                   attr="}{">}{</elem>
          </result>
-         <expect xmlns:mirror="x-urn:test:mirror"
-                 xmlns:myv="http://example.org/ns/my/variable"
-                 test="$myv:global-var treat as node()+"
-                 select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+         <expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
          </expect>
       </test>
    </scenario>
