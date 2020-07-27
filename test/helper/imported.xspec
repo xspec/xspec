@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!-- Just import the helper 'items' module -->
 	<x:helper query="x-urn:test:xspec-items" query-at="../items.xqm" />
 	<x:helper stylesheet="../items.xsl" />
 </x:description>
