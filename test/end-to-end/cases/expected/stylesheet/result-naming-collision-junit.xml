@@ -11,7 +11,7 @@
               tests="2"
               failures="1">
       <testcase name="x:result should be two document nodes" status="passed"/>
-      <testcase name="The result should be saved successfully in yet another external file which is well-formed"
+      <testcase name="&#xA;        - The result should be saved successfully in yet another external file which is well-formed&#xA;        - [Expected Result] should highlight only these differences:&#xA;          - &#34;XPath /element() from&#34; against @select=&#34;node()&#34; in the external file&#xA;          - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt; in the 1st &lt;entries&gt; of the external files&#xA;          (Note that in the test result report XML, the two document nodes from $x:result are&#xA;          unwrapped and merged by &#34;test:report-sequence&#34;.)&#xA;      "
                 status="failed">
          <failure message="expect assertion failed">Expected: /element()</failure>
       </testcase>

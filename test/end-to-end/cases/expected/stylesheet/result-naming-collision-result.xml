@@ -48,11 +48,30 @@
          <expect select="2"/>
       </test>
       <test id="scenario3-expect2" successful="false">
-         <label>The result should be saved successfully in yet another external file which is well-formed</label>
+         <label>
+        - The result should be saved successfully in yet another external file which is well-formed
+        - [Expected Result] should highlight only these differences:
+          - "XPath /element() from" against @select="node()" in the external file
+          - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt; in the 1st &lt;entries&gt; of the external files
+          (Note that in the test result report XML, the two document nodes from $x:result are
+          unwrapped and merged by "test:report-sequence".)
+      </label>
          <expect select="/element()">
-            <foo xmlns:mirror="x-urn:test:mirror"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 xmlns=""/>
+            <entries xmlns:mirror="x-urn:test:mirror"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns="">
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+   </ws>
+               <entry>1</entry>
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+   </ws>
+               <entry>0</entry>
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+   </ws>
+               <entry>3</entry>
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+   </ws>
+            </entries>
          </expect>
       </test>
    </scenario>
