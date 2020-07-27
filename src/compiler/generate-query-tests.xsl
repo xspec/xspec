@@ -64,7 +64,7 @@
 
       <xsl:if test="x:helper">
          <xsl:text>&#x0A;</xsl:text>
-         <xsl:text>(: User-provided library module(s) :)&#x0A;</xsl:text>
+         <xsl:text>(: user-provided library module(s) :)&#x0A;</xsl:text>
          <xsl:call-template name="x:compile-user-helpers" />
       </xsl:if>
 

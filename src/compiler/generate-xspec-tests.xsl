@@ -48,7 +48,7 @@
          </xsl:if>
 
          <xsl:if test="x:helper">
-            <xsl:comment> User-provided library module(s) </xsl:comment>
+            <xsl:comment> user-provided library module(s) </xsl:comment>
             <xsl:call-template name="x:compile-user-helpers" />
          </xsl:if>
 
