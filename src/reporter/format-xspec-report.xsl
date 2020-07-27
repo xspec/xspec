@@ -327,7 +327,8 @@
   <div id="{@id}" class="xTestReport">
 
     <xsl:variable name="result" as="element(x:result)"
-      select="if (x:result) then x:result else ../x:result" />
+      select="(x:result, parent::x:scenario/x:result)[1]" />
+
     <h4 class="xTestReportTitle">
       <xsl:apply-templates select="x:label" mode="#current" />
     </h4>
@@ -337,8 +338,11 @@
         title="What does this report mean?">[?]</a>
     </div>
 
+    <!-- x:expect/@test which may or may not be an xs:boolean at run time -->
+    <xsl:variable as="attribute(test)?" name="test-attr" select="expect-test-wrap/x:expect/@test" />
+
     <!-- True if the expectation is boolean (i.e. x:expect/@test was an xs:boolean at runtime.) -->
-    <xsl:variable as="xs:boolean" name="boolean-test" select="not(x:result) and x:expect/@test" />
+    <xsl:variable as="xs:boolean" name="boolean-test" select="empty(x:result) and $test-attr" />
 
     <table class="xspecResult">
       <thead>
@@ -366,7 +370,7 @@
               <!-- Boolean expectation -->
               <xsl:when test="$boolean-test">
                 <pre>
-                  <xsl:value-of select="x:expect/@test" />
+                  <xsl:value-of select="$test-attr" />
                 </pre>
               </xsl:when>
 
@@ -397,7 +401,7 @@
 -->
 <xsl:mode name="x:format-result" on-multiple-match="fail" on-no-match="fail" />
 
-<xsl:template match="element()" as="element()+" mode="x:format-result">
+<xsl:template match="x:expect | x:result" as="element()+" mode="x:format-result">
   <xsl:param name="result-to-compare-with" as="element()?" required="yes" />
 
   <!-- True if this element represents Expected Result -->

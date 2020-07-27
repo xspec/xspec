@@ -833,6 +833,27 @@
       </xsl:message>
    </xsl:template>
 
+   <xsl:template name="x:report-test-attribute" as="node()+">
+      <xsl:context-item as="element(x:expect)" use="required" />
+
+      <xsl:variable name="expect-test" as="element(x:expect)">
+         <!-- Do not set xsl:copy/@copy-namespaces="no". @test may use namespace prefixes and/or the
+            default namespace such as xs:QName('foo') -->
+         <xsl:copy>
+            <xsl:sequence select="@test" />
+         </xsl:copy>
+      </xsl:variable>
+
+      <!-- Undeclare the default namespace in the wrapper element, because @test may use the default
+         namespace such as xs:QName('foo'). -->
+      <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+         <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
+         <xsl:with-param name="node-generators" as="node()+">
+            <xsl:apply-templates select="$expect-test" mode="test:create-node-generator" />
+         </xsl:with-param>
+      </xsl:call-template>
+   </xsl:template>
+
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
