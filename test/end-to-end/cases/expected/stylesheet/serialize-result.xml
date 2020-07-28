@@ -569,4 +569,81 @@
          </test>
       </scenario>
    </scenario>
+   <scenario id="scenario8" xspec="../../serialize.xspec">
+      <label>When the result contains an element with the default namespace undeclared</label>
+      <scenario id="scenario8-scenario1" xspec="../../serialize.xspec">
+         <label>and it is top-level,</label>
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+            <x:param xmlns="default-ns">
+               <foo xmlns=""/>
+            </x:param>
+         </x:call>
+         <scenario id="scenario8-scenario1-scenario1" xspec="../../serialize.xspec">
+            <label>both in [Result] and [Expected Result] with diff,</label>
+            <result select="/element()">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            </result>
+            <test id="scenario8-scenario1-scenario1-expect1" successful="false">
+               <label>the top-level element should not have unnecessary xmlns="".</label>
+               <expect select="/element()">
+                  <bar xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+               </expect>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario1-scenario2" xspec="../../serialize.xspec">
+            <label>in [Result] without diff,</label>
+            <result select="/element()">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            </result>
+            <test id="scenario8-scenario1-scenario2-expect1" successful="false">
+               <label>the top-level element should not have unnecessary xmlns="".</label>
+               <expect-test-wrap xmlns="">
+                  <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="false()"/>
+               </expect-test-wrap>
+               <expect select="()"/>
+            </test>
+         </scenario>
+      </scenario>
+      <scenario id="scenario8-scenario2" xspec="../../serialize.xspec">
+         <label>and it is 2nd-level,</label>
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+            <x:param xmlns="default-ns">
+               <foo>
+                  <bar xmlns=""/>
+               </foo>
+            </x:param>
+         </x:call>
+         <scenario id="scenario8-scenario2-scenario1" xspec="../../serialize.xspec">
+            <label>both in [Result] and [Expected Result] with diff,</label>
+            <result select="/element()">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                  <bar xmlns=""/>
+               </foo>
+            </result>
+            <test id="scenario8-scenario2-scenario1-expect1" successful="false">
+               <label>the 2nd-level element should have xmlns="".</label>
+               <expect select="/element()">
+                  <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                     <baz xmlns=""/>
+                  </foo>
+               </expect>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario2" xspec="../../serialize.xspec">
+            <label>in [Result] without diff,</label>
+            <result select="/element()">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                  <bar xmlns=""/>
+               </foo>
+            </result>
+            <test id="scenario8-scenario2-scenario2-expect1" successful="false">
+               <label>the 2nd-level element should have xmlns="".</label>
+               <expect-test-wrap xmlns="">
+                  <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="false()"/>
+               </expect-test-wrap>
+               <expect select="()"/>
+            </test>
+         </scenario>
+      </scenario>
+   </scenario>
 </report>
