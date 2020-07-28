@@ -93,8 +93,13 @@
          <xsl:apply-templates select="$combined-doc" mode="x:unshare-scenarios" />
       </xsl:variable>
 
+      <!-- Assign @id -->
+      <xsl:variable name="doc-with-id" as="document-node(element(x:description))">
+         <xsl:apply-templates select="$unshared-doc" mode="x:assign-id" />
+      </xsl:variable>
+
       <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$unshared-doc/element()" mode="x:generate-tests" />
+      <xsl:apply-templates select="$doc-with-id/element()" mode="x:generate-tests" />
    </xsl:template>
 
    <xsl:function name="x:gather-descriptions" as="element(x:description)+">
@@ -704,6 +709,22 @@
    </xsl:template>
 
    <!--
+      mode="x:assign-id"
+      This mode assigns ID to x:scenario and x:expect
+   -->
+   <xsl:mode name="x:assign-id" on-multiple-match="fail" on-no-match="shallow-copy" />
+
+   <xsl:template match="(x:scenario | x:expect)[x:is-user-content(.) => not()]" as="element()"
+      mode="x:assign-id">
+      <xsl:copy>
+         <xsl:attribute name="id">
+            <xsl:apply-templates select="." mode="x:generate-id" />
+         </xsl:attribute>
+         <xsl:apply-templates select="attribute() | node()" mode="#current" />
+      </xsl:copy>
+   </xsl:template>
+
+   <!--
       mode="x:generate-tests"
       Does the generation of the test stylesheet.
       This mode assumes that all the scenarios have already been gathered and unshared.
@@ -743,6 +764,13 @@
    <xsl:mode name="x:generate-id" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="x:scenario" as="xs:string" mode="x:generate-id">
+      <!-- Some ID generators may depend on @xspec, although this default generator doesn't. -->
+      <xsl:if test="empty(@xspec)">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">@xspec not exist when generating ID for {name()}.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <xsl:variable name="ancestor-or-self-tokens" as="xs:string+">
          <xsl:for-each select="ancestor-or-self::x:scenario">
             <!-- Find preceding sibling x:scenario, taking x:pending into account -->
