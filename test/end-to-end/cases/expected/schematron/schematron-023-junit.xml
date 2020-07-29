@@ -7,12 +7,12 @@
    </testsuite>
    <testsuite name="error: expect-valid should fail" tests="1" failures="1">
       <testcase name="valid" status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])</failure>
       </testcase>
    </testsuite>
    <testsuite name="fatal: expect-valid should fail" tests="1" failures="1">
       <testcase name="valid" status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])</failure>
       </testcase>
    </testsuite>
 </testsuites>
