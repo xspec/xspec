@@ -13,7 +13,7 @@
       <testcase name="x:result should be two document nodes" status="passed"/>
       <testcase name="The result should be saved successfully in yet another external file which is well-formed"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
 </testsuites>

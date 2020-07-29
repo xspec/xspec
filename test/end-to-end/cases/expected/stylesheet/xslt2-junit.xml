@@ -15,7 +15,7 @@
                 status="passed"/>
       <testcase name="xslt-version=1.0 in this XSpec file should make this scenario Success when this&#xA;&#x9;&#x9;&#x9;&#x9;XSpec file is executed independently. On the other hand, the result should be&#xA;&#x9;&#x9;&#x9;&#x9;Failure when this XSpec file is imported to another XSpec file which has&#xA;&#x9;&#x9;&#x9;&#x9;xslt-version=2.0 or higher. Expecting the compiled stylesheet to have version=1.0"
                 status="failed">
-         <failure message="expect assertion failed">Expected: '1.0'</failure>
+         <failure message="expect assertion failed">Expected Result: '1.0'</failure>
       </testcase>
    </testsuite>
 </testsuites>
