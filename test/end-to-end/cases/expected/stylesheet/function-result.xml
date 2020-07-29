@@ -5,12 +5,14 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../function.xspec">
       <label>when calling a function and expecting correctly</label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:t="http://www.jenitennison.com/xslt/xspec"
-              function="my:square">
-         <t:param select="3"/>
-      </t:call>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="3"/>
+         </t:call>
+      </input-wrap>
       <result select="9"/>
       <test id="scenario1-expect1" successful="true">
          <label>expecting the correct value must return Success</label>
@@ -29,12 +31,14 @@
    </scenario>
    <scenario id="scenario2" xspec="../../function.xspec">
       <label>when calling a function and expecting incorrectly</label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:t="http://www.jenitennison.com/xslt/xspec"
-              function="my:square">
-         <t:param select="2"/>
-      </t:call>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="2"/>
+         </t:call>
+      </input-wrap>
       <result select="4"/>
       <test id="scenario2-expect1" successful="false">
          <label>expecting an incorrect value must return Failure</label>

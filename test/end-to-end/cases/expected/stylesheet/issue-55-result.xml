@@ -5,10 +5,12 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-55.xspec">
       <label>In a failure report HTML</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:true"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:true"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <test id="scenario1-expect1" successful="false">
          <label>[Expected Result] must represent xs:decimal(1) by "1.0" (numeric literal of

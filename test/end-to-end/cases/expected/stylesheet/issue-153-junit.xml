@@ -7,7 +7,7 @@
                 status="passed"/>
       <testcase name="Comparing the function result with a different date time will report Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-01T00:00:00Z')</failure>
+         <failure message="expect assertion failed">Expected Result: Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-01T00:00:00Z')</failure>
       </testcase>
    </testsuite>
 </testsuites>

@@ -55,4 +55,23 @@
 		<xsl:sequence select="$test-element/exists(@pending)" />
 	</xsl:function>
 
+	<!--
+		Returns x:expect/@test connected with the given x:test.
+		@test might or might not be an xs:boolean at run time.
+	-->
+	<xsl:function as="attribute(test)?" name="x:test-attr">
+		<xsl:param as="element(x:test)" name="test-element" />
+
+		<xsl:sequence select="$test-element/expect-test-wrap/x:expect/@test" />
+	</xsl:function>
+
+	<!--
+		Returns true if x:expect/@test was an xs:boolean at run time.
+	-->
+	<xsl:function as="xs:boolean" name="x:is-boolean-test">
+		<xsl:param as="element(x:test)" name="test-element" />
+
+		<xsl:sequence select="$test-element ! (empty(x:result) and x:test-attr(.))" />
+	</xsl:function>
+
 </xsl:stylesheet>

@@ -9,9 +9,11 @@
 			&lt;!-- --&gt;. (xspec/xspec#356) So...</label>
       <scenario id="scenario1-scenario1" xspec="../../serialize.xspec">
          <label>When x:result in the report XML contains a comment node,</label>
-         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-            <x:param select="$Q{x-urn:test:xspec-items}comment"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+               <x:param select="$Q{x-urn:test:xspec-items}comment"/>
+            </x:call>
+         </input-wrap>
          <result select="/comment()"><!--comment-text--></result>
          <test id="scenario1-scenario1-expect1" successful="false">
             <label>[Result] with diff must be serialized as &lt;!-- --&gt;.</label>
@@ -27,7 +29,9 @@
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../serialize.xspec">
          <label>When x:expect in the report XML contains a comment node,</label>
-         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <test id="scenario1-scenario2-expect1" successful="false">
             <label>[Expected Result] with diff must be serialized as
@@ -44,17 +48,19 @@
          <scenario id="scenario2-scenario1-scenario1" xspec="../../serialize.xspec">
             <label>When x:result in the report XML file is a sequence of simple nested
 					elements serialized with indentation,</label>
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
-               <x:param as="element()+">
-                  <foo xmlns=""/>
-                  <bar xmlns="">
-                     <baz/>
-                  </bar>
-                  <qux xmlns="">
-                     <quux/>
-                  </qux>
-               </x:param>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+                  <x:param as="element()+">
+                     <foo/>
+                     <bar>
+                        <baz/>
+                     </bar>
+                     <qux>
+                        <quux/>
+                     </qux>
+                  </x:param>
+               </x:call>
+            </input-wrap>
             <result select="/element()">
                <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
                <bar xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
@@ -81,7 +87,9 @@
          <scenario id="scenario2-scenario1-scenario2" xspec="../../serialize.xspec">
             <label>When x:expect in the report XML file is a sequence of simple nested
 					elements serialized with indentation,</label>
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+            <input-wrap xmlns="">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+            </input-wrap>
             <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <test id="scenario2-scenario1-scenario2-expect1" successful="false">
                <label>all elements in [Expected Result] with diff must be serialized with
@@ -107,16 +115,18 @@
                       xspec="../../serialize.xspec">
                <label>When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in
 						x:result of the report XML file,</label>
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-                  <x:param as="element(test)">
-                     <test xmlns="">
-                        <elem1><!--foo-->
-                           <bar/>
-                        </elem1>
-                        <elem2><!--foo--><?bar?></elem2>
-                     </test>
-                  </x:param>
-               </x:call>
+               <input-wrap xmlns="">
+                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+                     <x:param as="element(test)">
+                        <test>
+                           <elem1><!--foo-->
+                              <bar/>
+                           </elem1>
+                           <elem2><!--foo--><?bar?></elem2>
+                        </test>
+                     </x:param>
+                  </x:call>
+               </input-wrap>
                <result select="/element()">
                   <test xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
                      <elem1><!--foo-->
@@ -140,15 +150,17 @@
                       xspec="../../serialize.xspec">
                <label>When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in
 						x:expect of the report XML file,</label>
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-                  <x:param as="element(test)">
-                     <test xmlns="">
-                        <elem1>foo<bar/>
-                        </elem1>
-                        <elem2>foo<?bar?></elem2>
-                     </test>
-                  </x:param>
-               </x:call>
+               <input-wrap xmlns="">
+                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+                     <x:param as="element(test)">
+                        <test>
+                           <elem1>foo<bar/>
+                           </elem1>
+                           <elem2>foo<?bar?></elem2>
+                        </test>
+                     </x:param>
+                  </x:call>
+               </input-wrap>
                <result select="/element()">
                   <test xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
                      <elem1>foo<bar/>
@@ -177,16 +189,18 @@
                <label>So, when the same &lt;bar&gt; in &lt;foo&gt; is indented in x:result
 						and x:expect of the report XML file with different indentation
 						length,</label>
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-                  <x:param as="element(test)">
-                     <test xmlns="">
-                        <foo>
-                           <bar/>
-                        </foo>
-                        <baz/>
-                     </test>
-                  </x:param>
-               </x:call>
+               <input-wrap xmlns="">
+                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+                     <x:param as="element(test)">
+                        <test>
+                           <foo>
+                              <bar/>
+                           </foo>
+                           <baz/>
+                        </test>
+                     </x:param>
+                  </x:call>
+               </input-wrap>
                <result select="/element()">
                   <test xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
                      <foo>
@@ -212,14 +226,16 @@
    </scenario>
    <scenario id="scenario3" xspec="../../serialize.xspec">
       <label>When x:expect has an element of '...',</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-         <x:param as="element(foo)">
-            <foo xmlns="">
-               <bar/>
-               <baz/>
-            </foo>
-         </x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:param as="element(foo)">
+               <foo>
+                  <bar/>
+                  <baz/>
+               </foo>
+            </x:param>
+         </x:call>
+      </input-wrap>
       <result select="/element()">
          <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
             <bar/>
@@ -237,22 +253,24 @@
    </scenario>
    <scenario id="scenario4" xspec="../../serialize.xspec">
       <label>When the result contains significant text nodes,</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-         <x:param as="element(test)">
-            <test xmlns="">
-               <oridinary-text-node>
-                  <same>same</same>
-                  <diff>actual</diff>
-               </oridinary-text-node>
-               <significant-whitespace-only-text-node>
-                  <same xml:space="preserve">	
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:param as="element(test)">
+               <test>
+                  <oridinary-text-node>
+                     <same>same</same>
+                     <diff>actual</diff>
+                  </oridinary-text-node>
+                  <significant-whitespace-only-text-node>
+                     <same xml:space="preserve">	
 &#xD; </same>
-                  <diff xml:space="preserve">	
+                     <diff xml:space="preserve">	
 &#xD; </diff>
-               </significant-whitespace-only-text-node>
-            </test>
-         </x:param>
-      </x:call>
+                  </significant-whitespace-only-text-node>
+               </test>
+            </x:param>
+         </x:call>
+      </input-wrap>
       <result select="/element()">
          <test xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
             <oridinary-text-node>
@@ -301,9 +319,11 @@
          <label>When the report XML contains an element with several namespaces</label>
          <scenario id="scenario5-scenario1-scenario1" xspec="../../serialize.xspec">
             <label>in x:result,</label>
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-               <x:param select="$test"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+                  <x:param select="$test"/>
+               </x:call>
+            </input-wrap>
             <result select="/element()">
                <looooooooooooooooooooooooooooooooooong xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
                   <test xmlns:ns1="ns1" xmlns:ns2="ns2" xmlns:ns3="ns3" xmlns="ns">
@@ -327,7 +347,9 @@
          </scenario>
          <scenario id="scenario5-scenario1-scenario2" xspec="../../serialize.xspec">
             <label>in x:expect,</label>
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+            <input-wrap xmlns="">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+            </input-wrap>
             <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <test id="scenario5-scenario1-scenario2-expect1" successful="false">
                <label>[Expected Result] with diff must be serialized with aligned
@@ -346,9 +368,11 @@
          <label>When the report XML contains an element with several attributes</label>
          <scenario id="scenario5-scenario2-scenario1" xspec="../../serialize.xspec">
             <label>in x:result,</label>
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-               <x:param select="$test"/>
-            </x:call>
+            <input-wrap xmlns="">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+                  <x:param select="$test"/>
+               </x:call>
+            </input-wrap>
             <result select="/element()">
                <looooooooooooooooooooooooooooooooooong xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
                   <test attr1="val1" attr2="val2" attr3="val3">
@@ -372,7 +396,9 @@
          </scenario>
          <scenario id="scenario5-scenario2-scenario2" xspec="../../serialize.xspec">
             <label>in x:expect,</label>
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+            <input-wrap xmlns="">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+            </input-wrap>
             <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <test id="scenario5-scenario2-scenario2-expect1" successful="false">
                <label>[Expected Result] with diff must be serialized with aligned
@@ -390,13 +416,15 @@
    </scenario>
    <scenario id="scenario6" xspec="../../serialize.xspec">
       <label>When the result contains attribute,</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
-         <x:param>
-            <exact-match xmlns="" attr1="value1" attr2="value2" attr3="" attr4=""/>
-            <name-match xmlns="" attr1="value1" attr2="value2" attr3="" attr4="..."/>
-            <orphan xmlns="" attr1="value1" attr2="" attr3="..."/>
-         </x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+            <x:param>
+               <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
+               <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
+               <orphan attr1="value1" attr2="" attr3="..."/>
+            </x:param>
+         </x:call>
+      </input-wrap>
       <scenario id="scenario6-scenario1" xspec="../../serialize.xspec">
          <label>both in [Result] and [Expected Result] with diff,</label>
          <result select="/element()">
@@ -476,25 +504,27 @@
    </scenario>
    <scenario id="scenario7" xspec="../../serialize.xspec">
       <label>When the result contains processing instructions,</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
-         <x:param>
-            <exact-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
-            <name-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
-            <value-match xmlns=""><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
-            <no-match xmlns="">
-               <different-kind><?node1 value1?>
-                  <node2/>
-                  <?node3?>
-                  <node4/>
-                  <node5/>
-               </different-kind>
-               <orphan>
-                  <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
-                  <node2/>
-               </orphan>
-            </no-match>
-         </x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+            <x:param>
+               <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
+               <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
+               <value-match><?node1 value1?><?node2 value2?><?node3?><?node4?></value-match>
+               <no-match>
+                  <different-kind><?node1 value1?>
+                     <node2/>
+                     <?node3?>
+                     <node4/>
+                     <node5/>
+                  </different-kind>
+                  <orphan>
+                     <node1><?node1-1 value1-1?><?node1-2?><?node1-3 ...?></node1>
+                     <node2/>
+                  </orphan>
+               </no-match>
+            </x:param>
+         </x:call>
+      </input-wrap>
       <scenario id="scenario7-scenario1" xspec="../../serialize.xspec">
          <label>both in [Result] and [Expected Result] with diff,</label>
          <result select="/element()">
@@ -568,6 +598,87 @@
             </expect-test-wrap>
             <expect select="()"/>
          </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario8" xspec="../../serialize.xspec">
+      <label>When the result contains an element with the default namespace undeclared</label>
+      <scenario id="scenario8-scenario1" xspec="../../serialize.xspec">
+         <label>and it is top-level,</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+               <x:param xmlns="default-ns">
+                  <foo xmlns=""/>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <scenario id="scenario8-scenario1-scenario1" xspec="../../serialize.xspec">
+            <label>both in [Result] and [Expected Result] with diff,</label>
+            <result select="/element()">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            </result>
+            <test id="scenario8-scenario1-scenario1-expect1" successful="false">
+               <label>the top-level element should not have unnecessary xmlns="".</label>
+               <expect select="/element()">
+                  <bar xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+               </expect>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario1-scenario2" xspec="../../serialize.xspec">
+            <label>in [Result] without diff,</label>
+            <result select="/element()">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            </result>
+            <test id="scenario8-scenario1-scenario2-expect1" successful="false">
+               <label>the top-level element should not have unnecessary xmlns="".</label>
+               <expect-test-wrap xmlns="">
+                  <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="false()"/>
+               </expect-test-wrap>
+               <expect select="()"/>
+            </test>
+         </scenario>
+      </scenario>
+      <scenario id="scenario8-scenario2" xspec="../../serialize.xspec">
+         <label>and it is 2nd-level,</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+               <x:param xmlns="default-ns">
+                  <foo>
+                     <bar xmlns=""/>
+                  </foo>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <scenario id="scenario8-scenario2-scenario1" xspec="../../serialize.xspec">
+            <label>both in [Result] and [Expected Result] with diff,</label>
+            <result select="/element()">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                  <bar xmlns=""/>
+               </foo>
+            </result>
+            <test id="scenario8-scenario2-scenario1-expect1" successful="false">
+               <label>the 2nd-level element should have xmlns="".</label>
+               <expect select="/element()">
+                  <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                     <baz xmlns=""/>
+                  </foo>
+               </expect>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario2" xspec="../../serialize.xspec">
+            <label>in [Result] without diff,</label>
+            <result select="/element()">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="default-ns">
+                  <bar xmlns=""/>
+               </foo>
+            </result>
+            <test id="scenario8-scenario2-scenario2-expect1" successful="false">
+               <label>the 2nd-level element should have xmlns="".</label>
+               <expect-test-wrap xmlns="">
+                  <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="false()"/>
+               </expect-test-wrap>
+               <expect select="()"/>
+            </test>
+         </scenario>
       </scenario>
    </scenario>
 </report>

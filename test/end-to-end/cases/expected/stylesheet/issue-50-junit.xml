@@ -5,7 +5,7 @@
               failures="1">
       <testcase name="must generate a failure report HTML which reads [Result] =&#xA;&#x9;&#x9;&#x9;&#x9;&#34;xs:untypedAtomic('0123')&#34; and [Expected Result] = &#34;xs:hexBinary('0123')&#34;"
                 status="failed">
-         <failure message="expect assertion failed">Expected: Q{http://www.w3.org/2001/XMLSchema}hexBinary('0123')</failure>
+         <failure message="expect assertion failed">Expected Result: Q{http://www.w3.org/2001/XMLSchema}hexBinary('0123')</failure>
       </testcase>
    </testsuite>
 </testsuites>

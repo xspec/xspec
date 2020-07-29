@@ -5,7 +5,7 @@
    </testsuite>
    <testsuite name="x:context with incorrect x:expect" tests="1" failures="1">
       <testcase name="must return Failure" status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
 </testsuites>

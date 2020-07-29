@@ -6,11 +6,13 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../imported.xspec">
       <label>a correct scenario in an imported file</label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:t="http://www.jenitennison.com/xslt/xspec"
-              function="my:square">
-         <t:param select="3"/>
-      </t:call>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="3"/>
+         </t:call>
+      </input-wrap>
       <result select="9"/>
       <test id="scenario1-expect1" successful="true">
          <label>must return Success</label>
@@ -19,11 +21,13 @@
    </scenario>
    <scenario id="scenario2" xspec="../../imported.xspec">
       <label>an incorrect scenario in an imported file</label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:t="http://www.jenitennison.com/xslt/xspec"
-              function="my:square">
-         <t:param select="2"/>
-      </t:call>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="2"/>
+         </t:call>
+      </input-wrap>
       <result select="4"/>
       <test id="scenario2-expect1" successful="false">
          <label>must return Failure</label>

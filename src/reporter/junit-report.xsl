@@ -66,19 +66,29 @@
                 </xsl:when>
                 <xsl:when test="x:is-failed-test(.)">
                     <failure message="expect assertion failed">
-                        <xsl:apply-templates select="x:expect"/>
+                        <xsl:choose>
+                            <xsl:when test="x:is-boolean-test(.)">
+                                <!-- The word "Expecting" is based on https://github.com/xspec/xspec/blob/177b06c9c9970209047bef7fd5168453d545ab2d/src/reporter/format-xspec-report.xsl#L353 -->
+                                <xsl:text expand-text="yes">Expecting: {x:test-attr(.)}</xsl:text>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates select="x:expect"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </failure>
                 </xsl:when>
             </xsl:choose>
         </testcase>
     </xsl:template>
 
-    <xsl:template match="x:expect[@select]" as="text()">
-        <xsl:text expand-text="yes">Expected: {@select}</xsl:text>
+    <xsl:template match="x:expect[@select][empty(attribute() except @select)][node() => empty()]"
+        as="text()">
+        <!-- The phrase "Expected Result" is based on https://github.com/xspec/xspec/blob/177b06c9c9970209047bef7fd5168453d545ab2d/src/reporter/format-xspec-report.xsl#L354 -->
+        <xsl:text expand-text="yes">Expected Result: {@select}</xsl:text>
     </xsl:template>
 
-    <xsl:template match="x:expect" as="text()">
-        <xsl:value-of select="serialize(., map { 'omit-xml-declaration': true() })"/>
+    <xsl:template match="x:expect" as="empty-sequence()">
+        <!-- Not simple -->
     </xsl:template>
 
 </xsl:stylesheet>
