@@ -72,7 +72,8 @@
          select="x:gather-descriptions($this/x:description)" />
 
       <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
-         including x:variable, x:import and comments. -->
+         including x:variable, x:import and comments.
+         The original node identities, document URI and base URI are lost in this processing. -->
       <xsl:variable name="specs" as="node()+">
          <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
       </xsl:variable>
@@ -104,7 +105,27 @@
                   from the other trees. -->
                <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
                   inherit-namespaces="no">
-                  <xsl:sequence select="attribute()" />
+                  <!-- Do not set all the attributes. Each imported x:description has its own set of
+                     attributes. Set only the attributes that are truly global over all the XSpec
+                     documents. -->
+
+                  <!-- Global Schematron attributes.
+                     These attributes are already absolute. (resolved by schut-to-xspec.xsl) -->
+                  <xsl:sequence select="@schematron | @xspec-original-location" />
+
+                  <!-- Global XQuery attributes.
+                     @query-at is handled by generate-query-tests.xsl -->
+                  <xsl:sequence select="@query | @xquery-version" />
+
+                  <!-- Global XSLT attributes.
+                     @xslt-version can be set, because it has already been propagated from each
+                     imported x:description to its descendants in mode="x:gather-specs". -->
+                  <xsl:sequence select="@xslt-version" />
+                  <xsl:for-each select="@stylesheet">
+                     <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+                        select="resolve-uri(., base-uri())" />
+                  </xsl:for-each>
+
                   <xsl:sequence select="$doc-with-id" />
                </xsl:element>
             </xsl:for-each>
@@ -112,9 +133,7 @@
       </xsl:variable>
 
       <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$combined-doc/x:description" mode="x:generate-tests">
-         <xsl:with-param name="initial-description" select="$this/x:description" />
-      </xsl:apply-templates>
+      <xsl:apply-templates select="$combined-doc/x:description" mode="x:generate-tests" />
    </xsl:template>
 
    <xsl:function name="x:gather-descriptions" as="element(x:description)+">

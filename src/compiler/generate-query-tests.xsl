@@ -39,17 +39,16 @@
       select="resolve-uri('generate-query-utils.xqm')" />
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
-   <xsl:param name="query-at" as="xs:string?" select="
-       /x:description/@query-at/resolve-uri(., base-uri(..))"/>
-   <!--xsl:param name="query-at" as="xs:string?" select="
-       /x:description/@query-at"/-->
+   <xsl:param name="query-at" as="xs:string?"
+      select="/x:description/@query-at/resolve-uri(., base-uri())"/>
+
+   <xsl:variable name="copy-of-global-namespace-nodes" as="namespace-node()*"
+      select="x:copy-of-namespaces(/x:description)" />
 
    <!--
       mode="x:generate-tests"
    -->
    <xsl:template match="x:description" as="node()+" mode="x:generate-tests">
-      <xsl:param name="initial-description" as="element(x:description)" />
-
       <xsl:variable name="this" select="." as="element(x:description)" />
 
       <!-- Version declaration -->
@@ -83,8 +82,9 @@
 
       <xsl:text>&#x0A;</xsl:text>
 
-      <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes. -->
-      <xsl:for-each select="x:copy-of-namespaces($initial-description)[name() (: Exclude the default namespace :)]">
+      <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes.
+         Unlike XSLT, XQuery requires them to be declared globally. -->
+      <xsl:for-each select="$copy-of-global-namespace-nodes[name() (: Exclude the default namespace :)]">
          <xsl:text expand-text="yes">declare namespace {name()} = "{string()}";&#x0A;</xsl:text>
       </xsl:for-each>
 
