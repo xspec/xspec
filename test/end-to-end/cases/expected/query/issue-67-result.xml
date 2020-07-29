@@ -6,9 +6,11 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-67.xspec">
       <label>Comparing identical namespace</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-         <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
+         </x:call>
+      </input-wrap>
       <result select="/*/namespace::*">
          <pseudo-namespace-node xmlns:namespace-name="namespace-text"/>
       </result>
@@ -21,9 +23,11 @@
    </scenario>
    <scenario id="scenario2" xspec="../../issue-67.xspec">
       <label>Comparing identical default namespace</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-         <x:param select="$Q{x-urn:test:xspec-items}default-namespace"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:param select="$Q{x-urn:test:xspec-items}default-namespace"/>
+         </x:call>
+      </input-wrap>
       <result select="/*/namespace::*">
          <_0:pseudo-namespace-node xmlns="default-namespace-text"
                                    xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
@@ -38,9 +42,11 @@
    </scenario>
    <scenario id="scenario3" xspec="../../issue-67.xspec">
       <label>Comparing different namespaces</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-         <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:param select="$Q{x-urn:test:xspec-items}namespace"/>
+         </x:call>
+      </input-wrap>
       <result select="/*/namespace::*">
          <pseudo-namespace-node xmlns:namespace-name="namespace-text"/>
       </result>

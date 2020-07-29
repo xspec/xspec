@@ -5,9 +5,11 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../../../../tutorial/coverage/demo.xspec">
       <label>'iron' element</label>
-      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
-         <iron xmlns="" weight="1"/>
-      </x:context>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <iron weight="1"/>
+         </x:context>
+      </input-wrap>
       <result select="/element()">
          <shield xmlns="" weight="1"/>
       </result>
