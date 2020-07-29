@@ -244,7 +244,15 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name('text', parent::element())}"
+         <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
+            created element does not pollute the namespaces copied for TVT.
+            Unfortunately the parent element does not always have the XSpec namespace. So, search
+            the ancestor elements for the XSpec namespace that will be less likely to be intrusive. -->
+         <xsl:element name="{
+            x:xspec-name(
+               'text',
+               ancestor::element()[x:copy-of-namespaces(.) = $x:xspec-namespace][1]
+            )}"
             namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
