@@ -604,11 +604,13 @@
       <label>When the result contains an element with the default namespace undeclared</label>
       <scenario id="scenario8-scenario1" xspec="../../serialize.xspec">
          <label>and it is top-level,</label>
-         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
-            <x:param xmlns="default-ns">
-               <foo xmlns=""/>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+               <x:param xmlns="default-ns">
+                  <foo xmlns=""/>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <scenario id="scenario8-scenario1-scenario1" xspec="../../serialize.xspec">
             <label>both in [Result] and [Expected Result] with diff,</label>
             <result select="/element()">
@@ -637,13 +639,15 @@
       </scenario>
       <scenario id="scenario8-scenario2" xspec="../../serialize.xspec">
          <label>and it is 2nd-level,</label>
-         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
-            <x:param xmlns="default-ns">
-               <foo>
-                  <bar xmlns=""/>
-               </foo>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+               <x:param xmlns="default-ns">
+                  <foo>
+                     <bar xmlns=""/>
+                  </foo>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <scenario id="scenario8-scenario2-scenario1" xspec="../../serialize.xspec">
             <label>both in [Result] and [Expected Result] with diff,</label>
             <result select="/element()">

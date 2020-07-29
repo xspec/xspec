@@ -119,19 +119,19 @@
               failures="4">
       <testcase name="and it is top-level, both in [Result] and [Expected Result] with diff, the top-level element should not have unnecessary xmlns=&#34;&#34;."
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="and it is top-level, in [Result] without diff, the top-level element should not have unnecessary xmlns=&#34;&#34;."
                 status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: false()</failure>
       </testcase>
       <testcase name="and it is 2nd-level, both in [Result] and [Expected Result] with diff, the 2nd-level element should have xmlns=&#34;&#34;."
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="and it is 2nd-level, in [Result] without diff, the 2nd-level element should have xmlns=&#34;&#34;."
                 status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: false()</failure>
       </testcase>
    </testsuite>
 </testsuites>
