@@ -338,11 +338,7 @@
         title="What does this report mean?">[?]</a>
     </div>
 
-    <!-- x:expect/@test which may or may not be an xs:boolean at run time -->
-    <xsl:variable as="attribute(test)?" name="test-attr" select="expect-test-wrap/x:expect/@test" />
-
-    <!-- True if the expectation is boolean (i.e. x:expect/@test was an xs:boolean at runtime.) -->
-    <xsl:variable as="xs:boolean" name="boolean-test" select="empty(x:result) and $test-attr" />
+    <xsl:variable as="xs:boolean" name="boolean-test" select="x:is-boolean-test(.)" />
 
     <table class="xspecResult">
       <thead>
@@ -370,7 +366,7 @@
               <!-- Boolean expectation -->
               <xsl:when test="$boolean-test">
                 <pre>
-                  <xsl:value-of select="$test-attr" />
+                  <xsl:value-of select="x:test-attr(.)" />
                 </pre>
               </xsl:when>
 
@@ -407,6 +403,13 @@
   <!-- True if this element represents Expected Result -->
   <xsl:variable name="expected" as="xs:boolean" select=". instance of element(x:expect)" />
 
+  <!-- Dereference @href if any and redefine the variable with it -->
+  <xsl:variable name="result-to-compare-with" as="element()?"
+    select="
+      if ($result-to-compare-with/@href)
+      then exactly-one(document($result-to-compare-with/@href)/element())
+      else $result-to-compare-with" />
+
   <xsl:choose>
     <xsl:when test="@href or node() or (@select eq '/self::document-node()')">
       <xsl:if test="@select">
@@ -436,16 +439,17 @@
           </p>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:variable name="indentation"
-            select="string-length(substring-after(text()[1], '&#xA;'))" />
+          <xsl:variable name="indentation" as="xs:integer"
+            select="
+              text()[1]
+              => substring-after('&#xA;')
+              => string-length()" />
           <pre>
             <xsl:choose>
               <!-- Serialize the result while performing comparison -->
               <xsl:when test="exists($result-to-compare-with)">
                 <xsl:variable name="nodes-to-compare-with" as="node()*"
-                  select="if ($result-to-compare-with/@href)
-                          then document($result-to-compare-with/@href)/node()
-                          else $result-to-compare-with/node()" />
+                  select="$result-to-compare-with/node()" />
                 <xsl:for-each select="node()">
                   <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
                   <xsl:apply-templates select="." mode="test:serialize">

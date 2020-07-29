@@ -8,10 +8,12 @@
       <label>Scenario for verifying that boolean @test precedes @href</label>
       <scenario id="scenario1-scenario1" xspec="../../ambiguous-expect.xspec">
          <label>When function returns true,</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:true"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:true"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <test id="scenario1-scenario1-expect1" successful="false">
             <label>Expecting document node via @href should be Failure</label>
@@ -37,10 +39,12 @@
       <label>Scenario for verifying that boolean @test precedes @select</label>
       <scenario id="scenario2-scenario1" xspec="../../ambiguous-expect.xspec">
          <label>When function returns false,</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:false"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:false"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <test id="scenario2-scenario1-expect1" successful="true">
             <label>Expecting false via @select should be Success</label>
@@ -62,10 +66,12 @@
       <label>Scenario for verifying that boolean @test precedes child node</label>
       <scenario id="scenario3-scenario1" xspec="../../ambiguous-expect.xspec">
          <label>When function returns true,</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:true"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:true"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <test id="scenario3-scenario1-expect1" successful="false">
             <label>Expecting element(foo) via child node should be Failure</label>
@@ -97,10 +103,12 @@
       <label>Scenario for verifying that boolean @test precedes empty sequence (no @href, @select or child node)</label>
       <scenario id="scenario4-scenario1" xspec="../../ambiguous-expect.xspec">
          <label>When function returns true,</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:true"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:true"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <test id="scenario4-scenario1-expect1" successful="false">
             <label>Expecting empty sequence (no @href, @select or child node) should be Failure</label>

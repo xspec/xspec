@@ -9,7 +9,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;...&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem&gt;...&lt;/elem&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem&gt;...&lt;/elem&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
@@ -17,7 +17,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem&gt;...&lt;/elem&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem&gt;text&lt;/elem&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant element (with attribute)"
@@ -29,7 +29,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem attrib=&#34;val&#34; /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem&gt;...&lt;/elem&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant element (with mixed content)"
@@ -45,7 +45,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant attribute" tests="6" failures="1">
@@ -61,7 +61,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9; @attrib=&#34;val&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /*/@*</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant text node" tests="9" failures="5">
@@ -69,29 +69,29 @@
                 status="passed"/>
       <testcase name="When result is usual text node expecting '...' should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: '...'</failure>
+         <failure message="expect assertion failed">Expected Result: '...'</failure>
       </testcase>
       <testcase name="When result is whitespace-only text node expecting ... should be Success"
                 status="passed"/>
       <testcase name="When result is whitespace-only text node expecting usual text node should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is zero-length text node expecting ... should be Success"
                 status="passed"/>
       <testcase name="When result is zero-length text node expecting usual text node should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is three-dot text node expecting ... should be Success"
                 status="passed"/>
       <testcase name="When result is three-dot text node expecting usual text node should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is three-dot text node expecting '...' should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: '...'</failure>
+         <failure message="expect assertion failed">Expected Result: '...'</failure>
       </testcase>
    </testsuite>
    <testsuite name="For resultant comment" tests="6" failures="1">
@@ -107,7 +107,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;!--...--&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;!--comment--&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /comment()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant processing instruction" tests="6" failures="1">
@@ -123,13 +123,13 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;?pi ...?&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&lt;?pi data?&gt;&#xA;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /processing-instruction()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant document node" tests="7" failures="3">
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;...&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /self::document-node()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ... should be Success"
                 status="passed"/>
@@ -137,7 +137,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;...&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /self::document-node()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;...&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;...&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Success"
                 status="passed"/>
@@ -145,7 +145,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;...&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&lt;xsl:document&gt;text&lt;/xsl:document&gt;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /self::document-node()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant namespace node" tests="7" failures="1">
@@ -163,7 +163,7 @@
                 status="passed"/>
       <testcase name="When result is&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;...&#34;&#xA;&#x9;&#x9;&#x9;&#x9; expecting&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;  xmlns:prefix=&#34;namespace-uri&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /*/namespace::*</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant sequence of multiple nodes"
@@ -175,20 +175,20 @@
                 status="passed"/>
       <testcase name="When result is sequence of&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem1 /&gt;&lt;elem2 /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ... should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is sequence of&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem1 /&gt;&lt;elem2 /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting ...... should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is sequence of&#xA;&#x9;&#x9;&#x9;&#x9;&lt;elem1 /&gt;&lt;elem2 /&gt;&#xA;&#x9;&#x9;&#x9;&#x9; expecting sequence of three ... should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="When result is empty sequence" tests="1" failures="1">
       <testcase name="expecting ... should be Failure" status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="For resultant atomic value" tests="6" failures="4">
@@ -196,37 +196,37 @@
                 status="passed"/>
       <testcase name="When result is 'string' expecting ... should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is 'string' expecting '...' should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: '...'</failure>
+         <failure message="expect assertion failed">Expected Result: '...'</failure>
       </testcase>
       <testcase name="When result is '...' expecting '...' should be Success"
                 status="passed"/>
       <testcase name="When result is '...' expecting ... should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When result is '...' expecting 'string' should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: 'string'</failure>
+         <failure message="expect assertion failed">Expected Result: 'string'</failure>
       </testcase>
    </testsuite>
    <testsuite name="For any resultant item" tests="4" failures="4">
       <testcase name="expecting .... (four dots) should be Failure" status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="expecting ...x (three dots with extra character) should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="expecting ... with surrounding whitespace should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /text()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="expecting '...' (xs:string) should be Failure" status="failed">
-         <failure message="expect assertion failed">Expected: '...'</failure>
+         <failure message="expect assertion failed">Expected Result: '...'</failure>
       </testcase>
    </testsuite>
 </testsuites>

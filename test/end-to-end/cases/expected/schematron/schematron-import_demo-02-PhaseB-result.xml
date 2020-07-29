@@ -7,9 +7,11 @@
    <scenario id="scenario1"
              xspec="../../../../../tutorial/schematron/demo-02-PhaseB.xspec">
       <label>Pattern 2</label>
-      <x:context xmlns:local="local"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 href="../../../../../tutorial/schematron/demo-02.xml"/>
+      <input-wrap xmlns="">
+         <x:context xmlns:local="local"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    href="../../../../../tutorial/schematron/demo-02.xml"/>
+      </input-wrap>
       <result select="/element()">
          <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -102,9 +104,11 @@
    <scenario id="scenario2"
              xspec="../../../../../tutorial/schematron/demo-02-import1.xspec">
       <label>Pattern 3 - Shared</label>
-      <x:context xmlns:local="local"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 href="../../../../../tutorial/schematron/demo-02.xml"/>
+      <input-wrap xmlns="">
+         <x:context xmlns:local="local"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    href="../../../../../tutorial/schematron/demo-02.xml"/>
+      </input-wrap>
       <result select="/element()">
          <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -188,9 +192,11 @@
    <scenario id="scenario3"
              xspec="../../../../../tutorial/schematron/demo-02-import2.xspec">
       <label>Pattern 4 - example of a second level of imported scenarios</label>
-      <x:context xmlns:local="local"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 href="../../../../../tutorial/schematron/demo-02.xml"/>
+      <input-wrap xmlns="">
+         <x:context xmlns:local="local"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    href="../../../../../tutorial/schematron/demo-02.xml"/>
+      </input-wrap>
       <result select="/element()">
          <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -274,13 +280,15 @@
    <scenario id="scenario4"
              xspec="../../../../../tutorial/schematron/demo-02-import3.xspec">
       <label>XSpec function scenario imported</label>
-      <x:call xmlns:local="local"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="local:add">
-         <x:param name="a" select="5" as="xs:integer"/>
-         <x:param name="b" select="2" as="xs:integer"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:local="local"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="local:add">
+            <x:param name="a" select="5" as="xs:integer"/>
+            <x:param name="b" select="2" as="xs:integer"/>
+         </x:call>
+      </input-wrap>
       <result select="7"/>
       <test id="scenario4-expect1" successful="true">
          <label>add 5 + 2</label>

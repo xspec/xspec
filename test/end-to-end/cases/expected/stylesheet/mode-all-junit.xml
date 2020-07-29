@@ -4,21 +4,21 @@
       <testcase name="should work" status="passed"/>
       <testcase name="should report Expected Result correctly on failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="function-call" tests="2" failures="1">
       <testcase name="should work" status="passed"/>
       <testcase name="should report Expected Result correctly on failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
    <testsuite name="template-call" tests="2" failures="1">
       <testcase name="should work" status="passed"/>
       <testcase name="should report Expected Result correctly on failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
 </testsuites>
