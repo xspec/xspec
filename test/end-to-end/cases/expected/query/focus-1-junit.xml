@@ -19,7 +19,7 @@
    </testsuite>
    <testsuite name="a focused incorrect scenario" tests="1" failures="1">
       <testcase name="must execute the test and return Failure" status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
       </testcase>
    </testsuite>
 </testsuites>
