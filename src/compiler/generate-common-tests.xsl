@@ -110,7 +110,8 @@
                      documents. -->
 
                   <!-- Global Schematron attributes.
-                     These attributes are already absolute. (resolved by schut-to-xspec.xsl) -->
+                     These attributes are already absolute. (resolved by
+                     ../schematron/schut-to-xspec.xsl) -->
                   <xsl:sequence select="@schematron | @xspec-original-location" />
 
                   <!-- Global XQuery attributes.
