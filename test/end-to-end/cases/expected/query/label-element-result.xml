@@ -11,7 +11,9 @@
 &#xD; Scenario	
 &#xD; 	
 &#xD; </label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <test id="scenario1-expect1" successful="false">
          <label>	
@@ -33,7 +35,9 @@
 &#xD; Scenario	
 &#xD; 	
 &#xD; </label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <test id="scenario2-expect1" successful="false">
          <label>	
@@ -55,7 +59,9 @@
 &#xD; Scenario	
 &#xD; 	
 &#xD; </label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <test id="scenario3-expect1" successful="false">
          <label>	

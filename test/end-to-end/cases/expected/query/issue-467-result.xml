@@ -6,19 +6,21 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-467.xspec">
       <label>Testing namespace differences</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param>
-            <e1 xmlns="ns1">
-               <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2">
-                  <ns3:e3>
-                     <e4/>
-                  </ns3:e3>
-               </e2>
-            </e1>
-         </x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>
+               <e1 xmlns="ns1">
+                  <e2 xmlns:ns3="ns3" xmlns:ns4="ns4" xmlns="ns2">
+                     <ns3:e3>
+                        <e4/>
+                     </ns3:e3>
+                  </e2>
+               </e1>
+            </x:param>
+         </x:call>
+      </input-wrap>
       <result select="/element()">
          <e1 xmlns:mirror="x-urn:test:mirror"
              xmlns:x="http://www.jenitennison.com/xslt/xspec"

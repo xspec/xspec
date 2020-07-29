@@ -405,4 +405,60 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:scenario>
+		<x:label>When the result contains an element with the default namespace undeclared</x:label>
+
+		<x:scenario>
+			<x:label>and it is top-level,</x:label>
+			<x:call function="one-or-more">
+				<x:param xmlns="default-ns">
+					<foo xmlns="" />
+				</x:param>
+			</x:call>
+
+			<x:scenario>
+				<x:label>both in [Result] and [Expected Result] with diff,</x:label>
+				<x:expect xmlns="default-ns">
+					<x:label>the top-level element should not have unnecessary xmlns="".</x:label>
+					<bar xmlns="" />
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>in [Result] without diff,</x:label>
+				<x:expect test="false()">
+					<x:label>the top-level element should not have unnecessary xmlns="".</x:label>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario>
+			<x:label>and it is 2nd-level,</x:label>
+			<x:call function="one-or-more">
+				<x:param xmlns="default-ns">
+					<foo>
+						<bar xmlns="" />
+					</foo>
+				</x:param>
+			</x:call>
+
+			<x:scenario>
+				<x:label>both in [Result] and [Expected Result] with diff,</x:label>
+				<x:expect xmlns="default-ns">
+					<x:label>the 2nd-level element should have xmlns="".</x:label>
+					<foo>
+						<baz xmlns="" />
+					</foo>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>in [Result] without diff,</x:label>
+				<x:expect test="false()">
+					<x:label>the 2nd-level element should have xmlns="".</x:label>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>

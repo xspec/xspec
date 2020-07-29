@@ -282,9 +282,14 @@
                <xsl:choose>
                   <xsl:when test="self::x:apply or self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
-                     <!-- TODO: Undeclare the default namespace in the wrapper element, because
+                     <!-- Undeclare the default namespace in the wrapper element, because
                         x:param/@select may use the default namespace such as xs:QName('foo'). -->
-                     <xsl:apply-templates select="." mode="test:create-node-generator" />
+                     <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+                        <xsl:with-param name="wrapper-name" select="'input-wrap'" />
+                        <xsl:with-param name="node-generators" as="element(xsl:element)">
+                           <xsl:apply-templates select="." mode="test:create-node-generator" />
+                        </xsl:with-param>
+                     </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="self::x:variable">
                      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />

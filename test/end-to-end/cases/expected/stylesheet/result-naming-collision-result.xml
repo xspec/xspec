@@ -5,11 +5,13 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../result-naming-collision.xspec">
       <label>scenario 1</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param href="../../result-naming-collision.xml"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param href="../../result-naming-collision.xml"/>
+         </x:call>
+      </input-wrap>
       <result href="HREF-2"/>
       <test id="scenario1-expect1" successful="true">
          <label>The result should be saved in an external file</label>
@@ -18,11 +20,13 @@
    </scenario>
    <scenario id="scenario2" xspec="../../result-naming-collision.xspec">
       <label>scenario 2</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param href="../../result-naming-collision.xml"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param href="../../result-naming-collision.xml"/>
+         </x:call>
+      </input-wrap>
       <result href="HREF-5"/>
       <test id="scenario2-expect1" successful="true">
          <label>The result should be saved in another external file</label>
@@ -31,11 +35,13 @@
    </scenario>
    <scenario id="scenario3" xspec="../../result-naming-collision.xspec">
       <label>When the result consists of multiple elements (xspec/xspec#361)</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param href="../../result-naming-collision.xml" select="., ."/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param href="../../result-naming-collision.xml" select="., ."/>
+         </x:call>
+      </input-wrap>
       <result href="HREF-8"/>
       <test id="scenario3-expect1" successful="true">
          <label>x:result should be two document nodes</label>
@@ -48,11 +54,30 @@
          <expect select="2"/>
       </test>
       <test id="scenario3-expect2" successful="false">
-         <label>The result should be saved successfully in yet another external file which is well-formed</label>
+         <label>
+        - The result should be saved successfully in yet another external file which is well-formed
+        - [Expected Result] should highlight only these differences:
+          - "XPath /element() from" against @select="node()" in the external file
+          - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt; in the 1st &lt;entries&gt; of the external files
+          (Note that in the test result report XML, the two document nodes from $x:result are
+          unwrapped and merged by "test:report-sequence".)
+      </label>
          <expect select="/element()">
-            <foo xmlns:mirror="x-urn:test:mirror"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 xmlns=""/>
+            <entries xmlns:mirror="x-urn:test:mirror"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns="">
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+   </ws>
+               <entry>1</entry>
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+   </ws>
+               <entry>0</entry>
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+   </ws>
+               <entry>3</entry>
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+   </ws>
+            </entries>
          </expect>
       </test>
    </scenario>

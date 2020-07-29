@@ -6,11 +6,13 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-50.xspec">
       <label>Expecting xs:hexBinary('0123') when $x:result is xs:untypedAtomic('0123')</label>
-      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="xs:untypedAtomic">
-         <x:param select="'0123'"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="xs:untypedAtomic">
+            <x:param select="'0123'"/>
+         </x:call>
+      </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}untypedAtomic('0123')"/>
       <test id="scenario1-expect1" successful="false">
          <label>must generate a failure report HTML which reads [Result] =
