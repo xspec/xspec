@@ -106,7 +106,11 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario3-expect2">The result should be saved successfully in yet another external file which is well-formed</a></td>
+                  <td><a href="#scenario3-expect2"> - The result should be saved successfully in yet another external file which is well-formed
+                        - [Expected Result] should highlight only these differences: - "XPath /element() from"
+                        against @select="node()" in the external file - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt;
+                        in the 1st &lt;entries&gt; of the external files (Note that in the test result report XML,
+                        the two document nodes from $x:result are unwrapped and merged by "test:report-sequence".)</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
@@ -114,7 +118,11 @@
          <div id="scenario3">
             <h3>When the result consists of multiple elements (xspec/xspec#361)</h3>
             <div id="scenario3-expect2" class="xTestReport">
-               <h4 class="xTestReportTitle">The result should be saved successfully in yet another external file which is well-formed</h4>
+               <h4 class="xTestReportTitle"> - The result should be saved successfully in yet another external file which is well-formed
+                  - [Expected Result] should highlight only these differences: - "XPath /element() from"
+                  against @select="node()" in the external file - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt;
+                  in the 1st &lt;entries&gt; of the external files (Note that in the test result report XML,
+                  the two document nodes from $x:result are unwrapped and merged by "test:report-sequence".)</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -130,8 +138,8 @@
                         </td>
                         <td>
                            <p>XPath <code class="diff">/element()</code> from:</p>
-                           <pre>&lt;<span class="diff">foo</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
-     <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
+                           <pre>&lt;<span class="inner-diff">entries</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+         <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="same whitespace">\n␣␣␣</span>&lt;<span class="same">entry</span>&gt;<span class="same">1</span>&lt;/entry&gt;<span class="same whitespace">\n␣␣␣</span>&lt;<span class="inner-diff">entry</span>&gt;<span class="diff">0</span>&lt;/entry&gt;<span class="same whitespace">\n␣␣␣</span>&lt;<span class="same">entry</span>&gt;<span class="same">3</span>&lt;/entry&gt;<span class="same whitespace">\n␣␣␣</span>&lt;/entries&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
