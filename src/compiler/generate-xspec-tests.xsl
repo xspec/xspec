@@ -515,9 +515,16 @@
                <xsl:value-of select="$stylesheet-uri" />
             </map-entry>
 
+            <map-entry key="'static-params'">
+               <map>
+                  <xsl:apply-templates select="/x:description/x:param[x:yes-no-synonym(@static, false())]"
+                     mode="x:param-to-map-entry" />
+               </map>
+            </map-entry>
             <map-entry key="'stylesheet-params'">
                <map>
-                  <xsl:apply-templates select="/x:description/x:param" mode="x:param-to-map-entry" />
+                  <xsl:apply-templates select="/x:description/x:param[x:yes-no-synonym(@static, false()) => not()]"
+                     mode="x:param-to-map-entry" />
                </map>
             </map-entry>
             <if test="${x:known-UQName('x:saxon-config')} => exists()">

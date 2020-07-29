@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<x:description run-as="external"
+	stylesheet="xslt-package/arith/package/complex-arithmetic_private.xsl"
+	xmlns:err="http://www.w3.org/2005/xqt-errors"
+	xmlns:f="http://example.org/complex-arithmetic.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:param name="visibility" select="'public'" static="yes" />
+
+	<x:scenario label="Calling a forcibly-public function in the package">
+		<x:call function="f:complex-number">
+			<x:param select="2" />
+			<x:param select="5" />
+		</x:call>
+		<x:expect label="should be possible" select="
+			map {
+				0: 2.0e0,
+				1: 5.0e0
+			}" />
+	</x:scenario>
+
+	<x:scenario catch="yes" label="Calling an always-private function in the package">
+		<x:call function="f:real">
+			<x:param select="
+				map {
+					0: 2.0e0,
+					1: 5.0e0
+				}" />
+		</x:call>
+		<x:expect label="should be error XTDE0041" select="xs:QName('err:XTDE0041')"
+			test="$x:result?err?code" />
+		<x:expect label="due to private visibility"
+			select="'Cannot invoke function f:real#1 externally, because it is not public'"
+			test="$x:result?err?description" />
+	</x:scenario>
+
+</x:description>

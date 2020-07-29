@@ -2370,4 +2370,24 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
+#
+# Static param not allowed
+#
+
+@test "Static param not allowed (XSLT)" {
+    run ../bin/xspec.sh static-param/disallowed.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "Enabling @static in x:param is supported only with @run-as='external'" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Static param not allowed (XQuery)" {
+    run ../bin/xspec.sh -q static-param/disallowed.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "Enabling @static in x:param is supported only with @run-as='external'" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
 
