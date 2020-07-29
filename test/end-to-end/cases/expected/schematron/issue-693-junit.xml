@@ -7,7 +7,7 @@
                 status="passed"/>
       <testcase name="This expectation should be Failure and the failure report should contain svrl:active-pattern/@document[. = ''] report baz-exists"
                 status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'baz-exists'])</failure>
       </testcase>
    </testsuite>
 </testsuites>
