@@ -10,10 +10,10 @@
               tests="2"
               failures="2">
       <testcase name="expecting an incorrect value must return Failure" status="failed">
-         <failure message="expect assertion failed">Expected: 42</failure>
+         <failure message="expect assertion failed">Expected Result: 42</failure>
       </testcase>
       <testcase name="expecting an incorrect type must return Failure" status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
       </testcase>
    </testsuite>
 </testsuites>

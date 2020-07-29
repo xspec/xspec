@@ -8,7 +8,7 @@
    </testsuite>
    <testsuite name="Comparing different namespaces" tests="1" failures="1">
       <testcase name="must be Failure" status="failed">
-         <failure message="expect assertion failed">Expected: /*/namespace::*</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
 </testsuites>
