@@ -248,8 +248,6 @@
       </xsl:if>
 
       <template name="{x:known-UQName('x:' || @id)}" as="element({x:known-UQName('x:scenario')})">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
-
          <xsl:for-each select="distinct-values($stacked-variables ! x:variable-UQName(.))">
             <param name="{.}" required="yes" />
          </xsl:for-each>
