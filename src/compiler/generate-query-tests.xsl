@@ -219,6 +219,8 @@
       <xsl:if test="x:expect and empty($call)">
          <xsl:call-template name="x:output-scenario-error">
             <xsl:with-param name="message" as="xs:string">
+               <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
+                  the user -->
                <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}</xsl:text>
             </xsl:with-param>
          </xsl:call-template>

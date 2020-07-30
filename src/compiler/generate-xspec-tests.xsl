@@ -235,6 +235,8 @@
       <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
          <xsl:call-template name="x:output-scenario-error">
             <xsl:with-param name="message" as="xs:string">
+               <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
+                  the user -->
                <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
@@ -517,7 +519,9 @@
                <if
                   test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('test:is-saxon-config')}() => not()">
                   <message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR: ${x:xspec-name('saxon-config', .)} does not appear to be a Saxon configuration</xsl:text>
+                     <!-- Use URIQualifiedName for displaying the $x:saxon-config variable name, for
+                        we do not know the name prefix of the originating variable. -->
+                     <xsl:text expand-text="yes">ERROR: ${x:known-UQName('x:saxon-config')} does not appear to be a Saxon configuration</xsl:text>
                   </message>
                </if>
                <map-entry key="'vendor-options'">
