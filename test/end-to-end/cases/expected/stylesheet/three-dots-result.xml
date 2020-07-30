@@ -9,13 +9,15 @@
          <label>When result is
 				&lt;elem&gt;text&lt;/elem&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="element(elem)">
-               <elem xmlns="">text</elem>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(elem)">
+                  <elem>text</elem>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/element()">
             <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -40,13 +42,15 @@
          <label>When result is
 				&lt;elem /&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="element(elem)">
-               <elem xmlns=""/>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(elem)">
+                  <elem/>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/element()">
             <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -78,13 +82,15 @@
          <label>When result is
 				&lt;elem&gt;...&lt;/elem&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="element(elem)">
-               <elem xmlns="">...</elem>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(elem)">
+                  <elem>...</elem>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/element()">
             <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -122,13 +128,15 @@
          <label>When result is
 				&lt;elem attrib="val" /&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="element(elem)">
-               <elem xmlns="" attrib="val"/>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(elem)">
+                  <elem attrib="val"/>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/element()">
             <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -168,15 +176,17 @@
          <label>When result is
 				&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="element(outer)">
-               <outer xmlns="">text<inner1/>
-                  <inner2/>
-               </outer>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(outer)">
+                  <outer>text<inner1/>
+                     <inner2/>
+                  </outer>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/element()">
             <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -213,15 +223,17 @@
          <label>When result is
 				&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="element(outer)">
-               <outer xmlns="">
-                  <inner/>
-               </outer>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(outer)">
+                  <outer>
+                     <inner/>
+                  </outer>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/element()">
             <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -258,13 +270,15 @@
          <label>When result is
 					 @attrib="val"
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="attribute(attrib)" select="elem/@*">
-               <elem xmlns="" attrib="val"/>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="attribute(attrib)" select="elem/@*">
+                  <elem attrib="val"/>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/*/@*">
             <pseudo-attribute attrib="val"/>
          </result>
@@ -285,13 +299,15 @@
          <label>When result is
 					 @attrib=""
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="attribute(attrib)" select="elem/@*">
-               <elem xmlns="" attrib=""/>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="attribute(attrib)" select="elem/@*">
+                  <elem attrib=""/>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/*/@*">
             <pseudo-attribute attrib=""/>
          </result>
@@ -308,13 +324,15 @@
          <label>When result is
 					 @attrib="..."
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="attribute(attrib)" select="elem/@*">
-               <elem xmlns="" attrib="..."/>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="attribute(attrib)" select="elem/@*">
+                  <elem attrib="..."/>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/*/@*">
             <pseudo-attribute attrib="..."/>
          </result>
@@ -344,11 +362,13 @@
       <label>For resultant text node</label>
       <scenario id="scenario5-scenario1" xspec="../../three-dots.xspec">
          <label>When result is usual text node</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_usual"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_usual"/>
+            </x:call>
+         </input-wrap>
          <result select="/text()">text</result>
          <test id="scenario5-scenario1-expect1" successful="true">
             <label>expecting ... should be Success</label>
@@ -361,11 +381,13 @@
       </scenario>
       <scenario id="scenario5-scenario2" xspec="../../three-dots.xspec">
          <label>When result is whitespace-only text node</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_whitespace-only"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_whitespace-only"/>
+            </x:call>
+         </input-wrap>
          <result select="/text()">
             <ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
 &#xD; </ws>
@@ -381,11 +403,13 @@
       </scenario>
       <scenario id="scenario5-scenario3" xspec="../../three-dots.xspec">
          <label>When result is zero-length text node</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_zero-length"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_zero-length"/>
+            </x:call>
+         </input-wrap>
          <result select="/text()">
             <ws xmlns="http://www.jenitennison.com/xslt/unit-test"/>
          </result>
@@ -400,11 +424,13 @@
       </scenario>
       <scenario id="scenario5-scenario4" xspec="../../three-dots.xspec">
          <label>When result is three-dot text node</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_three-dots"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_three-dots"/>
+            </x:call>
+         </input-wrap>
          <result select="/text()">...</result>
          <test id="scenario5-scenario4-expect1" successful="true">
             <label>expecting ... should be Success</label>
@@ -426,11 +452,13 @@
          <label>When result is
 				&lt;!--comment--&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="comment()"><!--comment--></x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="comment()"><!--comment--></x:param>
+            </x:call>
+         </input-wrap>
          <result select="/comment()"><!--comment--></result>
          <test id="scenario6-scenario1-expect1" successful="true">
             <label>expecting
@@ -447,11 +475,13 @@
          <label>When result is
 				&lt;!----&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="comment()"><!----></x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="comment()"><!----></x:param>
+            </x:call>
+         </input-wrap>
          <result select="/comment()"><!----></result>
          <test id="scenario6-scenario2-expect1" successful="true">
             <label>expecting
@@ -464,11 +494,13 @@
          <label>When result is
 				&lt;!--...--&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="comment()"><!--...--></x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="comment()"><!--...--></x:param>
+            </x:call>
+         </input-wrap>
          <result select="/comment()"><!--...--></result>
          <test id="scenario6-scenario3-expect1" successful="true">
             <label>expecting
@@ -494,11 +526,13 @@
          <label>When result is
 				&lt;?pi data?&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="processing-instruction(pi)"><?pi data?></x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="processing-instruction(pi)"><?pi data?></x:param>
+            </x:call>
+         </input-wrap>
          <result select="/processing-instruction()"><?pi data?></result>
          <test id="scenario7-scenario1-expect1" successful="true">
             <label>expecting
@@ -515,11 +549,13 @@
          <label>When result is
 				&lt;?pi?&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="processing-instruction(pi)"><?pi?></x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="processing-instruction(pi)"><?pi?></x:param>
+            </x:call>
+         </input-wrap>
          <result select="/processing-instruction()"><?pi?></result>
          <test id="scenario7-scenario2-expect1" successful="true">
             <label>expecting
@@ -532,11 +568,13 @@
          <label>When result is
 				&lt;?pi ...?&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
+            </x:call>
+         </input-wrap>
          <result select="/processing-instruction()"><?pi ...?></result>
          <test id="scenario7-scenario3-expect1" successful="true">
             <label>expecting
@@ -562,12 +600,14 @@
          <label>When result is
 				&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="document-node()"
-                     select="$Q{x-urn:test:three-dots}document-node_multiple-nodes"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="document-node()"
+                        select="$Q{x-urn:test:three-dots}document-node_multiple-nodes"/>
+            </x:call>
+         </input-wrap>
          <result select="/self::document-node()"><?pi?><!--comment-->
             <elem xmlns=""/>
          </result>
@@ -586,12 +626,14 @@
          <label>When result is
 				&lt;xsl:document /&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="document-node()"
-                     select="$Q{x-urn:test:three-dots}document-node_empty"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="document-node()"
+                        select="$Q{x-urn:test:three-dots}document-node_empty"/>
+            </x:call>
+         </input-wrap>
          <result select="/self::document-node()"/>
          <test id="scenario8-scenario2-expect1" successful="true">
             <label>expecting ... should be Success</label>
@@ -608,12 +650,14 @@
          <label>When result is
 				&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="document-node()"
-                     select="$Q{x-urn:test:three-dots}document-node_three-dots"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="document-node()"
+                        select="$Q{x-urn:test:three-dots}document-node_three-dots"/>
+            </x:call>
+         </input-wrap>
          <result select="/self::document-node()">...</result>
          <test id="scenario8-scenario3-expect1" successful="true">
             <label>expecting
@@ -639,12 +683,14 @@
          <label>When result is
 						  xmlns:prefix="namespace-uri"
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="Q{x-urn:test:three-dots}namespace-node">
-            <x:param select="'prefix'"/>
-            <x:param select="'namespace-uri'"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:three-dots}namespace-node">
+               <x:param select="'prefix'"/>
+               <x:param select="'namespace-uri'"/>
+            </x:call>
+         </input-wrap>
          <result select="/*/namespace::*">
             <pseudo-namespace-node xmlns:prefix="namespace-uri"/>
          </result>
@@ -665,12 +711,14 @@
          <label>When result is
 						  xmlns="namespace-uri"
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="Q{x-urn:test:three-dots}namespace-node">
-            <x:param select="''"/>
-            <x:param select="'namespace-uri'"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:three-dots}namespace-node">
+               <x:param select="''"/>
+               <x:param select="'namespace-uri'"/>
+            </x:call>
+         </input-wrap>
          <result select="/*/namespace::*">
             <_0:pseudo-namespace-node xmlns="namespace-uri" xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
          </result>
@@ -691,12 +739,14 @@
          <label>When result is
 						  xmlns:prefix="..."
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="Q{x-urn:test:three-dots}namespace-node">
-            <x:param select="'prefix'"/>
-            <x:param select="'...'"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:three-dots}namespace-node">
+               <x:param select="'prefix'"/>
+               <x:param select="'...'"/>
+            </x:call>
+         </input-wrap>
          <result select="/*/namespace::*">
             <pseudo-namespace-node xmlns:prefix="..."/>
          </result>
@@ -728,14 +778,16 @@
          <label>When result is sequence of
 				&lt;elem1 /&gt;&lt;elem2 /&gt;
 				</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="one-or-more">
-            <x:param as="element()+">
-               <elem1 xmlns=""/>
-               <elem2 xmlns=""/>
-            </x:param>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="one-or-more">
+               <x:param as="element()+">
+                  <elem1/>
+                  <elem2/>
+               </x:param>
+            </x:call>
+         </input-wrap>
          <result select="/element()">
             <elem1 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -773,11 +825,13 @@
    </scenario>
    <scenario id="scenario11" xspec="../../three-dots.xspec">
       <label>When result is empty sequence</label>
-      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="zero-or-one">
-         <x:param select="()"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="zero-or-one">
+            <x:param select="()"/>
+         </x:call>
+      </input-wrap>
       <result select="()"/>
       <test id="scenario11-expect1" successful="false">
          <label>expecting ... should be Failure</label>
@@ -788,11 +842,13 @@
       <label>For resultant atomic value</label>
       <scenario id="scenario12-scenario1" xspec="../../three-dots.xspec">
          <label>When result is 'string'</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="xs:string" select="'string'"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="xs:string" select="'string'"/>
+            </x:call>
+         </input-wrap>
          <result select="'string'"/>
          <test id="scenario12-scenario1-expect1" successful="true">
             <label>expecting 'string' should be Success</label>
@@ -809,11 +865,13 @@
       </scenario>
       <scenario id="scenario12-scenario2" xspec="../../three-dots.xspec">
          <label>When result is '...'</label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <x:param as="xs:string" select="'...'"/>
-         </x:call>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="xs:string" select="'...'"/>
+            </x:call>
+         </input-wrap>
          <result select="'...'"/>
          <test id="scenario12-scenario2-expect1" successful="true">
             <label>expecting '...' should be Success</label>
@@ -831,11 +889,13 @@
    </scenario>
    <scenario id="scenario13" xspec="../../three-dots.xspec">
       <label>For any resultant item</label>
-      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="exactly-one">
-         <x:param as="text()">item</x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="exactly-one">
+            <x:param as="text()">item</x:param>
+         </x:call>
+      </input-wrap>
       <result select="/text()">item</result>
       <test id="scenario13-expect1" successful="false">
          <label>expecting .... (four dots) should be Failure</label>

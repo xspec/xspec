@@ -5,10 +5,12 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-23_2.xspec">
       <label>Test</label>
-      <x:context xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 href="../../issue-23_2_context.xml"/>
+      <input-wrap xmlns="">
+         <x:context xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    href="../../issue-23_2_context.xml"/>
+      </input-wrap>
       <result select="/self::document-node()">
          <foo xmlns="x-urn:test" bar="true"/>
       </result>

@@ -5,11 +5,13 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-346.xspec">
       <label>When a function returns a node containing a space</label>
-      <x:call xmlns:mirror="x-urn:test:mirror"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="mirror:param-mirror">
-         <x:param as="element(p)" href="../../issue-346.xml" select="element(p)"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param as="element(p)" href="../../issue-346.xml" select="element(p)"/>
+         </x:call>
+      </input-wrap>
       <result select="/element()">
          <p xmlns="">
             <span>foo</span>

@@ -5,9 +5,11 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../../../xslt1.xspec">
       <label>With 2 text nodes</label>
-      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              template="text-nodes"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 template="text-nodes"/>
+      </input-wrap>
       <scenario id="scenario1-scenario1" xspec="../../../../xslt1.xspec">
          <label>This scenario is to verify that $x:result consists of two text nodes</label>
          <result select="/text()">12</result>

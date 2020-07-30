@@ -5,11 +5,13 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-177.xspec">
       <label>Given the function returns &lt;foo /&gt;</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
-         <x:param as="element(foo)">
-            <foo xmlns=""/>
-         </x:param>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:param as="element(foo)">
+               <foo/>
+            </x:param>
+         </x:call>
+      </input-wrap>
       <result select="/element()">
          <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
       </result>

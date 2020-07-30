@@ -5,8 +5,10 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-778_ws.xspec">
       <label>When transforming DITA</label>
-      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 href="../../issue-778_ws.dita"/>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    href="../../issue-778_ws.dita"/>
+      </input-wrap>
       <result select="/text()"># My Title<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
 </ws>
          <ws xmlns="http://www.jenitennison.com/xslt/unit-test">

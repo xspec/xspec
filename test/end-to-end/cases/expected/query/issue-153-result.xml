@@ -6,11 +6,13 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-153.xspec">
       <label>When a function returns a local date time string</label>
-      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              function="string">
-         <x:param select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="string">
+            <x:param select="xs:dateTime('2000-01-01T12:00:00+12:00')"/>
+         </x:call>
+      </input-wrap>
       <result select="'2000-01-01T12:00:00+12:00'"/>
       <test id="scenario1-expect1" successful="true">
          <label>Comparing the function result with the same date time in UTC will report Success</label>

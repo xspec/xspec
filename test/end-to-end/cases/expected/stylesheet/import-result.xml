@@ -5,12 +5,14 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../import.xspec">
       <label>when testing a correct scenario in an importing file</label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:t="http://www.jenitennison.com/xslt/xspec"
-              function="my:square">
-         <t:param select="3"/>
-      </t:call>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="3"/>
+         </t:call>
+      </input-wrap>
       <result select="9"/>
       <test id="scenario1-expect1" successful="true">
          <label>expecting the correct result must return Success</label>
@@ -29,12 +31,14 @@
    </scenario>
    <scenario id="scenario2" xspec="../../import.xspec">
       <label>when testing an incorrect scenario in an importing file</label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:t="http://www.jenitennison.com/xslt/xspec"
-              function="my:square">
-         <t:param select="2"/>
-      </t:call>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="2"/>
+         </t:call>
+      </input-wrap>
       <result select="4"/>
       <test id="scenario2-expect1" successful="false">
          <label>it must return Failure</label>
@@ -49,12 +53,14 @@
    </scenario>
    <scenario id="scenario3" xspec="../../imported.xspec">
       <label>a correct scenario in an imported file</label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:t="http://www.jenitennison.com/xslt/xspec"
-              function="my:square">
-         <t:param select="3"/>
-      </t:call>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="3"/>
+         </t:call>
+      </input-wrap>
       <result select="9"/>
       <test id="scenario3-expect1" successful="true">
          <label>must return Success</label>
@@ -63,12 +69,14 @@
    </scenario>
    <scenario id="scenario4" xspec="../../imported.xspec">
       <label>an incorrect scenario in an imported file</label>
-      <t:call xmlns:my="http://example.org/ns/my"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:t="http://www.jenitennison.com/xslt/xspec"
-              function="my:square">
-         <t:param select="2"/>
-      </t:call>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="2"/>
+         </t:call>
+      </input-wrap>
       <result select="4"/>
       <test id="scenario4-expect1" successful="false">
          <label>must return Failure</label>

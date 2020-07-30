@@ -8,10 +8,12 @@
       <label>With @expand-text=yes</label>
       <scenario id="scenario1-scenario1" xspec="../../tvt_label_schematron.xspec">
          <label>}}{scenario}{{</label>
-         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    select="self::document-node()">
-            <context-child xmlns=""/>
-         </x:context>
+         <input-wrap xmlns="">
+            <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="self::document-node()">
+               <context-child/>
+            </x:context>
+         </input-wrap>
          <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -40,10 +42,12 @@
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../tvt_label_schematron.xspec">
          <label>}}{scenario}{{</label>
-         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    select="self::document-node()">
-            <context-child xmlns=""/>
-         </x:context>
+         <input-wrap xmlns="">
+            <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="self::document-node()">
+               <context-child/>
+            </x:context>
+         </input-wrap>
          <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -72,10 +76,12 @@
       </scenario>
       <scenario id="scenario1-scenario3" xspec="../../tvt_label_schematron.xspec">
          <label>}}{scenario}{{</label>
-         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    select="self::document-node()">
-            <context-child xmlns=""/>
-         </x:context>
+         <input-wrap xmlns="">
+            <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="self::document-node()">
+               <context-child/>
+            </x:context>
+         </input-wrap>
          <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -107,10 +113,12 @@
       <label>With @expand-text=no</label>
       <scenario id="scenario2-scenario1" xspec="../../tvt_label_schematron.xspec">
          <label>}}{scenario}{{</label>
-         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    select="self::document-node()">
-            <context-child xmlns=""/>
-         </x:context>
+         <input-wrap xmlns="">
+            <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="self::document-node()">
+               <context-child/>
+            </x:context>
+         </input-wrap>
          <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -139,10 +147,12 @@
       </scenario>
       <scenario id="scenario2-scenario2" xspec="../../tvt_label_schematron.xspec">
          <label>}}{scenario}{{</label>
-         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    select="self::document-node()">
-            <context-child xmlns=""/>
-         </x:context>
+         <input-wrap xmlns="">
+            <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       select="self::document-node()">
+               <context-child/>
+            </x:context>
+         </input-wrap>
          <result select="/element()">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"

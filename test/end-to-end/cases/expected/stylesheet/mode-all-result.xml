@@ -5,9 +5,11 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../mode-all.xspec">
       <label>context</label>
-      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
-         <foo xmlns=""/>
-      </x:context>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <foo/>
+         </x:context>
+      </input-wrap>
       <result select="'Caught by #all mode'"/>
       <test id="scenario1-expect1" successful="true">
          <label>should work</label>
@@ -22,9 +24,11 @@
    </scenario>
    <scenario id="scenario2" xspec="../../mode-all.xspec">
       <label>function-call</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="string">
-         <x:param select="'Returned from function'"/>
-      </x:call>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="string">
+            <x:param select="'Returned from function'"/>
+         </x:call>
+      </input-wrap>
       <result select="'Returned from function'"/>
       <test id="scenario2-expect1" successful="true">
          <label>should work</label>
@@ -39,7 +43,9 @@
    </scenario>
    <scenario id="scenario3" xspec="../../mode-all.xspec">
       <label>template-call</label>
-      <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" template="named-template"/>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" template="named-template"/>
+      </input-wrap>
       <result select="'Returned from named template'"/>
       <test id="scenario3-expect1" successful="true">
          <label>should work</label>
