@@ -41,6 +41,7 @@
          </t:label>
          <xsl:template name="Q{{http://www.jenitennison.com/xslt/xspec}}dummy-scenario-id"
                        as="element(Q{{http://www.jenitennison.com/xslt/xspec}}scenario)">
+            <xsl:context-item use="absent" />
             <xsl:message>my scenario label</xsl:message>
             <xsl:element name="scenario"
                          namespace="http://www.jenitennison.com/xslt/xspec">
