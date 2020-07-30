@@ -7,9 +7,11 @@
       <label>x:scenario/</label>
       <scenario id="scenario1-scenario1" xspec="../../issue-448.xspec">
          <label>x:label containing }{ should not affect test</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:false"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:false"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <test id="scenario1-scenario1-expect1" successful="true">
             <label>(This x:expect doesn't matter)</label>
@@ -18,9 +20,11 @@
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../issue-448.xspec">
          <label>@label containing }{ should not affect test</label>
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:false"/>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:false"/>
+         </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <test id="scenario1-scenario2-expect1" successful="true">
             <label>(This x:expect doesn't matter)</label>
