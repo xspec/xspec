@@ -213,6 +213,8 @@
    <!-- x:space has been replaced with x:text -->
    <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-user-content">
       <xsl:message terminate="yes">
+         <!-- Use x:xspec-name() for displaying the x:text element name with the prefix preferred by
+            the user -->
          <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
       </xsl:message>
    </xsl:template>
@@ -660,50 +662,41 @@
       mode="x:unshare-scenarios"
       This mode resolves all the <like> elements to bring in the scenarios that they specify
    -->
-   <xsl:mode name="x:unshare-scenarios" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:unshare-scenarios" on-multiple-match="fail" on-no-match="shallow-copy" />
 
-   <xsl:key name="scenarios" match="x:scenario[not(x:is-user-content(.))]" use="x:label(.)" />
+   <!-- Leave user-content intact. This must be done in the highest priority. -->
+   <xsl:template match="node()[x:is-user-content(.)]" as="node()" mode="x:unshare-scenarios"
+      priority="1">
+      <xsl:sequence select="." />
+   </xsl:template>
 
-   <xsl:template match="document-node() | attribute() | node()" as="node()*" mode="x:unshare-scenarios">
+   <!-- Discard @shared and shared x:scenario -->
+   <xsl:template match="x:scenario/@shared | x:scenario[@shared eq 'yes']" as="empty-sequence()"
+      mode="x:unshare-scenarios" />
+
+   <!-- Replace x:like with specified scenario's child elements -->
+   <xsl:key name="scenarios" match="x:scenario[x:is-user-content(.) => not()]" use="x:label(.)" />
+   <xsl:template match="x:like" as="element()+" mode="x:unshare-scenarios">
+      <xsl:variable name="label" as="element(x:label)" select="x:label(.)" />
+      <xsl:variable name="scenario" as="element(x:scenario)*" select="key('scenarios', $label)" />
       <xsl:choose>
-         <!-- Leave user-content intact -->
-         <xsl:when test="x:is-user-content(.)">
-            <xsl:sequence select="." />
+         <xsl:when test="empty($scenario)">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">ERROR in {name()}: Scenario not found: '{$label}'</xsl:text>
+            </xsl:message>
          </xsl:when>
-
-         <!-- Discard @shared and shared x:scenario -->
-         <xsl:when test="self::attribute(shared)[parent::x:scenario]
-            or self::x:scenario[@shared = 'yes']" />
-
-         <!-- Replace x:like with specified scenario's child elements -->
-         <xsl:when test="self::x:like">
-            <xsl:variable name="label" as="element(x:label)" select="x:label(.)" />
-            <xsl:variable name="scenario" as="element(x:scenario)*" select="key('scenarios', $label)" />
-            <xsl:choose>
-               <xsl:when test="empty($scenario)">
-                  <xsl:message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR in {name()}: Scenario not found: '{$label}'</xsl:text>
-                  </xsl:message>
-               </xsl:when>
-               <xsl:when test="$scenario[2]">
-                  <xsl:message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR in {name()}: {count($scenario)} scenarios found with same label: '{$label}'</xsl:text>
-                  </xsl:message>
-               </xsl:when>
-               <xsl:when test="$scenario intersect ancestor::x:scenario">
-                  <xsl:message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR in {name()}: Reference to ancestor scenario creates infinite loop: '{$label}'</xsl:text>
-                  </xsl:message>
-               </xsl:when>
-               <xsl:otherwise>
-                  <xsl:apply-templates select="$scenario/element()" mode="#current" />
-               </xsl:otherwise>
-            </xsl:choose>
+         <xsl:when test="$scenario[2]">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">ERROR in {name()}: {count($scenario)} scenarios found with same label: '{$label}'</xsl:text>
+            </xsl:message>
          </xsl:when>
-
-         <!-- By default, apply identity template -->
+         <xsl:when test="$scenario intersect ancestor::x:scenario">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">ERROR in {name()}: Reference to ancestor scenario creates infinite loop: '{$label}'</xsl:text>
+            </xsl:message>
+         </xsl:when>
          <xsl:otherwise>
-            <xsl:call-template name="x:identity" />
+            <xsl:apply-templates select="$scenario/element()" mode="#current" />
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
