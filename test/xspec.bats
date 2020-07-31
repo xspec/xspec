@@ -2330,7 +2330,7 @@ load bats-helper
     run ../bin/xspec.sh x-saxon-config/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[7]}" = "ERROR: \$x:saxon-config does not appear to be a Saxon configuration" ]
+    [ "${lines[7]}" = "ERROR: \$Q{http://www.jenitennison.com/xslt/xspec}saxon-config does not appear to be a Saxon configuration" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 

@@ -122,51 +122,47 @@
     </xsl:template>
 
     <xsl:template match="x:expect-assert" as="element(x:expect)">
-        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
-            <xsl:call-template name="make-label"/>
-            <xsl:attribute name="test">
+        <xsl:call-template name="create-expect">
+            <xsl:with-param name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
                 <xsl:text expand-text="yes">({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
                 <xsl:value-of select="@count ! (' eq ' || .)" />
-            </xsl:attribute>
-        </xsl:element>
+            </xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
 
     <xsl:template match="x:expect-not-assert" as="element(x:expect)">
-        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
-            <xsl:call-template name="make-label"/>
-            <xsl:attribute name="test">
+        <xsl:call-template name="create-expect">
+            <xsl:with-param name="test">
                 <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
-            </xsl:attribute>
-        </xsl:element>
+            </xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
 
     <xsl:template match="x:expect-report" as="element(x:expect)">
-        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
-            <xsl:call-template name="make-label"/>
-            <xsl:attribute name="test">
+        <xsl:call-template name="create-expect">
+            <xsl:with-param name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
                 <xsl:text expand-text="yes">({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
                 <xsl:value-of select="@count ! (' eq ' || .)" />
-            </xsl:attribute>
-        </xsl:element>
+            </xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
 
     <xsl:template match="x:expect-not-report" as="element(x:expect)">
-        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
-            <xsl:call-template name="make-label"/>
-            <xsl:attribute name="test">
+        <xsl:call-template name="create-expect">
+            <xsl:with-param name="test">
                 <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
-            </xsl:attribute>
-        </xsl:element>
+            </xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
 
     <!--
@@ -189,50 +185,64 @@
 
     <xsl:template match="@count | @label" as="empty-sequence()" mode="make-predicate" />
 
-    <xsl:template name="make-label" as="attribute(label)">
-        <xsl:context-item as="element()" use="required" />
-
-        <xsl:attribute name="label"
-            select="
-                @label,
-                tokenize(local-name(), '-')[. = ('report', 'assert', 'not', 'rule')],
-                @id,
-                @role,
-                @location,
-                @context,
-                (@count ! ('count:', .))" />
-    </xsl:template>
-
     <xsl:template match="x:expect-valid" as="element(x:expect)">
         <xsl:variable name="bad-roles" as="xs:string"
             select="
                 ($errors ! ($x:apos || . || $x:apos))
                 => string-join(', ')" />
 
-        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
-            <xsl:attribute name="label" select="'valid'"/>
-            <xsl:attribute name="test">
+        <xsl:call-template name="create-expect">
+            <xsl:with-param name="label" select="'valid'"/>
+            <xsl:with-param name="test">
                 <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/({x:known-UQName('svrl:failed-assert')} | {x:known-UQName('svrl:successful-report')})[empty(@role) or (lower-case(@role) = ({$bad-roles}))])</xsl:text>
-            </xsl:attribute>
-        </xsl:element>
+            </xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
 
     <xsl:template match="x:expect-rule" as="element(x:expect)">
-        <xsl:element name="x:expect" namespace="{$x:xspec-namespace}">
-            <xsl:call-template name="make-label"/>
-            <xsl:attribute name="test">
+        <xsl:call-template name="create-expect">
+            <xsl:with-param name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
                 <xsl:text expand-text="yes">({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:fired-rule')}</xsl:text>
                 <xsl:apply-templates select="@*" mode="make-predicate" />
                 <xsl:text>)</xsl:text>
                 <xsl:value-of select="@count ! (' eq ' || .)" />
-            </xsl:attribute>
-        </xsl:element>
+            </xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
 
     <xsl:template match="x:*/@href" as="attribute(href)">
         <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
             select="resolve-uri(., x:base-uri(.))" />
+    </xsl:template>
+
+    <xsl:template name="create-expect" as="element(x:expect)">
+        <xsl:context-item as="element()" use="required" />
+
+        <xsl:param name="label" as="xs:string"
+            select="
+                (
+                    @label,
+                    tokenize(local-name(), '-')[. = ('report', 'assert', 'not', 'rule')],
+                    @id,
+                    @role,
+                    @location,
+                    @context,
+                    (@count ! ('count:', .))
+                )
+                => string-join(' ')" />
+        <xsl:param name="test" as="xs:string" />
+
+        <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
+            created element does not pollute the namespaces. -->
+        <xsl:element name="{x:xspec-name('expect', .)}" namespace="{namespace-uri()}">
+            <!-- @test may use namespace prefixes and/or the default namespace such as
+                xs:QName('foo') -->
+            <xsl:sequence select="x:copy-of-namespaces(.)" />
+
+            <xsl:attribute name="label" select="$label" />
+            <xsl:attribute name="test" select="$test" />
+        </xsl:element>
     </xsl:template>
 
 </xsl:stylesheet>

@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-447_2.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1"
-               xspec="../../issue-447_2.xspec"
-               pending="x:pending/@label containing }{">
-      <x:label>should not affect test</x:label>
-      <x:call xmlns:mirror="x-urn:test:mirror" function="mirror:false"/>
-      <x:test id="scenario1-expect1" pending="x:pending/@label containing }{">
-         <x:label>(This x:expect doesn't matter)</x:label>
-      </x:test>
-   </x:scenario>
-</x:report>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-447_2.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1"
+             xspec="../../issue-447_2.xspec"
+             pending="x:pending/@label containing }{">
+      <label>should not affect test</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
+      <test id="scenario1-expect1" pending="x:pending/@label containing }{">
+         <label>(This x:expect doesn't matter)</label>
+      </test>
+   </scenario>
+</report>

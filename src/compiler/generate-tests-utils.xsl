@@ -287,10 +287,8 @@
       <xsl:context-item use="absent" />
 
       <xsl:param name="sequence" as="item()*" required="yes" />
-      <xsl:param name="wrapper-name" as="xs:string" required="yes" />
-      <xsl:param name="wrapper-ns" as="xs:string" select="$x:xspec-namespace" />
-      <xsl:param name="test-attr" as="attribute(test)?" />
-      <xsl:param name="additional-namespaces" as="namespace-node()*" />
+      <xsl:param name="report-name" as="xs:string" required="yes" />
+      <xsl:param name="report-namespace" as="xs:string" select="$x:xspec-namespace" />
 
       <xsl:variable name="attribute-nodes" as="attribute()*"      select="$sequence[. instance of attribute()]" />
       <xsl:variable name="document-nodes"  as="document-node()*"  select="$sequence[. instance of document-node()]" />
@@ -298,10 +296,7 @@
       <xsl:variable name="text-nodes"      as="text()*"           select="$sequence[. instance of text()]" />
 
       <xsl:variable name="report-element" as="element()">
-         <xsl:element name="{$wrapper-name}" namespace="{$wrapper-ns}">
-            <xsl:sequence select="$additional-namespaces" />
-            <xsl:sequence select="$test-attr" />
-
+         <xsl:element name="{$report-name}" namespace="{$report-namespace}">
             <xsl:choose>
                <!-- Empty -->
                <xsl:when test="empty($sequence)">
@@ -386,7 +381,7 @@
                   <xsl:sequence
                      select="
                         for $item in $sequence
-                        return test:report-pseudo-item($item, $wrapper-ns)" />
+                        return test:report-pseudo-item($item, $report-namespace)" />
                </xsl:otherwise>
             </xsl:choose>
          </xsl:element>
@@ -425,19 +420,19 @@
 
    <xsl:function name="test:report-pseudo-item" as="element()">
       <xsl:param name="item" as="item()" />
-      <xsl:param name="wrapper-ns" as="xs:string" />
+      <xsl:param name="report-namespace" as="xs:string" />
 
       <xsl:variable name="local-name-prefix" as="xs:string" select="'pseudo-'" />
 
       <xsl:choose>
          <xsl:when test="$item instance of xs:anyAtomicType">
-            <xsl:element name="{$local-name-prefix}atomic-value" namespace="{$wrapper-ns}">
+            <xsl:element name="{$local-name-prefix}atomic-value" namespace="{$report-namespace}">
                <xsl:value-of select="test:report-atomic-value($item)" />
             </xsl:element>
          </xsl:when>
 
          <xsl:when test="$item instance of node()">
-            <xsl:element name="{$local-name-prefix}{x:node-type($item)}" namespace="{$wrapper-ns}">
+            <xsl:element name="{$local-name-prefix}{x:node-type($item)}" namespace="{$report-namespace}">
                <xsl:choose>
                   <!-- Can't apply templates to namespace nodes -->
                   <xsl:when test="$item instance of namespace-node()">
@@ -453,13 +448,13 @@
 
          <xsl:when test="x:instance-of-function($item)">
             <xsl:element name="{$local-name-prefix}{x:function-type($item)}"
-               namespace="{$wrapper-ns}">
+               namespace="{$report-namespace}">
                <xsl:value-of select="test:serialize-adaptive($item)" />
             </xsl:element>
          </xsl:when>
 
          <xsl:otherwise>
-            <xsl:element name="{$local-name-prefix}other" namespace="{$wrapper-ns}" />
+            <xsl:element name="{$local-name-prefix}other" namespace="{$report-namespace}" />
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
@@ -478,7 +473,9 @@
 
    <xsl:template match="text()[not(normalize-space())]" as="element(test:ws)"
       mode="test:report-node">
-      <xsl:element name="test:ws" namespace="{$x:legacy-namespace}">
+      <!-- This element name is not 'test:ws' but 'ws'. This prefix-less name is a workaround for
+         https://sourceforge.net/p/saxon/mailman/message/37066342/ -->
+      <xsl:element name="ws" namespace="{$x:legacy-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
    </xsl:template>

@@ -93,8 +93,13 @@
          <xsl:apply-templates select="$combined-doc" mode="x:unshare-scenarios" />
       </xsl:variable>
 
+      <!-- Assign @id -->
+      <xsl:variable name="doc-with-id" as="document-node(element(x:description))">
+         <xsl:apply-templates select="$unshared-doc" mode="x:assign-id" />
+      </xsl:variable>
+
       <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$unshared-doc/element()" mode="x:generate-tests" />
+      <xsl:apply-templates select="$doc-with-id/element()" mode="x:generate-tests" />
    </xsl:template>
 
    <xsl:function name="x:gather-descriptions" as="element(x:description)+">
@@ -208,6 +213,8 @@
    <!-- x:space has been replaced with x:text -->
    <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-user-content">
       <xsl:message terminate="yes">
+         <!-- Use x:xspec-name() for displaying the x:text element name with the prefix preferred by
+            the user -->
          <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
       </xsl:message>
    </xsl:template>
@@ -224,7 +231,15 @@
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <xsl:element name="{x:xspec-name('text', parent::element())}"
+         <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
+            created element does not pollute the namespaces copied for TVT.
+            Unfortunately the parent element does not always have the XSpec namespace. So, search
+            the ancestor elements for the XSpec namespace that will be less likely to be intrusive. -->
+         <xsl:element name="{
+            x:xspec-name(
+               'text',
+               ancestor::element()[x:copy-of-namespaces(.) = $x:xspec-namespace][1]
+            )}"
             namespace="{$x:xspec-namespace}">
             <xsl:variable name="expand-text" as="attribute()?"
                select="
@@ -647,52 +662,59 @@
       mode="x:unshare-scenarios"
       This mode resolves all the <like> elements to bring in the scenarios that they specify
    -->
-   <xsl:mode name="x:unshare-scenarios" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:unshare-scenarios" on-multiple-match="fail" on-no-match="shallow-copy" />
 
-   <xsl:key name="scenarios" match="x:scenario[not(x:is-user-content(.))]" use="x:label(.)" />
+   <!-- Leave user-content intact. This must be done in the highest priority. -->
+   <xsl:template match="node()[x:is-user-content(.)]" as="node()" mode="x:unshare-scenarios"
+      priority="1">
+      <xsl:sequence select="." />
+   </xsl:template>
 
-   <xsl:template match="document-node() | attribute() | node()" as="node()*" mode="x:unshare-scenarios">
+   <!-- Discard @shared and shared x:scenario -->
+   <xsl:template match="x:scenario/@shared | x:scenario[@shared eq 'yes']" as="empty-sequence()"
+      mode="x:unshare-scenarios" />
+
+   <!-- Replace x:like with specified scenario's child elements -->
+   <xsl:key name="scenarios" match="x:scenario[x:is-user-content(.) => not()]" use="x:label(.)" />
+   <xsl:template match="x:like" as="element()+" mode="x:unshare-scenarios">
+      <xsl:variable name="label" as="element(x:label)" select="x:label(.)" />
+      <xsl:variable name="scenario" as="element(x:scenario)*" select="key('scenarios', $label)" />
       <xsl:choose>
-         <!-- Leave user-content intact -->
-         <xsl:when test="x:is-user-content(.)">
-            <xsl:sequence select="." />
+         <xsl:when test="empty($scenario)">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">ERROR in {name()}: Scenario not found: '{$label}'</xsl:text>
+            </xsl:message>
          </xsl:when>
-
-         <!-- Discard @shared and shared x:scenario -->
-         <xsl:when test="self::attribute(shared)[parent::x:scenario]
-            or self::x:scenario[@shared = 'yes']" />
-
-         <!-- Replace x:like with specified scenario's child elements -->
-         <xsl:when test="self::x:like">
-            <xsl:variable name="label" as="element(x:label)" select="x:label(.)" />
-            <xsl:variable name="scenario" as="element(x:scenario)*" select="key('scenarios', $label)" />
-            <xsl:choose>
-               <xsl:when test="empty($scenario)">
-                  <xsl:message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR in {name()}: Scenario not found: '{$label}'</xsl:text>
-                  </xsl:message>
-               </xsl:when>
-               <xsl:when test="$scenario[2]">
-                  <xsl:message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR in {name()}: {count($scenario)} scenarios found with same label: '{$label}'</xsl:text>
-                  </xsl:message>
-               </xsl:when>
-               <xsl:when test="$scenario intersect ancestor::x:scenario">
-                  <xsl:message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR in {name()}: Reference to ancestor scenario creates infinite loop: '{$label}'</xsl:text>
-                  </xsl:message>
-               </xsl:when>
-               <xsl:otherwise>
-                  <xsl:apply-templates select="$scenario/element()" mode="#current" />
-               </xsl:otherwise>
-            </xsl:choose>
+         <xsl:when test="$scenario[2]">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">ERROR in {name()}: {count($scenario)} scenarios found with same label: '{$label}'</xsl:text>
+            </xsl:message>
          </xsl:when>
-
-         <!-- By default, apply identity template -->
+         <xsl:when test="$scenario intersect ancestor::x:scenario">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">ERROR in {name()}: Reference to ancestor scenario creates infinite loop: '{$label}'</xsl:text>
+            </xsl:message>
+         </xsl:when>
          <xsl:otherwise>
-            <xsl:call-template name="x:identity" />
+            <xsl:apply-templates select="$scenario/element()" mode="#current" />
          </xsl:otherwise>
       </xsl:choose>
+   </xsl:template>
+
+   <!--
+      mode="x:assign-id"
+      This mode assigns ID to x:scenario and x:expect
+   -->
+   <xsl:mode name="x:assign-id" on-multiple-match="fail" on-no-match="shallow-copy" />
+
+   <xsl:template match="(x:scenario | x:expect)[x:is-user-content(.) => not()]" as="element()"
+      mode="x:assign-id">
+      <xsl:copy>
+         <xsl:attribute name="id">
+            <xsl:apply-templates select="." mode="x:generate-id" />
+         </xsl:attribute>
+         <xsl:apply-templates select="attribute() | node()" mode="#current" />
+      </xsl:copy>
    </xsl:template>
 
    <!--
@@ -735,6 +757,13 @@
    <xsl:mode name="x:generate-id" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="x:scenario" as="xs:string" mode="x:generate-id">
+      <!-- Some ID generators may depend on @xspec, although this default generator doesn't. -->
+      <xsl:if test="empty(@xspec)">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">@xspec not exist when generating ID for {name()}.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <xsl:variable name="ancestor-or-self-tokens" as="xs:string+">
          <xsl:for-each select="ancestor-or-self::x:scenario">
             <!-- Find preceding sibling x:scenario, taking x:pending into account -->
@@ -805,10 +834,33 @@
       </xsl:message>
    </xsl:template>
 
+   <xsl:template name="x:report-test-attribute" as="node()+">
+      <xsl:context-item as="element(x:expect)" use="required" />
+
+      <xsl:variable name="expect-test" as="element(x:expect)">
+         <!-- Do not set xsl:copy/@copy-namespaces="no". @test may use namespace prefixes and/or the
+            default namespace such as xs:QName('foo') -->
+         <xsl:copy>
+            <xsl:sequence select="@test" />
+         </xsl:copy>
+      </xsl:variable>
+
+      <!-- Undeclare the default namespace in the wrapper element, because @test may use the default
+         namespace such as xs:QName('foo'). -->
+      <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+         <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
+         <xsl:with-param name="node-generators" as="node()+">
+            <xsl:apply-templates select="$expect-test" mode="test:create-node-generator" />
+         </xsl:with-param>
+      </xsl:call-template>
+   </xsl:template>
+
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 
-      <xsl:element name="{x:xspec-name('label', $labelled)}" namespace="{$x:xspec-namespace}">
+      <!-- Create an x:label element without a prefix in its name. This prefix-less name aligns with
+         the other elements in the test result report XML. -->
+      <xsl:element name="label" namespace="{namespace-uri($labelled)}">
          <xsl:value-of select="($labelled/x:label, $labelled/@label)[1]" />
       </xsl:element>
    </xsl:function>

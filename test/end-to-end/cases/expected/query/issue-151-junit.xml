@@ -5,7 +5,7 @@
               failures="1">
       <testcase name="[Result] in the failure report HTML must wrap element and string separately"
                 status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: false()</failure>
       </testcase>
    </testsuite>
 </testsuites>

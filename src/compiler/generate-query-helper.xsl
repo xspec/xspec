@@ -63,31 +63,6 @@
          </xsl:if>
       </xsl:variable>
 
-      <!-- URIQualifiedName of the temporary runtime variable which holds the resolved URI of @href -->
-      <xsl:variable name="temp-uri-uqname" as="xs:string?">
-         <xsl:if test="$temp-doc-uqname and @href">
-            <xsl:sequence
-               select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-uri')" />
-         </xsl:if>
-      </xsl:variable>
-
-      <!--
-         Output
-            declare variable $TEMPORARYNAME-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF");
-         or
-                         let $TEMPORARYNAME-uri as xs:anyURI := xs:anyURI("RESOLVED-HREF")
-      -->
-      <xsl:if test="$temp-uri-uqname">
-         <xsl:call-template name="test:declare-or-let-variable">
-            <xsl:with-param name="is-global" select="$is-global" />
-            <xsl:with-param name="name" select="$temp-uri-uqname" />
-            <xsl:with-param name="type" select="'xs:anyURI'" />
-            <xsl:with-param name="value" as="text()">
-               <xsl:text expand-text="yes">xs:anyURI("{resolve-uri(@href, base-uri())}")</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
-      </xsl:if>
-
       <!--
          Output
             declare variable $TEMPORARYNAME-doc as document-node() := DOCUMENT;
@@ -95,7 +70,7 @@
                          let $TEMPORARYNAME-doc as document-node() := DOCUMENT
          
          where DOCUMENT is
-            doc($TEMPORARYNAME-uri)
+            doc('RESOLVED-HREF')
          or
             document { NODE-GENERATORS }
       -->
@@ -107,7 +82,7 @@
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
                   <xsl:when test="@href">
-                     <xsl:text expand-text="yes">doc(${$temp-uri-uqname})</xsl:text>
+                     <xsl:text expand-text="yes">doc({@href => resolve-uri(base-uri()) => x:quote-with-apos()})</xsl:text>
                   </xsl:when>
 
                   <xsl:otherwise>

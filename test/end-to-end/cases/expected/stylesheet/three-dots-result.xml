@@ -1,757 +1,917 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../three-dots.xspec"
-          stylesheet="../../three-dots.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../three-dots.xspec">
-      <x:label>For resultant element (simple)</x:label>
-      <x:scenario id="scenario1-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../three-dots.xspec"
+        stylesheet="../../three-dots.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../three-dots.xspec">
+      <label>For resultant element (simple)</label>
+      <scenario id="scenario1-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;elem&gt;text&lt;/elem&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="element(elem)">
-               <elem>text</elem>
-            </x:param>
-         </x:call>
-         <x:result select="/element()">
-            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">text</elem>
-         </x:result>
-         <x:test id="scenario1-scenario1-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(elem)">
+                  <elem>text</elem>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/element()">
+            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns="">text</elem>
+         </result>
+         <test id="scenario1-scenario1-expect1" successful="true">
+            <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
-				should be Success</x:label>
-            <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario1-scenario1-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario1-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Success</label>
+            <expect select="/element()">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns="">...</elem>
+            </expect>
+         </test>
+         <test id="scenario1-scenario1-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;elem /&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="element(elem)">
-               <elem/>
-            </x:param>
-         </x:call>
-         <x:result select="/element()">
-            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-         </x:result>
-         <x:test id="scenario1-scenario2-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(elem)">
+                  <elem/>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/element()">
+            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns=""/>
+         </result>
+         <test id="scenario1-scenario2-expect1" successful="true">
+            <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
-				should be Success</x:label>
-            <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario1-scenario2-expect2" successful="false">
-            <x:label>expecting
+				should be Success</label>
+            <expect select="/element()">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns="">...</elem>
+            </expect>
+         </test>
+         <test id="scenario1-scenario2-expect2" successful="false">
+            <label>expecting
 				&lt;elem attrib="..." /&gt;
-				should be Failure</x:label>
-            <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="..."/>
-            </x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario1-scenario3" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Failure</label>
+            <expect select="/element()">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns=""
+                     attrib="..."/>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;elem&gt;...&lt;/elem&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="element(elem)">
-               <elem>...</elem>
-            </x:param>
-         </x:call>
-         <x:result select="/element()">
-            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
-         </x:result>
-         <x:test id="scenario1-scenario3-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(elem)">
+                  <elem>...</elem>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/element()">
+            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns="">...</elem>
+         </result>
+         <test id="scenario1-scenario3-expect1" successful="true">
+            <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
-				should be Success</x:label>
-            <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario1-scenario3-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario1-scenario3-expect3" successful="false">
-            <x:label>expecting
+				should be Success</label>
+            <expect select="/element()">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns="">...</elem>
+            </expect>
+         </test>
+         <test id="scenario1-scenario3-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario1-scenario3-expect3" successful="false">
+            <label>expecting
 				&lt;elem&gt;text&lt;/elem&gt;
-				should be Failure</x:label>
-            <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">text</elem>
-            </x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario2" xspec="../../three-dots.xspec">
-      <x:label>For resultant element (with attribute)</x:label>
-      <x:scenario id="scenario2-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Failure</label>
+            <expect select="/element()">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns="">text</elem>
+            </expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario2" xspec="../../three-dots.xspec">
+      <label>For resultant element (with attribute)</label>
+      <scenario id="scenario2-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;elem attrib="val" /&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="element(elem)">
-               <elem attrib="val"/>
-            </x:param>
-         </x:call>
-         <x:result select="/element()">
-            <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="val"/>
-         </x:result>
-         <x:test id="scenario2-scenario1-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(elem)">
+                  <elem attrib="val"/>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/element()">
+            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns=""
+                  attrib="val"/>
+         </result>
+         <test id="scenario2-scenario1-expect1" successful="true">
+            <label>expecting
 				&lt;elem attrib="..." /&gt;
-				should be Success</x:label>
-            <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema" attrib="..."/>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario2-scenario1-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario2-scenario1-expect3" successful="false">
-            <x:label>expecting
+				should be Success</label>
+            <expect select="/element()">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns=""
+                     attrib="..."/>
+            </expect>
+         </test>
+         <test id="scenario2-scenario1-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario2-scenario1-expect3" successful="false">
+            <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
-				should be Failure</x:label>
-            <x:expect select="/element()">
-               <elem xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
-            </x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario3" xspec="../../three-dots.xspec">
-      <x:label>For resultant element (with mixed content)</x:label>
-      <x:scenario id="scenario3-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Failure</label>
+            <expect select="/element()">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     xmlns="">...</elem>
+            </expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario3" xspec="../../three-dots.xspec">
+      <label>For resultant element (with mixed content)</label>
+      <scenario id="scenario3-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="element(outer)">
-               <outer>text<inner1/>
-                  <inner2/>
-               </outer>
-            </x:param>
-         </x:call>
-         <x:result select="/element()">
-            <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">text<inner1/>
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(outer)">
+                  <outer>text<inner1/>
+                     <inner2/>
+                  </outer>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/element()">
+            <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns="">text<inner1/>
                <inner2/>
             </outer>
-         </x:result>
-         <x:test id="scenario3-scenario1-expect1" successful="true">
-            <x:label>expecting
+         </result>
+         <test id="scenario3-scenario1-expect1" successful="true">
+            <label>expecting
 				&lt;outer&gt;...&lt;/outer&gt;
-				should be Success</x:label>
-            <x:expect select="/element()">
-               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...</outer>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario3-scenario1-expect2" successful="true">
-            <x:label>expecting
+				should be Success</label>
+            <expect select="/element()">
+               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns="">...</outer>
+            </expect>
+         </test>
+         <test id="scenario3-scenario1-expect2" successful="true">
+            <label>expecting
 				&lt;outer&gt;...&lt;inner1 /&gt;...&lt;/outer&gt;
-				should be Success</x:label>
-            <x:expect select="/element()">
-               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...<inner1/>...</outer>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario3-scenario1-expect3" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario3-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Success</label>
+            <expect select="/element()">
+               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns="">...<inner1/>...</outer>
+            </expect>
+         </test>
+         <test id="scenario3-scenario1-expect3" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario3-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="element(outer)">
-               <outer>
-                  <inner/>
-               </outer>
-            </x:param>
-         </x:call>
-         <x:result select="/element()">
-            <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="element(outer)">
+                  <outer>
+                     <inner/>
+                  </outer>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/element()">
+            <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns="">
                <inner/>
             </outer>
-         </x:result>
-         <x:test id="scenario3-scenario2-expect1" successful="true">
-            <x:label>expecting
+         </result>
+         <test id="scenario3-scenario2-expect1" successful="true">
+            <label>expecting
 				&lt;outer&gt;...&lt;/outer&gt;
-				should be Success</x:label>
-            <x:expect select="/element()">
-               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...</outer>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario3-scenario2-expect2" successful="false">
-            <x:label>expecting
+				should be Success</label>
+            <expect select="/element()">
+               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns="">...</outer>
+            </expect>
+         </test>
+         <test id="scenario3-scenario2-expect2" successful="false">
+            <label>expecting
 				&lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt;
-				should be Failure</x:label>
-            <x:expect select="/element()">
-               <outer xmlns:xs="http://www.w3.org/2001/XMLSchema">...<inner/>
+				should be Failure</label>
+            <expect select="/element()">
+               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns="">...<inner/>
                </outer>
-            </x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario4" xspec="../../three-dots.xspec">
-      <x:label>For resultant attribute</x:label>
-      <x:scenario id="scenario4-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is
+            </expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario4" xspec="../../three-dots.xspec">
+      <label>For resultant attribute</label>
+      <scenario id="scenario4-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is
 					 @attrib="val"
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="attribute(attrib)" select="elem/@*">
-               <elem attrib="val"/>
-            </x:param>
-         </x:call>
-         <x:result select="/*/@*">
-            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="val"/>
-         </x:result>
-         <x:test id="scenario4-scenario1-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="attribute(attrib)" select="elem/@*">
+                  <elem attrib="val"/>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/*/@*">
+            <pseudo-attribute attrib="val"/>
+         </result>
+         <test id="scenario4-scenario1-expect1" successful="true">
+            <label>expecting
 					 @attrib="..."
-					should be Success</x:label>
-            <x:expect select="/*/@*">
-               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario4-scenario1-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario4-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is
+					should be Success</label>
+            <expect select="/*/@*">
+               <pseudo-attribute attrib="..."/>
+            </expect>
+         </test>
+         <test id="scenario4-scenario1-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario4-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is
 					 @attrib=""
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="attribute(attrib)" select="elem/@*">
-               <elem attrib=""/>
-            </x:param>
-         </x:call>
-         <x:result select="/*/@*">
-            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib=""/>
-         </x:result>
-         <x:test id="scenario4-scenario2-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="attribute(attrib)" select="elem/@*">
+                  <elem attrib=""/>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/*/@*">
+            <pseudo-attribute attrib=""/>
+         </result>
+         <test id="scenario4-scenario2-expect1" successful="true">
+            <label>expecting
 					 @attrib="..."
-					should be Success</x:label>
-            <x:expect select="/*/@*">
-               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
-            </x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario4-scenario3" xspec="../../three-dots.xspec">
-         <x:label>When result is
+					should be Success</label>
+            <expect select="/*/@*">
+               <pseudo-attribute attrib="..."/>
+            </expect>
+         </test>
+      </scenario>
+      <scenario id="scenario4-scenario3" xspec="../../three-dots.xspec">
+         <label>When result is
 					 @attrib="..."
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="attribute(attrib)" select="elem/@*">
-               <elem attrib="..."/>
-            </x:param>
-         </x:call>
-         <x:result select="/*/@*">
-            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
-         </x:result>
-         <x:test id="scenario4-scenario3-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="attribute(attrib)" select="elem/@*">
+                  <elem attrib="..."/>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/*/@*">
+            <pseudo-attribute attrib="..."/>
+         </result>
+         <test id="scenario4-scenario3-expect1" successful="true">
+            <label>expecting
 					 @attrib="..."
-					should be Success</x:label>
-            <x:expect select="/*/@*">
-               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario4-scenario3-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario4-scenario3-expect3" successful="false">
-            <x:label>expecting
+					should be Success</label>
+            <expect select="/*/@*">
+               <pseudo-attribute attrib="..."/>
+            </expect>
+         </test>
+         <test id="scenario4-scenario3-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario4-scenario3-expect3" successful="false">
+            <label>expecting
 					 @attrib="val"
-					should be Failure</x:label>
-            <x:expect select="/*/@*">
-               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="val"/>
-            </x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario5" xspec="../../three-dots.xspec">
-      <x:label>For resultant text node</x:label>
-      <x:scenario id="scenario5-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is usual text node</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_usual"/>
-         </x:call>
-         <x:result select="/text()">text</x:result>
-         <x:test id="scenario5-scenario1-expect1" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario5-scenario1-expect2" successful="false">
-            <x:label>expecting '...' should be Failure</x:label>
-            <x:expect select="'...'"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario5-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is whitespace-only text node</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_whitespace-only"/>
-         </x:call>
-         <x:result select="/text()">
-            <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test">	
-&#xD; </test:ws>
-         </x:result>
-         <x:test id="scenario5-scenario2-expect1" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario5-scenario2-expect2" successful="false">
-            <x:label>expecting usual text node should be Failure</x:label>
-            <x:expect select="/text()">text</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario5-scenario3" xspec="../../three-dots.xspec">
-         <x:label>When result is zero-length text node</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_zero-length"/>
-         </x:call>
-         <x:result select="/text()">
-            <test:ws xmlns:test="http://www.jenitennison.com/xslt/unit-test"/>
-         </x:result>
-         <x:test id="scenario5-scenario3-expect1" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario5-scenario3-expect2" successful="false">
-            <x:label>expecting usual text node should be Failure</x:label>
-            <x:expect select="/text()">text</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario5-scenario4" xspec="../../three-dots.xspec">
-         <x:label>When result is three-dot text node</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_three-dots"/>
-         </x:call>
-         <x:result select="/text()">...</x:result>
-         <x:test id="scenario5-scenario4-expect1" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario5-scenario4-expect2" successful="false">
-            <x:label>expecting usual text node should be Failure</x:label>
-            <x:expect select="/text()">text</x:expect>
-         </x:test>
-         <x:test id="scenario5-scenario4-expect3" successful="false">
-            <x:label>expecting '...' should be Failure</x:label>
-            <x:expect select="'...'"/>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario6" xspec="../../three-dots.xspec">
-      <x:label>For resultant comment</x:label>
-      <x:scenario id="scenario6-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is
+					should be Failure</label>
+            <expect select="/*/@*">
+               <pseudo-attribute attrib="val"/>
+            </expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario5" xspec="../../three-dots.xspec">
+      <label>For resultant text node</label>
+      <scenario id="scenario5-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is usual text node</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_usual"/>
+            </x:call>
+         </input-wrap>
+         <result select="/text()">text</result>
+         <test id="scenario5-scenario1-expect1" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario5-scenario1-expect2" successful="false">
+            <label>expecting '...' should be Failure</label>
+            <expect select="'...'"/>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is whitespace-only text node</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_whitespace-only"/>
+            </x:call>
+         </input-wrap>
+         <result select="/text()">
+            <ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+&#xD; </ws>
+         </result>
+         <test id="scenario5-scenario2-expect1" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario5-scenario2-expect2" successful="false">
+            <label>expecting usual text node should be Failure</label>
+            <expect select="/text()">text</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario3" xspec="../../three-dots.xspec">
+         <label>When result is zero-length text node</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_zero-length"/>
+            </x:call>
+         </input-wrap>
+         <result select="/text()">
+            <ws xmlns="http://www.jenitennison.com/xslt/unit-test"/>
+         </result>
+         <test id="scenario5-scenario3-expect1" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario5-scenario3-expect2" successful="false">
+            <label>expecting usual text node should be Failure</label>
+            <expect select="/text()">text</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario5-scenario4" xspec="../../three-dots.xspec">
+         <label>When result is three-dot text node</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_three-dots"/>
+            </x:call>
+         </input-wrap>
+         <result select="/text()">...</result>
+         <test id="scenario5-scenario4-expect1" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario5-scenario4-expect2" successful="false">
+            <label>expecting usual text node should be Failure</label>
+            <expect select="/text()">text</expect>
+         </test>
+         <test id="scenario5-scenario4-expect3" successful="false">
+            <label>expecting '...' should be Failure</label>
+            <expect select="'...'"/>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario6" xspec="../../three-dots.xspec">
+      <label>For resultant comment</label>
+      <scenario id="scenario6-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;!--comment--&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="comment()"><!--comment--></x:param>
-         </x:call>
-         <x:result select="/comment()"><!--comment--></x:result>
-         <x:test id="scenario6-scenario1-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="comment()"><!--comment--></x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/comment()"><!--comment--></result>
+         <test id="scenario6-scenario1-expect1" successful="true">
+            <label>expecting
 				&lt;!--...--&gt;
-				should be Success</x:label>
-            <x:expect select="/comment()"><!--...--></x:expect>
-         </x:test>
-         <x:test id="scenario6-scenario1-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario6-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Success</label>
+            <expect select="/comment()"><!--...--></expect>
+         </test>
+         <test id="scenario6-scenario1-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario6-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;!----&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="comment()"><!----></x:param>
-         </x:call>
-         <x:result select="/comment()"><!----></x:result>
-         <x:test id="scenario6-scenario2-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="comment()"><!----></x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/comment()"><!----></result>
+         <test id="scenario6-scenario2-expect1" successful="true">
+            <label>expecting
 				&lt;!--...--&gt;
-				should be Success</x:label>
-            <x:expect select="/comment()"><!--...--></x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario6-scenario3" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Success</label>
+            <expect select="/comment()"><!--...--></expect>
+         </test>
+      </scenario>
+      <scenario id="scenario6-scenario3" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;!--...--&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="comment()"><!--...--></x:param>
-         </x:call>
-         <x:result select="/comment()"><!--...--></x:result>
-         <x:test id="scenario6-scenario3-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="comment()"><!--...--></x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/comment()"><!--...--></result>
+         <test id="scenario6-scenario3-expect1" successful="true">
+            <label>expecting
 				&lt;!--...--&gt;
-				should be Success</x:label>
-            <x:expect select="/comment()"><!--...--></x:expect>
-         </x:test>
-         <x:test id="scenario6-scenario3-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario6-scenario3-expect3" successful="false">
-            <x:label>expecting
+				should be Success</label>
+            <expect select="/comment()"><!--...--></expect>
+         </test>
+         <test id="scenario6-scenario3-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario6-scenario3-expect3" successful="false">
+            <label>expecting
 				&lt;!--comment--&gt;
-				should be Failure</x:label>
-            <x:expect select="/comment()"><!--comment--></x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario7" xspec="../../three-dots.xspec">
-      <x:label>For resultant processing instruction</x:label>
-      <x:scenario id="scenario7-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Failure</label>
+            <expect select="/comment()"><!--comment--></expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario7" xspec="../../three-dots.xspec">
+      <label>For resultant processing instruction</label>
+      <scenario id="scenario7-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;?pi data?&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="processing-instruction(pi)"><?pi data?></x:param>
-         </x:call>
-         <x:result select="/processing-instruction()"><?pi data?></x:result>
-         <x:test id="scenario7-scenario1-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="processing-instruction(pi)"><?pi data?></x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/processing-instruction()"><?pi data?></result>
+         <test id="scenario7-scenario1-expect1" successful="true">
+            <label>expecting
 				&lt;?pi ...?&gt;
-				should be Success</x:label>
-            <x:expect select="/processing-instruction()"><?pi ...?></x:expect>
-         </x:test>
-         <x:test id="scenario7-scenario1-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario7-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Success</label>
+            <expect select="/processing-instruction()"><?pi ...?></expect>
+         </test>
+         <test id="scenario7-scenario1-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario7-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;?pi?&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="processing-instruction(pi)"><?pi?></x:param>
-         </x:call>
-         <x:result select="/processing-instruction()"><?pi?></x:result>
-         <x:test id="scenario7-scenario2-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="processing-instruction(pi)"><?pi?></x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/processing-instruction()"><?pi?></result>
+         <test id="scenario7-scenario2-expect1" successful="true">
+            <label>expecting
 				&lt;?pi ...?&gt;
-				should be Success</x:label>
-            <x:expect select="/processing-instruction()"><?pi ...?></x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario7-scenario3" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Success</label>
+            <expect select="/processing-instruction()"><?pi ...?></expect>
+         </test>
+      </scenario>
+      <scenario id="scenario7-scenario3" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;?pi ...?&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
-         </x:call>
-         <x:result select="/processing-instruction()"><?pi ...?></x:result>
-         <x:test id="scenario7-scenario3-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/processing-instruction()"><?pi ...?></result>
+         <test id="scenario7-scenario3-expect1" successful="true">
+            <label>expecting
 				&lt;?pi ...?&gt;
-				should be Success</x:label>
-            <x:expect select="/processing-instruction()"><?pi ...?></x:expect>
-         </x:test>
-         <x:test id="scenario7-scenario3-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario7-scenario3-expect3" successful="false">
-            <x:label>expecting
+				should be Success</label>
+            <expect select="/processing-instruction()"><?pi ...?></expect>
+         </test>
+         <test id="scenario7-scenario3-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario7-scenario3-expect3" successful="false">
+            <label>expecting
 				&lt;?pi data?&gt;
-				should be Failure</x:label>
-            <x:expect select="/processing-instruction()"><?pi data?></x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario8" xspec="../../three-dots.xspec">
-      <x:label>For resultant document node</x:label>
-      <x:scenario id="scenario8-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is
+				should be Failure</label>
+            <expect select="/processing-instruction()"><?pi data?></expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario8" xspec="../../three-dots.xspec">
+      <label>For resultant document node</label>
+      <scenario id="scenario8-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="document-node()"
-                     select="$Q{x-urn:test:three-dots}document-node_multiple-nodes"/>
-         </x:call>
-         <x:result select="/self::document-node()"><?pi?><!--comment-->
-            <elem/>
-         </x:result>
-         <x:test id="scenario8-scenario1-expect1" successful="false">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="document-node()"
+                        select="$Q{x-urn:test:three-dots}document-node_multiple-nodes"/>
+            </x:call>
+         </input-wrap>
+         <result select="/self::document-node()"><?pi?><!--comment-->
+            <elem xmlns=""/>
+         </result>
+         <test id="scenario8-scenario1-expect1" successful="false">
+            <label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-					should be Failure</x:label>
-            <x:expect select="/self::document-node()">...</x:expect>
-         </x:test>
-         <x:test id="scenario8-scenario1-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario8-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is
+					should be Failure</label>
+            <expect select="/self::document-node()">...</expect>
+         </test>
+         <test id="scenario8-scenario1-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario8-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;xsl:document /&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="document-node()"
-                     select="$Q{x-urn:test:three-dots}document-node_empty"/>
-         </x:call>
-         <x:result select="/self::document-node()"/>
-         <x:test id="scenario8-scenario2-expect1" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario8-scenario2-expect2" successful="false">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="document-node()"
+                        select="$Q{x-urn:test:three-dots}document-node_empty"/>
+            </x:call>
+         </input-wrap>
+         <result select="/self::document-node()"/>
+         <test id="scenario8-scenario2-expect1" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario8-scenario2-expect2" successful="false">
+            <label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-					should be Failure</x:label>
-            <x:expect select="/self::document-node()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario8-scenario3" xspec="../../three-dots.xspec">
-         <x:label>When result is
+					should be Failure</label>
+            <expect select="/self::document-node()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario8-scenario3" xspec="../../three-dots.xspec">
+         <label>When result is
 				&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="document-node()"
-                     select="$Q{x-urn:test:three-dots}document-node_three-dots"/>
-         </x:call>
-         <x:result select="/self::document-node()">...</x:result>
-         <x:test id="scenario8-scenario3-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="document-node()"
+                        select="$Q{x-urn:test:three-dots}document-node_three-dots"/>
+            </x:call>
+         </input-wrap>
+         <result select="/self::document-node()">...</result>
+         <test id="scenario8-scenario3-expect1" successful="true">
+            <label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-					should be Success</x:label>
-            <x:expect select="/self::document-node()">...</x:expect>
-         </x:test>
-         <x:test id="scenario8-scenario3-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario8-scenario3-expect3" successful="false">
-            <x:label>expecting
+					should be Success</label>
+            <expect select="/self::document-node()">...</expect>
+         </test>
+         <test id="scenario8-scenario3-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario8-scenario3-expect3" successful="false">
+            <label>expecting
 					&lt;xsl:document&gt;text&lt;/xsl:document&gt;
-					should be Failure</x:label>
-            <x:expect select="/self::document-node()">text</x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario9" xspec="../../three-dots.xspec">
-      <x:label>For resultant namespace node</x:label>
-      <x:scenario id="scenario9-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is
+					should be Failure</label>
+            <expect select="/self::document-node()">text</expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario9" xspec="../../three-dots.xspec">
+      <label>For resultant namespace node</label>
+      <scenario id="scenario9-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is
 						  xmlns:prefix="namespace-uri"
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 function="Q{x-urn:test:three-dots}namespace-node">
-            <x:param select="'prefix'"/>
-            <x:param select="'namespace-uri'"/>
-         </x:call>
-         <x:result select="/*/namespace::*">
-            <pseudo-namespace-node xmlns:prefix="namespace-uri" xmlns="http://www.jenitennison.com/xslt/xspec"/>
-         </x:result>
-         <x:test id="scenario9-scenario1-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:three-dots}namespace-node">
+               <x:param select="'prefix'"/>
+               <x:param select="'namespace-uri'"/>
+            </x:call>
+         </input-wrap>
+         <result select="/*/namespace::*">
+            <pseudo-namespace-node xmlns:prefix="namespace-uri"/>
+         </result>
+         <test id="scenario9-scenario1-expect1" successful="true">
+            <label>expecting
 					  xmlns:prefix="..."
-					should be Success</x:label>
-            <x:expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario9-scenario1-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario9-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is
+					should be Success</label>
+            <expect select="/*/namespace::*">
+               <pseudo-namespace-node xmlns:prefix="..."/>
+            </expect>
+         </test>
+         <test id="scenario9-scenario1-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is
 						  xmlns="namespace-uri"
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 function="Q{x-urn:test:three-dots}namespace-node">
-            <x:param select="''"/>
-            <x:param select="'namespace-uri'"/>
-         </x:call>
-         <x:result select="/*/namespace::*">
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:three-dots}namespace-node">
+               <x:param select="''"/>
+               <x:param select="'namespace-uri'"/>
+            </x:call>
+         </input-wrap>
+         <result select="/*/namespace::*">
             <_0:pseudo-namespace-node xmlns="namespace-uri" xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
-         </x:result>
-         <x:test id="scenario9-scenario2-expect1" successful="true">
-            <x:label>expecting
+         </result>
+         <test id="scenario9-scenario2-expect1" successful="true">
+            <label>expecting
 					  xmlns="..."
-					should be Success</x:label>
-            <x:expect select="/*/namespace::*">
+					should be Success</label>
+            <expect select="/*/namespace::*">
                <_0:pseudo-namespace-node xmlns="..." xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario9-scenario2-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario9-scenario3" xspec="../../three-dots.xspec">
-         <x:label>When result is
+            </expect>
+         </test>
+         <test id="scenario9-scenario2-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+      </scenario>
+      <scenario id="scenario9-scenario3" xspec="../../three-dots.xspec">
+         <label>When result is
 						  xmlns:prefix="..."
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 function="Q{x-urn:test:three-dots}namespace-node">
-            <x:param select="'prefix'"/>
-            <x:param select="'...'"/>
-         </x:call>
-         <x:result select="/*/namespace::*">
-            <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
-         </x:result>
-         <x:test id="scenario9-scenario3-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:three-dots}namespace-node">
+               <x:param select="'prefix'"/>
+               <x:param select="'...'"/>
+            </x:call>
+         </input-wrap>
+         <result select="/*/namespace::*">
+            <pseudo-namespace-node xmlns:prefix="..."/>
+         </result>
+         <test id="scenario9-scenario3-expect1" successful="true">
+            <label>expecting
 					  xmlns:prefix="..."
-					should be Success</x:label>
-            <x:expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario9-scenario3-expect2" successful="true">
-            <x:label>expecting ... should be Success</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario9-scenario3-expect3" successful="false">
-            <x:label>expecting
+					should be Success</label>
+            <expect select="/*/namespace::*">
+               <pseudo-namespace-node xmlns:prefix="..."/>
+            </expect>
+         </test>
+         <test id="scenario9-scenario3-expect2" successful="true">
+            <label>expecting ... should be Success</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario9-scenario3-expect3" successful="false">
+            <label>expecting
 					  xmlns:prefix="namespace-uri"
-					should be Failure</x:label>
-            <x:expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="namespace-uri" xmlns="http://www.jenitennison.com/xslt/xspec"/>
-            </x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario10" xspec="../../three-dots.xspec">
-      <x:label>For resultant sequence of multiple nodes</x:label>
-      <x:scenario id="scenario10-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is sequence of
+					should be Failure</label>
+            <expect select="/*/namespace::*">
+               <pseudo-namespace-node xmlns:prefix="namespace-uri"/>
+            </expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario10" xspec="../../three-dots.xspec">
+      <label>For resultant sequence of multiple nodes</label>
+      <scenario id="scenario10-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is sequence of
 				&lt;elem1 /&gt;&lt;elem2 /&gt;
-				</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="one-or-more">
-            <x:param as="element()+">
-               <elem1/>
-               <elem2/>
-            </x:param>
-         </x:call>
-         <x:result select="/element()">
-            <elem1 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-            <elem2 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-         </x:result>
-         <x:test id="scenario10-scenario1-expect1" successful="true">
-            <x:label>expecting
+				</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="one-or-more">
+               <x:param as="element()+">
+                  <elem1/>
+                  <elem2/>
+               </x:param>
+            </x:call>
+         </input-wrap>
+         <result select="/element()">
+            <elem1 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns=""/>
+            <elem2 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns=""/>
+         </result>
+         <test id="scenario10-scenario1-expect1" successful="true">
+            <label>expecting
 					  ...&lt;elem2 /&gt;
-					should be Success</x:label>
-            <x:expect select="/node()">...<elem2 xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
-            </x:expect>
-         </x:test>
-         <x:test id="scenario10-scenario1-expect2" successful="true">
-            <x:label>expecting sequence of two ... should be Success</x:label>
-            <x:expect select="/text()">......</x:expect>
-         </x:test>
-         <x:test id="scenario10-scenario1-expect3" successful="false">
-            <x:label>expecting ... should be Failure</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario10-scenario1-expect4" successful="false">
-            <x:label>expecting ...... should be Failure</x:label>
-            <x:expect select="/text()">......</x:expect>
-         </x:test>
-         <x:test id="scenario10-scenario1-expect5" successful="false">
-            <x:label>expecting sequence of three ... should be Failure</x:label>
-            <x:expect select="/text()">.........</x:expect>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario11" xspec="../../three-dots.xspec">
-      <x:label>When result is empty sequence</x:label>
-      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="zero-or-one">
-         <x:param select="()"/>
-      </x:call>
-      <x:result select="()"/>
-      <x:test id="scenario11-expect1" successful="false">
-         <x:label>expecting ... should be Failure</x:label>
-         <x:expect select="/text()">...</x:expect>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario12" xspec="../../three-dots.xspec">
-      <x:label>For resultant atomic value</x:label>
-      <x:scenario id="scenario12-scenario1" xspec="../../three-dots.xspec">
-         <x:label>When result is 'string'</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="xs:string" select="'string'"/>
+					should be Success</label>
+            <expect select="/node()">...<elem2 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns=""/>
+            </expect>
+         </test>
+         <test id="scenario10-scenario1-expect2" successful="true">
+            <label>expecting sequence of two ... should be Success</label>
+            <expect select="/text()">......</expect>
+         </test>
+         <test id="scenario10-scenario1-expect3" successful="false">
+            <label>expecting ... should be Failure</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario10-scenario1-expect4" successful="false">
+            <label>expecting ...... should be Failure</label>
+            <expect select="/text()">......</expect>
+         </test>
+         <test id="scenario10-scenario1-expect5" successful="false">
+            <label>expecting sequence of three ... should be Failure</label>
+            <expect select="/text()">.........</expect>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario11" xspec="../../three-dots.xspec">
+      <label>When result is empty sequence</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="zero-or-one">
+            <x:param select="()"/>
          </x:call>
-         <x:result select="'string'"/>
-         <x:test id="scenario12-scenario1-expect1" successful="true">
-            <x:label>expecting 'string' should be Success</x:label>
-            <x:expect select="'string'"/>
-         </x:test>
-         <x:test id="scenario12-scenario1-expect2" successful="false">
-            <x:label>expecting ... should be Failure</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario12-scenario1-expect3" successful="false">
-            <x:label>expecting '...' should be Failure</x:label>
-            <x:expect select="'...'"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario12-scenario2" xspec="../../three-dots.xspec">
-         <x:label>When result is '...'</x:label>
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-            <x:param as="xs:string" select="'...'"/>
+      </input-wrap>
+      <result select="()"/>
+      <test id="scenario11-expect1" successful="false">
+         <label>expecting ... should be Failure</label>
+         <expect select="/text()">...</expect>
+      </test>
+   </scenario>
+   <scenario id="scenario12" xspec="../../three-dots.xspec">
+      <label>For resultant atomic value</label>
+      <scenario id="scenario12-scenario1" xspec="../../three-dots.xspec">
+         <label>When result is 'string'</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="xs:string" select="'string'"/>
+            </x:call>
+         </input-wrap>
+         <result select="'string'"/>
+         <test id="scenario12-scenario1-expect1" successful="true">
+            <label>expecting 'string' should be Success</label>
+            <expect select="'string'"/>
+         </test>
+         <test id="scenario12-scenario1-expect2" successful="false">
+            <label>expecting ... should be Failure</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario12-scenario1-expect3" successful="false">
+            <label>expecting '...' should be Failure</label>
+            <expect select="'...'"/>
+         </test>
+      </scenario>
+      <scenario id="scenario12-scenario2" xspec="../../three-dots.xspec">
+         <label>When result is '...'</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <x:param as="xs:string" select="'...'"/>
+            </x:call>
+         </input-wrap>
+         <result select="'...'"/>
+         <test id="scenario12-scenario2-expect1" successful="true">
+            <label>expecting '...' should be Success</label>
+            <expect select="'...'"/>
+         </test>
+         <test id="scenario12-scenario2-expect2" successful="false">
+            <label>expecting ... should be Failure</label>
+            <expect select="/text()">...</expect>
+         </test>
+         <test id="scenario12-scenario2-expect3" successful="false">
+            <label>expecting 'string' should be Failure</label>
+            <expect select="'string'"/>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario13" xspec="../../three-dots.xspec">
+      <label>For any resultant item</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="exactly-one">
+            <x:param as="text()">item</x:param>
          </x:call>
-         <x:result select="'...'"/>
-         <x:test id="scenario12-scenario2-expect1" successful="true">
-            <x:label>expecting '...' should be Success</x:label>
-            <x:expect select="'...'"/>
-         </x:test>
-         <x:test id="scenario12-scenario2-expect2" successful="false">
-            <x:label>expecting ... should be Failure</x:label>
-            <x:expect select="/text()">...</x:expect>
-         </x:test>
-         <x:test id="scenario12-scenario2-expect3" successful="false">
-            <x:label>expecting 'string' should be Failure</x:label>
-            <x:expect select="'string'"/>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-   <x:scenario id="scenario13" xspec="../../three-dots.xspec">
-      <x:label>For any resultant item</x:label>
-      <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema" function="exactly-one">
-         <x:param as="text()">item</x:param>
-      </x:call>
-      <x:result select="/text()">item</x:result>
-      <x:test id="scenario13-expect1" successful="false">
-         <x:label>expecting .... (four dots) should be Failure</x:label>
-         <x:expect select="/text()">....</x:expect>
-      </x:test>
-      <x:test id="scenario13-expect2" successful="false">
-         <x:label>expecting ...x (three dots with extra character) should be Failure</x:label>
-         <x:expect select="/text()">...x</x:expect>
-      </x:test>
-      <x:test id="scenario13-expect3" successful="false">
-         <x:label>expecting ... with surrounding whitespace should be Failure</x:label>
-         <x:expect select="/text()"> ...</x:expect>
-      </x:test>
-      <x:test id="scenario13-expect4" successful="false">
-         <x:label>expecting '...' (xs:string) should be Failure</x:label>
-         <x:expect select="'...'"/>
-      </x:test>
-   </x:scenario>
-</x:report>
+      </input-wrap>
+      <result select="/text()">item</result>
+      <test id="scenario13-expect1" successful="false">
+         <label>expecting .... (four dots) should be Failure</label>
+         <expect select="/text()">....</expect>
+      </test>
+      <test id="scenario13-expect2" successful="false">
+         <label>expecting ...x (three dots with extra character) should be Failure</label>
+         <expect select="/text()">...x</expect>
+      </test>
+      <test id="scenario13-expect3" successful="false">
+         <label>expecting ... with surrounding whitespace should be Failure</label>
+         <expect select="/text()"> ...</expect>
+      </test>
+      <test id="scenario13-expect4" successful="false">
+         <label>expecting '...' (xs:string) should be Failure</label>
+         <expect select="'...'"/>
+      </test>
+   </scenario>
+</report>

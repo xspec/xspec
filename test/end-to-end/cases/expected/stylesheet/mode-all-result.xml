@@ -1,55 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../mode-all.xspec"
-          stylesheet="../../mode-all.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../mode-all.xspec">
-      <x:label>context</x:label>
-      <x:context>
-         <foo/>
-      </x:context>
-      <x:result select="'Caught by #all mode'"/>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>should work</x:label>
-         <x:expect select="'Caught by #all mode'"/>
-      </x:test>
-      <x:test id="scenario1-expect2" successful="false">
-         <x:label>should report Expected Result correctly on failure</x:label>
-         <x:expect select="/element()">
-            <expected-element/>
-         </x:expect>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario2" xspec="../../mode-all.xspec">
-      <x:label>function-call</x:label>
-      <x:call function="string">
-         <x:param select="'Returned from function'"/>
-      </x:call>
-      <x:result select="'Returned from function'"/>
-      <x:test id="scenario2-expect1" successful="true">
-         <x:label>should work</x:label>
-         <x:expect select="'Returned from function'"/>
-      </x:test>
-      <x:test id="scenario2-expect2" successful="false">
-         <x:label>should report Expected Result correctly on failure</x:label>
-         <x:expect select="/element()">
-            <expected-element/>
-         </x:expect>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario3" xspec="../../mode-all.xspec">
-      <x:label>template-call</x:label>
-      <x:call template="named-template"/>
-      <x:result select="'Returned from named template'"/>
-      <x:test id="scenario3-expect1" successful="true">
-         <x:label>should work</x:label>
-         <x:expect select="'Returned from named template'"/>
-      </x:test>
-      <x:test id="scenario3-expect2" successful="false">
-         <x:label>should report Expected Result correctly on failure</x:label>
-         <x:expect select="/element()">
-            <expected-element/>
-         </x:expect>
-      </x:test>
-   </x:scenario>
-</x:report>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../mode-all.xspec"
+        stylesheet="../../mode-all.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../mode-all.xspec">
+      <label>context</label>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <foo/>
+         </x:context>
+      </input-wrap>
+      <result select="'Caught by #all mode'"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>should work</label>
+         <expect select="'Caught by #all mode'"/>
+      </test>
+      <test id="scenario1-expect2" successful="false">
+         <label>should report Expected Result correctly on failure</label>
+         <expect select="/element()">
+            <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+         </expect>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../mode-all.xspec">
+      <label>function-call</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="string">
+            <x:param select="'Returned from function'"/>
+         </x:call>
+      </input-wrap>
+      <result select="'Returned from function'"/>
+      <test id="scenario2-expect1" successful="true">
+         <label>should work</label>
+         <expect select="'Returned from function'"/>
+      </test>
+      <test id="scenario2-expect2" successful="false">
+         <label>should report Expected Result correctly on failure</label>
+         <expect select="/element()">
+            <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+         </expect>
+      </test>
+   </scenario>
+   <scenario id="scenario3" xspec="../../mode-all.xspec">
+      <label>template-call</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" template="named-template"/>
+      </input-wrap>
+      <result select="'Returned from named template'"/>
+      <test id="scenario3-expect1" successful="true">
+         <label>should work</label>
+         <expect select="'Returned from named template'"/>
+      </test>
+      <test id="scenario3-expect2" successful="false">
+         <label>should report Expected Result correctly on failure</label>
+         <expect select="/element()">
+            <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+         </expect>
+      </test>
+   </scenario>
+</report>

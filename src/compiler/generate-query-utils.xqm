@@ -199,20 +199,10 @@ declare function test:qname-lt($n1 as xs:QName, $n2 as xs:QName) as xs:boolean
 
 declare function test:report-sequence(
     $sequence as item()*,
-    $wrapper-name as xs:string
+    $report-name as xs:string
   ) as element()
 {
-  test:report-sequence($sequence, $wrapper-name, (), ())
-};
-
-declare function test:report-sequence(
-    $sequence as item()*,
-    $wrapper-name as xs:string,
-    $test-attr as attribute(test)?,
-    $additional-namespaces as namespace-node()*
-  ) as element()
-{
-  let $wrapper-ns as xs:string := string($x:xspec-namespace)
+  let $report-namespace as xs:string := string($x:xspec-namespace)
 
   let $attribute-nodes as attribute()* := $sequence[. instance of attribute()]
   let $document-nodes as document-node()* := $sequence[. instance of document-node()]
@@ -221,11 +211,8 @@ declare function test:report-sequence(
 
   let $report-element as element() :=
     element
-      { QName($wrapper-ns, $wrapper-name) }
+      { QName($report-namespace, $report-name) }
       {
-        $additional-namespaces,
-        $test-attr,
-
         (
           (: Empty :)
           if (empty($sequence))
@@ -306,7 +293,7 @@ declare function test:report-sequence(
             },
 
             for $item in $sequence
-            return test:report-pseudo-item($item, $wrapper-ns)
+            return test:report-pseudo-item($item, $report-namespace)
           )
         )
       }
@@ -320,29 +307,29 @@ declare function test:report-sequence(
 
 declare function test:report-pseudo-item(
   $item as item(),
-  $wrapper-ns as xs:string
+  $report-namespace as xs:string
 ) as element()
 {
   let $local-name-prefix as xs:string := 'pseudo-'
   return (
     if ($item instance of xs:anyAtomicType) then
       element
-        { QName($wrapper-ns, ($local-name-prefix || 'atomic-value')) }
+        { QName($report-namespace, ($local-name-prefix || 'atomic-value')) }
         { test:report-atomic-value($item) }
 
     else if ($item instance of node()) then
       element
-        { QName($wrapper-ns, ($local-name-prefix || x:node-type($item))) }
+        { QName($report-namespace, ($local-name-prefix || x:node-type($item))) }
         { test:report-node($item) }
 
     else if (x:instance-of-function($item)) then
       element
-        { QName($wrapper-ns, ($local-name-prefix || x:function-type($item))) }
+        { QName($report-namespace, ($local-name-prefix || x:function-type($item))) }
         { test:serialize-adaptive($item) }
 
     else
       element
-        { QName($wrapper-ns, ($local-name-prefix || 'other')) }
+        { QName($report-namespace, ($local-name-prefix || 'other')) }
         {}
   )
 };
@@ -355,7 +342,9 @@ declare function test:report-node(
     ) as node()
 {
   if (($node instance of text()) and not(normalize-space($node))) then
-    element test:ws { $node }
+    (: This element name is not 'test:ws' but 'ws'. This prefix-less name is a workaround for
+      https://sourceforge.net/p/saxon/mailman/message/37066342/ :)
+    element { QName($x:legacy-namespace, 'ws') } { $node }
   else if ( $node instance of document-node() ) then
     document {
       for $child in $node/child::node() return test:report-node($child)

@@ -71,12 +71,12 @@
                      <tr>
                         <td>
                            <p>XPath <code>/*</code> from:</p>
-                           <pre>&lt;pseudo-element&gt;
-   &lt;test-mix:fooElement xmlns:test-mix="x-urn:test-mix"&gt;
+                           <pre>&lt;pseudo-element <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;test-mix:fooElement <span class="xmlns">xmlns:test-mix="x-urn:test-mix"</span>&gt;
       &lt;test-mix:barElement /&gt;
    &lt;/test-mix:fooElement&gt;
 &lt;/pseudo-element&gt;
-&lt;pseudo-atomic-value&gt;'string'&lt;/pseudo-atomic-value&gt;</pre>
+&lt;pseudo-atomic-value <span class="xmlns trivial">xmlns="http://www.jenitennison.com/xslt/xspec"</span>&gt;'string'&lt;/pseudo-atomic-value&gt;</pre>
                         </td>
                         <td>
                            <pre>false()</pre>

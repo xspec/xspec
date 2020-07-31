@@ -8,17 +8,6 @@
 		/x:description/@stylesheet.
 	-->
 
-	<x:scenario label="Scenario for testing variable legacy-namespace">
-		<x:context />
-		<x:expect label="'test' namespace URI"
-			select="
-				namespace-uri-for-prefix(
-					'test',
-					doc(resolve-uri('../src/compiler/generate-tests-utils.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:legacy-namespace treat as xs:anyURI" />
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing variable xs-namespace">
 		<x:context />
 		<x:expect label="'xs' namespace URI"
