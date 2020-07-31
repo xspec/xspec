@@ -14,6 +14,8 @@
 		See ../../test/generate-node-selector.xspec for examples.
 	-->
 	<xsl:template as="document-node(element(xsl:stylesheet))" name="xsl:initial-template">
+		<xsl:context-item use="absent" />
+
 		<xsl:param as="xs:string" name="expression" />
 		<xsl:param as="namespace-node()*" name="namespace-nodes" />
 		<xsl:param as="xs:decimal" name="xslt-version" />
