@@ -79,7 +79,14 @@
 
          <!-- The main compiled template. -->
          <xsl:comment> the main template to run the suite </xsl:comment>
-         <template name="{x:known-UQName('x:main')}" as="empty-sequence()">
+         <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="name" select="x:known-UQName('x:main')" />
+            <xsl:attribute name="as" select="'empty-sequence()'" />
+
+            <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="use" select="'absent'" />
+            </xsl:element>
+
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
             <!-- Message content must be constructed at run time -->
             <message>
@@ -148,7 +155,7 @@
                   <xsl:call-template name="x:call-scenarios" />
                </xsl:element>
             </xsl:element>
-         </template>
+         </xsl:element>
 
          <!-- Compile the top-level scenarios. -->
          <xsl:call-template name="x:compile-scenarios" />
@@ -242,8 +249,13 @@
          </xsl:call-template>
       </xsl:if>
 
-      <template name="{x:known-UQName('x:' || @id)}" as="element({x:known-UQName('x:scenario')})">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
+         <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
+
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'absent'" />
+         </xsl:element>
 
          <xsl:for-each select="distinct-values($stacked-variables ! x:variable-UQName(.))">
             <param name="{.}" required="yes" />
@@ -484,7 +496,7 @@
 
          <!-- </x:scenario> -->
          </xsl:element>
-      </template>
+      </xsl:element>
 
       <xsl:call-template name="x:compile-scenarios" />
    </xsl:template>
@@ -638,7 +650,14 @@
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor::*/@focus)" />
 
-      <template name="{x:known-UQName('x:' || @id)}" as="element({x:known-UQName('x:test')})">
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
+         <xsl:attribute name="as" select="'element(' || x:known-UQName('x:test') || ')'" />
+
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'absent'" />
+         </xsl:element>
+
          <xsl:for-each select="$param-uqnames">
             <param name="{.}" required="yes" />
          </xsl:for-each>
@@ -803,7 +822,7 @@
 
          <!-- </x:test> -->
          </xsl:element>
-      </template>
+      </xsl:element>
    </xsl:template>
 
    <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="element(xsl:element)">
