@@ -199,6 +199,7 @@ global-param =
 	element param { common-attributes, name, as?, static?, selection }
 
 static = 
+	## EXPERIMENTAL. Subject to change. Not supported for XQuery and Schematron.
 	## Enabling this attribute is supported only when /x:description/@run-as is "external".
 	attribute static { boolean.datatype }
 

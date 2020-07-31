@@ -24,6 +24,9 @@
       This mode itself does not handle whitespace-only text nodes specially. To handle
       whitespace-only text node in a special manner, the text node should be handled specially
       before applying this mode and/or mode="test:create-node-generator" should be overridden.
+      
+      This modes does not handle @static. It is just ignored. Enabling @static will create a
+      usual non-static parameter or variable.
    -->
    <xsl:mode name="test:generate-variable-declarations" on-multiple-match="fail" on-no-match="fail" />
 

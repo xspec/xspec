@@ -79,6 +79,15 @@
 				select="$pseudo-description/x:param" />
 
 			<!-- Resolve x:param -->
+			<xsl:for-each select="x:param[x:yes-no-synonym(@static, false())]">
+				<!-- Reject @static=yes, because it doesn't take effect.
+					Making @static=yes take effect requires coordination with schut-to-xslt.xsl who
+					invokes the wrapper stylesheet being generated here. Implementing it isn't
+					worthwhile until requested seriously. -->
+				<xsl:message terminate="yes">
+					<xsl:text expand-text="yes">Enabling @static in {name()} is not supported for Schematron.</xsl:text>
+				</xsl:message>
+			</xsl:for-each>
 			<xsl:apply-templates mode="test:generate-variable-declarations" select="x:param" />
 		</xsl:element>
 	</xsl:template>
