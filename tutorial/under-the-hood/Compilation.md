@@ -60,6 +60,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <!-- the main template to run the suite -->
    <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}main"
                  as="empty-sequence()">
+      <xsl:context-item use="absent"/>
       <!-- info message -->
       <xsl:message>
          <xsl:text>Testing with </xsl:text>
@@ -188,6 +189,7 @@ result as parameter.
 <!-- generated from the x:scenario element -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
+   <xsl:context-item use="absent"/>
    <xsl:message>scenario</xsl:message>
    <xsl:element name="scenario" namespace="http://www.jenitennison.com/xslt/xspec">
       <xsl:attribute name="id" namespace="">scenario1</xsl:attribute>
@@ -215,6 +217,7 @@ result as parameter.
 <!-- generated from the x:expect element -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
+   <xsl:context-item use="absent"/>
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <xsl:message>expectations</xsl:message>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-..." select="()"><!--expected result--></xsl:variable>
@@ -541,6 +544,7 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
 <!-- generated from the x:expect element -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
+   ...
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <xsl:param name="Q{http://example.org/ns/my/variable}var" required="yes"/>
    ...
@@ -770,6 +774,7 @@ and functions in XQuery).
 <!-- generated from the scenario outer -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
+   ...
    <!-- the generated variable -->
    <xsl:variable xmlns:my="http://example.org/ns/my"
                  xmlns:myv="http://example.org/ns/my/variable"
@@ -786,6 +791,7 @@ and functions in XQuery).
 <!-- generated from the scenario inner -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
+   ...
    <!-- the variable is passed as param -->
    <xsl:param name="Q{http://example.org/ns/my/variable}var-1" required="yes"/>
    ...
@@ -839,6 +845,7 @@ and functions in XQuery).
 <!-- generated from the expect one -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
+   ...
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <!-- the variables are passed as param -->
    <xsl:param name="Q{http://example.org/ns/my/variable}var-1" required="yes"/>
@@ -850,6 +857,7 @@ and functions in XQuery).
 <!-- generated from the expect two -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect2"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
+   ...
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <!-- the variables are passed as param -->
    <xsl:param name="Q{http://example.org/ns/my/variable}var-1" required="yes"/>

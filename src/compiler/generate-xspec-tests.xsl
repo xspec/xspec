@@ -84,7 +84,14 @@
 
          <!-- The main compiled template. -->
          <xsl:comment> the main template to run the suite </xsl:comment>
-         <template name="{x:known-UQName('x:main')}" as="empty-sequence()">
+         <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="name" select="x:known-UQName('x:main')" />
+            <xsl:attribute name="as" select="'empty-sequence()'" />
+
+            <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="use" select="'absent'" />
+            </xsl:element>
+
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
             <!-- Message content must be constructed at run time -->
             <message>
@@ -155,7 +162,7 @@
                   <xsl:call-template name="x:call-scenarios" />
                </xsl:element>
             </xsl:element>
-         </template>
+         </xsl:element>
 
          <!-- Compile the top-level scenarios. -->
          <xsl:call-template name="x:compile-scenarios" />
@@ -242,12 +249,21 @@
       <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
          <xsl:call-template name="x:output-scenario-error">
             <xsl:with-param name="message" as="xs:string">
+               <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
+                  the user -->
                <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
-      <template name="{x:known-UQName('x:' || @id)}" as="element({x:known-UQName('x:scenario')})">
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
+         <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
+
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'absent'" />
+         </xsl:element>
+
          <xsl:for-each select="distinct-values($stacked-variables ! x:variable-UQName(.))">
             <param name="{.}" required="yes" />
          </xsl:for-each>
@@ -487,7 +503,7 @@
 
          <!-- </x:scenario> -->
          </xsl:element>
-      </template>
+      </xsl:element>
 
       <xsl:call-template name="x:compile-scenarios" />
    </xsl:template>
@@ -522,7 +538,9 @@
                <if
                   test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('test:is-saxon-config')}() => not()">
                   <message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR: ${x:xspec-name('saxon-config', .)} does not appear to be a Saxon configuration</xsl:text>
+                     <!-- Use URIQualifiedName for displaying the $x:saxon-config variable name, for
+                        we do not know the name prefix of the originating variable. -->
+                     <xsl:text expand-text="yes">ERROR: ${x:known-UQName('x:saxon-config')} does not appear to be a Saxon configuration</xsl:text>
                   </message>
                </if>
                <map-entry key="'vendor-options'">
@@ -639,7 +657,14 @@
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor::*/@focus)" />
 
-      <template name="{x:known-UQName('x:' || @id)}" as="element({x:known-UQName('x:test')})">
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
+         <xsl:attribute name="as" select="'element(' || x:known-UQName('x:test') || ')'" />
+
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'absent'" />
+         </xsl:element>
+
          <xsl:for-each select="$param-uqnames">
             <param name="{.}" required="yes" />
          </xsl:for-each>
@@ -804,7 +829,7 @@
 
          <!-- </x:test> -->
          </xsl:element>
-      </template>
+      </xsl:element>
    </xsl:template>
 
    <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="element(xsl:element)">
