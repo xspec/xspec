@@ -20,9 +20,17 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
-   <xsl:param name="is-external" as="xs:boolean" select="/x:description/@run-as = 'external'" />
+   <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
 
-   <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
+   <!-- The initial XSpec document (the source document of the whole transformation).
+      Note that this initial document is different from the document node generated within the
+      name="x:generate-tests" template. The latter document is a restructured copy of the initial
+      document. Usually the compiler templates should handle the restructured one, but in rare cases
+      some of the compiler templates may need to access the initial document. -->
+   <xsl:variable name="initial-document" as="document-node(element(x:description))" select="/" />
+
+   <xsl:variable name="actual-document-uri" as="xs:anyURI"
+      select="x:actual-document-uri($initial-document)" />
 
    <!--
       mode="#default"
@@ -65,7 +73,8 @@
    <xsl:template name="x:generate-tests" as="node()+">
       <xsl:context-item as="document-node(element(x:description))" use="required" />
 
-      <xsl:variable name="this" select="." as="document-node(element(x:description))" />
+      <xsl:variable name="this" as="document-node(element(x:description))"
+         select=".[. is $initial-document]" />
 
       <!-- Collect all the instances of x:description by resolving x:import -->
       <xsl:variable name="descriptions" as="element(x:description)+"

@@ -40,10 +40,7 @@
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?"
-      select="/x:description/@query-at/resolve-uri(., base-uri())"/>
-
-   <xsl:variable name="copy-of-global-namespace-nodes" as="namespace-node()*"
-      select="x:copy-of-namespaces(/x:description)" />
+      select="$initial-document/x:description/@query-at/resolve-uri(., base-uri())"/>
 
    <!--
       mode="x:generate-tests"
@@ -84,7 +81,7 @@
 
       <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes.
          Unlike XSLT, XQuery requires them to be declared globally. -->
-      <xsl:for-each select="$copy-of-global-namespace-nodes[name() (: Exclude the default namespace :)]">
+      <xsl:for-each select="x:copy-of-namespaces($initial-document/x:description)[name() (: Exclude the default namespace :)]">
          <xsl:text expand-text="yes">declare namespace {name()} = "{string()}";&#x0A;</xsl:text>
       </xsl:for-each>
 
