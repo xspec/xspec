@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for items.xsl (passed: 0 / pending: 0 / failed: 22 / total: 22)</title>
+      <title>Test Report for items.xsl (passed: 0 / pending: 0 / failed: 26 / total: 26)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -23,8 +23,8 @@
                <th></th>
                <th class="totals">passed: 0</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 22</th>
-               <th class="totals">total: 22</th>
+               <th class="totals">failed: 26</th>
+               <th class="totals">total: 26</th>
             </tr>
          </thead>
          <tbody>
@@ -79,6 +79,13 @@
                <th class="totals">0</th>
                <th class="totals">2</th>
                <th class="totals">2</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario8">When the result contains an element with the default namespace undeclared</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">4</th>
+               <th class="totals">4</th>
             </tr>
          </tbody>
       </table>
@@ -1140,6 +1147,172 @@
       &lt;node2 /&gt;
    &lt;/orphan&gt;
 &lt;/no-match&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>false()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario8">
+         <h2 class="successful">When the result contains an element with the default namespace undeclared<span class="scenario-totals">passed: 0 / pending: 0 / failed: 4 / total: 4</span></h2>
+         <table class="xspec" id="table_scenario8">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>When the result contains an element with the default namespace undeclared</th>
+                  <th>passed: 0 / pending: 0 / failed: 4 / total: 4</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario8-scenario1-scenario1">and it is top-level, both in [Result] and [Expected Result] with diff,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario8-scenario1-scenario1-expect1">the top-level element should not have unnecessary xmlns="".</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario8-scenario1-scenario2">and it is top-level, in [Result] without diff,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario8-scenario1-scenario2-expect1">the top-level element should not have unnecessary xmlns="".</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario8-scenario2-scenario1">and it is 2nd-level, both in [Result] and [Expected Result] with diff,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario8-scenario2-scenario1-expect1">the 2nd-level element should have xmlns="".</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario8-scenario2-scenario2">and it is 2nd-level, in [Result] without diff,</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario8-scenario2-scenario2-expect1">the 2nd-level element should have xmlns="".</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario8-scenario1-scenario1">
+            <h3>When the result contains an element with the default namespace undeclared and it is
+               top-level, both in [Result] and [Expected Result] with diff,</h3>
+            <div id="scenario8-scenario1-scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">the top-level element should not have unnecessary xmlns="".</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">foo</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">bar</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario8-scenario1-scenario2">
+            <h3>When the result contains an element with the default namespace undeclared and it is
+               top-level, in [Result] without diff,</h3>
+            <div id="scenario8-scenario1-scenario2-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">the top-level element should not have unnecessary xmlns="".</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;foo <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>false()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario8-scenario2-scenario1">
+            <h3>When the result contains an element with the default namespace undeclared and it is
+               2nd-level, both in [Result] and [Expected Result] with diff,</h3>
+            <div id="scenario8-scenario2-scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">the 2nd-level element should have xmlns="".</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="inner-diff">foo</span> <span class="xmlns">xmlns="default-ns"</span>
+     <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;<span class="diff">bar</span> <span class="xmlns">xmlns=""</span> /&gt;
+&lt;/foo&gt;</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="inner-diff">foo</span> <span class="xmlns">xmlns="default-ns"</span>
+     <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;<span class="diff">baz</span> <span class="xmlns">xmlns=""</span> /&gt;
+&lt;/foo&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario8-scenario2-scenario2">
+            <h3>When the result contains an element with the default namespace undeclared and it is
+               2nd-level, in [Result] without diff,</h3>
+            <div id="scenario8-scenario2-scenario2-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">the 2nd-level element should have xmlns="".</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;foo <span class="xmlns">xmlns="default-ns"</span>
+     <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
+   &lt;bar <span class="xmlns">xmlns=""</span> /&gt;
+&lt;/foo&gt;</pre>
                         </td>
                         <td>
                            <pre>false()</pre>
