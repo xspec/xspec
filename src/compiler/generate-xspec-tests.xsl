@@ -257,8 +257,6 @@
       </xsl:if>
 
       <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
-
          <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
          <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
 
