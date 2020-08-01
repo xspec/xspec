@@ -25,11 +25,6 @@
 
    <xsl:output indent="yes" />
 
-   <!-- Absolute URI of .xsl file to be tested.
-      This needs to be resolved here, not in mode="x:generate-tests" where base-uri() is not available -->
-   <xsl:variable name="stylesheet-uri" as="xs:anyURI"
-      select="/x:description/resolve-uri(@stylesheet, base-uri())" />
-
    <!--
       mode="x:generate-tests"
    -->
@@ -38,15 +33,13 @@
       <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@xspec-original-location)" />
 
       <!-- The compiled stylesheet element. -->
-      <!-- The generated xsl:stylesheet must not have @exclude-result-prefixes. The test result
-         report XML may use namespace prefixes in XPath expressions even when the prefixes are not
-         used in node names. -->
-      <stylesheet version="{x:xslt-version(.) => x:decimal-string()}">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
+      <xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="exclude-result-prefixes" select="'#all'" />
+         <xsl:attribute name="version" select="x:xslt-version(.) => x:decimal-string()" />
 
          <xsl:if test="not($is-external)">
             <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
-            <import href="{$stylesheet-uri}" />
+            <import href="{@stylesheet}" />
          </xsl:if>
 
          <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
@@ -86,7 +79,14 @@
 
          <!-- The main compiled template. -->
          <xsl:comment> the main template to run the suite </xsl:comment>
-         <template name="{x:known-UQName('x:main')}" as="empty-sequence()">
+         <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="name" select="x:known-UQName('x:main')" />
+            <xsl:attribute name="as" select="'empty-sequence()'" />
+
+            <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="use" select="'absent'" />
+            </xsl:element>
+
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
             <!-- Message content must be constructed at run time -->
             <message>
@@ -125,23 +125,18 @@
                </xsl:choose>
 
                <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-                  <xsl:attribute name="name" select="x:xspec-name('report', .)" />
+                  <xsl:attribute name="name" select="'report'" />
                   <xsl:attribute name="namespace" select="$x:xspec-namespace" />
-
-                  <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
-                     mode="test:create-node-generator"/>
 
                   <xsl:variable name="attributes" as="attribute()+">
                      <xsl:attribute name="xspec" select="$xspec-master-uri" />
 
-                     <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
-                        that the URI appears in the trace report generated from running the
-                        test stylesheet, which can then be picked up by stylesheets that
-                        process *that* to generate a coverage report -->
-                     <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+                     <!-- This @stylesheet is used by ../reporter/coverage-report.xsl -->
+                     <xsl:sequence select="@stylesheet" />
 
                      <!-- Do not always copy @schematron.
-                        @schematron may exist even when this XSpec is not testing Schematron. -->
+                        @schematron may exist even when this running instance of XSpec is not
+                        testing Schematron. -->
                      <xsl:if test="$is-schematron">
                         <xsl:sequence select="@schematron" />
                      </xsl:if>
@@ -160,11 +155,11 @@
                   <xsl:call-template name="x:call-scenarios" />
                </xsl:element>
             </xsl:element>
-         </template>
+         </xsl:element>
 
          <!-- Compile the top-level scenarios. -->
          <xsl:call-template name="x:compile-scenarios" />
-      </stylesheet>
+      </xsl:element>
    </xsl:template>
 
    <!-- *** x:output-call *** -->
@@ -173,17 +168,13 @@
    <xsl:template name="x:output-call">
       <xsl:context-item as="element()" use="required" />
 
-      <xsl:param name="last"   as="xs:boolean" />
+      <xsl:param name="last" as="xs:boolean" />
 
       <!-- URIQualifiedNames of the variables that will be passed as the parameters (of the same
          URIQualifiedName) to the call -->
       <xsl:param name="with-param-uqnames" as="xs:string*" />
 
-      <xsl:variable name="local-name" as="xs:string">
-         <xsl:apply-templates select="." mode="x:generate-id" />
-      </xsl:variable>
-
-      <call-template name="{x:known-UQName('x:' || $local-name)}">
+      <call-template name="{x:known-UQName('x:' || @id)}">
          <xsl:for-each select="$with-param-uqnames">
             <with-param name="{.}" select="${.}" />
          </xsl:for-each>
@@ -210,10 +201,6 @@
 
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
-
-      <xsl:variable name="scenario-id" as="xs:string">
-         <xsl:apply-templates select="." mode="x:generate-id" />
-      </xsl:variable>
 
       <!-- We have to create these error messages at this stage because before now
          we didn't have merged versions of the environment -->
@@ -255,14 +242,20 @@
       <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
          <xsl:call-template name="x:output-scenario-error">
             <xsl:with-param name="message" as="xs:string">
+               <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
+                  the user -->
                <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
-      <template name="{x:known-UQName('x:' || $scenario-id)}"
-         as="element({x:known-UQName('x:scenario')})">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
+         <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
+
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'absent'" />
+         </xsl:element>
 
          <xsl:for-each select="distinct-values($stacked-variables ! x:variable-UQName(.))">
             <param name="{.}" required="yes" />
@@ -272,9 +265,7 @@
             <xsl:if test="$pending-p">
                <xsl:text>PENDING: </xsl:text>
                <xsl:if test="$pending != ''">
-                  <xsl:text>(</xsl:text>
-                  <xsl:value-of select="normalize-space($pending)" />
-                  <xsl:text>) </xsl:text>
+                  <xsl:text expand-text="yes">({normalize-space($pending)}) </xsl:text>
                </xsl:if>
             </xsl:if>
             <xsl:if test="parent::x:scenario">
@@ -285,11 +276,11 @@
 
          <!-- <x:scenario> -->
          <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="x:xspec-name('scenario', .)" />
-            <xsl:attribute name="namespace" select="$x:xspec-namespace" />
+            <xsl:attribute name="name" select="local-name()" />
+            <xsl:attribute name="namespace" select="namespace-uri()" />
 
             <xsl:variable name="scenario-attributes" as="attribute()+">
-               <xsl:attribute name="id" select="$scenario-id" />
+               <xsl:sequence select="@id" />
                <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
                <xsl:if test="$pending-p">
                   <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
@@ -305,7 +296,14 @@
                <xsl:choose>
                   <xsl:when test="self::x:apply or self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
-                     <xsl:apply-templates select="." mode="test:create-node-generator" />
+                     <!-- Undeclare the default namespace in the wrapper element, because
+                        x:param/@select may use the default namespace such as xs:QName('foo'). -->
+                     <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+                        <xsl:with-param name="wrapper-name" select="'input-wrap'" />
+                        <xsl:with-param name="node-generators" as="element(xsl:element)">
+                           <xsl:apply-templates select="." mode="test:create-node-generator" />
+                        </xsl:with-param>
+                     </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="self::x:variable">
                      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
@@ -317,31 +315,21 @@
             </xsl:for-each>
 
             <xsl:if test="not($pending-p) and x:expect">
+               <xsl:if test="$context">
+                  <!-- Set up the variable of x:context -->
+                  <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
+
+                  <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
+                  <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
+                     <xsl:attribute name="name" select="x:known-UQName('x:context')" />
+                     <xsl:attribute name="select" select="'$' || x:variable-UQName($context)" />
+                  </xsl:element>
+               </xsl:if>
+
                <variable name="{x:known-UQName('x:result')}" as="item()*">
-                  <!-- Set up variables before entering SUT -->
-                  <xsl:choose>
-                     <xsl:when test="$call">
-                        <!-- Set up variables containing the parameter values -->
-                        <xsl:apply-templates select="$call/x:param[1]" mode="x:compile" />
-
-                        <!-- Set up the $impl:context variable -->
-                        <xsl:apply-templates select="$context[$call/@template]"
-                           mode="test:generate-variable-declarations" />
-                     </xsl:when>
-
-                     <xsl:when test="$apply">
-                        <!-- Set up variables containing the parameter values -->
-                        <xsl:apply-templates select="$apply/x:param[1]" mode="x:compile" />
-                     </xsl:when>
-
-                     <xsl:when test="$context">
-                        <!-- Set up the $impl:context variable -->
-                        <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
-
-                        <!-- Set up variables containing the parameter values -->
-                        <xsl:apply-templates select="$context/x:param[1]" mode="x:compile" />
-                     </xsl:when>
-                  </xsl:choose>
+                  <!-- Set up variables containing the parameter values -->
+                  <xsl:apply-templates select="($call, $apply, $context)[1]/x:param[1]"
+                     mode="x:compile" />
 
                   <!-- Enter SUT -->
                   <xsl:choose>
@@ -499,9 +487,7 @@
 
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:known-UQName('x:result')}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                     <xsl:value-of select="x:xspec-name('result', .)" />
-                  </with-param>
+                  <with-param name="report-name" select="'result'" />
                </call-template>
                <xsl:comment> a call instruction for each x:expect element </xsl:comment>
             </xsl:if>
@@ -510,7 +496,7 @@
 
          <!-- </x:scenario> -->
          </xsl:element>
-      </template>
+      </xsl:element>
 
       <xsl:call-template name="x:compile-scenarios" />
    </xsl:template>
@@ -533,7 +519,7 @@
             <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
                Haven't tested.) But 'stylesheet-node' disables $x:result?err?line-number on @catch=true. -->
             <map-entry key="'stylesheet-location'">
-               <xsl:value-of select="$stylesheet-uri" />
+               <xsl:value-of select="/x:description/@stylesheet" />
             </map-entry>
 
             <map-entry key="'stylesheet-params'">
@@ -545,7 +531,9 @@
                <if
                   test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('test:is-saxon-config')}() => not()">
                   <message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR: ${x:xspec-name('saxon-config', .)} does not appear to be a Saxon configuration</xsl:text>
+                     <!-- Use URIQualifiedName for displaying the $x:saxon-config variable name, for
+                        we do not know the name prefix of the originating variable. -->
+                     <xsl:text expand-text="yes">ERROR: ${x:known-UQName('x:saxon-config')} does not appear to be a Saxon configuration</xsl:text>
                   </message>
                </if>
                <map-entry key="'vendor-options'">
@@ -659,14 +647,16 @@
       <!-- URIQualifiedNames of the (required) parameters of the template being generated -->
       <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
 
-      <xsl:variable name="pending-p" select="exists($pending) and empty(ancestor::*/@focus)" />
+      <xsl:variable name="pending-p" as="xs:boolean"
+         select="exists($pending) and empty(ancestor::*/@focus)" />
 
-      <xsl:variable name="expect-id" as="xs:string">
-         <xsl:apply-templates select="." mode="x:generate-id" />
-      </xsl:variable>
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
+         <xsl:attribute name="as" select="'element(' || x:known-UQName('x:test') || ')'" />
 
-      <template name="{x:known-UQName('x:' || $expect-id)}" as="element({x:known-UQName('x:test')})">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'absent'" />
+         </xsl:element>
 
          <xsl:for-each select="$param-uqnames">
             <param name="{.}" required="yes" />
@@ -675,9 +665,11 @@
          <message>
             <xsl:if test="$pending-p">
                <xsl:text>PENDING: </xsl:text>
-               <xsl:if test="normalize-space($pending) != ''">(<xsl:value-of select="normalize-space($pending)" />) </xsl:if>
+               <xsl:if test="normalize-space($pending)">
+                  <xsl:text expand-text="yes">({normalize-space($pending)}) </xsl:text>
+               </xsl:if>
             </xsl:if>
-            <xsl:value-of select="normalize-space(x:label(.))" />
+            <xsl:value-of select="x:label(.) => normalize-space()" />
          </message>
 
          <xsl:if test="not($pending-p)">
@@ -721,11 +713,25 @@
                      <choose>
                         <when test="count(${x:known-UQName('impl:test-items')}) eq 1">
                            <for-each select="${x:known-UQName('impl:test-items')}">
-                              <sequence select="{ @test }" version="{ $xslt-version }" />
+                              <xsl:element name="xsl:sequence" namespace="{$x:xsl-namespace}">
+                                 <!-- @test may use namespace prefixes and/or the default namespace
+                                    such as xs:QName('foo') -->
+                                 <xsl:sequence select="x:copy-of-namespaces(.)" />
+
+                                 <xsl:attribute name="select" select="@test" />
+                                 <xsl:attribute name="version" select="$xslt-version" />
+                              </xsl:element>
                            </for-each>
                         </when>
                         <otherwise>
-                           <sequence select="{ @test }" version="{ $xslt-version }" />
+                           <xsl:element name="xsl:sequence" namespace="{$x:xsl-namespace}">
+                              <!-- @test may use namespace prefixes and/or the default namespace
+                                 such as xs:QName('foo') -->
+                              <xsl:sequence select="x:copy-of-namespaces(.)" />
+
+                              <xsl:attribute name="select" select="@test" />
+                              <xsl:attribute name="version" select="$xslt-version" />
+                           </xsl:element>
                         </otherwise>
                      </choose>
                   </variable>
@@ -738,7 +744,7 @@
                   <xsl:if test="@href or @select or (node() except x:label)">
                      <if test="${x:known-UQName('impl:boolean-test')}">
                         <message>
-                           <text>WARNING: <xsl:value-of select="name(.)" /> has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</text>
+                           <xsl:text expand-text="yes">WARNING: {name()} has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</xsl:text>
                         </message>
                      </if>
                   </xsl:if>
@@ -773,11 +779,11 @@
 
          <!-- <x:test> -->
          <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="name" select="x:xspec-name('test', .)" />
-            <xsl:attribute name="namespace" select="$x:xspec-namespace" />
+            <xsl:attribute name="name" select="'test'" />
+            <xsl:attribute name="namespace" select="namespace-uri()" />
 
             <xsl:variable name="test-element-attributes" as="attribute()+">
-               <xsl:attribute name="id" select="$expect-id" />
+               <xsl:sequence select="@id" />
                <xsl:if test="$pending-p">
                   <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
                </xsl:if>
@@ -788,6 +794,7 @@
                <!-- @successful must be evaluated at run time -->
                <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
                   <xsl:attribute name="name" select="'successful'" />
+                  <xsl:attribute name="namespace" />
                   <xsl:attribute name="select" select="'$' || x:known-UQName('impl:successful')" />
                </xsl:element>
             </xsl:if>
@@ -797,38 +804,37 @@
             <!-- Report -->
             <xsl:if test="not($pending-p)">
                <xsl:if test="@test">
+                  <xsl:call-template name="x:report-test-attribute" />
+
                   <if test="not(${x:known-UQName('impl:boolean-test')})">
                      <call-template name="{x:known-UQName('test:report-sequence')}">
                         <with-param name="sequence" select="${x:known-UQName('impl:test-result')}" />
-                        <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}">
-                           <xsl:value-of select="x:xspec-name('result', .)" />
-                        </with-param>
+                        <with-param name="report-name" select="'result'" />
                      </call-template>
                   </if>
                </xsl:if>
 
                <call-template name="{x:known-UQName('test:report-sequence')}">
                   <with-param name="sequence" select="${x:variable-UQName(.)}" />
-                  <with-param name="wrapper-name" as="{x:known-UQName('xs:string')}"
-                     select="'{name()}'" />
-
-                  <xsl:if test="@test">
-                     <with-param name="test-attr" as="attribute(test)">
-                        <xsl:apply-templates select="@test" mode="test:create-node-generator" />
-                     </with-param>
-                     <with-param name="additional-namespaces" as="namespace-node()*">
-                        <!-- $test-attr may use namespace prefixes and/or the default namespace such
-                           as xs:QName('foo') -->
-                        <xsl:apply-templates select="x:element-additional-namespace-nodes(.)"
-                           mode="test:create-node-generator" />
-                     </with-param>
-                  </xsl:if>
+                  <with-param name="report-name" select="'{local-name()}'" />
                </call-template>
             </xsl:if>
 
          <!-- </x:test> -->
          </xsl:element>
-      </template>
+      </xsl:element>
+   </xsl:template>
+
+   <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="element(xsl:element)">
+      <xsl:param name="wrapper-name" as="xs:string" />
+      <xsl:param name="node-generators" as="element()" />
+
+      <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="$wrapper-name" />
+         <xsl:attribute name="namespace" />
+
+         <xsl:sequence select="$node-generators" />
+      </xsl:element>
    </xsl:template>
 
    <!--

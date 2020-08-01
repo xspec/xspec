@@ -5,7 +5,7 @@
               failures="1">
       <testcase name="When function returns true, Expecting document node via @href should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /self::document-node()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When function returns true, Expecting document node via @href along with @test=$x:result should be Success"
                 status="passed"/>
@@ -17,7 +17,7 @@
                 status="passed"/>
       <testcase name="When function returns false, Expecting false via @select along with @test=$x:result should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
+         <failure message="expect assertion failed">Expecting: $x:result treat as xs:boolean</failure>
       </testcase>
    </testsuite>
    <testsuite name="Scenario for verifying that boolean @test precedes child node"
@@ -25,7 +25,7 @@
               failures="1">
       <testcase name="When function returns true, Expecting element(foo) via child node should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
       <testcase name="When function returns true, Expecting element(foo) via child node along with @test=$x:result should be Success"
                 status="passed"/>
@@ -35,10 +35,10 @@
               failures="2">
       <testcase name="When function returns true, Expecting empty sequence (no @href, @select or child node) should be Failure"
                 status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expected Result: ()</failure>
       </testcase>
       <testcase name="When function returns true, Ditto using x:label" status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expected Result: ()</failure>
       </testcase>
       <testcase name="When function returns true, Expecting empty sequence (no @href, @select or child node) along with @test=$x:result should be Success"
                 status="passed"/>

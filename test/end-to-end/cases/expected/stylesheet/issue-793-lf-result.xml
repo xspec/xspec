@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-793-lf.xspec"
-          stylesheet="../../issue-793-lf.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-793-lf.xspec">
-      <x:label>input</x:label>
-      <x:context>
-         <input/>
-      </x:context>
-      <x:result select="/element()">
-         <output>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-793-lf.xspec"
+        stylesheet="../../issue-793-lf.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-793-lf.xspec">
+      <label>input</label>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <input/>
+         </x:context>
+      </input-wrap>
+      <result select="/element()">
+         <output xmlns="">
 test
 </output>
-      </x:result>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>output</x:label>
-         <x:expect select="/element()">
-            <output>
+      </result>
+      <test id="scenario1-expect1" successful="true">
+         <label>output</label>
+         <expect select="/element()">
+            <output xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
 test
 </output>
-         </x:expect>
-      </x:test>
-   </x:scenario>
-</x:report>
+         </expect>
+      </test>
+   </scenario>
+</report>

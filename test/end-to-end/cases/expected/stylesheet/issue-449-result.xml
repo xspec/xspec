@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-449.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-449.xspec">
-      <x:label>x:expect/</x:label>
-      <x:call function="mirror:false"/>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>x:label containing }{ should not affect test</x:label>
-         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      </x:test>
-      <x:test id="scenario1-expect2" successful="true">
-         <x:label>@label containing }{ should not affect test</x:label>
-         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      </x:test>
-   </x:scenario>
-</x:report>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-449.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-449.xspec">
+      <label>x:expect/</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>x:label containing }{ should not affect test</label>
+         <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      </test>
+      <test id="scenario1-expect2" successful="true">
+         <label>@label containing }{ should not affect test</label>
+         <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      </test>
+   </scenario>
+</report>

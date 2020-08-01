@@ -388,6 +388,10 @@ a.img:active {
 	color: #999;
 }
 
+.xmlns.trivial {
+	color: #c0c0c0;
+}
+
 .ignored {
 	font-style: italic;
 	color: #999;

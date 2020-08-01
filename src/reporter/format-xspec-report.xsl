@@ -327,7 +327,8 @@
   <div id="{@id}" class="xTestReport">
 
     <xsl:variable name="result" as="element(x:result)"
-      select="if (x:result) then x:result else ../x:result" />
+      select="(x:result, parent::x:scenario/x:result)[1]" />
+
     <h4 class="xTestReportTitle">
       <xsl:apply-templates select="x:label" mode="#current" />
     </h4>
@@ -337,8 +338,7 @@
         title="What does this report mean?">[?]</a>
     </div>
 
-    <!-- True if the expectation is boolean (i.e. x:expect/@test was an xs:boolean at runtime.) -->
-    <xsl:variable as="xs:boolean" name="boolean-test" select="not(x:result) and x:expect/@test" />
+    <xsl:variable as="xs:boolean" name="boolean-test" select="x:is-boolean-test(.)" />
 
     <table class="xspecResult">
       <thead>
@@ -366,7 +366,7 @@
               <!-- Boolean expectation -->
               <xsl:when test="$boolean-test">
                 <pre>
-                  <xsl:value-of select="x:expect/@test" />
+                  <xsl:value-of select="x:test-attr(.)" />
                 </pre>
               </xsl:when>
 
@@ -397,11 +397,18 @@
 -->
 <xsl:mode name="x:format-result" on-multiple-match="fail" on-no-match="fail" />
 
-<xsl:template match="element()" as="element()+" mode="x:format-result">
+<xsl:template match="x:expect | x:result" as="element()+" mode="x:format-result">
   <xsl:param name="result-to-compare-with" as="element()?" required="yes" />
 
   <!-- True if this element represents Expected Result -->
   <xsl:variable name="expected" as="xs:boolean" select=". instance of element(x:expect)" />
+
+  <!-- Dereference @href if any and redefine the variable with it -->
+  <xsl:variable name="result-to-compare-with" as="element()?"
+    select="
+      if ($result-to-compare-with/@href)
+      then exactly-one(document($result-to-compare-with/@href)/element())
+      else $result-to-compare-with" />
 
   <xsl:choose>
     <xsl:when test="@href or node() or (@select eq '/self::document-node()')">
@@ -432,16 +439,17 @@
           </p>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:variable name="indentation"
-            select="string-length(substring-after(text()[1], '&#xA;'))" />
+          <xsl:variable name="indentation" as="xs:integer"
+            select="
+              text()[1]
+              => substring-after('&#xA;')
+              => string-length()" />
           <pre>
             <xsl:choose>
               <!-- Serialize the result while performing comparison -->
               <xsl:when test="exists($result-to-compare-with)">
                 <xsl:variable name="nodes-to-compare-with" as="node()*"
-                  select="if ($result-to-compare-with/@href)
-                          then document($result-to-compare-with/@href)/node()
-                          else $result-to-compare-with/node()" />
+                  select="$result-to-compare-with/node()" />
                 <xsl:for-each select="node()">
                   <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
                   <xsl:apply-templates select="." mode="test:serialize">

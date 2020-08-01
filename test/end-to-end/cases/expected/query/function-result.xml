@@ -1,39 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:report xmlns:my="http://example.org/ns/my"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:t="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../function.xspec"
-          query="http://example.org/ns/my"
-          query-at="../../../../square.xqm"
-          date="2000-01-01T00:00:00Z">
-   <t:scenario id="scenario1" xspec="../../function.xspec">
-      <t:label>when calling a function and expecting correctly</t:label>
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:result select="9"/>
-      <t:test id="scenario1-expect1" successful="true">
-         <t:label>expecting the correct value must return Success</t:label>
-         <t:expect select="9"/>
-      </t:test>
-      <t:test id="scenario1-expect2" successful="true">
-         <t:label>expecting the correct type must return Success</t:label>
-         <t:expect test="$t:result instance of xs:integer" select="()"/>
-      </t:test>
-   </t:scenario>
-   <t:scenario id="scenario2" xspec="../../function.xspec">
-      <t:label>when calling a function and expecting incorrectly</t:label>
-      <t:call function="my:square">
-         <t:param select="2"/>
-      </t:call>
-      <t:result select="4"/>
-      <t:test id="scenario2-expect1" successful="false">
-         <t:label>expecting an incorrect value must return Failure</t:label>
-         <t:expect select="42"/>
-      </t:test>
-      <t:test id="scenario2-expect2" successful="false">
-         <t:label>expecting an incorrect type must return Failure</t:label>
-         <t:expect test="$t:result instance of xs:string" select="()"/>
-      </t:test>
-   </t:scenario>
-</t:report>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../function.xspec"
+        query="http://example.org/ns/my"
+        query-at="../../../../square.xqm"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../function.xspec">
+      <label>when calling a function and expecting correctly</label>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="3"/>
+         </t:call>
+      </input-wrap>
+      <result select="9"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>expecting the correct value must return Success</label>
+         <expect select="9"/>
+      </test>
+      <test id="scenario1-expect2" successful="true">
+         <label>expecting the correct type must return Success</label>
+         <expect-test-wrap xmlns="">
+            <t:expect xmlns:my="http://example.org/ns/my"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                      test="$t:result instance of xs:integer"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../function.xspec">
+      <label>when calling a function and expecting incorrectly</label>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="2"/>
+         </t:call>
+      </input-wrap>
+      <result select="4"/>
+      <test id="scenario2-expect1" successful="false">
+         <label>expecting an incorrect value must return Failure</label>
+         <expect select="42"/>
+      </test>
+      <test id="scenario2-expect2" successful="false">
+         <label>expecting an incorrect type must return Failure</label>
+         <expect-test-wrap xmlns="">
+            <t:expect xmlns:my="http://example.org/ns/my"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                      test="$t:result instance of xs:string"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
+   </scenario>
+</report>

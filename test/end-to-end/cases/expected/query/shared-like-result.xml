@@ -1,60 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../shared-like.xspec"
-          query="x-urn:test:mirror"
-          query-at="../../../../mirror.xqm"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../shared-like.xspec">
-      <x:label>Referenced and explicitly unshared scenario</x:label>
-      <x:call function="mirror:false"/>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      <x:test id="scenario1-expect1" successful="true">
-         <x:label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-         <x:expect test="true()" select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario2" xspec="../../shared-like.xspec">
-      <x:label>Referenced and implicitly unshared scenario</x:label>
-      <x:call function="mirror:false"/>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      <x:test id="scenario2-expect1" successful="true">
-         <x:label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-         <x:expect test="true()" select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario3" xspec="../../shared-like.xspec">
-      <x:label>Scenario for testing x:like which references a shared scenario</x:label>
-      <x:call function="mirror:false"/>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      <x:test id="scenario3-expect1" successful="true">
-         <x:label>This nested shared x:expect should fire only at nested x:like</x:label>
-         <x:expect test="true()" select="()"/>
-      </x:test>
-      <x:test id="scenario3-expect2" successful="true">
-         <x:label>This referenced shared x:expect should fire only at x:like</x:label>
-         <x:expect test="true()" select="()"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario4" xspec="../../shared-like.xspec">
-      <x:label>Scenario for testing x:like which references unshared scenarios</x:label>
-      <x:scenario id="scenario4-scenario1" xspec="../../shared-like.xspec">
-         <x:label>explicit one</x:label>
-         <x:call function="mirror:false"/>
-         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-         <x:test id="scenario4-scenario1-expect1" successful="true">
-            <x:label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-            <x:expect test="true()" select="()"/>
-         </x:test>
-      </x:scenario>
-      <x:scenario id="scenario4-scenario2" xspec="../../shared-like.xspec">
-         <x:label>implicit one</x:label>
-         <x:call function="mirror:false"/>
-         <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-         <x:test id="scenario4-scenario2-expect1" successful="true">
-            <x:label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</x:label>
-            <x:expect test="true()" select="()"/>
-         </x:test>
-      </x:scenario>
-   </x:scenario>
-</x:report>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../shared-like.xspec"
+        query="x-urn:test:mirror"
+        query-at="../../../../mirror.xqm"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../shared-like.xspec">
+      <label>Referenced and explicitly unshared scenario</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="true()"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../shared-like.xspec">
+      <label>Referenced and implicitly unshared scenario</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      <test id="scenario2-expect1" successful="true">
+         <label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="true()"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
+   </scenario>
+   <scenario id="scenario3" xspec="../../shared-like.xspec">
+      <label>Scenario for testing x:like which references a shared scenario</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      <test id="scenario3-expect1" successful="true">
+         <label>This nested shared x:expect should fire only at nested x:like</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="true()"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
+      <test id="scenario3-expect2" successful="true">
+         <label>This referenced shared x:expect should fire only at x:like</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="true()"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
+   </scenario>
+   <scenario id="scenario4" xspec="../../shared-like.xspec">
+      <label>Scenario for testing x:like which references unshared scenarios</label>
+      <scenario id="scenario4-scenario1" xspec="../../shared-like.xspec">
+         <label>explicit one</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:false"/>
+         </input-wrap>
+         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <test id="scenario4-scenario1-expect1" successful="true">
+            <label>This referenced and explicitly unshared x:expect should fire both at its original x:scenario and x:like</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="true()"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario4-scenario2" xspec="../../shared-like.xspec">
+         <label>implicit one</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:mirror="x-urn:test:mirror"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="mirror:false"/>
+         </input-wrap>
+         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+         <test id="scenario4-scenario2-expect1" successful="true">
+            <label>This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:mirror="x-urn:test:mirror"
+                         xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="true()"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+   </scenario>
+</report>

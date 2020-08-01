@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:xs="http://www.w3.org/2001/XMLSchema"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-55.xspec"
-          stylesheet="../../../../mirror.xsl"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-55.xspec">
-      <x:label>In a failure report HTML</x:label>
-      <x:call function="mirror:true"/>
-      <x:result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
-      <x:test id="scenario1-expect1" successful="false">
-         <x:label>[Expected Result] must represent xs:decimal(1) by "1.0" (numeric literal of
-				decimal)</x:label>
-         <x:expect select="1.0"/>
-      </x:test>
-      <x:test id="scenario1-expect2" successful="false">
-         <x:label>[Expected Result] must represent xs:double(1) by "1.0e0" (numeric literal of
-				double)</x:label>
-         <x:expect select="1.0e0"/>
-      </x:test>
-      <x:test id="scenario1-expect3" successful="false">
-         <x:label>[Expected Result] must represent xs:integer(1) by "1" (numeric literal of
-				integer)</x:label>
-         <x:expect select="1"/>
-      </x:test>
-   </x:scenario>
-</x:report>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-55.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-55.xspec">
+      <label>In a failure report HTML</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:true"/>
+      </input-wrap>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+      <test id="scenario1-expect1" successful="false">
+         <label>[Expected Result] must represent xs:decimal(1) by "1.0" (numeric literal of
+				decimal)</label>
+         <expect select="1.0"/>
+      </test>
+      <test id="scenario1-expect2" successful="false">
+         <label>[Expected Result] must represent xs:double(1) by "1.0e0" (numeric literal of
+				double)</label>
+         <expect select="1.0e0"/>
+      </test>
+      <test id="scenario1-expect3" successful="false">
+         <label>[Expected Result] must represent xs:integer(1) by "1" (numeric literal of
+				integer)</label>
+         <expect select="1"/>
+      </test>
+   </scenario>
+</report>

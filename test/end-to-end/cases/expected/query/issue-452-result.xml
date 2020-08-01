@@ -1,56 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:report xmlns:mirror="x-urn:test:mirror"
-          xmlns:x="http://www.jenitennison.com/xslt/xspec"
-          xspec="../../issue-452.xspec"
-          query="x-urn:test:mirror"
-          query-at="../../../../mirror.xqm"
-          date="2000-01-01T00:00:00Z">
-   <x:scenario id="scenario1" xspec="../../issue-452.xspec">
-      <x:label>Text</x:label>
-      <x:call function="mirror:param-mirror">
-         <x:param>t</x:param>
-      </x:call>
-      <x:result select="/text()">t</x:result>
-      <x:test id="scenario1-expect1" successful="false">
-         <x:label>Expect</x:label>
-         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario2" xspec="../../issue-452.xspec">
-      <x:label>Comment</x:label>
-      <x:call function="mirror:param-mirror">
-         <x:param><!--c--></x:param>
-      </x:call>
-      <x:result select="/comment()"><!--c--></x:result>
-      <x:test id="scenario2-expect1" successful="false">
-         <x:label>Expect</x:label>
-         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario3" xspec="../../issue-452.xspec">
-      <x:label>Processing instruction</x:label>
-      <x:call function="mirror:param-mirror">
-         <x:param><?p?></x:param>
-      </x:call>
-      <x:result select="/processing-instruction()"><?p?></x:result>
-      <x:test id="scenario3-expect1" successful="false">
-         <x:label>Expect</x:label>
-         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      </x:test>
-   </x:scenario>
-   <x:scenario id="scenario4" xspec="../../issue-452.xspec">
-      <x:label>In element</x:label>
-      <x:call function="mirror:param-mirror">
-         <x:param>
-            <elem>t<!--c--><?p?></elem>
-         </x:param>
-      </x:call>
-      <x:result select="/element()">
-         <elem>t<!--c--><?p?></elem>
-      </x:result>
-      <x:test id="scenario4-expect1" successful="false">
-         <x:label>Expect</x:label>
-         <x:expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
-      </x:test>
-   </x:scenario>
-</x:report>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-452.xspec"
+        query="x-urn:test:mirror"
+        query-at="../../../../mirror.xqm"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-452.xspec">
+      <label>Text</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>t</x:param>
+         </x:call>
+      </input-wrap>
+      <result select="/text()">t</result>
+      <test id="scenario1-expect1" successful="false">
+         <label>Expect</label>
+         <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../issue-452.xspec">
+      <label>Comment</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param><!--c--></x:param>
+         </x:call>
+      </input-wrap>
+      <result select="/comment()"><!--c--></result>
+      <test id="scenario2-expect1" successful="false">
+         <label>Expect</label>
+         <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      </test>
+   </scenario>
+   <scenario id="scenario3" xspec="../../issue-452.xspec">
+      <label>Processing instruction</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param><?p?></x:param>
+         </x:call>
+      </input-wrap>
+      <result select="/processing-instruction()"><?p?></result>
+      <test id="scenario3-expect1" successful="false">
+         <label>Expect</label>
+         <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      </test>
+   </scenario>
+   <scenario id="scenario4" xspec="../../issue-452.xspec">
+      <label>In element</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>
+               <elem>t<!--c--><?p?></elem>
+            </x:param>
+         </x:call>
+      </input-wrap>
+      <result select="/element()">
+         <elem xmlns:mirror="x-urn:test:mirror"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns="">t<!--c--><?p?></elem>
+      </result>
+      <test id="scenario4-expect1" successful="false">
+         <label>Expect</label>
+         <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      </test>
+   </scenario>
+</report>

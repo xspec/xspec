@@ -3,7 +3,7 @@
    <testsuite name="Testing namespace differences" tests="1" failures="1">
       <testcase name="Expecting the same structure but in different namespaces"
                 status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
 </testsuites>

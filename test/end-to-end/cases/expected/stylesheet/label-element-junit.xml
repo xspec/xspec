@@ -2,17 +2,17 @@
 <testsuites name="label-element.xspec">
    <testsuite name="&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; My&#x9;&#xA;&#xD; Scenario&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; " tests="1" failures="1">
       <testcase name="&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; My&#x9;&#xA;&#xD; Expectation&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; " status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: false()</failure>
       </testcase>
    </testsuite>
    <testsuite name="&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; My&#x9;&#xA;&#xD; Scenario&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; " tests="1" failures="1">
       <testcase name="&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; My&#x9;&#xA;&#xD; Expectation&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; " status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: false()</failure>
       </testcase>
    </testsuite>
    <testsuite name="&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; My&#x9;&#xA;&#xD; Scenario&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; " tests="1" failures="1">
       <testcase name="&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; My&#x9;&#xA;&#xD; Expectation&#x9;&#xA;&#xD; &#x9;&#xA;&#xD; " status="failed">
-         <failure message="expect assertion failed">Expected: ()</failure>
+         <failure message="expect assertion failed">Expecting: false()</failure>
       </testcase>
    </testsuite>
 </testsuites>

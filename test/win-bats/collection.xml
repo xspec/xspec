@@ -1504,9 +1504,9 @@
 
 	<case name="Ambiguous x:expect generates warning">
     call :run ..\bin\xspec.bat end-to-end\cases\ambiguous-expect.xspec
-    call :verify_line 12 r "WARNING: x:expect has boolean @test"
-    call :verify_line 17 r "WARNING: x:expect has boolean @test"
-    call :verify_line 24 r "WARNING: x:expect has boolean @test"
+    call :verify_line 12 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
+    call :verify_line 17 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
+    call :verify_line 24 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
     call :verify_line 33 x "Formatting Report..."
 	</case>
 
@@ -1652,14 +1652,13 @@
 	<case name="Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)">
     call :run ..\bin\xspec.bat variable\reserved-eqname.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC008[: ] User-defined XSpec variable, Q{http://www\.jenitennison\.com/xslt/xspec}foo,$"
-    call :verify_line 7 x "  must not use the XSpec namespace."
+    call :verify_line 5 x "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace."
 	</case>
 
 	<case name="Error on user-defined variable in XSpec namespace (QName in global variable)">
     call :run ..\bin\xspec.bat variable\reserved-name.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC008[: ] User-defined XSpec variable, u:foo, must not use the XSpec namespace\.$"
+    call :verify_line 5 x "ERROR: User-defined XSpec variable, u:foo, must not use the XSpec namespace."
 	</case>
 
 	<!--
@@ -1866,18 +1865,22 @@
 		x:like errors
 	-->
 
-	<case name="x:like errors">
+	<case name="x:like error (scenario not found)">
     call :run ..\bin\xspec.bat like\none.xspec
     call :verify_retval 2
-    call :verify_line 6 r "  x:XSPEC009[: ] x:like: Scenario not found: none$"
+    call :verify_line 5 x "ERROR in x:like: Scenario not found: 'none'"
+	</case>
 
+	<case name="x:like error (multiple scenarios)">
     call :run ..\bin\xspec.bat like\multiple.xspec
     call :verify_retval 2
-    call :verify_line 5 r "  x:XSPEC010[: ] x:like: 2 scenarios found with same label: shared scenario$"
+    call :verify_line 5 x "ERROR in x:like: 2 scenarios found with same label: 'shared scenario'"
+	</case>
 
+	<case name="x:like error (infinite loop)">
     call :run ..\bin\xspec.bat like\loop.xspec
     call :verify_retval 2
-    call :verify_line 5 r "  x:XSPEC011[: ] x:like: Reference to ancestor scenario creates infinite loop: parent scenario$"
+    call :verify_line 5 x "ERROR in x:like: Reference to ancestor scenario creates infinite loop: 'parent scenario'"
 	</case>
 
 	<!--
@@ -2024,9 +2027,9 @@
 		$x:saxon-config is not a Saxon config
 	-->
 	<case name="$x:saxon-config is not a Saxon config">
-    call :run ..\bin\xspec.bat saxon-config\test.xspec
+    call :run ..\bin\xspec.bat x-saxon-config\test.xspec
     call :verify_retval 2
-    call :verify_line  8 x "ERROR: $x:saxon-config does not appear to be a Saxon configuration"
+    call :verify_line  8 x "ERROR: $Q{http://www.jenitennison.com/xslt/xspec}saxon-config does not appear to be a Saxon configuration"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 

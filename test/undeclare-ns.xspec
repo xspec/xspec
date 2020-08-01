@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns="http://www.jenitennison.com/xslt/xspec">
+
+	<scenario label="function-param">
+		<call function="Q{x-urn:test:mirror}param-mirror">
+			<param>
+				<function-param-child xmlns=""
+					xmlns:function-param-child_prefix="function-param-child_ns">
+					<function-param-grandchild xmlns="function-param-grandchild_default-ns"
+						xmlns:function-param-grandchild_prefix="function-param-grandchild_ns">
+						<function-param-great-grandchild xmlns=""
+							xmlns:function-param-great-grandchild_prefix="function-param-great-grandchild_ns"
+						 />
+					</function-param-grandchild>
+				</function-param-child>
+			</param>
+		</call>
+		<expect label="function-param-child"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}function-param-child
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				/self::Q{}function-param-child
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="function-param-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{function-param-grandchild_default-ns}function-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				/Q{function-param-grandchild_default-ns}function-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="function-param-great-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}function-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				//Q{}function-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+		 />
+	</scenario>
+
+	<param name="Q{http://example.org/ns/my/variable}global-param">
+		<global-param-child xmlns="" xmlns:global-param-child_prefix="global-param-child_ns">
+			<global-param-grandchild xmlns="global-param-grandchild_default-ns"
+				xmlns:global-param-grandchild_prefix="global-param-grandchild_ns">
+				<global-param-great-grandchild xmlns=""
+					xmlns:global-param-great-grandchild_prefix="global-param-great-grandchild_ns" />
+			</global-param-grandchild>
+		</global-param-child>
+	</param>
+	<scenario label="global-param">
+		<call function="Q{x-urn:test:mirror}false" />
+		<expect label="global-param-child"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}global-param-child
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}global-param
+				/self::Q{}global-param-child
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="global-param-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{global-param-grandchild_default-ns}global-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}global-param
+				/Q{global-param-grandchild_default-ns}global-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="global-param-great-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}global-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}global-param
+				//Q{}global-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+		 />
+	</scenario>
+
+	<variable name="Q{http://example.org/ns/my/variable}global-variable">
+		<global-variable-child xmlns=""
+			xmlns:global-variable-child_prefix="global-variable-child_ns">
+			<global-variable-grandchild xmlns="global-variable-grandchild_default-ns"
+				xmlns:global-variable-grandchild_prefix="global-variable-grandchild_ns">
+				<global-variable-great-grandchild xmlns=""
+					xmlns:global-variable-great-grandchild_prefix="global-variable-great-grandchild_ns"
+				 />
+			</global-variable-grandchild>
+		</global-variable-child>
+	</variable>
+	<scenario label="global variable">
+		<call function="Q{x-urn:test:mirror}false" />
+		<expect label="global-variable-child"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}global-variable-child
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}global-variable
+				/self::Q{}global-variable-child
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="global-variable-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{global-variable-grandchild_default-ns}global-variable-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}global-variable
+				/Q{global-variable-grandchild_default-ns}global-variable-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="global-variable-great-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}global-variable-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}global-variable
+				//Q{}global-variable-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+		 />
+	</scenario>
+
+	<scenario label="local variable">
+		<variable name="Q{http://example.org/ns/my/variable}local-variable">
+			<local-variable-child xmlns=""
+				xmlns:local-variable-child_prefix="local-variable-child_ns">
+				<local-variable-grandchild xmlns="local-variable-grandchild_default-ns"
+					xmlns:local-variable-grandchild_prefix="local-variable-grandchild_ns">
+					<local-variable-great-grandchild xmlns=""
+						xmlns:local-variable-great-grandchild_prefix="local-variable-great-grandchild_ns"
+					 />
+				</local-variable-grandchild>
+			</local-variable-child>
+		</variable>
+		<call function="Q{x-urn:test:mirror}false" />
+		<expect label="local-variable-child"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}local-variable-child
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}local-variable
+				/self::Q{}local-variable-child
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="local-variable-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{local-variable-grandchild_default-ns}local-variable-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}local-variable
+				/Q{local-variable-grandchild_default-ns}local-variable-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="local-variable-great-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}local-variable-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}local-variable
+				//Q{}local-variable-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+		 />
+	</scenario>
+
+	<scenario label="assertion">
+		<call function="Q{x-urn:test:mirror}false" />
+		<expect label="assertion descendants"
+			select="
+				[
+					Q{}assertion-child
+					=> in-scope-prefixes()
+					=> sort(),
+					
+					//Q{assertion-grandchild_default-ns}assertion-grandchild
+					=> in-scope-prefixes()
+					=> sort(),
+					
+					//Q{}assertion-great-grandchild
+					=> in-scope-prefixes()
+					=> sort()
+				]"
+			test="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				!
+				[
+					//Q{}assertion-child
+					=> in-scope-prefixes()
+					=> sort(),
+					
+					//Q{assertion-grandchild_default-ns}assertion-grandchild
+					=> in-scope-prefixes()
+					=> sort(),
+					
+					//Q{}assertion-great-grandchild
+					=> in-scope-prefixes()
+					=> sort()
+				]">
+			<assertion-child xmlns="" xmlns:assertion-child_prefix="assertion-child_ns">
+				<assertion-grandchild xmlns="assertion-grandchild_default-ns"
+					xmlns:assertion-grandchild_prefix="assertion-grandchild_ns">
+					<assertion-great-grandchild xmlns=""
+						xmlns:assertion-great-grandchild_prefix="assertion-great-grandchild_ns" />
+				</assertion-grandchild>
+			</assertion-child>
+		</expect>
+	</scenario>
+
+</description>
