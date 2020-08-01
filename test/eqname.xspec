@@ -105,25 +105,18 @@
 			select="/Q{}variable-child">
 			<variable-child />
 		</x:variable>
-		<!-- The following definition illustrates redefining a variable and mixing notations
-			for its name. The file variable.xspec would be a good place to test that,
-			except that that file did not use xslt-version="3.0".
-			TODO: The default @xslt-version has been changed. Consider relocating the test. -->
-		<x:variable as="element(variable-child)+" name="Q{http://example.org/ns/my/variable}var"
-			select="$myv:var, $Q{http://example.org/ns/my/variable}var" />
 		<x:call function="Q{x-urn:test:eqname}param-mirror-function">
 			<x:param name="Q{x-urn:test:eqname}param-items"
 				select="$Q{http://example.org/ns/my/variable}var" />
 		</x:call>
 		<x:expect label="should be possible as well as in function-param @select">
 			<variable-child />
-			<variable-child />
 		</x:expect>
 		<x:expect label="and assertion @select and @test"
-			select="$Q{http://example.org/ns/my/variable}var treat as element(Q{}variable-child)+"
-			test="$Q{http://example.org/ns/my/variable}var treat as element(Q{}variable-child)+" />
+			select="$Q{http://example.org/ns/my/variable}var treat as element(Q{}variable-child)"
+			test="$Q{http://example.org/ns/my/variable}var treat as element(Q{}variable-child)" />
 		<x:expect label="and boolean @test"
-			test="$Q{http://example.org/ns/my/variable}var instance of element(variable-child)+" />
+			test="$Q{http://example.org/ns/my/variable}var instance of element(variable-child)" />
 	</x:scenario>
 
 	<x:scenario
