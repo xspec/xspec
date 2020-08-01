@@ -201,8 +201,11 @@
   <xsl:param name="number-format" as="xs:string" required="yes" />
   <xsl:param name="module" as="xs:string" required="yes" />
 
+  <!-- <xsl:stylesheet> or <xsl:transform> -->
   <xsl:variable name="stylesheet-element" as="element()" select="." />
 
+  <!-- Analyze the entire stylesheet string. For each matching substring, create a map that records
+    the kind of match. -->
   <xsl:variable name="regex-groups" as="map(xs:integer, xs:string)+">
     <xsl:analyze-string select="$stylesheet-string"
       regex="{$construct-regex}" flags="sx">
@@ -221,6 +224,8 @@
     </xsl:analyze-string>
   </xsl:variable>
 
+  <!-- Iterate over the matching substrings, while keeping track of the corresponding line number
+    and node. -->
   <xsl:iterate select="$regex-groups">
     <xsl:param name="line-number" as="xs:integer" select="0" />
     <xsl:param name="node" as="node()" select="$stylesheet-element" />
