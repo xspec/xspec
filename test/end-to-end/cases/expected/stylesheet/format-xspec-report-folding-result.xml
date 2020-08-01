@@ -9,7 +9,6 @@
       <label>an unfocused correct scenario must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
                  function="my:square">
@@ -26,7 +25,6 @@
       <label>an unfocused incorrect scenario must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
                  function="my:square">
@@ -41,7 +39,6 @@
       <label>a focused correct scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
                  function="my:square">
@@ -58,7 +55,6 @@
       <label>a focused incorrect scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
                  function="my:square">
@@ -70,7 +66,6 @@
          <label>must execute the test and return Failure</label>
          <expect-test-wrap xmlns="">
             <t:expect xmlns:my="http://example.org/ns/my"
-                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
                       xmlns:t="http://www.jenitennison.com/xslt/xspec"
                       test="$t:result instance of xs:string"/>
