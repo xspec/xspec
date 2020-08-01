@@ -2070,7 +2070,7 @@
 	<case name="Static param is allowed only with run-as external (XSLT)">
     call :run ..\bin\xspec.bat static-param\disallowed_stylesheet.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Enabling @static in x:param is supported only with @run-as='external'"
+    call :verify_line  5 x "Enabling @static in x:param is supported only when /x:description has @run-as='external'."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 

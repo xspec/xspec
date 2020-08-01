@@ -460,7 +460,7 @@
       <xsl:if test="not($is-external)">
          <xsl:for-each select="$this/x:param[x:yes-no-synonym(@static, false())]">
             <xsl:message terminate="yes">
-               <xsl:text expand-text="yes">Enabling @static in {name()} is supported only with @run-as='external'</xsl:text>
+               <xsl:text expand-text="yes">Enabling @static in {name()} is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
             </xsl:message>
          </xsl:for-each>
       </xsl:if>

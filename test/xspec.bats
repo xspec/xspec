@@ -2378,7 +2378,7 @@ load bats-helper
     run ../bin/xspec.sh static-param/disallowed_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "Enabling @static in x:param is supported only with @run-as='external'" ]
+    [ "${lines[4]}" = "Enabling @static in x:param is supported only when /x:description has @run-as='external'." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
