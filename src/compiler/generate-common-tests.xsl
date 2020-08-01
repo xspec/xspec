@@ -20,9 +20,17 @@
 
    <xsl:include href="../common/xspec-utils.xsl"/>
 
-   <xsl:param name="is-external" as="xs:boolean" select="/x:description/@run-as = 'external'" />
+   <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
 
-   <xsl:variable name="actual-document-uri" as="xs:anyURI" select="x:actual-document-uri(/)" />
+   <!-- The initial XSpec document (the source document of the whole transformation).
+      Note that this initial document is different from the document node generated within the
+      name="x:generate-tests" template. The latter document is a restructured copy of the initial
+      document. Usually the compiler templates should handle the restructured one, but in rare cases
+      some of the compiler templates may need to access the initial document. -->
+   <xsl:variable name="initial-document" as="document-node(element(x:description))" select="/" />
+
+   <xsl:variable name="actual-document-uri" as="xs:anyURI"
+      select="x:actual-document-uri($initial-document)" />
 
    <!--
       mode="#default"
@@ -65,41 +73,77 @@
    <xsl:template name="x:generate-tests" as="node()+">
       <xsl:context-item as="document-node(element(x:description))" use="required" />
 
-      <xsl:variable name="this" select="." as="document-node(element(x:description))" />
+      <xsl:variable name="this" as="document-node(element(x:description))"
+         select=".[. is $initial-document]" />
 
       <!-- Collect all the instances of x:description by resolving x:import -->
       <xsl:variable name="descriptions" as="element(x:description)+"
          select="x:gather-descriptions($this/x:description)" />
 
       <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
-         including x:variable, x:import and comments. -->
+         including x:variable, x:import and comments.
+         The original node identities, document URI and base URI are lost in this processing. -->
       <xsl:variable name="specs" as="node()+">
          <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
       </xsl:variable>
 
-      <!-- Combine all the children of x:description into a single document, taking x:description
-         from the initial XSpec document. -->
-      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
+      <!-- Combine all the children of x:description into a single document so that the following
+         transformation modes can handle them as a document. -->
+      <xsl:variable name="specs-doc" as="document-node()">
          <xsl:document>
-            <xsl:copy select="$this/x:description">
-               <xsl:sequence select="attribute()" />
-               <xsl:sequence select="$specs" />
-            </xsl:copy>
+            <xsl:sequence select="$specs" />
          </xsl:document>
       </xsl:variable>
 
       <!-- Resolve x:like and @shared -->
-      <xsl:variable name="unshared-doc" as="document-node(element(x:description))">
-         <xsl:apply-templates select="$combined-doc" mode="x:unshare-scenarios" />
+      <xsl:variable name="unshared-doc" as="document-node()">
+         <xsl:apply-templates select="$specs-doc" mode="x:unshare-scenarios" />
       </xsl:variable>
 
       <!-- Assign @id -->
-      <xsl:variable name="doc-with-id" as="document-node(element(x:description))">
+      <xsl:variable name="doc-with-id" as="document-node()">
          <xsl:apply-templates select="$unshared-doc" mode="x:assign-id" />
       </xsl:variable>
 
+      <!-- Combine all the children of x:description into a single x:description -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
+         <xsl:document>
+            <xsl:for-each select="$this/x:description">
+               <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
+                  the namespaces created for /x:description will pollute its descendants derived
+                  from the other trees. -->
+               <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
+                  inherit-namespaces="no">
+                  <!-- Do not set all the attributes. Each imported x:description has its own set of
+                     attributes. Set only the attributes that are truly global over all the XSpec
+                     documents. -->
+
+                  <!-- Global Schematron attributes.
+                     These attributes are already absolute. (resolved by
+                     ../schematron/schut-to-xspec.xsl) -->
+                  <xsl:sequence select="@schematron | @xspec-original-location" />
+
+                  <!-- Global XQuery attributes.
+                     @query-at is handled by generate-query-tests.xsl -->
+                  <xsl:sequence select="@query | @xquery-version" />
+
+                  <!-- Global XSLT attributes.
+                     @xslt-version can be set, because it has already been propagated from each
+                     imported x:description to its descendants in mode="x:gather-specs". -->
+                  <xsl:sequence select="@xslt-version" />
+                  <xsl:for-each select="@stylesheet">
+                     <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+                        select="resolve-uri(., base-uri())" />
+                  </xsl:for-each>
+
+                  <xsl:sequence select="$doc-with-id" />
+               </xsl:element>
+            </xsl:for-each>
+         </xsl:document>
+      </xsl:variable>
+
       <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$doc-with-id/element()" mode="x:generate-tests" />
+      <xsl:apply-templates select="$combined-doc/x:description" mode="x:generate-tests" />
    </xsl:template>
 
    <xsl:function name="x:gather-descriptions" as="element(x:description)+">
@@ -764,6 +808,8 @@
       So the default ID may not always be usable for backtracking. For such backtracking purposes,
       override these default templates and implement your own ID generation. The generated ID must
       be castable as xs:NCName, because ID is used as a part of local name.
+      Note that when this mode is applied, all the scenarios have been gathered and unshared in a
+      single document, but the document still does not have /x:description.
    -->
    <xsl:mode name="x:generate-id" on-multiple-match="fail" on-no-match="fail" />
 
@@ -778,13 +824,19 @@
       <xsl:variable name="ancestor-or-self-tokens" as="xs:string+">
          <xsl:for-each select="ancestor-or-self::x:scenario">
             <!-- Find preceding sibling x:scenario, taking x:pending into account -->
-            <xsl:variable name="parent-description-or-scenario" as="element()"
-               select="ancestor::element()[self::x:description or self::x:scenario][1]" />
+
+            <!-- Parent document node or x:scenario.
+               Note:
+               - x:pending may exist in between.
+               - In the current mode, the document still does not have /x:description. -->
+            <xsl:variable name="parent-document-node-or-scenario" as="node()"
+               select="ancestor::node()[self::document-node() or self::x:scenario][1]" />
+
             <xsl:variable name="preceding-sibling-scenarios" as="element(x:scenario)*"
-               select="$parent-description-or-scenario/descendant::x:scenario
-                  [ancestor::element()[self::x:description or self::x:scenario][1] is $parent-description-or-scenario]
+               select="$parent-document-node-or-scenario/descendant::x:scenario
+                  [ancestor::node()[self::document-node() or self::x:scenario][1] is $parent-document-node-or-scenario]
                   [current() >> .]
-                  [not(x:is-user-content(.))]" />
+                  [x:is-user-content(.) => not()]" />
 
             <xsl:sequence select="local-name() || (count($preceding-sibling-scenarios) + 1)" />
          </xsl:for-each>
@@ -800,7 +852,7 @@
          select="$scenario/descendant::x:expect
             [ancestor::x:scenario[1] is $scenario]
             [current() >> .]
-            [not(x:is-user-content(.))]" />
+            [x:is-user-content(.) => not()]" />
 
       <xsl:variable name="scenario-id" as="xs:string">
          <xsl:apply-templates select="$scenario" mode="#current" />

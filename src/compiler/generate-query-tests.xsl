@@ -39,10 +39,8 @@
       select="resolve-uri('generate-query-utils.xqm')" />
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
-   <xsl:param name="query-at" as="xs:string?" select="
-       /x:description/@query-at/resolve-uri(., base-uri(..))"/>
-   <!--xsl:param name="query-at" as="xs:string?" select="
-       /x:description/@query-at"/-->
+   <xsl:param name="query-at" as="xs:string?"
+      select="$initial-document/x:description/@query-at/resolve-uri(., base-uri())"/>
 
    <!--
       mode="x:generate-tests"
@@ -81,8 +79,9 @@
 
       <xsl:text>&#x0A;</xsl:text>
 
-      <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes. -->
-      <xsl:for-each select="x:copy-of-namespaces($this)[name() (: Exclude the default namespace :)]">
+      <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes.
+         Unlike XSLT, XQuery requires them to be declared globally. -->
+      <xsl:for-each select="x:copy-of-namespaces($initial-document/x:description)[name() (: Exclude the default namespace :)]">
          <xsl:text expand-text="yes">declare namespace {name()} = "{string()}";&#x0A;</xsl:text>
       </xsl:for-each>
 

@@ -25,11 +25,6 @@
 
    <xsl:output indent="yes" />
 
-   <!-- Absolute URI of .xsl file to be tested.
-      This needs to be resolved here, not in mode="x:generate-tests" where base-uri() is not available -->
-   <xsl:variable name="stylesheet-uri" as="xs:anyURI"
-      select="/x:description/resolve-uri(@stylesheet, base-uri())" />
-
    <!--
       mode="x:generate-tests"
    -->
@@ -44,7 +39,7 @@
 
          <xsl:if test="not($is-external)">
             <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
-            <import href="{$stylesheet-uri}" />
+            <import href="{@stylesheet}" />
          </xsl:if>
 
          <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
@@ -136,14 +131,12 @@
                   <xsl:variable name="attributes" as="attribute()+">
                      <xsl:attribute name="xspec" select="$xspec-master-uri" />
 
-                     <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
-                        that the URI appears in the trace report generated from running the
-                        test stylesheet, which can then be picked up by stylesheets that
-                        process *that* to generate a coverage report -->
-                     <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+                     <!-- This @stylesheet is used by ../reporter/coverage-report.xsl -->
+                     <xsl:sequence select="@stylesheet" />
 
                      <!-- Do not always copy @schematron.
-                        @schematron may exist even when this XSpec is not testing Schematron. -->
+                        @schematron may exist even when this running instance of XSpec is not
+                        testing Schematron. -->
                      <xsl:if test="$is-schematron">
                         <xsl:sequence select="@schematron" />
                      </xsl:if>
@@ -257,8 +250,6 @@
       </xsl:if>
 
       <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
-
          <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
          <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
 
@@ -528,7 +519,7 @@
             <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
                Haven't tested.) But 'stylesheet-node' disables $x:result?err?line-number on @catch=true. -->
             <map-entry key="'stylesheet-location'">
-               <xsl:value-of select="$stylesheet-uri" />
+               <xsl:value-of select="/x:description/@stylesheet" />
             </map-entry>
 
             <map-entry key="'static-params'">
