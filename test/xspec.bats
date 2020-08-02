@@ -1528,6 +1528,34 @@ load bats-helper
 }
 
 #
+# xspec.compiler.saxon.config
+#
+
+@test "xspec.compiler.saxon.config (relative path)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.compiler.saxon.config=test/compiler-saxon-config/config.xml \
+        -Dxspec.xml=test/compiler-saxon-config/test.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+}
+
+@test "xspec.compiler.saxon.config (absolute path)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dxspec.compiler.saxon.config="${PWD}/compiler-saxon-config/config.xml" \
+        -Dxspec.xml="${PWD}/compiler-saxon-config/test.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+}
+
+#
 # Coverage (Ant)
 #
 
