@@ -423,7 +423,7 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -452,7 +452,7 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -475,7 +475,7 @@ load bats-helper
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -807,7 +807,7 @@ load bats-helper
     expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
@@ -846,7 +846,7 @@ load bats-helper
     expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
@@ -1755,7 +1755,7 @@ load bats-helper
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
@@ -1770,7 +1770,7 @@ load bats-helper
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc

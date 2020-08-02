@@ -36,6 +36,10 @@
 		<dirname file="${env.XMLCALABASH_JAR}" property="xmlcalabash.jar.dir" />
 		<dirname file="${xmlcalabash.jar.dir}" property="xmlcalabash.unzip.dest" />
 		<unzip dest="${xmlcalabash.unzip.dest}" src="${xmlcalabash.zip}" />
+
+		<delete verbose="true">
+			<fileset dir="${xmlcalabash.jar.dir}" includes="lib/Saxon-*.jar" />
+		</delete>
 	</target>
 
 	<target if="env.BASEX_VERSION" name="basex">
