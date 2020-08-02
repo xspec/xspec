@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xpath-default-namespace="x-urn:xspec:test:xspec-bat">
 
 	<xsl:output method="text" />
+
+	<xsl:param as="xs:string" name="filter" />
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
@@ -12,17 +14,27 @@
 	</xsl:template>
 
 	<xsl:template as="text()+" match="collection">
+		<xsl:variable as="element(case)+" name="cases" select="child::case[matches(@name, $filter)]" />
+		<xsl:variable as="xs:integer" name="num-cases" select="count($cases)" />
+
+		<xsl:message>
+			<xsl:text expand-text="yes">{$num-cases} test case(s)</xsl:text>
+			<xsl:if test="$filter">
+				<xsl:text expand-text="yes"> (Filter: "{$filter}")</xsl:text>
+			</xsl:if>
+		</xsl:message>
+
 		<!-- Tell the number of test cases -->
 		<xsl:call-template name="write">
 			<xsl:with-param name="text" xml:space="preserve">
 :get-num-cases
-	set NUM_CASES=<xsl:value-of select="count(child::case)" />
+	set NUM_CASES=<xsl:value-of select="$num-cases" />
 	goto :EOF
 </xsl:with-param>
 		</xsl:call-template>
 
 		<!-- Write each case -->
-		<xsl:apply-templates select="case" />
+		<xsl:apply-templates select="$cases" />
 	</xsl:template>
 
 	<xsl:template as="text()+" match="case">
