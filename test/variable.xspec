@@ -172,10 +172,7 @@
 		</x:scenario>
 		<x:scenario label="Redefinition of variable and mixed notations for its name">
 			<x:variable as="element(variable-child)"
-				name="
-				&#x09;&#x0A;&#x0D;&#x20;
-				Q{http://example.org/ns/my/variable}var
-				&#x09;&#x0A;&#x0D;&#x20;"
+				name="Q{http://example.org/ns/my/variable}var"
 				select="/Q{}variable-child">
 				<variable-child />
 			</x:variable>
