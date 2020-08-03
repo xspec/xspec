@@ -10,5 +10,5 @@
 ### Note
 
 - XML Calabash will use Saxon jar in its own `lib` directory.
-  - You need to delete `lib/Saxon-*.jar` and add our Saxon jar to classpath.
+  - You need to delete `lib/Saxon-HE-*.jar` and add our Saxon jar to classpath.
 - BaseX test requires XML Calabash.
