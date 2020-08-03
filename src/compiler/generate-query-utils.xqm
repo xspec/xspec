@@ -62,10 +62,10 @@ declare function test:deep-equal-v1(
 };
 
 declare function test:item-deep-equal(
-    $item1 as item(),
-    $item2 as item(),
-    $flags as xs:string
-  ) as xs:boolean
+  $item1 as item(),
+  $item2 as item(),
+  $flags as xs:string
+) as xs:boolean
 {
   if ( $item1 instance of node() and $item2 instance of node() ) then
     test:node-deep-equal($item1, $item2, $flags)
@@ -76,10 +76,10 @@ declare function test:item-deep-equal(
 };
 
 declare function test:node-deep-equal(
-    $node1 as node(),
-    $node2 as node(),
-    $flags as xs:string
-  ) as xs:boolean
+  $node1 as node(),
+  $node2 as node(),
+  $flags as xs:string
+) as xs:boolean
 {
   if ( $node1 instance of document-node() and $node2 instance of document-node() ) then
     test:deep-equal(test:sorted-children($node1, $flags), test:sorted-children($node2, $flags), $flags)
@@ -138,9 +138,9 @@ declare function test:element-deep-equal(
 };
 
 declare function test:sorted-children(
-    $node as node(),
-    $flags as xs:string
-  ) as node()*
+  $node as node(),
+  $flags as xs:string
+) as node()*
 {
   $node/child::node() 
   except ($node/text()[not(normalize-space())][contains($flags, 'w')][not($node/self::test:ws)],
@@ -164,7 +164,9 @@ declare function test:sort-named-nodes(
 (: Return the "minimum" of $nodes, using the order defined by
  : test:sort-named-nodes().
  :)
-declare function test:named-nodes-minimum($nodes as node()+) as xs:integer
+declare function test:named-nodes-minimum(
+  $nodes as node()+
+) as xs:integer
 {
   (: if there is only one node, this is the minimum :)
   if (empty($nodes[2])) then
@@ -175,11 +177,11 @@ declare function test:named-nodes-minimum($nodes as node()+) as xs:integer
 };
 
 declare function test:named-nodes-minimum(
-    $nodes as node()+,
-    $min   as xs:QName,
-    $idx   as xs:integer,
-    $curr  as xs:integer
-  ) as xs:integer
+  $nodes as node()+,
+  $min   as xs:QName,
+  $idx   as xs:integer,
+  $curr  as xs:integer
+) as xs:integer
 {
   if ($curr gt count($nodes)) then
     $idx
@@ -189,7 +191,10 @@ declare function test:named-nodes-minimum(
     test:named-nodes-minimum($nodes, $min, $idx, $curr + 1)
 };
 
-declare function test:qname-lt($n1 as xs:QName, $n2 as xs:QName) as xs:boolean
+declare function test:qname-lt(
+  $n1 as xs:QName,
+  $n2 as xs:QName
+) as xs:boolean
 {
   if (namespace-uri-from-QName($n1) eq namespace-uri-from-QName($n2)) then
     local-name-from-QName($n1) lt local-name-from-QName($n2)
@@ -198,9 +203,9 @@ declare function test:qname-lt($n1 as xs:QName, $n2 as xs:QName) as xs:boolean
 };
 
 declare function test:report-sequence(
-    $sequence as item()*,
-    $report-name as xs:string
-  ) as element()
+  $sequence as item()*,
+  $report-name as xs:string
+) as element()
 {
   let $report-namespace as xs:string := string($x:xspec-namespace)
 
@@ -208,6 +213,10 @@ declare function test:report-sequence(
   let $document-nodes as document-node()* := $sequence[. instance of document-node()]
   let $namespace-nodes as namespace-node()* := $sequence[. instance of namespace-node()]
   let $text-nodes as text()* := $sequence[. instance of text()]
+
+  (: Do not set a prefix in this element name. This prefix-less name undeclares the default
+    namespace that pollutes the namespaces in the content. :)
+  let $content-wrapper-qname as xs:QName := QName('', 'content-wrap')
 
   let $report-element as element() :=
     element
@@ -221,9 +230,10 @@ declare function test:report-sequence(
           (: One or more atomic values :)
           else if ($sequence instance of xs:anyAtomicType+)
           then (
-            let $atomic-value-reports as xs:string+ :=
-              (for $value in $sequence return test:report-atomic-value($value))
-            return attribute select { string-join($atomic-value-reports, ',&#x0A;') }
+            attribute select {
+              ($sequence ! test:report-atomic-value(.))
+              => string-join(',&#x0A;')
+            }
           )
 
           (: One or more nodes of the same type which can be a child of document node :)
@@ -234,8 +244,10 @@ declare function test:report-sequence(
             or ($sequence instance of text()+)
           )
           then (
-            attribute select { concat('/', x:node-type($sequence[1]), '()') },
-            for $node in $sequence return test:report-node($node)
+            attribute select { '/' || x:node-type($sequence[1]) || '()' },
+            element { $content-wrapper-qname } {
+              $sequence ! test:report-node(.)
+            }
           )
 
           (: Single document node :)
@@ -244,7 +256,9 @@ declare function test:report-sequence(
             (: People do not always notice '/' in the report HTML. So express it more verbosely.
               Also the expression must match the one in ../reporter/format-xspec-report.xsl. :)
             attribute select { "/self::document-node()" },
-            test:report-node($sequence)
+            element { $content-wrapper-qname } {
+              test:report-node($sequence)
+            }
           )
 
           (: One or more nodes which can be stored in an element safely and without losing each position.
@@ -256,7 +270,9 @@ declare function test:report-sequence(
           else if (($sequence instance of node()+) and not($attribute-nodes or $namespace-nodes))
           then (
             attribute select { "/node()" },
-            for $node in $sequence return test:report-node($node)
+            element { $content-wrapper-qname } {
+              $sequence ! test:report-node(.)
+            }
           )
 
           (: Otherwise each item needs to be represented as a pseudo element :)
@@ -292,8 +308,9 @@ declare function test:report-sequence(
               )
             },
 
-            for $item in $sequence
-            return test:report-pseudo-item($item, $report-namespace)
+            element { $content-wrapper-qname } {
+              $sequence ! test:report-pseudo-item(., $report-namespace)
+            }
           )
         )
       }
@@ -338,26 +355,27 @@ declare function test:report-pseudo-item(
   Copies the nodes while wrapping whitespace-only text nodes in <test:ws>
 :)
 declare function test:report-node(
-    $node as node()
-    ) as node()
+  $node as node()
+) as node()
 {
   if (($node instance of text()) and not(normalize-space($node))) then
-    (: This element name is not 'test:ws' but 'ws'. This prefix-less name is a workaround for
-      https://sourceforge.net/p/saxon/mailman/message/37066342/ :)
     element { QName($x:legacy-namespace, 'ws') } { $node }
-  else if ( $node instance of document-node() ) then
+
+  else if ($node instance of document-node()) then
     document {
-      for $child in $node/child::node() return test:report-node($child)
+      $node/child::node() ! test:report-node(.)
     }
-  else if ( $node instance of element() ) then
+
+  else if ($node instance of element()) then
     element { node-name($node) } {
       (
-        for $prefix in in-scope-prefixes($node)
-          return namespace { $prefix } { namespace-uri-for-prefix($prefix, $node) }
+        in-scope-prefixes($node)
+        ! namespace { . } { namespace-uri-for-prefix(., $node) }
       ),
       $node/attribute(),
-      (for $child in $node/child::node() return test:report-node($child))
+      ($node/child::node() ! test:report-node(.))
     }
+
   else $node
 };
 
@@ -391,15 +409,16 @@ declare function test:report-atomic-value(
     default return test:report-atomic-value-as-constructor($value)
 };
 
-declare function test:report-atomic-value-as-constructor($value as xs:anyAtomicType) as xs:string
+declare function test:report-atomic-value-as-constructor(
+  $value as xs:anyAtomicType
+) as xs:string
 {
   (: Constructor usually has the same name as type :)
   let $constructor-name as xs:string := test:atom-type($value)
 
   (: Cast as either xs:integer or xs:string :)
   let $casted-value as xs:anyAtomicType := (
-    if ( $value instance of xs:integer )
-    then
+    if ($value instance of xs:integer) then
       (: Force casting down to integer, by first converting to string :)
       (string($value) cast as xs:integer)
     else
@@ -411,7 +430,7 @@ declare function test:report-atomic-value-as-constructor($value as xs:anyAtomicT
   let $costructor-param as xs:string :=
     test:report-atomic-value($casted-value)
 
-  return concat($constructor-name, '(', $costructor-param, ')')
+  return ($constructor-name || '(' || $costructor-param || ')')
 };
 
 declare function test:atom-type(

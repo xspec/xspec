@@ -295,6 +295,12 @@
       <xsl:variable name="namespace-nodes" as="namespace-node()*" select="$sequence[. instance of namespace-node()]" />
       <xsl:variable name="text-nodes"      as="text()*"           select="$sequence[. instance of text()]" />
 
+      <xsl:variable name="content-wrapper" as="element(content-wrap)">
+         <!-- Do not set a prefix in this element name. This prefix-less name undeclares the default
+            namespace that pollutes the namespaces in the content. -->
+         <xsl:element name="content-wrap" namespace="" />
+      </xsl:variable>
+
       <xsl:variable name="report-element" as="element()">
          <xsl:element name="{$report-name}" namespace="{$report-namespace}">
             <xsl:choose>
@@ -305,9 +311,10 @@
 
                <!-- One or more atomic values -->
                <xsl:when test="$sequence instance of xs:anyAtomicType+">
-                  <xsl:variable as="xs:string+" name="atomic-value-reports"
-                     select="for $value in $sequence return test:report-atomic-value($value)" />
-                  <xsl:attribute name="select" select="string-join($atomic-value-reports, ',&#x0A;')" />
+                  <xsl:attribute name="select"
+                     select="
+                        ($sequence ! test:report-atomic-value(.))
+                        => string-join(',&#x0A;')" />
                </xsl:when>
 
                <!-- One or more nodes of the same type which can be a child of document node -->
@@ -318,8 +325,11 @@
                      or ($sequence instance of processing-instruction()+)
                      or ($sequence instance of text()+)">
                   <xsl:attribute name="select"
-                     select="concat('/', x:node-type($sequence[1]), '()')" />
-                  <xsl:apply-templates select="$sequence" mode="test:report-node" />
+                     select="'/' || x:node-type($sequence[1]) || '()'" />
+
+                  <xsl:copy select="$content-wrapper">
+                     <xsl:apply-templates select="$sequence" mode="test:report-node" />
+                  </xsl:copy>
                </xsl:when>
 
                <!-- Single document node -->
@@ -327,7 +337,10 @@
                   <!-- People do not always notice '/' in the report HTML. So express it more verbosely.
                      Also the expression must match the one in ../reporter/format-xspec-report.xsl. -->
                   <xsl:attribute name="select" select="'/self::document-node()'" />
-                  <xsl:apply-templates select="$sequence" mode="test:report-node" />
+
+                  <xsl:copy select="$content-wrapper">
+                     <xsl:apply-templates select="$sequence" mode="test:report-node" />
+                  </xsl:copy>
                </xsl:when>
 
                <!-- One or more nodes which can be stored in an element safely and without losing each position.
@@ -341,7 +354,10 @@
                      ($sequence instance of node()+)
                      and not($attribute-nodes or $namespace-nodes)">
                   <xsl:attribute name="select" select="'/node()'" />
-                  <xsl:apply-templates select="$sequence" mode="test:report-node" />
+
+                  <xsl:copy select="$content-wrapper">
+                     <xsl:apply-templates select="$sequence" mode="test:report-node" />
+                  </xsl:copy>
                </xsl:when>
 
                <!-- Otherwise each item needs to be represented as a pseudo element -->
@@ -378,10 +394,10 @@
                      </xsl:choose>
                   </xsl:attribute>
 
-                  <xsl:sequence
-                     select="
-                        for $item in $sequence
-                        return test:report-pseudo-item($item, $report-namespace)" />
+                  <xsl:copy select="$content-wrapper">
+                     <xsl:sequence
+                        select="$sequence ! test:report-pseudo-item(., $report-namespace)" />
+                  </xsl:copy>
                </xsl:otherwise>
             </xsl:choose>
          </xsl:element>
@@ -471,10 +487,8 @@
       <xsl:call-template name="x:identity" />
    </xsl:template>
 
-   <xsl:template match="text()[not(normalize-space())]" as="element(test:ws)"
+   <xsl:template match="text()[normalize-space() => not()]" as="element(test:ws)"
       mode="test:report-node">
-      <!-- This element name is not 'test:ws' but 'ws'. This prefix-less name is a workaround for
-         https://sourceforge.net/p/saxon/mailman/message/37066342/ -->
       <xsl:element name="ws" namespace="{$x:legacy-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
@@ -559,7 +573,7 @@
       <xsl:variable name="costructor-param" as="xs:string"
          select="test:report-atomic-value($casted-value)" />
 
-      <xsl:sequence select="concat($constructor-name, '(', $costructor-param, ')')" />
+      <xsl:sequence select="$constructor-name || '(' || $costructor-param || ')'" />
    </xsl:function>
 
    <xsl:function name="test:atom-type" as="xs:string">

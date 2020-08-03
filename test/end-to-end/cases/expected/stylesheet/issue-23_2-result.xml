@@ -12,12 +12,16 @@
                     href="../../issue-23_2_context.xml"/>
       </input-wrap>
       <result select="/self::document-node()">
-         <foo xmlns="x-urn:test" bar="true"/>
+         <content-wrap xmlns="">
+            <foo xmlns="x-urn:test" bar="true"/>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
          <label>Result</label>
          <expect select="/self::document-node()">
-            <foo xmlns="x-urn:test" bar="false"/>
+            <content-wrap xmlns="">
+               <foo xmlns="x-urn:test" bar="false"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>

@@ -20,23 +20,27 @@
             </x:call>
          </input-wrap>
          <result select="/element()">
-            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                  xmlns="">text</elem>
+            <content-wrap xmlns="">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema">text</elem>
+            </content-wrap>
          </result>
          <test id="scenario1-scenario1-expect1" successful="true">
             <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</label>
             <expect select="/element()">
-               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                     xmlns="">...</elem>
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario1-scenario1-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../three-dots.xspec">
@@ -53,18 +57,20 @@
             </x:call>
          </input-wrap>
          <result select="/element()">
-            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                  xmlns=""/>
+            <content-wrap xmlns="">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            </content-wrap>
          </result>
          <test id="scenario1-scenario2-expect1" successful="true">
             <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</label>
             <expect select="/element()">
-               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                     xmlns="">...</elem>
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario1-scenario2-expect2" successful="false">
@@ -72,10 +78,11 @@
 				&lt;elem attrib="..." /&gt;
 				should be Failure</label>
             <expect select="/element()">
-               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                     xmlns=""
-                     attrib="..."/>
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                        attrib="..."/>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -93,32 +100,37 @@
             </x:call>
          </input-wrap>
          <result select="/element()">
-            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                  xmlns="">...</elem>
+            <content-wrap xmlns="">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+            </content-wrap>
          </result>
          <test id="scenario1-scenario3-expect1" successful="true">
             <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Success</label>
             <expect select="/element()">
-               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                     xmlns="">...</elem>
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario1-scenario3-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario1-scenario3-expect3" successful="false">
             <label>expecting
 				&lt;elem&gt;text&lt;/elem&gt;
 				should be Failure</label>
             <expect select="/element()">
-               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                     xmlns="">text</elem>
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema">text</elem>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -139,34 +151,39 @@
             </x:call>
          </input-wrap>
          <result select="/element()">
-            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                  xmlns=""
-                  attrib="val"/>
+            <content-wrap xmlns="">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                     attrib="val"/>
+            </content-wrap>
          </result>
          <test id="scenario2-scenario1-expect1" successful="true">
             <label>expecting
 				&lt;elem attrib="..." /&gt;
 				should be Success</label>
             <expect select="/element()">
-               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                     xmlns=""
-                     attrib="..."/>
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                        attrib="..."/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario2-scenario1-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario2-scenario1-expect3" successful="false">
             <label>expecting
 				&lt;elem&gt;...&lt;/elem&gt;
 				should be Failure</label>
             <expect select="/element()">
-               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                     xmlns="">...</elem>
+               <content-wrap xmlns="">
+                  <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                        xmlns:xs="http://www.w3.org/2001/XMLSchema">...</elem>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -189,20 +206,22 @@
             </x:call>
          </input-wrap>
          <result select="/element()">
-            <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                   xmlns="">text<inner1/>
-               <inner2/>
-            </outer>
+            <content-wrap xmlns="">
+               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema">text<inner1/>
+                  <inner2/>
+               </outer>
+            </content-wrap>
          </result>
          <test id="scenario3-scenario1-expect1" successful="true">
             <label>expecting
 				&lt;outer&gt;...&lt;/outer&gt;
 				should be Success</label>
             <expect select="/element()">
-               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns="">...</outer>
+               <content-wrap xmlns="">
+                  <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema">...</outer>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario3-scenario1-expect2" successful="true">
@@ -210,14 +229,17 @@
 				&lt;outer&gt;...&lt;inner1 /&gt;...&lt;/outer&gt;
 				should be Success</label>
             <expect select="/element()">
-               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns="">...<inner1/>...</outer>
+               <content-wrap xmlns="">
+                  <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema">...<inner1/>...</outer>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario3-scenario1-expect3" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario3-scenario2" xspec="../../three-dots.xspec">
@@ -236,20 +258,22 @@
             </x:call>
          </input-wrap>
          <result select="/element()">
-            <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                   xmlns="">
-               <inner/>
-            </outer>
+            <content-wrap xmlns="">
+               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <inner/>
+               </outer>
+            </content-wrap>
          </result>
          <test id="scenario3-scenario2-expect1" successful="true">
             <label>expecting
 				&lt;outer&gt;...&lt;/outer&gt;
 				should be Success</label>
             <expect select="/element()">
-               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns="">...</outer>
+               <content-wrap xmlns="">
+                  <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema">...</outer>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario3-scenario2-expect2" successful="false">
@@ -257,10 +281,11 @@
 				&lt;outer&gt;...&lt;inner /&gt;&lt;/outer&gt;
 				should be Failure</label>
             <expect select="/element()">
-               <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns="">...<inner/>
-               </outer>
+               <content-wrap xmlns="">
+                  <outer xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema">...<inner/>
+                  </outer>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -281,19 +306,25 @@
             </x:call>
          </input-wrap>
          <result select="/*/@*">
-            <pseudo-attribute attrib="val"/>
+            <content-wrap xmlns="">
+               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="val"/>
+            </content-wrap>
          </result>
          <test id="scenario4-scenario1-expect1" successful="true">
             <label>expecting
 					 @attrib="..."
 					should be Success</label>
             <expect select="/*/@*">
-               <pseudo-attribute attrib="..."/>
+               <content-wrap xmlns="">
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario4-scenario1-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario4-scenario2" xspec="../../three-dots.xspec">
@@ -310,14 +341,18 @@
             </x:call>
          </input-wrap>
          <result select="/*/@*">
-            <pseudo-attribute attrib=""/>
+            <content-wrap xmlns="">
+               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib=""/>
+            </content-wrap>
          </result>
          <test id="scenario4-scenario2-expect1" successful="true">
             <label>expecting
 					 @attrib="..."
 					should be Success</label>
             <expect select="/*/@*">
-               <pseudo-attribute attrib="..."/>
+               <content-wrap xmlns="">
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -335,26 +370,34 @@
             </x:call>
          </input-wrap>
          <result select="/*/@*">
-            <pseudo-attribute attrib="..."/>
+            <content-wrap xmlns="">
+               <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
+            </content-wrap>
          </result>
          <test id="scenario4-scenario3-expect1" successful="true">
             <label>expecting
 					 @attrib="..."
 					should be Success</label>
             <expect select="/*/@*">
-               <pseudo-attribute attrib="..."/>
+               <content-wrap xmlns="">
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="..."/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario4-scenario3-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario4-scenario3-expect3" successful="false">
             <label>expecting
 					 @attrib="val"
 					should be Failure</label>
             <expect select="/*/@*">
-               <pseudo-attribute attrib="val"/>
+               <content-wrap xmlns="">
+                  <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attrib="val"/>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -370,10 +413,14 @@
                <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_usual"/>
             </x:call>
          </input-wrap>
-         <result select="/text()">text</result>
+         <result select="/text()">
+            <content-wrap xmlns="">text</content-wrap>
+         </result>
          <test id="scenario5-scenario1-expect1" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario5-scenario1-expect2" successful="false">
             <label>expecting '...' should be Failure</label>
@@ -390,16 +437,22 @@
             </x:call>
          </input-wrap>
          <result select="/text()">
-            <ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+            <content-wrap xmlns="">
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
 &#xD; </ws>
+            </content-wrap>
          </result>
          <test id="scenario5-scenario2-expect1" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario5-scenario2-expect2" successful="false">
             <label>expecting usual text node should be Failure</label>
-            <expect select="/text()">text</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">text</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario5-scenario3" xspec="../../three-dots.xspec">
@@ -412,15 +465,21 @@
             </x:call>
          </input-wrap>
          <result select="/text()">
-            <ws xmlns="http://www.jenitennison.com/xslt/unit-test"/>
+            <content-wrap xmlns="">
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test"/>
+            </content-wrap>
          </result>
          <test id="scenario5-scenario3-expect1" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario5-scenario3-expect2" successful="false">
             <label>expecting usual text node should be Failure</label>
-            <expect select="/text()">text</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">text</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario5-scenario4" xspec="../../three-dots.xspec">
@@ -432,14 +491,20 @@
                <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_three-dots"/>
             </x:call>
          </input-wrap>
-         <result select="/text()">...</result>
+         <result select="/text()">
+            <content-wrap xmlns="">...</content-wrap>
+         </result>
          <test id="scenario5-scenario4-expect1" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario5-scenario4-expect2" successful="false">
             <label>expecting usual text node should be Failure</label>
-            <expect select="/text()">text</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">text</content-wrap>
+            </expect>
          </test>
          <test id="scenario5-scenario4-expect3" successful="false">
             <label>expecting '...' should be Failure</label>
@@ -460,16 +525,22 @@
                <x:param as="comment()"><!--comment--></x:param>
             </x:call>
          </input-wrap>
-         <result select="/comment()"><!--comment--></result>
+         <result select="/comment()">
+            <content-wrap xmlns=""><!--comment--></content-wrap>
+         </result>
          <test id="scenario6-scenario1-expect1" successful="true">
             <label>expecting
 				&lt;!--...--&gt;
 				should be Success</label>
-            <expect select="/comment()"><!--...--></expect>
+            <expect select="/comment()">
+               <content-wrap xmlns=""><!--...--></content-wrap>
+            </expect>
          </test>
          <test id="scenario6-scenario1-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario6-scenario2" xspec="../../three-dots.xspec">
@@ -483,12 +554,16 @@
                <x:param as="comment()"><!----></x:param>
             </x:call>
          </input-wrap>
-         <result select="/comment()"><!----></result>
+         <result select="/comment()">
+            <content-wrap xmlns=""><!----></content-wrap>
+         </result>
          <test id="scenario6-scenario2-expect1" successful="true">
             <label>expecting
 				&lt;!--...--&gt;
 				should be Success</label>
-            <expect select="/comment()"><!--...--></expect>
+            <expect select="/comment()">
+               <content-wrap xmlns=""><!--...--></content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario6-scenario3" xspec="../../three-dots.xspec">
@@ -502,22 +577,30 @@
                <x:param as="comment()"><!--...--></x:param>
             </x:call>
          </input-wrap>
-         <result select="/comment()"><!--...--></result>
+         <result select="/comment()">
+            <content-wrap xmlns=""><!--...--></content-wrap>
+         </result>
          <test id="scenario6-scenario3-expect1" successful="true">
             <label>expecting
 				&lt;!--...--&gt;
 				should be Success</label>
-            <expect select="/comment()"><!--...--></expect>
+            <expect select="/comment()">
+               <content-wrap xmlns=""><!--...--></content-wrap>
+            </expect>
          </test>
          <test id="scenario6-scenario3-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario6-scenario3-expect3" successful="false">
             <label>expecting
 				&lt;!--comment--&gt;
 				should be Failure</label>
-            <expect select="/comment()"><!--comment--></expect>
+            <expect select="/comment()">
+               <content-wrap xmlns=""><!--comment--></content-wrap>
+            </expect>
          </test>
       </scenario>
    </scenario>
@@ -534,16 +617,22 @@
                <x:param as="processing-instruction(pi)"><?pi data?></x:param>
             </x:call>
          </input-wrap>
-         <result select="/processing-instruction()"><?pi data?></result>
+         <result select="/processing-instruction()">
+            <content-wrap xmlns=""><?pi data?></content-wrap>
+         </result>
          <test id="scenario7-scenario1-expect1" successful="true">
             <label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</label>
-            <expect select="/processing-instruction()"><?pi ...?></expect>
+            <expect select="/processing-instruction()">
+               <content-wrap xmlns=""><?pi ...?></content-wrap>
+            </expect>
          </test>
          <test id="scenario7-scenario1-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario7-scenario2" xspec="../../three-dots.xspec">
@@ -557,12 +646,16 @@
                <x:param as="processing-instruction(pi)"><?pi?></x:param>
             </x:call>
          </input-wrap>
-         <result select="/processing-instruction()"><?pi?></result>
+         <result select="/processing-instruction()">
+            <content-wrap xmlns=""><?pi?></content-wrap>
+         </result>
          <test id="scenario7-scenario2-expect1" successful="true">
             <label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</label>
-            <expect select="/processing-instruction()"><?pi ...?></expect>
+            <expect select="/processing-instruction()">
+               <content-wrap xmlns=""><?pi ...?></content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario7-scenario3" xspec="../../three-dots.xspec">
@@ -576,22 +669,30 @@
                <x:param as="processing-instruction(pi)"><?pi ...?></x:param>
             </x:call>
          </input-wrap>
-         <result select="/processing-instruction()"><?pi ...?></result>
+         <result select="/processing-instruction()">
+            <content-wrap xmlns=""><?pi ...?></content-wrap>
+         </result>
          <test id="scenario7-scenario3-expect1" successful="true">
             <label>expecting
 				&lt;?pi ...?&gt;
 				should be Success</label>
-            <expect select="/processing-instruction()"><?pi ...?></expect>
+            <expect select="/processing-instruction()">
+               <content-wrap xmlns=""><?pi ...?></content-wrap>
+            </expect>
          </test>
          <test id="scenario7-scenario3-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario7-scenario3-expect3" successful="false">
             <label>expecting
 				&lt;?pi data?&gt;
 				should be Failure</label>
-            <expect select="/processing-instruction()"><?pi data?></expect>
+            <expect select="/processing-instruction()">
+               <content-wrap xmlns=""><?pi data?></content-wrap>
+            </expect>
          </test>
       </scenario>
    </scenario>
@@ -609,18 +710,24 @@
                         select="$Q{x-urn:test:three-dots}document-node_multiple-nodes"/>
             </x:call>
          </input-wrap>
-         <result select="/self::document-node()"><?pi?><!--comment-->
-            <elem xmlns=""/>
+         <result select="/self::document-node()">
+            <content-wrap xmlns=""><?pi?><!--comment-->
+               <elem/>
+            </content-wrap>
          </result>
          <test id="scenario8-scenario1-expect1" successful="false">
             <label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 					should be Failure</label>
-            <expect select="/self::document-node()">...</expect>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario8-scenario1-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario8-scenario2" xspec="../../three-dots.xspec">
@@ -635,16 +742,22 @@
                         select="$Q{x-urn:test:three-dots}document-node_empty"/>
             </x:call>
          </input-wrap>
-         <result select="/self::document-node()"/>
+         <result select="/self::document-node()">
+            <content-wrap xmlns=""/>
+         </result>
          <test id="scenario8-scenario2-expect1" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario8-scenario2-expect2" successful="false">
             <label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 					should be Failure</label>
-            <expect select="/self::document-node()">...</expect>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario8-scenario3" xspec="../../three-dots.xspec">
@@ -659,22 +772,30 @@
                         select="$Q{x-urn:test:three-dots}document-node_three-dots"/>
             </x:call>
          </input-wrap>
-         <result select="/self::document-node()">...</result>
+         <result select="/self::document-node()">
+            <content-wrap xmlns="">...</content-wrap>
+         </result>
          <test id="scenario8-scenario3-expect1" successful="true">
             <label>expecting
 					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
 					should be Success</label>
-            <expect select="/self::document-node()">...</expect>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario8-scenario3-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario8-scenario3-expect3" successful="false">
             <label>expecting
 					&lt;xsl:document&gt;text&lt;/xsl:document&gt;
 					should be Failure</label>
-            <expect select="/self::document-node()">text</expect>
+            <expect select="/self::document-node()">
+               <content-wrap xmlns="">text</content-wrap>
+            </expect>
          </test>
       </scenario>
    </scenario>
@@ -693,19 +814,25 @@
             </x:call>
          </input-wrap>
          <result select="/*/namespace::*">
-            <pseudo-namespace-node xmlns:prefix="namespace-uri"/>
+            <content-wrap xmlns="">
+               <pseudo-namespace-node xmlns:prefix="namespace-uri" xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </result>
          <test id="scenario9-scenario1-expect1" successful="true">
             <label>expecting
 					  xmlns:prefix="..."
 					should be Success</label>
             <expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="..."/>
+               <content-wrap xmlns="">
+                  <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario9-scenario1-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario9-scenario2" xspec="../../three-dots.xspec">
@@ -721,19 +848,25 @@
             </x:call>
          </input-wrap>
          <result select="/*/namespace::*">
-            <_0:pseudo-namespace-node xmlns="namespace-uri" xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+            <content-wrap xmlns="">
+               <_0:pseudo-namespace-node xmlns="namespace-uri" xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </result>
          <test id="scenario9-scenario2-expect1" successful="true">
             <label>expecting
 					  xmlns="..."
 					should be Success</label>
             <expect select="/*/namespace::*">
-               <_0:pseudo-namespace-node xmlns="..." xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+               <content-wrap xmlns="">
+                  <_0:pseudo-namespace-node xmlns="..." xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario9-scenario2-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
       </scenario>
       <scenario id="scenario9-scenario3" xspec="../../three-dots.xspec">
@@ -749,26 +882,34 @@
             </x:call>
          </input-wrap>
          <result select="/*/namespace::*">
-            <pseudo-namespace-node xmlns:prefix="..."/>
+            <content-wrap xmlns="">
+               <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </result>
          <test id="scenario9-scenario3-expect1" successful="true">
             <label>expecting
 					  xmlns:prefix="..."
 					should be Success</label>
             <expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="..."/>
+               <content-wrap xmlns="">
+                  <pseudo-namespace-node xmlns:prefix="..." xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario9-scenario3-expect2" successful="true">
             <label>expecting ... should be Success</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario9-scenario3-expect3" successful="false">
             <label>expecting
 					  xmlns:prefix="namespace-uri"
 					should be Failure</label>
             <expect select="/*/namespace::*">
-               <pseudo-namespace-node xmlns:prefix="namespace-uri"/>
+               <content-wrap xmlns="">
+                  <pseudo-namespace-node xmlns:prefix="namespace-uri" xmlns="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -790,37 +931,46 @@
             </x:call>
          </input-wrap>
          <result select="/element()">
-            <elem1 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                   xmlns=""/>
-            <elem2 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                   xmlns=""/>
+            <content-wrap xmlns="">
+               <elem1 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               <elem2 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+            </content-wrap>
          </result>
          <test id="scenario10-scenario1-expect1" successful="true">
             <label>expecting
 					  ...&lt;elem2 /&gt;
 					should be Success</label>
-            <expect select="/node()">...<elem2 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns=""/>
+            <expect select="/node()">
+               <content-wrap xmlns="">...<elem2 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario10-scenario1-expect2" successful="true">
             <label>expecting sequence of two ... should be Success</label>
-            <expect select="/text()">......</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">......</content-wrap>
+            </expect>
          </test>
          <test id="scenario10-scenario1-expect3" successful="false">
             <label>expecting ... should be Failure</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario10-scenario1-expect4" successful="false">
             <label>expecting ...... should be Failure</label>
-            <expect select="/text()">......</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">......</content-wrap>
+            </expect>
          </test>
          <test id="scenario10-scenario1-expect5" successful="false">
             <label>expecting sequence of three ... should be Failure</label>
-            <expect select="/text()">.........</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">.........</content-wrap>
+            </expect>
          </test>
       </scenario>
    </scenario>
@@ -836,7 +986,9 @@
       <result select="()"/>
       <test id="scenario11-expect1" successful="false">
          <label>expecting ... should be Failure</label>
-         <expect select="/text()">...</expect>
+         <expect select="/text()">
+            <content-wrap xmlns="">...</content-wrap>
+         </expect>
       </test>
    </scenario>
    <scenario id="scenario12" xspec="../../three-dots.xspec">
@@ -857,7 +1009,9 @@
          </test>
          <test id="scenario12-scenario1-expect2" successful="false">
             <label>expecting ... should be Failure</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario12-scenario1-expect3" successful="false">
             <label>expecting '...' should be Failure</label>
@@ -880,7 +1034,9 @@
          </test>
          <test id="scenario12-scenario2-expect2" successful="false">
             <label>expecting ... should be Failure</label>
-            <expect select="/text()">...</expect>
+            <expect select="/text()">
+               <content-wrap xmlns="">...</content-wrap>
+            </expect>
          </test>
          <test id="scenario12-scenario2-expect3" successful="false">
             <label>expecting 'string' should be Failure</label>
@@ -897,18 +1053,26 @@
             <x:param as="text()">item</x:param>
          </x:call>
       </input-wrap>
-      <result select="/text()">item</result>
+      <result select="/text()">
+         <content-wrap xmlns="">item</content-wrap>
+      </result>
       <test id="scenario13-expect1" successful="false">
          <label>expecting .... (four dots) should be Failure</label>
-         <expect select="/text()">....</expect>
+         <expect select="/text()">
+            <content-wrap xmlns="">....</content-wrap>
+         </expect>
       </test>
       <test id="scenario13-expect2" successful="false">
          <label>expecting ...x (three dots with extra character) should be Failure</label>
-         <expect select="/text()">...x</expect>
+         <expect select="/text()">
+            <content-wrap xmlns="">...x</content-wrap>
+         </expect>
       </test>
       <test id="scenario13-expect3" successful="false">
          <label>expecting ... with surrounding whitespace should be Failure</label>
-         <expect select="/text()"> ...</expect>
+         <expect select="/text()">
+            <content-wrap xmlns=""> ...</content-wrap>
+         </expect>
       </test>
       <test id="scenario13-expect4" successful="false">
          <label>expecting '...' (xs:string) should be Failure</label>

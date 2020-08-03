@@ -206,6 +206,14 @@
 
 					<xsl:when
 						test="
+							($pis = 'require-saxon-bug-4666-fixed')
+							and ($x:saxon-version ge x:pack-version((10, 0)))
+							and ($x:saxon-version le x:pack-version((10, 1)))">
+						<xsl:text>Requires Saxon bug #4666 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($test-type eq 't')
 							and (parent::x:description/@run-as eq 'external')
 							and ($x:saxon-version lt x:pack-version((9, 8, 0, 8)))">

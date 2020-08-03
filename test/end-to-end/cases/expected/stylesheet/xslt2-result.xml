@@ -12,7 +12,9 @@
       </input-wrap>
       <scenario id="scenario1-scenario1" xspec="../../../../xslt1.xspec">
          <label>This scenario is to verify that $x:result consists of two text nodes</label>
-         <result select="/text()">12</result>
+         <result select="/text()">
+            <content-wrap xmlns="">12</content-wrap>
+         </result>
          <test id="scenario1-scenario1-expect1" successful="true">
             <label>Result should be text nodes</label>
             <expect-test-wrap xmlns="">
@@ -37,7 +39,9 @@
          <label>xslt-version=1.0 in this XSpec file should always make all of the tests in this
 				scenario Success, even when this XSpec file is imported to another XSpec file which
 				has xslt-version=2.0 or higher.</label>
-         <result select="/text()">12</result>
+         <result select="/text()">
+            <content-wrap xmlns="">12</content-wrap>
+         </result>
          <test id="scenario1-scenario2-expect1" successful="true">
             <label>Comparing the text nodes with string</label>
             <expect select="'12'"/>
@@ -60,7 +64,9 @@
 				XSpec file is executed independently. On the other hand, the result should be
 				Failure when this XSpec file is imported to another XSpec file which has
 				xslt-version=2.0 or higher.</label>
-         <result select="/text()">12</result>
+         <result select="/text()">
+            <content-wrap xmlns="">12</content-wrap>
+         </result>
          <test id="scenario1-scenario3-expect1" successful="false">
             <label>Expecting the compiled stylesheet to have version=1.0</label>
             <expect-test-wrap xmlns="">
