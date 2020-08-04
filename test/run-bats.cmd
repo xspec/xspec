@@ -2,11 +2,13 @@
 
 setlocal
 
+call :parse-arg %*
+
 rem Check prerequisites
 where ant > NUL 2>&1
 if errorlevel 1 (
     echo Ant is not found in path >&2
-    exit /b %ERRORLEVEL%
+    exit /b 1
 )
 
 if not exist "%SAXON_JAR%" (
@@ -34,17 +36,42 @@ set XML_CATALOG=
 set XSPEC_HOME=
 
 rem Full path
-set "MERGED_BAT=%~dpn0~TEMP~.cmd"
+set "MERGED_BAT=%TEMP%\%~n0_%RANDOM%.cmd"
 set "BAT_SOURCES=%~dp0win-bats"
 
 rem Copy stub
 copy "%BAT_SOURCES%\stub.cmd" "%MERGED_BAT%" > NUL
-if errorlevel 1 exit /b 1
+if errorlevel 1 exit /b
 
 rem Append
-java -jar "%SAXON_JAR%" -s:"%BAT_SOURCES%\collection.xml" -xsl:"%BAT_SOURCES%\generate.xsl" >> "%MERGED_BAT%"
-if errorlevel 1 exit /b 1
+java -jar "%SAXON_JAR%" ^
+    -s:"%BAT_SOURCES%\collection.xml" ^
+    -xsl:"%BAT_SOURCES%\generate.xsl" ^
+    filter="%FILTER%" ^
+    >> "%MERGED_BAT%"
+if errorlevel 1 exit /b
 
 rem Run
 rem  Launch a child process in order to protect environment from broken test script
-"%COMSPEC%" /s /c "%MERGED_BAT%" %*
+"%COMSPEC%" /s /c "cd "%~dp0" && "%MERGED_BAT%""
+set TEST_RESULT=%ERRORLEVEL%
+
+rem Delete the generated test script
+del "%MERGED_BAT%"
+if errorlevel 1 exit /b
+
+rem Exit
+exit /b %TEST_RESULT%
+
+
+rem Parse arg
+:parse-arg
+    if "%~1"=="" (
+        goto :EOF
+    ) else if "%~1"=="--filter" (
+        set "FILTER=%~2"
+        shift
+    )
+
+    shift
+    goto :parse-arg
