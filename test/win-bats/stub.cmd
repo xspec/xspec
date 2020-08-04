@@ -9,7 +9,7 @@ verify other 2> NUL
 setlocal enableextensions
 if errorlevel 1 (
     echo Unable to enable extensions
-    exit /b %ERRORLEVEL%
+    exit /b 1
 )
 
 rem
@@ -38,11 +38,6 @@ rem
 set "THIS_FILE_NX=%~nx0"
 
 rem
-rem Go to the directory where this script resides
-rem
-pushd "%~dp0"
-
-rem
 rem Full path to the parent directory
 rem
 for %%I in (..) do set "PARENT_DIR_ABS=%%~fI"
@@ -52,14 +47,8 @@ rem Run tests
 rem
 echo === START TEST CASES ================================================
 set CASE_NUM=1
-if not "%~1"=="" set "CASE_NUM=%~1"
 call :run-test-cases
 echo === END TEST CASES ==================================================
-
-rem
-rem Go back to the initial directory
-rem
-popd
 
 rem
 rem Retrieve the results and determine the exit code
