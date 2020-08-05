@@ -51,6 +51,9 @@
 		<attribute default="" name="enable-coverage" />
 		<attribute default="" name="saxon-custom-options" />
 		<attribute default="" name="additional-classpath" />
+		<attribute default="" name="schematron-preprocessor-step1" />
+		<attribute default="" name="schematron-preprocessor-step2" />
+		<attribute default="" name="schematron-preprocessor-step3" />
 		<attribute default="" name="html-reporter" />
 		<attribute default="" name="coverage-reporter" />
 		<attribute default="" name="output-xml-url" />
@@ -115,6 +118,16 @@
 					value="@{saxon-custom-options}" />
 				<param name="xspec.additional.classpath" unless:blank="@{additional-classpath}"
 					value="@{additional-classpath}" />
+
+				<param name="xspec.schematron.preprocessor.step1"
+					unless:blank="@{schematron-preprocessor-step1}"
+					value="@{schematron-preprocessor-step1}" />
+				<param name="xspec.schematron.preprocessor.step2"
+					unless:blank="@{schematron-preprocessor-step2}"
+					value="@{schematron-preprocessor-step2}" />
+				<param name="xspec.schematron.preprocessor.step3"
+					unless:blank="@{schematron-preprocessor-step3}"
+					value="@{schematron-preprocessor-step3}" />
 
 				<param name="xspec.html.reporter.xsl" unless:blank="@{html-reporter}"
 					value="@{html-reporter}" />

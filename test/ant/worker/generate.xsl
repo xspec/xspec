@@ -250,19 +250,22 @@
 								select="$saxon-custom-options" />
 						</xsl:if>
 
-						<xsl:for-each select="$pis[starts-with(., 'additional-classpath=')]">
-							<xsl:attribute name="additional-classpath"
-								select="substring-after(., 'additional-classpath=')" />
-						</xsl:for-each>
-
-						<xsl:for-each select="$pis[starts-with(., 'html-reporter=')]">
-							<xsl:attribute name="html-reporter"
-								select="substring-after(., 'html-reporter=')" />
-						</xsl:for-each>
-
-						<xsl:for-each select="$pis[starts-with(., 'coverage-reporter=')]">
-							<xsl:attribute name="coverage-reporter"
-								select="substring-after(., 'coverage-reporter=')" />
+						<xsl:for-each
+							select="
+								'additional-classpath',
+								'coverage-reporter',
+								'force-focus',
+								'html-reporter',
+								'schematron-preprocessor-step1',
+								'schematron-preprocessor-step2',
+								'schematron-preprocessor-step3'">
+							<xsl:variable as="xs:string" name="left-hand-side" select="." />
+							<xsl:variable as="xs:string" name="starts-with"
+								select="$left-hand-side || '='" />
+							<xsl:for-each select="$pis[starts-with(., $starts-with)]">
+								<xsl:attribute name="{$left-hand-side}"
+									select="substring-after(., $starts-with)" />
+							</xsl:for-each>
 						</xsl:for-each>
 
 						<xsl:call-template name="on-run-xspec">
