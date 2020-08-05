@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../force-focus_escape-for-regex.xspec"
+        stylesheet="../../../../../tutorial/escape-for-regex.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1"
+             xspec="../../../../../tutorial/escape-for-regex.xspec"
+             pending="force focus">
+      <label>No escaping</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:functx="http://www.functx.com"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="functx:escape-for-regex">
+            <x:param select="'Hello'"/>
+         </x:call>
+      </input-wrap>
+      <test id="scenario1-expect1" pending="force focus">
+         <label>Must not be escaped at all</label>
+      </test>
+   </scenario>
+   <scenario id="scenario2"
+             xspec="../../../../../tutorial/escape-for-regex.xspec"
+             pending="force focus">
+      <label>Test simple patterns</label>
+      <scenario id="scenario2-scenario1"
+                xspec="../../../../../tutorial/escape-for-regex.xspec">
+         <label>When encountering parentheses</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:functx="http://www.functx.com"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="functx:escape-for-regex">
+               <x:param name="arg" select="'(Hello)'"/>
+            </x:call>
+         </input-wrap>
+         <result select="'\(Hello\)'"/>
+         <test id="scenario2-scenario1-expect1" successful="true">
+            <label>escape them.</label>
+            <expect select="'\(Hello\)'"/>
+         </test>
+      </scenario>
+      <scenario id="scenario2-scenario2"
+                xspec="../../../../../tutorial/escape-for-regex.xspec"
+                pending="force focus">
+         <label>When encountering a whitespace character class</label>
+         <input-wrap xmlns="">
+            <x:call xmlns:functx="http://www.functx.com"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="functx:escape-for-regex">
+               <x:param name="arg" select="'\sHello'"/>
+            </x:call>
+         </input-wrap>
+         <test id="scenario2-scenario2-expect1" pending="force focus">
+            <label>escape the backslash</label>
+         </test>
+         <test id="scenario2-scenario2-expect2" pending="force focus">
+            <label>result should have one more character than source</label>
+         </test>
+      </scenario>
+   </scenario>
+   <scenario id="scenario3"
+             xspec="../../../../../tutorial/escape-for-regex.xspec"
+             pending="force focus">
+      <label>When processing a list of phrases</label>
+      <input-wrap xmlns="">
+         <x:context xmlns:functx="http://www.functx.com"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <phrases>
+               <phrase>Hello!</phrase>
+               <phrase>Goodbye!</phrase>
+               <phrase>(So long!)</phrase>
+            </phrases>
+         </x:context>
+      </input-wrap>
+      <test id="scenario3-expect1" pending="force focus">
+         <label>All phrase elements should remain</label>
+      </test>
+      <test id="scenario3-expect2" pending="force focus">
+         <label>Strings should be escaped and status attributes should be added</label>
+      </test>
+   </scenario>
+</report>

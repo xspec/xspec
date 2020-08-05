@@ -513,7 +513,10 @@
             <!--
                Common options
             -->
-            <map-entry key="'cache'" select="false()" /><!-- cache=true() invalidates different static parameters -->
+
+            <!-- cache must be false(): https://saxonica.plan.io/issues/4667 -->
+            <map-entry key="'cache'" select="false()" />
+
             <map-entry key="'delivery-format'" select="'raw'" />
 
             <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
