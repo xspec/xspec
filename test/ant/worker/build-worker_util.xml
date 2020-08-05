@@ -51,6 +51,7 @@
 		<attribute default="" name="enable-coverage" />
 		<attribute default="" name="saxon-custom-options" />
 		<attribute default="" name="additional-classpath" />
+		<attribute default="" name="force-focus" />
 		<attribute default="" name="html-reporter" />
 		<attribute default="" name="coverage-reporter" />
 		<attribute default="" name="output-xml-url" />
@@ -115,6 +116,8 @@
 					value="@{saxon-custom-options}" />
 				<param name="xspec.additional.classpath" unless:blank="@{additional-classpath}"
 					value="@{additional-classpath}" />
+				<param name="xspec.force.focus" unless:blank="@{force-focus}"
+					value="@{force-focus}" />
 
 				<param name="xspec.html.reporter.xsl" unless:blank="@{html-reporter}"
 					value="@{html-reporter}" />
