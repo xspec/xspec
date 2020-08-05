@@ -55,7 +55,6 @@
       <label>a correct scenario in an imported file</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
                  function="my:square">
             <t:param select="3"/>
@@ -71,7 +70,6 @@
       <label>an incorrect scenario in an imported file</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
                  function="my:square">
             <t:param select="2"/>
