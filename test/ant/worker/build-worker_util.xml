@@ -51,6 +51,7 @@
 		<attribute default="" name="enable-coverage" />
 		<attribute default="" name="saxon-custom-options" />
 		<attribute default="" name="additional-classpath" />
+		<attribute default="" name="force-focus" />
 		<attribute default="" name="schematron-preprocessor-step1" />
 		<attribute default="" name="schematron-preprocessor-step2" />
 		<attribute default="" name="schematron-preprocessor-step3" />
@@ -118,6 +119,8 @@
 					value="@{saxon-custom-options}" />
 				<param name="xspec.additional.classpath" unless:blank="@{additional-classpath}"
 					value="@{additional-classpath}" />
+				<param name="xspec.force.focus" unless:blank="@{force-focus}"
+					value="@{force-focus}" />
 
 				<param name="xspec.schematron.preprocessor.step1"
 					unless:blank="@{schematron-preprocessor-step1}"
