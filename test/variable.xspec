@@ -137,9 +137,6 @@
 		<!-- Note: For x:variable elements that are direct children of x:description, expanded QNames must be unique.
 		 This test scenario is about *local* redefinitions of global or local variables. -->
 		<!-- For now, we assume any prefixes used in variable names are defined on x:description. -->
-		<!-- For a test that redefines a variable using URIQualifiedName, see eqname.xspec,
-		 which had xslt-version="3.0".
-		 TODO: The default @xslt-version has been changed. Consider relocating the test. -->
 		<x:scenario label="Local redefinition of global variable">
 			<x:variable name="myv:test-string" select="concat($myv:test-string,' (redefined locally using same prefix')" as="xs:string"/>
 			<x:variable name="myv_alt:test-string" select="concat($myv:test-string,' or different prefix)')" as="xs:string"/>
@@ -172,6 +169,22 @@
 			</x:call>
 			<x:expect label="reflects value redefined within same scenario."
 				select="'value #2 (redefined using same prefix or different prefix)'"/>
+		</x:scenario>
+		<x:scenario label="Redefinition of variable and mixed notations for its name">
+			<x:variable as="element(variable-child)"
+				name="Q{http://example.org/ns/my/variable}var"
+				select="/Q{}variable-child">
+				<variable-child />
+			</x:variable>
+			<x:variable as="element(variable-child)+" name="Q{http://example.org/ns/my/variable}var"
+				select="$myv:var, $Q{http://example.org/ns/my/variable}var" />
+			<x:call function="mirror:param-mirror">
+				<x:param select="$Q{http://example.org/ns/my/variable}var" />
+			</x:call>
+			<x:expect label="reflects value redefined within same scenario.">
+				<variable-child />
+				<variable-child />
+			</x:expect>
 		</x:scenario>
 		<x:scenario label="The name 'result' in a non-XSpec namespace">
 			<x:call function="mirror:param-mirror">

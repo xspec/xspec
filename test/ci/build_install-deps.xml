@@ -74,6 +74,13 @@
 			verbose="true" />
 	</target>
 
-	<target depends="saxon, xml-resolver, xml-calabash, basex" name="install" />
+	<target name="install">
+		<parallel failonany="true">
+			<antcall target="saxon" />
+			<antcall target="xml-resolver" />
+			<antcall target="xml-calabash" />
+			<antcall target="basex" />
+		</parallel>
+	</target>
 
 </project>
