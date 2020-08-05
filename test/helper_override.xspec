@@ -9,7 +9,7 @@
 		<x:call function="my:square">
 			<x:param select="2" />
 		</x:call>
-		<x:expect label="should return a overridden value" select="1234567890" />
+		<x:expect label="should return an overridden value" select="1234567890" />
 	</x:scenario>
 
 </x:description>
