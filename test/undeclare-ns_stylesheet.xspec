@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description stylesheet="mirror.xsl" xmlns="http://www.jenitennison.com/xslt/xspec">
+
+	<scenario label="context template-param">
+		<context mode="Q{x-urn:test:mirror}param-mirror">
+			<param name="param-items">
+				<template-param-child xmlns=""
+					xmlns:template-param-child_prefix="template-param-child_ns">
+					<template-param-grandchild xmlns="template-param-grandchild_default-ns"
+						xmlns:template-param-grandchild_prefix="template-param-grandchild_ns">
+						<template-param-great-grandchild xmlns=""
+							xmlns:template-param-great-grandchild_prefix="template-param-great-grandchild_ns"
+						 />
+					</template-param-grandchild>
+				</template-param-child>
+			</param>
+			<context-child xmlns="" />
+		</context>
+		<expect label="template-param-child"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}context
+				/Q{http://www.jenitennison.com/xslt/xspec}param
+				/template-param-child
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				/self::template-param-child
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="template-param-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}context
+				/Q{http://www.jenitennison.com/xslt/xspec}param
+				//Q{template-param-grandchild_default-ns}template-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				/Q{template-param-grandchild_default-ns}template-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="template-param-great-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}context
+				/Q{http://www.jenitennison.com/xslt/xspec}param
+				//template-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				//template-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+		 />
+	</scenario>
+
+	<scenario label="context">
+		<context mode="Q{x-urn:test:mirror}context-mirror">
+			<context-child xmlns="" xmlns:context-child_prefix="context-child_ns">
+				<context-grandchild xmlns="context-grandchild_default-ns"
+					xmlns:context-grandchild_prefix="context-grandchild_ns">
+					<context-great-grandchild xmlns=""
+						xmlns:context-great-grandchild_prefix="context-great-grandchild_ns" />
+				</context-grandchild>
+			</context-child>
+		</context>
+		<expect label="context-child"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}context[Q{http://www.jenitennison.com/xslt/xspec}param => empty()]
+				/context-child
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				/self::context-child
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="context-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}context[Q{http://www.jenitennison.com/xslt/xspec}param => empty()]
+				//Q{context-grandchild_default-ns}context-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				/Q{context-grandchild_default-ns}context-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="context-great-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}context[Q{http://www.jenitennison.com/xslt/xspec}param => empty()]
+				//context-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				//context-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+		 />
+	</scenario>
+
+	<scenario label="template-call template-param">
+		<call template="Q{x-urn:test:mirror}param-mirror">
+			<param name="param-items">
+				<template-param-child xmlns=""
+					xmlns:template-param-child_prefix="template-param-child_ns">
+					<template-param-grandchild xmlns="template-param-grandchild_default-ns"
+						xmlns:template-param-grandchild_prefix="template-param-grandchild_ns">
+						<template-param-great-grandchild xmlns=""
+							xmlns:template-param-great-grandchild_prefix="template-param-great-grandchild_ns"
+						 />
+					</template-param-grandchild>
+				</template-param-child>
+			</param>
+		</call>
+		<expect label="template-param-child"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}call
+				/Q{http://www.jenitennison.com/xslt/xspec}param
+				/template-param-child
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				/self::template-param-child
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="template-param-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}call
+				/Q{http://www.jenitennison.com/xslt/xspec}param
+				//Q{template-param-grandchild_default-ns}template-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				/Q{template-param-grandchild_default-ns}template-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="template-param-great-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{http://www.jenitennison.com/xslt/xspec}call
+				/Q{http://www.jenitennison.com/xslt/xspec}param
+				//template-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://www.jenitennison.com/xslt/xspec}result
+				//template-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+		 />
+	</scenario>
+
+</description>

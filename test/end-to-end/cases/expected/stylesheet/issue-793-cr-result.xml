@@ -5,9 +5,11 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../issue-793-cr.xspec">
       <label>input</label>
-      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
-         <input xmlns=""/>
-      </x:context>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <input/>
+         </x:context>
+      </input-wrap>
       <result select="/element()">
          <output xmlns="">
 test

@@ -2,22 +2,22 @@
 <testsuites name="issue-452.xspec">
    <testsuite name="Text" tests="1" failures="1">
       <testcase name="Expect" status="failed">
-         <failure message="expect assertion failed">Expected: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
+         <failure message="expect assertion failed">Expected Result: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
       </testcase>
    </testsuite>
    <testsuite name="Comment" tests="1" failures="1">
       <testcase name="Expect" status="failed">
-         <failure message="expect assertion failed">Expected: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
+         <failure message="expect assertion failed">Expected Result: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
       </testcase>
    </testsuite>
    <testsuite name="Processing instruction" tests="1" failures="1">
       <testcase name="Expect" status="failed">
-         <failure message="expect assertion failed">Expected: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
+         <failure message="expect assertion failed">Expected Result: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
       </testcase>
    </testsuite>
    <testsuite name="In element" tests="1" failures="1">
       <testcase name="Expect" status="failed">
-         <failure message="expect assertion failed">Expected: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
+         <failure message="expect assertion failed">Expected Result: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
       </testcase>
    </testsuite>
 </testsuites>

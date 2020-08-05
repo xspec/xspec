@@ -4,7 +4,7 @@
               tests="1"
               failures="1">
       <testcase name="Expecting no space should be Failure" status="failed">
-         <failure message="expect assertion failed">Expected: /element()</failure>
+         <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
 </testsuites>

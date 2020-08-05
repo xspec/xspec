@@ -39,10 +39,8 @@
       select="resolve-uri('generate-query-utils.xqm')" />
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
-   <xsl:param name="query-at" as="xs:string?" select="
-       /x:description/@query-at/resolve-uri(., base-uri(..))"/>
-   <!--xsl:param name="query-at" as="xs:string?" select="
-       /x:description/@query-at"/-->
+   <xsl:param name="query-at" as="xs:string?"
+      select="$initial-document/x:description/@query-at/resolve-uri(., base-uri())"/>
 
    <!--
       mode="x:generate-tests"
@@ -87,8 +85,9 @@
 
       <xsl:text>&#x0A;</xsl:text>
 
-      <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes. -->
-      <xsl:for-each select="x:copy-of-namespaces($this)[name() (: Exclude the default namespace :)]">
+      <!-- Declare namespaces. User-provided XPath expressions may use namespace prefixes.
+         Unlike XSLT, XQuery requires them to be declared globally. -->
+      <xsl:for-each select="x:copy-of-namespaces($initial-document/x:description)[name() (: Exclude the default namespace :)]">
          <xsl:text expand-text="yes">declare namespace {name()} = "{string()}";&#x0A;</xsl:text>
       </xsl:for-each>
 
@@ -223,6 +222,8 @@
       <xsl:if test="x:expect and empty($call)">
          <xsl:call-template name="x:output-scenario-error">
             <xsl:with-param name="message" as="xs:string">
+               <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
+                  the user -->
                <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
@@ -269,14 +270,22 @@
             </xsl:if>
 
             <xsl:sequence select="x:label(.)" />
-
-            <!-- Copy the input to the test result report XML -->
-            <!-- TODO: Undeclare the default namespace in the wrapper element, because x:param/@select may
-               use the default namespace such as xs:QName('foo'). -->
-            <xsl:sequence select="x:call" />
          </xsl:with-param>
       </xsl:call-template>
       <xsl:text>,&#x0A;</xsl:text>
+
+      <!-- Copy the input to the test result report XML -->
+      <xsl:for-each select="x:call">
+         <!-- Undeclare the default namespace in the wrapper element, because x:param/@select may
+            use the default namespace such as xs:QName('foo'). -->
+         <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+            <xsl:with-param name="wrapper-name" select="'input-wrap'" />
+            <xsl:with-param name="node-generators" as="node()+">
+               <xsl:apply-templates select="." mode="test:create-node-generator" />
+            </xsl:with-param>
+         </xsl:call-template>
+         <xsl:text>,&#x0A;</xsl:text>
+      </xsl:for-each>
 
       <xsl:choose>
          <xsl:when test="not($pending-p) and x:expect">

@@ -25,11 +25,6 @@
 
    <xsl:output indent="yes" />
 
-   <!-- Absolute URI of .xsl file to be tested.
-      This needs to be resolved here, not in mode="x:generate-tests" where base-uri() is not available -->
-   <xsl:variable name="stylesheet-uri" as="xs:anyURI"
-      select="/x:description/resolve-uri(@stylesheet, base-uri())" />
-
    <!--
       mode="x:generate-tests"
    -->
@@ -44,7 +39,7 @@
 
          <xsl:if test="not($is-external)">
             <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
-            <import href="{$stylesheet-uri}" />
+            <import href="{@stylesheet}" />
          </xsl:if>
 
          <xsl:if test="x:helper">
@@ -89,7 +84,14 @@
 
          <!-- The main compiled template. -->
          <xsl:comment> the main template to run the suite </xsl:comment>
-         <template name="{x:known-UQName('x:main')}" as="empty-sequence()">
+         <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="name" select="x:known-UQName('x:main')" />
+            <xsl:attribute name="as" select="'empty-sequence()'" />
+
+            <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="use" select="'absent'" />
+            </xsl:element>
+
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
             <!-- Message content must be constructed at run time -->
             <message>
@@ -134,14 +136,12 @@
                   <xsl:variable name="attributes" as="attribute()+">
                      <xsl:attribute name="xspec" select="$xspec-master-uri" />
 
-                     <!-- This bit of jiggery-pokery with the $stylesheet-uri variable is so
-                        that the URI appears in the trace report generated from running the
-                        test stylesheet, which can then be picked up by stylesheets that
-                        process *that* to generate a coverage report -->
-                     <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+                     <!-- This @stylesheet is used by ../reporter/coverage-report.xsl -->
+                     <xsl:sequence select="@stylesheet" />
 
                      <!-- Do not always copy @schematron.
-                        @schematron may exist even when this XSpec is not testing Schematron. -->
+                        @schematron may exist even when this running instance of XSpec is not
+                        testing Schematron. -->
                      <xsl:if test="$is-schematron">
                         <xsl:sequence select="@schematron" />
                      </xsl:if>
@@ -160,7 +160,7 @@
                   <xsl:call-template name="x:call-scenarios" />
                </xsl:element>
             </xsl:element>
-         </template>
+         </xsl:element>
 
          <!-- Compile the top-level scenarios. -->
          <xsl:call-template name="x:compile-scenarios" />
@@ -247,13 +247,20 @@
       <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
          <xsl:call-template name="x:output-scenario-error">
             <xsl:with-param name="message" as="xs:string">
+               <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
+                  the user -->
                <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
 
-      <template name="{x:known-UQName('x:' || @id)}" as="element({x:known-UQName('x:scenario')})">
-         <xsl:sequence select="x:copy-of-namespaces(.)" />
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
+         <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
+
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'absent'" />
+         </xsl:element>
 
          <xsl:for-each select="distinct-values($stacked-variables ! x:variable-UQName(.))">
             <param name="{.}" required="yes" />
@@ -294,9 +301,14 @@
                <xsl:choose>
                   <xsl:when test="self::x:apply or self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
-                     <!-- TODO: Undeclare the default namespace in the wrapper element, because
+                     <!-- Undeclare the default namespace in the wrapper element, because
                         x:param/@select may use the default namespace such as xs:QName('foo'). -->
-                     <xsl:apply-templates select="." mode="test:create-node-generator" />
+                     <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+                        <xsl:with-param name="wrapper-name" select="'input-wrap'" />
+                        <xsl:with-param name="node-generators" as="element(xsl:element)">
+                           <xsl:apply-templates select="." mode="test:create-node-generator" />
+                        </xsl:with-param>
+                     </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="self::x:variable">
                      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
@@ -489,7 +501,7 @@
 
          <!-- </x:scenario> -->
          </xsl:element>
-      </template>
+      </xsl:element>
 
       <xsl:call-template name="x:compile-scenarios" />
    </xsl:template>
@@ -506,13 +518,16 @@
             <!--
                Common options
             -->
-            <map-entry key="'cache'" select="false()" /><!-- cache=true() invalidates different static parameters -->
+
+            <!-- cache must be false(): https://saxonica.plan.io/issues/4667 -->
+            <map-entry key="'cache'" select="false()" />
+
             <map-entry key="'delivery-format'" select="'raw'" />
 
             <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
                Haven't tested.) But 'stylesheet-node' disables $x:result?err?line-number on @catch=true. -->
             <map-entry key="'stylesheet-location'">
-               <xsl:value-of select="$stylesheet-uri" />
+               <xsl:value-of select="/x:description/@stylesheet" />
             </map-entry>
 
             <map-entry key="'stylesheet-params'">
@@ -524,7 +539,9 @@
                <if
                   test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('test:is-saxon-config')}() => not()">
                   <message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR: ${x:xspec-name('saxon-config', .)} does not appear to be a Saxon configuration</xsl:text>
+                     <!-- Use URIQualifiedName for displaying the $x:saxon-config variable name, for
+                        we do not know the name prefix of the originating variable. -->
+                     <xsl:text expand-text="yes">ERROR: ${x:known-UQName('x:saxon-config')} does not appear to be a Saxon configuration</xsl:text>
                   </message>
                </if>
                <map-entry key="'vendor-options'">
@@ -641,7 +658,14 @@
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor::*/@focus)" />
 
-      <template name="{x:known-UQName('x:' || @id)}" as="element({x:known-UQName('x:test')})">
+      <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
+         <xsl:attribute name="as" select="'element(' || x:known-UQName('x:test') || ')'" />
+
+         <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
+            <xsl:attribute name="use" select="'absent'" />
+         </xsl:element>
+
          <xsl:for-each select="$param-uqnames">
             <param name="{.}" required="yes" />
          </xsl:for-each>
@@ -806,7 +830,7 @@
 
          <!-- </x:test> -->
          </xsl:element>
-      </template>
+      </xsl:element>
    </xsl:template>
 
    <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="element(xsl:element)">

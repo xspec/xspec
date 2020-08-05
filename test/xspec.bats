@@ -2166,11 +2166,11 @@ load bats-helper
 # Override ID generation templates
 #
 
-@test "Override ID generation" {
+@test "Override ID generation (XSLT)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -Dxspec.compiler.xsl="${PWD}/override-id/generate-xspec-tests.xsl" \
+        -Dxspec.xslt.compiler.xsl="${PWD}/override-id/generate-xspec-tests.xsl" \
         -Dxspec.fail=false \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
@@ -2180,8 +2180,26 @@ load bats-helper
 
     run cat "${TEST_DIR}/escape-for-regex-compiled.xsl"
     echo "$output"
-    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-scenario-id-'
-    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-expect-id'
+    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-xslt-scenario-id-'
+    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-xslt-expect-id'
+}
+
+@test "Override ID generation (XQuery)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=q \
+        -Dxspec.xquery.compiler.xsl="${PWD}/override-id/generate-query-tests.xsl" \
+        -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+
+    run cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
+    echo "$output"
+    assert_regex "${output}" $'\n''declare function local:overridden-xquery-scenario-id-'
+    assert_regex "${output}" $'\n''declare function local:overridden-xquery-expect-id-'
 }
 
 #
@@ -2330,7 +2348,7 @@ load bats-helper
     run ../bin/xspec.sh x-saxon-config/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[7]}" = "ERROR: \$x:saxon-config does not appear to be a Saxon configuration" ]
+    [ "${lines[7]}" = "ERROR: \$Q{http://www.jenitennison.com/xslt/xspec}saxon-config does not appear to be a Saxon configuration" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 

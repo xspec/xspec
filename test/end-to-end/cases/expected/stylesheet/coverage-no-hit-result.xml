@@ -5,7 +5,9 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../coverage-no-hit.xspec">
       <label>Testing a stylesheet without any matching context</label>
-      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+      </input-wrap>
       <result select="()"/>
       <test id="scenario1-expect1" successful="true">
          <label>should be reported as 'not used' in the coverage report</label>

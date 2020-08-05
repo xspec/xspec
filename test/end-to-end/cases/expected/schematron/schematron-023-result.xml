@@ -6,15 +6,17 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../schematron-023.xspec">
       <label>valid with warning: expect-valid should pass</label>
-      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 select="self::document-node()">
-         <document xmlns="">
-            <section>
-               <title>INTRODUCTION</title>
-               <p>Some text</p>
-            </section>
-         </document>
-      </x:context>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
+            <document>
+               <section>
+                  <title>INTRODUCTION</title>
+                  <p>Some text</p>
+               </section>
+            </document>
+         </x:context>
+      </input-wrap>
       <result select="/element()">
          <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -61,14 +63,16 @@
    </scenario>
    <scenario id="scenario2" xspec="../../schematron-023.xspec">
       <label>error: expect-valid should fail</label>
-      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 select="self::document-node()">
-         <document xmlns="">
-            <section>
-               <title>INTRODUCTION</title>
-            </section>
-         </document>
-      </x:context>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
+            <document>
+               <section>
+                  <title>INTRODUCTION</title>
+               </section>
+            </document>
+         </x:context>
+      </input-wrap>
       <result select="/element()">
          <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -114,10 +118,12 @@
    </scenario>
    <scenario id="scenario3" xspec="../../schematron-023.xspec">
       <label>fatal: expect-valid should fail</label>
-      <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 select="self::document-node()">
-         <adocument xmlns=""/>
-      </x:context>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
+            <adocument/>
+         </x:context>
+      </input-wrap>
       <result select="/element()">
          <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
