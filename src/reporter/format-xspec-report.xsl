@@ -28,6 +28,9 @@
 
    <xsl:param name="report-css-uri" as="xs:string?" />
 
+   <xsl:param name="force-focus" as="xs:string?" />
+   <xsl:variable name="force-focus-ids" as="xs:string*" select="tokenize($force-focus, '\s+')[.]" />
+
    <!-- @use-character-maps for inline CSS -->
    <xsl:output method="xhtml" use-character-maps="test:disable-escaping" />
 
@@ -52,7 +55,7 @@
    <!-- Named template to be overridden.
       Override this template to insert additional nodes at the end of /html/head. -->
    <xsl:template name="x:html-head-callback" as="empty-sequence()">
-      <xsl:context-item as="document-node(element(x:report))" use="required" />
+      <xsl:context-item as="element(x:report)" use="required" />
    </xsl:template>
 
    <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
@@ -140,6 +143,11 @@
    <xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="document-node(element(x:report))" as="element(xhtml:html)">
+      <!-- Process nothing here, otherwise it's hard to override the whole processing of this stylesheet -->
+      <xsl:apply-templates />
+   </xsl:template>
+
+   <xsl:template match="x:report" as="element(xhtml:html)">
       <xsl:message>
          <xsl:call-template name="x:output-test-stats">
             <xsl:with-param name="tests" select="x:descendant-tests(.)" />
@@ -150,7 +158,7 @@
       <html>
          <head>
             <title>
-               <xsl:text expand-text="yes">Test Report for {x:report/x:format-uri((@schematron,@stylesheet,@query)[1])} (</xsl:text>
+               <xsl:text expand-text="yes">Test Report for {(@schematron, @stylesheet, @query)[1] => x:format-uri()} (</xsl:text>
                <xsl:call-template name="x:output-test-stats">
                   <xsl:with-param name="tests" select="x:descendant-tests(.)"/>
                   <xsl:with-param name="insert-labels" select="true()" />
@@ -165,13 +173,9 @@
          </head>
          <body>
             <h1>Test Report</h1>
-            <xsl:apply-templates select="*"/>
+            <xsl:apply-templates select="." mode="x:html-report"/>
          </body>
       </html>
-   </xsl:template>
-
-   <xsl:template match="x:report" as="element()+">
-      <xsl:apply-templates select="." mode="x:html-report"/>
    </xsl:template>
 
    <!-- Returns true if the top level x:scenario needs to be processed by x:format-top-level-scenario template -->

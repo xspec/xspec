@@ -24,7 +24,7 @@ java -cp "%SAXON_JAR%" net.sf.saxon.Version
 
 echo:
 echo === Check XML Calabash
-java -jar "%XMLCALABASH_JAR%" 2> NUL
+java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main 2> NUL
 
 echo:
 echo === Print XML Resolver version

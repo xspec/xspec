@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="force-focus_escape-for-regex.xspec">
+   <testsuite name="No escaping" tests="1" failures="0">
+      <testcase name="Must not be escaped at all" status="skipped">
+         <skipped>force focus</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="Test simple patterns" tests="3" failures="0">
+      <testcase name="When encountering parentheses escape them." status="passed"/>
+      <testcase name="When encountering a whitespace character class escape the backslash"
+                status="skipped">
+         <skipped>force focus</skipped>
+      </testcase>
+      <testcase name="When encountering a whitespace character class result should have one more character than source"
+                status="skipped">
+         <skipped>force focus</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="When processing a list of phrases" tests="2" failures="0">
+      <testcase name="All phrase elements should remain" status="skipped">
+         <skipped>force focus</skipped>
+      </testcase>
+      <testcase name="Strings should be escaped and status attributes should be added"
+                status="skipped">
+         <skipped>force focus</skipped>
+      </testcase>
+   </testsuite>
+</testsuites>

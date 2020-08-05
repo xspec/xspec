@@ -423,7 +423,7 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -452,7 +452,7 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -475,7 +475,7 @@ load bats-helper
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -807,7 +807,7 @@ load bats-helper
     expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
@@ -846,7 +846,7 @@ load bats-helper
     expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
@@ -1755,7 +1755,7 @@ load bats-helper
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
@@ -1770,7 +1770,7 @@ load bats-helper
         skip "XMLCALABASH_JAR is not defined"
     fi
 
-    run java -jar "${XMLCALABASH_JAR}" \
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
@@ -2166,11 +2166,11 @@ load bats-helper
 # Override ID generation templates
 #
 
-@test "Override ID generation" {
+@test "Override ID generation (XSLT)" {
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -Dxspec.compiler.xsl="${PWD}/override-id/generate-xspec-tests.xsl" \
+        -Dxspec.xslt.compiler.xsl="${PWD}/override-id/generate-xspec-tests.xsl" \
         -Dxspec.fail=false \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
@@ -2180,8 +2180,26 @@ load bats-helper
 
     run cat "${TEST_DIR}/escape-for-regex-compiled.xsl"
     echo "$output"
-    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-scenario-id-'
-    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-expect-id'
+    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-xslt-scenario-id-'
+    assert_regex "${output}" '.+Q\{http://www.jenitennison.com/xslt/xspec\}overridden-xslt-expect-id'
+}
+
+@test "Override ID generation (XQuery)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=q \
+        -Dxspec.xquery.compiler.xsl="${PWD}/override-id/generate-query-tests.xsl" \
+        -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    assert_regex "${output}" $'\n''     \[xslt\] passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
+
+    run cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
+    echo "$output"
+    assert_regex "${output}" $'\n''declare function local:overridden-xquery-scenario-id-'
+    assert_regex "${output}" $'\n''declare function local:overridden-xquery-expect-id-'
 }
 
 #
