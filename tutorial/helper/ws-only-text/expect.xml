@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test>
+   <bar>&#x09;&#x0A;&#x0D;&#x20;</bar>
+</test>
