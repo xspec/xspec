@@ -9,24 +9,28 @@
          <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     href="../../issue-778_ws.dita"/>
       </input-wrap>
-      <result select="/text()"># My Title<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+      <result select="/text()">
+         <content-wrap xmlns=""># My Title<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
 </ws>
-         <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+            <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
 </ws>This is a topic.<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
 </ws>
-         <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+            <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
 </ws>This is a paragraph.<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
 </ws>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
          <label>we get markdown</label>
-         <expect select="/text()"># My Title
+         <expect select="/text()">
+            <content-wrap xmlns=""># My Title
 
 This is a topic.
 
 This is a paragraph.
 
-</expect>
+</content-wrap>
+         </expect>
       </test>
    </scenario>
 </report>

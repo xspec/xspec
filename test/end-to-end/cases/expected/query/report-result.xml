@@ -15,7 +15,9 @@
             </x:call>
          </input-wrap>
          <result select="/*">
-            <pseudo-array>["foo",1,[2,"bar"]]</pseudo-array>
+            <content-wrap xmlns="">
+               <pseudo-array xmlns="http://www.jenitennison.com/xslt/xspec">["foo",1,[2,"bar"]]</pseudo-array>
+            </content-wrap>
          </result>
          <test id="scenario1-scenario1-expect1" successful="false">
             <label>Serialized array should be reported upon failure</label>
@@ -31,7 +33,9 @@
             </x:call>
          </input-wrap>
          <result select="/*">
-            <pseudo-map>map{2:"bar","foo":1}</pseudo-map>
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{2:"bar","foo":1}</pseudo-map>
+            </content-wrap>
          </result>
          <test id="scenario1-scenario2-expect1" successful="false">
             <label>Serialized map should be reported upon failure</label>
@@ -51,10 +55,12 @@
          </x:call>
       </input-wrap>
       <result select="/*/(@* | node())">
-         <pseudo-element>
-            <elem1 xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">text</elem1>
-         </pseudo-element>
-         <pseudo-attribute attr="attr-val"/>
+         <content-wrap xmlns="">
+            <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+               <elem1 xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">text</elem1>
+            </pseudo-element>
+            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="attr-val"/>
+         </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="false">
          <label>@attr should be reported as an attribute</label>
@@ -73,8 +79,10 @@
          </x:call>
       </input-wrap>
       <result select="/*/@*">
-         <pseudo-attribute attr="foo"/>
-         <pseudo-attribute attr="bar"/>
+         <content-wrap xmlns="">
+            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="foo"/>
+            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr="bar"/>
+         </content-wrap>
       </result>
       <test id="scenario3-expect1" successful="false">
          <label>Both @attr=foo and @attr=bar should be reported</label>
@@ -94,11 +102,13 @@
          </x:call>
       </input-wrap>
       <result select="/*/(@* | node())">
-         <pseudo-attribute attr1="attr1-val"/>
-         <pseudo-element>
-            <elem2 xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">text</elem2>
-         </pseudo-element>
-         <pseudo-attribute attr3="attr3-val"/>
+         <content-wrap xmlns="">
+            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr1="attr1-val"/>
+            <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+               <elem2 xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">text</elem2>
+            </pseudo-element>
+            <pseudo-attribute xmlns="http://www.jenitennison.com/xslt/xspec" attr3="attr3-val"/>
+         </content-wrap>
       </result>
       <test id="scenario4-expect1" successful="false">
          <label>[Result] should be reported</label>
@@ -113,7 +123,9 @@
             <x:param select="parse-xml-fragment('')"/>
          </x:call>
       </input-wrap>
-      <result select="/self::document-node()"/>
+      <result select="/self::document-node()">
+         <content-wrap xmlns=""/>
+      </result>
       <test id="scenario5-expect1" successful="false">
          <label>XPath should be reported between Result title and box</label>
          <expect select="()"/>
@@ -132,12 +144,16 @@
             </x:call>
          </input-wrap>
          <result select="/self::document-node()">
-            <test xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <test xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </result>
          <test id="scenario6-scenario1-expect1" successful="false">
             <label>XPath should be colored as different. Serialized node should be colored as same.</label>
             <expect select="/element()">
-               <test xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+               <content-wrap xmlns="">
+                  <test xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -152,12 +168,16 @@
             </x:call>
          </input-wrap>
          <result select="/element()">
-            <test xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <test xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </result>
          <test id="scenario6-scenario2-expect1" successful="false">
             <label>XPath should be colored as different. Serialized node should be colored as same.</label>
             <expect select="/self::document-node()">
-               <test xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+               <content-wrap xmlns="">
+                  <test xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
