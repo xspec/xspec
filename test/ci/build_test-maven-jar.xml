@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="test-maven-jar">
 
-	<delete dir="../../java/" includes="**/*.class" verbose="true" />
+	<condition property="xspec.builtin.class.files.count.ok">
+		<resourcecount count="3">
+			<fileset dir="../../java/" id="xspec.builtin.class.files" includes="**/*.class" />
+		</resourcecount>
+	</condition>
+	<fail message="Failed to identify built-in class files"
+		unless="xspec.builtin.class.files.count.ok" />
+	<delete verbose="true">
+		<fileset refid="xspec.builtin.class.files" />
+	</delete>
 
 	<ant antfile="../end-to-end/ant/run-e2e-tests/build.xml" useNativeBasedir="true">
 		<property name="xspecfiles.dir.url.query" value="select=coverage-tutorial.xspec" />

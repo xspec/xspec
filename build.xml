@@ -342,20 +342,30 @@
 
   <!-- Compiles the XSpec file into the test runner file written in XSLT or XQuery -->
   <target name="compile" depends="init, generate-catalog, preprocess-schematron-xspec">
-    <condition property="xspec.compiler.xsl.name"
-               value="generate-query-tests.xsl"
-               else="generate-xspec-tests.xsl">
+    <property name="xspec.compiler.dir"
+              value="${xspec.project.dir}/src/compiler" />
+
+    <property name="xspec.xquery.compiler.xsl"
+              value="${xspec.compiler.dir}/generate-query-tests.xsl" />
+    <property name="xspec.xslt.compiler.xsl"
+              value="${xspec.compiler.dir}/generate-xspec-tests.xsl" />
+
+    <condition property="xspec.compiler.xsl"
+               value="${xspec.xquery.compiler.xsl}"
+               else="${xspec.xslt.compiler.xsl}">
       <istrue value="${xspec.is.xquery}" />
     </condition>
-
-    <property name="xspec.compiler.xsl"
-              value="${xspec.project.dir}/src/compiler/${xspec.compiler.xsl.name}" />
 
     <echo message="Compiling Tests..."
           level="info" />
     <saxon-xslt in="${xspec.xspecfile.preprocessed}"
                 out="${xspec.compiled.runner}"
-                style="${xspec.compiler.xsl}" />
+                style="${xspec.compiler.xsl}">
+      <xslt-elements>
+        <param name="force-focus" expression="${xspec.force.focus}"
+               if="xspec.force.focus" />
+      </xslt-elements>
+    </saxon-xslt>
   </target>
 
   <!-- Runs the compiled XSpec for XQuery -->
@@ -441,6 +451,8 @@
                 out="${xspec.result.html}"
                 style="${xspec.html.reporter.xsl}">
       <xslt-elements>
+        <param name="force-focus" expression="${xspec.force.focus}"
+               if="xspec.force.focus" />
         <param name="inline-css" expression="true" />
         <param name="report-css-uri" expression="${xspec.result.html.css.url}"
                if="xspec.result.html.css.url" />

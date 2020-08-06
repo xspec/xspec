@@ -36,6 +36,18 @@
 		<dirname file="${env.XMLCALABASH_JAR}" property="xmlcalabash.jar.dir" />
 		<dirname file="${xmlcalabash.jar.dir}" property="xmlcalabash.unzip.dest" />
 		<unzip dest="${xmlcalabash.unzip.dest}" src="${xmlcalabash.zip}" />
+
+		<condition property="xmlcalabash.saxon.jar.count.ok">
+			<resourcecount count="1">
+				<fileset dir="${xmlcalabash.jar.dir}/lib/" id="xmlcalabash.saxon.jar"
+					includes="Saxon-HE-*.jar" />
+			</resourcecount>
+		</condition>
+		<fail message="Failed to identify Saxon jar in XML Calabash lib dir"
+			unless="xmlcalabash.saxon.jar.count.ok" />
+		<delete verbose="true">
+			<fileset refid="xmlcalabash.saxon.jar" />
+		</delete>
 	</target>
 
 	<target if="env.BASEX_VERSION" name="basex">
@@ -62,6 +74,13 @@
 			verbose="true" />
 	</target>
 
-	<target depends="saxon, xml-resolver, xml-calabash, basex" name="install" />
+	<target name="install">
+		<parallel failonany="true">
+			<antcall target="saxon" />
+			<antcall target="xml-resolver" />
+			<antcall target="xml-calabash" />
+			<antcall target="basex" />
+		</parallel>
+	</target>
 
 </project>

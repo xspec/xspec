@@ -82,8 +82,10 @@
             </t:call>
             <t:expect label="t:result containing attributes">
                <t:result select="/*/@*">
-                  <t:pseudo-attribute a="1" />
-                  <t:pseudo-attribute b="2" />
+                  <content-wrap>
+                     <t:pseudo-attribute a="1" />
+                     <t:pseudo-attribute b="2" />
+                  </content-wrap>
                </t:result>
             </t:expect>
          </t:scenario>
@@ -99,11 +101,13 @@
             </t:call>
             <t:expect label="t:result containing attributes and content">
                <t:result select="/*/(@* | node())">
-                  <t:pseudo-attribute a="1" />
-                  <t:pseudo-attribute b="2" />
-                  <t:pseudo-element>
-                    <foo />
-                  </t:pseudo-element>
+                  <content-wrap>
+                     <t:pseudo-attribute a="1" />
+                     <t:pseudo-attribute b="2" />
+                     <t:pseudo-element>
+                       <foo />
+                     </t:pseudo-element>
+                  </content-wrap>
                </t:result>
             </t:expect>
          </t:scenario>

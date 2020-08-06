@@ -198,6 +198,14 @@
 
 					<xsl:when
 						test="
+							($pis = 'require-saxon-bug-4666-fixed')
+							and ($x:saxon-version ge x:pack-version((10, 0)))
+							and ($x:saxon-version le x:pack-version((10, 1)))">
+						<xsl:text>Requires Saxon bug #4666 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($test-type eq 't')
 							and (parent::x:description/@run-as eq 'external')
 							and ($x:saxon-version lt x:pack-version((9, 8, 0, 8)))">
@@ -242,19 +250,19 @@
 								select="$saxon-custom-options" />
 						</xsl:if>
 
-						<xsl:for-each select="$pis[starts-with(., 'additional-classpath=')]">
-							<xsl:attribute name="additional-classpath"
-								select="substring-after(., 'additional-classpath=')" />
-						</xsl:for-each>
-
-						<xsl:for-each select="$pis[starts-with(., 'html-reporter=')]">
-							<xsl:attribute name="html-reporter"
-								select="substring-after(., 'html-reporter=')" />
-						</xsl:for-each>
-
-						<xsl:for-each select="$pis[starts-with(., 'coverage-reporter=')]">
-							<xsl:attribute name="coverage-reporter"
-								select="substring-after(., 'coverage-reporter=')" />
+						<xsl:for-each
+							select="
+								'additional-classpath',
+								'coverage-reporter',
+								'force-focus',
+								'html-reporter'">
+							<xsl:variable as="xs:string" name="left-hand-side" select="." />
+							<xsl:variable as="xs:string" name="starts-with"
+								select="$left-hand-side || '='" />
+							<xsl:for-each select="$pis[starts-with(., $starts-with)]">
+								<xsl:attribute name="{$left-hand-side}"
+									select="substring-after(., $starts-with)" />
+							</xsl:for-each>
 						</xsl:for-each>
 
 						<xsl:call-template name="on-run-xspec">

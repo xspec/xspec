@@ -21,7 +21,7 @@
 			| x:scenario/@xspec
 			| x:scenario/input-wrap/x:call/x:param/@href
 			| x:scenario/input-wrap/x:context/@href
-			| /x:report[@schematron]//x:scenario/x:result/svrl:schematron-output/svrl:active-pattern/@document[string()]"
+			| /x:report[@schematron]//x:scenario/x:result/content-wrap/svrl:schematron-output/svrl:active-pattern/@document[string()]"
 		mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
