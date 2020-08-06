@@ -1,0 +1,34 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<x:description schematron="test.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
+	<!-- This scenario deliberately uses control characters directly in user-content. -->
+	<x:scenario label="Set up a context containing U+0007">
+		<x:context>
+			<test>&#x07;</test>
+		</x:context>
+
+		<x:expect-report id="U0007" />
+
+		<!-- This x:expect fails deliberately so that the control characters appear in the report
+			files. -->
+		<x:expect label="Expect U+0008">
+			<test>&#x08;</test>
+		</x:expect>
+	</x:scenario>
+
+	<!-- This scenario checks to see if the xspec.compiler.saxon.config Ant property takes effect. -->
+	<x:scenario label="Use XInclude to set up a context containing U+0007">
+		<x:context>
+			<xi:include href="0007.xml" />
+		</x:context>
+		<x:expect-report id="U0007" />
+	</x:scenario>
+
+	<!-- This scenario checks to see if the saxon.custom.options Ant property takes effect. -->
+	<x:scenario label="Use a query parameter in @href to set up a context containing U+0007">
+		<x:context href="0007.xml?strip-space=true" />
+		<x:expect-report id="U0007" />
+	</x:scenario>
+
+</x:description>
