@@ -12,12 +12,18 @@
          </x:call>
       </input-wrap>
       <result select="/*/namespace::*">
-         <pseudo-namespace-node xmlns:namespace-name="namespace-text"/>
+         <content-wrap xmlns="">
+            <pseudo-namespace-node xmlns:namespace-name="namespace-text"
+                                   xmlns="http://www.jenitennison.com/xslt/xspec"/>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
          <label>must be Success</label>
          <expect select="/*/namespace::*">
-            <pseudo-namespace-node xmlns:namespace-name="namespace-text"/>
+            <content-wrap xmlns="">
+               <pseudo-namespace-node xmlns:namespace-name="namespace-text"
+                                      xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
@@ -29,14 +35,18 @@
          </x:call>
       </input-wrap>
       <result select="/*/namespace::*">
-         <_0:pseudo-namespace-node xmlns="default-namespace-text"
-                                   xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+         <content-wrap xmlns="">
+            <_0:pseudo-namespace-node xmlns="default-namespace-text"
+                                      xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+         </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="true">
          <label>must be Success</label>
          <expect select="/*/namespace::*">
-            <_0:pseudo-namespace-node xmlns="default-namespace-text"
-                                      xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+            <content-wrap xmlns="">
+               <_0:pseudo-namespace-node xmlns="default-namespace-text"
+                                         xmlns:_0="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
@@ -48,12 +58,18 @@
          </x:call>
       </input-wrap>
       <result select="/*/namespace::*">
-         <pseudo-namespace-node xmlns:namespace-name="namespace-text"/>
+         <content-wrap xmlns="">
+            <pseudo-namespace-node xmlns:namespace-name="namespace-text"
+                                   xmlns="http://www.jenitennison.com/xslt/xspec"/>
+         </content-wrap>
       </result>
       <test id="scenario3-expect1" successful="false">
          <label>must be Failure</label>
          <expect select="/*/namespace::*">
-            <pseudo-namespace-node xmlns:another-namespace-name="another-namespace-text"/>
+            <content-wrap xmlns="">
+               <pseudo-namespace-node xmlns:another-namespace-name="another-namespace-text"
+                                      xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>

@@ -63,21 +63,22 @@
           unwrapped and merged by "test:report-sequence".)
       </label>
          <expect select="/element()">
-            <entries xmlns:mirror="x-urn:test:mirror"
-                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                     xmlns="">
-               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+            <content-wrap xmlns="">
+               <entries xmlns:mirror="x-urn:test:mirror"
+                        xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
    </ws>
-               <entry>1</entry>
-               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+                  <entry>1</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
    </ws>
-               <entry>0</entry>
-               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+                  <entry>0</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
    </ws>
-               <entry>3</entry>
-               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+                  <entry>3</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
    </ws>
-            </entries>
+               </entries>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
