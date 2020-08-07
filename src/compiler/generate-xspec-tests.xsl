@@ -42,6 +42,11 @@
             <import href="{@stylesheet}" />
          </xsl:if>
 
+         <xsl:if test="x:helper">
+            <xsl:comment> user-provided library module(s) </xsl:comment>
+            <xsl:call-template name="x:compile-user-helpers" />
+         </xsl:if>
+
          <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
          <include href="{resolve-uri('generate-tests-utils.xsl')}" />
 
@@ -858,6 +863,26 @@
    <xsl:mode name="x:param-to-select-attr" on-multiple-match="fail" on-no-match="fail" />
    <xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
       <xsl:attribute name="select" select="'$' || x:variable-UQName(.)" />
+   </xsl:template>
+
+   <xsl:template name="x:compile-user-helpers" as="element()*">
+      <xsl:context-item as="element(x:description)" use="required" />
+
+      <xsl:for-each select="x:helper[@package-name | @stylesheet]">
+         <xsl:choose>
+            <xsl:when test="@package-name">
+               <xsl:element name="xsl:use-package" namespace="{$x:xsl-namespace}">
+                  <xsl:attribute name="name" select="@package-name" />
+                  <xsl:sequence select="@package-version" />
+               </xsl:element>
+            </xsl:when>
+            <xsl:when test="@stylesheet">
+               <xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
+                  <xsl:attribute name="href" select="@stylesheet" />
+               </xsl:element>
+            </xsl:when>
+         </xsl:choose>
+      </xsl:for-each>
    </xsl:template>
 
 </xsl:stylesheet>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="square.xsl" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Import a helper module to override an internal template in SUT -->
+	<x:helper stylesheet="helper/override.xsl" />
+
+	<x:scenario label="Calling a function in the SUT 'my' module">
+		<x:call function="my:square">
+			<x:param select="2" />
+		</x:call>
+		<x:expect label="should return an overridden value" select="1234567890" />
+	</x:scenario>
+
+</x:description>

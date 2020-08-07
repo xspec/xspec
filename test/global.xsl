@@ -16,7 +16,4 @@
 		<xsl:sequence select="$global-variable" />
 	</xsl:template>
 
-	<!-- Mirror -->
-	<xsl:include href="mirror.xsl" />
-
 </xsl:stylesheet>

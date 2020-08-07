@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/xslt-package/arith/package/config.xml"?>
+<x:description stylesheet="square.xsl" xmlns:f="http://example.org/complex-arithmetic.xsl"
+	xmlns:my="http://example.org/ns/my" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Import the helper 'f' package -->
+	<x:helper package-name="http://example.org/complex-arithmetic.xsl" package-version="1.0" />
+
+	<x:scenario label="Use the helper package">
+		<!-- Call a function in the SUT 'my' module -->
+		<x:call function="my:square">
+			<!-- Construct a parameter value using the helper 'f' package -->
+			<x:param select="f:complex-number(2, 0)?0 => xs:integer()" />
+		</x:call>
+		<x:expect label="Expect using the helper package"
+			select="f:complex-number(0, 4)?1 => xs:integer()" />
+	</x:scenario>
+
+</x:description>

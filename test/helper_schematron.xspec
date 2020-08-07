@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="helper.sch" xmlns:items="x-urn:test:xspec-items"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Import the helper 'mirror' module -->
+	<x:helper stylesheet="mirror.xsl" />
+
+	<x:scenario label="Use the imported helper">
+		<!-- Set up the context using the helpers -->
+		<x:context select="mirror:param-mirror($items:element)" />
+
+		<x:expect-report id="element-fired" />
+	</x:scenario>
+
+	<!-- Import the helper 'items' module (indirectly via x:import) -->
+	<x:import href="helper/imported.xspec" />
+
+</x:description>
