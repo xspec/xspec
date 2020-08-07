@@ -18,7 +18,9 @@
       <test id="scenario1-expect2" successful="false">
          <label>should report Expected Result correctly on failure</label>
          <expect select="/element()">
-            <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
@@ -37,7 +39,9 @@
       <test id="scenario2-expect2" successful="false">
          <label>should report Expected Result correctly on failure</label>
          <expect select="/element()">
-            <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
@@ -54,7 +58,9 @@
       <test id="scenario3-expect2" successful="false">
          <label>should report Expected Result correctly on failure</label>
          <expect select="/element()">
-            <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <expected-element xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>

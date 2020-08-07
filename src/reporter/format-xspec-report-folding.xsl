@@ -21,7 +21,7 @@
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report-folding.xsl</pkg:import-uri>
 
    <xsl:template name="x:html-head-callback" as="element(xhtml:script)">
-      <xsl:context-item as="document-node(element(x:report))" use="required" />
+      <xsl:context-item use="absent" />
 
       <script language="javascript" type="text/javascript">
 function toggle(scenarioID) {

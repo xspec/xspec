@@ -14,7 +14,9 @@
          </x:call>
       </input-wrap>
       <result select="/*">
-         <pseudo-other/>
+         <content-wrap xmlns="">
+            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
          <label>Fail deliberately</label>
@@ -31,7 +33,9 @@
          </x:call>
       </input-wrap>
       <result select="/*">
-         <pseudo-other/>
+         <content-wrap xmlns="">
+            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+         </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="false">
          <label>Fail deliberately</label>

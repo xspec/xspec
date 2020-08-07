@@ -11,16 +11,20 @@
          </x:context>
       </input-wrap>
       <result select="/element()">
-         <output xmlns="">
+         <content-wrap xmlns="">
+            <output>
 test
 </output>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
          <label>output</label>
          <expect select="/element()">
-            <output xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="">
+            <content-wrap xmlns="">
+               <output xmlns:x="http://www.jenitennison.com/xslt/xspec">
 test
 </output>
+            </content-wrap>
          </expect>
       </test>
    </scenario>

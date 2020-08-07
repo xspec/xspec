@@ -332,7 +332,7 @@
     set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
 
     rem Run
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -355,7 +355,7 @@
     set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
 
     rem Run
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -372,7 +372,7 @@
 	</case>
 
 	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XQuery with special characters in expression #1020)">
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%WORK_DIR:\=/%/issue-1020-result_%RANDOM%.html" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -662,7 +662,7 @@
     set "EXPECTED_REPORT=%WORK_DIR%\issue-1020-result_%RANDOM%.html"
 
     rem Run (also test with special characters in expression #1020)
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p basex-jar="%BASEX_JAR%" ^
@@ -694,7 +694,7 @@
     set "EXPECTED_REPORT=%WORK_DIR%\issue-1020-result_%RANDOM%.html"
 
     rem Run (also test with special characters in expression #1020)
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p auth-method=Basic ^
@@ -1325,6 +1325,32 @@
 	</case>
 
 	<!--
+		xspec.compiler.saxon.config
+	-->
+
+	<case name="xspec.compiler.saxon.config (relative path)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dxspec.compiler.saxon.config=test\compiler-saxon-config\config.xml ^
+        -Dxspec.xml=test\compiler-saxon-config\test.xspec
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+	</case>
+
+	<case name="xspec.compiler.saxon.config (absolute path)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dxspec.compiler.saxon.config="%CD%\compiler-saxon-config\config.xml" ^
+        -Dxspec.xml="%CD%\compiler-saxon-config\test.xspec"
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+	</case>
+
+	<!--
 		Coverage (Ant)
 	-->
 
@@ -1526,7 +1552,7 @@
 	-->
 
 	<case ifdef="XMLCALABASH_JAR" name="XSLT selecting nodes without context should be error (XProc) #423">
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xslt-harness.xproc
@@ -1536,7 +1562,7 @@
 	</case>
 
 	<case ifdef="XMLCALABASH_JAR" name="XQuery selecting nodes without context should be error (XProc) #423">
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xquery-harness.xproc

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<!-- To test xspec/xspec#1135 properly, @stylesheet should be accessible only when resolved via
+	@xml:base -->
+<x:description stylesheet="issue-1135.xsl" xml:base="issue-1135/"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="demo.xspec" xml:base="../../tutorial/coverage/" />
+</x:description>

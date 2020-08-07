@@ -22,6 +22,9 @@
 
    <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
 
+   <xsl:param name="force-focus" as="xs:string?" />
+   <xsl:variable name="force-focus-ids" as="xs:string*" select="tokenize($force-focus, '\s+')[.]" />
+
    <!-- The initial XSpec document (the source document of the whole transformation).
       Note that this initial document is different from the document node generated within the
       name="x:generate-tests" template. The latter document is a restructured copy of the initial
@@ -105,6 +108,11 @@
          <xsl:apply-templates select="$unshared-doc" mode="x:assign-id" />
       </xsl:variable>
 
+      <!-- Force focus -->
+      <xsl:variable name="doc-maybe-focus-enforced" as="document-node()">
+         <xsl:apply-templates select="$doc-with-id" mode="x:force-focus" />
+      </xsl:variable>
+
       <!-- Combine all the children of x:description into a single x:description -->
       <xsl:variable name="combined-doc" as="document-node(element(x:description))">
          <xsl:document>
@@ -136,14 +144,14 @@
                         select="resolve-uri(., base-uri())" />
                   </xsl:for-each>
 
-                  <xsl:sequence select="$doc-with-id" />
+                  <xsl:sequence select="$doc-maybe-focus-enforced" />
                </xsl:element>
             </xsl:for-each>
          </xsl:document>
       </xsl:variable>
 
       <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$combined-doc/x:description" mode="x:generate-tests" />
+      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
    </xsl:template>
 
    <xsl:function name="x:gather-descriptions" as="element(x:description)+">
@@ -767,6 +775,31 @@
             <xsl:apply-templates select="." mode="x:generate-id" />
          </xsl:attribute>
          <xsl:apply-templates select="attribute() | node()" mode="#current" />
+      </xsl:copy>
+   </xsl:template>
+
+   <!--
+      mode="x:force-focus"
+      This mode enforces focus on specific instances of x:scenario
+   -->
+   <xsl:mode name="x:force-focus" on-multiple-match="fail" on-no-match="shallow-copy" />
+
+   <!-- Leave user-content intact. This must be done in the highest priority. -->
+   <xsl:template match="node()[x:is-user-content(.)]" as="node()" mode="x:force-focus"
+      priority="1">
+      <xsl:sequence select="." />
+   </xsl:template>
+
+   <!-- Force or remove focus -->
+   <xsl:template match="x:scenario[exists($force-focus-ids)]" as="element(x:scenario)"
+      mode="x:force-focus">
+      <xsl:copy>
+         <xsl:if test="@id = $force-focus-ids">
+            <xsl:attribute name="focus" select="'force focus'" />
+         </xsl:if>
+         <xsl:apply-templates select="attribute() except @focus" mode="#current" />
+
+         <xsl:apply-templates select="node()" mode="#current" />
       </xsl:copy>
    </xsl:template>
 

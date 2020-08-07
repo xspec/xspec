@@ -12,12 +12,14 @@
                  function="test-mix:element-and-string"/>
       </input-wrap>
       <result select="/*">
-         <pseudo-element>
-            <test-mix:fooElement xmlns:test-mix="x-urn:test-mix">
-               <test-mix:barElement/>
-            </test-mix:fooElement>
-         </pseudo-element>
-         <pseudo-atomic-value>'string'</pseudo-atomic-value>
+         <content-wrap xmlns="">
+            <pseudo-element xmlns="http://www.jenitennison.com/xslt/xspec">
+               <test-mix:fooElement xmlns:test-mix="x-urn:test-mix">
+                  <test-mix:barElement/>
+               </test-mix:fooElement>
+            </pseudo-element>
+            <pseudo-atomic-value xmlns="http://www.jenitennison.com/xslt/xspec">'string'</pseudo-atomic-value>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
          <label>[Result] in the failure report HTML must wrap element and string separately</label>
