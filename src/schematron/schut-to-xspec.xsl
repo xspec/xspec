@@ -211,7 +211,7 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="x:*/@href" as="attribute(href)">
+    <xsl:template match="x:*/@href | x:helper/@stylesheet" as="attribute()">
         <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
             select="resolve-uri(., x:base-uri(.))" />
     </xsl:template>

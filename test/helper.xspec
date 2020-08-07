@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="http://example.org/ns/my" query-at="square.xqm" stylesheet="square.xsl"
+	xmlns:items="x-urn:test:xspec-items" xmlns:mirror="x-urn:test:mirror"
+	xmlns:my="http://example.org/ns/my" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Import the helper 'mirror' module.
+		XSLT should ignore query modules. XQuery should ignore stylesheets. -->
+	<x:helper query="x-urn:test:mirror" query-at="mirror.xqm" />
+	<x:helper stylesheet="mirror.xsl" />
+
+	<x:scenario label="Use the imported helper">
+		<!-- Call a function in the SUT 'my' module -->
+		<x:call function="my:square">
+			<!-- Construct a parameter value using the helpers -->
+			<x:param select="mirror:param-mirror($items:integer)" />
+		</x:call>
+		<x:expect label="Expect using the helpers"
+			select="mirror:param-mirror($items:integer * $items:integer)" />
+	</x:scenario>
+
+	<!-- Import the helper 'items' module (indirectly via x:import) -->
+	<x:import href="helper/imported.xspec" />
+
+</x:description>
