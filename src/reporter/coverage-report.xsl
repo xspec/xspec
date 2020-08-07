@@ -37,10 +37,10 @@
   select="doc($xspec-uri)" />
 
 <xsl:variable name="stylesheet-uri" as="xs:anyURI"
-  select="resolve-uri($xspec-doc/x:description/@stylesheet, $xspec-uri)" />
+  select="$xspec-doc/x:description/resolve-uri(@stylesheet, base-uri())" />
 
 <xsl:variable name="stylesheet-trees" as="document-node()+"
-  select="test:collect-stylesheets(doc($stylesheet-uri))" />
+  select="$stylesheet-uri => doc() => test:collect-stylesheets()" />
 
 <xsl:function name="test:collect-stylesheets" as="document-node()+">
   <xsl:param name="stylesheets" as="document-node()+" />
