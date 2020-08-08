@@ -46,17 +46,21 @@
 		Enables code coverage if requested.
 		Optionally notifies AppVeyor of test status. -->
 	<macrodef name="run-xspec">
-		<attribute name="xspec-file-url" />
 		<attribute name="test-type" />
-		<attribute default="" name="enable-coverage" />
-		<attribute default="" name="saxon-custom-options" />
+		<attribute name="xspec-file-url" />
+
 		<attribute default="" name="additional-classpath" />
+		<attribute default="" name="compiler-saxon-config" />
+		<attribute default="" name="coverage-reporter" />
+		<attribute default="" name="enable-coverage" />
 		<attribute default="" name="force-focus" />
+		<attribute default="" name="html-reporter" />
+		<attribute default="" name="saxon-custom-options" />
 		<attribute default="" name="schematron-preprocessor-step1" />
 		<attribute default="" name="schematron-preprocessor-step2" />
 		<attribute default="" name="schematron-preprocessor-step3" />
-		<attribute default="" name="html-reporter" />
-		<attribute default="" name="coverage-reporter" />
+		<attribute default="" name="xml-version" />
+
 		<attribute default="" name="output-xml-url" />
 		<attribute default="" name="output-html-url" />
 		<attribute default="" name="output-coverage-url" />
@@ -110,18 +114,24 @@
 				This assumes the "xspec" target is included only in one hop.
 				(neither "xspec" nor "foo.xspec.xspec") -->
 			<antcall inheritall="false" target="xspec.xspec">
-				<param location="${xspec-file-path}" name="xspec.xml" />
 				<param location="${xspec-intermediate-dir}" name="xspec.dir" />
+				<param location="${xspec-file-path}" name="xspec.xml" />
+
 				<param name="test.type" value="@{test-type}" />
-				<param name="xspec.coverage.enabled" unless:blank="@{enable-coverage}"
-					value="@{enable-coverage}" />
+
 				<param name="saxon.custom.options" unless:blank="@{saxon-custom-options}"
 					value="@{saxon-custom-options}" />
 				<param name="xspec.additional.classpath" unless:blank="@{additional-classpath}"
 					value="@{additional-classpath}" />
-				<param name="xspec.force.focus" unless:blank="@{force-focus}"
-					value="@{force-focus}" />
-
+				<param name="xspec.compiler.saxon.config" unless:blank="@{compiler-saxon-config}"
+					value="@{compiler-saxon-config}" />
+				<param name="xspec.coverage.enabled" unless:blank="@{enable-coverage}"
+					value="@{enable-coverage}" />
+				<param name="xspec.coverage.reporter.xsl" unless:blank="@{coverage-reporter}"
+					value="@{coverage-reporter}" />
+				<param name="xspec.force.focus" unless:blank="@{force-focus}" value="@{force-focus}" />
+				<param name="xspec.html.reporter.xsl" unless:blank="@{html-reporter}"
+					value="@{html-reporter}" />
 				<param name="xspec.schematron.preprocessor.step1"
 					unless:blank="@{schematron-preprocessor-step1}"
 					value="@{schematron-preprocessor-step1}" />
@@ -131,11 +141,7 @@
 				<param name="xspec.schematron.preprocessor.step3"
 					unless:blank="@{schematron-preprocessor-step3}"
 					value="@{schematron-preprocessor-step3}" />
-
-				<param name="xspec.html.reporter.xsl" unless:blank="@{html-reporter}"
-					value="@{html-reporter}" />
-				<param name="xspec.coverage.reporter.xsl" unless:blank="@{coverage-reporter}"
-					value="@{coverage-reporter}" />
+				<param name="xspec.xml.version" unless:blank="@{xml-version}" value="@{xml-version}" />
 
 				<param if:set="output-xml-path" location="${output-xml-path}"
 					name="xspec.result.xml" />

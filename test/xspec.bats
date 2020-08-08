@@ -195,7 +195,7 @@ load bats-helper
     [ -f "${special_chars_dir}/xspec/demo-result.xml" ]
     [ -f "${special_chars_dir}/xspec/demo-result.html" ]
 
-    # Check the coverage report XML file contents
+    # Check the coverage trace XML file contents
     run java -jar "${SAXON_JAR}" \
         -s:"${special_chars_dir}/xspec/demo-coverage.xml" \
         -xsl:check-coverage-xml.xsl
@@ -1578,8 +1578,10 @@ load bats-helper
     [ -f "${TEST_DIR}/demo-result.xml" ]
     [ -f "${TEST_DIR}/demo-result.html" ]
 
-    # Coverage report file is created and contains CSS inline
-    run java -jar "${SAXON_JAR}" -s:"${TEST_DIR}/demo-coverage.html" -xsl:check-html-css.xsl
+    # Coverage report HTML file is created and contains CSS inline
+    run java -jar "${SAXON_JAR}" \
+        -s:"${TEST_DIR}/demo-coverage.html" \
+        -xsl:check-html-css.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
@@ -1893,7 +1895,7 @@ load bats-helper
     [ "${lines[0]}" = "true" ]
 }
 
-@test "report-css-uri for coverage report file" {
+@test "report-css-uri for coverage report HTML file" {
     if [ -z "${XSLT_SUPPORTS_COVERAGE}" ]; then
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
     fi

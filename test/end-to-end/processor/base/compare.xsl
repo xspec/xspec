@@ -42,6 +42,19 @@
 			<xsl:text expand-text="yes"> Expected: {$EXPECTED-DOC-URI}</xsl:text>
 		</xsl:message>
 
+		<!-- XML version -->
+		<xsl:variable as="xs:string" name="input-doc-xml-version"
+			select="deserializer:xml-version($input-doc-uri)" />
+		<xsl:variable as="xs:string" name="expected-doc-xml-version"
+			select="deserializer:xml-version($EXPECTED-DOC-URI)" />
+		<xsl:if test="$input-doc-xml-version ne $expected-doc-xml-version">
+			<xsl:message terminate="yes">
+				<xsl:text>XML version not match&#x0A;</xsl:text>
+				<xsl:text expand-text="yes">  Actual: {$input-doc-xml-version}&#x0A;</xsl:text>
+				<xsl:text expand-text="yes">Expected: {$expected-doc-xml-version}</xsl:text>
+			</xsl:message>
+		</xsl:if>
+
 		<!-- Load the expected report file -->
 		<xsl:variable as="document-node()" name="expected-doc">
 			<xsl:apply-templates mode="deserializer:unindent" select="doc($EXPECTED-DOC-URI)" />
