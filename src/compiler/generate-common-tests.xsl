@@ -200,7 +200,7 @@
        TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
-       resolving x:import elements in place.  Bur for now, those
+       resolving x:import elements in place.  But for now, those
        elements are still here, so we have to ignore them...
    -->
    <xsl:template match="x:apply|x:call|x:context|x:label" mode="x:generate-calls">
@@ -537,7 +537,7 @@
        TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
-       resolving x:import elements in place.  Bur for now, those
+       resolving x:import elements in place.  But for now, those
        elements are still here, so we have to ignore them...
    -->
    <xsl:template match="x:description/x:helper
