@@ -85,7 +85,7 @@
          select="x:gather-descriptions($this/x:description)" />
 
       <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
-         including x:variable, x:import and comments.
+         including x:variable and comments. (x:import is discarded.)
          The original node identities, document URI and base URI are lost in this processing. -->
       <xsl:variable name="specs" as="node()+">
          <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
@@ -203,7 +203,7 @@
        resolving x:import elements in place.  Bur for now, those
        elements are still here, so we have to ignore them...
    -->
-   <xsl:template match="x:apply|x:call|x:context|x:import|x:label" mode="x:generate-calls">
+   <xsl:template match="x:apply|x:call|x:context|x:label" mode="x:generate-calls">
       <!-- Nothing, but must continue the sibling-walking... -->
       <xsl:call-template name="x:continue-call-scenarios"/>
    </xsl:template>
@@ -546,7 +546,6 @@
                         |x:apply
                         |x:call
                         |x:context
-                        |x:import
                         |x:label"
                  mode="x:compile">
       <!-- Nothing... -->
