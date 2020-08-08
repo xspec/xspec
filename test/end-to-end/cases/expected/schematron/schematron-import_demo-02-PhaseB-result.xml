@@ -23,25 +23,12 @@
                                     xmlns:xhtml="http://www.w3.org/1999/xhtml"
                                     xmlns:local="local"
                                     title=""
-                                    schemaVersion=""><!--   
+                                    schemaVersion=""
+                                    phase="PhaseB"><!--   
 		   
 		   
 		 -->
                <svrl:ns-prefix-in-attribute-values uri="local" prefix="local"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern1"
-                                    name="Pattern1"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="@sec-type"
-                                   id="t1-1"
-                                   role="warn"
-                                   location="/article[1]/body[1]/sec[2]">
-                  <svrl:text>
-                sec element should have a sec-type attribute.
-            </svrl:text>
-               </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
                <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
                                     id="Pattern2"
                                     name="Pattern2"/>
@@ -93,7 +80,7 @@
          </expect-test-wrap>
          <expect select="()"/>
       </test>
-      <test id="scenario1-expect2" successful="false">
+      <test id="scenario1-expect2" successful="true">
          <label>not assert t1-1</label>
          <expect-test-wrap xmlns="">
             <x:expect xmlns:local="local"
@@ -122,25 +109,12 @@
                                     xmlns:xhtml="http://www.w3.org/1999/xhtml"
                                     xmlns:local="local"
                                     title=""
-                                    schemaVersion=""><!--   
+                                    schemaVersion=""
+                                    phase="PhaseB"><!--   
 		   
 		   
 		 -->
                <svrl:ns-prefix-in-attribute-values uri="local" prefix="local"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern1"
-                                    name="Pattern1"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="@sec-type"
-                                   id="t1-1"
-                                   role="warn"
-                                   location="/article[1]/body[1]/sec[2]">
-                  <svrl:text>
-                sec element should have a sec-type attribute.
-            </svrl:text>
-               </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
                <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
                                     id="Pattern2"
                                     name="Pattern2"/>
@@ -212,25 +186,12 @@
                                     xmlns:xhtml="http://www.w3.org/1999/xhtml"
                                     xmlns:local="local"
                                     title=""
-                                    schemaVersion=""><!--   
+                                    schemaVersion=""
+                                    phase="PhaseB"><!--   
 		   
 		   
 		 -->
                <svrl:ns-prefix-in-attribute-values uri="local" prefix="local"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern1"
-                                    name="Pattern1"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="@sec-type"
-                                   id="t1-1"
-                                   role="warn"
-                                   location="/article[1]/body[1]/sec[2]">
-                  <svrl:text>
-                sec element should have a sec-type attribute.
-            </svrl:text>
-               </svrl:failed-assert>
-               <svrl:fired-rule context="sec"/>
                <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
                                     id="Pattern2"
                                     name="Pattern2"/>
