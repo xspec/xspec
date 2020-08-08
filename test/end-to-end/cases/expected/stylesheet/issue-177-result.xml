@@ -13,7 +13,9 @@
          </x:call>
       </input-wrap>
       <result select="/element()">
-         <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+         <content-wrap xmlns="">
+            <foo xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
          <label>When @test is "empty($x:result/self::element(foo))" (i.e. boolean),
@@ -40,10 +42,14 @@
                       test="$x:result/self::element(foo)"/>
          </expect-test-wrap>
          <result select="/element()">
-            <foo xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <foo xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </result>
          <expect select="/element()">
-            <bar xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <bar xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>

@@ -356,11 +356,20 @@
       <istrue value="${xspec.is.xquery}" />
     </condition>
 
+    <property name="xspec.compiler.saxon.config.absolute"
+              location="${xspec.compiler.saxon.config}"
+              if:set="xspec.compiler.saxon.config" />
+
     <echo message="Compiling Tests..."
           level="info" />
     <saxon-xslt in="${xspec.xspecfile.preprocessed}"
                 out="${xspec.compiled.runner}"
                 style="${xspec.compiler.xsl}">
+      <factory-elements>
+        <attribute name="http://saxon.sf.net/feature/configuration-file"
+                   value="${xspec.compiler.saxon.config.absolute}"
+                   if:set="xspec.compiler.saxon.config.absolute" />
+      </factory-elements>
       <xslt-elements>
         <param name="force-focus" expression="${xspec.force.focus}"
                if="xspec.force.focus" />

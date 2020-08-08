@@ -445,7 +445,7 @@
                <xsl:otherwise>
                   <xsl:variable name="indentation" as="xs:integer"
                      select="
-                        text()[1]
+                        x:reported-content(.)/text()[1]
                         => substring-after('&#xA;')
                         => string-length()" />
                   <pre>
@@ -453,8 +453,8 @@
                         <!-- Serialize the result while performing comparison -->
                         <xsl:when test="exists($result-to-compare-with)">
                            <xsl:variable name="nodes-to-compare-with" as="node()*"
-                              select="$result-to-compare-with/node()" />
-                           <xsl:for-each select="node()">
+                              select="x:reported-content($result-to-compare-with)/node()" />
+                           <xsl:for-each select="x:reported-content(.)/node()">
                               <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
                               <xsl:apply-templates select="." mode="test:serialize">
                                  <xsl:with-param name="indentation" select="$indentation" tunnel="yes" />
@@ -467,7 +467,7 @@
 
                         <!-- Serialize the result without performing comparison -->
                         <xsl:otherwise>
-                           <xsl:apply-templates select="node()" mode="test:serialize">
+                           <xsl:apply-templates select="x:reported-content(.)/node()" mode="test:serialize">
                               <xsl:with-param name="indentation" select="$indentation" tunnel="yes" />
                            </xsl:apply-templates>
                         </xsl:otherwise>

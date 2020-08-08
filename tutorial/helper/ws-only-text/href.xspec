@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="test-target.xsl"
+	xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Import the helper 'test-helper' module -->
+	<x:helper stylesheet="test-helper.xsl" />
+
+	<!--
+		Scenarios without any helpers.
+		Note that you need to take whitespace-only text nodes into consideration, because @href
+		keeps whitespace-only text nodes intact.
+	-->
+	<x:scenario label="By default">
+		<x:scenario label="when @href is used for constructing a context">
+			<!-- Set up a context document node by loading an external document -->
+			<x:context href="context.xml" />
+
+			<x:expect label="foo is renamed to bar. Whitespace-only text nodes including indentation are kept." select="/" xml:space="preserve"><test>
+   <bar>&#x09;&#x0A;&#x0D;&#x20;</bar>
+</test></x:expect>
+		</x:scenario>
+
+		<x:scenario label="when @href is used for constructing an expectation">
+			<!-- Set up a context document node containing whitespace-only text nodes -->
+			<x:context select="/" xml:space="preserve"><test>
+   <foo>&#x09;&#x0A;&#x0D;&#x20;</foo>
+</test></x:context>
+
+			<!-- Expect a document node by loading an external document -->
+			<x:expect href="expect.xml"
+				label="foo is renamed to bar. Whitespace-only text nodes including indentation are kept."
+			 />
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		Scenarios with the helper.
+		Note that you can forget about whitespace-only text nodes, because @href still keeps
+		whitespace-only text nodes intact but the helper function in @select removes them afterward.
+	-->
+	<x:scenario label="Use the helper">
+		<x:scenario label="for constructing a context">
+			<!-- Set up a context document node by loading an external document and removing
+				whitespace-only text nodes from it -->
+			<x:context href="context.xml" select="test-helper:remove-whitespace-only-text(.)" />
+
+			<x:expect label="foo is renamed to bar. No whitespace-only text nodes." select="/">
+				<test>
+					<bar />
+				</test>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="for constructing an expectation">
+			<!-- Set up a context document node containing no whitespace-only text nodes -->
+			<x:context select="/">
+				<test>
+					<foo />
+				</test>
+			</x:context>
+
+			<!-- Expect a document node by loading an external document and removing whitespace-only
+				text nodes from it -->
+			<x:expect href="expect.xml"
+				label="foo is renamed to bar. No whitespace-only text nodes."
+				select="test-helper:remove-whitespace-only-text(.)" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

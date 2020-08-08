@@ -11,12 +11,16 @@
          </x:context>
       </input-wrap>
       <result select="/element()">
-         <shield xmlns="" weight="1"/>
+         <content-wrap xmlns="">
+            <shield weight="1"/>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
          <label>is transformed to 'shield' element</label>
          <expect select="/element()">
-            <shield xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns="" weight="1"/>
+            <content-wrap xmlns="">
+               <shield xmlns:x="http://www.jenitennison.com/xslt/xspec" weight="1"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>

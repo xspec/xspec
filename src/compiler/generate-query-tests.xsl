@@ -60,6 +60,12 @@
       </xsl:if>
       <xsl:text>;&#10;</xsl:text>
 
+      <xsl:if test="x:helper">
+         <xsl:text>&#x0A;</xsl:text>
+         <xsl:text>(: user-provided library module(s) :)&#x0A;</xsl:text>
+         <xsl:call-template name="x:compile-user-helpers" />
+      </xsl:if>
+
       <xsl:text>&#x0A;</xsl:text>
       <xsl:text>(: XSpec library modules providing tools :)&#x0A;</xsl:text>
 
@@ -505,6 +511,18 @@
       <xsl:text>') } {&#x0A;</xsl:text>
       <xsl:sequence select="$node-generators" />
       <xsl:text>}</xsl:text>
+   </xsl:template>
+
+   <xsl:template name="x:compile-user-helpers" as="text()*">
+      <xsl:context-item as="element(x:description)" use="required" />
+
+      <xsl:for-each select="x:helper[@query]">
+         <xsl:text expand-text="yes">import module "{@query}"</xsl:text>
+         <xsl:if test="exists(@query-at)">
+            <xsl:text expand-text="yes">&#x0A;at "{@query-at}"</xsl:text>
+         </xsl:if>
+         <xsl:text>;&#x0A;</xsl:text>
+      </xsl:for-each>
    </xsl:template>
 
 </xsl:stylesheet>

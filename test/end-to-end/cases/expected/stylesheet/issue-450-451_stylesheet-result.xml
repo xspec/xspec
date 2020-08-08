@@ -15,15 +15,18 @@
             <context-child/>
          </x:context>
       </input-wrap>
-      <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
-               xmlns:myv="http://example.org/ns/my/variable"
-               xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns=""
-               attr="}{">}{</elem>
+      <result select="/node()">
+         <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
+                  xmlns:myv="http://example.org/ns/my/variable"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  attr="}{">}{</elem>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
          <label>should work</label>
-         <expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+         <expect select="/node()">
+            <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
@@ -36,15 +39,18 @@
                     mode="mirror:context-mirror">}{<elem attr="}{">}{</elem>
          </x:context>
       </input-wrap>
-      <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
-               xmlns:myv="http://example.org/ns/my/variable"
-               xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns=""
-               attr="}{">}{</elem>
+      <result select="/node()">
+         <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
+                  xmlns:myv="http://example.org/ns/my/variable"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  attr="}{">}{</elem>
+         </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="true">
          <label>should work</label>
-         <expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+         <expect select="/node()">
+            <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
@@ -59,15 +65,18 @@
             </x:param>
          </x:call>
       </input-wrap>
-      <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
-               xmlns:myv="http://example.org/ns/my/variable"
-               xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns=""
-               attr="}{">}{</elem>
+      <result select="/node()">
+         <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
+                  xmlns:myv="http://example.org/ns/my/variable"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  attr="}{">}{</elem>
+         </content-wrap>
       </result>
       <test id="scenario3-expect1" successful="true">
          <label>should work</label>
-         <expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+         <expect select="/node()">
+            <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
@@ -84,15 +93,18 @@
                <context-child/>
             </x:context>
          </input-wrap>
-         <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
-                  xmlns:myv="http://example.org/ns/my/variable"
-                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns=""
-                  attr="}{">}{</elem>
+         <result select="/node()">
+            <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
+                     xmlns:myv="http://example.org/ns/my/variable"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     attr="}{">}{</elem>
+            </content-wrap>
          </result>
          <test id="scenario4-scenario1-expect1" successful="true">
             <label>should work</label>
-            <expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+            <expect select="/node()">
+               <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -105,15 +117,18 @@
                        mode="mirror:context-mirror"
                        select="$myv:local-var"/>
          </input-wrap>
-         <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
-                  xmlns:myv="http://example.org/ns/my/variable"
-                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns=""
-                  attr="}{">}{</elem>
+         <result select="/node()">
+            <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
+                     xmlns:myv="http://example.org/ns/my/variable"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     attr="}{">}{</elem>
+            </content-wrap>
          </result>
          <test id="scenario4-scenario2-expect1" successful="true">
             <label>should work</label>
-            <expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+            <expect select="/node()">
+               <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -127,15 +142,18 @@
                <x:param name="param-items" select="$myv:local-var"/>
             </x:call>
          </input-wrap>
-         <result select="/node()">}{<elem xmlns:mirror="x-urn:test:mirror"
-                  xmlns:myv="http://example.org/ns/my/variable"
-                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                  xmlns=""
-                  attr="}{">}{</elem>
+         <result select="/node()">
+            <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
+                     xmlns:myv="http://example.org/ns/my/variable"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     attr="}{">}{</elem>
+            </content-wrap>
          </result>
          <test id="scenario4-scenario3-expect1" successful="true">
             <label>should work</label>
-            <expect select="/node()">}{<elem xmlns="" attr="}{">}{</elem>
+            <expect select="/node()">
+               <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
+               </content-wrap>
             </expect>
          </test>
       </scenario>

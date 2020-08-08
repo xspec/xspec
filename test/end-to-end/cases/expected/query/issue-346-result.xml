@@ -14,21 +14,24 @@
          </x:call>
       </input-wrap>
       <result select="/element()">
-         <p xmlns="">
-            <span>foo</span>
-            <ws xmlns="http://www.jenitennison.com/xslt/unit-test"> </ws>
-            <span>bar</span>
-         </p>
+         <content-wrap xmlns="">
+            <p>
+               <span>foo</span>
+               <ws xmlns="http://www.jenitennison.com/xslt/unit-test"> </ws>
+               <span>bar</span>
+            </p>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
          <label>Expecting no space should be Failure</label>
          <expect select="/element()">
-            <p xmlns:mirror="x-urn:test:mirror"
-               xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns="">
-               <span>foo</span>
-               <span>bar</span>
-            </p>
+            <content-wrap xmlns="">
+               <p xmlns:mirror="x-urn:test:mirror"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <span>foo</span>
+                  <span>bar</span>
+               </p>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
