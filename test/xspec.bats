@@ -907,37 +907,13 @@ load bats-helper
     [ "${lines[2]}" = "escape-for-regex-result.xml" ]
     [ "${lines[3]}" = "escape-for-regex_xml-to-properties.xml" ]
 
-    # Compiled XSLT file is XML 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${tutorial_copy}/xspec/escape-for-regex-compiled.xsl" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
-
-    # XML report file is XML 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${tutorial_copy}/xspec/escape-for-regex-result.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
-
-    # HTML report file contains CSS inline...
+    # HTML report file contains CSS inline
     run java -jar "${SAXON_JAR}" \
         -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
         -xsl:check-html-css.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
-
-    # ...and its XML version is 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
 }
 
 @test "Ant with minimum properties (XQuery)" {
@@ -970,14 +946,6 @@ load bats-helper
     [ "${lines[1]}" = "xquery-tutorial-result.html" ]
     [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
     [ "${lines[3]}" = "xquery-tutorial_xml-to-properties.xml" ]
-
-    # XML report file is XML 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${tutorial_copy}/xspec/xquery-tutorial-result.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
 }
 
 @test "Ant with minimum properties (Schematron)" {
@@ -1013,30 +981,6 @@ load bats-helper
     [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
     [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
     [ "${lines[5]}" = "demo-03_xml-to-properties.xml" ]
-
-    # Preprocessed XSLT file is XML 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${tutorial_copy}/xspec/demo-03-sch-preprocessed.xsl" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
-
-    # Preprocessed XSpec file is XML 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${tutorial_copy}/xspec/demo-03-sch-preprocessed.xspec" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
-
-    # XML report file is XML 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${tutorial_copy}/xspec/demo-03-result.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
 }
 
 #
@@ -1634,21 +1578,13 @@ load bats-helper
     [ -f "${TEST_DIR}/demo-result.xml" ]
     [ -f "${TEST_DIR}/demo-result.html" ]
 
-    # Coverage report file is created and contains CSS inline...
+    # Coverage report HTML file is created and contains CSS inline
     run java -jar "${SAXON_JAR}" \
         -s:"${TEST_DIR}/demo-coverage.html" \
         -xsl:check-html-css.xsl
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[0]}" = "true" ]
-
-    # ...and its XML version is 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/demo-coverage.html" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
 }
 
 @test "Ant for XQuery with coverage fails" {
@@ -1698,13 +1634,8 @@ load bats-helper
     # HTML report file
     [ -f "${TEST_DIR}/escape-for-regex-result.html" ]
 
-    # JUnit report file is created and its XML version is 1.0
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/escape-for-regex-junit.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
+    # JUnit report file
+    [ -f "${TEST_DIR}/escape-for-regex-junit.xml" ]
 }
 
 #
@@ -2485,165 +2416,6 @@ load bats-helper
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:call." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
-}
-
-#
-# XML 1.1
-#
-
-@test "XML 1.1 (XSLT)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.coverage.enabled=true \
-        -Dxspec.properties="${PWD}/xml-1-1/xspec.properties" \
-        -Dxspec.xml="${PWD}/xml-1-1/test.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-12]}" = "     [xslt] passed: 2 / pending: 0 / failed: 1 / total: 3" ]
-    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
-
-    # Compiled stylesheet
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-compiled.xsl" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # XML report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-result.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # HTML report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-result.html" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # Coverage trace XML file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-coverage.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.0" ]
-
-    # Coverage report HTML file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-coverage.html" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # JUnit report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-junit.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-}
-
-@test "XML 1.1 (XQuery)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dtest.type=q \
-        -Dxspec.properties="${PWD}/xml-1-1/xspec.properties" \
-        -Dxspec.xml="${PWD}/xml-1-1/test.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 2 / pending: 0 / failed: 1 / total: 3" ]
-    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
-
-    # XML report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-result.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # HTML report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-result.html" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # JUnit report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test-junit.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-}
-
-@test "XML 1.1 (Schematron)" {
-    # Workaround for XInclude. Schematron XSpec and its preprocessed XSpec sit in different directories.
-    mkdir "${TEST_DIR}"
-    cp xml-1-1/0007.xml "${TEST_DIR}"
-
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dtest.type=s \
-        -Dxspec.properties="${PWD}/xml-1-1/xspec.properties" \
-        -Dxspec.xml="${PWD}/xml-1-1/test_schematron.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 3 / pending: 0 / failed: 1 / total: 4" ]
-    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
-
-    # Preprocessed XSLT file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test_schematron-sch-preprocessed.xsl" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # Preprocessed XSpec
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test_schematron-sch-preprocessed.xspec" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # XML report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test_schematron-result.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # HTML report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test_schematron-result.html" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
-
-    # JUnit report file
-    run java -jar "${SAXON_JAR}" \
-        -s:"${TEST_DIR}/test_schematron-junit.xml" \
-        -xsl:get-xml-version.xsl
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[0]}" = "1.1" ]
 }
 
 

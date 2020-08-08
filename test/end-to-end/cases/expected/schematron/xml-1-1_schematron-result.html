@@ -1,0 +1,109 @@
+<?xml version="1.1" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for xml-1-1.sch (passed: 1 / pending: 0 / failed: 1 / total: 2)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Schematron: <a href="../../xml-1-1.sch">xml-1-1.sch</a></p>
+      <p>XSpec: <a href="../../xml-1-1_schematron.xspec">xml-1-1_schematron.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 1</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 1</th>
+               <th class="totals">total: 2</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="failed">
+               <th><a href="#top_scenario1">Set up a context containing &#x7;</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">2</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="top_scenario1">
+         <h2 class="failed">Set up a context containing &#x7;<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario1">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>Set up a context containing &#x7;</th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <td>Expect &#x7; reported report U0007</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-expect2">Expect &#x8; reported report U0008</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario1">
+            <h3>Set up a context containing &#x7;</h3>
+            <div id="scenario1-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">Expect &#x8; reported report U0008</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/element()</code> from:</p>
+                           <pre>&lt;svrl:schematron-output <span class="xmlns">xmlns:iso="http://purl.oclc.org/dsdl/schematron"</span>
+                        <span class="xmlns">xmlns:saxon="http://saxon.sf.net/"</span>
+                        <span class="xmlns">xmlns:schold="http://www.ascc.net/xml/schematron"</span>
+                        <span class="xmlns">xmlns:svrl="http://purl.oclc.org/dsdl/svrl"</span>
+                        <span class="xmlns">xmlns:xhtml="http://www.w3.org/1999/xhtml"</span>
+                        <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
+                        <span class="xmlns trivial">xmlns:xsd="http://www.w3.org/2001/XMLSchema"</span>
+                        title=""
+                        schemaVersion=""&gt;&lt;!--   
+		   
+		   
+		 --&gt;
+   &lt;svrl:active-pattern document="" /&gt;
+   &lt;svrl:fired-rule context="test" /&gt;
+   &lt;svrl:successful-report test="string() eq '&#x7;'"
+                           id="U0007"
+                           location="/test[1]"&gt;
+      &lt;svrl:text /&gt;
+   &lt;/svrl:successful-report&gt;
+&lt;/svrl:schematron-output&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'U0008'])</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

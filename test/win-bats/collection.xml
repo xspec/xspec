@@ -754,33 +754,12 @@
     call :verify_line 3 x escape-for-regex-result.html
     call :verify_line 4 x escape-for-regex-result.xml
 
-    rem Compiled XSLT file is XML 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TUTORIAL_COPY%\xspec\escape-for-regex-compiled.xsl" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
-
-    rem XML report file is XML 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TUTORIAL_COPY%\xspec\escape-for-regex-result.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
-
-    rem HTML report file contains CSS inline...
+    rem HTML report file contains CSS inline
     call :run java -jar "%SAXON_JAR%" ^
         -s:"%TUTORIAL_COPY%\xspec\escape-for-regex-result.html" ^
         -xsl:check-html-css.xsl
     call :verify_retval 0
     call :verify_line 1 x "true"
-
-    rem ...and its XML version is 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TUTORIAL_COPY%\xspec\escape-for-regex-result.html" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
 	</case>
 
 	<case name="Ant with minimum properties (XQuery)">
@@ -811,13 +790,6 @@
     call :verify_line 2 x xquery-tutorial-compiled.xq
     call :verify_line 3 x xquery-tutorial-result.html
     call :verify_line 4 x xquery-tutorial-result.xml
-
-    rem XML report file is XML 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TUTORIAL_COPY%\xspec\xquery-tutorial-result.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
 	</case>
 
 	<case name="Ant with minimum properties (Schematron)">
@@ -851,27 +823,6 @@
     call :verify_line 4 x demo-03-result.xml
     call :verify_line 5 x demo-03-sch-preprocessed.xsl
     call :verify_line 6 x demo-03-sch-preprocessed.xspec
-
-    rem Preprocessed XSLT file is XML 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TUTORIAL_COPY%\xspec\demo-03-sch-preprocessed.xsl" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
-
-    rem Preprocessed XSpec file is XML 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TUTORIAL_COPY%\xspec\demo-03-sch-preprocessed.xspec" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
-
-    rem XML report file is XML 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TUTORIAL_COPY%\xspec\demo-03-result.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
 	</case>
 
 	<!--
@@ -1418,19 +1369,12 @@
     call :verify_exist "%TEST_DIR%\demo-result.xml"
     call :verify_exist "%TEST_DIR%\demo-result.html"
 
-    rem Coverage report HTML file is created and contains CSS inline...
+    rem Coverage report HTML file is created and contains CSS inline
     call :run java -jar "%SAXON_JAR%" ^
         -s:"%TEST_DIR%\demo-coverage.html" ^
         -xsl:check-html-css.xsl
     call :verify_retval 0
     call :verify_line 1 x "true"
-
-    rem ...and its XML version is 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\demo-coverage.html" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
 	</case>
 
 	<case name="Ant for XQuery with coverage fails">
@@ -1477,12 +1421,8 @@
     rem HTML report file
     call :verify_exist "%TEST_DIR%\escape-for-regex-result.html"
 
-    rem JUnit report file is created and its XML version is 1.0
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\escape-for-regex-junit.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
+    rem JUnit report file
+    call :verify_exist "%TEST_DIR%\escape-for-regex-junit.xml"
 	</case>
 
 	<!--
@@ -2169,148 +2109,6 @@
     call :verify_retval 2
     call :verify_line  5 x "Duplicate parameter name, Q{}left, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
-	</case>
-
-	<!--
-		XML 1.1
-	-->
-
-	<case name="XML 1.1 (XSLT)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dxspec.coverage.enabled=true ^
-        -Dxspec.properties="%CD%\xml-1-1\xspec.properties" ^
-        -Dxspec.xml="%CD%\xml-1-1\test.xspec"
-    call :verify_retval 0
-    call :verify_line -12 x "     [xslt] passed: 2 / pending: 0 / failed: 1 / total: 3"
-    call :verify_line  -2 x "BUILD SUCCESSFUL"
-
-    rem Compiled stylesheet
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-compiled.xsl" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem XML report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-result.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem HTML report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-result.html" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem Coverage trace XML file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-coverage.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.0"
-
-    rem Coverage report HTML file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-coverage.html" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem JUnit report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-junit.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-	</case>
-
-	<case name="XML 1.1 (XQuery)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dtest.type=q ^
-        -Dxspec.properties="%CD%\xml-1-1\xspec.properties" ^
-        -Dxspec.xml="%CD%\xml-1-1\test.xspec"
-    call :verify_retval 0
-    call :verify_line -10 x "     [xslt] passed: 2 / pending: 0 / failed: 1 / total: 3"
-    call :verify_line  -2 x "BUILD SUCCESSFUL"
-
-    rem XML report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-result.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem HTML report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-result.html" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem JUnit report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test-junit.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-	</case>
-
-	<case name="XML 1.1 (Schematron)">
-    rem Workaround for XInclude. Schematron XSpec and its preprocessed XSpec sit in different directories.
-    call :mkdir "%TEST_DIR%"
-    call :copy xml-1-1\0007.xml "%TEST_DIR%"
-
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dtest.type=s ^
-        -Dxspec.properties="%CD%\xml-1-1\xspec.properties" ^
-        -Dxspec.xml="%CD%\xml-1-1\test_schematron.xspec"
-    call :verify_retval 0
-    call :verify_line -10 x "     [xslt] passed: 3 / pending: 0 / failed: 1 / total: 4"
-    call :verify_line  -2 x "BUILD SUCCESSFUL"
-
-    rem Preprocessed XSLT file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test_schematron-sch-preprocessed.xsl" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem Preprocessed XSpec
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test_schematron-sch-preprocessed.xspec" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem XML report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test_schematron-result.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem HTML report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test_schematron-result.html" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
-
-    rem JUnit report file
-    call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TEST_DIR%\test_schematron-junit.xml" ^
-        -xsl:get-xml-version.xsl
-    call :verify_retval 0
-    call :verify_line 1 x "1.1"
 	</case>
 
 </collection>

@@ -1,10 +1,13 @@
 <?xml version="1.1" encoding="UTF-8"?>
-<x:description query="x-urn:test:mirror" query-at="../mirror.xqm" stylesheet="../mirror.xsl"
+<?xspec-test compiler-saxon-config=${xspec.project.dir}/test/end-to-end/cases/xml-1-1_config_compiler.xml?>
+<?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/end-to-end/cases/xml-1-1_config_runtime.xml"?>
+<?xspec-test xml-version=1.1?>
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
 	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xi="http://www.w3.org/2001/XInclude">
 
-	<!-- This scenario deliberately uses control characters directly in user-content. -->
-	<x:scenario label="Return U+0007">
+	<!-- This scenario deliberately uses control characters directly in user-content and labels. -->
+	<x:scenario label="Return &#x07;">
 		<x:call function="mirror:param-mirror">
 			<x:param>
 				<test>&#x07;</test>
@@ -13,7 +16,7 @@
 
 		<!-- This x:expect fails deliberately so that the control characters appear in the report
 			files. -->
-		<x:expect label="Expect U+0008">
+		<x:expect label="Expect &#x08;">
 			<test>&#x08;</test>
 		</x:expect>
 	</x:scenario>
@@ -22,18 +25,18 @@
 	<x:scenario label="Use XInclude to return U+0007">
 		<x:call function="mirror:param-mirror">
 			<x:param>
-				<xi:include href="0007.xml" />
+				<xi:include href="xml-1-1_0007.xml" />
 			</x:param>
 		</x:call>
 		<x:expect label="Expect U+0007">
-			<test xml:base="0007.xml">&#x07;</test>
+			<test xml:base="xml-1-1_0007.xml">&#x07;</test>
 		</x:expect>
 	</x:scenario>
 
 	<!-- This scenario checks to see if the saxon.custom.options Ant property takes effect. -->
 	<x:scenario label="Use a query parameter in @href to return U+0007">
 		<x:call function="mirror:param-mirror">
-			<x:param href="0007.xml?strip-space=true" />
+			<x:param href="xml-1-1_0007.xml?strip-space=true" />
 		</x:call>
 		<x:expect label="Expect U+0007" select="/">
 			<test x:expand-text="yes">{codepoints-to-string(7)}</test>

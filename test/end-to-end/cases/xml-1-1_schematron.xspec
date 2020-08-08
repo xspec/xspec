@@ -1,0 +1,18 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<?xspec-test xml-version=1.1?>
+<x:description schematron="xml-1-1.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- This scenario deliberately uses control characters directly in user-content and labels. -->
+	<x:scenario label="Set up a context containing &#x07;">
+		<x:context>
+			<test>&#x07;</test>
+		</x:context>
+
+		<x:expect-report id="U0007" label="Expect &#x07; reported" />
+
+		<!-- This x:expect fails deliberately so that the control characters appear in the report
+			files. -->
+		<x:expect-report id="U0008" label="Expect &#x08; reported" />
+	</x:scenario>
+
+</x:description>
