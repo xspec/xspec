@@ -56,6 +56,9 @@
 		<attribute default="" name="force-focus" />
 		<attribute default="" name="html-reporter" />
 		<attribute default="" name="saxon-custom-options" />
+		<attribute default="" name="schematron-preprocessor-step1" />
+		<attribute default="" name="schematron-preprocessor-step2" />
+		<attribute default="" name="schematron-preprocessor-step3" />
 		<attribute default="" name="xml-version" />
 
 		<attribute default="" name="output-xml-url" />
@@ -129,6 +132,15 @@
 				<param name="xspec.force.focus" unless:blank="@{force-focus}" value="@{force-focus}" />
 				<param name="xspec.html.reporter.xsl" unless:blank="@{html-reporter}"
 					value="@{html-reporter}" />
+				<param name="xspec.schematron.preprocessor.step1"
+					unless:blank="@{schematron-preprocessor-step1}"
+					value="@{schematron-preprocessor-step1}" />
+				<param name="xspec.schematron.preprocessor.step2"
+					unless:blank="@{schematron-preprocessor-step2}"
+					value="@{schematron-preprocessor-step2}" />
+				<param name="xspec.schematron.preprocessor.step3"
+					unless:blank="@{schematron-preprocessor-step3}"
+					value="@{schematron-preprocessor-step3}" />
 				<param name="xspec.xml.version" unless:blank="@{xml-version}" value="@{xml-version}" />
 
 				<param if:set="output-xml-path" location="${output-xml-path}"
