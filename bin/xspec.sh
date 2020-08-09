@@ -67,15 +67,12 @@ if command -v saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" >
         saxon \
             --java -Dxspec.coverage.ignore="${TEST_DIR}" \
             --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            --java -Dxspec.home="${XSPEC_HOME}" \
             --java -Dxspec.xspecfile="${XSPEC}" \
             --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xsl "$@"
     }
     xquery() {
-        saxon \
-            --java -Dxspec.coverage.ignore="${TEST_DIR}" \
-            --java -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            --java -Dxspec.xspecfile="${XSPEC}" \
-            --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
+        saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
     echo Saxon script not found, invoking JVM directly instead.
@@ -84,15 +81,12 @@ else
         java \
             -Dxspec.coverage.ignore="${TEST_DIR}" \
             -Dxspec.coverage.xml="${COVERAGE_XML}" \
+            -Dxspec.home="${XSPEC_HOME}" \
             -Dxspec.xspecfile="${XSPEC}" \
             -cp "$CP" net.sf.saxon.Transform ${CATALOG:+"$CATALOG"} "$@"
     }
     xquery() {
-        java \
-            -Dxspec.coverage.ignore="${TEST_DIR}" \
-            -Dxspec.coverage.xml="${COVERAGE_XML}" \
-            -Dxspec.xspecfile="${XSPEC}" \
-            -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
+        java -cp "$CP" net.sf.saxon.Query ${CATALOG:+"$CATALOG"} "$@"
     }
 fi
 
@@ -371,17 +365,9 @@ if test -n "$XSLT"; then
     fi
 else
     # for XQuery
-    if test -n "$COVERAGE"; then
-        echo "Collecting test coverage data..."
-        xquery "${saxon_custom_options_array[@]}" \
-            -T:$COVERAGE_CLASS \
-            -o:"$RESULT" -q:"$COMPILED" \
-            || die "Error collecting test coverage data"
-    else
-        xquery "${saxon_custom_options_array[@]}" \
-            -o:"$RESULT" -q:"$COMPILED" \
-            || die "Error running the test suite"
-    fi
+    xquery "${saxon_custom_options_array[@]}" \
+        -o:"$RESULT" -q:"$COMPILED" \
+        || die "Error running the test suite"
 fi
 
 ##

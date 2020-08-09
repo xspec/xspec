@@ -420,6 +420,11 @@
               location="${xspec.xspecfile.original}"
               if:true="${xspec.coverage.enabled}" />
 
+    <!-- URL of XSpec repository root -->
+    <makeurl property="xspec.project.dir.url"
+             file="${xspec.project.dir}"
+             if:true="${xspec.coverage.enabled}" />
+
     <echo message="Collecting test coverage data..."
           level="info"
           if:true="${xspec.coverage.enabled}" />
@@ -440,6 +445,9 @@
                    if:true="${xspec.coverage.enabled}" />
       <sysproperty key="xspec.coverage.xml"
                    value="${xspec.coverage.xml.absolute}"
+                   if:true="${xspec.coverage.enabled}" />
+      <sysproperty key="xspec.home.uri"
+                   value="${xspec.project.dir.url}"
                    if:true="${xspec.coverage.enabled}" />
       <sysproperty key="xspec.xspecfile"
                    value="${xspec.xspecfile.absolute}"

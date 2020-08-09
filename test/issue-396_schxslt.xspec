@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test schematron-preprocessor-step1=${xspec.project.dir}/test/schxslt/include.xsl?>
+<?xspec-test schematron-preprocessor-step2=${xspec.project.dir}/test/schxslt/expand.xsl?>
+<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schxslt/compile-for-svrl.xsl?>
+<x:description schematron="issue-396.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario focus="test this framework" label="above-mentioned">
+		<x:context>
+			<conbody>
+				<p>above-mentioned</p>
+			</conbody>
+		</x:context>
+		<x:expect-report id="above-mentioned" location="/conbody[1]/p[1]/text()[1]" role="info" />
+	</x:scenario>
+</x:description>

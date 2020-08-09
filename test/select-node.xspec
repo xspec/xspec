@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/schematron/select-node.xsl" xmlns:ex1="http://example.com/ns1"
+	xmlns:ex2="http://example.com/ns2" xmlns:myv="x-urn:test:select-node:variable"
+	xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Based on ../misc/archive/test/sch-location-compare.xspec -->
+
+	<x:variable as="element(svrl:ns-prefix-in-attribute-values)+" name="myv:namespaces">
+		<svrl:ns-prefix-in-attribute-values prefix="ex1" uri="http://example.com/ns1" />
+		<svrl:ns-prefix-in-attribute-values prefix="ex2" uri="http://example.com/ns2" />
+	</x:variable>
+
+	<x:scenario label="No namespaces">
+		<x:variable as="element(article)" name="myv:source">
+			<article>
+				<section>1</section>
+				<section>2</section>
+			</article>
+		</x:variable>
+		<x:variable as="element(section)" name="myv:expected" select="$myv:source/section[2]" />
+
+		<x:scenario label="Select exact">
+			<x:call function="x:select-node">
+				<x:param select="$myv:source" />
+				<x:param>/article[1]/section[2]</x:param>
+				<x:param as="empty-sequence()" />
+				<x:param select="3.0" />
+			</x:call>
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
+		</x:scenario>
+
+		<x:scenario label="Select without [1]">
+			<x:call function="x:select-node">
+				<x:param select="$myv:source" />
+				<x:param>/article/section[2]</x:param>
+				<x:param as="empty-sequence()" />
+				<x:param select="3.0" />
+			</x:call>
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
+		</x:scenario>
+
+		<x:scenario label="Select without leading /">
+			<x:call function="x:select-node">
+				<x:param as="document-node(element(article))"
+					select="$myv:source/parent::document-node()" />
+				<x:param>article[1]/section[2]</x:param>
+				<x:param as="empty-sequence()" />
+				<x:param select="3.0" />
+			</x:call>
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="With namespaces">
+		<x:variable as="element(root)" name="myv:source">
+			<root>
+				<ex1:sec />
+				<ex1:sec>
+					<ex2:para>1</ex2:para>
+					<ex2:para>2</ex2:para>
+				</ex1:sec>
+			</root>
+		</x:variable>
+		<x:variable as="element(ex2:para)" name="myv:expected"
+			select="$myv:source/ex1:sec[2]/ex2:para[2]" />
+
+		<x:scenario label="Select by prefixes">
+			<x:call function="x:select-node">
+				<x:param select="$myv:source" />
+				<x:param>/root/ex1:sec[2]/ex2:para[2]</x:param>
+				<x:param select="$myv:namespaces" />
+				<x:param select="3.0" />
+			</x:call>
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
+		</x:scenario>
+
+		<x:scenario label="Select by typeical SVRL XPath 1.0">
+			<x:call function="x:select-node">
+				<x:param select="$myv:source" />
+				<x:param>/root/*[local-name()='sec'][2]/*[local-name()='para'][2]</x:param>
+				<x:param select="$myv:namespaces" />
+				<x:param select="1.0" />
+			</x:call>
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
+		</x:scenario>
+
+		<x:scenario label="Select by typical SVRL XPath 2.0">
+			<x:call function="x:select-node">
+				<x:param select="$myv:source" />
+				<x:param>/root[1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/*:para[namespace-uri()='http://example.com/ns2'][2]</x:param>
+				<x:param select="$myv:namespaces" />
+				<x:param select="2.0" />
+			</x:call>
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
+		</x:scenario>
+	</x:scenario>
+
+	<!-- Note: Outside of oXygen, the Schematron skeleton implementation does not appear to fire on
+		rules that have an attribute node as context -->
+	<x:scenario label="Select attribute">
+		<x:scenario label="Not in namespace">
+			<x:variable as="element(article)" name="myv:source">
+				<article>
+					<section type="not-in-namespace" />
+				</article>
+			</x:variable>
+
+			<x:call function="x:select-node">
+				<x:param select="$myv:source" />
+				<x:param>/article[1]/section[1]/@type</x:param>
+				<x:param as="empty-sequence()" />
+				<x:param select="3.0" />
+			</x:call>
+			<x:expect label="Selected" test="$x:result is $myv:source/section/@type" />
+		</x:scenario>
+
+		<x:scenario label="In namespace">
+			<x:variable as="element(ex1:article)" name="myv:source">
+				<ex1:article>
+					<ex1:sec />
+					<ex1:sec ex2:type="in-namespace" />
+				</ex1:article>
+			</x:variable>
+			<x:variable as="attribute(ex2:type)" name="myv:expected"
+				select="$myv:source/ex1:sec[2]/@ex2:type" />
+
+			<x:scenario label="Select by prefixes">
+				<x:call function="x:select-node">
+					<x:param select="$myv:source" />
+					<x:param>/ex1:article[1]/ex1:sec[2]/@ex2:type</x:param>
+					<x:param select="$myv:namespaces" />
+					<x:param select="3.0" />
+				</x:call>
+				<x:expect label="Selected" test="$x:result is $myv:expected" />
+			</x:scenario>
+
+			<x:scenario label="Select by typical SVRL XPath 2.0">
+				<x:call function="x:select-node">
+					<x:param select="$myv:source" />
+					<x:param>/*:article[namespace-uri()='http://example.com/ns1'][1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/@*[namespace-uri()='http://example.com/ns2'
+						and local-name()='type']</x:param>
+					<x:param select="$myv:namespaces" />
+					<x:param select="2.0" />
+				</x:call>
+				<x:expect label="Selected" test="$x:result is $myv:expected" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Not match">
+		<x:scenario label="No namespaces">
+			<x:call function="x:select-node">
+				<x:param>
+					<root>
+						<body>
+							<div>
+								<para />
+							</div>
+						</body>
+					</root>
+				</x:param>
+				<x:param>/root[1]/div[1]/para[1]</x:param>
+				<x:param as="empty-sequence()" />
+				<x:param select="3.0" />
+			</x:call>
+			<x:expect label="Expect not match" select="()" />
+		</x:scenario>
+
+		<x:scenario label="With namespaces">
+			<x:variable as="element(root)" name="myv:source">
+				<root>
+					<ex1:sec />
+				</root>
+			</x:variable>
+
+			<x:scenario label="Select with prefixes">
+				<x:call function="x:select-node">
+					<x:param select="$myv:source" />
+					<x:param>/root/ex1:sec[2]/ex2:para</x:param>
+					<x:param select="$myv:namespaces" />
+					<x:param select="3.0" />
+				</x:call>
+				<x:expect label="Expect not match" select="()" />
+			</x:scenario>
+
+			<x:scenario label="Select with typical SVRL XPath 1.0">
+				<x:call function="x:select-node">
+					<x:param select="$myv:source" />
+					<x:param>/root/*[local-name()='sec'][2]</x:param>
+					<x:param select="$myv:namespaces" />
+					<x:param select="1.0" />
+				</x:call>
+				<x:expect label="Expect not match" select="()" />
+			</x:scenario>
+
+			<x:scenario label="Select with typical SVRL XPath 2.0">
+				<x:call function="x:select-node">
+					<x:param select="$myv:source" />
+					<x:param>/root[1]/*:sec[namespace-uri()='http://example.com/ns1'][2]/*:para[namespace-uri()='http://example.com/ns2'][2]</x:param>
+					<x:param select="$myv:namespaces" />
+					<x:param select="2.0" />
+				</x:call>
+				<x:expect label="Expect not match" select="()" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="URIQualifiedName">
+		<x:scenario label="SchXslt v1.4.6">
+			<x:scenario
+				label="https://github.com/xspec/xspec/wiki/Testing-Schematron-with-Text-Nodes#using-another-implementation-of-schematron">
+				<x:variable as="element(conbody)" name="myv:source">
+					<conbody>
+						<p>above-mentioned</p>
+					</conbody>
+				</x:variable>
+				<x:call function="x:select-node">
+					<x:param select="$myv:source" />
+					<x:param>/Q{}conbody[1]/Q{}p[1]/text()[1]</x:param>
+					<x:param as="empty-sequence()" />
+					<x:param select="3.0" />
+				</x:call>
+				<x:expect label="Selected"
+					test="$x:result is $myv:source/root()/conbody[1]/p[1]/text()[1]" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

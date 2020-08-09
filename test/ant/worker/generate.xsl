@@ -257,6 +257,9 @@
 								'coverage-reporter',
 								'force-focus',
 								'html-reporter',
+								'schematron-preprocessor-step1',
+								'schematron-preprocessor-step2',
+								'schematron-preprocessor-step3',
 								'xml-version'">
 							<xsl:variable as="xs:string" name="left-hand-side" select="." />
 							<xsl:variable as="xs:string" name="starts-with"

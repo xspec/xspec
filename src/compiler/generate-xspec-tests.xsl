@@ -50,15 +50,10 @@
          <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
          <include href="{resolve-uri('generate-tests-utils.xsl')}" />
 
-         <xsl:choose>
-            <xsl:when test="$is-schematron">
-               <include href="{resolve-uri('../schematron/sch-location-compare.xsl')}" />
-               <!-- xspec-utils.xsl is included by sch-location-compare.xsl -->
-            </xsl:when>
-            <xsl:otherwise>
-               <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
-            </xsl:otherwise>
-         </xsl:choose>
+         <xsl:if test="$is-schematron">
+            <include href="{resolve-uri('../schematron/select-node.xsl')}" />
+         </xsl:if>
+         <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
