@@ -39,7 +39,7 @@
             select="x:gather-descriptions(x:description)" />
 
         <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
-            including x:variable, x:import and comments.
+            including x:variable and comments. (x:import is discarded.)
             The original node identities, document URI and base URI are lost in this processing. -->
         <xsl:variable name="specs" as="node()+">
             <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
@@ -77,9 +77,6 @@
         mode="x:gather-specs"
         Adds some templates to the included mode
     -->
-
-    <!-- Discard x:import -->
-    <xsl:template match="x:import" as="empty-sequence()" mode="x:gather-specs" />
 
     <!-- Schematron skeleton implementation requires a document node -->
     <xsl:template match="x:context[not(@href)][
