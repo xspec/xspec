@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description xmlns="http://www.jenitennison.com/xslt/xspec"
+             schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
+             xspec-original-location="%TEST_BASE%/schematron/schut-to-xspec-014-in.xspec"
+             stylesheet="schut-to-xspec-test.sch.xsl">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron/schut-to-xspec-014-in.xspec"
+               label="Schematron test scenario">
+      <x:context select="self::document-node()">
+         <example attr="1"><!-- comment --><?pi?>
+            <p>
+               <x:text>this is a </x:text>
+               <i>
+                  <x:text>mixed</x:text>
+               </i>
+               <x:text> text </x:text>
+               <b>
+                  <x:text> example</x:text>
+               </b>
+               <x:text>.</x:text>
+            </p>
+            <other xmlns="other">
+               <x:text>foreign</x:text>
+            </other>
+         </example>
+      </x:context>
+   </x:scenario>
+</description>

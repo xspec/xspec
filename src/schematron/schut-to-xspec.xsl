@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="3.0"
-                xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec" 
                 xmlns:xs="http://www.w3.org/2001/XMLSchema" 
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -17,6 +16,9 @@
     <xsl:param name="stylesheet-uri" as="xs:string" select="document-uri($stylesheet-doc)" />
 
     <xsl:include href="../common/xspec-utils.xsl"/>
+    <xsl:include href="../compiler/gatherer.xsl" />
+
+    <xsl:output indent="yes" />
 
     <xsl:variable name="errors" as="xs:string+" select="'error', 'fatal'" />
     <xsl:variable name="warns" as="xs:string+" select="'warn', 'warning'" />
@@ -25,81 +27,69 @@
     <!--
         mode="#default"
     -->
-    <xsl:mode on-multiple-match="fail" on-no-match="shallow-copy" />
+    <xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
-    <xsl:template match="x:description[@schematron]" as="element(x:description)">
-        <!-- Do not set xsl:copy/@copy-namespaces="no". child::x:param may use namespace prefixes
-            and/or the default namespace such as xs:QName('foo'). -->
-        <xsl:copy>
-            <xsl:apply-templates select="attribute() except @stylesheet" />
-            <xsl:apply-templates select="node()"/>
-        </xsl:copy>
+    <xsl:template match="document-node(element(x:description))"
+        as="document-node(element(x:description))">
+        <!-- Similar to xsl:template[@name="x:generate-tests"] in
+            ../compiler/generate-common-tests.xsl -->
+
+        <!-- Collect all the instances of x:description by resolving x:import -->
+        <xsl:variable name="descriptions" as="element(x:description)+"
+            select="x:gather-descriptions(x:description)" />
+
+        <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
+            including x:variable, x:import and comments.
+            The original node identities, document URI and base URI are lost in this processing. -->
+        <xsl:variable name="specs" as="node()+">
+            <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
+        </xsl:variable>
+
+        <!-- Combine all the children of x:description into a single x:description -->
+        <xsl:document>
+            <xsl:for-each select="x:description">
+                <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
+                    the namespaces created for /x:description will pollute its descendants derived
+                    from the other trees. -->
+                <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
+                    inherit-namespaces="no">
+                    <!-- Do not set all the attributes. Each imported x:description has its own set of
+                        attributes. Set only the attributes that are truly global over all the XSpec
+                        documents. -->
+
+                    <!-- Global Schematron attributes -->
+                    <xsl:attribute name="schematron" select="resolve-uri(@schematron, base-uri())" />
+                    <xsl:attribute name="xspec-original-location" select="x:actual-document-uri(/)" />
+
+                    <!-- Global XSLT attributes.
+                        @xslt-version can be set, because it has already been propagated from each
+                        imported x:description to its descendants in mode="x:gather-specs". -->
+                    <xsl:sequence select="@xslt-version" />
+                    <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
+
+                    <xsl:sequence select="$specs" />
+                </xsl:element>
+            </xsl:for-each>
+        </xsl:document>
     </xsl:template>
 
-    <xsl:template match="x:description/@schematron" as="node()+">
-        <xsl:variable name="resolved-schematron-uri" as="xs:anyURI"
-            select="resolve-uri(., base-uri())" />
+    <!--
+        mode="x:gather-specs"
+        Adds some templates to the included mode
+    -->
 
-        <xsl:for-each select="doc($resolved-schematron-uri)/sch:schema/sch:ns">
-            <xsl:namespace name="{@prefix}" select="@uri" />
-        </xsl:for-each>
-
-        <xsl:attribute name="xspec-original-location" select="x:actual-document-uri(/)" />
-        <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
-        <xsl:attribute name="schematron" select="$resolved-schematron-uri" />
-    </xsl:template>
-
-    <xsl:template match="x:import" as="node()+">
-        <xsl:variable name="fully-resolved-href" as="xs:anyURI"
-            select="
-                @href
-                => resolve-uri(base-uri())
-                => x:resolve-xml-uri-with-catalog()" />
-        <xsl:variable name="imported-doc" as="document-node(element(x:description))"
-            select="doc($fully-resolved-href)" />
-        <xsl:variable name="is-schematron-xspec" as="xs:boolean"
-            select="
-                $imported-doc
-                /(x:description[@schematron]
-                  | descendant::x:expect-assert | descendant::x:expect-not-assert
-                  | descendant::x:expect-report | descendant::x:expect-not-report
-                  | descendant::x:expect-valid)
-                => exists()" />
-
-        <xsl:choose>
-            <xsl:when test="$is-schematron-xspec">
-                <xsl:comment expand-text="yes">BEGIN IMPORT "{@href}"</xsl:comment>
-                <xsl:apply-templates select="$imported-doc/x:description/node()">
-                    <xsl:with-param name="imported-uri" tunnel="yes" select="$fully-resolved-href" />
-                </xsl:apply-templates>
-                <xsl:comment expand-text="yes">END IMPORT "{@href}"</xsl:comment>
-            </xsl:when>
-
-            <xsl:otherwise>
-                <xsl:next-match/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-
-    <xsl:template match="x:scenario" as="element(x:scenario)">
-        <xsl:param name="imported-uri" as="xs:anyURI?" tunnel="yes" />
-
-        <xsl:copy>
-            <xsl:if test="exists($imported-uri)">
-                <xsl:attribute name="xspec-original-location" select="$imported-uri" />
-            </xsl:if>
-            <xsl:apply-templates select="attribute() | node()" />
-        </xsl:copy>
-    </xsl:template>
+    <!-- Discard x:import -->
+    <xsl:template match="x:import" as="empty-sequence()" mode="x:gather-specs" />
 
     <!-- Schematron skeleton implementation requires a document node -->
     <xsl:template match="x:context[not(@href)][
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
         parent::*/x:expect-report | parent::*/x:expect-not-report |
         parent::*/x:expect-valid | ancestor::x:description[@schematron] ]"
-        as="element(x:context)">
+        as="element(x:context)"
+        mode="x:gather-specs">
         <xsl:copy>
-            <xsl:apply-templates select="attribute()" />
+            <xsl:apply-templates select="attribute()" mode="#current" />
             <xsl:attribute name="select">
                 <xsl:choose>
                     <xsl:when test="@select">
@@ -117,11 +107,11 @@
                 </xsl:choose>
             </xsl:attribute>
 
-            <xsl:apply-templates select="node()" />
+            <xsl:apply-templates select="node()" mode="#current" />
         </xsl:copy>
     </xsl:template>
 
-    <xsl:template match="x:expect-assert" as="element(x:expect)">
+    <xsl:template match="x:expect-assert" as="element(x:expect)" mode="x:gather-specs">
         <xsl:call-template name="create-expect">
             <xsl:with-param name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
@@ -133,7 +123,7 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="x:expect-not-assert" as="element(x:expect)">
+    <xsl:template match="x:expect-not-assert" as="element(x:expect)" mode="x:gather-specs">
         <xsl:call-template name="create-expect">
             <xsl:with-param name="test">
                 <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:failed-assert')}</xsl:text>
@@ -143,7 +133,7 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="x:expect-report" as="element(x:expect)">
+    <xsl:template match="x:expect-report" as="element(x:expect)" mode="x:gather-specs">
         <xsl:call-template name="create-expect">
             <xsl:with-param name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
@@ -155,7 +145,7 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="x:expect-not-report" as="element(x:expect)">
+    <xsl:template match="x:expect-not-report" as="element(x:expect)" mode="x:gather-specs">
         <xsl:call-template name="create-expect">
             <xsl:with-param name="test">
                 <xsl:text expand-text="yes">{x:known-UQName('svrl:schematron-output')}[{x:known-UQName('svrl:fired-rule')}] and empty({x:known-UQName('svrl:schematron-output')}/{x:known-UQName('svrl:successful-report')}</xsl:text>
@@ -165,7 +155,7 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="x:expect-valid" as="element(x:expect)">
+    <xsl:template match="x:expect-valid" as="element(x:expect)" mode="x:gather-specs">
         <xsl:variable name="bad-roles" as="xs:string"
             select="
                 ($errors ! ($x:apos || . || $x:apos))
@@ -179,7 +169,7 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="x:expect-rule" as="element(x:expect)">
+    <xsl:template match="x:expect-rule" as="element(x:expect)" mode="x:gather-specs">
         <xsl:call-template name="create-expect">
             <xsl:with-param name="test">
                 <xsl:value-of select="if (@count) then 'count' else 'exists'" />
@@ -189,11 +179,6 @@
                 <xsl:value-of select="@count ! (' eq ' || .)" />
             </xsl:with-param>
         </xsl:call-template>
-    </xsl:template>
-
-    <xsl:template match="x:*/@href | x:helper/@stylesheet" as="attribute()">
-        <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-            select="resolve-uri(., x:base-uri(.))" />
     </xsl:template>
 
     <!--
