@@ -1,0 +1,95 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../xml-1-1.xspec"
+        query="x-urn:test:mirror"
+        query-at="../../../../mirror.xqm"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../xml-1-1.xspec">
+      <label>Return &#x7;</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:xi="http://www.w3.org/2001/XInclude"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>
+               <test>&#x7;</test>
+            </x:param>
+         </x:call>
+      </input-wrap>
+      <result select="/element()">
+         <content-wrap xmlns="">
+            <test xmlns:mirror="x-urn:test:mirror"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  xmlns:xi="http://www.w3.org/2001/XInclude">&#x7;</test>
+         </content-wrap>
+      </result>
+      <test id="scenario1-expect1" successful="false">
+         <label>Expect &#x8;</label>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <test xmlns:mirror="x-urn:test:mirror"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xi="http://www.w3.org/2001/XInclude">&#x8;</test>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../xml-1-1.xspec">
+      <label>Use XInclude to return U+0007</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:xi="http://www.w3.org/2001/XInclude"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>
+               <test xml:base="xml-1-1_0007.xml">&#x7;</test>
+            </x:param>
+         </x:call>
+      </input-wrap>
+      <result select="/element()">
+         <content-wrap xmlns="">
+            <test xmlns:mirror="x-urn:test:mirror"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  xmlns:xi="http://www.w3.org/2001/XInclude"
+                  xml:base="xml-1-1_0007.xml">&#x7;</test>
+         </content-wrap>
+      </result>
+      <test id="scenario2-expect1" successful="true">
+         <label>Expect U+0007</label>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <test xmlns:mirror="x-urn:test:mirror"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xi="http://www.w3.org/2001/XInclude"
+                     xml:base="xml-1-1_0007.xml">&#x7;</test>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+   <scenario id="scenario3" xspec="../../xml-1-1.xspec">
+      <label>Use a query parameter in @href to return U+0007</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:xi="http://www.w3.org/2001/XInclude"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param href="../../xml-1-1_0007.xml?strip-space=true"/>
+         </x:call>
+      </input-wrap>
+      <result select="/self::document-node()">
+         <content-wrap xmlns="">
+            <test>&#x7;</test>
+         </content-wrap>
+      </result>
+      <test id="scenario3-expect1" successful="true">
+         <label>Expect U+0007</label>
+         <expect select="/self::document-node()">
+            <content-wrap xmlns="">
+               <test xmlns:mirror="x-urn:test:mirror"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xi="http://www.w3.org/2001/XInclude">&#x7;</test>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+</report>

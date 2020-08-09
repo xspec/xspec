@@ -197,6 +197,12 @@
         <factory name="net.sf.saxon.TransformerFactoryImpl">
           <factory-elements />
 
+          <!-- Place <attribute> after <factory-elements/>, otherwise xspec.compiler.saxon.config
+            seems to reset preceding <attribute>. -->
+          <attribute name="http://saxon.sf.net/feature/xml-version"
+                     value="${xspec.xml.version}"
+                     if:set="xspec.xml.version" />
+
           <!-- For debugging -->
           <!--<attribute name="http://saxon.sf.net/feature/timing"
                      value="true"/>-->
@@ -393,6 +399,7 @@
       <arg value="-catalog:${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-o:${xspec.result.xml}" />
       <arg value="-q:${xspec.compiled.runner}" />
+      <arg value="-xmlversion:${xspec.xml.version}" if:set="xspec.xml.version" />
     </java>
   </target>
 
@@ -450,6 +457,7 @@
       <arg value="-catalog:${xspec.catalog.files}" if:set="xspec.catalog.files" />
       <arg value="-it:{http://www.jenitennison.com/xslt/xspec}main" />
       <arg value="-o:${xspec.result.xml}" />
+      <arg value="-xmlversion:${xspec.xml.version}" if:set="xspec.xml.version" />
       <arg value="-xsl:${xspec.compiled.runner}" />
       <arg value="-T:com.jenitennison.xslt.tests.XSLTCoverageTraceListener"
            if:true="${xspec.coverage.enabled}" />
