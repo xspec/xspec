@@ -37,12 +37,13 @@ import net.sf.saxon.s9api.Serializer;
 public class XSLTCoverageTraceListener implements TraceListener {
 
   private String xspecStylesheet = null;
-  private String utilsStylesheet = null;
-  private String legacyUtilsStylesheet = null;
+  private HashMap<String, Integer> utils = new HashMap<String, Integer>();
   private HashMap<String, Integer> modules = new HashMap<String, Integer>();
   private HashSet<Integer> constructs = new HashSet<Integer>();
+  private int utilsCount = 0;
   private int moduleCount = 0;
   private StreamWriterToReceiver writer = null;
+  private String srcDir = null;
   private String ignoreDir = null;
   private boolean debugPrintEnabled = (System.getenv("DEBUG_XSLT_COVERAGE_TRACE_LISTENER") != null);
 
@@ -50,6 +51,11 @@ public class XSLTCoverageTraceListener implements TraceListener {
     if (debugPrintEnabled) {
       System.err.printf(format, args);
     }
+  }
+
+  private URI filePathToUri(String filePath) {
+    File f = new File(filePath);
+    return f.toURI();
   }
 
   public XSLTCoverageTraceListener() {
@@ -64,13 +70,35 @@ public class XSLTCoverageTraceListener implements TraceListener {
   public void open(Controller c) {
     System.out.println("controller="+c);
 
+    // Get the URI of XSpec home
+    URI xspecHomeUri;
+    String xspecHomeUriProp = System.getProperty("xspec.home.uri");
+    if (xspecHomeUriProp == null) {
+      String xspecHomeProp = System.getProperty("xspec.home");
+      debugPrintf("%-17s: %s%n", "xspec.home", xspecHomeProp);
+
+      xspecHomeUri = filePathToUri(xspecHomeProp + File.separator);
+    }
+    else {
+      debugPrintf("%-17s: %s%n", "xspec.home.uri", xspecHomeUriProp);
+      try {
+        xspecHomeUri = new URI(xspecHomeUriProp);
+      } catch (URISyntaxException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    debugPrintf("%-17s: %s%n", "xspecHomeUri", xspecHomeUri);
+
+    // Get 'src/' URI and normalize it
+    srcDir = xspecHomeUri.resolve("src/").normalize().toString();
+    debugPrintf("%-17s: %s%n", "srcDir", srcDir);
+
     // Get the directory path to ignore
     ignoreDir = System.getProperty("xspec.coverage.ignore");
     debugPrintf("%-17s: %s%n", "ignoreDir (raw)", ignoreDir);
 
     // Normalize the directory as URI
-    File ignoreDirFile = new File(ignoreDir + File.separator);
-    ignoreDir = ignoreDirFile.toURI().normalize().toString();
+    ignoreDir = filePathToUri(ignoreDir + File.separator).normalize().toString();
     debugPrintf("%-17s: %s%n", "ignoreDir (norm)", ignoreDir);
 
     // Coverage XML file
@@ -79,8 +107,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
 
     // XSpec file
     String xspecPath = System.getProperty("xspec.xspecfile");
-    File xspecFile = new File(xspecPath);
-    xspecPath = xspecFile.toURI().toString();
+    xspecPath = filePathToUri(xspecPath).toString();
 
     Serializer serializer = new Processor(false).newSerializer(outFile);
     serializer.setOutputProperty(Serializer.Property.INDENT, "yes");
@@ -144,30 +171,30 @@ public class XSLTCoverageTraceListener implements TraceListener {
     systemId = systemIdUri.normalize().toString();
     debugPrintf("%-17s: %s%n", "systemId (norm)", systemId);
     
-    int constructType = info.getConstructType();
-    if (utilsStylesheet == null &&
-        systemId.indexOf("/src/common/xspec-utils.xsl") != -1) {
-      utilsStylesheet = systemId;
-      debugPrintf("%-17s: %s%n", "utilsStylesheet", utilsStylesheet);
+    boolean isUtil = false;
 
-      try {
-        writer.writeStartElement("u");
-        writer.writeAttribute("u", systemId);
-        writer.writeEndElement();
-      } catch(XMLStreamException e) {
-        throw new RuntimeException(e);
-      }
-    } else if (legacyUtilsStylesheet == null &&
-        systemId.indexOf("/src/compiler/generate-tests-utils.xsl") != -1) {
-      legacyUtilsStylesheet = systemId;
-      debugPrintf("%-17s: %s%n", "legacyUtilsStylesheet", legacyUtilsStylesheet);
+    if (systemId.startsWith(srcDir)) {
+      isUtil = true;
 
-      try {
-        writer.writeStartElement("u");
-        writer.writeAttribute("u", systemId);
-        writer.writeEndElement();
-      } catch(XMLStreamException e) {
-        throw new RuntimeException(e);
+      if (!utils.containsKey(systemId)) {
+        Integer utilId = new Integer(utilsCount);
+        debugPrintf(
+          "%-17s: %s%n",
+          "util[" + utilId + "]",
+          systemId
+        );
+
+        utilsCount++;
+        utils.put(systemId, utilId);
+
+        try {
+          writer.writeStartElement("u");
+          writer.writeAttribute("id", String.valueOf(utilId));
+          writer.writeAttribute("u", systemId);
+          writer.writeEndElement();
+        } catch(XMLStreamException e) {
+          throw new RuntimeException(e);
+        }
       }
     } else if (xspecStylesheet == null && 
                systemId.startsWith(ignoreDir)) {
@@ -182,7 +209,8 @@ public class XSLTCoverageTraceListener implements TraceListener {
         throw new RuntimeException(e);
       }
     } 
-    if (systemId != xspecStylesheet && systemId != utilsStylesheet && systemId != legacyUtilsStylesheet) {
+
+    if (systemId != xspecStylesheet && !isUtil) {
       Integer module;
       if (modules.containsKey(systemId)) {
         module = (Integer)modules.get(systemId);
@@ -200,6 +228,9 @@ public class XSLTCoverageTraceListener implements TraceListener {
           throw new RuntimeException(e);
         }
       }
+
+      int constructType = info.getConstructType();
+
       if (!constructs.contains(constructType)) {
         String construct;
         if (constructType < 1024) {
