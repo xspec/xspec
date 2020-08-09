@@ -55,6 +55,7 @@
    <!--
       mode="x:gather-specs"
       This mode makes each spec less context-dependent by performing these transformations:
+      * Discard x:import. (x:import must be resolved before applying this mode.)
       * Copy @xslt-version from x:description to descendant x:scenario (only when @xslt-version
         has not been set by a previous process)
       * Add @xspec (and @xspec-original-location if @xspec has already been set by a previous
@@ -81,6 +82,8 @@
          <xsl:with-param name="xspec-module-uri" tunnel="yes" select="x:actual-document-uri(/)" />
       </xsl:apply-templates>
    </xsl:template>
+
+   <xsl:template match="x:import" as="empty-sequence()" mode="x:gather-specs" />
 
    <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:gather-specs">
       <xsl:param name="xslt-version" as="xs:decimal" tunnel="yes" required="yes"/>
