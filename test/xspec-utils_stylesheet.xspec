@@ -8,6 +8,19 @@
 		/x:description/@stylesheet.
 	-->
 
+	<x:scenario label="Scenario for testing variable xspec-version">
+		<x:call function="tokenize">
+			<x:param select="$x:xspec-version" />
+			<x:param select="'\.'" />
+		</x:call>
+		<x:expect label="3 components" select="3" test="count($x:result)" />
+		<x:expect label="Digits"
+			test="
+				every $component in $x:result
+				satisfies (($component eq '0') or matches($component, '^[1-9][0-9]*$'))"
+		 />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing variable xs-namespace">
 		<x:context />
 		<x:expect label="'xs' namespace URI"

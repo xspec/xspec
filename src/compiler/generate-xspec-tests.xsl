@@ -88,9 +88,11 @@
             </xsl:element>
 
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
-            <!-- Message content must be constructed at run time -->
+            <!-- system-property() must be retrieved at run time -->
             <message>
-               <text>Testing with </text>
+               <text>
+                  <xsl:text expand-text="yes">Testing with XSpec v{$x:xspec-version} and </xsl:text>
+               </text>
                <value-of select="system-property('{x:known-UQName('xsl:product-name')}')" />
                <text>
                   <xsl:text> </xsl:text>
