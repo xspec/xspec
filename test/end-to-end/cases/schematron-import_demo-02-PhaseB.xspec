@@ -2,11 +2,7 @@
 <?xspec-test require-saxon-bug-4666-fixed?>
 
 <!-- For testing Schematron x:import -->
-<x:description schematron="../../../tutorial/schematron/demo-02.sch"
+<x:description schematron="demo-02.sch" xml:base="../../../tutorial/schematron/"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-
-	<!-- TODO: One of the scenarios fails (xspec/xspec#733) -->
-
-	<x:import href="../../../tutorial/schematron/demo-02-PhaseB.xspec" />
-
+	<x:import href="demo-02-PhaseB.xspec" />
 </x:description>
