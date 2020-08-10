@@ -66,10 +66,8 @@
       <p:variable name="utils-lib" select="
           if ( $utils-library-at ) then
             $utils-library-at
-          else if ( $xspec-home ) then
-            resolve-uri('src/compiler/generate-query-utils.xqm', $xspec-home)
           else
-            ''"/>
+            ()"/>
 
       <!-- compile the suite into a query -->
       <t:compile-xquery>

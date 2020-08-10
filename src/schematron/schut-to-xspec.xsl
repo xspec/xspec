@@ -103,8 +103,8 @@
             <xsl:attribute name="select">
                 <xsl:choose>
                     <xsl:when test="@select">
-                        <xsl:text expand-text="yes">if (({@select}) => {x:known-UQName('test:wrappable-sequence')}())</xsl:text>
-                        <xsl:text expand-text="yes"> then {x:known-UQName('test:wrap-nodes')}(({@select}))</xsl:text>
+                        <xsl:text expand-text="yes">if (({@select}) => {x:known-UQName('x:wrappable-sequence')}())</xsl:text>
+                        <xsl:text expand-text="yes"> then {x:known-UQName('x:wrap-nodes')}(({@select}))</xsl:text>
 
                         <!-- Some Schematron implementations might possibly be able to handle
                             non-document nodes. Just generate a warning and pass @select as is. -->
