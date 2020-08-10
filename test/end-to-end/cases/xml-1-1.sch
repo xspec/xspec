@@ -3,7 +3,7 @@
 	<sch:pattern>
 		<sch:rule context="test">
 			<sch:report id="U0007" test="string() eq '&#x07;'" />
-			<sch:report id="U0008" test="string() eq '&#x08;'" />
+			<sch:report id="U0016" test="string() eq '&#x16;'" />
 		</sch:rule>
 	</sch:pattern>
 </sch:schema>

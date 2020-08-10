@@ -13,7 +13,7 @@
 
 		<!-- This x:expect fails deliberately so that the control characters appear in the report
 			files. -->
-		<x:expect-report id="U0008" label="Expect &#x08; reported" />
+		<x:expect-report id="U0016" label="Expect &#x16; reported" />
 	</x:scenario>
 
 </x:description>

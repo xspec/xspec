@@ -16,8 +16,8 @@
 
 		<!-- This x:expect fails deliberately so that the control characters appear in the report
 			files. -->
-		<x:expect label="Expect &#x08;">
-			<test>&#x08;</test>
+		<x:expect label="Expect &#x16;">
+			<test>&#x16;</test>
 		</x:expect>
 	</x:scenario>
 

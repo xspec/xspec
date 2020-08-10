@@ -2,8 +2,8 @@
 <testsuites name="xml-1-1_schematron.xspec">
    <testsuite name="Set up a context containing &#x7;" tests="2" failures="1">
       <testcase name="Expect &#x7; reported report U0007" status="passed"/>
-      <testcase name="Expect &#x8; reported report U0008" status="failed">
-         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'U0008'])</failure>
+      <testcase name="Expect &#x16; reported report U0016" status="failed">
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'U0016'])</failure>
       </testcase>
    </testsuite>
 </testsuites>
