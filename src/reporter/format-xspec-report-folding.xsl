@@ -16,132 +16,132 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
-<xsl:import href="format-xspec-report.xsl" />
+   <xsl:import href="format-xspec-report.xsl" />
 
-<pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report-folding.xsl</pkg:import-uri>
+   <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report-folding.xsl</pkg:import-uri>
 
-<xsl:template name="x:html-head-callback" as="element(xhtml:script)">
-  <xsl:context-item as="document-node(element(x:report))" use="required" />
+   <xsl:template name="x:html-head-callback" as="element(xhtml:script)">
+      <xsl:context-item use="absent" />
 
-  <script language="javascript" type="text/javascript">
+      <script language="javascript" type="text/javascript">
 function toggle(scenarioID) {
-  table = document.getElementById("table_"+scenarioID);
-  icon = document.getElementById("icon_"+scenarioID)
-  // need to:
-  //   switch table.style.display between 'none' and 'block'
-  //   switch between collapse and expand icons
+   table = document.getElementById("table_"+scenarioID);
+   icon = document.getElementById("icon_"+scenarioID)
+   // need to:
+   //   switch table.style.display between 'none' and 'block'
+   //   switch between collapse and expand icons
 
    if (table.style.display == "none") {
-    // This try/catch is to handle IE 7.  It doesn't support table.style.display = "table"
-    try {
-      table.style.display = "table";
-    } catch(err) {
-      table.style.display = "block";
-    }
-    icon.src = "<xsl:value-of select="resolve-uri('../../graphics/3angle-down.gif')"/>" ;
-    icon.alt = "collapse" ;
-    icon.title = "collapse" ;
-  }
-  else {
-    table.style.display = "none";
-    icon.src = "<xsl:value-of select="resolve-uri('../../graphics/3angle-right.gif')"/>" ;
-    icon.alt = "expand" ;
-    icon.title = "expand" ;
-  };
+      // This try/catch is to handle IE 7.  It doesn't support table.style.display = "table"
+      try {
+         table.style.display = "table";
+      } catch(err) {
+         table.style.display = "block";
+      }
+      icon.src = "<xsl:value-of select="resolve-uri('../../graphics/3angle-down.gif')"/>" ;
+      icon.alt = "collapse" ;
+      icon.title = "collapse" ;
+   }
+   else {
+      table.style.display = "none";
+      icon.src = "<xsl:value-of select="resolve-uri('../../graphics/3angle-right.gif')"/>" ;
+      icon.alt = "expand" ;
+      icon.title = "expand" ;
+   };
 
-  return;
+   return;
 }
 </script>
-</xsl:template>
+   </xsl:template>
 
-<xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
-  <xsl:context-item as="element(x:scenario)" use="required" />
+   <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
+      <xsl:context-item as="element(x:scenario)" use="required" />
 
-  <xsl:variable name="pending" as="xs:boolean"
-    select="exists(@pending)" />
-  <xsl:variable name="any-failure" as="xs:boolean"
-    select="exists(x:test[x:is-failed-test(.)])" />
-  <xsl:variable name="any-descendant-failure" as="xs:boolean"
-    select="exists(x:descendant-failed-tests(.))" />
+      <xsl:variable name="pending" as="xs:boolean"
+         select="exists(@pending)" />
+      <xsl:variable name="any-failure" as="xs:boolean"
+         select="exists(x:test[x:is-failed-test(.)])" />
+      <xsl:variable name="any-descendant-failure" as="xs:boolean"
+         select="exists(x:descendant-failed-tests(.))" />
 
-  <div id="top_{@id}">
-    <h2
-      class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
-      <a href="javascript:toggle('{@id}')">
-        <xsl:variable name="graphics-dir" as="xs:anyURI" select="resolve-uri('../../graphics/')" />
-        <xsl:variable name="img-file" as="xs:string"
-          select="if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'" />
-        <img src="{resolve-uri($img-file, $graphics-dir)}"
-             alt="{if ($any-descendant-failure) then 'collapse' else 'expand'}"
-             id="icon_{@id}" />
-      </a>
-      <xsl:sequence select="x:pending-callback(@pending)"/>
-      <xsl:apply-templates select="x:label" mode="x:html-report" />
-      <span class="scenario-totals">
-        <xsl:call-template name="x:output-test-stats">
-          <xsl:with-param name="tests" select="x:descendant-tests(.)" />
-        </xsl:call-template>
-      </span>
-    </h2>
-    <table class="xspec" id="table_{@id}" style="display: {if ($any-descendant-failure) then 'table' else 'none'}">
-      <colgroup>
-        <col style="width:85%" />
-        <col style="width:15%" />
-      </colgroup>
-      <tbody>
-        <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
-          <th>
+      <div id="top_{@id}">
+         <h2
+            class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+            <a href="javascript:toggle('{@id}')">
+               <xsl:variable name="graphics-dir" as="xs:anyURI" select="resolve-uri('../../graphics/')" />
+               <xsl:variable name="img-file" as="xs:string"
+                  select="if ($any-descendant-failure) then '3angle-down.gif' else '3angle-right.gif'" />
+               <img src="{resolve-uri($img-file, $graphics-dir)}"
+                  alt="{if ($any-descendant-failure) then 'collapse' else 'expand'}"
+                  id="icon_{@id}" />
+            </a>
             <xsl:sequence select="x:pending-callback(@pending)"/>
             <xsl:apply-templates select="x:label" mode="x:html-report" />
-          </th>
-          <th>
-            <xsl:call-template name="x:output-test-stats">
-              <xsl:with-param name="tests" select="x:descendant-tests(.)" />
-            </xsl:call-template>
-          </th>
-        </tr>
-        <xsl:apply-templates select="x:test" mode="x:html-summary" />
-        <xsl:for-each select=".//x:scenario[x:test]">
-          <xsl:variable name="pending" as="xs:boolean"
-            select="exists(@pending)" />
-          <xsl:variable name="any-failure" as="xs:boolean"
-            select="exists(x:test[x:is-failed-test(.)])" />
-          <xsl:variable name="label" as="node()+">
-            <xsl:for-each select="ancestor-or-self::x:scenario[position() != last()]">
-              <xsl:apply-templates select="x:label" mode="x:html-report" />
-              <xsl:if test="position() != last()">
-                <xsl:sequence select="x:separator-callback()"/>
-              </xsl:if>
-            </xsl:for-each>
-          </xsl:variable>
-          <tr id="{@id}"
-            class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
-            <th>
-              <xsl:sequence select="x:pending-callback(@pending)"/>
-              <xsl:choose>
-                <xsl:when test="$any-failure">
-                  <a href="#{@id}">
-                    <xsl:sequence select="$label" />
-                  </a>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:sequence select="$label" />
-                </xsl:otherwise>
-              </xsl:choose>
-            </th>
-            <th>
-              <xsl:call-template name="x:output-test-stats">
-                <xsl:with-param name="tests" select="x:test" />
-              </xsl:call-template>
-            </th>
-          </tr>
-          <xsl:apply-templates select="x:test" mode="x:html-summary" />
-        </xsl:for-each>
-      </tbody>
-    </table>
-    <xsl:apply-templates select="descendant-or-self::x:scenario[x:test[x:is-failed-test(.)]]" mode="x:html-report" />
-  </div>
-</xsl:template>
+            <span class="scenario-totals">
+               <xsl:call-template name="x:output-test-stats">
+                  <xsl:with-param name="tests" select="x:descendant-tests(.)" />
+               </xsl:call-template>
+            </span>
+         </h2>
+         <table class="xspec" id="table_{@id}" style="display: {if ($any-descendant-failure) then 'table' else 'none'}">
+            <colgroup>
+               <col style="width:85%" />
+               <col style="width:15%" />
+            </colgroup>
+            <tbody>
+               <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+                  <th>
+                     <xsl:sequence select="x:pending-callback(@pending)"/>
+                     <xsl:apply-templates select="x:label" mode="x:html-report" />
+                  </th>
+                  <th>
+                     <xsl:call-template name="x:output-test-stats">
+                        <xsl:with-param name="tests" select="x:descendant-tests(.)" />
+                     </xsl:call-template>
+                  </th>
+               </tr>
+               <xsl:apply-templates select="x:test" mode="x:html-summary" />
+               <xsl:for-each select=".//x:scenario[x:test]">
+                  <xsl:variable name="pending" as="xs:boolean"
+                     select="exists(@pending)" />
+                  <xsl:variable name="any-failure" as="xs:boolean"
+                     select="exists(x:test[x:is-failed-test(.)])" />
+                  <xsl:variable name="label" as="node()+">
+                     <xsl:for-each select="ancestor-or-self::x:scenario[position() != last()]">
+                        <xsl:apply-templates select="x:label" mode="x:html-report" />
+                        <xsl:if test="position() != last()">
+                           <xsl:sequence select="x:separator-callback()"/>
+                        </xsl:if>
+                     </xsl:for-each>
+                  </xsl:variable>
+                  <tr id="{@id}"
+                     class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+                     <th>
+                        <xsl:sequence select="x:pending-callback(@pending)"/>
+                        <xsl:choose>
+                           <xsl:when test="$any-failure">
+                              <a href="#{@id}">
+                                 <xsl:sequence select="$label" />
+                              </a>
+                           </xsl:when>
+                           <xsl:otherwise>
+                              <xsl:sequence select="$label" />
+                           </xsl:otherwise>
+                        </xsl:choose>
+                     </th>
+                     <th>
+                        <xsl:call-template name="x:output-test-stats">
+                           <xsl:with-param name="tests" select="x:test" />
+                        </xsl:call-template>
+                     </th>
+                  </tr>
+                  <xsl:apply-templates select="x:test" mode="x:html-summary" />
+               </xsl:for-each>
+            </tbody>
+         </table>
+         <xsl:apply-templates select="descendant-or-self::x:scenario[x:test[x:is-failed-test(.)]]" mode="x:html-report" />
+      </div>
+   </xsl:template>
 
 </xsl:stylesheet>
 

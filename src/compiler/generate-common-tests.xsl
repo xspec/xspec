@@ -19,8 +19,12 @@
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
    <xsl:include href="../common/xspec-utils.xsl"/>
+   <xsl:include href="gatherer.xsl" />
 
    <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
+
+   <xsl:param name="force-focus" as="xs:string?" />
+   <xsl:variable name="force-focus-ids" as="xs:string*" select="tokenize($force-focus, '\s+')[.]" />
 
    <!-- The initial XSpec document (the source document of the whole transformation).
       Note that this initial document is different from the document node generated within the
@@ -81,7 +85,7 @@
          select="x:gather-descriptions($this/x:description)" />
 
       <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
-         including x:variable, x:import and comments.
+         including x:variable and comments. (x:import is discarded.)
          The original node identities, document URI and base URI are lost in this processing. -->
       <xsl:variable name="specs" as="node()+">
          <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
@@ -103,6 +107,11 @@
       <!-- Assign @id -->
       <xsl:variable name="doc-with-id" as="document-node()">
          <xsl:apply-templates select="$unshared-doc" mode="x:assign-id" />
+      </xsl:variable>
+
+      <!-- Force focus -->
+      <xsl:variable name="doc-maybe-focus-enforced" as="document-node()">
+         <xsl:apply-templates select="$doc-with-id" mode="x:force-focus" />
       </xsl:variable>
 
       <!-- Combine all the children of x:description into a single x:description -->
@@ -136,176 +145,14 @@
                         select="resolve-uri(., base-uri())" />
                   </xsl:for-each>
 
-                  <xsl:sequence select="$doc-with-id" />
+                  <xsl:sequence select="$doc-maybe-focus-enforced" />
                </xsl:element>
             </xsl:for-each>
          </xsl:document>
       </xsl:variable>
 
       <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$combined-doc/x:description" mode="x:generate-tests" />
-   </xsl:template>
-
-   <xsl:function name="x:gather-descriptions" as="element(x:description)+">
-      <xsl:param name="visit" as="element(x:description)+"/>
-
-      <!-- "$visit/x:import" without sorting -->
-      <xsl:variable name="imports" as="element(x:import)*"
-                    select="x:distinct-nodes-stable($visit ! x:import)" />
-
-      <!-- "document($imports/@href)" (and error check) without sorting -->
-      <xsl:variable name="docs" as="document-node(element(x:description))*"
-                    select="x:distinct-nodes-stable(
-                               $imports
-                               ! (document(@href) treat as document-node(element(x:description)))
-                            )" />
-
-      <!-- "$docs/x:description" without sorting -->
-      <xsl:variable name="imported" as="element(x:description)*"
-                    select="x:distinct-nodes-stable($docs ! x:description)" />
-
-      <!-- "$imported except $visit" without sorting -->
-      <xsl:variable name="visited-actual-uris" as="xs:anyURI+"
-         select="$visit ! x:actual-document-uri(/)" />
-      <xsl:variable name="imported-except-visit" as="element(x:description)*"
-         select="
-            $imported[empty(. intersect $visit)]
-
-            (: xspec/xspec#987 :)
-            [not(x:actual-document-uri(/) = $visited-actual-uris)]" />
-
-      <xsl:choose>
-         <xsl:when test="empty($imported-except-visit)">
-            <xsl:sequence select="$visit"/>
-         </xsl:when>
-         <xsl:otherwise>
-            <xsl:sequence select="($visit, $imported-except-visit) => x:gather-descriptions()" />
-         </xsl:otherwise>
-      </xsl:choose>
-   </xsl:function>
-
-   <!--
-      mode="x:gather-specs"
-      This mode makes each spec less context-dependent by performing these transformations:
-      * Copy @xslt-version from x:description to descendant x:scenario
-      * Add @xspec (and @xspec-original-location if applicable) to each scenario to record absolute
-        URI of originating .xspec file
-      * Resolve x:*/@href into absolute URI
-      * Discard whitespace-only text node in user-content unless otherwise specified by an ancestor
-      * Discard whitespace-only text node in non user-content unless it's in x:label
-      * Remove leading and trailing whitespace from names
-      * Wrap user-content text node in x:text resolving @expand-text specified by an ancestor
-   -->
-   <xsl:mode name="x:gather-specs" on-multiple-match="fail" on-no-match="shallow-copy" />
-
-   <!-- Dispatch user-content to its dedicated mode. This must be done in the highest priority. -->
-   <xsl:template match="node()[x:is-user-content(.)]" as="node()?" mode="x:gather-specs" priority="1">
-      <xsl:apply-templates select="." mode="x:gather-user-content" />
-   </xsl:template>
-
-   <!-- This mode always starts from this template -->
-   <xsl:template match="x:description" mode="x:gather-specs">
-      <xsl:apply-templates mode="#current">
-         <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
-         <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
-         <xsl:with-param name="xspec-module-uri" tunnel="yes" select="x:actual-document-uri(/)" />
-      </xsl:apply-templates>
-   </xsl:template>
-
-   <xsl:template match="x:scenario" as="element(x:scenario)" mode="x:gather-specs">
-      <xsl:param name="xslt-version" as="xs:decimal" tunnel="yes" required="yes"/>
-      <xsl:param name="xspec-module-uri" as="xs:anyURI" tunnel="yes" required="yes" />
-
-      <xsl:copy>
-         <xsl:attribute name="xslt-version" select="$xslt-version" />
-         <xsl:attribute name="xspec" select="$xspec-module-uri" />
-         <xsl:sequence select="
-            (: Keep this sequence order for local @xspec-original-location to take precedence
-               over x:description's one. :)
-            /x:description/@xspec-original-location,
-            @*" />
-
-         <xsl:apply-templates mode="#current"/>
-      </xsl:copy>
-   </xsl:template>
-
-   <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="x:gather-specs">
-      <xsl:if test="parent::x:label">
-         <!-- TODO: The specification of @label and x:label is not clear about whitespace.
-            Preserve it for now. -->
-         <xsl:sequence select="." />
-      </xsl:if>
-   </xsl:template>
-
-   <xsl:template match="@href" as="attribute(href)" mode="x:gather-specs">
-      <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-         select="resolve-uri(., x:base-uri(.))" />
-   </xsl:template>
-
-   <xsl:template match="@as | @function | @mode | @name | @template" as="attribute()"
-      mode="x:gather-specs">
-      <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}" select="x:trim(.)" />
-   </xsl:template>
-
-   <!--
-      mode="x:gather-user-content"
-      This mode works as a part of x:gather-specs mode and handles user-content. Once you enter this
-      mode, you never go back to x:gather-specs mode.
-   -->
-   <xsl:mode name="x:gather-user-content" on-multiple-match="fail" on-no-match="shallow-copy" />
-
-   <!-- x:space has been replaced with x:text -->
-   <xsl:template match="x:space" as="empty-sequence()" mode="x:gather-user-content">
-      <xsl:message terminate="yes">
-         <!-- Use x:xspec-name() for displaying the x:text element name with the prefix preferred by
-            the user -->
-         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
-      </xsl:message>
-   </xsl:template>
-
-   <xsl:template match="@x:expand-text" as="empty-sequence()" mode="x:gather-user-content" />
-
-   <xsl:template match="x:text" as="element(x:text)?" mode="x:gather-user-content">
-      <!-- Unwrap -->
-      <xsl:apply-templates mode="#current" />
-   </xsl:template>
-
-   <xsl:template match="text()" as="element(x:text)?" mode="x:gather-user-content">
-      <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" />
-
-      <xsl:if test="normalize-space()
-         or x:is-ws-only-text-node-significant(., $preserve-space)">
-         <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
-            created element does not pollute the namespaces copied for TVT.
-            Unfortunately the parent element does not always have the XSpec namespace. So, search
-            the ancestor elements for the XSpec namespace that will be less likely to be intrusive. -->
-         <xsl:element name="{
-            x:xspec-name(
-               'text',
-               ancestor::element()[x:copy-of-namespaces(.) = $x:xspec-namespace][1]
-            )}"
-            namespace="{$x:xspec-namespace}">
-            <xsl:variable name="expand-text" as="attribute()?"
-               select="
-                  ancestor::*[if (self::x:*)
-                              then @expand-text
-                              else @x:expand-text][1]
-                  /@*[if (parent::x:*)
-                      then self::attribute(expand-text)
-                      else self::attribute(x:expand-text)]" />
-            <xsl:if test="$expand-text">
-               <xsl:if test="x:yes-no-synonym($expand-text)">
-                  <!-- TVT may use namespace prefixes and/or the default namespace such as
-                     xs:QName('foo') -->
-                  <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
-               </xsl:if>
-
-               <xsl:attribute name="expand-text" select="$expand-text"/>
-            </xsl:if>
-
-            <xsl:sequence select="." />
-         </xsl:element>
-      </xsl:if>
+      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
    </xsl:template>
 
    <!--
@@ -353,10 +200,10 @@
        TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
-       resolving x:import elements in place.  Bur for now, those
+       resolving x:import elements in place.  But for now, those
        elements are still here, so we have to ignore them...
    -->
-   <xsl:template match="x:apply|x:call|x:context|x:import|x:label" mode="x:generate-calls">
+   <xsl:template match="x:apply|x:call|x:context|x:label" mode="x:generate-calls">
       <!-- Nothing, but must continue the sibling-walking... -->
       <xsl:call-template name="x:continue-call-scenarios"/>
    </xsl:template>
@@ -437,8 +284,13 @@
        Global x:variable and x:param elements are not handled like
        local variables and params (which are passed through calls).
        They are declared globally.
+       
+       x:helper is global.
    -->
-   <xsl:template match="x:description/x:param|x:description/x:variable" mode="x:generate-calls">
+   <xsl:template match="x:description/x:helper
+                       |x:description/x:param
+                       |x:description/x:variable"
+                 mode="x:generate-calls">
       <xsl:if test="self::x:variable">
         <xsl:call-template name="x:detect-reserved-variable-name"/>
       </xsl:if>
@@ -696,15 +548,15 @@
        TODO: Imports are "resolved" in x:gather-descriptions().  But this is
        not done the usual way, instead it returns all x:description
        elements.  Change this by using the usual recursive template
-       resolving x:import elements in place.  Bur for now, those
+       resolving x:import elements in place.  But for now, those
        elements are still here, so we have to ignore them...
    -->
-   <xsl:template match="x:description/x:param
+   <xsl:template match="x:description/x:helper
+                        |x:description/x:param
                         |x:description/x:variable
                         |x:apply
                         |x:call
                         |x:context
-                        |x:import
                         |x:label"
                  mode="x:compile">
       <!-- Nothing... -->
@@ -769,6 +621,31 @@
             <xsl:apply-templates select="." mode="x:generate-id" />
          </xsl:attribute>
          <xsl:apply-templates select="attribute() | node()" mode="#current" />
+      </xsl:copy>
+   </xsl:template>
+
+   <!--
+      mode="x:force-focus"
+      This mode enforces focus on specific instances of x:scenario
+   -->
+   <xsl:mode name="x:force-focus" on-multiple-match="fail" on-no-match="shallow-copy" />
+
+   <!-- Leave user-content intact. This must be done in the highest priority. -->
+   <xsl:template match="node()[x:is-user-content(.)]" as="node()" mode="x:force-focus"
+      priority="1">
+      <xsl:sequence select="." />
+   </xsl:template>
+
+   <!-- Force or remove focus -->
+   <xsl:template match="x:scenario[exists($force-focus-ids)]" as="element(x:scenario)"
+      mode="x:force-focus">
+      <xsl:copy>
+         <xsl:if test="@id = $force-focus-ids">
+            <xsl:attribute name="focus" select="'force focus'" />
+         </xsl:if>
+         <xsl:apply-templates select="attribute() except @focus" mode="#current" />
+
+         <xsl:apply-templates select="node()" mode="#current" />
       </xsl:copy>
    </xsl:template>
 
@@ -932,16 +809,6 @@
       <xsl:param name="pending-node" as="node()" />
 
       <xsl:attribute name="pending" select="$pending-node" />
-   </xsl:function>
-
-   <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
-     in a prior position of the sequence.)
-     This function does not sort nodes in document order.
-     Based on http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable -->
-   <xsl:function name="x:distinct-nodes-stable" as="node()*">
-      <xsl:param name="nodes" as="node()*"/>
-
-      <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
    </xsl:function>
 
    <!-- Removes duplicate strings from a sequence of strings. (Removes a string if it appears

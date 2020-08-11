@@ -17,7 +17,9 @@
          <test id="scenario1-scenario1-expect1" successful="false">
             <label>Expecting document node via @href should be Failure</label>
             <expect select="/self::document-node()">
-               <foo xmlns=""/>
+               <content-wrap xmlns="">
+                  <foo/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario1-scenario1-expect2" successful="true">
@@ -29,7 +31,9 @@
                          test="$x:result treat as xs:boolean"/>
             </expect-test-wrap>
             <expect select="/self::document-node()">
-               <foo xmlns=""/>
+               <content-wrap xmlns="">
+                  <foo/>
+               </content-wrap>
             </expect>
          </test>
       </scenario>
@@ -75,10 +79,11 @@
          <test id="scenario3-scenario1-expect1" successful="false">
             <label>Expecting element(foo) via child node should be Failure</label>
             <expect select="/element()">
-               <foo xmlns:mirror="x-urn:test:mirror"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns=""/>
+               <content-wrap xmlns="">
+                  <foo xmlns:mirror="x-urn:test:mirror"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               </content-wrap>
             </expect>
          </test>
          <test id="scenario3-scenario1-expect2" successful="true">
@@ -90,10 +95,11 @@
                          test="$x:result treat as xs:boolean"/>
             </expect-test-wrap>
             <expect select="/element()">
-               <foo xmlns:mirror="x-urn:test:mirror"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns=""/>
+               <content-wrap xmlns="">
+                  <foo xmlns:mirror="x-urn:test:mirror"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+               </content-wrap>
             </expect>
          </test>
       </scenario>

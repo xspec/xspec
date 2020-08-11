@@ -15,21 +15,23 @@
             </x:context>
          </input-wrap>
          <result select="/element()">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    title=""
-                                    schemaVersion=""><!--   
+            <content-wrap xmlns="">
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:saxon="http://saxon.sf.net/"
+                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       title=""
+                                       schemaVersion=""><!--   
 		   
 		   
 		 -->
-               <svrl:active-pattern document=""/>
-               <svrl:fired-rule context="context-child"/>
-            </svrl:schematron-output>
+                  <svrl:active-pattern document=""/>
+                  <svrl:fired-rule context="context-child"/>
+               </svrl:schematron-output>
+            </content-wrap>
          </result>
          <test id="scenario1-scenario1-expect1" successful="true">
             <label>valid</label>
@@ -49,21 +51,23 @@
             </x:context>
          </input-wrap>
          <result select="/element()">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    title=""
-                                    schemaVersion=""><!--   
+            <content-wrap xmlns="">
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:saxon="http://saxon.sf.net/"
+                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       title=""
+                                       schemaVersion=""><!--   
 		   
 		   
 		 -->
-               <svrl:active-pattern document=""/>
-               <svrl:fired-rule context="context-child"/>
-            </svrl:schematron-output>
+                  <svrl:active-pattern document=""/>
+                  <svrl:fired-rule context="context-child"/>
+               </svrl:schematron-output>
+            </content-wrap>
          </result>
          <test id="scenario1-scenario2-expect1" successful="true">
             <label>valid</label>
@@ -83,21 +87,23 @@
             </x:context>
          </input-wrap>
          <result select="/element()">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    title=""
-                                    schemaVersion=""><!--   
+            <content-wrap xmlns="">
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:saxon="http://saxon.sf.net/"
+                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       title=""
+                                       schemaVersion=""><!--   
 		   
 		   
 		 -->
-               <svrl:active-pattern document=""/>
-               <svrl:fired-rule context="context-child"/>
-            </svrl:schematron-output>
+                  <svrl:active-pattern document=""/>
+                  <svrl:fired-rule context="context-child"/>
+               </svrl:schematron-output>
+            </content-wrap>
          </result>
          <test id="scenario1-scenario3-expect1" successful="true">
             <label>valid</label>
@@ -120,21 +126,23 @@
             </x:context>
          </input-wrap>
          <result select="/element()">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    title=""
-                                    schemaVersion=""><!--   
+            <content-wrap xmlns="">
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:saxon="http://saxon.sf.net/"
+                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       title=""
+                                       schemaVersion=""><!--   
 		   
 		   
 		 -->
-               <svrl:active-pattern document=""/>
-               <svrl:fired-rule context="context-child"/>
-            </svrl:schematron-output>
+                  <svrl:active-pattern document=""/>
+                  <svrl:fired-rule context="context-child"/>
+               </svrl:schematron-output>
+            </content-wrap>
          </result>
          <test id="scenario2-scenario1-expect1" successful="true">
             <label>valid</label>
@@ -154,21 +162,23 @@
             </x:context>
          </input-wrap>
          <result select="/element()">
-            <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                    title=""
-                                    schemaVersion=""><!--   
+            <content-wrap xmlns="">
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:saxon="http://saxon.sf.net/"
+                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       title=""
+                                       schemaVersion=""><!--   
 		   
 		   
 		 -->
-               <svrl:active-pattern document=""/>
-               <svrl:fired-rule context="context-child"/>
-            </svrl:schematron-output>
+                  <svrl:active-pattern document=""/>
+                  <svrl:fired-rule context="context-child"/>
+               </svrl:schematron-output>
+            </content-wrap>
          </result>
          <test id="scenario2-scenario2-expect1" successful="true">
             <label>valid</label>

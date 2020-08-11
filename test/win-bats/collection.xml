@@ -99,6 +99,7 @@
 	<!--
 		SAXON_CP has precedence over SAXON_HOME
 	-->
+
 	<case name="SAXON_CP has precedence over SAXON_HOME">
     set "SAXON_HOME=%WORK_DIR%\empty-saxon-home %RANDOM%"
     call :mkdir "%SAXON_HOME%"
@@ -129,7 +130,7 @@
     call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.xml"
     call :verify_exist "%SPECIAL_CHARS_DIR%\xspec\demo-result.html"
 
-    rem Check the coverage report XML file contents
+    rem Check the coverage trace XML file contents
     call :run java -jar "%SAXON_JAR%" ^
         -s:"%SPECIAL_CHARS_DIR%\xspec\demo-coverage.xml" ^
         -xsl:check-coverage-xml.xsl
@@ -332,7 +333,7 @@
     set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
 
     rem Run
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -355,7 +356,7 @@
     set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
 
     rem Run
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -372,7 +373,7 @@
 	</case>
 
 	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XQuery with special characters in expression #1020)">
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%WORK_DIR:\=/%/issue-1020-result_%RANDOM%.html" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -662,7 +663,7 @@
     set "EXPECTED_REPORT=%WORK_DIR%\issue-1020-result_%RANDOM%.html"
 
     rem Run (also test with special characters in expression #1020)
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p basex-jar="%BASEX_JAR%" ^
@@ -694,7 +695,7 @@
     set "EXPECTED_REPORT=%WORK_DIR%\issue-1020-result_%RANDOM%.html"
 
     rem Run (also test with special characters in expression #1020)
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p auth-method=Basic ^
@@ -1325,6 +1326,32 @@
 	</case>
 
 	<!--
+		xspec.compiler.saxon.config
+	-->
+
+	<case name="xspec.compiler.saxon.config (relative path)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dxspec.compiler.saxon.config=test\compiler-saxon-config\config.xml ^
+        -Dxspec.xml=test\compiler-saxon-config\test.xspec
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+	</case>
+
+	<case name="xspec.compiler.saxon.config (absolute path)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dxspec.compiler.saxon.config="%CD%\compiler-saxon-config\config.xml" ^
+        -Dxspec.xml="%CD%\compiler-saxon-config\test.xspec"
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+	</case>
+
+	<!--
 		Coverage (Ant)
 	-->
 
@@ -1342,8 +1369,10 @@
     call :verify_exist "%TEST_DIR%\demo-result.xml"
     call :verify_exist "%TEST_DIR%\demo-result.html"
 
-    rem Coverage report file is created and contains CSS inline
-    call :run java -jar "%SAXON_JAR%" -s:"%TEST_DIR%\demo-coverage.html" -xsl:check-html-css.xsl
+    rem Coverage report HTML file is created and contains CSS inline
+    call :run java -jar "%SAXON_JAR%" ^
+        -s:"%TEST_DIR%\demo-coverage.html" ^
+        -xsl:check-html-css.xsl
     call :verify_retval 0
     call :verify_line 1 x "true"
 	</case>
@@ -1526,7 +1555,7 @@
 	-->
 
 	<case ifdef="XMLCALABASH_JAR" name="XSLT selecting nodes without context should be error (XProc) #423">
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xslt-harness.xproc
@@ -1536,7 +1565,7 @@
 	</case>
 
 	<case ifdef="XMLCALABASH_JAR" name="XQuery selecting nodes without context should be error (XProc) #423">
-    call :run java -jar "%XMLCALABASH_JAR%" ^
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xquery-harness.xproc
@@ -1618,7 +1647,7 @@
     call :verify_line 1 x "true"
 	</case>
 
-	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="report-css-uri for coverage report file">
+	<case ifdef="XSLT_SUPPORTS_COVERAGE" name="report-css-uri for coverage report HTML file">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -1887,11 +1916,11 @@
 		Override ID generation templates
 	-->
 
-	<case name="Override ID generation">
+	<case name="Override ID generation (XSLT)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -Dxspec.compiler.xsl="%CD%\override-id\generate-xspec-tests.xsl" ^
+        -Dxspec.xslt.compiler.xsl="%CD%\override-id\generate-xspec-tests.xsl" ^
         -Dxspec.fail=false ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
     call :verify_retval 0
@@ -1899,11 +1928,27 @@
     call :verify_line -2 x "BUILD SUCCESSFUL"
 
     call :run type "%TEST_DIR%\escape-for-regex-compiled.xsl"
-    call :verify_line * r "..*Q{http://www.jenitennison.com/xslt/xspec}overridden-scenario-id-"
-    call :verify_line * r "..*Q{http://www.jenitennison.com/xslt/xspec}overridden-expect-id-"
+    call :verify_line * r "..*Q{http://www.jenitennison.com/xslt/xspec}overridden-xslt-scenario-id-"
+    call :verify_line * r "..*Q{http://www.jenitennison.com/xslt/xspec}overridden-xslt-expect-id-"
 	</case>
 
-	<!--
+	<case name="Override ID generation (XQuery)">
+    call :run ant ^
+        -buildfile ..\build.xml ^
+        -lib "%SAXON_JAR%" ^
+        -Dtest.type=q ^
+        -Dxspec.xquery.compiler.xsl="%CD%\override-id\generate-query-tests.xsl" ^
+        -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
+    call :verify_retval 0
+    call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line -2 x "BUILD SUCCESSFUL"
+
+    call :run type "%TEST_DIR%\xquery-tutorial-compiled.xq"
+    call :verify_line * r "declare function local:overridden-xquery-scenario-id-"
+    call :verify_line * r "declare function local:overridden-xquery-expect-id-"
+	</case>
+
+    <!--
 		Custom HTML reporter (CLI)
 		
 			Ant is tested by XSPEC_HOME/test/end-to-end/cases/format-xspec-report-folding.xspec
@@ -2026,6 +2071,7 @@
 	<!--
 		$x:saxon-config is not a Saxon config
 	-->
+
 	<case name="$x:saxon-config is not a Saxon config">
     call :run ..\bin\xspec.bat x-saxon-config\test.xspec
     call :verify_retval 2
@@ -2036,6 +2082,7 @@
 	<!--
 		Duplicate param name
 	-->
+
 	<case name="Duplicate function-call param name (XSLT)">
     call :run ..\bin\xspec.bat dup-param-name\function-call.xspec
     call :verify_retval 2

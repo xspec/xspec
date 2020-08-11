@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xml:base="../" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xi="http://www.w3.org/2001/XInclude">
+	<x:scenario label="Using XInclude">
+		<x:context>
+			<xi:include href="ws-only-text.xml" />
+		</x:context>
+		<x:call template="mirror:context-mirror" />
+		<x:expect label="Expect with the same XInclude">
+			<xi:include href="ws-only-text.xml" />
+		</x:expect>
+		<x:expect label="Expect without XInclude">
+			<span xml:base="ws-only-text.xml" />
+		</x:expect>
+	</x:scenario>
+</x:description>

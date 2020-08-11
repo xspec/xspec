@@ -5,12 +5,12 @@
 
 	<xsl:import href="../../src/compiler/generate-xspec-tests.xsl" />
 
-	<xsl:template match="x:scenario" as="xs:string" mode="x:generate-id">
-		<xsl:sequence select="'overridden-scenario-id-' || generate-id()" />
+	<xsl:template as="xs:string" match="x:scenario" mode="x:generate-id">
+		<xsl:sequence select="'overridden-xslt-scenario-id-' || generate-id()" />
 	</xsl:template>
 
-	<xsl:template match="x:expect" as="xs:string" mode="x:generate-id">
-		<xsl:sequence select="'overridden-expect-id-' || generate-id()" />
+	<xsl:template as="xs:string" match="x:expect" mode="x:generate-id">
+		<xsl:sequence select="'overridden-xslt-expect-id-' || generate-id()" />
 	</xsl:template>
 
 </xsl:stylesheet>

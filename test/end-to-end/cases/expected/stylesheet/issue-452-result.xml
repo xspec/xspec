@@ -12,7 +12,9 @@
             <x:param>t</x:param>
          </x:call>
       </input-wrap>
-      <result select="/text()">t</result>
+      <result select="/text()">
+         <content-wrap xmlns="">t</content-wrap>
+      </result>
       <test id="scenario1-expect1" successful="false">
          <label>Expect</label>
          <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
@@ -27,7 +29,9 @@
             <x:param><!--c--></x:param>
          </x:call>
       </input-wrap>
-      <result select="/comment()"><!--c--></result>
+      <result select="/comment()">
+         <content-wrap xmlns=""><!--c--></content-wrap>
+      </result>
       <test id="scenario2-expect1" successful="false">
          <label>Expect</label>
          <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
@@ -42,7 +46,9 @@
             <x:param><?p?></x:param>
          </x:call>
       </input-wrap>
-      <result select="/processing-instruction()"><?p?></result>
+      <result select="/processing-instruction()">
+         <content-wrap xmlns=""><?p?></content-wrap>
+      </result>
       <test id="scenario3-expect1" successful="false">
          <label>Expect</label>
          <expect select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
@@ -60,9 +66,10 @@
          </x:call>
       </input-wrap>
       <result select="/element()">
-         <elem xmlns:mirror="x-urn:test:mirror"
-               xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns="">t<!--c--><?p?></elem>
+         <content-wrap xmlns="">
+            <elem xmlns:mirror="x-urn:test:mirror"
+                  xmlns:x="http://www.jenitennison.com/xslt/xspec">t<!--c--><?p?></elem>
+         </content-wrap>
       </result>
       <test id="scenario4-expect1" successful="false">
          <label>Expect</label>

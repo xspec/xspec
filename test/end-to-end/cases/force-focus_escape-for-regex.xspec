@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Force focus on a child scenario -->
+<?xspec-test force-focus=scenario2-scenario1?>
+
+<!-- Exclude unrelated scenarios from the test result report HTML -->
+<?xspec-test html-reporter=${xspec.project.dir}/test/end-to-end/cases/force-focus-reporter.xsl?>
+
+<x:description stylesheet="escape-for-regex.xsl" xml:base="../../../tutorial/"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="escape-for-regex.xspec" />
+</x:description>

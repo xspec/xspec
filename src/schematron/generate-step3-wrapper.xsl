@@ -18,6 +18,8 @@
 		Empty sequence means the built-in preprocessor. -->
 	<xsl:param as="xs:string?" name="ACTUAL-PREPROCESSOR-URI" />
 
+	<xsl:import href="../compiler/gatherer.xsl" />
+
 	<xsl:include href="../common/xspec-utils.xsl" />
 	<xsl:include href="../compiler/generate-tests-helper.xsl" />
 
@@ -52,16 +54,19 @@
 				</xsl:element>
 			</xsl:if>
 
-			<!-- Set up a pseudo x:param which holds the fully-resolved Schematron file URI
-				so that $x:schematron-uri holding the URI is generated and made available in
-				the wrapper stylesheet being generated -->
 			<xsl:variable as="element(x:description)" name="pseudo-description">
 				<!--
-					- Wrap x:param in x:description so that it's recognized as a global x:param.
+					- Wrap x:param and x:variable in x:description so that they're recognized as
+					  global ones.
 					- Use x:xspec-name() for the element names just for cleanness.
 				-->
 				<xsl:element name="{x:xspec-name('description', .)}"
 					namespace="{$x:xspec-namespace}">
+					<!-- Set up a pseudo x:param which holds the fully-resolved Schematron file URI
+						so that $x:schematron-uri holding the URI is generated and made available in
+						the wrapper stylesheet being generated.
+						Do it even when the private patch is not imported, because the preprocessor
+						specified by $ACTUAL-PREPROCESSOR-URI may want to make use of it. -->
 					<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
 						<xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
 						<xsl:attribute name="name" select="x:known-UQName('x:schematron-uri')" />
@@ -69,27 +74,48 @@
 						<!-- Output as a text node so that we don't need to take care of escaping -->
 						<xsl:value-of select="x:locate-schematron-uri(.)" />
 					</xsl:element>
+
+					<!-- Gather user-provided global params and variables -->
+					<xsl:call-template name="gather-global-params-and-vars" />
 				</xsl:element>
 			</xsl:variable>
 
-			<!-- Generate $x:schematron-uri xsl:param even when the private patch is not imported,
-				because the preprocessor specified by $ACTUAL-PREPROCESSOR-URI may want to make use
-				of it. -->
 			<xsl:apply-templates mode="test:generate-variable-declarations"
-				select="$pseudo-description/x:param" />
-
-			<!-- Resolve x:param -->
-			<xsl:for-each select="x:param[x:yes-no-synonym(@static, false())]">
-				<!-- Reject @static=yes, because it doesn't take effect.
-					Making @static=yes take effect requires coordination with schut-to-xslt.xsl who
-					invokes the wrapper stylesheet being generated here. Implementing it isn't
-					worthwhile until requested seriously. -->
-				<xsl:message terminate="yes">
-					<xsl:text expand-text="yes">Enabling @static in {name()} is not supported for Schematron.</xsl:text>
-				</xsl:message>
-			</xsl:for-each>
-			<xsl:apply-templates mode="test:generate-variable-declarations" select="x:param" />
+				select="$pseudo-description/element()" />
 		</xsl:element>
+	</xsl:template>
+
+	<!--
+		Gather x:description/(x:param | x:variable)
+	-->
+	<xsl:template as="element()*" name="gather-global-params-and-vars">
+		<xsl:context-item as="element(x:description)" use="required" />
+
+		<!-- Collect all the instances of x:description by resolving x:import -->
+		<xsl:variable as="element(x:description)+" name="descriptions"
+			select="x:gather-descriptions(.)" />
+
+		<xsl:apply-templates mode="x:gather-specs" select="$descriptions" />
+	</xsl:template>
+
+	<!--
+		mode="x:gather-specs"
+		Override the imported mode.
+	-->
+
+	<!-- Discard all except global params and variables -->
+	<xsl:template as="empty-sequence()"
+		match="x:description/node()[not(self::x:param | self::x:variable)]" mode="x:gather-specs" />
+
+	<!-- Reject @static=yes, because it doesn't take effect.
+		Making @static=yes take effect requires coordination with schut-to-xslt.xsl who invokes the
+		wrapper stylesheet being generated here. Implementing it isn't worthwhile until requested
+		seriously. -->
+	<xsl:template as="empty-sequence()" match="x:param[x:yes-no-synonym(@static, false())]"
+		mode="x:gather-specs">
+		<xsl:message terminate="yes">
+			<xsl:text expand-text="yes">Enabling @static in {name()} is not supported for Schematron.</xsl:text>
+		</xsl:message>
 	</xsl:template>
 
 </xsl:stylesheet>

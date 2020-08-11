@@ -165,26 +165,6 @@
         </xsl:call-template>
     </xsl:template>
 
-    <!--
-        mode="make-predicate"
-    -->
-    <xsl:mode name="make-predicate" on-multiple-match="fail" on-no-match="fail" />
-
-    <xsl:template match="@location" as="text()" mode="make-predicate">
-        <xsl:text expand-text="yes">[{x:known-UQName('x:schematron-location-compare')}({x:quote-with-apos(.)}, @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')})]</xsl:text>
-    </xsl:template>
-
-    <xsl:template match="@id | @role" as="text()" mode="make-predicate">
-        <xsl:text expand-text="yes">[(@{local-name()}, preceding-sibling::{x:known-UQName('svrl:fired-rule')}[1]/@{local-name()}, preceding-sibling::{x:known-UQName('svrl:active-pattern')}[1]/@{local-name()})[1] = '{.}']</xsl:text>
-    </xsl:template>
-
-    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" as="text()"
-        mode="make-predicate">
-        <xsl:text expand-text="yes">[@{local-name()} = '{.}']</xsl:text>
-    </xsl:template>
-
-    <xsl:template match="@count | @label" as="empty-sequence()" mode="make-predicate" />
-
     <xsl:template match="x:expect-valid" as="element(x:expect)">
         <xsl:variable name="bad-roles" as="xs:string"
             select="
@@ -211,10 +191,34 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template match="x:*/@href" as="attribute(href)">
+    <xsl:template match="x:*/@href | x:helper/@stylesheet" as="attribute()">
         <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
             select="resolve-uri(., x:base-uri(.))" />
     </xsl:template>
+
+    <!--
+        mode="make-predicate"
+    -->
+    <xsl:mode name="make-predicate" on-multiple-match="fail" on-no-match="fail" />
+
+    <xsl:template match="@location" as="text()" mode="make-predicate">
+        <xsl:text expand-text="yes">[(${x:known-UQName('x:context')}/root()/({.}) treat as node()) is {x:known-UQName('x:select-node')}(${x:known-UQName('x:context')}/root(), @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')}, {parent::element() => x:xslt-version()})]</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="@id | @role" as="text()" mode="make-predicate">
+        <xsl:text expand-text="yes">[(@{local-name()}, preceding-sibling::{x:known-UQName('svrl:fired-rule')}[1]/@{local-name()}, preceding-sibling::{x:known-UQName('svrl:active-pattern')}[1]/@{local-name()})[1] = '{.}']</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" as="text()"
+        mode="make-predicate">
+        <xsl:text expand-text="yes">[@{local-name()} = '{.}']</xsl:text>
+    </xsl:template>
+
+    <xsl:template match="@count | @label" as="empty-sequence()" mode="make-predicate" />
+
+    <!--
+        Named templates
+    -->
 
     <xsl:template name="create-expect" as="element(x:expect)">
         <xsl:context-item as="element()" use="required" />

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="schematron-import_demo-02-PhaseB.xspec">
-   <testsuite name="Pattern 2" tests="2" failures="1">
+   <testsuite name="Pattern 2" tests="2" failures="0">
       <testcase name="assert t2-1 error" status="passed"/>
-      <testcase name="not assert t1-1" status="failed">
-         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 't1-1'])</failure>
-      </testcase>
+      <testcase name="not assert t1-1" status="passed"/>
    </testsuite>
    <testsuite name="Pattern 3 - Shared" tests="1" failures="0">
       <testcase name="assert t3-1" status="passed"/>

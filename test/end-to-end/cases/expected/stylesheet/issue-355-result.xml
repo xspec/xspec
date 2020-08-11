@@ -13,7 +13,9 @@
          </x:call>
       </input-wrap>
       <result select="/*">
-         <pseudo-function>xs:integer#1</pseudo-function>
+         <content-wrap xmlns="">
+            <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">xs:integer#1</pseudo-function>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
          <label>Fail deliberately</label>
@@ -30,7 +32,9 @@
          </x:call>
       </input-wrap>
       <result select="/*">
-         <pseudo-function>(anonymous-function)#1</pseudo-function>
+         <content-wrap xmlns="">
+            <pseudo-function xmlns="http://www.jenitennison.com/xslt/xspec">(anonymous-function)#1</pseudo-function>
+         </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="false">
          <label>Fail deliberately</label>

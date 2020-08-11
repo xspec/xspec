@@ -11,12 +11,16 @@
          </t:context>
       </input-wrap>
       <result select="/element()">
-         <transformed xmlns=""/>
+         <content-wrap xmlns="">
+            <transformed/>
+         </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
          <label>must return Success</label>
          <expect select="/element()">
-            <transformed xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <transformed xmlns:t="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>
@@ -28,12 +32,16 @@
          </t:context>
       </input-wrap>
       <result select="/element()">
-         <transformed xmlns=""/>
+         <content-wrap xmlns="">
+            <transformed/>
+         </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="false">
          <label>must return Failure</label>
          <expect select="/element()">
-            <erroneous xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns=""/>
+            <content-wrap xmlns="">
+               <erroneous xmlns:t="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
          </expect>
       </test>
    </scenario>

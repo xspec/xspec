@@ -72,16 +72,13 @@ rem ##
     java ^
         -Dxspec.coverage.ignore="%TEST_DIR%" ^
         -Dxspec.coverage.xml="%COVERAGE_XML%" ^
+        -Dxspec.home="%XSPEC_HOME%" ^
         -Dxspec.xspecfile="%XSPEC%" ^
         -cp "%CP%" net.sf.saxon.Transform %CATALOG% %*
     goto :EOF
 
 :xquery
-    java ^
-        -Dxspec.coverage.ignore="%TEST_DIR%" ^
-        -Dxspec.coverage.xml="%COVERAGE_XML%" ^
-        -Dxspec.xspecfile="%XSPEC%" ^
-        -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
+    java -cp "%CP%" net.sf.saxon.Query %CATALOG% %*
     goto :EOF
 
 :win_reset_options
@@ -421,16 +418,9 @@ if defined XSLT (
     rem
     rem # for XQuery
     rem
-    if defined COVERAGE (
-        echo Collecting test coverage data...
-        call :xquery %SAXON_CUSTOM_OPTIONS% ^
-            -T:%COVERAGE_CLASS% ^
-            -o:"%RESULT%" -q:"%COMPILED%" ^
-            || ( call :die "Error collecting test coverage data" & goto :win_main_error_exit )
-    ) else (
-        call :xquery %SAXON_CUSTOM_OPTIONS% ^
-            -o:"%RESULT%" -q:"%COMPILED%" ^
-            || ( call :die "Error running the test suite" & goto :win_main_error_exit )
+    call :xquery %SAXON_CUSTOM_OPTIONS% ^
+        -o:"%RESULT%" -q:"%COMPILED%" ^
+        || ( call :die "Error running the test suite" & goto :win_main_error_exit )
     )
 )
 

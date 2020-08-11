@@ -20,7 +20,7 @@
                         <documentTypeEntry-array>
                             <documentTypeEntry>
                                 <field name="documentTypeID">
-                                    <String>4/xspec-61a11b74b1757ab6e42674d79482e17848c8148b/xspec.framework/XSpec</String>
+                                    <String>4/xspec-d490d5ed50f871061c1ebb7e6037ccf8d2d3735e/xspec.framework/XSpec</String>
                                 </field>
                                 <field name="enable">
                                     <Boolean>false</Boolean>
@@ -65,6 +65,7 @@
             <file name="src/reporter/coverage-report.xsl"/>
             <file name="src/ant/find-test-failure.xsl"/>
             <file name="src/reporter/format-xspec-report-folding.xsl"/>
+            <file name="src/schematron/generate-node-selector.xsl"/>
             <file name="src/compiler/generate-query-tests.xsl"/>
             <file name="src/schematron/generate-step3-wrapper.xsl"/>
             <file name="src/compiler/generate-xspec-tests.xsl"/>
@@ -75,7 +76,6 @@
             <file name="test/end-to-end/processor/html/normalize.xsl"/>
             <file name="test/end-to-end/processor/junit/normalize.xsl"/>
             <file name="test/end-to-end/processor/xml/normalize.xsl"/>
-            <file name="src/schematron/sch-location-compare.xsl"/>
             <file name="src/schematron/schut-to-xslt.xsl"/>
             <file name="src/schematron/schut-to-xspec.xsl"/>
         </folder>

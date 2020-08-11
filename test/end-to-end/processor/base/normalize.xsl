@@ -28,7 +28,8 @@
 			<xsl:apply-templates mode="deserializer:unindent" select="." />
 		</xsl:variable>
 
-		<xsl:result-document format="serializer:output">
+		<xsl:result-document format="serializer:output"
+			output-version="{deserializer:xml-version($input-doc-uri)}">
 			<xsl:apply-templates mode="normalizer:normalize" select="$input-doc">
 				<xsl:with-param name="tunnel_document-uri" select="$input-doc-uri" tunnel="yes" />
 			</xsl:apply-templates>
