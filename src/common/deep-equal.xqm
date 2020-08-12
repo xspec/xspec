@@ -147,7 +147,7 @@ declare function deq:sorted-children(
           $node/test:message)
 };
 
-declare function deq:sort-named-nodes(
+declare %private function deq:sort-named-nodes(
   $nodes as node()*
 ) as node()*
 {
