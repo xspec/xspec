@@ -162,7 +162,7 @@ declare %private function deq:sort-named-nodes(
 };
 
 (: Return the "minimum" of $nodes, using the order defined by
- : test:sort-named-nodes().
+ : deq:sort-named-nodes().
  :)
 declare %private function deq:named-nodes-minimum(
   $nodes as node()+
