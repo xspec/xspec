@@ -261,6 +261,11 @@
 	</case>
 
 	<case name="invoking xspec without TEST_DIR set externally (Schematron)">
+    if "%SAXON_VERSION%"=="10.1" (
+        call :skip "Saxon bug 4666"
+        goto :EOF
+    )
+
     set TEST_DIR=
 
     rem Use a fresh dir, to make the message line numbers predictable
@@ -423,6 +428,11 @@
 	</case>
 
 	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)">
+    if "%SAXON_VERSION%"=="10.1" (
+        call :skip "Saxon bug 4666"
+        goto :EOF
+    )
+
     set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there %RANDOM%"
     call :mkdir "%SPECIAL_CHARS_DIR%"
     call :copy ..\tutorial\schematron\demo-03* "%SPECIAL_CHARS_DIR%"
@@ -477,6 +487,11 @@
 	-->
 
 	<case name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)">
+    if "%SAXON_VERSION%"=="10.1" (
+        call :skip "Saxon bug 4666"
+        goto :EOF
+    )
+
     set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt-include.xsl
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt-expand.xsl
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt-compile.xsl
@@ -487,6 +502,11 @@
 	</case>
 
 	<case name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)">
+    if "%SAXON_VERSION%"=="10.1" (
+        call :skip "Saxon bug 4666"
+        goto :EOF
+    )
+
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -617,6 +637,11 @@
 	</case>
 
 	<case name="invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)">
+    if "%SAXON_VERSION%"=="10.1" (
+        call :skip "Saxon bug 4666"
+        goto :EOF
+    )
+
     rem Test with x:context[node()] #322
 
     rem Use a fresh dir, to avoid a residue of default output dir
@@ -798,6 +823,11 @@
 	</case>
 
 	<case name="Ant with minimum properties (Schematron)">
+    if "%SAXON_VERSION%"=="10.1" (
+        call :skip "Saxon bug 4666"
+        goto :EOF
+    )
+
     rem Unset any preset args
     set ANT_ARGS=
 
@@ -1013,6 +1043,11 @@
 	-->
 
 	<case name="Ant for Schematron with various properties except catalog and xspec.fail">
+    if "%SAXON_VERSION%"=="10.1" (
+        call :skip "Saxon bug 4666"
+        goto :EOF
+    )
+
     set "BUILD_XML=%WORK_DIR%\build %RANDOM%.xml"
 
     rem For testing -Dxspec.project.dir
@@ -1703,11 +1738,10 @@
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
 
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
-    if errorlevel 1 (
-        call :verify_line 4 x " "
-    ) else (
+    if "%SAXON_VERSION:~0,4%"=="9.8." (
         call :verify_line 4 x "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9."
+    ) else (
+        call :verify_line 4 x " "
     )
 
     call :verify_line 5 x "Running Tests..."
@@ -1719,8 +1753,7 @@
 	-->
 
 	<case name="No warning on Ant (XSLT) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
-    if not errorlevel 1 (
+    if "%SAXON_VERSION:~0,4%"=="9.8." (
         call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
@@ -1742,8 +1775,7 @@
 	</case>
 
 	<case name="No warning on Ant (XQuery) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
-    if not errorlevel 1 (
+    if "%SAXON_VERSION:~0,4%"=="9.8." (
         call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
@@ -1765,8 +1797,7 @@
 	</case>
 
 	<case name="No warning on Ant (Schematron) #633">
-    java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&amp;1 | %SYSTEMROOT%\system32\find " 9.8."
-    if not errorlevel 1 (
+    if "%SAXON_VERSION:~0,4%"=="9.8." (
         call :skip "Always expect a deprecation warning on Saxon 9.8"
         goto :EOF
     )
