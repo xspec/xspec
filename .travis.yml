@@ -1,4 +1,8 @@
 os: linux
+
+# Changed from the default 'xenial' in hopes of better stability of the end-to-end test
+dist: bionic
+
 language: java
 
 jdk:
