@@ -7,12 +7,12 @@
    <testsuite name="Pattern 3 - Shared" tests="1" failures="0">
       <testcase name="assert t3-1" status="passed"/>
    </testsuite>
+   <testsuite name="XSpec function scenario imported" tests="1" failures="0">
+      <testcase name="add 5 + 2" status="passed"/>
+   </testsuite>
    <testsuite name="Pattern 4 - example of a second level of imported scenarios"
               tests="1"
               failures="0">
       <testcase name="report t4-1 warn" status="passed"/>
-   </testsuite>
-   <testsuite name="XSpec function scenario imported" tests="1" failures="0">
-      <testcase name="add 5 + 2" status="passed"/>
    </testsuite>
 </testsuites>

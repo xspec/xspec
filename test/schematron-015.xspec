@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron-015.sch">
-    
+<x:description xmlns:ex1="http://example.com/ns1"
+               xmlns:ex2="http://example.com/ns2"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               schematron="schematron-015.sch">
+
     <x:scenario label="01">
         <x:context href="schematron-014-01.xml"/>
         <x:expect-assert id="e001" location="/root[1]/ex1:sec[1]"/>
         <x:expect-report id="e002" location="/root[1]/ex1:sec[2]/ex2:para[2]"/>
     </x:scenario>
-    
+
 </x:description>

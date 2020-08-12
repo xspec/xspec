@@ -1,82 +1,159 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="schut-to-xspec-test.sch.xsl" schematron="..." xspec-original-location="...">
-    <x:scenario label="expect-valid">
-        <x:context href="..."/>
-        <x:expect label="valid" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"/>
-    </x:scenario>
-    <x:scenario label="assertions">
-        <x:scenario label="without attributes">
-            <x:scenario label="not thrown">
-                <x:context href="..."/>
-                <x:expect label="not assert" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"/>
-                <x:expect label="not report" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)"/>
-            </x:scenario>
-            <x:scenario label="thrown">
-                <x:context href="..."/>
-                <x:expect label="assert" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"/>
-                <x:expect label="report" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)"/>
-            </x:scenario>
-        </x:scenario>
-        <x:scenario label="with id">
-            <x:context href="..."/>
-            <x:expect label="assert a1" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a1'])"/>
-            <x:expect label="not assert a2" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a2'])"/>
-            <x:expect label="report r1" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r1'])"/>
-            <x:expect label="not report r2" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r2'])"/>
-        </x:scenario>
-        <x:scenario label="with role">
-            <x:context href="..."/>
-            <x:expect label="assert warn" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'])"/>
-            <x:expect label="not assert fatal" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'fatal'])"/>
-            <x:expect label="report warn" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'])"/>
-            <x:expect label="not report info" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'info'])"/>
-        </x:scenario>
-        <x:scenario label="with location">
-            <x:context href="..."/>
-            <x:expect label="assert /article[1]/div[1]" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[1]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="not assert /article[1]/div[2]" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[2]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="report /article[1]/div[3]" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[3]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="not report /article[1]/div[4]" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[4]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-        </x:scenario>
-        <x:scenario label="with id, location">
-            <x:context href="..."/>
-            <x:expect label="assert a1 /article[1]/div[1]" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a1'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[1]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="not assert a2 /article[1]/div[2]" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a2'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[2]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="report r1 /article[1]/div[3]" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r1'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[3]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="not report r2 /article[1]/div[4]" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r2'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[4]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-        </x:scenario>
-        <x:scenario label="with id, role, location">
-            <x:context href="..."/>
-            <x:expect label="assert a1 warn /article[1]/div[1]" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[1]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="not assert a2 error /article[1]/div[2]" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a2'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'error'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[2]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="report r1 warn /article[1]/div[3]" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[3]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-            <x:expect label="not report r2 info /article[1]/div[4]" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r2'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'info'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[4]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-        </x:scenario>
-    </x:scenario>
-    <x:scenario label="inherit from rule">
-        <x:scenario label="id and role from rule">
-            <x:context href="..."/>
-            <x:expect label="assert ru1 error" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'error'])"/>
-        </x:scenario>
-        <x:scenario label="id from rule and role from assertion">
-            <x:context href="..."/>
-            <x:expect label="assert ru1 warn" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'])"/>
-        </x:scenario>
-        <x:scenario label="role from rule and id from assertion">
-            <x:context href="..."/>
-            <x:expect label="assert ru2 error" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru2'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'error'])"/>
-        </x:scenario>
-        <x:scenario label="match only current rule">
-            <x:context href="..."/>
-            <x:expect label="not assert ru3" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru3'])"/>
-            <x:expect label="not assert ru3 warn" test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru3'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'])"/>
-            <x:expect label="report ru3 warn /article[1]" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru3'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
-        </x:scenario>
-    </x:scenario>
-    <x:scenario label="inherit from pattern">
-        <x:scenario label="id from pattern">
-            <x:context href="..."/>
-            <x:expect label="assert pattern3" test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'pattern3'])"/>
-        </x:scenario>
-    </x:scenario>
-</x:description>
+<description xmlns="http://www.jenitennison.com/xslt/xspec"
+             schematron="%TEST_BASE%/schut-to-xspec-012.sch"
+             xspec-original-location="%TEST_BASE%/schematron-012.xspec"
+             stylesheet="schut-to-xspec-test.sch.xsl">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron-012.xspec"
+               label="expect-valid">
+      <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-01.xml"/>
+      <x:expect label="valid"
+                test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"/>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron-012.xspec"
+               label="assertions">
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="without attributes">
+         <x:scenario xslt-version="3"
+                     xspec="%TEST_BASE%/schematron-012.xspec"
+                     label="not thrown">
+            <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-01.xml"/>
+            <x:expect label="not assert"
+                      test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"/>
+            <x:expect label="not report"
+                      test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)"/>
+         </x:scenario>
+         <x:scenario xslt-version="3"
+                     xspec="%TEST_BASE%/schematron-012.xspec"
+                     label="thrown">
+            <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+            <x:expect label="assert"
+                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"/>
+            <x:expect label="report"
+                      test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)"/>
+         </x:scenario>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="with id">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert a1"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a1'])"/>
+         <x:expect label="not assert a2"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a2'])"/>
+         <x:expect label="report r1"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r1'])"/>
+         <x:expect label="not report r2"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r2'])"/>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="with role">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert warn"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'])"/>
+         <x:expect label="not assert fatal"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'fatal'])"/>
+         <x:expect label="report warn"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'])"/>
+         <x:expect label="not report info"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'info'])"/>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="with location">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert /article[1]/div[1]"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[1]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="not assert /article[1]/div[2]"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[2]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="report /article[1]/div[3]"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[3]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="not report /article[1]/div[4]"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[4]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="with id, location">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert a1 /article[1]/div[1]"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a1'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[1]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="not assert a2 /article[1]/div[2]"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a2'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[2]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="report r1 /article[1]/div[3]"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r1'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[3]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="not report r2 /article[1]/div[4]"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r2'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[4]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="with id, role, location">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert a1 warn /article[1]/div[1]"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[1]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="not assert a2 error /article[1]/div[2]"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'a2'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'error'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[2]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="report r1 warn /article[1]/div[3]"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[3]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+         <x:expect label="not report r2 info /article[1]/div[4]"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'r2'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'info'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]/div[4]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron-012.xspec"
+               label="inherit from rule">
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="id and role from rule">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert ru1 error"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'error'])"/>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="id from rule and role from assertion">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert ru1 warn"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru1'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'])"/>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="role from rule and id from assertion">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert ru2 error"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru2'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'error'])"/>
+      </x:scenario>
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="match only current rule">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="not assert ru3"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru3'])"/>
+         <x:expect label="not assert ru3 warn"
+                   test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru3'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'])"/>
+         <x:expect label="report ru3 warn /article[1]"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'ru3'][(@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@role, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@role)[1] = 'warn'][($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(/article[1]) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])"/>
+      </x:scenario>
+   </x:scenario>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron-012.xspec"
+               label="inherit from pattern">
+      <x:scenario xslt-version="3"
+                  xspec="%TEST_BASE%/schematron-012.xspec"
+                  label="id from pattern">
+         <x:context href="%TEST_BASE%/schematron/schut-to-xspec-012-02.xml"/>
+         <x:expect label="assert pattern3"
+                   test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 'pattern3'])"/>
+      </x:scenario>
+   </x:scenario>
+</description>
