@@ -62,16 +62,9 @@
          <p:pipe step="params" port="parameters"/>
       </p:variable>
 
-      <!-- either no at location hint, or resolved from xspec-home if packaging not supported -->
-      <p:variable name="utils-lib" select="
-          if ( $utils-library-at ) then
-            $utils-library-at
-          else
-            ()"/>
-
       <!-- compile the suite into a query -->
       <t:compile-xquery>
-         <p:with-param  name="utils-library-at" select="$utils-lib"/>
+         <p:with-param name="utils-library-at" select="$utils-library-at" />
       </t:compile-xquery>
 
       <!-- escape the query as text -->
