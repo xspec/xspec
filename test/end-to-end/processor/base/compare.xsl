@@ -87,6 +87,8 @@
 			<xsl:message select="'Saved the normalized input:', $save-normalized-input-uri" />
 
 			<!-- Print the documents -->
+			<xsl:message
+				select="'[INPUT DOC TEXT]&quot;' || unparsed-text($input-doc-uri) || '&quot;'" />
 			<xsl:message select="'[NORMALIZED INPUT]', $normalized-input-doc" />
 			<xsl:message select="'[EXPECTED]', $expected-doc" />
 		</xsl:if>

@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    schematron="..." xspec-original-location="..."
-    stylesheet="schut-to-xspec-test.sch.xsl">
-    <x:scenario label="Schematron test scenario"/>
-    <x:scenario label="focused" focus="test"/>
-</x:description>
+<description xmlns="http://www.jenitennison.com/xslt/xspec"
+             schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
+             xspec-original-location="%TEST_BASE%/schematron/schut-to-xspec-005-in.xspec"
+             stylesheet="schut-to-xspec-test.sch.xsl">
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron/schut-to-xspec-005-in.xspec"
+               label="Schematron test scenario"/>
+   <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               xmlns=""
+               xslt-version="3"
+               xspec="%TEST_BASE%/schematron/schut-to-xspec-005-in.xspec"
+               label="focused"
+               focus="test"/>
+</description>
