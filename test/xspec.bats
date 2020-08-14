@@ -51,48 +51,43 @@ load bats-helper
 # Usage (CLI)
 #
 
-@test "invoking xspec without arguments prints version and usage" {
+@test "invoking xspec without arguments prints usage" {
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
-    [ "${lines[3]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
+    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
 }
 
-@test "invoking xspec without arguments prints version and usage even if Saxon environment variables are not defined" {
+@test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
     unset SAXON_CP
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "SAXON_CP and SAXON_HOME both not set!" ]
-    assert_regex "${lines[3]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
-    assert_regex "${lines[4]}" '^Usage: xspec '
+    assert_regex "${lines[3]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with -h prints version and usage and does so even when it is 11th argument" {
+@test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
     run ../bin/xspec.sh -t -t -t -t -t -t -t -t -t -t -h
     echo "$output"
     [ "$status" -eq 0 ]
-    assert_regex "${lines[1]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
-    assert_regex "${lines[2]}" '^Usage: xspec '
+    assert_regex "${lines[1]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with unknown option prints version and usage" {
+@test "invoking xspec with unknown option prints usage" {
     run ../bin/xspec.sh -bogus ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Error: Unknown option: -bogus" ]
-    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
-    assert_regex "${lines[3]}" '^Usage: xspec '
+    assert_regex "${lines[2]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with extra arguments prints version and usage" {
+@test "invoking xspec with extra arguments prints usage" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec bogus
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Error: Extra option: bogus" ]
-    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
-    assert_regex "${lines[3]}" '^Usage: xspec '
+    assert_regex "${lines[2]}" '^Usage: xspec '
 }
 
 #
@@ -155,7 +150,7 @@ load bats-helper
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}" ]
+    [ "${lines[1]}" = "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}" ]
 }
 
 #
@@ -1996,7 +1991,7 @@ load bats-helper
     fi
 
     [ "${lines[4]}" = "Running Tests..." ]
-    assert_regex "${lines[5]}" '^Testing with XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+ and SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
+    assert_regex "${lines[5]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
 }
 
 #
