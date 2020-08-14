@@ -306,6 +306,17 @@
       <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
+
+      <!-- mode="test:generate-variable-declarations" is not aware of $is-external. That's why
+         @static is checked here. -->
+      <xsl:if test="not($is-external)">
+         <xsl:for-each select="$this/x:param[x:yes-no-synonym(@static, false())]">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">Enabling @static in {name()} is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
+            </xsl:message>
+         </xsl:for-each>
+      </xsl:if>
+
       <xsl:apply-templates select="$this/(x:param|x:variable)" mode="test:generate-variable-declarations"/>
    </xsl:template>
 

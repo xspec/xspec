@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test /x:description[@stylesheet][not(@run-as = 'external')]/x:param[@static = 'yes'] -->
+<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+    <x:param name="p" static="yes" />
+</x:description>

@@ -36,8 +36,6 @@ usage() {
         echo "$1"
         echo
     fi
-    echo "XSpec v${XSPEC_VERSION}"
-    echo
     echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
     echo
     echo "  file           the XSpec document"
@@ -121,9 +119,7 @@ if test \! -d "${XSPEC_HOME}"; then
     echo "ERROR: XSPEC_HOME is not a directory: ${XSPEC_HOME}"
     exit 1
 fi
-unset XSPEC_VERSION
-XSPEC_VERSION=$(cat "${XSPEC_HOME}/src/common/VERSION")
-if [ -z "${XSPEC_VERSION}" ]; then
+if test \! -f "${XSPEC_HOME}/src/compiler/generate-common-tests.xsl"; then
     echo "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}"
     exit 1
 fi

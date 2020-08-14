@@ -36,15 +36,16 @@ These are the valid prefixes for type (see also [the Angular documentation](http
 
 | Type       | Description                                         |
 | ---------- | --------------------------------------------------- |
-| `feat`     | New feature or enhancement                          |
-| `fix`      | Bug fix                                             |
-| `test`     | Test                                                |
+| `build`    | Build and release changes                           |
 | `ci`       | CI configuration (GitHub Actions, Checks, etc.)     |
 | `docs`     | Documentation                                       |
+| `feat`     | New feature or enhancement                          |
+| `fix`      | Bug fix                                             |
 | `perf`     | Performance improvement                             |
 | `refactor` | Refactoring improvement (no new feature or bug fix) |
+| `revert`   | Revert a previous commit                            |
 | `style`    | Style change (white-space, formatting, etc.)        |
-| `build`    | Build and release changes                           |
+| `test`     | Test                                                |
 
 #### Scope
 

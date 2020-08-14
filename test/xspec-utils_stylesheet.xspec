@@ -7,6 +7,7 @@
 		implicitly by the XSpec compiler. You don't need to specify it in
 		/x:description/@stylesheet.
 	-->
+
 	<x:scenario label="Scenario for testing variable deq-namespace">
 		<x:context />
 		<x:expect label="'deq' namespace URI"
@@ -66,19 +67,6 @@
 			<x:expect label="Less than 11.0"
 				test="($x:saxon-version treat as xs:integer) lt x:pack-version(11)" />
 		</x:scenario>
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing variable xspec-version">
-		<x:call function="tokenize">
-			<x:param select="$x:xspec-version" />
-			<x:param select="'\.'" />
-		</x:call>
-		<x:expect label="3 components" select="3" test="count($x:result)" />
-		<x:expect label="Digits"
-			test="
-				every $component in $x:result
-				satisfies (($component eq '0') or matches($component, '^[1-9][0-9]*$'))" />
-		<x:expect label="Assume v2" select="'2'" test="$x:result[1]" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing template identity">

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test /x:description[@query][@run-as = 'external']/x:param[@static = 'true'] -->
+<x:description query="x-urn:test:do-nothing" query-at="../do-nothing.xqm" run-as="external"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:param name="p" static="true" />
+</x:description>

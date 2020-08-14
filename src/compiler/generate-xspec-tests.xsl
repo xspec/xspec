@@ -95,11 +95,9 @@
             </xsl:element>
 
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
-            <!-- system-property() must be retrieved at run time -->
+            <!-- Message content must be constructed at run time -->
             <message>
-               <text>
-                  <xsl:text expand-text="yes">Testing with XSpec v{$x:xspec-version} and </xsl:text>
-               </text>
+               <text>Testing with </text>
                <value-of select="system-property('{x:known-UQName('xsl:product-name')}')" />
                <text>
                   <xsl:text> </xsl:text>
@@ -534,9 +532,16 @@
                <xsl:value-of select="/x:description/@stylesheet" />
             </map-entry>
 
+            <map-entry key="'static-params'">
+               <map>
+                  <xsl:apply-templates select="/x:description/x:param[x:yes-no-synonym(@static, false())]"
+                     mode="x:param-to-map-entry" />
+               </map>
+            </map-entry>
             <map-entry key="'stylesheet-params'">
                <map>
-                  <xsl:apply-templates select="/x:description/x:param" mode="x:param-to-map-entry" />
+                  <xsl:apply-templates select="/x:description/x:param[x:yes-no-synonym(@static, false()) => not()]"
+                     mode="x:param-to-map-entry" />
                </map>
             </map-entry>
             <if test="${x:known-UQName('x:saxon-config')} => exists()">

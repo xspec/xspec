@@ -47,8 +47,6 @@ rem ##
         call :win_echo %1
         echo:
     )
-    echo XSpec v%XSPEC_VERSION%
-    echo:
     echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog file^|-h] file
     echo:
     echo   file           the XSpec document
@@ -218,10 +216,7 @@ if errorlevel 1 (
     call :win_echo "ERROR: XSPEC_HOME is not a directory: %XSPEC_HOME%"
     exit /b 1
 )
-
-set XSPEC_VERSION=
-set /p XSPEC_VERSION=<"%XSPEC_HOME%\src\common\VERSION"
-if not defined XSPEC_VERSION (
+if not exist "%XSPEC_HOME%\src\compiler\generate-common-tests.xsl" (
     call :win_echo "ERROR: XSPEC_HOME seems to be corrupted: %XSPEC_HOME%"
     exit /b 1
 )
