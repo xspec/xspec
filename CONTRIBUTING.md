@@ -43,6 +43,7 @@ These are the valid prefixes for type (see also [the Angular documentation](http
 | `fix`      | Bug fix                                             |
 | `perf`     | Performance improvement                             |
 | `refactor` | Refactoring improvement (no new feature or bug fix) |
+| `revert`   | Revert a previous commit                            |
 | `style`    | Style change (white-space, formatting, etc.)        |
 | `test`     | Test                                                |
 
