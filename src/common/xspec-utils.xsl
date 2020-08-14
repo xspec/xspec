@@ -4,9 +4,16 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		This stylesheet module is a collection of common utilities used across component borders
-		Elements in this stylesheet must not affect the other stylesheets.
+		XSpec 'deq' namespace URI
 	-->
+	<xsl:variable as="xs:anyURI" name="x:deq-namespace"
+		select="xs:anyURI('urn:x-xspec:common:deep-equal')" />
+
+	<!--
+		XSpec 'rep' namespace URI
+	-->
+	<xsl:variable as="xs:anyURI" name="x:rep-namespace"
+		select="xs:anyURI('urn:x-xspec:common:report-sequence')" />
 
 	<!--
 		Legacy 'test' namespace URI
@@ -62,6 +69,11 @@
 			<xsl:sequence select="x:pack-version($ver-components)" />
 		</xsl:if>
 	</xsl:variable>
+
+	<!--
+		XSpec version (taken from its add-on version)
+	-->
+	<xsl:variable as="xs:string" name="x:xspec-version" select="unparsed-text('VERSION')" />
 
 	<!--
 		Identity template
@@ -667,6 +679,9 @@
 
 		<xsl:variable as="xs:string" name="namespace">
 			<xsl:choose>
+				<xsl:when test="$prefix eq 'deq'">
+					<xsl:sequence select="$x:deq-namespace" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'err'">
 					<xsl:sequence select="'http://www.w3.org/2005/xqt-errors'" />
 				</xsl:when>
@@ -678,6 +693,9 @@
 				</xsl:when>
 				<xsl:when test="$prefix eq 'output'">
 					<xsl:sequence select="'http://www.w3.org/2010/xslt-xquery-serialization'" />
+				</xsl:when>
+				<xsl:when test="$prefix eq 'rep'">
+					<xsl:sequence select="$x:rep-namespace" />
 				</xsl:when>
 				<xsl:when test="$prefix eq 'svrl'">
 					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
@@ -759,8 +777,7 @@
 				=> string()" />
 
 		<!-- Sort for better serialization (hopefully) -->
-		<xsl:perform-sort
-			select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
+		<xsl:perform-sort select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
 			<xsl:sort select="name()" />
 		</xsl:perform-sort>
 	</xsl:function>

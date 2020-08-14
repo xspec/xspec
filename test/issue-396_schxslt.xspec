@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-saxon-bug-4666-fixed?>
 <?xspec-test schematron-preprocessor-step1=${xspec.project.dir}/test/schxslt/include.xsl?>
 <?xspec-test schematron-preprocessor-step2=${xspec.project.dir}/test/schxslt/expand.xsl?>
 <?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schxslt/compile-for-svrl.xsl?>

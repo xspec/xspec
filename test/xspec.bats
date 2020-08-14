@@ -51,43 +51,48 @@ load bats-helper
 # Usage (CLI)
 #
 
-@test "invoking xspec without arguments prints usage" {
+@test "invoking xspec without arguments prints version and usage" {
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
+    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    [ "${lines[3]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
 }
 
-@test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
+@test "invoking xspec without arguments prints version and usage even if Saxon environment variables are not defined" {
     unset SAXON_CP
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "SAXON_CP and SAXON_HOME both not set!" ]
-    assert_regex "${lines[3]}" '^Usage: xspec '
+    assert_regex "${lines[3]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[4]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with -h prints usage and does so even when it is 11th argument" {
+@test "invoking xspec with -h prints version and usage and does so even when it is 11th argument" {
     run ../bin/xspec.sh -t -t -t -t -t -t -t -t -t -t -h
     echo "$output"
     [ "$status" -eq 0 ]
-    assert_regex "${lines[1]}" '^Usage: xspec '
+    assert_regex "${lines[1]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[2]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with unknown option prints usage" {
+@test "invoking xspec with unknown option prints version and usage" {
     run ../bin/xspec.sh -bogus ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Error: Unknown option: -bogus" ]
-    assert_regex "${lines[2]}" '^Usage: xspec '
+    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[3]}" '^Usage: xspec '
 }
 
-@test "invoking xspec with extra arguments prints usage" {
+@test "invoking xspec with extra arguments prints version and usage" {
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec bogus
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[1]}" = "Error: Extra option: bogus" ]
-    assert_regex "${lines[2]}" '^Usage: xspec '
+    assert_regex "${lines[2]}" '^XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+$'
+    assert_regex "${lines[3]}" '^Usage: xspec '
 }
 
 #
@@ -150,7 +155,7 @@ load bats-helper
     run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[1]}" = "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}" ]
+    [ "${lines[2]}" = "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}" ]
 }
 
 #
@@ -337,6 +342,10 @@ load bats-helper
 }
 
 @test "invoking xspec without TEST_DIR set externally (Schematron)" {
+    if [ "${SAXON_VERSION}" = "10.1" ]; then
+        skip "Saxon bug 4666"
+    fi
+
     unset TEST_DIR
 
     # Use a fresh dir, to make the message line numbers predictable
@@ -523,6 +532,10 @@ load bats-helper
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
+    if [ "${SAXON_VERSION}" = "10.1" ]; then
+        skip "Saxon bug 4666"
+    fi
+
     special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
     mkdir "${special_chars_dir}"
     cp ../tutorial/schematron/demo-03* "${special_chars_dir}"
@@ -581,6 +594,10 @@ load bats-helper
 #
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)" {
+    if [ "${SAXON_VERSION}" = "10.1" ]; then
+        skip "Saxon bug 4666"
+    fi
+
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
     export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
     export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
@@ -592,6 +609,10 @@ load bats-helper
 }
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
+    if [ "${SAXON_VERSION}" = "10.1" ]; then
+        skip "Saxon bug 4666"
+    fi
+
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
@@ -744,6 +765,10 @@ load bats-helper
 }
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)" {
+    if [ "${SAXON_VERSION}" = "10.1" ]; then
+        skip "Saxon bug 4666"
+    fi
+
     # Test with x:context[node()] #322
 
     # Use a fresh dir, to make the message line numbers predictable
@@ -949,6 +974,10 @@ load bats-helper
 }
 
 @test "Ant with minimum properties (Schematron)" {
+    if [ "${SAXON_VERSION}" = "10.1" ]; then
+        skip "Saxon bug 4666"
+    fi
+
     # Unset any preset args
     unset ANT_ARGS
 
@@ -1180,6 +1209,10 @@ load bats-helper
 #
 
 @test "Ant for Schematron with various properties except catalog and xspec.fail" {
+    if [ "${SAXON_VERSION}" = "10.1" ]; then
+        skip "Saxon bug 4666"
+    fi
+
     build_xml="${work_dir}/build ${RANDOM}.xml"
 
     # For testing -Dxspec.project.dir
@@ -1956,14 +1989,14 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
 
-    if ! java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
-        [ "${lines[3]}" = " " ]
-    else
+    if [ "${SAXON_VERSION:0:4}" = "9.8." ]; then
         [ "${lines[3]}" = "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9." ]
+    else
+        [ "${lines[3]}" = " " ]
     fi
 
     [ "${lines[4]}" = "Running Tests..." ]
-    assert_regex "${lines[5]}" '^Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
+    assert_regex "${lines[5]}" '^Testing with XSpec v[1-9][0-9]*\.[0-9]+\.[0-9]+ and SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*'
 }
 
 #
@@ -1971,7 +2004,7 @@ load bats-helper
 #
 
 @test "No warning on Ant (XSLT) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+    if [ "${SAXON_VERSION:0:4}" = "9.8." ]; then
         skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
@@ -1994,7 +2027,7 @@ load bats-helper
 }
 
 @test "No warning on Ant (XQuery) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+    if [ "${SAXON_VERSION:0:4}" = "9.8." ]; then
         skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 
@@ -2017,7 +2050,7 @@ load bats-helper
 }
 
 @test "No warning on Ant (Schematron) #633" {
-    if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9.8."; then
+    if [ "${SAXON_VERSION:0:4}" = "9.8." ]; then
         skip "Always expect a deprecation warning on Saxon 9.8"
     fi
 

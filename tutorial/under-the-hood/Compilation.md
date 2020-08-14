@@ -52,9 +52,12 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
                 version="3.0">
    <!-- the tested stylesheet -->
    <xsl:import href=".../compilation-simple-suite.xsl"/>
-   <!-- an XSpec stylesheet providing tools -->
-   <xsl:include href=".../xspec/src/compiler/generate-tests-utils.xsl"/>
-   <xsl:include href=".../xspec/src/common/xspec-utils.xsl"/>
+   <!-- XSpec library modules providing tools -->
+   <xsl:include href=".../src/common/deep-equal.xsl"/>
+   <xsl:include href=".../src/common/report-sequence.xsl"/>
+   <xsl:include href=".../src/common/wrap.xsl"/>
+   <xsl:include href=".../src/common/xml-report-serialization-parameters.xsl"/>
+   <xsl:include href=".../src/common/xspec-utils.xsl"/>
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri"
                  as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xspec</xsl:variable>
    <!-- the main template to run the suite -->
@@ -63,7 +66,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       <xsl:context-item use="absent"/>
       <!-- info message -->
       <xsl:message>
-         <xsl:text>Testing with </xsl:text>
+         <xsl:text>Testing with XSpec v... and </xsl:text>
          <xsl:value-of select="system-property('Q{http://www.w3.org/1999/XSL/Transform}product-name')"/>
          <xsl:text> </xsl:text>
          <xsl:value-of select="system-property('Q{http://www.w3.org/1999/XSL/Transform}product-version')"/>
@@ -109,8 +112,10 @@ import module "http://example.org/ns/my"
 at ".../compilation-simple-suite.xqm";
 
 (: XSpec library modules providing tools :)
-import module "http://www.jenitennison.com/xslt/unit-test"
-at ".../src/compiler/generate-query-utils.xqm";
+import module "urn:x-xspec:common:deep-equal"
+at ".../src/common/deep-equal.xqm";
+import module "urn:x-xspec:common:report-sequence"
+at ".../src/common/report-sequence.xqm";
 import module "http://www.jenitennison.com/xslt/xspec"
 at ".../src/common/xspec-utils.xqm";
 
@@ -224,8 +229,8 @@ result as parameter.
    <!-- wrap $x:result into a doc node if possible -->
    <xsl:variable name="Q{urn:x-xspec:compile:impl}test-items" as="item()*">
       <xsl:choose>
-         <xsl:when test="exists($Q{http://www.jenitennison.com/xslt/xspec}result) and Q{http://www.jenitennison.com/xslt/unit-test}wrappable-sequence($Q{http://www.jenitennison.com/xslt/xspec}result)">
-            <xsl:sequence select="Q{http://www.jenitennison.com/xslt/unit-test}wrap-nodes($Q{http://www.jenitennison.com/xslt/xspec}result)"/>
+         <xsl:when test="exists($Q{http://www.jenitennison.com/xslt/xspec}result) and Q{http://www.jenitennison.com/xslt/xspec}wrappable-sequence($Q{http://www.jenitennison.com/xslt/xspec}result)">
+            <xsl:sequence select="Q{http://www.jenitennison.com/xslt/xspec}wrap-nodes($Q{http://www.jenitennison.com/xslt/xspec}result)"/>
          </xsl:when>
          <xsl:otherwise>
             <xsl:sequence select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
@@ -262,7 +267,7 @@ result as parameter.
             <xsl:sequence select="boolean($Q{urn:x-xspec:compile:impl}test-result)"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="Q{http://www.jenitennison.com/xslt/unit-test}deep-equal($Q{urn:x-xspec:compile:impl}expect-..., $Q{urn:x-xspec:compile:impl}test-result, '')"/>
+            <xsl:sequence select="Q{urn:x-xspec:common:deep-equal}deep-equal($Q{urn:x-xspec:compile:impl}expect-..., $Q{urn:x-xspec:compile:impl}test-result, '')"/>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
@@ -283,7 +288,7 @@ let $Q{http://www.jenitennison.com/xslt/xspec}result := (
 Q{http://example.org/ns/my}f()
 )
 return (
-Q{http://www.jenitennison.com/xslt/unit-test}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'result'),
+Q{urn:x-xspec:common:report-sequence}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'result'),
 
 (: a call instruction for each x:expect element :)
 let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-expect1(
@@ -312,7 +317,7 @@ let $local:boolean-test as xs:boolean := ($local:test-result instance of xs:bool
 let $local:successful as xs:boolean (: did the test pass? :) := (
 if ($local:boolean-test)
 then boolean($local:test-result)
-else Q{http://www.jenitennison.com/xslt/unit-test}deep-equal($Q{urn:x-xspec:compile:impl}expect-..., $local:test-result, '')
+else Q{urn:x-xspec:common:deep-equal}deep-equal($Q{urn:x-xspec:compile:impl}expect-..., $local:test-result, '')
 )
 return
 ... generate test result in the report ...

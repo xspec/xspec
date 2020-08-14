@@ -56,9 +56,11 @@
       mode="x:gather-specs"
       This mode makes each spec less context-dependent by performing these transformations:
       * Discard x:import. (x:import must be resolved before applying this mode.)
-      * Copy @xslt-version from x:description to descendant x:scenario
-      * Add @xspec (and @xspec-original-location if applicable) to each scenario to record absolute
-        URI of originating .xspec file
+      * Copy @xslt-version from x:description to descendant x:scenario (only when @xslt-version
+        has not been set by a previous process)
+      * Add @xspec (and @xspec-original-location if @xspec has already been set by a previous
+        process) to each scenario. The goal is to record the absolute URI of originating .xspec
+        file.
       * Resolve x:*/@href and x:helper/(@query-at|@stylesheet) into absolute URI
       * Discard whitespace-only text node in user-content unless otherwise specified by an ancestor
       * Discard whitespace-only text node in non user-content unless it's in x:label
@@ -88,19 +90,27 @@
       <xsl:param name="xspec-module-uri" as="xs:anyURI" tunnel="yes" required="yes" />
 
       <xsl:copy>
+         <!-- Construct @xslt-version before applying templates to attributes so that the existing
+            one takes precedence -->
          <xsl:attribute name="xslt-version" select="$xslt-version" />
-         <xsl:attribute name="xspec" select="$xspec-module-uri" />
-         <xsl:sequence select="
-            (: Keep this sequence order for local @xspec-original-location to take precedence
-               over x:description's one. :)
-            /x:description/@xspec-original-location,
-            @*" />
 
-         <xsl:apply-templates mode="#current"/>
+         <xsl:attribute name="xspec" select="$xspec-module-uri" />
+
+         <xsl:apply-templates select="attribute() | node()" mode="#current" />
       </xsl:copy>
    </xsl:template>
 
-   <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="x:gather-specs">
+   <xsl:template match="x:scenario/@xspec" as="attribute(xspec-original-location)">
+      <xsl:for-each select="parent::element()/@xspec-original-location">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">{parent::element() => name()} already has @{name()}</xsl:text>
+         </xsl:message>
+      </xsl:for-each>
+
+      <xsl:attribute name="xspec-original-location" select="." />
+   </xsl:template>
+
+   <xsl:template match="text()[normalize-space() => not()]" as="text()?" mode="x:gather-specs">
       <xsl:if test="parent::x:label">
          <!-- TODO: The specification of @label and x:label is not clear about whitespace.
             Preserve it for now. -->

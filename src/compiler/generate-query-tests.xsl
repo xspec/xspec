@@ -24,8 +24,6 @@
    <xsl:output omit-xml-declaration="yes" use-character-maps="test:disable-escaping" />
 
    <!--
-       The URI to use in the "at" clause of the import statement (aka
-       the "location hint") for the library generate-query-utils.xqm.
        The special value '#none' is used to generate no "at" clause at
        all.
 
@@ -35,8 +33,7 @@
        option, for instance for XML databases like eXist or
        MarkLogic).
    -->
-   <xsl:param name="utils-library-at" as="xs:string"
-      select="resolve-uri('generate-query-utils.xqm')" />
+   <xsl:param name="utils-library-at" as="xs:string?" />
 
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?"
@@ -69,16 +66,23 @@
       <xsl:text>&#x0A;</xsl:text>
       <xsl:text>(: XSpec library modules providing tools :)&#x0A;</xsl:text>
 
-      <!-- Import 'test' utils -->
-      <xsl:text expand-text="yes">import module "{$x:legacy-namespace}"</xsl:text>
-      <xsl:if test="$utils-library-at ne '#none'">
-         <xsl:text expand-text="yes">&#x0A;at "{$utils-library-at}"</xsl:text>
+      <!-- Import 'deq' utils -->
+      <xsl:text expand-text="yes">import module "{$x:deq-namespace}"</xsl:text>
+      <xsl:if test="not($utils-library-at eq '#none')">
+         <xsl:text expand-text="yes">&#x0A;at "{resolve-uri('../common/deep-equal.xqm')}"</xsl:text>
+      </xsl:if>
+      <xsl:text>;&#10;</xsl:text>
+
+      <!-- Import 'rep' utils -->
+      <xsl:text expand-text="yes">import module "{$x:rep-namespace}"</xsl:text>
+      <xsl:if test="not($utils-library-at eq '#none')">
+         <xsl:text expand-text="yes">&#x0A;at "{resolve-uri('../common/report-sequence.xqm')}"</xsl:text>
       </xsl:if>
       <xsl:text>;&#10;</xsl:text>
 
       <!-- Import common utils -->
       <xsl:text expand-text="yes">import module "{$x:xspec-namespace}"</xsl:text>
-      <xsl:if test="$utils-library-at ne '#none'">
+      <xsl:if test="not($utils-library-at eq '#none')">
          <xsl:text expand-text="yes">&#x0A;at "{resolve-uri('../common/xspec-utils.xqm')}"</xsl:text>
       </xsl:if>
       <xsl:text>;&#x0A;</xsl:text>
@@ -92,7 +96,7 @@
       </xsl:for-each>
 
       <!-- Serialization parameters for the test result report XML -->
-      <xsl:text expand-text="yes">declare option {x:known-UQName('output:parameter-document')} "{resolve-uri('xml-report-serialization-parameters.xml')}";&#x0A;</xsl:text>
+      <xsl:text expand-text="yes">declare option {x:known-UQName('output:parameter-document')} "{resolve-uri('../common/xml-report-serialization-parameters.xml')}";&#x0A;</xsl:text>
 
       <!-- Absolute URI of the master .xspec file -->
       <xsl:call-template name="test:declare-or-let-variable">
@@ -294,7 +298,7 @@
               let $xxx-param2 := ...
               let $t:result   := ...($xxx-param1, $xxx-param2)
               return (
-                test:report-sequence($t:result, 'x:result'),
+                rep:report-sequence($t:result, 'x:result'),
             -->
             <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
 
@@ -308,7 +312,7 @@
             <xsl:text>)&#x0A;</xsl:text>
 
             <xsl:text>return (&#x0A;</xsl:text>
-            <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:known-UQName('x:result')}, 'result'),&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">{x:known-UQName('rep:report-sequence')}(${x:known-UQName('x:result')}, 'result'),&#x0A;</xsl:text>
 
             <xsl:text>&#x0A;</xsl:text>
             <xsl:text>(: a call instruction for each x:expect element :)&#x0A;</xsl:text>
@@ -414,7 +418,7 @@
             <xsl:with-param name="comment" select="'expected result'" />
          </xsl:apply-templates>
 
-         <!-- Flags for test:deep-equal() enclosed in ''. -->
+         <!-- Flags for deq:deep-equal() enclosed in ''. -->
          <xsl:variable name="deep-equal-flags" as="xs:string">''</xsl:variable>
 
          <xsl:choose>
@@ -439,7 +443,7 @@
                <xsl:text>let $local:successful as xs:boolean (: did the test pass? :) := (&#x0A;</xsl:text>
                <xsl:text>if ($local:boolean-test)&#x0A;</xsl:text>
                <xsl:text>then boolean($local:test-result)&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">else {x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, $local:test-result, {$deep-equal-flags})&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">else {x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, $local:test-result, {$deep-equal-flags})&#x0A;</xsl:text>
                <xsl:text>)&#x0A;</xsl:text>
 
             </xsl:when>
@@ -447,7 +451,7 @@
             <xsl:otherwise>
                <!-- $local:successful -->
                <xsl:text>let $local:successful as xs:boolean :=&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">{x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('x:result')}, {$deep-equal-flags})&#x0A;</xsl:text>
+               <xsl:text expand-text="yes">{x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('x:result')}, {$deep-equal-flags})&#x0A;</xsl:text>
             </xsl:otherwise>
          </xsl:choose>
 
@@ -488,11 +492,11 @@
             <xsl:text>(&#x0A;</xsl:text>
             <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
             <xsl:text>then ()&#x0A;</xsl:text>
-            <xsl:text expand-text="yes">else {x:known-UQName('test:report-sequence')}($local:test-result, 'result')&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">else {x:known-UQName('rep:report-sequence')}($local:test-result, 'result')&#x0A;</xsl:text>
             <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
-         <xsl:text expand-text="yes">{x:known-UQName('test:report-sequence')}(${x:variable-UQName(.)}, '{local-name()}')&#x0A;</xsl:text>
+         <xsl:text expand-text="yes">{x:known-UQName('rep:report-sequence')}(${x:variable-UQName(.)}, '{local-name()}')&#x0A;</xsl:text>
       </xsl:if>
 
       <!-- </x:test> -->

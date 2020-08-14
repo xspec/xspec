@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schut-to-xspec-test.sch">
+    <x:scenario label="Schematron test scenario">
+        <x:context>
+            <example attr="1">
+                <!-- comment -->
+                <?pi?>
+                <p>this is a <i>mixed</i> text <b> example</b>.</p>
+                <other xmlns="other">foreign</other>
+            </example>
+        </x:context>
+    </x:scenario>
+</x:description>
