@@ -223,7 +223,12 @@ global-param =
 	## Global parameters are set globally, for the entire unit test suite. There's
 	## no way to set global parameters within a particular scenario (due to
 	## constraints on implementation).
-	element param { common-attributes, name, as?, selection }
+	element param { common-attributes, name, as?, static?, selection }
+
+static = 
+	## EXPERIMENTAL. Subject to change. Not supported for XQuery and Schematron.
+	## Enabling this attribute is supported only when /x:description/@run-as is "external".
+	attribute static { boolean.datatype }
 
 template-param = element param { common-attributes, 
                                  name, as?, 

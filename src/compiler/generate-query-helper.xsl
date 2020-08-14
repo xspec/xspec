@@ -54,6 +54,13 @@
          x:param with default value...) -->
       <!--<xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />-->
 
+      <!-- Reject @static=yes -->
+      <xsl:if test="x:yes-no-synonym(@static, false())">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">Enabling @static in {name()} is not supported for XQuery.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
       <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
       <xsl:variable name="temp-doc-uqname" as="xs:string?">

@@ -2147,4 +2147,28 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
+	<!--
+		Static param not allowed
+	-->
+	<case name="Static param is allowed only with run-as external (XSLT)">
+    call :run ..\bin\xspec.bat static-param\disallowed_stylesheet.xspec
+    call :verify_retval 2
+    call :verify_line  5 x "Enabling @static in x:param is supported only when /x:description has @run-as='external'."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Static param not allowed (XQuery)">
+    call :run ..\bin\xspec.bat -q static-param\disallowed_query.xspec
+    call :verify_retval 2
+    call :verify_line  5 x "Enabling @static in x:param is not supported for XQuery."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Static param not allowed (Schematron)">
+    call :run ..\bin\xspec.bat -s static-param\disallowed_schematron.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "Enabling @static in x:param is not supported for Schematron."
+    call :verify_line -1 x "*** Error converting Schematron into XSLT"
+	</case>
+
 </collection>
