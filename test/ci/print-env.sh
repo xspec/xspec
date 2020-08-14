@@ -47,5 +47,15 @@ echo "=== Print locale"
 locale
 
 echo
+echo "=== Print the number of logical processors"
+if command -v nproc > /dev/null 2>&1; then
+    # Linux
+    echo "$(nproc) / $(nproc --all)"
+else
+    # macOS
+    echo "$(sysctl -n hw.logicalcpu) / $(sysctl -n hw.logicalcpu_max)"
+fi
+
+echo
 echo "=== Print environment variables"
 printenv
