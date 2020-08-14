@@ -1373,15 +1373,15 @@
                      <tr>
                         <td>
                            <p>XPath <code class="same">/node()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">&lt;p&gt;foo &amp; bar&lt;/p&gt;</span>&lt;/elem&gt;
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">&amp;lt;p&amp;gt;foo &amp;amp; bar&amp;lt;/p&amp;gt;</span>&lt;/elem&gt;
 <span class="diff">&lt;!--&lt;p&gt;foo &amp; bar&lt;/p&gt;--&gt;</span>
-&lt;?<span class="inner-diff">pi</span> <span class="diff">&lt;p&gt;foo &amp; bar&lt;/p&gt;</span>?&gt;<span class="diff">&lt;p&gt;foo &amp; bar&lt;/p&gt;</span></pre>
+&lt;?<span class="inner-diff">pi</span> <span class="diff">&lt;p&gt;foo &amp; bar&lt;/p&gt;</span>?&gt;<span class="diff">&amp;lt;p&amp;gt;foo &amp;amp; bar&amp;lt;/p&amp;gt;</span></pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/node()</code> from:</p>
-                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">&lt;p&gt;bar &amp; baz&lt;/p&gt;</span>&lt;/elem&gt;
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">&amp;lt;p&amp;gt;bar &amp;amp; baz&amp;lt;/p&amp;gt;</span>&lt;/elem&gt;
 <span class="diff">&lt;!--&lt;p&gt;bar &amp; baz&lt;/p&gt;--&gt;</span>
-&lt;?<span class="inner-diff">pi</span> <span class="diff">&lt;p&gt;bar &amp; baz&lt;/p&gt;</span>?&gt;<span class="diff">&lt;p&gt;bar &amp; baz&lt;/p&gt;</span></pre>
+&lt;?<span class="inner-diff">pi</span> <span class="diff">&lt;p&gt;bar &amp; baz&lt;/p&gt;</span>?&gt;<span class="diff">&amp;lt;p&amp;gt;bar &amp;amp; baz&amp;lt;/p&amp;gt;</span></pre>
                         </td>
                      </tr>
                   </tbody>
@@ -1402,9 +1402,9 @@
                      <tr>
                         <td>
                            <p>XPath <code>/node()</code> from:</p>
-                           <pre>&lt;elem <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&lt;p&gt;foo &amp; bar&lt;/p&gt;&lt;/elem&gt;
+                           <pre>&lt;elem <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&amp;lt;p&amp;gt;foo &amp;amp; bar&amp;lt;/p&amp;gt;&lt;/elem&gt;
 &lt;!--&lt;p&gt;foo &amp; bar&lt;/p&gt;--&gt;
-&lt;?pi &lt;p&gt;foo &amp; bar&lt;/p&gt;?&gt;&lt;p&gt;foo &amp; bar&lt;/p&gt;</pre>
+&lt;?pi &lt;p&gt;foo &amp; bar&lt;/p&gt;?&gt;&amp;lt;p&amp;gt;foo &amp;amp; bar&amp;lt;/p&amp;gt;</pre>
                         </td>
                         <td>
                            <pre>false()</pre>
