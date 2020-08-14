@@ -165,8 +165,8 @@
        
        The query is wrapped into an element c:query.  Parameters to the XSpec
        XQuery compiler, AKA generate-query-tests.xsl, can be passed on the
-       parameters port (e.g. utils-library-at to set the at location hint to use
-       to import the XSpec utils library module in the generated query).
+       parameters port (e.g. utils-library-at to suppress the at location hint to use
+       to import the XSpec utils library modules in the generated query).
    -->
    <p:declare-step type="t:compile-xquery" name="compile-xq">
       <!-- the port declarations -->

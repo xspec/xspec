@@ -19,6 +19,8 @@
    <xsl:import href="generate-common-tests.xsl" />
    <xsl:import href="generate-tests-helper.xsl" />
 
+   <xsl:include href="../common/xml-report-serialization-parameters.xsl" />
+
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-xspec-tests.xsl</pkg:import-uri>
 
    <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl" />
@@ -47,12 +49,17 @@
             <xsl:call-template name="x:compile-user-helpers" />
          </xsl:if>
 
-         <xsl:comment> an XSpec stylesheet providing tools </xsl:comment>
-         <include href="{resolve-uri('generate-tests-utils.xsl')}" />
-
+         <xsl:comment> XSpec library modules providing tools </xsl:comment>
+         <xsl:if test="$is-external">
+            <include href="{resolve-uri('../common/saxon-config.xsl')}" />
+         </xsl:if>
          <xsl:if test="$is-schematron">
             <include href="{resolve-uri('../schematron/select-node.xsl')}" />
          </xsl:if>
+         <include href="{resolve-uri('../common/deep-equal.xsl')}" />
+         <include href="{resolve-uri('../common/report-sequence.xsl')}" />
+         <include href="{resolve-uri('../common/wrap.xsl')}" />
+         <include href="{resolve-uri('../common/xml-report-serialization-parameters.xsl')}" />
          <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
@@ -88,9 +95,11 @@
             </xsl:element>
 
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
-            <!-- Message content must be constructed at run time -->
+            <!-- system-property() must be retrieved at run time -->
             <message>
-               <text>Testing with </text>
+               <text>
+                  <xsl:text expand-text="yes">Testing with XSpec v{$x:xspec-version} and </xsl:text>
+               </text>
                <value-of select="system-property('{x:known-UQName('xsl:product-name')}')" />
                <text>
                   <xsl:text> </xsl:text>
@@ -485,7 +494,7 @@
                   </xsl:choose>
                </variable>
 
-               <call-template name="{x:known-UQName('test:report-sequence')}">
+               <call-template name="{x:known-UQName('rep:report-sequence')}">
                   <with-param name="sequence" select="${x:known-UQName('x:result')}" />
                   <with-param name="report-name" select="'result'" />
                </call-template>
@@ -525,14 +534,21 @@
                <xsl:value-of select="/x:description/@stylesheet" />
             </map-entry>
 
+            <map-entry key="'static-params'">
+               <map>
+                  <xsl:apply-templates select="/x:description/x:param[x:yes-no-synonym(@static, false())]"
+                     mode="x:param-to-map-entry" />
+               </map>
+            </map-entry>
             <map-entry key="'stylesheet-params'">
                <map>
-                  <xsl:apply-templates select="/x:description/x:param" mode="x:param-to-map-entry" />
+                  <xsl:apply-templates select="/x:description/x:param[x:yes-no-synonym(@static, false()) => not()]"
+                     mode="x:param-to-map-entry" />
                </map>
             </map-entry>
             <if test="${x:known-UQName('x:saxon-config')} => exists()">
                <if
-                  test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('test:is-saxon-config')}() => not()">
+                  test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('x:is-saxon-config')}() => not()">
                   <message terminate="yes">
                      <!-- Use URIQualifiedName for displaying the $x:saxon-config variable name, for
                         we do not know the name prefix of the originating variable. -->
@@ -546,7 +562,7 @@
                            <when
                               test="${x:known-UQName('x:saxon-version')} le {x:known-UQName('x:pack-version')}((9, 9, 1, 6))">
                               <apply-templates select="${x:known-UQName('x:saxon-config')}"
-                                 mode="{x:known-UQName('test:fixup-saxon-config')}" />
+                                 mode="{x:known-UQName('x:fixup-saxon-config')}" />
                            </when>
                            <otherwise>
                               <sequence select="${x:known-UQName('x:saxon-config')}" />
@@ -683,7 +699,7 @@
                <xsl:with-param name="comment" select="'expected result'" />
             </xsl:apply-templates>
 
-            <!-- Flags for test:deep-equal() enclosed in ''. -->
+            <!-- Flags for deq:deep-equal() enclosed in ''. -->
             <xsl:variable name="deep-equal-flags" as="xs:string"
                select="$x:apos || '1'[$xslt-version eq 1] || $x:apos" />
 
@@ -702,8 +718,8 @@
                            Have to experiment a bit to see if that really is the case.
                            TODO: To remove. Use directly $x:result instead.  See issue 14. -->
                         <when
-                           test="exists(${x:known-UQName('x:result')}) and {x:known-UQName('test:wrappable-sequence')}(${x:known-UQName('x:result')})">
-                           <sequence select="{x:known-UQName('test:wrap-nodes')}(${x:known-UQName('x:result')})" />
+                           test="exists(${x:known-UQName('x:result')}) and {x:known-UQName('x:wrappable-sequence')}(${x:known-UQName('x:result')})">
+                           <sequence select="{x:known-UQName('x:wrap-nodes')}(${x:known-UQName('x:result')})" />
                         </when>
                         <otherwise>
                            <sequence select="${x:known-UQName('x:result')}" />
@@ -761,7 +777,7 @@
                            <sequence select="boolean(${x:known-UQName('impl:test-result')})" />
                         </when>
                         <otherwise>
-                           <sequence select="{x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('impl:test-result')}, {$deep-equal-flags})" />
+                           <sequence select="{x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('impl:test-result')}, {$deep-equal-flags})" />
                         </otherwise>
                      </choose>
                   </variable>
@@ -769,7 +785,7 @@
 
                <xsl:otherwise>
                   <variable name="{x:known-UQName('impl:successful')}" as="{x:known-UQName('xs:boolean')}"
-                     select="{x:known-UQName('test:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('x:result')}, {$deep-equal-flags})" />
+                     select="{x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('x:result')}, {$deep-equal-flags})" />
                </xsl:otherwise>
             </xsl:choose>
 
@@ -810,14 +826,14 @@
                   <xsl:call-template name="x:report-test-attribute" />
 
                   <if test="not(${x:known-UQName('impl:boolean-test')})">
-                     <call-template name="{x:known-UQName('test:report-sequence')}">
+                     <call-template name="{x:known-UQName('rep:report-sequence')}">
                         <with-param name="sequence" select="${x:known-UQName('impl:test-result')}" />
                         <with-param name="report-name" select="'result'" />
                      </call-template>
                   </if>
                </xsl:if>
 
-               <call-template name="{x:known-UQName('test:report-sequence')}">
+               <call-template name="{x:known-UQName('rep:report-sequence')}">
                   <with-param name="sequence" select="${x:variable-UQName(.)}" />
                   <with-param name="report-name" select="'{local-name()}'" />
                </call-template>

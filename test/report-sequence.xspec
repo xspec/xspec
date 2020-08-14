@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description xmlns:items="x-urn:test:xspec-items"
+               xmlns:rep="urn:x-xspec:common:report-sequence"
+               xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               query="x-urn:test:xspec-items"
+               query-at="items.xqm"
+               stylesheet="items.xsl">
+
+   <!--
+       Test the source files generate-tests-utils.xsl and generate-query-utils.xqm.
+
+       The test target is included implicitly by the XSpec compiler. You don't need to specify it in
+       /t:description/@stylesheet or @query-at.
+   -->
+
+   <!--
+       Function rep:report-atomic-value
+   -->
+   <t:scenario label="rep:report-atomic-value">
+
+      <t:scenario label="Copy of https://github.com/xspec/xspec/blob/8931b371bd619feeeee25bd7014d8a677ab88505/src/compiler/generate-tests-utils.xsl#L622-L629">
+
+         <t:scenario label="String Containing Single Quotes">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="'don''t'" />
+            </t:call>
+            <t:expect label="Escaped" select="'''don''''t'''" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="xs:integer">
+
+         <t:scenario label="Max of xs:unsignedLong (a subtype of xs:integer)">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:integer(18446744073709551615)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'18446744073709551615'" />
+         </t:scenario>
+
+         <t:scenario label="0">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:integer(0)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'0'" />
+         </t:scenario>
+
+         <t:scenario label="-1">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:integer(-1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'-1'" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="xs:decimal">
+
+         <t:scenario label="1.2">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:decimal(1.2)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'1.2'" />
+         </t:scenario>
+
+         <t:scenario label="1">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:decimal(1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'1.0'" />
+         </t:scenario>
+
+         <t:scenario label="0.1">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:decimal(0.1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'0.1'" />
+         </t:scenario>
+
+         <t:scenario label="0">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:decimal(0)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'0.0'" />
+         </t:scenario>
+
+         <t:scenario label="-0.1">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:decimal(-0.1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'-0.1'" />
+         </t:scenario>
+
+         <t:scenario label="-1">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:decimal(-1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'-1.0'" />
+         </t:scenario>
+
+         <t:scenario label="-1.2">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:decimal(-1.2)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'-1.2'" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="xs:double">
+
+         <t:scenario label="1.234e56">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:double(1.234e56)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'1.234e56'" />
+         </t:scenario>
+
+         <t:scenario label="1">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:double(1)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'1.0e0'" />
+         </t:scenario>
+
+         <t:scenario label="NaN">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:double('NaN')" />
+            </t:call>
+            <t:expect label="Constructor" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}double('NaN')</t:expect>
+         </t:scenario>
+
+         <t:scenario label="INF">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:double('INF')" />
+            </t:call>
+            <t:expect label="Constructor" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}double('INF')</t:expect>
+         </t:scenario>
+
+         <t:scenario label="-INF">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:double('-INF')" />
+            </t:call>
+            <t:expect label="Constructor" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}double('-INF')</t:expect>
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="xs:QName">
+
+         <t:scenario label="No namespace">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:QName('foo')" />
+            </t:call>
+            <t:expect label="Function" select="'QName('''', ''foo'')'" />
+         </t:scenario>
+
+         <t:scenario label="In namespace, with prefix">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:QName('t:foo')" />
+            </t:call>
+            <t:expect label="Function" select="string()">
+               <t:text expand-text="yes" xml:space="preserve">QName('{$t:xspec-namespace}', 't:foo')</t:text>
+            </t:expect>
+         </t:scenario>
+
+         <t:scenario label="In namespace, without prefix">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="QName('x-urn:test:report-atomic-value', 'foo')" />
+            </t:call>
+            <t:expect label="Function" select="'QName(''x-urn:test:report-atomic-value'', ''foo'')'" />
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="Other types that enter the ELSE branch of the function">
+
+         <t:scenario label="xs:untypedAtomic">
+            <t:call function="rep:report-atomic-value">
+               <t:param select="xs:untypedAtomic('foo')" />
+            </t:call>
+            <t:expect label="Constructor" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}untypedAtomic('foo')</t:expect>
+         </t:scenario>
+
+      </t:scenario>
+
+   </t:scenario>
+
+   <!--
+       Function test:atom-type
+           http://www.w3.org/TR/xslt20/#built-in-types
+   -->
+   <t:scenario label="test:atom-type">
+      <t:scenario label="All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION">
+
+         <t:scenario label="xs:string">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:string('foo')" />
+            </t:call>
+            <t:expect label="xs:string" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:boolean">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:boolean('true')" />
+            </t:call>
+            <t:expect label="xs:boolean" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}boolean</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:decimal">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:decimal(1)" />
+            </t:call>
+            <t:expect label="xs:decimal" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}decimal</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:double">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:double(1)" />
+            </t:call>
+            <t:expect label="xs:double" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}double</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:float">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:float(1)" />
+            </t:call>
+            <t:expect label="xs:float" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}float</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:date">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:date('1111-11-11')" />
+            </t:call>
+            <t:expect label="xs:date" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}date</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:time">
+           <t:call function="rep:atom-type">
+              <t:param select="xs:time('11:11:11')" />
+           </t:call>
+           <t:expect label="xs:time" select="string()"
+              >Q{http://www.w3.org/2001/XMLSchema}time</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:dateTime">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:dateTime('1111-11-11T11:11:11')" />
+            </t:call>
+            <t:expect label="xs:dateTime" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}dateTime</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:duration">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:duration('PT1S')" />
+            </t:call>
+            <t:expect label="xs:duration" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}duration</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:QName">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:QName('foo')" />
+            </t:call>
+            <t:expect label="xs:QName" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}QName</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:anyURI">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:anyURI('foo')" />
+            </t:call>
+            <t:expect label="xs:anyURI" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}anyURI</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:gDay">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:gDay('---11')" />
+            </t:call>
+            <t:expect label="xs:gDay" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}gDay</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:gMonthDay">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:gMonthDay('--11-11')" />
+            </t:call>
+            <t:expect label="xs:gMonthDay" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}gMonthDay</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:gMonth">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:gMonth('--11')" />
+            </t:call>
+            <t:expect label="xs:gMonth" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}gMonth</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:gYearMonth">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:gYearMonth('1111-11')" />
+            </t:call>
+            <t:expect label="xs:gYearMonth" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}gYearMonth</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:gYear">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:gYear('1111')" />
+            </t:call>
+            <t:expect label="xs:gYear" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}gYear</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:base64Binary">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:base64Binary(xs:hexBinary('11'))" />
+            </t:call>
+            <t:expect label="xs:base64Binary" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}base64Binary</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:hexBinary">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:hexBinary('11')" />
+            </t:call>
+            <t:expect label="xs:hexBinary" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}hexBinary</t:expect>
+         </t:scenario>
+
+      </t:scenario>
+
+      <t:scenario label="The derived atomic type xs:integer defined in [XML Schema Part 2]">
+
+         <t:scenario label="xs:integer">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:integer(1)" />
+            </t:call>
+            <t:expect label="xs:integer" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
+         </t:scenario>
+
+      </t:scenario>
+
+      <!-- The types xs:anyType and xs:anySimpleType: Not atomic -->
+
+      <t:scenario label="The following types defined in [XPath 2.0]">
+
+         <t:scenario label="xs:yearMonthDuration">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:yearMonthDuration('P1M')" />
+            </t:call>
+            <t:expect label="xs:yearMonthDuration" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}yearMonthDuration</t:expect>
+         </t:scenario>
+
+         <t:scenario label="xs:dayTimeDuration">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:dayTimeDuration('PT1S')" />
+            </t:call>
+            <t:expect label="xs:dayTimeDuration" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}dayTimeDuration</t:expect>
+         </t:scenario>
+
+         <!-- xs:anyAtomicType: Abstract -->
+
+         <!-- xs:untyped: Not atomic -->
+
+         <t:scenario label="xs:untypedAtomic">
+            <t:call function="rep:atom-type">
+               <t:param select="xs:untypedAtomic('foo')" />
+            </t:call>
+            <t:expect label="xs:untypedAtomic" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}untypedAtomic</t:expect>
+         </t:scenario>
+
+      </t:scenario>
+
+   </t:scenario>
+
+</t:description>

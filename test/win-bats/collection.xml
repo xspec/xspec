@@ -6,38 +6,43 @@
 		Usage (CLI)
 	-->
 
-	<case name="invoking xspec without arguments prints usage">
+	<case name="invoking xspec without arguments prints version and usage">
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
+    call :verify_line 3 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
+    call :verify_line 4 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
 	</case>
 
-	<case name="invoking xspec without arguments prints usage even if Saxon environment variables are not defined">
+	<case name="invoking xspec without arguments prints version and usage even if Saxon environment variables are not defined">
     set SAXON_CP=
     call :run ..\bin\xspec.bat
     call :verify_retval 1
     call :verify_line 2 x "SAXON_CP and SAXON_HOME both not set!"
-    call :verify_line 4 r "Usage: xspec "
+    call :verify_line 4 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
+    call :verify_line 5 r "Usage: xspec "
 	</case>
 
-	<case name="invoking xspec with -h prints usage and does so even when it is 11th argument">
+	<case name="invoking xspec with -h prints version and usage and does so even when it is 11th argument">
     call :run ..\bin\xspec.bat -t -t -t -t -t -t -t -t -t -t -h
     call :verify_retval 0
-    call :verify_line 2 r "Usage: xspec "
+    call :verify_line 2 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
+    call :verify_line 3 r "Usage: xspec "
 	</case>
 
-	<case name="invoking xspec with unknown option prints usage">
+	<case name="invoking xspec with unknown option prints version and usage">
     call :run ..\bin\xspec.bat -bogus ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
     call :verify_line 2 x "Error: Unknown option: -bogus"
-    call :verify_line 3 r "Usage: xspec "
+    call :verify_line 3 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
+    call :verify_line 4 r "Usage: xspec "
 	</case>
 
-	<case name="invoking xspec with extra arguments prints usage">
+	<case name="invoking xspec with extra arguments prints version and usage">
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec bogus
     call :verify_retval 1
     call :verify_line 2 x "Error: Extra option: bogus"
-    call :verify_line 3 r "Usage: xspec "
+    call :verify_line 3 r "XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$"
+    call :verify_line 4 r "Usage: xspec "
 	</case>
 
 	<!--
@@ -93,7 +98,7 @@
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 x "ERROR: XSPEC_HOME seems to be corrupted: %XSPEC_HOME%"
+    call :verify_line 3 x "ERROR: XSPEC_HOME seems to be corrupted: %XSPEC_HOME%"
 	</case>
 
 	<!--
@@ -1740,7 +1745,7 @@
     )
 
     call :verify_line 5 x "Running Tests..."
-    call :verify_line 6 r "Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*"
+    call :verify_line 6 r "Testing with XSpec v[1-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]* and SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*"
 	</case>
 
 	<!--
@@ -2140,6 +2145,30 @@
     call :verify_retval 2
     call :verify_line  5 x "Duplicate parameter name, Q{}left, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
+		Static param not allowed
+	-->
+	<case name="Static param is allowed only with run-as external (XSLT)">
+    call :run ..\bin\xspec.bat static-param\disallowed_stylesheet.xspec
+    call :verify_retval 2
+    call :verify_line  5 x "Enabling @static in x:param is supported only when /x:description has @run-as='external'."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Static param not allowed (XQuery)">
+    call :run ..\bin\xspec.bat -q static-param\disallowed_query.xspec
+    call :verify_retval 2
+    call :verify_line  5 x "Enabling @static in x:param is not supported for XQuery."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Static param not allowed (Schematron)">
+    call :run ..\bin\xspec.bat -s static-param\disallowed_schematron.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "Enabling @static in x:param is not supported for Schematron."
+    call :verify_line -1 x "*** Error converting Schematron into XSLT"
 	</case>
 
 </collection>

@@ -100,10 +100,22 @@
 
 	<!--
 		mode="x:gather-specs"
+		Override the imported mode.
 	-->
 
-	<!-- Override the imported mode and discard all except global params and variables -->
+	<!-- Discard all except global params and variables -->
 	<xsl:template as="empty-sequence()"
 		match="x:description/node()[not(self::x:param | self::x:variable)]" mode="x:gather-specs" />
+
+	<!-- Reject @static=yes, because it doesn't take effect.
+		Making @static=yes take effect requires coordination with schut-to-xslt.xsl who invokes the
+		wrapper stylesheet being generated here. Implementing it isn't worthwhile until requested
+		seriously. -->
+	<xsl:template as="empty-sequence()" match="x:param[x:yes-no-synonym(@static, false())]"
+		mode="x:gather-specs">
+		<xsl:message terminate="yes">
+			<xsl:text expand-text="yes">Enabling @static in {name()} is not supported for Schematron.</xsl:text>
+		</xsl:message>
+	</xsl:template>
 
 </xsl:stylesheet>
