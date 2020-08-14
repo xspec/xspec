@@ -66,7 +66,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
       <xsl:context-item use="absent"/>
       <!-- info message -->
       <xsl:message>
-         <xsl:text>Testing with </xsl:text>
+         <xsl:text>Testing with XSpec v... and </xsl:text>
          <xsl:value-of select="system-property('Q{http://www.w3.org/1999/XSL/Transform}product-name')"/>
          <xsl:text> </xsl:text>
          <xsl:value-of select="system-property('Q{http://www.w3.org/1999/XSL/Transform}product-version')"/>

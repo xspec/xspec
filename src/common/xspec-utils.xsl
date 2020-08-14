@@ -71,6 +71,11 @@
 	</xsl:variable>
 
 	<!--
+		XSpec version (taken from its add-on version)
+	-->
+	<xsl:variable as="xs:string" name="x:xspec-version" select="unparsed-text('VERSION')" />
+
+	<!--
 		Identity template
 	-->
 	<xsl:template as="node()" name="x:identity">
@@ -772,8 +777,7 @@
 				=> string()" />
 
 		<!-- Sort for better serialization (hopefully) -->
-		<xsl:perform-sort
-			select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
+		<xsl:perform-sort select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
 			<xsl:sort select="name()" />
 		</xsl:perform-sort>
 	</xsl:function>
