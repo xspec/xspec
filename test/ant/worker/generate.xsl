@@ -206,6 +206,13 @@
 
 					<xsl:when
 						test="
+							($pis = 'require-xspec-issue-1156-fixed')
+							and (environment-variable('TRAVIS_OS_NAME') eq 'linux')">
+						<xsl:text>Requires xspec/xspec#1156 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($test-type eq 't')
 							and (parent::x:description/@run-as eq 'external')
 							and ($x:saxon-version lt x:pack-version((9, 8, 0, 8)))">
