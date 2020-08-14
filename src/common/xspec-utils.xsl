@@ -15,8 +15,6 @@
 	<xsl:variable as="xs:anyURI" name="x:rep-namespace"
 		select="xs:anyURI('urn:x-xspec:common:report-sequence')" />
 
-	<xsl:variable as="xs:string" name="x:xspec-version" select="unparsed-text('VERSION')" />
-
 	<!--
 		Legacy 'test' namespace URI
 	-->
@@ -71,6 +69,11 @@
 			<xsl:sequence select="x:pack-version($ver-components)" />
 		</xsl:if>
 	</xsl:variable>
+
+	<!--
+		XSpec version (taken from its add-on version)
+	-->
+	<xsl:variable as="xs:string" name="x:xspec-version" select="unparsed-text('VERSION')" />
 
 	<!--
 		Identity template
