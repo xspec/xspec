@@ -8,6 +8,28 @@
 		/x:description/@stylesheet.
 	-->
 
+	<x:scenario label="Scenario for testing variable deq-namespace">
+		<x:context />
+		<x:expect label="'deq' namespace URI"
+			select="
+				namespace-uri-for-prefix(
+					'deq',
+					doc(resolve-uri('../src/common/deep-equal.xsl', $x:xspec-uri))/element()
+				)"
+			test="$x:deq-namespace treat as xs:anyURI" />
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing variable rep-namespace">
+		<x:context />
+		<x:expect label="'rep' namespace URI"
+			select="
+				namespace-uri-for-prefix(
+					'rep',
+					doc(resolve-uri('../src/common/report-sequence.xsl', $x:xspec-uri))/element()
+				)"
+			test="$x:rep-namespace treat as xs:anyURI" />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing variable xs-namespace">
 		<x:context />
 		<x:expect label="'xs' namespace URI"
@@ -1389,6 +1411,14 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function known-UQName">
+		<x:scenario label="deq">
+			<x:call function="x:known-UQName">
+				<x:param select="'deq:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{urn:x-xspec:common:deep-equal}my-local-name</x:expect>
+		</x:scenario>
+
 		<x:scenario label="err">
 			<x:call function="x:known-UQName">
 				<x:param select="'err:my-local-name'" />
@@ -1419,6 +1449,14 @@
 			</x:call>
 			<x:expect label="Constructed" select="string()"
 				>Q{http://www.w3.org/2010/xslt-xquery-serialization}my-local-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="rep">
+			<x:call function="x:known-UQName">
+				<x:param select="'rep:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{urn:x-xspec:common:report-sequence}my-local-name</x:expect>
 		</x:scenario>
 
 		<x:scenario label="svrl">
