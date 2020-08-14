@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="items.xsl" xmlns:items="x-urn:test:xspec-items"
-	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- Scenarios for testing x:expect/@test. All x:expect must have @test, even when the same
@@ -23,8 +22,8 @@
 							<x:param select="$items:comment" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($items:comment)"
-							test=". treat as document-node()" />
+							select="x:wrap-nodes($items:comment)" test=". treat as document-node()"
+						 />
 					</x:scenario>
 
 					<x:scenario label="Document">
@@ -32,8 +31,8 @@
 							<x:param select="$items:document" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($items:document)"
-							test=". treat as document-node()" />
+							select="x:wrap-nodes($items:document)" test=". treat as document-node()"
+						 />
 					</x:scenario>
 
 					<x:scenario label="Element">
@@ -41,8 +40,8 @@
 							<x:param select="$items:element" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($items:element)"
-							test=". treat as document-node()" />
+							select="x:wrap-nodes($items:element)" test=". treat as document-node()"
+						 />
 					</x:scenario>
 
 					<x:scenario label="Processing instruction">
@@ -50,7 +49,7 @@
 							<x:param select="$items:processing-instruction" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($items:processing-instruction)"
+							select="x:wrap-nodes($items:processing-instruction)"
 							test=". treat as document-node()" />
 					</x:scenario>
 
@@ -59,8 +58,7 @@
 							<x:param select="$items:text" />
 						</x:call>
 						<x:expect label="Wrapped in document node, and context is set there"
-							select="test:wrap-nodes($items:text)" test=". treat as document-node()"
-						 />
+							select="x:wrap-nodes($items:text)" test=". treat as document-node()" />
 					</x:scenario>
 
 				</x:scenario>
@@ -94,7 +92,7 @@
 						<x:param select="$items:wrappable-nodes" />
 					</x:call>
 					<x:expect label="Wrapped in document node, and context is set there"
-						select="test:wrap-nodes($items:wrappable-nodes)"
+						select="x:wrap-nodes($items:wrappable-nodes)"
 						test=". treat as document-node()" />
 				</x:scenario>
 

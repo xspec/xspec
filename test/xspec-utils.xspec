@@ -15,7 +15,7 @@
 			select="
 				namespace-uri-for-prefix(
 					'test',
-					doc(resolve-uri('../src/compiler/generate-tests-utils.xsl', $x:xspec-uri))/element()
+					doc(resolve-uri('../src/compiler/generate-tests-helper.xsl', $x:xspec-uri))/element()
 				)"
 			test="$x:legacy-namespace treat as xs:anyURI" />
 	</x:scenario>

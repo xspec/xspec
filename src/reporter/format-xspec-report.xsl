@@ -17,9 +17,11 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
-   <xsl:import href="format-utils.xsl"/>
+   <xsl:include href="format-utils.xsl"/>
 
+   <xsl:include href="../common/deep-equal.xsl" />
    <xsl:include href="../common/parse-report.xsl" />
+   <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="../common/xspec-utils.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl</pkg:import-uri>

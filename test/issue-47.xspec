@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-xslt-to-support-schema?>
-<x:description stylesheet="issue-47.xsl" xmlns:test="http://www.jenitennison.com/xslt/unit-test"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<x:description stylesheet="issue-47.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<x:scenario label="Set context in *:foo">
 		<x:context select="$test-doc/*:foo" />
@@ -22,12 +21,13 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="test:wrap-nodes">
-		<x:call function="test:wrap-nodes">
+	<x:scenario label="x:wrap-nodes">
+		<x:call function="x:wrap-nodes">
 			<x:param select="$test-doc" />
 		</x:call>
 		<x:expect label="Type annotations are kept"
 			test="*:foo/@bar instance of attribute(bar, xs:NMTOKENS)" />
 		<x:expect label="Nodes are kept" select="$test-doc" />
 	</x:scenario>
+
 </x:description>
