@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       test/generate-xspec-tests.xspec                          -->
+<!--  File:       test/compile-xslt-tests.xspec                            -->
 <!--  Author:     Florent Georges                                          -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
@@ -9,13 +9,13 @@
 
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-               stylesheet="../src/compiler/generate-xspec-tests.xsl">
+               stylesheet="../src/compiler/compile-xslt-tests.xsl">
 
    <!--
-       Test the source file generate-xspec-tests.xsl.
+       Test the source file compile-xslt-tests.xsl.
 
        Test only the XSLT version. It is very difficult to test the XQuery
-       version (generate-query-tests.xsl), because its output is textual XQuery.
+       version (compile-xquery-tests.xsl), because its output is textual XQuery.
        Unless, of course, we use XQueryX (XML representation of XQuery)...
    -->
 
@@ -30,7 +30,7 @@
    </t:scenario-->
 
    <t:scenario label="x:scenario[@label] transformed in x:compile mode">
-      <t:context mode="t:compile" href="generate-xspec-tests/scenario.xspec" select="//t:scenario" />
+      <t:context mode="t:compile" href="compile-xslt-tests/scenario.xspec" select="//t:scenario" />
       <t:expect>
          <t:label>
             - is xsl:template
@@ -65,7 +65,7 @@
        in a mode, etc.) and test it explicitly...
    -->
    <t:scenario label="x:expect[@test] transformed in x:compile mode">
-      <t:context mode="t:compile" href="generate-xspec-tests/expect.xspec" select="//t:expect">
+      <t:context mode="t:compile" href="compile-xslt-tests/expect.xspec" select="//t:expect">
          <t:param tunnel="yes" name="context" as="empty-sequence()"/>
          <t:param tunnel="yes" name="call" as="empty-sequence()"/>
       </t:context>

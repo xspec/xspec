@@ -129,9 +129,9 @@
              if ( $compiler-uri ) then
                $compiler-uri
              else if ( $xspec-home ) then
-               resolve-uri('src/compiler/generate-xspec-tests.xsl', $xspec-home)
+               resolve-uri('src/compiler/compile-xslt-tests.xsl', $xspec-home)
              else
-               'http://www.jenitennison.com/xslt/xspec/generate-xspec-tests.xsl'"/>
+               'http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl'"/>
 
          <!-- load the compiler -->
          <p:load name="compiler" pkg:kind="xslt">
@@ -164,7 +164,7 @@
        Compile the suite on source into a query on result.
        
        The query is wrapped into an element c:query.  Parameters to the XSpec
-       XQuery compiler, AKA generate-query-tests.xsl, can be passed on the
+       XQuery compiler, AKA compile-xquery-tests.xsl, can be passed on the
        parameters port (e.g. utils-library-at to suppress the at location hint to use
        to import the XSpec utils library modules in the generated query).
    -->
@@ -197,9 +197,9 @@
              if ( $compiler-uri ) then
                $compiler-uri
              else if ( $xspec-home ) then
-               resolve-uri('src/compiler/generate-query-tests.xsl', $xspec-home)
+               resolve-uri('src/compiler/compile-xquery-tests.xsl', $xspec-home)
              else
-               'http://www.jenitennison.com/xslt/xspec/generate-query-tests.xsl'"/>
+               'http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl'"/>
 
          <!-- wrap the generated query in a c:query element -->
          <p:string-replace match="/xsl:*/xsl:import/@href" name="compiler">
@@ -318,7 +318,7 @@
    </p:declare-step>
 
    <!-- Escapes markup. Also mimics @use-character-maps="test:disable-escaping" in
-      ../compiler/generate-query-tests.xsl. -->
+      ../compiler/compile-xquery-tests.xsl. -->
    <p:declare-step type="t:escape-markup" name="escape-markup">
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>

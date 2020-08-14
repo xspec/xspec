@@ -2,7 +2,7 @@
 <x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<!-- Tests the effect of mode="x:setup-context" in generate-xspec-tests.xsl -->
+	<!-- Tests the effect of mode="x:setup-context" in compile-xslt-tests.xsl -->
 
 	<x:scenario label="When x:context has x:param and another child node,">
 		<x:context>
