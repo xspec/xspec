@@ -255,7 +255,7 @@
    <!--
        Function deq:deep-equal($seq1, $seq2, 'w').
    -->
-   <t:scenario label="deq:deep-equal($seq1, $seq2, 'w')" xml:base="generate-x-utils/">
+   <t:scenario label="deq:deep-equal($seq1, $seq2, 'w')" xml:base="deep-equal/">
       <t:scenario label="Identical whitespace-only text nodes">
          <t:scenario label="In ordinal element">
             <t:scenario label="No flag">
