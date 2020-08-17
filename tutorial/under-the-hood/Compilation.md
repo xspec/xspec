@@ -112,12 +112,12 @@ import module "http://example.org/ns/my"
 at ".../compilation-simple-suite.xqm";
 
 (: XSpec library modules providing tools :)
+import module "http://www.jenitennison.com/xslt/xspec"
+at ".../src/common/xspec-utils.xqm";
 import module "urn:x-xspec:common:deep-equal"
 at ".../src/common/deep-equal.xqm";
 import module "urn:x-xspec:common:report-sequence"
 at ".../src/common/report-sequence.xqm";
-import module "http://www.jenitennison.com/xslt/xspec"
-at ".../src/common/xspec-utils.xqm";
 
 declare namespace my = "http://example.org/ns/my";
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";
