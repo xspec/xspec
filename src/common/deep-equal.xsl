@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:deq="urn:x-xspec:common:deep-equal"
                 xmlns:local="urn:x-xspec:common:deep-equal:local"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -15,7 +14,7 @@
    <!--<xsl:param name="debug" as="xs:boolean" select="true()" />-->
 
    <!-- $flags
-      w : Ignores descendant whitespace-only text nodes except the ones in <test:ws>
+      w : Ignores descendant whitespace-only text nodes except the ones in <x:ws>
       1 : Simulates XSLT version 1.0 -->
    <xsl:function name="deq:deep-equal" as="xs:boolean">
       <xsl:param name="seq1" as="item()*" />
@@ -259,11 +258,12 @@
       <xsl:param name="node" as="node()" />
       <xsl:param name="flags" as="xs:string" />
 
-      <xsl:sequence 
-         select="
-            $node/child::node()
-            except ($node/text()[not(normalize-space())][contains($flags, 'w')][not($node/self::test:ws)],
-                    $node/test:message)" />
+      <xsl:variable name="ignorable-ws-only-text-nodes" as="text()*">
+         <xsl:if test="contains($flags, 'w') and not($node/self::x:ws)">
+            <xsl:sequence select="$node/text()[normalize-space() => not()]" />
+         </xsl:if>
+      </xsl:variable>
+      <xsl:sequence select="$node/child::node() except $ignorable-ws-only-text-nodes" />
    </xsl:function>
 
    <xsl:function name="local:sort-named-nodes" as="node()*">

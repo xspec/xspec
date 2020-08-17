@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:local="urn:x-xspec:common:report-sequence:local"
                 xmlns:rep="urn:x-xspec:common:report-sequence"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -202,7 +201,7 @@
 
    <!--
       mode="local:report-node"
-      Copies the nodes while wrapping whitespace-only text nodes in <test:ws>.
+      Copies the nodes while wrapping whitespace-only text nodes in <x:ws>.
       You can't use @on-no-match="shallow-copy", because SUT may have xsl:template[@mode="#all"].
    -->
    <xsl:mode name="local:report-node" on-multiple-match="fail" on-no-match="fail" />
@@ -212,9 +211,9 @@
       <xsl:call-template name="x:identity" />
    </xsl:template>
 
-   <xsl:template match="text()[normalize-space() => not()]" as="element(test:ws)"
+   <xsl:template match="text()[normalize-space() => not()]" as="element(x:ws)"
       mode="local:report-node">
-      <xsl:element name="ws" namespace="{$x:legacy-namespace}">
+      <xsl:element name="ws" namespace="{$x:xspec-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
    </xsl:template>

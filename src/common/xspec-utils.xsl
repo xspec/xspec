@@ -16,12 +16,6 @@
 		select="xs:anyURI('urn:x-xspec:common:report-sequence')" />
 
 	<!--
-		Legacy 'test' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:legacy-namespace"
-		select="xs:anyURI('http://www.jenitennison.com/xslt/unit-test')" />
-
-	<!--
 		XSpec 'x' namespace URI
 	-->
 	<xsl:variable as="xs:anyURI" name="x:xspec-namespace"
@@ -696,7 +690,7 @@
 					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
 				</xsl:when>
 				<xsl:when test="$prefix eq 'test'">
-					<xsl:sequence select="$x:legacy-namespace" />
+					<xsl:sequence select="'http://www.jenitennison.com/xslt/unit-test'" />
 				</xsl:when>
 				<xsl:when test="$prefix eq 'x'">
 					<xsl:sequence select="$x:xspec-namespace" />

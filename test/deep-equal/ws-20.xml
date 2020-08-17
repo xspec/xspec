@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<foo xmlns:test="http://www.jenitennison.com/xslt/unit-test">
-	<test:ws>&#x20;</test:ws>
+<foo xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:ws>&#x20;</x:ws>
 </foo>

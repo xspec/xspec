@@ -277,7 +277,7 @@
             </t:scenario>
          </t:scenario>
 
-         <t:scenario label="In test:ws">
+         <t:scenario label="In x:ws">
             <t:scenario label="No flag">
                <t:call function="deq:deep-equal">
                   <t:param href="ws-09.xml" />
@@ -319,7 +319,7 @@
             </t:scenario>
          </t:scenario>
 
-         <t:scenario label="In test:ws">
+         <t:scenario label="In x:ws">
             <t:scenario label="No flag">
                <t:call function="deq:deep-equal">
                   <t:param href="ws-09.xml" />

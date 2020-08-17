@@ -153,14 +153,14 @@ declare %private function rep:report-pseudo-item(
 };
 
 (:
-  Copies the nodes while wrapping whitespace-only text nodes in <test:ws>
+  Copies the nodes while wrapping whitespace-only text nodes in <x:ws>
 :)
 declare %private function rep:report-node(
   $node as node()
 ) as node()
 {
   if (($node instance of text()) and not(normalize-space($node))) then
-    element { QName($x:legacy-namespace, 'ws') } { $node }
+    element { QName($x:xspec-namespace, 'ws') } { $node }
 
   else if ($node instance of document-node()) then
     document {
