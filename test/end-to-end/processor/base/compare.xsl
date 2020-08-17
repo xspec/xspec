@@ -225,16 +225,8 @@
 		<xsl:param as="element()" name="elem1" />
 		<xsl:param as="element()" name="elem2" />
 
-		<xsl:variable as="xs:string*" name="prefixes1">
-			<xsl:perform-sort select="in-scope-prefixes($elem1)">
-				<xsl:sort select="." />
-			</xsl:perform-sort>
-		</xsl:variable>
-		<xsl:variable as="xs:string*" name="prefixes2">
-			<xsl:perform-sort select="in-scope-prefixes($elem2)">
-				<xsl:sort select="." />
-			</xsl:perform-sort>
-		</xsl:variable>
+		<xsl:variable as="xs:string*" name="prefixes1" select="in-scope-prefixes($elem1) => sort()" />
+		<xsl:variable as="xs:string*" name="prefixes2" select="in-scope-prefixes($elem2) => sort()" />
 
 		<xsl:sequence
 			select="

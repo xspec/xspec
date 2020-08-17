@@ -769,8 +769,7 @@
 				=> string()" />
 
 		<!-- Sort for better serialization (hopefully) -->
-		<xsl:perform-sort
-			select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
+		<xsl:perform-sort select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
 			<xsl:sort select="name()" />
 		</xsl:perform-sort>
 	</xsl:function>
@@ -800,12 +799,7 @@
 						select="
 							in-scope-prefixes($context-element)
 							[namespace-uri-for-prefix(., $context-element) eq $x:xspec-namespace]" />
-					<xsl:variable as="xs:string+" name="xspec-prefixes-sorted">
-						<xsl:perform-sort select="$xspec-prefixes">
-							<xsl:sort select="." />
-						</xsl:perform-sort>
-					</xsl:variable>
-					<xsl:sequence select="$xspec-prefixes-sorted[1]" />
+					<xsl:sequence select="sort($xspec-prefixes)[1]" />
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
