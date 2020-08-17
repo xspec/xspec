@@ -34,16 +34,8 @@
         <!-- Similar to xsl:template[@name="x:generate-tests"] in
             ../compiler/generate-common-tests.xsl -->
 
-        <!-- Collect all the instances of x:description by resolving x:import -->
-        <xsl:variable name="descriptions" as="element(x:description)+"
-            select="x:gather-descriptions(x:description)" />
-
-        <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
-            including x:variable and comments. (x:import is discarded.)
-            The original node identities, document URI and base URI are lost in this processing. -->
-        <xsl:variable name="specs" as="node()+">
-            <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
-        </xsl:variable>
+        <!-- Resolve x:import and gather all the children of x:description -->
+        <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
 
         <!-- Combine all the children of x:description into a single x:description -->
         <xsl:document>
