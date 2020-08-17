@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
-	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -80,7 +79,7 @@
 				</xsl:element>
 			</xsl:variable>
 
-			<xsl:apply-templates mode="test:generate-variable-declarations"
+			<xsl:apply-templates mode="x:generate-variable-declarations"
 				select="$pseudo-description/element()" />
 		</xsl:element>
 	</xsl:template>

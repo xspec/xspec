@@ -10,7 +10,6 @@
 
 <xsl:stylesheet version="3.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -23,11 +22,11 @@
       
       This mode itself does not handle whitespace-only text nodes specially. To handle
       whitespace-only text node in a special manner, the text node should be handled specially
-      before applying this mode and/or mode="test:create-node-generator" should be overridden.
+      before applying this mode and/or mode="x:create-node-generator" should be overridden.
    -->
-   <xsl:mode name="test:generate-variable-declarations" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:generate-variable-declarations" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="node()+" mode="test:generate-variable-declarations">
+   <xsl:template match="element()" as="node()+" mode="x:generate-variable-declarations">
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" as="node()?" tunnel="yes" />
 
@@ -82,7 +81,7 @@
             document { NODE-GENERATORS }
       -->
       <xsl:if test="$temp-doc-uqname">
-         <xsl:call-template name="test:declare-or-let-variable">
+         <xsl:call-template name="x:declare-or-let-variable">
             <xsl:with-param name="is-global" select="$is-global" />
             <xsl:with-param name="name" select="$temp-doc-uqname" />
             <xsl:with-param name="type" select="'document-node()'" />
@@ -94,7 +93,7 @@
 
                   <xsl:otherwise>
                      <xsl:text>document {&#x0A;</xsl:text>
-                     <xsl:call-template name="test:create-zero-or-more-node-generators">
+                     <xsl:call-template name="x:create-zero-or-more-node-generators">
                         <xsl:with-param name="nodes" select="node() except $exclude" />
                      </xsl:call-template>
                      <xsl:text>&#x0A;</xsl:text>
@@ -116,7 +115,7 @@
          or
             ( EXPRESSION )
       -->
-      <xsl:call-template name="test:declare-or-let-variable">
+      <xsl:call-template name="x:declare-or-let-variable">
          <xsl:with-param name="is-global" select="$is-global" />
          <xsl:with-param name="name" select="$uqname" />
          <xsl:with-param name="type" select="if ($is-pending) then () else (@as)" />
@@ -130,11 +129,11 @@
                <xsl:when test="$temp-doc-uqname">
                   <xsl:variable name="selection" as="xs:string"
                      select="(@select, '.'[current()/@href], 'node()')[1]" />
-                  <xsl:text expand-text="yes">${$temp-doc-uqname} ! ( {test:disable-escaping($selection)} )</xsl:text>
+                  <xsl:text expand-text="yes">${$temp-doc-uqname} ! ( {x:disable-escaping($selection)} )</xsl:text>
                </xsl:when>
 
                <xsl:when test="@select">
-                  <xsl:value-of select="test:disable-escaping(@select)" />
+                  <xsl:value-of select="x:disable-escaping(@select)" />
                </xsl:when>
             </xsl:choose>
          </xsl:with-param>
@@ -148,7 +147,7 @@
       or
                       let $NAME as TYPE := ( VALUE )
    -->
-   <xsl:template name="test:declare-or-let-variable" as="node()+">
+   <xsl:template name="x:declare-or-let-variable" as="node()+">
       <xsl:context-item use="absent" />
 
       <xsl:param name="is-global" as="xs:boolean" required="yes" />
@@ -196,16 +195,16 @@
    </xsl:template>
 
    <!--
-      mode="test:create-node-generator"
+      mode="x:create-node-generator"
    -->
-   <xsl:mode name="test:create-node-generator" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:create-node-generator" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="node()+" mode="test:create-node-generator">
+   <xsl:template match="element()" as="node()+" mode="x:create-node-generator">
       <xsl:text>element { </xsl:text>
       <xsl:value-of select="node-name() => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
-      <xsl:call-template name="test:create-zero-or-more-node-generators">
+      <xsl:call-template name="x:create-zero-or-more-node-generators">
          <xsl:with-param name="nodes"
             select="
                x:element-additional-namespace-nodes(.),
@@ -216,7 +215,7 @@
       <xsl:text>&#x0A;}</xsl:text>
    </xsl:template>
 
-   <xsl:template match="namespace-node()" as="text()+" mode="test:create-node-generator">
+   <xsl:template match="namespace-node()" as="text()+" mode="x:create-node-generator">
       <xsl:text>namespace { "</xsl:text>
       <xsl:value-of select="name()" />
       <xsl:text>" } { </xsl:text>
@@ -224,14 +223,14 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="attribute()" as="node()+" mode="test:create-node-generator">
+   <xsl:template match="attribute()" as="node()+" mode="x:create-node-generator">
       <xsl:text>attribute { </xsl:text>
       <xsl:value-of select="node-name() => x:QName-expression()" />
       <xsl:text> } { </xsl:text>
 
       <xsl:choose>
          <xsl:when test="x:is-user-content(.)">
-            <xsl:call-template name="test:avt-or-tvt" />
+            <xsl:call-template name="x:avt-or-tvt" />
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="x:quote-with-apos(.)" />
@@ -241,12 +240,12 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="text()" as="node()+" mode="test:create-node-generator">
+   <xsl:template match="text()" as="node()+" mode="x:create-node-generator">
       <xsl:text>text { </xsl:text>
 
       <xsl:choose>
          <xsl:when test="x:is-user-content(.) and parent::x:text/@expand-text/x:yes-no-synonym(.)">
-            <xsl:call-template name="test:avt-or-tvt" />
+            <xsl:call-template name="x:avt-or-tvt" />
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="x:quote-with-apos(.)" />
@@ -256,7 +255,7 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="processing-instruction()" as="text()+" mode="test:create-node-generator">
+   <xsl:template match="processing-instruction()" as="text()+" mode="x:create-node-generator">
       <xsl:text>processing-instruction { "</xsl:text>
       <xsl:value-of select="name()" />
       <xsl:text>" } { </xsl:text>
@@ -264,19 +263,19 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="comment()" as="text()+" mode="test:create-node-generator">
+   <xsl:template match="comment()" as="text()+" mode="x:create-node-generator">
       <xsl:text>comment { </xsl:text>
       <xsl:value-of select="x:quote-with-apos(.)" />
       <xsl:text> }</xsl:text>
    </xsl:template>
 
    <!-- x:text represents its child text node -->
-   <xsl:template match="x:text" as="node()+" mode="test:create-node-generator">
+   <xsl:template match="x:text" as="node()+" mode="x:create-node-generator">
       <!-- Unwrap -->
       <xsl:apply-templates mode="#current" />
    </xsl:template>
 
-   <xsl:template name="test:avt-or-tvt" as="node()+">
+   <xsl:template name="x:avt-or-tvt" as="node()+">
       <xsl:context-item as="node()" use="required" />
 
       <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
@@ -296,7 +295,7 @@
       <xsl:text>/@vt</xsl:text>
    </xsl:template>
 
-   <xsl:template name="test:create-zero-or-more-node-generators" as="node()+">
+   <xsl:template name="x:create-zero-or-more-node-generators" as="node()+">
       <xsl:context-item use="absent" />
 
       <xsl:param name="nodes" as="node()*" />
@@ -304,7 +303,7 @@
       <xsl:choose>
          <xsl:when test="$nodes">
             <xsl:for-each select="$nodes">
-               <xsl:apply-templates select="." mode="test:create-node-generator" />
+               <xsl:apply-templates select="." mode="x:create-node-generator" />
                <xsl:if test="position() ne last()">
                   <xsl:text>,&#x0A;</xsl:text>
                </xsl:if>
@@ -319,25 +318,25 @@
 
    <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
       For the XQuery XSpec, these Private Use Area characters should be considered as reserved by
-      test:disable-escaping.
+      x:disable-escaping.
       This mapping should be in sync with t:escape-markup in ../harnesses/harness-lib.xpl. -->
-   <xsl:character-map name="test:disable-escaping">
+   <xsl:character-map name="x:disable-escaping">
       <xsl:output-character character="&#xE801;" string="&lt;" />
       <xsl:output-character character="&#xE803;" string="&gt;" />
    </xsl:character-map>
 
    <!-- Replaces < > characters with the reserved characters.
       The serializer will convert those reserved characters back to < > characters,
-      provided that test:disable-escaping character map is specified as a serialization
+      provided that x:disable-escaping character map is specified as a serialization
       parameter.
       Returns a zero-length string if the input is an empty sequence. -->
-   <xsl:function name="test:disable-escaping" as="xs:string">
+   <xsl:function name="x:disable-escaping" as="xs:string">
       <xsl:param name="input" as="xs:string?" />
 
       <xsl:sequence select="
          doc('')
          /xsl:*
-         /xsl:character-map[@name eq 'test:disable-escaping']
+         /xsl:character-map[@name eq 'x:disable-escaping']
          /translate(
             $input,
             string-join(xsl:output-character/@string),
