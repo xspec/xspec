@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
         xspec="../../serialize.xspec"
-        stylesheet="../../../../items.xsl"
+        stylesheet="../../../../mirror.xsl"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../serialize.xspec">
       <label>When the result is a comment node, the report HTML must serialize it as
@@ -9,7 +9,8 @@
       <scenario id="scenario1-scenario1" xspec="../../serialize.xspec">
          <label>When x:result in the report XML contains a comment node,</label>
          <input-wrap xmlns="">
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:mirror}param-mirror">
                <x:param select="$Q{x-urn:test:xspec-items}comment"/>
             </x:call>
          </input-wrap>
@@ -31,7 +32,8 @@
       <scenario id="scenario1-scenario2" xspec="../../serialize.xspec">
          <label>When x:expect in the report XML contains a comment node,</label>
          <input-wrap xmlns="">
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:mirror}false"/>
          </input-wrap>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
          <test id="scenario1-scenario2-expect1" successful="false">
@@ -52,7 +54,8 @@
             <label>When x:result in the report XML file is a sequence of simple nested
 					elements serialized with indentation,</label>
             <input-wrap xmlns="">
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="Q{x-urn:test:mirror}param-mirror">
                   <x:param as="element()+">
                      <foo/>
                      <bar>
@@ -93,7 +96,8 @@
             <label>When x:expect in the report XML file is a sequence of simple nested
 					elements serialized with indentation,</label>
             <input-wrap xmlns="">
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="Q{x-urn:test:mirror}false"/>
             </input-wrap>
             <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <test id="scenario2-scenario1-scenario2-expect1" successful="false">
@@ -123,7 +127,8 @@
                <label>When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in
 						x:result of the report XML file,</label>
                <input-wrap xmlns="">
-                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                          function="Q{x-urn:test:mirror}param-mirror">
                      <x:param as="element(test)">
                         <test>
                            <elem1><!--foo-->
@@ -162,7 +167,8 @@
                <label>When &lt;bar&gt; is indented but &lt;?bar?&gt; is not indented in
 						x:expect of the report XML file,</label>
                <input-wrap xmlns="">
-                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                          function="Q{x-urn:test:mirror}param-mirror">
                      <x:param as="element(test)">
                         <test>
                            <elem1>foo<bar/>
@@ -205,7 +211,8 @@
 						and x:expect of the report XML file with different indentation
 						length,</label>
                <input-wrap xmlns="">
-                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+                  <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                          function="Q{x-urn:test:mirror}param-mirror">
                      <x:param as="element(test)">
                         <test>
                            <foo>
@@ -246,7 +253,8 @@
    <scenario id="scenario3" xspec="../../serialize.xspec">
       <label>When x:expect has an element of '...',</label>
       <input-wrap xmlns="">
-         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="element(foo)">
                <foo>
                   <bar/>
@@ -277,7 +285,8 @@
    <scenario id="scenario4" xspec="../../serialize.xspec">
       <label>When the result contains significant text nodes,</label>
       <input-wrap xmlns="">
-         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="Q{x-urn:test:mirror}param-mirror">
             <x:param as="element(test)">
                <test>
                   <oridinary-text-node>
@@ -347,7 +356,8 @@
          <scenario id="scenario5-scenario1-scenario1" xspec="../../serialize.xspec">
             <label>in x:result,</label>
             <input-wrap xmlns="">
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="Q{x-urn:test:mirror}param-mirror">
                   <x:param select="$test"/>
                </x:call>
             </input-wrap>
@@ -377,7 +387,8 @@
          <scenario id="scenario5-scenario1-scenario2" xspec="../../serialize.xspec">
             <label>in x:expect,</label>
             <input-wrap xmlns="">
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="Q{x-urn:test:mirror}false"/>
             </input-wrap>
             <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <test id="scenario5-scenario1-scenario2-expect1" successful="false">
@@ -400,7 +411,8 @@
          <scenario id="scenario5-scenario2-scenario1" xspec="../../serialize.xspec">
             <label>in x:result,</label>
             <input-wrap xmlns="">
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="Q{x-urn:test:mirror}param-mirror">
                   <x:param select="$test"/>
                </x:call>
             </input-wrap>
@@ -430,7 +442,8 @@
          <scenario id="scenario5-scenario2-scenario2" xspec="../../serialize.xspec">
             <label>in x:expect,</label>
             <input-wrap xmlns="">
-               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+               <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                       function="Q{x-urn:test:mirror}false"/>
             </input-wrap>
             <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
             <test id="scenario5-scenario2-scenario2-expect1" successful="false">
@@ -452,7 +465,8 @@
    <scenario id="scenario6" xspec="../../serialize.xspec">
       <label>When the result contains attribute,</label>
       <input-wrap xmlns="">
-         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="Q{x-urn:test:mirror}param-mirror">
             <x:param>
                <exact-match attr1="value1" attr2="value2" attr3="" attr4=""/>
                <name-match attr1="value1" attr2="value2" attr3="" attr4="..."/>
@@ -537,7 +551,8 @@
    <scenario id="scenario7" xspec="../../serialize.xspec">
       <label>When the result contains processing instructions,</label>
       <input-wrap xmlns="">
-         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="Q{x-urn:test:mirror}param-mirror">
             <x:param>
                <exact-match><?node1 value1?><?node2 value2?><?node3?><?node4?></exact-match>
                <name-match><?node1 value1?><?node2 value2?><?node3?><?node4 ...?></name-match>
@@ -643,7 +658,8 @@
       <scenario id="scenario8-scenario1" xspec="../../serialize.xspec">
          <label>and it is top-level,</label>
          <input-wrap xmlns="">
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:mirror}param-mirror">
                <x:param xmlns="default-ns">
                   <foo xmlns=""/>
                </x:param>
@@ -684,7 +700,8 @@
       <scenario id="scenario8-scenario2" xspec="../../serialize.xspec">
          <label>and it is 2nd-level,</label>
          <input-wrap xmlns="">
-            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="one-or-more">
+            <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    function="Q{x-urn:test:mirror}param-mirror">
                <x:param xmlns="default-ns">
                   <foo>
                      <bar xmlns=""/>
@@ -730,5 +747,43 @@
             </test>
          </scenario>
       </scenario>
+   </scenario>
+   <scenario id="scenario9" xspec="../../serialize.xspec">
+      <label>When the result is a sequence of nodes containing '&amp;' and '&lt;'
+			(xspec/xspec#1155)</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="Q{x-urn:test:mirror}param-mirror">
+            <x:param>
+               <elem>&lt;p&gt;foo &amp; bar&lt;/p&gt;</elem>
+               <!--<p>foo & bar</p>-->
+               <?pi <p>foo & bar</p>?>&lt;p&gt;foo &amp; bar&lt;/p&gt;</x:param>
+         </x:call>
+      </input-wrap>
+      <result select="/node()">
+         <content-wrap xmlns="">
+            <elem xmlns:x="http://www.jenitennison.com/xslt/xspec">&lt;p&gt;foo &amp; bar&lt;/p&gt;</elem>
+            <!--<p>foo & bar</p>-->
+            <?pi <p>foo & bar</p>?>&lt;p&gt;foo &amp; bar&lt;/p&gt;</content-wrap>
+      </result>
+      <test id="scenario9-expect1" successful="false">
+         <label>both in [Result] and [Expected Result] with diff, '&amp;' and '&lt;' (and
+				possibly other special characters) should be escaped without seeming
+				indentation.</label>
+         <expect select="/node()">
+            <content-wrap xmlns="">
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec">&lt;p&gt;bar &amp; baz&lt;/p&gt;</elem>
+               <!--<p>bar & baz</p>-->
+               <?pi <p>bar & baz</p>?>&lt;p&gt;bar &amp; baz&lt;/p&gt;</content-wrap>
+         </expect>
+      </test>
+      <test id="scenario9-expect2" successful="false">
+         <label>in [Result] without diff, '&amp;' and '&lt;' (and possibly other special
+				characters) should be escaped without seeming indentation.</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="false()"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
    </scenario>
 </report>

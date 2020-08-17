@@ -2,7 +2,7 @@
 <x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<!-- Tests the effect of mode="x:setup-context" in compile-xslt-tests.xsl -->
+	<!-- Unlike node-selection_stylesheet.xspec, this file focuses on x:context and x:param. -->
 
 	<x:scenario label="When x:context has x:param and another child node,">
 		<x:context>
@@ -10,22 +10,22 @@
 			<context-child />
 		</x:context>
 
-		<x:scenario label="mode=x:setup-context excludes x:param from context. So...">
+		<x:scenario label="setting up the context excludes x:param from the context nodes. So...">
 			<x:scenario label="When a template is called,">
 				<x:call template="mirror:context-mirror" />
-				<x:expect label="Only the non x:param node remains in context."
+				<x:expect label="Only the non x:param nodes remain in the context nodes."
 					test="$x:result instance of element(context-child)" />
 			</x:scenario>
 
 			<x:scenario label="When templates are applied,">
 				<!-- Extend the ancestor context -->
 				<x:context mode="mirror:context-mirror" />
-				<x:expect label="Only the non x:param node remains in context."
+				<x:expect label="Only the non x:param nodes remain in the context nodes."
 					test="$x:result instance of element(context-child)" />
 			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="mode=x:setup-context does not affect the template parameters. So...">
+		<x:scenario label="setting up the context does not affect the template parameters. So...">
 			<!-- Extend the parent context -->
 			<x:context mode="mirror:param-mirror" />
 			<x:expect label="x:param works as a parameter."
@@ -34,9 +34,9 @@
 	</x:scenario>
 
 	<x:scenario label="When x:context has @href document containing x:param,">
-		<x:context href="x-setup-context.xml" />
+		<x:context href="context-param.xml" />
 
-		<x:scenario label="mode=x:setup-context does not affect @href document. So...">
+		<x:scenario label="setting up the context does not affect @href document. So...">
 			<x:scenario label="When a template is called,">
 				<x:call template="mirror:context-mirror" />
 				<x:expect label="The document is kept intact."
