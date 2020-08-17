@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for items.xsl (passed: 0 / pending: 0 / failed: 26 / total: 26)</title>
+      <title>Test Report for mirror.xsl (passed: 0 / pending: 0 / failed: 28 / total: 28)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
-      <p>Stylesheet: <a href="../../../../items.xsl">items.xsl</a></p>
+      <p>Stylesheet: <a href="../../../../mirror.xsl">mirror.xsl</a></p>
       <p>XSpec: <a href="../../serialize.xspec">serialize.xspec</a></p>
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
@@ -23,8 +23,8 @@
                <th></th>
                <th class="totals">passed: 0</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 26</th>
-               <th class="totals">total: 26</th>
+               <th class="totals">failed: 28</th>
+               <th class="totals">total: 28</th>
             </tr>
          </thead>
          <tbody>
@@ -86,6 +86,13 @@
                <th class="totals">0</th>
                <th class="totals">4</th>
                <th class="totals">4</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario9">When the result is a sequence of nodes containing '&amp;' and '&lt;' (xspec/xspec#1155)</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">2</th>
             </tr>
          </tbody>
       </table>
@@ -1313,6 +1320,89 @@
      <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;
    &lt;bar <span class="xmlns">xmlns=""</span> /&gt;
 &lt;/foo&gt;</pre>
+                        </td>
+                        <td>
+                           <pre>false()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario9">
+         <h2 class="failed">When the result is a sequence of nodes containing '&amp;' and '&lt;' (xspec/xspec#1155)<span class="scenario-totals">passed: 0 / pending: 0 / failed: 2 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario9">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>When the result is a sequence of nodes containing '&amp;' and '&lt;' (xspec/xspec#1155)</th>
+                  <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario9-expect1">both in [Result] and [Expected Result] with diff, '&amp;' and '&lt;' (and possibly other
+                        special characters) should be escaped without seeming indentation.</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario9-expect2">in [Result] without diff, '&amp;' and '&lt;' (and possibly other special characters) should
+                        be escaped without seeming indentation.</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario9">
+            <h3>When the result is a sequence of nodes containing '&amp;' and '&lt;' (xspec/xspec#1155)</h3>
+            <div id="scenario9-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">both in [Result] and [Expected Result] with diff, '&amp;' and '&lt;' (and possibly other
+                  special characters) should be escaped without seeming indentation.</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/node()</code> from:</p>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">&amp;lt;p&amp;gt;foo &amp;amp; bar&amp;lt;/p&amp;gt;</span>&lt;/elem&gt;
+<span class="diff">&lt;!--&lt;p&gt;foo &amp; bar&lt;/p&gt;--&gt;</span>
+&lt;?<span class="inner-diff">pi</span> <span class="diff">&lt;p&gt;foo &amp; bar&lt;/p&gt;</span>?&gt;<span class="diff">&amp;lt;p&amp;gt;foo &amp;amp; bar&amp;lt;/p&amp;gt;</span></pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/node()</code> from:</p>
+                           <pre>&lt;<span class="inner-diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="diff">&amp;lt;p&amp;gt;bar &amp;amp; baz&amp;lt;/p&amp;gt;</span>&lt;/elem&gt;
+<span class="diff">&lt;!--&lt;p&gt;bar &amp; baz&lt;/p&gt;--&gt;</span>
+&lt;?<span class="inner-diff">pi</span> <span class="diff">&lt;p&gt;bar &amp; baz&lt;/p&gt;</span>?&gt;<span class="diff">&amp;lt;p&amp;gt;bar &amp;amp; baz&amp;lt;/p&amp;gt;</span></pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="scenario9-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">in [Result] without diff, '&amp;' and '&lt;' (and possibly other special characters) should
+                  be escaped without seeming indentation.</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code>/node()</code> from:</p>
+                           <pre>&lt;elem <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>&gt;&amp;lt;p&amp;gt;foo &amp;amp; bar&amp;lt;/p&amp;gt;&lt;/elem&gt;
+&lt;!--&lt;p&gt;foo &amp; bar&lt;/p&gt;--&gt;
+&lt;?pi &lt;p&gt;foo &amp; bar&lt;/p&gt;?&gt;&amp;lt;p&amp;gt;foo &amp;amp; bar&amp;lt;/p&amp;gt;</pre>
                         </td>
                         <td>
                            <pre>false()</pre>

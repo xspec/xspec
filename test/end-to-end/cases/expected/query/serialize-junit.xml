@@ -134,4 +134,16 @@
          <failure message="expect assertion failed">Expecting: false()</failure>
       </testcase>
    </testsuite>
+   <testsuite name="When the result is a sequence of nodes containing '&amp;' and '&lt;'&#xA;&#x9;&#x9;&#x9;(xspec/xspec#1155)"
+              tests="2"
+              failures="2">
+      <testcase name="both in [Result] and [Expected Result] with diff, '&amp;' and '&lt;' (and&#xA;&#x9;&#x9;&#x9;&#x9;possibly other special characters) should be escaped without seeming&#xA;&#x9;&#x9;&#x9;&#x9;indentation."
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="in [Result] without diff, '&amp;' and '&lt;' (and possibly other special&#xA;&#x9;&#x9;&#x9;&#x9;characters) should be escaped without seeming indentation."
+                status="failed">
+         <failure message="expect assertion failed">Expecting: false()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>
