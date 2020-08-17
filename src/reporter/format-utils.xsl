@@ -257,7 +257,8 @@
             </xsl:when>
 
             <xsl:when test="self::text()">
-               <xsl:sequence select="." />
+               <!-- Use serialize() to escape special characters -->
+               <xsl:value-of select="serialize(., map {})" />
             </xsl:when>
 
             <xsl:when test="self::x:ws">

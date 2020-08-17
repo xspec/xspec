@@ -689,9 +689,6 @@
 				<xsl:when test="$prefix eq 'svrl'">
 					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
 				</xsl:when>
-				<xsl:when test="$prefix eq 'test'">
-					<xsl:sequence select="'http://www.jenitennison.com/xslt/unit-test'" />
-				</xsl:when>
 				<xsl:when test="$prefix eq 'x'">
 					<xsl:sequence select="$x:xspec-namespace" />
 				</xsl:when>
