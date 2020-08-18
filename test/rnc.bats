@@ -6,6 +6,9 @@
 
 setup() {
     cd "${BATS_TEST_DIRNAME}" || return
+
+    # Unset JVM environment variable which makes output line numbers unpredictable
+    unset JAVA_TOOL_OPTIONS
 }
 
 #
