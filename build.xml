@@ -352,9 +352,9 @@
               value="${xspec.project.dir}/src/compiler" />
 
     <property name="xspec.xquery.compiler.xsl"
-              value="${xspec.compiler.dir}/generate-query-tests.xsl" />
+              value="${xspec.compiler.dir}/compile-xquery-tests.xsl" />
     <property name="xspec.xslt.compiler.xsl"
-              value="${xspec.compiler.dir}/generate-xspec-tests.xsl" />
+              value="${xspec.compiler.dir}/compile-xslt-tests.xsl" />
 
     <condition property="xspec.compiler.xsl"
                value="${xspec.xquery.compiler.xsl}"

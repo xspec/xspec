@@ -124,7 +124,7 @@
                   <xsl:sequence select="@schematron | @xspec-original-location" />
 
                   <!-- Global XQuery attributes.
-                     @query-at is handled by generate-query-tests.xsl -->
+                     @query-at is handled by compile-xquery-tests.xsl -->
                   <xsl:sequence select="@query | @xquery-version" />
 
                   <!-- Global XSLT attributes.
@@ -644,8 +644,8 @@
       mode="x:generate-tests"
       Does the generation of the test stylesheet.
       This mode assumes that all the scenarios have already been gathered and unshared.
-      Actual processing of this mode depends on generate-query-tests.xsl and
-      generate-xspec-tests.xsl.
+      Actual processing of this mode depends on compile-xquery-tests.xsl and
+      compile-xslt-tests.xsl.
    -->
    <xsl:mode name="x:generate-tests" on-multiple-match="fail" on-no-match="fail" />
 

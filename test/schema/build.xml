@@ -39,8 +39,8 @@
 			<exclude name="test/output-scenario-error/function-with-context.xspec" />
 
 			<!-- (x:expect | x:scenario)/@id which is not allowed -->
-			<exclude name="test/generate-xspec-tests/expect.xspec" />
-			<exclude name="test/generate-xspec-tests/scenario.xspec" />
+			<exclude name="test/compile-xslt-tests/expect.xspec" />
+			<exclude name="test/compile-xslt-tests/scenario.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.
