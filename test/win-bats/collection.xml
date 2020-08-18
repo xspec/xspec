@@ -1951,7 +1951,7 @@
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
-        -Dxspec.xslt.compiler.xsl="%CD%\override-id\generate-xspec-tests.xsl" ^
+        -Dxspec.xslt.compiler.xsl="%CD%\override-id\compile-xslt-tests.xsl" ^
         -Dxspec.fail=false ^
         -Dxspec.xml="%CD%\..\tutorial\escape-for-regex.xspec"
     call :verify_retval 0
@@ -1968,7 +1968,7 @@
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
         -Dtest.type=q ^
-        -Dxspec.xquery.compiler.xsl="%CD%\override-id\generate-query-tests.xsl" ^
+        -Dxspec.xquery.compiler.xsl="%CD%\override-id\compile-xquery-tests.xsl" ^
         -Dxspec.xml="%CD%\..\tutorial\xquery-tutorial.xspec"
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1"

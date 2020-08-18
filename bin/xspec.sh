@@ -326,9 +326,9 @@ if test -n "$SCHEMATRON"; then
 fi
 
 if test -n "$XSLT"; then
-    COMPILE_SHEET=generate-xspec-tests.xsl
+    COMPILE_SHEET=compile-xslt-tests.xsl
 else
-    COMPILE_SHEET=generate-query-tests.xsl
+    COMPILE_SHEET=compile-xquery-tests.xsl
 fi
 echo "Creating Test Stylesheet..."
 xslt -o:"$COMPILED" -s:"$XSPEC" \

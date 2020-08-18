@@ -3,7 +3,7 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:import href="../../src/compiler/generate-xspec-tests.xsl" />
+	<xsl:import href="../../src/compiler/compile-xslt-tests.xsl" />
 
 	<xsl:template as="xs:string" match="x:scenario" mode="x:generate-id">
 		<xsl:sequence select="'overridden-xslt-scenario-id-' || generate-id()" />

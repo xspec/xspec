@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       generate-xspec-tests.xsl                                 -->
+<!--  File:       compile-xslt-tests.xsl                                   -->
 <!--  Author:     Jeni Tennison                                            -->
 <!--  Tags:                                                                -->
 <!--    Copyright (c) 2008, 2010 Jeni Tennison (see end of file.)          -->
@@ -20,7 +20,7 @@
 
    <xsl:include href="../common/xml-report-serialization-parameters.xsl" />
 
-   <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-xspec-tests.xsl</pkg:import-uri>
+   <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl</pkg:import-uri>
 
    <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl" />
 

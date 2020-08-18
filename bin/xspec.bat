@@ -380,9 +380,9 @@ rem
 if defined SCHEMATRON call :preprocess_schematron || goto :win_main_error_exit
 
 if defined XSLT (
-    set COMPILE_SHEET=generate-xspec-tests.xsl
+    set COMPILE_SHEET=compile-xslt-tests.xsl
 ) else (
-    set COMPILE_SHEET=generate-query-tests.xsl
+    set COMPILE_SHEET=compile-xquery-tests.xsl
 )
 echo Creating Test Stylesheet...
 call :xslt -o:"%COMPILED%" -s:"%XSPEC%" ^
