@@ -38,7 +38,7 @@
           - "XPath /element() from" against @select="node()" in the external file
           - <entry>0</entry> against <entry>2</entry> in the 1st <entries> of the external files
           (Note that in the test result report XML, the two document nodes from $x:result are
-          unwrapped and merged by "test:report-sequence".)
+          unwrapped and merged by "rep:report-sequence".)
       ]]></x:label>
       <wrap xml:space="preserve"><entries>
    <entry>1</entry>
