@@ -40,7 +40,9 @@
 
          <xsl:if test="not($is-external)">
             <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
-            <import href="{@stylesheet}" />
+            <xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="href" select="@stylesheet" />
+            </xsl:element>
          </xsl:if>
 
          <xsl:if test="x:helper">
@@ -49,17 +51,19 @@
          </xsl:if>
 
          <xsl:comment> XSpec library modules providing tools </xsl:comment>
-         <xsl:if test="$is-external">
-            <include href="{resolve-uri('../common/saxon-config.xsl')}" />
-         </xsl:if>
-         <xsl:if test="$is-schematron">
-            <include href="{resolve-uri('../schematron/select-node.xsl')}" />
-         </xsl:if>
-         <include href="{resolve-uri('../common/deep-equal.xsl')}" />
-         <include href="{resolve-uri('../common/report-sequence.xsl')}" />
-         <include href="{resolve-uri('../common/wrap.xsl')}" />
-         <include href="{resolve-uri('../common/xml-report-serialization-parameters.xsl')}" />
-         <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
+         <xsl:for-each
+            select="
+               '../common/deep-equal.xsl',
+               '../common/report-sequence.xsl',
+               '../common/saxon-config.xsl'[$is-external],
+               '../common/wrap.xsl',
+               '../common/xml-report-serialization-parameters.xsl',
+               '../common/xspec-utils.xsl',
+               '../schematron/select-node.xsl'[$is-schematron]">
+            <xsl:element name="xsl:include" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="href" select="resolve-uri(.)" />
+            </xsl:element>
+         </xsl:for-each>
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"

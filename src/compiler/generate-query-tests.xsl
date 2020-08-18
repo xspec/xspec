@@ -8,12 +8,13 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<xsl:stylesheet version="3.0"
+<xsl:stylesheet xmlns:map="http://www.w3.org/2005/xpath-functions/map"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                exclude-result-prefixes="#all">
+                exclude-result-prefixes="#all"
+                version="3.0">
 
    <xsl:import href="generate-common-tests.xsl"/>
    <xsl:import href="generate-query-helper.xsl"/>
@@ -56,35 +57,32 @@
       </xsl:if>
       <xsl:text>;&#10;</xsl:text>
 
+      <!-- Import helpers -->
       <xsl:if test="x:helper">
          <xsl:text>&#x0A;</xsl:text>
          <xsl:text>(: user-provided library module(s) :)&#x0A;</xsl:text>
          <xsl:call-template name="x:compile-user-helpers" />
       </xsl:if>
 
+      <!-- Import utils -->
       <xsl:text>&#x0A;</xsl:text>
       <xsl:text>(: XSpec library modules providing tools :)&#x0A;</xsl:text>
+      <xsl:variable name="utils" as="map(xs:anyURI, xs:string)"
+         select="
+            map {
+               $x:deq-namespace:   '../common/deep-equal.xqm',
+               $x:rep-namespace:   '../common/report-sequence.xqm',
+               $x:xspec-namespace: '../common/xspec-utils.xqm'
+            }" />
+      <xsl:for-each select="map:keys($utils)">
+         <xsl:sort />
 
-      <!-- Import 'deq' utils -->
-      <xsl:text expand-text="yes">import module "{$x:deq-namespace}"</xsl:text>
-      <xsl:if test="not($utils-library-at eq '#none')">
-         <xsl:text expand-text="yes">&#x0A;at "{resolve-uri('../common/deep-equal.xqm')}"</xsl:text>
-      </xsl:if>
-      <xsl:text>;&#10;</xsl:text>
-
-      <!-- Import 'rep' utils -->
-      <xsl:text expand-text="yes">import module "{$x:rep-namespace}"</xsl:text>
-      <xsl:if test="not($utils-library-at eq '#none')">
-         <xsl:text expand-text="yes">&#x0A;at "{resolve-uri('../common/report-sequence.xqm')}"</xsl:text>
-      </xsl:if>
-      <xsl:text>;&#10;</xsl:text>
-
-      <!-- Import common utils -->
-      <xsl:text expand-text="yes">import module "{$x:xspec-namespace}"</xsl:text>
-      <xsl:if test="not($utils-library-at eq '#none')">
-         <xsl:text expand-text="yes">&#x0A;at "{resolve-uri('../common/xspec-utils.xqm')}"</xsl:text>
-      </xsl:if>
-      <xsl:text>;&#x0A;</xsl:text>
+         <xsl:text expand-text="yes">import module "{.}"</xsl:text>
+         <xsl:if test="not($utils-library-at eq '#none')">
+            <xsl:text expand-text="yes">&#x0A;at "{$utils(.) => resolve-uri()}"</xsl:text>
+         </xsl:if>
+         <xsl:text>;&#x0A;</xsl:text>
+      </xsl:for-each>
 
       <xsl:text>&#x0A;</xsl:text>
 

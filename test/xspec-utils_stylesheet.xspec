@@ -1467,14 +1467,6 @@
 				>Q{http://purl.oclc.org/dsdl/svrl}my-local-name</x:expect>
 		</x:scenario>
 
-		<x:scenario label="test">
-			<x:call function="x:known-UQName">
-				<x:param select="'test:my-local-name'" />
-			</x:call>
-			<x:expect label="Constructed" select="string()"
-				>Q{http://www.jenitennison.com/xslt/unit-test}my-local-name</x:expect>
-		</x:scenario>
-
 		<x:scenario label="x">
 			<x:call function="x:known-UQName">
 				<x:param select="'x:my-local-name'" />
