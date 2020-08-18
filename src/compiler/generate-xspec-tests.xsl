@@ -10,7 +10,6 @@
 <xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/XSL/TransformAlias"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -41,7 +40,9 @@
 
          <xsl:if test="not($is-external)">
             <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
-            <import href="{@stylesheet}" />
+            <xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="href" select="@stylesheet" />
+            </xsl:element>
          </xsl:if>
 
          <xsl:if test="x:helper">
@@ -50,17 +51,19 @@
          </xsl:if>
 
          <xsl:comment> XSpec library modules providing tools </xsl:comment>
-         <xsl:if test="$is-external">
-            <include href="{resolve-uri('../common/saxon-config.xsl')}" />
-         </xsl:if>
-         <xsl:if test="$is-schematron">
-            <include href="{resolve-uri('../schematron/select-node.xsl')}" />
-         </xsl:if>
-         <include href="{resolve-uri('../common/deep-equal.xsl')}" />
-         <include href="{resolve-uri('../common/report-sequence.xsl')}" />
-         <include href="{resolve-uri('../common/wrap.xsl')}" />
-         <include href="{resolve-uri('../common/xml-report-serialization-parameters.xsl')}" />
-         <include href="{resolve-uri('../common/xspec-utils.xsl')}" />
+         <xsl:for-each
+            select="
+               '../common/deep-equal.xsl',
+               '../common/report-sequence.xsl',
+               '../common/saxon-config.xsl'[$is-external],
+               '../common/wrap.xsl',
+               '../common/xml-report-serialization-parameters.xsl',
+               '../common/xspec-utils.xsl',
+               '../schematron/select-node.xsl'[$is-schematron]">
+            <xsl:element name="xsl:include" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="href" select="resolve-uri(.)" />
+            </xsl:element>
+         </xsl:for-each>
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
@@ -148,7 +151,7 @@
                         <xsl:sequence select="@schematron" />
                      </xsl:if>
                   </xsl:variable>
-                  <xsl:apply-templates select="$attributes" mode="test:create-node-generator" />
+                  <xsl:apply-templates select="$attributes" mode="x:create-node-generator" />
 
                   <!-- @date must be evaluated at run time -->
                   <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
@@ -293,9 +296,9 @@
                   <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
                </xsl:if>
             </xsl:variable>
-            <xsl:apply-templates select="$scenario-attributes" mode="test:create-node-generator" />
+            <xsl:apply-templates select="$scenario-attributes" mode="x:create-node-generator" />
 
-            <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
+            <xsl:apply-templates select="x:label(.)" mode="x:create-node-generator" />
 
             <!-- Handle variables and apply/call/context in document order,
                instead of apply/call/context first and variables second. -->
@@ -308,12 +311,12 @@
                      <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
                         <xsl:with-param name="wrapper-name" select="'input-wrap'" />
                         <xsl:with-param name="node-generators" as="element(xsl:element)">
-                           <xsl:apply-templates select="." mode="test:create-node-generator" />
+                           <xsl:apply-templates select="." mode="x:create-node-generator" />
                         </xsl:with-param>
                      </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="self::x:variable">
-                     <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+                     <xsl:apply-templates select="." mode="x:generate-variable-declarations" />
                   </xsl:when>
                   <xsl:otherwise>
                      <xsl:message select="'Unhandled', name()" terminate="yes" />
@@ -324,7 +327,7 @@
             <xsl:if test="not($pending-p) and x:expect">
                <xsl:if test="$context">
                   <!-- Set up the variable of x:context -->
-                  <xsl:apply-templates select="$context" mode="test:generate-variable-declarations" />
+                  <xsl:apply-templates select="$context" mode="x:generate-variable-declarations" />
 
                   <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
                   <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
@@ -693,7 +696,7 @@
             <xsl:variable name="xslt-version" as="xs:decimal" select="x:xslt-version(.)" />
 
             <!-- Set up the $impl:expected variable -->
-            <xsl:apply-templates select="." mode="test:generate-variable-declarations">
+            <xsl:apply-templates select="." mode="x:generate-variable-declarations">
                <xsl:with-param name="comment" select="'expected result'" />
             </xsl:apply-templates>
 
@@ -805,7 +808,7 @@
                   <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
                </xsl:if>
             </xsl:variable>
-            <xsl:apply-templates select="$test-element-attributes" mode="test:create-node-generator" />
+            <xsl:apply-templates select="$test-element-attributes" mode="x:create-node-generator" />
 
             <xsl:if test="not($pending-p)">
                <!-- @successful must be evaluated at run time -->
@@ -816,7 +819,7 @@
                </xsl:element>
             </xsl:if>
 
-            <xsl:apply-templates select="x:label(.)" mode="test:create-node-generator" />
+            <xsl:apply-templates select="x:label(.)" mode="x:create-node-generator" />
 
             <!-- Report -->
             <xsl:if test="not($pending-p)">

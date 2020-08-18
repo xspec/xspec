@@ -60,7 +60,7 @@
           - "XPath /element() from" against @select="node()" in the external file
           - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt; in the 1st &lt;entries&gt; of the external files
           (Note that in the test result report XML, the two document nodes from $x:result are
-          unwrapped and merged by "test:report-sequence".)
+          unwrapped and merged by "rep:report-sequence".)
       </label>
          <expect select="/element()">
             <content-wrap xmlns="">

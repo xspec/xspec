@@ -317,7 +317,7 @@
       </t:log>
    </p:declare-step>
 
-   <!-- Escapes markup. Also mimics @use-character-maps="test:disable-escaping" in
+   <!-- Escapes markup. Also mimics @use-character-maps="x:disable-escaping" in
       ../compiler/generate-query-tests.xsl. -->
    <p:declare-step type="t:escape-markup" name="escape-markup">
       <p:input  port="source" primary="true"/>

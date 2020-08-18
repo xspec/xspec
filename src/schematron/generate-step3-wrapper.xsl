@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
-	xmlns:test="http://www.jenitennison.com/xslt/unit-test"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -18,6 +17,7 @@
 		Empty sequence means the built-in preprocessor. -->
 	<xsl:param as="xs:string?" name="ACTUAL-PREPROCESSOR-URI" />
 
+	<!-- Import and override -->
 	<xsl:import href="../compiler/gatherer.xsl" />
 
 	<xsl:include href="../common/xspec-utils.xsl" />
@@ -75,32 +75,20 @@
 						<xsl:value-of select="x:locate-schematron-uri(.)" />
 					</xsl:element>
 
-					<!-- Gather user-provided global params and variables -->
-					<xsl:call-template name="gather-global-params-and-vars" />
+					<!-- Resolve x:import and gather only the user-provided global params and
+						variables -->
+					<xsl:sequence select="x:resolve-import(.)" />
 				</xsl:element>
 			</xsl:variable>
 
-			<xsl:apply-templates mode="test:generate-variable-declarations"
+			<xsl:apply-templates mode="x:generate-variable-declarations"
 				select="$pseudo-description/element()" />
 		</xsl:element>
 	</xsl:template>
 
 	<!--
-		Gather x:description/(x:param | x:variable)
-	-->
-	<xsl:template as="element()*" name="gather-global-params-and-vars">
-		<xsl:context-item as="element(x:description)" use="required" />
-
-		<!-- Collect all the instances of x:description by resolving x:import -->
-		<xsl:variable as="element(x:description)+" name="descriptions"
-			select="x:gather-descriptions(.)" />
-
-		<xsl:apply-templates mode="x:gather-specs" select="$descriptions" />
-	</xsl:template>
-
-	<!--
 		mode="x:gather-specs"
-		Override the imported mode.
+		Override the imported mode in order to gather only x:description/(x:param | x:variable)
 	-->
 
 	<!-- Discard all except global params and variables -->

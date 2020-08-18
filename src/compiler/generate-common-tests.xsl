@@ -10,7 +10,6 @@
 
 <xsl:stylesheet version="3.0"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -80,16 +79,8 @@
       <xsl:variable name="this" as="document-node(element(x:description))"
          select=".[. is $initial-document]" />
 
-      <!-- Collect all the instances of x:description by resolving x:import -->
-      <xsl:variable name="descriptions" as="element(x:description)+"
-         select="x:gather-descriptions($this/x:description)" />
-
-      <!-- Gather all the children of x:description. Mostly x:scenario but also the other children
-         including x:variable and comments. (x:import is discarded.)
-         The original node identities, document URI and base URI are lost in this processing. -->
-      <xsl:variable name="specs" as="node()+">
-         <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
-      </xsl:variable>
+      <!-- Resolve x:import and gather all the children of x:description -->
+      <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
 
       <!-- Combine all the children of x:description into a single document so that the following
          transformation modes can handle them as a document. -->
@@ -271,7 +262,7 @@
 
       <!-- The variable declaration. -->
       <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
-         <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+         <xsl:apply-templates select="." mode="x:generate-variable-declarations" />
       </xsl:if>
 
       <!-- Continue walking the siblings. -->
@@ -307,8 +298,8 @@
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
 
-      <!-- mode="test:generate-variable-declarations" is not aware of $is-external. That's why
-         @static is checked here. -->
+      <!-- mode="x:generate-variable-declarations" is not aware of $is-external. That's why @static
+         is checked here. -->
       <xsl:if test="not($is-external)">
          <xsl:for-each select="$this/x:param[x:yes-no-synonym(@static, false())]">
             <xsl:message terminate="yes">
@@ -317,7 +308,7 @@
          </xsl:for-each>
       </xsl:if>
 
-      <xsl:apply-templates select="$this/(x:param|x:variable)" mode="test:generate-variable-declarations"/>
+      <xsl:apply-templates select="$this/(x:param|x:variable)" mode="x:generate-variable-declarations"/>
    </xsl:template>
 
    <!--
@@ -519,7 +510,7 @@
       x:param elements generate actual call param's variable.
    -->
    <xsl:template match="x:param" mode="x:compile">
-      <xsl:apply-templates select="." mode="test:generate-variable-declarations" />
+      <xsl:apply-templates select="." mode="x:generate-variable-declarations" />
 
       <!-- Continue walking the siblings (only other x:param elements, within this x:call or
          x:context). -->
@@ -790,7 +781,7 @@
       <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
          <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
          <xsl:with-param name="node-generators" as="node()+">
-            <xsl:apply-templates select="$expect-test" mode="test:create-node-generator" />
+            <xsl:apply-templates select="$expect-test" mode="x:create-node-generator" />
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>

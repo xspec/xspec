@@ -2,6 +2,8 @@
 <x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
+	<!-- The relationship between x:context and x:param is tested in context-param.xspec -->
+
 	<x:scenario label="In context template-param, @href precedes child node. So...">
 		<x:scenario label="In //x:context/x:param[node()][not(@href)],">
 			<x:context mode="mirror:param-mirror">
