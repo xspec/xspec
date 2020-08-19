@@ -9,8 +9,8 @@
 
 <xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:fmt="urn:x-xspec:reporter:format-utils"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xhtml="http://www.w3.org/1999/xhtml"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -34,7 +34,7 @@
    <xsl:variable name="force-focus-ids" as="xs:string*" select="tokenize($force-focus, '\s+')[.]" />
 
    <!-- @use-character-maps for inline CSS -->
-   <xsl:output method="xhtml" use-character-maps="test:disable-escaping" />
+   <xsl:output method="xhtml" use-character-maps="fmt:disable-escaping" />
 
    <!-- Returns formatted output for $pending -->
    <xsl:function name="x:pending-callback" as="node()*">
@@ -167,7 +167,7 @@
                </xsl:call-template>
                <xsl:text>)</xsl:text>
             </title>
-            <xsl:call-template name="test:load-css">
+            <xsl:call-template name="fmt:load-css">
                <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
                <xsl:with-param name="uri" select="$report-css-uri" />
             </xsl:call-template>
@@ -424,7 +424,7 @@
                   <code>
                      <xsl:if test="exists($result-to-compare-with)">
                         <xsl:attribute name="class" select="
-                           test:comparison-html-class(
+                           fmt:comparison-html-class(
                               @select,
                               $result-to-compare-with/@select,
                               $expected,
@@ -457,11 +457,11 @@
                            <xsl:variable name="nodes-to-compare-with" as="node()*"
                               select="x:reported-content($result-to-compare-with)/node()" />
                            <xsl:for-each select="x:reported-content(.)/node()">
-                              <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
-                              <xsl:apply-templates select="." mode="test:serialize">
+                              <xsl:variable name="significant-pos" as="xs:integer?" select="fmt:significant-position(.)" />
+                              <xsl:apply-templates select="." mode="fmt:serialize">
                                  <xsl:with-param name="indentation" select="$indentation" tunnel="yes" />
                                  <xsl:with-param name="perform-comparison" select="true()" tunnel="yes" />
-                                 <xsl:with-param name="node-to-compare-with" select="$nodes-to-compare-with[test:significant-position(.) eq $significant-pos]" />
+                                 <xsl:with-param name="node-to-compare-with" select="$nodes-to-compare-with[fmt:significant-position(.) eq $significant-pos]" />
                                  <xsl:with-param name="expected" select="$expected" />
                               </xsl:apply-templates>
                            </xsl:for-each>
@@ -469,7 +469,7 @@
 
                         <!-- Serialize the result without performing comparison -->
                         <xsl:otherwise>
-                           <xsl:apply-templates select="x:reported-content(.)/node()" mode="test:serialize">
+                           <xsl:apply-templates select="x:reported-content(.)/node()" mode="fmt:serialize">
                               <xsl:with-param name="indentation" select="$indentation" tunnel="yes" />
                            </xsl:apply-templates>
                         </xsl:otherwise>

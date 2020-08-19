@@ -9,6 +9,7 @@
 
 <xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:fmt="urn:x-xspec:reporter:format-utils"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -30,7 +31,7 @@
    <xsl:param name="report-css-uri" as="xs:string?" />
 
    <!-- @use-character-maps for inline CSS -->
-   <xsl:output method="xhtml" use-character-maps="test:disable-escaping" />
+   <xsl:output method="xhtml" use-character-maps="fmt:disable-escaping" />
 
    <xsl:variable name="trace" as="document-node()" select="/" />
 
@@ -86,7 +87,7 @@
             <title>
                <xsl:text expand-text="yes">Test Coverage Report for {x:format-uri($stylesheet-uri)}</xsl:text>
             </title>
-            <xsl:call-template name="test:load-css">
+            <xsl:call-template name="fmt:load-css">
                <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
                <xsl:with-param name="uri" select="$report-css-uri" />
             </xsl:call-template>

@@ -9,8 +9,8 @@
 
 	<!--
 		Set of serialization parameters
-			The parameters (except for @use-character-maps="test:disable-escaping") must be
-			in sync with XSPEC_HOME/src/reporter/coverage-report.xsl.
+			The parameters (except for @use-character-maps="fmt:disable-escaping") must be in sync
+			with XSPEC_HOME/src/reporter/coverage-report.xsl.
 	-->
 	<xsl:output method="xhtml" name="serializer:output" />
 </xsl:stylesheet>
