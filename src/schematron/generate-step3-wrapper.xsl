@@ -81,8 +81,7 @@
 				</xsl:element>
 			</xsl:variable>
 
-			<xsl:apply-templates mode="x:generate-variable-declarations"
-				select="$pseudo-description/element()" />
+			<xsl:apply-templates mode="x:declare-variable" select="$pseudo-description/element()" />
 		</xsl:element>
 	</xsl:template>
 

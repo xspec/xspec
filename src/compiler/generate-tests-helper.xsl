@@ -18,6 +18,7 @@
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-helper.xsl</pkg:import-uri>
 
    <!--
+      mode="x:declare-variable"
       Generates XSLT variable declaration(s) from the current element.
       
       This mode itself does not handle whitespace-only text nodes specially. To handle
@@ -27,9 +28,9 @@
       This mode does not handle @static. It is just ignored. Enabling @static will create a usual
       non-static parameter or variable.
    -->
-   <xsl:mode name="x:generate-variable-declarations" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:declare-variable" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="element()+" mode="x:generate-variable-declarations">
+   <xsl:template match="element()" as="element()+" mode="x:declare-variable">
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" as="node()?" tunnel="yes" />
 

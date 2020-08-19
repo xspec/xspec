@@ -316,7 +316,7 @@
                      </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="self::x:variable">
-                     <xsl:apply-templates select="." mode="x:generate-variable-declarations" />
+                     <xsl:apply-templates select="." mode="x:declare-variable" />
                   </xsl:when>
                   <xsl:otherwise>
                      <xsl:message select="'Unhandled', name()" terminate="yes" />
@@ -327,7 +327,7 @@
             <xsl:if test="not($pending-p) and x:expect">
                <xsl:if test="$context">
                   <!-- Set up the variable of x:context -->
-                  <xsl:apply-templates select="$context" mode="x:generate-variable-declarations" />
+                  <xsl:apply-templates select="$context" mode="x:declare-variable" />
 
                   <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
                   <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
@@ -696,7 +696,7 @@
             <xsl:variable name="xslt-version" as="xs:decimal" select="x:xslt-version(.)" />
 
             <!-- Set up the $impl:expected variable -->
-            <xsl:apply-templates select="." mode="x:generate-variable-declarations">
+            <xsl:apply-templates select="." mode="x:declare-variable">
                <xsl:with-param name="comment" select="'expected result'" />
             </xsl:apply-templates>
 

@@ -253,7 +253,7 @@
 
       <!-- If there are variables before x:call, define them here followed by "return". -->
       <xsl:if test="exists($local-preceding-variables)">
-         <xsl:apply-templates select="$local-preceding-variables" mode="x:generate-variable-declarations" />
+         <xsl:apply-templates select="$local-preceding-variables" mode="x:declare-variable" />
          <xsl:text>return&#x0A;</xsl:text>
       </xsl:if>
 
@@ -411,7 +411,7 @@
 
       <xsl:if test="not($pending-p)">
          <!-- Set up the $local:expected variable -->
-         <xsl:apply-templates select="." mode="x:generate-variable-declarations">
+         <xsl:apply-templates select="." mode="x:declare-variable">
             <xsl:with-param name="comment" select="'expected result'" />
          </xsl:apply-templates>
 
