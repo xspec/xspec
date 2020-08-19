@@ -33,7 +33,7 @@
 
    <!--
       mode="test:serialize"
-      All the whitespace-only text nodes except the ones in <test:ws> are considered to be of indentation.
+      All the whitespace-only text nodes except the ones in <x:ws> are considered to be of indentation.
    -->
    <xsl:mode name="test:serialize" on-multiple-match="fail" on-no-match="fail" />
 
@@ -245,7 +245,7 @@
       <xsl:text>?></xsl:text>
    </xsl:template>
 
-   <xsl:template match="comment() | text() | test:ws" as="node()" mode="test:serialize">
+   <xsl:template match="comment() | text() | x:ws" as="node()" mode="test:serialize">
       <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
       <xsl:param name="node-to-compare-with" as="node()?" />
       <xsl:param name="expected" as="xs:boolean" select="true()" />
@@ -261,7 +261,7 @@
                <xsl:value-of select="serialize(., map {})" />
             </xsl:when>
 
-            <xsl:when test="self::test:ws">
+            <xsl:when test="self::x:ws">
                <xsl:value-of>
                   <xsl:analyze-string select="." regex="[&#x09;&#x0A;&#x0D;&#x20;]">
                      <xsl:matching-substring>
@@ -293,10 +293,10 @@
       </xsl:variable>
 
       <xsl:choose>
-         <xsl:when test="$perform-comparison or self::test:ws">
+         <xsl:when test="$perform-comparison or self::x:ws">
             <span class="{
                   test:comparison-html-class(., $node-to-compare-with, $expected, false())[$perform-comparison],
-                  'whitespace'[current()/self::test:ws]
+                  'whitespace'[current()/self::x:ws]
                }">
                <xsl:sequence select="$serialized" />
             </span>
@@ -323,8 +323,8 @@
             <!-- Discard -->
          </xsl:when>
 
-         <xsl:when test="preceding-sibling::node()[1]/self::test:ws
-            or following-sibling::node()[1]/self::test:ws">
+         <xsl:when test="preceding-sibling::node()[1]/self::x:ws
+            or following-sibling::node()[1]/self::x:ws">
             <!-- Indentation created after or before whitespace-only text nodes. Discard. -->
          </xsl:when>
 
@@ -381,8 +381,8 @@
             $focusing-on-name
             and (
                (
-                  ($node[not(self::test:ws)] instance of element())
-                  and ($node-to-compare-with[not(self::test:ws)] instance of element())
+                  ($node[not(self::x:ws)] instance of element())
+                  and ($node-to-compare-with[not(self::x:ws)] instance of element())
                )
                or (
                   ($node instance of attribute())

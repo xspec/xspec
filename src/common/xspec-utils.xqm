@@ -1,11 +1,6 @@
 module namespace x = "http://www.jenitennison.com/xslt/xspec";
 
 (:
-	Legacy 'test' namespace URI
-:)
-declare variable $x:legacy-namespace as xs:anyURI := xs:anyURI('http://www.jenitennison.com/xslt/unit-test');
-
-(:
 	XSpec 'x' namespace URI
 :)
 declare variable $x:xspec-namespace as xs:anyURI := xs:anyURI('http://www.jenitennison.com/xslt/xspec');

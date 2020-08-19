@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ===================================================================== -->
-<!--  File:       generate-query-tests.xsl                                 -->
+<!--  File:       compile-xquery-tests.xsl                                 -->
 <!--  Author:     Jeni Tennison                                            -->
 <!--  URL:        http://github.com/xspec/xspec                            -->
 <!--  Tags:                                                                -->
@@ -19,7 +19,7 @@
    <xsl:import href="generate-common-tests.xsl"/>
    <xsl:import href="generate-query-helper.xsl"/>
 
-   <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-query-tests.xsl</pkg:import-uri>
+   <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl</pkg:import-uri>
 
    <xsl:output omit-xml-declaration="yes" use-character-maps="x:disable-escaping" />
 

@@ -10,13 +10,13 @@
                     href="../../issue-778_ws.dita"/>
       </input-wrap>
       <result select="/text()">
-         <content-wrap xmlns=""># My Title<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+         <content-wrap xmlns=""># My Title<ws xmlns="http://www.jenitennison.com/xslt/xspec">
 </ws>
-            <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
-</ws>This is a topic.<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+            <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+</ws>This is a topic.<ws xmlns="http://www.jenitennison.com/xslt/xspec">
 </ws>
-            <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
-</ws>This is a paragraph.<ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+            <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+</ws>This is a paragraph.<ws xmlns="http://www.jenitennison.com/xslt/xspec">
 </ws>
          </content-wrap>
       </result>

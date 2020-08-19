@@ -17,7 +17,7 @@
          <content-wrap xmlns="">
             <p>
                <span>foo</span>
-               <ws xmlns="http://www.jenitennison.com/xslt/unit-test"> </ws>
+               <ws xmlns="http://www.jenitennison.com/xslt/xspec"> </ws>
                <span>bar</span>
             </p>
          </content-wrap>

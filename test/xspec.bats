@@ -2228,7 +2228,7 @@ load bats-helper
     run ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
-        -Dxspec.xslt.compiler.xsl="${PWD}/override-id/generate-xspec-tests.xsl" \
+        -Dxspec.xslt.compiler.xsl="${PWD}/override-id/compile-xslt-tests.xsl" \
         -Dxspec.fail=false \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
     echo "$output"
@@ -2247,7 +2247,7 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dtest.type=q \
-        -Dxspec.xquery.compiler.xsl="${PWD}/override-id/generate-query-tests.xsl" \
+        -Dxspec.xquery.compiler.xsl="${PWD}/override-id/compile-xquery-tests.xsl" \
         -Dxspec.xml="${PWD}/../tutorial/xquery-tutorial.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
