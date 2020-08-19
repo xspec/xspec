@@ -16,6 +16,7 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
+   <!-- Import and override -->
    <xsl:import href="format-xspec-report.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report-folding.xsl</pkg:import-uri>
