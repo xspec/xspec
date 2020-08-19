@@ -66,16 +66,16 @@
             <content-wrap xmlns="">
                <entries xmlns:mirror="x-urn:test:mirror"
                         xmlns:x="http://www.jenitennison.com/xslt/xspec">
-                  <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
    </ws>
                   <entry>1</entry>
-                  <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
    </ws>
                   <entry>0</entry>
-                  <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
    </ws>
                   <entry>3</entry>
-                  <ws xmlns="http://www.jenitennison.com/xslt/unit-test">
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
    </ws>
                </entries>
             </content-wrap>

@@ -1,6 +1,6 @@
 module namespace deq = "urn:x-xspec:common:deep-equal";
 
-declare namespace test = "http://www.jenitennison.com/xslt/unit-test";
+declare namespace x = "http://www.jenitennison.com/xslt/xspec";
 
 declare function deq:deep-equal(
     $seq1 as item()*,
@@ -142,9 +142,14 @@ declare function deq:sorted-children(
   $flags as xs:string
 ) as node()*
 {
-  $node/child::node() 
-  except ($node/text()[not(normalize-space())][contains($flags, 'w')][not($node/self::test:ws)],
-          $node/test:message)
+  let $ignorable-ws-only-text-nodes as text()* := (
+    if (contains($flags, 'w') and not($node/self::x:ws)) then
+      $node/text()[normalize-space() => not()]
+    else
+      ()
+  )
+  return
+    ($node/child::node() except $ignorable-ws-only-text-nodes)
 };
 
 declare %private function deq:sort-named-nodes(

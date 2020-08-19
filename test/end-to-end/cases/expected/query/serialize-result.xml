@@ -312,9 +312,9 @@
                   <diff>actual</diff>
                </oridinary-text-node>
                <significant-whitespace-only-text-node>
-                  <same xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+                  <same xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/xspec">	
 &#xD; </ws></same>
-                  <diff xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+                  <diff xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/xspec">	
 &#xD; </ws></diff>
                </significant-whitespace-only-text-node>
             </test>
@@ -331,9 +331,9 @@
                      <diff>expect</diff>
                   </oridinary-text-node>
                   <significant-whitespace-only-text-node>
-                     <same xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+                     <same xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/xspec">	
 &#xD; </ws></same>
-                     <diff xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/unit-test"> 	
+                     <diff xml:space="preserve"><ws xmlns="http://www.jenitennison.com/xslt/xspec"> 	
 &#xD;</ws></diff>
                   </significant-whitespace-only-text-node>
                </test>

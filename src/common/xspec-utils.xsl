@@ -16,12 +16,6 @@
 		select="xs:anyURI('urn:x-xspec:common:report-sequence')" />
 
 	<!--
-		Legacy 'test' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:legacy-namespace"
-		select="xs:anyURI('http://www.jenitennison.com/xslt/unit-test')" />
-
-	<!--
 		XSpec 'x' namespace URI
 	-->
 	<xsl:variable as="xs:anyURI" name="x:xspec-namespace"

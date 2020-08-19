@@ -437,7 +437,7 @@
          </input-wrap>
          <result select="/text()">
             <content-wrap xmlns="">
-               <ws xmlns="http://www.jenitennison.com/xslt/unit-test">	
+               <ws xmlns="http://www.jenitennison.com/xslt/xspec">	
 &#xD; </ws>
             </content-wrap>
          </result>
@@ -465,7 +465,7 @@
          </input-wrap>
          <result select="/text()">
             <content-wrap xmlns="">
-               <ws xmlns="http://www.jenitennison.com/xslt/unit-test"/>
+               <ws xmlns="http://www.jenitennison.com/xslt/xspec"/>
             </content-wrap>
          </result>
          <test id="scenario5-scenario3-expect1" successful="true">
