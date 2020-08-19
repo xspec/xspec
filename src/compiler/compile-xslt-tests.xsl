@@ -308,9 +308,9 @@
                      <!-- Copy the input to the test result report XML -->
                      <!-- Undeclare the default namespace in the wrapper element, because
                         x:param/@select may use the default namespace such as xs:QName('foo'). -->
-                     <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+                     <xsl:call-template name="x:wrap-node-constructors-and-undeclare-default-ns">
                         <xsl:with-param name="wrapper-name" select="'input-wrap'" />
-                        <xsl:with-param name="node-generators" as="element(xsl:element)">
+                        <xsl:with-param name="node-constructors" as="element(xsl:element)">
                            <xsl:apply-templates select="." mode="x:node-constructor" />
                         </xsl:with-param>
                      </xsl:call-template>
@@ -845,15 +845,15 @@
       </xsl:element>
    </xsl:template>
 
-   <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="element(xsl:element)">
+   <xsl:template name="x:wrap-node-constructors-and-undeclare-default-ns" as="element(xsl:element)">
       <xsl:param name="wrapper-name" as="xs:string" />
-      <xsl:param name="node-generators" as="element()" />
+      <xsl:param name="node-constructors" as="element()" />
 
       <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="$wrapper-name" />
          <xsl:attribute name="namespace" />
 
-         <xsl:sequence select="$node-generators" />
+         <xsl:sequence select="$node-constructors" />
       </xsl:element>
    </xsl:template>
 

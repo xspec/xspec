@@ -279,9 +279,9 @@
       <xsl:for-each select="x:call">
          <!-- Undeclare the default namespace in the wrapper element, because x:param/@select may
             use the default namespace such as xs:QName('foo'). -->
-         <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+         <xsl:call-template name="x:wrap-node-constructors-and-undeclare-default-ns">
             <xsl:with-param name="wrapper-name" select="'input-wrap'" />
-            <xsl:with-param name="node-generators" as="node()+">
+            <xsl:with-param name="node-constructors" as="node()+">
                <xsl:apply-templates select="." mode="x:node-constructor" />
             </xsl:with-param>
          </xsl:call-template>
@@ -503,14 +503,14 @@
       <xsl:text>};&#x0A;</xsl:text>
    </xsl:template>
 
-   <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="node()+">
+   <xsl:template name="x:wrap-node-constructors-and-undeclare-default-ns" as="node()+">
       <xsl:param name="wrapper-name" as="xs:string" />
-      <xsl:param name="node-generators" as="node()+" />
+      <xsl:param name="node-constructors" as="node()+" />
 
       <xsl:text>element { QName('', '</xsl:text>
       <xsl:value-of select="$wrapper-name" />
       <xsl:text>') } {&#x0A;</xsl:text>
-      <xsl:sequence select="$node-generators" />
+      <xsl:sequence select="$node-constructors" />
       <xsl:text>}</xsl:text>
    </xsl:template>
 
