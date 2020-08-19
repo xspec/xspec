@@ -781,7 +781,7 @@
       <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
          <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
          <xsl:with-param name="node-generators" as="node()+">
-            <xsl:apply-templates select="$expect-test" mode="x:create-node-generator" />
+            <xsl:apply-templates select="$expect-test" mode="x:node-constructor" />
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>

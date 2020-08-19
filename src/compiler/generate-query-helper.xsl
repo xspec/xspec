@@ -23,7 +23,7 @@
       
       This mode itself does not handle whitespace-only text nodes specially. To handle
       whitespace-only text node in a special manner, the text node should be handled specially
-      before applying this mode and/or mode="x:create-node-generator" should be overridden.
+      before applying this mode and/or mode="x:node-constructor" should be overridden.
    -->
    <xsl:mode name="x:declare-variable" on-multiple-match="fail" on-no-match="fail" />
 
@@ -196,11 +196,11 @@
    </xsl:template>
 
    <!--
-      mode="x:create-node-generator"
+      mode="x:node-constructor"
    -->
-   <xsl:mode name="x:create-node-generator" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:node-constructor" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="node()+" mode="x:create-node-generator">
+   <xsl:template match="element()" as="node()+" mode="x:node-constructor">
       <xsl:text>element { </xsl:text>
       <xsl:value-of select="node-name() => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
@@ -216,7 +216,7 @@
       <xsl:text>&#x0A;}</xsl:text>
    </xsl:template>
 
-   <xsl:template match="namespace-node()" as="text()+" mode="x:create-node-generator">
+   <xsl:template match="namespace-node()" as="text()+" mode="x:node-constructor">
       <xsl:text>namespace { "</xsl:text>
       <xsl:value-of select="name()" />
       <xsl:text>" } { </xsl:text>
@@ -224,7 +224,7 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="attribute()" as="node()+" mode="x:create-node-generator">
+   <xsl:template match="attribute()" as="node()+" mode="x:node-constructor">
       <xsl:text>attribute { </xsl:text>
       <xsl:value-of select="node-name() => x:QName-expression()" />
       <xsl:text> } { </xsl:text>
@@ -241,7 +241,7 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="text()" as="node()+" mode="x:create-node-generator">
+   <xsl:template match="text()" as="node()+" mode="x:node-constructor">
       <xsl:text>text { </xsl:text>
 
       <xsl:choose>
@@ -256,7 +256,7 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="processing-instruction()" as="text()+" mode="x:create-node-generator">
+   <xsl:template match="processing-instruction()" as="text()+" mode="x:node-constructor">
       <xsl:text>processing-instruction { "</xsl:text>
       <xsl:value-of select="name()" />
       <xsl:text>" } { </xsl:text>
@@ -264,14 +264,14 @@
       <xsl:text> }</xsl:text>
    </xsl:template>
 
-   <xsl:template match="comment()" as="text()+" mode="x:create-node-generator">
+   <xsl:template match="comment()" as="text()+" mode="x:node-constructor">
       <xsl:text>comment { </xsl:text>
       <xsl:value-of select="x:quote-with-apos(.)" />
       <xsl:text> }</xsl:text>
    </xsl:template>
 
    <!-- x:text represents its child text node -->
-   <xsl:template match="x:text" as="node()+" mode="x:create-node-generator">
+   <xsl:template match="x:text" as="node()+" mode="x:node-constructor">
       <!-- Unwrap -->
       <xsl:apply-templates mode="#current" />
    </xsl:template>
@@ -304,7 +304,7 @@
       <xsl:choose>
          <xsl:when test="$nodes">
             <xsl:for-each select="$nodes">
-               <xsl:apply-templates select="." mode="x:create-node-generator" />
+               <xsl:apply-templates select="." mode="x:node-constructor" />
                <xsl:if test="position() ne last()">
                   <xsl:text>,&#x0A;</xsl:text>
                </xsl:if>

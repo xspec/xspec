@@ -282,7 +282,7 @@
          <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
             <xsl:with-param name="wrapper-name" select="'input-wrap'" />
             <xsl:with-param name="node-generators" as="node()+">
-               <xsl:apply-templates select="." mode="x:create-node-generator" />
+               <xsl:apply-templates select="." mode="x:node-constructor" />
             </xsl:with-param>
          </xsl:call-template>
          <xsl:text>,&#x0A;</xsl:text>
@@ -476,7 +476,7 @@
          <xsl:text>attribute { QName('', 'successful') } { $local:successful },&#x0A;</xsl:text>
       </xsl:if>
 
-      <xsl:apply-templates select="x:label(.)" mode="x:create-node-generator" />
+      <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
 
       <!-- Report -->
       <xsl:if test="not($pending-p)">

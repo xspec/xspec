@@ -36,8 +36,8 @@
             - is xsl:template
             - @name is Q{XSpec-namespace}scenario-ID
             - the scenario label xsl:message
-            - the generator (xsl:element) of the x:scenario element
-            - the generator (xsl:element) of the x:scenario/x:label element
+            - the constructor (xsl:element) of the x:scenario element
+            - the constructor (xsl:element) of the x:scenario/x:label element
          </t:label>
          <xsl:template name="Q{{http://www.jenitennison.com/xslt/xspec}}dummy-scenario-id"
                        as="element(Q{{http://www.jenitennison.com/xslt/xspec}}scenario)">

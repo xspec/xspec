@@ -151,7 +151,7 @@
                         <xsl:sequence select="@schematron" />
                      </xsl:if>
                   </xsl:variable>
-                  <xsl:apply-templates select="$attributes" mode="x:create-node-generator" />
+                  <xsl:apply-templates select="$attributes" mode="x:node-constructor" />
 
                   <!-- @date must be evaluated at run time -->
                   <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
@@ -296,9 +296,9 @@
                   <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
                </xsl:if>
             </xsl:variable>
-            <xsl:apply-templates select="$scenario-attributes" mode="x:create-node-generator" />
+            <xsl:apply-templates select="$scenario-attributes" mode="x:node-constructor" />
 
-            <xsl:apply-templates select="x:label(.)" mode="x:create-node-generator" />
+            <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
 
             <!-- Handle variables and apply/call/context in document order,
                instead of apply/call/context first and variables second. -->
@@ -311,7 +311,7 @@
                      <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
                         <xsl:with-param name="wrapper-name" select="'input-wrap'" />
                         <xsl:with-param name="node-generators" as="element(xsl:element)">
-                           <xsl:apply-templates select="." mode="x:create-node-generator" />
+                           <xsl:apply-templates select="." mode="x:node-constructor" />
                         </xsl:with-param>
                      </xsl:call-template>
                   </xsl:when>
@@ -808,7 +808,7 @@
                   <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
                </xsl:if>
             </xsl:variable>
-            <xsl:apply-templates select="$test-element-attributes" mode="x:create-node-generator" />
+            <xsl:apply-templates select="$test-element-attributes" mode="x:node-constructor" />
 
             <xsl:if test="not($pending-p)">
                <!-- @successful must be evaluated at run time -->
@@ -819,7 +819,7 @@
                </xsl:element>
             </xsl:if>
 
-            <xsl:apply-templates select="x:label(.)" mode="x:create-node-generator" />
+            <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
 
             <!-- Report -->
             <xsl:if test="not($pending-p)">
