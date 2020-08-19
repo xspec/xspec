@@ -121,7 +121,7 @@
       <xsl:value-of select="QName($x:xspec-namespace, 'report') => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
-      <xsl:call-template name="x:create-zero-or-more-node-generators">
+      <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="attribute()+">
             <xsl:attribute name="xspec" select="$actual-document-uri" />
             <xsl:attribute name="query" select="$this/@query" />
@@ -262,7 +262,7 @@
       <xsl:value-of select="QName(namespace-uri(), local-name()) => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
-      <xsl:call-template name="x:create-zero-or-more-node-generators">
+      <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="node()+">
             <xsl:sequence select="@id, @xspec" />
 
@@ -460,7 +460,7 @@
       <xsl:value-of select="QName(namespace-uri(), 'test') => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
-      <xsl:call-template name="x:create-zero-or-more-node-generators">
+      <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="node()+">
             <xsl:sequence select="@id" />
 

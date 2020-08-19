@@ -79,7 +79,7 @@
          where DOCUMENT is
             doc('RESOLVED-HREF')
          or
-            document { NODE-GENERATORS }
+            document { NODE-CONSTRUCTORS }
       -->
       <xsl:if test="$temp-doc-uqname">
          <xsl:call-template name="x:declare-or-let-variable">
@@ -94,7 +94,7 @@
 
                   <xsl:otherwise>
                      <xsl:text>document {&#x0A;</xsl:text>
-                     <xsl:call-template name="x:create-zero-or-more-node-generators">
+                     <xsl:call-template name="x:zero-or-more-node-constructors">
                         <xsl:with-param name="nodes" select="node() except $exclude" />
                      </xsl:call-template>
                      <xsl:text>&#x0A;</xsl:text>
@@ -205,7 +205,7 @@
       <xsl:value-of select="node-name() => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
-      <xsl:call-template name="x:create-zero-or-more-node-generators">
+      <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes"
             select="
                x:element-additional-namespace-nodes(.),
@@ -296,7 +296,7 @@
       <xsl:text>/@vt</xsl:text>
    </xsl:template>
 
-   <xsl:template name="x:create-zero-or-more-node-generators" as="node()+">
+   <xsl:template name="x:zero-or-more-node-constructors" as="node()+">
       <xsl:context-item use="absent" />
 
       <xsl:param name="nodes" as="node()*" />
