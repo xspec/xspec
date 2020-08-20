@@ -297,7 +297,7 @@
               return (
                 rep:report-sequence($t:result, 'x:result'),
             -->
-            <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
+            <xsl:apply-templates select="$call/x:param[1]" mode="x:compile-each-element"/>
 
             <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
             <xsl:call-template name="x:enter-sut">

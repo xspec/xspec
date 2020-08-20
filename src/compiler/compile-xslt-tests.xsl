@@ -339,7 +339,7 @@
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
                   <xsl:apply-templates select="($call, $apply, $context)[1]/x:param[1]"
-                     mode="x:compile" />
+                     mode="x:compile-each-element" />
 
                   <!-- Enter SUT -->
                   <xsl:choose>
