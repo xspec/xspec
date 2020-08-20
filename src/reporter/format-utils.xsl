@@ -10,10 +10,9 @@
 <xsl:stylesheet version="3.0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:deq="urn:x-xspec:common:deep-equal"
+                xmlns:fmt="urn:x-xspec:reporter:format-utils"
                 xmlns:pkg="http://expath.org/ns/pkg"
-                xmlns:test="http://www.jenitennison.com/xslt/unit-test"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                xmlns:xhtml="http://www.w3.org/1999/xhtml"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
@@ -22,8 +21,8 @@
 
    <!-- @character specifies intermediate characters for mimicking @disable-output-escaping.
       For the test result report HTML, these Private Use Area characters should be considered
-      as reserved by test:disable-escaping. -->
-   <xsl:character-map name="test:disable-escaping">
+      as reserved by fmt:disable-escaping. -->
+   <xsl:character-map name="fmt:disable-escaping">
       <xsl:output-character character="&#xE801;" string="&lt;" />
       <xsl:output-character character="&#xE802;" string="&amp;" />
       <xsl:output-character character="&#xE803;" string="&gt;" />
@@ -32,12 +31,12 @@
    </xsl:character-map>
 
    <!--
-      mode="test:serialize"
+      mode="fmt:serialize"
       All the whitespace-only text nodes except the ones in <x:ws> are considered to be of indentation.
    -->
-   <xsl:mode name="test:serialize" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="fmt:serialize" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="node()+" mode="test:serialize">
+   <xsl:template match="element()" as="node()+" mode="fmt:serialize">
       <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
       <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
       <xsl:param name="node-to-compare-with" as="node()?" />
@@ -49,7 +48,7 @@
       <!-- Output the name of this element -->
       <xsl:choose>
          <xsl:when test="$perform-comparison">
-            <span class="{test:comparison-html-class(., $node-to-compare-with, $expected, true())}">
+            <span class="{fmt:comparison-html-class(., $node-to-compare-with, $expected, true())}">
                <xsl:value-of select="name()" />
             </span>
          </xsl:when>
@@ -144,7 +143,7 @@
          <xsl:text> </xsl:text>
          <xsl:choose>
             <xsl:when test="$perform-comparison">
-               <span class="{test:comparison-html-class(., $attribute-to-compare-with, $expected, true())}">
+               <span class="{fmt:comparison-html-class(., $attribute-to-compare-with, $expected, true())}">
                   <xsl:value-of select="name()" />
                </span>
             </xsl:when>
@@ -155,7 +154,7 @@
          <xsl:text>=</xsl:text>
          <xsl:choose>
             <xsl:when test="$perform-comparison">
-               <span class="{test:comparison-html-class(., $attribute-to-compare-with, $expected, false())}">
+               <span class="{fmt:comparison-html-class(., $attribute-to-compare-with, $expected, false())}">
                   <xsl:value-of select="$display-value-in-quot" />
                </span>
             </xsl:when>
@@ -185,10 +184,10 @@
                <!-- Serialize the child nodes while performing comparison -->
                <xsl:when test="$perform-comparison">
                   <xsl:for-each select="node()">
-                     <xsl:variable name="significant-pos" as="xs:integer?" select="test:significant-position(.)" />
+                     <xsl:variable name="significant-pos" as="xs:integer?" select="fmt:significant-position(.)" />
                      <xsl:apply-templates select="." mode="#current">
                         <xsl:with-param name="level" select="$level + 1" tunnel="yes" />
-                        <xsl:with-param name="node-to-compare-with" select="$node-to-compare-with/node()[test:significant-position(.) eq $significant-pos]" />
+                        <xsl:with-param name="node-to-compare-with" select="$node-to-compare-with/node()[fmt:significant-position(.) eq $significant-pos]" />
                         <xsl:with-param name="expected" select="$expected" />
                      </xsl:apply-templates>
                   </xsl:for-each>
@@ -211,7 +210,7 @@
       </xsl:choose>
    </xsl:template>
 
-   <xsl:template match="processing-instruction()" as="node()+" mode="test:serialize">
+   <xsl:template match="processing-instruction()" as="node()+" mode="fmt:serialize">
       <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
       <xsl:param name="node-to-compare-with" as="node()?" />
       <xsl:param name="expected" as="xs:boolean" select="true()" />
@@ -220,7 +219,7 @@
 
       <xsl:choose>
          <xsl:when test="$perform-comparison">
-            <span class="{test:comparison-html-class(., $node-to-compare-with, $expected, true())}">
+            <span class="{fmt:comparison-html-class(., $node-to-compare-with, $expected, true())}">
                <xsl:value-of select="name()" />
             </span>
          </xsl:when>
@@ -233,7 +232,7 @@
 
       <xsl:choose>
          <xsl:when test="$perform-comparison">
-            <span class="{test:comparison-html-class(., $node-to-compare-with, $expected, false())}">
+            <span class="{fmt:comparison-html-class(., $node-to-compare-with, $expected, false())}">
                <xsl:value-of select="." />
             </span>
          </xsl:when>
@@ -245,7 +244,7 @@
       <xsl:text>?></xsl:text>
    </xsl:template>
 
-   <xsl:template match="comment() | text() | x:ws" as="node()" mode="test:serialize">
+   <xsl:template match="comment() | text() | x:ws" as="node()" mode="fmt:serialize">
       <xsl:param name="perform-comparison" as="xs:boolean" select="false()" tunnel="yes" />
       <xsl:param name="node-to-compare-with" as="node()?" />
       <xsl:param name="expected" as="xs:boolean" select="true()" />
@@ -295,7 +294,7 @@
       <xsl:choose>
          <xsl:when test="$perform-comparison or self::x:ws">
             <span class="{
-                  test:comparison-html-class(., $node-to-compare-with, $expected, false())[$perform-comparison],
+                  fmt:comparison-html-class(., $node-to-compare-with, $expected, false())[$perform-comparison],
                   'whitespace'[current()/self::x:ws]
                }">
                <xsl:sequence select="$serialized" />
@@ -308,7 +307,7 @@
       </xsl:choose>
    </xsl:template>
 
-   <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="test:serialize">
+   <xsl:template match="text()[not(normalize-space())]" as="text()?" mode="fmt:serialize">
       <xsl:param name="level" as="xs:integer" select="0" tunnel="yes" />
       <xsl:param name="indentation" as="xs:integer" select="0" tunnel="yes" />
 
@@ -336,7 +335,7 @@
 
    <!-- Returns the position of the node, ignoring the preceding-sibling whitespace-only text nodes.
       Returns an empty sequence, if the node is a whitespace-only text node. -->
-   <xsl:function name="test:significant-position" as="xs:integer?">
+   <xsl:function name="fmt:significant-position" as="xs:integer?">
       <xsl:param name="node" as="node()" />
 
       <xsl:choose>
@@ -361,7 +360,7 @@
    <!-- Compares $node with $node-to-compare-with and returns an HTML class accordingly: 'same', 'inner-diff' or 'diff'
       Set $expected to true if $node is in Expected Result. Set false if in Actual Result.
       Set $focusing-on-name to true only when building an HTML class of the name of $node. -->
-   <xsl:function name="test:comparison-html-class" as="xs:string">
+   <xsl:function name="fmt:comparison-html-class" as="xs:string">
       <xsl:param name="node" as="node()" />
       <xsl:param name="node-to-compare-with" as="node()?" />
       <xsl:param name="expected" as="xs:boolean" />
@@ -407,7 +406,7 @@
             <xsl:variable name="text-to-compare-with" as="text()">
                <xsl:value-of select="$node-to-compare-with" />
             </xsl:variable>
-            <xsl:sequence select="test:comparison-html-class($text, $text-to-compare-with, $expected, $focusing-on-name)" />
+            <xsl:sequence select="fmt:comparison-html-class($text, $text-to-compare-with, $expected, $focusing-on-name)" />
          </xsl:when>
 
          <xsl:otherwise>
@@ -417,8 +416,8 @@
    </xsl:function>
 
    <!-- Generates <style> or <link> for CSS.
-      If you enable $inline, you must use test:disable-escaping character map in serialization. -->
-   <xsl:template name="test:load-css" as="element()">
+      If you enable $inline, you must use fmt:disable-escaping character map in serialization. -->
+   <xsl:template name="fmt:load-css" as="element()">
       <xsl:context-item use="absent" />
 
       <xsl:param name="inline" as="xs:boolean" required="yes" />
@@ -434,7 +433,7 @@
             <xsl:variable name="css-string" as="xs:string" select="replace($css-string, '&#x0D;(&#x0A;)', '$1')" />
 
             <style type="text/css">
-               <xsl:value-of select="test:disable-escaping($css-string)" />
+               <xsl:value-of select="fmt:disable-escaping($css-string)" />
             </style>
          </xsl:when>
 
@@ -446,13 +445,13 @@
 
    <!-- Replaces < & > ' " characters with the reserved characters.
       The serializer will convert those reserved characters back to < & > ' " characters,
-      provided that test:disable-escaping character map is specified as a serialization parameter. -->
-   <xsl:function name="test:disable-escaping" as="xs:string">
+      provided that fmt:disable-escaping character map is specified as a serialization parameter. -->
+   <xsl:function name="fmt:disable-escaping" as="xs:string">
       <xsl:param name="input" as="xs:string" />
 
       <xsl:sequence select="
          document('')
-         /element()/xsl:character-map[@name eq 'test:disable-escaping']
+         /element()/xsl:character-map[@name eq 'fmt:disable-escaping']
          /translate(
             $input,
             string-join(xsl:output-character/@string),
