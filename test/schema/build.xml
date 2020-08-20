@@ -32,11 +32,11 @@
 			<exclude name="test/import/no-href.xspec" />
 
 			<!-- Tests error from x:output-scenario -->
-			<exclude name="test/output-scenario-error/apply-with-call.xspec" />
-			<exclude name="test/output-scenario-error/apply-with-context.xspec" />
-			<exclude name="test/output-scenario-error/call-both-function-and-template.xspec" />
-			<exclude name="test/output-scenario-error/context-both-href-and-content.xspec" />
-			<exclude name="test/output-scenario-error/function-with-context.xspec" />
+			<exclude name="test/error-compiling-scenario/apply-with-call.xspec" />
+			<exclude name="test/error-compiling-scenario/apply-with-context.xspec" />
+			<exclude name="test/error-compiling-scenario/call-both-function-and-template.xspec" />
+			<exclude name="test/error-compiling-scenario/context-both-href-and-content.xspec" />
+			<exclude name="test/error-compiling-scenario/function-with-context.xspec" />
 
 			<!-- (x:expect | x:scenario)/@id which is not allowed -->
 			<exclude name="test/compile-xslt-tests/expect.xspec" />

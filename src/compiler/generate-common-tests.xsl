@@ -748,7 +748,7 @@
       </xsl:choose>
    </xsl:template>
 
-   <xsl:template name="x:output-scenario-error" as="empty-sequence()">
+   <xsl:template name="x:error-compiling-scenario" as="empty-sequence()">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="message" as="xs:string" />
