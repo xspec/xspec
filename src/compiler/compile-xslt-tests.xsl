@@ -47,7 +47,7 @@
 
          <xsl:if test="x:helper">
             <xsl:comment> user-provided library module(s) </xsl:comment>
-            <xsl:call-template name="x:compile-user-helpers" />
+            <xsl:call-template name="x:compile-helpers" />
          </xsl:if>
 
          <xsl:comment> XSpec library modules providing tools </xsl:comment>
@@ -883,7 +883,7 @@
       <xsl:attribute name="select" select="'$' || x:variable-UQName(.)" />
    </xsl:template>
 
-   <xsl:template name="x:compile-user-helpers" as="element()*">
+   <xsl:template name="x:compile-helpers" as="element()*">
       <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:for-each select="x:helper[@package-name | @stylesheet]">

@@ -61,7 +61,7 @@
       <xsl:if test="x:helper">
          <xsl:text>&#x0A;</xsl:text>
          <xsl:text>(: user-provided library module(s) :)&#x0A;</xsl:text>
-         <xsl:call-template name="x:compile-user-helpers" />
+         <xsl:call-template name="x:compile-helpers" />
       </xsl:if>
 
       <!-- Import utils -->
@@ -513,7 +513,7 @@
       <xsl:text>}</xsl:text>
    </xsl:template>
 
-   <xsl:template name="x:compile-user-helpers" as="text()*">
+   <xsl:template name="x:compile-helpers" as="text()*">
       <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:for-each select="x:helper[@query]">
