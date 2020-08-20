@@ -657,7 +657,13 @@
       </try>
    </xsl:template>
 
-   <xsl:template name="x:output-expect" as="element(xsl:template)">
+   <!--
+      Generate an XSLT template from the expect element.
+      
+      This generated template, when called, checks the expectation against the actual result of the
+      test and constructs the corresponding x:test element for the XML report.
+   -->
+   <xsl:template name="x:compile-expect" as="element(xsl:template)">
       <xsl:context-item as="element(x:expect)" use="required" />
 
       <xsl:param name="pending" as="node()?" tunnel="yes" />

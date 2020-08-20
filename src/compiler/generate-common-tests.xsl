@@ -480,7 +480,7 @@
       <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <!-- Call the serializing template (for XSLT or XQuery). -->
-      <xsl:call-template name="x:output-expect">
+      <xsl:call-template name="x:compile-expect">
          <xsl:with-param name="pending" tunnel="yes" select="
              ( $pending, ancestor::x:scenario/@pending )[1]"/>
          <xsl:with-param name="context" tunnel="yes" select="$context"/>

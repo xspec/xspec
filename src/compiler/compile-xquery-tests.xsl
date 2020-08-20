@@ -371,13 +371,12 @@
    </xsl:template>
 
    <!--
-       Generate an XQuery function from the expect element.
-       
-       This function, when called, checks the expectation against the
-       actual result of the test and return the corresponding t:test
-       element for the XML report.
+      Generate an XQuery function from the expect element.
+      
+      This generated function, when called, checks the expectation against the actual result of the
+      test and returns the corresponding x:test element for the XML report.
    -->
-   <xsl:template name="x:output-expect" as="node()+">
+   <xsl:template name="x:compile-expect" as="node()+">
       <xsl:context-item as="element(x:expect)" use="required" />
 
       <xsl:param name="pending" as="node()?"                         tunnel="yes" />
