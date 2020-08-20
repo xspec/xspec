@@ -57,7 +57,7 @@ load bats-helper
     assert_regex "${lines[1]}" '^Elapsed time '
 }
 
-@test "Schema detects errors in x:output-scenario test" {
+@test "Schema detects errors in x:compile-scenario test" {
     # '-t' for identifying the last line
     run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
         error-compiling-scenario/apply-with-call.xspec \

@@ -459,7 +459,7 @@
       </xsl:if>
 
       <!-- Call the serializing template (for XSLT or XQuery). -->
-      <xsl:call-template name="x:output-scenario">
+      <xsl:call-template name="x:compile-scenario">
          <xsl:with-param name="pending"   select="$new-pending" tunnel="yes"/>
          <xsl:with-param name="apply"     select="$new-apply"   tunnel="yes"/>
          <xsl:with-param name="call"      select="$new-call"    tunnel="yes"/>

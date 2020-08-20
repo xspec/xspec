@@ -183,13 +183,11 @@
       <xsl:text>)&#x0A;</xsl:text>
    </xsl:template>
 
-   <!-- *** x:compile *** -->
-   <!-- Generates the functions that perform the tests -->
    <!--
-       TODO: Add the $params parameter as in the x:output-scenario for XSLT.
+      Generates the functions that perform the tests.
+      Called during mode="x:compile-each-element".
    -->
-
-   <xsl:template name="x:output-scenario" as="node()+">
+   <xsl:template name="x:compile-scenario" as="node()+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="pending"   as="node()?"              tunnel="yes" />
@@ -297,7 +295,8 @@
               return (
                 rep:report-sequence($t:result, 'x:result'),
             -->
-            <xsl:apply-templates select="$call/x:param[1]" mode="x:compile-each-element"/>
+            <!-- #current is x:compile-each-element -->
+            <xsl:apply-templates select="$call/x:param[1]" mode="#current" />
 
             <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
             <xsl:call-template name="x:enter-sut">

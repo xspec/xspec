@@ -194,10 +194,11 @@
       <xsl:call-template name="x:continue-call-scenarios" />
    </xsl:template>
 
-   <!-- *** x:compile *** -->
-   <!-- Generates the templates that perform the tests -->
-
-   <xsl:template name="x:output-scenario" as="element(xsl:template)+">
+   <!--
+      Generates the templates that perform the tests.
+      Called during mode="x:compile-each-element".
+   -->
+   <xsl:template name="x:compile-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="pending" as="node()?" tunnel="yes" />
@@ -338,8 +339,9 @@
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
+                  <!-- #current is x:compile-each-element -->
                   <xsl:apply-templates select="($call, $apply, $context)[1]/x:param[1]"
-                     mode="x:compile-each-element" />
+                     mode="#current" />
 
                   <!-- Enter SUT -->
                   <xsl:choose>

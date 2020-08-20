@@ -2027,7 +2027,7 @@
 	</case>
 
 	<!--
-		Error message from x:output-scenario template (XSLT)
+		Error message from x:compile-scenario template (XSLT)
 	-->
 
 	<case name="x:context both with @href and content">
@@ -2075,7 +2075,7 @@
 	</case>
 
 	<!--
-		Error message from x:output-scenario template (XQuery)
+		Error message from x:compile-scenario template (XQuery)
 	-->
 
 	<case name="x:context (XQuery)">

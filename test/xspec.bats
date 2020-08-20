@@ -2317,7 +2317,7 @@ load bats-helper
 }
 
 #
-# Error message from x:output-scenario template (XSLT)
+# Error message from x:compile-scenario template (XSLT)
 #
 
 @test "x:context both with @href and content" {
@@ -2371,7 +2371,7 @@ load bats-helper
 }
 
 #
-# Error message from x:output-scenario template (XQuery)
+# Error message from x:compile-scenario template (XQuery)
 #
 
 @test "x:context (XQuery)" {
