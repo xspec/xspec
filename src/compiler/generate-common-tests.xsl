@@ -169,11 +169,13 @@
       </xsl:apply-templates>
    </xsl:template>
 
-   <xsl:template name="x:continue-call-scenarios">
+   <!--
+      Apply the current mode templates to the following sibling element.
+   -->
+   <xsl:template name="x:continue-walking-siblings">
       <xsl:context-item as="element()" use="required" />
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:apply-templates select="following-sibling::*[1]" mode="#current" />
    </xsl:template>
 
    <!--
@@ -196,7 +198,7 @@
    -->
    <xsl:template match="x:apply|x:call|x:context|x:label" mode="x:generate-calls">
       <!-- Nothing, but must continue the sibling-walking... -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -209,13 +211,13 @@
       </xsl:apply-templates>
 
       <!-- Continue walking the siblings. -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
        A scenario is called by its ID.
        
-       Call "x:output-call", which must on turn call "x:continue-call-scenarios".
+       Call "x:output-call" which in turn calls "x:continue-walking-siblings".
    -->
    <xsl:template match="x:scenario" mode="x:generate-calls">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
@@ -230,7 +232,7 @@
    <!--
        An expectation is called by its ID.
        
-       Call "x:output-call", which must on turn call "x:continue-call-scenarios".
+       Call "x:output-call" which in turn calls "x:continue-walking-siblings".
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
