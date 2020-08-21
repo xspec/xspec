@@ -210,18 +210,17 @@
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
 
-      <!-- Continue walking the siblings. -->
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
        A scenario is called by its ID.
-       
-       Call "x:output-call" which in turn calls "x:continue-walking-siblings".
    -->
    <xsl:template match="x:scenario" mode="x:generate-calls">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
+      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
+         walking the siblings -->
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="with-param-uqnames"
@@ -231,14 +230,14 @@
 
    <!--
        An expectation is called by its ID.
-       
-       Call "x:output-call" which in turn calls "x:continue-walking-siblings".
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
       <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
+      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
+         walking the siblings -->
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
@@ -267,6 +266,7 @@
          <xsl:apply-templates select="." mode="x:declare-variable" />
       </xsl:if>
 
+      <!-- Continue walking the siblings, adding a new variable on the stack. -->
       <xsl:call-template name="x:continue-walking-siblings">
          <xsl:with-param name="stacked-variables" tunnel="yes" select="$stacked-variables, ." />
       </xsl:call-template>
@@ -547,8 +547,7 @@
                         |x:context
                         |x:label"
                  mode="x:compile">
-      <!-- Nothing... -->
-
+      <!-- Nothing, but must continue the sibling-walking... -->
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
