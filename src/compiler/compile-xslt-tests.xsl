@@ -73,7 +73,7 @@
          </variable>
 
          <!-- Compile global params and global variables. -->
-         <xsl:call-template name="x:compile-global-params-and-vars" />
+         <xsl:call-template name="x:compile-global-params-and-variables" />
 
          <xsl:if test="$is-external">
             <!-- If no $x:saxon-config is provided by global x:variable, declare a dummy one so that

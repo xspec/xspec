@@ -293,7 +293,7 @@
    <!--
        Drive the compilation of global params and variables.
    -->
-   <xsl:template name="x:compile-global-params-and-vars">
+   <xsl:template name="x:compile-global-params-and-variables">
       <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
