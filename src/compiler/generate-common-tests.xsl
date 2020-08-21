@@ -41,31 +41,10 @@
    <xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
    <!-- Actually, xsl:template/@match is "document-node(element(x:description))".
-      "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
-      error message. -->
+      "element(x:description)" is omitted in order to accept any source document and then reject it
+      with a proper error message if it's broken. -->
    <xsl:template match="document-node()" as="node()+">
-      <xsl:variable name="deprecation-warning" as="xs:string?">
-         <xsl:choose>
-            <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
-               <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
-            </xsl:when>
-            <xsl:when test="$x:saxon-version lt x:pack-version((9, 9))">
-               <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
-            </xsl:when>
-         </xsl:choose>
-      </xsl:variable>
-      <xsl:message select="
-         if ($deprecation-warning)
-         then ('WARNING:', $deprecation-warning)
-         else ' ' (: Always write a single non-empty line to help Bats tests to predict line numbers. :)" />
-
-      <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
-      <xsl:if test="not(node-name(element()) eq $description-name)">
-         <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">Source document is not XSpec. /{$description-name} is missing. Supplied source has /{element() => name()} instead.</xsl:text>
-         </xsl:message>
-      </xsl:if>
-
+      <xsl:call-template name="x:perform-initial-checks" />
       <xsl:call-template name="x:generate-tests"/>
    </xsl:template>
 
@@ -144,6 +123,32 @@
 
       <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
       <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
+   </xsl:template>
+
+   <xsl:template name="x:perform-initial-checks" as="empty-sequence()">
+      <xsl:context-item as="document-node()" use="required" />
+
+      <xsl:variable name="deprecation-warning" as="xs:string?">
+         <xsl:choose>
+            <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
+               <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
+            </xsl:when>
+            <xsl:when test="$x:saxon-version lt x:pack-version((9, 9))">
+               <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
+            </xsl:when>
+         </xsl:choose>
+      </xsl:variable>
+      <xsl:message select="
+         if ($deprecation-warning)
+         then ('WARNING:', $deprecation-warning)
+         else ' ' (: Always write a single non-empty line to help Bats tests to predict line numbers. :)" />
+
+      <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
+      <xsl:if test="not(node-name(element()) eq $description-name)">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">Source document is not XSpec. /{$description-name} is missing. Supplied source has /{element() => name()} instead.</xsl:text>
+         </xsl:message>
+      </xsl:if>
    </xsl:template>
 
    <!--
