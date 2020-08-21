@@ -262,7 +262,7 @@
 
       <!-- The variable declaration. -->
       <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
-         <xsl:apply-templates select="." mode="x:generate-variable-declarations" />
+         <xsl:apply-templates select="." mode="x:declare-variable" />
       </xsl:if>
 
       <!-- Continue walking the siblings. -->
@@ -298,8 +298,8 @@
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
 
-      <!-- mode="x:generate-variable-declarations" is not aware of $is-external. That's why @static
-         is checked here. -->
+      <!-- mode="x:declare-variable" is not aware of $is-external. That's why @static is checked
+         here. -->
       <xsl:if test="not($is-external)">
          <xsl:for-each select="$this/x:param[x:yes-no-synonym(@static, false())]">
             <xsl:message terminate="yes">
@@ -308,7 +308,7 @@
          </xsl:for-each>
       </xsl:if>
 
-      <xsl:apply-templates select="$this/(x:param|x:variable)" mode="x:generate-variable-declarations"/>
+      <xsl:apply-templates select="$this/(x:param|x:variable)" mode="x:declare-variable" />
    </xsl:template>
 
    <!--
@@ -510,7 +510,7 @@
       x:param elements generate actual call param's variable.
    -->
    <xsl:template match="x:param" mode="x:compile">
-      <xsl:apply-templates select="." mode="x:generate-variable-declarations" />
+      <xsl:apply-templates select="." mode="x:declare-variable" />
 
       <!-- Continue walking the siblings (only other x:param elements, within this x:call or
          x:context). -->
@@ -778,10 +778,10 @@
 
       <!-- Undeclare the default namespace in the wrapper element, because @test may use the default
          namespace such as xs:QName('foo'). -->
-      <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+      <xsl:call-template name="x:wrap-node-constructors-and-undeclare-default-ns">
          <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
-         <xsl:with-param name="node-generators" as="node()+">
-            <xsl:apply-templates select="$expect-test" mode="x:create-node-generator" />
+         <xsl:with-param name="node-constructors" as="node()+">
+            <xsl:apply-templates select="$expect-test" mode="x:node-constructor" />
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>

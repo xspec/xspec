@@ -121,7 +121,7 @@
       <xsl:value-of select="QName($x:xspec-namespace, 'report') => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
-      <xsl:call-template name="x:create-zero-or-more-node-generators">
+      <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="attribute()+">
             <xsl:attribute name="xspec" select="$actual-document-uri" />
             <xsl:attribute name="query" select="$this/@query" />
@@ -253,7 +253,7 @@
 
       <!-- If there are variables before x:call, define them here followed by "return". -->
       <xsl:if test="exists($local-preceding-variables)">
-         <xsl:apply-templates select="$local-preceding-variables" mode="x:generate-variable-declarations" />
+         <xsl:apply-templates select="$local-preceding-variables" mode="x:declare-variable" />
          <xsl:text>return&#x0A;</xsl:text>
       </xsl:if>
 
@@ -262,7 +262,7 @@
       <xsl:value-of select="QName(namespace-uri(), local-name()) => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
-      <xsl:call-template name="x:create-zero-or-more-node-generators">
+      <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="node()+">
             <xsl:sequence select="@id, @xspec" />
 
@@ -279,10 +279,10 @@
       <xsl:for-each select="x:call">
          <!-- Undeclare the default namespace in the wrapper element, because x:param/@select may
             use the default namespace such as xs:QName('foo'). -->
-         <xsl:call-template name="x:wrap-node-generators-and-undeclare-default-ns">
+         <xsl:call-template name="x:wrap-node-constructors-and-undeclare-default-ns">
             <xsl:with-param name="wrapper-name" select="'input-wrap'" />
-            <xsl:with-param name="node-generators" as="node()+">
-               <xsl:apply-templates select="." mode="x:create-node-generator" />
+            <xsl:with-param name="node-constructors" as="node()+">
+               <xsl:apply-templates select="." mode="x:node-constructor" />
             </xsl:with-param>
          </xsl:call-template>
          <xsl:text>,&#x0A;</xsl:text>
@@ -411,7 +411,7 @@
 
       <xsl:if test="not($pending-p)">
          <!-- Set up the $local:expected variable -->
-         <xsl:apply-templates select="." mode="x:generate-variable-declarations">
+         <xsl:apply-templates select="." mode="x:declare-variable">
             <xsl:with-param name="comment" select="'expected result'" />
          </xsl:apply-templates>
 
@@ -460,7 +460,7 @@
       <xsl:value-of select="QName(namespace-uri(), 'test') => x:QName-expression()" />
       <xsl:text> } {&#x0A;</xsl:text>
 
-      <xsl:call-template name="x:create-zero-or-more-node-generators">
+      <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="node()+">
             <xsl:sequence select="@id" />
 
@@ -476,7 +476,7 @@
          <xsl:text>attribute { QName('', 'successful') } { $local:successful },&#x0A;</xsl:text>
       </xsl:if>
 
-      <xsl:apply-templates select="x:label(.)" mode="x:create-node-generator" />
+      <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
 
       <!-- Report -->
       <xsl:if test="not($pending-p)">
@@ -503,14 +503,14 @@
       <xsl:text>};&#x0A;</xsl:text>
    </xsl:template>
 
-   <xsl:template name="x:wrap-node-generators-and-undeclare-default-ns" as="node()+">
+   <xsl:template name="x:wrap-node-constructors-and-undeclare-default-ns" as="node()+">
       <xsl:param name="wrapper-name" as="xs:string" />
-      <xsl:param name="node-generators" as="node()+" />
+      <xsl:param name="node-constructors" as="node()+" />
 
       <xsl:text>element { QName('', '</xsl:text>
       <xsl:value-of select="$wrapper-name" />
       <xsl:text>') } {&#x0A;</xsl:text>
-      <xsl:sequence select="$node-generators" />
+      <xsl:sequence select="$node-constructors" />
       <xsl:text>}</xsl:text>
    </xsl:template>
 

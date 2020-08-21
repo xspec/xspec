@@ -18,18 +18,19 @@
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-tests-helper.xsl</pkg:import-uri>
 
    <!--
+      mode="x:declare-variable"
       Generates XSLT variable declaration(s) from the current element.
       
       This mode itself does not handle whitespace-only text nodes specially. To handle
       whitespace-only text node in a special manner, the text node should be handled specially
-      before applying this mode and/or mode="x:create-node-generator" should be overridden.
+      before applying this mode and/or mode="x:node-constructor" should be overridden.
       
       This mode does not handle @static. It is just ignored. Enabling @static will create a usual
       non-static parameter or variable.
    -->
-   <xsl:mode name="x:generate-variable-declarations" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:declare-variable" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="element()+" mode="x:generate-variable-declarations">
+   <xsl:template match="element()" as="element()+" mode="x:declare-variable">
       <!-- Reflects @pending or x:pending -->
       <xsl:param name="pending" as="node()?" tunnel="yes" />
 
@@ -76,8 +77,7 @@
 
                <xsl:otherwise>
                   <xsl:element name="xsl:document" namespace="{$x:xsl-namespace}">
-                     <xsl:apply-templates select="node() except $exclude"
-                        mode="x:create-node-generator" />
+                     <xsl:apply-templates select="node() except $exclude" mode="x:node-constructor" />
                   </xsl:element>
                </xsl:otherwise>
             </xsl:choose>
@@ -135,11 +135,11 @@
    </xsl:template>
 
    <!--
-      mode="x:create-node-generator"
+      mode="x:node-constructor"
    -->
-   <xsl:mode name="x:create-node-generator" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:node-constructor" on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="element()" as="element(xsl:element)" mode="x:create-node-generator">
+   <xsl:template match="element()" as="element(xsl:element)" mode="x:node-constructor">
       <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="name()" />
          <xsl:attribute name="namespace" select="namespace-uri()" />
@@ -153,15 +153,14 @@
       </xsl:element>
    </xsl:template>
 
-   <xsl:template match="namespace-node()" as="element(xsl:namespace)"
-      mode="x:create-node-generator">
+   <xsl:template match="namespace-node()" as="element(xsl:namespace)" mode="x:node-constructor">
       <xsl:element name="xsl:namespace" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="name()" />
          <xsl:value-of select="." />
       </xsl:element>
    </xsl:template>
 
-   <xsl:template match="attribute()" as="element(xsl:attribute)" mode="x:create-node-generator">
+   <xsl:template match="attribute()" as="element(xsl:attribute)" mode="x:node-constructor">
       <xsl:variable name="maybe-avt" as="xs:boolean" select="x:is-user-content(.)" />
 
       <xsl:element name="xsl:attribute" namespace="{$x:xsl-namespace}">
@@ -187,7 +186,7 @@
       </xsl:element>
    </xsl:template>
 
-   <xsl:template match="text()" as="element(xsl:text)" mode="x:create-node-generator">
+   <xsl:template match="text()" as="element(xsl:text)" mode="x:node-constructor">
       <xsl:element name="xsl:text" namespace="{$x:xsl-namespace}">
          <xsl:if test="x:is-user-content(.)">
             <xsl:if test="parent::x:text/@expand-text/x:yes-no-synonym(.)">
@@ -204,7 +203,7 @@
    </xsl:template>
 
    <xsl:template match="processing-instruction()" as="element(xsl:processing-instruction)"
-      mode="x:create-node-generator">
+      mode="x:node-constructor">
       <xsl:element name="xsl:processing-instruction" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="name()" />
 
@@ -212,14 +211,14 @@
       </xsl:element>
    </xsl:template>
 
-   <xsl:template match="comment()" as="element(xsl:comment)" mode="x:create-node-generator">
+   <xsl:template match="comment()" as="element(xsl:comment)" mode="x:node-constructor">
       <xsl:element name="xsl:comment" namespace="{$x:xsl-namespace}">
          <xsl:value-of select="." />
       </xsl:element>
    </xsl:template>
 
    <!-- x:text represents its child text node -->
-   <xsl:template match="x:text" as="element(xsl:text)" mode="x:create-node-generator">
+   <xsl:template match="x:text" as="element(xsl:text)" mode="x:node-constructor">
       <!-- Unwrap -->
       <xsl:apply-templates mode="#current" />
    </xsl:template>
