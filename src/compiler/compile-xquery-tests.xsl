@@ -181,7 +181,7 @@
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
       <!-- Continue compiling calls. -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
       <xsl:text>)&#x0A;</xsl:text>
    </xsl:template>
 
