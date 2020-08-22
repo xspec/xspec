@@ -191,7 +191,7 @@
       </call-template>
 
       <!-- Continue compiling calls. -->
-      <xsl:call-template name="x:continue-call-scenarios" />
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--

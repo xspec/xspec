@@ -169,11 +169,13 @@
       </xsl:apply-templates>
    </xsl:template>
 
-   <xsl:template name="x:continue-call-scenarios">
+   <!--
+      Apply the current mode templates to the following sibling element.
+   -->
+   <xsl:template name="x:continue-walking-siblings">
       <xsl:context-item as="element()" use="required" />
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:apply-templates select="following-sibling::*[1]" mode="#current" />
    </xsl:template>
 
    <!--
@@ -196,7 +198,7 @@
    -->
    <xsl:template match="x:apply|x:call|x:context|x:label" mode="x:generate-calls">
       <!-- Nothing, but must continue the sibling-walking... -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -208,18 +210,17 @@
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
        A scenario is called by its ID.
-       
-       Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:scenario" mode="x:generate-calls">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
+      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
+         walking the siblings -->
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="with-param-uqnames"
@@ -229,14 +230,14 @@
 
    <!--
        An expectation is called by its ID.
-       
-       Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
       <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
+      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
+         walking the siblings -->
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
@@ -265,10 +266,10 @@
          <xsl:apply-templates select="." mode="x:declare-variable" />
       </xsl:if>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
+      <!-- Continue walking the siblings, adding a new variable on the stack. -->
+      <xsl:call-template name="x:continue-walking-siblings">
          <xsl:with-param name="stacked-variables" tunnel="yes" select="$stacked-variables, ." />
-      </xsl:apply-templates>
+      </xsl:call-template>
    </xsl:template>
 
    <!--
@@ -286,8 +287,7 @@
         <xsl:call-template name="x:detect-reserved-variable-name"/>
       </xsl:if>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -348,8 +348,7 @@
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -466,8 +465,7 @@
          <xsl:with-param name="context"   select="$new-context" tunnel="yes"/>
       </xsl:call-template>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -495,8 +493,7 @@
          </xsl:with-param>
       </xsl:call-template>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -517,9 +514,9 @@
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <!-- Continue walking the siblings, adding a new variable on the stack. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
+      <xsl:call-template name="x:continue-walking-siblings">
          <xsl:with-param name="stacked-variables" tunnel="yes" select="$stacked-variables, ." />
-      </xsl:apply-templates>
+      </xsl:call-template>
    </xsl:template>
 
    <!--
@@ -543,10 +540,8 @@
                         |x:context
                         |x:label"
                  mode="x:compile-each-element">
-      <!-- Nothing... -->
-
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <!-- Nothing, but must continue the sibling-walking... -->
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
