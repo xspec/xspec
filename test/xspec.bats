@@ -2317,11 +2317,11 @@ load bats-helper
 }
 
 #
-# Error message from x:output-scenario template (XSLT)
+# Error message from x:compile-scenario template (XSLT)
 #
 
 @test "x:context both with @href and content" {
-    run ../bin/xspec.sh output-scenario-error/context-both-href-and-content.xspec
+    run ../bin/xspec.sh error-compiling-scenario/context-both-href-and-content.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element" ]
@@ -2329,7 +2329,7 @@ load bats-helper
 }
 
 @test "x:call both with @function and @template" {
-    run ../bin/xspec.sh output-scenario-error/call-both-function-and-template.xspec
+    run ../bin/xspec.sh error-compiling-scenario/call-both-function-and-template.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time" ]
@@ -2337,7 +2337,7 @@ load bats-helper
 }
 
 @test "x:apply with x:context" {
-    run ../bin/xspec.sh output-scenario-error/apply-with-context.xspec
+    run ../bin/xspec.sh error-compiling-scenario/apply-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "WARNING: The instruction x:apply is not supported yet!" ]
@@ -2346,7 +2346,7 @@ load bats-helper
 }
 
 @test "x:apply with x:call" {
-    run ../bin/xspec.sh output-scenario-error/apply-with-call.xspec
+    run ../bin/xspec.sh error-compiling-scenario/apply-with-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "WARNING: The instruction x:apply is not supported yet!" ]
@@ -2355,7 +2355,7 @@ load bats-helper
 }
 
 @test "x:call[@function] with x:context" {
-    run ../bin/xspec.sh output-scenario-error/function-with-context.xspec
+    run ../bin/xspec.sh error-compiling-scenario/function-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time" ]
@@ -2363,7 +2363,7 @@ load bats-helper
 }
 
 @test "x:expect without action" {
-    run ../bin/xspec.sh output-scenario-error/expect-without-action.xspec
+    run ../bin/xspec.sh error-compiling-scenario/expect-without-action.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call, x:apply or x:context has been given" ]
@@ -2371,11 +2371,11 @@ load bats-helper
 }
 
 #
-# Error message from x:output-scenario template (XQuery)
+# Error message from x:compile-scenario template (XQuery)
 #
 
 @test "x:context (XQuery)" {
-    run ../bin/xspec.sh -q output-scenario-error/xquery_context.xspec
+    run ../bin/xspec.sh -q error-compiling-scenario/xquery_context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR in x:scenario ('x:context'): x:context not supported for XQuery" ]
@@ -2383,7 +2383,7 @@ load bats-helper
 }
 
 @test "x:call/@template (XQuery)" {
-    run ../bin/xspec.sh -q output-scenario-error/xquery_template-call.xspec
+    run ../bin/xspec.sh -q error-compiling-scenario/xquery_template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR in x:scenario ('x:call/@template'): x:call/@template not supported for XQuery" ]
@@ -2391,7 +2391,7 @@ load bats-helper
 }
 
 @test "No x:call (XQuery)" {
-    run ../bin/xspec.sh -q output-scenario-error/xquery_no-call.xspec
+    run ../bin/xspec.sh -q error-compiling-scenario/xquery_no-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call" ]

@@ -61,7 +61,7 @@
       <xsl:if test="x:helper">
          <xsl:text>&#x0A;</xsl:text>
          <xsl:text>(: user-provided library module(s) :)&#x0A;</xsl:text>
-         <xsl:call-template name="x:compile-user-helpers" />
+         <xsl:call-template name="x:compile-helpers" />
       </xsl:if>
 
       <!-- Import utils -->
@@ -106,7 +106,7 @@
       </xsl:call-template>
 
       <!-- Compile global params and global variables. -->
-      <xsl:call-template name="x:compile-global-params-and-vars" />
+      <xsl:call-template name="x:compile-global-params-and-variables" />
 
       <!-- Compile the top-level scenarios. -->
       <xsl:call-template name="x:compile-scenarios"/>
@@ -179,17 +179,15 @@
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
       <!-- Continue compiling calls. -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
       <xsl:text>)&#x0A;</xsl:text>
    </xsl:template>
 
-   <!-- *** x:compile *** -->
-   <!-- Generates the functions that perform the tests -->
    <!--
-       TODO: Add the $params parameter as in the x:output-scenario for XSLT.
+      Generates the functions that perform the tests.
+      Called during mode="x:compile-each-element".
    -->
-
-   <xsl:template name="x:output-scenario" as="node()+">
+   <xsl:template name="x:compile-scenario" as="node()+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="pending"   as="node()?"              tunnel="yes" />
@@ -207,21 +205,21 @@
       <xsl:variable name="quoted-label" as="xs:string" select="$x:apos || x:label(.) || $x:apos" />
 
       <xsl:if test="$context">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text expand-text="yes">{name($context)} not supported for XQuery</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="$call/@template">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text expand-text="yes">{name($call)}/@template not supported for XQuery</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="x:expect and empty($call)">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
                   the user -->
@@ -297,7 +295,8 @@
               return (
                 rep:report-sequence($t:result, 'x:result'),
             -->
-            <xsl:apply-templates select="$call/x:param[1]" mode="x:compile"/>
+            <!-- #current is x:compile-each-element -->
+            <xsl:apply-templates select="$call/x:param[1]" mode="#current" />
 
             <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
             <xsl:call-template name="x:enter-sut">
@@ -371,13 +370,12 @@
    </xsl:template>
 
    <!--
-       Generate an XQuery function from the expect element.
-       
-       This function, when called, checks the expectation against the
-       actual result of the test and return the corresponding t:test
-       element for the XML report.
+      Generate an XQuery function from the expect element.
+      
+      This generated function, when called, checks the expectation against the actual result of the
+      test and returns the corresponding x:test element for the XML report.
    -->
-   <xsl:template name="x:output-expect" as="node()+">
+   <xsl:template name="x:compile-expect" as="node()+">
       <xsl:context-item as="element(x:expect)" use="required" />
 
       <xsl:param name="pending" as="node()?"                         tunnel="yes" />
@@ -514,7 +512,7 @@
       <xsl:text>}</xsl:text>
    </xsl:template>
 
-   <xsl:template name="x:compile-user-helpers" as="text()*">
+   <xsl:template name="x:compile-helpers" as="text()*">
       <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:for-each select="x:helper[@query]">

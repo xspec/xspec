@@ -47,7 +47,7 @@
 
          <xsl:if test="x:helper">
             <xsl:comment> user-provided library module(s) </xsl:comment>
-            <xsl:call-template name="x:compile-user-helpers" />
+            <xsl:call-template name="x:compile-helpers" />
          </xsl:if>
 
          <xsl:comment> XSpec library modules providing tools </xsl:comment>
@@ -73,7 +73,7 @@
          </variable>
 
          <!-- Compile global params and global variables. -->
-         <xsl:call-template name="x:compile-global-params-and-vars" />
+         <xsl:call-template name="x:compile-global-params-and-variables" />
 
          <xsl:if test="$is-external">
             <!-- If no $x:saxon-config is provided by global x:variable, declare a dummy one so that
@@ -191,13 +191,14 @@
       </call-template>
 
       <!-- Continue compiling calls. -->
-      <xsl:call-template name="x:continue-call-scenarios" />
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
-   <!-- *** x:compile *** -->
-   <!-- Generates the templates that perform the tests -->
-
-   <xsl:template name="x:output-scenario" as="element(xsl:template)+">
+   <!--
+      Generates the templates that perform the tests.
+      Called during mode="x:compile-each-element".
+   -->
+   <xsl:template name="x:compile-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="pending" as="node()?" tunnel="yes" />
@@ -215,42 +216,42 @@
       <!-- We have to create these error messages at this stage because before now
          we didn't have merged versions of the environment -->
       <xsl:if test="$context/@href and ($context/node() except $context/x:param)">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text expand-text="yes">Can't set the context document using both the href attribute and the content of the {name($context)} element</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="$call/@template and $call/@function">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text>Can't call a function and a template at the same time</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="$apply and $context">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text expand-text="yes">Can't use {name($apply)} and set a context at the same time</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="$apply and $call">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text expand-text="yes">Can't use {name($apply)} and {name($call)} at the same time</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="$context and $call/@function">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text>Can't set a context and call a function at the same time</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
-         <xsl:call-template name="x:output-scenario-error">
+         <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
                   the user -->
@@ -338,8 +339,9 @@
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
+                  <!-- #current is x:compile-each-element -->
                   <xsl:apply-templates select="($call, $apply, $context)[1]/x:param[1]"
-                     mode="x:compile" />
+                     mode="#current" />
 
                   <!-- Enter SUT -->
                   <xsl:choose>
@@ -657,7 +659,13 @@
       </try>
    </xsl:template>
 
-   <xsl:template name="x:output-expect" as="element(xsl:template)">
+   <!--
+      Generate an XSLT template from the expect element.
+      
+      This generated template, when called, checks the expectation against the actual result of the
+      test and constructs the corresponding x:test element for the XML report.
+   -->
+   <xsl:template name="x:compile-expect" as="element(xsl:template)">
       <xsl:context-item as="element(x:expect)" use="required" />
 
       <xsl:param name="pending" as="node()?" tunnel="yes" />
@@ -877,7 +885,7 @@
       <xsl:attribute name="select" select="'$' || x:variable-UQName(.)" />
    </xsl:template>
 
-   <xsl:template name="x:compile-user-helpers" as="element()*">
+   <xsl:template name="x:compile-helpers" as="element()*">
       <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:for-each select="x:helper[@package-name | @stylesheet]">
