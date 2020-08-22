@@ -31,8 +31,7 @@
 
     <xsl:template match="document-node(element(x:description))"
         as="document-node(element(x:description))">
-        <!-- Similar to xsl:template[@name="x:generate-tests"] in
-            ../compiler/generate-common-tests.xsl -->
+        <!-- Similar to the default mode template in ../compiler/generate-common-tests.xsl -->
 
         <!-- Resolve x:import and gather all the children of x:description -->
         <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
