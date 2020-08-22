@@ -29,8 +29,9 @@
       <t:expect label="the result" test="$t:result instance of document-node()"/>
    </t:scenario-->
 
-   <t:scenario label="x:scenario[@label] transformed in x:compile mode">
-      <t:context mode="t:compile" href="compile-xslt-tests/scenario.xspec" select="//t:scenario" />
+   <t:scenario label="x:scenario[@label] transformed in x:compile-scenario template">
+      <t:context href="compile-xslt-tests/compile-scenario.xspec" select="//t:scenario" />
+      <t:call template="t:compile-scenario" />
       <t:expect>
          <t:label>
             - is xsl:template
@@ -64,11 +65,13 @@
        TODO: Track down how it is transformed (named template, rule
        in a mode, etc.) and test it explicitly...
    -->
-   <t:scenario label="x:expect[@test] transformed in x:compile mode">
-      <t:context mode="t:compile" href="compile-xslt-tests/expect.xspec" select="//t:expect">
-         <t:param tunnel="yes" name="context" as="empty-sequence()"/>
-         <t:param tunnel="yes" name="call" as="empty-sequence()"/>
-      </t:context>
+   <t:scenario label="x:expect[@test] transformed in x:compile-expect template">
+      <t:context href="compile-xslt-tests/compile-expect.xspec" select="//t:expect" />
+      <t:call template="t:compile-expect">
+         <t:param name="context" as="empty-sequence()" tunnel="yes" />
+         <t:param name="call" as="empty-sequence()" tunnel="yes" />
+         <t:param name="param-uqnames" as="empty-sequence()" />
+      </t:call>
       <t:expect label="is a template"
                 test="$t:result instance of element(xsl:template)"/>
       <t:expect label="@test must be transformed to xsl:sequence/@select"
