@@ -476,20 +476,6 @@
 	</xsl:function>
 
 	<!--
-		Makes absolute URI from x:description/@schematron and resolves it with catalog
-	-->
-	<xsl:function as="xs:anyURI" name="x:locate-schematron-uri">
-		<xsl:param as="element(x:description)" name="description" />
-
-		<!-- Resolve with node base URI -->
-		<xsl:variable as="xs:anyURI" name="schematron-uri"
-			select="$description/@schematron/resolve-uri(., base-uri())" />
-
-		<!-- Resolve with catalog -->
-		<xsl:sequence select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
-	</xsl:function>
-
-	<!--
 		Stub function for helping development on IDE without loading ../../java/
 	-->
 	<xsl:function as="xs:integer" name="x:line-number" override-extension-function="no"
