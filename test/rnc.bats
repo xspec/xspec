@@ -57,14 +57,14 @@ load bats-helper
     assert_regex "${lines[1]}" '^Elapsed time '
 }
 
-@test "Schema detects errors in x:output-scenario test" {
+@test "Schema detects errors in x:compile-scenario test" {
     # '-t' for identifying the last line
     run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
-        output-scenario-error/apply-with-call.xspec \
-        output-scenario-error/apply-with-context.xspec \
-        output-scenario-error/call-both-function-and-template.xspec \
-        output-scenario-error/context-both-href-and-content.xspec \
-        output-scenario-error/function-with-context.xspec
+        error-compiling-scenario/apply-with-call.xspec \
+        error-compiling-scenario/apply-with-context.xspec \
+        error-compiling-scenario/call-both-function-and-template.xspec \
+        error-compiling-scenario/context-both-href-and-content.xspec \
+        error-compiling-scenario/function-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${lines[0]}" '.+: error: element "x:apply" not allowed anywhere;'

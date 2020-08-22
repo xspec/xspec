@@ -55,11 +55,20 @@
    <xsl:template name="x:generate-tests" as="node()+">
       <xsl:context-item as="document-node(element(x:description))" use="required" />
 
-      <xsl:variable name="this" as="document-node(element(x:description))"
-         select=".[. is $initial-document]" />
-
       <!-- Resolve x:import and gather all the children of x:description -->
       <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
+
+      <!-- Combine all the children of x:description into a single document so that the following
+         language-specific transformation can handle them as a document. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))"
+         select="x:combine($specs)" />
+
+      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
+      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
+   </xsl:template>
+
+   <xsl:function name="x:combine" as="document-node(element(x:description))">
+      <xsl:param name="specs" as="node()+" />
 
       <!-- Combine all the children of x:description into a single document so that the following
          transformation modes can handle them as a document. -->
@@ -85,45 +94,40 @@
       </xsl:variable>
 
       <!-- Combine all the children of x:description into a single x:description -->
-      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
-         <xsl:document>
-            <xsl:for-each select="$this/x:description">
-               <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
-                  the namespaces created for /x:description will pollute its descendants derived
-                  from the other trees. -->
-               <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
-                  inherit-namespaces="no">
-                  <!-- Do not set all the attributes. Each imported x:description has its own set of
-                     attributes. Set only the attributes that are truly global over all the XSpec
-                     documents. -->
+      <xsl:document>
+         <xsl:for-each select="$initial-document/x:description">
+            <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
+               the namespaces created for /x:description will pollute its descendants derived
+               from the other trees. -->
+            <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
+               inherit-namespaces="no">
+               <!-- Do not set all the attributes. Each imported x:description has its own set of
+                  attributes. Set only the attributes that are truly global over all the XSpec
+                  documents. -->
 
-                  <!-- Global Schematron attributes.
-                     These attributes are already absolute. (resolved by
-                     ../schematron/schut-to-xspec.xsl) -->
-                  <xsl:sequence select="@schematron | @xspec-original-location" />
+               <!-- Global Schematron attributes.
+                  These attributes are already absolute. (resolved by
+                  ../schematron/schut-to-xspec.xsl) -->
+               <xsl:sequence select="@schematron | @xspec-original-location" />
 
-                  <!-- Global XQuery attributes.
-                     @query-at is handled by compile-xquery-tests.xsl -->
-                  <xsl:sequence select="@query | @xquery-version" />
+               <!-- Global XQuery attributes.
+                  @query-at is handled by compile-xquery-tests.xsl -->
+               <xsl:sequence select="@query | @xquery-version" />
 
-                  <!-- Global XSLT attributes.
-                     @xslt-version can be set, because it has already been propagated from each
-                     imported x:description to its descendants in mode="x:gather-specs". -->
-                  <xsl:sequence select="@xslt-version" />
-                  <xsl:for-each select="@stylesheet">
-                     <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-                        select="resolve-uri(., base-uri())" />
-                  </xsl:for-each>
+               <!-- Global XSLT attributes.
+                  @xslt-version can be set, because it has already been propagated from each
+                  imported x:description to its descendants in mode="x:gather-specs". -->
+               <xsl:sequence select="@xslt-version" />
+               <xsl:for-each select="@stylesheet">
+                  <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+                     select="resolve-uri(., base-uri())" />
+               </xsl:for-each>
 
-                  <xsl:sequence select="$doc-maybe-focus-enforced" />
-               </xsl:element>
-            </xsl:for-each>
-         </xsl:document>
-      </xsl:variable>
-
-      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
-   </xsl:template>
+               <xsl:sequence select="$doc-maybe-focus-enforced" />
+            </xsl:element>
+         </xsl:for-each>
+      </xsl:document>
+   </xsl:function>
 
    <xsl:template name="x:perform-initial-checks" as="empty-sequence()">
       <xsl:context-item as="document-node()" use="required" />
@@ -174,11 +178,13 @@
       </xsl:apply-templates>
    </xsl:template>
 
-   <xsl:template name="x:continue-call-scenarios">
+   <!--
+      Apply the current mode templates to the following sibling element.
+   -->
+   <xsl:template name="x:continue-walking-siblings">
       <xsl:context-item as="element()" use="required" />
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:apply-templates select="following-sibling::*[1]" mode="#current" />
    </xsl:template>
 
    <!--
@@ -201,7 +207,7 @@
    -->
    <xsl:template match="x:apply|x:call|x:context|x:label" mode="x:generate-calls">
       <!-- Nothing, but must continue the sibling-walking... -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -213,18 +219,17 @@
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
        A scenario is called by its ID.
-       
-       Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:scenario" mode="x:generate-calls">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
+      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
+         walking the siblings -->
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="with-param-uqnames"
@@ -234,14 +239,14 @@
 
    <!--
        An expectation is called by its ID.
-       
-       Call "x:output-call", which must on turn call "x:continue-call-scenarios".
    -->
    <xsl:template match="x:expect" mode="x:generate-calls">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
       <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
+      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
+         walking the siblings -->
       <xsl:call-template name="x:output-call">
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
@@ -270,10 +275,10 @@
          <xsl:apply-templates select="." mode="x:declare-variable" />
       </xsl:if>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
+      <!-- Continue walking the siblings, adding a new variable on the stack. -->
+      <xsl:call-template name="x:continue-walking-siblings">
          <xsl:with-param name="stacked-variables" tunnel="yes" select="$stacked-variables, ." />
-      </xsl:apply-templates>
+      </xsl:call-template>
    </xsl:template>
 
    <!--
@@ -291,14 +296,13 @@
         <xsl:call-template name="x:detect-reserved-variable-name"/>
       </xsl:if>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
        Drive the compilation of global params and variables.
    -->
-   <xsl:template name="x:compile-global-params-and-vars">
+   <xsl:template name="x:compile-global-params-and-variables">
       <xsl:context-item as="element(x:description)" use="required" />
 
       <xsl:variable name="this" select="." as="element(x:description)"/>
@@ -317,17 +321,6 @@
    </xsl:template>
 
    <!--
-       Mode: compile.
-       
-       Must be "fired" by the named template "x:compile-scenarios".
-       It is a "sibling walking" mode: x:compile-scenarios applies the
-       template in this mode on the first child, then each template
-       rule must apply the template in this same mode on the next
-       sibling.  The reason for this navigation style is to easily
-       represent variable scopes.
-   -->
-
-   <!--
        Drive the compilation of scenarios to either XSLT named
        templates or XQuery functions.
    -->
@@ -341,33 +334,36 @@
          <xsl:message terminate="yes"
             select="'$this must be a description or a scenario, but is: ' || name()" />
       </xsl:if>
-      <xsl:apply-templates select="$this/*[1]" mode="x:compile">
+      <xsl:apply-templates select="$this/*[1]" mode="x:compile-each-element">
          <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
       </xsl:apply-templates>
    </xsl:template>
 
    <!--
-      mode="x:compile"
+      mode="x:compile-each-element"
+      Must be "fired" by the named template "x:compile-scenarios".
+      It is a "sibling walking" mode: x:compile-scenarios applies the template in this mode on the
+      first child, then each template rule must apply the template in this same mode on the next
+      sibling. The reason for this navigation style is to easily represent variable scopes.
    -->
-   <xsl:mode name="x:compile" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:compile-each-element" on-multiple-match="fail" on-no-match="fail" />
 
    <!--
        At x:pending elements, we switch the $pending tunnel param
        value for children.
    -->
-   <xsl:template match="x:pending" mode="x:compile">
+   <xsl:template match="x:pending" mode="x:compile-each-element">
       <xsl:apply-templates select="*[1]" mode="#current">
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
        Compile a scenario.
    -->
-   <xsl:template match="x:scenario" mode="x:compile">
+   <xsl:template match="x:scenario" mode="x:compile-each-element">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
       <xsl:param name="apply" as="element(x:apply)?" tunnel="yes" />
       <xsl:param name="call" as="element(x:call)?" tunnel="yes"/>
@@ -471,28 +467,27 @@
       </xsl:if>
 
       <!-- Call the serializing template (for XSLT or XQuery). -->
-      <xsl:call-template name="x:output-scenario">
+      <xsl:call-template name="x:compile-scenario">
          <xsl:with-param name="pending"   select="$new-pending" tunnel="yes"/>
          <xsl:with-param name="apply"     select="$new-apply"   tunnel="yes"/>
          <xsl:with-param name="call"      select="$new-call"    tunnel="yes"/>
          <xsl:with-param name="context"   select="$new-context" tunnel="yes"/>
       </xsl:call-template>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
        Compile an expectation.
    -->
-   <xsl:template match="x:expect" mode="x:compile">
+   <xsl:template match="x:expect" mode="x:compile-each-element">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <!-- Call the serializing template (for XSLT or XQuery). -->
-      <xsl:call-template name="x:output-expect">
+      <xsl:call-template name="x:compile-expect">
          <xsl:with-param name="pending" tunnel="yes" select="
              ( $pending, ancestor::x:scenario/@pending )[1]"/>
          <xsl:with-param name="context" tunnel="yes" select="$context"/>
@@ -507,14 +502,13 @@
          </xsl:with-param>
       </xsl:call-template>
 
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
       x:param elements generate actual call param's variable.
    -->
-   <xsl:template match="x:param" mode="x:compile">
+   <xsl:template match="x:param" mode="x:compile-each-element">
       <xsl:apply-templates select="." mode="x:declare-variable" />
 
       <!-- Continue walking the siblings (only other x:param elements, within this x:call or
@@ -525,13 +519,13 @@
    <!--
       x:variable element adds a variable on the stack (the tunnel param $stacked-variables).
    -->
-   <xsl:template match="x:variable" mode="x:compile">
+   <xsl:template match="x:variable" mode="x:compile-each-element">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <!-- Continue walking the siblings, adding a new variable on the stack. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current">
+      <xsl:call-template name="x:continue-walking-siblings">
          <xsl:with-param name="stacked-variables" tunnel="yes" select="$stacked-variables, ." />
-      </xsl:apply-templates>
+      </xsl:call-template>
    </xsl:template>
 
    <!--
@@ -554,11 +548,9 @@
                         |x:call
                         |x:context
                         |x:label"
-                 mode="x:compile">
-      <!-- Nothing... -->
-
-      <!-- Continue walking the siblings. -->
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current"/>
+                 mode="x:compile-each-element">
+      <!-- Nothing, but must continue the sibling-walking... -->
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -760,7 +752,7 @@
       </xsl:choose>
    </xsl:template>
 
-   <xsl:template name="x:output-scenario-error" as="empty-sequence()">
+   <xsl:template name="x:error-compiling-scenario" as="empty-sequence()">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="message" as="xs:string" />
