@@ -2027,25 +2027,25 @@
 	</case>
 
 	<!--
-		Error message from x:output-scenario template (XSLT)
+		Error message from x:compile-scenario template (XSLT)
 	-->
 
 	<case name="x:context both with @href and content">
-    call :run ..\bin\xspec.bat output-scenario-error\context-both-href-and-content.xspec
+    call :run ..\bin\xspec.bat error-compiling-scenario\context-both-href-and-content.xspec
     call :verify_retval 2
     call :verify_line  5 x "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:call both with @function and @template">
-    call :run ..\bin\xspec.bat output-scenario-error\call-both-function-and-template.xspec
+    call :run ..\bin\xspec.bat error-compiling-scenario\call-both-function-and-template.xspec
     call :verify_retval 2
     call :verify_line  5 x "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:apply with x:context">
-    call :run ..\bin\xspec.bat output-scenario-error\apply-with-context.xspec
+    call :run ..\bin\xspec.bat error-compiling-scenario\apply-with-context.xspec
     call :verify_retval 2
     call :verify_line  5 x "WARNING: The instruction x:apply is not supported yet!"
     call :verify_line  6 x "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time"
@@ -2053,7 +2053,7 @@
 	</case>
 
 	<case name="x:apply with x:call">
-    call :run ..\bin\xspec.bat output-scenario-error\apply-with-call.xspec
+    call :run ..\bin\xspec.bat error-compiling-scenario\apply-with-call.xspec
     call :verify_retval 2
     call :verify_line  5 x "WARNING: The instruction x:apply is not supported yet!"
     call :verify_line  6 x "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time"
@@ -2061,39 +2061,39 @@
 	</case>
 
 	<case name="x:call[@function] with x:context">
-    call :run ..\bin\xspec.bat output-scenario-error\function-with-context.xspec
+    call :run ..\bin\xspec.bat error-compiling-scenario\function-with-context.xspec
     call :verify_retval 2
     call :verify_line  5 x "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:expect without action">
-    call :run ..\bin\xspec.bat output-scenario-error\expect-without-action.xspec
+    call :run ..\bin\xspec.bat error-compiling-scenario\expect-without-action.xspec
     call :verify_retval 2
     call :verify_line  5 x "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call, x:apply or x:context has been given"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<!--
-		Error message from x:output-scenario template (XQuery)
+		Error message from x:compile-scenario template (XQuery)
 	-->
 
 	<case name="x:context (XQuery)">
-    call :run ..\bin\xspec.bat -q output-scenario-error\xquery_context.xspec
+    call :run ..\bin\xspec.bat -q error-compiling-scenario\xquery_context.xspec
     call :verify_retval 2
     call :verify_line  5 x "ERROR in x:scenario ('x:context'): x:context not supported for XQuery"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:call/@template (XQuery)">
-    call :run ..\bin\xspec.bat -q output-scenario-error\xquery_template-call.xspec
+    call :run ..\bin\xspec.bat -q error-compiling-scenario\xquery_template-call.xspec
     call :verify_retval 2
     call :verify_line  5 x "ERROR in x:scenario ('x:call/@template'): x:call/@template not supported for XQuery"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="No x:call">
-    call :run ..\bin\xspec.bat -q output-scenario-error\xquery_no-call.xspec
+    call :run ..\bin\xspec.bat -q error-compiling-scenario\xquery_no-call.xspec
     call :verify_retval 2
     call :verify_line  5 x "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call"
     call :verify_line -1 x "*** Error compiling the test suite"
