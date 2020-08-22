@@ -76,11 +76,20 @@
    <xsl:template name="x:generate-tests" as="node()+">
       <xsl:context-item as="document-node(element(x:description))" use="required" />
 
-      <xsl:variable name="this" as="document-node(element(x:description))"
-         select=".[. is $initial-document]" />
-
       <!-- Resolve x:import and gather all the children of x:description -->
       <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
+
+      <!-- Combine all the children of x:description into a single document so that the following
+         language-specific transformation can handle them as a document. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))"
+         select="x:combine($specs)" />
+
+      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
+      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
+   </xsl:template>
+
+   <xsl:function name="x:combine" as="document-node(element(x:description))">
+      <xsl:param name="specs" as="node()+" />
 
       <!-- Combine all the children of x:description into a single document so that the following
          transformation modes can handle them as a document. -->
@@ -106,45 +115,40 @@
       </xsl:variable>
 
       <!-- Combine all the children of x:description into a single x:description -->
-      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
-         <xsl:document>
-            <xsl:for-each select="$this/x:description">
-               <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
-                  the namespaces created for /x:description will pollute its descendants derived
-                  from the other trees. -->
-               <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
-                  inherit-namespaces="no">
-                  <!-- Do not set all the attributes. Each imported x:description has its own set of
-                     attributes. Set only the attributes that are truly global over all the XSpec
-                     documents. -->
+      <xsl:document>
+         <xsl:for-each select="$initial-document/x:description">
+            <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
+               the namespaces created for /x:description will pollute its descendants derived
+               from the other trees. -->
+            <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
+               inherit-namespaces="no">
+               <!-- Do not set all the attributes. Each imported x:description has its own set of
+                  attributes. Set only the attributes that are truly global over all the XSpec
+                  documents. -->
 
-                  <!-- Global Schematron attributes.
-                     These attributes are already absolute. (resolved by
-                     ../schematron/schut-to-xspec.xsl) -->
-                  <xsl:sequence select="@schematron | @xspec-original-location" />
+               <!-- Global Schematron attributes.
+                  These attributes are already absolute. (resolved by
+                  ../schematron/schut-to-xspec.xsl) -->
+               <xsl:sequence select="@schematron | @xspec-original-location" />
 
-                  <!-- Global XQuery attributes.
-                     @query-at is handled by compile-xquery-tests.xsl -->
-                  <xsl:sequence select="@query | @xquery-version" />
+               <!-- Global XQuery attributes.
+                  @query-at is handled by compile-xquery-tests.xsl -->
+               <xsl:sequence select="@query | @xquery-version" />
 
-                  <!-- Global XSLT attributes.
-                     @xslt-version can be set, because it has already been propagated from each
-                     imported x:description to its descendants in mode="x:gather-specs". -->
-                  <xsl:sequence select="@xslt-version" />
-                  <xsl:for-each select="@stylesheet">
-                     <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-                        select="resolve-uri(., base-uri())" />
-                  </xsl:for-each>
+               <!-- Global XSLT attributes.
+                  @xslt-version can be set, because it has already been propagated from each
+                  imported x:description to its descendants in mode="x:gather-specs". -->
+               <xsl:sequence select="@xslt-version" />
+               <xsl:for-each select="@stylesheet">
+                  <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+                     select="resolve-uri(., base-uri())" />
+               </xsl:for-each>
 
-                  <xsl:sequence select="$doc-maybe-focus-enforced" />
-               </xsl:element>
-            </xsl:for-each>
-         </xsl:document>
-      </xsl:variable>
-
-      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
-   </xsl:template>
+               <xsl:sequence select="$doc-maybe-focus-enforced" />
+            </xsl:element>
+         </xsl:for-each>
+      </xsl:document>
+   </xsl:function>
 
    <!--
        Drive the compilation of scenarios to generate call
