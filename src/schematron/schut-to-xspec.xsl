@@ -51,7 +51,7 @@
 
                     <!-- Global Schematron attributes -->
                     <xsl:attribute name="schematron" select="resolve-uri(@schematron, base-uri())" />
-                    <xsl:attribute name="xspec-original-location" select="x:actual-document-uri(/)" />
+                    <xsl:attribute name="original-xspec" select="x:actual-document-uri(/)" />
 
                     <!-- Global XSLT attributes.
                         @xslt-version can be set, because it has already been propagated from each
