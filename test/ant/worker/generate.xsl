@@ -9,6 +9,7 @@
 		creates a series of <run-xspec> elements based on /x:description/@*.
 	-->
 
+	<xsl:include href="../../../src/common/version-utils.xsl" />
 	<xsl:include href="../../../src/common/xspec-utils.xsl" />
 
 	<xsl:output indent="yes" />
