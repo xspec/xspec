@@ -27,9 +27,11 @@
    <xsl:output indent="yes" />
 
    <!--
-      mode="x:generate-tests"
+      Main template of the XSLT-specific compiler
    -->
-   <xsl:template match="x:description" as="element(xsl:stylesheet)" mode="x:generate-tests">
+   <xsl:template name="x:main" as="element(xsl:stylesheet)">
+      <xsl:context-item as="element(x:description)" use="required" />
+
       <!-- True if this XSpec is testing Schematron -->
       <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@xspec-original-location)" />
 
@@ -190,7 +192,7 @@
       </call-template>
 
       <!-- Continue compiling calls. -->
-      <xsl:call-template name="x:continue-call-scenarios" />
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
