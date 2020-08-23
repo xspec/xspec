@@ -42,9 +42,35 @@
    <xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
    <!-- Actually, xsl:template/@match is "document-node(element(x:description))".
-      "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
-      error message. -->
+      "element(x:description)" is omitted in order to accept any source document and then reject it
+      with a proper error message if it's broken. -->
    <xsl:template match="document-node()" as="node()+">
+      <xsl:call-template name="x:perform-initial-checks" />
+      <xsl:call-template name="x:generate-tests"/>
+   </xsl:template>
+
+   <!--
+      Drive the overall compilation of a suite. Apply template on the x:description element, in the
+      mode
+   -->
+   <xsl:template name="x:generate-tests" as="node()+">
+      <xsl:context-item as="document-node(element(x:description))" use="required" />
+
+      <!-- Resolve x:import and gather all the children of x:description -->
+      <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
+
+      <!-- Combine all the children of x:description into a single document so that the following
+         language-specific transformation can handle them as a document. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))"
+         select="x:combine($specs)" />
+
+      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
+      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
+   </xsl:template>
+
+   <xsl:template name="x:perform-initial-checks" as="empty-sequence()">
+      <xsl:context-item as="document-node()" use="required" />
+
       <xsl:variable name="deprecation-warning" as="xs:string?">
          <xsl:choose>
             <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
@@ -66,27 +92,6 @@
             <xsl:text expand-text="yes">Source document is not XSpec. /{$description-name} is missing. Supplied source has /{element() => name()} instead.</xsl:text>
          </xsl:message>
       </xsl:if>
-
-      <xsl:call-template name="x:generate-tests"/>
-   </xsl:template>
-
-   <!--
-      Drive the overall compilation of a suite. Apply template on the x:description element, in the
-      mode
-   -->
-   <xsl:template name="x:generate-tests" as="node()+">
-      <xsl:context-item as="document-node(element(x:description))" use="required" />
-
-      <!-- Resolve x:import and gather all the children of x:description -->
-      <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
-
-      <!-- Combine all the children of x:description into a single document so that the following
-         language-specific transformation can handle them as a document. -->
-      <xsl:variable name="combined-doc" as="document-node(element(x:description))"
-         select="x:combine($specs)" />
-
-      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
    </xsl:template>
 
    <!--
