@@ -10,6 +10,7 @@
 	-->
 
 	<xsl:include href="../../../src/common/xspec-utils.xsl" />
+	<xsl:include href="../../test-utils.xsl" />
 
 	<xsl:output indent="yes" />
 
