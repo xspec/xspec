@@ -3,22 +3,22 @@
 	no-prefix_stylesheet.xspec copies this file for testing no-prefix cases.
 	When modifying this file, check whether no-prefix_stylesheet.xspec needs any additions or updates.
 -->
-<x:description stylesheet="eqname.xsl" xmlns:myv="http://example.org/ns/my/variable"
+<x:description stylesheet="use-uri-qualified-name.xsl" xmlns:myv="http://example.org/ns/my/variable"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
 
-	<x:scenario label="Using EQName in">
+	<x:scenario label="Using URIQualifiedName in">
 		<x:scenario label="context @mode and template-param @name">
 			<x:context
 				mode="
 					&#x09;&#x0A;&#x0D;&#x20;
-					Q{x-urn:test:eqname}param-mirror-mode
+					Q{x-urn:test:use-uri-qualified-name}param-mirror-mode
 					&#x09;&#x0A;&#x0D;&#x20;">
 				<x:param
 					name="
 						&#x09;&#x0A;&#x0D;&#x20;
-						Q{x-urn:test:eqname}param-items
+						Q{x-urn:test:use-uri-qualified-name}param-items
 						&#x09;&#x0A;&#x0D;&#x20;">
 					<template-param-child />
 				</x:param>
@@ -36,9 +36,9 @@
 			<x:variable as="element(variable-child)" name="myv:var" select="/Q{}variable-child">
 				<variable-child />
 			</x:variable>
-			<x:context mode="Q{x-urn:test:eqname}param-mirror-mode"
+			<x:context mode="Q{x-urn:test:use-uri-qualified-name}param-mirror-mode"
 				select="$Q{http://example.org/ns/my/variable}context">
-				<x:param name="Q{x-urn:test:eqname}param-items"
+				<x:param name="Q{x-urn:test:use-uri-qualified-name}param-items"
 					select="$Q{http://example.org/ns/my/variable}var" />
 			</x:context>
 			<x:expect label="should be possible">
@@ -50,12 +50,12 @@
 			<x:call
 				template="
 					&#x09;&#x0A;&#x0D;&#x20;
-					Q{x-urn:test:eqname}param-mirror-template
+					Q{x-urn:test:use-uri-qualified-name}param-mirror-template
 					&#x09;&#x0A;&#x0D;&#x20;">
 				<x:param
 					name="
 						&#x09;&#x0A;&#x0D;&#x20;
-						Q{x-urn:test:eqname}param-items
+						Q{x-urn:test:use-uri-qualified-name}param-items
 						&#x09;&#x0A;&#x0D;&#x20;">
 					<template-param-child />
 				</x:param>
@@ -66,13 +66,13 @@
 		</x:scenario>
 
 		<x:scenario label="template-param @as">
-			<x:call template="Q{x-urn:test:eqname}param-mirror-template">
+			<x:call template="Q{x-urn:test:use-uri-qualified-name}param-mirror-template">
 				<x:param
 					as="
 						&#x09;&#x0A;&#x0D;&#x20;
 						Q{http://www.w3.org/2001/XMLSchema}string
 						&#x09;&#x0A;&#x0D;&#x20;"
-					name="Q{x-urn:test:eqname}param-items" select="'xyz'" />
+					name="Q{x-urn:test:use-uri-qualified-name}param-items" select="'xyz'" />
 			</x:call>
 			<x:expect label="should be possible" select="$x:result treat as xs:string"
 				test="$x:result treat as xs:string" />
