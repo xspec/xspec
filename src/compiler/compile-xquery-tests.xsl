@@ -40,9 +40,11 @@
       select="$initial-document/x:description/@query-at/resolve-uri(., base-uri())"/>
 
    <!--
-      mode="x:generate-tests"
+      Main template of the XQuery-specific compiler
    -->
-   <xsl:template match="x:description" as="node()+" mode="x:generate-tests">
+   <xsl:template name="x:main" as="node()+">
+      <xsl:context-item as="element(x:description)" use="required" />
+
       <xsl:variable name="this" select="." as="element(x:description)" />
 
       <!-- Version declaration -->
@@ -179,7 +181,7 @@
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
       <!-- Continue compiling calls. -->
-      <xsl:call-template name="x:continue-call-scenarios"/>
+      <xsl:call-template name="x:continue-walking-siblings" />
       <xsl:text>)&#x0A;</xsl:text>
    </xsl:template>
 

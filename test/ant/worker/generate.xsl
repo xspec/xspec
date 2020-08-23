@@ -10,6 +10,7 @@
 	-->
 
 	<xsl:include href="../../../src/common/xspec-utils.xsl" />
+	<xsl:include href="../../test-utils.xsl" />
 
 	<xsl:output indent="yes" />
 
@@ -171,6 +172,13 @@
 							($pis = 'require-saxon-bug-4376-fixed')
 							and ($x:saxon-version le x:pack-version((9, 9, 1, 5)))">
 						<xsl:text>Requires Saxon bug #4376 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
+							($pis = 'require-saxon-bug-4471-fixed')
+							and ($x:saxon-version lt x:pack-version((9, 9, 1, 7)))">
+						<xsl:text>Requires Saxon bug #4471 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when
