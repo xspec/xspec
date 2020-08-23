@@ -596,6 +596,9 @@
 
 		<xsl:variable as="xs:string" name="namespace">
 			<xsl:choose>
+				<xsl:when test="$prefix eq 'config'">
+					<xsl:sequence select="'http://saxon.sf.net/ns/configuration'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'deq'">
 					<xsl:sequence select="$x:deq-namespace" />
 				</xsl:when>

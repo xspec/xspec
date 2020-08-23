@@ -1213,6 +1213,14 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function known-UQName">
+		<x:scenario label="config">
+			<x:call function="x:known-UQName">
+				<x:param select="'config:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://saxon.sf.net/ns/configuration}my-local-name</x:expect>
+		</x:scenario>
+
 		<x:scenario label="deq">
 			<x:call function="x:known-UQName">
 				<x:param select="'deq:my-local-name'" />
