@@ -71,9 +71,8 @@
       * Discard x:import. (x:import must be resolved before applying this mode.)
       * Copy @xslt-version from x:description to descendant x:scenario (only when @xslt-version
         has not been set by a previous process)
-      * Add @xspec (and @xspec-original-location if @xspec has already been set by a previous
-        process) to each scenario. The goal is to record the absolute URI of originating .xspec
-        file.
+      * Add @xspec (and @original-xspec if @xspec has already been set by a previous process) to
+        each scenario. The goal is to record the absolute URI of originating .xspec file.
       * Resolve x:*/@href and x:helper/(@query-at|@stylesheet) into absolute URI
       * Discard whitespace-only text node in user-content unless otherwise specified by an ancestor
       * Discard whitespace-only text node in non user-content unless it's in x:label
@@ -113,14 +112,14 @@
       </xsl:copy>
    </xsl:template>
 
-   <xsl:template match="x:scenario/@xspec" as="attribute(xspec-original-location)">
-      <xsl:for-each select="parent::element()/@xspec-original-location">
+   <xsl:template match="x:scenario/@xspec" as="attribute(original-xspec)">
+      <xsl:for-each select="parent::element()/@original-xspec">
          <xsl:message terminate="yes">
             <xsl:text expand-text="yes">{parent::element() => name()} already has @{name()}</xsl:text>
          </xsl:message>
       </xsl:for-each>
 
-      <xsl:attribute name="xspec-original-location" select="." />
+      <xsl:attribute name="original-xspec" select="." />
    </xsl:template>
 
    <xsl:template match="text()[normalize-space() => not()]" as="text()?" mode="x:gather-specs">
