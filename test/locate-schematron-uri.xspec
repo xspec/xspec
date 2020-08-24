@@ -2,6 +2,8 @@
 <x:description stylesheet="../src/schematron/locate-schematron-uri.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
+	<x:helper stylesheet="test-utils.xsl" />
+
 	<x:scenario label="Scenario for testing function locate-schematron-uri">
 		<!-- TODO: Use catalog -->
 		<x:call function="x:locate-schematron-uri">
