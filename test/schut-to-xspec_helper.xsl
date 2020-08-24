@@ -40,8 +40,8 @@
 	<xsl:template as="attribute()"
 		match="
 			x:context/@href |
+			x:description/@original-xspec |
 			x:description/@schematron |
-			x:description/@xspec-original-location |
 			x:scenario/@xspec"
 		mode="worker:expect">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"

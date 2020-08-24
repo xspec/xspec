@@ -46,7 +46,7 @@
                <!-- Global Schematron attributes.
                   These attributes are already absolute. (resolved by
                   ../schematron/schut-to-xspec.xsl) -->
-               <xsl:sequence select="@schematron | @xspec-original-location" />
+               <xsl:sequence select="@original-xspec | @schematron" />
 
                <!-- Global XQuery attributes.
                   @query-at is handled by compile-xquery-tests.xsl -->
