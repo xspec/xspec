@@ -13,7 +13,7 @@
 			<!-- Archive -->
 			<exclude name="misc/archive/**/*.xspec" />
 
-			<!-- Contains invalid /x:description/@xspec-original-location deliberately
+			<!-- Contains invalid /x:description/@original-xspec deliberately
 				https://github.com/xspec/xspec/issues/176 -->
 			<exclude name="test/schematron/schut-to-xspec-0??-out.xspec" />
 
