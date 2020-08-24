@@ -1,18 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="test-maven-jar">
 
-	<condition property="xspec.builtin.class.files.count.ok">
+	<!-- Delete all .class files -->
+	<condition property="test-maven-jar.builtin.class.files.count.ok">
 		<resourcecount count="3">
-			<fileset dir="../../java/" id="xspec.builtin.class.files" includes="**/*.class" />
+			<fileset dir="../../java/" id="test-maven-jar.builtin.class.files" includes="**/*.class"
+			 />
 		</resourcecount>
 	</condition>
 	<fail message="Failed to identify built-in class files"
-		unless="xspec.builtin.class.files.count.ok" />
+		unless="test-maven-jar.builtin.class.files.count.ok" />
 	<delete verbose="true">
-		<fileset refid="xspec.builtin.class.files" />
+		<fileset refid="test-maven-jar.builtin.class.files" />
 	</delete>
 
+	<!-- Delete some master stylesheet files -->
+	<condition property="test-maven-jar.builtin.src.files.count.ok">
+		<resourcecount count="3">
+			<fileset dir="../../src/" id="test-maven-jar.builtin.src.files">
+				<include name="compiler/compile-xslt-tests.xsl" />
+				<include name="reporter/coverage-report.xsl" />
+				<include name="reporter/format-xspec-report.xsl" />
+			</fileset>
+		</resourcecount>
+	</condition>
+	<fail message="Failed to identify built-in src files"
+		unless="test-maven-jar.builtin.src.files.count.ok" />
+	<delete verbose="true">
+		<fileset refid="test-maven-jar.builtin.src.files" />
+	</delete>
+
+	<!-- XSpec Maven jar file URL -->
+	<makeurl file="${test-maven-jar.jar.file}" property="test-maven-jar.jar.url" />
+
+	<!-- Create a temp dir -->
+	<tempfile destdir="${java.io.tmpdir}" prefix="test-maven-jar_" property="test-maven-jar.tempdir" />
+	<mkdir dir="${test-maven-jar.tempdir}" />
+
+	<!-- Copy stub stylesheet files to the temp dir, expanding the property of the jar file URL -->
+	<copy todir="${test-maven-jar.tempdir}" verbose="true">
+		<fileset dir="test-maven-jar/">
+			<include name="*.xsl" />
+		</fileset>
+		<filterchain>
+			<expandproperties />
+		</filterchain>
+	</copy>
+
+	<!-- Run the end-to-end test with Code Coverage enabled -->
 	<ant antfile="../end-to-end/ant/run-e2e-tests/build.xml" useNativeBasedir="true">
+		<property name="xspec.coverage.reporter.xsl"
+			value="${test-maven-jar.tempdir}/coverage-report.xsl" />
+		<property name="xspec.html.reporter.xsl"
+			value="${test-maven-jar.tempdir}/format-xspec-report.xsl" />
+		<property name="xspec.xslt.compiler.xsl"
+			value="${test-maven-jar.tempdir}/compile-xslt-tests.xsl" />
+
 		<property name="xspecfiles.dir.url.query" value="select=coverage-tutorial.xspec" />
 	</ant>
 
