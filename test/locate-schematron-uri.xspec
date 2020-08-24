@@ -2,6 +2,10 @@
 <x:description stylesheet="../src/schematron/locate-schematron-uri.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
+	<!-- Dependency -->
+	<x:helper stylesheet="../src/common/uri-utils.xsl" />
+
+	<!-- Test helper -->
 	<x:helper stylesheet="test-utils.xsl" />
 
 	<x:scenario label="Scenario for testing function locate-schematron-uri">
