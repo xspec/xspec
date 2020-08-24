@@ -162,8 +162,8 @@
                   </xsl:element>
 
                   <!-- Generate calls to the compiled top-level scenarios. -->
-                  <xsl:text>&#10;            </xsl:text><xsl:comment> a call instruction for each top-level scenario </xsl:comment>
-                  <xsl:call-template name="x:call-scenarios" />
+                  <xsl:text>&#10;            </xsl:text><xsl:comment> invoke each compiled top-level x:scenario </xsl:comment>
+                  <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
                </xsl:element>
             </xsl:element>
          </xsl:element>
@@ -173,16 +173,17 @@
       </xsl:element>
    </xsl:template>
 
-   <!-- *** x:output-call *** -->
-   <!-- Generates a call to the template compiled from a scenario or an expect element. -->
-
-   <xsl:template name="x:output-call">
+   <!--
+      Generates an invocation of the template compiled from x:scenario or x:expect.
+   -->
+   <xsl:template name="x:invoke-compiled-current-scenario-or-expect">
+      <!-- Context item is x:scenario or x:expect -->
       <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="last" as="xs:boolean" />
 
       <!-- URIQualifiedNames of the variables that will be passed as the parameters (of the same
-         URIQualifiedName) to the call -->
+         URIQualifiedName) to the compiled x:scenario or x:expect being invoked. -->
       <xsl:param name="with-param-uqnames" as="xs:string*" />
 
       <call-template name="{x:known-UQName('x:' || @id)}">
@@ -191,7 +192,7 @@
          </xsl:for-each>
       </call-template>
 
-      <!-- Continue compiling calls. -->
+      <!-- Continue invoking the compiled x:scenario or x:expect. -->
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
@@ -502,10 +503,10 @@
                   <with-param name="sequence" select="${x:known-UQName('x:result')}" />
                   <with-param name="report-name" select="'result'" />
                </call-template>
-               <xsl:comment> a call instruction for each x:expect element </xsl:comment>
+               <xsl:comment> invoke each compiled x:expect </xsl:comment>
             </xsl:if>
 
-            <xsl:call-template name="x:call-scenarios" />
+            <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
 
          <!-- </x:scenario> -->
          </xsl:element>

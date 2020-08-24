@@ -151,12 +151,12 @@
    </xsl:template>
 
    <!--
-       Drive the compilation of scenarios to generate call
-       instructions (the scenarios are compiled to an XSLT named
-       template or an XQuery function, which must have the
-       corresponding call instruction at some point).
+      Generate invocation instructions of the compiled x:scenario or x:expect (x:scenario and
+      x:expect are compiled to an XSLT named template or an XQuery function which must have the
+      corresponding invocation instruction at some point).
    -->
-   <xsl:template name="x:call-scenarios">
+   <xsl:template name="x:invoke-compiled-child-scenarios-or-expects">
+      <!-- Context item is x:description or x:scenario -->
       <xsl:context-item as="element()" use="required" />
 
       <!-- Default value of $pending does not affect compiler output but is here if needed in the future -->
@@ -168,15 +168,16 @@
             select="'$this must be a description or a scenario, but is: ' || name()" />
       </xsl:if>
 
-      <xsl:apply-templates select="$this/*[1]" mode="x:generate-calls">
+      <xsl:apply-templates select="$this/*[1]" mode="x:invoke-compiled-scenarios-or-expects">
          <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
       </xsl:apply-templates>
    </xsl:template>
 
    <!--
-      mode="x:generate-calls"
+      mode="x:invoke-compiled-scenarios-or-expects"
    -->
-   <xsl:mode name="x:generate-calls" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:mode name="x:invoke-compiled-scenarios-or-expects" on-multiple-match="fail"
+      on-no-match="fail" />
 
    <!--
        Those elements are ignored in this mode.
@@ -191,7 +192,8 @@
        resolving x:import elements in place.  But for now, those
        elements are still here, so we have to ignore them...
    -->
-   <xsl:template match="x:apply|x:call|x:context|x:label" mode="x:generate-calls">
+   <xsl:template match="x:apply|x:call|x:context|x:label"
+      mode="x:invoke-compiled-scenarios-or-expects">
       <!-- Nothing, but must continue the sibling-walking... -->
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
@@ -200,7 +202,7 @@
        At x:pending elements, we switch the $pending tunnel param
        value for children.
    -->
-   <xsl:template match="x:pending" mode="x:generate-calls">
+   <xsl:template match="x:pending" mode="x:invoke-compiled-scenarios-or-expects">
       <xsl:apply-templates select="*[1]" mode="#current">
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
@@ -209,14 +211,14 @@
    </xsl:template>
 
    <!--
-       A scenario is called by its ID.
+      Generate an invocation of the compiled x:scenario
    -->
-   <xsl:template match="x:scenario" mode="x:generate-calls">
+   <xsl:template match="x:scenario" mode="x:invoke-compiled-scenarios-or-expects">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
          walking the siblings -->
-      <xsl:call-template name="x:output-call">
+      <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="with-param-uqnames"
             select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
@@ -224,16 +226,16 @@
    </xsl:template>
 
    <!--
-       An expectation is called by its ID.
+      Generate an invocation of the compiled x:expect
    -->
-   <xsl:template match="x:expect" mode="x:generate-calls">
+   <xsl:template match="x:expect" mode="x:invoke-compiled-scenarios-or-expects">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
       <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
          walking the siblings -->
-      <xsl:call-template name="x:output-call">
+      <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
          <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
@@ -250,7 +252,7 @@
        x:variable element generates a variable declaration and adds itself
        on the stack (the tunnel param $stacked-variables).
    -->
-   <xsl:template match="x:variable" mode="x:generate-calls">
+   <xsl:template match="x:variable" mode="x:invoke-compiled-scenarios-or-expects">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <!-- Reject reserved variables -->
@@ -277,7 +279,7 @@
    <xsl:template match="x:description/x:helper
                        |x:description/x:param
                        |x:description/x:variable"
-                 mode="x:generate-calls">
+                 mode="x:invoke-compiled-scenarios-or-expects">
       <xsl:if test="self::x:variable">
         <xsl:call-template name="x:detect-reserved-variable-name"/>
       </xsl:if>

@@ -137,9 +137,9 @@
       <!-- @date must be evaluated at run time -->
       <xsl:text>attribute { QName('', 'date') } { current-dateTime() },&#x0A;</xsl:text>
 
-      <!-- Generate calls to the compiled top-level scenarios. -->
-      <xsl:text>(: a call instruction for each top-level scenario :)&#x0A;</xsl:text>
-      <xsl:call-template name="x:call-scenarios"/>
+      <!-- Generate invocations of the compiled top-level scenarios. -->
+      <xsl:text>(: invoke each compiled top-level x:scenario :)&#x0A;</xsl:text>
+      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects"/>
 
       <!-- </x:report> -->
       <xsl:text>}&#x0A;</xsl:text>
@@ -148,15 +148,17 @@
       <xsl:text>}&#x0A;</xsl:text>
    </xsl:template>
 
-   <!-- *** x:output-call *** -->
-   <!-- Generates a call to the function compiled from a scenario or an expect element. --> 
-
-   <xsl:template name="x:output-call">
+   <!--
+      Generates an invocation of the function compiled from x:scenario or x:expect.
+   -->
+   <xsl:template name="x:invoke-compiled-current-scenario-or-expect">
+      <!-- Context item is x:scenario or x:expect -->
       <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="last" as="xs:boolean" />
 
-      <!-- URIQualifiedNames of the variables that will be passed as the parameters to the call.
+      <!-- URIQualifiedNames of the variables that will be passed as the parameters to the compiled
+         x:scenario or x:expect being invoked.
          Their order must be stable, because they are passed to a function. -->
       <xsl:param name="with-param-uqnames" as="xs:string*" />
 
@@ -180,7 +182,7 @@
          <xsl:text>,</xsl:text>
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
-      <!-- Continue compiling calls. -->
+      <!-- Continue invoking the compiled x:scenario or x:expect. -->
       <xsl:call-template name="x:continue-walking-siblings" />
       <xsl:text>)&#x0A;</xsl:text>
    </xsl:template>
@@ -313,7 +315,7 @@
             <xsl:text expand-text="yes">{x:known-UQName('rep:report-sequence')}(${x:known-UQName('x:result')}, 'result'),&#x0A;</xsl:text>
 
             <xsl:text>&#x0A;</xsl:text>
-            <xsl:text>(: a call instruction for each x:expect element :)&#x0A;</xsl:text>
+            <xsl:text>(: invoke each compiled x:expect :)&#x0A;</xsl:text>
          </xsl:when>
 
          <xsl:otherwise>
@@ -326,7 +328,7 @@
          </xsl:otherwise>
       </xsl:choose>
 
-      <xsl:call-template name="x:call-scenarios"/>
+      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects"/>
       <xsl:text>)&#x0A;</xsl:text>
 
       <!-- </x:scenario> -->

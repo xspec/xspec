@@ -77,7 +77,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
             <xsl:attribute name="xspec" namespace="">.../compilation-simple-suite.xspec</xsl:attribute>
             <xsl:attribute name="stylesheet" namespace="">.../compilation-simple-suite.xsl</xsl:attribute>
             <xsl:attribute name="date" namespace="" select="current-dateTime()"/>
-            <!-- a call instruction for each top-level scenario -->
+            <!-- invoke each compiled top-level x:scenario -->
             <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"/>
          </xsl:element>
       </xsl:result-document>
@@ -87,7 +87,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
                  as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
       ...
-      <!-- a call instruction for each x:expect element -->
+      <!-- invoke each compiled x:expect -->
       <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1">
          ...
       </xsl:call-template>
@@ -131,7 +131,7 @@ declare function local:scenario1(
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}scenario)
 {
 ...
-(: a call instruction for each x:expect element :)
+(: invoke each compiled x:expect :)
 let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result
 )
@@ -157,7 +157,7 @@ attribute { QName('', 'xspec') } { '.../compilation-simple-suite.xspec' },
 attribute { QName('', 'query') } { 'http://example.org/ns/my' },
 attribute { QName('', 'query-at') } { '.../compilation-simple-suite.xqm' },
 attribute { QName('', 'date') } { current-dateTime() },
-(: a call instruction for each top-level scenario :)
+(: invoke each compiled top-level x:scenario :)
 let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1(
 )
 return (
@@ -212,7 +212,7 @@ result as parameter.
 
       ... generate scenario data in the report ...
 
-      <!-- a call instruction for each x:expect element -->
+      <!-- invoke each compiled x:expect -->
       <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1">
          <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result" select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
       </xsl:call-template>
@@ -290,7 +290,7 @@ Q{http://example.org/ns/my}f()
 return (
 Q{urn:x-xspec:common:report-sequence}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'result'),
 
-(: a call instruction for each x:expect element :)
+(: invoke each compiled x:expect :)
 let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result
 )
