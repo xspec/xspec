@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:use-uri-qualified-name" query-at="use-uri-qualified-name.xqm"
-	stylesheet="use-uri-qualified-name.xsl" xmlns:myv="http://example.org/ns/my/variable"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<x:description query="x-urn:test:use-uqname" query-at="use-uqname.xqm" stylesheet="use-uqname.xsl"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
 
@@ -9,12 +9,12 @@
 		<x:call
 			function="
 				&#x09;&#x0A;&#x0D;&#x20;
-				Q{x-urn:test:use-uri-qualified-name}param-mirror-function
+				Q{x-urn:test:use-uqname}param-mirror-function
 				&#x09;&#x0A;&#x0D;&#x20;">
 			<x:param
 				name="
 					&#x09;&#x0A;&#x0D;&#x20;
-					Q{x-urn:test:use-uri-qualified-name}param-items
+					Q{x-urn:test:use-uqname}param-items
 					&#x09;&#x0A;&#x0D;&#x20;">
 				<function-param-child />
 			</x:param>
@@ -25,13 +25,13 @@
 	</x:scenario>
 
 	<x:scenario label="Using URIQualifiedName in function-param @as">
-		<x:call function="Q{x-urn:test:use-uri-qualified-name}param-mirror-function">
+		<x:call function="Q{x-urn:test:use-uqname}param-mirror-function">
 			<x:param
 				as="
 					&#x09;&#x0A;&#x0D;&#x20;
 					Q{http://www.w3.org/2001/XMLSchema}string
 					&#x09;&#x0A;&#x0D;&#x20;"
-				name="Q{x-urn:test:use-uri-qualified-name}param-items" select="'xyz'" />
+				name="Q{x-urn:test:use-uqname}param-items" select="'xyz'" />
 		</x:call>
 		<x:expect label="should be possible" select="$x:result treat as xs:string"
 			test="$x:result treat as xs:string" />
@@ -40,18 +40,17 @@
 	<x:param
 		name="
 			&#x09;&#x0A;&#x0D;&#x20;
-			Q{x-urn:test:use-uri-qualified-name}global-param
+			Q{x-urn:test:use-uqname}global-param
 			&#x09;&#x0A;&#x0D;&#x20;">
 		<global-param-child />
 	</x:param>
 	<x:scenario label="Using URIQualifiedName in global-param @name">
 		<x:call function="false" />
 		<x:expect label="should be possible as well as in assertion @select and @test"
-			select="$Q{x-urn:test:use-uri-qualified-name}global-param treat as element(global-param-child)"
-			test="$Q{x-urn:test:use-uri-qualified-name}global-param treat as element(global-param-child)" />
+			select="$Q{x-urn:test:use-uqname}global-param treat as element(global-param-child)"
+			test="$Q{x-urn:test:use-uqname}global-param treat as element(global-param-child)" />
 		<x:expect label="and boolean @test"
-			test="$Q{x-urn:test:use-uri-qualified-name}global-param instance of element(global-param-child)"
-		 />
+			test="$Q{x-urn:test:use-uqname}global-param instance of element(global-param-child)" />
 	</x:scenario>
 
 	<x:param
@@ -59,12 +58,12 @@
 			&#x09;&#x0A;&#x0D;&#x20;
 			Q{http://www.w3.org/2001/XMLSchema}string
 			&#x09;&#x0A;&#x0D;&#x20;"
-		name="Q{x-urn:test:use-uri-qualified-name}global-string-param" select="'xyz'" />
+		name="Q{x-urn:test:use-uqname}global-string-param" select="'xyz'" />
 	<x:scenario label="Using URIQualifiedName in global-param @as">
 		<x:call function="false" />
 		<x:expect label="should be possible"
-			select="$Q{x-urn:test:use-uri-qualified-name}global-string-param treat as xs:string"
-			test="$Q{x-urn:test:use-uri-qualified-name}global-string-param treat as xs:string" />
+			select="$Q{x-urn:test:use-uqname}global-string-param treat as xs:string"
+			test="$Q{x-urn:test:use-uqname}global-string-param treat as xs:string" />
 	</x:scenario>
 
 	<x:variable as="element(global-var-child)"
@@ -106,8 +105,8 @@
 			select="/Q{}variable-child">
 			<variable-child />
 		</x:variable>
-		<x:call function="Q{x-urn:test:use-uri-qualified-name}param-mirror-function">
-			<x:param name="Q{x-urn:test:use-uri-qualified-name}param-items"
+		<x:call function="Q{x-urn:test:use-uqname}param-mirror-function">
+			<x:param name="Q{x-urn:test:use-uqname}param-items"
 				select="$Q{http://example.org/ns/my/variable}var" />
 		</x:call>
 		<x:expect label="should be possible as well as in function-param @select">
@@ -122,7 +121,7 @@
 
 	<x:scenario
 		label="Using URIQualifiedName in local variable @name, with local part 'result' and non-XSpec namespace,">
-		<x:call function="Q{x-urn:test:use-uri-qualified-name}param-mirror-function">
+		<x:call function="Q{x-urn:test:use-uqname}param-mirror-function">
 			<x:param select="'result of function call'" />
 		</x:call>
 		<x:variable as="element(variable-child)" name="Q{http://example.org/ns/my/variable}result"
