@@ -28,9 +28,9 @@
 
    <!-- The initial XSpec document (the source document of the whole transformation).
       Note that this initial document is different from the document node generated within the
-      name="x:generate-tests" template. The latter document is a restructured copy of the initial
-      document. Usually the compiler templates should handle the restructured one, but in rare cases
-      some of the compiler templates may need to access the initial document. -->
+      default mode template. The latter document is a restructured copy of the initial document.
+      Usually the compiler templates should handle the restructured one, but in rare cases some of
+      the compiler templates may need to access the initial document. -->
    <xsl:variable name="initial-document" as="document-node(element(x:description))" select="/" />
 
    <xsl:variable name="actual-document-uri" as="xs:anyURI"
@@ -42,46 +42,28 @@
    <xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
    <!-- Actually, xsl:template/@match is "document-node(element(x:description))".
-      "element(x:description)" is omitted in order to enable the "Source document is not XSpec..."
-      error message. -->
+      "element(x:description)" is omitted in order to accept any source document and then reject it
+      with a proper error message if it's broken. -->
    <xsl:template match="document-node()" as="node()+">
-      <xsl:variable name="deprecation-warning" as="xs:string?">
-         <xsl:choose>
-            <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
-               <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
-            </xsl:when>
-            <xsl:when test="$x:saxon-version lt x:pack-version((9, 9))">
-               <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
-            </xsl:when>
-         </xsl:choose>
-      </xsl:variable>
-      <xsl:message select="
-         if ($deprecation-warning)
-         then ('WARNING:', $deprecation-warning)
-         else ' ' (: Always write a single non-empty line to help Bats tests to predict line numbers. :)" />
-
-      <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
-      <xsl:if test="not(node-name(element()) eq $description-name)">
-         <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">Source document is not XSpec. /{$description-name} is missing. Supplied source has /{element() => name()} instead.</xsl:text>
-         </xsl:message>
-      </xsl:if>
-
-      <xsl:call-template name="x:generate-tests"/>
-   </xsl:template>
-
-   <!--
-      Drive the overall compilation of a suite. Apply template on the x:description element, in the
-      mode
-   -->
-   <xsl:template name="x:generate-tests" as="node()+">
-      <xsl:context-item as="document-node(element(x:description))" use="required" />
-
-      <xsl:variable name="this" as="document-node(element(x:description))"
-         select=".[. is $initial-document]" />
+      <xsl:call-template name="x:perform-initial-checks" />
 
       <!-- Resolve x:import and gather all the children of x:description -->
       <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
+
+      <!-- Combine all the children of x:description into a single document so that the following
+         language-specific transformation can handle them as a document. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))"
+         select="x:combine($specs)" />
+
+      <!-- Switch the context to the x:description and dispatch it to the language-specific
+         transformation (XSLT or XQuery) -->
+      <xsl:for-each select="$combined-doc/x:description">
+         <xsl:call-template name="x:main" />
+      </xsl:for-each>
+   </xsl:template>
+
+   <xsl:function name="x:combine" as="document-node(element(x:description))">
+      <xsl:param name="specs" as="node()+" />
 
       <!-- Combine all the children of x:description into a single document so that the following
          transformation modes can handle them as a document. -->
@@ -107,44 +89,65 @@
       </xsl:variable>
 
       <!-- Combine all the children of x:description into a single x:description -->
-      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
-         <xsl:document>
-            <xsl:for-each select="$this/x:description">
-               <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
-                  the namespaces created for /x:description will pollute its descendants derived
-                  from the other trees. -->
-               <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
-                  inherit-namespaces="no">
-                  <!-- Do not set all the attributes. Each imported x:description has its own set of
-                     attributes. Set only the attributes that are truly global over all the XSpec
-                     documents. -->
+      <xsl:document>
+         <xsl:for-each select="$initial-document/x:description">
+            <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
+               the namespaces created for /x:description will pollute its descendants derived
+               from the other trees. -->
+            <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
+               inherit-namespaces="no">
+               <!-- Do not set all the attributes. Each imported x:description has its own set of
+                  attributes. Set only the attributes that are truly global over all the XSpec
+                  documents. -->
 
-                  <!-- Global Schematron attributes.
-                     These attributes are already absolute. (resolved by
-                     ../schematron/schut-to-xspec.xsl) -->
-                  <xsl:sequence select="@schematron | @xspec-original-location" />
+               <!-- Global Schematron attributes.
+                  These attributes are already absolute. (resolved by
+                  ../schematron/schut-to-xspec.xsl) -->
+               <xsl:sequence select="@schematron | @xspec-original-location" />
 
-                  <!-- Global XQuery attributes.
-                     @query-at is handled by compile-xquery-tests.xsl -->
-                  <xsl:sequence select="@query | @xquery-version" />
+               <!-- Global XQuery attributes.
+                  @query-at is handled by compile-xquery-tests.xsl -->
+               <xsl:sequence select="@query | @xquery-version" />
 
-                  <!-- Global XSLT attributes.
-                     @xslt-version can be set, because it has already been propagated from each
-                     imported x:description to its descendants in mode="x:gather-specs". -->
-                  <xsl:sequence select="@xslt-version" />
-                  <xsl:for-each select="@stylesheet">
-                     <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-                        select="resolve-uri(., base-uri())" />
-                  </xsl:for-each>
+               <!-- Global XSLT attributes.
+                  @xslt-version can be set, because it has already been propagated from each
+                  imported x:description to its descendants in mode="x:gather-specs". -->
+               <xsl:sequence select="@xslt-version" />
+               <xsl:for-each select="@stylesheet">
+                  <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+                     select="resolve-uri(., base-uri())" />
+               </xsl:for-each>
 
-                  <xsl:sequence select="$doc-maybe-focus-enforced" />
-               </xsl:element>
-            </xsl:for-each>
-         </xsl:document>
+               <xsl:sequence select="$doc-maybe-focus-enforced" />
+            </xsl:element>
+         </xsl:for-each>
+      </xsl:document>
+   </xsl:function>
+
+   <xsl:template name="x:perform-initial-checks" as="empty-sequence()">
+      <xsl:context-item as="document-node()" use="required" />
+
+      <xsl:variable name="deprecation-warning" as="xs:string?">
+         <xsl:choose>
+            <xsl:when test="$x:saxon-version lt x:pack-version((9, 8))">
+               <xsl:text>Saxon version 9.7 or less is not supported.</xsl:text>
+            </xsl:when>
+            <xsl:when test="$x:saxon-version lt x:pack-version((9, 9))">
+               <xsl:text>Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9.</xsl:text>
+            </xsl:when>
+         </xsl:choose>
       </xsl:variable>
+      <xsl:message select="
+         if ($deprecation-warning)
+         then ('WARNING:', $deprecation-warning)
+         else ' ' (: Always write a single non-empty line to help Bats tests to predict line numbers. :)" />
 
-      <!-- Dispatch to a language-specific transformation (XSLT or XQuery) -->
-      <xsl:apply-templates select="$combined-doc/element()" mode="x:generate-tests" />
+      <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
+      <xsl:if test="not(node-name(element()) eq $description-name)">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">Source document is not XSpec. /{$description-name} is missing. Supplied source has /{element() => name()} instead.</xsl:text>
+         </xsl:message>
+      </xsl:if>
    </xsl:template>
 
    <!--
@@ -619,15 +622,6 @@
          <xsl:apply-templates select="node()" mode="#current" />
       </xsl:copy>
    </xsl:template>
-
-   <!--
-      mode="x:generate-tests"
-      Does the generation of the test stylesheet.
-      This mode assumes that all the scenarios have already been gathered and unshared.
-      Actual processing of this mode depends on compile-xquery-tests.xsl and
-      compile-xslt-tests.xsl.
-   -->
-   <xsl:mode name="x:generate-tests" on-multiple-match="fail" on-no-match="fail" />
 
    <!-- Generates a gateway from x:scenario to System Under Test.
       The actual instruction to enter SUT is provided by the caller. The instruction
