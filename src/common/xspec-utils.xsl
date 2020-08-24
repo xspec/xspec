@@ -421,16 +421,6 @@
 	</xsl:function>
 
 	<!--
-		Stub function for helping development on IDE without loading ../../java/
-	-->
-	<xsl:function as="xs:integer" name="x:line-number" override-extension-function="no"
-		use-when="function-available('saxon:line-number')" xmlns:saxon="http://saxon.sf.net/">
-		<xsl:param as="node()" name="node" />
-
-		<xsl:sequence select="saxon:line-number($node)" />
-	</xsl:function>
-
-	<!--
 		Resolves URIQualifiedName to xs:QName
 	-->
 	<xsl:function as="xs:QName" name="x:resolve-UQName">
