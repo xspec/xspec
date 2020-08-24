@@ -15,7 +15,7 @@
 		Each processor must import this stylesheet and provide its own deserializer, normalizer and serializer.
 	-->
 
-	<xsl:include href="../../../../src/common/xspec-utils.xsl" />
+	<xsl:include href="../../../test-utils.xsl" />
 	<xsl:include href="_deserializer.xsl" />
 	<xsl:include href="_normalizer.xsl" />
 	<xsl:include href="_serializer.xsl" />

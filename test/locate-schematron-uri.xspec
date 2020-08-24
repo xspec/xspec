@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/schematron/locate-schematron-uri.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:helper stylesheet="test-utils.xsl" />
+
+	<x:scenario label="Scenario for testing function locate-schematron-uri">
+		<!-- TODO: Use catalog -->
+		<x:call function="x:locate-schematron-uri">
+			<x:param href="../tutorial/schematron/demo-01.xspec" select="x:description" />
+		</x:call>
+		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
+		<x:expect label="filename and extension" select="'demo-01.sch'"
+			test="x:filename-and-extension($x:result)" />
+		<x:expect label="reachable" test="doc-available($x:result)" />
+	</x:scenario>
+
+</x:description>
