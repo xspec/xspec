@@ -76,60 +76,6 @@
 	</xsl:template>
 
 	<!--
-		Extracts filename (with extension) from slash-delimited path
-			Example:
-				in:  "file:/path/to/foo.bar.baz" or "/path/to/foo.bar.baz"
-				out: "foo.bar.baz"
-	-->
-	<xsl:function as="xs:string" name="x:filename-and-extension">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:sequence select="tokenize($input, '/')[last()]" />
-	</xsl:function>
-
-	<!--
-		Extracts filename (without extension) from slash-delimited path
-			Example:
-				in:  "file:/path/to/foo.bar.baz" or "/path/to/foo.bar.baz"
-				out: "foo.bar"
-	-->
-	<xsl:function as="xs:string" name="x:filename-without-extension">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:variable as="xs:string" name="filename-and-extension"
-			select="x:filename-and-extension($input)" />
-
-		<xsl:sequence
-			select="
-				if (contains($filename-and-extension, '.')) then
-					replace($filename-and-extension, '^(.*)\.[^.]*$', '$1')
-				else
-					$filename-and-extension"
-		 />
-	</xsl:function>
-
-	<!--
-		Extracts extension (without filename) from slash-delimited path
-			Example:
-				in:  "file:/path/to/foo.bar.baz" or "/path/to/foo.bar.baz"
-				out: ".baz"
-	-->
-	<xsl:function as="xs:string" name="x:extension-without-filename">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:variable as="xs:string" name="filename-and-extension"
-			select="x:filename-and-extension($input)" />
-
-		<xsl:sequence
-			select="
-				if (contains($filename-and-extension, '.')) then
-					replace($filename-and-extension, '^.*(\.[^.]*)$', '$1')
-				else
-					''"
-		 />
-	</xsl:function>
-
-	<!--
 		Resolves URI (of an XML document) with the currently enabled catalog,
 		working around an XML resolver bug
 	-->
@@ -144,7 +90,6 @@
 				=> doc()
 				=> x:base-uri()" />
 	</xsl:function>
-
 
 	<!--
 		Returns the actual document URI (i.e. resolved with the currently enabled catalog),
@@ -476,20 +421,6 @@
 	</xsl:function>
 
 	<!--
-		Makes absolute URI from x:description/@schematron and resolves it with catalog
-	-->
-	<xsl:function as="xs:anyURI" name="x:locate-schematron-uri">
-		<xsl:param as="element(x:description)" name="description" />
-
-		<!-- Resolve with node base URI -->
-		<xsl:variable as="xs:anyURI" name="schematron-uri"
-			select="$description/@schematron/resolve-uri(., base-uri())" />
-
-		<!-- Resolve with catalog -->
-		<xsl:sequence select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
-	</xsl:function>
-
-	<!--
 		Removes leading whitespace
 	-->
 	<xsl:function as="xs:string" name="x:left-trim">
@@ -579,23 +510,6 @@
 	</xsl:function>
 
 	<!--
-		Returns true if two QNames are exactly equal to each other.
-		
-		Unlike fn:deep-equal() or 'eq' operator, this function compares prefix.
-	-->
-	<xsl:function as="xs:boolean" name="x:QName-exactly-equal">
-		<xsl:param as="xs:QName" name="qname1" />
-		<xsl:param as="xs:QName" name="qname2" />
-
-		<xsl:sequence
-			select="
-				deep-equal($qname1, $qname2)
-				and
-				deep-equal(prefix-from-QName($qname1), prefix-from-QName($qname2))"
-		 />
-	</xsl:function>
-
-	<!--
 		Returns XPath expression of fn:QName() which represents the given xs:QName
 	-->
 	<xsl:function as="xs:string" name="x:QName-expression">
@@ -658,6 +572,9 @@
 
 		<xsl:variable as="xs:string" name="namespace">
 			<xsl:choose>
+				<xsl:when test="$prefix eq 'config'">
+					<xsl:sequence select="'http://saxon.sf.net/ns/configuration'" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'deq'">
 					<xsl:sequence select="$x:deq-namespace" />
 				</xsl:when>
