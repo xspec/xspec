@@ -16,11 +16,12 @@
 
 	<!-- Delete some master stylesheet files -->
 	<condition property="test-maven-jar.builtin.src.files.count.ok">
-		<resourcecount count="3">
+		<resourcecount count="4">
 			<fileset dir="../../src/" id="test-maven-jar.builtin.src.files">
 				<include name="compiler/compile-xslt-tests.xsl" />
 				<include name="reporter/coverage-report.xsl" />
 				<include name="reporter/format-xspec-report.xsl" />
+				<include name="reporter/junit-report.xsl" />
 			</fileset>
 		</resourcecount>
 	</condition>
@@ -53,6 +54,7 @@
 			value="${test-maven-jar.tempdir}/coverage-report.xsl" />
 		<property name="xspec.html.reporter.xsl"
 			value="${test-maven-jar.tempdir}/format-xspec-report.xsl" />
+		<property name="xspec.junit.reporter.xsl" value="${test-maven-jar.tempdir}/junit-report.xsl" />
 		<property name="xspec.xslt.compiler.xsl"
 			value="${test-maven-jar.tempdir}/compile-xslt-tests.xsl" />
 
