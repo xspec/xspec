@@ -1962,7 +1962,7 @@ load bats-helper
 #
 
 @test "Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)" {
-    run ../bin/xspec.sh variable/reserved-uri-qualified-name-in-local.xspec
+    run ../bin/xspec.sh variable/reserved-uqname-in-local.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[4]}" = "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace." ]
