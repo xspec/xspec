@@ -22,6 +22,7 @@
 
 	<xsl:include href="../common/xspec-utils.xsl" />
 	<xsl:include href="../compiler/generate-tests-helper.xsl" />
+	<xsl:include href="locate-schematron-uri.xsl" />
 
 	<xsl:output indent="yes" />
 
