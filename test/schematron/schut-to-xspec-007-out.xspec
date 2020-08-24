@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <description xmlns="http://www.jenitennison.com/xslt/xspec"
              schematron="%TEST_BASE%/schematron/schut-to-xspec-test.sch"
-             xspec-original-location="%TEST_BASE%/schematron/schut-to-xspec-007-in.xspec"
+             original-xspec="%TEST_BASE%/schematron/schut-to-xspec-007-in.xspec"
              stylesheet="schut-to-xspec-test.sch.xsl">
    <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns=""
