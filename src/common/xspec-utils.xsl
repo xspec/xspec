@@ -431,36 +431,6 @@
 	</xsl:function>
 
 	<!--
-		Removes leading whitespace
-	-->
-	<xsl:function as="xs:string" name="x:left-trim">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:sequence select="replace($input, '^\s+', '')" />
-	</xsl:function>
-
-	<!--
-		Removes trailing whitespace
-	-->
-	<xsl:function as="xs:string" name="x:right-trim">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:sequence select="replace($input, '\s+$', '')" />
-	</xsl:function>
-
-	<!--
-		Removes leading and trailing whitespace
-	-->
-	<xsl:function as="xs:string" name="x:trim">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:sequence select="
-				$input
-				=> x:right-trim()
-				=> x:left-trim()" />
-	</xsl:function>
-
-	<!--
 		Resolves URIQualifiedName to xs:QName
 	-->
 	<xsl:function as="xs:QName" name="x:resolve-UQName">

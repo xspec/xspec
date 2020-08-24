@@ -17,7 +17,8 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
-   <xsl:include href="../common/xspec-utils.xsl"/>
+   <xsl:include href="../common/trim.xsl" />
+   <xsl:include href="../common/xspec-utils.xsl" />
    <xsl:include href="gatherer.xsl" />
 
    <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
