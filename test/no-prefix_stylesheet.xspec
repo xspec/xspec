@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-saxon-bug-3889-fixed?>
-<!-- Copy of eqname_stylesheet.xspec with x: prefix removed -->
-<description stylesheet="eqname.xsl" xmlns="http://www.jenitennison.com/xslt/xspec"
+<!-- Copy of use-uqname_stylesheet.xspec with x: prefix removed -->
+<description stylesheet="use-uqname.xsl" xmlns="http://www.jenitennison.com/xslt/xspec"
 	xmlns:myv="http://example.org/ns/my/variable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
 
-	<scenario label="Using EQName in">
+	<scenario label="Using URIQualifiedName in">
 		<scenario label="context @mode and template-param @name">
 			<context
 				mode="
 					&#x09;&#x0A;&#x0D;&#x20;
-					Q{x-urn:test:eqname}param-mirror-mode
+					Q{x-urn:test:use-uqname}param-mirror-mode
 					&#x09;&#x0A;&#x0D;&#x20;">
 				<param
 					name="
 						&#x09;&#x0A;&#x0D;&#x20;
-						Q{x-urn:test:eqname}param-items
+						Q{x-urn:test:use-uqname}param-items
 						&#x09;&#x0A;&#x0D;&#x20;">
 					<template-param-child xmlns="" />
 				</param>
@@ -34,9 +34,9 @@
 			<variable as="element(variable-child)" name="myv:var" select="/Q{}variable-child">
 				<variable-child xmlns="" />
 			</variable>
-			<context mode="Q{x-urn:test:eqname}param-mirror-mode"
+			<context mode="Q{x-urn:test:use-uqname}param-mirror-mode"
 				select="$Q{http://example.org/ns/my/variable}context">
-				<param name="Q{x-urn:test:eqname}param-items"
+				<param name="Q{x-urn:test:use-uqname}param-items"
 					select="$Q{http://example.org/ns/my/variable}var" />
 			</context>
 			<expect label="should be possible">
@@ -48,12 +48,12 @@
 			<call
 				template="
 					&#x09;&#x0A;&#x0D;&#x20;
-					Q{x-urn:test:eqname}param-mirror-template
+					Q{x-urn:test:use-uqname}param-mirror-template
 					&#x09;&#x0A;&#x0D;&#x20;">
 				<param
 					name="
 						&#x09;&#x0A;&#x0D;&#x20;
-						Q{x-urn:test:eqname}param-items
+						Q{x-urn:test:use-uqname}param-items
 						&#x09;&#x0A;&#x0D;&#x20;">
 					<template-param-child xmlns="" />
 				</param>
@@ -64,13 +64,13 @@
 		</scenario>
 
 		<scenario label="template-param @as">
-			<call template="Q{x-urn:test:eqname}param-mirror-template">
+			<call template="Q{x-urn:test:use-uqname}param-mirror-template">
 				<param
 					as="
 						&#x09;&#x0A;&#x0D;&#x20;
 						Q{http://www.w3.org/2001/XMLSchema}string
 						&#x09;&#x0A;&#x0D;&#x20;"
-					name="Q{x-urn:test:eqname}param-items" select="'xyz'" />
+					name="Q{x-urn:test:use-uqname}param-items" select="'xyz'" />
 			</call>
 			<expect label="should be possible"
 				select="$Q{http://www.jenitennison.com/xslt/xspec}result treat as xs:string"
