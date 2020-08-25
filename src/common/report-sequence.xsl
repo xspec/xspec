@@ -208,7 +208,7 @@
 
    <xsl:template match="document-node() | attribute() | node()" as="node()"
       mode="local:report-node">
-      <xsl:call-template name="x:identity" />
+      <xsl:call-template name="local:identity" />
    </xsl:template>
 
    <xsl:template match="text()[normalize-space() => not()]" as="element(x:ws)"
@@ -216,6 +216,17 @@
       <xsl:element name="ws" namespace="{$x:xspec-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
+   </xsl:template>
+
+   <!--
+      Identity template
+   -->
+   <xsl:template as="node()" name="local:identity">
+      <xsl:context-item as="node()" use="required" />
+
+      <xsl:copy>
+         <xsl:apply-templates mode="#current" select="attribute() | node()" />
+      </xsl:copy>
    </xsl:template>
 
    <!--

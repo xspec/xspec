@@ -69,20 +69,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing template identity">
-		<x:context>
-			<foo bar="baz">
-				<?qux?>
-				<!--quux-->
-				<corge>grault</corge>
-			</foo>
-		</x:context>
-		<x:call template="x:identity" />
-		<x:expect label="Copied and default template rule applied">
-			<foo>bazgrault</foo>
-		</x:expect>
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing function resolve-xml-uri-with-catalog">
 		<!-- TODO: Use catalog -->
 		<x:call function="x:resolve-xml-uri-with-catalog">

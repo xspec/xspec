@@ -65,17 +65,6 @@
 	</xsl:variable>
 
 	<!--
-		Identity template
-	-->
-	<xsl:template as="node()" name="x:identity">
-		<xsl:context-item as="node()" use="required" />
-
-		<xsl:copy>
-			<xsl:apply-templates mode="#current" select="attribute() | node()" />
-		</xsl:copy>
-	</xsl:template>
-
-	<!--
 		Resolves URI (of an XML document) with the currently enabled catalog,
 		working around an XML resolver bug
 	-->
