@@ -18,6 +18,7 @@
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
    <xsl:include href="../common/user-content-utils.xsl" />
+   <xsl:include href="../common/version-utils.xsl" />
    <xsl:include href="../common/xspec-utils.xsl" />
    <xsl:include href="combine.xsl" />
    <xsl:include href="compiler-utils.xsl" />
