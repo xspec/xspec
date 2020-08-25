@@ -24,6 +24,7 @@
 	<xsl:param as="xs:boolean" name="CACHE" select="false()" />
 
 	<xsl:include href="../common/uqname-utils.xsl" />
+	<xsl:include href="../common/uri-utils.xsl" />
 	<xsl:include href="../common/xspec-utils.xsl" />
 	<xsl:include href="locate-schematron-uri.xsl" />
 
