@@ -169,7 +169,7 @@
          </xsl:element>
 
          <!-- Compile the top-level scenarios. -->
-         <xsl:call-template name="x:compile-scenarios" />
+         <xsl:call-template name="x:compile-child-scenarios-or-expects" />
       </xsl:element>
    </xsl:template>
 
@@ -198,7 +198,7 @@
 
    <!--
       Generates the templates that perform the tests.
-      Called during mode="x:compile-each-element".
+      Called during mode="x:compile-scenarios-or-expects".
    -->
    <xsl:template name="x:compile-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
@@ -341,7 +341,7 @@
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
-                  <!-- #current is x:compile-each-element -->
+                  <!-- #current is x:compile-scenarios-or-expects -->
                   <xsl:apply-templates select="($call, $apply, $context)[1]/x:param[1]"
                      mode="#current" />
 
@@ -512,7 +512,7 @@
          </xsl:element>
       </xsl:element>
 
-      <xsl:call-template name="x:compile-scenarios" />
+      <xsl:call-template name="x:compile-child-scenarios-or-expects" />
    </xsl:template>
 
    <!-- Constructs options for transform() -->

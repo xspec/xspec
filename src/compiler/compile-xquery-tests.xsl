@@ -111,7 +111,7 @@
       <xsl:call-template name="x:compile-global-params-and-variables" />
 
       <!-- Compile the top-level scenarios. -->
-      <xsl:call-template name="x:compile-scenarios"/>
+      <xsl:call-template name="x:compile-child-scenarios-or-expects" />
       <xsl:text>&#10;</xsl:text>
 
       <xsl:text>(: the query body of this main module, to run the suite :)&#10;</xsl:text>
@@ -139,7 +139,7 @@
 
       <!-- Generate invocations of the compiled top-level scenarios. -->
       <xsl:text>(: invoke each compiled top-level x:scenario :)&#x0A;</xsl:text>
-      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects"/>
+      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
 
       <!-- </x:report> -->
       <xsl:text>}&#x0A;</xsl:text>
@@ -189,7 +189,7 @@
 
    <!--
       Generates the functions that perform the tests.
-      Called during mode="x:compile-each-element".
+      Called during mode="x:compile-scenarios-or-expects".
    -->
    <xsl:template name="x:compile-scenario" as="node()+">
       <xsl:context-item as="element(x:scenario)" use="required" />
@@ -299,7 +299,7 @@
               return (
                 rep:report-sequence($t:result, 'x:result'),
             -->
-            <!-- #current is x:compile-each-element -->
+            <!-- #current is x:compile-scenarios-or-expects -->
             <xsl:apply-templates select="$call/x:param[1]" mode="#current" />
 
             <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
@@ -328,7 +328,7 @@
          </xsl:otherwise>
       </xsl:choose>
 
-      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects"/>
+      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
       <xsl:text>)&#x0A;</xsl:text>
 
       <!-- </x:scenario> -->
@@ -337,7 +337,7 @@
       <!-- End of the function -->
       <xsl:text>};&#x0A;</xsl:text>
 
-      <xsl:call-template name="x:compile-scenarios"/>
+      <xsl:call-template name="x:compile-child-scenarios-or-expects" />
    </xsl:template>
 
    <xsl:template name="x:output-try-catch" as="text()+">
