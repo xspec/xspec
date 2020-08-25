@@ -59,44 +59,6 @@
 		 />
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function resolve-xml-uri-with-catalog">
-		<!-- TODO: Use catalog -->
-		<x:call function="x:resolve-xml-uri-with-catalog">
-			<x:param select="''" />
-		</x:call>
-		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
-		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
-			test="
-				$x:result
-				=> substring-after(':')
-				=> starts-with('/')" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function actual-document-uri">
-		<!-- TODO: Use catalog -->
-		<x:call function="x:actual-document-uri">
-			<x:param select="doc('')" />
-		</x:call>
-		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
-		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
-			test="
-				$x:result
-				=> substring-after(':')
-				=> starts-with('/')" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function base-uri">
-		<!-- TODO: Use catalog -->
-		<x:call function="x:base-uri">
-			<x:param>
-				<test />
-			</x:param>
-		</x:call>
-		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
-		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
-			test="starts-with(substring-after($x:result, ':'), '/')" />
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing function copy-of-namespaces">
 		<x:call function="x:copy-of-namespaces">
 			<x:param select="//*:input-element">
