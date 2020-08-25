@@ -161,7 +161,7 @@
       <html>
          <head>
             <title>
-               <xsl:text expand-text="yes">Test Report for {(@schematron, @stylesheet, @query)[1] => x:format-uri()} (</xsl:text>
+               <xsl:text expand-text="yes">Test Report for {(@schematron, @stylesheet, @query)[1] => fmt:format-uri()} (</xsl:text>
                <xsl:call-template name="x:output-test-stats">
                   <xsl:with-param name="tests" select="x:descendant-tests(.)"/>
                   <xsl:with-param name="insert-labels" select="true()" />
@@ -251,7 +251,7 @@
 
                <xsl:otherwise>
                   <a href="{.}">
-                     <xsl:value-of select="x:format-uri(.)" />
+                     <xsl:value-of select="fmt:format-uri(.)" />
                   </a>
                </xsl:otherwise>
             </xsl:choose>
@@ -261,7 +261,7 @@
       <p>
          <xsl:text>XSpec: </xsl:text>
          <a href="{@xspec}">
-            <xsl:value-of select="x:format-uri(@xspec)"/>
+            <xsl:value-of select="fmt:format-uri(@xspec)"/>
          </a>
       </p>
       <p>
@@ -441,7 +441,7 @@
                <xsl:when test="@href">
                   <p>
                      <a href="{@href}">
-                        <xsl:value-of select="x:format-uri(@href)" />
+                        <xsl:value-of select="fmt:format-uri(@href)" />
                      </a>
                   </p>
                </xsl:when>

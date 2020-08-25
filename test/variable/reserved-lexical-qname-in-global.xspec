@@ -10,7 +10,7 @@
                   &#x09;&#x0A;&#x0D;&#x20;"
                select="'str'" />
 
-   <x:scenario label="QName in global variable">
+   <x:scenario label="Lexical QName in global variable">
       <x:call function="exactly-one">
          <x:param select="$u:foo" />
       </x:call>
