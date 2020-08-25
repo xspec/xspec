@@ -33,7 +33,7 @@
       <xsl:context-item as="element(x:description)" use="required" />
 
       <!-- True if this XSpec is testing Schematron -->
-      <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@xspec-original-location)" />
+      <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@original-xspec)" />
 
       <!-- The compiled stylesheet element. -->
       <xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
@@ -68,7 +68,7 @@
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
-            select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
+            select="(@original-xspec, $actual-document-uri)[1] cast as xs:anyURI" />
          <variable name="{x:known-UQName('x:xspec-uri')}" as="{x:known-UQName('xs:anyURI')}">
             <xsl:value-of select="$xspec-master-uri" />
          </variable>
@@ -294,7 +294,7 @@
 
             <xsl:variable name="scenario-attributes" as="attribute()+">
                <xsl:sequence select="@id" />
-               <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
+               <xsl:attribute name="xspec" select="(@original-xspec, @xspec)[1]" />
                <xsl:if test="$pending-p">
                   <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
                </xsl:if>

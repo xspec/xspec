@@ -1714,13 +1714,13 @@
 	-->
 
 	<case name="Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)">
-    call :run ..\bin\xspec.bat variable\reserved-eqname.xspec
+    call :run ..\bin\xspec.bat variable\reserved-uqname-in-local.xspec
     call :verify_retval 2
     call :verify_line 5 x "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace."
 	</case>
 
-	<case name="Error on user-defined variable in XSpec namespace (QName in global variable)">
-    call :run ..\bin\xspec.bat variable\reserved-name.xspec
+	<case name="Error on user-defined variable in XSpec namespace (Lexical QName in global variable)">
+    call :run ..\bin\xspec.bat variable\reserved-lexical-qname-in-global.xspec
     call :verify_retval 2
     call :verify_line 5 x "ERROR: User-defined XSpec variable, u:foo, must not use the XSpec namespace."
 	</case>
