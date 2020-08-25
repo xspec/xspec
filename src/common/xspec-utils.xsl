@@ -57,53 +57,6 @@
 	</xsl:template>
 
 	<!--
-		Resolves URI (of an XML document) with the currently enabled catalog,
-		working around an XML resolver bug
-	-->
-	<xsl:function as="xs:anyURI" name="x:resolve-xml-uri-with-catalog">
-		<xsl:param as="xs:string" name="xml-uri" />
-
-		<!-- https://sourceforge.net/p/saxon/mailman/message/36339785/
-			"document-uri() returns the (absolutized) requested URI, while base-uri() returns
-			the actual document location after catalog resolution." -->
-		<xsl:sequence select="
-				$xml-uri
-				=> doc()
-				=> x:base-uri()" />
-	</xsl:function>
-
-	<!--
-		Returns the actual document URI (i.e. resolved with the currently enabled catalog),
-		working around an XML resolver bug
-	-->
-	<xsl:function as="xs:anyURI" name="x:actual-document-uri">
-		<xsl:param as="document-node()" name="doc" />
-
-		<xsl:sequence
-			select="
-				$doc
-				=> document-uri()
-				=> x:resolve-xml-uri-with-catalog()" />
-	</xsl:function>
-
-	<!--
-		Performs fn:base-uri(), working around an XML resolver bug
-	-->
-	<xsl:function as="xs:anyURI" name="x:base-uri">
-		<xsl:param as="node()" name="node" />
-
-		<!-- Fix invalid URI such as 'file:C:/dir/file'
-			https://issues.apache.org/jira/browse/XMLCOMMONS-24 -->
-		<xsl:sequence
-			select="
-				$node
-				=> base-uri()
-				=> replace('^(file:)([^/])', '$1/$2')
-				=> xs:anyURI()"
-		 />
-	</xsl:function>
-
-	<!--
 		Makes copies of namespaces from element
 		The standard 'xml' namespace is excluded.
 	-->
