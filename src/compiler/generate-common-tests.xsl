@@ -210,7 +210,7 @@
 
    <!--
        Global x:variable and x:param elements are not handled like
-       local variables and params (which are passed through calls).
+       local variables and params (which are passed through invocations).
        They are declared globally.
        
        x:helper is global.
@@ -434,7 +434,7 @@
    </xsl:template>
 
    <!--
-      x:param elements generate actual call param's variable.
+      x:param elements generate actual invocation param's variable.
    -->
    <xsl:template match="x:param" mode="x:compile-scenarios-or-expects">
       <xsl:apply-templates select="." mode="x:declare-variable" />

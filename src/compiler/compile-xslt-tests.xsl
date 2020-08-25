@@ -161,7 +161,7 @@
                      <xsl:attribute name="select" select="'current-dateTime()'" />
                   </xsl:element>
 
-                  <!-- Generate calls to the compiled top-level scenarios. -->
+                  <!-- Generate invocations of the compiled top-level scenarios. -->
                   <xsl:text>&#10;            </xsl:text><xsl:comment> invoke each compiled top-level x:scenario </xsl:comment>
                   <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
                </xsl:element>
