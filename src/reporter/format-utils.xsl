@@ -459,6 +459,35 @@
          )"/>
    </xsl:function>
 
+   <!--
+      Returns a semi-formatted string of URI
+   -->
+   <xsl:function as="xs:string" name="fmt:format-uri">
+      <xsl:param as="xs:string" name="uri" />
+
+      <xsl:choose>
+         <xsl:when test="starts-with($uri, 'file:')">
+            <!-- Remove 'file:' -->
+            <xsl:variable as="xs:string" name="formatted" select="substring($uri, 6)" />
+
+            <!-- Remove implicit localhost (Consolidate '///' to '/') -->
+            <xsl:variable as="xs:string" name="formatted"
+               select="replace($formatted, '^//(/)', '$1')" />
+
+            <!-- Remove '/' from '/C:' -->
+            <xsl:variable as="xs:string" name="formatted"
+               select="replace($formatted, '^/([A-Za-z]:)', '$1')" />
+
+            <!-- Unescape whitespace -->
+            <xsl:sequence select="replace($formatted, '%20', ' ')" />
+         </xsl:when>
+
+         <xsl:otherwise>
+            <xsl:sequence select="$uri" />
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:function>
+
 </xsl:stylesheet>
 
 
