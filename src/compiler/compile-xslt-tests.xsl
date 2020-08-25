@@ -33,7 +33,7 @@
       <xsl:context-item as="element(x:description)" use="required" />
 
       <!-- True if this XSpec is testing Schematron -->
-      <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@xspec-original-location)" />
+      <xsl:variable name="is-schematron" as="xs:boolean" select="exists(@original-xspec)" />
 
       <!-- The compiled stylesheet element. -->
       <xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
@@ -57,7 +57,6 @@
             select="
                '../common/deep-equal.xsl',
                '../common/report-sequence.xsl',
-               '../common/saxon-config.xsl'[$is-external],
                '../common/wrap.xsl',
                '../common/xml-report-serialization-parameters.xsl',
                '../common/xspec-utils.xsl',
@@ -69,7 +68,7 @@
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
-            select="(@xspec-original-location, $actual-document-uri)[1] cast as xs:anyURI" />
+            select="(@original-xspec, $actual-document-uri)[1] cast as xs:anyURI" />
          <variable name="{x:known-UQName('x:xspec-uri')}" as="{x:known-UQName('xs:anyURI')}">
             <xsl:value-of select="$xspec-master-uri" />
          </variable>
@@ -294,7 +293,7 @@
 
             <xsl:variable name="scenario-attributes" as="attribute()+">
                <xsl:sequence select="@id" />
-               <xsl:attribute name="xspec" select="(@xspec-original-location, @xspec)[1]" />
+               <xsl:attribute name="xspec" select="(@original-xspec, @xspec)[1]" />
                <xsl:if test="$pending-p">
                   <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
                </xsl:if>
@@ -552,28 +551,23 @@
                </map>
             </map-entry>
             <if test="${x:known-UQName('x:saxon-config')} => exists()">
-               <if
-                  test="${x:known-UQName('x:saxon-config')} => {x:known-UQName('x:is-saxon-config')}() => not()">
-                  <message terminate="yes">
-                     <!-- Use URIQualifiedName for displaying the $x:saxon-config variable name, for
-                        we do not know the name prefix of the originating variable. -->
-                     <xsl:text expand-text="yes">ERROR: ${x:known-UQName('x:saxon-config')} does not appear to be a Saxon configuration</xsl:text>
-                  </message>
-               </if>
+               <!-- Check that the variable appears to be a Saxon configuration -->
+               <choose>
+                  <when test="${x:known-UQName('x:saxon-config')} instance of element({x:known-UQName('config:configuration')})" />
+                  <when test="${x:known-UQName('x:saxon-config')} instance of document-node(element({x:known-UQName('config:configuration')}))" />
+                  <otherwise>
+                     <message terminate="yes">
+                        <!-- Use URIQualifiedName for displaying the $x:saxon-config variable name,
+                           for we do not know the name prefix of the originating variable. -->
+                        <xsl:text expand-text="yes">ERROR: ${x:known-UQName('x:saxon-config')} does not appear to be a Saxon configuration</xsl:text>
+                     </message>
+                  </otherwise>
+               </choose>
+
                <map-entry key="'vendor-options'">
                   <map>
-                     <map-entry key="QName('http://saxon.sf.net/', 'configuration')">
-                        <choose>
-                           <when
-                              test="${x:known-UQName('x:saxon-version')} le {x:known-UQName('x:pack-version')}((9, 9, 1, 6))">
-                              <apply-templates select="${x:known-UQName('x:saxon-config')}"
-                                 mode="{x:known-UQName('x:fixup-saxon-config')}" />
-                           </when>
-                           <otherwise>
-                              <sequence select="${x:known-UQName('x:saxon-config')}" />
-                           </otherwise>
-                        </choose>
-                     </map-entry>
+                     <map-entry key="QName('http://saxon.sf.net/', 'configuration')"
+                        select="${x:known-UQName('x:saxon-config')}" />
                   </map>
                </map-entry>
             </if>

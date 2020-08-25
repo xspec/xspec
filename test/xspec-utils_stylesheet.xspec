@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="do-nothing.xsl" xmlns:err="http://www.w3.org/2005/xqt-errors"
+<x:description stylesheet="test-utils.xsl" xmlns:err="http://www.w3.org/2005/xqt-errors"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!--
@@ -81,96 +81,6 @@
 		<x:expect label="Copied and default template rule applied">
 			<foo>bazgrault</foo>
 		</x:expect>
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function filename-and-extension">
-		<x:scenario label="URI">
-			<x:call function="x:filename-and-extension">
-				<x:param select="'file:/path/to/foo.bar.baz'" />
-			</x:call>
-			<x:expect label="filename with extension" select="'foo.bar.baz'" />
-		</x:scenario>
-
-		<x:scenario label="*nix file path">
-			<x:call function="x:filename-and-extension">
-				<x:param select="'/path/to/foo.bar.baz'" />
-			</x:call>
-			<x:expect label="filename with extension" select="'foo.bar.baz'" />
-		</x:scenario>
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function filename-without-extension">
-		<x:scenario label="URI">
-			<x:call function="x:filename-without-extension">
-				<x:param select="'file:/path/to/foo.bar.baz'" />
-			</x:call>
-			<x:expect label="filename without extension" select="'foo.bar'" />
-		</x:scenario>
-
-		<x:scenario label="*nix file path">
-			<x:call function="x:filename-without-extension">
-				<x:param select="'/path/to/foo.bar.baz'" />
-			</x:call>
-			<x:expect label="filename without extension" select="'foo.bar'" />
-		</x:scenario>
-
-		<x:scenario label="No filename">
-			<x:call function="x:filename-without-extension">
-				<x:param select="'/path/to/.foo'" />
-			</x:call>
-			<x:expect label="zero-length string" select="''" />
-		</x:scenario>
-
-		<x:scenario label="No extension">
-			<x:call function="x:filename-without-extension">
-				<x:param select="'/path/to/foo'" />
-			</x:call>
-			<x:expect label="filename without extension" select="'foo'" />
-		</x:scenario>
-
-		<x:scenario label="Ends with dot">
-			<x:call function="x:filename-without-extension">
-				<x:param select="'/path/to/foo.'" />
-			</x:call>
-			<x:expect label="filename without extension" select="'foo'" />
-		</x:scenario>
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function extension-without-filename">
-		<x:scenario label="URI">
-			<x:call function="x:extension-without-filename">
-				<x:param select="'file:/path/to/foo.bar.baz'" />
-			</x:call>
-			<x:expect label="extension without filename" select="'.baz'" />
-		</x:scenario>
-
-		<x:scenario label="*nix file path">
-			<x:call function="x:extension-without-filename">
-				<x:param select="'/path/to/foo.bar.baz'" />
-			</x:call>
-			<x:expect label="extension without filename" select="'.baz'" />
-		</x:scenario>
-
-		<x:scenario label="No filename">
-			<x:call function="x:extension-without-filename">
-				<x:param select="'/path/to/.foo'" />
-			</x:call>
-			<x:expect label="extension without filename" select="'.foo'" />
-		</x:scenario>
-
-		<x:scenario label="No extension">
-			<x:call function="x:extension-without-filename">
-				<x:param select="'/path/to/foo'" />
-			</x:call>
-			<x:expect label="zero-length string" select="''" />
-		</x:scenario>
-
-		<x:scenario label="Ends with dot">
-			<x:call function="x:extension-without-filename">
-				<x:param select="'/path/to/foo.'" />
-			</x:call>
-			<x:expect label="dot" select="'.'" />
-		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function resolve-xml-uri-with-catalog">
@@ -1004,17 +914,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function locate-schematron-uri">
-		<!-- TODO: Use catalog -->
-		<x:call function="x:locate-schematron-uri">
-			<x:param href="../tutorial/schematron/demo-01.xspec" select="x:description" />
-		</x:call>
-		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
-		<x:expect label="filename and extension" select="'demo-01.sch'"
-			test="x:filename-and-extension($x:result)" />
-		<x:expect label="reachable" test="doc-available($x:result)" />
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing function left-trim">
 		<x:call function="x:left-trim">
 			<x:param
@@ -1130,114 +1029,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function QName-exactly-equal">
-		<x:scenario label="Both have URI">
-			<x:scenario label="Both have prefix">
-				<x:scenario label="Exactly equal">
-					<x:call function="x:QName-exactly-equal">
-						<x:param select="QName('uri', 'prefix:local')" />
-						<x:param select="QName('uri', 'prefix:local')" />
-					</x:call>
-					<x:expect label="True" select="true()" />
-				</x:scenario>
-
-				<x:scenario label="Different URI">
-					<x:call function="x:QName-exactly-equal">
-						<x:param select="QName('uri', 'prefix:local')" />
-						<x:param select="QName('uri2', 'prefix:local')" />
-					</x:call>
-					<x:expect label="False" select="false()" />
-				</x:scenario>
-
-				<x:scenario label="Different prefix">
-					<x:call function="x:QName-exactly-equal">
-						<x:param select="QName('uri', 'prefix:local')" />
-						<x:param select="QName('uri', 'prefix2:local')" />
-					</x:call>
-					<x:expect label="False" select="false()" />
-				</x:scenario>
-
-				<x:scenario label="Different local">
-					<x:call function="x:QName-exactly-equal">
-						<x:param select="QName('uri', 'prefix:local')" />
-						<x:param select="QName('uri', 'prefix:local2')" />
-					</x:call>
-					<x:expect label="False" select="false()" />
-				</x:scenario>
-			</x:scenario>
-
-			<x:scenario label="One has prefix, the other lacks prefix">
-				<x:call function="x:QName-exactly-equal">
-					<x:param select="QName('uri', 'prefix:local')" />
-					<x:param select="QName('uri', 'local')" />
-				</x:call>
-				<x:expect label="False" select="false()" />
-			</x:scenario>
-
-			<x:scenario label="Both lack prefix">
-				<x:scenario label="Exactly equal">
-					<x:call function="x:QName-exactly-equal">
-						<x:param select="QName('uri', 'local')" />
-						<x:param select="QName('uri', 'local')" />
-					</x:call>
-					<x:expect label="True" select="true()" />
-				</x:scenario>
-
-				<x:scenario label="Different URI">
-					<x:call function="x:QName-exactly-equal">
-						<x:param select="QName('uri', 'local')" />
-						<x:param select="QName('uri2', 'local')" />
-					</x:call>
-					<x:expect label="False" select="false()" />
-				</x:scenario>
-
-				<x:scenario label="Different local">
-					<x:call function="x:QName-exactly-equal">
-						<x:param select="QName('uri', 'local')" />
-						<x:param select="QName('uri', 'local2')" />
-					</x:call>
-					<x:expect label="False" select="false()" />
-				</x:scenario>
-			</x:scenario>
-		</x:scenario>
-
-		<x:scenario label="One has URI, the other lacks URI">
-			<x:scenario label="One has prefix, the other lacks prefix">
-				<x:call function="x:QName-exactly-equal">
-					<x:param select="QName('uri', 'prefix:local')" />
-					<x:param select="QName('', 'local')" />
-				</x:call>
-				<x:expect label="False" select="false()" />
-			</x:scenario>
-
-			<x:scenario label="Both lack prefix">
-				<x:call function="x:QName-exactly-equal">
-					<x:param select="QName('uri', 'local')" />
-					<x:param select="QName('', 'local')" />
-				</x:call>
-				<x:expect label="False" select="false()" />
-			</x:scenario>
-		</x:scenario>
-
-		<x:scenario label="Both lack URI">
-			<x:scenario label="Exactly equal">
-				<x:call function="x:QName-exactly-equal">
-					<x:param select="QName('', 'local')" />
-					<x:param select="QName('', 'local')" />
-				</x:call>
-				<x:expect label="True" select="true()" />
-			</x:scenario>
-
-			<x:scenario label="Different local">
-				<x:call function="x:QName-exactly-equal">
-					<x:param select="QName('', 'local')" />
-					<x:param select="QName('', 'local2')" />
-				</x:call>
-				<x:expect label="False" select="false()" />
-			</x:scenario>
-		</x:scenario>
-	</x:scenario>
-
 	<x:scenario
 		label="Scenario for testing function QName-expression-from-EQName-ignoring-default-ns">
 		<x:scenario label="URIQualifiedName">
@@ -1320,6 +1111,14 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function known-UQName">
+		<x:scenario label="config">
+			<x:call function="x:known-UQName">
+				<x:param select="'config:my-local-name'" />
+			</x:call>
+			<x:expect label="Constructed" select="string()"
+				>Q{http://saxon.sf.net/ns/configuration}my-local-name</x:expect>
+		</x:scenario>
+
 		<x:scenario label="deq">
 			<x:call function="x:known-UQName">
 				<x:param select="'deq:my-local-name'" />

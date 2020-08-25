@@ -12,6 +12,7 @@
                 xmlns:fmt="urn:x-xspec:reporter:format-utils"
                 xmlns:local="urn:x-xspec:reporter:coverage-report:local"
                 xmlns:pkg="http://expath.org/ns/pkg"
+                xmlns:saxon="http://saxon.sf.net/"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xhtml="http://www.w3.org/1999/xhtml"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -386,7 +387,7 @@
 
       <xsl:for-each select="$nodes[not(self::text()[not(normalize-space())])]">
          <xsl:variable name="hits" as="element(h)*"
-            select="local:hit-on-lines(x:line-number(.), $module)" />
+            select="x:line-number(.) => local:hit-on-lines($module)" />
          <xsl:variable name="name" as="xs:string"
             select="'{' || namespace-uri() || '}' || local-name()" />
          <xsl:for-each select="$hits">
@@ -415,6 +416,16 @@
       <!-- Regular expression is based on
          http://www.w3.org/TR/xpath-functions-31/#func-unparsed-text-lines -->
       <xsl:sequence select="tokenize($input, '\r\n|\r|\n')" />
+   </xsl:function>
+
+   <!--
+      Stub function for helping development on IDE without loading ../../java/
+   -->
+   <xsl:function as="xs:integer" name="x:line-number" override-extension-function="no"
+      use-when="function-available('saxon:line-number')">
+      <xsl:param as="node()" name="node" />
+
+      <xsl:sequence select="saxon:line-number($node)" />
    </xsl:function>
 
 </xsl:stylesheet>
