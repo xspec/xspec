@@ -10,6 +10,7 @@
 	-->
 
 	<xsl:include href="../../../src/common/uqname-utils.xsl" />
+	<xsl:include href="../../../src/common/version-utils.xsl" />
 	<xsl:include href="../../../src/common/xspec-utils.xsl" />
 	<xsl:include href="../../test-utils.xsl" />
 
