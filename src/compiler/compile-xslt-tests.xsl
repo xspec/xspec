@@ -56,6 +56,7 @@
          <xsl:for-each
             select="
                '../common/deep-equal.xsl',
+               '../common/namespace-utils.xsl',
                '../common/report-sequence.xsl',
                '../common/wrap.xsl',
                '../common/xml-report-serialization-parameters.xsl',

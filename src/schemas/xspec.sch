@@ -4,6 +4,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!-- Relies on XSLT utilities -->
+	<xsl:include href="../common/namespace-utils.xsl" />
 	<xsl:include href="../common/xspec-utils.xsl" />
 
 	<sch:ns prefix="x" uri="http://www.jenitennison.com/xslt/xspec" />

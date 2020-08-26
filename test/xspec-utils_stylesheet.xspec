@@ -8,45 +8,6 @@
 		/x:description/@stylesheet.
 	-->
 
-	<x:scenario label="Scenario for testing variable deq-namespace">
-		<x:context />
-		<x:expect label="'deq' namespace URI"
-			select="
-				namespace-uri-for-prefix(
-					'deq',
-					doc(resolve-uri('../src/common/deep-equal.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:deq-namespace treat as xs:anyURI" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing variable rep-namespace">
-		<x:context />
-		<x:expect label="'rep' namespace URI"
-			select="
-				namespace-uri-for-prefix(
-					'rep',
-					doc(resolve-uri('../src/common/report-sequence.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:rep-namespace treat as xs:anyURI" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing variable xs-namespace">
-		<x:context />
-		<x:expect label="'xs' namespace URI"
-			select="
-				namespace-uri-for-prefix(
-					'xs',
-					doc(resolve-uri('../src/common/xspec-utils.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:xs-namespace treat as xs:anyURI" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing variable xsl-namespace">
-		<x:context />
-		<x:expect label="'xsl' namespace URI" select="doc('')/element() => namespace-uri()"
-			test="$x:xsl-namespace treat as xs:anyURI" />
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing variable capture-NCName">
 		<x:context />
 		<x:expect label="Captured" select="'bar'"
@@ -71,28 +32,6 @@
 		<x:expect label="Copied and default template rule applied">
 			<foo>bazgrault</foo>
 		</x:expect>
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function copy-of-namespaces">
-		<x:call function="x:copy-of-namespaces">
-			<x:param select="//*:input-element">
-				<wrapper-element xmlns="wrapper-default-ns"
-					xmlns:wrapper-prefix="wrapper-prefixed-ns">
-					<input-element xmlns="default-ns" xmlns:prefix="prefixed-ns" />
-				</wrapper-element>
-			</x:param>
-		</x:call>
-		<x:expect label="Default namespace is copied" select="'default-ns'"
-			test="$x:result[name() eq '']/string()" />
-		<x:expect label="Prefixed namespace is copied" select="'prefixed-ns'"
-			test="$x:result[name() eq 'prefix']/string()" />
-		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
-			test="$x:result[name() eq 'wrapper-prefix']/string()" />
-		<x:expect label="'xml' namespace is not copied"
-			test="
-				$x:result[(name() eq 'xml') or (string() eq 'http://www.w3.org/XML/1998/namespace')]
-				=> empty()"
-		 />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-user-content">
