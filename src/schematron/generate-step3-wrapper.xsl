@@ -22,6 +22,7 @@
 
 	<xsl:include href="../common/namespace-utils.xsl" />
 	<xsl:include href="../common/trim.xsl" />
+	<xsl:include href="../common/uqname-utils.xsl" />
 	<xsl:include href="../common/uri-utils.xsl" />
 	<xsl:include href="../common/xspec-utils.xsl" />
 	<xsl:include href="../compiler/generate-tests-helper.xsl" />
