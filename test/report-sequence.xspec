@@ -8,10 +8,9 @@
                stylesheet="items.xsl">
 
    <!--
-       Test the source files generate-tests-utils.xsl and generate-query-utils.xqm.
-
-       The test target is included implicitly by the XSpec compiler. You don't need to specify it in
-       /t:description/@stylesheet or @query-at.
+      The test target (../src/common/report-sequence.xsl or report-sequence.xqm) is included
+      implicitly by the XSpec compiler. You don't need to specify it in /t:description/@stylesheet
+      or @query-at.
    -->
 
    <!--

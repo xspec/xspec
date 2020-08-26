@@ -2,10 +2,11 @@
 <t:description xmlns:rep="urn:x-xspec:common:report-sequence"
                xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               stylesheet="report-sequence.xsl">
+               stylesheet="do-nothing.xsl">
 
    <!--
-       Test the source file report-sequence.xsl.
+      The test target (../src/common/report-sequence.xsl) is included implicitly by the XSpec
+      compiler. You don't need to specify it in /t:description/@stylesheet.
    -->
 
    <!--
