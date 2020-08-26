@@ -25,7 +25,6 @@
 
 	<xsl:include href="../common/uqname-utils.xsl" />
 	<xsl:include href="../common/uri-utils.xsl" />
-	<xsl:include href="../common/xspec-utils.xsl" />
 	<xsl:include href="locate-schematron-uri.xsl" />
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />

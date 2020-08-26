@@ -745,36 +745,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function left-trim">
-		<x:call function="x:left-trim">
-			<x:param
-				select="'&#x09;&#x0A;&#x0D;&#x20;foo&#x09;&#x0A;&#x0D;&#x20;bar&#x09;&#x0A;&#x0D;&#x20;'"
-			 />
-		</x:call>
-		<x:expect label="Leading trimmed. In-between and trailing intact."
-			select="'foo&#x09;&#x0A;&#x0D;&#x20;bar&#x09;&#x0A;&#x0D;&#x20;'" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function right-trim">
-		<x:call function="x:right-trim">
-			<x:param
-				select="'&#x09;&#x0A;&#x0D;&#x20;foo&#x09;&#x0A;&#x0D;&#x20;bar&#x09;&#x0A;&#x0D;&#x20;'"
-			 />
-		</x:call>
-		<x:expect label="Trailing trimmed. Leading and in-between intact."
-			select="'&#x09;&#x0A;&#x0D;&#x20;foo&#x09;&#x0A;&#x0D;&#x20;bar'" />
-	</x:scenario>
-
-	<x:scenario label="Scenario for testing function trim">
-		<x:call function="x:trim">
-			<x:param
-				select="'&#x09;&#x0A;&#x0D;&#x20;foo&#x09;&#x0A;&#x0D;&#x20;bar&#x09;&#x0A;&#x0D;&#x20;'"
-			 />
-		</x:call>
-		<x:expect label="Leading and trailing trimmed. In-between intact."
-			select="'foo&#x09;&#x0A;&#x0D;&#x20;bar'" />
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing function resolve-UQName">
 		<x:scenario label="With URI">
 			<x:variable as="xs:anyURI" name="ridiculous-uri">'">&lt;#,|%7D&#x20;%7B][$^</x:variable>

@@ -19,6 +19,7 @@
 
    <xsl:include href="../common/deep-equal.xsl" />
    <xsl:include href="../common/parse-report.xsl" />
+   <xsl:include href="../common/trim.xsl" />
    <xsl:include href="../common/uqname-utils.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="../common/xspec-utils.xsl" />
