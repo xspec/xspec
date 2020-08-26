@@ -201,36 +201,6 @@
 	</xsl:function>
 
 	<!--
-		Removes leading whitespace
-	-->
-	<xsl:function as="xs:string" name="x:left-trim">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:sequence select="replace($input, '^\s+', '')" />
-	</xsl:function>
-
-	<!--
-		Removes trailing whitespace
-	-->
-	<xsl:function as="xs:string" name="x:right-trim">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:sequence select="replace($input, '\s+$', '')" />
-	</xsl:function>
-
-	<!--
-		Removes leading and trailing whitespace
-	-->
-	<xsl:function as="xs:string" name="x:trim">
-		<xsl:param as="xs:string" name="input" />
-
-		<xsl:sequence select="
-				$input
-				=> x:right-trim()
-				=> x:left-trim()" />
-	</xsl:function>
-
-	<!--
 		Resolves URIQualifiedName to xs:QName
 	-->
 	<xsl:function as="xs:QName" name="x:resolve-UQName">
@@ -329,66 +299,6 @@
 			select="x:resolve-EQName-ignoring-default-ns($eqname, $element)" />
 
 		<xsl:sequence select="x:QName-expression($qname)" />
-	</xsl:function>
-
-	<!--
-		Constructs URIQualifiedName from namespace URI and local name
-	-->
-	<xsl:function as="xs:string" name="x:UQName">
-		<xsl:param as="xs:string" name="namespace-uri" />
-		<xsl:param as="xs:string" name="local-name" />
-
-		<xsl:sequence select="'Q{' || $namespace-uri || '}' || $local-name" />
-	</xsl:function>
-
-	<!--
-		Returns URIQualifiedName constructed from known prefixes
-	-->
-	<xsl:function as="xs:string" name="x:known-UQName">
-		<xsl:param as="xs:string" name="lexical-qname" />
-
-		<xsl:variable as="xs:string" name="prefix" select="substring-before($lexical-qname, ':')" />
-		<xsl:variable as="xs:string" name="local-name" select="substring-after($lexical-qname, ':')" />
-
-		<xsl:variable as="xs:string" name="namespace">
-			<xsl:choose>
-				<xsl:when test="$prefix eq 'config'">
-					<xsl:sequence select="'http://saxon.sf.net/ns/configuration'" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'deq'">
-					<xsl:sequence select="$x:deq-namespace" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'err'">
-					<xsl:sequence select="'http://www.w3.org/2005/xqt-errors'" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'impl'">
-					<xsl:sequence select="'urn:x-xspec:compile:impl'" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'map'">
-					<xsl:sequence select="'http://www.w3.org/2005/xpath-functions/map'" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'output'">
-					<xsl:sequence select="'http://www.w3.org/2010/xslt-xquery-serialization'" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'rep'">
-					<xsl:sequence select="$x:rep-namespace" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'svrl'">
-					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'x'">
-					<xsl:sequence select="$x:xspec-namespace" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'xs'">
-					<xsl:sequence select="$x:xs-namespace" />
-				</xsl:when>
-				<xsl:when test="$prefix eq 'xsl'">
-					<xsl:sequence select="$x:xsl-namespace" />
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:sequence select="x:UQName($namespace, $local-name)" />
 	</xsl:function>
 
 	<!--

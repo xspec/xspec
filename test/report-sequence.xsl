@@ -11,6 +11,7 @@
 	-->
 
 	<xsl:include href="../src/common/report-sequence.xsl" />
+	<xsl:include href="../src/common/uqname-utils.xsl" />
 	<xsl:include href="../src/common/xml-report-serialization-parameters.xsl" />
 	<xsl:include href="../src/common/xspec-utils.xsl" />
 
