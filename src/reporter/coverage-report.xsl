@@ -20,6 +20,7 @@
                 exclude-result-prefixes="#all">
 
    <xsl:include href="../common/deep-equal.xsl" />
+   <xsl:include href="../common/uqname-utils.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="../common/xspec-utils.xsl" />
    <xsl:include href="format-utils.xsl" />
@@ -68,7 +69,7 @@
       <html>
          <head>
             <title>
-               <xsl:text expand-text="yes">Test Coverage Report for {x:format-uri($stylesheet-uri)}</xsl:text>
+               <xsl:text expand-text="yes">Test Coverage Report for {fmt:format-uri($stylesheet-uri)}</xsl:text>
             </title>
             <xsl:call-template name="fmt:load-css">
                <xsl:with-param name="inline" select="$inline-css cast as xs:boolean" />
@@ -80,7 +81,7 @@
             <p>
                <xsl:text>Stylesheet:  </xsl:text>
                <a href="{$stylesheet-uri}">
-                  <xsl:value-of select="x:format-uri($stylesheet-uri)" />
+                  <xsl:value-of select="fmt:format-uri($stylesheet-uri)" />
                </a>
             </p>
             <xsl:apply-templates select="$stylesheet-trees/xsl:*" mode="#current" />
@@ -109,7 +110,7 @@
          <xsl:sequence select="key('modules', $uri, $trace)/@id" />
       </xsl:variable>
       <h2>
-         <xsl:text expand-text="yes">module: {x:format-uri($stylesheet-uri)}; {$number-of-lines} lines</xsl:text>
+         <xsl:text expand-text="yes">module: {fmt:format-uri($stylesheet-uri)}; {$number-of-lines} lines</xsl:text>
       </h2>
       <xsl:choose>
          <xsl:when test="empty($module)">
