@@ -4,8 +4,9 @@
 	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
-		xspec-utils_stylesheet.xspec uses this file for testing x:is-user-content().
-		When modifying this file, check whether xspec-utils_stylesheet.xspec needs any additions or updates.
+		user-content-utils.xspec uses this file for testing x:is-user-content().
+		When modifying this file, check whether user-content-utils.xspec needs any additions or
+		updates.
 	-->
 
 	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
