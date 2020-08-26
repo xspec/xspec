@@ -15,7 +15,10 @@
 
     <xsl:param name="stylesheet-uri" as="xs:string" select="document-uri($stylesheet-doc)" />
 
+    <xsl:include href="../common/trim.xsl" />
+    <xsl:include href="../common/uqname-utils.xsl" />
     <xsl:include href="../common/uri-utils.xsl" />
+    <xsl:include href="../common/user-content-utils.xsl" />
     <xsl:include href="../common/xspec-utils.xsl" />
     <xsl:include href="../compiler/gatherer.xsl" />
 
