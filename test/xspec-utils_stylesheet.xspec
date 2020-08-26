@@ -20,20 +20,6 @@
 		 />
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing template identity">
-		<x:context>
-			<foo bar="baz">
-				<?qux?>
-				<!--quux-->
-				<corge>grault</corge>
-			</foo>
-		</x:context>
-		<x:call template="x:identity" />
-		<x:expect label="Copied and default template rule applied">
-			<foo>bazgrault</foo>
-		</x:expect>
-	</x:scenario>
-
 	<x:scenario label="Scenario for testing function yes-no-synonym#1">
 		<x:scenario label="Valid strings">
 			<x:scenario label="Base (yes or no)">
