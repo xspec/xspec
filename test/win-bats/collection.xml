@@ -255,12 +255,7 @@
     call :verify_line 3 x xquery-tutorial-result.xml
 	</case>
 
-	<case name="invoking xspec without TEST_DIR set externally (Schematron)">
-    if "%SAXON_VERSION%"=="10.1" (
-        call :skip "Saxon bug 4666"
-        goto :EOF
-    )
-
+	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec without TEST_DIR set externally (Schematron)">
     set TEST_DIR=
 
     rem Use a fresh dir, to make the message line numbers predictable
@@ -422,12 +417,7 @@
     call :verify_exist "%EXPECTED_REPORT%"
 	</case>
 
-	<case name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)">
-    if "%SAXON_VERSION%"=="10.1" (
-        call :skip "Saxon bug 4666"
-        goto :EOF
-    )
-
+	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)">
     set "SPECIAL_CHARS_DIR=%WORK_DIR%\some'path (84) here &amp; there %RANDOM%"
     call :mkdir "%SPECIAL_CHARS_DIR%"
     call :copy ..\tutorial\schematron\demo-03* "%SPECIAL_CHARS_DIR%"
@@ -481,12 +471,7 @@
 		Schematron XSLTs provided externally
 	-->
 
-	<case name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)">
-    if "%SAXON_VERSION%"=="10.1" (
-        call :skip "Saxon bug 4666"
-        goto :EOF
-    )
-
+	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)">
     set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt-include.xsl
     set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt-expand.xsl
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt-compile.xsl
@@ -496,12 +481,7 @@
     call :verify_line 12 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
 
-	<case name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)">
-    if "%SAXON_VERSION%"=="10.1" (
-        call :skip "Saxon bug 4666"
-        goto :EOF
-    )
-
+	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)">
     call :run ant ^
         -buildfile ..\build.xml ^
         -lib "%SAXON_JAR%" ^
@@ -631,12 +611,7 @@
     call :verify_line 3 x xquery-tutorial-result.xml
 	</case>
 
-	<case name="invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)">
-    if "%SAXON_VERSION%"=="10.1" (
-        call :skip "Saxon bug 4666"
-        goto :EOF
-    )
-
+	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)">
     rem Test with x:context[node()] #322
 
     rem Use a fresh dir, to avoid a residue of default output dir
@@ -817,12 +792,7 @@
     call :verify_line 4 x xquery-tutorial-result.xml
 	</case>
 
-	<case name="Ant with minimum properties (Schematron)">
-    if "%SAXON_VERSION%"=="10.1" (
-        call :skip "Saxon bug 4666"
-        goto :EOF
-    )
-
+	<case ifdef="SAXON_BUG_4696_FIXED" name="Ant with minimum properties (Schematron)">
     rem Unset any preset args
     set ANT_ARGS=
 
@@ -1037,12 +1007,7 @@
 		Ant various properties
 	-->
 
-	<case name="Ant for Schematron with various properties except catalog and xspec.fail">
-    if "%SAXON_VERSION%"=="10.1" (
-        call :skip "Saxon bug 4666"
-        goto :EOF
-    )
-
+	<case ifdef="SAXON_BUG_4696_FIXED" name="Ant for Schematron with various properties except catalog and xspec.fail">
     set "BUILD_XML=%WORK_DIR%\build %RANDOM%.xml"
 
     rem For testing -Dxspec.project.dir
