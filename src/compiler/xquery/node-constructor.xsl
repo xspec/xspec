@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:xquery:node-constructor:local"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
@@ -41,7 +42,7 @@
 
       <xsl:choose>
          <xsl:when test="x:is-user-content(.)">
-            <xsl:call-template name="x:avt-or-tvt" />
+            <xsl:call-template name="local:avt-or-tvt" />
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="x:quote-with-apos(.)" />
@@ -56,7 +57,7 @@
 
       <xsl:choose>
          <xsl:when test="x:is-user-content(.) and parent::x:text/@expand-text/x:yes-no-synonym(.)">
-            <xsl:call-template name="x:avt-or-tvt" />
+            <xsl:call-template name="local:avt-or-tvt" />
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="x:quote-with-apos(.)" />
@@ -86,25 +87,9 @@
       <xsl:apply-templates mode="#current" />
    </xsl:template>
 
-   <xsl:template name="x:avt-or-tvt" as="node()+">
-      <xsl:context-item as="node()" use="required" />
-
-      <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
-         characters) should be escaped outside expressions. In other words, an attribute
-         attr="&gt; {0 &gt; 1} &lt; {0 &lt; 1}" in user-content in an XSpec file should be treated
-         as equal to attr="&gt; false &lt; true". -->
-      <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
-         created element does not pollute the namespaces copied for AVT/TVT. -->
-      <xsl:element name="{x:xspec-name('dummy', parent::element())}"
-         namespace="{$x:xspec-namespace}">
-         <!-- AVT/TVT may use namespace prefixes and/or the default namespace such as
-            xs:QName('foo') -->
-         <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
-
-         <xsl:attribute name="vt" select="." />
-      </xsl:element>
-      <xsl:text>/@vt</xsl:text>
-   </xsl:template>
+   <!--
+      Named templates
+   -->
 
    <xsl:template name="x:zero-or-more-node-constructors" as="node()+">
       <xsl:context-item use="absent" />
@@ -125,6 +110,30 @@
             <xsl:text>()</xsl:text>
          </xsl:otherwise>
       </xsl:choose>
+   </xsl:template>
+
+   <!--
+      Local templates
+   -->
+
+   <xsl:template name="local:avt-or-tvt" as="node()+">
+      <xsl:context-item as="node()" use="required" />
+
+      <!-- TODO: '<' and '>' inside expressions should not be escaped. They (and other special
+         characters) should be escaped outside expressions. In other words, an attribute
+         attr="&gt; {0 &gt; 1} &lt; {0 &lt; 1}" in user-content in an XSpec file should be treated
+         as equal to attr="&gt; false &lt; true". -->
+      <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
+         created element does not pollute the namespaces copied for AVT/TVT. -->
+      <xsl:element name="{x:xspec-name('dummy', parent::element())}"
+         namespace="{$x:xspec-namespace}">
+         <!-- AVT/TVT may use namespace prefixes and/or the default namespace such as
+            xs:QName('foo') -->
+         <xsl:sequence select="parent::element() => x:copy-of-namespaces()" />
+
+         <xsl:attribute name="vt" select="." />
+      </xsl:element>
+      <xsl:text>/@vt</xsl:text>
    </xsl:template>
 
 </xsl:stylesheet>
