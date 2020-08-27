@@ -16,8 +16,11 @@ if "%GITHUB_ACTIONS%"=="true" (
     echo ::set-env name=MAVEN_PACKAGE_VERSION::%MAVEN_PACKAGE_VERSION%
 )
 
+set "XSPEC_MAVEN_JAR=%~dp0..\..\target\xspec-%MAVEN_PACKAGE_VERSION%.jar"
+
 call ant ^
     -buildfile "%~dp0build_test-maven-jar.xml" ^
     -lib "%SAXON_JAR%" ^
-    -lib "%~dp0..\..\target\xspec-%MAVEN_PACKAGE_VERSION%.jar" ^
+    -lib "%XSPEC_MAVEN_JAR%" ^
+    -Dtest-maven-jar.jar.file="%XSPEC_MAVEN_JAR%" ^
     %*
