@@ -45,7 +45,7 @@ declare function rep:report-sequence(
             or ($sequence instance of text()+)
           )
           then (
-            attribute select { '/' || x:node-type($sequence[1]) || '()' },
+            attribute select { '/' || rep:node-type($sequence[1]) || '()' },
             element { $content-wrapper-qname } {
               $sequence ! rep:report-node(.)
             }
@@ -137,12 +137,12 @@ declare %private function rep:report-pseudo-item(
 
     else if ($item instance of node()) then
       element
-        { QName($report-namespace, ($local-name-prefix || x:node-type($item))) }
+        { QName($report-namespace, ($local-name-prefix || rep:node-type($item))) }
         { rep:report-node($item) }
 
-    else if (x:instance-of-function($item)) then
+    else if (rep:instance-of-function($item)) then
       element
-        { QName($report-namespace, ($local-name-prefix || x:function-type($item))) }
+        { QName($report-namespace, ($local-name-prefix || rep:function-type($item))) }
         { rep:serialize-adaptive($item) }
 
     else
@@ -238,8 +238,7 @@ declare %private function rep:report-atomic-value-as-constructor(
 };
 
 (:
-  This function should be %private. But ../../test/report-sequence_query_schema-aware.xspec requires
-  this to be exposed.
+  This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.
 :)
 declare function rep:atom-type(
   $value as xs:anyAtomicType
@@ -309,3 +308,71 @@ declare %private function rep:serialize-adaptive(
   )
 };
 
+(:
+  Returns node type
+    Example: 'element'
+
+  This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.
+:)
+declare function rep:node-type(
+  $node as node()
+) as xs:string
+{
+  if ($node instance of attribute()) then
+    'attribute'
+  else if ($node instance of comment()) then
+    'comment'
+  else if ($node instance of document-node()) then
+    'document-node'
+  else if ($node instance of element()) then
+    'element'
+  else if ($node instance of namespace-node()) then
+    'namespace-node'
+  else if ($node instance of processing-instruction()) then
+    'processing-instruction'
+  else if ($node instance of text()) then
+    'text'
+  else
+    'node'
+};
+
+(:
+  Returns true if item is function (including map and array).
+
+  Alternative to "instance of function(*)" which is not widely available.
+
+  This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.
+:)
+declare function rep:instance-of-function(
+  $item as item()
+) as xs:boolean
+{
+  if (($item instance of array(*)) or ($item instance of map(*))) then
+    true()
+  else
+    (: TODO: Enable this 'if' when function(*) is made available on all the supported XQuery processors :)
+    (:
+    if ($item instance of function(*)) then
+      true()
+    else
+    :)
+    false()
+};
+
+(:
+  Returns type of function (including map and array).
+
+  $function must be an instance of function(*).
+
+  This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.
+:)
+declare function rep:function-type(
+  (: TODO: "as function(*)" :)
+  $function as item()
+) as xs:string
+{
+  typeswitch ($function)
+    case array(*) return 'array'
+    case map(*)   return 'map'
+    default       return 'function'
+};
