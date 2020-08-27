@@ -46,17 +46,6 @@
 	<xsl:variable as="xs:string" name="x:capture-NCName">([\i-[:]][\c-[:]]*)</xsl:variable>
 
 	<!--
-		Identity template
-	-->
-	<xsl:template as="node()" name="x:identity">
-		<xsl:context-item as="node()" use="required" />
-
-		<xsl:copy>
-			<xsl:apply-templates mode="#current" select="attribute() | node()" />
-		</xsl:copy>
-	</xsl:template>
-
-	<!--
 		Makes copies of namespaces from element
 		The standard 'xml' namespace is excluded.
 	-->
