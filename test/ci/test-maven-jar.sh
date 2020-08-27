@@ -18,8 +18,11 @@ myname="${BASH_SOURCE:-$0}"
 mydirname=$(dirname -- "${myname}")
 mydir=$(cd -P -- "${mydirname}" && pwd)
 
+xspec_maven_jar="${mydir}/../../target/xspec-${maven_package_version}.jar"
+
 ant \
     -buildfile "${mydir}/build_test-maven-jar.xml" \
     -lib "${SAXON_JAR}" \
-    -lib "${mydir}/../../target/xspec-${maven_package_version}.jar" \
+    -lib "${xspec_maven_jar}" \
+    -Dtest-maven-jar.jar.file="${xspec_maven_jar}" \
     "$@"
