@@ -8,6 +8,7 @@
 	-->
 
 	<xsl:include href="deep-equal.xsl" />
+	<xsl:include href="namespace-utils.xsl" />
 	<xsl:include href="report-sequence.xsl" />
 	<xsl:include href="uqname-utils.xsl" />
 	<xsl:include href="wrap.xsl" />
