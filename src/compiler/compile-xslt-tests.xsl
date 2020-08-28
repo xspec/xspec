@@ -55,13 +55,7 @@
          <xsl:comment> XSpec library modules providing tools </xsl:comment>
          <xsl:for-each
             select="
-               '../common/deep-equal.xsl',
-               '../common/namespace-utils.xsl',
-               '../common/report-sequence.xsl',
-               '../common/uqname-utils.xsl',
-               '../common/wrap.xsl',
-               '../common/xml-report-serialization-parameters.xsl',
-               '../common/xspec-utils.xsl',
+               '../common/runtime-utils.xsl',
                '../schematron/select-node.xsl'[$is-schematron]">
             <xsl:element name="xsl:include" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="href" select="resolve-uri(.)" />
