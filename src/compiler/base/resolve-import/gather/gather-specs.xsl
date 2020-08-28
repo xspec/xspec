@@ -1,69 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:local="urn:x-xspec:compile:gatherer:local"
+<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:base:resolve-import:gather:gather-specs:local"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
                 version="3.0">
-
-   <!--
-      Gathers all the children of the initial and the imported x:description. Mostly x:scenario but
-      also the other children including x:variable and comments. (x:import is resolved and then
-      discarded.)
-      The original node identities, document URI and base URI are lost.
-   -->
-   <xsl:function name="x:resolve-import" as="node()*">
-      <xsl:param name="initial-description" as="element(x:description)" />
-
-      <!-- Collect all the instances of x:description by resolving x:import -->
-      <xsl:variable name="descriptions" as="element(x:description)+"
-         select="x:gather-descriptions($initial-description)" />
-
-      <!-- Collect and resolve all the children of x:description -->
-      <xsl:apply-templates select="$descriptions" mode="x:gather-specs" />
-   </xsl:function>
-
-   <!--
-      Gather x:description
-   -->
-
-   <xsl:function name="x:gather-descriptions" as="element(x:description)+">
-      <xsl:param name="visit" as="element(x:description)+"/>
-
-      <!-- "$visit/x:import" without sorting -->
-      <xsl:variable name="imports" as="element(x:import)*"
-                    select="local:distinct-nodes-stable($visit ! x:import)" />
-
-      <!-- "document($imports/@href)" (and error check) without sorting -->
-      <xsl:variable name="docs" as="document-node(element(x:description))*"
-                    select="local:distinct-nodes-stable(
-                               $imports
-                               ! (document(@href) treat as document-node(element(x:description)))
-                            )" />
-
-      <!-- "$docs/x:description" without sorting -->
-      <xsl:variable name="imported" as="element(x:description)*"
-                    select="local:distinct-nodes-stable($docs ! x:description)" />
-
-      <!-- "$imported except $visit" without sorting -->
-      <xsl:variable name="visited-actual-uris" as="xs:anyURI+"
-         select="$visit ! x:actual-document-uri(/)" />
-      <xsl:variable name="imported-except-visit" as="element(x:description)*"
-         select="
-            $imported[empty(. intersect $visit)]
-
-            (: xspec/xspec#987 :)
-            [not(x:actual-document-uri(/) = $visited-actual-uris)]" />
-
-      <xsl:choose>
-         <xsl:when test="empty($imported-except-visit)">
-            <xsl:sequence select="$visit"/>
-         </xsl:when>
-         <xsl:otherwise>
-            <xsl:sequence select="($visit, $imported-except-visit) => x:gather-descriptions()" />
-         </xsl:otherwise>
-      </xsl:choose>
-   </xsl:function>
 
    <!--
       mode="x:gather-specs"
@@ -207,19 +148,5 @@
          </xsl:element>
       </xsl:if>
    </xsl:template>
-
-   <!--
-      Local functions
-   -->
-
-   <!-- Removes duplicate nodes from a sequence of nodes. (Removes a node if it appears
-      in a prior position of the sequence.)
-      This function does not sort nodes in document order.
-      Based on http://www.w3.org/TR/xpath-functions-31/#func-distinct-nodes-stable -->
-   <xsl:function name="local:distinct-nodes-stable" as="node()*">
-      <xsl:param name="nodes" as="node()*"/>
-
-      <xsl:sequence select="$nodes[empty(subsequence($nodes, 1, position() - 1) intersect .)]"/>
-   </xsl:function>
 
 </xsl:stylesheet>
