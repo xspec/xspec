@@ -18,6 +18,7 @@
                 exclude-result-prefixes="#all">
 
    <xsl:include href="../common/deep-equal.xsl" />
+   <xsl:include href="../common/namespace-utils.xsl" />
    <xsl:include href="../common/parse-report.xsl" />
    <xsl:include href="../common/trim.xsl" />
    <xsl:include href="../common/uqname-utils.xsl" />

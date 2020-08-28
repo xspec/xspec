@@ -4,34 +4,10 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		XSpec 'deq' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:deq-namespace"
-		select="xs:anyURI('urn:x-xspec:common:deep-equal')" />
-
-	<!--
-		XSpec 'rep' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:rep-namespace"
-		select="xs:anyURI('urn:x-xspec:common:report-sequence')" />
-
-	<!--
 		XSpec 'x' namespace URI
 	-->
 	<xsl:variable as="xs:anyURI" name="x:xspec-namespace"
 		select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')" />
-
-	<!--
-		Standard 'xs' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:xs-namespace"
-		select="xs:anyURI('http://www.w3.org/2001/XMLSchema')" />
-
-	<!--
-		Standard 'xsl' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:xsl-namespace"
-		select="xs:anyURI('http://www.w3.org/1999/XSL/Transform')" />
 
 	<!--
 		U+0027
@@ -44,18 +20,6 @@
 		Based on https://github.com/xspec/xspec/blob/fb7f63d8190a5ccfea5c6a21b2ee142164a7c92c/src/schemas/xspec.rnc#L329
 	-->
 	<xsl:variable as="xs:string" name="x:capture-NCName">([\i-[:]][\c-[:]]*)</xsl:variable>
-
-	<!--
-		Makes copies of namespaces from element
-		The standard 'xml' namespace is excluded.
-	-->
-	<xsl:function as="namespace-node()*" name="x:copy-of-namespaces">
-		<xsl:param as="element()" name="element" />
-
-		<xsl:for-each select="in-scope-prefixes($element)[. ne 'xml']">
-			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $element)" />
-		</xsl:for-each>
-	</xsl:function>
 
 	<!--
 		Returns numeric literal of xs:decimal
