@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<description stylesheet="do-nothing.xsl" xmlns="http://www.jenitennison.com/xslt/xspec">
-
-	<!--
-		The test target (../src/common/xspec-utils.xsl) is included implicitly by the XSpec
-		compiler. You don't need to specify it in /x:description/@stylesheet.
-	-->
+<description stylesheet="../src/compiler/compiler-utils.xsl"
+	xmlns="http://www.jenitennison.com/xslt/xspec">
 
 	<scenario label="Scenario for testing function xspec-name">
 		<scenario label="Element name is in XSpec namespace">

@@ -21,6 +21,7 @@
     <xsl:include href="../common/uri-utils.xsl" />
     <xsl:include href="../common/user-content-utils.xsl" />
     <xsl:include href="../common/xspec-utils.xsl" />
+    <xsl:include href="../compiler/compiler-utils.xsl" />
     <xsl:include href="../compiler/gatherer.xsl" />
 
     <xsl:output indent="yes" />

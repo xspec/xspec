@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/compiler/compiler-utils.xsl"
+	xmlns:err="http://www.w3.org/2005/xqt-errors" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:scenario label="Scenario for testing function yes-no-synonym#1">
+		<x:scenario label="Valid strings">
+			<x:scenario label="Base (yes or no)">
+				<x:scenario label="'yes'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'yes'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'no'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'no'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="Synonym (true or false)">
+				<x:scenario label="'true'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'true'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'false'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'false'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="Synonym (1 or 0)">
+				<x:scenario label="'1'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'1'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'0'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'0'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function yes-no-synonym#2">
+		<x:scenario label="Input true">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'true'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'true'" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Input false">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'false'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'false'" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Input empty">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="()" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="()" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario catch="true" label="Unexpected input">
+			<x:scenario label="Zero-length string">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="''" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="Error without falling back on the default value"
+					select="xs:QName('err:XTTE0780')" test="$x:result?err?code treat as xs:QName" />
+			</x:scenario>
+
+			<x:scenario label="Bogus">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'bogus'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="Error without falling back on the default value"
+					select="xs:QName('err:XTTE0780')" test="$x:result?err?code treat as xs:QName" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function xslt-version">
+		<x:scenario label="default">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent>
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="3.0" select="3.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in self">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent>
+								<context xslt-version="999">
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in parent">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent>
+							<parent xslt-version="999">
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="defined in grandparent">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent xslt-version="999">
+							<parent>
+								<context>
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take it" select="999.0" />
+		</x:scenario>
+
+		<x:scenario label="override">
+			<x:call function="x:xslt-version">
+				<x:param as="element(context)" select="//context">
+					<test>
+						<grandparent xslt-version="9999">
+							<parent xslt-version="999">
+								<context xslt-version="99">
+									<child xslt-version="0" />
+								</context>
+							</parent>
+						</grandparent>
+					</test>
+				</x:param>
+			</x:call>
+			<x:expect label="take the nearest ancestor-or-self" select="99.0" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function element-additional-namespace-nodes">
+		<x:scenario label="Element has a prefix">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<prefix1:e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''][. eq 'default-ns'] => exists()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'] => empty()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
+		</x:scenario>
+
+		<x:scenario label="Element does not have a prefix">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''] => empty()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'][. eq 'ns1'] => exists()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
+		</x:scenario>
+
+		<x:scenario label="Element namespace is undeclared">
+			<x:call function="x:element-additional-namespace-nodes">
+				<x:param>
+					<e xmlns="" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+				</x:param>
+			</x:call>
+			<x:expect label="Namespace nodes" test="$x:result instance of namespace-node()+" />
+			<x:expect label="xml" test="$x:result[name() eq 'xml'] => empty()" />
+			<x:expect label="Default" test="$x:result[name() eq ''] => empty()" />
+			<x:expect label="prefix1" test="$x:result[name() eq 'prefix1'][. eq 'ns1'] => exists()" />
+			<x:expect label="prefix2" test="$x:result[name() eq 'prefix2'][. eq 'ns2'] => exists()"
+			 />
+		</x:scenario>
+	</x:scenario>
+
+	<!-- x:xspec-name() is tested in xspec-name.xspec which is externalized because of its violating
+		the XSpec schema. -->
+
+</x:description>
