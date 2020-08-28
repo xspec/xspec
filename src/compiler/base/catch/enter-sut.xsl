@@ -14,7 +14,7 @@
 
       <xsl:choose>
          <xsl:when test="x:yes-no-synonym(ancestor-or-self::*[@catch][1]/@catch, false())">
-            <xsl:call-template name="x:output-try-catch">
+            <xsl:call-template name="x:try-catch">
                <xsl:with-param name="instruction" select="$instruction" />
             </xsl:call-template>
          </xsl:when>

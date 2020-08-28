@@ -4,7 +4,7 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <xsl:template name="x:output-try-catch" as="text()+">
+   <xsl:template name="x:try-catch" as="text()+">
       <xsl:context-item use="absent" />
 
       <xsl:param name="instruction" as="text()+" required="yes" />

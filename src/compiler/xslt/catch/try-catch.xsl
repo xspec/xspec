@@ -7,7 +7,7 @@
 
    <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl" />
 
-   <xsl:template name="x:output-try-catch" as="element(xsl:try)">
+   <xsl:template name="x:try-catch" as="element(xsl:try)">
       <xsl:context-item use="absent" />
 
       <xsl:param name="instruction" as="element()" required="yes" />
