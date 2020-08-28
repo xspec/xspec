@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="../src/compiler/compiler-eqname-utils.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario label="Resolve QName With prefix">
 		<x:call function="x:resolve-EQName-ignoring-default-ns">
 			<x:param select="'prefix:foo'" />

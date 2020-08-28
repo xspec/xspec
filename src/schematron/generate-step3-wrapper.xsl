@@ -26,7 +26,9 @@
 	<xsl:include href="../common/uri-utils.xsl" />
 	<xsl:include href="../common/user-content-utils.xsl" />
 	<xsl:include href="../common/xspec-utils.xsl" />
+	<xsl:include href="../compiler/compiler-eqname-utils.xsl" />
 	<xsl:include href="../compiler/generate-tests-helper.xsl" />
+	<xsl:include href="../compiler/variable-uqname.xsl" />
 	<xsl:include href="locate-schematron-uri.xsl" />
 
 	<xsl:output indent="yes" />

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/compiler/variable-uqname.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Dependency -->
+	<x:helper stylesheet="../src/compiler/compiler-eqname-utils.xsl" />
+
+	<x:scenario label="Scenario for testing function variable-UQName"
+		xmlns:my-element-prefix="my-element-namespace">
+		<x:scenario label="With @name">
+			<x:call function="x:variable-UQName">
+				<x:param>
+					<my-element-prefix:my-element name="my-name-prefix:my-name"
+						xmlns:my-name-prefix="my-name-namespace" />
+				</x:param>
+			</x:call>
+			<x:expect label="URIQualifiedName with namespace and local name specified in @name"
+				select="string()">Q{my-name-namespace}my-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Without @name">
+			<x:call function="x:variable-UQName">
+				<x:param>
+					<my-element-prefix:my-element />
+				</x:param>
+			</x:call>
+			<x:expect label="URIQualifiedName with predefined namespace and dynamic ID"
+				test="matches($x:result, '^Q\{urn:x-xspec:compile:impl\}my-element-\S+$')" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
