@@ -24,7 +24,7 @@
    <xsl:include href="../common/user-content-utils.xsl" />
    <xsl:include href="../common/version-utils.xsl" />
    <xsl:include href="../common/xspec-utils.xsl" />
-   <xsl:include href="combine.xsl" />
+   <xsl:include href="base/combine/combine.xsl" />
    <xsl:include href="compiler-utils.xsl" />
    <xsl:include href="gatherer.xsl" />
 
