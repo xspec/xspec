@@ -391,4 +391,109 @@
 
    </t:scenario>
 
+	<t:scenario label="Scenario for testing function node-type">
+		<t:scenario label="Attribute">
+			<t:call function="rep:node-type">
+				<t:param select="$items:attribute" />
+			</t:call>
+			<t:expect label="attribute" select="'attribute'" />
+		</t:scenario>
+
+		<t:scenario label="Comment">
+			<t:call function="rep:node-type">
+				<t:param select="$items:comment" />
+			</t:call>
+			<t:expect label="comment" select="'comment'" />
+		</t:scenario>
+
+		<t:scenario label="Document">
+			<t:call function="rep:node-type">
+				<t:param select="$items:document" />
+			</t:call>
+			<t:expect label="document-node" select="'document-node'" />
+		</t:scenario>
+
+		<t:scenario label="Element">
+			<t:call function="rep:node-type">
+				<t:param select="$items:element" />
+			</t:call>
+			<t:expect label="element" select="'element'" />
+		</t:scenario>
+
+		<t:scenario label="Namespace">
+			<t:call function="rep:node-type">
+				<t:param select="$items:namespace" />
+			</t:call>
+			<t:expect label="namespace-node" select="'namespace-node'" />
+		</t:scenario>
+
+		<t:scenario label="Processing instruction">
+			<t:call function="rep:node-type">
+				<t:param select="$items:processing-instruction" />
+			</t:call>
+			<t:expect label="processing-instruction" select="'processing-instruction'" />
+		</t:scenario>
+
+		<t:scenario label="Text">
+			<t:call function="rep:node-type">
+				<t:param select="$items:text" />
+			</t:call>
+			<t:expect label="text" select="'text'" />
+		</t:scenario>
+	</t:scenario>
+
+	<t:scenario label="Scenario for testing function instance-of-function">
+		<t:scenario label="Node">
+			<t:call function="rep:instance-of-function">
+				<t:param>
+					<e />
+				</t:param>
+			</t:call>
+			<t:expect label="False" select="false()" />
+		</t:scenario>
+
+		<t:scenario label="Atomic value">
+			<t:call function="rep:instance-of-function">
+				<t:param select="1" />
+			</t:call>
+			<t:expect label="False" select="false()" />
+		</t:scenario>
+
+		<t:scenario label="function(*)">
+			<t:scenario label="Array">
+				<t:call function="rep:instance-of-function">
+					<t:param select="[ 0, 1 ]" />
+				</t:call>
+				<t:expect label="True" select="true()" />
+			</t:scenario>
+
+			<t:scenario label="Map">
+				<t:call function="rep:instance-of-function">
+					<t:param select="map { 0: 1 }" />
+				</t:call>
+				<t:expect label="True" select="true()" />
+			</t:scenario>
+
+			<!-- Function (excluding map and array) is tested in report-sequence_stylesheet_hof.xspec -->
+		</t:scenario>
+	</t:scenario>
+
+	<t:scenario label="Scenario for testing function function-type">
+		<t:scenario label="Array">
+			<t:call function="rep:function-type">
+				<t:param select="[ 0, 1 ]" />
+			</t:call>
+			<t:expect label="array" select="'array'" />
+		</t:scenario>
+
+		<t:scenario label="Map">
+			<t:call function="rep:function-type">
+				<t:param select="map { 0: 1 }" />
+			</t:call>
+			<t:expect label="map" select="'map'" />
+		</t:scenario>
+
+		<!-- Function (excluding map and array) is tested in report-sequence_stylesheet_hof.xspec -->
+	</t:scenario>
+
 </t:description>
