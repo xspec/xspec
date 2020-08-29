@@ -345,7 +345,7 @@
                   <xsl:choose>
                      <xsl:when test="$is-external">
                         <!-- Set up the $impl:transform-options variable -->
-                        <xsl:call-template name="x:setup-transform-options" />
+                        <xsl:call-template name="x:transform-options" />
 
                         <!-- Generate XSLT elements which perform entering SUT -->
                         <xsl:variable name="enter-sut" as="element()+">
@@ -512,7 +512,7 @@
    </xsl:template>
 
    <!-- Constructs options for transform() -->
-   <xsl:template name="x:setup-transform-options" as="element(xsl:variable)">
+   <xsl:template name="x:transform-options" as="element(xsl:variable)">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
