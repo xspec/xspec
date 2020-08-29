@@ -25,8 +25,10 @@
    <xsl:include href="../common/version-utils.xsl" />
    <xsl:include href="../common/xspec-utils.xsl" />
    <xsl:include href="base/catch/enter-sut.xsl" />
+   <xsl:include href="base/declare-variable/variable-uqname.xsl" />
+   <xsl:include href="base/util/compiler-eqname-utils.xsl" />
+   <xsl:include href="base/util/compiler-misc-utils.xsl" />
    <xsl:include href="combine.xsl" />
-   <xsl:include href="compiler-utils.xsl" />
    <xsl:include href="gatherer.xsl" />
 
    <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
