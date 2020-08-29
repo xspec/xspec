@@ -3,7 +3,7 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Dependency -->
-	<x:helper stylesheet="../src/compiler/compiler-eqname-utils.xsl" />
+	<x:helper stylesheet="../src/compiler/base/util/compiler-eqname-utils.xsl" />
 
 	<x:scenario label="Scenario for testing function variable-UQName"
 		xmlns:my-element-prefix="my-element-namespace">

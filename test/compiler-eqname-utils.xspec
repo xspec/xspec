@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../src/compiler/compiler-eqname-utils.xsl"
-	xmlns:local="urn:x-xspec:compiler:compiler-eqname-utils:local"
+<x:description stylesheet="../src/compiler/base/util/compiler-eqname-utils.xsl"
+	xmlns:local="urn:x-xspec:compiler:base:util:compiler-eqname-utils:local"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:helper stylesheet="test-utils.xsl" />

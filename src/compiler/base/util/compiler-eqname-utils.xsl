@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:compiler-eqname-utils:local"
+<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:base:util:compiler-eqname-utils:local"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
