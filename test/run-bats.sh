@@ -21,6 +21,13 @@ if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F " 9." > /dev/null
     export XSLT_SUPPORTS_COVERAGE=1
 fi
 
+export SAXON_BUG_4696_FIXED=1
+case "${SAXON_VERSION}" in
+    "10.0" | "10.1" | "10.2")
+        unset SAXON_BUG_4696_FIXED
+        ;;
+esac
+
 # Unset JVM environment variables which make output line numbers unpredictable
 unset _JAVA_OPTIONS
 unset JAVA_TOOL_OPTIONS
