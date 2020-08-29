@@ -20,6 +20,11 @@ rem Check capabilities
 java -cp "%SAXON_JAR%" net.sf.saxon.Version 2>&1 | "%SYSTEMROOT%\system32\find" " 9." > NUL
 if not errorlevel 1 set XSLT_SUPPORTS_COVERAGE=1
 
+set SAXON_BUG_4696_FIXED=1
+if "%SAXON_VERSION%"=="10.0" set SAXON_BUG_4696_FIXED=
+if "%SAXON_VERSION%"=="10.1" set SAXON_BUG_4696_FIXED=
+if "%SAXON_VERSION%"=="10.2" set SAXON_BUG_4696_FIXED=
+
 rem Unset Ant environment variables
 set ANT_ARGS=
 set ANT_OPTS=
