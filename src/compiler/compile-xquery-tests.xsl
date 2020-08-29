@@ -16,8 +16,10 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <xsl:import href="generate-common-tests.xsl"/>
-   <xsl:import href="generate-query-helper.xsl"/>
+   <xsl:include href="xquery/declare-variable/declare-variable.xsl" />
+   <xsl:include href="xquery/node-constructor/node-constructor.xsl" />
+   <xsl:include href="xquery/serialize/disable-escaping.xsl" />
+   <xsl:include href="generate-common-tests.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl</pkg:import-uri>
 
