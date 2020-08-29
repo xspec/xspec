@@ -22,67 +22,6 @@
 	<xsl:variable as="xs:string" name="x:capture-NCName">([\i-[:]][\c-[:]]*)</xsl:variable>
 
 	<!--
-		Returns node type
-			Example: 'element'
-	-->
-	<xsl:function as="xs:string" name="x:node-type">
-		<xsl:param as="node()" name="node" />
-
-		<xsl:choose>
-			<xsl:when test="$node instance of attribute()">attribute</xsl:when>
-			<xsl:when test="$node instance of comment()">comment</xsl:when>
-			<xsl:when test="$node instance of document-node()">document-node</xsl:when>
-			<xsl:when test="$node instance of element()">element</xsl:when>
-			<xsl:when test="$node instance of namespace-node()">namespace-node</xsl:when>
-			<xsl:when test="$node instance of processing-instruction()"
-				>processing-instruction</xsl:when>
-			<xsl:when test="$node instance of text()">text</xsl:when>
-			<xsl:otherwise>node</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
-
-	<!--
-		Returns true if item is function (including map and array).
-		
-		Alternative to "instance of function(*)" which is not widely available.
-	-->
-	<xsl:function as="xs:boolean" name="x:instance-of-function">
-		<xsl:param as="item()" name="item" />
-
-		<xsl:choose>
-			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))">
-				<xsl:sequence select="true()" />
-			</xsl:when>
-
-			<xsl:when test="$item instance of function(*)"
-				use-when="function-available('function-lookup')">
-				<xsl:sequence select="true()" />
-			</xsl:when>
-
-			<xsl:otherwise>
-				<xsl:sequence select="false()" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
-
-	<!--
-		Returns type of function (including map and array).
-		
-		$function must be an instance of function(*).
-	-->
-	<xsl:function as="xs:string" name="x:function-type">
-
-		<!-- TODO: @as="function(*)" -->
-		<xsl:param as="item()" name="function" />
-
-		<xsl:choose>
-			<xsl:when test="$function instance of array(*)">array</xsl:when>
-			<xsl:when test="$function instance of map(*)">map</xsl:when>
-			<xsl:otherwise>function</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
-
-	<!--
 		Returns numeric literal of xs:decimal
 			http://www.w3.org/TR/xpath20/#id-literals
 
