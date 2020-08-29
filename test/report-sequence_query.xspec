@@ -5,10 +5,8 @@
                query-at="do-nothing.xqm">
 
    <!--
-       Test the source file report-sequence.xqm.
-
-       The test target is included implicitly by the XSpec compiler. You don't need
-       to specify it in /t:description/@query-at.
+      The test target (../src/common/report-sequence.xqm) is included implicitly by the XSpec
+      compiler. You don't need to specify it in /t:description/@query-at.
    -->
 
    <!--
