@@ -25,8 +25,8 @@
    <xsl:include href="../common/version-utils.xsl" />
    <xsl:include href="../common/xspec-utils.xsl" />
    <xsl:include href="combine.xsl" />
-   <xsl:include href="compiler-base-utils.xsl" />
    <xsl:include href="compiler-eqname-utils.xsl"/>
+   <xsl:include href="compiler-misc-utils.xsl" />
    <xsl:include href="gatherer.xsl" />
    <xsl:include href="variable-uqname.xsl" />
 
