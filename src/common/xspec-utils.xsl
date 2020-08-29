@@ -4,34 +4,10 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
-		XSpec 'deq' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:deq-namespace"
-		select="xs:anyURI('urn:x-xspec:common:deep-equal')" />
-
-	<!--
-		XSpec 'rep' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:rep-namespace"
-		select="xs:anyURI('urn:x-xspec:common:report-sequence')" />
-
-	<!--
 		XSpec 'x' namespace URI
 	-->
 	<xsl:variable as="xs:anyURI" name="x:xspec-namespace"
 		select="xs:anyURI('http://www.jenitennison.com/xslt/xspec')" />
-
-	<!--
-		Standard 'xs' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:xs-namespace"
-		select="xs:anyURI('http://www.w3.org/2001/XMLSchema')" />
-
-	<!--
-		Standard 'xsl' namespace URI
-	-->
-	<xsl:variable as="xs:anyURI" name="x:xsl-namespace"
-		select="xs:anyURI('http://www.w3.org/1999/XSL/Transform')" />
 
 	<!--
 		U+0027
@@ -44,79 +20,6 @@
 		Based on https://github.com/xspec/xspec/blob/fb7f63d8190a5ccfea5c6a21b2ee142164a7c92c/src/schemas/xspec.rnc#L329
 	-->
 	<xsl:variable as="xs:string" name="x:capture-NCName">([\i-[:]][\c-[:]]*)</xsl:variable>
-
-	<!--
-		Makes copies of namespaces from element
-		The standard 'xml' namespace is excluded.
-	-->
-	<xsl:function as="namespace-node()*" name="x:copy-of-namespaces">
-		<xsl:param as="element()" name="element" />
-
-		<xsl:for-each select="in-scope-prefixes($element)[. ne 'xml']">
-			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $element)" />
-		</xsl:for-each>
-	</xsl:function>
-
-	<!--
-		Returns node type
-			Example: 'element'
-	-->
-	<xsl:function as="xs:string" name="x:node-type">
-		<xsl:param as="node()" name="node" />
-
-		<xsl:choose>
-			<xsl:when test="$node instance of attribute()">attribute</xsl:when>
-			<xsl:when test="$node instance of comment()">comment</xsl:when>
-			<xsl:when test="$node instance of document-node()">document-node</xsl:when>
-			<xsl:when test="$node instance of element()">element</xsl:when>
-			<xsl:when test="$node instance of namespace-node()">namespace-node</xsl:when>
-			<xsl:when test="$node instance of processing-instruction()"
-				>processing-instruction</xsl:when>
-			<xsl:when test="$node instance of text()">text</xsl:when>
-			<xsl:otherwise>node</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
-
-	<!--
-		Returns true if item is function (including map and array).
-		
-		Alternative to "instance of function(*)" which is not widely available.
-	-->
-	<xsl:function as="xs:boolean" name="x:instance-of-function">
-		<xsl:param as="item()" name="item" />
-
-		<xsl:choose>
-			<xsl:when test="($item instance of array(*)) or ($item instance of map(*))">
-				<xsl:sequence select="true()" />
-			</xsl:when>
-
-			<xsl:when test="$item instance of function(*)"
-				use-when="function-available('function-lookup')">
-				<xsl:sequence select="true()" />
-			</xsl:when>
-
-			<xsl:otherwise>
-				<xsl:sequence select="false()" />
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
-
-	<!--
-		Returns type of function (including map and array).
-		
-		$function must be an instance of function(*).
-	-->
-	<xsl:function as="xs:string" name="x:function-type">
-
-		<!-- TODO: @as="function(*)" -->
-		<xsl:param as="item()" name="function" />
-
-		<xsl:choose>
-			<xsl:when test="$function instance of array(*)">array</xsl:when>
-			<xsl:when test="$function instance of map(*)">map</xsl:when>
-			<xsl:otherwise>function</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>
 
 	<!--
 		Returns numeric literal of xs:decimal

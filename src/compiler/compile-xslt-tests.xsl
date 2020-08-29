@@ -55,12 +55,7 @@
          <xsl:comment> XSpec library modules providing tools </xsl:comment>
          <xsl:for-each
             select="
-               '../common/deep-equal.xsl',
-               '../common/report-sequence.xsl',
-               '../common/uqname-utils.xsl',
-               '../common/wrap.xsl',
-               '../common/xml-report-serialization-parameters.xsl',
-               '../common/xspec-utils.xsl',
+               '../common/runtime-utils.xsl',
                '../schematron/select-node.xsl'[$is-schematron]">
             <xsl:element name="xsl:include" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="href" select="resolve-uri(.)" />
@@ -528,9 +523,6 @@
                Common options
             -->
 
-            <!-- cache must be false(): https://saxonica.plan.io/issues/4667 -->
-            <map-entry key="'cache'" select="false()" />
-
             <map-entry key="'delivery-format'" select="'raw'" />
 
             <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
@@ -551,6 +543,7 @@
                      mode="x:param-to-map-entry" />
                </map>
             </map-entry>
+
             <if test="${x:known-UQName('x:saxon-config')} => exists()">
                <!-- Check that the variable appears to be a Saxon configuration -->
                <choose>
@@ -564,6 +557,9 @@
                      </message>
                   </otherwise>
                </choose>
+
+               <!-- cache must be false(): https://saxonica.plan.io/issues/4667 -->
+               <map-entry key="'cache'" select="false()" />
 
                <map-entry key="'vendor-options'">
                   <map>
