@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<description stylesheet="../src/compiler/compiler-utils.xsl"
+<description stylesheet="../src/compiler/compiler-misc-utils.xsl"
 	xmlns="http://www.jenitennison.com/xslt/xspec">
 
 	<scenario label="Scenario for testing function xspec-name">
