@@ -24,6 +24,7 @@
    <xsl:include href="../common/user-content-utils.xsl" />
    <xsl:include href="../common/version-utils.xsl" />
    <xsl:include href="../common/xspec-utils.xsl" />
+   <xsl:include href="base/compile/compile-scenario.xsl" />
    <xsl:include href="base/declare-variable/variable-uqname.xsl" />
    <xsl:include href="base/util/compiler-eqname-utils.xsl" />
    <xsl:include href="base/util/compiler-misc-utils.xsl" />
@@ -531,16 +532,6 @@
             </xsl:message>
          </xsl:when>
       </xsl:choose>
-   </xsl:template>
-
-   <xsl:template name="x:error-compiling-scenario" as="empty-sequence()">
-      <xsl:context-item as="element(x:scenario)" use="required" />
-
-      <xsl:param name="message" as="xs:string" />
-
-      <xsl:message terminate="yes">
-         <xsl:text expand-text="yes">ERROR in {name()} ('{x:label(.)}'): {$message}</xsl:text>
-      </xsl:message>
    </xsl:template>
 
    <xsl:template name="x:report-test-attribute" as="node()+">

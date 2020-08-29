@@ -40,40 +40,6 @@
       <xsl:sequence select="$strings[not(subsequence($strings, 1, position() - 1) = .)]"/>
    </xsl:function>
 
-   <!-- Returns a text node of the function call expression. The names of the function and the
-      parameter variables are URIQualifiedName. -->
-   <xsl:function name="x:function-call-text" as="text()">
-      <xsl:param name="call" as="element(x:call)" />
-
-      <!-- xsl:for-each is not for iteration but for simplifying XPath -->
-      <xsl:for-each select="$call">
-         <xsl:variable name="function-uqname" as="xs:string">
-            <xsl:choose>
-               <xsl:when test="contains(@function, ':')">
-                  <xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@function, .)" />
-               </xsl:when>
-               <xsl:otherwise>
-                  <!-- Function name without prefix is not Q{}local but fn:local -->
-                  <xsl:sequence select="@function/string()" />
-               </xsl:otherwise>
-            </xsl:choose>
-         </xsl:variable>
-
-         <xsl:value-of>
-            <xsl:text expand-text="yes">{$function-uqname}(</xsl:text>
-            <xsl:for-each select="x:param">
-               <xsl:sort select="xs:integer(@position)" />
-
-               <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
-               <xsl:if test="position() ne last()">
-                  <xsl:text>, </xsl:text>
-               </xsl:if>
-            </xsl:for-each>
-            <xsl:text>)</xsl:text>
-         </xsl:value-of>
-      </xsl:for-each>
-   </xsl:function>
-
    <!--
       Returns the effective value of @xslt-version of the context element.
 
