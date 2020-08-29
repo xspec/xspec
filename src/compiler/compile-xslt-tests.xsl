@@ -610,9 +610,10 @@
                      <xsl:attribute name="select">
                         <xsl:text>[</xsl:text>
                         <xsl:value-of separator=", ">
-                           <xsl:apply-templates select="$call/x:param" mode="x:param-to-select-attr">
+                           <xsl:for-each select="$call/x:param">
                               <xsl:sort select="xs:integer(@position)" />
-                           </xsl:apply-templates>
+                              <xsl:sequence select="x:param-to-select-attr(.)" />
+                           </xsl:for-each>
                         </xsl:value-of>
                         <xsl:text>]</xsl:text>
                      </xsl:attribute>
@@ -848,18 +849,18 @@
       <xsl:param name="param" as="element(x:param)" />
 
       <map-entry key="{$param ! x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
-         <xsl:apply-templates select="$param" mode="x:param-to-select-attr" />
+         <xsl:sequence select="x:param-to-select-attr($param)" />
       </map-entry>
    </xsl:function>
 
    <!--
-      mode="x:param-to-select-attr"
       Transforms x:param to @select which is connected to the generated xsl:variable
    -->
-   <xsl:mode name="x:param-to-select-attr" on-multiple-match="fail" on-no-match="fail" />
-   <xsl:template match="x:param" as="attribute(select)" mode="x:param-to-select-attr">
-      <xsl:attribute name="select" select="'$' || x:variable-UQName(.)" />
-   </xsl:template>
+   <xsl:function name="x:param-to-select-attr" as="attribute(select)">
+      <xsl:param name="param" as="element(x:param)" />
+
+      <xsl:attribute name="select" select="'$' || x:variable-UQName($param)" />
+   </xsl:function>
 
    <xsl:template name="x:compile-helpers" as="element()*">
       <xsl:context-item as="element(x:description)" use="required" />
