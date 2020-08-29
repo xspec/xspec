@@ -27,6 +27,7 @@
 	<xsl:include href="../common/user-content-utils.xsl" />
 	<xsl:include href="../common/xspec-utils.xsl" />
 	<xsl:include href="../compiler/compiler-misc-utils.xsl" />
+	<xsl:include href="../compiler/compiler-yes-no-utils.xsl" />
 	<xsl:include href="../compiler/xslt/declare-variable.xsl" />
 	<xsl:include href="../compiler/xslt/node-constructor.xsl" />
 	<xsl:include href="locate-schematron-uri.xsl" />
