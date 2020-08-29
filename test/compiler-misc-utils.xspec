@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../src/compiler/compiler-misc-utils.xsl"
+<x:description stylesheet="../src/compiler/base/util/compiler-misc-utils.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Scenario for testing function xslt-version">
