@@ -17,8 +17,8 @@
 
    <xsl:include href="../common/xml-report-serialization-parameters.xsl" />
    <xsl:include href="xslt/catch/try-catch.xsl" />
-   <xsl:include href="xslt/declare-variable.xsl" />
-   <xsl:include href="xslt/node-constructor.xsl" />
+   <xsl:include href="xslt/declare-variable/declare-variable.xsl" />
+   <xsl:include href="xslt/node-constructor/node-constructor.xsl" />
    <xsl:include href="generate-common-tests.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl</pkg:import-uri>
