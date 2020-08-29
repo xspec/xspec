@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../src/compiler/variable-uqname.xsl"
+<x:description stylesheet="../src/compiler/base/declare-variable/variable-uqname.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Dependency -->
