@@ -15,10 +15,10 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
-   <xsl:import href="generate-common-tests.xsl" />
-   <xsl:import href="generate-tests-helper.xsl" />
-
    <xsl:include href="../common/xml-report-serialization-parameters.xsl" />
+   <xsl:include href="xslt/declare-variable.xsl"/>
+   <xsl:include href="xslt/node-constructor.xsl"/>
+   <xsl:include href="generate-common-tests.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl</pkg:import-uri>
 
