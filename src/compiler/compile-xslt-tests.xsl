@@ -15,11 +15,11 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all">
 
-   <xsl:include href="xslt/catch/try-catch.xsl" />
-   <xsl:include href="generate-common-tests.xsl" />
-   <xsl:include href="generate-tests-helper.xsl" />
-
    <xsl:include href="../common/xml-report-serialization-parameters.xsl" />
+   <xsl:include href="xslt/catch/try-catch.xsl" />
+   <xsl:include href="xslt/declare-variable.xsl" />
+   <xsl:include href="xslt/node-constructor.xsl" />
+   <xsl:include href="generate-common-tests.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl</pkg:import-uri>
 
@@ -524,9 +524,6 @@
                Common options
             -->
 
-            <!-- cache must be false(): https://saxonica.plan.io/issues/4667 -->
-            <map-entry key="'cache'" select="false()" />
-
             <map-entry key="'delivery-format'" select="'raw'" />
 
             <!-- 'stylesheet-node' might be faster than 'stylesheet-location' when repeated. (Just a guess.
@@ -547,6 +544,7 @@
                      mode="x:param-to-map-entry" />
                </map>
             </map-entry>
+
             <if test="${x:known-UQName('x:saxon-config')} => exists()">
                <!-- Check that the variable appears to be a Saxon configuration -->
                <choose>
@@ -560,6 +558,9 @@
                      </message>
                   </otherwise>
                </choose>
+
+               <!-- cache must be false(): https://saxonica.plan.io/issues/4667 -->
+               <map-entry key="'cache'" select="false()" />
 
                <map-entry key="'vendor-options'">
                   <map>

@@ -17,8 +17,10 @@
                 version="3.0">
 
    <xsl:include href="xquery/catch/try-catch.xsl" />
+   <xsl:include href="xquery/declare-variable.xsl" />
+   <xsl:include href="xquery/disable-escaping.xsl" />
+   <xsl:include href="xquery/node-constructor.xsl" />
    <xsl:include href="generate-common-tests.xsl" />
-   <xsl:include href="generate-query-helper.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl</pkg:import-uri>
 
