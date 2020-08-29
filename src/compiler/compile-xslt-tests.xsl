@@ -534,14 +534,18 @@
 
             <map-entry key="'static-params'">
                <map>
-                  <xsl:apply-templates select="/x:description/x:param[x:yes-no-synonym(@static, false())]"
-                     mode="x:param-to-map-entry" />
+                  <xsl:sequence
+                     select="
+                        /x:description/x:param[x:yes-no-synonym(@static, false())]
+                        ! x:param-to-map-entry(.)" />
                </map>
             </map-entry>
             <map-entry key="'stylesheet-params'">
                <map>
-                  <xsl:apply-templates select="/x:description/x:param[x:yes-no-synonym(@static, false()) => not()]"
-                     mode="x:param-to-map-entry" />
+                  <xsl:sequence
+                     select="
+                        /x:description/x:param[x:yes-no-synonym(@static, false()) => not()]
+                        ! x:param-to-map-entry(.)" />
                </map>
             </map-entry>
 
@@ -576,16 +580,18 @@
             <xsl:for-each select="($call[@template], $context)[1]">
                <map-entry key="'template-params'">
                   <map>
-                     <xsl:apply-templates
-                        select="x:param[x:yes-no-synonym(@tunnel, false()) => not()]"
-                        mode="x:param-to-map-entry" />
+                     <xsl:sequence
+                        select="
+                           x:param[x:yes-no-synonym(@tunnel, false()) => not()]
+                           ! x:param-to-map-entry(.)" />
                   </map>
                </map-entry>
                <map-entry key="'tunnel-params'">
                   <map>
-                     <xsl:apply-templates
-                        select="x:param[x:yes-no-synonym(@tunnel, false())]"
-                        mode="x:param-to-map-entry" />
+                     <xsl:sequence
+                        select="
+                           x:param[x:yes-no-synonym(@tunnel, false())]
+                           ! x:param-to-map-entry(.)" />
                   </map>
                </map-entry>
             </xsl:for-each>
@@ -836,15 +842,15 @@
    </xsl:template>
 
    <!--
-      mode="x:param-to-map-entry"
       Transforms x:param to xsl:map-entry
    -->
-   <xsl:mode name="x:param-to-map-entry" on-multiple-match="fail" on-no-match="fail" />
-   <xsl:template match="x:param" as="element(xsl:map-entry)" mode="x:param-to-map-entry">
-      <map-entry key="{x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
-         <xsl:apply-templates select="." mode="x:param-to-select-attr" />
+   <xsl:function name="x:param-to-map-entry" as="element(xsl:map-entry)">
+      <xsl:param name="param" as="element(x:param)" />
+
+      <map-entry key="{$param ! x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
+         <xsl:apply-templates select="$param" mode="x:param-to-select-attr" />
       </map-entry>
-   </xsl:template>
+   </xsl:function>
 
    <!--
       mode="x:param-to-select-attr"
