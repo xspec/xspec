@@ -337,8 +337,8 @@ load bats-helper
 }
 
 @test "invoking xspec without TEST_DIR set externally (Schematron)" {
-    if [ "${SAXON_VERSION}" = "10.1" ]; then
-        skip "Saxon bug 4666"
+    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
+        skip "Saxon bug 4696"
     fi
 
     unset TEST_DIR
@@ -527,8 +527,8 @@ load bats-helper
 }
 
 @test "invoking xspec with path containing special chars (#84 #119 #202 #716) runs and loads doc (#610) successfully and generates HTML report file (Schematron)" {
-    if [ "${SAXON_VERSION}" = "10.1" ]; then
-        skip "Saxon bug 4666"
+    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
+        skip "Saxon bug 4696"
     fi
 
     special_chars_dir="${work_dir}/some'path (84) here & there ${RANDOM}"
@@ -589,8 +589,8 @@ load bats-helper
 #
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)" {
-    if [ "${SAXON_VERSION}" = "10.1" ]; then
-        skip "Saxon bug 4666"
+    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
+        skip "Saxon bug 4696"
     fi
 
     export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
@@ -604,8 +604,8 @@ load bats-helper
 }
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
-    if [ "${SAXON_VERSION}" = "10.1" ]; then
-        skip "Saxon bug 4666"
+    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
+        skip "Saxon bug 4696"
     fi
 
     run ant \
@@ -760,8 +760,8 @@ load bats-helper
 }
 
 @test "invoking xspec with TEST_DIR creates files in TEST_DIR (Schematron)" {
-    if [ "${SAXON_VERSION}" = "10.1" ]; then
-        skip "Saxon bug 4666"
+    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
+        skip "Saxon bug 4696"
     fi
 
     # Test with x:context[node()] #322
@@ -969,8 +969,8 @@ load bats-helper
 }
 
 @test "Ant with minimum properties (Schematron)" {
-    if [ "${SAXON_VERSION}" = "10.1" ]; then
-        skip "Saxon bug 4666"
+    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
+        skip "Saxon bug 4696"
     fi
 
     # Unset any preset args
@@ -1204,8 +1204,8 @@ load bats-helper
 #
 
 @test "Ant for Schematron with various properties except catalog and xspec.fail" {
-    if [ "${SAXON_VERSION}" = "10.1" ]; then
-        skip "Saxon bug 4666"
+    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
+        skip "Saxon bug 4696"
     fi
 
     build_xml="${work_dir}/build ${RANDOM}.xml"
