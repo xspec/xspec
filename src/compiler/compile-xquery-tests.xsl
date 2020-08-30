@@ -18,6 +18,7 @@
 
    <xsl:include href="xquery/catch/try-catch.xsl" />
    <xsl:include href="xquery/declare-variable/declare-variable.xsl" />
+   <xsl:include href="xquery/invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
    <xsl:include href="xquery/node-constructor/node-constructor.xsl" />
    <xsl:include href="xquery/serialize/disable-escaping.xsl" />
    <xsl:include href="generate-common-tests.xsl" />
@@ -149,45 +150,6 @@
 
       <!-- End of the document constructor -->
       <xsl:text>}&#x0A;</xsl:text>
-   </xsl:template>
-
-   <!--
-      Generates an invocation of the function compiled from x:scenario or x:expect.
-   -->
-   <xsl:template name="x:invoke-compiled-current-scenario-or-expect">
-      <!-- Context item is x:scenario or x:expect -->
-      <xsl:context-item as="element()" use="required" />
-
-      <xsl:param name="last" as="xs:boolean" />
-
-      <!-- URIQualifiedNames of the variables that will be passed as the parameters to the compiled
-         x:scenario or x:expect being invoked.
-         Their order must be stable, because they are passed to a function. -->
-      <xsl:param name="with-param-uqnames" as="xs:string*" />
-
-      <xsl:if test="exists(preceding-sibling::x:*[1][self::x:pending])">
-         <xsl:text>,&#10;</xsl:text>
-      </xsl:if>
-
-      <xsl:text expand-text="yes">let ${x:known-UQName('x:tmp')} := local:{@id}(&#x0A;</xsl:text>
-      <xsl:for-each select="$with-param-uqnames">
-         <xsl:text expand-text="yes">${.}</xsl:text>
-         <xsl:if test="position() ne last()">
-            <xsl:text>,</xsl:text>
-         </xsl:if>
-         <xsl:text>&#x0A;</xsl:text>
-      </xsl:for-each>
-      <xsl:text>)&#x0A;</xsl:text>
-
-      <xsl:text>return (&#x0A;</xsl:text>
-      <xsl:text expand-text="yes">${x:known-UQName('x:tmp')}</xsl:text>
-      <xsl:if test="not($last)">
-         <xsl:text>,</xsl:text>
-      </xsl:if>
-      <xsl:text>&#10;</xsl:text>
-      <!-- Continue invoking compiled x:scenario or x:expect elements. -->
-      <xsl:call-template name="x:continue-walking-siblings" />
-      <xsl:text>)&#x0A;</xsl:text>
    </xsl:template>
 
    <!--
