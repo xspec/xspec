@@ -4,7 +4,7 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!--
-		The test target (../src/common/xspec-utils.xsl or xspec-utils.xqm) is included
+		The test target (../src/common/common-utils.xsl or common-utils.xqm) is included
 		implicitly by the XSpec compiler. You don't need to specify it in
 		/x:description/@stylesheet or @query-at.
 	-->

@@ -17,13 +17,13 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
+   <xsl:include href="../common/common-utils.xsl" />
    <xsl:include href="../common/namespace-utils.xsl" />
    <xsl:include href="../common/trim.xsl" />
    <xsl:include href="../common/uqname-utils.xsl" />
    <xsl:include href="../common/uri-utils.xsl" />
    <xsl:include href="../common/user-content-utils.xsl" />
    <xsl:include href="../common/version-utils.xsl" />
-   <xsl:include href="../common/xspec-utils.xsl" />
    <xsl:include href="base/compile/compile-scenario.xsl" />
    <xsl:include href="base/declare-variable/variable-uqname.xsl" />
    <xsl:include href="base/util/compiler-eqname-utils.xsl" />
