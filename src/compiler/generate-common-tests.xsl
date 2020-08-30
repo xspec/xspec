@@ -28,10 +28,10 @@
    <xsl:include href="base/combine/combine.xsl" />
    <xsl:include href="base/compile/compile-scenario.xsl" />
    <xsl:include href="base/declare-variable/variable-uqname.xsl" />
+   <xsl:include href="base/resolve-import/resolve-import.xsl" />
    <xsl:include href="base/util/compiler-eqname-utils.xsl" />
    <xsl:include href="base/util/compiler-misc-utils.xsl" />
    <xsl:include href="base/util/compiler-yes-no-utils.xsl" />
-   <xsl:include href="gatherer.xsl" />
 
    <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
 
