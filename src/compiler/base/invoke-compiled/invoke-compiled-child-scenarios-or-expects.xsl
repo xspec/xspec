@@ -15,7 +15,8 @@
       <!-- Context item is x:description or x:scenario -->
       <xsl:context-item as="element()" use="required" />
 
-      <!-- Default value of $pending does not affect compiler output but is here if needed in the future -->
+      <!-- Default value of $pending does not affect compiler output but is here if needed in the
+         future -->
       <xsl:param name="pending" select="(.//@focus)[1]" tunnel="yes" as="node()?"/>
 
       <xsl:variable name="this" select="." as="element()"/>
@@ -36,17 +37,15 @@
       on-no-match="fail" />
 
    <!--
-       Those elements are ignored in this mode.
-       
-       x:label elements can be ignored, they are used by x:label()
-       (which selects either the x:label element or the label
-       attribute).
-       
-       TODO: Imports are "resolved" in x:gather-descriptions().  But this is
-       not done the usual way, instead it returns all x:description
-       elements.  Change this by using the usual recursive template
-       resolving x:import elements in place.  But for now, those
-       elements are still here, so we have to ignore them...
+      This mode ignores these elements.
+
+      x:label elements can be ignored. They are used by x:label() (which selects either the x:label
+      element or the label attribute).
+
+      TODO: Imports are "resolved" in x:gather-descriptions(). But this is not done the usual way,
+      instead it returns all x:description elements. Change this by using the usual recursive
+      template resolving x:import elements in place. But for now, those elements are still here, so
+      we have to ignore them...
    -->
    <xsl:template match="x:apply|x:call|x:context|x:label"
       mode="local:invoke-compiled-scenarios-or-expects">
@@ -55,8 +54,7 @@
    </xsl:template>
 
    <!--
-       At x:pending elements, we switch the $pending tunnel param
-       value for children.
+      At x:pending elements, we switch the $pending tunnel param value for children.
    -->
    <xsl:template match="x:pending" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:apply-templates select="*[1]" mode="#current">
@@ -105,8 +103,8 @@
    </xsl:template>
 
    <!--
-       x:variable element generates a variable declaration and adds itself
-       on the stack (the tunnel param $stacked-variables).
+      x:variable element generates a variable declaration and adds itself on the stack (the tunnel
+      param $stacked-variables).
    -->
    <xsl:template match="x:variable" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
@@ -126,11 +124,10 @@
    </xsl:template>
 
    <!--
-       Global x:variable and x:param elements are not handled like
-       local variables and params (which are passed through invocations).
-       They are declared globally.
-       
-       x:helper is global.
+      Global x:variable and x:param elements are not handled like local variables and params (which
+      are passed through invocations). They are declared globally.
+
+      x:helper is global.
    -->
    <xsl:template match="x:description/x:helper
                        |x:description/x:param
@@ -148,7 +145,7 @@
    -->
 
    <!-- Generate error message for user-defined usage of names in XSpec namespace.
-        Context node is an x:variable element. -->
+      Context node is an x:variable element. -->
    <xsl:template name="local:detect-reserved-variable-name" as="empty-sequence()">
       <xsl:context-item as="element(x:variable)" use="required" />
 
