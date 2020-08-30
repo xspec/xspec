@@ -22,7 +22,6 @@
    <xsl:include href="../common/namespace-utils.xsl" />
    <xsl:include href="../common/parse-report.xsl" />
    <xsl:include href="../common/trim.xsl" />
-   <xsl:include href="../common/uqname-utils.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="format-utils.xsl" />
 
