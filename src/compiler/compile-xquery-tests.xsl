@@ -185,7 +185,7 @@
          <xsl:text>,</xsl:text>
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
-      <!-- Continue invoking the compiled x:scenario or x:expect. -->
+      <!-- Continue invoking compiled x:scenario or x:expect elements. -->
       <xsl:call-template name="x:continue-walking-siblings" />
       <xsl:text>)&#x0A;</xsl:text>
    </xsl:template>

@@ -189,7 +189,7 @@
          </xsl:for-each>
       </call-template>
 
-      <!-- Continue invoking the compiled x:scenario or x:expect. -->
+      <!-- Continue invoking compiled x:scenario or x:expect elements. -->
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
