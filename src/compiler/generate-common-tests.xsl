@@ -24,6 +24,7 @@
    <xsl:include href="../common/uri-utils.xsl" />
    <xsl:include href="../common/user-content-utils.xsl" />
    <xsl:include href="../common/version-utils.xsl" />
+   <xsl:include href="base/catch/enter-sut.xsl" />
    <xsl:include href="base/compile/compile-scenario.xsl" />
    <xsl:include href="base/declare-variable/variable-uqname.xsl" />
    <xsl:include href="base/util/compiler-eqname-utils.xsl" />
@@ -486,26 +487,6 @@
                  mode="x:compile-each-element">
       <!-- Nothing, but must continue the sibling-walking... -->
       <xsl:call-template name="x:continue-walking-siblings" />
-   </xsl:template>
-
-   <!-- Generates a gateway from x:scenario to System Under Test.
-      The actual instruction to enter SUT is provided by the caller. The instruction
-      should not contain other actions. -->
-   <xsl:template name="x:enter-sut" as="node()+">
-      <xsl:context-item as="element(x:scenario)" use="required" />
-
-      <xsl:param name="instruction" as="node()+" required="yes" />
-
-      <xsl:choose>
-         <xsl:when test="x:yes-no-synonym(ancestor-or-self::*[@catch][1]/@catch, false())">
-            <xsl:call-template name="x:output-try-catch">
-               <xsl:with-param name="instruction" select="$instruction" />
-            </xsl:call-template>
-         </xsl:when>
-         <xsl:otherwise>
-            <xsl:sequence select="$instruction" />
-         </xsl:otherwise>
-      </xsl:choose>
    </xsl:template>
 
    <!-- Generate error message for user-defined usage of names in XSpec namespace.
