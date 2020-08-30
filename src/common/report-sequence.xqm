@@ -1,7 +1,7 @@
 module namespace rep = "urn:x-xspec:common:report-sequence";
 
 import module namespace x = "http://www.jenitennison.com/xslt/xspec"
-  at "../common/xspec-utils.xqm";
+  at "../common/common-utils.xqm";
 
 declare function rep:report-sequence(
   $sequence as item()*,
