@@ -75,9 +75,9 @@
       <xsl:variable name="utils" as="map(xs:anyURI, xs:string)"
          select="
             map {
+               $x:xspec-namespace: '../common/common-utils.xqm',
                $x:deq-namespace:   '../common/deep-equal.xqm',
-               $x:rep-namespace:   '../common/report-sequence.xqm',
-               $x:xspec-namespace: '../common/xspec-utils.xqm'
+               $x:rep-namespace:   '../common/report-sequence.xqm'
             }" />
       <xsl:for-each select="map:keys($utils)">
          <xsl:sort />
