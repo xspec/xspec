@@ -16,6 +16,7 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
+   <xsl:include href="xquery/catch/try-catch.xsl" />
    <xsl:include href="xquery/declare-variable/declare-variable.xsl" />
    <xsl:include href="xquery/node-constructor/node-constructor.xsl" />
    <xsl:include href="xquery/serialize/disable-escaping.xsl" />
@@ -74,9 +75,9 @@
       <xsl:variable name="utils" as="map(xs:anyURI, xs:string)"
          select="
             map {
+               $x:xspec-namespace: '../common/common-utils.xqm',
                $x:deq-namespace:   '../common/deep-equal.xqm',
-               $x:rep-namespace:   '../common/report-sequence.xqm',
-               $x:xspec-namespace: '../common/xspec-utils.xqm'
+               $x:rep-namespace:   '../common/report-sequence.xqm'
             }" />
       <xsl:for-each select="map:keys($utils)">
          <xsl:sort />
@@ -338,39 +339,6 @@
       <xsl:text>};&#x0A;</xsl:text>
 
       <xsl:call-template name="x:compile-scenarios"/>
-   </xsl:template>
-
-   <xsl:template name="x:output-try-catch" as="text()+">
-      <xsl:context-item use="absent" />
-
-      <xsl:param name="instruction" as="text()+" required="yes" />
-
-      <xsl:text>try {&#x0A;</xsl:text>
-      <xsl:sequence select="$instruction" />
-      <xsl:text>}&#x0A;</xsl:text>
-
-      <xsl:text>catch * {&#x0A;</xsl:text>
-      <xsl:text>map {&#x0A;</xsl:text>
-      <xsl:text>'err': map {&#x0A;</xsl:text>
-
-      <!-- Variables available within the catch clause: https://www.w3.org/TR/xquery-31/#id-try-catch
-         $err:additional doesn't work on Saxon 9.8: https://saxonica.plan.io/issues/4133 -->
-      <xsl:for-each select="'code', 'description', 'value', 'module', 'line-number', 'column-number'">
-         <xsl:text expand-text="yes">'{.}': ${x:known-UQName('err:' || .)}</xsl:text>
-         <xsl:if test="position() ne last()">
-            <xsl:text>,</xsl:text>
-         </xsl:if>
-         <xsl:text>&#x0A;</xsl:text>
-      </xsl:for-each>
-
-      <!-- End of 'err' map -->
-      <xsl:text>}&#x0A;</xsl:text>
-
-      <!-- End of $x:result map -->
-      <xsl:text>}&#x0A;</xsl:text>
-
-      <!-- End of catch -->
-      <xsl:text>}&#x0A;</xsl:text>
    </xsl:template>
 
    <!--

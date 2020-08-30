@@ -17,17 +17,20 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/generate-common-tests.xsl</pkg:import-uri>
 
+   <xsl:include href="../common/common-utils.xsl" />
    <xsl:include href="../common/namespace-utils.xsl" />
    <xsl:include href="../common/trim.xsl" />
    <xsl:include href="../common/uqname-utils.xsl" />
    <xsl:include href="../common/uri-utils.xsl" />
    <xsl:include href="../common/user-content-utils.xsl" />
    <xsl:include href="../common/version-utils.xsl" />
-   <xsl:include href="../common/xspec-utils.xsl" />
+   <xsl:include href="base/catch/enter-sut.xsl" />
+   <xsl:include href="base/compile/compile-scenario.xsl" />
    <xsl:include href="base/declare-variable/variable-uqname.xsl" />
    <xsl:include href="base/resolve-import/resolve-import.xsl" />
    <xsl:include href="base/util/compiler-eqname-utils.xsl" />
    <xsl:include href="base/util/compiler-misc-utils.xsl" />
+   <xsl:include href="base/util/compiler-yes-no-utils.xsl" />
    <xsl:include href="combine.xsl" />
 
    <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
@@ -486,26 +489,6 @@
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
-   <!-- Generates a gateway from x:scenario to System Under Test.
-      The actual instruction to enter SUT is provided by the caller. The instruction
-      should not contain other actions. -->
-   <xsl:template name="x:enter-sut" as="node()+">
-      <xsl:context-item as="element(x:scenario)" use="required" />
-
-      <xsl:param name="instruction" as="node()+" required="yes" />
-
-      <xsl:choose>
-         <xsl:when test="x:yes-no-synonym(ancestor-or-self::*[@catch][1]/@catch, false())">
-            <xsl:call-template name="x:output-try-catch">
-               <xsl:with-param name="instruction" select="$instruction" />
-            </xsl:call-template>
-         </xsl:when>
-         <xsl:otherwise>
-            <xsl:sequence select="$instruction" />
-         </xsl:otherwise>
-      </xsl:choose>
-   </xsl:template>
-
    <!-- Generate error message for user-defined usage of names in XSpec namespace.
         Context node is an x:variable element. -->
    <xsl:template name="x:detect-reserved-variable-name" as="empty-sequence()">
@@ -530,16 +513,6 @@
             </xsl:message>
          </xsl:when>
       </xsl:choose>
-   </xsl:template>
-
-   <xsl:template name="x:error-compiling-scenario" as="empty-sequence()">
-      <xsl:context-item as="element(x:scenario)" use="required" />
-
-      <xsl:param name="message" as="xs:string" />
-
-      <xsl:message terminate="yes">
-         <xsl:text expand-text="yes">ERROR in {name()} ('{x:label(.)}'): {$message}</xsl:text>
-      </xsl:message>
    </xsl:template>
 
    <xsl:template name="x:report-test-attribute" as="node()+">
