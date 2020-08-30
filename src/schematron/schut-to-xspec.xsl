@@ -15,12 +15,14 @@
 
     <xsl:param name="stylesheet-uri" as="xs:string" select="document-uri($stylesheet-doc)" />
 
+    <xsl:include href="../common/common-utils.xsl" />
     <xsl:include href="../common/namespace-utils.xsl" />
     <xsl:include href="../common/trim.xsl" />
     <xsl:include href="../common/uqname-utils.xsl" />
     <xsl:include href="../common/uri-utils.xsl" />
     <xsl:include href="../common/user-content-utils.xsl" />
-    <xsl:include href="../common/xspec-utils.xsl" />
+    <xsl:include href="../compiler/base/util/compiler-misc-utils.xsl" />
+    <xsl:include href="../compiler/base/util/compiler-yes-no-utils.xsl" />
     <xsl:include href="../compiler/gatherer.xsl" />
 
     <xsl:output indent="yes" />

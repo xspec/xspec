@@ -40,38 +40,78 @@
       <xsl:sequence select="$strings[not(subsequence($strings, 1, position() - 1) = .)]"/>
    </xsl:function>
 
-   <!-- Returns a text node of the function call expression. The names of the function and the
-      parameter variables are URIQualifiedName. -->
-   <xsl:function name="x:function-call-text" as="text()">
-      <xsl:param name="call" as="element(x:call)" />
+   <!--
+      Returns the effective value of @xslt-version of the context element.
 
-      <!-- xsl:for-each is not for iteration but for simplifying XPath -->
-      <xsl:for-each select="$call">
-         <xsl:variable name="function-uqname" as="xs:string">
-            <xsl:choose>
-               <xsl:when test="contains(@function, ':')">
-                  <xsl:sequence select="x:UQName-from-EQName-ignoring-default-ns(@function, .)" />
-               </xsl:when>
-               <xsl:otherwise>
-                  <!-- Function name without prefix is not Q{}local but fn:local -->
-                  <xsl:sequence select="@function/string()" />
-               </xsl:otherwise>
-            </xsl:choose>
-         </xsl:variable>
+      $context is usually x:description or x:expect.
+   -->
+   <xsl:function as="xs:decimal" name="x:xslt-version">
+      <xsl:param as="element()" name="context" />
 
-         <xsl:value-of>
-            <xsl:text expand-text="yes">{$function-uqname}(</xsl:text>
-            <xsl:for-each select="x:param">
-               <xsl:sort select="xs:integer(@position)" />
+      <xsl:sequence
+         select="
+            (
+               $context/ancestor-or-self::*[@xslt-version][1]/@xslt-version,
+               3.0
+            )[1]"
+       />
+   </xsl:function>
 
-               <xsl:text expand-text="yes">${x:variable-UQName(.)}</xsl:text>
-               <xsl:if test="position() ne last()">
-                  <xsl:text>, </xsl:text>
-               </xsl:if>
-            </xsl:for-each>
-            <xsl:text>)</xsl:text>
-         </xsl:value-of>
-      </xsl:for-each>
+   <!--
+      Returns namespace nodes in the element excluding the same prefix as the element name.
+      'xml' is excluded in the first place.
+
+         Example:
+            in:  <prefix1:e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
+            out: xmlns="default-ns" and xmlns:prefix2="ns2"
+   -->
+   <xsl:function as="namespace-node()*" name="x:element-additional-namespace-nodes">
+      <xsl:param as="element()" name="element" />
+
+      <xsl:variable as="xs:string" name="element-name-prefix"
+         select="
+            $element
+            => node-name()
+            => prefix-from-QName()
+            => string()" />
+
+      <!-- Sort for better serialization (hopefully) -->
+      <xsl:perform-sort select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
+         <xsl:sort select="name()" />
+      </xsl:perform-sort>
+   </xsl:function>
+
+   <!--
+      Returns a lexical QName in the XSpec namespace. Usually 'x:local-name'.
+      The prefix is taken from the context element's namespaces.
+      If multiple namespace prefixes have the XSpec namespace URI,
+         - The context element name's prefix is preferred.
+         - If the context element's name is not in the XSpec namespace, the first prefix is used
+           after sorting them in a way that the default namespace is preferred.
+   -->
+   <xsl:function as="xs:string" name="x:xspec-name">
+      <xsl:param as="xs:string" name="local-name" />
+      <xsl:param as="element()" name="context-element" />
+
+      <xsl:variable as="xs:QName" name="context-node-name" select="node-name($context-element)" />
+
+      <xsl:variable as="xs:string?" name="prefix">
+         <xsl:choose>
+            <xsl:when test="namespace-uri-from-QName($context-node-name) eq $x:xspec-namespace">
+               <xsl:sequence select="prefix-from-QName($context-node-name)" />
+            </xsl:when>
+
+            <xsl:otherwise>
+               <xsl:variable as="xs:string+" name="xspec-prefixes"
+                  select="
+                     in-scope-prefixes($context-element)
+                     [namespace-uri-for-prefix(., $context-element) eq $x:xspec-namespace]" />
+               <xsl:sequence select="sort($xspec-prefixes)[1]" />
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:variable>
+
+      <xsl:sequence select="($prefix[.], $local-name) => string-join(':')" />
    </xsl:function>
 
 </xsl:stylesheet>

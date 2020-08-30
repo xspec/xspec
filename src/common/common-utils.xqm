@@ -1,3 +1,7 @@
+(:
+	Utilities common between XSLT and XQuery
+:)
+
 module namespace x = "http://www.jenitennison.com/xslt/xspec";
 
 (:

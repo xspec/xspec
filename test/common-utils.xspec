@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:xspec-items" query-at="items.xqm" stylesheet="items.xsl"
-	xmlns:items="x-urn:test:xspec-items" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" stylesheet="do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!--
-		The test target (../src/common/xspec-utils.xsl or xspec-utils.xqm) is included
-		implicitly by the XSpec compiler. You don't need to specify it in
-		/x:description/@stylesheet or @query-at.
+		The test target (../src/common/common-utils.xsl or common-utils.xqm) is included implicitly
+		by the XSpec compiler. You don't need to specify it in /x:description/@stylesheet or
+		@query-at.
 	-->
 
 	<x:scenario label="Scenario for testing variable xspec-namespace">
