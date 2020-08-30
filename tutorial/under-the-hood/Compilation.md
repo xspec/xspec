@@ -53,11 +53,8 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <!-- the tested stylesheet -->
    <xsl:import href=".../compilation-simple-suite.xsl"/>
    <!-- XSpec library modules providing tools -->
-   <xsl:include href=".../src/common/deep-equal.xsl"/>
-   <xsl:include href=".../src/common/report-sequence.xsl"/>
-   <xsl:include href=".../src/common/wrap.xsl"/>
-   <xsl:include href=".../src/common/xml-report-serialization-parameters.xsl"/>
-   <xsl:include href=".../src/common/xspec-utils.xsl"/>
+   <xsl:include href="..."/>
+   ...
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri"
                  as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xspec</xsl:variable>
    <!-- the main template to run the suite -->
@@ -112,12 +109,9 @@ import module "http://example.org/ns/my"
 at ".../compilation-simple-suite.xqm";
 
 (: XSpec library modules providing tools :)
-import module "http://www.jenitennison.com/xslt/xspec"
-at ".../src/common/xspec-utils.xqm";
-import module "urn:x-xspec:common:deep-equal"
-at ".../src/common/deep-equal.xqm";
-import module "urn:x-xspec:common:report-sequence"
-at ".../src/common/report-sequence.xqm";
+import module "..."
+at "...";
+...
 
 declare namespace my = "http://example.org/ns/my";
 declare namespace x = "http://www.jenitennison.com/xslt/xspec";

@@ -49,7 +49,7 @@
                      or ($sequence instance of processing-instruction()+)
                      or ($sequence instance of text()+)">
                   <xsl:attribute name="select"
-                     select="'/' || x:node-type($sequence[1]) || '()'" />
+                     select="'/' || rep:node-type($sequence[1]) || '()'" />
 
                   <xsl:copy select="$content-wrapper">
                      <xsl:apply-templates select="$sequence" mode="local:report-node" />
@@ -172,7 +172,7 @@
          </xsl:when>
 
          <xsl:when test="$item instance of node()">
-            <xsl:element name="{$local-name-prefix}{x:node-type($item)}" namespace="{$report-namespace}">
+            <xsl:element name="{$local-name-prefix}{rep:node-type($item)}" namespace="{$report-namespace}">
                <xsl:choose>
                   <!-- Can't apply templates to namespace nodes -->
                   <xsl:when test="$item instance of namespace-node()">
@@ -186,8 +186,8 @@
             </xsl:element>
          </xsl:when>
 
-         <xsl:when test="x:instance-of-function($item)">
-            <xsl:element name="{$local-name-prefix}{x:function-type($item)}"
+         <xsl:when test="rep:instance-of-function($item)">
+            <xsl:element name="{$local-name-prefix}{rep:function-type($item)}"
                namespace="{$report-namespace}">
                <xsl:value-of select="local:serialize-adaptive($item)" />
             </xsl:element>
@@ -208,7 +208,7 @@
 
    <xsl:template match="document-node() | attribute() | node()" as="node()"
       mode="local:report-node">
-      <xsl:call-template name="x:identity" />
+      <xsl:call-template name="local:identity" />
    </xsl:template>
 
    <xsl:template match="text()[normalize-space() => not()]" as="element(x:ws)"
@@ -216,6 +216,17 @@
       <xsl:element name="ws" namespace="{$x:xspec-namespace}">
          <xsl:sequence select="." />
       </xsl:element>
+   </xsl:template>
+
+   <!--
+      Identity template
+   -->
+   <xsl:template as="node()" name="local:identity">
+      <xsl:context-item as="node()" use="required" />
+
+      <xsl:copy>
+         <xsl:apply-templates mode="#current" select="attribute() | node()" />
+      </xsl:copy>
    </xsl:template>
 
    <!--
@@ -400,6 +411,76 @@
                   'method': 'adaptive'
                }
             )" />
+   </xsl:function>
+
+   <!--
+      Returns node type
+         Example: 'element'
+
+      This function should be local:. But ../../test/report-sequence.xspec requires this to be
+      exposed.
+   -->
+   <xsl:function as="xs:string" name="rep:node-type">
+      <xsl:param as="node()" name="node" />
+
+      <xsl:choose>
+         <xsl:when test="$node instance of attribute()">attribute</xsl:when>
+         <xsl:when test="$node instance of comment()">comment</xsl:when>
+         <xsl:when test="$node instance of document-node()">document-node</xsl:when>
+         <xsl:when test="$node instance of element()">element</xsl:when>
+         <xsl:when test="$node instance of namespace-node()">namespace-node</xsl:when>
+         <xsl:when test="$node instance of processing-instruction()"
+            >processing-instruction</xsl:when>
+         <xsl:when test="$node instance of text()">text</xsl:when>
+         <xsl:otherwise>node</xsl:otherwise>
+      </xsl:choose>
+   </xsl:function>
+
+   <!--
+      Returns true if item is function (including map and array).
+
+      Alternative to "instance of function(*)" which is not widely available.
+
+      This function should be local:. But ../../test/report-sequence.xspec requires this to be
+      exposed.
+   -->
+   <xsl:function as="xs:boolean" name="rep:instance-of-function">
+      <xsl:param as="item()" name="item" />
+
+      <xsl:choose>
+         <xsl:when test="($item instance of array(*)) or ($item instance of map(*))">
+            <xsl:sequence select="true()" />
+         </xsl:when>
+
+         <xsl:when test="$item instance of function(*)"
+            use-when="function-available('function-lookup')">
+            <xsl:sequence select="true()" />
+         </xsl:when>
+
+         <xsl:otherwise>
+            <xsl:sequence select="false()" />
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:function>
+
+   <!--
+      Returns type of function (including map and array).
+
+      $function must be an instance of function(*).
+
+      This function should be local:. But ../../test/report-sequence.xspec requires this to be
+      exposed.
+   -->
+   <xsl:function as="xs:string" name="rep:function-type">
+
+      <!-- TODO: @as="function(*)" -->
+      <xsl:param as="item()" name="function" />
+
+      <xsl:choose>
+         <xsl:when test="$function instance of array(*)">array</xsl:when>
+         <xsl:when test="$function instance of map(*)">map</xsl:when>
+         <xsl:otherwise>function</xsl:otherwise>
+      </xsl:choose>
    </xsl:function>
 
 </xsl:stylesheet>

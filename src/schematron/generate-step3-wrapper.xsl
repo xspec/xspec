@@ -20,8 +20,16 @@
 	<!-- Import and override -->
 	<xsl:import href="../compiler/gatherer.xsl" />
 
+	<xsl:include href="../common/namespace-utils.xsl" />
+	<xsl:include href="../common/trim.xsl" />
+	<xsl:include href="../common/uqname-utils.xsl" />
+	<xsl:include href="../common/uri-utils.xsl" />
+	<xsl:include href="../common/user-content-utils.xsl" />
 	<xsl:include href="../common/xspec-utils.xsl" />
-	<xsl:include href="../compiler/generate-tests-helper.xsl" />
+	<xsl:include href="../compiler/base/declare-variable/variable-uqname.xsl" />
+	<xsl:include href="../compiler/base/util/compiler-eqname-utils.xsl" />
+	<xsl:include href="../compiler/xslt/declare-variable/declare-variable.xsl" />
+	<xsl:include href="../compiler/xslt/node-constructor/node-constructor.xsl" />
 	<xsl:include href="locate-schematron-uri.xsl" />
 
 	<xsl:output indent="yes" />

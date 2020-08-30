@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:description xmlns:rep="urn:x-xspec:common:report-sequence"
+<t:description xmlns:local="urn:x-xspec:common:report-sequence:local"
+               xmlns:rep="urn:x-xspec:common:report-sequence"
                xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               stylesheet="report-sequence.xsl">
+               stylesheet="do-nothing.xsl">
 
    <!--
-       Test the source file report-sequence.xsl.
+      The test target (../src/common/report-sequence.xsl) is included implicitly by the XSpec
+      compiler. You don't need to specify it in /t:description/@stylesheet.
    -->
 
    <!--
@@ -107,6 +109,20 @@
 
       </t:scenario>
 
+   </t:scenario>
+
+   <t:scenario label="Scenario for testing template identity">
+      <t:context>
+         <foo bar="baz">
+            <?qux?>
+            <!--quux-->
+            <corge>grault</corge>
+         </foo>
+      </t:context>
+      <t:call template="local:identity" />
+      <t:expect label="Copied and default template rule applied">
+         <foo>bazgrault</foo>
+      </t:expect>
    </t:scenario>
 
 </t:description>

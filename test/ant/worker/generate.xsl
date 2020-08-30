@@ -9,7 +9,7 @@
 		creates a series of <run-xspec> elements based on /x:description/@*.
 	-->
 
-	<xsl:include href="../../../src/common/xspec-utils.xsl" />
+	<xsl:include href="../../../src/common/version-utils.xsl" />
 	<xsl:include href="../../test-utils.xsl" />
 
 	<xsl:output indent="yes" />
@@ -206,10 +206,10 @@
 
 					<xsl:when
 						test="
-							($pis = 'require-saxon-bug-4666-fixed')
+							($pis = 'require-saxon-bug-4696-fixed')
 							and ($x:saxon-version ge x:pack-version((10, 0)))
-							and ($x:saxon-version le x:pack-version((10, 1)))">
-						<xsl:text>Requires Saxon bug #4666 to have been fixed</xsl:text>
+							and ($x:saxon-version le x:pack-version((10, 2)))">
+						<xsl:text>Requires Saxon bug #4696 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when
