@@ -17,8 +17,8 @@
 		Empty sequence means the built-in preprocessor. -->
 	<xsl:param as="xs:string?" name="ACTUAL-PREPROCESSOR-URI" />
 
-	<!-- Import and override -->
-	<xsl:import href="../compiler/gatherer.xsl" />
+	<!-- Import a compiler component and override it -->
+	<xsl:import href="../compiler/base/resolve-import/resolve-import.xsl" />
 
 	<xsl:include href="../common/common-utils.xsl" />
 	<xsl:include href="../common/namespace-utils.xsl" />
