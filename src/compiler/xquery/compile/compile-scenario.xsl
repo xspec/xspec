@@ -7,7 +7,8 @@
 
    <!--
       Generates the functions that perform the tests.
-      Called during mode="x:compile-scenarios-or-expects".
+      Called during mode="local:compile-scenarios-or-expects" in
+      compile-child-scenarios-or-expects.xsl.
    -->
    <xsl:template name="x:compile-scenario" as="node()+">
       <xsl:context-item as="element(x:scenario)" use="required" />
@@ -117,7 +118,8 @@
               return (
                 rep:report-sequence($t:result, 'x:result'),
             -->
-            <!-- #current is x:compile-scenarios-or-expects -->
+            <!-- #current is mode="local:compile-scenarios-or-expects" in
+               compile-child-scenarios-or-expects.xsl. -->
             <xsl:apply-templates select="$call/x:param[1]" mode="#current" />
 
             <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
