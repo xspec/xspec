@@ -144,8 +144,7 @@
       Local templates
    -->
 
-   <!-- Generate error message for user-defined usage of names in XSpec namespace.
-      Context node is an x:variable element. -->
+   <!-- Generate error message for user-defined usage of names in XSpec namespace. -->
    <xsl:template name="local:detect-reserved-variable-name" as="empty-sequence()">
       <xsl:context-item as="element(x:variable)" use="required" />
 
