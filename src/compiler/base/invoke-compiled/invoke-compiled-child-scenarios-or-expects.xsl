@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:base:invoke-compiled:invoke-compiled-child-scenarios-or-expects:local"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
@@ -23,15 +24,15 @@
             select="'$this must be a description or a scenario, but is: ' || name()" />
       </xsl:if>
 
-      <xsl:apply-templates select="$this/*[1]" mode="x:invoke-compiled-scenarios-or-expects">
+      <xsl:apply-templates select="$this/*[1]" mode="local:invoke-compiled-scenarios-or-expects">
          <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
       </xsl:apply-templates>
    </xsl:template>
 
    <!--
-      mode="x:invoke-compiled-scenarios-or-expects"
+      mode="local:invoke-compiled-scenarios-or-expects"
    -->
-   <xsl:mode name="x:invoke-compiled-scenarios-or-expects" on-multiple-match="fail"
+   <xsl:mode name="local:invoke-compiled-scenarios-or-expects" on-multiple-match="fail"
       on-no-match="fail" />
 
    <!--
@@ -48,7 +49,7 @@
        elements are still here, so we have to ignore them...
    -->
    <xsl:template match="x:apply|x:call|x:context|x:label"
-      mode="x:invoke-compiled-scenarios-or-expects">
+      mode="local:invoke-compiled-scenarios-or-expects">
       <!-- Nothing, but must continue the sibling-walking... -->
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
@@ -57,7 +58,7 @@
        At x:pending elements, we switch the $pending tunnel param
        value for children.
    -->
-   <xsl:template match="x:pending" mode="x:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="x:pending" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:apply-templates select="*[1]" mode="#current">
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
@@ -68,7 +69,7 @@
    <!--
       Generate an invocation of the compiled x:scenario
    -->
-   <xsl:template match="x:scenario" mode="x:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="x:scenario" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
@@ -83,7 +84,7 @@
    <!--
       Generate an invocation of the compiled x:expect
    -->
-   <xsl:template match="x:expect" mode="x:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="x:expect" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
       <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
@@ -107,11 +108,11 @@
        x:variable element generates a variable declaration and adds itself
        on the stack (the tunnel param $stacked-variables).
    -->
-   <xsl:template match="x:variable" mode="x:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="x:variable" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
       <!-- Reject reserved variables -->
-      <xsl:call-template name="x:detect-reserved-variable-name" />
+      <xsl:call-template name="local:detect-reserved-variable-name" />
 
       <!-- The variable declaration. -->
       <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
@@ -134,17 +135,21 @@
    <xsl:template match="x:description/x:helper
                        |x:description/x:param
                        |x:description/x:variable"
-                 mode="x:invoke-compiled-scenarios-or-expects">
+                 mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:if test="self::x:variable">
-        <xsl:call-template name="x:detect-reserved-variable-name"/>
+        <xsl:call-template name="local:detect-reserved-variable-name"/>
       </xsl:if>
 
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
+   <!--
+      Local templates
+   -->
+
    <!-- Generate error message for user-defined usage of names in XSpec namespace.
         Context node is an x:variable element. -->
-   <xsl:template name="x:detect-reserved-variable-name" as="empty-sequence()">
+   <xsl:template name="local:detect-reserved-variable-name" as="empty-sequence()">
       <xsl:context-item as="element(x:variable)" use="required" />
 
       <xsl:variable name="qname" as="xs:QName"
