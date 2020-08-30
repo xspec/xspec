@@ -216,7 +216,7 @@
    </xsl:template>
 
    <!--
-       Those elements are ignored in this mode.
+       This mode ignores these elements.
        
        x:label elements can be ignored, they are used by x:label()
        (which selects either the x:label element or the label
