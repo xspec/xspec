@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/TransformAlias"
+                xmlns:local="urn:x-xspec:compiler:xslt:external:transform-options:local"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <!-- Constructs options for transform() -->
+   <!--
+      Constructs options for transform()
+   -->
    <xsl:template name="x:transform-options" as="element(xsl:variable)">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
@@ -32,7 +35,7 @@
                   <xsl:sequence
                      select="
                         /x:description/x:param[x:yes-no-synonym(@static, false())]
-                        ! x:param-to-map-entry(.)" />
+                        ! local:param-to-map-entry(.)" />
                </map>
             </map-entry>
             <map-entry key="'stylesheet-params'">
@@ -40,7 +43,7 @@
                   <xsl:sequence
                      select="
                         /x:description/x:param[x:yes-no-synonym(@static, false()) => not()]
-                        ! x:param-to-map-entry(.)" />
+                        ! local:param-to-map-entry(.)" />
                </map>
             </map-entry>
 
@@ -78,7 +81,7 @@
                      <xsl:sequence
                         select="
                            x:param[x:yes-no-synonym(@tunnel, false()) => not()]
-                           ! x:param-to-map-entry(.)" />
+                           ! local:param-to-map-entry(.)" />
                   </map>
                </map-entry>
                <map-entry key="'tunnel-params'">
@@ -86,7 +89,7 @@
                      <xsl:sequence
                         select="
                            x:param[x:yes-no-synonym(@tunnel, false())]
-                           ! x:param-to-map-entry(.)" />
+                           ! local:param-to-map-entry(.)" />
                   </map>
                </map-entry>
             </xsl:for-each>
@@ -107,7 +110,7 @@
                         <xsl:value-of separator=", ">
                            <xsl:for-each select="$call/x:param">
                               <xsl:sort select="xs:integer(@position)" />
-                              <xsl:sequence select="x:param-to-select-attr(.)" />
+                              <xsl:sequence select="local:param-to-select-attr(.)" />
                            </xsl:for-each>
                         </xsl:value-of>
                         <xsl:text>]</xsl:text>
@@ -132,20 +135,24 @@
    </xsl:template>
 
    <!--
+      Local functions
+   -->
+
+   <!--
       Transforms x:param to xsl:map-entry
    -->
-   <xsl:function name="x:param-to-map-entry" as="element(xsl:map-entry)">
+   <xsl:function name="local:param-to-map-entry" as="element(xsl:map-entry)">
       <xsl:param name="param" as="element(x:param)" />
 
       <map-entry key="{$param ! x:QName-expression-from-EQName-ignoring-default-ns(@name, .)}">
-         <xsl:sequence select="x:param-to-select-attr($param)" />
+         <xsl:sequence select="local:param-to-select-attr($param)" />
       </map-entry>
    </xsl:function>
 
    <!--
       Transforms x:param to @select which is connected to the generated xsl:variable
    -->
-   <xsl:function name="x:param-to-select-attr" as="attribute(select)">
+   <xsl:function name="local:param-to-select-attr" as="attribute(select)">
       <xsl:param name="param" as="element(x:param)" />
 
       <xsl:attribute name="select" select="'$' || x:variable-UQName($param)" />
