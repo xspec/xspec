@@ -21,6 +21,7 @@
    <xsl:include href="xslt/compile/compile-helpers.xsl" />
    <xsl:include href="xslt/compile/compile-scenario.xsl" />
    <xsl:include href="xslt/declare-variable/declare-variable.xsl" />
+   <xsl:include href="xslt/invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
    <xsl:include href="xslt/node-constructor/node-constructor.xsl" />
    <xsl:include href="xslt/report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
    <xsl:include href="generate-common-tests.xsl" />
@@ -172,29 +173,6 @@
          <!-- Compile the top-level scenarios. -->
          <xsl:call-template name="x:compile-child-scenarios-or-expects" />
       </xsl:element>
-   </xsl:template>
-
-   <!--
-      Generates an invocation of the template compiled from x:scenario or x:expect.
-   -->
-   <xsl:template name="x:invoke-compiled-current-scenario-or-expect">
-      <!-- Context item is x:scenario or x:expect -->
-      <xsl:context-item as="element()" use="required" />
-
-      <xsl:param name="last" as="xs:boolean" />
-
-      <!-- URIQualifiedNames of the variables that will be passed as the parameters (of the same
-         URIQualifiedName) to the compiled x:scenario or x:expect being invoked. -->
-      <xsl:param name="with-param-uqnames" as="xs:string*" />
-
-      <call-template name="{x:known-UQName('x:' || @id)}">
-         <xsl:for-each select="$with-param-uqnames">
-            <with-param name="{.}" select="${.}" />
-         </xsl:for-each>
-      </call-template>
-
-      <!-- Continue invoking compiled x:scenario or x:expect elements. -->
-      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!-- Constructs options for transform() -->
