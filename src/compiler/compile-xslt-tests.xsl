@@ -19,6 +19,7 @@
    <xsl:include href="xslt/catch/try-catch.xsl" />
    <xsl:include href="xslt/declare-variable/declare-variable.xsl" />
    <xsl:include href="xslt/node-constructor/node-constructor.xsl" />
+   <xsl:include href="xslt/report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
    <xsl:include href="generate-common-tests.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl</pkg:import-uri>
@@ -821,18 +822,6 @@
 
          <!-- </x:test> -->
          </xsl:element>
-      </xsl:element>
-   </xsl:template>
-
-   <xsl:template name="x:wrap-node-constructors-and-undeclare-default-ns" as="element(xsl:element)">
-      <xsl:param name="wrapper-name" as="xs:string" />
-      <xsl:param name="node-constructors" as="element()" />
-
-      <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-         <xsl:attribute name="name" select="$wrapper-name" />
-         <xsl:attribute name="namespace" />
-
-         <xsl:sequence select="$node-constructors" />
       </xsl:element>
    </xsl:template>
 
