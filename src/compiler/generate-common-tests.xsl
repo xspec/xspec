@@ -60,7 +60,7 @@
       "element(x:description)" is omitted in order to accept any source document and then reject it
       with a proper error message if it's broken. -->
    <xsl:template match="document-node()" as="node()+">
-      <xsl:call-template name="x:perform-initial-checks" />
+      <xsl:call-template name="x:perform-initial-check" />
 
       <!-- Resolve x:import and gather all the children of x:description -->
       <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
@@ -77,7 +77,7 @@
       </xsl:for-each>
    </xsl:template>
 
-   <xsl:template name="x:perform-initial-checks" as="empty-sequence()">
+   <xsl:template name="x:perform-initial-check" as="empty-sequence()">
       <xsl:context-item as="document-node()" use="required" />
 
       <xsl:variable name="deprecation-warning" as="xs:string?">
