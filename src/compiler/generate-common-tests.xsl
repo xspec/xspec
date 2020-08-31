@@ -34,10 +34,17 @@
    <xsl:include href="base/util/compiler-misc-utils.xsl" />
    <xsl:include href="base/util/compiler-yes-no-utils.xsl" />
 
-   <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
+   <!--
+      Global params
+   -->
 
    <xsl:param name="force-focus" as="xs:string?" />
-   <xsl:variable name="force-focus-ids" as="xs:string*" select="tokenize($force-focus, '\s+')[.]" />
+   <xsl:param name="is-external" as="xs:boolean"
+      select="$initial-document/x:description/@run-as = 'external'" />
+
+   <!--
+      Global variables
+   -->
 
    <!-- The initial XSpec document (the source document of the whole transformation).
       Note that this initial document is different from the document node generated within the

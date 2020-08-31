@@ -21,7 +21,7 @@
 	<xsl:mode name="filter-focus" on-multiple-match="fail" on-no-match="shallow-copy" />
 
 	<xsl:template as="empty-sequence()"
-		match="x:scenario[descendant-or-self::x:scenario[@id = $force-focus-ids] => empty()]"
+		match="x:scenario[descendant-or-self::x:scenario[contains-token($force-focus, @id)] => empty()]"
 		mode="filter-focus" />
 
 </xsl:stylesheet>
