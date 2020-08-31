@@ -30,13 +30,13 @@
 
       <!-- "$imported except $visit" without sorting -->
       <xsl:variable name="visited-actual-uris" as="xs:anyURI+"
-         select="$visit ! x:actual-document-uri(/)" />
+         select="$visit ! x:document-actual-uri(/)" />
       <xsl:variable name="imported-except-visit" as="element(x:description)*"
          select="
             $imported[empty(. intersect $visit)]
 
             (: xspec/xspec#987 :)
-            [not(x:actual-document-uri(/) = $visited-actual-uris)]" />
+            [not(x:document-actual-uri(/) = $visited-actual-uris)]" />
 
       <xsl:choose>
          <xsl:when test="empty($imported-except-visit)">
