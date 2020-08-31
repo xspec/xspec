@@ -20,6 +20,7 @@
    <xsl:include href="xquery/declare-variable/declare-variable.xsl" />
    <xsl:include href="xquery/invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
    <xsl:include href="xquery/node-constructor/node-constructor.xsl" />
+   <xsl:include href="xquery/report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
    <xsl:include href="xquery/serialize/disable-escaping.xsl" />
    <xsl:include href="generate-common-tests.xsl" />
 
@@ -435,17 +436,6 @@
 
       <!-- End of the function -->
       <xsl:text>};&#x0A;</xsl:text>
-   </xsl:template>
-
-   <xsl:template name="x:wrap-node-constructors-and-undeclare-default-ns" as="node()+">
-      <xsl:param name="wrapper-name" as="xs:string" />
-      <xsl:param name="node-constructors" as="node()+" />
-
-      <xsl:text>element { QName('', '</xsl:text>
-      <xsl:value-of select="$wrapper-name" />
-      <xsl:text>') } {&#x0A;</xsl:text>
-      <xsl:sequence select="$node-constructors" />
-      <xsl:text>}</xsl:text>
    </xsl:template>
 
    <xsl:template name="x:compile-helpers" as="text()*">
