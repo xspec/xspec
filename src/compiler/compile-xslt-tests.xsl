@@ -19,6 +19,7 @@
    <xsl:include href="xslt/catch/try-catch.xsl" />
    <xsl:include href="xslt/declare-variable/declare-variable.xsl" />
    <xsl:include href="xslt/node-constructor/node-constructor.xsl" />
+   <xsl:include href="xslt/report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
    <xsl:include href="generate-common-tests.xsl" />
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl</pkg:import-uri>
@@ -158,28 +159,29 @@
                      <xsl:attribute name="select" select="'current-dateTime()'" />
                   </xsl:element>
 
-                  <!-- Generate calls to the compiled top-level scenarios. -->
-                  <xsl:text>&#10;            </xsl:text><xsl:comment> a call instruction for each top-level scenario </xsl:comment>
-                  <xsl:call-template name="x:call-scenarios" />
+                  <!-- Generate invocations of the compiled top-level scenarios. -->
+                  <xsl:text>&#10;            </xsl:text><xsl:comment> invoke each compiled top-level x:scenario </xsl:comment>
+                  <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
                </xsl:element>
             </xsl:element>
          </xsl:element>
 
          <!-- Compile the top-level scenarios. -->
-         <xsl:call-template name="x:compile-scenarios" />
+         <xsl:call-template name="x:compile-child-scenarios-or-expects" />
       </xsl:element>
    </xsl:template>
 
-   <!-- *** x:output-call *** -->
-   <!-- Generates a call to the template compiled from a scenario or an expect element. -->
-
-   <xsl:template name="x:output-call">
+   <!--
+      Generates an invocation of the template compiled from x:scenario or x:expect.
+   -->
+   <xsl:template name="x:invoke-compiled-current-scenario-or-expect">
+      <!-- Context item is x:scenario or x:expect -->
       <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="last" as="xs:boolean" />
 
       <!-- URIQualifiedNames of the variables that will be passed as the parameters (of the same
-         URIQualifiedName) to the call -->
+         URIQualifiedName) to the compiled x:scenario or x:expect being invoked. -->
       <xsl:param name="with-param-uqnames" as="xs:string*" />
 
       <call-template name="{x:known-UQName('x:' || @id)}">
@@ -188,13 +190,13 @@
          </xsl:for-each>
       </call-template>
 
-      <!-- Continue compiling calls. -->
+      <!-- Continue invoking compiled x:scenario or x:expect elements. -->
       <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
       Generates the templates that perform the tests.
-      Called during mode="x:compile-each-element".
+      Called during mode="x:compile-scenarios-or-expects".
    -->
    <xsl:template name="x:compile-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
@@ -337,7 +339,7 @@
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
-                  <!-- #current is x:compile-each-element -->
+                  <!-- #current is x:compile-scenarios-or-expects -->
                   <xsl:apply-templates select="($call, $apply, $context)[1]/x:param[1]"
                      mode="#current" />
 
@@ -499,16 +501,16 @@
                   <with-param name="sequence" select="${x:known-UQName('x:result')}" />
                   <with-param name="report-name" select="'result'" />
                </call-template>
-               <xsl:comment> a call instruction for each x:expect element </xsl:comment>
+               <xsl:comment> invoke each compiled x:expect </xsl:comment>
             </xsl:if>
 
-            <xsl:call-template name="x:call-scenarios" />
+            <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
 
          <!-- </x:scenario> -->
          </xsl:element>
       </xsl:element>
 
-      <xsl:call-template name="x:compile-scenarios" />
+      <xsl:call-template name="x:compile-child-scenarios-or-expects" />
    </xsl:template>
 
    <!-- Constructs options for transform() -->
@@ -827,18 +829,6 @@
 
          <!-- </x:test> -->
          </xsl:element>
-      </xsl:element>
-   </xsl:template>
-
-   <xsl:template name="x:wrap-node-constructors-and-undeclare-default-ns" as="element(xsl:element)">
-      <xsl:param name="wrapper-name" as="xs:string" />
-      <xsl:param name="node-constructors" as="element()" />
-
-      <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
-         <xsl:attribute name="name" select="$wrapper-name" />
-         <xsl:attribute name="namespace" />
-
-         <xsl:sequence select="$node-constructors" />
       </xsl:element>
    </xsl:template>
 
