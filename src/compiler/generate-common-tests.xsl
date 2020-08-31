@@ -30,10 +30,11 @@
    <xsl:include href="base/compile/compile-global-params-and-variables.xsl" />
    <xsl:include href="base/compile/compile-scenario.xsl" />
    <xsl:include href="base/declare-variable/variable-uqname.xsl" />
+   <xsl:include href="base/report/report-test-attribute.xsl" />
+   <xsl:include href="base/resolve-import/resolve-import.xsl" />
    <xsl:include href="base/util/compiler-eqname-utils.xsl" />
    <xsl:include href="base/util/compiler-misc-utils.xsl" />
    <xsl:include href="base/util/compiler-yes-no-utils.xsl" />
-   <xsl:include href="gatherer.xsl" />
 
    <xsl:param name="is-external" as="xs:boolean" select="$initial-document/x:description/@run-as = 'external'" />
 
@@ -263,27 +264,6 @@
             </xsl:message>
          </xsl:when>
       </xsl:choose>
-   </xsl:template>
-
-   <xsl:template name="x:report-test-attribute" as="node()+">
-      <xsl:context-item as="element(x:expect)" use="required" />
-
-      <xsl:variable name="expect-test" as="element(x:expect)">
-         <!-- Do not set xsl:copy/@copy-namespaces="no". @test may use namespace prefixes and/or the
-            default namespace such as xs:QName('foo') -->
-         <xsl:copy>
-            <xsl:sequence select="@test" />
-         </xsl:copy>
-      </xsl:variable>
-
-      <!-- Undeclare the default namespace in the wrapper element, because @test may use the default
-         namespace such as xs:QName('foo'). -->
-      <xsl:call-template name="x:wrap-node-constructors-and-undeclare-default-ns">
-         <xsl:with-param name="wrapper-name" select="local-name() || '-test-wrap'" />
-         <xsl:with-param name="node-constructors" as="node()+">
-            <xsl:apply-templates select="$expect-test" mode="x:node-constructor" />
-         </xsl:with-param>
-      </xsl:call-template>
    </xsl:template>
 
 </xsl:stylesheet>
