@@ -71,7 +71,7 @@
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
-            select="(@original-xspec, $actual-document-uri)[1] cast as xs:anyURI" />
+            select="(@original-xspec, $initial-document-actual-uri)[1] cast as xs:anyURI" />
          <variable name="{x:known-UQName('x:xspec-uri')}" as="{x:known-UQName('xs:anyURI')}">
             <xsl:value-of select="$xspec-master-uri" />
          </variable>

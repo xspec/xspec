@@ -49,8 +49,8 @@
       the compiler templates may need to access the initial document. -->
    <xsl:variable name="initial-document" as="document-node(element(x:description))" select="/" />
 
-   <xsl:variable name="actual-document-uri" as="xs:anyURI"
-      select="x:actual-document-uri($initial-document)" />
+   <xsl:variable name="initial-document-actual-uri" as="xs:anyURI"
+      select="x:document-actual-uri($initial-document)" />
 
    <!--
       mode="#default"
