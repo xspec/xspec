@@ -27,12 +27,9 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl</pkg:import-uri>
 
-   <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
-
-   <xsl:param name="report-css-uri" as="xs:string?" />
-
    <xsl:param name="force-focus" as="xs:string?" />
-   <xsl:variable name="force-focus-ids" as="xs:string*" select="tokenize($force-focus, '\s+')[.]" />
+   <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
+   <xsl:param name="report-css-uri" as="xs:string?" />
 
    <!-- @use-character-maps for inline CSS -->
    <xsl:output method="xhtml" use-character-maps="fmt:disable-escaping" />

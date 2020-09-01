@@ -56,7 +56,7 @@
                         documents. -->
 
                     <!-- Global Schematron attributes -->
-                    <xsl:attribute name="original-xspec" select="x:actual-document-uri(/)" />
+                    <xsl:attribute name="original-xspec" select="x:document-actual-uri(/)" />
                     <xsl:attribute name="schematron" select="resolve-uri(@schematron, base-uri())" />
 
                     <!-- Global XSLT attributes.

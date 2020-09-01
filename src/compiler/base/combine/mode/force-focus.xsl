@@ -17,10 +17,10 @@
    </xsl:template>
 
    <!-- Force or remove focus -->
-   <xsl:template match="x:scenario[exists($force-focus-ids)]" as="element(x:scenario)"
+   <xsl:template match="x:scenario[$force-focus]" as="element(x:scenario)"
       mode="x:force-focus">
       <xsl:copy>
-         <xsl:if test="@id = $force-focus-ids">
+         <xsl:if test="contains-token($force-focus, @id)">
             <xsl:attribute name="focus" select="'force focus'" />
          </xsl:if>
          <xsl:apply-templates select="attribute() except @focus" mode="#current" />

@@ -32,7 +32,7 @@
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
-         <xsl:with-param name="xspec-module-uri" tunnel="yes" select="x:actual-document-uri(/)" />
+         <xsl:with-param name="xspec-module-uri" tunnel="yes" select="x:document-actual-uri(/)" />
       </xsl:apply-templates>
    </xsl:template>
 

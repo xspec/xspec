@@ -20,10 +20,10 @@
 	</xsl:function>
 
 	<!--
-		Returns the actual document URI (i.e. resolved with the currently enabled catalog),
+		Returns the document actual URI (i.e. resolved with the currently enabled catalog),
 		working around an XML resolver bug
 	-->
-	<xsl:function as="xs:anyURI" name="x:actual-document-uri">
+	<xsl:function as="xs:anyURI" name="x:document-actual-uri">
 		<xsl:param as="document-node()" name="doc" />
 
 		<xsl:sequence

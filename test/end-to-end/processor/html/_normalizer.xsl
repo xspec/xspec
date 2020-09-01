@@ -111,13 +111,13 @@
 		Normalizes the link to the files created dynamically by XSpec
 	-->
 	<xsl:template as="attribute(href)"
-		match="table[tokenize(@class, '\s+')[.] = 'xspecResult']/tbody/tr/td/p/a/@href"
+		match="table[contains-token(@class, 'xspecResult')]/tbody/tr/td/p/a/@href"
 		mode="normalizer:normalize">
 		<xsl:call-template name="normalizer:normalize-external-link-attribute" />
 	</xsl:template>
 
 	<xsl:template as="text()"
-		match="table[tokenize(@class, '\s+')[.] = 'xspecResult']/tbody/tr/td/p/a[. eq @href]/text()"
+		match="table[contains-token(@class, 'xspecResult')]/tbody/tr/td/p/a[. eq @href]/text()"
 		mode="normalizer:normalize">
 		<xsl:value-of>
 			<xsl:for-each select="parent::a/@href">
@@ -133,7 +133,7 @@
 				out: <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
 	-->
 	<xsl:template as="text()"
-		match="table[@class eq 'xspecResult'][local:is-schematron-report(.)]/tbody/tr/td[1]/pre/text()"
+		match="table[contains-token(@class, 'xspecResult')][local:is-schematron-report(.)]/tbody/tr/td[1]/pre/text()"
 		mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
