@@ -15,9 +15,9 @@
 				=> starts-with('/')" />
 	</x:scenario>
 
-	<x:scenario label="Scenario for testing function actual-document-uri">
+	<x:scenario label="Scenario for testing function document-actual-uri">
 		<!-- TODO: Use catalog -->
-		<x:call function="x:actual-document-uri">
+		<x:call function="x:document-actual-uri">
 			<x:param select="doc('')" />
 		</x:call>
 		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />

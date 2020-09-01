@@ -48,7 +48,7 @@
 	<scenario label="Variable with unprefixed name">
 		<call function="mirror:false" />
 		<variable name="result" select="'variable not in a namespace'"/>
-		<expect label="does not produce error from x:detect-reserved-variable-name(), has correct value,"
+		<expect label="does not produce error from detect-reserved-variable-name, has correct value,"
 			test="$result = 'variable not in a namespace'"
 		/>
 		<expect label="and does not conflict with XSpec result"
