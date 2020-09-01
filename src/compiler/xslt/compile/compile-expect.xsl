@@ -6,8 +6,6 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl" />
-
    <!--
       Generate an XSLT template from the expect element.
       
