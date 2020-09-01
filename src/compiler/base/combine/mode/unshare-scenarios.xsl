@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:base:combine:mode:unshare-scenarios:local"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
                 version="3.0">
@@ -21,10 +22,10 @@
       mode="x:unshare-scenarios" />
 
    <!-- Replace x:like with specified scenario's child elements -->
-   <xsl:key name="scenarios" match="x:scenario[x:is-user-content(.) => not()]" use="x:label(.)" />
    <xsl:template match="x:like" as="element()+" mode="x:unshare-scenarios">
       <xsl:variable name="label" as="element(x:label)" select="x:label(.)" />
-      <xsl:variable name="scenario" as="element(x:scenario)*" select="key('scenarios', $label)" />
+      <xsl:variable name="scenario" as="element(x:scenario)*"
+         select="key('local:scenarios', $label)" />
       <xsl:choose>
          <xsl:when test="empty($scenario)">
             <xsl:message terminate="yes">
@@ -46,5 +47,12 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
+
+   <!--
+      Local components
+   -->
+
+   <xsl:key name="local:scenarios" match="x:scenario[x:is-user-content(.) => not()]"
+      use="x:label(.)" />
 
 </xsl:stylesheet>

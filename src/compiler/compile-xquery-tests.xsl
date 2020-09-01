@@ -111,7 +111,7 @@
          <xsl:with-param name="name" select="x:known-UQName('x:xspec-uri')" />
          <xsl:with-param name="type" select="'xs:anyURI'" />
          <xsl:with-param name="value" as="text()">
-            <xsl:text expand-text="yes">xs:anyURI("{$actual-document-uri}")</xsl:text>
+            <xsl:text expand-text="yes">xs:anyURI("{$initial-document-actual-uri}")</xsl:text>
          </xsl:with-param>
       </xsl:call-template>
 
@@ -133,7 +133,7 @@
 
       <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="attribute()+">
-            <xsl:attribute name="xspec" select="$actual-document-uri" />
+            <xsl:attribute name="xspec" select="$initial-document-actual-uri" />
             <xsl:attribute name="query" select="$this/@query" />
             <xsl:if test="exists($query-at)">
                <xsl:attribute name="query-at" select="$query-at" />
