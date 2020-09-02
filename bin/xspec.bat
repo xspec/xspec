@@ -216,7 +216,7 @@ if errorlevel 1 (
     call :win_echo "ERROR: XSPEC_HOME is not a directory: %XSPEC_HOME%"
     exit /b 1
 )
-if not exist "%XSPEC_HOME%\src\compiler\generate-common-tests.xsl" (
+if not exist "%XSPEC_HOME%\src\compiler\base\main.xsl" (
     call :win_echo "ERROR: XSPEC_HOME seems to be corrupted: %XSPEC_HOME%"
     exit /b 1
 )
