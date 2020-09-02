@@ -29,8 +29,14 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl</pkg:import-uri>
 
+   <!--
+      Namespace alias for literal result elements
+   -->
    <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl" />
 
+   <!--
+      Serialization parameters applied to the compiled stylesheet
+   -->
    <xsl:output indent="yes" />
 
    <!--
@@ -175,7 +181,6 @@
          <xsl:call-template name="x:compile-child-scenarios-or-expects" />
       </xsl:element>
    </xsl:template>
-
 
 </xsl:stylesheet>
 
