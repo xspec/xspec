@@ -6,7 +6,9 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <xsl:output omit-xml-declaration="yes" use-character-maps="x:disable-escaping" />
+   <!--
+      Global params
+   -->
 
    <!--
        The special value '#none' is used to generate no "at" clause at
@@ -23,6 +25,11 @@
    <!-- TODO: The at hint should not be always resolved (e.g. for MarkLogic). -->
    <xsl:param name="query-at" as="xs:string?"
       select="$initial-document/x:description/@query-at/resolve-uri(., base-uri())"/>
+
+   <!--
+      Serialization parameters applied to the compiled query
+   -->
+   <xsl:output omit-xml-declaration="yes" use-character-maps="x:disable-escaping" />
 
    <!--
       Main template of the XQuery-specific compiler
