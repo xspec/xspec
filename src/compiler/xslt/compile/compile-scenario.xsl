@@ -6,8 +6,6 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <xsl:namespace-alias stylesheet-prefix="#default" result-prefix="xsl" />
-
    <!--
       Generates the templates that perform the tests.
       Called during mode="local:compile-scenarios-or-expects" in
