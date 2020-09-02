@@ -91,7 +91,9 @@
             <xsl:text>&#10;      </xsl:text><xsl:comment> info message </xsl:comment>
             <!-- Message content must be constructed at run time -->
             <message>
-               <text>Testing with </text>
+               <text>
+                  <xsl:text>Testing with </xsl:text>
+               </text>
                <value-of select="system-property('{x:known-UQName('xsl:product-name')}')" />
                <text>
                   <xsl:text> </xsl:text>
