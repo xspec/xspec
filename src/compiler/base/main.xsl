@@ -55,19 +55,20 @@
 
    <!--
       Sub modules
+         '../base/' prefix in @href is a workaround for https://saxonica.plan.io/issues/4706
    -->
-   <xsl:include href="catch/enter-sut.xsl" />
-   <xsl:include href="combine/combine.xsl" />
-   <xsl:include href="compile/compile-child-scenarios-or-expects.xsl" />
-   <xsl:include href="compile/compile-global-params-and-variables.xsl" />
-   <xsl:include href="compile/compile-scenario.xsl" />
-   <xsl:include href="declare-variable/variable-uqname.xsl" />
-   <xsl:include href="initial-check/perform-initial-check.xsl" />
-   <xsl:include href="invoke-compiled/invoke-compiled-child-scenarios-or-expects.xsl" />
-   <xsl:include href="report/report-test-attribute.xsl" />
-   <xsl:include href="resolve-import/resolve-import.xsl" />
-   <xsl:include href="util/compiler-eqname-utils.xsl" />
-   <xsl:include href="util/compiler-misc-utils.xsl" />
-   <xsl:include href="util/compiler-yes-no-utils.xsl" />
+   <xsl:include href="../base/catch/enter-sut.xsl" />
+   <xsl:include href="../base/combine/combine.xsl" />
+   <xsl:include href="../base/compile/compile-child-scenarios-or-expects.xsl" />
+   <xsl:include href="../base/compile/compile-global-params-and-variables.xsl" />
+   <xsl:include href="../base/compile/compile-scenario.xsl" />
+   <xsl:include href="../base/declare-variable/variable-uqname.xsl" />
+   <xsl:include href="../base/initial-check/perform-initial-check.xsl" />
+   <xsl:include href="../base/invoke-compiled/invoke-compiled-child-scenarios-or-expects.xsl" />
+   <xsl:include href="../base/report/report-test-attribute.xsl" />
+   <xsl:include href="../base/resolve-import/resolve-import.xsl" />
+   <xsl:include href="../base/util/compiler-eqname-utils.xsl" />
+   <xsl:include href="../base/util/compiler-misc-utils.xsl" />
+   <xsl:include href="../base/util/compiler-yes-no-utils.xsl" />
 
 </xsl:stylesheet>
