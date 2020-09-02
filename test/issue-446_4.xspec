@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://github.com/xspec/xspec/issues/446#issuecomment-447390885 -->
+<x:description query="http://example.org/ns/my" query-at="square.xqm" stylesheet="square.xsl"
+  xmlns:my="http://example.org/ns/my" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+  <x:scenario label="a non-pending scenario">
+    <x:call function="my:square">
+      <x:param select="3" />
+    </x:call>
+    <x:expect label="must execute the test and return Success" select="9" />
+    <x:pending label="(mark an individual expect as pending)">
+      <x:expect label="hide" select="9" />
+    </x:pending>
+  </x:scenario>
+
+</x:description>

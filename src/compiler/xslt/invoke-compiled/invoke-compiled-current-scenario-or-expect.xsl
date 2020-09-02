@@ -8,11 +8,9 @@
    <!--
       Generates an invocation of the template compiled from x:scenario or x:expect.
    -->
-   <xsl:template name="x:invoke-compiled-current-scenario-or-expect">
+   <xsl:template name="x:invoke-compiled-current-scenario-or-expect" as="element(xsl:call-template)">
       <!-- Context item is x:scenario or x:expect -->
       <xsl:context-item as="element()" use="required" />
-
-      <xsl:param name="last" as="xs:boolean" />
 
       <!-- URIQualifiedNames of the variables that will be passed as the parameters (of the same
          URIQualifiedName) to the compiled x:scenario or x:expect being invoked. -->
@@ -28,9 +26,6 @@
             </xsl:element>
          </xsl:for-each>
       </xsl:element>
-
-      <!-- Continue invoking compiled x:scenario or x:expect elements. -->
-      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
 </xsl:stylesheet>

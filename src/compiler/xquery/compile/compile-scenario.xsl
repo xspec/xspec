@@ -94,10 +94,11 @@
             <xsl:sequence select="x:label(.)" />
          </xsl:with-param>
       </xsl:call-template>
-      <xsl:text>,&#x0A;</xsl:text>
 
       <!-- Copy the input to the test result report XML -->
       <xsl:for-each select="x:call">
+         <xsl:text>,&#x0A;</xsl:text>
+
          <!-- Undeclare the default namespace in the wrapper element, because x:param/@select may
             use the default namespace such as xs:QName('foo'). -->
          <xsl:call-template name="x:wrap-node-constructors-and-undeclare-default-ns">
@@ -106,18 +107,18 @@
                <xsl:apply-templates select="." mode="x:node-constructor" />
             </xsl:with-param>
          </xsl:call-template>
-         <xsl:text>,&#x0A;</xsl:text>
       </xsl:for-each>
 
-      <xsl:choose>
-         <xsl:when test="not($pending-p) and x:expect">
-            <!--
-              let $xxx-param1 := ...
-              let $xxx-param2 := ...
-              let $t:result   := ...($xxx-param1, $xxx-param2)
-              return (
-                rep:report-sequence($t:result, 'x:result'),
-            -->
+      <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
+      <xsl:variable name="variable-name-of-actual-result-report" as="xs:string?"
+         select="'local:actual-result-report'[$run-sut-now]" />
+
+      <xsl:sequence>
+         <xsl:on-non-empty>
+            <xsl:text>,&#x0A;</xsl:text>
+         </xsl:on-non-empty>
+
+         <xsl:if test="$run-sut-now">
             <!-- #current is mode="local:compile-scenarios-or-expects" in
                compile-child-scenarios-or-expects.xsl. -->
             <xsl:apply-templates select="$call/x:param[1]" mode="#current" />
@@ -131,25 +132,17 @@
             </xsl:call-template>
             <xsl:text>)&#x0A;</xsl:text>
 
-            <xsl:text>return (&#x0A;</xsl:text>
-            <xsl:text expand-text="yes">{x:known-UQName('rep:report-sequence')}(${x:known-UQName('x:result')}, 'result'),&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">let ${$variable-name-of-actual-result-report} := {x:known-UQName('rep:report-sequence')}(${x:known-UQName('x:result')}, 'result')&#x0A;</xsl:text>
 
             <xsl:text>&#x0A;</xsl:text>
             <xsl:text>(: invoke each compiled x:expect :)&#x0A;</xsl:text>
-         </xsl:when>
+         </xsl:if>
 
-         <xsl:otherwise>
-            <!--
-               let $t:result := ()
-               return (
-            -->
-            <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := ()&#x0A;</xsl:text>
-            <xsl:text>return (&#x0A;</xsl:text>
-         </xsl:otherwise>
-      </xsl:choose>
-
-      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
-      <xsl:text>)&#x0A;</xsl:text>
+         <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
+            <xsl:with-param name="tunnel_variable-name-of-actual-result-report"
+               select="$variable-name-of-actual-result-report" tunnel="yes" />
+         </xsl:call-template>
+      </xsl:sequence>
 
       <!-- </x:scenario> -->
       <xsl:text>}&#x0A;</xsl:text>

@@ -126,11 +126,12 @@ declare function local:scenario1(
 {
 ...
 (: invoke each compiled x:expect :)
-let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-expect1(
+let $local:returned-from-scenario1-expect1 := local:scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result
 )
 return (
-$Q{http://www.jenitennison.com/xslt/xspec}tmp
+...
+$local:returned-from-scenario1-expect1
 )
 ...
 };
@@ -152,10 +153,10 @@ attribute { QName('', 'query') } { 'http://example.org/ns/my' },
 attribute { QName('', 'query-at') } { '.../compilation-simple-suite.xqm' },
 attribute { QName('', 'date') } { current-dateTime() },
 (: invoke each compiled top-level x:scenario :)
-let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1(
+let $local:returned-from-scenario1 := local:scenario1(
 )
 return (
-$Q{http://www.jenitennison.com/xslt/xspec}tmp
+$local:returned-from-scenario1
 )
 }
 }
@@ -281,18 +282,17 @@ declare function local:scenario1(
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
 Q{http://example.org/ns/my}f()
 )
-return (
-Q{urn:x-xspec:common:report-sequence}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'result'),
+let $local:actual-result-report := Q{urn:x-xspec:common:report-sequence}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'result')
 
 (: invoke each compiled x:expect :)
-let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-expect1(
+let $local:returned-from-scenario1-expect1 := local:scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result
 )
 return (
-$Q{http://www.jenitennison.com/xslt/xspec}tmp
+$local:actual-result-report,
+$local:returned-from-scenario1-expect1
 )
-)
-}
+...
 };
 
 (: generated from the x:expect element :)
@@ -573,15 +573,13 @@ let $Q{http://example.org/ns/my/variable}var := (
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
 ... exercise the SUT ...
 )
-return (
-...,
-let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-expect1(
+let $local:returned-from-scenario1-expect1 := local:scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result,
 $Q{http://example.org/ns/my/variable}var
 )
 return (
-$Q{http://www.jenitennison.com/xslt/xspec}tmp
-)
+...
+$local:returned-from-scenario1-expect1
 )
 ...
 };
@@ -884,12 +882,12 @@ declare function local:scenario1(
 let $Q{http://example.org/ns/my/variable}var-1 := (
 'var-1-value'
 )
-let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-scenario1(
+let $local:returned-from-scenario1-scenario1 := local:scenario1-scenario1(
 (: pass the variable to inner context :)
 $Q{http://example.org/ns/my/variable}var-1
 )
 return (
-$Q{http://www.jenitennison.com/xslt/xspec}tmp
+$local:returned-from-scenario1-scenario1
 )
 ...
 };
@@ -909,25 +907,22 @@ return
 let $Q{http://www.jenitennison.com/xslt/xspec}result := (
 Q{http://example.org/ns/my}square(...)
 )
-return (
-...,
+...
 (: the generated variable :)
 let $Q{http://example.org/ns/my/variable}var-3 := (
 'var-3-value'
 )
-let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-scenario1-expect1(
+let $local:returned-from-scenario1-scenario1-expect1 := local:scenario1-scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result,
 $Q{http://example.org/ns/my/variable}var-1,
 $Q{http://example.org/ns/my/variable}var-2,
 $Q{http://example.org/ns/my/variable}var-3
 )
-return (
-$Q{http://www.jenitennison.com/xslt/xspec}tmp,
 (: the generated variable :)
 let $Q{http://example.org/ns/my/variable}var-4 := (
 'var-4-value'
 )
-let $Q{http://www.jenitennison.com/xslt/xspec}tmp := local:scenario1-scenario1-expect2(
+let $local:returned-from-scenario1-scenario1-expect2 := local:scenario1-scenario1-expect2(
 $Q{http://www.jenitennison.com/xslt/xspec}result,
 $Q{http://example.org/ns/my/variable}var-1,
 $Q{http://example.org/ns/my/variable}var-2,
@@ -935,11 +930,11 @@ $Q{http://example.org/ns/my/variable}var-3,
 $Q{http://example.org/ns/my/variable}var-4
 )
 return (
-$Q{http://www.jenitennison.com/xslt/xspec}tmp
+...
+$local:returned-from-scenario1-scenario1-expect1,
+$local:returned-from-scenario1-scenario1-expect2
 )
-)
-)
-}
+...
 };
 
 (: generated from the expect one :)
