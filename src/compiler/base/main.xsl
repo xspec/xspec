@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all"
+                version="3.0">
+
+   <!--
+      Global params
+   -->
+
+   <xsl:param name="force-focus" as="xs:string?" />
+   <xsl:param name="is-external" as="xs:boolean"
+      select="$initial-document/x:description/@run-as = 'external'" />
+
+   <!--
+      Global variables
+   -->
+
+   <!-- The initial XSpec document (the source document of the whole transformation).
+      Note that this initial document is different from the document node generated within the
+      default mode template. The latter document is a restructured copy of the initial document.
+      Usually the compiler templates should handle the restructured one, but in rare cases some of
+      the compiler templates may need to access the initial document. -->
+   <xsl:variable name="initial-document" as="document-node(element(x:description))" select="/" />
+
+   <xsl:variable name="initial-document-actual-uri" as="xs:anyURI"
+      select="x:document-actual-uri($initial-document)" />
+
+   <!--
+      mode="#default"
+   -->
+   <xsl:mode on-multiple-match="fail" on-no-match="fail" />
+
+   <!-- Actually, xsl:template/@match is "document-node(element(x:description))".
+      "element(x:description)" is omitted in order to accept any source document and then reject it
+      with a proper error message if it's broken. -->
+   <xsl:template match="document-node()" as="node()+">
+      <xsl:call-template name="x:perform-initial-check" />
+
+      <!-- Resolve x:import and gather all the children of x:description -->
+      <xsl:variable name="specs" as="node()+" select="x:resolve-import(x:description)" />
+
+      <!-- Combine all the children of x:description into a single document so that the following
+         language-specific transformation can handle them as a document. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))"
+         select="x:combine($specs)" />
+
+      <!-- Switch the context to the x:description and dispatch it to the language-specific
+         transformation (XSLT or XQuery) -->
+      <xsl:for-each select="$combined-doc/x:description">
+         <xsl:call-template name="x:main" />
+      </xsl:for-each>
+   </xsl:template>
+
+   <!--
+      Sub modules
+   -->
+   <xsl:include href="catch/enter-sut.xsl" />
+   <xsl:include href="combine/combine.xsl" />
+   <xsl:include href="compile/compile-child-scenarios-or-expects.xsl" />
+   <xsl:include href="compile/compile-global-params-and-variables.xsl" />
+   <xsl:include href="compile/compile-scenario.xsl" />
+   <xsl:include href="declare-variable/variable-uqname.xsl" />
+   <xsl:include href="initial-check/perform-initial-check.xsl" />
+   <xsl:include href="invoke-compiled/invoke-compiled-child-scenarios-or-expects.xsl" />
+   <xsl:include href="report/report-test-attribute.xsl" />
+   <xsl:include href="resolve-import/resolve-import.xsl" />
+   <xsl:include href="util/compiler-eqname-utils.xsl" />
+   <xsl:include href="util/compiler-misc-utils.xsl" />
+   <xsl:include href="util/compiler-yes-no-utils.xsl" />
+
+</xsl:stylesheet>
