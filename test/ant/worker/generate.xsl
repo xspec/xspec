@@ -215,7 +215,16 @@
 					<xsl:when
 						test="
 							($pis = 'require-xspec-issue-1156-fixed')
-							and (environment-variable('TRAVIS_OS_NAME') eq 'linux')">
+							and
+							(
+							(environment-variable('TRAVIS_OS_NAME') eq 'linux')
+							or
+							(
+							(environment-variable('GITHUB_ACTIONS') eq 'true')
+							and
+							(environment-variable('RUNNER_OS') eq 'macOS')
+							)
+							)">
 						<xsl:text>Requires xspec/xspec#1156 to have been fixed</xsl:text>
 					</xsl:when>
 
