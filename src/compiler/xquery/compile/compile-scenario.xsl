@@ -17,7 +17,6 @@
       <!-- No $apply for XQuery -->
       <xsl:param name="context"   as="element(x:context)?"  tunnel="yes" />
       <xsl:param name="call"      as="element(x:call)?"     tunnel="yes" />
-      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable" />
@@ -59,7 +58,7 @@
       <xsl:text expand-text="yes">&#10;declare function local:{@id}(&#x0A;</xsl:text>
 
       <!-- Function parameters. Their order must be stable, because this is a function. -->
-      <xsl:for-each select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))">
+      <xsl:for-each select="accumulator-before('stacked-variables-distinct-uqnames')">
          <xsl:text expand-text="yes">${.}</xsl:text>
          <xsl:if test="position() ne last()">
             <xsl:text>,</xsl:text>
@@ -72,7 +71,9 @@
       <!-- Start of the function body -->
       <xsl:text>{&#x0A;</xsl:text>
 
-      <!-- If there are variables before x:call, define them here followed by "return". -->
+      <!-- If there are variables before x:call, declare them here followed by "return". The other
+         local variables are declared in mode="local:invoke-compiled-scenarios-or-expects" in
+         invoke-compiled-child-scenarios-or-expects.xsl. -->
       <xsl:if test="exists($local-preceding-variables)">
          <xsl:apply-templates select="$local-preceding-variables" mode="x:declare-variable" />
          <xsl:text>return&#x0A;</xsl:text>

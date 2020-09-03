@@ -68,14 +68,12 @@
       Generate an invocation of the compiled x:scenario
    -->
    <xsl:template match="x:scenario" mode="local:invoke-compiled-scenarios-or-expects">
-      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
-
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
          walking the siblings -->
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
          <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="with-param-uqnames"
-            select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
+            select="accumulator-before('stacked-variables-distinct-uqnames')" />
       </xsl:call-template>
    </xsl:template>
 
@@ -84,7 +82,6 @@
    -->
    <xsl:template match="x:expect" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
-      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
@@ -96,31 +93,29 @@
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
-            <xsl:sequence
-               select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
+            <xsl:sequence select="accumulator-before('stacked-variables-distinct-uqnames')" />
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>
 
    <!--
-      x:variable element generates a variable declaration and adds itself on the stack (the tunnel
-      param $stacked-variables).
+      x:variable element generates a variable declaration.
    -->
    <xsl:template match="x:variable" mode="local:invoke-compiled-scenarios-or-expects">
-      <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
-
-      <!-- Reject reserved variables -->
       <xsl:call-template name="local:detect-reserved-variable-name" />
 
-      <!-- The variable declaration. -->
-      <xsl:if test="empty(following-sibling::x:call) and empty(following-sibling::x:context)">
-         <xsl:apply-templates select="." mode="x:declare-variable" />
-      </xsl:if>
+      <xsl:choose>
+         <xsl:when test="following-sibling::x:call or following-sibling::x:context">
+            <!-- This variable is declared in x:compile-scenario template -->
+         </xsl:when>
 
-      <!-- Continue walking the siblings, adding a new variable on the stack. -->
-      <xsl:call-template name="x:continue-walking-siblings">
-         <xsl:with-param name="stacked-variables" tunnel="yes" select="$stacked-variables, ." />
-      </xsl:call-template>
+         <xsl:otherwise>
+            <!-- Declare now -->
+            <xsl:apply-templates select="." mode="x:declare-variable" />
+         </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
