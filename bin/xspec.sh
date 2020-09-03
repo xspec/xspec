@@ -119,7 +119,7 @@ if test \! -d "${XSPEC_HOME}"; then
     echo "ERROR: XSPEC_HOME is not a directory: ${XSPEC_HOME}"
     exit 1
 fi
-if test \! -f "${XSPEC_HOME}/src/compiler/generate-common-tests.xsl"; then
+if test \! -f "${XSPEC_HOME}/src/compiler/base/main.xsl"; then
     echo "ERROR: XSPEC_HOME seems to be corrupted: ${XSPEC_HOME}"
     exit 1
 fi
