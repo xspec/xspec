@@ -22,5 +22,4 @@ call ant ^
     -buildfile "%~dp0build_test-maven-jar.xml" ^
     -lib "%SAXON_JAR%" ^
     -lib "%XSPEC_MAVEN_JAR%" ^
-    -Dtest-maven-jar.jar.file="%XSPEC_MAVEN_JAR%" ^
     %*
