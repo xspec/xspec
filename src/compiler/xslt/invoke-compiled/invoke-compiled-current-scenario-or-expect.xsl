@@ -14,8 +14,9 @@
 
       <xsl:param name="last" as="xs:boolean" />
 
-      <!-- URIQualifiedNames of the variables that will be passed as the parameters (of the same
-         URIQualifiedName) to the compiled x:scenario or x:expect being invoked. -->
+      <!-- URIQualifiedNames of the variables that will be passed as the parameters to the compiled
+         x:scenario or x:expect being invoked. Names and contents of the variables are passed
+         through unchanged. -->
       <xsl:param name="with-param-uqnames" as="xs:string*" />
 
       <xsl:element name="xsl:call-template" namespace="{$x:xsl-namespace}">
