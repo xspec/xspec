@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-
-	<!-- XSpec fails to run this file on XQuery. Maybe a variant of #446? -->
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" stylesheet="../../mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Scenario 1">
 		<x:call function="mirror:true" />

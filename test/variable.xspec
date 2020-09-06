@@ -215,12 +215,6 @@
 				<x:expect label="nonsense result" select="0"/>
 			</x:scenario>
 		</x:pending>
-		<x:scenario label="Nonpending scenario (not needed, except to work around issue #446)">
-			<x:call function="mirror:param-mirror">
-				<x:param><foo/></x:param>
-			</x:call>
-			<x:expect label="the result"><foo/></x:expect>
-		</x:scenario>
 	</x:scenario>
 
 	<x:scenario shared="yes" label="SHARED variables">

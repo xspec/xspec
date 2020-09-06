@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-446_4.xspec">
+   <testsuite name="a non-pending scenario" tests="2" failures="0">
+      <testcase name="must execute the test and return Success" status="passed"/>
+      <testcase name="hide" status="skipped">
+         <skipped>(mark an individual expect as pending)</skipped>
+      </testcase>
+   </testsuite>
+</testsuites>
