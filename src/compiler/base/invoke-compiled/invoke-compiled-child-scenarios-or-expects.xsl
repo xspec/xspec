@@ -70,13 +70,13 @@
    <xsl:template match="x:scenario" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:param name="stacked-variables" tunnel="yes" as="element(x:variable)*" />
 
-      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
-         walking the siblings -->
+      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
-         <xsl:with-param name="last" select="empty(following-sibling::x:scenario)"/>
          <xsl:with-param name="with-param-uqnames"
             select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
       </xsl:call-template>
+
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -87,10 +87,8 @@
       <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
-      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template which in turn continues
-         walking the siblings -->
+      <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
-         <xsl:with-param name="last" select="empty(following-sibling::x:expect)"/>
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
             <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
@@ -100,6 +98,8 @@
                select="x:distinct-strings-stable($stacked-variables ! x:variable-UQName(.))" />
          </xsl:with-param>
       </xsl:call-template>
+
+      <xsl:call-template name="x:continue-walking-siblings" />
    </xsl:template>
 
    <!--

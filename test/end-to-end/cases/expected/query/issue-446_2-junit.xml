@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-446_2.xspec">
+   <testsuite name="Scenario 1" tests="1" failures="0">
+      <testcase name="Expect 1" status="skipped">
+         <skipped>Pending 1</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="Scenario 2" tests="1" failures="0">
+      <testcase name="Expect 2" status="skipped">
+         <skipped>Pending 2</skipped>
+      </testcase>
+   </testsuite>
+</testsuites>

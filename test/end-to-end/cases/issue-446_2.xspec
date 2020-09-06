@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 2nd example in https://github.com/xspec/xspec/issues/446#issue-382637425 -->
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xqm"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:pending label="Pending 1">
+		<x:scenario label="Scenario 1">
+			<x:call function="false" />
+			<x:expect label="Expect 1" select="false()" />
+		</x:scenario>
+	</x:pending>
+
+	<x:pending label="Pending 2">
+		<x:scenario label="Scenario 2">
+			<x:call function="false" />
+			<x:expect label="Expect 2" select="false()" />
+		</x:scenario>
+	</x:pending>
+
+</x:description>

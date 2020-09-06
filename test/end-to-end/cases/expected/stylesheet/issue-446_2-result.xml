@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-446_2.xspec"
+        stylesheet="../../../../do-nothing.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-446_2.xspec" pending="Pending 1">
+      <label>Scenario 1</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+      </input-wrap>
+      <test id="scenario1-expect1" pending="Pending 1">
+         <label>Expect 1</label>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../issue-446_2.xspec" pending="Pending 2">
+      <label>Scenario 2</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
+      </input-wrap>
+      <test id="scenario2-expect1" pending="Pending 2">
+         <label>Expect 2</label>
+      </test>
+   </scenario>
+</report>

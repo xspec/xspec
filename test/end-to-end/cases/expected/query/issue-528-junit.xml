@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-528.xspec">
+   <testsuite name="Scenario 1" tests="3" failures="1">
+      <testcase name="should be skipped (otherwise should fail)" status="skipped">
+         <skipped>Focus on 1-2</skipped>
+      </testcase>
+      <testcase name="Scenario 1-1 should be skipped (otherwise should fail)"
+                status="skipped">
+         <skipped>Focus on 1-2</skipped>
+      </testcase>
+      <testcase name="Scenario 1-2 should fail" status="failed">
+         <failure message="expect assertion failed">Expected Result: Q{http://www.w3.org/2001/XMLSchema}boolean('false')</failure>
+      </testcase>
+   </testsuite>
+</testsuites>
