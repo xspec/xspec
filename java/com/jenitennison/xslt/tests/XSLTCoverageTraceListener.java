@@ -14,6 +14,7 @@ import net.sf.saxon.trace.InstructionInfo;
 import net.sf.saxon.trace.LocationKind;
 import net.sf.saxon.Controller;
 import net.sf.saxon.expr.XPathContext;
+import net.sf.saxon.functions.ResolveURI;
 import net.sf.saxon.om.Item;
 import net.sf.saxon.om.StandardNames;
 import java.lang.String;
@@ -90,7 +91,13 @@ public class XSLTCoverageTraceListener implements TraceListener {
     debugPrintf("%-17s: %s%n", "xspecHomeUri", xspecHomeUri);
 
     // Get 'src/' URI and normalize it
-    srcDir = xspecHomeUri.resolve("src/").normalize().toString();
+    try {
+        // Use net.sf.saxon.functions.ResolveURI#makeAbsolute, because
+        // java.net.URI#resolve cannot handle "jar:" scheme.
+        srcDir = ResolveURI.makeAbsolute("src/", xspecHomeUri.toString()).normalize().toString();
+    } catch (URISyntaxException e) {
+        throw new RuntimeException(e);
+    }
     debugPrintf("%-17s: %s%n", "srcDir", srcDir);
 
     // Get the directory path to ignore
