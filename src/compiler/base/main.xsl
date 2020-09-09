@@ -34,8 +34,14 @@
 
    <!-- Push and pop x:variable based on node identity -->
    <xsl:accumulator name="local:stacked-variables" as="element(x:variable)*" initial-value="()">
-      <xsl:accumulator-rule match="x:scenario/x:variable" select="$value, ." />
-      <xsl:accumulator-rule match="x:scenario" phase="end" select="$value except x:variable" />
+      <xsl:accumulator-rule match="x:scenario/x:variable"
+         select="
+            (: Append this local variable :)
+            $value, self::x:variable" />
+      <xsl:accumulator-rule match="x:scenario" phase="end"
+         select="
+            (: Remove variables declared as children of this scenario :)
+            $value except child::x:variable" />
    </xsl:accumulator>
 
    <!-- Push and pop distinct URIQualifiedName of x:variable -->
