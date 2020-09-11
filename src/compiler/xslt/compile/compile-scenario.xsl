@@ -18,7 +18,6 @@
       <xsl:param name="apply" as="element(x:apply)?" tunnel="yes" />
       <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
-      <xsl:param name="stacked-variables" as="element(x:variable)*" tunnel="yes" />
 
       <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable" />
@@ -81,7 +80,7 @@
             <xsl:attribute name="use" select="'absent'" />
          </xsl:element>
 
-         <xsl:for-each select="distinct-values($stacked-variables ! x:variable-UQName(.))">
+         <xsl:for-each select="accumulator-before('stacked-variables-distinct-uqnames')">
             <param name="{.}" required="yes" />
          </xsl:for-each>
 
@@ -129,9 +128,14 @@
                         </xsl:with-param>
                      </xsl:call-template>
                   </xsl:when>
+
                   <xsl:when test="self::x:variable">
+                     <!-- Declare local preceding variables. The other local variables are declared
+                        in mode="local:invoke-compiled-scenarios-or-expects" in
+                        invoke-compiled-child-scenarios-or-expects.xsl. -->
                      <xsl:apply-templates select="." mode="x:declare-variable" />
                   </xsl:when>
+
                   <xsl:otherwise>
                      <xsl:message select="'Unhandled', name()" terminate="yes" />
                   </xsl:otherwise>
