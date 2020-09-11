@@ -7,9 +7,10 @@
                 version="3.0">
 
    <!--
-      Generate invocation instructions of the compiled x:scenario or x:expect (x:scenario and
-      x:expect are compiled to an XSLT named template or an XQuery function which must have the
-      corresponding invocation instruction at some point).
+      Generate invocation instructions of the compiled (child::x:scenario | child::x:expect), taking
+      x:pending into account. Recall that x:scenario and x:expect are compiled to an XSLT named
+      template or an XQuery function which must have the corresponding invocation instruction at
+      some point.
    -->
    <xsl:template name="x:invoke-compiled-child-scenarios-or-expects">
       <!-- Context item is x:description or x:scenario -->
@@ -50,7 +51,7 @@
    <xsl:template match="x:apply|x:call|x:context|x:label"
       mode="local:invoke-compiled-scenarios-or-expects">
       <!-- Nothing, but must continue the sibling-walking... -->
-      <xsl:call-template name="x:continue-walking-siblings" />
+      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -61,7 +62,7 @@
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
 
-      <xsl:call-template name="x:continue-walking-siblings" />
+      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -74,7 +75,7 @@
             select="accumulator-before('stacked-variables-distinct-uqnames')" />
       </xsl:call-template>
 
-      <xsl:call-template name="x:continue-walking-siblings" />
+      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -95,7 +96,7 @@
          </xsl:with-param>
       </xsl:call-template>
 
-      <xsl:call-template name="x:continue-walking-siblings" />
+      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -115,7 +116,7 @@
          </xsl:otherwise>
       </xsl:choose>
 
-      <xsl:call-template name="x:continue-walking-siblings" />
+      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
@@ -132,12 +133,19 @@
         <xsl:call-template name="local:detect-reserved-variable-name"/>
       </xsl:if>
 
-      <xsl:call-template name="x:continue-walking-siblings" />
+      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
       Local templates
    -->
+
+   <!-- Apply the current mode templates to the following sibling element. -->
+   <xsl:template name="local:continue-walking-siblings">
+      <xsl:context-item as="element()" use="required" />
+
+      <xsl:apply-templates select="following-sibling::*[1]" mode="#current" />
+   </xsl:template>
 
    <!-- Generate error message for user-defined usage of names in XSpec namespace. -->
    <xsl:template name="local:detect-reserved-variable-name" as="empty-sequence()">
