@@ -12,7 +12,7 @@
       template or an XQuery function which must have the corresponding invocation instruction at
       some point.
    -->
-   <xsl:template name="x:invoke-compiled-child-scenarios-or-expects">
+   <xsl:template name="x:invoke-compiled-child-scenarios-or-expects" as="node()*">
       <!-- Context item is x:description or x:scenario -->
       <xsl:context-item as="element()" use="required" />
 
@@ -26,7 +26,8 @@
             select="'$this must be a description or a scenario, but is: ' || name()" />
       </xsl:if>
 
-      <xsl:apply-templates select="$this/*[1]" mode="local:invoke-compiled-scenarios-or-expects">
+      <xsl:apply-templates select="$this/element()"
+         mode="local:invoke-compiled-scenarios-or-expects">
          <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
       </xsl:apply-templates>
    </xsl:template>
@@ -35,53 +36,32 @@
       mode="local:invoke-compiled-scenarios-or-expects"
    -->
    <xsl:mode name="local:invoke-compiled-scenarios-or-expects" on-multiple-match="fail"
-      on-no-match="fail" />
-
-   <!--
-      This mode ignores these elements.
-
-      x:label elements can be ignored. They are used by x:label() (which selects either the x:label
-      element or the label attribute).
-
-      TODO: Imports are "resolved" in x:gather-descriptions(). But this is not done the usual way,
-      instead it returns all x:description elements. Change this by using the usual recursive
-      template resolving x:import elements in place. But for now, those elements are still here, so
-      we have to ignore them...
-   -->
-   <xsl:template match="x:apply|x:call|x:context|x:label"
-      mode="local:invoke-compiled-scenarios-or-expects">
-      <!-- Nothing, but must continue the sibling-walking... -->
-      <xsl:call-template name="local:continue-walking-siblings" />
-   </xsl:template>
+      on-no-match="deep-skip" />
 
    <!--
       At x:pending elements, we switch the $pending tunnel param value for children.
    -->
-   <xsl:template match="x:pending" mode="local:invoke-compiled-scenarios-or-expects">
-      <xsl:apply-templates select="*[1]" mode="#current">
+   <xsl:template match="x:pending" as="node()+" mode="local:invoke-compiled-scenarios-or-expects">
+      <xsl:apply-templates select="element()" mode="#current">
          <xsl:with-param name="pending" select="x:label(.)" tunnel="yes"/>
       </xsl:apply-templates>
-
-      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
       Generate an invocation of the compiled x:scenario
    -->
-   <xsl:template match="x:scenario" mode="local:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="x:scenario" as="node()+" mode="local:invoke-compiled-scenarios-or-expects">
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
          <xsl:with-param name="with-param-uqnames"
             select="accumulator-before('stacked-variables-distinct-uqnames')" />
       </xsl:call-template>
-
-      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
       Generate an invocation of the compiled x:expect
    -->
-   <xsl:template match="x:expect" mode="local:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="x:expect" as="node()+" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:param name="pending" as="node()?" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
@@ -95,17 +75,20 @@
             <xsl:sequence select="accumulator-before('stacked-variables-distinct-uqnames')" />
          </xsl:with-param>
       </xsl:call-template>
-
-      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
-      x:variable element generates a variable declaration.
+      - Reject reserved variable names, whether they're global or not.
+      - Declare non-global variables if they are not preceding-siblings of x:call or x:context.
    -->
-   <xsl:template match="x:variable" mode="local:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="x:variable" as="node()*" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:call-template name="local:detect-reserved-variable-name" />
 
       <xsl:choose>
+         <xsl:when test="parent::x:description">
+            <!-- This global variable is declared in x:compile-global-params-and-variables template -->
+         </xsl:when>
+
          <xsl:when test="following-sibling::x:call or following-sibling::x:context">
             <!-- This variable is declared in x:compile-scenario template -->
          </xsl:when>
@@ -115,37 +98,11 @@
             <xsl:apply-templates select="." mode="x:declare-variable" />
          </xsl:otherwise>
       </xsl:choose>
-
-      <xsl:call-template name="local:continue-walking-siblings" />
-   </xsl:template>
-
-   <!--
-      Global x:variable and x:param elements are not handled like local variables and params (which
-      are passed through invocations). They are declared globally.
-
-      x:helper is global.
-   -->
-   <xsl:template match="x:description/x:helper
-                       |x:description/x:param
-                       |x:description/x:variable"
-                 mode="local:invoke-compiled-scenarios-or-expects">
-      <xsl:if test="self::x:variable">
-        <xsl:call-template name="local:detect-reserved-variable-name"/>
-      </xsl:if>
-
-      <xsl:call-template name="local:continue-walking-siblings" />
    </xsl:template>
 
    <!--
       Local templates
    -->
-
-   <!-- Apply the current mode templates to the following sibling element. -->
-   <xsl:template name="local:continue-walking-siblings">
-      <xsl:context-item as="element()" use="required" />
-
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current" />
-   </xsl:template>
 
    <!-- Generate error message for user-defined usage of names in XSpec namespace. -->
    <xsl:template name="local:detect-reserved-variable-name" as="empty-sequence()">
