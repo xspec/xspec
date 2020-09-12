@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="global-override.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description run-as="external" stylesheet="global-override.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:param name="global-param" select="'global param overridden by XSpec'" />
 
@@ -12,8 +13,7 @@
 
 	<x:scenario label="Global x:variable in XSpec">
 		<x:call template="get-global-variable" />
-		<x:expect label="overrides xsl:variable in SUT"
-			select="'global variable overridden by XSpec'" />
+		<x:expect label="does not take effect in SUT" select="'global variable defined in SUT'" />
 	</x:scenario>
 
 </x:description>
