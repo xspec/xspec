@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="template-context.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Template context">
 		<x:context select="//context-grandchild">
@@ -9,13 +10,13 @@
 		</x:context>
 
 		<x:scenario label="apply-templates invocation">
-			<x:context mode="get-template-context" />
+			<x:context mode="mirror:context-mirror" />
 			<x:expect label="x:context/@select"
 				select="$x:context treat as element(context-grandchild)" />
 		</x:scenario>
 
 		<x:scenario label="call-template invocation">
-			<x:call template="get-template-context" />
+			<x:call template="mirror:context-mirror" />
 			<x:expect label="x:context/@select"
 				select="$x:context treat as element(context-grandchild)" />
 		</x:scenario>
