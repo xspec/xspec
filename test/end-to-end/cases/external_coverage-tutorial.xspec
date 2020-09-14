@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description run-as="external" stylesheet="../../../tutorial/coverage/demo.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="coverage-tutorial.xspec" />
+</x:description>
