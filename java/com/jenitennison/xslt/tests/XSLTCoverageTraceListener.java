@@ -37,6 +37,7 @@ import net.sf.saxon.s9api.Serializer;
 
 public class XSLTCoverageTraceListener implements TraceListener {
 
+  private int openCount = 0;
   private String xspecStylesheet = null;
   private HashMap<String, Integer> utils = new HashMap<String, Integer>();
   private HashMap<String, Integer> modules = new HashMap<String, Integer>();
@@ -70,6 +71,12 @@ public class XSLTCoverageTraceListener implements TraceListener {
 
   public void open(Controller c) {
     System.out.println("controller="+c);
+
+    openCount++;
+    if (openCount >= 2) {
+      // Re-entered. Maybe by transform().
+      return;
+    }
 
     // Get the URI of XSpec home
     URI xspecHomeUri;
@@ -144,6 +151,11 @@ public class XSLTCoverageTraceListener implements TraceListener {
   * Method called at the end of execution, that is, when the run-time execution ends
   */
   public void close() {
+    openCount--;
+    if (openCount >= 1) {
+      return;
+    }
+
     try {
       writer.writeEndElement(); // </trace>
       writer.writeEndDocument();
