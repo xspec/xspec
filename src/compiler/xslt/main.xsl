@@ -30,8 +30,11 @@
          <xsl:attribute name="exclude-result-prefixes" select="'#all'" />
          <xsl:attribute name="version" select="x:xslt-version(.) => x:decimal-string()" />
 
+         <!-- Indent the following comment -->
+         <xsl:text>&#10;   </xsl:text>
+
          <xsl:if test="not($is-external)">
-            <xsl:text>&#10;   </xsl:text><xsl:comment> the tested stylesheet </xsl:comment>
+            <xsl:comment> the tested stylesheet </xsl:comment>
             <xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
                <xsl:attribute name="href" select="@stylesheet" />
             </xsl:element>
