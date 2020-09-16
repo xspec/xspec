@@ -101,6 +101,7 @@
                <xsl:when test="$call/@template">
                   <map-entry key="'initial-template'"
                      select="{x:QName-expression-from-EQName-ignoring-default-ns($call/@template, $call)}" />
+                  <!-- 'global-context-item' option is set in x:compile-scenario template -->
                </xsl:when>
 
                <xsl:when test="$call/@function">
