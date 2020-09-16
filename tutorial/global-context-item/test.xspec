@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="stylesheet_testable.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:variable href="source-document.xml" name="global-context-item" />
+
+	<x:scenario
+		label="When the global context item is a document containing a foo element containing a bar element">
+		<x:call template="test-me" />
+		<x:expect label="the result should be a bar element">
+			<bar />
+		</x:expect>
+	</x:scenario>
+
+</x:description>
