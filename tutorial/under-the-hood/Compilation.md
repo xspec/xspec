@@ -1025,12 +1025,6 @@ Before invoking SUT, parameters for SUT are transformed into a map (`$impl:trans
                <xsl:map>
                   <xsl:map-entry key="'delivery-format'" select="'raw'"/>
                   <xsl:map-entry key="'stylesheet-location'">.../compilation-sut.xsl</xsl:map-entry>
-                  <xsl:map-entry key="'static-params'">
-                     <xsl:map/>
-                  </xsl:map-entry>
-                  <xsl:map-entry key="'stylesheet-params'">
-                     <xsl:map/>
-                  </xsl:map-entry>
                   <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config => exists()">
                      <xsl:choose>
                         <xsl:when test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config instance of element(Q{http://saxon.sf.net/ns/configuration}configuration)"/>
@@ -1053,9 +1047,6 @@ Before invoking SUT, parameters for SUT are transformed into a map (`$impl:trans
                         <xsl:map-entry key="QName('', 'p2')" select="$Q{}p2"/>
                      </xsl:map>
                   </xsl:map-entry>
-                  <xsl:map-entry key="'tunnel-params'">
-                     <xsl:map/>
-                  </xsl:map-entry>
                   <xsl:map-entry key="'initial-template'" select="QName('', 't')"/>
                </xsl:map>
             </xsl:variable>
@@ -1074,21 +1065,9 @@ Before invoking SUT, parameters for SUT are transformed into a map (`$impl:trans
                <xsl:map>
                   <xsl:map-entry key="'delivery-format'" select="'raw'"/>
                   <xsl:map-entry key="'stylesheet-location'">.../compilation-sut.xsl</xsl:map-entry>
-                  <xsl:map-entry key="'static-params'">
-                     <xsl:map/>
-                  </xsl:map-entry>
-                  <xsl:map-entry key="'stylesheet-params'">
-                     <xsl:map/>
-                  </xsl:map-entry>
                   <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config => exists()">
                      ...
                   </xsl:if>
-                  <xsl:map-entry key="'template-params'">
-                     <xsl:map/>
-                  </xsl:map-entry>
-                  <xsl:map-entry key="'tunnel-params'">
-                     <xsl:map/>
-                  </xsl:map-entry>
                   <xsl:map-entry key="if ($Q{urn:x-xspec:compile:impl}context-... instance of node()) then 'source-node' else 'initial-match-selection'"
                                  select="$Q{urn:x-xspec:compile:impl}context-..."/>
                </xsl:map>
