@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+  stylesheet="issue-746.xsl"
+  xmlns:mf="helper-function" xslt-version="3.0">
+  <x:scenario label="Test of function that uses transform()">
+    <x:call function="mf:call-some-template">
+      <x:param><input-element/></x:param>
+    </x:call>
+    <x:expect label="output-element" test="/*">
+      <output-element/>
+    </x:expect>
+  </x:scenario>
+</x:description>
