@@ -30,22 +30,28 @@
                <xsl:value-of select="/x:description/@stylesheet" />
             </map-entry>
 
-            <map-entry key="'static-params'">
-               <map>
-                  <xsl:sequence
-                     select="
-                        /x:description/x:param[x:yes-no-synonym(@static, false())]
-                        ! local:param-to-map-entry(.)" />
-               </map>
-            </map-entry>
-            <map-entry key="'stylesheet-params'">
-               <map>
-                  <xsl:sequence
-                     select="
-                        /x:description/x:param[x:yes-no-synonym(@static, false()) => not()]
-                        ! local:param-to-map-entry(.)" />
-               </map>
-            </map-entry>
+            <xsl:where-populated>
+               <map-entry key="'static-params'">
+                  <xsl:where-populated>
+                     <map>
+                        <xsl:sequence
+                           select="
+                              /x:description/x:param[x:yes-no-synonym(@static, false())]
+                              ! local:param-to-map-entry(.)" />
+                     </map>
+                  </xsl:where-populated>
+               </map-entry>
+               <map-entry key="'stylesheet-params'">
+                  <xsl:where-populated>
+                     <map>
+                        <xsl:sequence
+                           select="
+                              /x:description/x:param[x:yes-no-synonym(@static, false()) => not()]
+                              ! local:param-to-map-entry(.)" />
+                     </map>
+                  </xsl:where-populated>
+               </map-entry>
+            </xsl:where-populated>
 
             <if test="${x:known-UQName('x:saxon-config')} => exists()">
                <!-- Check that the variable appears to be a Saxon configuration -->
@@ -76,22 +82,28 @@
                Options for call-template invocation and apply-templates invocation
             -->
             <xsl:for-each select="($call[@template], $context)[1]">
-               <map-entry key="'template-params'">
-                  <map>
-                     <xsl:sequence
-                        select="
-                           x:param[x:yes-no-synonym(@tunnel, false()) => not()]
-                           ! local:param-to-map-entry(.)" />
-                  </map>
-               </map-entry>
-               <map-entry key="'tunnel-params'">
-                  <map>
-                     <xsl:sequence
-                        select="
-                           x:param[x:yes-no-synonym(@tunnel, false())]
-                           ! local:param-to-map-entry(.)" />
-                  </map>
-               </map-entry>
+               <xsl:where-populated>
+                  <map-entry key="'template-params'">
+                     <xsl:where-populated>
+                        <map>
+                           <xsl:sequence
+                              select="
+                                 x:param[x:yes-no-synonym(@tunnel, false()) => not()]
+                                 ! local:param-to-map-entry(.)" />
+                        </map>
+                     </xsl:where-populated>
+                  </map-entry>
+                  <map-entry key="'tunnel-params'">
+                     <xsl:where-populated>
+                        <map>
+                           <xsl:sequence
+                              select="
+                                 x:param[x:yes-no-synonym(@tunnel, false())]
+                                 ! local:param-to-map-entry(.)" />
+                        </map>
+                     </xsl:where-populated>
+                  </map-entry>
+               </xsl:where-populated>
             </xsl:for-each>
 
             <!--
