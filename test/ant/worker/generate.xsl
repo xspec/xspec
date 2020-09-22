@@ -86,6 +86,17 @@
 	<xsl:template as="node()+" match="document-node(element(x:description))" mode="xspec">
 		<xsl:variable as="xs:anyURI" name="xspec-file-uri" select="document-uri(/)" />
 
+		<xsl:variable as="attribute(run-as)?" name="run-as" select="x:description/@run-as" />
+		<xsl:variable as="xs:boolean" name="run-as-external" select="$run-as = 'external'" />
+		<xsl:variable as="xs:string" name="xspec-filename-and-extension"
+			select="x:filename-and-extension($xspec-file-uri)" />
+		<xsl:if
+			test="not($run-as-external eq starts-with($xspec-filename-and-extension, 'external_'))">
+			<xsl:message terminate="yes">
+				<xsl:text expand-text="yes">Filename '{$xspec-filename-and-extension}' and @run-as '{$run-as}' mismatch</xsl:text>
+			</xsl:message>
+		</xsl:if>
+
 		<xsl:variable as="processing-instruction(xspec-test)*" name="pis"
 			select="processing-instruction(xspec-test)" />
 		<xsl:variable as="xs:boolean" name="enable-coverage" select="$pis = 'enable-coverage'" />
@@ -231,7 +242,7 @@
 					<xsl:when
 						test="
 							($test-type eq 't')
-							and (parent::x:description/@run-as eq 'external')
+							and $run-as-external
 							and ($x:saxon-version lt x:pack-version((9, 8, 0, 8)))">
 						<!-- Saxon changed 'vendor-options' on 9.8.0.8
 							http://www.saxonica.com/documentation9.8/index.html#!functions/fn/transform -->
@@ -242,7 +253,7 @@
 
 			<xsl:variable as="xs:string?" name="skip">
 				<xsl:if test="$skip">
-					<xsl:text expand-text="yes">Skipping {x:filename-and-extension($xspec-file-uri)} [{$test-type}{'c'[$enable-coverage]}]: {$skip}</xsl:text>
+					<xsl:text expand-text="yes">Skipping {$xspec-filename-and-extension} [{$test-type}{'c'[$enable-coverage]}]: {$skip}</xsl:text>
 				</xsl:if>
 			</xsl:variable>
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_global-context.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Global context">
+		<x:context select="//context-grandchild treat as element(context-grandchild)">
+			<context-child>
+				<context-grandchild />
+			</context-child>
+		</x:context>
+
+		<x:scenario label="apply-templates invocation">
+			<x:context mode="get-global-context" />
+			<x:expect label="root of tree containing node specified by x:context"
+				test="exactly-one($x:result) is (root($x:context) treat as document-node(element(context-child)))"
+			 />
+		</x:scenario>
+
+		<x:scenario label="call-template invocation">
+			<x:call template="get-global-context" />
+			<x:expect label="node specified by x:context"
+				test="exactly-one($x:result) is $x:context" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
