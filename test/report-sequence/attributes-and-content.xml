@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:result select="/*/(@* | node())" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<content-wrap>
+		<x:pseudo-attribute a="1" />
+		<x:pseudo-attribute b="2" />
+		<x:pseudo-element>
+			<foo />
+		</x:pseudo-element>
+	</content-wrap>
+</x:result>
