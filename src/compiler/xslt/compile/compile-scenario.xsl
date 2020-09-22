@@ -156,10 +156,8 @@
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
-                  <!-- #current is mode="local:compile-scenarios-or-expects" in
-                     compile-child-scenarios-or-expects.xsl. -->
-                  <xsl:apply-templates select="($call, $apply, $context)[1]/x:param[1]"
-                     mode="#current" />
+                  <xsl:apply-templates select="($call, $apply, $context)[1]/x:param"
+                     mode="x:declare-variable" />
 
                   <!-- Enter SUT -->
                   <xsl:choose>
