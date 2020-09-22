@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xspec-issue-720-fixed?>
+<x:description run-as="external" stylesheet="external_xmlns.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="xmlns.xspec" />
+</x:description>
