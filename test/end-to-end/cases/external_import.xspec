@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description run-as="external" stylesheet="../../external_square.xsl"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec">
+	<t:import href="import.xspec" />
+</t:description>
