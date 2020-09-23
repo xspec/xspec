@@ -39,8 +39,7 @@
             <xsl:variable name="preceding-sibling-scenarios" as="element(x:scenario)*"
                select="$parent-document-node-or-scenario/descendant::x:scenario
                   [ancestor::node()[self::document-node() or self::x:scenario][1] is $parent-document-node-or-scenario]
-                  [current() >> .]
-                  [x:is-user-content(.) => not()]" />
+                  [current() >> .]" />
 
             <xsl:sequence select="local-name() || (count($preceding-sibling-scenarios) + 1)" />
          </xsl:for-each>
@@ -55,8 +54,7 @@
       <xsl:variable name="preceding-sibling-expects" as="element(x:expect)*"
          select="$scenario/descendant::x:expect
             [ancestor::x:scenario[1] is $scenario]
-            [current() >> .]
-            [x:is-user-content(.) => not()]" />
+            [current() >> .]" />
 
       <xsl:variable name="scenario-id" as="xs:string">
          <xsl:apply-templates select="$scenario" mode="#current" />

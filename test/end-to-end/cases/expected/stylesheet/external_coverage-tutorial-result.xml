@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../external_coverage-tutorial.xspec"
+        stylesheet="../../../../../tutorial/coverage/demo.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../../../../tutorial/coverage/demo.xspec">
+      <label>'iron' element</label>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <iron weight="1"/>
+         </x:context>
+      </input-wrap>
+      <result select="/element()">
+         <content-wrap xmlns="">
+            <shield weight="1"/>
+         </content-wrap>
+      </result>
+      <test id="scenario1-expect1" successful="true">
+         <label>is transformed to 'shield' element</label>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <shield xmlns:x="http://www.jenitennison.com/xslt/xspec" weight="1"/>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+</report>

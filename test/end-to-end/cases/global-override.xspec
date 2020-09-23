@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="global-override.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Global x:param
+	-->
+	<x:param name="x-param-vs-xsl-param" select="'x:param overrode xsl:param'" />
+	<x:param name="x-param-vs-xsl-variable" select="'x:param overrode xsl:variable'" />
+	<x:param name="x-param-vs-none" select="'x:param without corresponding xsl:param'" />
+
+	<x:scenario label="With global x:param and">
+		<x:scenario label="global xsl:param,">
+			<x:call template="x-param-vs-xsl-param" />
+			<x:expect label="x:param should always override xsl:param" />
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:call template="x-param-vs-xsl-variable" />
+			<x:expect label="x:param should override xsl:variable unless run-as=external" />
+		</x:scenario>
+
+		<x:scenario label="no corresponding xsl:param,">
+			<x:context />
+			<x:expect label="the declared param takes effect only in XSpec" test="$x-param-vs-none"
+			 />
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		Global x:variable
+	-->
+	<x:variable name="x-variable-vs-xsl-variable" select="'x:variable overrode xsl:variable'" />
+	<x:variable name="x-variable-vs-xsl-param" select="'x:variable overrode xsl:param'" />
+
+	<x:scenario label="With global x:variable and">
+		<x:scenario label="global xsl:variable,">
+			<x:call template="x-variable-vs-xsl-variable" />
+			<x:expect label="x:variable should override xsl:variable unless run-as=external" />
+		</x:scenario>
+
+		<x:scenario label="global xsl:param,">
+			<x:call template="x-variable-vs-xsl-param" />
+			<x:expect label="x:variable should override xsl:param unless run-as=external" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

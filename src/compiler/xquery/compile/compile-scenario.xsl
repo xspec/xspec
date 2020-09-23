@@ -120,9 +120,8 @@
          </xsl:on-non-empty>
 
          <xsl:if test="$run-sut-now">
-            <!-- #current is mode="local:compile-scenarios-or-expects" in
-               compile-child-scenarios-or-expects.xsl. -->
-            <xsl:apply-templates select="$call/x:param[1]" mode="#current" />
+            <!-- Set up variables containing the parameter values -->
+            <xsl:apply-templates select="$call/x:param" mode="x:declare-variable" />
 
             <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
             <xsl:call-template name="x:enter-sut">
