@@ -52,7 +52,6 @@
       Local components
    -->
 
-   <xsl:key name="local:scenarios" match="x:scenario[x:is-user-content(.) => not()]"
-      use="x:label(.)" />
+   <xsl:key name="local:scenarios" match="x:scenario" use="x:label(.)" />
 
 </xsl:stylesheet>
