@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-saxon-bug-3889-fixed?>
+<description run-as="external" stylesheet="use-uqname.xsl"
+	xmlns="http://www.jenitennison.com/xslt/xspec">
+	<import href="no-prefix_stylesheet.xspec" />
+</description>
