@@ -984,7 +984,7 @@ When `/x:description/@run-as` is `external`, XSpec test suites are compiled in a
 - The compiled stylesheet does not import the tested stylesheet.
 - The compiled stylesheet invokes SUT via `fn:transform()`.
 
-Before invoking SUT, parameters for SUT are transformed into a map (`$impl:transform-options` variable) which is a collection of options for `transform()` as standardized by [the spec](https://www.w3.org/TR/xpath-functions-31/#func-transform). SUT is invoked and its raw result is retrieved by `transform($impl:transform-options)?output`.
+Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform-options` variable) that specifies how `transform()` should run the SUT. The data format of this map is standardized by [the spec](https://www.w3.org/TR/xpath-functions-31/#func-transform). The SUT is invoked and its raw result is retrieved by `transform($impl:transform-options)?output`.
 
 ### Test suite
 
