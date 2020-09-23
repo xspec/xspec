@@ -1081,9 +1081,7 @@ Before invoking SUT, parameters for SUT are transformed into a map (`$impl:trans
                  as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
       ...
          <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-            <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                          name="Q{}p1"
-                          select="'val1'"/>
+            ...
             <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
                           as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)">
                <xsl:map>
