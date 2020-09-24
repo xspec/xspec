@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_mirror.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="multiple-context-values.xspec" />
+</x:description>

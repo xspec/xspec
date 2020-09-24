@@ -10,8 +10,7 @@
    -->
    <xsl:mode name="x:assign-id" on-multiple-match="fail" on-no-match="shallow-copy" />
 
-   <xsl:template match="(x:scenario | x:expect)[x:is-user-content(.) => not()]" as="element()"
-      mode="x:assign-id">
+   <xsl:template match="x:scenario | x:expect" as="element()" mode="x:assign-id">
       <xsl:copy>
          <xsl:attribute name="id">
             <xsl:apply-templates select="." mode="x:generate-id" />

@@ -5,15 +5,6 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
-   <!--
-      Apply the current mode templates to the following sibling element.
-   -->
-   <xsl:template name="x:continue-walking-siblings">
-      <xsl:context-item as="element()" use="required" />
-
-      <xsl:apply-templates select="following-sibling::*[1]" mode="#current" />
-   </xsl:template>
-
    <xsl:function name="x:label" as="element(x:label)">
       <xsl:param name="labelled" as="element()" />
 

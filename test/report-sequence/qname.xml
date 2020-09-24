@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:result select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" />
