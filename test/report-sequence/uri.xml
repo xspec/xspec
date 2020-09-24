@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:result select="Q{http://www.w3.org/2001/XMLSchema}anyURI('test.xml')"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" />
