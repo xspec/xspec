@@ -19,8 +19,6 @@
 
 			<!-- Tests x:* which is not allowed in user-content -->
 			<exclude name="test/obsolete-space/test.xspec" />
-			<exclude name="test/report-sequence_query.xspec" />
-			<exclude name="test/report-sequence_stylesheet.xspec" />
 			<exclude name="test/xspec-name.xspec" />
 
 			<!-- Tests user-content when it's not allowed
