@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="compilation-sut.xsl"
+   xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+   <!-- Example in Compilation.md, under "run-as=external" -->
+   <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
+
+   <x:import href="compilation-sut_template.xspec" />
+
+</x:description>

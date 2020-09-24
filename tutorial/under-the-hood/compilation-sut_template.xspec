@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
-   xmlns:my="http://example.org/ns/my"
    stylesheet="compilation-sut.xsl">
 
    <!-- Example in Compilation.md, under "SUT" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
 
-   <x:scenario label="call a named template">
+   <x:scenario label="call a named template (without x:context)">
       <x:call template="t">
          <x:param name="p1" select="'val1'"/>
          <x:param name="p2">
@@ -15,15 +14,23 @@
       </x:call>
       <x:expect label="expectations" select="true()"/>
    </x:scenario>
-   
+
+   <x:scenario label="call a named template (with x:context)">
+      <x:context>
+         <elem/>
+      </x:context>
+      <x:call template="t">
+         <x:param name="p1" select="'val1'"/>
+      </x:call>
+      <x:expect label="expectations" select="true()"/>
+   </x:scenario>
+
    <x:scenario label="apply template rules on a node (with x:context)">
       <x:context>
          <elem/>
       </x:context>
       <x:expect label="expectations" select="true()"/>
    </x:scenario>
-   
-  
 
 <!-- x:apply is not implemented or in the schema yet.
    <x:scenario label="apply template rules on a node (with x:apply)">

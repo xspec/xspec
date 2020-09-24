@@ -7,6 +7,7 @@
 - [Variables](#variables)
 - [Variable value](#variable-value)
 - [Variables scope](#variables-scope)
+- [run-as=external](#run-asexternal)
 
 ## Introduction
 
@@ -27,7 +28,6 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 [compilation-simple-suite.xspec](compilation-simple-suite.xspec)
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
 <x:description
    xmlns:my="http://example.org/ns/my"
    xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -46,7 +46,6 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 ### Stylesheet
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
                 version="3.0">
@@ -350,45 +349,62 @@ section "[Simple scenario](#simple-scenario)").
 - For template (only XSLT) [compilation-sut_template.xspec](compilation-sut_template.xspec)
 
 ```xml
-<!-- call a function -->
-<x:call function="my:f">
-   <x:param select="'val1'"/>
-   <x:param name="p2" as="element()">
-      <val2/>
-   </x:param>
-</x:call>
+<x:scenario label="call a function">
+   <x:call function="my:f">
+      <x:param select="'val1'"/>
+      <x:param name="p2" as="element()">
+         <val2/>
+      </x:param>
+   </x:call>
+   <x:expect ... />
+</x:scenario>
 
-<!-- call a named template -->
-<x:call template="t">
-   <x:param name="p1" select="'val1'"/>
-   <x:param name="p2">
-      <val2/>
-   </x:param>
-</x:call>
+<x:scenario label="call a named template (without x:context)">
+   <x:call template="t">
+      <x:param name="p1" select="'val1'"/>
+      <x:param name="p2">
+         <val2/>
+      </x:param>
+   </x:call>
+   <x:expect ... />
+</x:scenario>
 
-<!-- apply template rules on a node (with x:context) -->
-<x:context>
-   <elem/>
-</x:context>
+<x:scenario label="call a named template (with x:context)">
+   <x:context>
+      <elem/>
+   </x:context>
+   <x:call template="t">
+      <x:param name="p1" select="'val1'"/>
+   </x:call>
+   <x:expect ... />
+</x:scenario>
 
-<!-- apply template rules on a node (with x:apply) -->
+<x:scenario label="apply template rules on a node (with x:context)">
+   <x:context>
+      <elem/>
+   </x:context>
+   <x:expect ... />
+</x:scenario>
+
 <!-- TODO: x:apply not implemented yet -->
-<x:variable name="ctxt">
-   <elem/>
-</x:variable>
-<x:apply select="$ctxt" mode="mode">
-   <x:param name="p1" select="'val1'" tunnel="yes"/>
-   <x:param name="p2" as="element()">
-      <val2/>
-   </x:param>
-</x:apply>
-
+ <x:scenario label="apply template rules on a node (with x:apply)">
+   <x:variable name="ctxt">
+      <elem/>
+   </x:variable>
+   <x:apply select="$ctxt" mode="mode">
+      <x:param name="p1" select="'val1'" tunnel="yes"/>
+      <x:param name="p2" as="element()">
+         <val2/>
+      </x:param>
+   </x:apply>
+   <x:expect ... />
+</x:scenario>
 ```
 
 ### Stylesheet
 
 ```xml
-<!-- "call a function" -->
+<!-- "call a function" scenario -->
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
    <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  xmlns:my="http://example.org/ns/my"
@@ -410,16 +426,14 @@ section "[Simple scenario](#simple-scenario)").
    <xsl:sequence select="Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)"/>
 </xsl:variable>
 
-<!-- "call a named template" -->
+<!-- "call a named template (without x:context)" scenario -->
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
    <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 xmlns:my="http://example.org/ns/my"
                  name="Q{}p1"
                  select="'val1'"/>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}param-...-doc" as="document-node()">
       <xsl:document>
          <xsl:element name="val2" namespace="">
-            <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
             <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
          </xsl:element>
       </xsl:document>
@@ -428,35 +442,34 @@ section "[Simple scenario](#simple-scenario)").
                  select="$Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )" />
    <xsl:call-template name="Q{}t">
       <xsl:with-param xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      xmlns:my="http://example.org/ns/my"
                       name="Q{}p1"
                       select="$Q{}p1"/>
       <xsl:with-param xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      xmlns:my="http://example.org/ns/my"
                       name="Q{}p2"
                       select="$Q{}p2"/>
    </xsl:call-template>
 </xsl:variable>
 
-<!-- "apply template rules on a node (with x:context)" -->
-<xsl:variable name="Q{urn:x-xspec:compile:impl}context-...-doc"
-              as="document-node()">
-   <xsl:document>
-      <xsl:element name="elem" namespace="">
-         <xsl:namespace name="my">http://example.org/ns/my</xsl:namespace>
-         <xsl:namespace name="x">http://www.jenitennison.com/xslt/xspec</xsl:namespace>
-      </xsl:element>
-   </xsl:document>
+<!-- "call a named template (with x:context)" scenario -->
+<xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
+   <xsl:variable xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                  name="Q{}p1"
+                  select="'val1'"/>
+   <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...">
+      <xsl:call-template name="Q{}t">
+         <xsl:with-param xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                           name="Q{}p1"
+                           select="$Q{}p1"/>
+      </xsl:call-template>
+   </xsl:for-each>
 </xsl:variable>
-<xsl:variable name="Q{urn:x-xspec:compile:impl}context-..."
-              select="$Q{urn:x-xspec:compile:impl}context-...-doc ! ( node() )"/>
-<xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}context"
-              select="$Q{urn:x-xspec:compile:impl}context-..."/>
+
+<!-- "apply template rules on a node (with x:context)" scenario -->
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
    <xsl:apply-templates select="$Q{urn:x-xspec:compile:impl}context-..."/>
 </xsl:variable>
 
-<!-- "apply template rules on a node (with x:apply)" -->
+<!-- "apply template rules on a node (with x:apply)" scenario -->
 <!-- TODO: x:apply not implemented yet -->
 <xsl:variable name="ctxt" as="item()*">
    <elem/>
@@ -962,4 +975,160 @@ $Q{http://example.org/ns/my/variable}var-4
 {
 ...evaluate the expectations ...
 };
+```
+
+## run-as=external
+
+When `/x:description/@run-as` is `external`, XSpec test suites are compiled in a different way:
+
+- The compiled stylesheet does not import the tested stylesheet.
+- The compiled stylesheet invokes SUT via `fn:transform()`.
+
+Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform-options` variable) that specifies how `transform()` should run the SUT. The data format of this map is standardized by [the spec](https://www.w3.org/TR/xpath-functions-31/#func-transform). The SUT is invoked and its raw result is retrieved by `transform($impl:transform-options)?output`.
+
+### Test suite
+
+[compilation-sut_template_external.xspec](compilation-sut_template_external.xspec)
+
+```xml
+<x:description
+   run-as="external"
+   stylesheet="compilation-sut.xsl"
+   xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+   <x:scenario label="call a named template (without x:context)">
+      <x:call template="t">
+         <x:param name="p1" select="'val1'"/>
+         <x:param name="p2">
+            <val2/>
+         </x:param>
+      </x:call>
+      <x:expect .../>
+   </x:scenario>
+
+   <x:scenario label="call a named template (with x:context)">
+      <x:context>
+         <elem/>
+      </x:context>
+      <x:call template="t">
+         <x:param name="p1" select="'val1'"/>
+      </x:call>
+      <x:expect .../>
+   </x:scenario>
+
+   <x:scenario label="apply template rules on a node (with x:context)">
+      <x:context>
+         <elem/>
+      </x:context>
+      <x:expect .../>
+   </x:scenario>
+
+</x:description>
+```
+
+### Stylesheet
+
+```xml
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                exclude-result-prefixes="#all"
+                version="3.0">
+
+   ... compilation-sut.xsl is not imported ...
+
+   <!-- "call a named template (without x:context)" scenario -->
+   <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
+                 as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
+      ...
+         <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
+            ...
+            <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
+                          as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)">
+               <xsl:map>
+                  <xsl:map-entry key="'delivery-format'" select="'raw'"/>
+                  <xsl:map-entry key="'stylesheet-location'">.../compilation-sut.xsl</xsl:map-entry>
+                  <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config => exists()">
+                     <xsl:choose>
+                        <xsl:when test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config instance of element(Q{http://saxon.sf.net/ns/configuration}configuration)"/>
+                        <xsl:when test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config instance of document-node(element(Q{http://saxon.sf.net/ns/configuration}configuration))"/>
+                        <xsl:otherwise>
+                           <xsl:message terminate="yes">ERROR: $Q{http://www.jenitennison.com/xslt/xspec}saxon-config does not appear to be a Saxon configuration</xsl:message>
+                        </xsl:otherwise>
+                     </xsl:choose>
+                     <xsl:map-entry key="'cache'" select="false()"/>
+                     <xsl:map-entry key="'vendor-options'">
+                        <xsl:map>
+                           <xsl:map-entry key="QName('http://saxon.sf.net/', 'configuration')"
+                                          select="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config"/>
+                        </xsl:map>
+                     </xsl:map-entry>
+                  </xsl:if>
+                  <xsl:map-entry key="'template-params'">
+                     <xsl:map>
+                        <xsl:map-entry key="QName('', 'p1')" select="$Q{}p1"/>
+                        <xsl:map-entry key="QName('', 'p2')" select="$Q{}p2"/>
+                     </xsl:map>
+                  </xsl:map-entry>
+                  <xsl:map-entry key="'initial-template'" select="QName('', 't')"/>
+               </xsl:map>
+            </xsl:variable>
+            <xsl:sequence select="transform($Q{urn:x-xspec:compile:impl}transform-options)?output"/>
+         </xsl:variable>
+      ...
+   </xsl:template>
+   ...
+   <!-- "call a named template (with x:context)" scenario -->
+   <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario2"
+                 as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
+      ...
+         <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
+            ...
+            <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
+                          as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)">
+               <xsl:map>
+                  <xsl:map-entry key="'delivery-format'" select="'raw'"/>
+                  <xsl:map-entry key="'stylesheet-location'">.../compilation-sut.xsl</xsl:map-entry>
+                  <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config => exists()">
+                     ...
+                  </xsl:if>
+                  <xsl:map-entry key="'template-params'">
+                     <xsl:map>
+                        <xsl:map-entry key="QName('', 'p1')" select="$Q{}p1"/>
+                     </xsl:map>
+                  </xsl:map-entry>
+                  <xsl:map-entry key="'initial-template'" select="QName('', 't')"/>
+               </xsl:map>
+            </xsl:variable>
+            <xsl:for-each select="$Q{urn:x-xspec:compile:impl}context-...">
+               <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
+                             as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)"
+                             select="Q{http://www.w3.org/2005/xpath-functions/map}put($Q{urn:x-xspec:compile:impl}transform-options, 'global-context-item', .)"/>
+               <xsl:sequence select="transform($Q{urn:x-xspec:compile:impl}transform-options)?output"/>
+            </xsl:for-each>
+         </xsl:variable>
+      ...
+   </xsl:template>
+   ...
+   <!-- "apply template rules on a node (with x:context)" scenario -->
+   <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario3"
+                 as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
+      ...
+         <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
+            <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
+                          as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)">
+               <xsl:map>
+                  <xsl:map-entry key="'delivery-format'" select="'raw'"/>
+                  <xsl:map-entry key="'stylesheet-location'">.../compilation-sut.xsl</xsl:map-entry>
+                  <xsl:if test="$Q{http://www.jenitennison.com/xslt/xspec}saxon-config => exists()">
+                     ...
+                  </xsl:if>
+                  <xsl:map-entry key="if ($Q{urn:x-xspec:compile:impl}context-... instance of node()) then 'source-node' else 'initial-match-selection'"
+                                 select="$Q{urn:x-xspec:compile:impl}context-..."/>
+               </xsl:map>
+            </xsl:variable>
+            <xsl:sequence select="transform($Q{urn:x-xspec:compile:impl}transform-options)?output"/>
+         </xsl:variable>
+      ...
+   </xsl:template>
+   ...
+</xsl:stylesheet>
 ```
