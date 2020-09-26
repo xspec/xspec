@@ -259,10 +259,10 @@ result as parameter.
                  as="Q{http://www.w3.org/2001/XMLSchema}boolean">
       <xsl:choose>
          <xsl:when test="$Q{urn:x-xspec:compile:impl}boolean-test">
-            <xsl:sequence select="boolean($Q{urn:x-xspec:compile:impl}test-result)"/>
+            <xsl:sequence select="$Q{urn:x-xspec:compile:impl}test-result => boolean()"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="Q{urn:x-xspec:common:deep-equal}deep-equal($Q{urn:x-xspec:compile:impl}expect-..., $Q{urn:x-xspec:compile:impl}test-result, '')"/>
+            <xsl:message terminate="yes">ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node()).</xsl:message>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
@@ -309,9 +309,10 @@ $x:result = 1
 )
 let $local:boolean-test as xs:boolean := ($local:test-result instance of xs:boolean)
 let $local:successful as xs:boolean (: did the test pass? :) := (
-if ($local:boolean-test)
-then boolean($local:test-result)
-else Q{urn:x-xspec:common:deep-equal}deep-equal($Q{urn:x-xspec:compile:impl}expect-..., $local:test-result, '')
+if ($local:boolean-test) then
+boolean($local:test-result)
+else
+error((), 'x:expect has non-boolean @test, but it lacks (@href | @select | child::node()).')
 )
 return
 ... generate test result in the report ...

@@ -93,6 +93,7 @@
    <xsl:include href="../base/catch/enter-sut.xsl" />
    <xsl:include href="../base/combine/combine.xsl" />
    <xsl:include href="../base/compile/compile-child-scenarios-or-expects.xsl" />
+   <xsl:include href="../base/compile/compile-expect.xsl" />
    <xsl:include href="../base/compile/compile-global-params-and-variables.xsl" />
    <xsl:include href="../base/compile/compile-scenario.xsl" />
    <xsl:include href="../base/declare-variable/variable-uqname.xsl" />
