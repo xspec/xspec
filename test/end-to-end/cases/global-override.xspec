@@ -21,8 +21,8 @@
 
 		<x:scenario label="no corresponding xsl:param,">
 			<x:context />
-			<x:expect label="the declared param takes effect only in XSpec" test="$x-param-vs-none"
-			 />
+			<x:expect label="the declared param takes effect only in XSpec" select="()"
+				test="$x-param-vs-none" />
 		</x:scenario>
 	</x:scenario>
 
