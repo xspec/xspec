@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="expect-empty.xspec">
+   <testsuite name="When a function returns a non-empty item"
+              tests="3"
+              failures="3">
+      <testcase name="Expecting an empty sequence (no @href, @select or child node) should be Failure"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Ditto using x:label" status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Expecting empty sequence using @select should be Failure"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+   </testsuite>
+   <testsuite name="When a function returns an empty sequence"
+              tests="3"
+              failures="0">
+      <testcase name="Expecting an empty sequence (no @href, @select or child node) should be Success"
+                status="passed"/>
+      <testcase name="Ditto using x:label" status="passed"/>
+      <testcase name="Expecting empty sequence using @select should be Success"
+                status="passed"/>
+   </testsuite>
+</testsuites>
