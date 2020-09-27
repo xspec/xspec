@@ -12,14 +12,13 @@
 		<x:scenario label="apply-templates invocation">
 			<x:context mode="get-global-context" />
 			<x:expect label="root of tree containing node specified by x:context"
-				test="exactly-one($x:result) is (root($x:context) treat as document-node(element(context-child)))"
+				test="$x:result is (root($x:context) treat as document-node(element(context-child)))"
 			 />
 		</x:scenario>
 
 		<x:scenario label="call-template invocation">
 			<x:call template="get-global-context" />
-			<x:expect label="node specified by x:context"
-				test="exactly-one($x:result) is $x:context" />
+			<x:expect label="node specified by x:context" test="$x:result is $x:context" />
 		</x:scenario>
 	</x:scenario>
 

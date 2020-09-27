@@ -17,7 +17,7 @@
 	<!-- Shared x:expect -->
 	<x:scenario label="Expect the identical single node" shared="yes">
 		<x:like label="Use $x:context both in @select and @test" />
-		<x:expect label="Identical node" test="exactly-one($x:context) is $items:element" />
+		<x:expect label="Identical node" test="$x:context is $items:element" />
 	</x:scenario>
 	<x:scenario label="Expect the identical multiple nodes" shared="yes">
 		<x:like label="Use $x:context both in @select and @test" />
