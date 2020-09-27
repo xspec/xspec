@@ -127,6 +127,12 @@
                            <xsl:apply-templates select="." mode="x:node-constructor" />
                         </xsl:with-param>
                      </xsl:call-template>
+                     <xsl:if test="self::x:context and not($pending-p) and following-sibling::x:expect">
+                        <!-- Set up context, still in document order with respect to x:variable siblings. -->
+                        <xsl:call-template name="x:set-up-context">
+                           <xsl:with-param name="context" select="$context"/>
+                        </xsl:call-template>
+                     </xsl:if>
                   </xsl:when>
 
                   <xsl:when test="self::x:variable">
@@ -143,17 +149,13 @@
             </xsl:for-each>
 
             <xsl:if test="not($pending-p) and x:expect">
-               <xsl:if test="$context">
-                  <!-- Set up the variable of x:context -->
-                  <xsl:apply-templates select="$context" mode="x:declare-variable" />
-
-                  <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
-                  <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
-                     <xsl:attribute name="name" select="x:known-UQName('x:context')" />
-                     <xsl:attribute name="select" select="'$' || x:variable-UQName($context)" />
-                  </xsl:element>
+               <xsl:if test="$context and not(x:context)">
+                  <!-- If context was not set up in xsl:for-each above, set it up here.
+                     Context might have come from an ancestor scenario. -->
+                  <xsl:call-template name="x:set-up-context">
+                     <xsl:with-param name="context" select="$context"/>
+                  </xsl:call-template>
                </xsl:if>
-
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
                   <xsl:apply-templates select="($call, $apply, $context)[1]/x:param"
@@ -327,6 +329,18 @@
       </xsl:element>
 
       <xsl:call-template name="x:compile-child-scenarios-or-expects" />
+   </xsl:template>
+
+   <xsl:template name="x:set-up-context" as="element()+">
+      <xsl:param name="context" as="element(x:context)?" required="yes"/>
+      <!-- Set up the variable of x:context -->
+      <xsl:apply-templates select="$context" mode="x:declare-variable"/>
+
+      <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
+      <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
+         <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
+      </xsl:element>
    </xsl:template>
 
 </xsl:stylesheet>

@@ -31,6 +31,43 @@
 				($myv:after_expect='after_expect')"
 			/>
 		</x:scenario>
+		<x:scenario label="If variable is defined both before and after x:context[x:param]">
+			<x:variable name="myv:var" select="'before_context'"/>
+			<x:context mode="mirror:param-mirror">
+				<x:param name="param-items" select="$myv:var"/>
+				<mycontext/>
+			</x:context>
+			<x:variable name="myv:var" select="'after_context'"/>
+			<x:expect label="then parameter reflects x:variable preceding x:context,"
+				select="'before_context'"/>
+			<x:expect label="while final variable value reflects final x:variable."
+				test="$myv:var" select="'after_context'"/>
+		</x:scenario>
+		<x:scenario label="If variable is redefined between x:context and x:call">
+			<x:scenario label="then context reflects">
+				<x:variable name="myv:var" select="'before_context'"/>
+				<x:context><mycontext role="{$myv:var}"/></x:context>
+				<x:variable name="myv:var" select="'after_context (value is not used in this scenario)'"/>
+				<x:call template="mirror:context-mirror"/>
+				<x:variable name="myv:var" select="'after_call'"/>
+				<x:expect label="x:variable preceding x:context,">
+					<mycontext role="before_context"/>
+				</x:expect>
+				<x:expect label="while final variable value reflects final x:variable."
+					test="$myv:var" select="'after_call'"/>
+			</x:scenario>
+			<x:scenario label="then template parameter reflects">
+				<x:variable name="myv:var" select="'before_context'"/>
+				<x:context><mycontext role="{$myv:var}"/></x:context>
+				<x:variable name="myv:var" select="'after_context_before_call'"/>
+				<x:call template="mirror:param-mirror">
+					<x:param name="param-items" select="$myv:var"/>
+				</x:call>
+				<x:variable name="myv:var" select="'after_call (value is not used in this scenario)'"/>
+				<x:expect label="x:variable preceding x:call."
+					select="'after_context_before_call'"/>
+			</x:scenario>
+		</x:scenario>
 		<x:scenario label="x:variable interspersed with x:context and x:expect">
 			<x:variable name="myv:before_context" select="'before_context'"/>
 			<x:context mode="mirror:context-mirror"><mycontext role="{$myv:before_context}"/></x:context>
