@@ -114,24 +114,23 @@
       <x:parameters name="params"/>
 
       <p:group>
-         <p:variable name="xspec-home" select="
-             /c:param-set/c:param[@name eq 'xspec-home']/@value">
+         <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
-         <p:variable name="compiler-uri" select="
-             /c:param-set/c:param[@name eq 'compiler-uri']/@value">
+         <p:variable name="compiler-uri"
+            select="/c:param-set/c:param[@name eq 'compiler-uri']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
 
          <!-- if compiler-uri is not passed, then use xspec-home to resolve the compiler -->
          <!-- if xspec-home is not passed, then use the packaging public URI -->
-         <p:variable name="compiler" select="
-             if ( $compiler-uri ) then
-               $compiler-uri
-             else if ( $xspec-home ) then
-               resolve-uri('src/compiler/compile-xslt-tests.xsl', $xspec-home)
-             else
-               'http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl'"/>
+         <p:variable name="compiler"
+            select="if ( $compiler-uri ) then
+                  $compiler-uri
+               else if ( $xspec-home ) then
+                  resolve-uri('src/compiler/compile-xslt-tests.xsl', $xspec-home)
+               else
+                  'http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl'"/>
 
          <!-- load the compiler -->
          <p:load name="compiler" pkg:kind="xslt">
@@ -180,26 +179,25 @@
       <p:group>
         <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
              is not supported -->
-         <p:variable name="xspec-home" select="
-             /c:param-set/c:param[@name eq 'xspec-home']/@value">
+         <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
 
          <!-- param: compiler-uri: the URI of the XSpec compiler to XQuery -->
-         <p:variable name="compiler-uri" select="
-             /c:param-set/c:param[@name eq 'compiler-uri']/@value">
+         <p:variable name="compiler-uri"
+            select="/c:param-set/c:param[@name eq 'compiler-uri']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
 
          <!-- if compiler-uri is not passed, then use xspec-home to resolve the compiler -->
          <!-- if xspec-home is not passed, then use the packaging public URI -->
-         <p:variable name="compiler" select="
-             if ( $compiler-uri ) then
-               $compiler-uri
-             else if ( $xspec-home ) then
-               resolve-uri('src/compiler/compile-xquery-tests.xsl', $xspec-home)
-             else
-               'http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl'"/>
+         <p:variable name="compiler"
+            select="if ( $compiler-uri ) then
+                  $compiler-uri
+               else if ( $xspec-home ) then
+                  resolve-uri('src/compiler/compile-xquery-tests.xsl', $xspec-home)
+               else
+                  'http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl'"/>
 
          <!-- wrap the generated query in a c:query element -->
          <p:string-replace match="/xsl:*/xsl:import/@href" name="compiler">
@@ -264,17 +262,16 @@
       <p:group>
         <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
              is not supported -->
-         <p:variable name="xspec-home" select="
-             /c:param-set/c:param[@name eq 'xspec-home']/@value">
+         <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
 
          <!-- either the public URI, or resolved from xspec-home if packaging not supported -->
-         <p:variable name="formatter" select="
-             if ( $xspec-home ) then
-               resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)
-             else
-               'http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl'"/>
+         <p:variable name="formatter"
+            select="if ( $xspec-home ) then
+                  resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)
+               else
+                  'http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl'"/>
 
          <!-- log the report? -->
          <x:log if-set="log-xml-report">
