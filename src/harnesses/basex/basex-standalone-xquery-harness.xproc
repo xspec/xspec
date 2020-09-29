@@ -41,24 +41,24 @@
    <t:parameters name="params"/>
 
    <p:group>
-      <p:variable name="xspec-home" select="
-          /c:param-set/c:param[@name eq 'xspec-home']/@value">
+      <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <p:variable name="basex-jar" select="
-          /c:param-set/c:param[@name eq 'basex-jar']/@value">
+      <p:variable name="basex-jar" select="/c:param-set/c:param[@name eq 'basex-jar']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
 
       <!-- TODO: Use a robust way to get a tmp file name from the OS... -->
-      <p:variable name="compiled-file" select="
-          ( /c:param-set/c:param[@name eq 'compiled-file']/@value,
-            'file:/tmp/xspec-basex-compiled-suite.xq' )[1]">
+      <p:variable name="compiled-file"
+         select="(
+               /c:param-set/c:param[@name eq 'compiled-file']/@value,
+               'file:/tmp/xspec-basex-compiled-suite.xq'
+            )[1]">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
 
-      <p:variable name="utils-library-at" select="
-          /c:param-set/c:param[@name eq 'utils-library-at']/@value">
+      <p:variable name="utils-library-at"
+         select="/c:param-set/c:param[@name eq 'utils-library-at']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
 
@@ -80,10 +80,11 @@
          <p:when test="p:value-available('basex-jar')">
             <!-- use Java directly, rely on 'basex-jar' -->
             <p:exec command="java">
-               <p:with-option name="args" select="
-                   string-join(
-                     ('-cp', $basex-jar, 'org.basex.BaseX', $compiled-file),
-                     ' ')"/>
+               <p:with-option name="args"
+                  select="string-join(
+                        ('-cp', $basex-jar, 'org.basex.BaseX', $compiled-file),
+                        ' '
+                     )"/>
                <p:input port="source">
                   <p:empty/>
                </p:input>
