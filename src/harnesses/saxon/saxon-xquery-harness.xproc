@@ -17,7 +17,7 @@
             name="saxon-xquery-harness"
             type="t:saxon-xquery-harness"
             version="1.0">
-	
+
    <p:documentation>
       <p>This pipeline executes an XSpec test suite with the Saxon embedded in Calabash.</p>
       <p><b>Primary input:</b> A XSpec test suite document.</p>
@@ -35,12 +35,11 @@
    <t:parameters name="params"/>
 
    <p:group>
-      <p:variable name="xspec-home" select="
-          /c:param-set/c:param[@name eq 'xspec-home']/@value">
+      <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
-      <p:variable name="utils-library-at" select="
-          /c:param-set/c:param[@name eq 'utils-library-at']/@value">
+      <p:variable name="utils-library-at"
+         select="/c:param-set/c:param[@name eq 'utils-library-at']/@value">
          <p:pipe step="params" port="parameters"/>
       </p:variable>
 
