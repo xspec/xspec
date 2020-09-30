@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- "Nesting Scenarios" in Wiki -->
+<x:description query="x-urn:test:nested-function-call" query-at="nested-function-call.xqm"
+	stylesheet="nested-function-call.xsl"
+	xmlns:nested-function-call="x-urn:test:nested-function-call"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="when creating a table">
+		<x:call function="nested-function-call:createTable" />
+
+		<x:scenario label="holding three values">
+			<x:call>
+				<x:param position="2">
+					<value>A</value>
+					<value>B</value>
+					<value>C</value>
+				</x:param>
+			</x:call>
+
+			<x:scenario label="in two columns">
+				<x:call>
+					<x:param position="1" select="2" />
+				</x:call>
+
+				<x:expect label="the table should have two columns" select="2"
+					test="$x:result/table/colgroup/col => count()" />
+				<x:expect label="the first row should contain the first two values"
+					test="$x:result/table/tbody/tr[1]">
+					<tr>
+						<td>A</td>
+						<td>B</td>
+					</tr>
+				</x:expect>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
