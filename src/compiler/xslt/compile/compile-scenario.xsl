@@ -22,9 +22,9 @@
 
       <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable" />
-
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
+      <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
 
       <!-- We have to create these error messages at this stage because before now
          we didn't have merged versions of the environment -->
@@ -114,8 +114,6 @@
 
             <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
 
-            <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
-
             <!-- Handle variables and apply/call/context in document order,
                instead of apply/call/context first and variables second. -->
             <xsl:for-each select="$local-preceding-variables | x:apply | x:call | x:context">
@@ -130,6 +128,7 @@
                            <xsl:apply-templates select="." mode="x:node-constructor" />
                         </xsl:with-param>
                      </xsl:call-template>
+
                      <xsl:if test="self::x:context and $run-sut-now">
                         <!-- Set up context, still in document order with respect to x:variable siblings.
                              Pass $context through as tunnel parameter. -->
@@ -157,6 +156,7 @@
                      Pass $context through as tunnel parameter. -->
                   <xsl:call-template name="local:set-up-context"/>
                </xsl:if>
+
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
                   <xsl:apply-templates select="($call, $apply, $context)[1]/x:param"
@@ -331,6 +331,10 @@
 
       <xsl:call-template name="x:compile-child-scenarios-or-expects" />
    </xsl:template>
+
+   <!--
+      Local templates
+   -->
 
    <xsl:template name="local:set-up-context" as="element(xsl:variable)+">
       <xsl:param name="context" as="element(x:context)" tunnel="yes"/>
