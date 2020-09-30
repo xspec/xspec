@@ -9,11 +9,11 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<p:library xmlns:p="http://www.w3.org/ns/xproc"
-           xmlns:c="http://www.w3.org/ns/xproc-step"
-           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-           xmlns:t="http://www.jenitennison.com/xslt/xspec"
+<p:library xmlns:c="http://www.w3.org/ns/xproc-step"
+           xmlns:p="http://www.w3.org/ns/xproc"
            xmlns:pkg="http://expath.org/ns/pkg"
+           xmlns:x="http://www.jenitennison.com/xslt/xspec"
+           xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
            pkg:import-uri="#none"
            version="1.0">
 
@@ -24,7 +24,7 @@
        
        TODO: Does not work as is...
    -->
-   <!--p:declare-step type="t:ensure-input">
+   <!--p:declare-step type="x:ensure-input">
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
       <p:choose>
@@ -32,7 +32,7 @@
             <p:pipe step="ensure-input" port="source"/>
          </p:xpath-context>
          <p:when test="empty(/)">
-            <p:error code="t:ERR002"/>
+            <p:error code="x:ERR002"/>
          </p:when>
          <p:otherwise>
             <p:identity/>
@@ -46,7 +46,7 @@
        Inspired from Geert Josten util library:
        https://github.com/grtjn/xproc-ebook-conv/blob/master/src/nl/grtjn/xproc/util/utils.xpl
    -->
-   <p:declare-step type="t:parameters" name="parameters">
+   <p:declare-step type="x:parameters" name="parameters">
       <p:input port="source"        primary="true"/>
       <p:input port="in-parameters" primary="true" kind="parameter" sequence="true"/>
       <p:output port="result"       primary="true">
@@ -68,7 +68,7 @@
        If there is a parameter with the name $if-set, its value must be a URI, where
        to log the input.  If there is not, then no log is produced.
    -->
-   <p:declare-step type="t:log" name="log">
+   <p:declare-step type="x:log" name="log">
       <!-- the port declarations -->
       <p:input  port="source"     primary="true"/>
       <p:input  port="parameters" primary="true" kind="parameter"/>
@@ -77,7 +77,7 @@
       <p:option name="if-set" required="true"/>
 
       <!-- retrieve the params -->
-      <t:parameters name="params"/>
+      <x:parameters name="params"/>
 
       <p:group>
          <p:variable name="uri" select="/c:param-set/c:param[@name eq $if-set]/@value">
@@ -85,7 +85,7 @@
          </p:variable>
          <p:choose>
             <p:when test="$uri">
-               <p:store method="text">
+               <p:store method="adaptive">
                   <p:with-option name="href" select="$uri"/>
                </p:store>
                <p:identity>
@@ -104,34 +104,33 @@
    <!--
        Compile the suite on source into a stylesheet on result.
    -->
-   <p:declare-step type="t:compile-xslt" name="compile-xsl">
+   <p:declare-step type="x:compile-xslt" name="compile-xsl">
       <!-- the port declarations -->
       <p:input  port="source"     primary="true"/>
       <p:input  port="parameters" primary="true" kind="parameter"/>
       <p:output port="result"     primary="true"/>
 
       <!-- retrieve the params -->
-      <t:parameters name="params"/>
+      <x:parameters name="params"/>
 
       <p:group>
-         <p:variable name="xspec-home" select="
-             /c:param-set/c:param[@name eq 'xspec-home']/@value">
+         <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
-         <p:variable name="compiler-uri" select="
-             /c:param-set/c:param[@name eq 'compiler-uri']/@value">
+         <p:variable name="compiler-uri"
+            select="/c:param-set/c:param[@name eq 'compiler-uri']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
 
          <!-- if compiler-uri is not passed, then use xspec-home to resolve the compiler -->
          <!-- if xspec-home is not passed, then use the packaging public URI -->
-         <p:variable name="compiler" select="
-             if ( $compiler-uri ) then
-               $compiler-uri
-             else if ( $xspec-home ) then
-               resolve-uri('src/compiler/compile-xslt-tests.xsl', $xspec-home)
-             else
-               'http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl'"/>
+         <p:variable name="compiler"
+            select="if ( $compiler-uri ) then
+                  $compiler-uri
+               else if ( $xspec-home ) then
+                  resolve-uri('src/compiler/compile-xslt-tests.xsl', $xspec-home)
+               else
+                  'http://www.jenitennison.com/xslt/xspec/compile-xslt-tests.xsl'"/>
 
          <!-- load the compiler -->
          <p:load name="compiler" pkg:kind="xslt">
@@ -153,11 +152,11 @@
       </p:group>
 
       <!-- log the result? -->
-      <t:log if-set="log-compilation">
+      <x:log if-set="log-compilation">
          <p:input port="parameters">
             <p:pipe step="params" port="parameters"/>
          </p:input>
-      </t:log>
+      </x:log>
    </p:declare-step>
 
    <!--
@@ -168,55 +167,61 @@
        parameters port (e.g. utils-library-at to suppress the at location hint to use
        to import the XSpec utils library modules in the generated query).
    -->
-   <p:declare-step type="t:compile-xquery" name="compile-xq">
+   <p:declare-step type="x:compile-xquery" name="compile-xq">
       <!-- the port declarations -->
       <p:input  port="source" primary="true"/>
       <p:input  port="parameters" kind="parameter"/>
       <p:output port="result" primary="true"/>
 
       <!-- retrieve the params -->
-      <t:parameters name="params"/>
+      <x:parameters name="params"/>
 
       <p:group>
         <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
              is not supported -->
-         <p:variable name="xspec-home" select="
-             /c:param-set/c:param[@name eq 'xspec-home']/@value">
+         <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
 
          <!-- param: compiler-uri: the URI of the XSpec compiler to XQuery -->
-         <p:variable name="compiler-uri" select="
-             /c:param-set/c:param[@name eq 'compiler-uri']/@value">
+         <p:variable name="compiler-uri"
+            select="/c:param-set/c:param[@name eq 'compiler-uri']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
 
          <!-- if compiler-uri is not passed, then use xspec-home to resolve the compiler -->
          <!-- if xspec-home is not passed, then use the packaging public URI -->
-         <p:variable name="compiler" select="
-             if ( $compiler-uri ) then
-               $compiler-uri
-             else if ( $xspec-home ) then
-               resolve-uri('src/compiler/compile-xquery-tests.xsl', $xspec-home)
-             else
-               'http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl'"/>
+         <p:variable name="compiler"
+            select="if ( $compiler-uri ) then
+                  $compiler-uri
+               else if ( $xspec-home ) then
+                  resolve-uri('src/compiler/compile-xquery-tests.xsl', $xspec-home)
+               else
+                  'http://www.jenitennison.com/xslt/xspec/compile-xquery-tests.xsl'"/>
 
          <!-- wrap the generated query in a c:query element -->
          <p:string-replace match="/xsl:*/xsl:import/@href" name="compiler">
             <p:with-option name="replace" select="'''' || $compiler || ''''"/>
             <p:input port="source">
-               <p:inline>
-                  <xsl:stylesheet version="3.0">
-                     <xsl:import href="[to be replaced]" />
-                     <xsl:template match="document-node()" as="node()+">
-                        <c:query>
-                           <xsl:next-match />
-                        </c:query>
-                     </xsl:template>
-                  </xsl:stylesheet>
-               </p:inline>
+               <p:inline exclude-inline-prefixes="#all"><xsl:stylesheet
+                  exclude-result-prefixes="#all"
+                  version="3.0">
+   <xsl:import href="[to be replaced]" />
+   <xsl:template match="document-node()" as="element(Q{http://www.w3.org/ns/xproc-step}query)">
+      <query xmlns="http://www.w3.org/ns/xproc-step">
+         <xsl:next-match />
+      </query>
+   </xsl:template>
+</xsl:stylesheet></p:inline>
             </p:input>
          </p:string-replace>
+
+         <!-- log the temp compiler? -->
+         <x:log if-set="log-compiler">
+            <p:input port="parameters">
+               <p:pipe step="params" port="parameters"/>
+            </p:input>
+         </x:log>
 
          <!-- actually compile the suite in a query -->
          <p:xslt name="do-it">
@@ -230,11 +235,11 @@
       </p:group>
 
       <!-- log the result? -->
-      <t:log if-set="log-compilation">
+      <x:log if-set="log-compilation">
          <p:input port="parameters">
             <p:pipe step="params" port="parameters"/>
          </p:input>
-      </t:log>
+      </x:log>
    </p:declare-step>
 
    <!--
@@ -243,43 +248,42 @@
        If xspec-home is set, it is used to resolve the XSLT that formats the
        report.  If not, its public URI is used, to be resolved through the
        EXPath packaging system.  If the document element is not an XSpec
-       t:report, the error t:ERR001 is thrown.
+       x:report, the error x:ERR001 is thrown.
    -->
-   <p:declare-step type="t:format-report" name="format">
+   <p:declare-step type="x:format-report" name="format">
       <!-- the port declarations -->
       <p:input  port="source"     primary="true"/>
       <p:input  port="parameters" kind="parameter"/>
       <p:output port="result"     primary="true"/>
 
       <!-- retrieve the params -->
-      <t:parameters name="params"/>
+      <x:parameters name="params"/>
 
       <p:group>
         <!-- param: xspec-home: the dir with the sources of XSpec if EXPath packaging
              is not supported -->
-         <p:variable name="xspec-home" select="
-             /c:param-set/c:param[@name eq 'xspec-home']/@value">
+         <p:variable name="xspec-home" select="/c:param-set/c:param[@name eq 'xspec-home']/@value">
             <p:pipe step="params" port="parameters"/>
          </p:variable>
 
          <!-- either the public URI, or resolved from xspec-home if packaging not supported -->
-         <p:variable name="formatter" select="
-             if ( $xspec-home ) then
-               resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)
-             else
-               'http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl'"/>
+         <p:variable name="formatter"
+            select="if ( $xspec-home ) then
+                  resolve-uri('src/reporter/format-xspec-report.xsl', $xspec-home)
+               else
+                  'http://www.jenitennison.com/xslt/xspec/format-xspec-report.xsl'"/>
 
          <!-- log the report? -->
-         <t:log if-set="log-xml-report">
+         <x:log if-set="log-xml-report">
             <p:input port="parameters">
                <p:pipe step="format" port="parameters"/>
             </p:input>
-         </t:log>
+         </x:log>
 
          <!-- if there is a report, format it, or it is an error -->
          <p:choose>
-            <p:when test="exists(/t:report)">
-               <t:indent name="indent" />
+            <p:when test="exists(/x:report)">
+               <x:indent name="indent" />
                <p:load name="formatter" pkg:kind="xslt">
                   <p:with-option name="href" select="$formatter"/>
                </p:load>
@@ -298,10 +302,10 @@
             </p:when>
 
             <p:otherwise>
-               <p:error code="t:ERR001">
+               <p:error code="x:ERR001">
                   <p:input port="source">
                      <p:inline>
-                        <message>Not a t:report document</message>
+                        <message>Not a x:report document</message>
                      </p:inline>
                   </p:input>
                </p:error>
@@ -310,16 +314,16 @@
       </p:group>
 
       <!-- log the report? -->
-      <t:log if-set="log-report">
+      <x:log if-set="log-report">
          <p:input port="parameters">
             <p:pipe step="format" port="parameters"/>
          </p:input>
-      </t:log>
+      </x:log>
    </p:declare-step>
 
    <!-- Escapes markup. Also mimics @use-character-maps="x:disable-escaping" in
       ../compiler/compile-xquery-tests.xsl. -->
-   <p:declare-step type="t:escape-markup" name="escape-markup">
+   <p:declare-step type="x:escape-markup" name="escape-markup">
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
 
@@ -328,7 +332,7 @@
    </p:declare-step>
 
    <!-- Serializes the source document with indentation and reloads it -->
-   <p:declare-step type="t:indent" name="indent">
+   <p:declare-step type="x:indent" name="indent">
       <p:input port="source" primary="true" />
       <p:input port="parameters" kind="parameter" />
       <p:output port="result" primary="true" />
@@ -350,11 +354,11 @@
       <p:delete match="/wrap/text()" />
 
       <!-- Log? -->
-      <t:log if-set="log-indent">
+      <x:log if-set="log-indent">
          <p:input port="parameters">
             <p:pipe step="indent" port="parameters" />
          </p:input>
-      </t:log>
+      </x:log>
 
       <!-- Unwrap -->
       <p:unwrap match="/wrap" />
