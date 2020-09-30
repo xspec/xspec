@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="xs:anyAtomicType">
+		<x:context select="1, 'foo'" />
+		<x:call template="mirror:context-mirror" />
+		<x:expect label="can be set in x:context" select="1, 'foo'" />
+	</x:scenario>
+
+	<x:scenario label="function(*)">
+		<x:context select="map { 1: 2 }, [3, 4]" />
+		<x:call template="mirror:context-mirror" />
+		<x:expect label="can be set in x:context" select="map { 1: 2 }, [3, 4]" />
+	</x:scenario>
+
+</x:description>
