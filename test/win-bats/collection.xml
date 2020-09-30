@@ -1570,7 +1570,7 @@
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xquery-harness.xproc
     call :verify_retval 1
-    call :verify_line -3 r "..*err:XPDY0002:"
+    call :verify_line  * r "..*[: ]XPDY0002[: ]"
     call :verify_line -1 r "ERROR:"
 	</case>
 
