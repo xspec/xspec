@@ -1834,7 +1834,7 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[${#lines[@]}-3]}" '.+err:XPDY0002:'
+    assert_regex "${output}" $'\n''.+[: ]XPDY0002[: ]'
     assert_regex "${lines[${#lines[@]}-1]}" '^ERROR:'
 }
 
