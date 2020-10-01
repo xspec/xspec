@@ -14,12 +14,13 @@
        Function rep:report-sequence
    -->
    <t:scenario label="rep:report-sequence" xml:base="report-sequence/">
+      <t:call function="rep:report-sequence" />
 
       <t:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L486-L550">
          <!-- These scenarios do not run on XSLT. XSLT implements the tested function as a template. -->
 
          <t:scenario label="Integer">
-            <t:call function="rep:report-sequence">
+            <t:call>
                <t:param name="sequence" select="1" as="xs:integer" />
                <t:param name="report-name" select="'t:result'" />
             </t:call>
@@ -27,7 +28,7 @@
          </t:scenario>
 
          <t:scenario label="Empty Sequence">
-            <t:call function="rep:report-sequence">
+            <t:call>
                <t:param name="sequence" select="()" />
                <t:param name="report-name" select="'t:result'" />
             </t:call>
@@ -36,7 +37,7 @@
          </t:scenario>
 
          <t:scenario label="String">
-            <t:call function="rep:report-sequence">
+            <t:call>
                <t:param name="sequence" select="'test'" as="xs:string" />
                <t:param name="report-name" select="'t:result'" />
             </t:call>
@@ -44,7 +45,7 @@
          </t:scenario>
 
          <t:scenario label="URI">
-            <t:call function="rep:report-sequence">
+            <t:call>
                <t:param name="sequence" select="xs:anyURI('test.xml')" />
                <t:param name="report-name" select="'t:result'" />
             </t:call>
@@ -52,7 +53,7 @@
          </t:scenario>
 
          <t:scenario label="QName">
-            <t:call function="rep:report-sequence">
+            <t:call>
                <t:param name="sequence" select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
                <t:param name="report-name" select="'t:result'" />
             </t:call>
@@ -60,7 +61,7 @@
          </t:scenario>
 
          <t:scenario label="Attributes">
-            <t:call function="rep:report-sequence">
+            <t:call>
                <t:param name="sequence" select="/*/@*" as="attribute()+">
                   <doc a="1" b="2" />
                </t:param>
@@ -71,7 +72,7 @@
          </t:scenario>
 
          <t:scenario label="Attributes and content">
-            <t:call function="rep:report-sequence">
+            <t:call>
                <t:param name="sequence" select="/*/@*, /*/foo" as="node()+">
                   <doc a="1" b="2">
                      <foo />

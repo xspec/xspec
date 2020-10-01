@@ -3,12 +3,14 @@
 	xmlns:fmt="urn:x-xspec:reporter:format-utils" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Scenario for testing function format-uri">
+		<x:call function="fmt:format-uri" />
+
 		<x:scenario label="file: (%20 should be unescaped)">
 			<x:scenario label="Windows">
 				<x:scenario label="Drive">
 					<x:scenario label="Win32 (file:///C:/)">
 						<x:scenario label="Upper-case drive letter">
-							<x:call function="fmt:format-uri">
+							<x:call>
 								<x:param select="'file:///C:/dir/file%20name.ext'" />
 							</x:call>
 							<x:expect label="Discard everything before drive letter"
@@ -16,7 +18,7 @@
 						</x:scenario>
 
 						<x:scenario label="Lower-case drive letter">
-							<x:call function="fmt:format-uri">
+							<x:call>
 								<x:param select="'file:///c:/dir/file%20name.ext'" />
 							</x:call>
 							<x:expect label="Discard everything before drive letter"
@@ -26,7 +28,7 @@
 
 					<x:scenario label="Java (file:/C:/)">
 						<x:scenario label="Upper-case drive letter">
-							<x:call function="fmt:format-uri">
+							<x:call>
 								<x:param select="'file:/C:/dir/file%20name.ext'" />
 							</x:call>
 							<x:expect label="Discard everything before drive letter"
@@ -34,7 +36,7 @@
 						</x:scenario>
 
 						<x:scenario label="Lower-case drive letter">
-							<x:call function="fmt:format-uri">
+							<x:call>
 								<x:param select="'file:/c:/dir/file%20name.ext'" />
 							</x:call>
 							<x:expect label="Discard everything before drive letter"
@@ -45,14 +47,14 @@
 
 				<x:scenario label="UNC">
 					<x:scenario label="Win32 (file://host/)">
-						<x:call function="fmt:format-uri">
+						<x:call>
 							<x:param select="'file://host/share/dir/file%20name.ext'" />
 						</x:call>
 						<x:expect label="Discard file:" select="'//host/share/dir/file name.ext'" />
 					</x:scenario>
 
 					<x:scenario label="Java (file:////host/)">
-						<x:call function="fmt:format-uri">
+						<x:call>
 							<x:param select="'file:////host/share/dir/file%20name.ext'" />
 						</x:call>
 						<x:expect label="Discard file://" select="'//host/share/dir/file name.ext'"
@@ -63,21 +65,21 @@
 
 			<x:scenario label="*nix">
 				<x:scenario label="One slash">
-					<x:call function="fmt:format-uri">
+					<x:call>
 						<x:param select="'file:/dir/file%20name.ext'" />
 					</x:call>
 					<x:expect label="Discard file:" select="'/dir/file name.ext'" />
 				</x:scenario>
 
 				<x:scenario label="Two slashes">
-					<x:call function="fmt:format-uri">
+					<x:call>
 						<x:param select="'file://host/dir/file%20name.ext'" />
 					</x:call>
 					<x:expect label="Discard file:" select="'//host/dir/file name.ext'" />
 				</x:scenario>
 
 				<x:scenario label="Three slashes">
-					<x:call function="fmt:format-uri">
+					<x:call>
 						<x:param select="'file:///dir/file%20name.ext'" />
 					</x:call>
 					<x:expect label="Discard file://" select="'/dir/file name.ext'" />
@@ -86,7 +88,7 @@
 		</x:scenario>
 
 		<x:scenario label="Non file: (Everything including %20 should be intact)">
-			<x:call function="fmt:format-uri">
+			<x:call>
 				<x:param select="'http://www.example.com/dir/file%20name.ext'" />
 			</x:call>
 			<x:expect label="Intact" select="'http://www.example.com/dir/file%20name.ext'" />

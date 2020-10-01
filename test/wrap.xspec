@@ -21,36 +21,38 @@
       <!-- TODO: These scenarios do not run on XQuery
            t:wrappable-sequence() has not been implemented for XQuery -->
 
+      <t:call function="t:wrappable-sequence" />
+
       <t:scenario label="All kinds of nodes">
-         <t:call function="t:wrappable-sequence">
+         <t:call>
             <t:param select="$items:all-nodes" />
          </t:call>
          <t:expect label="False" select="false()" />
       </t:scenario>
 
       <t:scenario label="All nodes that can be wrapped">
-         <t:call function="t:wrappable-sequence">
+         <t:call>
             <t:param select="$items:wrappable-nodes" />
          </t:call>
          <t:expect label="True" select="true()" />
       </t:scenario>
 
       <t:scenario label="All nodes that can be wrapped, and atomic value">
-         <t:call function="t:wrappable-sequence">
+         <t:call>
             <t:param select="$items:wrappable-nodes, $items:integer" />
          </t:call>
          <t:expect label="False" select="false()" />
       </t:scenario>
 
       <t:scenario label="Nodes that cannot be wrapped">
-         <t:call function="t:wrappable-sequence">
+         <t:call>
             <t:param select="$items:non-wrappable-nodes" />
          </t:call>
          <t:expect label="False" select="false()" />
       </t:scenario>
 
       <t:scenario label="Empty sequence">
-         <t:call function="t:wrappable-sequence">
+         <t:call>
             <t:param as="empty-sequence()" />
          </t:call>
          <t:expect label="True" select="true()" />
@@ -65,52 +67,54 @@
       <!-- TODO: These scenarios do not run on XQuery
            local:wrappable-node() has not been implemented for XQuery -->
 
+      <t:call function="local:wrappable-node" />
+
       <t:scenario label="Nodes">
 
          <t:scenario label="Attribute">
-            <t:call function="local:wrappable-node">
+            <t:call>
                <t:param select="$items:attribute" />
             </t:call>
             <t:expect label="False" select="false()" />
          </t:scenario>
 
          <t:scenario label="Comment">
-            <t:call function="local:wrappable-node">
+            <t:call>
                <t:param select="$items:comment" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
 
          <t:scenario label="Document">
-            <t:call function="local:wrappable-node">
+            <t:call>
                <t:param select="$items:document" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
 
          <t:scenario label="Element">
-            <t:call function="local:wrappable-node">
+            <t:call>
                <t:param select="$items:element" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
 
          <t:scenario label="Namespace">
-            <t:call function="local:wrappable-node">
+            <t:call>
                <t:param select="$items:namespace" />
             </t:call>
             <t:expect label="False" select="false()" />
          </t:scenario>
 
          <t:scenario label="Processing instruction">
-            <t:call function="local:wrappable-node">
+            <t:call>
                <t:param select="$items:processing-instruction" />
             </t:call>
             <t:expect label="True" select="true()" />
          </t:scenario>
 
          <t:scenario label="Text">
-            <t:call function="local:wrappable-node">
+            <t:call>
                <t:param select="$items:text" />
             </t:call>
             <t:expect label="True" select="true()" />
@@ -119,7 +123,7 @@
       </t:scenario>
 
       <t:scenario label="Value">
-         <t:call function="local:wrappable-node">
+         <t:call>
             <t:param select="$items:integer" />
          </t:call>
          <t:expect label="False" select="false()" />
@@ -134,8 +138,10 @@
       <!-- TODO: These scenarios do not run on XQuery
            t:wrap-nodes() has not been implemented for XQuery -->
 
+      <t:call function="t:wrap-nodes" />
+
       <t:scenario label="All nodes that can be wrapped">
-         <t:call function="t:wrap-nodes">
+         <t:call>
             <t:param select="$items:wrappable-nodes" />
          </t:call>
          <t:expect label="Result is document node" test="$t:result instance of document-node()" />
@@ -148,7 +154,7 @@
       </t:scenario>
 
       <t:scenario label="Empty sequence">
-         <t:call function="t:wrap-nodes">
+         <t:call>
             <t:param as="empty-sequence()" />
          </t:call>
          <t:expect label="Result is document node" test="$t:result instance of document-node()" />
