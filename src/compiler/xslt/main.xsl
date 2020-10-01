@@ -55,9 +55,11 @@
             </xsl:element>
          </xsl:for-each>
 
-         <xsl:element name="xsl:global-context-item" namespace="{$x:xsl-namespace}">
-            <xsl:attribute name="use" select="'absent'" />
-         </xsl:element>
+         <xsl:if test="$is-external">
+            <xsl:element name="xsl:global-context-item" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="use" select="'absent'" />
+            </xsl:element>
+         </xsl:if>
 
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"

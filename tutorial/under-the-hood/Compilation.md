@@ -54,7 +54,6 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <!-- XSpec library modules providing tools -->
    <xsl:include href="..."/>
    ...
-   <xsl:global-context-item use="absent"/>
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri"
                  as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xspec</xsl:variable>
    <!-- the main template to run the suite -->
