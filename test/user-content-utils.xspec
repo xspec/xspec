@@ -377,7 +377,9 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-ws-only-text-node-significant">
-		<x:call function="x:is-ws-only-text-node-significant" />
+		<x:call function="x:is-ws-only-text-node-significant">
+			<x:param position="2" />
+		</x:call>
 
 		<x:scenario label="xml:space">
 			<x:scenario label="override default with preserve">
@@ -390,7 +392,6 @@
 								</grandparent>
 							</great-grandparent>
 						</x:param>
-						<x:param />
 					</x:call>
 					<x:expect label="true" select="true()" />
 				</x:scenario>
@@ -402,7 +403,6 @@
 								<grandparent xml:space="preserve"><parent>&#x09;&#x0A;&#x0D;&#x20;</parent></grandparent>
 							</great-grandparent>
 						</x:param>
-						<x:param />
 					</x:call>
 					<x:expect label="true" select="true()" />
 				</x:scenario>
@@ -418,7 +418,6 @@
 									</parent></grandparent>
 							</great-grandparent>
 						</x:param>
-						<x:param />
 					</x:call>
 					<x:expect label="false" select="false()" />
 				</x:scenario>
@@ -432,7 +431,6 @@
 									</parent>
 								</grandparent></great-grandparent>
 						</x:param>
-						<x:param />
 					</x:call>
 					<x:expect label="false" select="false()" />
 				</x:scenario>
