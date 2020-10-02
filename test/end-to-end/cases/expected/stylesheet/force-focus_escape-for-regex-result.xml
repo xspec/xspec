@@ -22,14 +22,18 @@
              xspec="../../../../../tutorial/escape-for-regex.xspec"
              pending="force focus">
       <label>Test simple patterns</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:functx="http://www.functx.com"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="functx:escape-for-regex"/>
+      </input-wrap>
       <scenario id="scenario2-scenario1"
                 xspec="../../../../../tutorial/escape-for-regex.xspec">
          <label>When encountering parentheses</label>
          <input-wrap xmlns="">
             <x:call xmlns:functx="http://www.functx.com"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="functx:escape-for-regex">
-               <x:param name="arg" select="'(Hello)'"/>
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <x:param select="'(Hello)'"/>
             </x:call>
          </input-wrap>
          <result select="'\(Hello\)'"/>
@@ -44,9 +48,8 @@
          <label>When encountering a whitespace character class</label>
          <input-wrap xmlns="">
             <x:call xmlns:functx="http://www.functx.com"
-                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                    function="functx:escape-for-regex">
-               <x:param name="arg" select="'\sHello'"/>
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec">
+               <x:param select="'\sHello'"/>
             </x:call>
          </input-wrap>
          <test id="scenario2-scenario2-expect1" pending="force focus">
