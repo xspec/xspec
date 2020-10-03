@@ -7,8 +7,10 @@
 	-->
 
 	<x:scenario label="Scenario for testing function UQName">
+		<x:call function="x:UQName" />
+
 		<x:scenario label="URI length ge 1">
-			<x:call function="x:UQName">
+			<x:call>
 				<x:param select="'my-uri'" />
 				<x:param select="'my-local-name'" />
 			</x:call>
@@ -16,7 +18,7 @@
 		</x:scenario>
 
 		<x:scenario label="URI is zero-length string">
-			<x:call function="x:UQName">
+			<x:call>
 				<x:param select="''" />
 				<x:param select="'my-local-name'" />
 			</x:call>
@@ -25,8 +27,10 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function known-UQName">
+		<x:call function="x:known-UQName" />
+
 		<x:scenario label="config">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'config:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -34,7 +38,7 @@
 		</x:scenario>
 
 		<x:scenario label="deq">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'deq:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -42,7 +46,7 @@
 		</x:scenario>
 
 		<x:scenario label="err">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'err:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -50,7 +54,7 @@
 		</x:scenario>
 
 		<x:scenario label="impl">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'impl:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -58,7 +62,7 @@
 		</x:scenario>
 
 		<x:scenario label="map">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'map:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -66,7 +70,7 @@
 		</x:scenario>
 
 		<x:scenario label="output">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'output:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -74,7 +78,7 @@
 		</x:scenario>
 
 		<x:scenario label="rep">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'rep:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -82,7 +86,7 @@
 		</x:scenario>
 
 		<x:scenario label="svrl">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'svrl:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -90,7 +94,7 @@
 		</x:scenario>
 
 		<x:scenario label="x">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'x:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -98,7 +102,7 @@
 		</x:scenario>
 
 		<x:scenario label="xs">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'xs:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"
@@ -106,7 +110,7 @@
 		</x:scenario>
 
 		<x:scenario label="xsl">
-			<x:call function="x:known-UQName">
+			<x:call>
 				<x:param select="'xsl:my-local-name'" />
 			</x:call>
 			<x:expect label="Constructed" select="string()"

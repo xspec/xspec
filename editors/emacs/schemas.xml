@@ -1,6 +1,6 @@
 <locatingRules xmlns="http://thaiopensource.com/ns/locating-rules/1.0">
   <uri pattern="*.xspec" typeId="XSpec"/>
   <namespace ns="http://www.jenitennison.com/xslt/xspec" typeId="XSpec"/>
-  <documentElement prefix="x" localName="descrption" typeId="XSpec"/>
+  <documentElement prefix="x" localName="description" typeId="XSpec"/>
   <typeId id="XSpec" uri="../../src/schemas/xspec.rnc"/>
 </locatingRules>

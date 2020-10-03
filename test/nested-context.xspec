@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- "Nesting Scenarios" in Wiki -->
+<x:description stylesheet="nested-context.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="when an element containing an attribute and a text is transformed">
+		<x:context>
+			<foo bar="baz">qux</foo>
+		</x:context>
+
+		<x:scenario label="in 'upper-case-text' mode">
+			<x:context mode="upper-case-text" />
+			<x:expect label="the text should be upper-cased">
+				<foo bar="baz">QUX</foo>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="in 'upper-case-attribute' mode">
+			<x:context mode="upper-case-attribute" />
+			<x:expect label="the attribute value should be upper-cased">
+				<foo bar="BAZ">qux</foo>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
