@@ -3,10 +3,12 @@
 	xmlns="http://www.jenitennison.com/xslt/xspec">
 
 	<scenario label="Scenario for testing function xspec-name">
+		<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name" />
+
 		<scenario label="Element name is in XSpec namespace">
 			<scenario label="Element name uses the default namespace">
 				<scenario label="No other XSpec prefixes">
-					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+					<call>
 						<param select="'local-name'" />
 						<param>
 							<elem xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:p1="u1"
@@ -17,7 +19,7 @@
 				</scenario>
 
 				<scenario label="Some other XSpec prefixes">
-					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+					<call>
 						<param select="'local-name'" />
 						<param>
 							<elem xmlns="http://www.jenitennison.com/xslt/xspec"
@@ -31,7 +33,7 @@
 
 			<scenario label="Element name uses a prefix">
 				<scenario label="Some other XSpec prefixes">
-					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+					<call>
 						<param select="'local-name'" />
 						<param>
 							<p2:elem xmlns="http://www.jenitennison.com/xslt/xspec"
@@ -43,7 +45,7 @@
 				</scenario>
 
 				<scenario label="No other XSpec prefixes">
-					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+					<call>
 						<param select="'local-name'" />
 						<param>
 							<p2:elem xmlns="u" xmlns:p1="u1"
@@ -59,7 +61,7 @@
 
 			<scenario label="Element name uses the default namespace">
 				<scenario catch="yes" label="No XSpec prefixes">
-					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+					<call>
 						<param select="'local-name'" />
 						<param>
 							<elem xmlns="u" xmlns:p1="u1" xmlns:p2="u2" />
@@ -69,7 +71,7 @@
 				</scenario>
 
 				<scenario label="Some XSpec prefixes">
-					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+					<call>
 						<param select="'local-name'" />
 						<param>
 							<elem xmlns="u" xmlns:p1="http://www.jenitennison.com/xslt/xspec"
@@ -83,7 +85,7 @@
 
 			<scenario label="Element name uses a prefix">
 				<scenario label="Some XSpec prefixes">
-					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+					<call>
 						<param select="'local-name'" />
 						<param>
 							<p1:elem xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:p1="u1"
@@ -95,7 +97,7 @@
 				</scenario>
 
 				<scenario catch="yes" label="No XSpec prefixes">
-					<call function="Q{http://www.jenitennison.com/xslt/xspec}xspec-name">
+					<call>
 						<param select="'local-name'" />
 						<param>
 							<p1:elem xmlns="u" xmlns:p1="u1" xmlns:p2="u2" />
