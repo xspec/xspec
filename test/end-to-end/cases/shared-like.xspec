@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm"
-	stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xml:base="../../" xmlns:mirror="x-urn:test:mirror"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Unreferenced shared scenario" shared="yes">
@@ -46,6 +46,34 @@
 		<x:scenario label="implicit one">
 			<x:like label="Referenced and implicitly unshared scenario" />
 		</x:scenario>
+	</x:scenario>
+
+	<!--
+		@shared[not(. = ('yes', 'no'))]
+	-->
+
+	<x:scenario label="Unreferenced @shared=true" shared="true">
+		<x:expect label="This unreferenced @shared=true x:expect should not fire at all"
+			test="true()" />
+	</x:scenario>
+
+	<x:scenario label="Unreferenced @shared=1" shared="1">
+		<x:expect label="This unreferenced @shared=true x:expect should not fire at all"
+			test="true()" />
+	</x:scenario>
+
+	<x:scenario label="Unreferenced @shared=false" shared="false">
+		<x:call function="mirror:false" />
+		<x:expect
+			label="This unreferenced @shared=false x:expect should fire only at its original x:scenario"
+			test="true()" />
+	</x:scenario>
+
+	<x:scenario label="Unreferenced @shared=0" shared="0">
+		<x:call function="mirror:false" />
+		<x:expect
+			label="This unreferenced @shared=0 x:expect should fire only at its original x:scenario"
+			test="true()" />
 	</x:scenario>
 
 </x:description>

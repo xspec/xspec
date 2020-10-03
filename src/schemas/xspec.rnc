@@ -142,7 +142,7 @@ shared =
 	## There are shared scenarios (shared="yes") and unshared scenarios (shared="no",
 	## the default). Shared scenarios can be referenced and reused by other scenarios
 	## with the <like> element. Unshared scenarios are simply run.
-	attribute shared { "yes" | "no" }
+	attribute shared { boolean.datatype }
 
 like = 
 	## The <like> element pulls a shared scenario into this one (which may be shared
@@ -232,7 +232,7 @@ static =
 
 template-param = element param { common-attributes, 
                                  name, as?, 
-                                 attribute tunnel { "yes" | "no" }?, selection }
+                                 attribute tunnel { boolean.datatype }?, selection }
 
 function-param = element param { common-attributes,
                                  name?, as?, position?, selection }
