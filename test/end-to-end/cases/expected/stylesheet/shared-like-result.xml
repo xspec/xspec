@@ -105,4 +105,40 @@
          </test>
       </scenario>
    </scenario>
+   <scenario id="scenario5" xspec="../../shared-like.xspec">
+      <label>Unreferenced @shared=false</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      <test id="scenario5-expect1" successful="true">
+         <label>This unreferenced @shared=false x:expect should fire only at its original x:scenario</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="true()"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
+   </scenario>
+   <scenario id="scenario6" xspec="../../shared-like.xspec">
+      <label>Unreferenced @shared=0</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      <test id="scenario6-expect1" successful="true">
+         <label>This unreferenced @shared=0 x:expect should fire only at its original x:scenario</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="true()"/>
+         </expect-test-wrap>
+         <expect select="()"/>
+      </test>
+   </scenario>
 </report>
