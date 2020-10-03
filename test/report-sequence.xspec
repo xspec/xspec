@@ -17,11 +17,12 @@
        Function rep:report-atomic-value
    -->
    <t:scenario label="rep:report-atomic-value">
+      <t:call function="rep:report-atomic-value" />
 
       <t:scenario label="Copy of https://github.com/xspec/xspec/blob/8931b371bd619feeeee25bd7014d8a677ab88505/src/compiler/generate-tests-utils.xsl#L622-L629">
 
          <t:scenario label="String Containing Single Quotes">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="'don''t'" />
             </t:call>
             <t:expect label="Escaped" select="'''don''''t'''" />
@@ -32,21 +33,21 @@
       <t:scenario label="xs:integer">
 
          <t:scenario label="Max of xs:unsignedLong (a subtype of xs:integer)">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:integer(18446744073709551615)" />
             </t:call>
             <t:expect label="Numeric literal" select="'18446744073709551615'" />
          </t:scenario>
 
          <t:scenario label="0">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:integer(0)" />
             </t:call>
             <t:expect label="Numeric literal" select="'0'" />
          </t:scenario>
 
          <t:scenario label="-1">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:integer(-1)" />
             </t:call>
             <t:expect label="Numeric literal" select="'-1'" />
@@ -57,49 +58,49 @@
       <t:scenario label="xs:decimal">
 
          <t:scenario label="1.2">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:decimal(1.2)" />
             </t:call>
             <t:expect label="Numeric literal" select="'1.2'" />
          </t:scenario>
 
          <t:scenario label="1">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:decimal(1)" />
             </t:call>
             <t:expect label="Numeric literal" select="'1.0'" />
          </t:scenario>
 
          <t:scenario label="0.1">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:decimal(0.1)" />
             </t:call>
             <t:expect label="Numeric literal" select="'0.1'" />
          </t:scenario>
 
          <t:scenario label="0">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:decimal(0)" />
             </t:call>
             <t:expect label="Numeric literal" select="'0.0'" />
          </t:scenario>
 
          <t:scenario label="-0.1">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:decimal(-0.1)" />
             </t:call>
             <t:expect label="Numeric literal" select="'-0.1'" />
          </t:scenario>
 
          <t:scenario label="-1">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:decimal(-1)" />
             </t:call>
             <t:expect label="Numeric literal" select="'-1.0'" />
          </t:scenario>
 
          <t:scenario label="-1.2">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:decimal(-1.2)" />
             </t:call>
             <t:expect label="Numeric literal" select="'-1.2'" />
@@ -110,21 +111,21 @@
       <t:scenario label="xs:double">
 
          <t:scenario label="1.234e56">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:double(1.234e56)" />
             </t:call>
             <t:expect label="Numeric literal" select="'1.234e56'" />
          </t:scenario>
 
          <t:scenario label="1">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:double(1)" />
             </t:call>
             <t:expect label="Numeric literal" select="'1.0e0'" />
          </t:scenario>
 
          <t:scenario label="NaN">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:double('NaN')" />
             </t:call>
             <t:expect label="Constructor" select="string()"
@@ -132,7 +133,7 @@
          </t:scenario>
 
          <t:scenario label="INF">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:double('INF')" />
             </t:call>
             <t:expect label="Constructor" select="string()"
@@ -140,7 +141,7 @@
          </t:scenario>
 
          <t:scenario label="-INF">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:double('-INF')" />
             </t:call>
             <t:expect label="Constructor" select="string()"
@@ -152,14 +153,14 @@
       <t:scenario label="xs:QName">
 
          <t:scenario label="No namespace">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:QName('foo')" />
             </t:call>
             <t:expect label="Function" select="'QName('''', ''foo'')'" />
          </t:scenario>
 
          <t:scenario label="In namespace, with prefix">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:QName('t:foo')" />
             </t:call>
             <t:expect label="Function" select="string()">
@@ -168,7 +169,7 @@
          </t:scenario>
 
          <t:scenario label="In namespace, without prefix">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="QName('x-urn:test:report-atomic-value', 'foo')" />
             </t:call>
             <t:expect label="Function" select="'QName(''x-urn:test:report-atomic-value'', ''foo'')'" />
@@ -179,7 +180,7 @@
       <t:scenario label="Other types that enter the ELSE branch of the function">
 
          <t:scenario label="xs:untypedAtomic">
-            <t:call function="rep:report-atomic-value">
+            <t:call>
                <t:param select="xs:untypedAtomic('foo')" />
             </t:call>
             <t:expect label="Constructor" select="string()"
@@ -195,10 +196,12 @@
            http://www.w3.org/TR/xslt20/#built-in-types
    -->
    <t:scenario label="rep:atom-type">
+      <t:call function="rep:atom-type" />
+
       <t:scenario label="All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION">
 
          <t:scenario label="xs:string">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:string('foo')" />
             </t:call>
             <t:expect label="xs:string" select="string()"
@@ -206,7 +209,7 @@
          </t:scenario>
 
          <t:scenario label="xs:boolean">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:boolean('true')" />
             </t:call>
             <t:expect label="xs:boolean" select="string()"
@@ -214,7 +217,7 @@
          </t:scenario>
 
          <t:scenario label="xs:decimal">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:decimal(1)" />
             </t:call>
             <t:expect label="xs:decimal" select="string()"
@@ -222,7 +225,7 @@
          </t:scenario>
 
          <t:scenario label="xs:double">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:double(1)" />
             </t:call>
             <t:expect label="xs:double" select="string()"
@@ -230,7 +233,7 @@
          </t:scenario>
 
          <t:scenario label="xs:float">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:float(1)" />
             </t:call>
             <t:expect label="xs:float" select="string()"
@@ -238,7 +241,7 @@
          </t:scenario>
 
          <t:scenario label="xs:date">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:date('1111-11-11')" />
             </t:call>
             <t:expect label="xs:date" select="string()"
@@ -246,7 +249,7 @@
          </t:scenario>
 
          <t:scenario label="xs:time">
-           <t:call function="rep:atom-type">
+           <t:call>
               <t:param select="xs:time('11:11:11')" />
            </t:call>
            <t:expect label="xs:time" select="string()"
@@ -254,7 +257,7 @@
          </t:scenario>
 
          <t:scenario label="xs:dateTime">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:dateTime('1111-11-11T11:11:11')" />
             </t:call>
             <t:expect label="xs:dateTime" select="string()"
@@ -262,7 +265,7 @@
          </t:scenario>
 
          <t:scenario label="xs:duration">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:duration('PT1S')" />
             </t:call>
             <t:expect label="xs:duration" select="string()"
@@ -270,7 +273,7 @@
          </t:scenario>
 
          <t:scenario label="xs:QName">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:QName('foo')" />
             </t:call>
             <t:expect label="xs:QName" select="string()"
@@ -278,7 +281,7 @@
          </t:scenario>
 
          <t:scenario label="xs:anyURI">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:anyURI('foo')" />
             </t:call>
             <t:expect label="xs:anyURI" select="string()"
@@ -286,7 +289,7 @@
          </t:scenario>
 
          <t:scenario label="xs:gDay">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:gDay('---11')" />
             </t:call>
             <t:expect label="xs:gDay" select="string()"
@@ -294,7 +297,7 @@
          </t:scenario>
 
          <t:scenario label="xs:gMonthDay">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:gMonthDay('--11-11')" />
             </t:call>
             <t:expect label="xs:gMonthDay" select="string()"
@@ -302,7 +305,7 @@
          </t:scenario>
 
          <t:scenario label="xs:gMonth">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:gMonth('--11')" />
             </t:call>
             <t:expect label="xs:gMonth" select="string()"
@@ -310,7 +313,7 @@
          </t:scenario>
 
          <t:scenario label="xs:gYearMonth">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:gYearMonth('1111-11')" />
             </t:call>
             <t:expect label="xs:gYearMonth" select="string()"
@@ -318,7 +321,7 @@
          </t:scenario>
 
          <t:scenario label="xs:gYear">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:gYear('1111')" />
             </t:call>
             <t:expect label="xs:gYear" select="string()"
@@ -326,7 +329,7 @@
          </t:scenario>
 
          <t:scenario label="xs:base64Binary">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:base64Binary(xs:hexBinary('11'))" />
             </t:call>
             <t:expect label="xs:base64Binary" select="string()"
@@ -334,7 +337,7 @@
          </t:scenario>
 
          <t:scenario label="xs:hexBinary">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:hexBinary('11')" />
             </t:call>
             <t:expect label="xs:hexBinary" select="string()"
@@ -346,7 +349,7 @@
       <t:scenario label="The derived atomic type xs:integer defined in [XML Schema Part 2]">
 
          <t:scenario label="xs:integer">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:integer(1)" />
             </t:call>
             <t:expect label="xs:integer" select="string()"
@@ -360,7 +363,7 @@
       <t:scenario label="The following types defined in [XPath 2.0]">
 
          <t:scenario label="xs:yearMonthDuration">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:yearMonthDuration('P1M')" />
             </t:call>
             <t:expect label="xs:yearMonthDuration" select="string()"
@@ -368,7 +371,7 @@
          </t:scenario>
 
          <t:scenario label="xs:dayTimeDuration">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:dayTimeDuration('PT1S')" />
             </t:call>
             <t:expect label="xs:dayTimeDuration" select="string()"
@@ -380,7 +383,7 @@
          <!-- xs:untyped: Not atomic -->
 
          <t:scenario label="xs:untypedAtomic">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:untypedAtomic('foo')" />
             </t:call>
             <t:expect label="xs:untypedAtomic" select="string()"
@@ -392,50 +395,52 @@
    </t:scenario>
 
 	<t:scenario label="Scenario for testing function node-type">
+		<t:call function="rep:node-type" />
+
 		<t:scenario label="Attribute">
-			<t:call function="rep:node-type">
+			<t:call>
 				<t:param select="$items:attribute" />
 			</t:call>
 			<t:expect label="attribute" select="'attribute'" />
 		</t:scenario>
 
 		<t:scenario label="Comment">
-			<t:call function="rep:node-type">
+			<t:call>
 				<t:param select="$items:comment" />
 			</t:call>
 			<t:expect label="comment" select="'comment'" />
 		</t:scenario>
 
 		<t:scenario label="Document">
-			<t:call function="rep:node-type">
+			<t:call>
 				<t:param select="$items:document" />
 			</t:call>
 			<t:expect label="document-node" select="'document-node'" />
 		</t:scenario>
 
 		<t:scenario label="Element">
-			<t:call function="rep:node-type">
+			<t:call>
 				<t:param select="$items:element" />
 			</t:call>
 			<t:expect label="element" select="'element'" />
 		</t:scenario>
 
 		<t:scenario label="Namespace">
-			<t:call function="rep:node-type">
+			<t:call>
 				<t:param select="$items:namespace" />
 			</t:call>
 			<t:expect label="namespace-node" select="'namespace-node'" />
 		</t:scenario>
 
 		<t:scenario label="Processing instruction">
-			<t:call function="rep:node-type">
+			<t:call>
 				<t:param select="$items:processing-instruction" />
 			</t:call>
 			<t:expect label="processing-instruction" select="'processing-instruction'" />
 		</t:scenario>
 
 		<t:scenario label="Text">
-			<t:call function="rep:node-type">
+			<t:call>
 				<t:param select="$items:text" />
 			</t:call>
 			<t:expect label="text" select="'text'" />
@@ -443,8 +448,10 @@
 	</t:scenario>
 
 	<t:scenario label="Scenario for testing function instance-of-function">
+		<t:call function="rep:instance-of-function" />
+
 		<t:scenario label="Node">
-			<t:call function="rep:instance-of-function">
+			<t:call>
 				<t:param>
 					<e />
 				</t:param>
@@ -453,7 +460,7 @@
 		</t:scenario>
 
 		<t:scenario label="Atomic value">
-			<t:call function="rep:instance-of-function">
+			<t:call>
 				<t:param select="1" />
 			</t:call>
 			<t:expect label="False" select="false()" />
@@ -461,14 +468,14 @@
 
 		<t:scenario label="function(*)">
 			<t:scenario label="Array">
-				<t:call function="rep:instance-of-function">
+				<t:call>
 					<t:param select="[ 0, 1 ]" />
 				</t:call>
 				<t:expect label="True" select="true()" />
 			</t:scenario>
 
 			<t:scenario label="Map">
-				<t:call function="rep:instance-of-function">
+				<t:call>
 					<t:param select="map { 0: 1 }" />
 				</t:call>
 				<t:expect label="True" select="true()" />
@@ -479,15 +486,17 @@
 	</t:scenario>
 
 	<t:scenario label="Scenario for testing function function-type">
+		<t:call function="rep:function-type" />
+
 		<t:scenario label="Array">
-			<t:call function="rep:function-type">
+			<t:call>
 				<t:param select="[ 0, 1 ]" />
 			</t:call>
 			<t:expect label="array" select="'array'" />
 		</t:scenario>
 
 		<t:scenario label="Map">
-			<t:call function="rep:function-type">
+			<t:call>
 				<t:param select="map { 0: 1 }" />
 			</t:call>
 			<t:expect label="map" select="'map'" />
