@@ -2108,24 +2108,6 @@
 	</case>
 
 	<!--
-		Duplicate @position
-	-->
-
-	<case name="Duplicate @position (XSLT)">
-    call :run ..\bin\xspec.bat bad-position\duplicate.xspec
-    call :verify_retval 2
-    call :verify_line  5 x "Duplicate parameter position, 1, used in x:call."
-    call :verify_line -1 x "*** Error compiling the test suite"
-	</case>
-
-	<case name="Duplicate @position (XQuery)">
-    call :run ..\bin\xspec.bat -q bad-position\duplicate.xspec
-    call :verify_retval 2
-    call :verify_line  5 x "Duplicate parameter position, 1, used in x:call."
-    call :verify_line -1 x "*** Error compiling the test suite"
-	</case>
-
-	<!--
 		Static param not allowed
 	-->
 	<case name="Static param is allowed only with run-as external (XSLT)">
@@ -2147,6 +2129,24 @@
     call :verify_retval 2
     call :verify_line  4 x "Enabling @static in x:param is not supported for Schematron."
     call :verify_line -1 x "*** Error converting Schematron into XSLT"
+	</case>
+
+	<!--
+		Duplicate @position
+	-->
+
+	<case name="Duplicate @position (XSLT)">
+    call :run ..\bin\xspec.bat bad-position\duplicate.xspec
+    call :verify_retval 2
+    call :verify_line  5 x "Duplicate parameter position, 1, used in x:call."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Duplicate @position (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-position\duplicate.xspec
+    call :verify_retval 2
+    call :verify_line  5 x "Duplicate parameter position, 1, used in x:call."
+    call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 </collection>
