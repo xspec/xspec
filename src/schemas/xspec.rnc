@@ -239,7 +239,7 @@ function-param = element param { common-attributes,
 
 name = attribute name { eqname.datatype }
 
-position = attribute position { xsd:integer }
+position = attribute position { xsd:positiveInteger }
 
 as = attribute as { text }
 

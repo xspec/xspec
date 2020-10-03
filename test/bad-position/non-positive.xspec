@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="http://example.org/ns/my" query-at="square.xqm" stylesheet="square.xsl"
+	xml:base="../" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="function-param @position">
+		<x:scenario label="zero">
+			<x:call function="my:square">
+				<x:param position="0" select="3" />
+			</x:call>
+			<x:expect label="should be invalid" select="9" />
+		</x:scenario>
+
+		<x:scenario label="negative">
+			<x:call function="my:square">
+				<x:param position="-1" select="3" />
+			</x:call>
+			<x:expect label="should be invalid" select="9" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
