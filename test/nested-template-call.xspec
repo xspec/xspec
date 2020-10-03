@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- "Nesting Scenarios" in Wiki -->
+<x:description stylesheet="nested-template-call.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="when creating a table">
+		<x:call template="createTable" />
+
+		<x:scenario label="holding three values">
+			<x:call>
+				<x:param name="nodes">
+					<value>A</value>
+					<value>B</value>
+					<value>C</value>
+				</x:param>
+			</x:call>
+
+			<x:scenario label="in two columns">
+				<x:call>
+					<x:param name="cols" select="2" />
+				</x:call>
+
+				<x:expect label="the table should have two columns" select="2"
+					test="/table/colgroup/col => count()" />
+				<x:expect label="the first row should contain the first two values"
+					test="/table/tbody/tr[1]">
+					<tr>
+						<td>A</td>
+						<td>B</td>
+					</tr>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="in three columns">
+				<x:call>
+					<x:param name="cols" select="3" />
+				</x:call>
+
+				<x:expect label="the table should have three columns" select="3"
+					test="/table/colgroup/col => count()" />
+				<x:expect label="the first row should contain the first three values"
+					test="/table/tbody/tr[1]">
+					<tr>
+						<td>A</td>
+						<td>B</td>
+						<td>C</td>
+					</tr>
+				</x:expect>
+			</x:scenario>
+
+			<!-- ... other scenarios around creating tables with three values (with different numbers of columns) ... -->
+		</x:scenario>
+
+		<x:scenario label="holding four values">
+			<x:call>
+				<x:param name="nodes">
+					<value>a</value>
+					<value>b</value>
+					<value>c</value>
+					<value>d</value>
+				</x:param>
+			</x:call>
+
+			<x:scenario label="in two columns">
+				<x:call>
+					<x:param name="cols" select="2" />
+				</x:call>
+
+				<x:expect label="the table should have two columns" select="2"
+					test="/table/colgroup/col => count()" />
+				<x:expect label="the first row should contain the first two values"
+					test="/table/tbody/tr[1]">
+					<tr>
+						<td>a</td>
+						<td>b</td>
+					</tr>
+				</x:expect>
+			</x:scenario>
+
+			<!-- ... other scenarios around creating tables with four values (with different numbers of columns) ... -->
+		</x:scenario>
+
+		<!-- ... other scenarios around creating tables ... -->
+	</x:scenario>
+
+</x:description>
