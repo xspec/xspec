@@ -232,7 +232,7 @@ static =
 
 template-param = element param { common-attributes, 
                                  name, as?, 
-                                 attribute tunnel { "yes" | "no" }?, selection }
+                                 attribute tunnel { boolean.datatype }?, selection }
 
 function-param = element param { common-attributes,
                                  name?, as?, position?, selection }
