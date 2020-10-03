@@ -86,3 +86,21 @@ load bats-helper
     assert_regex "${lines[2]}" '^Elapsed time '
 }
 
+@test "Schema detects mixture of explicit and implicit @position" {
+    # '-t' for identifying the last line
+
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
+        bad-position/mixed_explicit-implicit.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[0]}" '.+: error: element "x:param" missing required attribute "position"$'
+    assert_regex "${lines[1]}" '^Elapsed time '
+
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
+        bad-position/mixed_implicit-explicit.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[0]}" '.+: error: attribute "position" not allowed here;'
+    assert_regex "${lines[1]}" '^Elapsed time '
+}
+

@@ -34,18 +34,6 @@
 		 />
 	</x:scenario>
 
-	<x:scenario label="When instances of function-param with or without @position are interleaved">
-		<x:call function="param-position:join">
-			<x:param position="2" select="'d'" />
-			<x:param select="'a'" />
-			<x:param position="1" select="'c'" />
-			<x:param select="'b'" />
-		</x:call>
-		<x:expect
-			label="The parameters without @position are picked up in document order, followed by the ones with @position in @position order"
-			select="'abcd'" />
-	</x:scenario>
-
 	<x:scenario label="When parameters are nested">
 		<x:call function="param-position:join">
 			<!-- TODO: Runtime error. Fix it. -->
