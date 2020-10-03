@@ -141,6 +141,18 @@
          </xsl:for-each>
       </xsl:for-each>
 
+      <!-- Check duplicate parameter position -->
+      <xsl:for-each select="$new-call[@function]">
+         <xsl:variable name="param-owner-name" as="xs:string" select="name()" />
+         <xsl:variable name="param-positions" as="xs:integer*"
+            select="x:param ! xs:integer(@position)" />
+         <xsl:for-each select="$param-positions[subsequence($param-positions, 1, position() - 1) = .]">
+            <xsl:message terminate="yes">
+               <xsl:text expand-text="yes">Duplicate parameter position, {.}, used in {$param-owner-name}.</xsl:text>
+            </xsl:message>
+         </xsl:for-each>
+      </xsl:for-each>
+
       <!-- Check x:apply -->
       <!-- TODO: Remove this after implementing x:apply -->
       <xsl:if test="$new-apply">

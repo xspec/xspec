@@ -2447,6 +2447,26 @@ load bats-helper
 }
 
 #
+# Duplicate @position
+#
+
+@test "Duplicate @position (XSLT)" {
+    run ../bin/xspec.sh bad-position/duplicate.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "Duplicate parameter position, 1, used in x:call." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Duplicate @position (XQuery)" {
+    run ../bin/xspec.sh -q bad-position/duplicate.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "Duplicate parameter position, 1, used in x:call." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+#
 # Static param not allowed
 #
 
