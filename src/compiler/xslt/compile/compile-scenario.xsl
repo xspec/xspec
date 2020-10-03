@@ -63,6 +63,9 @@
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
+      <xsl:if test="$run-sut-now">
+         <xsl:call-template name="x:check-param-position" />
+      </xsl:if>
       <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
          <xsl:call-template name="x:error-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">

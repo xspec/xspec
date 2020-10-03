@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:param-position" query-at="param-position.xqm"
+	stylesheet="param-position.xsl" xml:base="../" xmlns:param-position="x-urn:test:param-position"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario>
+		<x:label><![CDATA[
+			x:call
+			[x:param[empty(@position)] => empty()]
+			/x:param
+			[last()]
+			[xs:integer(@position) gt count(parent::x:call/x:param)]
+		]]></x:label>
+		<x:call function="param-position:join">
+			<x:param position="1" select="'a'" />
+			<x:param position="2" select="'b'" />
+			<x:param position="3" select="'c'" />
+			<x:param position="5" select="'d'" />
+		</x:call>
+		<x:expect label="should be compiler error" select="'abcd'" />
+	</x:scenario>
+
+</x:description>
