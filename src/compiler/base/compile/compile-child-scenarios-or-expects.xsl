@@ -119,7 +119,9 @@
                   <xsl:variable name="local-params" as="element(x:param)*" select="x:param"/>
                   <xsl:sequence
                      select="
-                        $call/x:param[not(@name = $local-params/@name)],
+                        $call/x:param
+                        [not(@name = $local-params/@name)]
+                        [not(@position = $local-params/@position)],
                         $local-params"/>
                </xsl:copy>
                <!-- TODO: Test that "x:call/(node() except x:param)" is empty. -->
