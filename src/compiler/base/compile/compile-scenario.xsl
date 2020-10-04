@@ -19,9 +19,9 @@
       </xsl:message>
    </xsl:template>
 
-   <!-- Checks x:param/@position. The caller of this template must ensure that the current scenario
-      (not its descendant scenario) is going to run SUT. -->
-   <xsl:template name="x:check-param-position" as="empty-sequence()">
+   <!-- Checks max x:param/@position. The caller of this template must ensure that the current
+      scenario (not its descendant scenario) is going to run SUT. -->
+   <xsl:template name="x:check-param-max-position" as="empty-sequence()">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
