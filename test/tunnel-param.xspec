@@ -3,48 +3,111 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="context template-param">
-		<x:scenario label="with @tunnel=yes">
-			<x:context mode="mirror:tunnel-param-mirror">
-				<x:param name="tunnel-param-items" tunnel="yes">
-					<template-param-child />
-				</x:param>
-				<context-child />
-			</x:context>
-			<x:expect label="takes effect."
-				test="$x:result instance of element(template-param-child)" />
+		<x:context>
+			<context-child />
+		</x:context>
+
+		<x:scenario label="with @tunnel enabled as">
+			<x:context mode="mirror:tunnel-param-mirror" />
+
+			<x:scenario label="yes">
+				<x:context>
+					<x:param name="tunnel-param-items" select="'context-param-yes'" tunnel="yes" />
+				</x:context>
+				<x:expect label="takes effect." select="'context-param-yes'" />
+			</x:scenario>
+
+			<x:scenario label="true">
+				<x:context>
+					<x:param name="tunnel-param-items" select="'context-param-true'" tunnel="true"
+					 />
+				</x:context>
+				<x:expect label="takes effect." select="'context-param-true'" />
+			</x:scenario>
+
+			<x:scenario label="1">
+				<x:context>
+					<x:param name="tunnel-param-items" select="'context-param-1'" tunnel="1" />
+				</x:context>
+				<x:expect label="takes effect." select="'context-param-1'" />
+			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="with @tunnel=no">
-			<x:context mode="mirror:param-mirror">
-				<x:param name="param-items" tunnel="no">
-					<template-param-child />
-				</x:param>
-				<context-child />
-			</x:context>
-			<x:expect label="takes effect."
-				test="$x:result instance of element(template-param-child)" />
+		<x:scenario label="with @tunnel disabled as">
+			<x:context mode="mirror:param-mirror" />
+
+			<x:scenario label="no">
+				<x:context>
+					<x:param name="param-items" select="'context-param-no'" tunnel="no" />
+				</x:context>
+				<x:expect label="takes effect." select="'context-param-no'" />
+			</x:scenario>
+
+			<x:scenario label="false">
+				<x:context>
+					<x:param name="param-items" select="'context-param-false'" tunnel="false" />
+				</x:context>
+				<x:expect label="takes effect." select="'context-param-false'" />
+			</x:scenario>
+
+			<x:scenario label="0">
+				<x:context>
+					<x:param name="param-items" select="'context-param-0'" tunnel="0" />
+				</x:context>
+				<x:expect label="takes effect." select="'context-param-0'" />
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 
 	<x:scenario label="template-call template-param">
-		<x:scenario label="with @tunnel=yes">
-			<x:call template="mirror:tunnel-param-mirror">
-				<x:param name="tunnel-param-items" tunnel="yes">
-					<template-param-child />
-				</x:param>
-			</x:call>
-			<x:expect label="takes effect."
-				test="$x:result instance of element(template-param-child)" />
+		<x:scenario label="with @tunnel enabled as">
+			<x:call template="mirror:tunnel-param-mirror" />
+
+			<x:scenario label="yes">
+				<x:call>
+					<x:param name="tunnel-param-items" select="'call-param-yes'" tunnel="yes" />
+				</x:call>
+				<x:expect label="takes effect." select="'call-param-yes'" />
+			</x:scenario>
+
+			<x:scenario label="true">
+				<x:call>
+					<x:param name="tunnel-param-items" select="'call-param-true'" tunnel="true" />
+				</x:call>
+				<x:expect label="takes effect." select="'call-param-true'" />
+			</x:scenario>
+
+			<x:scenario label="1">
+				<x:call>
+					<x:param name="tunnel-param-items" select="'call-param-1'" tunnel="1" />
+				</x:call>
+				<x:expect label="takes effect." select="'call-param-1'" />
+			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="with @tunnel=no">
-			<x:call template="mirror:param-mirror">
-				<x:param name="param-items" tunnel="no">
-					<template-param-child />
-				</x:param>
-			</x:call>
-			<x:expect label="takes effect."
-				test="$x:result instance of element(template-param-child)" />
+		<x:scenario label="with @tunnel disabled as">
+			<x:call template="mirror:param-mirror" />
+
+			<x:scenario label="no">
+				<x:call>
+					<x:param name="param-items" select="'call-param-no'" tunnel="no" />
+				</x:call>
+				<x:expect label="takes effect." select="'call-param-no'" />
+			</x:scenario>
+
+			<x:scenario label="false">
+				<x:call>
+					<x:param name="param-items" select="'call-param-false'" tunnel="false" />
+				</x:call>
+				<x:expect label="takes effect." select="'call-param-false'" />
+			</x:scenario>
+
+			<x:scenario label="0">
+				<x:call>
+					<x:param name="param-items" select="'call-param-0'" tunnel="0" />
+				</x:call>
+				<x:expect label="takes effect." select="'call-param-0'" />
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 
