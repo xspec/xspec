@@ -75,3 +75,14 @@ load bats-helper
     assert_regex "${lines[5]}" '^Elapsed time '
 }
 
+@test "Schema detects non-positive @position" {
+    # '-t' for identifying the last line
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
+        bad-position/non-positive.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[0]}" '.+: error: value of attribute "position" is invalid; must be an integer greater than or equal to 1$'
+    assert_regex "${lines[1]}" '.+: error: value of attribute "position" is invalid; must be an integer greater than or equal to 1$'
+    assert_regex "${lines[2]}" '^Elapsed time '
+}
+
