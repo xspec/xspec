@@ -28,4 +28,12 @@
       <testcase name="implicit one This referenced and implicitly unshared x:expect should fire both at its original x:scenario and x:like"
                 status="passed"/>
    </testsuite>
+   <testsuite name="Unreferenced @shared=false" tests="1" failures="0">
+      <testcase name="This unreferenced @shared=false x:expect should fire only at its original x:scenario"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="Unreferenced @shared=0" tests="1" failures="0">
+      <testcase name="This unreferenced @shared=0 x:expect should fire only at its original x:scenario"
+                status="passed"/>
+   </testsuite>
 </testsuites>
