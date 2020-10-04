@@ -45,4 +45,37 @@
 			select="'abcd'" />
 	</x:scenario>
 
+	<x:scenario label="When parameters are nested">
+		<x:call function="param-position:join">
+			<!-- TODO: Runtime error. Fix it. -->
+			<!--<x:param select="'position-less parameter to be overridden'" />-->
+		</x:call>
+
+		<x:scenario
+			label="3 (to be overridden) and 4 (greater than count(ancestor-or-self::x:scenario/x:call/x:param))">
+			<x:call>
+				<x:param position="3" select="'3rd parameter to be overridden'" />
+				<x:param position="4" select="'d'" />
+			</x:call>
+
+			<x:scenario
+				label="3 (overrides a parent parameter) followed by a position-less parameter (overrides an ancestor parameter)">
+				<x:call>
+					<x:param position="3" select="'c'" />
+					<x:param select="'a'" />
+				</x:call>
+
+				<x:scenario label="2 (inserted in the midst)">
+					<x:call>
+						<x:param position="2" select="'b'" />
+					</x:call>
+
+					<x:scenario label="expect">
+						<x:expect label="The parameters are merged" select="'abcd'" />
+					</x:scenario>
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
