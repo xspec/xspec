@@ -1,43 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
-	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:param-position" query-at="param-position.xqm"
+	stylesheet="param-position.xsl" xmlns:param-position="x-urn:test:param-position"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="When all instances of function-param have @position in ascending order">
-		<x:call function="replace">
-			<x:param name="input" position="1" select="'abc'" />
-			<x:param name="pattern" position="2" select="'b'" />
-			<x:param name="replacement" position="3" select="'B'" />
+		<x:call function="param-position:join">
+			<x:param position="1" select="'a'" />
+			<x:param position="2" select="'b'" />
+			<x:param position="3" select="'c'" />
+			<x:param position="4" select="'d'" />
 		</x:call>
-		<x:expect label="The parameters are picked up in @position order" select="'aBc'" />
+		<x:expect label="The parameters are picked up in @position order" select="'abcd'" />
 	</x:scenario>
 
 	<x:scenario label="When all instances of function-param have @position in descending order">
-		<x:call function="replace">
-			<x:param name="replacement" position="3" select="'B'" />
-			<x:param name="pattern" position="2" select="'b'" />
-			<x:param name="input" position="1" select="'abc'" />
+		<x:call function="param-position:join">
+			<x:param position="4" select="'d'" />
+			<x:param position="3" select="'c'" />
+			<x:param position="2" select="'b'" />
+			<x:param position="1" select="'a'" />
 		</x:call>
-		<x:expect label="The parameters are picked up in @position order" select="'aBc'" />
+		<x:expect label="The parameters are picked up in @position order" select="'abcd'" />
 	</x:scenario>
 
 	<x:scenario label="When all instances of function-param have the same @position">
-		<x:call function="replace">
-			<x:param name="input" position="1" select="'abc'" />
-			<x:param name="pattern" position="1" select="'b'" />
-			<x:param name="replacement" position="1" select="'B'" />
+		<x:call function="param-position:join">
+			<x:param position="1" select="'a'" />
+			<x:param position="1" select="'b'" />
+			<x:param position="1" select="'c'" />
+			<x:param position="1" select="'d'" />
 		</x:call>
-		<x:expect label="The parameters are picked up in document order" select="'aBc'" />
+		<x:expect label="The parameters are picked up in document order" select="'abcd'" />
 	</x:scenario>
 
-	<x:scenario label="When only the last function-param has @position">
-		<x:call function="replace">
-			<x:param name="replacement" position="1" select="'B'" />
-			<x:param name="input" select="'abc'" />
-			<x:param name="pattern" select="'b'" />
+	<x:scenario label="When instances of function-param with or without @position are interleaved">
+		<x:call function="param-position:join">
+			<x:param position="2" select="'d'" />
+			<x:param select="'a'" />
+			<x:param position="1" select="'c'" />
+			<x:param select="'b'" />
 		</x:call>
 		<x:expect
-			label="The parameters without @position are picked up in document order, followed by the one with @position"
-			select="'aBc'" />
+			label="The parameters without @position are picked up in document order, followed by the ones with @position in @position order"
+			select="'abcd'" />
+	</x:scenario>
+
+	<x:scenario label="When parameters are nested">
+		<x:call function="param-position:join">
+			<!-- TODO: Runtime error. Fix it. -->
+			<!--<x:param select="'position-less parameter to be overridden'" />-->
+		</x:call>
+
+		<x:scenario
+			label="3 (to be overridden) and 4 (greater than count(ancestor-or-self::x:scenario/x:call/x:param))">
+			<x:call>
+				<x:param position="3" select="'3rd parameter to be overridden'" />
+				<x:param position="4" select="'d'" />
+			</x:call>
+
+			<x:scenario
+				label="3 (overrides a parent parameter) followed by a position-less parameter (overrides an ancestor parameter)">
+				<x:call>
+					<x:param position="3" select="'c'" />
+					<x:param select="'a'" />
+				</x:call>
+
+				<x:scenario label="2 (inserted in the midst)">
+					<x:call>
+						<x:param position="2" select="'b'" />
+					</x:call>
+
+					<x:scenario label="expect">
+						<x:expect label="The parameters are merged" select="'abcd'" />
+					</x:scenario>
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
 	</x:scenario>
 
 </x:description>

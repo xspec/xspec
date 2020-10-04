@@ -18,8 +18,8 @@
    </xsl:template>
 
    <!-- Discard @shared and shared x:scenario -->
-   <xsl:template match="x:scenario/@shared | x:scenario[@shared eq 'yes']" as="empty-sequence()"
-      mode="x:unshare-scenarios" />
+   <xsl:template match="x:scenario/@shared | x:scenario[x:yes-no-synonym(@shared, false())]"
+      as="empty-sequence()" mode="x:unshare-scenarios" />
 
    <!-- Replace x:like with specified scenario's child elements -->
    <xsl:template match="x:like" as="element()+" mode="x:unshare-scenarios">
