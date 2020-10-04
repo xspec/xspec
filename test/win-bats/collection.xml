@@ -2082,28 +2082,28 @@
 	<case name="Duplicate function-call param name (XSLT)">
     call :run ..\bin\xspec.bat dup-param-name\function-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Duplicate parameter name, Q{}left, used in x:call."
+    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Duplicate function-call param name (XQuery)">
     call :run ..\bin\xspec.bat -q dup-param-name\function-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Duplicate parameter name, Q{}left, used in x:call."
+    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Duplicate context param name">
     call :run ..\bin\xspec.bat dup-param-name\context.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Duplicate parameter name, Q{}left, used in x:context."
+    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of context template-param (i.e. //x:context/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:context."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Duplicate template-call param name">
     call :run ..\bin\xspec.bat dup-param-name\template-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Duplicate parameter name, Q{}left, used in x:call."
+    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of template-call template-param (i.e. //x:call[@template]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -2138,14 +2138,14 @@
 	<case name="Duplicate @position (XSLT)">
     call :run ..\bin\xspec.bat bad-position\duplicate.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Duplicate parameter position, 1, used in x:call."
+    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Duplicate @position (XQuery)">
     call :run ..\bin\xspec.bat -q bad-position\duplicate.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Duplicate parameter position, 1, used in x:call."
+    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
