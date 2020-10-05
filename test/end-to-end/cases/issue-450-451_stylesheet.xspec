@@ -7,13 +7,13 @@
 			<x:param name="param-items">}{<elem attr="}}{{">}{</elem></x:param>
 			<context-child />
 		</x:context>
-		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
 		 />
 	</x:scenario>
 
 	<x:scenario label="context containing curly brackets">
 		<x:context mode="mirror:context-mirror">}{<elem attr="}}{{">}{</elem></x:context>
-		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
 		 />
 	</x:scenario>
 
@@ -21,7 +21,7 @@
 		<x:call template="mirror:param-mirror">
 			<x:param name="param-items">}{<elem attr="}}{{">}{</elem></x:param>
 		</x:call>
-		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
 		 />
 	</x:scenario>
 
@@ -33,13 +33,13 @@
 				<context-child />
 			</x:context>
 			<x:expect href="issue-450-451.xml" label="should work"
-				select="wrap/node() treat as node()+" />
+				select="wrap/node()" as="node()+" />
 		</x:scenario>
 
 		<x:scenario label="context containing curly brackets">
 			<x:context mode="mirror:context-mirror" select="$myv:local-var" />
 			<x:expect href="issue-450-451.xml" label="should work"
-				select="wrap/node() treat as node()+" />
+				select="wrap/node()" as="node()+" />
 		</x:scenario>
 
 		<x:scenario label="template-call template-param containing curly brackets">
@@ -47,7 +47,7 @@
 				<x:param name="param-items" select="$myv:local-var" />
 			</x:call>
 			<x:expect href="issue-450-451.xml" label="should work"
-				select="wrap/node() treat as node()+" />
+				select="wrap/node()" as="node()+" />
 		</x:scenario>
 	</x:scenario>
 
