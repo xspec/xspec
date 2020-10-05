@@ -13,7 +13,7 @@ for /f %%I in ('call mvn help:evaluate --quiet "-Dexpression=project.version" -D
 
 if "%GITHUB_ACTIONS%"=="true" (
     rem Propagate the project version as an environment variable to any actions running next in a job
-    echo ::set-env name=MAVEN_PACKAGE_VERSION::%MAVEN_PACKAGE_VERSION%
+    (echo MAVEN_PACKAGE_VERSION=%MAVEN_PACKAGE_VERSION%) >>"%GITHUB_ENV%"
 )
 
 set "XSPEC_MAVEN_JAR=%~dp0..\..\target\xspec-%MAVEN_PACKAGE_VERSION%.jar"
