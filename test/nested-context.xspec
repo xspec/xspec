@@ -19,6 +19,13 @@
 			<x:expect label="the attribute value should be upper-cased">
 				<foo bar="BAZ">qux</foo>
 			</x:expect>
+
+			<x:scenario label="in 'upper-case-text' mode (override an ancestor mode)">
+				<x:context mode="upper-case-text" />
+				<x:expect label="the text should be upper-cased">
+					<foo bar="baz">QUX</foo>
+				</x:expect>
+			</x:scenario>
 		</x:scenario>
 	</x:scenario>
 

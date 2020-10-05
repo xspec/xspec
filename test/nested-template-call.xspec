@@ -51,7 +51,7 @@
 			<!-- ... other scenarios around creating tables with three values (with different numbers of columns) ... -->
 		</x:scenario>
 
-		<x:scenario label="holding four values">
+		<x:scenario label="holding four values in one column">
 			<x:call>
 				<x:param name="nodes">
 					<value>a</value>
@@ -59,9 +59,10 @@
 					<value>c</value>
 					<value>d</value>
 				</x:param>
+				<x:param name="cols" select="1" />
 			</x:call>
 
-			<x:scenario label="in two columns">
+			<x:scenario label="in two columns (override an ancestor param)">
 				<x:call>
 					<x:param name="cols" select="2" />
 				</x:call>
