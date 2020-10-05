@@ -6,6 +6,6 @@
 			<x:param href="issue-441.xml" />
 		</x:call>
 		<x:expect href="issue-441.xml" label="should be Success"
-			test="$x:result treat as document-node(element(foo))" />
+			test="$x:result" />
 	</x:scenario>
 </x:description>

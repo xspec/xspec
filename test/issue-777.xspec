@@ -12,17 +12,17 @@
 		<x:call function="false" />
 
 		<x:expect label="$my:test should be an external document loaded via x:param/@href"
-			select="/" test="$my:test treat as document-node()">
+			select="/" test="$my:test">
 			<test>external document</test>
 		</x:expect>
 
 		<x:expect label="$my:test-doc should be a document defined in SUT" select="/"
-			test="$my:test-doc treat as document-node()">
+			test="$my:test-doc">
 			<test>document defined in SUT</test>
 		</x:expect>
 
 		<x:expect label="$my:test-doc-uri should be a URI defined in SUT"
-			select="'URI defined in SUT'" test="$my:test-doc-uri treat as xs:anyURI" />
+			select="'URI defined in SUT'" test="$my:test-doc-uri" />
 	</x:scenario>
 
 </x:description>

@@ -11,7 +11,7 @@
 
 		<x:scenario label="apply-templates invocation">
 			<x:context mode="get-global-context" />
-			<x:expect label="root of tree containing node specified by x:context"
+			<x:expect label="root document node of tree containing node specified by x:context"
 				test="$x:result is (root($x:context) treat as document-node(element(context-child)))"
 			 />
 		</x:scenario>

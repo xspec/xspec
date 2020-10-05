@@ -137,14 +137,14 @@
 	<x:scenario label="assertion">
 		<x:call function="mirror:false" />
 		<x:expect label="Only @select"
-			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
-			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a] treat as xs:string" />
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" as="xs:string"
+			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
 		<x:expect href="dummy.xml" label="With @href"
-			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
-			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a] treat as xs:string" />
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" as="xs:string"
+			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
 		<x:expect label="With child::node()"
-			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]"
-			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a] treat as xs:string">
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" as="xs:string"
+			test="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
 			<assertion-child />
 		</x:expect>
 	</x:scenario>

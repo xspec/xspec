@@ -51,7 +51,7 @@
 					<x:param select="1, 2, 3, 4, 5" />
 				</x:call>
 				<x:expect label="Error" select="xs:QName('err:XTTE0780')"
-					test="$x:result?err?code treat as xs:QName" />
+					test="$x:result?err?code" />
 			</x:scenario>
 
 			<x:scenario label="Greater than uint16">
@@ -59,7 +59,7 @@
 					<x:param select="65536" />
 				</x:call>
 				<x:expect label="Error" select="xs:QName('err:XTTE0780')"
-					test="$x:result?err?code treat as xs:QName" />
+					test="$x:result?err?code" />
 			</x:scenario>
 
 			<x:scenario label="Less than uint16">
@@ -67,7 +67,7 @@
 					<x:param select="-1" />
 				</x:call>
 				<x:expect label="Error" select="xs:QName('err:XTTE0780')"
-					test="$x:result?err?code treat as xs:QName" />
+					test="$x:result?err?code" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>

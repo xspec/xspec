@@ -7,7 +7,7 @@
 	-->
 	<x:scenario label="Use $x:context both in @select and @test" shared="yes">
 		<x:expect label="$x:context should be available both in @select and @test"
-			select="$x:context" test="$x:context treat as item()+" />
+			select="$x:context" test="$x:context" />
 	</x:scenario>
 
 	<!--
