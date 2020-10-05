@@ -36,27 +36,26 @@
 
 	<x:scenario label="When parameters are nested">
 		<x:call function="param-position:join">
-			<!-- TODO: Runtime error. Fix it. -->
-			<!--<x:param select="'position-less parameter to be overridden'" />-->
+			<x:param select="'implicit 1st parameter to be overridden'" />
 		</x:call>
 
-		<x:scenario
-			label="3 (to be overridden) and 4 (greater than count(ancestor-or-self::x:scenario/x:call/x:param))">
+		<x:scenario label="4 (greater than count(ancestor-or-self::x:scenario/x:call/x:param))">
 			<x:call>
-				<x:param position="3" select="'3rd parameter to be overridden'" />
-				<x:param position="4" select="'d'" />
+				<x:param position="4" select="'explicit 4th parameter to be overridden'" />
 			</x:call>
 
 			<x:scenario
-				label="3 (overrides a parent parameter) followed by a position-less parameter (overrides an ancestor parameter)">
+				label="implicit 1 (overrides a grandparent parameter) and implicit 2 (inserted in the midst)">
 				<x:call>
-					<x:param position="3" select="'c'" />
 					<x:param select="'a'" />
+					<x:param select="'b'" />
 				</x:call>
 
-				<x:scenario label="2 (inserted in the midst)">
+				<x:scenario
+					label="3 (inserted in the midst) and 4 (overrides a grandparent parameter)">
 					<x:call>
-						<x:param position="2" select="'b'" />
+						<x:param position="3" select="'c'" />
+						<x:param position="4" select="'d'" />
 					</x:call>
 
 					<x:scenario label="expect">
