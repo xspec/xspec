@@ -20,14 +20,24 @@
    <xsl:function name="x:boolean-with-comparison" as="xs:string">
       <xsl:param name="expect" as="element(x:expect)" />
 
-      <xsl:text expand-text="yes">{name($expect)} has boolean @test, but it also has (@as | @href | @select | child::node()).</xsl:text>
+      <xsl:sequence
+         select="
+            x:prefix-error-message(
+               $expect,
+               'Boolean @test must not be accompanied by @as, @href, @select, or child node.'
+            )" />
    </xsl:function>
 
    <!-- Returns an error string for non-boolean @test with no comparison factors -->
    <xsl:function name="x:non-boolean-without-comparison" as="xs:string">
       <xsl:param name="expect" as="element(x:expect)" />
 
-      <xsl:text expand-text="yes">{name($expect)} has non-boolean @test, but it lacks (@as | @href | @select | child::node()).</xsl:text>
+      <xsl:sequence
+         select="
+            x:prefix-error-message(
+               $expect,
+               'Non-boolean @test must be accompanied by @as, @href, @select, or child node.'
+            )" />
    </xsl:function>
 
 </xsl:stylesheet>

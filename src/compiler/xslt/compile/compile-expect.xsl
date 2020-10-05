@@ -122,7 +122,7 @@
                            <xsl:choose>
                               <xsl:when test="x:has-comparison(.)">
                                  <message terminate="yes">
-                                    <xsl:text expand-text="yes">ERROR: {x:boolean-with-comparison(.)}</xsl:text>
+                                    <xsl:text expand-text="yes">{x:boolean-with-comparison(.)}</xsl:text>
                                  </message>
                               </xsl:when>
                               <xsl:otherwise>
@@ -139,7 +139,7 @@
                               </xsl:when>
                               <xsl:otherwise>
                                  <message terminate="yes">
-                                    <xsl:text expand-text="yes">ERROR: {x:non-boolean-without-comparison(.)}</xsl:text>
+                                    <xsl:text expand-text="yes">{x:non-boolean-without-comparison(.)}</xsl:text>
                                  </message>
                               </xsl:otherwise>
                            </xsl:choose>

@@ -1787,7 +1787,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/boolean-test/as.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1795,7 +1795,8 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/boolean-test/as.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@as \| @href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @as should be error'\): Boolean @test must$"
+    [ "${lines[7]}" = "  not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1803,7 +1804,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/boolean-test/child-node.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Boolean @test with child node should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1811,7 +1812,8 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/boolean-test/child-node.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@as \| @href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with child node should be error'\): Boolean$"
+    [ "${lines[7]}" = "  @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1819,7 +1821,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/boolean-test/href.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1827,7 +1829,8 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/boolean-test/href.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@as \| @href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @href should be error'\): Boolean @test$"
+    [ "${lines[7]}" = "  must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1835,7 +1838,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/boolean-test/select.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1843,7 +1846,8 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/boolean-test/select.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@as \| @href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @select should be error'\): Boolean @test$"
+    [ "${lines[7]}" = "  must not be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1855,7 +1859,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/non-boolean-test/empty.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1863,7 +1867,9 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/non-boolean-test/empty.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@as \| @href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(empty sequence\) with no comparison$"
+    [ "${lines[7]}" = "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be" ]
+    [ "${lines[8]}" = "  accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1871,7 +1877,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/non-boolean-test/multiple-boolean.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1879,7 +1885,9 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/non-boolean-test/multiple-boolean.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@as \| @href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(multiple xs:boolean\) with no comparison$"
+    [ "${lines[7]}" = "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be" ]
+    [ "${lines[8]}" = "  accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1887,7 +1895,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/non-boolean-test/node.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1895,7 +1903,9 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/non-boolean-test/node.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@as \| @href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(node\) with no comparison factors should$"
+    [ "${lines[7]}" = "  be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as," ]
+    [ "${lines[8]}" = "  @href, @select, or child node." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
