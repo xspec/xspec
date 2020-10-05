@@ -19,6 +19,24 @@
       </xsl:message>
    </xsl:template>
 
+   <!-- Checks max x:param/@position. The caller of this template must ensure that the current
+      scenario (not its descendant scenario) is going to run SUT. -->
+   <xsl:template name="x:check-param-max-position" as="empty-sequence()">
+      <xsl:context-item as="element(x:scenario)" use="required" />
+
+      <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
+
+      <xsl:variable name="max-param-position" as="xs:integer?"
+         select="max($call/x:param ! xs:integer(@position))" />
+      <xsl:if test="$max-param-position gt count($call/x:param)">
+         <xsl:call-template name="x:error-compiling-scenario">
+            <xsl:with-param name="message" as="xs:string">
+               <xsl:text expand-text="yes">Too large parameter position, {$max-param-position}, used in {name($call)}.</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
+      </xsl:if>
+   </xsl:template>
+
    <!-- Returns a text node of the function call expression. The names of the function and the
       parameter variables are URIQualifiedName. -->
    <xsl:function name="x:function-call-text" as="text()">
