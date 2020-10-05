@@ -6,21 +6,21 @@
 		<x:call function="mirror:param-mirror">
 			<x:param>}{<elem attr="}}{{">}{</elem></x:param>
 		</x:call>
-		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
 		 />
 	</x:scenario>
 
 	<x:param name="global-param">}{<elem attr="}}{{">}{</elem></x:param>
 	<x:scenario label="global-param containing curly brackets">
 		<x:call function="mirror:false" />
-		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
 			test="$global-param treat as node()+" />
 	</x:scenario>
 
 	<x:variable name="myv:global-var">}{<elem attr="}}{{">}{</elem></x:variable>
 	<x:scenario label="global-var containing curly brackets">
 		<x:call function="mirror:false" />
-		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
 			test="$myv:global-var treat as node()+" />
 	</x:scenario>
 
@@ -29,7 +29,7 @@
 		<x:call function="mirror:param-mirror">
 			<x:param select="$myv:local-var" />
 		</x:call>
-		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node() treat as node()+"
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
 		 />
 	</x:scenario>
 
@@ -47,7 +47,7 @@
 				<x:param select="$myv:local-var2" />
 			</x:call>
 			<x:expect href="issue-450-451.xml" label="should work"
-				select="wrap/node() treat as node()+" />
+				select="wrap/node()" as="node()+" />
 		</x:scenario>
 		<x:scenario label="assertion containing curly brackets">
 			<x:call function="mirror:param-mirror">

@@ -42,4 +42,11 @@
 		<x:expect label="@as doesn't break the variable" test="$myv:local-var instance of xs:integer" />
 	</x:scenario>
 
+	<x:scenario label="In assertion (i.e. //x:expect),">
+		<x:call function="mirror:param-mirror">
+			<x:param select="0" />
+		</x:call>
+		<x:expect as="xs:integer" label="@as doesn't break the assertion" select="0" />
+	</x:scenario>
+
 </x:description>

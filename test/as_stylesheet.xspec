@@ -7,7 +7,7 @@
 
 	<!--
 		To test xspec/xspec#894 properly, 'local-xs' and 'polymorph' namespace prefixes must be
-		declared only in //(x:param|x:variable)[@as] (and //x:expect in case of absolute necessity).
+		declared only in //x:*[@as] where @as is being tested.
 	-->
 
 	<x:scenario label="In context template-param (i.e. //x:context/x:param), when @as uses a prefix defined in x:param,">
@@ -15,6 +15,13 @@
 			<x:param as="local-xs:double" name="param-items" select="xs:integer(0)" xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
 			<dummy />
 		</x:context>
+		<x:expect label="@as takes effect" test="$x:result instance of xs:double" />
+	</x:scenario>
+
+	<x:scenario label="In context (i.e. //x:context), when @as uses a prefix defined in x:context,">
+		<x:context as="local-xs:double" select="xs:integer(0)"
+			xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
+		<x:call template="mirror:context-mirror" />
 		<x:expect label="@as takes effect" test="$x:result instance of xs:double" />
 	</x:scenario>
 
@@ -35,7 +42,7 @@
 				<x:param as="polymorph:string" select="'label'" xmlns:polymorph="http://www.w3.org/2001/XMLSchema" />
 			</x:call>
 			<x:expect label="@as doesn't break the params"
-				test="$x:result instance of element(polymorph:element)" xmlns:polymorph="param-1-ns" />
+				test="$x:result instance of element(Q{param-1-ns}element)" />
 		</x:scenario>
 	</x:scenario>
 
@@ -63,4 +70,13 @@
 		<x:context />
 		<x:expect label="@as takes effect" test="$myv:local-var instance of xs:double" />
 	</x:scenario>
+
+	<x:scenario label="In assertion (i.e. //x:expect), when @as uses a prefix defined in x:expect,">
+		<x:call function="mirror:param-mirror">
+			<x:param select="xs:integer(0)" />
+		</x:call>
+		<x:expect as="local-xs:integer" label="@as takes effect"
+			xmlns:local-xs="http://www.w3.org/2001/XMLSchema">0</x:expect>
+	</x:scenario>
+
 </x:description>

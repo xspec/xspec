@@ -1,153 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:use-uqname" query-at="use-uqname.xqm" stylesheet="use-uqname.xsl"
-	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:use-uqname="x-urn:test:use-uqname"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
+	<!-- Leading and trailing whitespace strings ('&#x09;&#x0A;&#x0D;&#x20;') are inserted to the
+		tested attributes deliberately.
+		'&#x0D;' is removed from @select and @test. It doesn't work on XQuery. TODO: Investigate it. -->
 
-	<x:scenario label="Using URIQualifiedName in function-call @function and function-param @name">
-		<x:call
-			function="
-				&#x09;&#x0A;&#x0D;&#x20;
-				Q{x-urn:test:use-uqname}param-mirror-function
-				&#x09;&#x0A;&#x0D;&#x20;">
-			<x:param
+	<x:param
+		as="
+			&#x09;&#x0A;&#x0D;&#x20;
+			element(Q{x-urn:test:use-uqname}global-param-child)
+			&#x09;&#x0A;&#x0D;&#x20;"
+		name="
+			&#x09;&#x0A;&#x0D;&#x20;
+			Q{x-urn:test:use-uqname}global-param
+			&#x09;&#x0A;&#x0D;&#x20;"
+		select="
+			&#x09;&#x0A;&#x20;
+			element(Q{x-urn:test:use-uqname}global-param-child)
+			&#x09;&#x0A;&#x20;">
+		<use-uqname:global-param-child />
+	</x:param>
+
+	<x:variable
+		as="
+			&#x09;&#x0A;&#x0D;&#x20;
+			element(Q{x-urn:test:use-uqname}global-variable-child)
+			&#x09;&#x0A;&#x0D;&#x20;"
+		name="
+			&#x09;&#x0A;&#x0D;&#x20;
+			Q{x-urn:test:use-uqname}global-variable
+			&#x09;&#x0A;&#x0D;&#x20;"
+		select="
+			&#x09;&#x0A;&#x20;
+			Q{x-urn:test:use-uqname}global-variable-child
+			&#x09;&#x0A;&#x20;">
+		<use-uqname:global-variable-child />
+	</x:variable>
+
+	<x:scenario label="Using URIQualifiedName in">
+
+		<x:scenario label="global-param (@as | @name | @select)">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$use-uqname:global-param" />
+			</x:call>
+			<x:expect label="should be possible">
+				<use-uqname:global-param-child />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="global variable (@as | @name | @select)">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$use-uqname:global-variable" />
+			</x:call>
+			<x:expect label="should be possible">
+				<use-uqname:global-variable-child />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="local variable (@as | @name | @select)">
+			<x:variable
+				as="
+					&#x09;&#x0A;&#x0D;&#x20;
+					element(Q{x-urn:test:use-uqname}local-variable-child)
+					&#x09;&#x0A;&#x0D;&#x20;"
 				name="
 					&#x09;&#x0A;&#x0D;&#x20;
-					Q{x-urn:test:use-uqname}param-items
-					&#x09;&#x0A;&#x0D;&#x20;">
-				<function-param-child />
-			</x:param>
-		</x:call>
-		<x:expect label="should be possible">
-			<function-param-child />
-		</x:expect>
-	</x:scenario>
+					Q{x-urn:test:use-uqname}local-variable
+					&#x09;&#x0A;&#x0D;&#x20;"
+				select="
+					&#x09;&#x0A;&#x20;
+					Q{x-urn:test:use-uqname}local-variable-child
+					&#x09;&#x0A;&#x20;">
+				<use-uqname:local-variable-child />
+			</x:variable>
+			<x:call function="mirror:param-mirror">
+				<x:param select="$use-uqname:local-variable" />
+			</x:call>
+			<x:expect label="should be possible">
+				<use-uqname:local-variable-child />
+			</x:expect>
+		</x:scenario>
 
-	<x:scenario label="Using URIQualifiedName in function-param @as">
-		<x:call function="Q{x-urn:test:use-uqname}param-mirror-function">
-			<x:param
+		<x:scenario label="local variable @name, with local part 'result' and non-XSpec namespace,">
+			<x:call function="mirror:param-mirror">
+				<x:param select="'result of function call'" />
+			</x:call>
+			<x:variable
+				name="
+					&#x09;&#x0A;&#x0D;&#x20;
+					Q{x-urn:test:use-uqname}result
+					&#x09;&#x0A;&#x0D;&#x20;"
+				select="'local variable value'" />
+			<x:expect label="has no conflict with $x:result" select="'local variable value'"
+				test="$use-uqname:result treat as xs:string" />
+			<x:expect label="while $x:result is preserved"
+				test="($x:result treat as xs:string) eq 'result of function call'" />
+		</x:scenario>
+
+		<x:scenario label="function-call @function and function-param (@as | @name | @select)">
+			<x:call
+				function="
+					&#x09;&#x0A;&#x0D;&#x20;
+					Q{x-urn:test:mirror}param-mirror
+					&#x09;&#x0A;&#x0D;&#x20;">
+				<x:param
+					as="
+						&#x09;&#x0A;&#x0D;&#x20;
+						element(Q{x-urn:test:use-uqname}function-param-child)
+						&#x09;&#x0A;&#x0D;&#x20;"
+					name="
+						&#x09;&#x0A;&#x0D;&#x20;
+						Q{}param-items
+						&#x09;&#x0A;&#x0D;&#x20;"
+					select="
+						&#x09;&#x0A;&#x20;
+						element(Q{x-urn:test:use-uqname}function-param-child)
+						&#x09;&#x0A;&#x20;">
+					<use-uqname:function-param-child />
+				</x:param>
+			</x:call>
+			<x:expect label="should be possible">
+				<use-uqname:function-param-child />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="assertion">
+			<x:call function="false" />
+			<x:expect
 				as="
 					&#x09;&#x0A;&#x0D;&#x20;
 					Q{http://www.w3.org/2001/XMLSchema}string
 					&#x09;&#x0A;&#x0D;&#x20;"
-				name="Q{x-urn:test:use-uqname}param-items" select="'xyz'" />
-		</x:call>
-		<x:expect label="should be possible" select="$x:result treat as xs:string"
-			test="$x:result treat as xs:string" />
-	</x:scenario>
+				label="(@as | @select) and non-boolean @test should be possible"
+				select="
+					&#x09;&#x0A;&#x20;
+					'xyz' treat as Q{http://www.w3.org/2001/XMLSchema}string
+					&#x09;&#x0A;&#x20;"
+				test="
+					&#x09;&#x0A;&#x20;
+					'xyz' treat as Q{http://www.w3.org/2001/XMLSchema}string
+					&#x09;&#x0A;&#x20;" />
+			<x:expect label="boolean @test should be possible"
+				test="
+					&#x09;&#x0A;&#x20;
+					true() treat as Q{http://www.w3.org/2001/XMLSchema}boolean
+					&#x09;&#x0A;&#x20;"
+			 />
+		</x:scenario>
 
-	<x:param
-		name="
-			&#x09;&#x0A;&#x0D;&#x20;
-			Q{x-urn:test:use-uqname}global-param
-			&#x09;&#x0A;&#x0D;&#x20;">
-		<global-param-child />
-	</x:param>
-	<x:scenario label="Using URIQualifiedName in global-param @name">
-		<x:call function="false" />
-		<x:expect label="should be possible as well as in assertion @select and @test"
-			select="$Q{x-urn:test:use-uqname}global-param treat as element(global-param-child)"
-			test="$Q{x-urn:test:use-uqname}global-param treat as element(global-param-child)" />
-		<x:expect label="and boolean @test"
-			test="$Q{x-urn:test:use-uqname}global-param instance of element(global-param-child)" />
-	</x:scenario>
-
-	<x:param
-		as="
-			&#x09;&#x0A;&#x0D;&#x20;
-			Q{http://www.w3.org/2001/XMLSchema}string
-			&#x09;&#x0A;&#x0D;&#x20;"
-		name="Q{x-urn:test:use-uqname}global-string-param" select="'xyz'" />
-	<x:scenario label="Using URIQualifiedName in global-param @as">
-		<x:call function="false" />
-		<x:expect label="should be possible"
-			select="$Q{x-urn:test:use-uqname}global-string-param treat as xs:string"
-			test="$Q{x-urn:test:use-uqname}global-string-param treat as xs:string" />
-	</x:scenario>
-
-	<x:variable as="element(global-var-child)"
-		name="
-			&#x09;&#x0A;&#x0D;&#x20;
-			Q{http://example.org/ns/my/variable}global-var
-			&#x09;&#x0A;&#x0D;&#x20;"
-		select="/Q{}global-var-child">
-		<global-var-child />
-	</x:variable>
-	<x:scenario label="Using URIQualifiedName in global variable @name and @select">
-		<x:call function="false" />
-		<x:expect label="should be possible as well as in assertion @select and @test"
-			select="$Q{http://example.org/ns/my/variable}global-var treat as element(Q{}global-var-child)"
-			test="$Q{http://example.org/ns/my/variable}global-var treat as element(Q{}global-var-child)" />
-		<x:expect label="and boolean @test"
-			test="$Q{http://example.org/ns/my/variable}global-var instance of element(Q{}global-var-child)"
-		 />
-	</x:scenario>
-	<x:variable
-		as="
-			&#x09;&#x0A;&#x0D;&#x20;
-			Q{http://www.w3.org/2001/XMLSchema}string
-			&#x09;&#x0A;&#x0D;&#x20;"
-		name="Q{http://example.org/ns/my/variable}global-string-var" select="'xyz'" />
-	<x:scenario label="Using URIQualifiedName in global variable @as">
-		<x:call function="false" />
-		<x:expect label="should be possible"
-			select="$Q{http://example.org/ns/my/variable}global-string-var treat as xs:string"
-			test="$Q{http://example.org/ns/my/variable}global-string-var treat as xs:string" />
-	</x:scenario>
-
-	<x:scenario label="Using URIQualifiedName in local variable @name and @select">
-		<x:variable as="element(variable-child)"
-			name="
-				&#x09;&#x0A;&#x0D;&#x20;
-				Q{http://example.org/ns/my/variable}var
-				&#x09;&#x0A;&#x0D;&#x20;"
-			select="/Q{}variable-child">
-			<variable-child />
-		</x:variable>
-		<x:call function="Q{x-urn:test:use-uqname}param-mirror-function">
-			<x:param name="Q{x-urn:test:use-uqname}param-items"
-				select="$Q{http://example.org/ns/my/variable}var" />
-		</x:call>
-		<x:expect label="should be possible as well as in function-param @select">
-			<variable-child />
-		</x:expect>
-		<x:expect label="and assertion @select and @test"
-			select="$Q{http://example.org/ns/my/variable}var treat as element(Q{}variable-child)"
-			test="$Q{http://example.org/ns/my/variable}var treat as element(Q{}variable-child)" />
-		<x:expect label="and boolean @test"
-			test="$Q{http://example.org/ns/my/variable}var instance of element(variable-child)" />
-	</x:scenario>
-
-	<x:scenario
-		label="Using URIQualifiedName in local variable @name, with local part 'result' and non-XSpec namespace,">
-		<x:call function="Q{x-urn:test:use-uqname}param-mirror-function">
-			<x:param select="'result of function call'" />
-		</x:call>
-		<x:variable as="element(variable-child)" name="Q{http://example.org/ns/my/variable}result"
-			select="/Q{}variable-child">
-			<variable-child />
-		</x:variable>
-		<x:expect label="has no conflict with $x:result"
-			select="$Q{http://example.org/ns/my/variable}result treat as element(Q{}variable-child)"
-			test="$Q{http://example.org/ns/my/variable}result treat as element(Q{}variable-child)" />
-		<x:expect label="while $x:result is preserved"
-			test="($x:result eq 'result of function call') and
-			($Q{http://www.jenitennison.com/xslt/xspec}result eq 'result of function call')"
-		 />
-	</x:scenario>
-
-	<x:scenario label="Using URIQualifiedName in local variable @as">
-		<x:variable
-			as="
-				&#x09;&#x0A;&#x0D;&#x20;
-				Q{http://www.w3.org/2001/XMLSchema}string
-				&#x09;&#x0A;&#x0D;&#x20;"
-			name="Q{http://example.org/ns/my/variable}string-var" select="'xyz'" />
-		<x:call function="false" />
-		<x:expect label="should be possible"
-			select="$Q{http://example.org/ns/my/variable}string-var treat as xs:string"
-			test="$Q{http://example.org/ns/my/variable}string-var treat as xs:string" />
 	</x:scenario>
 
 </x:description>

@@ -3,7 +3,7 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Template context">
-		<x:context select="//context-grandchild treat as element(context-grandchild)">
+		<x:context select="//context-grandchild" as="element(context-grandchild)">
 			<context-child>
 				<context-grandchild />
 			</context-child>
