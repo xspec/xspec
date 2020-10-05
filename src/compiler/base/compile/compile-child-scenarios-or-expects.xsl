@@ -132,16 +132,18 @@
          </xsl:choose>
       </xsl:variable>
 
-      <!-- Check duplicate parameter name -->
-      <xsl:for-each select="$new-apply, $new-call, $new-context">
-         <xsl:variable name="param-owner-name" as="xs:string" select="name()" />
-         <xsl:variable name="param-uqnames" as="xs:string*" select="x:param ! x:variable-UQName(.)" />
-         <xsl:for-each select="$param-uqnames[subsequence($param-uqnames, 1, position() - 1) = .]">
-            <xsl:message terminate="yes">
-               <xsl:text expand-text="yes">Duplicate parameter name, {.}, used in {$param-owner-name}.</xsl:text>
-            </xsl:message>
-         </xsl:for-each>
-      </xsl:for-each>
+      <!-- Check duplicate parameter name/position-->
+      <xsl:variable name="dup-param-error-string" as="xs:string?"
+         select="
+            (
+               ($new-apply, $new-call, $new-context) ! local:param-dup-name-error-string(.),
+               $new-call[@function] ! local:param-dup-position-error-string(.)
+            )[1]" />
+      <xsl:if test="$dup-param-error-string">
+         <xsl:call-template name="x:error-compiling-scenario">
+            <xsl:with-param name="message" select="$dup-param-error-string" />
+         </xsl:call-template>
+      </xsl:if>
 
       <!-- Check x:apply -->
       <!-- TODO: Remove this after implementing x:apply -->
@@ -183,5 +185,32 @@
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>
+
+   <!--
+      Local functions
+   -->
+
+   <!-- Returns an error string if the given element has duplicate x:param/@name -->
+   <xsl:function name="local:param-dup-name-error-string" as="xs:string?">
+      <!-- x:apply, x:call or x:context -->
+      <xsl:param name="owner" as="element()" />
+
+      <xsl:variable name="uqnames" as="xs:string*"
+         select="$owner/x:param ! x:variable-UQName(.)" />
+      <xsl:for-each select="$uqnames[subsequence($uqnames, 1, position() - 1) = .][1]">
+         <xsl:text expand-text="yes">Duplicate parameter name, {.}, used in {name($owner)}.</xsl:text>
+      </xsl:for-each>
+   </xsl:function>
+
+   <!-- Returns an error string if the given element has duplicate x:param/@position -->
+   <xsl:function name="local:param-dup-position-error-string" as="xs:string?">
+      <xsl:param name="owner" as="element(x:call)" />
+
+      <xsl:variable name="positions" as="xs:integer*"
+         select="$owner/x:param ! xs:integer(@position)" />
+      <xsl:for-each select="$positions[subsequence($positions, 1, position() - 1) = .][1]">
+         <xsl:text expand-text="yes">Duplicate parameter position, {.}, used in {name($owner)}.</xsl:text>
+      </xsl:for-each>
+   </xsl:function>
 
 </xsl:stylesheet>
