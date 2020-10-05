@@ -136,7 +136,7 @@ label =
 
 variable =
 	## A test file can define global variables. A scenario can define local variables.
-	element variable { common-attributes, name, as?, selection }
+	element variable { common-attributes, name, selection }
 
 shared = 
 	## There are shared scenarios (shared="yes") and unshared scenarios (shared="no",
@@ -223,7 +223,7 @@ global-param =
 	## Global parameters are set globally, for the entire unit test suite. There's
 	## no way to set global parameters within a particular scenario (due to
 	## constraints on implementation).
-	element param { common-attributes, name, as?, static?, selection }
+	element param { common-attributes, name, static?, selection }
 
 static = 
 	## EXPERIMENTAL. Subject to change. Not supported for XQuery and Schematron.
@@ -231,11 +231,11 @@ static =
 	attribute static { boolean.datatype }
 
 template-param = element param { common-attributes, 
-                                 name, as?, 
+                                 name,
                                  attribute tunnel { boolean.datatype }?, selection }
 
 function-param = element param { common-attributes,
-                                 name?, as?, position?, selection }
+                                 name?, position?, selection }
 
 name = attribute name { eqname.datatype }
 
@@ -243,7 +243,7 @@ position = attribute position { xsd:positiveInteger }
 
 as = attribute as { text }
 
-selection = node-selection | value-selection
+selection = as?, (node-selection | value-selection)
 
 node-selection = (
                  ## The document URI (location) of the selected document.

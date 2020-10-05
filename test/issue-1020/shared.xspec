@@ -3,7 +3,7 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario label="&amp;&apos;&gt;&lt;&quot;}{" shared="yes">
-		<x:expect label="Expected string" select="string()[string-length() eq 7] treat as xs:string"
+		<x:expect label="Expected string" select="string()[string-length() eq 7]" as="xs:string"
 			>&amp;&apos;&gt;&lt;&quot;}{</x:expect>
 	</x:scenario>
 

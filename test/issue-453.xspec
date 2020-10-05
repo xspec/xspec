@@ -15,7 +15,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(xsl:element)">
+				select="element()" as="element(xsl:element)">
 				<xsl:element />
 			</x:expect>
 			<x:expect label="name()" select="'xsl:element'" test="name($x:result)" />
@@ -30,7 +30,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(stylesheet:element)">
+				select="element()" as="element(stylesheet:element)">
 				<stylesheet:element />
 			</x:expect>
 			<x:expect label="name()" select="'stylesheet:element'" test="name($x:result)" />
@@ -45,7 +45,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(xsl:element)">
+				select="element()" as="element(xsl:element)">
 				<element />
 			</x:expect>
 			<x:expect label="name()" select="'element'" test="name($x:result)" />
@@ -62,7 +62,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same attribute should be Success"
-				select="*/@* treat as attribute(xsl:use-when)">
+				select="*/@*" as="attribute(xsl:use-when)">
 				<issue-453:foo xsl:use-when="false()" />
 			</x:expect>
 			<x:expect label="name()" select="'xsl:use-when'" test="name($x:result)" />
@@ -77,7 +77,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same attribute should be Success"
-				select="*/@* treat as attribute(stylesheet:use-when)">
+				select="*/@*" as="attribute(stylesheet:use-when)">
 				<issue-453:foo stylesheet:use-when="false()" />
 			</x:expect>
 			<x:expect label="name()" select="'stylesheet:use-when'" test="name($x:result)" />
@@ -94,7 +94,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(issue-453:foo)">
+				select="element()" as="element(issue-453:foo)">
 				<issue-453:foo xsl:use-when="false()" />
 			</x:expect>
 			<x:expect label="name()" select="'xsl:use-when'" test="name($x:result/@*)" />
@@ -109,7 +109,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(issue-453:foo)">
+				select="element()" as="element(issue-453:foo)">
 				<issue-453:foo stylesheet:use-when="false()" />
 			</x:expect>
 			<x:expect label="name()" select="'stylesheet:use-when'" test="name($x:result/@*)" />

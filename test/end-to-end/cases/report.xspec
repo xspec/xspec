@@ -71,7 +71,7 @@
 			</x:call>
 			<x:expect
 				label="XPath should be colored as different. Serialized node should be colored as same."
-				select="element() treat as element()">
+				select="element()" as="element()">
 				<test />
 			</x:expect>
 		</x:scenario>
@@ -84,7 +84,7 @@
 			</x:call>
 			<x:expect
 				label="XPath should be colored as different. Serialized node should be colored as same."
-				select="/self::document-node() treat as document-node()">
+				select="/self::document-node()" as="document-node()">
 				<test />
 			</x:expect>
 		</x:scenario>

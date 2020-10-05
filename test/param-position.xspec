@@ -23,14 +23,15 @@
 		<x:expect label="The parameters are picked up in @position order" select="'abcd'" />
 	</x:scenario>
 
-	<x:scenario label="When all instances of function-param have the same @position">
+	<x:scenario label="When multiple instances of function-param @position are not consecutive">
 		<x:call function="param-position:join">
-			<x:param position="1" select="'a'" />
-			<x:param position="1" select="'b'" />
-			<x:param position="1" select="'c'" />
-			<x:param position="1" select="'d'" />
+			<x:param position="7" select="'c'" />
+			<x:param position="9" select="'d'" />
+			<x:param position="3" select="'a'" />
+			<x:param position="5" select="'b'" />
 		</x:call>
-		<x:expect label="The parameters are picked up in document order" select="'abcd'" />
+		<x:expect label="The parameters are picked up in relative @position order" select="'abcd'"
+		 />
 	</x:scenario>
 
 	<x:scenario label="When instances of function-param with or without @position are interleaved">

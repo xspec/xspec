@@ -1,80 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test require-saxon-bug-3889-fixed?>
 <!-- Copy of use-uqname_stylesheet.xspec with x: prefix removed -->
-<description stylesheet="use-uqname.xsl" xmlns="http://www.jenitennison.com/xslt/xspec"
-	xmlns:myv="http://example.org/ns/my/variable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:use-uqname="x-urn:test:use-uqname" xmlns="http://www.jenitennison.com/xslt/xspec">
 
-	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted to names deliberately -->
+	<!-- Leading and trailing whitespace strings ('&#x09;&#x0A;&#x0D;&#x20;') are inserted to the
+		tested attributes deliberately. -->
 
 	<scenario label="Using URIQualifiedName in">
-		<scenario label="context @mode and template-param @name">
+
+		<scenario label="context @mode and context template-param (@as | @name | @select)">
 			<context
 				mode="
 					&#x09;&#x0A;&#x0D;&#x20;
-					Q{x-urn:test:use-uqname}param-mirror-mode
+					Q{x-urn:test:mirror}param-mirror
 					&#x09;&#x0A;&#x0D;&#x20;">
-				<param
-					name="
-						&#x09;&#x0A;&#x0D;&#x20;
-						Q{x-urn:test:use-uqname}param-items
-						&#x09;&#x0A;&#x0D;&#x20;">
-					<template-param-child xmlns="" />
-				</param>
-				<context-child xmlns="" />
-			</context>
-			<expect label="should be possible">
-				<template-param-child xmlns="" />
-			</expect>
-		</scenario>
-
-		<scenario label="context @select and template-param @select">
-			<variable as="element(context-child)" name="myv:context" select="/Q{}context-child">
-				<context-child xmlns="" />
-			</variable>
-			<variable as="element(variable-child)" name="myv:var" select="/Q{}variable-child">
-				<variable-child xmlns="" />
-			</variable>
-			<context mode="Q{x-urn:test:use-uqname}param-mirror-mode"
-				select="$Q{http://example.org/ns/my/variable}context">
-				<param name="Q{x-urn:test:use-uqname}param-items"
-					select="$Q{http://example.org/ns/my/variable}var" />
-			</context>
-			<expect label="should be possible">
-				<variable-child xmlns="" />
-			</expect>
-		</scenario>
-
-		<scenario label="template-call @template and template-param @name">
-			<call
-				template="
-					&#x09;&#x0A;&#x0D;&#x20;
-					Q{x-urn:test:use-uqname}param-mirror-template
-					&#x09;&#x0A;&#x0D;&#x20;">
-				<param
-					name="
-						&#x09;&#x0A;&#x0D;&#x20;
-						Q{x-urn:test:use-uqname}param-items
-						&#x09;&#x0A;&#x0D;&#x20;">
-					<template-param-child xmlns="" />
-				</param>
-			</call>
-			<expect label="should be possible">
-				<template-param-child xmlns="" />
-			</expect>
-		</scenario>
-
-		<scenario label="template-param @as">
-			<call template="Q{x-urn:test:use-uqname}param-mirror-template">
 				<param
 					as="
 						&#x09;&#x0A;&#x0D;&#x20;
-						Q{http://www.w3.org/2001/XMLSchema}string
+						element(Q{x-urn:test:use-uqname}template-param-child)
 						&#x09;&#x0A;&#x0D;&#x20;"
-					name="Q{x-urn:test:use-uqname}param-items" select="'xyz'" />
+					name="
+						&#x09;&#x0A;&#x0D;&#x20;
+						Q{}param-items
+						&#x09;&#x0A;&#x0D;&#x20;"
+					select="
+						&#x09;&#x0A;&#x0D;&#x20;
+						element(Q{x-urn:test:use-uqname}template-param-child)
+						&#x09;&#x0A;&#x0D;&#x20;">
+					<use-uqname:template-param-child />
+				</param>
+				<use-uqname:context-child />
+			</context>
+			<expect label="should be possible">
+				<use-uqname:template-param-child />
+			</expect>
+		</scenario>
+
+		<scenario label="context (@as | @select)">
+			<context
+				as="
+					&#x09;&#x0A;&#x0D;&#x20;
+					element(Q{x-urn:test:use-uqname}context-child)
+					&#x09;&#x0A;&#x0D;&#x20;"
+				select="
+					&#x09;&#x0A;&#x0D;&#x20;
+					element(Q{x-urn:test:use-uqname}context-child)
+					&#x09;&#x0A;&#x0D;&#x20;">
+				<use-uqname:context-child />
+			</context>
+			<call template="mirror:context-mirror" />
+			<expect label="should be possible">
+				<use-uqname:context-child />
+			</expect>
+		</scenario>
+
+		<scenario
+			label="template-call @template and template-call template-param (@as | @name | @select)">
+			<call
+				template="
+					&#x09;&#x0A;&#x0D;&#x20;
+					Q{x-urn:test:mirror}param-mirror
+					&#x09;&#x0A;&#x0D;&#x20;">
+				<param
+					as="
+						&#x09;&#x0A;&#x0D;&#x20;
+						element(Q{x-urn:test:use-uqname}template-param-child)
+						&#x09;&#x0A;&#x0D;&#x20;"
+					name="
+						&#x09;&#x0A;&#x0D;&#x20;
+						Q{}param-items
+						&#x09;&#x0A;&#x0D;&#x20;"
+					select="
+						&#x09;&#x0A;&#x0D;&#x20;
+						Q{x-urn:test:use-uqname}template-param-child
+						&#x09;&#x0A;&#x0D;&#x20;">
+					<use-uqname:template-param-child />
+				</param>
 			</call>
-			<expect label="should be possible"
-				select="$Q{http://www.jenitennison.com/xslt/xspec}result treat as xs:string"
-				test="$Q{http://www.jenitennison.com/xslt/xspec}result treat as xs:string" />
+			<expect label="should be possible">
+				<use-uqname:template-param-child />
+			</expect>
 		</scenario>
 
 	</scenario>
