@@ -157,7 +157,7 @@
 					<elem attrib="val" />
 				</x:param>
 			</x:call>
-			<x:expect select="elem/@* treat as attribute(attrib)">
+			<x:expect select="elem/@*" as="attribute(attrib)">
 				<x:label>expecting<![CDATA[
 					 @attrib="..."
 					]]>should be Success</x:label>
@@ -175,7 +175,7 @@
 					<elem attrib="" />
 				</x:param>
 			</x:call>
-			<x:expect select="elem/@* treat as attribute(attrib)">
+			<x:expect select="elem/@*" as="attribute(attrib)">
 				<x:label>expecting<![CDATA[
 					 @attrib="..."
 					]]>should be Success</x:label>
@@ -192,7 +192,7 @@
 					<elem attrib="..." />
 				</x:param>
 			</x:call>
-			<x:expect select="elem/@* treat as attribute(attrib)">
+			<x:expect select="elem/@*" as="attribute(attrib)">
 				<x:label>expecting<![CDATA[
 					 @attrib="..."
 					]]>should be Success</x:label>
@@ -200,7 +200,7 @@
 			</x:expect>
 			<x:expect label="expecting ... should be Success">...</x:expect>
 
-			<x:expect select="elem/@* treat as attribute(attrib)">
+			<x:expect select="elem/@*" as="attribute(attrib)">
 				<x:label>expecting<![CDATA[
 					 @attrib="val"
 					]]>should be Failure</x:label>
@@ -498,14 +498,14 @@
 					<elem1 /><elem2 />
 				</x:param>
 			</x:call>
-			<x:expect select="wrap/node() treat as node()+">
+			<x:expect select="wrap/node()" as="node()+">
 				<x:label>expecting<![CDATA[
 					  ...<elem2 />
 					]]>should be Success</x:label>
 				<wrap>...<elem2 /></wrap>
 			</x:expect>
 			<x:expect label="expecting sequence of two ... should be Success"
-				select="wrap/text() treat as text()+">
+				select="wrap/text()" as="text()+">
 				<wrap>...</wrap>
 				<wrap>...</wrap>
 			</x:expect>
@@ -513,7 +513,7 @@
 			<x:expect label="expecting ... should be Failure">...</x:expect>
 			<x:expect label="expecting ...... should be Failure">......</x:expect>
 			<x:expect label="expecting sequence of three ... should be Failure"
-				select="wrap/text() treat as text()+">
+				select="wrap/text()" as="text()+">
 				<wrap>...</wrap>
 				<wrap>...</wrap>
 				<wrap>...</wrap>

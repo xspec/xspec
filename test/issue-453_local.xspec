@@ -13,7 +13,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(Q{http://www.w3.org/1999/XSL/Transform}element)">
+				select="element()" as="element(Q{http://www.w3.org/1999/XSL/Transform}element)">
 				<xsl:element xmlns:xsl="http://www.w3.org/1999/XSL/Transform" />
 			</x:expect>
 			<x:expect label="name()" select="'xsl:element'" test="name($x:result)" />
@@ -28,7 +28,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(Q{http://www.w3.org/1999/XSL/Transform}element)">
+				select="element()" as="element(Q{http://www.w3.org/1999/XSL/Transform}element)">
 				<stylesheet:element xmlns:stylesheet="http://www.w3.org/1999/XSL/Transform" />
 			</x:expect>
 			<x:expect label="name()" select="'stylesheet:element'" test="name($x:result)" />
@@ -43,7 +43,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(Q{http://www.w3.org/1999/XSL/Transform}element)">
+				select="element()" as="element(Q{http://www.w3.org/1999/XSL/Transform}element)">
 				<element xmlns="http://www.w3.org/1999/XSL/Transform" />
 			</x:expect>
 			<x:expect label="name()" select="'element'" test="name($x:result)" />
@@ -61,7 +61,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same attribute should be Success"
-				select="*/@* treat as attribute(Q{http://www.w3.org/1999/XSL/Transform}use-when)">
+				select="*/@*" as="attribute(Q{http://www.w3.org/1999/XSL/Transform}use-when)">
 				<foo xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xsl:use-when="false()" />
 			</x:expect>
 			<x:expect label="name()" select="'xsl:use-when'" test="name($x:result)" />
@@ -78,7 +78,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same attribute should be Success"
-				select="*/@* treat as attribute(Q{http://www.w3.org/1999/XSL/Transform}use-when)">
+				select="*/@*" as="attribute(Q{http://www.w3.org/1999/XSL/Transform}use-when)">
 				<foo stylesheet:use-when="false()"
 					xmlns:stylesheet="http://www.w3.org/1999/XSL/Transform" />
 			</x:expect>
@@ -96,7 +96,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(foo)">
+				select="element()" as="element(foo)">
 				<foo xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xsl:use-when="false()" />
 			</x:expect>
 			<x:expect label="name()" select="'xsl:use-when'" test="name($x:result/@*)" />
@@ -112,7 +112,7 @@
 				</x:param>
 			</x:call>
 			<x:expect label="Expecting the same element should be Success"
-				select="element() treat as element(foo)">
+				select="element()" as="element(foo)">
 				<foo stylesheet:use-when="false()"
 					xmlns:stylesheet="http://www.w3.org/1999/XSL/Transform" />
 			</x:expect>
