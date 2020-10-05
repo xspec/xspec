@@ -1925,7 +1925,7 @@ load bats-helper
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[${#lines[@]}-3]}" '.+err:XPDY0002:'
+    assert_regex "${output}" $'\n''.+[: ]XPDY0002[: ]'
     assert_regex "${lines[${#lines[@]}-1]}" '^ERROR:'
 }
 
@@ -2509,7 +2509,7 @@ load bats-helper
     run ../bin/xspec.sh dup-param-name/function-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2517,7 +2517,7 @@ load bats-helper
     run ../bin/xspec.sh -q dup-param-name/function-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2525,7 +2525,7 @@ load bats-helper
     run ../bin/xspec.sh dup-param-name/context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:context." ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of context template-param (i.e. //x:context/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:context." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2533,7 +2533,7 @@ load bats-helper
     run ../bin/xspec.sh dup-param-name/template-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[4]}" = "Duplicate parameter name, Q{}left, used in x:call." ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of template-call template-param (i.e. //x:call[@template]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2565,4 +2565,22 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error converting Schematron into XSLT" ]
 }
 
+#
+# Duplicate @position
+#
 
+@test "Duplicate @position (XSLT)" {
+    run ../bin/xspec.sh bad-position/duplicate.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Duplicate @position (XQuery)" {
+    run ../bin/xspec.sh -q bad-position/duplicate.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[4]}" = "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}

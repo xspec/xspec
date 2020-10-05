@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="http://example.org/ns/my" query-at="../subtract.xqm"
-	stylesheet="../subtract.xsl" xmlns:my="http://example.org/ns/my"
+<x:description query="http://example.org/ns/my" query-at="subtract.xqm" stylesheet="subtract.xsl"
+	xml:base="../" xmlns:my="http://example.org/ns/my"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario

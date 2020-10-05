@@ -20,11 +20,9 @@
 
       <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable" />
-
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
-
-      <xsl:variable name="quoted-label" as="xs:string" select="$x:apos || x:label(.) || $x:apos" />
+      <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
 
       <xsl:if test="$context">
          <xsl:call-template name="x:error-compiling-scenario">
@@ -110,14 +108,13 @@
          </xsl:call-template>
       </xsl:for-each>
 
-      <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
-      <xsl:variable name="variable-name-of-actual-result-report" as="xs:string?"
-         select="'local:actual-result-report'[$run-sut-now]" />
-
       <xsl:sequence>
          <xsl:on-non-empty>
             <xsl:text>,&#x0A;</xsl:text>
          </xsl:on-non-empty>
+
+         <xsl:variable name="variable-name-of-actual-result-report" as="xs:string?"
+            select="'local:actual-result-report'[$run-sut-now]" />
 
          <xsl:if test="$run-sut-now">
             <!-- Set up variables containing the parameter values -->

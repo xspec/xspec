@@ -8,17 +8,18 @@
 
    <!--
       mode="x:gather-specs"
+
       This mode makes each spec less context-dependent by performing these transformations:
+
       * Discard x:import. (x:import must be resolved before applying this mode.)
       * Copy @xslt-version from x:description to descendant x:scenario (only when @xslt-version
-        has not been set by a previous process)
+        has not been set by a previous process).
       * Add @xspec (and @original-xspec if @xspec has already been set by a previous process) to
         each scenario. The goal is to record the absolute URI of originating .xspec file.
-      * Resolve x:*/@href and x:helper/(@query-at|@stylesheet) into absolute URI
-      * Discard whitespace-only text node in user-content unless otherwise specified by an ancestor
-      * Discard whitespace-only text node in non user-content unless it's in x:label
-      * Remove leading and trailing whitespace from names
-      * Wrap user-content text node in x:text resolving @expand-text specified by an ancestor
+      * Resolve x:*/@href and x:helper/(@query-at|@stylesheet) into absolute URI.
+      * Discard whitespace-only text node in non user-content unless it's in x:label.
+      * Remove leading and trailing whitespace from names.
+      * (See mode="local:gather-user-content" for user-content.)
    -->
    <xsl:mode name="x:gather-specs" on-multiple-match="fail" on-no-match="shallow-copy" />
 
@@ -90,8 +91,16 @@
 
    <!--
       mode="local:gather-user-content"
-      This mode works as a part of x:gather-specs mode and handles user-content. Once you enter this
-      mode, you never go back to x:gather-specs mode.
+
+      This mode works as a part of mode="x:gather-specs" and handles user-content by performing
+      these transformations:
+
+      * Error on obsolete x:space.
+      * Discard @x:expand-text.
+      * Discard whitespace-only text node unless otherwise specified by an ancestor.
+      * Wrap text node in x:text resolving @expand-text and @x:expand-text specified by an ancestor.
+
+      Once you enter this mode, you never go back to mode="x:gather-specs".
    -->
    <xsl:mode name="local:gather-user-content" on-multiple-match="fail" on-no-match="shallow-copy" />
 

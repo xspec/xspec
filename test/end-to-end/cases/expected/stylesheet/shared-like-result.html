@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for mirror.xsl (passed: 6 / pending: 0 / failed: 0 / total: 6)</title>
+      <title>Test Report for mirror.xsl (passed: 8 / pending: 0 / failed: 0 / total: 8)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -21,10 +21,10 @@
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 6</th>
+               <th class="totals">passed: 8</th>
                <th class="totals">pending: 0</th>
                <th class="totals">failed: 0</th>
-               <th class="totals">total: 6</th>
+               <th class="totals">total: 8</th>
             </tr>
          </thead>
          <tbody>
@@ -55,6 +55,20 @@
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">2</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario5">Unreferenced @shared=false</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario6">Unreferenced @shared=0</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
             </tr>
          </tbody>
       </table>
@@ -149,6 +163,44 @@
                <tr class="successful">
                   <td>This referenced and implicitly unshared x:expect should fire both at its original
                      x:scenario and x:like</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario5">
+         <h2 class="successful">Unreferenced @shared=false<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario5">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Unreferenced @shared=false</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>This unreferenced @shared=false x:expect should fire only at its original x:scenario</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario6">
+         <h2 class="successful">Unreferenced @shared=0<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario6">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Unreferenced @shared=0</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>This unreferenced @shared=0 x:expect should fire only at its original x:scenario</td>
                   <td>Success</td>
                </tr>
             </tbody>

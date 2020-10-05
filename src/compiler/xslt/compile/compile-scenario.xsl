@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/XSL/TransformAlias"
+                xmlns:local="urn:x-xspec:compiler:xslt:compile:compile-scenario:local"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -21,9 +22,9 @@
 
       <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable" />
-
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
+      <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
 
       <!-- We have to create these error messages at this stage because before now
          we didn't have merged versions of the environment -->
@@ -127,6 +128,12 @@
                            <xsl:apply-templates select="." mode="x:node-constructor" />
                         </xsl:with-param>
                      </xsl:call-template>
+
+                     <xsl:if test="self::x:context and $run-sut-now">
+                        <!-- Set up context, still in document order with respect to x:variable siblings.
+                             Pass $context through as tunnel parameter. -->
+                        <xsl:call-template name="local:set-up-context"/>
+                     </xsl:if>
                   </xsl:when>
 
                   <xsl:when test="self::x:variable">
@@ -142,16 +149,12 @@
                </xsl:choose>
             </xsl:for-each>
 
-            <xsl:if test="not($pending-p) and x:expect">
-               <xsl:if test="$context">
-                  <!-- Set up the variable of x:context -->
-                  <xsl:apply-templates select="$context" mode="x:declare-variable" />
-
-                  <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
-                  <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
-                     <xsl:attribute name="name" select="x:known-UQName('x:context')" />
-                     <xsl:attribute name="select" select="'$' || x:variable-UQName($context)" />
-                  </xsl:element>
+            <xsl:if test="$run-sut-now">
+               <xsl:if test="$context and not(x:context)">
+                  <!-- If context was not set up in xsl:for-each above, set it up here.
+                     Context might have come from an ancestor scenario.
+                     Pass $context through as tunnel parameter. -->
+                  <xsl:call-template name="local:set-up-context"/>
                </xsl:if>
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
@@ -327,6 +330,22 @@
       </xsl:element>
 
       <xsl:call-template name="x:compile-child-scenarios-or-expects" />
+   </xsl:template>
+
+   <!--
+      Local templates
+   -->
+
+   <xsl:template name="local:set-up-context" as="element(xsl:variable)+">
+      <xsl:param name="context" as="element(x:context)" tunnel="yes"/>
+      <!-- Set up the variable of x:context -->
+      <xsl:apply-templates select="$context" mode="x:declare-variable"/>
+
+      <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
+      <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
+         <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
+         <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
+      </xsl:element>
    </xsl:template>
 
 </xsl:stylesheet>

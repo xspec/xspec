@@ -20,6 +20,8 @@
            XQuery rep:atom-type() does not cover the built-in types classified as
            "additional" in https://www.w3.org/TR/xslt20/#built-in-types. -->
 
+      <t:call function="rep:atom-type" />
+
       <t:scenario label="Derived string types">
 
          <!-- xs:IDREFS: list -->
@@ -27,7 +29,7 @@
          <!-- xs:ENTITIES: list -->
 
          <t:scenario label="xs:ID">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:ID('foo')" />
             </t:call>
             <t:expect label="xs:ID" select="string()"
@@ -35,7 +37,7 @@
          </t:scenario>
 
          <t:scenario label="xs:IDREF">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:IDREF('foo')" />
             </t:call>
             <t:expect label="xs:IDREF" select="string()"
@@ -43,7 +45,7 @@
          </t:scenario>
 
          <t:scenario label="xs:ENTITY">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:ENTITY('foo')" />
             </t:call>
             <t:expect label="xs:ENTITY" select="string()"
@@ -51,7 +53,7 @@
          </t:scenario>
 
          <t:scenario label="xs:NCName">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:NCName('foo')" />
             </t:call>
             <t:expect label="xs:NCName" select="string()"
@@ -61,7 +63,7 @@
          <!-- xs:NMTOKENS: list -->
 
          <t:scenario label="xs:language">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:language('en')" />
             </t:call>
             <t:expect label="xs:language" select="string()"
@@ -69,7 +71,7 @@
          </t:scenario>
 
          <t:scenario label="xs:Name">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:Name('foo')" />
             </t:call>
             <t:expect label="xs:Name" select="string()"
@@ -77,7 +79,7 @@
          </t:scenario>
 
          <t:scenario label="xs:NMTOKEN">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:NMTOKEN('foo')" />
             </t:call>
             <t:expect label="xs:NMTOKEN" select="string()"
@@ -85,7 +87,7 @@
          </t:scenario>
 
          <t:scenario label="xs:token">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:token('foo')" />
             </t:call>
             <t:expect label="xs:token" select="string()"
@@ -93,7 +95,7 @@
          </t:scenario>
 
          <t:scenario label="xs:normalizedString">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:normalizedString('foo')" />
             </t:call>
             <t:expect label="xs:normalizedString" select="string()"
@@ -105,7 +107,7 @@
       <t:scenario label="Derived numeric types">
 
          <t:scenario label="xs:negativeInteger">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:negativeInteger(-1)" />
             </t:call>
             <t:expect label="xs:negativeInteger" select="string()"
@@ -113,7 +115,7 @@
          </t:scenario>
 
          <t:scenario label="xs:nonPositiveInteger">
-           <t:call function="rep:atom-type">
+           <t:call>
               <t:param select="xs:nonPositiveInteger(0)" />
            </t:call>
            <t:expect label="xs:nonPositiveInteger" select="string()"
@@ -121,7 +123,7 @@
          </t:scenario>
 
          <t:scenario label="xs:byte">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:byte(1)" />
             </t:call>
             <t:expect label="xs:byte" select="string()"
@@ -129,7 +131,7 @@
          </t:scenario>
 
          <t:scenario label="xs:short">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:short(1)" />
             </t:call>
             <t:expect label="xs:short" select="string()"
@@ -137,7 +139,7 @@
          </t:scenario>
 
          <t:scenario label="xs:int">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:int(1)" />
             </t:call>
             <t:expect label="xs:int" select="string()"
@@ -145,7 +147,7 @@
          </t:scenario>
 
          <t:scenario label="xs:long">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:long(1)" />
             </t:call>
             <t:expect label="xs:long" select="string()"
@@ -153,7 +155,7 @@
          </t:scenario>
 
          <t:scenario label="xs:unsignedByte">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:unsignedByte(1)" />
             </t:call>
             <t:expect label="xs:unsignedByte" select="string()"
@@ -161,7 +163,7 @@
          </t:scenario>
 
          <t:scenario label="xs:unsignedShort">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:unsignedShort(1)" />
             </t:call>
             <t:expect label="xs:unsignedShort" select="string()"
@@ -169,7 +171,7 @@
          </t:scenario>
 
          <t:scenario label="xs:unsignedInt">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:unsignedInt(1)" />
             </t:call>
             <t:expect label="xs:unsignedInt" select="string()"
@@ -177,7 +179,7 @@
          </t:scenario>
 
          <t:scenario label="xs:unsignedLong">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:unsignedLong(1)" />
             </t:call>
             <t:expect label="xs:unsignedLong" select="string()"
@@ -185,7 +187,7 @@
          </t:scenario>
 
          <t:scenario label="xs:positiveInteger">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:positiveInteger(1)" />
             </t:call>
             <t:expect label="xs:positiveInteger" select="string()"
@@ -193,7 +195,7 @@
          </t:scenario>
 
          <t:scenario label="xs:nonNegativeInteger">
-            <t:call function="rep:atom-type">
+            <t:call>
                <t:param select="xs:nonNegativeInteger(0)" />
             </t:call>
             <t:expect label="xs:nonNegativeInteger" select="string()"

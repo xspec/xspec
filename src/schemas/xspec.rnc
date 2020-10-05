@@ -142,7 +142,7 @@ shared =
 	## There are shared scenarios (shared="yes") and unshared scenarios (shared="no",
 	## the default). Shared scenarios can be referenced and reused by other scenarios
 	## with the <like> element. Unshared scenarios are simply run.
-	attribute shared { "yes" | "no" }
+	attribute shared { boolean.datatype }
 
 like = 
 	## The <like> element pulls a shared scenario into this one (which may be shared
@@ -153,8 +153,8 @@ like =
 	element like { common-attributes, label }
 
 ## A matching scenario is one based on the application of templates to a
-## particular node. The <context> element defines <xsl:apply-templates> used to
-## process the node, and the <assertion> elements define the tests on that node.
+## particular item. The <context> element defines <xsl:apply-templates> used to
+## process the item, and the <assertion> elements define the tests on that item.
 ## Child scenarios can override the parameters in the context, and can provide
 ## any missing values in the <context> (for example, if the context on the parent
 ## scenario doesn't provide a mode, that could be provided by the child scenario).
@@ -189,14 +189,14 @@ named-scenario = (variable*, context?),
                                      label, named-scenario })*
                    
 context = 
-	## The <context> element defines a context node, the mode in which templates
+	## The <context> element defines a context item, the mode in which templates
 	## are applied to it, and any parameters included in the apply templates.
 	element context { 
 		common-attributes,
 		## The mode in which templates are applied to it, and any parameters included in the apply templates.
 		attribute mode { eqname.datatype }?,
 		template-param*,
-		node-selection
+		selection
 	}
 
 function-call = 
@@ -232,14 +232,14 @@ static =
 
 template-param = element param { common-attributes, 
                                  name, as?, 
-                                 attribute tunnel { "yes" | "no" }?, selection }
+                                 attribute tunnel { boolean.datatype }?, selection }
 
 function-param = element param { common-attributes,
                                  name?, as?, position?, selection }
 
 name = attribute name { eqname.datatype }
 
-position = attribute position { xsd:integer }
+position = attribute position { xsd:positiveInteger }
 
 as = attribute as { text }
 
@@ -261,8 +261,8 @@ xpath = text
 
 assertion = 
 	## An assertion's test XPath can either return a boolean value, in which case the 
-	## assertion succeeds only if the test is true; or a node, in which case the
-	## assertion succeeds only if the node is equal to the one specified with the
+	## assertion succeeds only if the test is true; or an item, in which case the
+	## assertion succeeds only if the item is equal to the one specified with the
 	## href and select attributes or content of the <expect> element.
 	element expect { common-attributes,
 		label, test?, selection }

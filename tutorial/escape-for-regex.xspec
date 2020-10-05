@@ -24,6 +24,7 @@
       <x:call function="functx:escape-for-regex">
          <x:param select="'Hello'"/>
       </x:call>
+
       <!-- check the result -->
       <x:expect label="Must not be escaped at all" select="'Hello'"/>
    </x:scenario>
@@ -35,30 +36,34 @@
        (3) a test can have multiple expectations.
    -->
    <x:scenario label="Test simple patterns">
+      <!-- call the function -->
+      <x:call function="functx:escape-for-regex" />
 
       <!-- first sub-scenario -->
       <x:scenario label="When encountering parentheses">
-         <!-- call the function -->
-         <x:call function="functx:escape-for-regex">
-            <x:param name="arg" select="'(Hello)'"/>
+         <!-- with a parameter -->
+         <x:call>
+            <x:param select="'(Hello)'"/>
          </x:call>
+
          <!-- check the result -->
          <x:expect label="escape them." select="'\(Hello\)'"/>
       </x:scenario>
 
       <!-- second sub-scenario -->
       <x:scenario label="When encountering a whitespace character class">
-         <!-- call the function with another parameter -->
-         <x:call function="functx:escape-for-regex">
-            <x:param name="arg" select="'\sHello'"/>
+         <!-- with another parameter -->
+         <x:call>
+            <x:param select="'\sHello'"/>
          </x:call>
+
          <!-- check the result -->
          <x:expect label="escape the backslash" select="'\\sHello'"/>
+
          <!-- we can have several checks on the same result -->
          <x:expect label="result should have one more character than source"
                    test="string-length(.) = 8"/>
       </x:scenario>
-
    </x:scenario>
 
    <!--
@@ -73,6 +78,7 @@
             <phrase>(So long!)</phrase>
          </phrases>
       </x:context>
+
       <!-- check the result -->
       <x:expect label="All phrase elements should remain"
                 test="count(phrases/phrase) = 3"/>
@@ -81,7 +87,7 @@
             <phrase status="same">Hello!</phrase>
             <phrase status="same">Goodbye!</phrase>
             <phrase status="changed">\(So long!\)</phrase>
-            </phrases>
+         </phrases>
       </x:expect>
    </x:scenario>
 

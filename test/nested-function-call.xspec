@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- "Nesting Scenarios" in Wiki -->
+<x:description query="x-urn:test:nested-function-call" query-at="nested-function-call.xqm"
+	stylesheet="nested-function-call.xsl"
+	xmlns:nested-function-call="x-urn:test:nested-function-call"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="when creating a table">
+		<x:call function="nested-function-call:createTable" />
+
+		<x:scenario label="holding three values">
+			<x:call>
+				<x:param position="2">
+					<value>A</value>
+					<value>B</value>
+					<value>C</value>
+				</x:param>
+			</x:call>
+
+			<x:scenario label="in two columns">
+				<x:call>
+					<x:param position="1" select="2" />
+				</x:call>
+
+				<x:expect label="the table should have two columns" select="2"
+					test="$x:result/table/colgroup/col => count()" />
+				<x:expect label="the first row should contain the first two values"
+					test="$x:result/table/tbody/tr[1]">
+					<tr>
+						<td>A</td>
+						<td>B</td>
+					</tr>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="in three columns">
+				<x:call>
+					<x:param position="1" select="3" />
+				</x:call>
+
+				<x:expect label="the table should have three columns" select="3"
+					test="$x:result/table/colgroup/col => count()" />
+				<x:expect label="the first row should contain the first three values"
+					test="$x:result/table/tbody/tr[1]">
+					<tr>
+						<td>A</td>
+						<td>B</td>
+						<td>C</td>
+					</tr>
+				</x:expect>
+			</x:scenario>
+
+			<!-- ... other scenarios around creating tables with three values (with different numbers of columns) ... -->
+		</x:scenario>
+
+		<x:scenario label="holding four values in one column">
+			<x:call>
+				<x:param position="2">
+					<value>a</value>
+					<value>b</value>
+					<value>c</value>
+					<value>d</value>
+				</x:param>
+				<x:param position="1" select="1" />
+			</x:call>
+
+			<x:scenario label="in two columns (override an ancestor param)">
+				<x:call>
+					<x:param position="1" select="2" />
+				</x:call>
+
+				<x:expect label="the table should have two columns" select="2"
+					test="$x:result/table/colgroup/col => count()" />
+				<x:expect label="the first row should contain the first two values"
+					test="$x:result/table/tbody/tr[1]">
+					<tr>
+						<td>a</td>
+						<td>b</td>
+					</tr>
+				</x:expect>
+			</x:scenario>
+
+			<!-- ... other scenarios around creating tables with four values (with different numbers of columns) ... -->
+		</x:scenario>
+
+		<!-- ... other scenarios around creating tables ... -->
+	</x:scenario>
+
+</x:description>

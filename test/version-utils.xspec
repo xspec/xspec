@@ -13,30 +13,32 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function pack-version">
+		<x:call function="x:pack-version" />
+
 		<x:scenario label="Valid parameter">
 			<x:scenario label="76.0.3809.132">
-				<x:call function="x:pack-version">
+				<x:call>
 					<x:param select="76, 0, 3809, 132" />
 				</x:call>
 				<x:expect label="0x004C00000EE10084" select="21392098479636612" />
 			</x:scenario>
 
 			<x:scenario label="1.2.3">
-				<x:call function="x:pack-version">
+				<x:call>
 					<x:param select="1, 2, 3" />
 				</x:call>
 				<x:expect label="0x0001000200030000" select="281483566841856" />
 			</x:scenario>
 
 			<x:scenario label="10.11">
-				<x:call function="x:pack-version">
+				<x:call>
 					<x:param select="10, 11" />
 				</x:call>
 				<x:expect label="0x000A000B00000000" select="2814797011746816" />
 			</x:scenario>
 
 			<x:scenario label="9">
-				<x:call function="x:pack-version">
+				<x:call>
 					<x:param select="9" />
 				</x:call>
 				<x:expect label="0x0009000000000000" select="2533274790395904" />
@@ -45,7 +47,7 @@
 
 		<x:scenario catch="true" label="Invalid parameter">
 			<x:scenario label="5 components">
-				<x:call function="x:pack-version">
+				<x:call>
 					<x:param select="1, 2, 3, 4, 5" />
 				</x:call>
 				<x:expect label="Error" select="xs:QName('err:XTTE0780')"
@@ -53,7 +55,7 @@
 			</x:scenario>
 
 			<x:scenario label="Greater than uint16">
-				<x:call function="x:pack-version">
+				<x:call>
 					<x:param select="65536" />
 				</x:call>
 				<x:expect label="Error" select="xs:QName('err:XTTE0780')"
@@ -61,7 +63,7 @@
 			</x:scenario>
 
 			<x:scenario label="Less than uint16">
-				<x:call function="x:pack-version">
+				<x:call>
 					<x:param select="-1" />
 				</x:call>
 				<x:expect label="Error" select="xs:QName('err:XTTE0780')"
@@ -71,16 +73,18 @@
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function extract-version">
+		<x:call function="x:extract-version" />
+
 		<x:scenario label="Saxon 9">
 			<x:scenario label="Typical xsl:product-version">
-				<x:call function="x:extract-version">
+				<x:call>
 					<x:param select="'HE 9.9.1.5'" />
 				</x:call>
 				<x:expect label="Extracted" select="9, 9, 1, 5" />
 			</x:scenario>
 
 			<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
-				<x:call function="x:extract-version">
+				<x:call>
 					<x:param select="'SAXON-HE 9.9.1.5J from Saxonica (build 090514)'" />
 				</x:call>
 				<x:expect label="Extracted, stripping platform suffix ('J')" select="9, 9, 1, 5" />
@@ -96,14 +100,14 @@
 
 			<x:scenario label="Typical xsl:product-version">
 				<x:scenario label="10.0">
-					<x:call function="x:extract-version">
+					<x:call>
 						<x:param select="'HE 10.0'" />
 					</x:call>
 					<x:expect label="Extracted as major.minor.0.0" select="10, 0, 0, 0" />
 				</x:scenario>
 
 				<x:scenario label="10.1">
-					<x:call function="x:extract-version">
+					<x:call>
 						<x:param select="'HE 10.1'" />
 					</x:call>
 					<x:expect label="Extracted as major.minor.0.0" select="10, 1, 0, 0" />
@@ -111,7 +115,7 @@
 			</x:scenario>
 
 			<x:scenario label="java -cp saxon.jar net.sf.saxon.Version">
-				<x:call function="x:extract-version">
+				<x:call>
 					<x:param select="'SAXON-HE 10.0J from Saxonica (build 31609)'" />
 				</x:call>
 				<x:expect label="Extracted, stripping platform suffix ('J')" select="10, 0, 0, 0" />
@@ -119,14 +123,14 @@
 		</x:scenario>
 
 		<x:scenario label="Relatively large version">
-			<x:call function="x:extract-version">
+			<x:call>
 				<x:param select="'76.0.3809.132'" />
 			</x:call>
 			<x:expect label="Extracted" select="76, 0, 3809, 132" />
 		</x:scenario>
 
 		<x:scenario label="No #.#.#.#">
-			<x:call function="x:extract-version">
+			<x:call>
 				<x:param select="'１.２.３.４'" />
 			</x:call>
 			<x:expect label="Empty sequence" />

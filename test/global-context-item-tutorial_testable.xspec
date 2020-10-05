@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="stylesheet_testable.xsl" xml:base="../tutorial/global-context-item/"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="test.xspec" />
+</x:description>

@@ -14,6 +14,7 @@
         <fileSet>
             <includes>
                 <include>/bin/</include>
+                <include>/editors/emacs/</include>
                 <include>/graphics/</include>
                 <include>/java/**/*.class</include>
                 <include>/lib/</include>
