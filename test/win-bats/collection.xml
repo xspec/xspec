@@ -1531,45 +1531,59 @@
 		Boolean @test with any comparison factor
 	-->
 
+	<case name="Boolean @test with @as (XSLT)">
+    call :run ..\bin\xspec.bat bad-assertion\boolean-test\as.xspec
+    call :verify_retval 2
+    call :verify_line  9 x "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Boolean @test with @as (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\as.xspec
+    call :verify_retval 2
+    call :verify_line  7 r "  FOER0000[: ] x:expect has boolean @test, but it also has (@as | @href | @select | child::node())\.$"
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
 	<case name="Boolean @test with child node (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\boolean-test\child-node.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR: x:expect has boolean @test, but it also has (@href | @select | child::node())."
+    call :verify_line  9 x "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with child node (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\child-node.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] x:expect has boolean @test, but it also has (@href | @select | child::node())\.$"
+    call :verify_line  7 r "  FOER0000[: ] x:expect has boolean @test, but it also has (@as | @href | @select | child::node())\.$"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @href (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\boolean-test\href.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR: x:expect has boolean @test, but it also has (@href | @select | child::node())."
+    call :verify_line  9 x "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @href (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\href.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] x:expect has boolean @test, but it also has (@href | @select | child::node())\.$"
+    call :verify_line  7 r "  FOER0000[: ] x:expect has boolean @test, but it also has (@as | @href | @select | child::node())\.$"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @select (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\boolean-test\select.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR: x:expect has boolean @test, but it also has (@href | @select | child::node())."
+    call :verify_line  9 x "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @select (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\select.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] x:expect has boolean @test, but it also has (@href | @select | child::node())\.$"
+    call :verify_line  7 r "  FOER0000[: ] x:expect has boolean @test, but it also has (@as | @href | @select | child::node())\.$"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
@@ -1580,42 +1594,42 @@
 	<case name="Non-boolean @test (empty sequence) with no comparison factors (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\empty.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node())."
+    call :verify_line  9 x "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (empty sequence) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\empty.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] x:expect has non-boolean @test, but it lacks (@href | @select | child::node())\.$"
+    call :verify_line  7 r "  FOER0000[: ] x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())\.$"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\multiple-boolean.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node())."
+    call :verify_line  9 x "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\multiple-boolean.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] x:expect has non-boolean @test, but it lacks (@href | @select | child::node())\.$"
+    call :verify_line  7 r "  FOER0000[: ] x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())\.$"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (node) with no comparison factors (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\node.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node())."
+    call :verify_line  9 x "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (node) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\node.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] x:expect has non-boolean @test, but it lacks (@href | @select | child::node())\.$"
+    call :verify_line  7 r "  FOER0000[: ] x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())\.$"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 

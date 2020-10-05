@@ -1783,11 +1783,27 @@ load bats-helper
 # Boolean @test with any comparison factor
 #
 
+@test "Boolean @test with @as (XSLT)" {
+    run ../bin/xspec.sh bad-assertion/boolean-test/as.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Boolean @test with @as (XQuery)" {
+    run ../bin/xspec.sh -q bad-assertion/boolean-test/as.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@as \| @href \| @select \| child::node\(\)\)\.$"
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
 @test "Boolean @test with child node (XSLT)" {
     run ../bin/xspec.sh bad-assertion/boolean-test/child-node.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1795,7 +1811,7 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/boolean-test/child-node.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@as \| @href \| @select \| child::node\(\)\)\.$"
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1803,7 +1819,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/boolean-test/href.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1811,7 +1827,7 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/boolean-test/href.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@as \| @href \| @select \| child::node\(\)\)\.$"
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1819,7 +1835,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/boolean-test/select.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR: x:expect has boolean @test, but it also has (@as | @href | @select | child::node())." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1827,7 +1843,7 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/boolean-test/select.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has boolean @test, but it also has \(@as \| @href \| @select \| child::node\(\)\)\.$"
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1839,7 +1855,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/non-boolean-test/empty.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1847,7 +1863,7 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/non-boolean-test/empty.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@as \| @href \| @select \| child::node\(\)\)\.$"
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1855,7 +1871,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/non-boolean-test/multiple-boolean.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1863,7 +1879,7 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/non-boolean-test/multiple-boolean.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@as \| @href \| @select \| child::node\(\)\)\.$"
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1871,7 +1887,7 @@ load bats-helper
     run ../bin/xspec.sh bad-assertion/non-boolean-test/node.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@href | @select | child::node())." ]
+    [ "${lines[8]}" = "ERROR: x:expect has non-boolean @test, but it lacks (@as | @href | @select | child::node())." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
@@ -1879,7 +1895,7 @@ load bats-helper
     run ../bin/xspec.sh -q bad-assertion/non-boolean-test/node.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@href \| @select \| child::node\(\)\)\.$"
+    assert_regex "${lines[6]}" "^  FOER0000[: ] x:expect has non-boolean @test, but it lacks \(@as \| @href \| @select \| child::node\(\)\)\.$"
     [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 

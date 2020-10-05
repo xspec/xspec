@@ -13,21 +13,21 @@
    <xsl:function name="x:has-comparison" as="xs:boolean">
       <xsl:param name="expect" as="element(x:expect)" />
 
-      <xsl:sequence select="$expect/(@href or @select or (node() except x:label))" />
+      <xsl:sequence select="$expect/(@as or @href or @select or (node() except x:label))" />
    </xsl:function>
 
    <!-- Returns an error string for boolean @test with any comparison factor -->
    <xsl:function name="x:boolean-with-comparison" as="xs:string">
       <xsl:param name="expect" as="element(x:expect)" />
 
-      <xsl:text expand-text="yes">{name($expect)} has boolean @test, but it also has (@href | @select | child::node()).</xsl:text>
+      <xsl:text expand-text="yes">{name($expect)} has boolean @test, but it also has (@as | @href | @select | child::node()).</xsl:text>
    </xsl:function>
 
    <!-- Returns an error string for non-boolean @test with no comparison factors -->
    <xsl:function name="x:non-boolean-without-comparison" as="xs:string">
       <xsl:param name="expect" as="element(x:expect)" />
 
-      <xsl:text expand-text="yes">{name($expect)} has non-boolean @test, but it lacks (@href | @select | child::node()).</xsl:text>
+      <xsl:text expand-text="yes">{name($expect)} has non-boolean @test, but it lacks (@as | @href | @select | child::node()).</xsl:text>
    </xsl:function>
 
 </xsl:stylesheet>

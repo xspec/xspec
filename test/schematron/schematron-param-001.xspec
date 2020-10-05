@@ -26,27 +26,27 @@
 
         <x:expect label="$phase parameter"
             test="$schematron-param-001:phase treat as xs:string"
-            select="$phase cast as xs:string" />
+            select="$phase" as="xs:string" />
         <x:expect label="$selected parameter"
             test="$schematron-param-001:selected treat as xs:string"
             select="$selected" />
         <x:expect label="$escape1 parameter"
             test="$schematron-param-001:escape1 treat as xs:string"
-            select="$escape1 cast as xs:string" />
+            select="$escape1" as="xs:string" />
         <x:expect label="$escape2 parameter"
             test="$schematron-param-001:escape2 treat as xs:string"
-            select="$escape2 cast as xs:string" />
+            select="$escape2" as="xs:string" />
         <x:expect label="$escape3 parameter"
             test="$schematron-param-001:escape3 treat as xs:string"
-            select="$escape3 cast as xs:string" />
+            select="$escape3" as="xs:string" />
         <x:expect label="$escape4 parameter"
             test="$schematron-param-001:escape4 treat as xs:string"
-            select="$escape4 cast as xs:string" />
+            select="$escape4" as="xs:string" />
         <x:expect label="$foo:selected parameter"
             test="$schematron-param-001:foo-selected treat as xs:string"
-            select="$foo:selected cast as xs:string" />
+            select="$foo:selected" as="xs:string" />
         <x:expect label="$href-selected parameter"
             test="$schematron-param-001:href-selected treat as xs:string"
-            select="$href-selected cast as xs:string" />
+            select="$href-selected" as="xs:string" />
     </x:scenario>
 </x:description>
