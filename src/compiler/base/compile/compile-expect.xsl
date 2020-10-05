@@ -17,14 +17,14 @@
    </xsl:function>
 
    <!-- Returns an error string for boolean @test with any comparison factor -->
-   <xsl:function name="x:bad-boolean-test" as="xs:string">
+   <xsl:function name="x:boolean-with-comparison" as="xs:string">
       <xsl:param name="expect" as="element(x:expect)" />
 
       <xsl:text expand-text="yes">{name($expect)} has boolean @test, but it also has (@href | @select | child::node()).</xsl:text>
    </xsl:function>
 
    <!-- Returns an error string for non-boolean @test with no comparison factors -->
-   <xsl:function name="x:bad-non-boolean-test" as="xs:string">
+   <xsl:function name="x:non-boolean-without-comparison" as="xs:string">
       <xsl:param name="expect" as="element(x:expect)" />
 
       <xsl:text expand-text="yes">{name($expect)} has non-boolean @test, but it lacks (@href | @select | child::node()).</xsl:text>
