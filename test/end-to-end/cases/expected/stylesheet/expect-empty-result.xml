@@ -13,7 +13,7 @@
       </input-wrap>
       <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
       <test id="scenario1-expect1" successful="false">
-         <label>Expecting an empty sequence (no @href, @select or child node) should be Failure</label>
+         <label>Expecting an empty sequence (no @as, @href, @select or child node) should be Failure</label>
          <expect select="()"/>
       </test>
       <test id="scenario1-expect2" successful="false">
@@ -21,6 +21,10 @@
          <expect select="()"/>
       </test>
       <test id="scenario1-expect3" successful="false">
+         <label>Expecting empty sequence using @as should be Failure</label>
+         <expect select="()"/>
+      </test>
+      <test id="scenario1-expect4" successful="false">
          <label>Expecting empty sequence using @select should be Failure</label>
          <expect select="()"/>
       </test>
@@ -37,7 +41,7 @@
       </input-wrap>
       <result select="()"/>
       <test id="scenario2-expect1" successful="true">
-         <label>Expecting an empty sequence (no @href, @select or child node) should be Success</label>
+         <label>Expecting an empty sequence (no @as, @href, @select or child node) should be Success</label>
          <expect select="()"/>
       </test>
       <test id="scenario2-expect2" successful="true">
@@ -45,6 +49,10 @@
          <expect select="()"/>
       </test>
       <test id="scenario2-expect3" successful="true">
+         <label>Expecting empty sequence using @as should be Success</label>
+         <expect select="()"/>
+      </test>
+      <test id="scenario2-expect4" successful="true">
          <label>Expecting empty sequence using @select should be Success</label>
          <expect select="()"/>
       </test>

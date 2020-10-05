@@ -7,11 +7,12 @@
 		<x:call function="mirror:true" />
 
 		<x:expect
-			label="Expecting an empty sequence (no @href, @select or child node) should be Failure" />
+			label="Expecting an empty sequence (no @as, @href, @select or child node) should be Failure" />
 		<x:expect>
 			<x:label>Ditto using x:label</x:label>
 		</x:expect>
 
+		<x:expect as="empty-sequence()" label="Expecting empty sequence using @as should be Failure" />
 		<x:expect label="Expecting empty sequence using @select should be Failure" select="()" />
 	</x:scenario>
 
@@ -21,11 +22,12 @@
 		</x:call>
 
 		<x:expect
-			label="Expecting an empty sequence (no @href, @select or child node) should be Success" />
+			label="Expecting an empty sequence (no @as, @href, @select or child node) should be Success" />
 		<x:expect>
 			<x:label>Ditto using x:label</x:label>
 		</x:expect>
 
+		<x:expect as="empty-sequence()" label="Expecting empty sequence using @as should be Success" />
 		<x:expect label="Expecting empty sequence using @select should be Success" select="()" />
 	</x:scenario>
 
