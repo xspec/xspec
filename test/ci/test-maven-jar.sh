@@ -11,7 +11,7 @@ maven_package_version=$(mvn help:evaluate --quiet -Dexpression=project.version -
 
 if [ "${GITHUB_ACTIONS}" = true ]; then
     # Propagate the project version as an environment variable to any actions running next in a job
-    echo "::set-env name=MAVEN_PACKAGE_VERSION::${maven_package_version}"
+    echo "MAVEN_PACKAGE_VERSION=${maven_package_version}" >> "${GITHUB_ENV}"
 fi
 
 myname="${BASH_SOURCE:-$0}"
