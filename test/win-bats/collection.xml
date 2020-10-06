@@ -2149,4 +2149,50 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
+	<!--
+		Too large @position
+	-->
+
+	<case name="Too large @position (first) (XSLT)">
+    call :run ..\bin\xspec.bat bad-position\too-large_first.xspec
+    call :verify_retval 2
+    call :verify_line  * r "..*: Too large parameter position, 5, used in x:call\.$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Too large @position (first) (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-position\too-large_first.xspec
+    call :verify_retval 2
+    call :verify_line  * r "..*: Too large parameter position, 5, used in x:call\.$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Too large @position (interleave) (XSLT)">
+    call :run ..\bin\xspec.bat bad-position\too-large_interleave.xspec
+    call :verify_retval 2
+    call :verify_line  * r "..*: Too large parameter position, 5, used in x:call\.$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Too large @position (interleave) (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-position\too-large_interleave.xspec
+    call :verify_retval 2
+    call :verify_line  * r "..*: Too large parameter position, 5, used in x:call\.$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Too large @position (last) (XSLT)">
+    call :run ..\bin\xspec.bat bad-position\too-large_last.xspec
+    call :verify_retval 2
+    call :verify_line  * r "..*: Too large parameter position, 5, used in x:call\.$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Too large @position (last) (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-position\too-large_last.xspec
+    call :verify_retval 2
+    call :verify_line  * r "..*: Too large parameter position, 5, used in x:call\.$"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
 </collection>
