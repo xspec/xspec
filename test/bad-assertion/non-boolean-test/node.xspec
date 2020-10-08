@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xml:base="../../" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:scenario label="Non-boolean @test (node) with no comparison factors">
+		<x:call function="mirror:param-mirror">
+			<x:param>
+				<foo />
+			</x:param>
+		</x:call>
+		<x:expect test="$x:result treat as element()">
+			<x:label>should be error (even if child::x:label exists)</x:label>
+		</x:expect>
+	</x:scenario>
+
+</x:description>

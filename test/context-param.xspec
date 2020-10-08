@@ -28,8 +28,7 @@
 		<x:scenario label="setting up the context does not affect the template parameters. So...">
 			<!-- Extend the parent context -->
 			<x:context mode="mirror:param-mirror" />
-			<x:expect label="x:param works as a parameter."
-				test="exactly-one($x:result) eq 'param-string'" />
+			<x:expect label="x:param works as a parameter." test="$x:result eq 'param-string'" />
 		</x:scenario>
 	</x:scenario>
 

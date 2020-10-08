@@ -117,7 +117,7 @@
 					<x:param select="true()" />
 				</x:call>
 				<x:expect label="Error without falling back on the default value"
-					select="xs:QName('err:XTTE0780')" test="$x:result?err?code treat as xs:QName" />
+					select="xs:QName('err:XTTE0780')" test="$x:result?err?code" />
 			</x:scenario>
 
 			<x:scenario label="Bogus">
@@ -126,7 +126,7 @@
 					<x:param select="true()" />
 				</x:call>
 				<x:expect label="Error without falling back on the default value"
-					select="xs:QName('err:XTTE0780')" test="$x:result?err?code treat as xs:QName" />
+					select="xs:QName('err:XTTE0780')" test="$x:result?err?code" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>

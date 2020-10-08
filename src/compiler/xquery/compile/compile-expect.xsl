@@ -68,15 +68,27 @@
                <!-- $local:boolean-test -->
                <xsl:text>let $local:boolean-test as xs:boolean := ($local:test-result instance of xs:boolean)&#x0A;</xsl:text>
 
-               <!-- TODO: xspec/xspec#309 -->
-
                <!-- $local:successful -->
                <xsl:text>let $local:successful as xs:boolean (: did the test pass? :) := (&#x0A;</xsl:text>
-               <xsl:text>if ($local:boolean-test)&#x0A;</xsl:text>
-               <xsl:text>then boolean($local:test-result)&#x0A;</xsl:text>
-               <xsl:text expand-text="yes">else {x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, $local:test-result, {$deep-equal-flags})&#x0A;</xsl:text>
+               <xsl:text>if ($local:boolean-test) then&#x0A;</xsl:text>
+               <xsl:choose>
+                  <xsl:when test="x:has-comparison(.)">
+                     <xsl:text expand-text="yes">error((), {x:boolean-with-comparison(.) => x:quote-with-apos()})&#x0A;</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <xsl:text>boolean($local:test-result)&#x0A;</xsl:text>
+                  </xsl:otherwise>
+               </xsl:choose>
+               <xsl:text>else&#x0A;</xsl:text>
+               <xsl:choose>
+                  <xsl:when test="x:has-comparison(.)">
+                     <xsl:text expand-text="yes">{x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, $local:test-result, {$deep-equal-flags})&#x0A;</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <xsl:text expand-text="yes">error((), {x:non-boolean-without-comparison(.) => x:quote-with-apos()})&#x0A;</xsl:text>
+                  </xsl:otherwise>
+               </xsl:choose>
                <xsl:text>)&#x0A;</xsl:text>
-
             </xsl:when>
 
             <xsl:otherwise>

@@ -72,7 +72,7 @@
                            to be able to test the nodes that are generated in the
                            $x:result as if they were *children* of the context node.
                            Have to experiment a bit to see if that really is the case.
-                           TODO: To remove. Use directly $x:result instead.  See issue 14. -->
+                           TODO: To remove. Use directly $x:result instead. (expath/xspec#14) -->
                         <when
                            test="exists(${x:known-UQName('x:result')}) and {x:known-UQName('x:wrappable-sequence')}(${x:known-UQName('x:result')})">
                            <sequence select="{x:known-UQName('x:wrap-nodes')}(${x:known-UQName('x:result')})" />
@@ -111,29 +111,38 @@
                      </choose>
                   </variable>
 
-                  <!-- TODO: A predicate should always return exactly one boolean, or
-                     this is an error.  See issue 5.-->
+                  <!-- TODO: Remove duality from @test. (expath/xspec#5) -->
                   <variable name="{x:known-UQName('impl:boolean-test')}" as="{x:known-UQName('xs:boolean')}"
                      select="${x:known-UQName('impl:test-result')} instance of {x:known-UQName('xs:boolean')}" />
-
-                  <xsl:if test="@href or @select or (node() except x:label)">
-                     <if test="${x:known-UQName('impl:boolean-test')}">
-                        <message>
-                           <xsl:text expand-text="yes">WARNING: {name()} has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored.</xsl:text>
-                        </message>
-                     </if>
-                  </xsl:if>
 
                   <xsl:comment> did the test pass? </xsl:comment>
                   <variable name="{x:known-UQName('impl:successful')}" as="{x:known-UQName('xs:boolean')}">
                      <choose>
                         <when test="${x:known-UQName('impl:boolean-test')}">
-                           <!-- Without boolean(), Saxon warning SXWN9000 (xspec/xspec#46).
-                              "cast as" does not work (xspec/xspec#153). -->
-                           <sequence select="boolean(${x:known-UQName('impl:test-result')})" />
+                           <xsl:choose>
+                              <xsl:when test="x:has-comparison(.)">
+                                 <message terminate="yes">
+                                    <xsl:text expand-text="yes">{x:boolean-with-comparison(.)}</xsl:text>
+                                 </message>
+                              </xsl:when>
+                              <xsl:otherwise>
+                                 <!-- Without boolean(), Saxon warning SXWN9000 (xspec/xspec#46).
+                                    "cast as" does not work (xspec/xspec#153). -->
+                                 <sequence select="${x:known-UQName('impl:test-result')} => boolean()" />
+                              </xsl:otherwise>
+                           </xsl:choose>
                         </when>
                         <otherwise>
-                           <sequence select="{x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('impl:test-result')}, {$deep-equal-flags})" />
+                           <xsl:choose>
+                              <xsl:when test="x:has-comparison(.)">
+                                 <sequence select="{x:known-UQName('deq:deep-equal')}(${x:variable-UQName(.)}, ${x:known-UQName('impl:test-result')}, {$deep-equal-flags})" />
+                              </xsl:when>
+                              <xsl:otherwise>
+                                 <message terminate="yes">
+                                    <xsl:text expand-text="yes">{x:non-boolean-without-comparison(.)}</xsl:text>
+                                 </message>
+                              </xsl:otherwise>
+                           </xsl:choose>
                         </otherwise>
                      </choose>
                   </variable>
