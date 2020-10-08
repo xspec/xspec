@@ -1528,15 +1528,119 @@
 	</case>
 
 	<!--
-		Ambiguous x:expect
+		Boolean @test with any comparison factor
 	-->
 
-	<case name="Ambiguous x:expect generates warning">
-    call :run ..\bin\xspec.bat end-to-end\cases\ambiguous-expect.xspec
-    call :verify_line 12 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
-    call :verify_line 17 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
-    call :verify_line 24 x "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored."
-    call :verify_line 33 x "Formatting Report..."
+	<case name="Boolean @test with @as (XSLT)">
+    call :run ..\bin\xspec.bat bad-assertion\boolean-test\as.xspec
+    call :verify_retval 2
+    call :verify_line  9 x "ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Boolean @test with @as (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\as.xspec
+    call :verify_retval 2
+    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must$"
+    call :verify_line  8 x "  not be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Boolean @test with child node (XSLT)">
+    call :run ..\bin\xspec.bat bad-assertion\boolean-test\child-node.xspec
+    call :verify_retval 2
+    call :verify_line  9 x "ERROR in x:expect ('Boolean @test with child node should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Boolean @test with child node (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\child-node.xspec
+    call :verify_retval 2
+    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with child node should be error'): Boolean$"
+    call :verify_line  8 x "  @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Boolean @test with @href (XSLT)">
+    call :run ..\bin\xspec.bat bad-assertion\boolean-test\href.xspec
+    call :verify_retval 2
+    call :verify_line  9 x "ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Boolean @test with @href (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\href.xspec
+    call :verify_retval 2
+    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test$"
+    call :verify_line  8 x "  must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Boolean @test with @select (XSLT)">
+    call :run ..\bin\xspec.bat bad-assertion\boolean-test\select.xspec
+    call :verify_retval 2
+    call :verify_line  9 x "ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Boolean @test with @select (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\select.xspec
+    call :verify_retval 2
+    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test$"
+    call :verify_line  8 x "  must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<!--
+		Non-boolean @test with no comparison factors
+	-->
+
+	<case name="Non-boolean @test (empty sequence) with no comparison factors (XSLT)">
+    call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\empty.xspec
+    call :verify_retval 2
+    call :verify_line  9 x "ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Non-boolean @test (empty sequence) with no comparison factors (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\empty.xspec
+    call :verify_retval 2
+    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison$"
+    call :verify_line  8 x "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be"
+    call :verify_line  9 x "  accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XSLT)">
+    call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\multiple-boolean.xspec
+    call :verify_retval 2
+    call :verify_line  9 x "ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\multiple-boolean.xspec
+    call :verify_retval 2
+    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison$"
+    call :verify_line  8 x "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be"
+    call :verify_line  9 x "  accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Non-boolean @test (node) with no comparison factors (XSLT)">
+    call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\node.xspec
+    call :verify_retval 2
+    call :verify_line  9 x "ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="Non-boolean @test (node) with no comparison factors (XQuery)">
+    call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\node.xspec
+    call :verify_retval 2
+    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should$"
+    call :verify_line  8 x "  be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as,"
+    call :verify_line  9 x "  @href, @select, or child node."
+    call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<!--

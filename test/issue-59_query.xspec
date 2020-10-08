@@ -22,7 +22,7 @@
 							<x:param select="$items:comment" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$items:comment" test="$x:result treat as comment()" />
+							select="$items:comment" test="$x:result" />
 					</x:scenario>
 
 					<x:scenario label="Document">
@@ -30,7 +30,7 @@
 							<x:param select="$items:document" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$items:document" test="$x:result treat as document-node()" />
+							select="$items:document" test="$x:result" />
 					</x:scenario>
 
 					<x:scenario label="Element">
@@ -38,7 +38,7 @@
 							<x:param select="$items:element" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$items:element" test="$x:result treat as element()" />
+							select="$items:element" test="$x:result" />
 					</x:scenario>
 
 					<x:scenario label="Processing instruction">
@@ -47,7 +47,7 @@
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
 							select="$items:processing-instruction"
-							test="$x:result treat as processing-instruction()" />
+							test="$x:result" />
 					</x:scenario>
 
 					<x:scenario label="Text">
@@ -55,7 +55,7 @@
 							<x:param select="$items:text" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$items:text" test="$x:result treat as text()" />
+							select="$items:text" test="$x:result" />
 					</x:scenario>
 
 				</x:scenario>
@@ -67,7 +67,7 @@
 							<x:param select="$items:attribute" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$items:attribute" test="$x:result treat as attribute()" />
+							select="$items:attribute" test="$x:result" />
 					</x:scenario>
 
 					<x:scenario label="Namespace">
@@ -75,7 +75,7 @@
 							<x:param select="$items:namespace" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$items:namespace" test="$x:result treat as node()" />
+							select="$items:namespace" test="$x:result" />
 					</x:scenario>
 
 				</x:scenario>
@@ -89,7 +89,7 @@
 						<x:param select="$items:wrappable-nodes" />
 					</x:call>
 					<x:expect label="Wrapper not available, but $x:result holds entire result"
-						select="$items:wrappable-nodes" test="$x:result treat as node()+" />
+						select="$items:wrappable-nodes" test="$x:result" />
 				</x:scenario>
 
 				<x:scenario label="None can be wrapped">
@@ -99,7 +99,7 @@
 							<x:param select="$items:non-wrappable-nodes" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$items:non-wrappable-nodes" test="$x:result treat as node()+" />
+							select="$items:non-wrappable-nodes" test="$x:result" />
 					</x:scenario>
 
 					<x:scenario label="Reverse order">
@@ -108,7 +108,7 @@
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
 							select="reverse($items:non-wrappable-nodes)"
-							test="$x:result treat as node()+" />
+							test="$x:result" />
 					</x:scenario>
 
 				</x:scenario>
@@ -120,7 +120,7 @@
 							<x:param select="$items:all-nodes" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="$items:all-nodes" test="$x:result treat as node()+" />
+							select="$items:all-nodes" test="$x:result" />
 					</x:scenario>
 
 					<x:scenario label="Reverse order">
@@ -128,7 +128,7 @@
 							<x:param select="$items:all-nodes" />
 						</x:call>
 						<x:expect label="Wrapper not available, but $x:result holds entire result"
-							select="reverse($items:all-nodes)" test="$x:result treat as node()+" />
+							select="reverse($items:all-nodes)" test="$x:result" />
 					</x:scenario>
 				</x:scenario>
 
@@ -195,7 +195,7 @@
 					<x:param select="$items:integer" />
 				</x:call>
 				<x:expect label="Wrapper not available, but $x:result holds entire result"
-					select="$items:integer" test="$x:result treat as xs:integer" />
+					select="$items:integer" test="$x:result" />
 			</x:scenario>
 
 			<x:scenario label="Multiple values">
@@ -203,7 +203,7 @@
 					<x:param select="$items:integer, $items:integer" />
 				</x:call>
 				<x:expect label="Wrapper not available, but $x:result holds entire result"
-					select="$items:integer, $items:integer" test="$x:result treat as xs:integer+" />
+					select="$items:integer, $items:integer" test="$x:result" />
 			</x:scenario>
 
 		</x:scenario>

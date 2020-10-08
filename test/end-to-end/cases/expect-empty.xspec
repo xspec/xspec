@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xml:base="../../" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:scenario label="When a function returns a non-empty item">
+		<x:call function="mirror:true" />
+
+		<x:expect
+			label="Expecting an empty sequence (no @as, @href, @select or child node) should be Failure" />
+		<x:expect>
+			<x:label>Ditto using x:label</x:label>
+		</x:expect>
+
+		<x:expect as="empty-sequence()" label="Expecting empty sequence using @as should be Failure" />
+		<x:expect label="Expecting empty sequence using @select should be Failure" select="()" />
+	</x:scenario>
+
+	<x:scenario label="When a function returns an empty sequence">
+		<x:call function="mirror:param-mirror">
+			<x:param as="empty-sequence()" />
+		</x:call>
+
+		<x:expect
+			label="Expecting an empty sequence (no @as, @href, @select or child node) should be Success" />
+		<x:expect>
+			<x:label>Ditto using x:label</x:label>
+		</x:expect>
+
+		<x:expect as="empty-sequence()" label="Expecting empty sequence using @as should be Success" />
+		<x:expect label="Expecting empty sequence using @select should be Success" select="()" />
+	</x:scenario>
+
+</x:description>

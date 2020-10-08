@@ -19,19 +19,19 @@
 			<x:scenario label="function-scenario">
 				<x:scenario label="Error in SUT">
 					<x:like label="call-error" />
-					<x:expect label="err:code" select="xs:QName('my-error-code')"
+					<x:expect label="err:code and its type" select="xs:QName('my-error-code')"
 						test="$x:result?err?code treat as xs:QName" />
-					<x:expect label="err:description" select="'my error description'"
+					<x:expect label="err:description and its type" select="'my error description'"
 						test="$x:result?err?description treat as xs:string" />
-					<x:expect label="err:value" select="'my', 'error', 'object'"
+					<x:expect label="err:value and its type" select="'my', 'error', 'object'"
 						test="$x:result?err?value treat as xs:string+" />
 
 					<!-- The error is raised by fn:error() at a line in the compiled stylsheet/query -->
-					<x:expect label="err:module"
+					<x:expect label="err:module and its type"
 						test="matches($x:result?err?module treat as xs:string, '.+/catch-compiled\.(xq|xsl)$')" />
-					<x:expect label="err:line-number"
+					<x:expect label="err:line-number and its type"
 						test="($x:result?err?line-number treat as xs:integer) ge 1" />
-					<x:expect label="err:column-number"
+					<x:expect label="err:column-number and its type"
 						test="($x:result?err?column-number treat as xs:integer) ge 1" />
 
 					<!-- TODO: $err:additional on XQuery -->

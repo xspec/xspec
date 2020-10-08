@@ -14,9 +14,7 @@
 
       <xsl:param name="message" as="xs:string" />
 
-      <xsl:message terminate="yes">
-         <xsl:text expand-text="yes">ERROR in {name()} ('{x:label(.)}'): {$message}</xsl:text>
-      </xsl:message>
+      <xsl:message terminate="yes" select="x:prefix-error-message(., $message)" />
    </xsl:template>
 
    <!-- Checks max x:param/@position. The caller of this template must ensure that the current

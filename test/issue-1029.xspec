@@ -6,7 +6,7 @@
 	<x:scenario label="expectations" shared="yes">
 		<x:expect label="should catch err:XTMM9000"
 			select="QName('http://www.w3.org/2005/xqt-errors', 'XTMM9000')"
-			test="$x:result?err?code treat as xs:QName" />
+			test="$x:result?err?code" />
 		<x:expect label="should catch its message body" test="$x:result?err?value/text()"
 			><![CDATA[my error message]]></x:expect>
 	</x:scenario>

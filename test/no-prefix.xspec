@@ -6,8 +6,7 @@
 	<scenario label="Describing scenarios using default namespace">
 		<call function="mirror:false" />
 		<expect label="should work"
-			test="($Q{http://www.jenitennison.com/xslt/xspec}result treat as xs:boolean) eq false()"
-		 />
+			test="$Q{http://www.jenitennison.com/xslt/xspec}result eq false()" />
 	</scenario>
 
 	<scenario label="Element of another default namespace">

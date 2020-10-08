@@ -94,9 +94,9 @@
 					&#x09;&#x0A;&#x0D;&#x20;"
 				select="'local variable value'" />
 			<x:expect label="has no conflict with $x:result" select="'local variable value'"
-				test="$use-uqname:result treat as xs:string" />
-			<x:expect label="while $x:result is preserved"
-				test="($x:result treat as xs:string) eq 'result of function call'" />
+				test="$use-uqname:result" />
+			<x:expect label="while $x:result is preserved" select="'result of function call'"
+				test="$x:result" />
 		</x:scenario>
 
 		<x:scenario label="function-call @function and function-param (@as | @name | @select)">

@@ -1780,16 +1780,133 @@ load bats-helper
 }
 
 #
-# Ambiguous x:expect
+# Boolean @test with any comparison factor
 #
 
-@test "Ambiguous x:expect generates warning" {
-    run ../bin/xspec.sh end-to-end/cases/ambiguous-expect.xspec
+@test "Boolean @test with @as (XSLT)" {
+    run ../bin/xspec.sh bad-assertion/boolean-test/as.xspec
     echo "$output"
-    [ "${lines[11]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
-    [ "${lines[16]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
-    [ "${lines[23]}" = "WARNING: x:expect has boolean @test (i.e. assertion) along with @href, @select or child node (i.e. comparison). Comparison factors will be ignored." ]
-    [ "${lines[32]}" = "Formatting Report..." ]
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Boolean @test with @as (XQuery)" {
+    run ../bin/xspec.sh -q bad-assertion/boolean-test/as.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @as should be error'\): Boolean @test must$"
+    [ "${lines[7]}" = "  not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Boolean @test with child node (XSLT)" {
+    run ../bin/xspec.sh bad-assertion/boolean-test/child-node.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Boolean @test with child node should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Boolean @test with child node (XQuery)" {
+    run ../bin/xspec.sh -q bad-assertion/boolean-test/child-node.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with child node should be error'\): Boolean$"
+    [ "${lines[7]}" = "  @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Boolean @test with @href (XSLT)" {
+    run ../bin/xspec.sh bad-assertion/boolean-test/href.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Boolean @test with @href (XQuery)" {
+    run ../bin/xspec.sh -q bad-assertion/boolean-test/href.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @href should be error'\): Boolean @test$"
+    [ "${lines[7]}" = "  must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Boolean @test with @select (XSLT)" {
+    run ../bin/xspec.sh bad-assertion/boolean-test/select.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Boolean @test with @select (XQuery)" {
+    run ../bin/xspec.sh -q bad-assertion/boolean-test/select.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Boolean @test with @select should be error'\): Boolean @test$"
+    [ "${lines[7]}" = "  must not be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+#
+# Non-boolean @test with no comparison factors
+#
+
+@test "Non-boolean @test (empty sequence) with no comparison factors (XSLT)" {
+    run ../bin/xspec.sh bad-assertion/non-boolean-test/empty.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Non-boolean @test (empty sequence) with no comparison factors (XQuery)" {
+    run ../bin/xspec.sh -q bad-assertion/non-boolean-test/empty.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(empty sequence\) with no comparison$"
+    [ "${lines[7]}" = "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be" ]
+    [ "${lines[8]}" = "  accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Non-boolean @test (multiple xs:boolean) with no comparison factors (XSLT)" {
+    run ../bin/xspec.sh bad-assertion/non-boolean-test/multiple-boolean.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)" {
+    run ../bin/xspec.sh -q bad-assertion/non-boolean-test/multiple-boolean.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(multiple xs:boolean\) with no comparison$"
+    [ "${lines[7]}" = "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be" ]
+    [ "${lines[8]}" = "  accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Non-boolean @test (node) with no comparison factors (XSLT)" {
+    run ../bin/xspec.sh bad-assertion/non-boolean-test/node.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[8]}" = "ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}
+
+@test "Non-boolean @test (node) with no comparison factors (XQuery)" {
+    run ../bin/xspec.sh -q bad-assertion/non-boolean-test/node.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" "^  FOER0000[: ] ERROR in x:expect \('Non-boolean @test \(node\) with no comparison factors should$"
+    [ "${lines[7]}" = "  be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as," ]
+    [ "${lines[8]}" = "  @href, @select, or child node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
 #
