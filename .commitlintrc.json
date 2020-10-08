@@ -15,7 +15,8 @@
         "report",
         "xproc",
         "schema",
-        "maven"
+        "maven",
+        "cli"
       ]
     ]
   }

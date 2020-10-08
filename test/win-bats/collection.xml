@@ -9,7 +9,7 @@
 	<case name="invoking xspec without arguments prints usage">
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
+    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file"
 	</case>
 
 	<case name="invoking xspec without arguments prints usage even if Saxon environment variables are not defined">
@@ -164,32 +164,35 @@
 
     rem Use a fresh dir, to make the message line numbers predictable
     rem and to avoid a residue of output files
-    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
-    call :mkdir "%TUTORIAL_COPY%"
-    call :copy ..\tutorial\escape-for-regex.* "%TUTORIAL_COPY%"
+    set "TEST_COPY=%WORK_DIR%\some-failures %RANDOM%"
+    call :mkdir "%TEST_COPY%"
+    call :copy some-failures\function.* "%TEST_COPY%"
 
     rem Run
-    call :run ..\bin\xspec.bat "%TUTORIAL_COPY%\escape-for-regex.xspec"
+    call :run ..\bin\xspec.bat "%TEST_COPY%\function.xspec"
+
+    rem By default, failure is not error
     call :verify_retval 0
 
     rem Verify message
-    call :verify_line 20 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
-    call :verify_line 21 x "Report available at %TUTORIAL_COPY%\xspec\escape-for-regex-result.html"
+    call :verify_line 14 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 15 x "Report available at %TEST_COPY%\xspec\function-result.html"
+    call :verify_line 16 x "Done."
 
     rem Verify report files
     rem * XML report file is created
     rem * HTML report file is created
     rem * Coverage is disabled by default
     rem * JUnit is disabled by default
-    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
+    call :run dir /b /o:n "%TEST_COPY%\xspec"
     call :verify_line_count 3
-    call :verify_line 1 x escape-for-regex-compiled.xsl
-    call :verify_line 2 x escape-for-regex-result.html
-    call :verify_line 3 x escape-for-regex-result.xml
+    call :verify_line 1 x function-compiled.xsl
+    call :verify_line 2 x function-result.html
+    call :verify_line 3 x function-result.xml
 
     rem HTML report file contains CSS inline #135
     call :run java -jar "%SAXON_JAR%" ^
-        -s:"%TUTORIAL_COPY%\xspec\escape-for-regex-result.html" ^
+        -s:"%TEST_COPY%\xspec\function-result.html" ^
         -xsl:check-html-css.xsl
     call :verify_retval 0
     call :verify_line 1 x "true"
@@ -200,17 +203,20 @@
 
     rem Use a fresh dir, to make the message line numbers predictable
     rem and to avoid a residue of output files
-    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
-    call :mkdir "%TUTORIAL_COPY%"
-    call :copy ..\tutorial\coverage\demo* "%TUTORIAL_COPY%"
+    set "TEST_COPY=%WORK_DIR%\some-failures %RANDOM%"
+    call :mkdir "%TEST_COPY%"
+    call :copy some-failures\function.* "%TEST_COPY%"
 
     rem Run
-    call :run ..\bin\xspec.bat -c "%TUTORIAL_COPY%\demo.xspec"
+    call :run ..\bin\xspec.bat -c "%TEST_COPY%\function.xspec"
+
+    rem By default, failure is not error
     call :verify_retval 0
 
     rem Verify message
-    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-    call :verify_line 15 x "Report available at %TUTORIAL_COPY%\xspec\demo-coverage.html"
+    call :verify_line 17 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 19 x "Report available at %TEST_COPY%\xspec\function-coverage.html"
+    call :verify_line 20 x "Done."
 
     rem Verify report files
     rem * XML report file is created
@@ -218,13 +224,13 @@
     rem * Coverage XML report is created
     rem * Coverage HTML report is created
     rem * JUnit is disabled by default
-    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
+    call :run dir /b /o:n "%TEST_COPY%\xspec"
     call :verify_line_count 5
-    call :verify_line 1 x demo-compiled.xsl
-    call :verify_line 2 x demo-coverage.html
-    call :verify_line 3 x demo-coverage.xml
-    call :verify_line 4 x demo-result.html
-    call :verify_line 5 x demo-result.xml
+    call :verify_line 1 x function-compiled.xsl
+    call :verify_line 2 x function-coverage.html
+    call :verify_line 3 x function-coverage.xml
+    call :verify_line 4 x function-result.html
+    call :verify_line 5 x function-result.xml
 	</case>
 
 	<case name="invoking xspec without TEST_DIR set externally (XQuery)">
@@ -232,59 +238,121 @@
 
     rem Use a fresh dir, to make the message line numbers predictable
     rem and to avoid a residue of output files
-    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
-    call :mkdir "%TUTORIAL_COPY%"
-    call :copy ..\tutorial\xquery-tutorial.* "%TUTORIAL_COPY%"
+    set "TEST_COPY=%WORK_DIR%\some-failures %RANDOM%"
+    call :mkdir "%TEST_COPY%"
+    call :copy some-failures\function.* "%TEST_COPY%"
 
     rem Run
-    call :run ..\bin\xspec.bat -q "%TUTORIAL_COPY%\xquery-tutorial.xspec"
+    call :run ..\bin\xspec.bat -q "%TEST_COPY%\function.xspec"
+
+    rem By default, failure is not error
     call :verify_retval 0
 
     rem Verify message
-    call :verify_line 7 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-    call :verify_line 8 x "Report available at %TUTORIAL_COPY%\xspec\xquery-tutorial-result.html"
+    call :verify_line 7 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 8 x "Report available at %TEST_COPY%\xspec\function-result.html"
+    call :verify_line 9 x "Done."
 
     rem Verify report files
     rem * XML report file is created
     rem * HTML report file is created
     rem * JUnit is disabled by default
-    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
+    call :run dir /b /o:n "%TEST_COPY%\xspec"
     call :verify_line_count 3
-    call :verify_line 1 x xquery-tutorial-compiled.xq
-    call :verify_line 2 x xquery-tutorial-result.html
-    call :verify_line 3 x xquery-tutorial-result.xml
+    call :verify_line 1 x function-compiled.xq
+    call :verify_line 2 x function-result.html
+    call :verify_line 3 x function-result.xml
 	</case>
 
-	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec without TEST_DIR set externally (Schematron)">
+	<case name="invoking xspec without TEST_DIR set externally (Schematron)">
     set TEST_DIR=
 
     rem Use a fresh dir, to make the message line numbers predictable
     rem and to avoid a residue of output files
-    set "TUTORIAL_COPY=%WORK_DIR%\tutorial %RANDOM%"
-    call :mkdir "%TUTORIAL_COPY%"
-    call :copy ..\tutorial\schematron\demo-03* "%TUTORIAL_COPY%"
+    set "TEST_COPY=%WORK_DIR%\some-failures %RANDOM%"
+    call :mkdir "%TEST_COPY%"
+    call :copy some-failures\schematron.* "%TEST_COPY%"
 
     rem Run
-    call :run ..\bin\xspec.bat -s "%TUTORIAL_COPY%\demo-03.xspec"
+    call :run ..\bin\xspec.bat -s "%TEST_COPY%\schematron.xspec"
+
+    rem By default, failure is not error
     call :verify_retval 0
 
     rem Verify message
     rem * No Schematron warnings #129 #131
     call :verify_line  4 x "Converting Schematron XSpec into XSLT XSpec..."
-    call :verify_line 31 x "passed: 10 / pending: 1 / failed: 0 / total: 11"
-    call :verify_line 32 x "Report available at %TUTORIAL_COPY%\xspec\demo-03-result.html"
+    call :verify_line 16 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 17 x "Report available at %TEST_COPY%\xspec\schematron-result.html"
+    call :verify_line 18 x "Done."
 
     rem Verify report files
     rem * XML report file is created
     rem * HTML report file is created
     rem * JUnit is disabled by default
-    call :run dir /b /o:n "%TUTORIAL_COPY%\xspec"
+    call :run dir /b /o:n "%TEST_COPY%\xspec"
     call :verify_line_count 5
-    call :verify_line 1 x demo-03-compiled.xsl
-    call :verify_line 2 x demo-03-result.html
-    call :verify_line 3 x demo-03-result.xml
-    call :verify_line 4 x demo-03-sch-preprocessed.xsl
-    call :verify_line 5 x demo-03-sch-preprocessed.xspec
+    call :verify_line 1 x schematron-compiled.xsl
+    call :verify_line 2 x schematron-result.html
+    call :verify_line 3 x schematron-result.xml
+    call :verify_line 4 x schematron-sch-preprocessed.xsl
+    call :verify_line 5 x schematron-sch-preprocessed.xspec
+	</case>
+
+	<!--
+		CLI -e with some failures
+	-->
+
+	<case name="CLI -e with some failures (XSLT)">
+    call :run ..\bin\xspec.bat -e some-failures\function.xspec
+    call :verify_retval 2
+    call :verify_line 14 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 15 x "Report available at %TEST_DIR%\function-result.html"
+    call :verify_line 16 x "*** Found a test failure"
+	</case>
+
+	<case name="CLI -e with some failures (XQuery)">
+    call :run ..\bin\xspec.bat -e -q some-failures\function.xspec
+    call :verify_retval 2
+    call :verify_line 7 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 8 x "Report available at %TEST_DIR%\function-result.html"
+    call :verify_line 9 x "*** Found a test failure"
+	</case>
+
+	<case name="CLI -e with some failures (Schematron)">
+    call :run ..\bin\xspec.bat -e -s some-failures\schematron.xspec
+    call :verify_retval 2
+    call :verify_line 16 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 17 x "Report available at %TEST_DIR%\schematron-result.html"
+    call :verify_line 18 x "*** Found a test failure"
+	</case>
+
+	<!--
+		CLI -e with no failures
+	-->
+
+	<case name="CLI -e with no failures (XSLT)">
+    call :run ..\bin\xspec.bat -e xslt3.xspec
+    call :verify_retval 0
+    call :verify_line 11 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line 12 x "Report available at %TEST_DIR%\xslt3-result.html"
+    call :verify_line 13 x "Done."
+	</case>
+
+	<case name="CLI -e with no failures (XQuery)">
+    call :run ..\bin\xspec.bat -e -q ..\tutorial\xquery-tutorial.xspec
+    call :verify_retval 0
+    call :verify_line 7 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 8 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
+    call :verify_line 9 x "Done."
+	</case>
+
+	<case name="CLI -e with no failures (Schematron)">
+    call :run ..\bin\xspec.bat -e -s ..\tutorial\schematron\demo-01.xspec
+    call :verify_retval 0
+    call :verify_line 16 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
+    call :verify_line 17 x "Report available at %TEST_DIR%\demo-01-result.html"
+    call :verify_line 18 x "Done."
 	</case>
 
 	<!--

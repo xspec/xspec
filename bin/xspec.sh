@@ -36,7 +36,7 @@ usage() {
         echo "$1"
         echo
     fi
-    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file"
+    echo "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file"
     echo
     echo "  file           the XSpec document"
     echo "  -t             test an XSLT stylesheet (the default)"
@@ -45,6 +45,7 @@ usage() {
     echo "  -c             output test coverage report (XSLT only)"
     echo "  -j             output JUnit report"
     echo "  -catalog file  use XML Catalog file to locate resources"
+    echo "  -e             treat failed tests as error"
     echo "  -h             display this help message"
 }
 
@@ -159,7 +160,8 @@ CP="${SAXON_CP}${CP_DELIM}${XSPEC_HOME}/java/"
 ## options ###################################################################
 ##
 
-while echo "$1" | grep -- ^- > /dev/null 2>&1; do
+# Use printf instead of echo: https://stackoverflow.com/a/3657061/11853330
+while printf "%s\n" "$1" | grep -- ^- > /dev/null 2>&1; do
     case "$1" in
         # XSLT
         -t)
@@ -209,6 +211,10 @@ while echo "$1" | grep -- ^- > /dev/null 2>&1; do
         -catalog)
             shift
             XML_CATALOG="$1"
+            ;;
+        # Error on test failure
+        -e)
+            ERROR_ON_TEST_FAILURE=1
             ;;
         # Help!
         -h)
@@ -410,6 +416,18 @@ elif test -n "$JUNIT"; then
 else
     echo "Report available at $HTML"
     #$OPEN "$HTML"
+fi
+
+##
+## error on test failure #####################################################
+##
+
+if [ -n "${ERROR_ON_TEST_FAILURE}" ]; then
+    xslt \
+        -it \
+        -s:"${RESULT}" \
+        -xsl:"${XSPEC_HOME}/src/cli/terminate-on-test-failure.xsl" 2> /dev/null \
+        || die "Found a test failure"
 fi
 
 echo "Done."
