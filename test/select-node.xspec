@@ -26,7 +26,7 @@
 				<x:param as="empty-sequence()" />
 				<x:param select="3.0" />
 			</x:call>
-			<x:expect label="Selected" test="exactly-one($x:result) is $myv:expected" />
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
 		</x:scenario>
 
 		<x:scenario label="Select without [1]">
@@ -36,7 +36,7 @@
 				<x:param as="empty-sequence()" />
 				<x:param select="3.0" />
 			</x:call>
-			<x:expect label="Selected" test="exactly-one($x:result) is $myv:expected" />
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
 		</x:scenario>
 
 		<x:scenario label="Select without leading /">
@@ -47,7 +47,7 @@
 				<x:param as="empty-sequence()" />
 				<x:param select="3.0" />
 			</x:call>
-			<x:expect label="Selected" test="exactly-one($x:result) is $myv:expected" />
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
 		</x:scenario>
 	</x:scenario>
 
@@ -71,7 +71,7 @@
 				<x:param select="$myv:namespaces" />
 				<x:param select="3.0" />
 			</x:call>
-			<x:expect label="Selected" test="exactly-one($x:result) is $myv:expected" />
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
 		</x:scenario>
 
 		<x:scenario label="Select by typeical SVRL XPath 1.0">
@@ -81,7 +81,7 @@
 				<x:param select="$myv:namespaces" />
 				<x:param select="1.0" />
 			</x:call>
-			<x:expect label="Selected" test="exactly-one($x:result) is $myv:expected" />
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
 		</x:scenario>
 
 		<x:scenario label="Select by typical SVRL XPath 2.0">
@@ -91,7 +91,7 @@
 				<x:param select="$myv:namespaces" />
 				<x:param select="2.0" />
 			</x:call>
-			<x:expect label="Selected" test="exactly-one($x:result) is $myv:expected" />
+			<x:expect label="Selected" test="$x:result is $myv:expected" />
 		</x:scenario>
 	</x:scenario>
 
@@ -111,8 +111,7 @@
 				<x:param as="empty-sequence()" />
 				<x:param select="3.0" />
 			</x:call>
-			<x:expect label="Selected"
-				test="exactly-one($x:result) is exactly-one($myv:source/section/@type)" />
+			<x:expect label="Selected" test="$x:result is $myv:source/section/@type" />
 		</x:scenario>
 
 		<x:scenario label="In namespace">
@@ -132,7 +131,7 @@
 					<x:param select="$myv:namespaces" />
 					<x:param select="3.0" />
 				</x:call>
-				<x:expect label="Selected" test="exactly-one($x:result) is $myv:expected" />
+				<x:expect label="Selected" test="$x:result is $myv:expected" />
 			</x:scenario>
 
 			<x:scenario label="Select by typical SVRL XPath 2.0">
@@ -143,7 +142,7 @@
 					<x:param select="$myv:namespaces" />
 					<x:param select="2.0" />
 				</x:call>
-				<x:expect label="Selected" test="exactly-one($x:result) is $myv:expected" />
+				<x:expect label="Selected" test="$x:result is $myv:expected" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
@@ -222,8 +221,7 @@
 					<x:param select="3.0" />
 				</x:call>
 				<x:expect label="Selected"
-					test="exactly-one($x:result) is exactly-one($myv:source/root()/conbody[1]/p[1]/text()[1])"
-				 />
+					test="$x:result is $myv:source/root()/conbody[1]/p[1]/text()[1]" />
 			</x:scenario>
 		</x:scenario>
 	</x:scenario>
