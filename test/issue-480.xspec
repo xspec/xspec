@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
-	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:scenario label="No matter what the function returns">
-		<x:call function="false" />
-		<x:expect label="x:expect[@test eq '()'][empty(@href | @select | node())] should be Success"
-			test="()" />
-	</x:scenario>
-</x:description>

@@ -44,7 +44,7 @@
             <x:expect xmlns:mirror="x-urn:test:mirror"
                       xmlns:myv="http://example.org/ns/my/variable"
                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      test="$global-param treat as node()+"/>
+                      test="$global-param"/>
          </expect-test-wrap>
          <result select="/node()">
             <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
@@ -74,7 +74,7 @@
             <x:expect xmlns:mirror="x-urn:test:mirror"
                       xmlns:myv="http://example.org/ns/my/variable"
                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                      test="$myv:global-var treat as node()+"/>
+                      test="$myv:global-var"/>
          </expect-test-wrap>
          <result select="/node()">
             <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
