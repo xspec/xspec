@@ -116,7 +116,19 @@
                <xsl:copy select="x:call">
                   <xsl:sequence select="($call, .) ! attribute()" />
 
-                  <xsl:variable name="local-params" as="element(x:param)*" select="x:param"/>
+                  <xsl:variable name="is-function-call" as="xs:boolean"
+                     select="($call, .)/@function => exists()" />
+                  <xsl:variable name="local-params" as="element(x:param)*">
+                     <xsl:for-each select="x:param">
+                        <xsl:copy>
+                           <xsl:if test="$is-function-call">
+                              <xsl:attribute name="position" select="position()" />
+                           </xsl:if>
+                           <xsl:sequence select="attribute() | node()" />
+                        </xsl:copy>
+                     </xsl:for-each>
+                  </xsl:variable>
+
                   <xsl:sequence
                      select="
                         $call/x:param

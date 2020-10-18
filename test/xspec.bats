@@ -2713,22 +2713,6 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "Too large @position (interleave) (XSLT)" {
-    run ../bin/xspec.sh bad-position/too-large_interleave.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    assert_regex "${output}" '.+: Too large parameter position, 5, used in x:call\.'$'\n'
-    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
-}
-
-@test "Too large @position (interleave) (XQuery)" {
-    run ../bin/xspec.sh -q bad-position/too-large_interleave.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    assert_regex "${output}" '.+: Too large parameter position, 5, used in x:call\.'$'\n'
-    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
-}
-
 @test "Too large @position (last) (XSLT)" {
     run ../bin/xspec.sh bad-position/too-large_last.xspec
     echo "$output"

@@ -36,7 +36,9 @@
 			<exclude name="test/error-compiling-scenario/context-both-href-and-content.xspec" />
 			<exclude name="test/error-compiling-scenario/function-with-context.xspec" />
 
-			<!-- Tests non-positive @position -->
+			<!-- Tests invalid @position -->
+			<exclude name="test/bad-position/mixed_explicit-implicit.xspec" />
+			<exclude name="test/bad-position/mixed_implicit-explicit.xspec" />
 			<exclude name="test/bad-position/non-positive.xspec" />
 
 			<!-- (x:expect | x:scenario)/@id which is not allowed -->
