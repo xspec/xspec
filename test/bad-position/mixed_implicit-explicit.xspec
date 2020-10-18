@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="http://example.org/ns/my" query-at="subtract.xqm" stylesheet="subtract.xsl"
+	xml:base="../" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="function-param positions (implicit one followed by explicit one)">
+		<x:call function="my:subtract">
+			<x:param select="2" />
+			<x:param position="2" select="1" />
+		</x:call>
+		<x:expect label="should be a compiler error" select="1" />
+	</x:scenario>
+
+</x:description>

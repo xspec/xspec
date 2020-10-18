@@ -206,7 +206,7 @@ function-call =
 		common-attributes,
 		## The qualified name of the function which should get called.
 		attribute function { eqname.datatype }?,
-		function-param*
+		function-params
 	}
 
 template-call = 
@@ -234,8 +234,9 @@ template-param = element param { common-attributes,
                                  name,
                                  attribute tunnel { boolean.datatype }?, selection }
 
-function-param = element param { common-attributes,
-                                 name?, position?, selection }
+function-param-base = common-attributes, name?, selection
+function-params = element param { function-param-base }* |
+                  element param { function-param-base, position }*
 
 name = attribute name { eqname.datatype }
 
