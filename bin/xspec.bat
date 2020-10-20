@@ -477,7 +477,6 @@ rem
 
 if defined ERROR_ON_TEST_FAILURE (
     call :xslt ^
-        -it ^
         -s:"%RESULT%" ^
         -xsl:"%XSPEC_HOME%\src\cli\terminate-on-test-failure.xsl" 2> NUL ^
         || ( call :die "Found a test failure" & goto :win_main_error_exit )

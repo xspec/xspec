@@ -7,9 +7,9 @@
 
 	<xsl:output method="text" />
 
-	<xsl:template as="empty-sequence()" name="xsl:initial-template">
-		<xsl:context-item as="document-node(element(x:report))" use="required" />
+	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
+	<xsl:template as="empty-sequence()" match="document-node(element(x:report))">
 		<xsl:sequence select="x:descendant-failed-tests(.) ! error()" />
 	</xsl:template>
 

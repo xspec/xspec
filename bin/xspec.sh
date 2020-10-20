@@ -424,7 +424,6 @@ fi
 
 if [ -n "${ERROR_ON_TEST_FAILURE}" ]; then
     xslt \
-        -it \
         -s:"${RESULT}" \
         -xsl:"${XSPEC_HOME}/src/cli/terminate-on-test-failure.xsl" 2> /dev/null \
         || die "Found a test failure"
