@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:some-failures:function" query-at="function.xqm"
+	stylesheet="function.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="One Success test and two Failure tests">
+		<x:call function="exactly-one">
+			<x:param select="1" />
+		</x:call>
+		<x:expect label="success" select="1" />
+		<x:expect label="a failure" select="2" />
+		<x:expect label="another failure" select="3" />
+	</x:scenario>
+</x:description>

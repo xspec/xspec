@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="schematron.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="One Success test and two Failure tests">
+		<x:context href="schematron.xml" />
+		<x:expect-report id="r1" label="success" />
+		<x:expect-report id="r2" label="a failure" />
+		<x:expect-report id="r3" label="another failure" />
+	</x:scenario>
+</x:description>

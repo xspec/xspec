@@ -47,7 +47,7 @@ rem ##
         call :win_echo %1
         echo:
     )
-    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog file^|-h] file
+    echo Usage: xspec [-t^|-q^|-s^|-c^|-j^|-catalog file^|-e^|-h] file
     echo:
     echo   file           the XSpec document
     echo   -t             test an XSLT stylesheet (the default)
@@ -56,6 +56,7 @@ rem ##
     echo   -c             output test coverage report (XSLT only)
     echo   -j             output JUnit report
     echo   -catalog file  use XML Catalog file to locate resources
+    echo   -e             treat failed tests as error
     echo   -h             display this help message
     goto :EOF
 
@@ -92,6 +93,7 @@ rem ##
     set WIN_EXTRA_OPTION=
     set XSPEC=
     set CATALOG=
+    set ERROR_ON_TEST_FAILURE=
     goto :EOF
 
 :win_get_options
@@ -109,6 +111,8 @@ rem ##
         set COVERAGE=1
     ) else if "%WIN_ARGV%"=="-j" (
         set JUNIT=1
+    ) else if "%WIN_ARGV%"=="-e" (
+        set ERROR_ON_TEST_FAILURE=1
     ) else if "%WIN_ARGV%"=="-h" (
         set WIN_HELP=1
     ) else if "%WIN_ARGV%"=="-catalog" (
@@ -463,6 +467,19 @@ if defined COVERAGE (
 ) else (
     call :win_echo "Report available at %HTML%"
     rem %OPEN% "%HTML%"
+)
+
+rem
+rem ##
+rem ## error on test failure #####################################################
+rem ##
+rem
+
+if defined ERROR_ON_TEST_FAILURE (
+    call :xslt ^
+        -s:"%RESULT%" ^
+        -xsl:"%XSPEC_HOME%\src\cli\terminate-on-test-failure.xsl" 2> NUL ^
+        || ( call :die "Found a test failure" & goto :win_main_error_exit )
 )
 
 echo Done.

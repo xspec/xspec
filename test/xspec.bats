@@ -55,7 +55,7 @@ load bats-helper
     run ../bin/xspec.sh
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-h] file" ]
+    [ "${lines[2]}" = "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file" ]
 }
 
 @test "invoking xspec without arguments prints usage even if Saxon environment variables are not defined" {
@@ -233,34 +233,37 @@ load bats-helper
 
     # Use a fresh dir, to make the message line numbers predictable
     # and to avoid a residue of output files
-    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
-    mkdir "${tutorial_copy}"
-    cp ../tutorial/escape-for-regex.* "${tutorial_copy}"
+    test_copy="${work_dir}/some-failures ${RANDOM}"
+    mkdir "${test_copy}"
+    cp some-failures/function.* "${test_copy}"
 
     # Run
-    run ../bin/xspec.sh "${tutorial_copy}/escape-for-regex.xspec"
+    run ../bin/xspec.sh "${test_copy}/function.xspec"
     echo "$output"
+
+    # By default, failure is not error
     [ "$status" -eq 0 ]
 
     # Verify message
-    [ "${lines[19]}" = "passed: 5 / pending: 0 / failed: 1 / total: 6" ]
-    [ "${lines[20]}" = "Report available at ${tutorial_copy}/xspec/escape-for-regex-result.html" ]
+    [ "${lines[13]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[14]}" = "Report available at ${test_copy}/xspec/function-result.html" ]
+    [ "${lines[15]}" = "Done." ]
 
     # Verify report files
     # * XML report file is created
     # * HTML report file is created
     # * Coverage is disabled by default
     # * JUnit is disabled by default
-    run ls "${tutorial_copy}/xspec"
+    run ls "${test_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "escape-for-regex-compiled.xsl" ]
-    [ "${lines[1]}" = "escape-for-regex-result.html" ]
-    [ "${lines[2]}" = "escape-for-regex-result.xml" ]
+    [ "${lines[0]}" = "function-compiled.xsl" ]
+    [ "${lines[1]}" = "function-result.html" ]
+    [ "${lines[2]}" = "function-result.xml" ]
 
     # HTML report file contains CSS inline #135
     run java -jar "${SAXON_JAR}" \
-        -s:"${tutorial_copy}/xspec/escape-for-regex-result.html" \
+        -s:"${test_copy}/xspec/function-result.html" \
         -xsl:check-html-css.xsl
     echo "$output"
     [ "$status" -eq 0 ]
@@ -276,19 +279,26 @@ load bats-helper
 
     # Use a fresh dir, to make the message line numbers predictable
     # and to avoid a residue of output files
-    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
-    mkdir "${tutorial_copy}"
-    cp ../tutorial/coverage/demo* "${tutorial_copy}"
+    test_copy="${work_dir}/some-failures ${RANDOM}"
+    mkdir "${test_copy}"
+    cp some-failures/function.* "${test_copy}"
 
     # Run
-    run ../bin/xspec.sh -c "${tutorial_copy}/demo.xspec"
+    run ../bin/xspec.sh -c "${test_copy}/function.xspec"
     echo "$output"
+
+    # By default, failure is not error
     [ "$status" -eq 0 ]
 
     # Verify message
     # Bats bug inserts garbages into $lines: bats-core/bats-core#151
-    assert_regex "${output}" $'\n''passed: 1 / pending: 0 / failed: 0 / total: 1'$'\n'
-    assert_regex "${output}" $'\n''Report available at '"${tutorial_copy}"'/xspec/demo-coverage\.html'$'\n'
+    mylines=()
+    while IFS= read -r line; do
+        mylines+=("$line")
+    done <<< "$output"
+    [ "${mylines[20]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${mylines[23]}" = "Report available at ${test_copy}/xspec/function-coverage.html" ]
+    [ "${mylines[24]}" = "Done." ]
 
     # Verify report files
     # * XML report file is created
@@ -296,14 +306,14 @@ load bats-helper
     # * Coverage XML report is created
     # * Coverage HTML report is created
     # * JUnit is disabled by default
-    run ls "${tutorial_copy}/xspec"
+    run ls "${test_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "5" ]
-    [ "${lines[0]}" = "demo-compiled.xsl" ]
-    [ "${lines[1]}" = "demo-coverage.html" ]
-    [ "${lines[2]}" = "demo-coverage.xml" ]
-    [ "${lines[3]}" = "demo-result.html" ]
-    [ "${lines[4]}" = "demo-result.xml" ]
+    [ "${lines[0]}" = "function-compiled.xsl" ]
+    [ "${lines[1]}" = "function-coverage.html" ]
+    [ "${lines[2]}" = "function-coverage.xml" ]
+    [ "${lines[3]}" = "function-result.html" ]
+    [ "${lines[4]}" = "function-result.xml" ]
 }
 
 @test "invoking xspec without TEST_DIR set externally (XQuery)" {
@@ -311,67 +321,131 @@ load bats-helper
 
     # Use a fresh dir, to make the message line numbers predictable
     # and to avoid a residue of output files
-    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
-    mkdir "${tutorial_copy}"
-    cp ../tutorial/xquery-tutorial.* "${tutorial_copy}"
+    test_copy="${work_dir}/some-failures ${RANDOM}"
+    mkdir "${test_copy}"
+    cp some-failures/function.* "${test_copy}"
 
     # Run
-    run ../bin/xspec.sh -q "${tutorial_copy}/xquery-tutorial.xspec"
+    run ../bin/xspec.sh -q "${test_copy}/function.xspec"
     echo "$output"
+
+    # By default, failure is not error
     [ "$status" -eq 0 ]
 
     # Verify message
-    [ "${lines[6]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-    [ "${lines[7]}" = "Report available at ${tutorial_copy}/xspec/xquery-tutorial-result.html" ]
+    [ "${lines[6]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[7]}" = "Report available at ${test_copy}/xspec/function-result.html" ]
+    [ "${lines[8]}" = "Done." ]
 
     # Verify report files
     # * XML report file is created
     # * HTML report file is created
     # * JUnit is disabled by default
-    run ls "${tutorial_copy}/xspec"
+    run ls "${test_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "3" ]
-    [ "${lines[0]}" = "xquery-tutorial-compiled.xq" ]
-    [ "${lines[1]}" = "xquery-tutorial-result.html" ]
-    [ "${lines[2]}" = "xquery-tutorial-result.xml" ]
+    [ "${lines[0]}" = "function-compiled.xq" ]
+    [ "${lines[1]}" = "function-result.html" ]
+    [ "${lines[2]}" = "function-result.xml" ]
 }
 
 @test "invoking xspec without TEST_DIR set externally (Schematron)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
     unset TEST_DIR
 
     # Use a fresh dir, to make the message line numbers predictable
     # and to avoid a residue of output files
-    tutorial_copy="${work_dir}/tutorial ${RANDOM}"
-    mkdir "${tutorial_copy}"
-    cp ../tutorial/schematron/demo-03* "${tutorial_copy}"
+    test_copy="${work_dir}/some-failures ${RANDOM}"
+    mkdir "${test_copy}"
+    cp some-failures/schematron.* "${test_copy}"
 
     # Run
-    run ../bin/xspec.sh -s "${tutorial_copy}/demo-03.xspec"
+    run ../bin/xspec.sh -s "${test_copy}/schematron.xspec"
     echo "$output"
+
+    # By default, failure is not error
     [ "$status" -eq 0 ]
 
     # Verify message
     # * No Schematron warnings #129 #131
     [ "${lines[3]}"  = "Converting Schematron XSpec into XSLT XSpec..." ]
-    [ "${lines[30]}" = "passed: 10 / pending: 1 / failed: 0 / total: 11" ]
-    [ "${lines[31]}" = "Report available at ${tutorial_copy}/xspec/demo-03-result.html" ]
+    [ "${lines[15]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[16]}" = "Report available at ${test_copy}/xspec/schematron-result.html" ]
+    [ "${lines[17]}"  = "Done." ]
 
     # Verify report files
     # * XML report file is created
     # * HTML report file is created
     # * JUnit is disabled by default
-    run ls "${tutorial_copy}/xspec"
+    run ls "${test_copy}/xspec"
     echo "$output"
     [ "${#lines[@]}" = "5" ]
-    [ "${lines[0]}" = "demo-03-compiled.xsl" ]
-    [ "${lines[1]}" = "demo-03-result.html" ]
-    [ "${lines[2]}" = "demo-03-result.xml" ]
-    [ "${lines[3]}" = "demo-03-sch-preprocessed.xsl" ]
-    [ "${lines[4]}" = "demo-03-sch-preprocessed.xspec" ]
+    [ "${lines[0]}" = "schematron-compiled.xsl" ]
+    [ "${lines[1]}" = "schematron-result.html" ]
+    [ "${lines[2]}" = "schematron-result.xml" ]
+    [ "${lines[3]}" = "schematron-sch-preprocessed.xsl" ]
+    [ "${lines[4]}" = "schematron-sch-preprocessed.xspec" ]
+}
+
+#
+# CLI -e with some failures
+#
+
+@test "CLI -e with some failures (XSLT)" {
+    run ../bin/xspec.sh -e some-failures/function.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[13]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[14]}" = "Report available at ${TEST_DIR}/function-result.html" ]
+    [ "${lines[15]}" = "*** Found a test failure" ]
+}
+
+@test "CLI -e with some failures (XQuery)" {
+    run ../bin/xspec.sh -e -q some-failures/function.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[6]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[7]}" = "Report available at ${TEST_DIR}/function-result.html" ]
+    [ "${lines[8]}" = "*** Found a test failure" ]
+}
+
+@test "CLI -e with some failures (Schematron)" {
+    run ../bin/xspec.sh -e -s some-failures/schematron.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[15]}" = "passed: 1 / pending: 0 / failed: 2 / total: 3" ]
+    [ "${lines[16]}" = "Report available at ${TEST_DIR}/schematron-result.html" ]
+    [ "${lines[17]}" = "*** Found a test failure" ]
+}
+
+#
+# CLI -e with no failures
+#
+
+@test "CLI -e with no failures (XSLT)" {
+    run ../bin/xspec.sh -e xslt3.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[10]}" = "passed: 2 / pending: 0 / failed: 0 / total: 2" ]
+    [ "${lines[11]}" = "Report available at ${TEST_DIR}/xslt3-result.html" ]
+    [ "${lines[12]}" = "Done." ]
+}
+
+@test "CLI -e with no failures (XQuery)" {
+    run ../bin/xspec.sh -e -q ../tutorial/xquery-tutorial.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[6]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[7]}" = "Report available at ${TEST_DIR}/xquery-tutorial-result.html" ]
+    [ "${lines[8]}" = "Done." ]
+}
+
+@test "CLI -e with no failures (Schematron)" {
+    run ../bin/xspec.sh -e -s ../tutorial/schematron/demo-01.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[15]}" = "passed: 3 / pending: 0 / failed: 0 / total: 3" ]
+    [ "${lines[16]}" = "Report available at ${TEST_DIR}/demo-01-result.html" ]
+    [ "${lines[17]}" = "Done." ]
 }
 
 #
@@ -683,7 +757,11 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     # Bats bug inserts garbages into $lines: bats-core/bats-core#151
-    assert_regex "${output}" $'\n''Report available at '"${TEST_DIR}"'/demo-coverage\.html'
+    mylines=()
+    while IFS= read -r line; do
+        mylines+=("$line")
+    done <<< "$output"
+    [ "${mylines[19]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
 
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
@@ -705,7 +783,11 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     # Bats bug inserts garbages into $lines: bats-core/bats-core#151
-    assert_regex "${output}" $'\n''Report available at '"${TEST_DIR}"'/demo-coverage\.html'
+    mylines=()
+    while IFS= read -r line; do
+        mylines+=("$line")
+    done <<< "$output"
+    [ "${mylines[19]}" = "Report available at ${TEST_DIR}/demo-coverage.html" ]
 
     # Verify files in specified TEST_DIR
     run ls "${TEST_DIR}"
