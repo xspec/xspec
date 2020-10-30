@@ -152,7 +152,7 @@
                $new-call[@function] ! local:param-dup-position-error-string(.)
             )[1]" />
       <xsl:if test="$dup-param-error-string">
-         <xsl:call-template name="x:error-compiling-scenario">
+         <xsl:call-template name="x:diag-compiling-scenario">
             <xsl:with-param name="message" select="$dup-param-error-string" />
          </xsl:call-template>
       </xsl:if>
