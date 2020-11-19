@@ -1966,8 +1966,8 @@
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
 
-    if "%SAXON_VERSION:~0,4%"=="9.8." (
-        call :verify_line 3 x "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9."
+    if "%SAXON_VERSION:~0,4%"=="9.9.TODO" (
+        call :verify_line 3 x "WARNING: Saxon version 9.9 is not recommended. Consider migrating to Saxon 10."
     ) else (
         call :verify_line 3 x " "
     )
@@ -1981,8 +1981,8 @@
 	-->
 
 	<case name="No warning on Ant (XSLT) #633">
-    if "%SAXON_VERSION:~0,4%"=="9.8." (
-        call :skip "Always expect a deprecation warning on Saxon 9.8"
+    if "%SAXON_VERSION:~0,4%"=="9.9.TODO" (
+        call :skip "Always expect a deprecation warning on Saxon 9.9"
         goto :EOF
     )
 
@@ -2003,8 +2003,8 @@
 	</case>
 
 	<case name="No warning on Ant (XQuery) #633">
-    if "%SAXON_VERSION:~0,4%"=="9.8." (
-        call :skip "Always expect a deprecation warning on Saxon 9.8"
+    if "%SAXON_VERSION:~0,4%"=="9.9.TODO" (
+        call :skip "Always expect a deprecation warning on Saxon 9.9"
         goto :EOF
     )
 
@@ -2025,8 +2025,8 @@
 	</case>
 
 	<case name="No warning on Ant (Schematron) #633">
-    if "%SAXON_VERSION:~0,4%"=="9.8." (
-        call :skip "Always expect a deprecation warning on Saxon 9.8"
+    if "%SAXON_VERSION:~0,4%"=="9.9.TODO" (
+        call :skip "Always expect a deprecation warning on Saxon 9.9"
         goto :EOF
     )
 

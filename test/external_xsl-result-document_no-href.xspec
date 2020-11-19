@@ -4,7 +4,7 @@
 
 	<x:scenario label="Calling a template containing xsl:result-document[empty(@href)]">
 		<x:call template="no-href" />
-		<x:expect label="should be possible" select="/">
+		<x:expect label="should be possible">
 			<secondary />
 		</x:expect>
 	</x:scenario>

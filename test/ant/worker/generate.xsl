@@ -202,12 +202,6 @@
 					</xsl:when>
 
 					<xsl:when test="
-							($pis = 'require-saxon-bug-3543-fixed')
-							and ($x:saxon-version lt x:pack-version((9, 8, 0, 7)))">
-						<xsl:text>Requires Saxon bug #3543 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
 							($pis = 'require-saxon-bug-4315-fixed')
 							and ($x:saxon-version ge x:pack-version((9, 9)))
 							and ($x:saxon-version le x:pack-version((9, 9, 1, 6)))">
@@ -273,15 +267,6 @@
 							)
 							)">
 						<xsl:text>Requires xspec/xspec#1156 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($test-type eq 't')
-							and $run-as-external
-							and ($x:saxon-version lt x:pack-version((9, 8, 0, 8)))">
-						<!-- Saxon changed 'vendor-options' on 9.8.0.8
-							http://www.saxonica.com/documentation9.8/index.html#!functions/fn/transform -->
-						<xsl:text>Requires transform() vendor-options saxon:configuration</xsl:text>
 					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
