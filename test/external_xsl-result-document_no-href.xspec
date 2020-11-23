@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="xsl-result-document.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Calling a template containing xsl:result-document[empty(@href)]">
+		<x:call template="no-href" />
+		<x:expect label="should be possible" select="/">
+			<secondary />
+		</x:expect>
+	</x:scenario>
+
+</x:description>

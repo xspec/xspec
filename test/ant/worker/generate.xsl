@@ -218,6 +218,13 @@
 
 					<xsl:when
 						test="
+							($pis = 'require-saxon-bug-4835-fixed')
+							and ($x:saxon-version le x:pack-version((10, 3)))">
+						<xsl:text>Requires Saxon bug #4835 to have been fixed</xsl:text>
+					</xsl:when>
+
+					<xsl:when
+						test="
 							($pis = 'require-xspec-issue-1156-fixed')
 							and
 							(
