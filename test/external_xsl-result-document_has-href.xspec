@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-saxon-bug-4835-fixed?>
+<x:description run-as="external" stylesheet="xsl-result-document.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Calling a template containing xsl:result-document[@href]">
+		<x:call template="has-href" />
+		<x:expect label="should be possible">
+			<principal />
+		</x:expect>
+	</x:scenario>
+
+</x:description>
