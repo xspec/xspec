@@ -32,12 +32,11 @@ echo
 echo "=== Check BaseX"
 java -cp "${BASEX_JAR}" org.basex.BaseX -h
 
-# TODO: On BaseX 9.4.3, this causes "Server is running or permission was denied (port: 1984)" in Bats test.
-# echo
-# echo "=== Check BaseX server start and stop"
-# basex_home=$(dirname -- "${BASEX_JAR}")
-# "${basex_home}/bin/basexhttp" -S
-# "${basex_home}/bin/basexhttpstop"
+echo
+echo "=== Check BaseX server start and stop"
+basex_home=$(dirname -- "${BASEX_JAR}")
+"${basex_home}/bin/basexhttp" -S
+"${basex_home}/bin/basexhttpstop"
 
 echo
 echo "=== Print Bats version"
