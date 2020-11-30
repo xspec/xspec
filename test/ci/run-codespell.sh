@@ -7,10 +7,4 @@ pip install \
     --requirement requirements-dev.txt
 
 echo "Run codespell"
-# ".git" dir is not skipped by default: codespell-project/codespell#783
-# Skipping nested dirs needs "./": codespell-project/codespell#99
-~/.local/bin/codespell \
-    --check-filenames \
-    --check-hidden \
-    --quiet-level 6 \
-    --skip=".git,./lib,./node_modules"
+~/.local/bin/codespell
