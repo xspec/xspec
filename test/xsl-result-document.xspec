@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="xsl-result-document.xsl" xmlns:err="http://www.w3.org/2005/xqt-errors"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!--
+		These scenarios ensure that the templates in xsl-result-document.xsl cannot be tested with
+		@run-as=import.
+	-->
+
+	<x:helper stylesheet="../src/common/version-utils.xsl" />
+
+	<x:scenario label="should be err:XTDE1480 due to outer xsl:variable" shared="yes">
+		<x:expect label="code" select="xs:QName('err:XTDE1480')" test="$x:result?err?code" />
+		<x:expect label="description"
+			select="'Cannot execute xsl:result-document while evaluating xsl:variable'"
+			test="$x:result?err?description" />
+	</x:scenario>
+
+	<x:scenario catch="yes" label="Calling a template containing xsl:result-document">
+		<x:scenario label="[@href]">
+			<x:call template="has-href" />
+			<x:like label="should be err:XTDE1480 due to outer xsl:variable" />
+			<x:expect label="line-number" select="7" test="$x:result?err?line-number" />
+		</x:scenario>
+
+		<x:scenario label="[empty(@href)]">
+			<x:call template="no-href" />
+			<x:like label="should be err:XTDE1480 due to outer xsl:variable" />
+			<x:expect label="line-number" select="21[$x:saxon-version ge x:pack-version((9, 9))]"
+				test="$x:result?err?line-number" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

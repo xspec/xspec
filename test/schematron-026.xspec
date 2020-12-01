@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="schematron-026.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- Based on https://github.com/xspec/xspec/issues/1277#issue-720058240 -->
+
+	<x:scenario>
+		<x:label>Advanced (i.e. not a known expression pattern of 'skeleton' implementation) boolean
+			predicate in @location</x:label>
+		<x:context>
+			<article>
+				<front>
+					<article-meta>
+						<abstract>
+							<sec id="sec-title-text-lower-case" />
+						</abstract>
+						<abstract>
+							<sec id="sec-title-text-UPPER-CASE" />
+						</abstract>
+					</article-meta>
+				</front>
+			</article>
+		</x:context>
+
+		<x:expect-assert
+			location="article/front/article-meta/abstract[1]/sec[@id='sec-title-text-lower-case']" />
+		<x:expect-not-report
+			location="article/front/article-meta/abstract[1]/sec[@id='sec-title-text-lower-case']" />
+
+		<x:expect-not-assert
+			location="article/front/article-meta/abstract[position() ne 1]/sec[@id='sec-title-text-UPPER-CASE']" />
+		<x:expect-report
+			location="article/front/article-meta/abstract[position() ne 1]/sec[@id='sec-title-text-UPPER-CASE']"
+		 />
+	</x:scenario>
+
+</x:description>
