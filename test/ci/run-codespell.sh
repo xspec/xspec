@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Install codespell"
-pip install \
+pip3 install \
     --disable-pip-version-check \
     --user \
     --requirement requirements-dev.txt

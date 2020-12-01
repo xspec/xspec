@@ -1,5 +1,5 @@
 echo Install codespell
-pip install ^
+pip3 install ^
     --disable-pip-version-check ^
     --requirement requirements-dev.txt
 
