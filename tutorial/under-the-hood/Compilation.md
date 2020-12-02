@@ -220,7 +220,7 @@ result as parameter.
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <xsl:message>expectations</xsl:message>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-..." select="()"><!--expected result--></xsl:variable>
-   <!-- wrap $x:result into a doc node if possible -->
+   <!-- wrap $x:result into a document node if possible -->
    <xsl:variable name="Q{urn:x-xspec:compile:impl}test-items" as="item()*">
       <xsl:choose>
          <xsl:when test="exists($Q{http://www.jenitennison.com/xslt/xspec}result) and Q{http://www.jenitennison.com/xslt/xspec}wrappable-sequence($Q{http://www.jenitennison.com/xslt/xspec}result)">
@@ -231,7 +231,7 @@ result as parameter.
          </xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
-   <!-- evaluate the predicate with $x:result as context node if $x:result is a single node; if not, just evaluate the predicate -->
+   <!-- evaluate the predicate with $x:result (or its wrapper document node) as context item if it is a single item; if not, evaluate the predicate without context item -->
    <xsl:variable name="Q{urn:x-xspec:compile:impl}test-result" as="item()*">
       <xsl:choose>
          <xsl:when test="count($Q{urn:x-xspec:compile:impl}test-items) eq 1">
