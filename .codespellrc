@@ -1,0 +1,8 @@
+[codespell]
+check-filenames =
+check-hidden =
+quiet-level = 6
+
+# ".git" dir is not skipped by default: codespell-project/codespell#783
+# Skipping nested dirs needs "./": codespell-project/codespell#99
+skip = .git,./lib,./node_modules
