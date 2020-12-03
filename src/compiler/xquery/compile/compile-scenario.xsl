@@ -25,14 +25,14 @@
       <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
 
       <xsl:if test="$context">
-         <xsl:call-template name="x:error-compiling-scenario">
+         <xsl:call-template name="x:diag-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text expand-text="yes">{name($context)} not supported for XQuery</xsl:text>
             </xsl:with-param>
          </xsl:call-template>
       </xsl:if>
       <xsl:if test="$call/@template">
-         <xsl:call-template name="x:error-compiling-scenario">
+         <xsl:call-template name="x:diag-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text expand-text="yes">{name($call)}/@template not supported for XQuery</xsl:text>
             </xsl:with-param>
@@ -42,7 +42,7 @@
          <xsl:call-template name="x:check-param-max-position" />
       </xsl:if>
       <xsl:if test="x:expect and empty($call)">
-         <xsl:call-template name="x:error-compiling-scenario">
+         <xsl:call-template name="x:diag-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
                   the user -->

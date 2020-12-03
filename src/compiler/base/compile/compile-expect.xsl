@@ -22,7 +22,8 @@
 
       <xsl:sequence
          select="
-            x:prefix-error-message(
+            x:prefix-diag-message(
+               'ERROR',
                $expect,
                'Boolean @test must not be accompanied by @as, @href, @select, or child node.'
             )" />
@@ -34,7 +35,8 @@
 
       <xsl:sequence
          select="
-            x:prefix-error-message(
+            x:prefix-diag-message(
+               'ERROR',
                $expect,
                'Non-boolean @test must be accompanied by @as, @href, @select, or child node.'
             )" />

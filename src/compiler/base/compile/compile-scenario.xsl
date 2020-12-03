@@ -9,12 +9,14 @@
       Utils for compiling x:scenario
    -->
 
-   <xsl:template name="x:error-compiling-scenario" as="empty-sequence()">
+   <xsl:template name="x:diag-compiling-scenario" as="empty-sequence()">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
+      <xsl:param name="level" as="xs:string" select="'ERROR'" />
       <xsl:param name="message" as="xs:string" />
 
-      <xsl:message terminate="yes" select="x:prefix-error-message(., $message)" />
+      <xsl:message terminate="{$level eq 'ERROR'}"
+         select="x:prefix-diag-message($level, ., $message)" />
    </xsl:template>
 
    <!-- Checks max x:param/@position. The caller of this template must ensure that the current
@@ -27,7 +29,7 @@
       <xsl:variable name="max-param-position" as="xs:integer?"
          select="max($call/x:param ! xs:integer(@position))" />
       <xsl:if test="$max-param-position gt count($call/x:param)">
-         <xsl:call-template name="x:error-compiling-scenario">
+         <xsl:call-template name="x:diag-compiling-scenario">
             <xsl:with-param name="message" as="xs:string">
                <xsl:text expand-text="yes">Too large parameter position, {$max-param-position}, used in {name($call)}.</xsl:text>
             </xsl:with-param>

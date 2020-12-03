@@ -2728,3 +2728,14 @@ load bats-helper
     assert_regex "${output}" '.+: Too large parameter position, 5, used in x:call\.'$'\n'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
+
+#
+# Warn when a named template scenario has a context parameter
+#
+
+@test "Warning when x:call[@template] ignores x:context/x:param" {
+    run ../bin/xspec.sh context-param.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[4]}" = "WARNING in x:scenario ('When x:context has x:param and another child node, setting up the context excludes x:param from the context nodes. So... When a template is called,'): x:context/x:param will have no effect on x:call" ]
+}
