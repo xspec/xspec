@@ -60,6 +60,7 @@ die() {
 # script for Saxon [1].  If it is present, that means the user already
 # configured it, so there is no point to duplicate the logic here.
 # Just use it.
+# [1]http://code.google.com/p/expath-pkg/source/browse/trunk/saxon/pkg-saxon/src/shell/saxon
 
 if command -v saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" > /dev/null 2>&1; then
     echo Saxon script found, use it.
