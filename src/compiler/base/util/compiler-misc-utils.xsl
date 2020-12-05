@@ -105,8 +105,9 @@
       <xsl:sequence select="($prefix[.], $local-name) => string-join(':')" />
    </xsl:function>
 
-   <!-- Prefixes an error message with identifiable information of its originating element -->
-   <xsl:function name="x:prefix-error-message" as="xs:string">
+   <!-- Prefixes a diagnostic message with identifiable information of its originating element -->
+   <xsl:function name="x:prefix-diag-message" as="xs:string">
+      <xsl:param name="level" as="xs:string" />
       <xsl:param name="element" as="element()" />
       <xsl:param name="message" as="xs:string" />
 
@@ -116,7 +117,7 @@
             => string-join(' ')
             => normalize-space()" />
 
-      <xsl:text expand-text="yes">ERROR in {name($element)} ('{$label}'): {$message}</xsl:text>
+      <xsl:text expand-text="yes">{$level} in {name($element)} ('{$label}'): {$message}</xsl:text>
    </xsl:function>
 
 </xsl:stylesheet>

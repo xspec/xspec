@@ -61,7 +61,7 @@
 
             <xsl:choose>
                <xsl:when test="@test">
-                  <xsl:comment> wrap $x:result into a doc node if possible </xsl:comment>
+                  <xsl:comment> wrap $x:result into a document node if possible </xsl:comment>
                   <!-- This variable declaration could be moved from here (the
                      template generated from x:expect) to the template
                      generated from x:scenario. It depends only on
@@ -83,7 +83,7 @@
                      </choose>
                   </variable>
 
-                  <xsl:comment> evaluate the predicate with $x:result as context node if $x:result is a single node; if not, just evaluate the predicate </xsl:comment>
+                  <xsl:comment> evaluate the predicate with $x:result (or its wrapper document node) as context item if it is a single item; if not, evaluate the predicate without context item </xsl:comment>
                   <variable name="{x:known-UQName('impl:test-result')}" as="item()*">
                      <choose>
                         <when test="count(${x:known-UQName('impl:test-items')}) eq 1">

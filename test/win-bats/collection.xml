@@ -2353,4 +2353,14 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
+	<!--
+		Warn when a named template scenario has a context parameter
+	-->
+
+	<case name="Warning when x:call[@template] ignores x:context/x:param">
+    call :run ..\bin\xspec.bat context-param.xspec
+    call :verify_retval 0
+    call :verify_line 5 x "WARNING in x:scenario ('When x:context has x:param and another child node, setting up the context excludes x:param from the context nodes. So... When a template is called,'): x:context/x:param will have no effect on x:call"
+	</case>
+
 </collection>
