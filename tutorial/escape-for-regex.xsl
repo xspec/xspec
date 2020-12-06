@@ -33,7 +33,7 @@
     <xsl:template match="phrase">
         <xsl:variable name="escaped-text" select="functx:escape-for-regex(.)"/>
         <phrase status="{if (. = $escaped-text) then 'changed' else 'same'}">
-            <xsl:value-of select="functx:escape-for-regex(.)"/>
+            <xsl:value-of select="$escaped-text" />
         </phrase>
     </xsl:template>
 
