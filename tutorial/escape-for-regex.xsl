@@ -24,14 +24,14 @@
 
     <!-- Escape regexes in a list of phrases -->
 
-    <xsl:template match="phrases">
+    <xsl:template match="phrases" as="element(phrases)">
         <phrases>
             <xsl:apply-templates select="phrase"/>
         </phrases>
     </xsl:template>
 
-    <xsl:template match="phrase">
-        <xsl:variable name="escaped-text" select="functx:escape-for-regex(.)"/>
+    <xsl:template match="phrase" as="element(phrase)">
+        <xsl:variable name="escaped-text" as="xs:string" select="functx:escape-for-regex(.)" />
         <phrase status="{if (. = $escaped-text) then 'changed' else 'same'}">
             <xsl:value-of select="$escaped-text" />
         </phrase>
