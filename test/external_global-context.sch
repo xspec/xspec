@@ -6,12 +6,12 @@
 
 	<sch:pattern>
 		<sch:rule context="foo">
-			<sch:report id="global-context-of-foo-is-root-document-node"
+			<sch:report id="global-context-while-validating-foo-is-root-document-node-of-foo"
 				test="$global-context is (root() treat as document-node(element(foo)))" />
 		</sch:rule>
 
 		<sch:rule context="bar">
-			<sch:report id="global-context-of-bar-is-root-document-node"
+			<sch:report id="global-context-while-validating-bar-is-root-document-node-of-bar"
 				test="$global-context is (root() treat as document-node(element(bar)))" />
 		</sch:rule>
 	</sch:pattern>

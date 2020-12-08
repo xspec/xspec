@@ -4,21 +4,21 @@
 
 	<x:param name="allow-foreign">true</x:param>
 
-	<x:scenario label="Global context of">
+	<x:scenario label="Global context while validating">
 		<x:scenario label="foo">
 			<x:context>
 				<foo />
 			</x:context>
-			<x:expect-report id="global-context-of-foo-is-root-document-node"
-				label="is root document node" />
+			<x:expect-report id="global-context-while-validating-foo-is-root-document-node-of-foo"
+			 />
 		</x:scenario>
 
 		<x:scenario label="bar">
 			<x:context>
 				<bar />
 			</x:context>
-			<x:expect-report id="global-context-of-bar-is-root-document-node"
-				label="is root document node" />
+			<x:expect-report id="global-context-while-validating-bar-is-root-document-node-of-bar"
+			 />
 		</x:scenario>
 	</x:scenario>
 
