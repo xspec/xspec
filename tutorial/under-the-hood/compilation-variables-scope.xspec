@@ -22,11 +22,11 @@
 
          <x:variable name="myv:var-3" select="trace('var-3-value')"/>
          <x:expect label="expect one"
-            test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3)"/>
+            test="$myv:global and $myv:var-1 and $myv:var-2 and $myv:var-3"/>
 
          <x:variable name="myv:var-4" select="trace('var-4-value')"/>
          <x:expect label="expect two"
-            test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3) and exists($myv:var-4)"/>
+            test="$myv:global and $myv:var-1 and $myv:var-2 and $myv:var-3 and $myv:var-4"/>
       </x:scenario>
    </x:scenario>
 
