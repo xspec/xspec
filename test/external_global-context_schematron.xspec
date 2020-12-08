@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" schematron="external_global-context.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:param name="allow-foreign">true</x:param>
+
+	<x:scenario label="Global context while validating">
+		<x:scenario label="foo">
+			<x:context>
+				<foo />
+			</x:context>
+			<x:expect-report id="global-context-while-validating-foo-is-root-document-node-of-foo"
+			 />
+		</x:scenario>
+
+		<x:scenario label="bar">
+			<x:context>
+				<bar />
+			</x:context>
+			<x:expect-report id="global-context-while-validating-bar-is-root-document-node-of-bar"
+			 />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

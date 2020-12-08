@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
-        xspec="../../coverage-tutorial.xspec"
+        xspec="../../external_tutorial_coverage_demo.xspec"
         stylesheet="../../../../../tutorial/coverage/demo.xsl"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../../../../tutorial/coverage/demo.xspec">

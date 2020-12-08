@@ -55,6 +55,9 @@
                         attributes. Set only the attributes that are truly global over all the XSpec
                         documents. -->
 
+                    <!-- Global XSpec attributes -->
+                    <xsl:sequence select="@run-as" />
+
                     <!-- Global Schematron attributes -->
                     <xsl:attribute name="original-xspec" select="x:document-actual-uri(/)" />
                     <xsl:attribute name="schematron" select="resolve-uri(@schematron, base-uri())" />

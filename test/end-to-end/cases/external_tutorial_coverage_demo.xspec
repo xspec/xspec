@@ -2,5 +2,5 @@
 <?xspec-test enable-coverage?>
 <x:description run-as="external" stylesheet="../../../tutorial/coverage/demo.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="coverage-tutorial.xspec" />
+	<x:import href="tutorial_coverage_demo.xspec" />
 </x:description>
