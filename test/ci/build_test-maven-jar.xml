@@ -69,7 +69,7 @@
 		<property name="xspec.xslt.compiler.xsl"
 			value="${test-maven-jar.tempdir}/compile-xslt-tests.xsl" />
 
-		<property name="xspecfiles.dir.url.query" value="select=coverage-tutorial.xspec" />
+		<property name="xspecfiles.dir.url.query" value="select=tutorial_coverage_demo.xspec" />
 	</ant>
 
 </project>
