@@ -24,11 +24,7 @@
 
     <!-- Escape regexes in a list of phrases -->
 
-    <xsl:template match="phrases" as="element(phrases)">
-        <xsl:copy>
-            <xsl:apply-templates select="phrase"/>
-        </xsl:copy>
-    </xsl:template>
+    <xsl:mode on-no-match="shallow-copy" on-multiple-match="fail" />
 
     <xsl:template match="phrase" as="element(phrase)">
         <xsl:variable name="escaped-text" as="xs:string" select="functx:escape-for-regex(.)" />
