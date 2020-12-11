@@ -9,35 +9,35 @@
 	<case name="invoking xspec without arguments prints usage">
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 3 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file"
+    call :verify_line 2 x "Usage: xspec [-t|-q|-s|-c|-j|-catalog file|-e|-h] file"
 	</case>
 
 	<case name="invoking xspec without arguments prints usage even if Saxon environment variables are not defined">
     set SAXON_CP=
     call :run ..\bin\xspec.bat
     call :verify_retval 1
-    call :verify_line 2 x "SAXON_CP and SAXON_HOME both not set!"
-    call :verify_line 4 r "Usage: xspec "
+    call :verify_line 1 x "SAXON_CP and SAXON_HOME both not set!"
+    call :verify_line 3 r "Usage: xspec "
 	</case>
 
 	<case name="invoking xspec with -h prints usage and does so even when it is 11th argument">
     call :run ..\bin\xspec.bat -t -t -t -t -t -t -t -t -t -t -h
     call :verify_retval 0
-    call :verify_line 2 r "Usage: xspec "
+    call :verify_line 1 r "Usage: xspec "
 	</case>
 
 	<case name="invoking xspec with unknown option prints usage">
     call :run ..\bin\xspec.bat -bogus ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 x "Error: Unknown option: -bogus"
-    call :verify_line 3 r "Usage: xspec "
+    call :verify_line 1 x "Error: Unknown option: -bogus"
+    call :verify_line 2 r "Usage: xspec "
 	</case>
 
 	<case name="invoking xspec with extra arguments prints usage">
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec bogus
     call :verify_retval 1
-    call :verify_line 2 x "Error: Extra option: bogus"
-    call :verify_line 3 r "Usage: xspec "
+    call :verify_line 1 x "Error: Extra option: bogus"
+    call :verify_line 2 r "Usage: xspec "
 	</case>
 
 	<!--
@@ -47,19 +47,19 @@
 	<case name="invoking xspec with -s and -t prints error message">
     call :run ..\bin\xspec.bat -s -t
     call :verify_retval 1
-    call :verify_line 2 x "-s and -t are mutually exclusive"
+    call :verify_line 1 x "-s and -t are mutually exclusive"
 	</case>
 
 	<case name="invoking xspec with -s and -q prints error message">
     call :run ..\bin\xspec.bat -s -q
     call :verify_retval 1
-    call :verify_line 2 x "-s and -q are mutually exclusive"
+    call :verify_line 1 x "-s and -q are mutually exclusive"
 	</case>
 
 	<case name="invoking xspec with -t and -q prints error message">
     call :run ..\bin\xspec.bat -t -q
     call :verify_retval 1
-    call :verify_line 2 x "-t and -q are mutually exclusive"
+    call :verify_line 1 x "-t and -q are mutually exclusive"
 	</case>
 
 	<!--
@@ -75,8 +75,8 @@
 
     call :run my-xspec.bat "%XSPEC_HOME%\tutorial\escape-for-regex.xspec"
     call :verify_retval 0
-    call :verify_line 20 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
-    call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
+    call :verify_line 19 x "passed: 5 / pending: 0 / failed: 1 / total: 6"
+    call :verify_line 20 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
 	</case>
 
 	<case name="XSPEC_HOME is not a directory">
@@ -85,7 +85,7 @@
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 x "ERROR: XSPEC_HOME is not a directory: %XSPEC_HOME%"
+    call :verify_line 1 x "ERROR: XSPEC_HOME is not a directory: %XSPEC_HOME%"
 	</case>
 
 	<case name="XSPEC_HOME seems to be corrupted">
@@ -93,7 +93,7 @@
 
     call :run ..\bin\xspec.bat ..\tutorial\escape-for-regex.xspec
     call :verify_retval 1
-    call :verify_line 2 x "ERROR: XSPEC_HOME seems to be corrupted: %XSPEC_HOME%"
+    call :verify_line 1 x "ERROR: XSPEC_HOME seems to be corrupted: %XSPEC_HOME%"
 	</case>
 
 	<!--
@@ -146,13 +146,13 @@
 	<case name="invoking xspec -c -q prints error message">
     call :run ..\bin\xspec.bat -c -q ..\tutorial\xquery-tutorial.xspec
     call :verify_retval 1
-    call :verify_line 2 x "Coverage is supported only for XSLT"
+    call :verify_line 1 x "Coverage is supported only for XSLT"
 	</case>
 
 	<case name="invoking xspec -c -s prints error message">
     call :run ..\bin\xspec.bat -c -s ..\tutorial\schematron\demo-01.xspec
     call :verify_retval 1
-    call :verify_line 2 x "Coverage is supported only for XSLT"
+    call :verify_line 1 x "Coverage is supported only for XSLT"
 	</case>
 
 	<!--
@@ -175,9 +175,9 @@
     call :verify_retval 0
 
     rem Verify message
-    call :verify_line 14 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
-    call :verify_line 15 x "Report available at %TEST_COPY%\xspec\function-result.html"
-    call :verify_line 16 x "Done."
+    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 14 x "Report available at %TEST_COPY%\xspec\function-result.html"
+    call :verify_line 15 x "Done."
 
     rem Verify report files
     rem * XML report file is created
@@ -214,9 +214,9 @@
     call :verify_retval 0
 
     rem Verify message
-    call :verify_line 17 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
-    call :verify_line 19 x "Report available at %TEST_COPY%\xspec\function-coverage.html"
-    call :verify_line 20 x "Done."
+    call :verify_line 16 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 18 x "Report available at %TEST_COPY%\xspec\function-coverage.html"
+    call :verify_line 19 x "Done."
 
     rem Verify report files
     rem * XML report file is created
@@ -249,9 +249,9 @@
     call :verify_retval 0
 
     rem Verify message
-    call :verify_line 7 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
-    call :verify_line 8 x "Report available at %TEST_COPY%\xspec\function-result.html"
-    call :verify_line 9 x "Done."
+    call :verify_line 6 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 7 x "Report available at %TEST_COPY%\xspec\function-result.html"
+    call :verify_line 8 x "Done."
 
     rem Verify report files
     rem * XML report file is created
@@ -281,10 +281,10 @@
 
     rem Verify message
     rem * No Schematron warnings #129 #131
-    call :verify_line  4 x "Converting Schematron XSpec into XSLT XSpec..."
-    call :verify_line 16 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
-    call :verify_line 17 x "Report available at %TEST_COPY%\xspec\schematron-result.html"
-    call :verify_line 18 x "Done."
+    call :verify_line  3 x "Converting Schematron XSpec into XSLT XSpec..."
+    call :verify_line 15 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 16 x "Report available at %TEST_COPY%\xspec\schematron-result.html"
+    call :verify_line 17 x "Done."
 
     rem Verify report files
     rem * XML report file is created
@@ -306,25 +306,25 @@
 	<case name="CLI -e with some failures (XSLT)">
     call :run ..\bin\xspec.bat -e some-failures\function.xspec
     call :verify_retval 2
-    call :verify_line 14 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
-    call :verify_line 15 x "Report available at %TEST_DIR%\function-result.html"
-    call :verify_line 16 x "*** Found a test failure"
+    call :verify_line 13 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 14 x "Report available at %TEST_DIR%\function-result.html"
+    call :verify_line 15 x "*** Found a test failure"
 	</case>
 
 	<case name="CLI -e with some failures (XQuery)">
     call :run ..\bin\xspec.bat -e -q some-failures\function.xspec
     call :verify_retval 2
-    call :verify_line 7 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
-    call :verify_line 8 x "Report available at %TEST_DIR%\function-result.html"
-    call :verify_line 9 x "*** Found a test failure"
+    call :verify_line 6 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 7 x "Report available at %TEST_DIR%\function-result.html"
+    call :verify_line 8 x "*** Found a test failure"
 	</case>
 
 	<case name="CLI -e with some failures (Schematron)">
     call :run ..\bin\xspec.bat -e -s some-failures\schematron.xspec
     call :verify_retval 2
-    call :verify_line 16 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
-    call :verify_line 17 x "Report available at %TEST_DIR%\schematron-result.html"
-    call :verify_line 18 x "*** Found a test failure"
+    call :verify_line 15 x "passed: 1 / pending: 0 / failed: 2 / total: 3"
+    call :verify_line 16 x "Report available at %TEST_DIR%\schematron-result.html"
+    call :verify_line 17 x "*** Found a test failure"
 	</case>
 
 	<!--
@@ -334,25 +334,25 @@
 	<case name="CLI -e with no failures (XSLT)">
     call :run ..\bin\xspec.bat -e xslt3.xspec
     call :verify_retval 0
-    call :verify_line 11 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
-    call :verify_line 12 x "Report available at %TEST_DIR%\xslt3-result.html"
-    call :verify_line 13 x "Done."
+    call :verify_line 10 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line 11 x "Report available at %TEST_DIR%\xslt3-result.html"
+    call :verify_line 12 x "Done."
 	</case>
 
 	<case name="CLI -e with no failures (XQuery)">
     call :run ..\bin\xspec.bat -e -q ..\tutorial\xquery-tutorial.xspec
     call :verify_retval 0
-    call :verify_line 7 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
-    call :verify_line 8 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
-    call :verify_line 9 x "Done."
+    call :verify_line 6 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 7 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
+    call :verify_line 8 x "Done."
 	</case>
 
 	<case name="CLI -e with no failures (Schematron)">
     call :run ..\bin\xspec.bat -e -s ..\tutorial\schematron\demo-01.xspec
     call :verify_retval 0
-    call :verify_line 16 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
-    call :verify_line 17 x "Report available at %TEST_DIR%\demo-01-result.html"
-    call :verify_line 18 x "Done."
+    call :verify_line 15 x "passed: 3 / pending: 0 / failed: 0 / total: 3"
+    call :verify_line 16 x "Report available at %TEST_DIR%\demo-01-result.html"
+    call :verify_line 17 x "Done."
 	</case>
 
 	<!--
@@ -362,7 +362,7 @@
 	<case name="invoking xspec with -j option generates message with JUnit report location and creates report files">
     call :run ..\bin\xspec.bat -j ..\tutorial\escape-for-regex.xspec
     call :verify_retval 0
-    call :verify_line 22 x "Report available at %TEST_DIR%\escape-for-regex-junit.xml"
+    call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-junit.xml"
 
     rem XML report file
     call :verify_exist "%TEST_DIR%\escape-for-regex-result.xml"
@@ -381,13 +381,13 @@
 	<case name="invoking xspec that passes a non xs:boolean does not raise a warning #46">
     call :run ..\bin\xspec.bat issue-46.xspec
     call :verify_retval 0
-    call :verify_line 6 r "Testing with "
+    call :verify_line 5 r "Testing with "
 	</case>
 
 	<case name="x:resolve-EQName-ignoring-default-ns() with non-empty prefix does not raise a warning #826">
     call :run ..\bin\xspec.bat issue-826.xspec
     call :verify_retval 0
-    call :verify_line 6 r "Testing with "
+    call :verify_line 5 r "Testing with "
 	</case>
 
 	<!--
@@ -466,7 +466,7 @@
 
     call :run ..\bin\xspec.bat "%SPECIAL_CHARS_DIR%\node-selection.xspec"
     call :verify_retval 0
-    call :verify_line 30 x "Report available at %EXPECTED_REPORT%"
+    call :verify_line 29 x "Report available at %EXPECTED_REPORT%"
     call :verify_exist "%EXPECTED_REPORT%"
 	</case>
 
@@ -481,7 +481,7 @@
 
     call :run ..\bin\xspec.bat -q "%SPECIAL_CHARS_DIR%\node-selection.xspec"
     call :verify_retval 0
-    call :verify_line 8 x "Report available at %EXPECTED_REPORT%"
+    call :verify_line 7 x "Report available at %EXPECTED_REPORT%"
     call :verify_exist "%EXPECTED_REPORT%"
 	</case>
 
@@ -495,7 +495,7 @@
 
     call :run ..\bin\xspec.bat -s "%SPECIAL_CHARS_DIR%\demo-03.xspec"
     call :verify_retval 0
-    call :verify_line 32 x "Report available at %EXPECTED_REPORT%"
+    call :verify_line 31 x "Report available at %EXPECTED_REPORT%"
     call :verify_exist "%EXPECTED_REPORT%"
 	</case>
 
@@ -520,7 +520,7 @@
     set SCHEMATRON_XSLT_COMPILE=schematron\schematron-param-001-step3.xsl
     call :run ..\bin\xspec.bat -s schematron\schematron-param-001.xspec
     call :verify_retval 0
-    call :verify_line 20 x "passed: 9 / pending: 0 / failed: 0 / total: 9"
+    call :verify_line 19 x "passed: 9 / pending: 0 / failed: 0 / total: 9"
 	</case>
 
 	<case name="Schematron phase/parameters are passed to Schematron compile (Ant)">
@@ -546,7 +546,7 @@
 
     call :run ..\bin\xspec.bat -s schematron\schematron-xslt.xspec
     call :verify_retval 0
-    call :verify_line 12 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 11 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
 
 	<case ifdef="SAXON_BUG_4696_FIXED" name="invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)">
@@ -576,7 +576,7 @@
     rem Run with absolute TEST_DIR
     call :run ..\bin\xspec.bat "%TUTORIAL_COPY%\escape-for-regex.xspec"
     call :verify_retval 0
-    call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
+    call :verify_line 20 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -593,7 +593,7 @@
     set "TEST_DIR=relative-test-dir %RANDOM%"
     call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" "%TUTORIAL_COPY%\escape-for-regex.xspec""
     call :verify_retval 0
-    call :verify_line 21 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
+    call :verify_line 20 x "Report available at %TEST_DIR%\escape-for-regex-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -612,7 +612,7 @@
     rem Run with absolute TEST_DIR
     call :run ..\bin\xspec.bat -c "%TUTORIAL_COPY%\demo.xspec"
     call :verify_retval 0
-    call :verify_line 15 x "Report available at %TEST_DIR%\demo-coverage.html"
+    call :verify_line 14 x "Report available at %TEST_DIR%\demo-coverage.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -631,7 +631,7 @@
     set "TEST_DIR=relative-test-dir %RANDOM%"
     call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -c "%TUTORIAL_COPY%\demo.xspec""
     call :verify_retval 0
-    call :verify_line 15 x "Report available at %TEST_DIR%\demo-coverage.html"
+    call :verify_line 14 x "Report available at %TEST_DIR%\demo-coverage.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -652,7 +652,7 @@
     rem Run with absolute TEST_DIR
     call :run ..\bin\xspec.bat -q "%TUTORIAL_COPY%\xquery-tutorial.xspec"
     call :verify_retval 0
-    call :verify_line 8 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
+    call :verify_line 7 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -669,7 +669,7 @@
     set "TEST_DIR=relative-test-dir %RANDOM%"
     call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -q "%TUTORIAL_COPY%\xquery-tutorial.xspec""
     call :verify_retval 0
-    call :verify_line 8 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
+    call :verify_line 7 x "Report available at %TEST_DIR%\xquery-tutorial-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -690,7 +690,7 @@
     rem Run with absolute TEST_DIR
     call :run ..\bin\xspec.bat -s "%TUTORIAL_COPY%\demo-03.xspec"
     call :verify_retval 0
-    call :verify_line 32 x "Report available at %TEST_DIR%\demo-03-result.html"
+    call :verify_line 31 x "Report available at %TEST_DIR%\demo-03-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -709,7 +709,7 @@
     set "TEST_DIR=relative-test-dir %RANDOM%"
     call :run ""%PARENT_DIR_ABS%\bin\xspec.bat" -s "%TUTORIAL_COPY%\demo-03.xspec""
     call :verify_retval 0
-    call :verify_line 32 x "Report available at %TEST_DIR%\demo-03-result.html"
+    call :verify_line 31 x "Report available at %TEST_DIR%\demo-03-result.html"
 
     rem Verify files in specified TEST_DIR
     call :run dir /b /o:n "%TEST_DIR%"
@@ -1122,7 +1122,7 @@
         -catalog "catalog\01\catalog-public.xml;%SPACE_DIR%\01\catalog-rewriteURI.xml" ^
         "%SPACE_DIR%\catalog-01_stylesheet.xspec"
     call :verify_retval 0
-    call :verify_line 16 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 15 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<case name="CLI with -catalog file path (XQuery)">
@@ -1137,7 +1137,7 @@
         -q ^
         "%SPACE_DIR%\catalog-01_query.xspec"
     call :verify_retval 0
-    call :verify_line 7 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line 6 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
 	<case name="CLI with -catalog file path (Schematron)">
@@ -1152,7 +1152,7 @@
         -s ^
         "%SPACE_DIR%\catalog-01_schematron.xspec"
     call :verify_retval 0
-    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 17 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1167,7 +1167,7 @@
         -catalog "file:///%CD:\=/%/catalog/01/catalog-public.xml;file:///%CD:\=/%/catalog/01/catalog-rewriteURI.xml" ^
         catalog\catalog-01_stylesheet.xspec
     call :verify_retval 0
-    call :verify_line 16 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 15 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<case name="CLI with -catalog file URI (XQuery)">
@@ -1177,7 +1177,7 @@
         -q ^
         catalog\catalog-01_query.xspec
     call :verify_retval 0
-    call :verify_line 7 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line 6 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
 	<case name="CLI with -catalog file URI (Schematron)">
@@ -1187,7 +1187,7 @@
         -s ^
         catalog\catalog-01_schematron.xspec
     call :verify_retval 0
-    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 17 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1207,7 +1207,7 @@
 
     call :run ..\bin\xspec.bat "%SPACE_DIR%\catalog-01_stylesheet.xspec"
     call :verify_retval 0
-    call :verify_line 16 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 15 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<case name="CLI with XML_CATALOG file path (XQuery)">
@@ -1221,7 +1221,7 @@
 
     call :run ..\bin\xspec.bat -q "%SPACE_DIR%\catalog-01_query.xspec"
     call :verify_retval 0
-    call :verify_line 7 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line 6 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
 	<case name="CLI with XML_CATALOG file path (Schematron)">
@@ -1235,7 +1235,7 @@
 
     call :run ..\bin\xspec.bat -s "%SPACE_DIR%\catalog-01_schematron.xspec"
     call :verify_retval 0
-    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 17 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1250,7 +1250,7 @@
 
     call :run ..\bin\xspec.bat "catalog\catalog-01_stylesheet.xspec"
     call :verify_retval 0
-    call :verify_line 16 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 15 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<case name="CLI with XML_CATALOG file URI (XQuery)">
@@ -1259,7 +1259,7 @@
 
     call :run ..\bin\xspec.bat -q "catalog\catalog-01_query.xspec"
     call :verify_retval 0
-    call :verify_line 7 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line 6 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
 	<case name="CLI with XML_CATALOG file URI (Schematron)">
@@ -1268,7 +1268,7 @@
 
     call :run ..\bin\xspec.bat -s "catalog\catalog-01_schematron.xspec"
     call :verify_retval 0
-    call :verify_line 18 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 17 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1290,7 +1290,7 @@
         -catalog "catalog\01\catalog-public.xml;catalog\01\catalog-rewriteURI.xml" ^
         catalog\catalog-01_stylesheet.xspec
     call :verify_retval 0
-    call :verify_line 16 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
+    call :verify_line 15 x "passed: 4 / pending: 0 / failed: 0 / total: 4"
 	</case>
 
 	<!--
@@ -1305,7 +1305,7 @@
         -catalog "%CD%\catalog\02\catalog.xml" ^
         catalog\catalog-02.xspec
     call :verify_retval 0
-    call :verify_line 10 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+    call :verify_line 9 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
 	</case>
 
 	<case name="Catalog Saxon bug 3025 (Ant)">
@@ -1500,15 +1500,15 @@
 	<case name="Import order #185 (CLI)">
     call :run ..\bin\xspec.bat issue-185\import-1.xspec
     call :verify_retval 0
-    call :verify_line  7 x "Scenario 1-1"
-    call :verify_line  8 x "Scenario 1-2"
-    call :verify_line  9 x "Scenario 1-3"
-    call :verify_line 10 x "Scenario 2a-1"
-    call :verify_line 11 x "Scenario 2a-2"
-    call :verify_line 12 x "Scenario 2b-1"
-    call :verify_line 13 x "Scenario 2b-2"
-    call :verify_line 14 x "Scenario 3"
-    call :verify_line 15 x "Formatting Report..."
+    call :verify_line  6 x "Scenario 1-1"
+    call :verify_line  7 x "Scenario 1-2"
+    call :verify_line  8 x "Scenario 1-3"
+    call :verify_line  9 x "Scenario 2a-1"
+    call :verify_line 10 x "Scenario 2a-2"
+    call :verify_line 11 x "Scenario 2b-1"
+    call :verify_line 12 x "Scenario 2b-2"
+    call :verify_line 13 x "Scenario 3"
+    call :verify_line 14 x "Formatting Report..."
 	</case>
 
 	<case name="Import order #185 (Ant)">
@@ -1540,17 +1540,17 @@
 	<case name="Circular import #987 (CLI)">
     call :run ..\bin\xspec.bat issue-987_child.xspec
     call :verify_retval 0
-    call :verify_line  7 x "Scenario in child"
-    call :verify_line  9 x "Scenario in parent"
-    call :verify_line 12 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line  6 x "Scenario in child"
+    call :verify_line  8 x "Scenario in parent"
+    call :verify_line 11 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 
     rem Use a fresh dir, to make the message line numbers predictable
     set "TEST_DIR=%TEST_DIR%\parent %RANDOM%"
     call :run ..\bin\xspec.bat issue-987_parent.xspec
     call :verify_retval 0
-    call :verify_line  7 x "Scenario in parent"
-    call :verify_line  9 x "Scenario in child"
-    call :verify_line 12 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
+    call :verify_line  6 x "Scenario in parent"
+    call :verify_line  8 x "Scenario in child"
+    call :verify_line 11 x "passed: 2 / pending: 0 / failed: 0 / total: 2"
 	</case>
 
 	<case name="Circular import #987 (Ant)">
@@ -1602,60 +1602,60 @@
 	<case name="Boolean @test with @as (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\boolean-test\as.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line  8 x "ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @as (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\as.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must$"
-    call :verify_line  8 x "  not be accompanied by @as, @href, @select, or child node."
+    call :verify_line  6 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @as should be error'): Boolean @test must$"
+    call :verify_line  7 x "  not be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with child node (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\boolean-test\child-node.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR in x:expect ('Boolean @test with child node should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line  8 x "ERROR in x:expect ('Boolean @test with child node should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with child node (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\child-node.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with child node should be error'): Boolean$"
-    call :verify_line  8 x "  @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line  6 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with child node should be error'): Boolean$"
+    call :verify_line  7 x "  @test must not be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @href (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\boolean-test\href.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line  8 x "ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @href (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\href.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test$"
-    call :verify_line  8 x "  must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line  6 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @href should be error'): Boolean @test$"
+    call :verify_line  7 x "  must not be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @select (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\boolean-test\select.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line  8 x "ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test must not be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Boolean @test with @select (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\boolean-test\select.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test$"
-    call :verify_line  8 x "  must not be accompanied by @as, @href, @select, or child node."
+    call :verify_line  6 r "  FOER0000[: ] ERROR in x:expect ('Boolean @test with @select should be error'): Boolean @test$"
+    call :verify_line  7 x "  must not be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
@@ -1666,48 +1666,48 @@
 	<case name="Non-boolean @test (empty sequence) with no comparison factors (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\empty.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
+    call :verify_line  8 x "ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (empty sequence) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\empty.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison$"
-    call :verify_line  8 x "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be"
-    call :verify_line  9 x "  accompanied by @as, @href, @select, or child node."
+    call :verify_line  6 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (empty sequence) with no comparison$"
+    call :verify_line  7 x "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be"
+    call :verify_line  8 x "  accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\multiple-boolean.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
+    call :verify_line  8 x "ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (multiple xs:boolean) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\multiple-boolean.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison$"
-    call :verify_line  8 x "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be"
-    call :verify_line  9 x "  accompanied by @as, @href, @select, or child node."
+    call :verify_line  6 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (multiple xs:boolean) with no comparison$"
+    call :verify_line  7 x "  factors should be error (even if child::x:label exists)'): Non-boolean @test must be"
+    call :verify_line  8 x "  accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (node) with no comparison factors (XSLT)">
     call :run ..\bin\xspec.bat bad-assertion\non-boolean-test\node.xspec
     call :verify_retval 2
-    call :verify_line  9 x "ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
+    call :verify_line  8 x "ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as, @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="Non-boolean @test (node) with no comparison factors (XQuery)">
     call :run ..\bin\xspec.bat -q bad-assertion\non-boolean-test\node.xspec
     call :verify_retval 2
-    call :verify_line  7 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should$"
-    call :verify_line  8 x "  be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as,"
-    call :verify_line  9 x "  @href, @select, or child node."
+    call :verify_line  6 r "  FOER0000[: ] ERROR in x:expect ('Non-boolean @test (node) with no comparison factors should$"
+    call :verify_line  7 x "  be error (even if child::x:label exists)'): Non-boolean @test must be accompanied by @as,"
+    call :verify_line  8 x "  @href, @select, or child node."
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
@@ -1843,7 +1843,7 @@
 	<case name="Error message when source is not XSpec #522">
     call :run ..\bin\xspec.bat do-nothing.xsl
     call :verify_retval 2
-    call :verify_line 5 x "Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead."
+    call :verify_line 4 x "Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead."
 	</case>
 
 	<!--
@@ -1853,13 +1853,13 @@
 	<case name="Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)">
     call :run ..\bin\xspec.bat variable\reserved-uqname-in-local.xspec
     call :verify_retval 2
-    call :verify_line 5 x "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace."
+    call :verify_line 4 x "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace."
 	</case>
 
 	<case name="Error on user-defined variable in XSpec namespace (Lexical QName in global variable)">
     call :run ..\bin\xspec.bat variable\reserved-lexical-qname-in-global.xspec
     call :verify_retval 2
-    call :verify_line 5 x "ERROR: User-defined XSpec variable, u:foo, must not use the XSpec namespace."
+    call :verify_line 4 x "ERROR: User-defined XSpec variable, u:foo, must not use the XSpec namespace."
 	</case>
 
 	<!--
@@ -1904,13 +1904,13 @@
     call :verify_retval 0
 
     if "%SAXON_VERSION:~0,4%"=="9.8." (
-        call :verify_line 4 x "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9."
+        call :verify_line 3 x "WARNING: Saxon version 9.8 is not recommended. Consider migrating to Saxon 9.9."
     ) else (
-        call :verify_line 4 x " "
+        call :verify_line 3 x " "
     )
 
-    call :verify_line 5 x "Running Tests..."
-    call :verify_line 6 r "Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*"
+    call :verify_line 4 x "Running Tests..."
+    call :verify_line 5 r "Testing with SAXON [EHP]E [1-9][0-9]*\.[1-9][0-9]*"
 	</case>
 
 	<!--
@@ -1990,7 +1990,7 @@
 	<case name="@catch should not catch error outside SUT (XSLT)">
     call :run ..\bin\xspec.bat catch\compiler-error.xspec
     call :verify_retval 2
-    call :verify_line  5 r "ERROR in x:scenario .*"
+    call :verify_line  4 r "ERROR in x:scenario .*"
     call :verify_line -1 x "*** Error compiling the test suite"
 
     call :run ..\bin\xspec.bat catch\error-in-context-avt-for-template-call.xspec
@@ -2027,7 +2027,7 @@
 	<case name="@catch should not catch error outside SUT (XQuery)">
     call :run ..\bin\xspec.bat -q catch\compiler-error.xspec
     call :verify_retval 2
-    call :verify_line 5 r "ERROR in x:scenario .*"
+    call :verify_line 4 r "ERROR in x:scenario .*"
 
     call :run ..\bin\xspec.bat -q catch\error-in-function-call-param.xspec
     call :verify_retval 2
@@ -2098,19 +2098,19 @@
 	<case name="x:like error (scenario not found)">
     call :run ..\bin\xspec.bat like\none.xspec
     call :verify_retval 2
-    call :verify_line 5 x "ERROR in x:like: Scenario not found: 'none'"
+    call :verify_line 4 x "ERROR in x:like: Scenario not found: 'none'"
 	</case>
 
 	<case name="x:like error (multiple scenarios)">
     call :run ..\bin\xspec.bat like\multiple.xspec
     call :verify_retval 2
-    call :verify_line 5 x "ERROR in x:like: 2 scenarios found with same label: 'shared scenario'"
+    call :verify_line 4 x "ERROR in x:like: 2 scenarios found with same label: 'shared scenario'"
 	</case>
 
 	<case name="x:like error (infinite loop)">
     call :run ..\bin\xspec.bat like\loop.xspec
     call :verify_retval 2
-    call :verify_line 5 x "ERROR in x:like: Reference to ancestor scenario creates infinite loop: 'parent scenario'"
+    call :verify_line 4 x "ERROR in x:like: Reference to ancestor scenario creates infinite loop: 'parent scenario'"
 	</case>
 
 	<!--
@@ -2203,44 +2203,44 @@
 	<case name="x:context both with @href and content">
     call :run ..\bin\xspec.bat error-compiling-scenario\context-both-href-and-content.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element"
+    call :verify_line  4 x "ERROR in x:scenario ('x:context both with @href and content'): Can't set the context document using both the href attribute and the content of the x:context element"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:call both with @function and @template">
     call :run ..\bin\xspec.bat error-compiling-scenario\call-both-function-and-template.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time"
+    call :verify_line  4 x "ERROR in x:scenario ('x:call both with @function and @template'): Can't call a function and a template at the same time"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:apply with x:context">
     call :run ..\bin\xspec.bat error-compiling-scenario\apply-with-context.xspec
     call :verify_retval 2
-    call :verify_line  5 x "WARNING: The instruction x:apply is not supported yet!"
-    call :verify_line  6 x "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time"
+    call :verify_line  4 x "WARNING: The instruction x:apply is not supported yet!"
+    call :verify_line  5 x "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:apply with x:call">
     call :run ..\bin\xspec.bat error-compiling-scenario\apply-with-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "WARNING: The instruction x:apply is not supported yet!"
-    call :verify_line  6 x "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time"
+    call :verify_line  4 x "WARNING: The instruction x:apply is not supported yet!"
+    call :verify_line  5 x "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:call[@function] with x:context">
     call :run ..\bin\xspec.bat error-compiling-scenario\function-with-context.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time"
+    call :verify_line  4 x "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:expect without action">
     call :run ..\bin\xspec.bat error-compiling-scenario\expect-without-action.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call, x:apply or x:context has been given"
+    call :verify_line  4 x "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call, x:apply or x:context has been given"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -2251,21 +2251,21 @@
 	<case name="x:context (XQuery)">
     call :run ..\bin\xspec.bat -q error-compiling-scenario\xquery_context.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('x:context'): x:context not supported for XQuery"
+    call :verify_line  4 x "ERROR in x:scenario ('x:context'): x:context not supported for XQuery"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="x:call/@template (XQuery)">
     call :run ..\bin\xspec.bat -q error-compiling-scenario\xquery_template-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('x:call/@template'): x:call/@template not supported for XQuery"
+    call :verify_line  4 x "ERROR in x:scenario ('x:call/@template'): x:call/@template not supported for XQuery"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="No x:call">
     call :run ..\bin\xspec.bat -q error-compiling-scenario\xquery_no-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call"
+    call :verify_line  4 x "ERROR in x:scenario ('No x:call'): There are x:expect but no x:call"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -2276,7 +2276,7 @@
 	<case name="$x:saxon-config is not a Saxon config">
     call :run ..\bin\xspec.bat x-saxon-config\test.xspec
     call :verify_retval 2
-    call :verify_line  8 x "ERROR: $Q{http://www.jenitennison.com/xslt/xspec}saxon-config does not appear to be a Saxon configuration"
+    call :verify_line  7 x "ERROR: $Q{http://www.jenitennison.com/xslt/xspec}saxon-config does not appear to be a Saxon configuration"
     call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
@@ -2287,28 +2287,28 @@
 	<case name="Duplicate function-call param name (XSLT)">
     call :run ..\bin\xspec.bat dup-param-name\function-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
+    call :verify_line  4 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Duplicate function-call param name (XQuery)">
     call :run ..\bin\xspec.bat -q dup-param-name\function-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
+    call :verify_line  4 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Duplicate context param name">
     call :run ..\bin\xspec.bat dup-param-name\context.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of context template-param (i.e. //x:context/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:context."
+    call :verify_line  4 x "ERROR in x:scenario ('Multiple instances of context template-param (i.e. //x:context/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:context."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Duplicate template-call param name">
     call :run ..\bin\xspec.bat dup-param-name\template-call.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of template-call template-param (i.e. //x:call[@template]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
+    call :verify_line  4 x "ERROR in x:scenario ('Multiple instances of template-call template-param (i.e. //x:call[@template]/x:param) of the same name'): Duplicate parameter name, Q{}left, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -2318,21 +2318,21 @@
 	<case name="Static param is allowed only with run-as external (XSLT)">
     call :run ..\bin\xspec.bat static-param\disallowed_stylesheet.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Enabling @static in x:param is supported only when /x:description has @run-as='external'."
+    call :verify_line  4 x "Enabling @static in x:param is supported only when /x:description has @run-as='external'."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Static param not allowed (XQuery)">
     call :run ..\bin\xspec.bat -q static-param\disallowed_query.xspec
     call :verify_retval 2
-    call :verify_line  5 x "Enabling @static in x:param is not supported for XQuery."
+    call :verify_line  4 x "Enabling @static in x:param is not supported for XQuery."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Static param not allowed (Schematron)">
     call :run ..\bin\xspec.bat -s static-param\disallowed_schematron.xspec
     call :verify_retval 2
-    call :verify_line  4 x "Enabling @static in x:param is not supported for Schematron."
+    call :verify_line  3 x "Enabling @static in x:param is not supported for Schematron."
     call :verify_line -1 x "*** Error converting Schematron into XSLT"
 	</case>
 
@@ -2343,14 +2343,14 @@
 	<case name="Duplicate @position (XSLT)">
     call :run ..\bin\xspec.bat bad-position\duplicate.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call."
+    call :verify_line  4 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Duplicate @position (XQuery)">
     call :run ..\bin\xspec.bat -q bad-position\duplicate.xspec
     call :verify_retval 2
-    call :verify_line  5 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call."
+    call :verify_line  4 x "ERROR in x:scenario ('Multiple instances of function-param (i.e. //x:call[@function]/x:param) of the same position'): Duplicate parameter position, 1, used in x:call."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -2393,7 +2393,7 @@
 	<case name="Warning when x:call[@template] ignores x:context/x:param">
     call :run ..\bin\xspec.bat context-param.xspec
     call :verify_retval 0
-    call :verify_line 5 x "WARNING in x:scenario ('When x:context has x:param and another child node, setting up the context excludes x:param from the context nodes. So... When a template is called,'): x:context/x:param will have no effect on x:call"
+    call :verify_line 4 x "WARNING in x:scenario ('When x:context has x:param and another child node, setting up the context excludes x:param from the context nodes. So... When a template is called,'): x:context/x:param will have no effect on x:call"
 	</case>
 
 </collection>
