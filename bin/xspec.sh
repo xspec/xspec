@@ -77,8 +77,6 @@ if command -v saxon > /dev/null 2>&1 && saxon --help | grep "EXPath Packaging" >
         saxon --add-cp "${XSPEC_HOME}/java/" ${CATALOG:+"$CATALOG"} --xq "$@"
     }
 else
-    echo Saxon script not found, invoking JVM directly instead.
-    echo
     xslt() {
         java \
             -Dxspec.coverage.ignore="${TEST_DIR}" \
