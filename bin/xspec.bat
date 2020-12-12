@@ -186,13 +186,6 @@ if errorlevel 1 (
 )
 
 rem
-rem To be compatible with xspec.sh, do not omit this message. It makes the
-rem test automation easier.
-rem
-echo Saxon script not found, invoking JVM directly instead.
-echo:
-
-rem
 rem ##
 rem ## some variables ############################################################
 rem ##
