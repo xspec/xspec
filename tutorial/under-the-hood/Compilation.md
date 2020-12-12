@@ -977,6 +977,29 @@ $Q{http://example.org/ns/my/variable}var-4
 };
 ```
 
+### Output at run time
+
+By `trace()` in `x:variable/@select`, you see that each `x:variable` is evaluated only once:
+
+```console
+C:xspec>bin\xspec.bat tutorial\under-the-hood\compilation-variables-scope.xspec
+...
+Running Tests...
+Testing with SAXON EE 9.9.1.8
+outer
+* [1]: xs:string: var-1-value
+..inner
+* [1]: xs:string: var-2-value
+* [1]: xs:string: var-3-value
+expect one
+* [1]: xs:string: global-value
+* [1]: xs:string: var-4-value
+expect two
+
+Formatting Report...
+...
+```
+
 ## run-as=external
 
 When `/x:description/@run-as` is `external`, XSpec test suites are compiled in a different way:
