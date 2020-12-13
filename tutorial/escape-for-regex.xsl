@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:functx="http://www.functx.com" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    exclude-result-prefixes="xs" version="2.0">
+    exclude-result-prefixes="#all" version="3.0">
 
     <!-- The functx:escape-for-regex function escapes a string that you wish to be taken 
          literally rather than treated like a regular expression. This is useful when, 
@@ -24,17 +24,14 @@
 
     <!-- Escape regexes in a list of phrases -->
 
-    <xsl:template match="phrases">
-        <phrases>
-            <xsl:apply-templates select="phrase"/>
-        </phrases>
-    </xsl:template>
+    <xsl:mode on-no-match="shallow-copy" on-multiple-match="fail" />
 
-    <xsl:template match="phrase">
-        <xsl:variable name="escaped-text" select="functx:escape-for-regex(.)"/>
-        <phrase status="{if (. = $escaped-text) then 'changed' else 'same'}">
-            <xsl:value-of select="functx:escape-for-regex(.)"/>
-        </phrase>
+    <xsl:template match="phrase" as="element(phrase)">
+        <xsl:variable name="escaped-text" as="xs:string" select="functx:escape-for-regex(.)" />
+        <xsl:copy>
+            <xsl:attribute name="status" select="if (. = $escaped-text) then 'changed' else 'same'" />
+            <xsl:value-of select="$escaped-text" />
+        </xsl:copy>
     </xsl:template>
 
 </xsl:stylesheet>
