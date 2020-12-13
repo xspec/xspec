@@ -28,10 +28,10 @@
 				}" />
 		</x:call>
 		<x:expect label="should be error XTDE0041" select="xs:QName('err:XTDE0041')"
-			test="$x:result?err?code" />
+			test="?err?code" />
 		<x:expect label="due to private visibility"
 			select="'Cannot invoke function f:real#1 externally, because it is not public'"
-			test="$x:result?err?description" />
+			test="?err?description" />
 	</x:scenario>
 
 </x:description>

@@ -6,10 +6,10 @@
 	<x:scenario catch="yes" label="when no global context item is supplied">
 		<x:call template="test-me" />
 		<x:expect label="error code" select="QName('http://www.w3.org/2005/xqt-errors', 'XTDE3086')"
-			test="$x:result?err?code" />
+			test="?err?code" />
 		<x:expect label="error description"
 			select="'A global context item is required, but none has been supplied'"
-			test="$x:result?err?description" />
+			test="?err?description" />
 	</x:scenario>
 
 </x:description>

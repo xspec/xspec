@@ -11,12 +11,12 @@
         </x:context>
         <x:expect
             label="err:code"
-            test="$x:result?err?code"
+            test="?err?code"
             select="QName('http://www.w3.org/2005/xqt-errors', 'XTMM9000')"
         />
         <x:expect
             label="err:value should contain xsl:message body preceded by Saxon-specific processing instruction"
-            test="$x:result?err?value"
+            test="?err?value"
             select="/"
             expand-text="yes"
             xml:space="preserve"
