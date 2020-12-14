@@ -752,21 +752,21 @@ and functions in XQuery).
 [compilation-variables-scope.xspec](compilation-variables-scope.xspec)
 
 ```xml
-<x:variable name="myv:global" select="'global-value'"/>
+<x:variable name="myv:global" select="trace('global-value')"/>
 
 <x:scenario label="outer">
-   <x:variable name="myv:var-1" select="'var-1-value'"/>
+   <x:variable name="myv:var-1" select="trace('var-1-value')"/>
 
    <x:scenario label="inner">
-      <x:variable name="myv:var-2" select="'var-2-value'"/>
+      <x:variable name="myv:var-2" select="trace('var-2-value')"/>
       <x:call function="my:square">
          <x:param select="0"/>
       </x:call>
 
-      <x:variable name="myv:var-3" select="'var-3-value'"/>
+      <x:variable name="myv:var-3" select="trace('var-3-value')"/>
       <x:expect label="expect one" .../>
 
-      <x:variable name="myv:var-4" select="'var-4-value'"/>
+      <x:variable name="myv:var-4" select="trace('var-4-value')"/>
       <x:expect label="expect two" .../>
    </x:scenario>
 </x:scenario>
@@ -780,7 +780,7 @@ and functions in XQuery).
               xmlns:myv="http://example.org/ns/my/variable"
               xmlns:x="http://www.jenitennison.com/xslt/xspec"
               name="Q{http://example.org/ns/my/variable}global"
-              select="'global-value'"/>
+              select="trace('global-value')"/>
 
 <!-- generated from the scenario outer -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
@@ -791,7 +791,7 @@ and functions in XQuery).
                  xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{http://example.org/ns/my/variable}var-1"
-                 select="'var-1-value'" />
+                 select="trace('var-1-value')" />
    ...
    <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1">
       <!-- pass the variable to inner context -->
@@ -811,7 +811,7 @@ and functions in XQuery).
                  xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{http://example.org/ns/my/variable}var-2"
-                 select="'var-2-value'"/>
+                 select="trace('var-2-value')"/>
    ...
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
       <xsl:sequence select="Q{http://example.org/ns/my}square(...)"/>
@@ -822,7 +822,7 @@ and functions in XQuery).
                  xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{http://example.org/ns/my/variable}var-3"
-                 select="'var-3-value'"/>
+                 select="trace('var-3-value')"/>
    <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1">
       <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result"
                       select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
@@ -838,7 +838,7 @@ and functions in XQuery).
                  xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{http://example.org/ns/my/variable}var-4"
-                 select="'var-4-value'"/>
+                 select="trace('var-4-value')"/>
    <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect2">
       <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result"
                       select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
@@ -884,7 +884,7 @@ and functions in XQuery).
 ```xquery
 (: the generated global variable :)
 declare variable $Q{http://example.org/ns/my/variable}global := (
-'global-value'
+trace('global-value')
 );
 
 (: generated from the scenario outer :)
@@ -894,7 +894,7 @@ declare function local:scenario1(
 ...
 (: the generated variable :)
 let $Q{http://example.org/ns/my/variable}var-1 := (
-'var-1-value'
+trace('var-1-value')
 )
 let $local:returned-from-scenario1-scenario1 := local:scenario1-scenario1(
 (: pass the variable to inner context :)
@@ -914,7 +914,7 @@ $Q{http://example.org/ns/my/variable}var-1
 {
 (: the generated variable :)
 let $Q{http://example.org/ns/my/variable}var-2 := (
-'var-2-value'
+trace('var-2-value')
 )
 return
 ...
@@ -924,7 +924,7 @@ Q{http://example.org/ns/my}square(...)
 ...
 (: the generated variable :)
 let $Q{http://example.org/ns/my/variable}var-3 := (
-'var-3-value'
+trace('var-3-value')
 )
 let $local:returned-from-scenario1-scenario1-expect1 := local:scenario1-scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result,
@@ -934,7 +934,7 @@ $Q{http://example.org/ns/my/variable}var-3
 )
 (: the generated variable :)
 let $Q{http://example.org/ns/my/variable}var-4 := (
-'var-4-value'
+trace('var-4-value')
 )
 let $local:returned-from-scenario1-scenario1-expect2 := local:scenario1-scenario1-expect2(
 $Q{http://www.jenitennison.com/xslt/xspec}result,
@@ -975,6 +975,29 @@ $Q{http://example.org/ns/my/variable}var-4
 {
 ...evaluate the expectations ...
 };
+```
+
+### Output at run time
+
+By `trace()` in `x:variable/@select`, you see that each `x:variable` is evaluated only once:
+
+```console
+C:xspec>bin\xspec.bat tutorial\under-the-hood\compilation-variables-scope.xspec
+...
+Running Tests...
+Testing with SAXON EE 9.9.1.8
+outer
+* [1]: xs:string: var-1-value
+..inner
+* [1]: xs:string: var-2-value
+* [1]: xs:string: var-3-value
+expect one
+* [1]: xs:string: global-value
+* [1]: xs:string: var-4-value
+expect two
+
+Formatting Report...
+...
 ```
 
 ## run-as=external
