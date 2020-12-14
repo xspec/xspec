@@ -9,24 +9,24 @@
    <!-- Example (embellished a bit to make it runnable) in Compilation.md, under "Variables scope" -->
    <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
 
-   <x:variable name="myv:global" select="'global-value'"/>
+   <x:variable name="myv:global" select="trace('global-value')"/>
 
    <x:scenario label="outer">
-      <x:variable name="myv:var-1" select="'var-1-value'"/>
+      <x:variable name="myv:var-1" select="trace('var-1-value')"/>
 
       <x:scenario label="inner">
-         <x:variable name="myv:var-2" select="'var-2-value'"/>
+         <x:variable name="myv:var-2" select="trace('var-2-value')"/>
          <x:call function="my:square">
             <x:param select="0"/>
          </x:call>
 
-         <x:variable name="myv:var-3" select="'var-3-value'"/>
+         <x:variable name="myv:var-3" select="trace('var-3-value')"/>
          <x:expect label="expect one"
-            test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3)"/>
+            test="$myv:global and $myv:var-1 and $myv:var-2 and $myv:var-3"/>
 
-         <x:variable name="myv:var-4" select="'var-4-value'"/>
+         <x:variable name="myv:var-4" select="trace('var-4-value')"/>
          <x:expect label="expect two"
-            test="exists($myv:global) and exists($myv:var-1) and exists($myv:var-2) and exists($myv:var-3) and exists($myv:var-4)"/>
+            test="$myv:global and $myv:var-1 and $myv:var-2 and $myv:var-3 and $myv:var-4"/>
       </x:scenario>
    </x:scenario>
 

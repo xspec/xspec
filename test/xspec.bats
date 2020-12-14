@@ -2175,6 +2175,41 @@ load bats-helper
 }
 
 #
+# x:variable should be evaluated only once
+#
+
+@test "x:variable should be evaluated only once (XSLT)" {
+    run ../bin/xspec.sh ../tutorial/under-the-hood/compilation-variables-scope.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[ 3]}" = "Running Tests..." ]
+    assert_regex "${lines[4]}" '^Testing with SAXON '
+    [ "${lines[ 5]}" = "outer" ]
+    [ "${lines[ 6]}" = "* [1]: xs:string: var-1-value" ]
+    [ "${lines[ 7]}" = "..inner" ]
+    [ "${lines[ 8]}" = "* [1]: xs:string: var-2-value" ]
+    [ "${lines[ 9]}" = "* [1]: xs:string: var-3-value" ]
+    [ "${lines[10]}" = "expect one" ]
+    [ "${lines[11]}" = "* [1]: xs:string: global-value" ]
+    [ "${lines[12]}" = "* [1]: xs:string: var-4-value" ]
+    [ "${lines[13]}" = "expect two" ]
+    [ "${lines[14]}" = "Formatting Report..." ]
+}
+
+@test "x:variable should be evaluated only once (XQuery)" {
+    run ../bin/xspec.sh -q ../tutorial/under-the-hood/compilation-variables-scope.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "Running Tests..." ]
+    [ "${lines[4]}" = "* [1]: xs:string: var-1-value" ]
+    [ "${lines[5]}" = "* [1]: xs:string: var-2-value" ]
+    [ "${lines[6]}" = "* [1]: xs:string: var-3-value" ]
+    [ "${lines[7]}" = "* [1]: xs:string: global-value" ]
+    [ "${lines[8]}" = "* [1]: xs:string: var-4-value" ]
+    [ "${lines[9]}" = "Formatting Report..." ]
+}
+
+#
 # Deprecated Saxon version
 #
 
