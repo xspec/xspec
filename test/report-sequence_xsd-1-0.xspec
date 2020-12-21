@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test saxon-custom-options=--xsd-version:1.0?>
 <x:description query="x-urn:test:xspec-items" query-at="items.xqm" stylesheet="items.xsl"
-	xmlns:items="x-urn:test:xspec-items" xmlns:t="http://www.jenitennison.com/xslt/xspec"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:items="x-urn:test:xspec-items" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:import href="report-sequence.xspec" />
 </x:description>

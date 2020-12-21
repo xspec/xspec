@@ -167,7 +167,7 @@
       <xsl:param name="item" as="item()" />
       <xsl:param name="report-namespace" as="xs:string" />
 
-      <xsl:variable name="local-name-prefix" as="xs:string" select="'pseudo-'" />
+      <xsl:variable name="local-name-prefix" as="xs:NCName" select="xs:NCName('pseudo-')" />
 
       <xsl:choose>
          <xsl:when test="$item instance of xs:anyAtomicType">
@@ -249,12 +249,10 @@
    <xsl:function name="rep:report-atomic-value" as="xs:string">
       <xsl:param name="value" as="xs:anyAtomicType" />
 
+      <!-- Derived types must be handled before their base types -->
       <xsl:choose>
-         <!-- Derived types must be handled before their base types -->
-
          <!-- String types -->
-         <xsl:when test="$value instance of xs:normalizedString"
-            use-when="type-available('xs:normalizedString')">
+         <xsl:when test="$value instance of xs:normalizedString">
             <xsl:sequence select="local:report-atomic-value-as-constructor($value)" />
          </xsl:when>
          <xsl:when test="$value instance of xs:string">
@@ -262,20 +260,18 @@
          </xsl:when>
 
          <!-- Derived numeric types -->
-         <xsl:when test="$value instance of xs:nonPositiveInteger"
-            use-when="type-available('xs:nonPositiveInteger')">
+         <xsl:when test="$value instance of xs:nonPositiveInteger">
             <xsl:sequence select="local:report-atomic-value-as-constructor($value)" />
          </xsl:when>
-         <xsl:when test="$value instance of xs:long" use-when="type-available('xs:long')">
+         <xsl:when test="$value instance of xs:long">
             <xsl:sequence select="local:report-atomic-value-as-constructor($value)" />
          </xsl:when>
-         <xsl:when test="$value instance of xs:nonNegativeInteger"
-            use-when="type-available('xs:nonNegativeInteger')">
+         <xsl:when test="$value instance of xs:nonNegativeInteger">
             <xsl:sequence select="local:report-atomic-value-as-constructor($value)" />
          </xsl:when>
 
          <!-- Numeric types which can be expressed as numeric literals:
-            http://www.w3.org/TR/xpath20/#id-literals -->
+            https://www.w3.org/TR/xpath-31/#id-literals -->
          <xsl:when test="$value instance of xs:integer">
             <xsl:sequence select="string($value)" />
          </xsl:when>
@@ -329,6 +325,9 @@
    </xsl:function>
 
    <!--
+      Returns atomic value type
+         https://www.w3.org/TR/xslt-30/#built-in-types
+      
       This function should be local:. But ../../test/report-sequence.xspec requires this to be
       exposed.
    -->
@@ -336,83 +335,77 @@
       <xsl:param name="value" as="xs:anyAtomicType" />
 
       <xsl:variable name="local-name" as="xs:string">
+         <!-- Derived types must be handled before their base types -->
          <xsl:choose>
-            <!-- Grouped as the spec does: http://www.w3.org/TR/xslt20/#built-in-types
-               Groups are in the reversed order so that the derived types are before the primitive types,
-               otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. -->
+            <!--
+               https://www.w3.org/TR/xmlschema11-2/type-hierarchy-201104.longdesc.html
+            -->
 
-            <!-- A schema-aware XSLT processor additionally supports: -->
-
-            <!--    * All other built-in types defined in [XML Schema Part 2] -->
-            <!-- xs:IDREFS: list -->
-            <!-- xs:ENTITIES: list -->
-            <xsl:when test="$value instance of xs:ID" use-when="type-available('xs:ID')">ID</xsl:when>
-            <xsl:when test="$value instance of xs:IDREF" use-when="type-available('xs:IDREF')">IDREF</xsl:when>
-            <xsl:when test="$value instance of xs:ENTITY" use-when="type-available('xs:ENTITY')">ENTITY</xsl:when>
-            <xsl:when test="$value instance of xs:NCName" use-when="type-available('xs:NCName')">NCName</xsl:when>
-            <!-- xs:NMTOKENS: list -->
-            <xsl:when test="$value instance of xs:language" use-when="type-available('xs:language')">language</xsl:when>
-            <xsl:when test="$value instance of xs:Name" use-when="type-available('xs:Name')">Name</xsl:when>
-            <xsl:when test="$value instance of xs:NMTOKEN" use-when="type-available('xs:NMTOKEN')">NMTOKEN</xsl:when>
-            <xsl:when test="$value instance of xs:token" use-when="type-available('xs:token')">token</xsl:when>
-            <xsl:when test="$value instance of xs:normalizedString" use-when="type-available('xs:normalizedString')">normalizedString</xsl:when>
-            <xsl:when test="$value instance of xs:negativeInteger" use-when="type-available('xs:negativeInteger')">negativeInteger</xsl:when>
-            <xsl:when test="$value instance of xs:nonPositiveInteger" use-when="type-available('xs:nonPositiveInteger')">nonPositiveInteger</xsl:when>
-            <xsl:when test="$value instance of xs:byte" use-when="type-available('xs:byte')">byte</xsl:when>
-            <xsl:when test="$value instance of xs:short" use-when="type-available('xs:short')">short</xsl:when>
-            <xsl:when test="$value instance of xs:int" use-when="type-available('xs:int')">int</xsl:when>
-            <xsl:when test="$value instance of xs:long" use-when="type-available('xs:long')">long</xsl:when>
-            <xsl:when test="$value instance of xs:unsignedByte" use-when="type-available('xs:unsignedByte')">unsignedByte</xsl:when>
-            <xsl:when test="$value instance of xs:unsignedShort" use-when="type-available('xs:unsignedShort')">unsignedShort</xsl:when>
-            <xsl:when test="$value instance of xs:unsignedInt" use-when="type-available('xs:unsignedInt')">unsignedInt</xsl:when>
-            <xsl:when test="$value instance of xs:unsignedLong" use-when="type-available('xs:unsignedLong')">unsignedLong</xsl:when>
-            <xsl:when test="$value instance of xs:positiveInteger" use-when="type-available('xs:positiveInteger')">positiveInteger</xsl:when>
-            <xsl:when test="$value instance of xs:nonNegativeInteger" use-when="type-available('xs:nonNegativeInteger')">nonNegativeInteger</xsl:when>
-            <!-- xs:NOTATION: Abstract -->
-
-            <!-- https://www.w3.org/TR/xslt-30/#built-in-types:
-               XSD 1.1 ... adds one new type: xs:dateTimeStamp -->
-            <!-- TODO: Remove system-property() condition from @use-when after
-               https://saxonica.plan.io/issues/4861 gets fixed. -->
+            <!-- Derived from xs:dateTime -->
             <xsl:when test="$value instance of xs:dateTimeStamp" use-when="
                type-available('xs:dateTimeStamp')
+               (: TODO: Remove system-property() condition after
+                  https://saxonica.plan.io/issues/4861 gets fixed :)
                and (xs:decimal(system-property('xsl:xsd-version')) ge 1.1)">dateTimeStamp</xsl:when>
 
-            <!-- Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: -->
-
-            <!--    * The following types defined in [XPath 2.0] -->
-            <xsl:when test="$value instance of xs:yearMonthDuration">yearMonthDuration</xsl:when>
-            <xsl:when test="$value instance of xs:dayTimeDuration">dayTimeDuration</xsl:when>
-            <!-- xs:anyAtomicType: Abstract -->
-            <!-- xs:untyped: Not atomic -->
-            <xsl:when test="$value instance of xs:untypedAtomic">untypedAtomic</xsl:when>
-
-            <!--    * The types xs:anyType and xs:anySimpleType. -->
-            <!-- Not atomic -->
-
-            <!--    * The derived atomic type xs:integer defined in [XML Schema Part 2]. -->
+            <!-- Derived from xs:decimal -->
+            <xsl:when test="$value instance of xs:byte">byte</xsl:when>
+            <xsl:when test="$value instance of xs:short">short</xsl:when>
+            <xsl:when test="$value instance of xs:int">int</xsl:when>
+            <xsl:when test="$value instance of xs:long">long</xsl:when>
+            <xsl:when test="$value instance of xs:positiveInteger">positiveInteger</xsl:when>
+            <xsl:when test="$value instance of xs:unsignedByte">unsignedByte</xsl:when>
+            <xsl:when test="$value instance of xs:unsignedShort">unsignedShort</xsl:when>
+            <xsl:when test="$value instance of xs:unsignedInt">unsignedInt</xsl:when>
+            <xsl:when test="$value instance of xs:unsignedLong">unsignedLong</xsl:when>
+            <xsl:when test="$value instance of xs:nonNegativeInteger">nonNegativeInteger</xsl:when>
+            <xsl:when test="$value instance of xs:negativeInteger">negativeInteger</xsl:when>
+            <xsl:when test="$value instance of xs:nonPositiveInteger">nonPositiveInteger</xsl:when>
             <xsl:when test="$value instance of xs:integer">integer</xsl:when>
 
-            <!--    * All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION. -->
-            <xsl:when test="$value instance of xs:string">string</xsl:when>
+            <!-- Derived from xs:duration -->
+            <xsl:when test="$value instance of xs:dayTimeDuration">dayTimeDuration</xsl:when>
+            <xsl:when test="$value instance of xs:yearMonthDuration">yearMonthDuration</xsl:when>
+
+            <!-- Derived from xs:string -->
+            <xsl:when test="$value instance of xs:language">language</xsl:when>
+            <xsl:when test="$value instance of xs:ENTITY">ENTITY</xsl:when>
+            <xsl:when test="$value instance of xs:ID">ID</xsl:when>
+            <xsl:when test="$value instance of xs:IDREF">IDREF</xsl:when>
+            <xsl:when test="$value instance of xs:NCName">NCName</xsl:when>
+            <xsl:when test="$value instance of xs:Name">Name</xsl:when>
+            <xsl:when test="$value instance of xs:NMTOKEN">NMTOKEN</xsl:when>
+            <xsl:when test="$value instance of xs:token">token</xsl:when>
+            <xsl:when test="$value instance of xs:normalizedString">normalizedString</xsl:when>
+
+            <!-- Primitive atomic types except for abstract xs:NOTATION -->
+            <xsl:when test="$value instance of xs:anyURI">anyURI</xsl:when>
+            <xsl:when test="$value instance of xs:base64Binary">base64Binary</xsl:when>
             <xsl:when test="$value instance of xs:boolean">boolean</xsl:when>
+            <xsl:when test="$value instance of xs:date">date</xsl:when>
+            <xsl:when test="$value instance of xs:dateTime">dateTime</xsl:when>
             <xsl:when test="$value instance of xs:decimal">decimal</xsl:when>
             <xsl:when test="$value instance of xs:double">double</xsl:when>
-            <xsl:when test="$value instance of xs:float">float</xsl:when>
-            <xsl:when test="$value instance of xs:date">date</xsl:when>
-            <xsl:when test="$value instance of xs:time">time</xsl:when>
-            <xsl:when test="$value instance of xs:dateTime">dateTime</xsl:when>
             <xsl:when test="$value instance of xs:duration">duration</xsl:when>
-            <xsl:when test="$value instance of xs:QName">QName</xsl:when>
-            <xsl:when test="$value instance of xs:anyURI">anyURI</xsl:when>
+            <xsl:when test="$value instance of xs:float">float</xsl:when>
             <xsl:when test="$value instance of xs:gDay">gDay</xsl:when>
-            <xsl:when test="$value instance of xs:gMonthDay">gMonthDay</xsl:when>
             <xsl:when test="$value instance of xs:gMonth">gMonth</xsl:when>
-            <xsl:when test="$value instance of xs:gYearMonth">gYearMonth</xsl:when>
+            <xsl:when test="$value instance of xs:gMonthDay">gMonthDay</xsl:when>
             <xsl:when test="$value instance of xs:gYear">gYear</xsl:when>
-            <xsl:when test="$value instance of xs:base64Binary">base64Binary</xsl:when>
+            <xsl:when test="$value instance of xs:gYearMonth">gYearMonth</xsl:when>
             <xsl:when test="$value instance of xs:hexBinary">hexBinary</xsl:when>
+            <xsl:when test="$value instance of xs:QName">QName</xsl:when>
+            <xsl:when test="$value instance of xs:string">string</xsl:when>
+            <xsl:when test="$value instance of xs:time">time</xsl:when>
 
+            <!--
+               Defined in XDM
+            -->
+            <xsl:when test="$value instance of xs:untypedAtomic">untypedAtomic</xsl:when>
+
+            <!--
+               Base of atomic types
+            -->
             <xsl:otherwise>anyAtomicType</xsl:otherwise>
          </xsl:choose>
       </xsl:variable>

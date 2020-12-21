@@ -1,505 +1,1117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:description xmlns:items="x-urn:test:xspec-items"
-               xmlns:rep="urn:x-xspec:common:report-sequence"
-               xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               query="x-urn:test:xspec-items"
-               query-at="items.xqm"
-               stylesheet="items.xsl">
+<x:description query="x-urn:test:xspec-items" query-at="items.xqm" stylesheet="items.xsl"
+   xmlns:items="x-urn:test:xspec-items" xmlns:rep="urn:x-xspec:common:report-sequence"
+   xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
    <!--
       The test target (../src/common/report-sequence.xsl or report-sequence.xqm) is included
-      implicitly by the XSpec compiler. You don't need to specify it in /t:description/@stylesheet
+      implicitly by the XSpec compiler. You don't need to specify it in /x:description/@stylesheet
       or @query-at.
    -->
 
-   <t:scenario label="rep:report-atomic-value">
-      <t:call function="rep:report-atomic-value" />
-
-      <t:scenario label="Copy of https://github.com/xspec/xspec/blob/8931b371bd619feeeee25bd7014d8a677ab88505/src/compiler/generate-tests-utils.xsl#L622-L629">
-
-         <t:scenario label="String Containing Single Quotes">
-            <t:call>
-               <t:param select="'don''t'" />
-            </t:call>
-            <t:expect label="Escaped" select="'''don''''t'''" />
-         </t:scenario>
-
-      </t:scenario>
-
-      <t:scenario label="xs:integer">
-
-         <t:scenario label="Max supported by BaseX 9.4.5">
-            <t:call>
-               <t:param select="xs:integer(9223372036854775807)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'9223372036854775807'" />
-         </t:scenario>
-
-         <t:scenario label="0">
-            <t:call>
-               <t:param select="xs:integer(0)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'0'" />
-         </t:scenario>
-
-         <t:scenario label="Min supported by BaseX 9.4.5">
-            <t:call>
-               <t:param select="xs:integer(-9223372036854775807)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'-9223372036854775807'" />
-         </t:scenario>
-
-      </t:scenario>
-
-      <t:scenario label="xs:decimal">
-
-         <t:scenario label="1.2">
-            <t:call>
-               <t:param select="xs:decimal(1.2)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'1.2'" />
-         </t:scenario>
-
-         <t:scenario label="1">
-            <t:call>
-               <t:param select="xs:decimal(1)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'1.0'" />
-         </t:scenario>
-
-         <t:scenario label="0.1">
-            <t:call>
-               <t:param select="xs:decimal(0.1)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'0.1'" />
-         </t:scenario>
-
-         <t:scenario label="0">
-            <t:call>
-               <t:param select="xs:decimal(0)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'0.0'" />
-         </t:scenario>
-
-         <t:scenario label="-0.1">
-            <t:call>
-               <t:param select="xs:decimal(-0.1)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'-0.1'" />
-         </t:scenario>
-
-         <t:scenario label="-1">
-            <t:call>
-               <t:param select="xs:decimal(-1)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'-1.0'" />
-         </t:scenario>
-
-         <t:scenario label="-1.2">
-            <t:call>
-               <t:param select="xs:decimal(-1.2)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'-1.2'" />
-         </t:scenario>
-
-      </t:scenario>
-
-      <t:scenario label="xs:double">
-
-         <t:scenario label="1.234e56">
-            <t:call>
-               <t:param select="xs:double(1.234e56)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'1.234e56'" />
-         </t:scenario>
-
-         <t:scenario label="1">
-            <t:call>
-               <t:param select="xs:double(1)" />
-            </t:call>
-            <t:expect label="Numeric literal" select="'1.0e0'" />
-         </t:scenario>
-
-         <t:scenario label="NaN">
-            <t:call>
-               <t:param select="xs:double('NaN')" />
-            </t:call>
-            <t:expect label="Constructor" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}double('NaN')</t:expect>
-         </t:scenario>
-
-         <t:scenario label="INF">
-            <t:call>
-               <t:param select="xs:double('INF')" />
-            </t:call>
-            <t:expect label="Constructor" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}double('INF')</t:expect>
-         </t:scenario>
-
-         <t:scenario label="-INF">
-            <t:call>
-               <t:param select="xs:double('-INF')" />
-            </t:call>
-            <t:expect label="Constructor" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}double('-INF')</t:expect>
-         </t:scenario>
-
-      </t:scenario>
-
-      <t:scenario label="xs:QName">
-
-         <t:scenario label="No namespace">
-            <t:call>
-               <t:param select="xs:QName('foo')" />
-            </t:call>
-            <t:expect label="Function" select="'QName('''', ''foo'')'" />
-         </t:scenario>
-
-         <t:scenario label="In namespace, with prefix">
-            <t:call>
-               <t:param select="xs:QName('t:foo')" />
-            </t:call>
-            <t:expect label="Function" select="string()">
-               <t:text expand-text="yes" xml:space="preserve">QName('{$t:xspec-namespace}', 't:foo')</t:text>
-            </t:expect>
-         </t:scenario>
-
-         <t:scenario label="In namespace, without prefix">
-            <t:call>
-               <t:param select="QName('x-urn:test:report-atomic-value', 'foo')" />
-            </t:call>
-            <t:expect label="Function" select="'QName(''x-urn:test:report-atomic-value'', ''foo'')'" />
-         </t:scenario>
-
-      </t:scenario>
-
-      <t:scenario label="Other types that enter the ELSE branch of the function">
-
-         <t:scenario label="xs:untypedAtomic">
-            <t:call>
-               <t:param select="xs:untypedAtomic('foo')" />
-            </t:call>
-            <t:expect label="Constructor" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}untypedAtomic('foo')</t:expect>
-         </t:scenario>
-
-      </t:scenario>
-
-   </t:scenario>
-
-   <t:scenario label="rep:atom-type">
-      <t:call function="rep:atom-type" />
-
-      <!--
-         http://www.w3.org/TR/xslt20/#built-in-types
-      -->
-
-      <t:scenario label="All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION">
-
-         <t:scenario label="xs:string">
-            <t:call>
-               <t:param select="xs:string('foo')" />
-            </t:call>
-            <t:expect label="xs:string" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}string</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:boolean">
-            <t:call>
-               <t:param select="xs:boolean('true')" />
-            </t:call>
-            <t:expect label="xs:boolean" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}boolean</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:decimal">
-            <t:call>
-               <t:param select="xs:decimal(1)" />
-            </t:call>
-            <t:expect label="xs:decimal" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}decimal</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:double">
-            <t:call>
-               <t:param select="xs:double(1)" />
-            </t:call>
-            <t:expect label="xs:double" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}double</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:float">
-            <t:call>
-               <t:param select="xs:float(1)" />
-            </t:call>
-            <t:expect label="xs:float" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}float</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:date">
-            <t:call>
-               <t:param select="xs:date('1111-11-11')" />
-            </t:call>
-            <t:expect label="xs:date" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}date</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:time">
-           <t:call>
-              <t:param select="xs:time('11:11:11')" />
-           </t:call>
-           <t:expect label="xs:time" select="string()"
-              >Q{http://www.w3.org/2001/XMLSchema}time</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:dateTime">
-            <t:call>
-               <t:param select="xs:dateTime('1111-11-11T11:11:11')" />
-            </t:call>
-            <t:expect label="xs:dateTime" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}dateTime</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:duration">
-            <t:call>
-               <t:param select="xs:duration('PT1S')" />
-            </t:call>
-            <t:expect label="xs:duration" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}duration</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:QName">
-            <t:call>
-               <t:param select="xs:QName('foo')" />
-            </t:call>
-            <t:expect label="xs:QName" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}QName</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:anyURI">
-            <t:call>
-               <t:param select="xs:anyURI('foo')" />
-            </t:call>
-            <t:expect label="xs:anyURI" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}anyURI</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:gDay">
-            <t:call>
-               <t:param select="xs:gDay('---11')" />
-            </t:call>
-            <t:expect label="xs:gDay" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}gDay</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:gMonthDay">
-            <t:call>
-               <t:param select="xs:gMonthDay('--11-11')" />
-            </t:call>
-            <t:expect label="xs:gMonthDay" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}gMonthDay</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:gMonth">
-            <t:call>
-               <t:param select="xs:gMonth('--11')" />
-            </t:call>
-            <t:expect label="xs:gMonth" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}gMonth</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:gYearMonth">
-            <t:call>
-               <t:param select="xs:gYearMonth('1111-11')" />
-            </t:call>
-            <t:expect label="xs:gYearMonth" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}gYearMonth</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:gYear">
-            <t:call>
-               <t:param select="xs:gYear('1111')" />
-            </t:call>
-            <t:expect label="xs:gYear" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}gYear</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:base64Binary">
-            <t:call>
-               <t:param select="xs:base64Binary(xs:hexBinary('11'))" />
-            </t:call>
-            <t:expect label="xs:base64Binary" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}base64Binary</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:hexBinary">
-            <t:call>
-               <t:param select="xs:hexBinary('11')" />
-            </t:call>
-            <t:expect label="xs:hexBinary" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}hexBinary</t:expect>
-         </t:scenario>
-
-      </t:scenario>
-
-      <t:scenario label="The derived atomic type xs:integer defined in [XML Schema Part 2]">
-
-         <t:scenario label="xs:integer">
-            <t:call>
-               <t:param select="xs:integer(1)" />
-            </t:call>
-            <t:expect label="xs:integer" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}integer</t:expect>
-         </t:scenario>
-
-      </t:scenario>
-
-      <!-- The types xs:anyType and xs:anySimpleType: Not atomic -->
-
-      <t:scenario label="The following types defined in [XPath 2.0]">
-
-         <t:scenario label="xs:yearMonthDuration">
-            <t:call>
-               <t:param select="xs:yearMonthDuration('P1M')" />
-            </t:call>
-            <t:expect label="xs:yearMonthDuration" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}yearMonthDuration</t:expect>
-         </t:scenario>
-
-         <t:scenario label="xs:dayTimeDuration">
-            <t:call>
-               <t:param select="xs:dayTimeDuration('PT1S')" />
-            </t:call>
-            <t:expect label="xs:dayTimeDuration" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}dayTimeDuration</t:expect>
-         </t:scenario>
-
-         <!-- xs:anyAtomicType: Abstract -->
-
-         <!-- xs:untyped: Not atomic -->
-
-         <t:scenario label="xs:untypedAtomic">
-            <t:call>
-               <t:param select="xs:untypedAtomic('foo')" />
-            </t:call>
-            <t:expect label="xs:untypedAtomic" select="string()"
-               >Q{http://www.w3.org/2001/XMLSchema}untypedAtomic</t:expect>
-         </t:scenario>
-
-      </t:scenario>
-
-   </t:scenario>
-
-	<t:scenario label="Scenario for testing function node-type">
-		<t:call function="rep:node-type" />
-
-		<t:scenario label="Attribute">
-			<t:call>
-				<t:param select="$items:attribute" />
-			</t:call>
-			<t:expect label="attribute" select="'attribute'" />
-		</t:scenario>
-
-		<t:scenario label="Comment">
-			<t:call>
-				<t:param select="$items:comment" />
-			</t:call>
-			<t:expect label="comment" select="'comment'" />
-		</t:scenario>
-
-		<t:scenario label="Document">
-			<t:call>
-				<t:param select="$items:document" />
-			</t:call>
-			<t:expect label="document-node" select="'document-node'" />
-		</t:scenario>
-
-		<t:scenario label="Element">
-			<t:call>
-				<t:param select="$items:element" />
-			</t:call>
-			<t:expect label="element" select="'element'" />
-		</t:scenario>
-
-		<t:scenario label="Namespace">
-			<t:call>
-				<t:param select="$items:namespace" />
-			</t:call>
-			<t:expect label="namespace-node" select="'namespace-node'" />
-		</t:scenario>
-
-		<t:scenario label="Processing instruction">
-			<t:call>
-				<t:param select="$items:processing-instruction" />
-			</t:call>
-			<t:expect label="processing-instruction" select="'processing-instruction'" />
-		</t:scenario>
-
-		<t:scenario label="Text">
-			<t:call>
-				<t:param select="$items:text" />
-			</t:call>
-			<t:expect label="text" select="'text'" />
-		</t:scenario>
-	</t:scenario>
-
-	<t:scenario label="Scenario for testing function instance-of-function">
-		<t:call function="rep:instance-of-function" />
-
-		<t:scenario label="Node">
-			<t:call>
-				<t:param>
-					<e />
-				</t:param>
-			</t:call>
-			<t:expect label="False" select="false()" />
-		</t:scenario>
-
-		<t:scenario label="Atomic value">
-			<t:call>
-				<t:param select="1" />
-			</t:call>
-			<t:expect label="False" select="false()" />
-		</t:scenario>
-
-		<t:scenario label="function(*)">
-			<t:scenario label="Array">
-				<t:call>
-					<t:param select="[ 0, 1 ]" />
-				</t:call>
-				<t:expect label="True" select="true()" />
-			</t:scenario>
-
-			<t:scenario label="Map">
-				<t:call>
-					<t:param select="map { 0: 1 }" />
-				</t:call>
-				<t:expect label="True" select="true()" />
-			</t:scenario>
-
-			<!-- Function (excluding map and array) is tested in report-sequence_stylesheet_hof.xspec -->
-		</t:scenario>
-	</t:scenario>
-
-	<t:scenario label="Scenario for testing function function-type">
-		<t:call function="rep:function-type" />
-
-		<t:scenario label="Array">
-			<t:call>
-				<t:param select="[ 0, 1 ]" />
-			</t:call>
-			<t:expect label="array" select="'array'" />
-		</t:scenario>
-
-		<t:scenario label="Map">
-			<t:call>
-				<t:param select="map { 0: 1 }" />
-			</t:call>
-			<t:expect label="map" select="'map'" />
-		</t:scenario>
-
-		<!-- Function (excluding map and array) is tested in report-sequence_stylesheet_hof.xspec -->
-	</t:scenario>
-
-</t:description>
+   <x:scenario label="rep:report-atomic-value">
+      <x:call function="rep:report-atomic-value" />
+
+      <x:scenario label="https://www.w3.org/TR/xmlschema11-2/type-hierarchy-201104.longdesc.html">
+
+         <x:scenario label="Primitive types except for abstract xs:NOTATION">
+
+            <x:scenario label="xs:anyURI">
+               <x:call>
+                  <x:param select="xs:anyURI('foo')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}anyURI('foo')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:base64Binary">
+               <x:call>
+                  <x:param select="xs:hexBinary('12') => xs:base64Binary()" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}base64Binary('Eg==')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:boolean">
+               <x:call>
+                  <x:param select="xs:boolean('true')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}boolean('true')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:date">
+               <x:call>
+                  <x:param select="xs:date('1234-01-02')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}date('1234-01-02')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:dateTime">
+               <x:call>
+                  <x:param select="xs:dateTime('1234-05-06T07:08:09')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-05-06T07:08:09')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:decimal">
+
+               <x:scenario label="1.2">
+                  <x:call>
+                     <x:param select="xs:decimal(1.2)" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'1.2'" />
+               </x:scenario>
+
+               <x:scenario label="1">
+                  <x:call>
+                     <x:param select="xs:decimal(1)" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'1.0'" />
+               </x:scenario>
+
+               <x:scenario label="0.1">
+                  <x:call>
+                     <x:param select="xs:decimal(0.1)" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'0.1'" />
+               </x:scenario>
+
+               <x:scenario label="0">
+                  <x:call>
+                     <x:param select="xs:decimal(0)" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'0.0'" />
+               </x:scenario>
+
+               <x:scenario label="-0.1">
+                  <x:call>
+                     <x:param select="xs:decimal(-0.1)" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'-0.1'" />
+               </x:scenario>
+
+               <x:scenario label="-1">
+                  <x:call>
+                     <x:param select="xs:decimal(-1)" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'-1.0'" />
+               </x:scenario>
+
+               <x:scenario label="-1.2">
+                  <x:call>
+                     <x:param select="xs:decimal(-1.2)" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'-1.2'" />
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="xs:double">
+
+               <x:scenario label="1.234e56">
+                  <x:call>
+                     <x:param select="xs:double('1.234e56')" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'1.234e56'" />
+               </x:scenario>
+
+               <x:scenario label="1">
+                  <x:call>
+                     <x:param select="xs:double('1')" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'1.0e0'" />
+               </x:scenario>
+
+               <x:scenario label="0">
+                  <x:call>
+                     <x:param select="xs:double('0')" />
+                  </x:call>
+                  <x:expect label="Numeric literal" test="
+                        $x:result = (
+                           (: https://saxonica.plan.io/boards/3/topics/8091
+                              https://github.com/w3c/qtspecs/issues/22 :)
+                           (: Saxon 10.3 :)  '0.0e-1',
+                           (: BaseX 9.4.5 :) '0.0e0'
+                        )" />
+               </x:scenario>
+
+               <x:scenario label="-0">
+                  <x:call>
+                     <x:param select="xs:double('-0')" />
+                  </x:call>
+                  <x:expect label="Numeric literal" test="
+                        $x:result = (
+                           (: https://saxonica.plan.io/boards/3/topics/8091
+                              https://github.com/w3c/qtspecs/issues/22 :)
+                           (: Saxon 10.3 :)  '-0.0e-1',
+                           (: BaseX 9.4.5 :) '-0.0e0'
+                        )" />
+               </x:scenario>
+
+               <x:scenario label="-1">
+                  <x:call>
+                     <x:param select="xs:double('-1')" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'-1.0e0'" />
+               </x:scenario>
+
+               <x:scenario label="-1.234e56">
+                  <x:call>
+                     <x:param select="xs:double('-1.234e56')" />
+                  </x:call>
+                  <x:expect label="Numeric literal" select="'-1.234e56'" />
+               </x:scenario>
+
+               <x:scenario label="NaN">
+                  <x:call>
+                     <x:param select="xs:double('NaN')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}double('NaN')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="INF">
+                  <x:call>
+                     <x:param select="xs:double('INF')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}double('INF')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="-INF">
+                  <x:call>
+                     <x:param select="xs:double('-INF')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}double('-INF')</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="xs:duration">
+               <x:call>
+                  <x:param select="xs:duration('PT1S')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}duration('PT1S')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:float">
+
+               <x:scenario label="1.2e34">
+                  <x:call>
+                     <x:param select="xs:float('1.2e34')" />
+                  </x:call>
+                  <x:expect label="Constructor with string" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('1.2E34')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="1">
+                  <x:call>
+                     <x:param select="xs:float('1')" />
+                  </x:call>
+                  <x:expect label="Constructor with string" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('1')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="0">
+                  <x:call>
+                     <x:param select="xs:float('0')" />
+                  </x:call>
+                  <x:expect label="Constructor with string" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('0')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="-0">
+                  <x:call>
+                     <x:param select="xs:float('-0')" />
+                  </x:call>
+                  <x:expect label="Constructor with string" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('-0')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="-1">
+                  <x:call>
+                     <x:param select="xs:float('-1')" />
+                  </x:call>
+                  <x:expect label="Constructor with string" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('-1')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="-1.2e34">
+                  <x:call>
+                     <x:param select="xs:float('-1.2e34')" />
+                  </x:call>
+                  <x:expect label="Constructor with string" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('-1.2E34')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="NaN">
+                  <x:call>
+                     <x:param select="xs:float('NaN')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('NaN')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="INF">
+                  <x:call>
+                     <x:param select="xs:float('INF')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('INF')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="-INF">
+                  <x:call>
+                     <x:param select="xs:float('-INF')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}float('-INF')</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="xs:gDay">
+               <x:call>
+                  <x:param select="xs:gDay('---12')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gDay('---12')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gMonth">
+               <x:call>
+                  <x:param select="xs:gMonth('--12')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gMonth('--12')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gMonthDay">
+               <x:call>
+                  <x:param select="xs:gMonthDay('--01-02')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gMonthDay('--01-02')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gYear">
+               <x:call>
+                  <x:param select="xs:gYear('1234')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gYear('1234')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gYearMonth">
+               <x:call>
+                  <x:param select="xs:gYearMonth('1234-01')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gYearMonth('1234-01')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:hexBinary">
+               <x:call>
+                  <x:param select="xs:hexBinary('12')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}hexBinary('12')</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:QName">
+
+               <x:scenario label="No namespace">
+                  <x:call>
+                     <x:param select="xs:QName('foo')" />
+                  </x:call>
+                  <x:expect label="Function" select="string()">
+                     <x:text xml:space="preserve">QName('', 'foo')</x:text>
+                  </x:expect>
+               </x:scenario>
+
+               <x:scenario label="In namespace, with prefix">
+                  <x:call>
+                     <x:param select="xs:QName('x:foo')" />
+                  </x:call>
+                  <x:expect label="Function" select="string()">
+                     <x:text expand-text="yes" xml:space="preserve">QName('{$x:xspec-namespace}', 'x:foo')</x:text>
+                  </x:expect>
+               </x:scenario>
+
+               <x:scenario label="In namespace, without prefix">
+                  <x:call>
+                     <x:param select="QName('x-urn:test:report-atomic-value', 'foo')" />
+                  </x:call>
+                  <x:expect label="Function" select="string()">
+                     <x:text xml:space="preserve">QName('x-urn:test:report-atomic-value', 'foo')</x:text>
+                  </x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="xs:string">
+
+               <x:scenario label="Containing apostrophes">
+                  <x:call>
+                     <x:param select="string()">don't</x:param>
+                  </x:call>
+                  <x:expect
+                     label="String literal quoted by apostrophes. Contained apostrophes are escaped."
+                     select="string()">'don''t'</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="xs:time">
+               <x:call>
+                  <x:param select="xs:time('01:02:03')" />
+               </x:call>
+               <x:expect label="Constructor" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}time('01:02:03')</x:expect>
+            </x:scenario>
+
+         </x:scenario>
+
+         <x:scenario label="Other built-in atomic types">
+
+            <x:scenario label="Derived from xs:dateTime">
+               <!-- xs:dateTimeStamp: Tested in report-sequence_stylesheet.xspec -->
+            </x:scenario>
+
+            <x:scenario label="Derived from xs:decimal">
+
+               <x:scenario label="xs:integer">
+
+                  <x:scenario label="Max supported by BaseX 9.4.5">
+                     <x:call>
+                        <x:param select="xs:integer(9223372036854775807)" />
+                     </x:call>
+                     <x:expect label="Numeric literal" select="'9223372036854775807'" />
+                  </x:scenario>
+
+                  <x:scenario label="0">
+                     <x:call>
+                        <x:param select="xs:integer(0)" />
+                     </x:call>
+                     <x:expect label="Numeric literal" select="'0'" />
+                  </x:scenario>
+
+                  <x:scenario label="Min supported by BaseX 9.4.5">
+                     <x:call>
+                        <x:param select="xs:integer(-9223372036854775807)" />
+                     </x:call>
+                     <x:expect label="Numeric literal" select="'-9223372036854775807'" />
+                  </x:scenario>
+
+               </x:scenario>
+
+               <x:scenario label="xs:long">
+                  <x:call>
+                     <x:param select="xs:long(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}long(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:int">
+                  <x:call>
+                     <x:param select="xs:int(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}int(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:short">
+                  <x:call>
+                     <x:param select="xs:short(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}short(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:byte">
+                  <x:call>
+                     <x:param select="xs:byte(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}byte(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:nonNegativeInteger">
+                  <x:call>
+                     <x:param select="xs:nonNegativeInteger(0)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger(0)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:positiveInteger">
+                  <x:call>
+                     <x:param select="xs:positiveInteger(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}positiveInteger(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:unsignedLong">
+                  <x:call>
+                     <x:param select="xs:unsignedLong(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}unsignedLong(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:unsignedInt">
+                  <x:call>
+                     <x:param select="xs:unsignedInt(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}unsignedInt(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:unsignedShort">
+                  <x:call>
+                     <x:param select="xs:unsignedShort(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}unsignedShort(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:unsignedByte">
+                  <x:call>
+                     <x:param select="xs:unsignedByte(1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}unsignedByte(1)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:nonPositiveInteger">
+                  <x:call>
+                     <x:param select="xs:nonPositiveInteger(0)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger(0)</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:negativeInteger">
+                  <x:call>
+                     <x:param select="xs:negativeInteger(-1)" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}negativeInteger(-1)</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="Derived from xs:duration">
+
+               <x:scenario label="xs:dayTimeDuration">
+                  <x:call>
+                     <x:param select="xs:dayTimeDuration('PT1S')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}dayTimeDuration('PT1S')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:yearMonthDuration">
+                  <x:call>
+                     <x:param select="xs:yearMonthDuration('P1M')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}yearMonthDuration('P1M')</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="Derived from xs:string">
+
+               <x:scenario label="xs:normalizedString">
+                  <x:call>
+                     <x:param select="xs:normalizedString('foo')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}normalizedString('foo')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:token">
+                  <x:call>
+                     <x:param select="xs:token('foo')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}token('foo')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:language">
+                  <x:call>
+                     <x:param select="xs:language('en')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}language('en')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:Name">
+                  <x:call>
+                     <x:param select="xs:Name('foo')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}Name('foo')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:NCName">
+                  <x:call>
+                     <x:param select="xs:NCName('foo')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}NCName('foo')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:ENTITY">
+                  <x:call>
+                     <x:param select="xs:ENTITY('foo')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}ENTITY('foo')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:ID">
+                  <x:call>
+                     <x:param select="xs:ID('foo')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}ID('foo')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:IDREF">
+                  <x:call>
+                     <x:param select="xs:IDREF('foo')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}IDREF('foo')</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:NMTOKEN">
+                  <x:call>
+                     <x:param select="xs:NMTOKEN('foo')" />
+                  </x:call>
+                  <x:expect label="Constructor" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}NMTOKEN('foo')</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+         </x:scenario>
+
+      </x:scenario>
+
+      <x:scenario label="Defined in XDM">
+
+         <x:scenario label="xs:untypedAtomic">
+            <x:call>
+               <x:param select="xs:untypedAtomic('foo')" />
+            </x:call>
+            <x:expect label="Constructor" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}untypedAtomic('foo')</x:expect>
+         </x:scenario>
+
+      </x:scenario>
+
+   </x:scenario>
+
+   <x:scenario label="rep:atom-type">
+      <x:call function="rep:atom-type" />
+
+      <x:scenario label="https://www.w3.org/TR/xmlschema11-2/type-hierarchy-201104.longdesc.html">
+
+         <x:scenario label="Primitive types except for abstract xs:NOTATION">
+
+            <x:scenario label="xs:anyURI">
+               <x:call>
+                  <x:param select="xs:anyURI('foo')" />
+               </x:call>
+               <x:expect label="xs:anyURI" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}anyURI</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:base64Binary">
+               <x:call>
+                  <x:param select="xs:hexBinary('11') => xs:base64Binary()" />
+               </x:call>
+               <x:expect label="xs:base64Binary" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}base64Binary</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:boolean">
+               <x:call>
+                  <x:param select="xs:boolean('true')" />
+               </x:call>
+               <x:expect label="xs:boolean" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}boolean</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:date">
+               <x:call>
+                  <x:param select="xs:date('1111-11-11')" />
+               </x:call>
+               <x:expect label="xs:date" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}date</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:dateTime">
+               <x:call>
+                  <x:param select="xs:dateTime('1111-11-11T11:11:11')" />
+               </x:call>
+               <x:expect label="xs:dateTime" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}dateTime</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:decimal">
+               <x:call>
+                  <x:param select="xs:decimal(1)" />
+               </x:call>
+               <x:expect label="xs:decimal" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}decimal</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:double">
+               <x:call>
+                  <x:param select="xs:double(1)" />
+               </x:call>
+               <x:expect label="xs:double" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}double</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:duration">
+               <x:call>
+                  <x:param select="xs:duration('PT1S')" />
+               </x:call>
+               <x:expect label="xs:duration" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}duration</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:float">
+               <x:call>
+                  <x:param select="xs:float(1)" />
+               </x:call>
+               <x:expect label="xs:float" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}float</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gDay">
+               <x:call>
+                  <x:param select="xs:gDay('---11')" />
+               </x:call>
+               <x:expect label="xs:gDay" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gDay</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gMonth">
+               <x:call>
+                  <x:param select="xs:gMonth('--11')" />
+               </x:call>
+               <x:expect label="xs:gMonth" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gMonth</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gMonthDay">
+               <x:call>
+                  <x:param select="xs:gMonthDay('--11-11')" />
+               </x:call>
+               <x:expect label="xs:gMonthDay" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gMonthDay</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gYear">
+               <x:call>
+                  <x:param select="xs:gYear('1111')" />
+               </x:call>
+               <x:expect label="xs:gYear" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gYear</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:gYearMonth">
+               <x:call>
+                  <x:param select="xs:gYearMonth('1111-11')" />
+               </x:call>
+               <x:expect label="xs:gYearMonth" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}gYearMonth</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:hexBinary">
+               <x:call>
+                  <x:param select="xs:hexBinary('11')" />
+               </x:call>
+               <x:expect label="xs:hexBinary" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}hexBinary</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:QName">
+               <x:call>
+                  <x:param select="xs:QName('foo')" />
+               </x:call>
+               <x:expect label="xs:QName" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}QName</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:string">
+               <x:call>
+                  <x:param select="xs:string('foo')" />
+               </x:call>
+               <x:expect label="xs:string" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}string</x:expect>
+            </x:scenario>
+
+            <x:scenario label="xs:time">
+               <x:call>
+                  <x:param select="xs:time('11:11:11')" />
+               </x:call>
+               <x:expect label="xs:time" select="string()"
+                  >Q{http://www.w3.org/2001/XMLSchema}time</x:expect>
+            </x:scenario>
+
+         </x:scenario>
+
+         <x:scenario label="Other built-in atomic types">
+
+            <x:scenario label="Derived from xs:dateTime">
+               <!-- xs:dateTimeStamp: Tested in report-sequence_stylesheet.xspec -->
+            </x:scenario>
+
+            <x:scenario label="Derived from xs:decimal">
+
+               <x:scenario label="xs:integer">
+                  <x:call>
+                     <x:param select="xs:integer(1)" />
+                  </x:call>
+                  <x:expect label="xs:integer" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}integer</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:long">
+                  <x:call>
+                     <x:param select="xs:long(1)" />
+                  </x:call>
+                  <x:expect label="xs:long" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}long</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:int">
+                  <x:call>
+                     <x:param select="xs:int(1)" />
+                  </x:call>
+                  <x:expect label="xs:int" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}int</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:short">
+                  <x:call>
+                     <x:param select="xs:short(1)" />
+                  </x:call>
+                  <x:expect label="xs:short" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}short</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:byte">
+                  <x:call>
+                     <x:param select="xs:byte(1)" />
+                  </x:call>
+                  <x:expect label="xs:byte" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}byte</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:nonNegativeInteger">
+                  <x:call>
+                     <x:param select="xs:nonNegativeInteger(0)" />
+                  </x:call>
+                  <x:expect label="xs:nonNegativeInteger" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:positiveInteger">
+                  <x:call>
+                     <x:param select="xs:positiveInteger(1)" />
+                  </x:call>
+                  <x:expect label="xs:positiveInteger" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}positiveInteger</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:unsignedLong">
+                  <x:call>
+                     <x:param select="xs:unsignedLong(1)" />
+                  </x:call>
+                  <x:expect label="xs:unsignedLong" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}unsignedLong</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:unsignedInt">
+                  <x:call>
+                     <x:param select="xs:unsignedInt(1)" />
+                  </x:call>
+                  <x:expect label="xs:unsignedInt" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}unsignedInt</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:unsignedShort">
+                  <x:call>
+                     <x:param select="xs:unsignedShort(1)" />
+                  </x:call>
+                  <x:expect label="xs:unsignedShort" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}unsignedShort</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:unsignedByte">
+                  <x:call>
+                     <x:param select="xs:unsignedByte(1)" />
+                  </x:call>
+                  <x:expect label="xs:unsignedByte" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}unsignedByte</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:nonPositiveInteger">
+                  <x:call>
+                     <x:param select="xs:nonPositiveInteger(0)" />
+                  </x:call>
+                  <x:expect label="xs:nonPositiveInteger" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:negativeInteger">
+                  <x:call>
+                     <x:param select="xs:negativeInteger(-1)" />
+                  </x:call>
+                  <x:expect label="xs:negativeInteger" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}negativeInteger</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="Derived from xs:duration">
+
+               <x:scenario label="xs:dayTimeDuration">
+                  <x:call>
+                     <x:param select="xs:dayTimeDuration('PT1S')" />
+                  </x:call>
+                  <x:expect label="xs:dayTimeDuration" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}dayTimeDuration</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:yearMonthDuration">
+                  <x:call>
+                     <x:param select="xs:yearMonthDuration('P1M')" />
+                  </x:call>
+                  <x:expect label="xs:yearMonthDuration" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}yearMonthDuration</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+            <x:scenario label="Derived from xs:string">
+
+               <x:scenario label="xs:normalizedString">
+                  <x:call>
+                     <x:param select="xs:normalizedString('foo')" />
+                  </x:call>
+                  <x:expect label="xs:normalizedString" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}normalizedString</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:token">
+                  <x:call>
+                     <x:param select="xs:token('foo')" />
+                  </x:call>
+                  <x:expect label="xs:token" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}token</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:language">
+                  <x:call>
+                     <x:param select="xs:language('en')" />
+                  </x:call>
+                  <x:expect label="xs:language" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}language</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:Name">
+                  <x:call>
+                     <x:param select="xs:Name('foo')" />
+                  </x:call>
+                  <x:expect label="xs:Name" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}Name</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:NCName">
+                  <x:call>
+                     <x:param select="xs:NCName('foo')" />
+                  </x:call>
+                  <x:expect label="xs:NCName" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}NCName</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:ENTITY">
+                  <x:call>
+                     <x:param select="xs:ENTITY('foo')" />
+                  </x:call>
+                  <x:expect label="xs:ENTITY" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}ENTITY</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:ID">
+                  <x:call>
+                     <x:param select="xs:ID('foo')" />
+                  </x:call>
+                  <x:expect label="xs:ID" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}ID</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:IDREF">
+                  <x:call>
+                     <x:param select="xs:IDREF('foo')" />
+                  </x:call>
+                  <x:expect label="xs:IDREF" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}IDREF</x:expect>
+               </x:scenario>
+
+               <x:scenario label="xs:NMTOKEN">
+                  <x:call>
+                     <x:param select="xs:NMTOKEN('foo')" />
+                  </x:call>
+                  <x:expect label="xs:NMTOKEN" select="string()"
+                     >Q{http://www.w3.org/2001/XMLSchema}NMTOKEN</x:expect>
+               </x:scenario>
+
+            </x:scenario>
+
+         </x:scenario>
+
+      </x:scenario>
+
+      <x:scenario label="Defined in XDM">
+
+         <x:scenario label="xs:untypedAtomic">
+            <x:call>
+               <x:param select="xs:untypedAtomic('foo')" />
+            </x:call>
+            <x:expect label="xs:untypedAtomic" select="string()"
+               >Q{http://www.w3.org/2001/XMLSchema}untypedAtomic</x:expect>
+         </x:scenario>
+
+      </x:scenario>
+
+   </x:scenario>
+
+   <x:scenario label="Scenario for testing function node-type">
+      <x:call function="rep:node-type" />
+
+      <x:scenario label="Attribute">
+         <x:call>
+            <x:param select="$items:attribute" />
+         </x:call>
+         <x:expect label="attribute" select="'attribute'" />
+      </x:scenario>
+
+      <x:scenario label="Comment">
+         <x:call>
+            <x:param select="$items:comment" />
+         </x:call>
+         <x:expect label="comment" select="'comment'" />
+      </x:scenario>
+
+      <x:scenario label="Document">
+         <x:call>
+            <x:param select="$items:document" />
+         </x:call>
+         <x:expect label="document-node" select="'document-node'" />
+      </x:scenario>
+
+      <x:scenario label="Element">
+         <x:call>
+            <x:param select="$items:element" />
+         </x:call>
+         <x:expect label="element" select="'element'" />
+      </x:scenario>
+
+      <x:scenario label="Namespace">
+         <x:call>
+            <x:param select="$items:namespace" />
+         </x:call>
+         <x:expect label="namespace-node" select="'namespace-node'" />
+      </x:scenario>
+
+      <x:scenario label="Processing instruction">
+         <x:call>
+            <x:param select="$items:processing-instruction" />
+         </x:call>
+         <x:expect label="processing-instruction" select="'processing-instruction'" />
+      </x:scenario>
+
+      <x:scenario label="Text">
+         <x:call>
+            <x:param select="$items:text" />
+         </x:call>
+         <x:expect label="text" select="'text'" />
+      </x:scenario>
+   </x:scenario>
+
+   <x:scenario label="Scenario for testing function instance-of-function">
+      <x:call function="rep:instance-of-function" />
+
+      <x:scenario label="Node">
+         <x:call>
+            <x:param>
+               <e />
+            </x:param>
+         </x:call>
+         <x:expect label="False" select="false()" />
+      </x:scenario>
+
+      <x:scenario label="Atomic value">
+         <x:call>
+            <x:param select="1" />
+         </x:call>
+         <x:expect label="False" select="false()" />
+      </x:scenario>
+
+      <x:scenario label="function(*)">
+         <x:scenario label="Array">
+            <x:call>
+               <x:param select="[ 0, 1 ]" />
+            </x:call>
+            <x:expect label="True" select="true()" />
+         </x:scenario>
+
+         <x:scenario label="Map">
+            <x:call>
+               <x:param select="map { 0: 1 }" />
+            </x:call>
+            <x:expect label="True" select="true()" />
+         </x:scenario>
+
+         <!-- Function (excluding map and array) is tested in report-sequence_stylesheet_hof.xspec -->
+      </x:scenario>
+   </x:scenario>
+
+   <x:scenario label="Scenario for testing function function-type">
+      <x:call function="rep:function-type" />
+
+      <x:scenario label="Array">
+         <x:call>
+            <x:param select="[ 0, 1 ]" />
+         </x:call>
+         <x:expect label="array" select="'array'" />
+      </x:scenario>
+
+      <x:scenario label="Map">
+         <x:call>
+            <x:param select="map { 0: 1 }" />
+         </x:call>
+         <x:expect label="map" select="'map'" />
+      </x:scenario>
+
+      <!-- Function (excluding map and array) is tested in report-sequence_stylesheet_hof.xspec -->
+   </x:scenario>
+
+</x:description>

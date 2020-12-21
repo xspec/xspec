@@ -19,7 +19,7 @@
       <xsl:param name="item" as="item()" />
 
       <!-- Document node cannot wrap attribute node or namespace node:
-         http://www.w3.org/TR/xslt20/#err-XTDE0420 -->
+         https://www.w3.org/TR/xslt-30/#err-XTDE0420 -->
       <xsl:sequence
          select="
             $item instance of node()
@@ -32,7 +32,7 @@
       <xsl:param name="nodes" as="node()*" />
 
       <!-- $wrap aims to create an implicit document node as described
-         in http://www.w3.org/TR/xslt20/#temporary-trees
+         in https://www.w3.org/TR/xslt-30/#temporary-trees.
          So its xsl:variable must not have @as or @select.
          Do not use xsl:document or xsl:copy-of: xspec/xspec#47 -->
       <xsl:variable name="wrap">

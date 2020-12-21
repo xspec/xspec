@@ -16,7 +16,7 @@ declare variable $x:apos as xs:string := "'";
 
 (:
 	Returns numeric literal of xs:decimal
-		http://www.w3.org/TR/xpath20/#id-literals
+		https://www.w3.org/TR/xpath-31/#id-literals
 
 		Example:
 			in:  1

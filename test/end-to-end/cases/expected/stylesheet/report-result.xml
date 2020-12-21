@@ -203,7 +203,7 @@
                  function="Q{x-urn:test:mirror}param-mirror"/>
       </input-wrap>
       <scenario id="scenario8-scenario1" xspec="../../report.xspec">
-         <label>Derived date/time types</label>
+         <label>Derived from xs:dateTime</label>
          <scenario id="scenario8-scenario1-scenario1" xspec="../../report.xspec">
             <label>xs:dateTimeStamp</label>
             <input-wrap xmlns="">
@@ -219,6 +219,371 @@
 						(XSLT) or
 						"Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')"
 						(XQuery)</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+      </scenario>
+      <scenario id="scenario8-scenario2" xspec="../../report.xspec">
+         <label>Derived from xs:decimal</label>
+         <scenario id="scenario8-scenario2-scenario1" xspec="../../report.xspec">
+            <label>xs:integer</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:integer(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="1"/>
+            <test id="scenario8-scenario2-scenario1-expect1" successful="false">
+               <label>[Result] must be "1"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario2" xspec="../../report.xspec">
+            <label>xs:long</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:long(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}long(1)"/>
+            <test id="scenario8-scenario2-scenario2-expect1" successful="false">
+               <label>[Result] must be "Q{http://www.w3.org/2001/XMLSchema}long(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario3" xspec="../../report.xspec">
+            <label>xs:int</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:int(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}int(1)"/>
+            <test id="scenario8-scenario2-scenario3-expect1" successful="false">
+               <label>[Result] must be "Q{http://www.w3.org/2001/XMLSchema}int(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario4" xspec="../../report.xspec">
+            <label>xs:short</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:short(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}short(1)"/>
+            <test id="scenario8-scenario2-scenario4-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}short(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario5" xspec="../../report.xspec">
+            <label>xs:byte</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:byte(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}byte(1)"/>
+            <test id="scenario8-scenario2-scenario5-expect1" successful="false">
+               <label>[Result] must be "Q{http://www.w3.org/2001/XMLSchema}byte(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario6" xspec="../../report.xspec">
+            <label>xs:nonNegativeInteger</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:nonNegativeInteger(0)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger(0)"/>
+            <test id="scenario8-scenario2-scenario6-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger(0)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario7" xspec="../../report.xspec">
+            <label>xs:positiveInteger</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:positiveInteger(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}positiveInteger(1)"/>
+            <test id="scenario8-scenario2-scenario7-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}positiveInteger(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario8" xspec="../../report.xspec">
+            <label>xs:unsignedLong</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:unsignedLong(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}unsignedLong(1)"/>
+            <test id="scenario8-scenario2-scenario8-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}unsignedLong(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario9" xspec="../../report.xspec">
+            <label>xs:unsignedInt</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:unsignedInt(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}unsignedInt(1)"/>
+            <test id="scenario8-scenario2-scenario9-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}unsignedInt(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario10" xspec="../../report.xspec">
+            <label>xs:unsignedShort</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:unsignedShort(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}unsignedShort(1)"/>
+            <test id="scenario8-scenario2-scenario10-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}unsignedShort(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario11" xspec="../../report.xspec">
+            <label>xs:unsignedByte</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:unsignedByte(1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}unsignedByte(1)"/>
+            <test id="scenario8-scenario2-scenario11-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}unsignedByte(1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario12" xspec="../../report.xspec">
+            <label>xs:nonPositiveInteger</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:nonPositiveInteger(0)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger(0)"/>
+            <test id="scenario8-scenario2-scenario12-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger(0)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario2-scenario13" xspec="../../report.xspec">
+            <label>xs:negativeInteger</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:negativeInteger(-1)"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}negativeInteger(-1)"/>
+            <test id="scenario8-scenario2-scenario13-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}negativeInteger(-1)"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+      </scenario>
+      <scenario id="scenario8-scenario3" xspec="../../report.xspec">
+         <label>Derived from xs:duration</label>
+         <scenario id="scenario8-scenario3-scenario1" xspec="../../report.xspec">
+            <label>xs:dayTimeDuration</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:dayTimeDuration('P1DT2H3M4S')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}dayTimeDuration('P1DT2H3M4S')"/>
+            <test id="scenario8-scenario3-scenario1-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}dayTimeDuration('P1DT2H3M4S')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario3-scenario2" xspec="../../report.xspec">
+            <label>xs:yearMonthDuration</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:yearMonthDuration('P1Y2M')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}yearMonthDuration('P1Y2M')"/>
+            <test id="scenario8-scenario3-scenario2-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}yearMonthDuration('P1Y2M')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+      </scenario>
+      <scenario id="scenario8-scenario4" xspec="../../report.xspec">
+         <label>Derived from xs:string</label>
+         <scenario id="scenario8-scenario4-scenario1" xspec="../../report.xspec">
+            <label>xs:normalizedString</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:normalizedString('foo')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}normalizedString('foo')"/>
+            <test id="scenario8-scenario4-scenario1-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}normalizedString('foo')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario4-scenario2" xspec="../../report.xspec">
+            <label>xs:token</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:token('foo')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}token('foo')"/>
+            <test id="scenario8-scenario4-scenario2-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}token('foo')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario4-scenario3" xspec="../../report.xspec">
+            <label>xs:language</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:language('en')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}language('en')"/>
+            <test id="scenario8-scenario4-scenario3-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}language('en')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario4-scenario4" xspec="../../report.xspec">
+            <label>xs:Name</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:Name('foo')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}Name('foo')"/>
+            <test id="scenario8-scenario4-scenario4-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}Name('foo')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario4-scenario5" xspec="../../report.xspec">
+            <label>xs:NCName</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:NCName('foo')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}NCName('foo')"/>
+            <test id="scenario8-scenario4-scenario5-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}NCName('foo')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario4-scenario6" xspec="../../report.xspec">
+            <label>xs:ENTITY</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:ENTITY('foo')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}ENTITY('foo')"/>
+            <test id="scenario8-scenario4-scenario6-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}ENTITY('foo')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario4-scenario7" xspec="../../report.xspec">
+            <label>xs:ID</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:ID('foo')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}ID('foo')"/>
+            <test id="scenario8-scenario4-scenario7-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}ID('foo')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario4-scenario8" xspec="../../report.xspec">
+            <label>xs:IDREF</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:IDREF('foo')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}IDREF('foo')"/>
+            <test id="scenario8-scenario4-scenario8-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}IDREF('foo')"</label>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario8-scenario4-scenario9" xspec="../../report.xspec">
+            <label>xs:NMTOKEN</label>
+            <input-wrap xmlns="">
+               <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <x:param select="xs:NMTOKEN('foo')"/>
+               </x:call>
+            </input-wrap>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}NMTOKEN('foo')"/>
+            <test id="scenario8-scenario4-scenario9-expect1" successful="false">
+               <label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}NMTOKEN('foo')"</label>
                <expect select="()"/>
             </test>
          </scenario>
