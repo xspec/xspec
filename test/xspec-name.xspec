@@ -111,10 +111,9 @@
 
 	<scenario label="Expect error in x:xspec-name()" shared="yes">
 		<expect label="Error (code)" select="QName('http://www.w3.org/2005/xqt-errors', 'XTTE0570')"
-			test="$Q{http://www.jenitennison.com/xslt/xspec}result?err?code" />
-		<expect label="Error (description)"
-			test="
-				$Q{http://www.jenitennison.com/xslt/xspec}result?err?description
+			test="?err?code" />
+		<expect label="Error (description)" test="
+				?err?description
 				=> starts-with('An empty sequence is not allowed as the value of variable $xspec-prefixes')"
 		 />
 	</scenario>

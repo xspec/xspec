@@ -4,19 +4,19 @@
 
 	<x:scenario label="expect-error" shared="yes">
 		<x:expect label="err:code and its type" select="xs:QName('error-code-of-my-template')"
-			test="$x:result?err?code treat as xs:QName" />
+			test="?err?code treat as xs:QName" />
 		<x:expect label="err:description and its type" select="'error description of my template'"
-			test="$x:result?err?description treat as xs:string" />
+			test="?err?description treat as xs:string" />
 		<x:expect label="err:value and its type" select="'error', 'object', 'of', 'my', 'template'"
-			test="$x:result?err?value treat as xs:string+" />
+			test="?err?value treat as xs:string+" />
 
 		<!-- The error is raised by fn:error() at a line in the stylesheet being tested -->
 		<x:expect label="err:module and its type" select="resolve-uri('catch.xsl', $x:xspec-uri)"
-			test="$x:result?err?module treat as xs:string" />
+			test="?err?module treat as xs:string" />
 		<x:expect label="err:line-number and its type" select="15"
-			test="$x:result?err?line-number treat as xs:integer" />
+			test="?err?line-number treat as xs:integer" />
 		<x:expect label="err:column-number and its type"
-			test="($x:result?err?column-number treat as xs:integer) ge 1" />
+			test="(?err?column-number treat as xs:integer) ge 1" />
 	</x:scenario>
 
 	<x:scenario label="expect-intact" shared="yes">
