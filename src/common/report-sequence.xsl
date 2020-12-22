@@ -357,6 +357,14 @@
             <xsl:when test="$value instance of xs:nonNegativeInteger" use-when="type-available('xs:nonNegativeInteger')">nonNegativeInteger</xsl:when>
             <!-- xs:NOTATION: Abstract -->
 
+            <!-- https://www.w3.org/TR/xslt-30/#built-in-types:
+               XSD 1.1 ... adds one new type: xs:dateTimeStamp -->
+            <!-- TODO: Remove system-property() condition from @use-when after
+               https://saxonica.plan.io/issues/4861 gets fixed. -->
+            <xsl:when test="$value instance of xs:dateTimeStamp" use-when="
+               type-available('xs:dateTimeStamp')
+               and (xs:decimal(system-property('xsl:xsd-version')) ge 1.1)">dateTimeStamp</xsl:when>
+
             <!-- Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: -->
 
             <!--    * The following types defined in [XPath 2.0] -->

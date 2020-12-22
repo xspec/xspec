@@ -69,9 +69,9 @@
 					<test />
 				</x:param>
 			</x:call>
-			<x:expect
+			<x:expect as="element()"
 				label="XPath should be colored as different. Serialized node should be colored as same."
-				select="element()" as="element()">
+				select="element()">
 				<test />
 			</x:expect>
 		</x:scenario>
@@ -82,9 +82,9 @@
 					<test />
 				</x:param>
 			</x:call>
-			<x:expect
+			<x:expect as="document-node()"
 				label="XPath should be colored as different. Serialized node should be colored as same."
-				select="/self::document-node()" as="document-node()">
+				select="/self::document-node()">
 				<test />
 			</x:expect>
 		</x:scenario>
@@ -97,6 +97,28 @@
 		<x:expect
 			label="Atomic values in [Result] and [Expected Result] are separated by comma and new line"
 			select="Q{http://www.w3.org/2001/XMLSchema}QName('foo'), 1, 2, 'bar'" />
+	</x:scenario>
+
+	<x:scenario label="Derived types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+		<x:call function="Q{x-urn:test:mirror}param-mirror" />
+
+		<x:scenario label="Derived date/time types">
+
+			<x:scenario label="xs:dateTimeStamp">
+				<x:call>
+					<x:param select="xs:dateTimeStamp('1234-01-02T03:04:05Z')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}dateTimeStamp('1234-01-02T03:04:05Z')"
+						(XSLT) or
+						"Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')"
+						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+		</x:scenario>
+
 	</x:scenario>
 
 </x:description>
