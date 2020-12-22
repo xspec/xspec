@@ -194,7 +194,9 @@
          </xsl:when>
 
          <xsl:otherwise>
-            <xsl:element name="{$local-name-prefix}other" namespace="{$report-namespace}" />
+            <xsl:element name="{$local-name-prefix}other" namespace="{$report-namespace}">
+               <xsl:value-of select="local:serialize-adaptive($item)" />
+            </xsl:element>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
