@@ -7,6 +7,11 @@
                 exclude-result-prefixes="#all"
                 version="3.0">
 
+   <!--
+      This template can't be a function, because it contains xsl:result-document. Invoking
+      xsl:result-document directly or indirectly in a function results in an error:
+      "XTDE1480: Cannot execute xsl:result-document while evaluating xsl:function"
+   -->
    <xsl:template name="rep:report-sequence" as="element()">
       <xsl:context-item use="absent" />
 
