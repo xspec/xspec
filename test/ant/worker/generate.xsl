@@ -23,10 +23,12 @@
 	<!-- XSLT processor capabilities -->
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-JREF" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-JREF" required="yes" />
 
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
@@ -116,84 +118,87 @@
 
 			<xsl:variable as="xs:string?" name="skip">
 				<xsl:choose>
-					<xsl:when
-						test="
+					<xsl:when test="
 							($test-type eq 't')
 							and $enable-coverage
 							and ($x:saxon-version ge x:pack-version(10))">
 						<xsl:text>XSLT Code Coverage requires Saxon version less than 10 (xspec/xspec#852)</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($test-type eq 't')
 							and ($pis = 'require-xslt-to-support-schema')
 							and not($XSLT-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XSLT processor</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($test-type eq 't')
 							and ($pis = 'require-xslt-to-support-hof')
 							and not($XSLT-SUPPORTS-HOF)">
 						<xsl:text>Requires XSLT processor to support higher-order functions</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
+							($test-type eq 't')
+							and ($pis = 'require-xslt-to-support-jref')
+							and not($XSLT-SUPPORTS-JREF)">
+						<xsl:text>Requires XSLT processor to support Java reflexive extension functions</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
 						<xsl:text>Requires schema-aware XQuery processor</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-hof')
 							and not($XQUERY-SUPPORTS-HOF)">
 						<xsl:text>Requires XQuery processor to support higher-order functions</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
+							($test-type eq 'q')
+							and ($pis = 'require-xquery-to-support-jref')
+							and not($XQUERY-SUPPORTS-JREF)">
+						<xsl:text>Requires XQuery processor to support Java reflexive extension functions</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($pis = 'require-saxon-bug-3543-fixed')
 							and ($x:saxon-version lt x:pack-version((9, 8, 0, 7)))">
 						<xsl:text>Requires Saxon bug #3543 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($pis = 'require-saxon-bug-4315-fixed')
 							and ($x:saxon-version ge x:pack-version((9, 9)))
 							and ($x:saxon-version le x:pack-version((9, 9, 1, 6)))">
 						<xsl:text>Requires Saxon bug #4315 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($pis = 'require-saxon-bug-4376-fixed')
 							and ($x:saxon-version le x:pack-version((9, 9, 1, 5)))">
 						<xsl:text>Requires Saxon bug #4376 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($pis = 'require-saxon-bug-4471-fixed')
 							and ($x:saxon-version lt x:pack-version((9, 9, 1, 7)))">
 						<xsl:text>Requires Saxon bug #4471 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($pis = 'require-saxon-bug-4483-fixed')
 							and ($x:saxon-version eq x:pack-version((10, 0)))">
 						<xsl:text>Requires Saxon bug #4483 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($pis = 'require-saxon-bug-4621-fixed')
 							and
 							(
@@ -208,23 +213,20 @@
 						<xsl:text>Requires Saxon bug #4621 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($pis = 'require-saxon-bug-4696-fixed')
 							and ($x:saxon-version ge x:pack-version((10, 0)))
 							and ($x:saxon-version le x:pack-version((10, 2)))">
 						<xsl:text>Requires Saxon bug #4696 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($pis = 'require-saxon-bug-4835-fixed')
 							and ($x:saxon-version le x:pack-version((10, 3)))">
 						<xsl:text>Requires Saxon bug #4835 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($pis = 'require-xspec-issue-1156-fixed')
 							and
 							(
@@ -239,8 +241,7 @@
 						<xsl:text>Requires xspec/xspec#1156 to have been fixed</xsl:text>
 					</xsl:when>
 
-					<xsl:when
-						test="
+					<xsl:when test="
 							($test-type eq 't')
 							and $run-as-external
 							and ($x:saxon-version lt x:pack-version((9, 8, 0, 8)))">
@@ -274,19 +275,16 @@
 								<xsl:sequence select="'-now:' || $NOW" />
 							</xsl:if>
 
-							<xsl:sequence
-								select="
+							<xsl:sequence select="
 									$pis[starts-with(., 'saxon-custom-options=')]
-									/substring-after(., 'saxon-custom-options=')"
-							 />
+									/substring-after(., 'saxon-custom-options=')" />
 						</xsl:variable>
 						<xsl:if test="exists($saxon-custom-options)">
 							<xsl:attribute name="saxon-custom-options"
 								select="$saxon-custom-options" />
 						</xsl:if>
 
-						<xsl:for-each
-							select="
+						<xsl:for-each select="
 								'additional-classpath',
 								'compiler-saxon-config',
 								'coverage-reporter',

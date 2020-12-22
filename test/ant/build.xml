@@ -40,6 +40,17 @@
 		</condition>
 		<echo message="xslt.supports.hof=${xslt.supports.hof}" />
 
+		<!-- Checks to see if XSLT processor supports Java type -->
+		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
+			resultproperty="xslt.jref.compile.result">
+			<arg value="-nogo" />
+			<arg value="-xsl:${run-xspec-tests.basedir}/../caps/java-reflexive-ext-fn.xsl" />
+		</java>
+		<condition else="false" property="xslt.supports.jref">
+			<equals arg1="${xslt.jref.compile.result}" arg2="0" />
+		</condition>
+		<echo message="xslt.supports.jref=${xslt.supports.jref}" />
+
 		<!-- Checks to see if XQuery processor can be schema-aware ('-sa') -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery.schema-aware.run.result">
@@ -60,6 +71,16 @@
 			<equals arg1="${xquery.hof.run.result}" arg2="0" />
 		</condition>
 		<echo message="xquery.supports.hof=${xquery.supports.hof}" />
+
+		<!-- Checks to see if XQuery processor supports Java type -->
+		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
+			resultproperty="xquery.jref.run.result">
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/java-reflexive-ext-fn.xq" />
+		</java>
+		<condition else="false" property="xquery.supports.jref">
+			<equals arg1="${xquery.jref.run.result}" arg2="0" />
+		</condition>
+		<echo message="xquery.supports.jref=${xquery.supports.jref}" />
 	</target>
 
 	<!-- Generates the worker -->
@@ -76,9 +97,11 @@
 			<param expression="${xspecfiles.dir.url.query}" name="XSPECFILES-DIR-URI-QUERY" />
 			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN" />
 			<param expression="${xslt.supports.hof}" name="XSLT-SUPPORTS-HOF" type="BOOLEAN" />
+			<param expression="${xslt.supports.jref}" name="XSLT-SUPPORTS-JREF" type="BOOLEAN" />
 			<param expression="${xquery.supports.schema}" name="XQUERY-SUPPORTS-SCHEMA"
 				type="BOOLEAN" />
 			<param expression="${xquery.supports.hof}" name="XQUERY-SUPPORTS-HOF" type="BOOLEAN" />
+			<param expression="${xquery.supports.jref}" name="XQUERY-SUPPORTS-JREF" type="BOOLEAN" />
 			<param expression="${run-xspec-tests.now}" if="run-xspec-tests.now" name="NOW" />
 			<param expression="${thread.count}" if="thread.count" name="THREAD-COUNT" type="INT" />
 		</xslt>
