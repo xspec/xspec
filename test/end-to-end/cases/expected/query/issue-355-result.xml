@@ -15,7 +15,7 @@
       </input-wrap>
       <result select="/*">
          <content-wrap xmlns="">
-            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec">xs:integer#1</pseudo-other>
          </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="false">
@@ -34,7 +34,7 @@
       </input-wrap>
       <result select="/*">
          <content-wrap xmlns="">
-            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec">(anonymous-function)#1</pseudo-other>
          </content-wrap>
       </result>
       <test id="scenario2-expect1" successful="false">
