@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test require-xspec-issue-720-fixed?>
 <x:description xmlns="http://docbook.org/ns/docbook"
 	xmlns:t1="http://example.org/ns/my/ns1"
 	xmlns:t2="http://example.org/ns/my/ns2"
