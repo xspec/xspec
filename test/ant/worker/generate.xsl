@@ -100,8 +100,6 @@
 		<xsl:variable as="processing-instruction(xspec-test)*" name="pis"
 			select="processing-instruction(xspec-test)" />
 		<xsl:variable as="xs:boolean" name="enable-coverage" select="$pis = 'enable-coverage'" />
-		<xsl:variable as="xs:boolean" name="require-xquery-to-support-3-1"
-			select="x:description/@xquery-version = '3.1'" />
 
 		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
 			<xsl:sort select="name()" />
