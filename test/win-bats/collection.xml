@@ -760,11 +760,11 @@
     call :verify_retval 0
 
     rem HTML report file
-    set "EXPECTED_REPORT=%WORK_DIR%\issue-1020-result_%RANDOM%.html"
+    set "EXPECTED_REPORT=%WORK_DIR%\report-sequence-result_%RANDOM%.html"
 
-    rem Run (also test with special characters in expression #1020)
+    rem Run (also test with various types in report)
     call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
-        -i source=issue-1020.xspec ^
+        -i source=report-sequence.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p auth-method=Basic ^
         -p endpoint=http://localhost:8984/rest ^
@@ -774,7 +774,7 @@
         ..\src\harnesses\basex\basex-server-xquery-harness.xproc
     call :verify_retval 0
     call :verify_line_count 2
-    call :verify_line 2 r "..*:passed: 15 / pending: 0 / failed: 0 / total: 15"
+    call :verify_line 2 r "..*:passed: 55 / pending: 0 / failed: 0 / total: 55"
 
     rem HTML report file should be created and its charset should be UTF-8 #72
     call :run java -jar "%SAXON_JAR%" -s:"%EXPECTED_REPORT%" -xsl:check-html-charset.xsl

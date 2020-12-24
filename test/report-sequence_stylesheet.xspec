@@ -11,9 +11,6 @@
       compiler. You don't need to specify it in /t:description/@stylesheet.
    -->
 
-   <!--
-       Template rep:report-sequence
-   -->
    <t:scenario label="rep:report-sequence" xml:base="report-sequence/">
       <t:call template="rep:report-sequence" />
 
@@ -80,6 +77,23 @@
             </t:call>
             <t:expect label="t:result containing attributes and content"
                href="attributes-and-content.xml?strip-space=yes" select="t:result" />
+         </t:scenario>
+
+      </t:scenario>
+
+   </t:scenario>
+
+   <t:scenario label="rep:report-atomic-value">
+      <t:call function="rep:report-atomic-value" />
+
+      <t:scenario label="xs:integer">
+
+         <!-- FOAR0002 'Value out of range' on BaseX 9.4.5 -->
+         <t:scenario label="Max of xs:unsignedLong (a subtype of xs:integer)">
+            <t:call>
+               <t:param select="xs:integer(18446744073709551615)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'18446744073709551615'" />
          </t:scenario>
 
       </t:scenario>
