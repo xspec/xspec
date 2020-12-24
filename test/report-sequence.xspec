@@ -13,9 +13,6 @@
       or @query-at.
    -->
 
-   <!--
-       Function rep:report-atomic-value
-   -->
    <t:scenario label="rep:report-atomic-value">
       <t:call function="rep:report-atomic-value" />
 
@@ -32,11 +29,11 @@
 
       <t:scenario label="xs:integer">
 
-         <t:scenario label="Max of xs:unsignedLong (a subtype of xs:integer)">
+         <t:scenario label="Max supported by BaseX 9.4.5">
             <t:call>
-               <t:param select="xs:integer(18446744073709551615)" />
+               <t:param select="xs:integer(9223372036854775807)" />
             </t:call>
-            <t:expect label="Numeric literal" select="'18446744073709551615'" />
+            <t:expect label="Numeric literal" select="'9223372036854775807'" />
          </t:scenario>
 
          <t:scenario label="0">
@@ -46,11 +43,11 @@
             <t:expect label="Numeric literal" select="'0'" />
          </t:scenario>
 
-         <t:scenario label="-1">
+         <t:scenario label="Min supported by BaseX 9.4.5">
             <t:call>
-               <t:param select="xs:integer(-1)" />
+               <t:param select="xs:integer(-9223372036854775807)" />
             </t:call>
-            <t:expect label="Numeric literal" select="'-1'" />
+            <t:expect label="Numeric literal" select="'-9223372036854775807'" />
          </t:scenario>
 
       </t:scenario>
@@ -191,12 +188,12 @@
 
    </t:scenario>
 
-   <!--
-       Function rep:atom-type
-           http://www.w3.org/TR/xslt20/#built-in-types
-   -->
    <t:scenario label="rep:atom-type">
       <t:call function="rep:atom-type" />
+
+      <!--
+         http://www.w3.org/TR/xslt20/#built-in-types
+      -->
 
       <t:scenario label="All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION">
 
