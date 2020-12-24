@@ -83,6 +83,23 @@
 
    </t:scenario>
 
+   <t:scenario label="rep:report-atomic-value">
+      <t:call function="rep:report-atomic-value" />
+
+      <t:scenario label="xs:integer">
+
+         <!-- FOAR0002 'Value out of range' on BaseX 9.4.5 -->
+         <t:scenario label="Max of xs:unsignedLong (a subtype of xs:integer)">
+            <t:call>
+               <t:param select="xs:integer(18446744073709551615)" />
+            </t:call>
+            <t:expect label="Numeric literal" select="'18446744073709551615'" />
+         </t:scenario>
+
+      </t:scenario>
+
+   </t:scenario>
+
    <t:scenario label="rep:atom-type">
       <t:call function="rep:atom-type" />
 

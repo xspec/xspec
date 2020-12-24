@@ -945,11 +945,11 @@ load bats-helper
     "${basex_home}/bin/basexhttp" -S
 
     # HTML report file
-    expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
+    expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
 
-    # Run (also test with special characters in expression #1020)
+    # Run (also test with various types in report)
     run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
-        -i source=issue-1020.xspec \
+        -i source=report-sequence.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
         -p endpoint=http://localhost:8984/rest \
@@ -960,7 +960,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 15 / pending: 0 / failed: 0 / total: 15'
+    assert_regex "${lines[1]}" '.+:passed: 55 / pending: 0 / failed: 0 / total: 55'
 
     # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
