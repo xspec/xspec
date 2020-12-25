@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../report_java-object.xspec"
+        query="x-urn:test:do-nothing"
+        query-at="../../../../do-nothing.xqm"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../report_java-object.xspec">
+      <label>Java type</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="Q{java:java.lang.Runtime}getRuntime"/>
+      </input-wrap>
+      <result select="/*">
+         <content-wrap xmlns="">
+            <pseudo-other xmlns="http://www.jenitennison.com/xslt/xspec"/>
+         </content-wrap>
+      </result>
+      <test id="scenario1-expect1" successful="false">
+         <label>[Result] must be an empty 'pseudo-other' element</label>
+         <expect select="()"/>
+      </test>
+   </scenario>
+</report>

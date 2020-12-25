@@ -199,7 +199,15 @@
          </xsl:when>
 
          <xsl:otherwise>
-            <xsl:element name="{$local-name-prefix}other" namespace="{$report-namespace}" />
+            <!--
+               Wrapped Java objects will fall here.
+               https://www.saxonica.com/documentation/#!extensibility/functions/converting-args/converting-wrapped-java:
+               > wrapped objects are a fourth subtype of item(), at the same level in the type
+               > hierarchy as nodes, atomic values, and function items
+            -->
+            <xsl:element name="{$local-name-prefix}other" namespace="{$report-namespace}">
+               <xsl:value-of select="local:serialize-adaptive($item)" />
+            </xsl:element>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
