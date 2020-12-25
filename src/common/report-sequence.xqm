@@ -148,7 +148,7 @@ declare %private function rep:report-pseudo-item(
     else
       element
         { QName($report-namespace, ($local-name-prefix || 'other')) }
-        {}
+        { rep:serialize-adaptive($item) }
   )
 };
 
