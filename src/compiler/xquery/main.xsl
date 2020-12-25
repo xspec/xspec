@@ -94,7 +94,7 @@
       </xsl:call-template>
 
       <!-- Compile global params and global variables. -->
-      <xsl:call-template name="x:compile-global-params-and-variables" />
+      <xsl:apply-templates select="x:param | x:variable" mode="x:declare-variable" />
 
       <!-- Compile the top-level scenarios. -->
       <xsl:call-template name="x:compile-child-scenarios-or-expects" />

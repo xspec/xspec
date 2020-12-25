@@ -32,45 +32,52 @@
       </xsl:variable>
 
       <!-- Combine all the children of x:description into a single x:description -->
-      <xsl:document>
-         <xsl:for-each select="$initial-document/x:description">
-            <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
-               the namespaces created for /x:description will pollute its descendants derived
-               from the other trees. -->
-            <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
-               inherit-namespaces="no">
-               <!-- Do not set all the attributes. Each imported x:description has its own set of
-                  attributes. Set only the attributes that are truly global over all the XSpec
-                  documents. -->
+      <xsl:variable name="combined-doc" as="document-node(element(x:description))">
+         <xsl:document>
+            <xsl:for-each select="$initial-document/x:description">
+               <!-- @name must not have a prefix. @inherit-namespaces must be no. Otherwise
+                  the namespaces created for /x:description will pollute its descendants derived
+                  from the other trees. -->
+               <xsl:element name="{local-name()}" namespace="{namespace-uri()}"
+                  inherit-namespaces="no">
+                  <!-- Do not set all the attributes. Each imported x:description has its own set of
+                     attributes. Set only the attributes that are truly global over all the XSpec
+                     documents. -->
 
-               <!-- Global Schematron attributes.
-                  These attributes are already absolute. (resolved by
-                  ../schematron/schut-to-xspec.xsl) -->
-               <xsl:sequence select="@original-xspec | @schematron" />
+                  <!-- Global Schematron attributes.
+                     These attributes are already absolute. (resolved by
+                     ../schematron/schut-to-xspec.xsl) -->
+                  <xsl:sequence select="@original-xspec | @schematron" />
 
-               <!-- Global XQuery attributes.
-                  @query-at is handled by compile-xquery-tests.xsl -->
-               <xsl:sequence select="@query | @xquery-version" />
+                  <!-- Global XQuery attributes.
+                     @query-at is handled by compile-xquery-tests.xsl -->
+                  <xsl:sequence select="@query | @xquery-version" />
 
-               <!-- Global XSLT attributes.
-                  @xslt-version can be set, because it has already been propagated from each
-                  imported x:description to its descendants in mode="x:gather-specs". -->
-               <xsl:sequence select="@xslt-version" />
-               <xsl:for-each select="@stylesheet">
-                  <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-                     select="resolve-uri(., base-uri())" />
-               </xsl:for-each>
+                  <!-- Global XSLT attributes.
+                     @xslt-version can be set, because it has already been propagated from each
+                     imported x:description to its descendants in mode="x:gather-specs". -->
+                  <xsl:sequence select="@xslt-version" />
+                  <xsl:for-each select="@stylesheet">
+                     <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+                        select="resolve-uri(., base-uri())" />
+                  </xsl:for-each>
 
-               <xsl:sequence select="$doc-maybe-focus-enforced" />
-            </xsl:element>
-         </xsl:for-each>
-      </xsl:document>
+                  <xsl:sequence select="$doc-maybe-focus-enforced" />
+               </xsl:element>
+            </xsl:for-each>
+         </xsl:document>
+      </xsl:variable>
+
+      <!-- Return the combined XSpec document after checking it -->
+      <xsl:apply-templates select="$combined-doc" mode="x:check-combined-doc" />
+      <xsl:sequence select="$combined-doc" />
    </xsl:function>
 
    <!--
       Modes
    -->
    <xsl:include href="mode/assign-id.xsl" />
+   <xsl:include href="mode/check-combined-doc.xsl" />
    <xsl:include href="mode/force-focus.xsl" />
    <xsl:include href="mode/generate-id.xsl" />
    <xsl:include href="mode/unshare-scenarios.xsl" />
