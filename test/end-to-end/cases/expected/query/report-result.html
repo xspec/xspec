@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for x-urn:test:mirror (passed: 0 / pending: 0 / failed: 9 / total: 9)</title>
+      <title>Test Report for x-urn:test:mirror (passed: 0 / pending: 0 / failed: 10 / total: 10)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -24,8 +24,8 @@
                <th></th>
                <th class="totals">passed: 0</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 9</th>
-               <th class="totals">total: 9</th>
+               <th class="totals">failed: 10</th>
+               <th class="totals">total: 10</th>
             </tr>
          </thead>
          <tbody>
@@ -73,6 +73,13 @@
             </tr>
             <tr class="failed">
                <th><a href="#top_scenario7">Sequence of multiple atomic values</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario8">Derived types</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -486,6 +493,56 @@
 1,
 2,
 'bar'</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario8">
+         <h2 class="successful">Derived types<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario8">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>Derived types</th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario8-scenario1-scenario1">Derived date/time types xs:dateTimeStamp</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario8-scenario1-scenario1-expect1">[Result] must be "Q{http://www.w3.org/2001/XMLSchema}dateTimeStamp('1234-01-02T03:04:05Z')"
+                        (XSLT) or "Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')" (XQuery)</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario8-scenario1-scenario1">
+            <h3>Derived types Derived date/time types xs:dateTimeStamp</h3>
+            <div id="scenario8-scenario1-scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">[Result] must be "Q{http://www.w3.org/2001/XMLSchema}dateTimeStamp('1234-01-02T03:04:05Z')"
+                  (XSLT) or "Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')" (XQuery)</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')</pre>
+                        </td>
+                        <td>
+                           <pre>()</pre>
                         </td>
                      </tr>
                   </tbody>

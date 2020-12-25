@@ -100,6 +100,20 @@
 
    </t:scenario>
 
+   <t:scenario label="rep:atom-type">
+      <t:call function="rep:atom-type" />
+
+      <!-- BaseX 9.4.5 does not support xs:dateTimeStamp -->
+      <t:scenario label="XSD 1.1 ... adds one new type: xs:dateTimeStamp">
+         <t:call>
+            <t:param select="xs:dateTimeStamp('1111-11-11T11:11:11Z')" />
+         </t:call>
+         <t:expect label="xs:dateTimeStamp" select="string()"
+            >Q{http://www.w3.org/2001/XMLSchema}dateTimeStamp</t:expect>
+      </t:scenario>
+
+   </t:scenario>
+
    <t:scenario label="Scenario for testing template identity">
       <t:context>
          <foo bar="baz">

@@ -58,4 +58,10 @@
 'bar'</failure>
       </testcase>
    </testsuite>
+   <testsuite name="Derived types" tests="1" failures="1">
+      <testcase name="Derived date/time types xs:dateTimeStamp [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}dateTimeStamp('1234-01-02T03:04:05Z')&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(XSLT) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(XQuery)"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>

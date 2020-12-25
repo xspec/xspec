@@ -255,6 +255,10 @@ declare function rep:atom-type(
       (:    * All other built-in types defined in [XML Schema Part 2] :)
       (: Requires schema-aware processor :)
 
+      (: https://www.w3.org/TR/xslt-30/#built-in-types:
+        XSD 1.1 ... adds one new type: xs:dateTimeStamp :)
+      (: xs:dateTimeStamp: Not supported by BaseX 9.4.5 :)
+
       (: Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: :)
 
       (:    * The following types defined in [XPath 2.0] :)
