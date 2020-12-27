@@ -199,7 +199,15 @@
          </xsl:when>
 
          <xsl:otherwise>
-            <xsl:element name="{$local-name-prefix}other" namespace="{$report-namespace}" />
+            <!--
+               Wrapped Java objects will fall here.
+               https://www.saxonica.com/documentation/#!extensibility/functions/converting-args/converting-wrapped-java:
+               > wrapped objects are a fourth subtype of item(), at the same level in the type
+               > hierarchy as nodes, atomic values, and function items
+            -->
+            <xsl:element name="{$local-name-prefix}other" namespace="{$report-namespace}">
+               <xsl:value-of select="local:serialize-adaptive($item)" />
+            </xsl:element>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
@@ -361,6 +369,14 @@
             <xsl:when test="$value instance of xs:positiveInteger" use-when="type-available('xs:positiveInteger')">positiveInteger</xsl:when>
             <xsl:when test="$value instance of xs:nonNegativeInteger" use-when="type-available('xs:nonNegativeInteger')">nonNegativeInteger</xsl:when>
             <!-- xs:NOTATION: Abstract -->
+
+            <!-- https://www.w3.org/TR/xslt-30/#built-in-types:
+               XSD 1.1 ... adds one new type: xs:dateTimeStamp -->
+            <!-- TODO: Remove system-property() condition from @use-when after
+               https://saxonica.plan.io/issues/4861 gets fixed. -->
+            <xsl:when test="$value instance of xs:dateTimeStamp" use-when="
+               type-available('xs:dateTimeStamp')
+               and (xs:decimal(system-property('xsl:xsd-version')) ge 1.1)">dateTimeStamp</xsl:when>
 
             <!-- Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: -->
 

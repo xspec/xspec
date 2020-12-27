@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xquery-to-support-jref?>
+<?xspec-test require-xslt-to-support-jref?>
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xqm"
+	stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:scenario label="Java type">
+		<x:call function="Q{java:java.lang.Runtime}getRuntime" />
+		<x:expect>
+			<x:label>[Result] must be an empty 'pseudo-other' element</x:label>
+		</x:expect>
+	</x:scenario>
+
+</x:description>
