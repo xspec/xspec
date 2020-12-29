@@ -47,7 +47,7 @@
                <xsl:when test="
                      self::x:param
                      [parent::x:description]
-                     [$qname eq xs:QName('x:enable-schematron-text-location')]">
+                     [local-name-from-QName($qname) eq 'enable-schematron-text-location']">
                   <!-- Allow it -->
                   <!-- This global x:param is a private parameter to enable text node @location -->
                </xsl:when>
@@ -55,7 +55,7 @@
                <xsl:when test="
                      self::x:variable
                      [$is-external]
-                     [$qname eq xs:QName('x:saxon-config')]">
+                     [local-name-from-QName($qname) eq 'saxon-config']">
                   <!-- Allow it -->
                   <!--
                      TODO: Consider replacing this abusive <xsl:variable> with a dedicated element
