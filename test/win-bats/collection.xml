@@ -1847,22 +1847,50 @@
 	</case>
 
 	<!--
-		User-defined variable in XSpec namespace
+		x:param in XSpec namespace
 	-->
 
-	<case name="Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)">
-    call :run ..\bin\xspec.bat variable\reserved-uqname-in-local.xspec
+	<case name="Error on x:param in XSpec namespace (x:context/x:param with lexical QName)">
+    call :run ..\bin\xspec.bat reserved-vardecl-name\param\context-param_lexical-qname.xspec
     call :verify_retval 2
-    call :verify_line 4 x "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace."
+    call :verify_line 4 x "ERROR: x:param (named u:context-param) must not use the XSpec namespace."
 	</case>
 
-	<case name="Error on user-defined variable in XSpec namespace (Lexical QName in global variable)">
-    call :run ..\bin\xspec.bat variable\reserved-lexical-qname-in-global.xspec
+	<case name="Error on x:param in XSpec namespace (x:description/x:param with URIQualifiedName)">
+    call :run ..\bin\xspec.bat reserved-vardecl-name\param\description-param_uqname.xspec
     call :verify_retval 2
-    call :verify_line 4 x "ERROR: User-defined XSpec variable, u:foo, must not use the XSpec namespace."
+    call :verify_line 4 x "ERROR: x:param (named Q{http://www.jenitennison.com/xslt/xspec}description-param) must not use the XSpec namespace."
+	</case>
+
+	<case name="Error on x:param in XSpec namespace (function x:param with lexical QName)">
+    call :run ..\bin\xspec.bat reserved-vardecl-name\param\function-param_lexical-qname.xspec
+    call :verify_retval 2
+    call :verify_line 4 x "ERROR: x:param (named u:function-param) must not use the XSpec namespace."
+	</case>
+
+	<case name="Error on x:param in XSpec namespace (template-call x:param with URIQualifiedName)">
+    call :run ..\bin\xspec.bat reserved-vardecl-name\param\template-call-param_uqname.xspec
+    call :verify_retval 2
+    call :verify_line 4 x "ERROR: x:param (named Q{http://www.jenitennison.com/xslt/xspec}template-call-param) must not use the XSpec namespace."
 	</case>
 
 	<!--
+		x:variable in XSpec namespace
+	-->
+
+	<case name="Error on x:variable in XSpec namespace (global x:variable with lexical QName)">
+    call :run ..\bin\xspec.bat reserved-vardecl-name\variable\global-variable_lexical-qname.xspec
+    call :verify_retval 2
+    call :verify_line 4 x "ERROR: x:variable (named u:global-variable) must not use the XSpec namespace."
+	</case>
+
+	<case name="Error on x:variable in XSpec namespace (local x:variable with URIQualifiedName)">
+    call :run ..\bin\xspec.bat reserved-vardecl-name\variable\local-variable_uqname.xspec
+    call :verify_retval 2
+    call :verify_line 4 x "ERROR: x:variable (named Q{http://www.jenitennison.com/xslt/xspec}local-variable) must not use the XSpec namespace."
+	</case>
+
+    <!--
 		x:variable should be evaluated only once
 	-->
 
@@ -2318,21 +2346,21 @@
 	<case name="Static param is allowed only with run-as external (XSLT)">
     call :run ..\bin\xspec.bat static-param\disallowed_stylesheet.xspec
     call :verify_retval 2
-    call :verify_line  4 x "Enabling @static in x:param is supported only when /x:description has @run-as='external'."
+    call :verify_line  4 x "ERROR: Enabling @static in x:param (named p) is supported only when /x:description has @run-as='external'."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Static param not allowed (XQuery)">
     call :run ..\bin\xspec.bat -q static-param\disallowed_query.xspec
     call :verify_retval 2
-    call :verify_line  4 x "Enabling @static in x:param is not supported for XQuery."
+    call :verify_line  4 x "ERROR: Enabling @static in x:param (named p) is not supported for XQuery."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Static param not allowed (Schematron)">
     call :run ..\bin\xspec.bat -s static-param\disallowed_schematron.xspec
     call :verify_retval 2
-    call :verify_line  3 x "Enabling @static in x:param is not supported for Schematron."
+    call :verify_line  3 x "ERROR: Enabling @static in x:param (named p) is not supported for Schematron."
     call :verify_line -1 x "*** Error converting Schematron into XSLT"
 	</case>
 

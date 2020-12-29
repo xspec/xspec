@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:u="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="x:call[@function]/x:param/@name has lexical QName in XSpec namespace">
+		<x:call function="my-function">
+			<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+			<x:param name="
+					&#x09;&#x0A;&#x0D;&#x20;
+					u:function-param
+					&#x09;&#x0A;&#x0D;&#x20;" />
+		</x:call>
+	</x:scenario>
+</x:description>

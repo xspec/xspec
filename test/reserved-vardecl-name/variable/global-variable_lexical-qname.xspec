@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:u="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!--
+		x:description/x:variable/@name has lexical QName in XSpec namespace
+	-->
+	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+	<x:variable name="
+			&#x09;&#x0A;&#x0D;&#x20;
+			u:global-variable
+			&#x09;&#x0A;&#x0D;&#x20;" />
+</x:description>

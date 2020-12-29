@@ -111,9 +111,17 @@
 		seriously. -->
 	<xsl:template as="empty-sequence()" match="x:param[x:yes-no-synonym(@static, false())]"
 		mode="x:gather-specs">
-		<xsl:message terminate="yes">
-			<xsl:text expand-text="yes">Enabling @static in {name()} is not supported for Schematron.</xsl:text>
-		</xsl:message>
+		<!-- Normalize @name by applying the overridden templates -->
+		<xsl:variable as="element(x:param)" name="param">
+			<xsl:next-match />
+		</xsl:variable>
+
+		<!-- xsl:for-each is not for iteration but for simplifying XPath -->
+		<xsl:for-each select="$param">
+			<xsl:message terminate="yes">
+				<xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is not supported for Schematron.</xsl:text>
+			</xsl:message>
+		</xsl:for-each>
 	</xsl:template>
 
 </xsl:stylesheet>

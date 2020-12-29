@@ -2157,21 +2157,53 @@ load bats-helper
 }
 
 #
-# User-defined variable in XSpec namespace
+# x:param in XSpec namespace
 #
 
-@test "Error on user-defined variable in XSpec namespace (URIQualifiedName in local variable)" {
-    run ../bin/xspec.sh variable/reserved-uqname-in-local.xspec
+@test "Error on x:param in XSpec namespace (x:context/x:param with lexical QName)" {
+    run ../bin/xspec.sh reserved-vardecl-name/param/context-param_lexical-qname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: User-defined XSpec variable, Q{http://www.jenitennison.com/xslt/xspec}foo, must not use the XSpec namespace." ]
+    [ "${lines[3]}" = "ERROR: x:param (named u:context-param) must not use the XSpec namespace." ]
 }
 
-@test "Error on user-defined variable in XSpec namespace (Lexical QName in global variable)" {
-    run ../bin/xspec.sh variable/reserved-lexical-qname-in-global.xspec
+@test "Error on x:param in XSpec namespace (x:description/x:param with URIQualifiedName)" {
+    run ../bin/xspec.sh reserved-vardecl-name/param/description-param_uqname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: User-defined XSpec variable, u:foo, must not use the XSpec namespace." ]
+    [ "${lines[3]}" = "ERROR: x:param (named Q{http://www.jenitennison.com/xslt/xspec}description-param) must not use the XSpec namespace." ]
+}
+
+@test "Error on x:param in XSpec namespace (function x:param with lexical QName)" {
+    run ../bin/xspec.sh reserved-vardecl-name/param/function-param_lexical-qname.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: x:param (named u:function-param) must not use the XSpec namespace." ]
+}
+
+@test "Error on x:param in XSpec namespace (template-call x:param with URIQualifiedName)" {
+    run ../bin/xspec.sh reserved-vardecl-name/param/template-call-param_uqname.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: x:param (named Q{http://www.jenitennison.com/xslt/xspec}template-call-param) must not use the XSpec namespace." ]
+}
+
+#
+# x:variable in XSpec namespace
+#
+
+@test "Error on x:variable in XSpec namespace (global x:variable with lexical QName in )" {
+    run ../bin/xspec.sh reserved-vardecl-name/variable/global-variable_lexical-qname.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: x:variable (named u:global-variable) must not use the XSpec namespace." ]
+}
+
+@test "Error on x:variable in XSpec namespace (local x:variable with URIQualifiedName)" {
+    run ../bin/xspec.sh reserved-vardecl-name/variable/local-variable_uqname.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: x:variable (named Q{http://www.jenitennison.com/xslt/xspec}local-variable) must not use the XSpec namespace." ]
 }
 
 #
@@ -2688,7 +2720,7 @@ load bats-helper
     run ../bin/xspec.sh static-param/disallowed_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "Enabling @static in x:param is supported only when /x:description has @run-as='external'." ]
+    [ "${lines[3]}" = "ERROR: Enabling @static in x:param (named p) is supported only when /x:description has @run-as='external'." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2696,7 +2728,7 @@ load bats-helper
     run ../bin/xspec.sh -q static-param/disallowed_query.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "Enabling @static in x:param is not supported for XQuery." ]
+    [ "${lines[3]}" = "ERROR: Enabling @static in x:param (named p) is not supported for XQuery." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2704,7 +2736,7 @@ load bats-helper
     run ../bin/xspec.sh -s static-param/disallowed_schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Enabling @static in x:param is not supported for Schematron." ]
+    [ "${lines[2]}" = "ERROR: Enabling @static in x:param (named p) is not supported for Schematron." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error converting Schematron into XSLT" ]
 }
 

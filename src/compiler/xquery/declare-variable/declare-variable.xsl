@@ -45,7 +45,7 @@
       <!-- Reject @static=yes -->
       <xsl:if test="x:yes-no-synonym(@static, false())">
          <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">Enabling @static in {name()} is not supported for XQuery.</xsl:text>
+            <xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is not supported for XQuery.</xsl:text>
          </xsl:message>
       </xsl:if>
 

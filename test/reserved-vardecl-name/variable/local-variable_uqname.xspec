@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="x:scenario/x:variable/@name has URIQualifiedName in XSpec namespace">
+		<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+		<x:variable name="
+				&#x09;&#x0A;&#x0D;&#x20;
+				Q{http://www.jenitennison.com/xslt/xspec}local-variable
+				&#x09;&#x0A;&#x0D;&#x20;" />
+	</x:scenario>
+</x:description>
