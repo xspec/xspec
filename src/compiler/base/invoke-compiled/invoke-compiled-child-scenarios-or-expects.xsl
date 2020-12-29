@@ -78,54 +78,22 @@
    </xsl:template>
 
    <!--
-      - Reject reserved variable names, whether they're global or not.
-      - Declare non-global variables if they are not preceding-siblings of x:call or x:context.
+      Declare local x:variable if they are not preceding-siblings of x:call or x:context.
    -->
    <xsl:template match="x:variable" as="node()*" mode="local:invoke-compiled-scenarios-or-expects">
-      <xsl:call-template name="local:detect-reserved-variable-name" />
-
       <xsl:choose>
          <xsl:when test="parent::x:description">
-            <!-- This global variable is declared in x:compile-global-params-and-variables template -->
+            <!-- This global x:variable is declared in x:main template -->
          </xsl:when>
 
          <xsl:when test="following-sibling::x:call or following-sibling::x:context">
-            <!-- This variable is declared in x:compile-scenario template -->
+            <!-- This local x:variable is declared in x:compile-scenario template -->
          </xsl:when>
 
          <xsl:otherwise>
             <!-- Declare now -->
             <xsl:apply-templates select="." mode="x:declare-variable" />
          </xsl:otherwise>
-      </xsl:choose>
-   </xsl:template>
-
-   <!--
-      Local templates
-   -->
-
-   <!-- Generate error message for user-defined usage of names in XSpec namespace. -->
-   <xsl:template name="local:detect-reserved-variable-name" as="empty-sequence()">
-      <xsl:context-item as="element(x:variable)" use="required" />
-
-      <xsl:variable name="qname" as="xs:QName"
-         select="x:resolve-EQName-ignoring-default-ns(@name, .)" />
-
-      <xsl:choose>
-         <xsl:when test="$is-external and ($qname eq xs:QName('x:saxon-config'))">
-            <!-- Allow it -->
-            <!--
-               TODO: Consider replacing this abusive <xsl:variable> with a dedicated element defined
-               in the XSpec schema, like <x:config type="saxon" href="..." />. A vendor-independent
-               element name would be better than a vendor-specific element name like <x:saxon-config>;
-               a vendor-specific attribute value seems more appropriate.
-            -->
-         </xsl:when>
-         <xsl:when test="namespace-uri-from-QName($qname) eq $x:xspec-namespace">
-            <xsl:message terminate="yes">
-               <xsl:text expand-text="yes">ERROR: User-defined XSpec variable, {@name}, must not use the XSpec namespace.</xsl:text>
-            </xsl:message>
-         </xsl:when>
       </xsl:choose>
    </xsl:template>
 
