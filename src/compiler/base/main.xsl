@@ -29,7 +29,7 @@
       select="x:document-actual-uri($initial-document)" />
 
    <!--
-      Accumulators for non-global x:variable
+      Accumulators for local x:variable
    -->
 
    <!-- Push and pop x:variable based on node identity -->
@@ -94,7 +94,6 @@
    <xsl:include href="../base/combine/combine.xsl" />
    <xsl:include href="../base/compile/compile-child-scenarios-or-expects.xsl" />
    <xsl:include href="../base/compile/compile-expect.xsl" />
-   <xsl:include href="../base/compile/compile-global-params-and-variables.xsl" />
    <xsl:include href="../base/compile/compile-scenario.xsl" />
    <xsl:include href="../base/declare-variable/variable-uqname.xsl" />
    <xsl:include href="../base/initial-check/perform-initial-check.xsl" />
