@@ -15,13 +15,9 @@
    <xsl:template match="x:param" as="empty-sequence()" mode="x:check-combined-doc">
       <xsl:call-template name="local:detect-reserved-vardecl-name" />
 
-      <!-- Reject static x:param if not @run-as=external.
-         mode="x:declare-variable" is not aware of $is-external. That's why @static is checked here. -->
-      <xsl:if test="x:yes-no-synonym(@static, false()) and not($is-external)">
-         <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
-         </xsl:message>
-      </xsl:if>
+      <!-- mode="x:declare-variable" is not aware of $is-external. That's why checking x:param
+         against $is-external is performed here rather than in mode="x:declare-variable". -->
+      <xsl:call-template name="local:detect-static-param-run-as-import" />
    </xsl:template>
 
    <xsl:template match="x:variable" as="empty-sequence()" mode="x:check-combined-doc">
@@ -32,8 +28,7 @@
       Local templates
    -->
 
-   <!-- Detect and generate error for user-defined variable declaration with names in XSpec
-      namespace. -->
+   <!-- Reject user-defined variable declaration with names in XSpec namespace. -->
    <xsl:template name="local:detect-reserved-vardecl-name" as="empty-sequence()">
       <!-- Context item is x:param or x:variable -->
       <xsl:context-item as="element()" use="required" />
@@ -74,6 +69,17 @@
                </xsl:otherwise>
             </xsl:choose>
          </xsl:if>
+      </xsl:if>
+   </xsl:template>
+
+   <!-- Reject static x:param if not @run-as=external. -->
+   <xsl:template name="local:detect-static-param-run-as-import" as="empty-sequence()">
+      <xsl:context-item as="element(x:param)" use="required" />
+
+      <xsl:if test="not($is-external) and x:yes-no-synonym(@static, false())">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
+         </xsl:message>
       </xsl:if>
    </xsl:template>
 
