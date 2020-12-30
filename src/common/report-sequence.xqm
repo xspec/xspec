@@ -128,7 +128,7 @@ declare %private function rep:report-pseudo-item(
   $report-namespace as xs:string
 ) as element()
 {
-  let $local-name-prefix as xs:string := 'pseudo-'
+  let $local-name-prefix as xs:NCName := xs:NCName('pseudo-')
   return (
     if ($item instance of xs:anyAtomicType) then
       element
@@ -191,13 +191,16 @@ declare function rep:report-atomic-value(
     (: Derived types must be handled before their base types :)
 
     (: String types :)
-    (: xs:normalizedString: Requires schema-aware processor :)
-    case xs:string return x:quote-with-apos($value)
+    case xs:normalizedString return rep:report-atomic-value-as-constructor($value)
+    case xs:string           return x:quote-with-apos($value)
 
-    (: Derived numeric types: Requires schema-aware processor :)
+    (: Derived numeric types :)
+    case xs:nonPositiveInteger return rep:report-atomic-value-as-constructor($value)
+    case xs:long               return rep:report-atomic-value-as-constructor($value)
+    case xs:nonNegativeInteger return rep:report-atomic-value-as-constructor($value)
 
     (: Numeric types which can be expressed as numeric literals:
-      http://www.w3.org/TR/xpath20/#id-literals :)
+      https://www.w3.org/TR/xpath-31/#id-literals :)
     case xs:integer return string($value)
     case xs:decimal return x:decimal-string($value)
     case xs:double
@@ -238,6 +241,9 @@ declare %private function rep:report-atomic-value-as-constructor(
 };
 
 (:
+  Returns atomic value type
+     https://www.w3.org/TR/xquery-31/#id-types
+
   This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.
 :)
 declare function rep:atom-type(
@@ -245,55 +251,74 @@ declare function rep:atom-type(
 ) as xs:string
 {
   let $local-name as xs:string := (
+    (: Derived types must be handled before their base types :)
     typeswitch ($value)
-      (: Grouped as the spec does: http://www.w3.org/TR/xslt20/#built-in-types
-        Groups are in the reversed order so that the derived types are before the primitive types,
-        otherwise xs:integer is recognised as xs:decimal, xs:yearMonthDuration as xs:duration, and so on. :)
+      (:
+        https://www.w3.org/TR/xmlschema11-2/type-hierarchy-201104.longdesc.html
+      :)
 
-      (: A schema-aware XSLT processor additionally supports: :)
-
-      (:    * All other built-in types defined in [XML Schema Part 2] :)
-      (: Requires schema-aware processor :)
-
-      (: https://www.w3.org/TR/xslt-30/#built-in-types:
-        XSD 1.1 ... adds one new type: xs:dateTimeStamp :)
+      (: Derived from xs:dateTime :)
       (: xs:dateTimeStamp: Not supported by BaseX 9.4.5 :)
 
-      (: Every XSLT 2.0 processor includes the following named type definitions in the in-scope schema components: :)
+      (: Derived from xs:decimal :)
+      case xs:byte               return 'byte'
+      case xs:short              return 'short'
+      case xs:int                return 'int'
+      case xs:long               return 'long'
+      case xs:positiveInteger    return 'positiveInteger'
+      case xs:unsignedByte       return 'unsignedByte'
+      case xs:unsignedShort      return 'unsignedShort'
+      case xs:unsignedInt        return 'unsignedInt'
+      case xs:unsignedLong       return 'unsignedLong'
+      case xs:nonNegativeInteger return 'nonNegativeInteger'
+      case xs:negativeInteger    return 'negativeInteger'
+      case xs:nonPositiveInteger return 'nonPositiveInteger'
+      case xs:integer            return 'integer'
 
-      (:    * The following types defined in [XPath 2.0] :)
-      case xs:yearMonthDuration return 'yearMonthDuration'
+      (: Derived from xs:duration :)
       case xs:dayTimeDuration   return 'dayTimeDuration'
-      (: xs:anyAtomicType: Abstract :)
-      (: xs:untyped: Not atomic :)
-      case xs:untypedAtomic     return 'untypedAtomic'
+      case xs:yearMonthDuration return 'yearMonthDuration'
 
-      (:    * The types xs:anyType and xs:anySimpleType. :)
-      (: Not atomic :)
+      (: Derived from xs:string :)
+      case xs:language         return 'language'
+      case xs:ENTITY           return 'ENTITY'
+      case xs:ID               return 'ID'
+      case xs:IDREF            return 'IDREF'
+      case xs:NCName           return 'NCName'
+      case xs:Name             return 'Name'
+      case xs:NMTOKEN          return 'NMTOKEN'
+      case xs:token            return 'token'
+      case xs:normalizedString return 'normalizedString'
 
-      (:    * The derived atomic type xs:integer defined in [XML Schema Part 2]. :)
-      case xs:integer return 'integer'
-
-      (:    * All the primitive atomic types defined in [XML Schema Part 2], with the exception of xs:NOTATION. :)
-      case xs:string       return 'string'
+      (: Primitive atomic types except for abstract xs:NOTATION :)
+      case xs:anyURI       return 'anyURI'
+      case xs:base64Binary return 'base64Binary'
       case xs:boolean      return 'boolean'
+      case xs:date         return 'date'
+      case xs:dateTime     return 'dateTime'
       case xs:decimal      return 'decimal'
       case xs:double       return 'double'
-      case xs:float        return 'float'
-      case xs:date         return 'date'
-      case xs:time         return 'time'
-      case xs:dateTime     return 'dateTime'
       case xs:duration     return 'duration'
-      case xs:QName        return 'QName'
-      case xs:anyURI       return 'anyURI'
+      case xs:float        return 'float'
       case xs:gDay         return 'gDay'
-      case xs:gMonthDay    return 'gMonthDay'
       case xs:gMonth       return 'gMonth'
-      case xs:gYearMonth   return 'gYearMonth'
+      case xs:gMonthDay    return 'gMonthDay'
       case xs:gYear        return 'gYear'
-      case xs:base64Binary return 'base64Binary'
+      case xs:gYearMonth   return 'gYearMonth'
       case xs:hexBinary    return 'hexBinary'
-      default              return 'anyAtomicType'
+      case xs:QName        return 'QName'
+      case xs:string       return 'string'
+      case xs:time         return 'time'
+
+      (:
+        Defined in XDM
+      :)
+      case xs:untypedAtomic return 'untypedAtomic'
+
+      (:
+        Base of atomic types
+      :)
+      default return 'anyAtomicType'
   )
   return
     ('Q{http://www.w3.org/2001/XMLSchema}' || $local-name)
