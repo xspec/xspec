@@ -131,10 +131,8 @@
                   </x:call>
                   <x:expect label="Numeric literal" test="
                         $x:result = (
-                           (: https://saxonica.plan.io/boards/3/topics/8091
-                              https://github.com/w3c/qtspecs/issues/22 :)
-                           (: Saxon 10.3 :)  '0.0e-1',
-                           (: BaseX 9.4.5 :) '0.0e0'
+                           (: https://saxonica.plan.io/issues/4866 :) '0.0e-1',
+                           (: BaseX 9.4.5                          :) '0.0e0'
                         )" />
                </x:scenario>
 
@@ -144,10 +142,8 @@
                   </x:call>
                   <x:expect label="Numeric literal" test="
                         $x:result = (
-                           (: https://saxonica.plan.io/boards/3/topics/8091
-                              https://github.com/w3c/qtspecs/issues/22 :)
-                           (: Saxon 10.3 :)  '-0.0e-1',
-                           (: BaseX 9.4.5 :) '-0.0e0'
+                           (: https://saxonica.plan.io/issues/4866 :) '-0.0e-1',
+                           (: BaseX 9.4.5                          :) '-0.0e0'
                         )" />
                </x:scenario>
 
