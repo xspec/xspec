@@ -58,8 +58,104 @@
 'bar'</failure>
       </testcase>
    </testsuite>
-   <testsuite name="Derived types" tests="1" failures="1">
-      <testcase name="Derived date/time types xs:dateTimeStamp [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}dateTimeStamp('1234-01-02T03:04:05Z')&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(XSLT) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(XQuery)"
+   <testsuite name="Derived types" tests="25" failures="25">
+      <testcase name="Derived from xs:dateTime xs:dateTimeStamp [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}dateTimeStamp('1234-01-02T03:04:05Z')&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(XSLT) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(XQuery)"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:integer [Result] must be &#34;1&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:long [Result] must be &#34;Q{http://www.w3.org/2001/XMLSchema}long(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:int [Result] must be &#34;Q{http://www.w3.org/2001/XMLSchema}int(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:short [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}short(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:byte [Result] must be &#34;Q{http://www.w3.org/2001/XMLSchema}byte(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:nonNegativeInteger [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger(0)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:positiveInteger [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}positiveInteger(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:unsignedLong [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}unsignedLong(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:unsignedInt [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}unsignedInt(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:unsignedShort [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}unsignedShort(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:unsignedByte [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}unsignedByte(1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:nonPositiveInteger [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger(0)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:decimal xs:negativeInteger [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}negativeInteger(-1)&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:duration xs:dayTimeDuration [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}dayTimeDuration('P1DT2H3M4S')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:duration xs:yearMonthDuration [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}yearMonthDuration('P1Y2M')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:normalizedString [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}normalizedString('foo')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:token [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}token('foo')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:language [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}language('en')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:Name [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}Name('foo')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:NCName [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}NCName('foo')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:ENTITY [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}ENTITY('foo')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:ID [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}ID('foo')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:IDREF [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}IDREF('foo')&#34;"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="Derived from xs:string xs:NMTOKEN [Result] must be&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}NMTOKEN('foo')&#34;"
                 status="failed">
          <failure message="expect assertion failed">Expected Result: ()</failure>
       </testcase>

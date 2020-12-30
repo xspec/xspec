@@ -102,7 +102,7 @@
 	<x:scenario label="Derived types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 		<x:call function="Q{x-urn:test:mirror}param-mirror" />
 
-		<x:scenario label="Derived date/time types">
+		<x:scenario label="Derived from xs:dateTime">
 
 			<x:scenario label="xs:dateTimeStamp">
 				<x:call>
@@ -114,6 +114,255 @@
 						(XSLT) or
 						"Q{http://www.w3.org/2001/XMLSchema}dateTime('1234-01-02T03:04:05Z')"
 						(XQuery)</x:label>
+				</x:expect>
+			</x:scenario>
+
+		</x:scenario>
+
+		<x:scenario label="Derived from xs:decimal">
+
+			<x:scenario label="xs:integer">
+				<x:call>
+					<x:param select="xs:integer(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be "1"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:long">
+				<x:call>
+					<x:param select="xs:long(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be "Q{http://www.w3.org/2001/XMLSchema}long(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:int">
+				<x:call>
+					<x:param select="xs:int(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be "Q{http://www.w3.org/2001/XMLSchema}int(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:short">
+				<x:call>
+					<x:param select="xs:short(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}short(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:byte">
+				<x:call>
+					<x:param select="xs:byte(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be "Q{http://www.w3.org/2001/XMLSchema}byte(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:nonNegativeInteger">
+				<x:call>
+					<x:param select="xs:nonNegativeInteger(0)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}nonNegativeInteger(0)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:positiveInteger">
+				<x:call>
+					<x:param select="xs:positiveInteger(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}positiveInteger(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:unsignedLong">
+				<x:call>
+					<x:param select="xs:unsignedLong(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}unsignedLong(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:unsignedInt">
+				<x:call>
+					<x:param select="xs:unsignedInt(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}unsignedInt(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:unsignedShort">
+				<x:call>
+					<x:param select="xs:unsignedShort(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}unsignedShort(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:unsignedByte">
+				<x:call>
+					<x:param select="xs:unsignedByte(1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}unsignedByte(1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:nonPositiveInteger">
+				<x:call>
+					<x:param select="xs:nonPositiveInteger(0)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}nonPositiveInteger(0)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:negativeInteger">
+				<x:call>
+					<x:param select="xs:negativeInteger(-1)" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}negativeInteger(-1)"</x:label>
+				</x:expect>
+			</x:scenario>
+
+		</x:scenario>
+
+		<x:scenario label="Derived from xs:duration">
+
+			<x:scenario label="xs:dayTimeDuration">
+				<x:call>
+					<x:param select="xs:dayTimeDuration('P1DT2H3M4S')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}dayTimeDuration('P1DT2H3M4S')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:yearMonthDuration">
+				<x:call>
+					<x:param select="xs:yearMonthDuration('P1Y2M')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}yearMonthDuration('P1Y2M')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+		</x:scenario>
+
+		<x:scenario label="Derived from xs:string">
+
+			<x:scenario label="xs:normalizedString">
+				<x:call>
+					<x:param select="xs:normalizedString('foo')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}normalizedString('foo')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:token">
+				<x:call>
+					<x:param select="xs:token('foo')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}token('foo')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:language">
+				<x:call>
+					<x:param select="xs:language('en')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}language('en')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:Name">
+				<x:call>
+					<x:param select="xs:Name('foo')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}Name('foo')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:NCName">
+				<x:call>
+					<x:param select="xs:NCName('foo')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}NCName('foo')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:ENTITY">
+				<x:call>
+					<x:param select="xs:ENTITY('foo')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}ENTITY('foo')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+
+			<x:scenario label="xs:ID">
+				<x:call>
+					<x:param select="xs:ID('foo')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}ID('foo')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:IDREF">
+				<x:call>
+					<x:param select="xs:IDREF('foo')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}IDREF('foo')"</x:label>
+				</x:expect>
+			</x:scenario>
+
+			<x:scenario label="xs:NMTOKEN">
+				<x:call>
+					<x:param select="xs:NMTOKEN('foo')" />
+				</x:call>
+				<x:expect>
+					<x:label>[Result] must be
+						"Q{http://www.w3.org/2001/XMLSchema}NMTOKEN('foo')"</x:label>
 				</x:expect>
 			</x:scenario>
 
