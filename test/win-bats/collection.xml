@@ -2343,6 +2343,7 @@
 	<!--
 		Static param not allowed
 	-->
+
 	<case name="Static param is allowed only with run-as external (XSLT)">
     call :run ..\bin\xspec.bat static-param\disallowed_stylesheet.xspec
     call :verify_retval 2
