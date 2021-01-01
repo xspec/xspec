@@ -193,7 +193,7 @@
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
-            <xsl:sequence select="accumulator-before('stacked-variables-distinct-uqnames')" />
+            <xsl:sequence select="accumulator-before('stacked-vardecls-distinct-uqnames')" />
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>
