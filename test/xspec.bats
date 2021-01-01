@@ -2716,8 +2716,8 @@ load bats-helper
 # Static param not allowed
 #
 
-@test "Static param is allowed only with run-as external (XSLT)" {
-    run ../bin/xspec.sh static-param/disallowed_stylesheet.xspec
+@test "Static param not allowed (XSLT without @run-as=external)" {
+    run ../bin/xspec.sh param-disallowed/description-param/static-param/stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[3]}" = "ERROR: Enabling @static in x:param (named p) is supported only when /x:description has @run-as='external'." ]
@@ -2725,7 +2725,7 @@ load bats-helper
 }
 
 @test "Static param not allowed (XQuery)" {
-    run ../bin/xspec.sh -q static-param/disallowed_query.xspec
+    run ../bin/xspec.sh -q param-disallowed/description-param/static-param/query.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[3]}" = "ERROR: Enabling @static in x:param (named p) is not supported for XQuery." ]
@@ -2733,7 +2733,7 @@ load bats-helper
 }
 
 @test "Static param not allowed (Schematron)" {
-    run ../bin/xspec.sh -s static-param/disallowed_schematron.xspec
+    run ../bin/xspec.sh -s param-disallowed/description-param/static-param/schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[2]}" = "ERROR: Enabling @static in x:param (named p) is not supported for Schematron." ]
