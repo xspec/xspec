@@ -2741,6 +2741,18 @@ load bats-helper
 }
 
 #
+# Description param not allowed
+#
+
+@test "Description param not allowed (XQuery)" {
+    run ../bin/xspec.sh -q param-disallowed/description-param/query.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: Q{http://www.jenitennison.com/xslt/xspec}description has x:param (named p), which is not supported for XQuery." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+#
 # Duplicate @position
 #
 

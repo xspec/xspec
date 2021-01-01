@@ -37,10 +37,18 @@
       <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
 
       <!-- True if the variable should be declared as external.
-         TODO: If true, define external variable (which can have a default value in
-         XQuery 1.1, but not in 1.0, so we will need to generate an error for global
-         x:param with default value...) -->
+         TODO: If true, declare an XQuery external variable. (But it isn't worth implementing.
+         External variables are of no use in XSpec.) -->
       <!--<xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />-->
+
+      <!-- Reject x:param if it is analogous to /xsl:stylesheet/xsl:param -->
+      <xsl:if test="self::x:param[parent::x:description]">
+         <xsl:message terminate="yes">
+            <!-- x:combine() removes the name prefix from x:description. That's why URIQualifiedName
+               is used. -->
+            <xsl:text expand-text="yes">ERROR: {parent::element() => x:node-UQName()} has {name()} (named {@name}), which is not supported for XQuery.</xsl:text>
+         </xsl:message>
+      </xsl:if>
 
       <!-- Reject @static=yes -->
       <xsl:if test="x:yes-no-synonym(@static, false())">

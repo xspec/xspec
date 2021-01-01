@@ -2366,6 +2366,17 @@
 	</case>
 
 	<!--
+		Description param not allowed
+	-->
+
+	<case name="Description param not allowed (XQuery)">
+    call :run ..\bin\xspec.bat -q param-disallowed\description-param\query.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR: Q{http://www.jenitennison.com/xslt/xspec}description has x:param (named p), which is not supported for XQuery."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
 		Duplicate @position
 	-->
 
