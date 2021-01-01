@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0" xmlns=""
+<xsl:stylesheet version="3.0" xmlns=""
 	xmlns:s1="http://example.org/ns/my/ns1"
 	xmlns:s2="http://example.org/ns/my/ns2"
 	xmlns:s3="http://example.org/ns/my/ns3"

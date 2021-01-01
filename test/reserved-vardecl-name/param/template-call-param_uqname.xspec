@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="x:call[@template]/x:param/@name has URIQualifiedName in XSpec namespace">
+		<x:call template="my-template">
+			<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+			<x:param name="
+					&#x09;&#x0A;&#x0D;&#x20;
+					Q{http://www.jenitennison.com/xslt/xspec}template-call-param
+					&#x09;&#x0A;&#x0D;&#x20;" />
+		</x:call>
+	</x:scenario>
+</x:description>

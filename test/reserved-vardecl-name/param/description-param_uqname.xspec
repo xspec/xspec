@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!--
+		x:description/x:param/@name has URIQualifiedName in XSpec namespace
+	-->
+	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+	<x:param name="
+			&#x09;&#x0A;&#x0D;&#x20;
+			Q{http://www.jenitennison.com/xslt/xspec}description-param
+			&#x09;&#x0A;&#x0D;&#x20;" />
+</x:description>

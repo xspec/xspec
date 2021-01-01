@@ -2,5 +2,11 @@
 <!-- Test /x:description[@schematron][@run-as = 'external']/x:param[@static = '1'] -->
 <x:description run-as="external" schematron="../do-nothing.sch"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:param name="p" static="1" />
+
+	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+	<x:param name="
+		&#x09;&#x0A;&#x0D;&#x20;
+		p
+		&#x09;&#x0A;&#x0D;&#x20;" static="1" />
+
 </x:description>
