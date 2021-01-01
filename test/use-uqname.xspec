@@ -7,22 +7,6 @@
 		tested attributes deliberately.
 		'&#x0D;' is removed from @select and @test. It doesn't work on XQuery. TODO: Investigate it. -->
 
-	<x:param
-		as="
-			&#x09;&#x0A;&#x0D;&#x20;
-			element(Q{x-urn:test:use-uqname}global-param-child)
-			&#x09;&#x0A;&#x0D;&#x20;"
-		name="
-			&#x09;&#x0A;&#x0D;&#x20;
-			Q{x-urn:test:use-uqname}global-param
-			&#x09;&#x0A;&#x0D;&#x20;"
-		select="
-			&#x09;&#x0A;&#x20;
-			element(Q{x-urn:test:use-uqname}global-param-child)
-			&#x09;&#x0A;&#x20;">
-		<use-uqname:global-param-child />
-	</x:param>
-
 	<x:variable
 		as="
 			&#x09;&#x0A;&#x0D;&#x20;
@@ -40,15 +24,6 @@
 	</x:variable>
 
 	<x:scenario label="Using URIQualifiedName in">
-
-		<x:scenario label="global-param (@as | @name | @select)">
-			<x:call function="mirror:param-mirror">
-				<x:param select="$use-uqname:global-param" />
-			</x:call>
-			<x:expect label="should be possible">
-				<use-uqname:global-param-child />
-			</x:expect>
-		</x:scenario>
 
 		<x:scenario label="global variable (@as | @name | @select)">
 			<x:call function="mirror:param-mirror">

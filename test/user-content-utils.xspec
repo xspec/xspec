@@ -47,14 +47,14 @@
 			<x:scenario label="user-content">
 				<x:scenario label="element">
 					<x:call>
-						<x:param href="avt.xspec" select="/x:description/x:param/element()" />
+						<x:param href="avt_stylesheet.xspec" select="/x:description/x:param/element()" />
 					</x:call>
 					<x:expect label="True" select="true()" />
 				</x:scenario>
 
 				<x:scenario label="attribute">
 					<x:call>
-						<x:param href="avt.xspec"
+						<x:param href="avt_stylesheet.xspec"
 							select="/x:description/x:param/element()/attribute()" />
 					</x:call>
 					<x:expect label="True" select="true()" />
@@ -64,14 +64,14 @@
 			<x:scenario label="not user-content">
 				<x:scenario label="element">
 					<x:call>
-						<x:param href="avt.xspec" select="(/x:description/x:param)[1]" />
+						<x:param href="avt_stylesheet.xspec" select="(/x:description/x:param)[1]" />
 					</x:call>
 					<x:expect label="False" select="false()" />
 				</x:scenario>
 
 				<x:scenario label="attribute">
 					<x:call>
-						<x:param href="avt.xspec" select="(/x:description/x:param/attribute())[1]"
+						<x:param href="avt_stylesheet.xspec" select="(/x:description/x:param/attribute())[1]"
 						 />
 					</x:call>
 					<x:expect label="False" select="false()" />

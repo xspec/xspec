@@ -3,15 +3,15 @@
 	xmlns:my="my-namespace" xmlns:x="http://www.jenitennison.com/xslt/xspec"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<x:param as="document-node(element(test))" href="issue-777.xml" name="my:test" />
+	<x:variable as="document-node(element(test))" href="issue-777.xml" name="my:test" />
 
 	<x:scenario>
-		<x:label>When x:param[@href] in XSpec defines $my:test and xsl:variable (or its XQuery
+		<x:label>When x:variable[@href] in XSpec defines $my:test and xsl:variable (or its XQuery
 			equivalent) in SUT defines $my:test-doc and $my:test-doc-uri</x:label>
 
 		<x:call function="false" />
 
-		<x:expect label="$my:test should be an external document loaded via x:param/@href"
+		<x:expect label="$my:test should be an external document loaded via x:variable/@href"
 			select="/" test="$my:test">
 			<test>external document</test>
 		</x:expect>

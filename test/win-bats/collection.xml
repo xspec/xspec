@@ -448,7 +448,7 @@
         ..\src\harnesses\saxon\saxon-xquery-harness.xproc
     call :verify_retval 0
     call :verify_line_count 2
-    call :verify_line 2 r "..*:passed: 15 / pending: 0 / failed: 0 / total: 15"
+    call :verify_line 2 r "..*:passed: 12 / pending: 0 / failed: 0 / total: 12"
 	</case>
 
 	<!--
@@ -466,7 +466,7 @@
 
     call :run ..\bin\xspec.bat "%SPECIAL_CHARS_DIR%\node-selection.xspec"
     call :verify_retval 0
-    call :verify_line 29 x "Report available at %EXPECTED_REPORT%"
+    call :verify_line 26 x "Report available at %EXPECTED_REPORT%"
     call :verify_exist "%EXPECTED_REPORT%"
 	</case>
 
@@ -739,7 +739,7 @@
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\basex\basex-standalone-xquery-harness.xproc
     call :verify_retval 0
-    call :verify_line -1 r "..*:passed: 15 / pending: 0 / failed: 0 / total: 15"
+    call :verify_line -1 r "..*:passed: 12 / pending: 0 / failed: 0 / total: 12"
 
     rem Compiled file
     call :verify_exist "%COMPILED_FILE%"
@@ -2348,13 +2348,6 @@
     call :run ..\bin\xspec.bat static-param\disallowed_stylesheet.xspec
     call :verify_retval 2
     call :verify_line  4 x "ERROR: Enabling @static in x:param (named p) is supported only when /x:description has @run-as='external'."
-    call :verify_line -1 x "*** Error compiling the test suite"
-	</case>
-
-	<case name="Static param not allowed (XQuery)">
-    call :run ..\bin\xspec.bat -q static-param\disallowed_query.xspec
-    call :verify_retval 2
-    call :verify_line  4 x "ERROR: Enabling @static in x:param (named p) is not supported for XQuery."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 

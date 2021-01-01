@@ -39,12 +39,12 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${lines[0]}" '.+: error: element "function-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[1]}" '.+: error: element "global-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[2]}" '.+: error: element "global-variable-child-not-allowed" not allowed here;'
-    assert_regex "${lines[3]}" '.+: error: element "assertion-child-not-allowed" not allowed here;'
-    assert_regex "${lines[4]}" '.+: error: element "variable-child-not-allowed" not allowed here;'
+    assert_regex "${lines[1]}" '.+: error: element "global-variable-child-not-allowed" not allowed here;'
+    assert_regex "${lines[2]}" '.+: error: element "assertion-child-not-allowed" not allowed here;'
+    assert_regex "${lines[3]}" '.+: error: element "variable-child-not-allowed" not allowed here;'
+    assert_regex "${lines[4]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
     assert_regex "${lines[5]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[6]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[6]}" '.+: error: element "global-param-child-not-allowed" not allowed here;'
     assert_regex "${lines[7]}" '^Elapsed time '
 }
 
