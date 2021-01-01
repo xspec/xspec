@@ -63,4 +63,15 @@
 		<xsl:sequence select="x:UQName($namespace, $local-name)" />
 	</xsl:function>
 
+	<!--
+		URIQualifiedName version of fn:node-name()
+	-->
+	<xsl:function as="xs:string?" name="x:node-UQName">
+		<xsl:param as="node()" name="node" />
+
+		<xsl:sequence select="
+				node-name($node)
+				! x:UQName(namespace-uri-from-QName(.), local-name-from-QName(.))" />
+	</xsl:function>
+
 </xsl:stylesheet>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="items.xsl" xmlns:items="x-urn:test:xspec-items"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
 		The test target (../src/common/uqname-utils.xsl) is included implicitly by the XSpec
@@ -115,6 +116,100 @@
 			</x:call>
 			<x:expect label="Constructed" select="string()"
 				>Q{http://www.w3.org/1999/XSL/Transform}my-local-name</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function node-UQName">
+		<x:call function="x:node-UQName" />
+
+		<x:scenario label="Attribute">
+			<x:scenario label="With namespace URI">
+				<x:call>
+					<x:param as="attribute()" select="e/@*">
+						<e my-prefix:my-local-name="" xmlns:my-prefix="my-uri" />
+					</x:param>
+				</x:call>
+				<x:expect label="URIQualifiedName with namespace URI" select="string()"
+					>Q{my-uri}my-local-name</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without namespace URI">
+				<x:call>
+					<x:param as="attribute()" select="e/@*">
+						<e my-local-name="" />
+					</x:param>
+				</x:call>
+				<x:expect label="URIQualifiedName without namespace URI" select="string()"
+					>Q{}my-local-name</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Comment">
+			<x:call>
+				<x:param as="comment()" select="$items:comment" />
+			</x:call>
+			<x:expect label="Empty sequence" />
+		</x:scenario>
+
+		<x:scenario label="Document">
+			<x:call>
+				<x:param as="document-node()" select="$items:document" />
+			</x:call>
+			<x:expect label="Empty sequence" />
+		</x:scenario>
+
+		<x:scenario label="Element">
+			<x:scenario label="With namespace URI">
+				<x:call>
+					<x:param as="element()">
+						<my-prefix:my-local-name xmlns:my-prefix="my-uri" />
+					</x:param>
+				</x:call>
+				<x:expect label="URIQualifiedName with namespace URI" select="string()"
+					>Q{my-uri}my-local-name</x:expect>
+			</x:scenario>
+
+			<x:scenario label="Without namespace URI">
+				<x:call>
+					<x:param as="element()">
+						<my-local-name />
+					</x:param>
+				</x:call>
+				<x:expect label="URIQualifiedName without namespace URI" select="string()"
+					>Q{}my-local-name</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Namespace">
+			<x:scenario label="Default namespace">
+				<x:call>
+					<x:param as="namespace-node()" select="$items:default-namespace" />
+				</x:call>
+				<x:expect label="Empty sequence" />
+			</x:scenario>
+
+			<x:scenario label="Not default namespace">
+				<x:call>
+					<x:param as="namespace-node()" select="$items:namespace" />
+				</x:call>
+				<x:expect label="URIQualifiedName without namespace URI" select="string()"
+					>Q{}namespace-name</x:expect>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Processing instruction">
+			<x:call>
+				<x:param as="processing-instruction()" select="$items:processing-instruction" />
+			</x:call>
+			<x:expect label="URIQualifiedName without namespace URI" select="string()"
+				>Q{}processing-instruction-name</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Text">
+			<x:call>
+				<x:param as="text()" select="$items:text" />
+			</x:call>
+			<x:expect label="Empty sequence" />
 		</x:scenario>
 	</x:scenario>
 
