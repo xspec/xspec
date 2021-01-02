@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Test /x:description[@stylesheet][not(@run-as = 'external')]/x:param[@static = 'yes'] -->
-<x:description stylesheet="../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="../../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
 	<x:param name="
