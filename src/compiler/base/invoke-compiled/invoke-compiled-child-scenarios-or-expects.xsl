@@ -54,7 +54,7 @@
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
          <xsl:with-param name="with-param-uqnames"
-            select="accumulator-before('stacked-variables-distinct-uqnames')" />
+            select="accumulator-before('stacked-vardecls-distinct-uqnames')" />
       </xsl:call-template>
    </xsl:template>
 
@@ -72,22 +72,23 @@
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
-            <xsl:sequence select="accumulator-before('stacked-variables-distinct-uqnames')" />
+            <xsl:sequence select="accumulator-before('stacked-vardecls-distinct-uqnames')" />
          </xsl:with-param>
       </xsl:call-template>
    </xsl:template>
 
    <!--
-      Declare local x:variable if they are not preceding-siblings of x:call or x:context.
+      Handle local variable declarations if they are not preceding-siblings of x:call or x:context
    -->
-   <xsl:template match="x:variable" as="node()*" mode="local:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="x:variable" as="node()*"
+      mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:choose>
          <xsl:when test="parent::x:description">
-            <!-- This global x:variable is declared in x:main template -->
+            <!-- This global variable declaration is handled in x:main template -->
          </xsl:when>
 
          <xsl:when test="following-sibling::x:call or following-sibling::x:context">
-            <!-- This local x:variable is declared in x:compile-scenario template -->
+            <!-- This local variable declaration is handled in x:compile-scenario template -->
          </xsl:when>
 
          <xsl:otherwise>

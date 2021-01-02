@@ -29,34 +29,34 @@
       select="x:document-actual-uri($initial-document)" />
 
    <!--
-      Accumulators for local x:variable
+      Accumulators for local variable declarations (x:variable)
    -->
 
-   <!-- Push and pop x:variable based on node identity -->
-   <xsl:accumulator name="local:stacked-variables" as="element(x:variable)*" initial-value="()">
+   <!-- Push and pop variable declaration elements based on node identity -->
+   <xsl:accumulator name="local:stacked-vardecls" as="element(x:variable)*" initial-value="()">
       <xsl:accumulator-rule match="x:scenario/x:variable"
          select="
-            (: Append this local variable :)
+            (: Append this local variable declaration element :)
             $value, self::x:variable" />
       <xsl:accumulator-rule match="x:scenario" phase="end"
          select="
-            (: Remove variables declared as children of this scenario :)
+            (: Remove child variable declaration elements of this scenario :)
             $value except child::x:variable" />
    </xsl:accumulator>
 
-   <!-- Push and pop distinct URIQualifiedName of x:variable -->
-   <xsl:accumulator name="stacked-variables-distinct-uqnames" as="xs:string*" initial-value="()">
+   <!-- Push and pop distinct URIQualifiedName of variable declarations (x:variable) -->
+   <xsl:accumulator name="stacked-vardecls-distinct-uqnames" as="xs:string*" initial-value="()">
       <!-- Use x:distinct-strings-stable() instead of fn:distinct-values(). The x:compile-scenario
          template for XQuery requires the order to be stable. -->
       <xsl:accumulator-rule match="x:scenario/x:variable"
          select="
             x:distinct-strings-stable(
-               accumulator-before('local:stacked-variables') ! x:variable-UQName(.)
+               accumulator-before('local:stacked-vardecls') ! x:variable-UQName(.)
             )" />
       <xsl:accumulator-rule match="x:scenario" phase="end"
          select="
             x:distinct-strings-stable(
-               accumulator-after('local:stacked-variables') ! x:variable-UQName(.)
+               accumulator-after('local:stacked-vardecls') ! x:variable-UQName(.)
             )" />
    </xsl:accumulator>
 
