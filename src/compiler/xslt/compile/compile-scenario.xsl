@@ -20,8 +20,8 @@
       <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
 
-      <xsl:variable name="local-preceding-variables" as="element(x:variable)*"
-         select="x:call/preceding-sibling::x:variable | x:context/preceding-sibling::x:variable" />
+      <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
+         select="(x:call | x:context)/preceding-sibling::x:variable" />
       <xsl:variable name="pending-p" as="xs:boolean"
          select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
       <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
@@ -92,7 +92,7 @@
             <xsl:attribute name="use" select="'absent'" />
          </xsl:element>
 
-         <xsl:for-each select="accumulator-before('stacked-variables-distinct-uqnames')">
+         <xsl:for-each select="accumulator-before('stacked-vardecls-distinct-uqnames')">
             <param name="{.}" required="yes" />
          </xsl:for-each>
 
@@ -125,9 +125,9 @@
 
             <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
 
-            <!-- Handle variables and apply/call/context in document order,
-               instead of apply/call/context first and variables second. -->
-            <xsl:for-each select="$local-preceding-variables | x:apply | x:call | x:context">
+            <!-- Handle local preceding variable declarations and apply/call/context in document
+               order, instead of apply/call/context first and variable declarations second. -->
+            <xsl:for-each select="$local-preceding-vardecls | x:apply | x:call | x:context">
                <xsl:choose>
                   <xsl:when test="self::x:apply or self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
@@ -147,9 +147,10 @@
                      </xsl:if>
                   </xsl:when>
 
-                  <xsl:when test="self::x:variable">
-                     <!-- Declare local preceding variables. The other local variables are declared
-                        in mode="local:invoke-compiled-scenarios-or-expects" in
+                  <xsl:when test=". intersect $local-preceding-vardecls">
+                     <!-- Handle local variable declarations that are preceding-siblings of x:call
+                        or x:context. The other local variable declarations are handled in
+                        mode="local:invoke-compiled-scenarios-or-expects" in
                         invoke-compiled-child-scenarios-or-expects.xsl. -->
                      <xsl:apply-templates select="." mode="x:declare-variable" />
                   </xsl:when>
