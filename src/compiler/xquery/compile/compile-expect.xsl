@@ -61,7 +61,7 @@
                <!-- $local:test-result
                   TODO: Evaluate @test in the context of $local:test-items, if
                     $local:test-items is a node -->
-               <xsl:text expand-text="yes">let $local:test-result as item()* (: evaluate the predicate :) := (&#x0A;</xsl:text>
+               <xsl:text>let $local:test-result as item()* (: evaluate the predicate :) := (&#x0A;</xsl:text>
                <xsl:text expand-text="yes">{x:disable-escaping(@test)}&#x0A;</xsl:text>
                <xsl:text>)&#x0A;</xsl:text>
 
