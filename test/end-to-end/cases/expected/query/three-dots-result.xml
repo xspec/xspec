@@ -8,7 +8,7 @@
       <label>For resultant element (simple)</label>
       <scenario id="scenario1-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;elem&gt;text&lt;/elem&gt;
+					&lt;elem&gt;text&lt;/elem&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -45,7 +45,7 @@
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;elem /&gt;
+					&lt;elem /&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -88,7 +88,7 @@
       </scenario>
       <scenario id="scenario1-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;elem&gt;...&lt;/elem&gt;
+					&lt;elem&gt;...&lt;/elem&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -139,7 +139,7 @@
       <label>For resultant element (with attribute)</label>
       <scenario id="scenario2-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;elem attrib="val" /&gt;
+					&lt;elem attrib="val" /&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -192,7 +192,7 @@
       <label>For resultant element (with mixed content)</label>
       <scenario id="scenario3-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
+					&lt;outer&gt;text&lt;inner1 /&gt;&lt;inner2 /&gt;&lt;/outer&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -244,7 +244,7 @@
       </scenario>
       <scenario id="scenario3-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
+					&lt;outer&gt;&lt;inner /&gt;&lt;/outer&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -294,7 +294,7 @@
       <label>For resultant attribute</label>
       <scenario id="scenario4-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
-					 @attrib="val"
+						 @attrib="val"
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -329,7 +329,7 @@
       </scenario>
       <scenario id="scenario4-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
-					 @attrib=""
+						 @attrib=""
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -358,7 +358,7 @@
       </scenario>
       <scenario id="scenario4-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
-					 @attrib="..."
+						 @attrib="..."
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -410,7 +410,7 @@
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     function="exactly-one">
-               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_usual"/>
+               <x:param as="text()">text</x:param>
             </x:call>
          </input-wrap>
          <result select="/text()">
@@ -433,7 +433,8 @@
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     function="exactly-one">
-               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_whitespace-only"/>
+               <x:param as="text()">	
+&#xD; </x:param>
             </x:call>
          </input-wrap>
          <result select="/text()">
@@ -488,7 +489,7 @@
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     function="exactly-one">
-               <x:param as="text()" select="$Q{x-urn:test:three-dots}text-node_three-dots"/>
+               <x:param as="text()">...</x:param>
             </x:call>
          </input-wrap>
          <result select="/text()">
@@ -516,7 +517,7 @@
       <label>For resultant comment</label>
       <scenario id="scenario6-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;!--comment--&gt;
+					&lt;!--comment--&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -545,7 +546,7 @@
       </scenario>
       <scenario id="scenario6-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;!----&gt;
+					&lt;!----&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -568,7 +569,7 @@
       </scenario>
       <scenario id="scenario6-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;!--...--&gt;
+					&lt;!--...--&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -608,7 +609,7 @@
       <label>For resultant processing instruction</label>
       <scenario id="scenario7-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;?pi data?&gt;
+					&lt;?pi data?&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -637,7 +638,7 @@
       </scenario>
       <scenario id="scenario7-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;?pi?&gt;
+					&lt;?pi?&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -660,7 +661,7 @@
       </scenario>
       <scenario id="scenario7-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
-				&lt;?pi ...?&gt;
+					&lt;?pi ...?&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -699,26 +700,26 @@
    <scenario id="scenario8" xspec="../../three-dots.xspec">
       <label>For resultant document node</label>
       <scenario id="scenario8-scenario1" xspec="../../three-dots.xspec">
-         <label>When result is
-				&lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;
+         <label>When result is document node containing
+														 &lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     function="exactly-one">
-               <x:param as="document-node()"
-                        select="$Q{x-urn:test:three-dots}document-node_multiple-nodes"/>
+               <x:param as="document-node()" select="/"><?pi?><!--comment-->
+                  <elem/>
+               </x:param>
             </x:call>
          </input-wrap>
          <result select="/self::document-node()">
             <content-wrap xmlns=""><?pi?><!--comment-->
-               <elem/>
+               <elem xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
             </content-wrap>
          </result>
          <test id="scenario8-scenario1-expect1" successful="false">
-            <label>expecting
-					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-					should be Failure</label>
+            <label>expecting document node containing ... should be Failure</label>
             <expect select="/self::document-node()">
                <content-wrap xmlns="">...</content-wrap>
             </expect>
@@ -731,9 +732,7 @@
          </test>
       </scenario>
       <scenario id="scenario8-scenario2" xspec="../../three-dots.xspec">
-         <label>When result is
-				&lt;xsl:document /&gt;
-				</label>
+         <label>When result is document node containing nothing</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -752,33 +751,26 @@
             </expect>
          </test>
          <test id="scenario8-scenario2-expect2" successful="false">
-            <label>expecting
-					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-					should be Failure</label>
+            <label>expecting document node containing ... should be Failure</label>
             <expect select="/self::document-node()">
                <content-wrap xmlns="">...</content-wrap>
             </expect>
          </test>
       </scenario>
       <scenario id="scenario8-scenario3" xspec="../../three-dots.xspec">
-         <label>When result is
-				&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-				</label>
+         <label>When result is document node containing ...</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     function="exactly-one">
-               <x:param as="document-node()"
-                        select="$Q{x-urn:test:three-dots}document-node_three-dots"/>
+               <x:param as="document-node()" select="/">...</x:param>
             </x:call>
          </input-wrap>
          <result select="/self::document-node()">
             <content-wrap xmlns="">...</content-wrap>
          </result>
          <test id="scenario8-scenario3-expect1" successful="true">
-            <label>expecting
-					&lt;xsl:document&gt;...&lt;/xsl:document&gt;
-					should be Success</label>
+            <label>expecting document node containing ... should be Success</label>
             <expect select="/self::document-node()">
                <content-wrap xmlns="">...</content-wrap>
             </expect>
@@ -790,9 +782,7 @@
             </expect>
          </test>
          <test id="scenario8-scenario3-expect3" successful="false">
-            <label>expecting
-					&lt;xsl:document&gt;text&lt;/xsl:document&gt;
-					should be Failure</label>
+            <label>expecting document node containing usual text node should be Failure</label>
             <expect select="/self::document-node()">
                <content-wrap xmlns="">text</content-wrap>
             </expect>
@@ -803,7 +793,7 @@
       <label>For resultant namespace node</label>
       <scenario id="scenario9-scenario1" xspec="../../three-dots.xspec">
          <label>When result is
-						  xmlns:prefix="namespace-uri"
+				xmlns:prefix="namespace-uri"
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -820,7 +810,7 @@
          </result>
          <test id="scenario9-scenario1-expect1" successful="true">
             <label>expecting
-					  xmlns:prefix="..."
+					xmlns:prefix="..."
 					should be Success</label>
             <expect select="/*/namespace::*">
                <content-wrap xmlns="">
@@ -837,7 +827,7 @@
       </scenario>
       <scenario id="scenario9-scenario2" xspec="../../three-dots.xspec">
          <label>When result is
-						  xmlns="namespace-uri"
+				xmlns="namespace-uri"
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -854,7 +844,7 @@
          </result>
          <test id="scenario9-scenario2-expect1" successful="true">
             <label>expecting
-					  xmlns="..."
+					xmlns="..."
 					should be Success</label>
             <expect select="/*/namespace::*">
                <content-wrap xmlns="">
@@ -871,7 +861,7 @@
       </scenario>
       <scenario id="scenario9-scenario3" xspec="../../three-dots.xspec">
          <label>When result is
-						  xmlns:prefix="..."
+				xmlns:prefix="..."
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -888,7 +878,7 @@
          </result>
          <test id="scenario9-scenario3-expect1" successful="true">
             <label>expecting
-					  xmlns:prefix="..."
+					xmlns:prefix="..."
 					should be Success</label>
             <expect select="/*/namespace::*">
                <content-wrap xmlns="">
@@ -904,7 +894,7 @@
          </test>
          <test id="scenario9-scenario3-expect3" successful="false">
             <label>expecting
-					  xmlns:prefix="namespace-uri"
+					xmlns:prefix="namespace-uri"
 					should be Failure</label>
             <expect select="/*/namespace::*">
                <content-wrap xmlns="">
@@ -918,7 +908,7 @@
       <label>For resultant sequence of multiple nodes</label>
       <scenario id="scenario10-scenario1" xspec="../../three-dots.xspec">
          <label>When result is sequence of
-				&lt;elem1 /&gt;&lt;elem2 /&gt;
+					&lt;elem1 /&gt;&lt;elem2 /&gt;
 				</label>
          <input-wrap xmlns="">
             <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -980,7 +970,7 @@
          <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="zero-or-one">
-            <x:param select="()"/>
+            <x:param as="empty-sequence()"/>
          </x:call>
       </input-wrap>
       <result select="()"/>
@@ -1063,18 +1053,30 @@
          </expect>
       </test>
       <test id="scenario13-expect2" successful="false">
-         <label>expecting ...x (three dots with extra character) should be Failure</label>
+         <label>expecting x... (three dots with extra leading character) should be Failure</label>
+         <expect select="/text()">
+            <content-wrap xmlns="">x...</content-wrap>
+         </expect>
+      </test>
+      <test id="scenario13-expect3" successful="false">
+         <label>expecting ...x (three dots with extra trailing character) should be Failure</label>
          <expect select="/text()">
             <content-wrap xmlns="">...x</content-wrap>
          </expect>
       </test>
-      <test id="scenario13-expect3" successful="false">
-         <label>expecting ... with surrounding whitespace should be Failure</label>
+      <test id="scenario13-expect4" successful="false">
+         <label>expecting ... with leading whitespace should be Failure</label>
          <expect select="/text()">
             <content-wrap xmlns=""> ...</content-wrap>
          </expect>
       </test>
-      <test id="scenario13-expect4" successful="false">
+      <test id="scenario13-expect5" successful="false">
+         <label>expecting ... with trailing whitespace should be Failure</label>
+         <expect select="/text()">
+            <content-wrap xmlns="">... </content-wrap>
+         </expect>
+      </test>
+      <test id="scenario13-expect6" successful="false">
          <label>expecting '...' (xs:string) should be Failure</label>
          <expect select="'...'"/>
       </test>
