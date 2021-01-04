@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:xquery:declare-variable:declare-variable:local"
+                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
@@ -21,6 +22,9 @@
 
       <xsl:param name="comment" as="xs:string?" />
 
+      <!-- XQuery-specific checks -->
+      <xsl:call-template name="local:check-xquery-vardecl" />
+
       <!-- URIQualifiedName of the variable being declared -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
@@ -40,22 +44,6 @@
          TODO: If true, declare an XQuery external variable. (But it isn't worth implementing.
          External variables are of no use in XSpec.) -->
       <!--<xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />-->
-
-      <!-- Reject x:param if it is analogous to /xsl:stylesheet/xsl:param -->
-      <xsl:if test="self::x:param[parent::x:description]">
-         <xsl:message terminate="yes">
-            <!-- x:combine() removes the name prefix from x:description. That's why URIQualifiedName
-               is used. -->
-            <xsl:text expand-text="yes">ERROR: {parent::element() => x:node-UQName()} has {name()} (named {@name}), which is not supported for XQuery.</xsl:text>
-         </xsl:message>
-      </xsl:if>
-
-      <!-- Reject @static=yes -->
-      <xsl:if test="x:yes-no-synonym(@static, false())">
-         <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is not supported for XQuery.</xsl:text>
-         </xsl:message>
-      </xsl:if>
 
       <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
@@ -189,6 +177,30 @@
          <xsl:text>;</xsl:text>
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
+   </xsl:template>
+
+   <!--
+      Local templates
+   -->
+
+   <xsl:template name="local:check-xquery-vardecl" as="empty-sequence()">
+      <xsl:context-item as="element()" use="required" />
+
+      <!-- Reject x:param if it is analogous to /xsl:stylesheet/xsl:param -->
+      <xsl:if test="self::x:param[parent::x:description]">
+         <xsl:message terminate="yes">
+            <!-- x:combine() removes the name prefix from x:description. That's why URIQualifiedName
+               is used. -->
+            <xsl:text expand-text="yes">ERROR: {parent::element() => x:node-UQName()} has {name()} (named {@name}), which is not supported for XQuery.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+
+      <!-- Reject @static=yes -->
+      <xsl:if test="x:yes-no-synonym(@static, false())">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is not supported for XQuery.</xsl:text>
+         </xsl:message>
+      </xsl:if>
    </xsl:template>
 
 </xsl:stylesheet>
