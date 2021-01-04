@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!--
 		The test target (../src/common/uqname-utils.xsl) is included implicitly by the XSpec
@@ -115,6 +116,41 @@
 			</x:call>
 			<x:expect label="Constructed" select="string()"
 				>Q{http://www.w3.org/1999/XSL/Transform}my-local-name</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function UQName-from-QName">
+		<x:call function="x:UQName-from-QName" />
+
+		<x:scenario label="With namespace URI">
+			<x:variable as="xs:anyURI" name="ridiculous-uri">'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+			<x:variable as="xs:string" name="local-name" select="'foo'" />
+			<x:variable as="xs:string" name="expected-uqname"
+				select="'Q{' || $ridiculous-uri || '}' || $local-name" />
+
+			<x:scenario label="With prefix">
+				<x:call>
+					<x:param select="QName($ridiculous-uri, 'prefix:' || $local-name)" />
+				</x:call>
+				<x:expect label="Constructed with namespace URI. No prefix."
+					select="$expected-uqname" />
+			</x:scenario>
+
+			<x:scenario label="Without prefix">
+				<x:call>
+					<x:param select="QName($ridiculous-uri, $local-name)" />
+				</x:call>
+				<x:expect label="Constructed with namespace URI. No prefix"
+					select="$expected-uqname" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Without namespace URI">
+			<x:call>
+				<x:param select="QName('', 'foo')" />
+			</x:call>
+			<x:expect as="xs:string" label="Constructed without namespace URI. No prefix"
+				>Q{}foo</x:expect>
 		</x:scenario>
 	</x:scenario>
 

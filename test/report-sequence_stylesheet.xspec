@@ -126,8 +126,8 @@
 
    </t:scenario>
 
-   <t:scenario label="rep:atom-type">
-      <t:call function="rep:atom-type" />
+   <t:scenario label="rep:atom-type-UQName">
+      <t:call function="rep:atom-type-UQName" />
 
       <!-- BaseX 9.4.5 does not support xs:dateTimeStamp -->
       <t:scenario label="Derived from xs:dateTime">

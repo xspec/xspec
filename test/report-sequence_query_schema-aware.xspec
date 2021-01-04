@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xquery-to-support-schema?>
+<x:description query="x-urn:test:notation" query-at="notation.xqm"
+   xmlns:notation="x-urn:test:notation" xmlns:rep="urn:x-xspec:common:report-sequence"
+   xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+   <!--
+      The test target (../src/common/report-sequence.xqm) is included implicitly by the XSpec
+      compiler. You don't need to specify it in /x:description/@query-at.
+   -->
+
+   <x:scenario label="rep:report-atomic-value">
+      <x:call function="rep:report-atomic-value" />
+
+      <x:scenario label="Derived from xs:NOTATION">
+         <x:call>
+            <x:param select="notation:pictype('notation:jpeg')" />
+         </x:call>
+         <x:expect label="Constructor (base abstract xs:NOTATION)" select="string()"
+            >Q{http://www.w3.org/2001/XMLSchema}NOTATION('notation:jpeg')</x:expect>
+      </x:scenario>
+
+   </x:scenario>
+
+   <x:scenario label="rep:atom-type-UQName">
+      <x:call function="rep:atom-type-UQName" />
+
+      <x:scenario label="Derived from xs:NOTATION">
+         <x:call>
+            <x:param select="notation:pictype('notation:jpeg')" />
+         </x:call>
+         <x:expect label="Base abstract xs:NOTATION" select="string()"
+            >Q{http://www.w3.org/2001/XMLSchema}NOTATION</x:expect>
+      </x:scenario>
+
+   </x:scenario>
+
+</x:description>
