@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for x-urn:test:three-dots (passed: 44 / pending: 0 / failed: 28 / total: 72)</title>
+      <title>Test Report for x-urn:test:three-dots (passed: 44 / pending: 0 / failed: 30 / total: 74)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -24,8 +24,8 @@
                <th></th>
                <th class="totals">passed: 44</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 28</th>
-               <th class="totals">total: 72</th>
+               <th class="totals">failed: 30</th>
+               <th class="totals">total: 74</th>
             </tr>
          </thead>
          <tbody>
@@ -117,8 +117,8 @@
                <th><a href="#top_scenario13">For any resultant item</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
-               <th class="totals">4</th>
-               <th class="totals">4</th>
+               <th class="totals">6</th>
+               <th class="totals">6</th>
             </tr>
          </tbody>
       </table>
@@ -818,11 +818,11 @@
                   <th>passed: 4 / pending: 0 / failed: 3 / total: 7</th>
                </tr>
                <tr class="failed">
-                  <th><a href="#scenario8-scenario1">When result is &lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;&lt;/xsl:document&gt;</a></th>
+                  <th><a href="#scenario8-scenario1">When result is document node containing &lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem /&gt;</a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario8-scenario1-expect1">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</a></td>
+                  <td><a href="#scenario8-scenario1-expect1">expecting document node containing ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="successful">
@@ -830,7 +830,7 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#scenario8-scenario2">When result is &lt;xsl:document /&gt;</a></th>
+                  <th><a href="#scenario8-scenario2">When result is document node containing nothing</a></th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
@@ -838,15 +838,15 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario8-scenario2-expect2">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</a></td>
+                  <td><a href="#scenario8-scenario2-expect2">expecting document node containing ... should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <th><a href="#scenario8-scenario3">When result is &lt;xsl:document&gt;...&lt;/xsl:document&gt;</a></th>
+                  <th><a href="#scenario8-scenario3">When result is document node containing ...</a></th>
                   <th>passed: 2 / pending: 0 / failed: 1 / total: 3</th>
                </tr>
                <tr class="successful">
-                  <td>expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Success</td>
+                  <td>expecting document node containing ... should be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="successful">
@@ -854,16 +854,16 @@
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario8-scenario3-expect3">expecting &lt;xsl:document&gt;text&lt;/xsl:document&gt; should be Failure</a></td>
+                  <td><a href="#scenario8-scenario3-expect3">expecting document node containing usual text node should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
          <div id="scenario8-scenario1">
-            <h3>For resultant document node When result is &lt;xsl:document&gt;&lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem
-               /&gt;&lt;/xsl:document&gt;</h3>
+            <h3>For resultant document node When result is document node containing &lt;?pi?&gt;&lt;!--comment--&gt;&lt;elem
+               /&gt;</h3>
             <div id="scenario8-scenario1-expect1" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</h4>
+               <h4 class="xTestReportTitle">expecting document node containing ... should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -877,7 +877,8 @@
                         <td>
                            <p>XPath <code class="same">/self::document-node()</code> from:</p>
                            <pre>&lt;?<span class="same">pi</span> <span class="same"></span>?&gt;<span class="diff">&lt;!--comment--&gt;</span>
-&lt;<span class="diff">elem</span> /&gt;</pre>
+&lt;<span class="diff">elem</span> <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span>
+      <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span> /&gt;</pre>
                         </td>
                         <td>
                            <p>XPath <code class="same">/self::document-node()</code> from:</p>
@@ -889,9 +890,9 @@
             </div>
          </div>
          <div id="scenario8-scenario2">
-            <h3>For resultant document node When result is &lt;xsl:document /&gt;</h3>
+            <h3>For resultant document node When result is document node containing nothing</h3>
             <div id="scenario8-scenario2-expect2" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting &lt;xsl:document&gt;...&lt;/xsl:document&gt; should be Failure</h4>
+               <h4 class="xTestReportTitle">expecting document node containing ... should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -916,9 +917,9 @@
             </div>
          </div>
          <div id="scenario8-scenario3">
-            <h3>For resultant document node When result is &lt;xsl:document&gt;...&lt;/xsl:document&gt;</h3>
+            <h3>For resultant document node When result is document node containing ...</h3>
             <div id="scenario8-scenario3-expect3" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting &lt;xsl:document&gt;text&lt;/xsl:document&gt; should be Failure</h4>
+               <h4 class="xTestReportTitle">expecting document node containing usual text node should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -1340,7 +1341,7 @@
          </div>
       </div>
       <div id="top_scenario13">
-         <h2 class="failed">For any resultant item<span class="scenario-totals">passed: 0 / pending: 0 / failed: 4 / total: 4</span></h2>
+         <h2 class="failed">For any resultant item<span class="scenario-totals">passed: 0 / pending: 0 / failed: 6 / total: 6</span></h2>
          <table class="xspec" id="table_scenario13">
             <colgroup>
                <col style="width:75%" />
@@ -1349,22 +1350,30 @@
             <tbody>
                <tr class="failed">
                   <th>For any resultant item</th>
-                  <th>passed: 0 / pending: 0 / failed: 4 / total: 4</th>
+                  <th>passed: 0 / pending: 0 / failed: 6 / total: 6</th>
                </tr>
                <tr class="failed">
                   <td><a href="#scenario13-expect1">expecting .... (four dots) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario13-expect2">expecting ...x (three dots with extra character) should be Failure</a></td>
+                  <td><a href="#scenario13-expect2">expecting x... (three dots with extra leading character) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario13-expect3">expecting ... with surrounding whitespace should be Failure</a></td>
+                  <td><a href="#scenario13-expect3">expecting ...x (three dots with extra trailing character) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario13-expect4">expecting '...' (xs:string) should be Failure</a></td>
+                  <td><a href="#scenario13-expect4">expecting ... with leading whitespace should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario13-expect5">expecting ... with trailing whitespace should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario13-expect6">expecting '...' (xs:string) should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
@@ -1396,7 +1405,31 @@
                </table>
             </div>
             <div id="scenario13-expect2" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting ...x (three dots with extra character) should be Failure</h4>
+               <h4 class="xTestReportTitle">expecting x... (three dots with extra leading character) should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/text()</code> from:</p>
+                           <pre><span class="diff">item</span></pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/text()</code> from:</p>
+                           <pre><span class="diff">x...</span></pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="scenario13-expect3" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting ...x (three dots with extra trailing character) should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -1419,8 +1452,8 @@
                   </tbody>
                </table>
             </div>
-            <div id="scenario13-expect3" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting ... with surrounding whitespace should be Failure</h4>
+            <div id="scenario13-expect4" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting ... with leading whitespace should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -1443,7 +1476,31 @@
                   </tbody>
                </table>
             </div>
-            <div id="scenario13-expect4" class="xTestReport">
+            <div id="scenario13-expect5" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting ... with trailing whitespace should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/text()</code> from:</p>
+                           <pre><span class="diff">item</span></pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/text()</code> from:</p>
+                           <pre><span class="diff">... </span></pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="scenario13-expect6" class="xTestReport">
                <h4 class="xTestReportTitle">expecting '...' (xs:string) should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
