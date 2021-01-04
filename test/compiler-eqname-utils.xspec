@@ -10,6 +10,7 @@
 			<x:scenario label="With URI">
 				<x:variable as="xs:anyURI" name="ridiculous-uri"
 					>'">&lt;#,|%7D&#x20;%7B][$^</x:variable>
+				<x:variable as="xs:string" name="local-name" select="'foo'" />
 				<x:call function="x:resolve-EQName-ignoring-default-ns">
 					<x:param select="x:UQName($ridiculous-uri, 'foo')" />
 					<x:param>
@@ -81,8 +82,9 @@
 						<e />
 					</x:param>
 				</x:call>
-				<x:expect label="Converted with apostrophe escaped" select="string()"
-					>QName('''">&lt;#,|%7D&#x20;%7B][$^',&#x20;'foo')</x:expect>
+				<x:expect as="xs:string" label="Converted with apostrophe escaped">
+					<x:text xml:space="preserve">QName('''">&lt;#,|%7D&#x20;%7B][$^', 'foo')</x:text>
+				</x:expect>
 			</x:scenario>
 
 			<x:scenario label="Without URI">
@@ -92,8 +94,10 @@
 						<e xmlns="default-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Converted without being affected by the default namespace"
-					select="string()">QName('',&#x20;'foo')</x:expect>
+				<x:expect as="xs:string"
+					label="Converted without being affected by the default namespace">
+					<x:text xml:space="preserve">QName('', 'foo')</x:text>
+				</x:expect>
 			</x:scenario>
 		</x:scenario>
 
@@ -105,8 +109,9 @@
 						<e xmlns:prefix="prefixed-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Converted" select="string()"
-					>QName('prefixed-ns',&#x20;'prefix:foo')</x:expect>
+				<x:expect as="xs:string" label="Converted">
+					<x:text xml:space="preserve">QName('prefixed-ns', 'prefix:foo')</x:text>
+				</x:expect>
 			</x:scenario>
 
 			<x:scenario label="Without prefix">
@@ -117,8 +122,9 @@
 							<e xmlns="default-ns" />
 						</x:param>
 					</x:call>
-					<x:expect label="Converted without using the default namespace"
-						select="string()">QName('',&#x20;'foo')</x:expect>
+					<x:expect as="xs:string" label="Converted without using the default namespace">
+						<x:text xml:space="preserve">QName('', 'foo')</x:text>
+					</x:expect>
 				</x:scenario>
 
 				<x:scenario label="Without default namespace">
@@ -128,7 +134,9 @@
 							<e xmlns="" />
 						</x:param>
 					</x:call>
-					<x:expect label="Converted" select="string()">QName('',&#x20;'foo')</x:expect>
+					<x:expect as="xs:string" label="Converted">
+						<x:text xml:space="preserve">QName('', 'foo')</x:text>
+					</x:expect>
 				</x:scenario>
 			</x:scenario>
 		</x:scenario>
@@ -169,8 +177,7 @@
 						<e xmlns:prefix="prefixed-ns" />
 					</x:param>
 				</x:call>
-				<x:expect label="Resolved with prefix" select="string()"
-					>Q{prefixed-ns}foo</x:expect>
+				<x:expect as="xs:string" label="Resolved with prefix">Q{prefixed-ns}foo</x:expect>
 			</x:scenario>
 
 			<x:scenario label="Without prefix">
@@ -181,7 +188,7 @@
 							<e xmlns="default-ns" />
 						</x:param>
 					</x:call>
-					<x:expect label="Resolved without using the default namespace" select="string()"
+					<x:expect as="xs:string" label="Resolved without using the default namespace"
 						>Q{}foo</x:expect>
 				</x:scenario>
 
@@ -192,7 +199,7 @@
 							<e xmlns="" />
 						</x:param>
 					</x:call>
-					<x:expect label="Resolved as no prefix" select="string()">Q{}foo</x:expect>
+					<x:expect as="xs:string" label="Resolved as no prefix">Q{}foo</x:expect>
 				</x:scenario>
 			</x:scenario>
 		</x:scenario>
@@ -200,14 +207,12 @@
 
 	<x:scenario label="Scenario for testing variable capture-NCName">
 		<x:context />
-		<x:expect label="Captured" select="'bar'"
-			test="
+		<x:expect label="Captured" select="'bar'" test="
 				replace(
 					'foo:bar[baz]',
 					'^.+:' || $local:capture-NCName || '.*$',
 					'$1'
-				)"
-		 />
+				)" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function resolve-UQName">
