@@ -149,7 +149,7 @@
 	<!--
 		The following scenarios do not work on XQuery, because
 		- AVT is escaped on XQuery.
-		- TVT is not supported on XQuery.
+		- TVT is implemented using AVT on XQuery.
 	-->
 
 	<x:scenario label="function-param">
