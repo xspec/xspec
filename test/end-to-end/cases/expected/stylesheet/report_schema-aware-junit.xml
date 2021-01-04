@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="report_schema-aware.xspec">
+   <testsuite name="Derived types" tests="1" failures="1">
+      <testcase name="Derived from xs:NOTATION [Result] must be &#34;Q{x-urn:test:notation}pictype('notation:jpeg')&#34; (XSLT) or&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#34;Q{http://www.w3.org/2001/XMLSchema}NOTATION('notation:jpeg')&#34;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;(XQuery)"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+   </testsuite>
+</testsuites>
