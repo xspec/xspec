@@ -2370,6 +2370,24 @@
 	</case>
 
 	<!--
+		x:variable must not override x:param
+	-->
+
+	<case name="x:variable must not override x:param (global variable overriding description param)">
+    call :run ..\bin\xspec.bat variable-overriding-param\global-variable.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR: x:variable (named Q{http://example.org/ns/my}foo) must not override x:param (named my:foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:variable must not override x:param (local variable overriding description param)">
+    call :run ..\bin\xspec.bat variable-overriding-param\local-variable\description-param.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR: x:variable (named my:foo) must not override x:param (named Q{http://example.org/ns/my}foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
 		Duplicate @position
 	-->
 
