@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:my="http://example.org/ns/my" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!--
+		- x:scenario/x:variable overriding /x:description/x:param
+		- Lexical QName overriding URIQualifiedName
+	-->
+	<x:param name="Q{http://example.org/ns/my}foo" />
+	<x:scenario label="x:scenario/x:variable">
+		<x:variable name="my:foo" />
+	</x:scenario>
+</x:description>

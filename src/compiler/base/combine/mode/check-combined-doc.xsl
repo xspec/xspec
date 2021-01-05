@@ -22,6 +22,7 @@
 
    <xsl:template match="x:variable" as="empty-sequence()" mode="x:check-combined-doc">
       <xsl:call-template name="local:detect-reserved-vardecl-name" />
+      <xsl:call-template name="local:detect-variable-overriding-param" />
    </xsl:template>
 
    <!--
@@ -79,6 +80,30 @@
       <xsl:if test="not($is-external) and x:yes-no-synonym(@static, false())">
          <xsl:message terminate="yes">
             <xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
+         </xsl:message>
+      </xsl:if>
+   </xsl:template>
+
+   <!-- Reject x:variable if it overrides any x:description/x:param. -->
+   <xsl:template name="local:detect-variable-overriding-param" as="empty-sequence()">
+      <xsl:context-item as="element(x:variable)" use="required" />
+
+      <!-- URIQualifiedName of the current x:variable -->
+      <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
+
+      <!-- Cumulative x:param -->
+      <xsl:variable name="cumulative-params" as="element(x:param)*" select="
+            (: Global x:param :)
+            /x:description/x:param" />
+
+      <!-- One of the x:param elements that are overridden by this x:variable -->
+      <xsl:variable name="overridden-param" as="element(x:param)?"
+         select="$cumulative-params[x:variable-UQName(.) eq $uqname][1]" />
+
+      <!-- Terminate if any -->
+      <xsl:if test="$overridden-param">
+         <xsl:message terminate="yes">
+            <xsl:text expand-text="yes">ERROR: {name()} (named {@name}) must not override {name($overridden-param)} (named {$overridden-param/@name})</xsl:text>
          </xsl:message>
       </xsl:if>
    </xsl:template>
