@@ -28,7 +28,7 @@
 
 	<x:param href="test.xml" name="global-param" xml:base="node-selection/" />
 	<x:scenario label="In global-param (i.e. /x:description/x:param),">
-		<x:call function="false" />
+		<x:context />
 		<x:expect label="@href is resolved with @xml:base"
 			test="$global-param instance of document-node(element(testing-xml-base))" />
 	</x:scenario>

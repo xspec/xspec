@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+	user-content-utils.xspec uses this file for testing x:is-user-content().
+	When modifying this file, check whether user-content-utils.xspec needs any additions or updates.
+-->
+<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
 <x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
 	xmlns:myfn="http://www.w3.org/2005/xpath-functions"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-
-	<!--
-		user-content-utils.xspec uses this file for testing x:is-user-content().
-		When modifying this file, check whether user-content-utils.xspec needs any additions or
-		updates.
-	-->
-
-	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
 
 	<x:scenario label="In context template-param, only user-content attribute is AVT. So...">
 		<x:scenario label="In //x:context/x:param/node(),">

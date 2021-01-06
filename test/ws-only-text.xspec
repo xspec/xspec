@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description preserve-space="pre" query="x-urn:test:ws-only-text" query-at="ws-only-text.xqm"
-	stylesheet="ws-only-text.xsl" xmlns:myv="http://example.org/ns/my/variable"
-	xmlns:ws-only-text="x-urn:test:ws-only-text" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<!--
+	xspec-sch.xspec uses this file for testing ../src/schemas/xspec.sch.
+	When modifying this file, check whether xspec-sch.xspec needs any additions or updates.
+-->
+<x:description preserve-space="pre" query="x-urn:test:mirror" query-at="mirror.xqm"
+	stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:ws-only-text="x-urn:test:ws-only-text"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<!--
-		xspec-sch.xspec uses this file for testing ../src/schemas/xspec.sch.
-		When modifying this file, check whether xspec-sch.xspec needs any additions or updates.
-	-->
+	<x:helper stylesheet="ws-only-text.xsl" />
+	<x:helper query="x-urn:test:ws-only-text" query-at="ws-only-text.xqm" />
 
 	<x:scenario
 		label="In function-param, whitespace-only text nodes in user-content are removed by default.">
 		<x:scenario>
 			<x:label>So, in
 				//x:call[@function]/x:param/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param>
 					<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 				</x:param>
@@ -27,7 +30,7 @@
 				<x:label>@xml:space overrides the default. So, in
 					//x:call[@function]/x:param/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
 					= "preserve"],</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept."
@@ -37,7 +40,7 @@
 			<x:scenario>
 				<x:label>node-selection @href is always intact. So, in
 					//x:call[@function]/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param href="ws-only-text.xml" />
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept."
@@ -49,7 +52,7 @@
 					//x:call[@function]/x:param/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
 					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
 					resolve-QName($qname, /x:description))],</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param>
 						<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
 					</x:param>
@@ -61,7 +64,7 @@
 			<x:scenario>
 				<x:label>Text nodes created by x:text are intact. So, in
 					//x:call[@function]/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param>
 						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
 					</x:param>
@@ -85,7 +88,7 @@
 	</x:variable>
 	<x:scenario
 		label="In global variable, whitespace-only text nodes in user-content are removed by default.">
-		<x:call function="false" />
+		<x:call function="mirror:false" />
 
 		<x:scenario>
 			<x:label>So, in
@@ -133,7 +136,7 @@
 
 	<x:scenario
 		label="In scenario-level variable, whitespace-only text nodes in user-content are removed by default.">
-		<x:call function="false" />
+		<x:call function="mirror:false" />
 		<x:variable name="myv:local-var-span-element">
 			<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 		</x:variable>
@@ -194,7 +197,7 @@
 		<x:scenario>
 			<x:label>So, in //x:expect/element()[namespace-uri() ne
 				'http://www.jenitennison.com/xslt/xspec'][not(ancestor-or-self::element()/@xml:space)],</x:label>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param select="$ws-only-text:span-element-empty" />
 			</x:call>
 			<x:expect label="whitespace-only text nodes are removed.">
@@ -208,7 +211,7 @@
 					//x:expect/element()[namespace-uri() ne
 					'http://www.jenitennison.com/xslt/xspec'][ancestor-or-self::element()[@xml:space][1]/@xml:space
 					= "preserve"],</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$ws-only-text:span-element-wsot" />
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept." xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:expect>
@@ -217,7 +220,7 @@
 			<x:scenario>
 				<x:label>node-selection @href is always intact. So, in
 					//x:expect/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$ws-only-text:span-element-wsot" />
 				</x:call>
 				<x:expect href="ws-only-text.xml" label="whitespace-only text nodes are kept."
@@ -229,7 +232,7 @@
 					//x:expect/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.) =
 					(for $qname in tokenize(/x:description/@preserve-space, '\s+') return
 					resolve-QName($qname, /x:description))],</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$ws-only-text:pre-element-wsot" />
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept.">
@@ -240,7 +243,7 @@
 			<x:scenario>
 				<x:label>Text nodes created by x:text are intact. So, in
 					//x:expect/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param select="$ws-only-text:wsot" />
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept.">
@@ -254,7 +257,7 @@
 		<x:scenario>
 			<x:label>@xml:space="preserve" takes effect on descendant whitespace-only text node.
 				So...</x:label>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param>
 					<p xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;<span>&#x09;&#x0A;&#x0D;&#x20;</span></p>
 				</x:param>
@@ -269,7 +272,7 @@
 			<x:label>@xml:space="preserve" takes effect on whitespace-only text node even when the
 				text node appears immediately in user-content. (i.e. no parent element)
 				So...</x:label>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param xml:space="preserve">&#x09;&#x0A;&#x0D;&#x20;</x:param>
 			</x:call>
 			<x:expect label="Immediate whitespace-only text nodes are kept."
@@ -279,7 +282,7 @@
 		<x:scenario>
 			<x:label>For elements specified by @preserve-space, effect is only on child
 				whitespace-only text node. So...</x:label>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param>
 					<pre>&#x09;&#x0A;&#x0D;&#x20;<span>&#x09;&#x0A;&#x0D;&#x20;</span></pre>
 				</x:param>
@@ -293,7 +296,7 @@
 
 		<x:scenario>
 			<x:label>x:text can be used side by side with other nodes. So...</x:label>
-			<x:call function="exactly-one">
+			<x:call function="mirror:param-mirror">
 				<x:param>
 					<p>
 						<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
@@ -315,19 +318,18 @@
 			<x:label>its descendant scenarios inherit it.</x:label>
 			<x:scenario>
 				<x:label>So...</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
 				</x:call>
 				<x:expect label="whitespace-only text nodes are kept." test="deep-equal($x:result, $ws-only-text:span-element-wsot)" />
 			</x:scenario>
 		</x:scenario>
 
-		<x:scenario
-			xml:space="default">
+		<x:scenario xml:space="default">
 			<x:label>its descendant scenarios can override it.</x:label>
 			<x:scenario>
 				<x:label>So...</x:label>
-				<x:call function="exactly-one">
+				<x:call function="mirror:param-mirror">
 					<x:param>
 						<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 					</x:param>
