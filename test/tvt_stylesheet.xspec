@@ -93,4 +93,37 @@
 		</x:scenario>
 	</x:scenario>
 
+	<x:param name="global-param-user-content">
+		<global-param-child x:expand-text="yes">}}{myfn:false()}{{</global-param-child>
+		<global-param-child expand-text="yes">}}{false()}{{</global-param-child>
+	</x:param>
+	<x:param expand-text="yes" name="global-param-user-content-indirect"
+			>}}{myfn:false()}{{<global-param-child>}}{myfn:false()}{{</global-param-child></x:param>
+	<x:param expand-text="yes" href="tvt.xml" name="global-param-href" />
+
+	<x:scenario label="global-param">
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$global-param-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:param">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$global-param-user-content-indirect" />
+				</x:call>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="@href">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$global-param-href" />
+			</x:call>
+			<x:like label="href expect" />
+		</x:scenario>
+	</x:scenario>
+
 </x:description>

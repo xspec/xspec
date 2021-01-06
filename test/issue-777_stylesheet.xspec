@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="my-namespace" query-at="issue-777.xqm" stylesheet="issue-777.xsl"
-	xmlns:my="my-namespace" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="issue-777.xsl" xmlns:my="my-namespace"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<x:variable as="document-node(element(test))" href="issue-777.xml" name="my:test" />
+	<x:param as="document-node(element(test))" href="issue-777.xml" name="my:test" />
 
 	<x:scenario>
 		<x:label><![CDATA[
 			When
-			- x:variable in XSpec defines $my:test
-			- xsl:variable (or its XQuery equivalent) in SUT defines $my:test-doc and $my:test-doc-uri
+			- x:param in XSpec defines $my:test
+			- xsl:variable in SUT defines $my:test-doc and $my:test-doc-uri
 		]]></x:label>
 
 		<x:call function="false" />

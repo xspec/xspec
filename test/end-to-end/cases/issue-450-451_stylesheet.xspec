@@ -25,6 +25,13 @@
 		 />
 	</x:scenario>
 
+	<x:param name="global-param">}{<elem attr="}}{{">}{</elem></x:param>
+	<x:scenario label="global-param containing curly brackets">
+		<x:call function="mirror:false" />
+		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
+			test="$global-param" />
+	</x:scenario>
+
 	<x:scenario label="If value is from a variable instead of hard-coded,">
 		<x:variable name="myv:local-var">}{<elem attr="}}{{">}{</elem></x:variable>
 		<x:scenario label="context template-param containing curly brackets">

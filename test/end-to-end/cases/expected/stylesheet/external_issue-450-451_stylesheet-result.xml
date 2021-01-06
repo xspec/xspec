@@ -81,8 +81,38 @@
       </test>
    </scenario>
    <scenario id="scenario4" xspec="../../issue-450-451_stylesheet.xspec">
+      <label>global-param containing curly brackets</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:false"/>
+      </input-wrap>
+      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      <test id="scenario4-expect1" successful="true">
+         <label>should work</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$global-param"/>
+         </expect-test-wrap>
+         <result select="/node()">
+            <content-wrap xmlns="">}{<elem xmlns:mirror="x-urn:test:mirror"
+                     xmlns:myv="http://example.org/ns/my/variable"
+                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                     attr="}{">}{</elem>
+            </content-wrap>
+         </result>
+         <expect select="/node()">
+            <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+   <scenario id="scenario5" xspec="../../issue-450-451_stylesheet.xspec">
       <label>If value is from a variable instead of hard-coded,</label>
-      <scenario id="scenario4-scenario1" xspec="../../issue-450-451_stylesheet.xspec">
+      <scenario id="scenario5-scenario1" xspec="../../issue-450-451_stylesheet.xspec">
          <label>context template-param containing curly brackets</label>
          <input-wrap xmlns="">
             <x:context xmlns:mirror="x-urn:test:mirror"
@@ -100,7 +130,7 @@
                      attr="}{">}{</elem>
             </content-wrap>
          </result>
-         <test id="scenario4-scenario1-expect1" successful="true">
+         <test id="scenario5-scenario1-expect1" successful="true">
             <label>should work</label>
             <expect select="/node()">
                <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
@@ -108,7 +138,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario4-scenario2" xspec="../../issue-450-451_stylesheet.xspec">
+      <scenario id="scenario5-scenario2" xspec="../../issue-450-451_stylesheet.xspec">
          <label>context containing curly brackets</label>
          <input-wrap xmlns="">
             <x:context xmlns:mirror="x-urn:test:mirror"
@@ -124,7 +154,7 @@
                      attr="}{">}{</elem>
             </content-wrap>
          </result>
-         <test id="scenario4-scenario2-expect1" successful="true">
+         <test id="scenario5-scenario2-expect1" successful="true">
             <label>should work</label>
             <expect select="/node()">
                <content-wrap xmlns="">}{<elem attr="}{">}{</elem>
@@ -132,7 +162,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario4-scenario3" xspec="../../issue-450-451_stylesheet.xspec">
+      <scenario id="scenario5-scenario3" xspec="../../issue-450-451_stylesheet.xspec">
          <label>template-call template-param containing curly brackets</label>
          <input-wrap xmlns="">
             <x:call xmlns:mirror="x-urn:test:mirror"
@@ -149,7 +179,7 @@
                      attr="}{">}{</elem>
             </content-wrap>
          </result>
-         <test id="scenario4-scenario3-expect1" successful="true">
+         <test id="scenario5-scenario3-expect1" successful="true">
             <label>should work</label>
             <expect select="/node()">
                <content-wrap xmlns="">}{<elem attr="}{">}{</elem>

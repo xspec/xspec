@@ -57,16 +57,18 @@
 				<x:call>
 					<x:param select="QName($ridiculous-uri, 'prefix:foo')" />
 				</x:call>
-				<x:expect label="Converted with apostrophe escaped" select="string()"
-					>QName('''">&lt;#,|%7D&#x20;%7B][$^',&#x20;'prefix:foo')</x:expect>
+				<x:expect label="Converted with apostrophe escaped" select="string()">
+					<x:text xml:space="preserve">QName('''">&lt;#,|%7D&#x20;%7B][$^', 'prefix:foo')</x:text>
+				</x:expect>
 			</x:scenario>
 
 			<x:scenario label="Without prefix">
 				<x:call>
 					<x:param select="QName($ridiculous-uri, 'foo')" />
 				</x:call>
-				<x:expect label="Converted with apostrophe escaped" select="string()"
-					>QName('''">&lt;#,|%7D&#x20;%7B][$^',&#x20;'foo')</x:expect>
+				<x:expect label="Converted with apostrophe escaped" select="string()">
+					<x:text xml:space="preserve">QName('''">&lt;#,|%7D&#x20;%7B][$^', 'foo')</x:text>
+				</x:expect>
 			</x:scenario>
 		</x:scenario>
 
@@ -74,7 +76,9 @@
 			<x:call>
 				<x:param select="QName('', 'foo')" />
 			</x:call>
-			<x:expect label="Converted" select="string()">QName('',&#x20;'foo')</x:expect>
+			<x:expect label="Converted" select="string()">
+				<x:text xml:space="preserve">QName('', 'foo')</x:text>
+			</x:expect>
 		</x:scenario>
 	</x:scenario>
 

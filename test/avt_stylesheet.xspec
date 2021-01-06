@@ -11,7 +11,6 @@
 
 	<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
 
-
 	<x:scenario label="In context template-param, only user-content attribute is AVT. So...">
 		<x:scenario label="In //x:context/x:param/node(),">
 			<x:context mode="mirror:param-mirror">
@@ -81,6 +80,28 @@
 				test="$x:result/href-doc-child/@attr/string()" />
 			<x:expect label="text node is intact." select="'}}{false()}{{'"
 				test="$x:result/href-doc-child/text()/string()" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:param name="global-param-no-href">
+		<global-param-child attr="}}{myfn:false()}{{">}}{false()}{{</global-param-child>
+	</x:param>
+	<x:param href="avt.xml" name="global-param-with-href" />
+	<x:scenario label="In global-param, only user-content attribute is AVT. So...">
+		<x:scenario label="In /x:description/x:param/node(),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is AVT." select="'}false{'"
+				test="$global-param-no-href/self::global-param-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$global-param-no-href/self::global-param-child/text()/string()" />
+		</x:scenario>
+
+		<x:scenario label="In /x:description/x:param/doc(@href),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is intact." select="'}}{false()}{{'"
+				test="$global-param-with-href/href-doc-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$global-param-with-href/href-doc-child/text()/string()" />
 		</x:scenario>
 	</x:scenario>
 
