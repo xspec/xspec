@@ -52,53 +52,6 @@
 		 />
 	</scenario>
 
-	<param name="Q{http://example.org/ns/my/variable}global-param">
-		<global-param-child xmlns="" xmlns:global-param-child_prefix="global-param-child_ns">
-			<global-param-grandchild xmlns="global-param-grandchild_default-ns"
-				xmlns:global-param-grandchild_prefix="global-param-grandchild_ns">
-				<global-param-great-grandchild xmlns=""
-					xmlns:global-param-great-grandchild_prefix="global-param-great-grandchild_ns" />
-			</global-param-grandchild>
-		</global-param-child>
-	</param>
-	<scenario label="global-param">
-		<call function="Q{x-urn:test:mirror}false" />
-		<expect label="global-param-child"
-			select="
-				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
-				//Q{}global-param-child
-				=> in-scope-prefixes()
-				=> sort()"
-			test="
-				$Q{http://example.org/ns/my/variable}global-param
-				/self::Q{}global-param-child
-				=> in-scope-prefixes()
-				=> sort()" />
-		<expect label="global-param-grandchild"
-			select="
-				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
-				//Q{global-param-grandchild_default-ns}global-param-grandchild
-				=> in-scope-prefixes()
-				=> sort()"
-			test="
-				$Q{http://example.org/ns/my/variable}global-param
-				/Q{global-param-grandchild_default-ns}global-param-grandchild
-				=> in-scope-prefixes()
-				=> sort()" />
-		<expect label="global-param-great-grandchild"
-			select="
-				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
-				//Q{}global-param-great-grandchild
-				=> in-scope-prefixes()
-				=> sort()"
-			test="
-				$Q{http://example.org/ns/my/variable}global-param
-				//Q{}global-param-great-grandchild
-				=> in-scope-prefixes()
-				=> sort()"
-		 />
-	</scenario>
-
 	<variable name="Q{http://example.org/ns/my/variable}global-variable">
 		<global-variable-child xmlns=""
 			xmlns:global-variable-child_prefix="global-variable-child_ns">

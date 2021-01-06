@@ -13,6 +13,11 @@
               failures="0">
       <testcase name="should work" status="passed"/>
    </testsuite>
+   <testsuite name="global-param containing curly brackets"
+              tests="1"
+              failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
    <testsuite name="If value is from a variable instead of hard-coded,"
               tests="3"
               failures="0">

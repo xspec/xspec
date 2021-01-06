@@ -561,7 +561,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 15 / pending: 0 / failed: 0 / total: 15'
+    assert_regex "${lines[1]}" '.+:passed: 12 / pending: 0 / failed: 0 / total: 12'
 }
 
 #
@@ -580,7 +580,7 @@ load bats-helper
     run ../bin/xspec.sh "${special_chars_dir}/node-selection.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
-    [ "${lines[28]}" = "Report available at ${expected_report}" ]
+    [ "${lines[25]}" = "Report available at ${expected_report}" ]
     [ -f "${expected_report}" ]
 }
 
@@ -918,7 +918,7 @@ load bats-helper
         ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
     echo "$output"
     [ "$status" -eq 0 ]
-    assert_regex "${lines[${#lines[@]}-1]}" '.+:passed: 15 / pending: 0 / failed: 0 / total: 15'
+    assert_regex "${lines[${#lines[@]}-1]}" '.+:passed: 12 / pending: 0 / failed: 0 / total: 12'
 
     # Compiled file
     [ -f "${compiled_file}" ]
@@ -2724,20 +2724,24 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "Static param not allowed (XQuery)" {
-    run ../bin/xspec.sh -q param-disallowed/description-param/static-param/query.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: Enabling @static in x:param (named p) is not supported for XQuery." ]
-    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
-}
-
 @test "Static param not allowed (Schematron)" {
     run ../bin/xspec.sh -s param-disallowed/description-param/static-param/schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[2]}" = "ERROR: Enabling @static in x:param (named p) is not supported for Schematron." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error converting Schematron into XSLT" ]
+}
+
+#
+# Description param not allowed
+#
+
+@test "Description param not allowed (XQuery)" {
+    run ../bin/xspec.sh -q param-disallowed/description-param/query.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: Q{http://www.jenitennison.com/xslt/xspec}description has x:param (named p), which is not supported for XQuery." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
 #

@@ -72,66 +72,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:param name="global-param-span-element">
-		<span>&#x09;&#x0A;&#x0D;&#x20;</span>
-	</x:param>
-	<x:param name="global-param-span-element-preserve" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
-	<x:param href="ws-only-text.xml" name="global-param-href" />
-	<x:param name="global-param-pre-element">
-		<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
-	</x:param>
-	<x:param name="global-param-x-text">
-		<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
-	</x:param>
-	<x:scenario
-		label="In global-param, whitespace-only text nodes in user-content are removed by default.">
-		<x:scenario>
-			<x:label>So, in
-				/x:description/x:param/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
-			<x:call function="false" />
-			<x:expect label="whitespace-only text nodes are removed."
-				test="deep-equal($global-param-span-element, $ws-only-text:span-element-empty)" />
-		</x:scenario>
-
-		<x:scenario label="But...">
-			<x:scenario>
-				<x:label>@xml:space overrides the default. So, in
-					/x:description/x:param/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
-					= "preserve"],</x:label>
-				<x:call function="false" />
-				<x:expect label="whitespace-only text nodes are kept."
-					test="deep-equal($global-param-span-element-preserve, $ws-only-text:span-element-wsot)"
-				 />
-			</x:scenario>
-
-			<x:scenario>
-				<x:label>node-selection @href is always intact. So, in
-					/x:description/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
-				<x:call function="false" />
-				<x:expect label="whitespace-only text nodes are kept."
-					test="deep-equal($global-param-href/node(), $ws-only-text:span-element-wsot)" />
-			</x:scenario>
-
-			<x:scenario>
-				<x:label>Elements specified by @preserve-space are intact. So, in
-					/x:description/x:param/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
-					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
-					resolve-QName($qname, /x:description))],</x:label>
-				<x:call function="false" />
-				<x:expect label="whitespace-only text nodes are kept."
-					test="deep-equal($global-param-pre-element, $ws-only-text:pre-element-wsot)" />
-			</x:scenario>
-
-			<x:scenario>
-				<x:label>Text nodes created by x:text are intact. So, in
-					/x:description/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
-				<x:call function="false" />
-				<x:expect label="whitespace-only text nodes are kept."
-					test="deep-equal($global-param-x-text, $ws-only-text:wsot)" />
-			</x:scenario>
-		</x:scenario>
-	</x:scenario>
-
 	<x:variable name="myv:global-var-span-element">
 		<span>&#x09;&#x0A;&#x0D;&#x20;</span>
 	</x:variable>

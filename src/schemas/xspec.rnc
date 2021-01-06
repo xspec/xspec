@@ -223,6 +223,7 @@ global-param =
 	## Global parameters are set globally, for the entire unit test suite. There's
 	## no way to set global parameters within a particular scenario (due to
 	## constraints on implementation).
+	## Not supported for XQuery.
 	element param { common-attributes, name, static?, selection }
 
 static = 

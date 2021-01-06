@@ -24,12 +24,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:param as="xs:integer" name="global-param" select="0" />
-	<x:scenario label="In global-param (i.e. /x:description/x:param),">
-		<x:call function="mirror:false" />
-		<x:expect label="@as doesn't break the param" test="$global-param instance of xs:integer" />
-	</x:scenario>
-
 	<x:variable as="xs:integer" name="myv:global-var" select="0" />
 	<x:scenario label="In global variable (i.e. /x:description/x:variable),">
 		<x:call function="mirror:false" />

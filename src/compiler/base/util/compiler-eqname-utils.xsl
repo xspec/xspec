@@ -63,15 +63,10 @@
       <xsl:param as="xs:string" name="eqname" />
       <xsl:param as="element()" name="element" />
 
-      <xsl:variable as="xs:QName" name="qname"
-         select="x:resolve-EQName-ignoring-default-ns($eqname, $element)" />
-      <xsl:sequence
-         select="
-            x:UQName(
-               namespace-uri-from-QName($qname),
-               local-name-from-QName($qname)
-            )"
-       />
+      <xsl:sequence select="
+            $eqname
+            => x:resolve-EQName-ignoring-default-ns($element)
+            => x:UQName-from-QName()" />
    </xsl:function>
 
    <!--

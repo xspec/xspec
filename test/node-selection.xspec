@@ -24,20 +24,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:param name="global-param-no-href">
-		<global-param-child />
-	</x:param>
-	<x:param href="node-selection.xml" name="global-param-with-href">
-		<global-param-child-not-allowed />
-	</x:param>
-	<x:scenario label="In global-param, @href precedes child node. So...">
-		<x:call function="mirror:false" />
-		<x:expect label="In /x:description/x:param[node()][not(@href)], child node is used."
-			test="$global-param-no-href instance of element(global-param-child)" />
-		<x:expect label="In /x:description/x:param[node()][@href], @href is used."
-			test="$global-param-with-href instance of document-node(element(href-doc-child))" />
-	</x:scenario>
-
 	<x:variable as="element(global-variable-child)" name="myv:global-variable-no-href">
 		<global-variable-child />
 	</x:variable>

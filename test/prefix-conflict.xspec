@@ -14,16 +14,6 @@
 		<t:expect label="should work" select="'x:function-param-child'" test="name($t:result)" />
 	</t:scenario>
 
-	<t:param as="element(x:global-param-child)" name="x:global-param"
-		select="element(x:global-param-child)">
-		<x:global-param-child />
-	</t:param>
-	<t:scenario label="Using x: prefix in global-param @name, @select, @as, and child node">
-		<t:call function="x:false" />
-		<t:expect label="should work" select="'x:global-param-child'" test="name($x:global-param)"
-		 />
-	</t:scenario>
-
 	<!-- Naming an XSpec variable (global or local) using a namespace also used in the
 		system under test is not necessarily recommended, but it should still work. -->
 	<t:variable as="element(x:global-var-child)" name="x:global-var"

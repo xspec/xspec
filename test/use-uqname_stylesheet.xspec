@@ -9,7 +9,32 @@
 	<!-- Leading and trailing whitespace strings ('&#x09;&#x0A;&#x0D;&#x20;') are inserted to the
 		tested attributes deliberately. -->
 
+	<x:param
+		as="
+			&#x09;&#x0A;&#x0D;&#x20;
+			element(Q{x-urn:test:use-uqname}global-param-child)
+			&#x09;&#x0A;&#x0D;&#x20;"
+		name="
+			&#x09;&#x0A;&#x0D;&#x20;
+			Q{x-urn:test:use-uqname}global-param
+			&#x09;&#x0A;&#x0D;&#x20;"
+		select="
+			&#x09;&#x0A;&#x20;
+			element(Q{x-urn:test:use-uqname}global-param-child)
+			&#x09;&#x0A;&#x20;">
+		<use-uqname:global-param-child />
+	</x:param>
+
 	<x:scenario label="Using URIQualifiedName in">
+
+		<x:scenario label="global-param (@as | @name | @select)">
+			<x:call template="mirror:param-mirror">
+				<x:param name="param-items" select="$use-uqname:global-param" />
+			</x:call>
+			<x:expect label="should be possible">
+				<use-uqname:global-param-child />
+			</x:expect>
+		</x:scenario>
 
 		<x:scenario label="context @mode and context template-param (@as | @name | @select)">
 			<x:context

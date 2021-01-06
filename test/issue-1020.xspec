@@ -41,37 +41,6 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:param name="myv:global-param-only-select"
-		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
-	<x:param href="dummy.xml" name="myv:global-param-with-href"
-		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
-	<x:param name="myv:global-param-with-child-node"
-		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
-		<global-param-child />
-	</x:param>
-	<x:scenario label="global-param">
-		<x:scenario label="Only @select">
-			<x:call function="mirror:param-mirror">
-				<x:param select="$myv:global-param-only-select" />
-			</x:call>
-			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
-		</x:scenario>
-
-		<x:scenario label="With @href">
-			<x:call function="mirror:param-mirror">
-				<x:param select="$myv:global-param-with-href" />
-			</x:call>
-			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
-		</x:scenario>
-
-		<x:scenario label="With child::node()">
-			<x:call function="mirror:param-mirror">
-				<x:param select="$myv:global-param-with-child-node" />
-			</x:call>
-			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
-		</x:scenario>
-	</x:scenario>
-
 	<x:variable name="myv:global-variable-only-select"
 		select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
 	<x:variable href="dummy.xml" name="myv:global-variable-with-href"

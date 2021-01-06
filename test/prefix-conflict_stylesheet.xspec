@@ -46,4 +46,14 @@
 		</t:scenario>
 	</t:scenario>
 
+	<t:param as="element(x:global-param-child)" name="x:global-param"
+		select="element(x:global-param-child)">
+		<x:global-param-child />
+	</t:param>
+	<t:scenario label="Using x: prefix in global-param @name, @select, @as, and child node">
+		<t:call function="x:false" />
+		<t:expect label="should work" select="'x:global-param-child'" test="name($x:global-param)"
+		 />
+	</t:scenario>
+
 </t:description>

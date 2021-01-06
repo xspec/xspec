@@ -10,13 +10,6 @@
 		 />
 	</x:scenario>
 
-	<x:param name="global-param">}{<elem attr="}}{{">}{</elem></x:param>
-	<x:scenario label="global-param containing curly brackets">
-		<x:call function="mirror:false" />
-		<x:expect href="issue-450-451.xml" label="should work" select="wrap/node()" as="node()+"
-			test="$global-param" />
-	</x:scenario>
-
 	<x:variable name="myv:global-var">}{<elem attr="}}{{">}{</elem></x:variable>
 	<x:scenario label="global-var containing curly brackets">
 		<x:call function="mirror:false" />
