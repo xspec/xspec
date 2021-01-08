@@ -618,8 +618,8 @@
 
    </x:scenario>
 
-   <x:scenario label="rep:atom-type">
-      <x:call function="rep:atom-type" />
+   <x:scenario label="rep:atom-type-UQName">
+      <x:call function="rep:atom-type-UQName" />
 
       <x:scenario label="https://www.w3.org/TR/xmlschema11-2/type-hierarchy-201104.longdesc.html">
 

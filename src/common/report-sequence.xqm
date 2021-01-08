@@ -221,7 +221,7 @@ declare %private function rep:report-atomic-value-as-constructor(
 ) as xs:string
 {
   (: Constructor usually has the same name as type :)
-  let $constructor-name as xs:string := rep:atom-type($value)
+  let $constructor-name as xs:string := rep:atom-type-UQName($value)
 
   (: Cast as either xs:integer or xs:string :)
   let $casted-value as xs:anyAtomicType := (
@@ -241,12 +241,12 @@ declare %private function rep:report-atomic-value-as-constructor(
 };
 
 (:
-  Returns atomic value type
+  Returns URIQualifiedName of atomic value type
      https://www.w3.org/TR/xquery-31/#id-types
 
   This function should be %private. But ../../test/report-sequence.xspec requires this to be exposed.
 :)
-declare function rep:atom-type(
+declare function rep:atom-type-UQName(
   $value as xs:anyAtomicType
 ) as xs:string
 {
@@ -289,6 +289,10 @@ declare function rep:atom-type(
       case xs:NMTOKEN          return 'NMTOKEN'
       case xs:token            return 'token'
       case xs:normalizedString return 'normalizedString'
+
+      (: Derived from xs:NOTATION :)
+      (: Fall back on its base abstract type :)
+      case xs:NOTATION     return 'NOTATION'
 
       (: Primitive atomic types except for abstract xs:NOTATION :)
       case xs:anyURI       return 'anyURI'

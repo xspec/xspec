@@ -251,6 +251,10 @@
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:sequence)">
                               <sequence>
+                                 <!-- The function being called may use namespace prefixes for
+                                    parsing the parameter values -->
+                                 <xsl:sequence select="x:copy-of-namespaces($call)" />
+
                                  <xsl:attribute name="select" select="x:function-call-text($call)" />
                               </sequence>
                            </xsl:with-param>

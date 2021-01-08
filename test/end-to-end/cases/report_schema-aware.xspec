@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xquery-to-support-schema?>
+<?xspec-test require-xslt-to-support-schema?>
+<x:description query="x-urn:test:notation" query-at="../../notation.xqm"
+	stylesheet="../../notation.xsl" xmlns:notation="x-urn:test:notation"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Derived types">
+
+		<x:scenario label="Derived from xs:NOTATION">
+			<x:call function="notation:pictype">
+				<x:param select="'notation:jpeg'" />
+			</x:call>
+			<x:expect>
+				<x:label>[Result] must be "Q{x-urn:test:notation}pictype('notation:jpeg')" (XSLT) or
+					"Q{http://www.w3.org/2001/XMLSchema}NOTATION('notation:jpeg')"
+					(XQuery)</x:label>
+			</x:expect>
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>
