@@ -105,7 +105,7 @@
 		<global-param-child-not-allowed />
 	</x:param>
 	<x:scenario label="In global-param, @href precedes child node. So...">
-		<x:call function="mirror:false" />
+		<x:context />
 		<x:expect label="In /x:description/x:param[node()][not(@href)], child node is used."
 			test="$global-param-no-href instance of element(global-param-child)" />
 		<x:expect label="In /x:description/x:param[node()][@href], @href is used."

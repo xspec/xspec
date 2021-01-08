@@ -173,7 +173,7 @@
 		</global-param-child>
 	</param>
 	<scenario label="global-param">
-		<call function="Q{x-urn:test:mirror}false" />
+		<context />
 		<expect label="global-param-child"
 			select="
 				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)

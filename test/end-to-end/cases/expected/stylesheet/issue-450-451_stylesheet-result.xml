@@ -83,12 +83,11 @@
    <scenario id="scenario4" xspec="../../issue-450-451_stylesheet.xspec">
       <label>global-param containing curly brackets</label>
       <input-wrap xmlns="">
-         <x:call xmlns:mirror="x-urn:test:mirror"
-                 xmlns:myv="http://example.org/ns/my/variable"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 function="mirror:false"/>
+         <x:context xmlns:mirror="x-urn:test:mirror"
+                    xmlns:myv="http://example.org/ns/my/variable"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
       </input-wrap>
-      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>
+      <result select="()"/>
       <test id="scenario4-expect1" successful="true">
          <label>should work</label>
          <expect-test-wrap xmlns="">

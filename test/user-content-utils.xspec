@@ -361,19 +361,16 @@
 			<x:param href="user-content-utils/parse-preserve-space.xspec" select="x:description" />
 		</x:call>
 		<x:expect label="2 items" select="2" test="count($x:result)" />
-		<x:expect label="1st QName"
-			test="
+		<x:expect label="1st QName" test="
 				x:QName-exactly-equal(
 					$x:result[1],
 					QName($x:xspec-namespace, 'element-without-prefix')
 				)" />
-		<x:expect label="2nd QName"
-			test="
+		<x:expect label="2nd QName" test="
 				x:QName-exactly-equal(
 					$x:result[2],
 					QName('x-urn:test:preserve-space:prefix', 'prefix:element-with-prefix')
-				)"
-		 />
+				)" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function is-ws-only-text-node-significant">
