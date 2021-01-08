@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="x-urn:test:notation" xmlns:notation="x-urn:test:notation"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:notation name="jpeg" public="image/jpeg" system="viewer.exe" />
+
+	<xs:simpleType name="pictype">
+		<xs:restriction base="xs:NOTATION">
+			<xs:enumeration value="notation:jpeg" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

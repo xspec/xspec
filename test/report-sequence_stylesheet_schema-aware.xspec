@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test require-xslt-to-support-schema?>
+<x:description stylesheet="notation.xsl" xmlns:notation="x-urn:test:notation"
+   xmlns:rep="urn:x-xspec:common:report-sequence" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <!--
+      The test target (../src/common/report-sequence.xsl) is included implicitly by the XSpec
+      compiler. You don't need to specify it in /x:description/@stylesheet.
+   -->
+
+   <x:scenario label="rep:report-atomic-value">
+      <x:call function="rep:report-atomic-value" />
+
+      <x:scenario label="Derived from xs:NOTATION">
+         <x:call>
+            <x:param as="notation:pictype" select="notation:pictype('notation:jpeg')" />
+         </x:call>
+         <x:expect as="xs:string" label="Constructor (derived type)"
+            >Q{x-urn:test:notation}pictype('notation:jpeg')</x:expect>
+      </x:scenario>
+
+   </x:scenario>
+
+   <x:scenario label="rep:atom-type-UQName">
+      <x:call function="rep:atom-type-UQName" />
+
+      <x:scenario label="Derived from xs:NOTATION">
+         <x:call>
+            <x:param as="notation:pictype" select="notation:pictype('notation:jpeg')" />
+         </x:call>
+         <x:expect as="xs:string" label="Derived type">Q{x-urn:test:notation}pictype</x:expect>
+      </x:scenario>
+
+   </x:scenario>
+
+</x:description>
