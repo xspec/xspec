@@ -30,6 +30,7 @@ set "ANT_TEMP_ARCHIVE=%TEMP%\ant.tar.gz"
 "%CURL%" ^
     -fsSL ^
     --retry 5 ^
+    --retry-connrefused ^
     -o "%ANT_TEMP_ARCHIVE%" ^
     "http://archive.apache.org/dist/ant/binaries/apache-ant-%ANT_VERSION%-bin.tar.gz" ^
     || goto :EOF

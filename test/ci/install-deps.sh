@@ -27,7 +27,11 @@ if [ ! -d "${ANT_HOME}" ]; then
     mkdir -p "${ANT_HOME}"
 fi
 
-curl -fsSL --retry 5 "http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz" \
+curl \
+    -fsSL \
+    --retry 5 \
+    --retry-connrefused \
+    "http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz" \
     | tar -x -z -C "${ANT_HOME}/.." \
     || return
 
