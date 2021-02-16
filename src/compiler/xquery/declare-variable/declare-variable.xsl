@@ -17,7 +17,7 @@
    <xsl:mode name="x:declare-variable" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="element()" as="node()+" mode="x:declare-variable">
-      <!-- Reflects @pending or x:pending -->
+      <!-- Reflects @pending, x:pending or @focus -->
       <xsl:param name="pending" as="node()?" tunnel="yes" />
 
       <xsl:param name="comment" as="xs:string?" />
