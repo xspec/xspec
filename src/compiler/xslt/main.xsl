@@ -69,7 +69,8 @@
          </variable>
 
          <!-- Compile global params and global variables. -->
-         <xsl:apply-templates select="x:param | x:variable" mode="x:declare-variable" />
+         <xsl:variable name="global-vardecls" as="element()*" select="x:param | x:variable" />
+         <xsl:apply-templates select="$global-vardecls" mode="x:declare-variable" />
 
          <xsl:if test="$is-external">
             <!-- If no $x:saxon-config is provided by global x:variable, declare a dummy one so that
@@ -160,7 +161,10 @@
 
                   <!-- Generate invocations of the compiled top-level scenarios. -->
                   <xsl:text>&#10;            </xsl:text><xsl:comment> invoke each compiled top-level x:scenario </xsl:comment>
-                  <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
+                  <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
+                     <xsl:with-param name="tunnel_handled-vardecls" select="$global-vardecls"
+                        tunnel="yes" />
+                  </xsl:call-template>
                </xsl:element>
             </xsl:element>
          </xsl:element>

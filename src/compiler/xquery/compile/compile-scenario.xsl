@@ -140,6 +140,8 @@
          </xsl:if>
 
          <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
+            <xsl:with-param name="tunnel_handled-vardecls" select="$local-preceding-vardecls"
+               tunnel="yes" />
             <xsl:with-param name="tunnel_variable-name-of-actual-result-report"
                select="$variable-name-of-actual-result-report" tunnel="yes" />
          </xsl:call-template>

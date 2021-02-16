@@ -78,24 +78,19 @@
    </xsl:template>
 
    <!--
-      Handle local variable declarations if they are not preceding-siblings of x:call or x:context
+      Handle variable declarations if they are not handled while compiling x:description or
+      x:scenario
    -->
    <xsl:template match="x:variable" as="node()*"
       mode="local:invoke-compiled-scenarios-or-expects">
-      <xsl:choose>
-         <xsl:when test="parent::x:description">
-            <!-- This global variable declaration is handled in x:main template -->
-         </xsl:when>
+      <!-- x:param and/or x:variable that have been already handled while compiling
+         parent::x:description in x:main template or while compiling parent::x:scenario in
+         x:compile-scenario template. -->
+      <xsl:param name="tunnel_handled-vardecls" as="element()*" required="yes" tunnel="yes" />
 
-         <xsl:when test="following-sibling::x:call or following-sibling::x:context">
-            <!-- This local variable declaration is handled in x:compile-scenario template -->
-         </xsl:when>
-
-         <xsl:otherwise>
-            <!-- Declare now -->
-            <xsl:apply-templates select="." mode="x:declare-variable" />
-         </xsl:otherwise>
-      </xsl:choose>
+      <xsl:if test="not(. intersect $tunnel_handled-vardecls)">
+         <xsl:apply-templates select="." mode="x:declare-variable" />
+      </xsl:if>
    </xsl:template>
 
 </xsl:stylesheet>
