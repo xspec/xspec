@@ -16,7 +16,7 @@
       <!-- URIQualifiedNames of the variables that will be passed as the parameters to the compiled
          x:scenario or x:expect being invoked.
          Their order must be stable, because they are passed to a function. -->
-      <xsl:param name="with-param-uqnames" as="xs:string*" />
+      <xsl:param name="with-param-uqnames" as="xs:string*" required="yes" />
 
       <xsl:param name="tunnel_variable-name-of-actual-result-report" as="xs:string?" tunnel="yes" />
 
