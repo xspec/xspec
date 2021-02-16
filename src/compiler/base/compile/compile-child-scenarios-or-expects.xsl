@@ -175,6 +175,7 @@
          <xsl:with-param name="context" select="$new-context" tunnel="yes" />
          <xsl:with-param name="pending" select="$pending" tunnel="yes" />
          <xsl:with-param name="pending-p" select="$pending-p" />
+         <xsl:with-param name="run-sut-now" select="not($pending-p) and x:expect" />
       </xsl:call-template>
    </xsl:template>
 

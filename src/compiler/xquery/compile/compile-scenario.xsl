@@ -18,10 +18,10 @@
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
       <xsl:param name="pending-p" as="xs:boolean" />
+      <xsl:param name="run-sut-now" as="xs:boolean" />
 
       <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable" />
-      <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
 
       <xsl:if test="$context">
          <xsl:call-template name="x:diag-compiling-scenario">
