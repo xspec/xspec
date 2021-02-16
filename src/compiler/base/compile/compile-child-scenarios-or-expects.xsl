@@ -61,6 +61,8 @@
             @pending
           else
             $pending"/>
+      <xsl:variable name="pending-p" as="xs:boolean"
+         select="exists($pending) and empty(ancestor-or-self::x:scenario/@focus)" />
 
       <!-- The new apply. -->
       <xsl:variable name="new-apply" as="element(x:apply)?">
@@ -172,6 +174,7 @@
          <xsl:with-param name="call" select="$new-call" tunnel="yes" />
          <xsl:with-param name="context" select="$new-context" tunnel="yes" />
          <xsl:with-param name="pending" select="$pending" tunnel="yes" />
+         <xsl:with-param name="pending-p" select="$pending-p" />
       </xsl:call-template>
    </xsl:template>
 

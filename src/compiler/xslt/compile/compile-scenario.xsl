@@ -19,11 +19,10 @@
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
+      <xsl:param name="pending-p" as="xs:boolean" />
 
       <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
          select="(x:call | x:context)/preceding-sibling::x:variable" />
-      <xsl:variable name="pending-p" as="xs:boolean"
-         select="exists($pending) and empty(ancestor-or-self::x:scenario/@focus)" />
       <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
 
       <!-- We have to create these error messages at this stage because before now
