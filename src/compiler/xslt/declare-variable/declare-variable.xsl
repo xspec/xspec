@@ -27,10 +27,13 @@
       <!-- URIQualifiedName of the variable being declared -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
+      <xsl:variable name="pending" as="node()?"
+         select="($pending, ancestor::x:scenario/@pending)[1]" />
+
       <!-- True if the variable being declared is considered pending -->
       <xsl:variable name="is-pending-vardecl" as="xs:boolean"
          select="self::x:variable
-            and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::x:scenario/@focus))" />
+            and not(empty($pending) or exists(ancestor::x:scenario/@focus))" />
 
       <!-- Child nodes to be excluded -->
       <xsl:variable name="exclude" as="element()*"
