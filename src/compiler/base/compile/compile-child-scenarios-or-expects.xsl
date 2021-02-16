@@ -54,7 +54,7 @@
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
 
       <!-- The new $pending. -->
-      <xsl:variable name="new-pending" as="node()?" select="
+      <xsl:variable name="pending" as="node()?" select="
           if ( @focus ) then
             ()
           else if ( @pending ) then
@@ -171,7 +171,7 @@
          <xsl:with-param name="apply" select="$new-apply" tunnel="yes" />
          <xsl:with-param name="call" select="$new-call" tunnel="yes" />
          <xsl:with-param name="context" select="$new-context" tunnel="yes" />
-         <xsl:with-param name="pending" select="$new-pending" tunnel="yes" />
+         <xsl:with-param name="pending" select="$pending" tunnel="yes" />
       </xsl:call-template>
    </xsl:template>
 
