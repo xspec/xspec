@@ -29,11 +29,12 @@
 
       <xsl:variable name="pending" as="node()?"
          select="($pending, ancestor::x:scenario/@pending)[1]" />
+      <xsl:variable name="pending-p" as="xs:boolean"
+         select="exists($pending) and empty(ancestor::x:scenario/@focus)" />
 
       <!-- True if the variable being declared is considered pending -->
       <xsl:variable name="is-pending-vardecl" as="xs:boolean"
-         select="self::x:variable
-            and (exists($pending) and empty(ancestor::x:scenario/@focus))" />
+         select="self::x:variable and $pending-p" />
 
       <!-- Child nodes to be excluded -->
       <xsl:variable name="exclude" as="element()*"
