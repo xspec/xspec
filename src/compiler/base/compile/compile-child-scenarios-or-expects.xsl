@@ -192,7 +192,7 @@
          <xsl:with-param name="context" select="$context" tunnel="yes" />
          <xsl:with-param name="pending" select="$pending" tunnel="yes" />
          <xsl:with-param name="param-uqnames" as="xs:string*">
-            <xsl:if test="empty($pending) or exists(ancestor::x:scenario/@focus)">
+            <xsl:if test="not(exists($pending) and empty(ancestor::x:scenario/@focus))">
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>

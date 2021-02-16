@@ -77,7 +77,7 @@
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
-            <xsl:if test="empty($pending) or exists(ancestor::x:scenario/@focus)">
+            <xsl:if test="not(exists($pending) and empty(ancestor::x:scenario/@focus))">
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
