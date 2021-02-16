@@ -29,7 +29,7 @@
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
       <!-- True if the variable being declared is considered pending -->
-      <xsl:variable name="is-pending" as="xs:boolean"
+      <xsl:variable name="is-pending-vardecl" as="xs:boolean"
          select="self::x:variable
             and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::x:scenario/@focus))" />
 
@@ -48,7 +48,7 @@
       <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
       <xsl:variable name="temp-doc-uqname" as="xs:string?">
-         <xsl:if test="not($is-pending) and (node() or @href)">
+         <xsl:if test="not($is-pending-vardecl) and (node() or @href)">
             <xsl:sequence
                select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-doc')" />
          </xsl:if>
@@ -103,10 +103,10 @@
       <xsl:call-template name="x:declare-or-let-variable">
          <xsl:with-param name="is-global" select="$is-global" />
          <xsl:with-param name="name" select="$uqname" />
-         <xsl:with-param name="type" select="if ($is-pending) then () else (@as)" />
+         <xsl:with-param name="type" select="if ($is-pending-vardecl) then () else (@as)" />
          <xsl:with-param name="value" as="text()?">
             <xsl:choose>
-               <xsl:when test="$is-pending">
+               <xsl:when test="$is-pending-vardecl">
                   <!-- Do not give variable a value (or type, above) because the value specified
                     in test file might not be executable. -->
                </xsl:when>
