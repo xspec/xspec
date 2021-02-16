@@ -76,6 +76,7 @@
          <t:param name="call" as="empty-sequence()" tunnel="yes" />
          <t:param name="context" as="empty-sequence()" tunnel="yes" />
          <t:param name="pending" as="empty-sequence()" tunnel="yes" />
+         <t:param name="pending-p" select="false()" />
          <t:param name="param-uqnames" as="empty-sequence()" />
       </t:call>
       <t:expect label="is a template"

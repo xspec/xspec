@@ -17,13 +17,11 @@
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <!-- No $context for XQuery -->
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
+      <xsl:param name="pending-p" as="xs:boolean" />
 
       <!-- URIQualifiedNames of the parameters of the function being generated.
          Their order must be stable, because they are function parameters. -->
       <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
-
-      <xsl:variable name="pending-p" as="xs:boolean"
-         select="exists($pending) and empty(ancestor::x:scenario/@focus)" />
 
       <!--
         declare function local:...($t:result as item()*)

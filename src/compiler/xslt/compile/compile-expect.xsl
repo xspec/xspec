@@ -18,12 +18,10 @@
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
+      <xsl:param name="pending-p" as="xs:boolean" />
 
       <!-- URIQualifiedNames of the (required) parameters of the template being generated -->
       <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
-
-      <xsl:variable name="pending-p" as="xs:boolean"
-         select="exists($pending) and empty(ancestor::x:scenario/@focus)" />
 
       <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
