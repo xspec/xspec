@@ -23,7 +23,7 @@
       <xsl:param name="param-uqnames" as="xs:string*" required="yes" />
 
       <xsl:variable name="pending-p" as="xs:boolean"
-         select="exists($pending) and empty(ancestor::*/@focus)" />
+         select="exists($pending) and empty(ancestor::x:scenario/@focus)" />
 
       <!--
         declare function local:...($t:result as item()*)
