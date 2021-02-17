@@ -81,7 +81,7 @@
       Handle variable declarations if they are not handled while compiling x:description or
       x:scenario
    -->
-   <xsl:template match="x:variable" as="node()*"
+   <xsl:template match="x:param | x:variable" as="node()*"
       mode="local:invoke-compiled-scenarios-or-expects">
       <!-- x:param and/or x:variable that have been already handled while compiling
          parent::x:description in x:main template or while compiling parent::x:scenario in

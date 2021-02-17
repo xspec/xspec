@@ -93,8 +93,8 @@
          </xsl:with-param>
       </xsl:call-template>
 
-      <!-- Compile global params and global variables. -->
-      <xsl:variable name="global-vardecls" as="element()*" select="x:param | x:variable" />
+      <!-- Compile global variables. (Global params are not supported: xspec/xspec#1325) -->
+      <xsl:variable name="global-vardecls" as="element(x:variable)*" select="x:variable" />
       <xsl:apply-templates select="$global-vardecls" mode="x:declare-variable" />
 
       <!-- Compile the top-level scenarios. -->
