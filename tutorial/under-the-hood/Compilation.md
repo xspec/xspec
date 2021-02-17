@@ -752,22 +752,22 @@ and functions in XQuery).
 [compilation-variables-scope.xspec](compilation-variables-scope.xspec)
 
 ```xml
-<x:variable name="myv:global" select="trace('global-value')"/>
+<x:variable name="myv:var-1" select="trace('value-1')" />
 
-<x:scenario label="outer">
-   <x:variable name="myv:var-1" select="trace('var-1-value')"/>
+<x:scenario label="outer scenario">
+   <x:variable name="myv:var-2" select="trace('value-2')" />
 
-   <x:scenario label="inner">
-      <x:variable name="myv:var-2" select="trace('var-2-value')"/>
+   <x:scenario label="inner scenario">
+      <x:variable name="myv:var-3" select="trace('value-3')" />
       <x:call function="my:square">
-         <x:param select="0"/>
+         <x:param select="0" />
       </x:call>
 
-      <x:variable name="myv:var-3" select="trace('var-3-value')"/>
-      <x:expect label="expect one" .../>
+      <x:variable name="myv:var-4" select="trace('value-4')" />
+      <x:expect label="1st expect" .../>
 
-      <x:variable name="myv:var-4" select="trace('var-4-value')"/>
-      <x:expect label="expect two" .../>
+      <x:variable name="myv:var-5" select="trace('value-5')" />
+      <x:expect label="2nd expect" .../>
    </x:scenario>
 </x:scenario>
 ```
@@ -779,10 +779,10 @@ and functions in XQuery).
 <xsl:variable xmlns:my="http://example.org/ns/my"
               xmlns:myv="http://example.org/ns/my/variable"
               xmlns:x="http://www.jenitennison.com/xslt/xspec"
-              name="Q{http://example.org/ns/my/variable}global"
-              select="trace('global-value')"/>
+              name="Q{http://example.org/ns/my/variable}var-1"
+              select="trace('value-1')"/>
 
-<!-- generated from the scenario outer -->
+<!-- generated from the outer scenario -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    ...
@@ -790,60 +790,46 @@ and functions in XQuery).
    <xsl:variable xmlns:my="http://example.org/ns/my"
                  xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 name="Q{http://example.org/ns/my/variable}var-1"
-                 select="trace('var-1-value')" />
-   ...
+                 name="Q{http://example.org/ns/my/variable}var-2"
+                 select="trace('value-2')"/>
    <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1">
       <!-- pass the variable to inner context -->
-      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-1" select="$Q{http://example.org/ns/my/variable}var-1"/>
+      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-2"
+                      select="$Q{http://example.org/ns/my/variable}var-2"/>
    </xsl:call-template>
 </xsl:template>
 
-<!-- generated from the scenario inner -->
+<!-- generated from the inner scenario -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    ...
    <!-- the variable is passed as param -->
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-1" required="yes"/>
-   ...
-   <!-- the generated variable -->
-   <xsl:variable xmlns:my="http://example.org/ns/my"
-                 xmlns:myv="http://example.org/ns/my/variable"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
-                 name="Q{http://example.org/ns/my/variable}var-2"
-                 select="trace('var-2-value')"/>
-   ...
-   <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
-      <xsl:sequence select="Q{http://example.org/ns/my}square(...)"/>
-   </xsl:variable>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-2" required="yes"/>
    ...
    <!-- the generated variable -->
    <xsl:variable xmlns:my="http://example.org/ns/my"
                  xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{http://example.org/ns/my/variable}var-3"
-                 select="trace('var-3-value')"/>
-   <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1">
-      <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result"
-                      select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
-      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-1"
-                      select="$Q{http://example.org/ns/my/variable}var-1"/>
-      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-2"
-                      select="$Q{http://example.org/ns/my/variable}var-2"/>
-      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-3"
-                      select="$Q{http://example.org/ns/my/variable}var-3"/>
-   </xsl:call-template>
+                 select="trace('value-3')"/>
+   ...
+   <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
+      ...
+      <xsl:sequence xmlns:my="http://example.org/ns/my"
+                    xmlns:myv="http://example.org/ns/my/variable"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="Q{http://example.org/ns/my}square(...)"/>
+   </xsl:variable>
+   ...
    <!-- the generated variable -->
    <xsl:variable xmlns:my="http://example.org/ns/my"
                  xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{http://example.org/ns/my/variable}var-4"
-                 select="trace('var-4-value')"/>
-   <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect2">
+                 select="trace('value-4')"/>
+   <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1">
       <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result"
                       select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
-      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-1"
-                      select="$Q{http://example.org/ns/my/variable}var-1"/>
       <xsl:with-param name="Q{http://example.org/ns/my/variable}var-2"
                       select="$Q{http://example.org/ns/my/variable}var-2"/>
       <xsl:with-param name="Q{http://example.org/ns/my/variable}var-3"
@@ -851,30 +837,48 @@ and functions in XQuery).
       <xsl:with-param name="Q{http://example.org/ns/my/variable}var-4"
                       select="$Q{http://example.org/ns/my/variable}var-4"/>
    </xsl:call-template>
+   <!-- the generated variable -->
+   <xsl:variable xmlns:my="http://example.org/ns/my"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 name="Q{http://example.org/ns/my/variable}var-5"
+                 select="trace('value-5')"/>
+   <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect2">
+      <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result"
+                      select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
+      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-2"
+                      select="$Q{http://example.org/ns/my/variable}var-2"/>
+      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-3"
+                      select="$Q{http://example.org/ns/my/variable}var-3"/>
+      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-4"
+                      select="$Q{http://example.org/ns/my/variable}var-4"/>
+      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-5"
+                      select="$Q{http://example.org/ns/my/variable}var-5"/>
+   </xsl:call-template>
 </xsl:template>
 
-<!-- generated from the expect one -->
+<!-- generated from the 1st expect -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    ...
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <!-- the variables are passed as param -->
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-1" required="yes"/>
    <xsl:param name="Q{http://example.org/ns/my/variable}var-2" required="yes"/>
    <xsl:param name="Q{http://example.org/ns/my/variable}var-3" required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-4" required="yes"/>
    ... evaluate the expectations ...
 </xsl:template>
 
-<!-- generated from the expect two -->
+<!-- generated from the 2nd expect -->
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect2"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    ...
    <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
    <!-- the variables are passed as param -->
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-1" required="yes"/>
    <xsl:param name="Q{http://example.org/ns/my/variable}var-2" required="yes"/>
    <xsl:param name="Q{http://example.org/ns/my/variable}var-3" required="yes"/>
    <xsl:param name="Q{http://example.org/ns/my/variable}var-4" required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-5" required="yes"/>
    ... evaluate the expectations ...
 </xsl:template>
 ```
@@ -883,22 +887,22 @@ and functions in XQuery).
 
 ```xquery
 (: the generated global variable :)
-declare variable $Q{http://example.org/ns/my/variable}global := (
-trace('global-value')
+declare variable $Q{http://example.org/ns/my/variable}var-1 := (
+trace('value-1')
 );
 
-(: generated from the scenario outer :)
+(: generated from the outer scenario :)
 declare function local:scenario1(
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}scenario)
 {
 ...
 (: the generated variable :)
-let $Q{http://example.org/ns/my/variable}var-1 := (
-trace('var-1-value')
+let $Q{http://example.org/ns/my/variable}var-2 := (
+trace('value-2')
 )
 let $local:returned-from-scenario1-scenario1 := local:scenario1-scenario1(
 (: pass the variable to inner context :)
-$Q{http://example.org/ns/my/variable}var-1
+$Q{http://example.org/ns/my/variable}var-2
 )
 return (
 $local:returned-from-scenario1-scenario1
@@ -906,15 +910,15 @@ $local:returned-from-scenario1-scenario1
 ...
 };
 
-(: generated from the scenario inner :)
+(: generated from the inner scenario :)
 declare function local:scenario1-scenario1(
 (: the variable is passed as param :)
-$Q{http://example.org/ns/my/variable}var-1
+$Q{http://example.org/ns/my/variable}var-2
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}scenario)
 {
 (: the generated variable :)
-let $Q{http://example.org/ns/my/variable}var-2 := (
-trace('var-2-value')
+let $Q{http://example.org/ns/my/variable}var-3 := (
+trace('value-3')
 )
 return
 ...
@@ -923,25 +927,25 @@ Q{http://example.org/ns/my}square(...)
 )
 ...
 (: the generated variable :)
-let $Q{http://example.org/ns/my/variable}var-3 := (
-trace('var-3-value')
+let $Q{http://example.org/ns/my/variable}var-4 := (
+trace('value-4')
 )
 let $local:returned-from-scenario1-scenario1-expect1 := local:scenario1-scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result,
-$Q{http://example.org/ns/my/variable}var-1,
-$Q{http://example.org/ns/my/variable}var-2,
-$Q{http://example.org/ns/my/variable}var-3
-)
-(: the generated variable :)
-let $Q{http://example.org/ns/my/variable}var-4 := (
-trace('var-4-value')
-)
-let $local:returned-from-scenario1-scenario1-expect2 := local:scenario1-scenario1-expect2(
-$Q{http://www.jenitennison.com/xslt/xspec}result,
-$Q{http://example.org/ns/my/variable}var-1,
 $Q{http://example.org/ns/my/variable}var-2,
 $Q{http://example.org/ns/my/variable}var-3,
 $Q{http://example.org/ns/my/variable}var-4
+)
+(: the generated variable :)
+let $Q{http://example.org/ns/my/variable}var-5 := (
+trace('value-5')
+)
+let $local:returned-from-scenario1-scenario1-expect2 := local:scenario1-scenario1-expect2(
+$Q{http://www.jenitennison.com/xslt/xspec}result,
+$Q{http://example.org/ns/my/variable}var-2,
+$Q{http://example.org/ns/my/variable}var-3,
+$Q{http://example.org/ns/my/variable}var-4,
+$Q{http://example.org/ns/my/variable}var-5
 )
 return (
 ...
@@ -951,26 +955,26 @@ $local:returned-from-scenario1-scenario1-expect2
 ...
 };
 
-(: generated from the expect one :)
+(: generated from the 1st expect :)
 declare function local:scenario1-scenario1-expect1(
 $Q{http://www.jenitennison.com/xslt/xspec}result,
 (: the variables are passed as param :)
-$Q{http://example.org/ns/my/variable}var-1,
 $Q{http://example.org/ns/my/variable}var-2,
-$Q{http://example.org/ns/my/variable}var-3
+$Q{http://example.org/ns/my/variable}var-3,
+$Q{http://example.org/ns/my/variable}var-4
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}test)
 {
 ...evaluate the expectations ...
 };
 
-(: generated from the expect two :)
+(: generated from the 2nd expect :)
 declare function local:scenario1-scenario1-expect2(
 $Q{http://www.jenitennison.com/xslt/xspec}result,
 (: the variables are passed as param :)
-$Q{http://example.org/ns/my/variable}var-1,
 $Q{http://example.org/ns/my/variable}var-2,
 $Q{http://example.org/ns/my/variable}var-3,
-$Q{http://example.org/ns/my/variable}var-4
+$Q{http://example.org/ns/my/variable}var-4,
+$Q{http://example.org/ns/my/variable}var-5
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}test)
 {
 ...evaluate the expectations ...
@@ -986,15 +990,15 @@ C:xspec>bin\xspec.bat tutorial\under-the-hood\compilation-variables-scope.xspec
 ...
 Running Tests...
 Testing with SAXON EE 9.9.1.8
-outer
-* [1]: xs:string: var-1-value
-..inner
-* [1]: xs:string: var-2-value
-* [1]: xs:string: var-3-value
-expect one
-* [1]: xs:string: global-value
-* [1]: xs:string: var-4-value
-expect two
+outer scenario
+* [1]: xs:string: value-2
+..inner scenario
+* [1]: xs:string: value-3
+* [1]: xs:string: value-4
+1st expect
+* [1]: xs:string: value-1
+* [1]: xs:string: value-5
+2nd expect
 
 Formatting Report...
 ...
