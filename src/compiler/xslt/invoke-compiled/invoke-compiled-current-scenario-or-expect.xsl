@@ -15,7 +15,7 @@
       <!-- URIQualifiedNames of the variables that will be passed as the parameters to the compiled
          x:scenario or x:expect being invoked. Names and contents of the variables are passed
          through unchanged. -->
-      <xsl:param name="with-param-uqnames" as="xs:string*" />
+      <xsl:param name="with-param-uqnames" as="xs:string*" required="yes" />
 
       <xsl:element name="xsl:call-template" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />

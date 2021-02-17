@@ -14,9 +14,9 @@
    <xsl:template name="x:compile-expect" as="node()+">
       <xsl:context-item as="element(x:expect)" use="required" />
 
-      <xsl:param name="pending" as="node()?"                         tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <!-- No $context for XQuery -->
-      <xsl:param name="call"    as="element(x:call)?" required="yes" tunnel="yes" />
+      <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
 
       <!-- URIQualifiedNames of the parameters of the function being generated.
          Their order must be stable, because they are function parameters. -->

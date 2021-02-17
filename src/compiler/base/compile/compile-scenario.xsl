@@ -24,7 +24,7 @@
    <xsl:template name="x:check-param-max-position" as="empty-sequence()">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
 
       <xsl:variable name="max-param-position" as="xs:integer?"
          select="max($call/x:param ! xs:integer(@position))" />

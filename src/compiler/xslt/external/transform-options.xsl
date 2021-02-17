@@ -13,8 +13,8 @@
    <xsl:template name="x:transform-options" as="element(xsl:variable)">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
-      <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
+      <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
 
       <variable name="{x:known-UQName('impl:transform-options')}" as="map({x:known-UQName('xs:string')}, item()*)">
          <map>
