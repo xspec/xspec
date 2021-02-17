@@ -31,7 +31,12 @@
 
    <t:scenario label="x:scenario[@label] transformed in x:compile-scenario template">
       <t:context href="compile-xslt-tests/compile-scenario.xspec" select="//t:scenario" />
-      <t:call template="t:compile-scenario" />
+      <t:call template="t:compile-scenario">
+         <t:param name="apply" as="empty-sequence()" tunnel="yes" />
+         <t:param name="call" as="empty-sequence()" tunnel="yes" />
+         <t:param name="context" as="empty-sequence()" tunnel="yes" />
+         <t:param name="pending" as="empty-sequence()" tunnel="yes" />
+      </t:call>
       <t:expect>
          <t:label>
             - is xsl:template
@@ -68,8 +73,9 @@
    <t:scenario label="x:expect[@test] transformed in x:compile-expect template">
       <t:context href="compile-xslt-tests/compile-expect.xspec" select="//t:expect" />
       <t:call template="t:compile-expect">
-         <t:param name="context" as="empty-sequence()" tunnel="yes" />
          <t:param name="call" as="empty-sequence()" tunnel="yes" />
+         <t:param name="context" as="empty-sequence()" tunnel="yes" />
+         <t:param name="pending" as="empty-sequence()" tunnel="yes" />
          <t:param name="param-uqnames" as="empty-sequence()" />
       </t:call>
       <t:expect label="is a template"
