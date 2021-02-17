@@ -8,9 +8,9 @@
 
    <!--
       Generate invocation instructions of the compiled (child::x:scenario | child::x:expect), taking
-      x:pending into account. Recall that x:scenario and x:expect are compiled to an XSLT named
-      template or an XQuery function which must have the corresponding invocation instruction at
-      some point.
+      x:pending and variable declarations into account. Recall that x:scenario and x:expect are
+      compiled to an XSLT named template or an XQuery function which must have the corresponding
+      invocation instruction at some point.
    -->
    <xsl:template name="x:invoke-compiled-child-scenarios-or-expects" as="node()*">
       <!-- Context item is x:description or x:scenario -->
@@ -20,13 +20,18 @@
          future -->
       <xsl:param name="pending" select="(.//@focus)[1]" tunnel="yes" as="node()?"/>
 
+      <!-- (child::x:param | child::x:variable) that have been already handled while compiling
+         self::x:description in x:main template or while compiling self::x:scenario in
+         x:compile-scenario template. -->
+      <xsl:param name="handled-child-vardecls" as="element()*" required="yes" />
+
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
          <xsl:message terminate="yes"
             select="'$this must be a description or a scenario, but is: ' || name()" />
       </xsl:if>
 
-      <xsl:apply-templates select="$this/element()"
+      <xsl:apply-templates select="$this/element() except $handled-child-vardecls"
          mode="local:invoke-compiled-scenarios-or-expects">
          <xsl:with-param name="pending" select="$pending" tunnel="yes"/>
       </xsl:apply-templates>
@@ -78,19 +83,11 @@
    </xsl:template>
 
    <!--
-      Handle variable declarations if they are not handled while compiling x:description or
-      x:scenario
+      Declare variables
    -->
-   <xsl:template match="x:param | x:variable" as="node()*"
+   <xsl:template match="x:param | x:variable" as="node()+"
       mode="local:invoke-compiled-scenarios-or-expects">
-      <!-- x:param and/or x:variable that have been already handled while compiling
-         parent::x:description in x:main template or while compiling parent::x:scenario in
-         x:compile-scenario template. -->
-      <xsl:param name="tunnel_handled-vardecls" as="element()*" required="yes" tunnel="yes" />
-
-      <xsl:if test="not(. intersect $tunnel_handled-vardecls)">
-         <xsl:apply-templates select="." mode="x:declare-variable" />
-      </xsl:if>
+      <xsl:apply-templates select="." mode="x:declare-variable" />
    </xsl:template>
 
 </xsl:stylesheet>

@@ -127,7 +127,7 @@
       <!-- Generate invocations of the compiled top-level scenarios. -->
       <xsl:text>(: invoke each compiled top-level x:scenario :)&#x0A;</xsl:text>
       <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
-         <xsl:with-param name="tunnel_handled-vardecls" select="$global-vardecls" tunnel="yes" />
+         <xsl:with-param name="handled-child-vardecls" select="$global-vardecls" />
       </xsl:call-template>
 
       <!-- </x:report> -->

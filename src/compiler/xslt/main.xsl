@@ -162,8 +162,7 @@
                   <!-- Generate invocations of the compiled top-level scenarios. -->
                   <xsl:text>&#10;            </xsl:text><xsl:comment> invoke each compiled top-level x:scenario </xsl:comment>
                   <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
-                     <xsl:with-param name="tunnel_handled-vardecls" select="$global-vardecls"
-                        tunnel="yes" />
+                     <xsl:with-param name="handled-child-vardecls" select="$global-vardecls" />
                   </xsl:call-template>
                </xsl:element>
             </xsl:element>
