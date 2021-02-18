@@ -93,8 +93,9 @@
          </xsl:with-param>
       </xsl:call-template>
 
-      <!-- Compile global params and global variables. -->
-      <xsl:apply-templates select="x:param | x:variable" mode="x:declare-variable" />
+      <!-- Compile global variables. (Global params are not supported: xspec/xspec#1325) -->
+      <xsl:variable name="global-vardecls" as="element(x:variable)*" select="x:variable" />
+      <xsl:apply-templates select="$global-vardecls" mode="x:declare-variable" />
 
       <!-- Compile the top-level scenarios. -->
       <xsl:call-template name="x:compile-child-scenarios-or-expects" />
@@ -125,7 +126,9 @@
 
       <!-- Generate invocations of the compiled top-level scenarios. -->
       <xsl:text>(: invoke each compiled top-level x:scenario :)&#x0A;</xsl:text>
-      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
+      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
+         <xsl:with-param name="handled-child-vardecls" select="$global-vardecls" />
+      </xsl:call-template>
 
       <!-- </x:report> -->
       <xsl:text>}&#x0A;</xsl:text>

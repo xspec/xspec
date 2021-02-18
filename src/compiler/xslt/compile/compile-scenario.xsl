@@ -15,10 +15,10 @@
    <xsl:template name="x:compile-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="pending" as="node()?" tunnel="yes" />
-      <xsl:param name="apply" as="element(x:apply)?" tunnel="yes" />
-      <xsl:param name="call" as="element(x:call)?" tunnel="yes" />
-      <xsl:param name="context" as="element(x:context)?" tunnel="yes" />
+      <xsl:param name="apply" as="element(x:apply)?" required="yes" tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
+      <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
+      <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
 
       <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
          select="(x:call | x:context)/preceding-sibling::x:variable" />
@@ -339,7 +339,9 @@
                <xsl:comment> invoke each compiled x:expect </xsl:comment>
             </xsl:if>
 
-            <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
+            <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
+               <xsl:with-param name="handled-child-vardecls" select="$local-preceding-vardecls" />
+            </xsl:call-template>
 
          <!-- </x:scenario> -->
          </xsl:element>

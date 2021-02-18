@@ -13,10 +13,10 @@
    <xsl:template name="x:compile-scenario" as="node()+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="pending"   as="node()?"              tunnel="yes" />
       <!-- No $apply for XQuery -->
-      <xsl:param name="context"   as="element(x:context)?"  tunnel="yes" />
-      <xsl:param name="call"      as="element(x:call)?"     tunnel="yes" />
+      <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
+      <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
+      <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
 
       <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable" />
@@ -140,6 +140,7 @@
          </xsl:if>
 
          <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
+            <xsl:with-param name="handled-child-vardecls" select="$local-preceding-vardecls" />
             <xsl:with-param name="tunnel_variable-name-of-actual-result-report"
                select="$variable-name-of-actual-result-report" tunnel="yes" />
          </xsl:call-template>

@@ -420,8 +420,8 @@
    <xsl:template name="fmt:load-css" as="element()">
       <xsl:context-item use="absent" />
 
-      <xsl:param name="inline" as="xs:boolean" required="yes" />
-      <xsl:param name="uri" as="xs:string?" />
+      <xsl:param name="inline" as="xs:boolean" />
+      <xsl:param name="uri" as="xs:string?" required="yes" />
 
       <xsl:variable as="xs:string" name="uri" select="($uri, resolve-uri('test-report.css'))[1]" />
 
