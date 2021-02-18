@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-1340.xspec"
+        stylesheet="../../../../do-nothing.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-1340.xspec" pending="bar">
+      <label>Scenario containing no @focus whatsoever</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:param>
+               <foo/>
+            </x:param>
+         </x:call>
+      </input-wrap>
+      <test id="scenario1-expect1" pending="bar">
+         <label>should be active</label>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../issue-1340.xspec" pending="bar">
+      <label>Scenario containing @focus in user-content</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
+            <x:param>
+               <foo focus="bar"/>
+            </x:param>
+         </x:call>
+      </input-wrap>
+      <test id="scenario2-expect1" pending="bar">
+         <label>should be active</label>
+      </test>
+   </scenario>
+</report>

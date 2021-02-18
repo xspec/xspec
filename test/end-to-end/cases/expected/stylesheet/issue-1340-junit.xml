@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-1340.xspec">
+   <testsuite name="Scenario containing no @focus whatsoever"
+              tests="1"
+              failures="0">
+      <testcase name="should be active" status="skipped">
+         <skipped>bar</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="Scenario containing @focus in user-content"
+              tests="1"
+              failures="0">
+      <testcase name="should be active" status="skipped">
+         <skipped>bar</skipped>
+      </testcase>
+   </testsuite>
+</testsuites>
