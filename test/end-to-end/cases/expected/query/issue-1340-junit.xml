@@ -2,16 +2,16 @@
 <testsuites name="issue-1340.xspec">
    <testsuite name="Scenario containing no @focus whatsoever"
               tests="1"
-              failures="0">
-      <testcase name="should be active" status="skipped">
-         <skipped>bar</skipped>
+              failures="1">
+      <testcase name="should be active" status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
       </testcase>
    </testsuite>
    <testsuite name="Scenario containing @focus in user-content"
               tests="1"
-              failures="0">
-      <testcase name="should be active" status="skipped">
-         <skipped>bar</skipped>
+              failures="1">
+      <testcase name="should be active" status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
       </testcase>
    </testsuite>
 </testsuites>
