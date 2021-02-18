@@ -339,7 +339,9 @@
                <xsl:comment> invoke each compiled x:expect </xsl:comment>
             </xsl:if>
 
-            <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects" />
+            <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
+               <xsl:with-param name="handled-child-vardecls" select="$local-preceding-vardecls" />
+            </xsl:call-template>
 
          <!-- </x:scenario> -->
          </xsl:element>
