@@ -29,8 +29,7 @@
 
       <xsl:variable name="pending" as="node()?"
          select="($pending, ancestor::x:scenario/@pending)[1]" />
-      <xsl:variable name="pending-p" as="xs:boolean"
-         select="exists($pending) and empty(ancestor::x:scenario/@focus)" />
+      <xsl:variable name="pending-p" as="xs:boolean" select="x:pending-p(., $pending)" />
 
       <!-- True if the variable being declared is considered pending -->
       <xsl:variable name="is-pending-vardecl" as="xs:boolean"

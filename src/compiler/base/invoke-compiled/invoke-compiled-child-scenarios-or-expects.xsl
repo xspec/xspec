@@ -73,8 +73,7 @@
 
       <xsl:variable name="pending" as="node()?"
          select="($pending, ancestor::x:scenario/@pending)[1]" />
-      <xsl:variable name="pending-p" as="xs:boolean"
-         select="exists($pending) and empty(ancestor::x:scenario/@focus)" />
+      <xsl:variable name="pending-p" as="xs:boolean" select="x:pending-p(., $pending)" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
