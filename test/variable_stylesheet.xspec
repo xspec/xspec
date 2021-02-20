@@ -103,6 +103,13 @@
 			<x:context select="$myv:context" mode="mirror:context-mirror" />
 			<x:expect label="reflects expected behavior of template rule for this context."><foo/></x:expect>
 		</x:scenario>
+		<x:scenario label="Variable with following-sibling x:expect but no sibling x:context">
+			<x:context mode="mirror:context-mirror"><foo/></x:context>
+			<x:scenario label="can be referenced">
+				<x:variable name="myv:with-expect-but-no-sibling-context"><foo/></x:variable>
+				<x:expect label="in x:expect/@select." select="$myv:with-expect-but-no-sibling-context"/>
+			</x:scenario>
+		</x:scenario>
 	</x:scenario>
 
 </x:description>
