@@ -16,6 +16,7 @@
    </xsl:function>
 
    <xsl:function name="x:pending-attribute-from-pending-node" as="attribute(pending)">
+      <!-- @pending, x:pending or @focus -->
       <xsl:param name="pending-node" as="node()" />
 
       <xsl:attribute name="pending" select="$pending-node" />

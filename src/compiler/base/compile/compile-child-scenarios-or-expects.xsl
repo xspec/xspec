@@ -14,7 +14,8 @@
       <!-- Context item is x:description or x:scenario -->
       <xsl:context-item as="element()" use="required" />
 
-      <xsl:param name="pending" as="node()?" select="(.//@focus)[1]" tunnel="yes"/>
+      <xsl:param name="pending" as="node()?"
+         select="descendant-or-self::x:scenario[@focus][1]/@focus" tunnel="yes" />
 
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
@@ -189,7 +190,7 @@
          <xsl:with-param name="pending" select="($pending, ancestor::x:scenario/@pending)[1]"
             tunnel="yes" />
          <xsl:with-param name="param-uqnames" as="xs:string*">
-            <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
+            <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::x:scenario/@focus)">
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>
