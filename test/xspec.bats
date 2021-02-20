@@ -2216,15 +2216,15 @@ load bats-helper
     [ "$status" -eq 0 ]
     [ "${lines[ 3]}" = "Running Tests..." ]
     assert_regex "${lines[4]}" '^Testing with SAXON '
-    [ "${lines[ 5]}" = "outer" ]
-    [ "${lines[ 6]}" = "* [1]: xs:string: var-1-value" ]
-    [ "${lines[ 7]}" = "..inner" ]
-    [ "${lines[ 8]}" = "* [1]: xs:string: var-2-value" ]
-    [ "${lines[ 9]}" = "* [1]: xs:string: var-3-value" ]
-    [ "${lines[10]}" = "expect one" ]
-    [ "${lines[11]}" = "* [1]: xs:string: global-value" ]
-    [ "${lines[12]}" = "* [1]: xs:string: var-4-value" ]
-    [ "${lines[13]}" = "expect two" ]
+    [ "${lines[ 5]}" = "outer scenario" ]
+    [ "${lines[ 6]}" = "* [1]: xs:string: value-2" ]
+    [ "${lines[ 7]}" = "..inner scenario" ]
+    [ "${lines[ 8]}" = "* [1]: xs:string: value-3" ]
+    [ "${lines[ 9]}" = "* [1]: xs:string: value-4" ]
+    [ "${lines[10]}" = "1st expect" ]
+    [ "${lines[11]}" = "* [1]: xs:string: value-1" ]
+    [ "${lines[12]}" = "* [1]: xs:string: value-5" ]
+    [ "${lines[13]}" = "2nd expect" ]
     [ "${lines[14]}" = "Formatting Report..." ]
 }
 
@@ -2233,11 +2233,11 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[3]}" = "Running Tests..." ]
-    [ "${lines[4]}" = "* [1]: xs:string: var-1-value" ]
-    [ "${lines[5]}" = "* [1]: xs:string: var-2-value" ]
-    [ "${lines[6]}" = "* [1]: xs:string: var-3-value" ]
-    [ "${lines[7]}" = "* [1]: xs:string: global-value" ]
-    [ "${lines[8]}" = "* [1]: xs:string: var-4-value" ]
+    [ "${lines[4]}" = "* [1]: xs:string: value-2" ]
+    [ "${lines[5]}" = "* [1]: xs:string: value-3" ]
+    [ "${lines[6]}" = "* [1]: xs:string: value-4" ]
+    [ "${lines[7]}" = "* [1]: xs:string: value-1" ]
+    [ "${lines[8]}" = "* [1]: xs:string: value-5" ]
     [ "${lines[9]}" = "Formatting Report..." ]
 }
 
