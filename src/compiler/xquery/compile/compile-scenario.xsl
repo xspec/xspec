@@ -21,7 +21,7 @@
       <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
          select="x:call/preceding-sibling::x:variable" />
       <xsl:variable name="pending-p" as="xs:boolean"
-         select="exists($pending) and empty(ancestor-or-self::*/@focus)" />
+         select="exists($pending) and empty(ancestor-or-self::x:scenario/@focus)" />
       <xsl:variable name="run-sut-now" as="xs:boolean" select="not($pending-p) and x:expect" />
 
       <xsl:if test="$context">

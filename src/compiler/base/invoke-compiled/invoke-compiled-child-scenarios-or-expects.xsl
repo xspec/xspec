@@ -18,7 +18,8 @@
 
       <!-- Default value of $pending does not affect compiler output but is here if needed in the
          future -->
-      <xsl:param name="pending" select="(.//@focus)[1]" tunnel="yes" as="node()?"/>
+      <xsl:param name="pending" as="node()?"
+         select="descendant-or-self::x:scenario[@focus][1]/@focus" tunnel="yes" />
 
       <!-- (child::x:param | child::x:variable) that have been already handled while compiling
          self::x:description in x:main template or while compiling self::x:scenario in
@@ -73,7 +74,7 @@
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:invoke-compiled-current-scenario-or-expect">
          <xsl:with-param name="with-param-uqnames" as="xs:string*">
-            <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus)">
+            <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::x:scenario/@focus)">
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>

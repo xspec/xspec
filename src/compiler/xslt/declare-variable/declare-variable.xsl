@@ -19,7 +19,7 @@
    <xsl:mode name="x:declare-variable" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="element()" as="element()+" mode="x:declare-variable">
-      <!-- Reflects @pending or x:pending -->
+      <!-- Reflects @pending, x:pending or @focus -->
       <xsl:param name="pending" as="node()?" tunnel="yes" />
 
       <xsl:param name="comment" as="xs:string?" />
@@ -30,7 +30,7 @@
       <!-- True if the variable being declared is considered pending -->
       <xsl:variable name="is-pending" as="xs:boolean"
          select="self::x:variable
-            and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::*/@focus))" />
+            and not(empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::x:scenario/@focus))" />
 
       <!-- Child nodes to be excluded -->
       <xsl:variable name="exclude" as="element()*"
