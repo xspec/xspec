@@ -102,6 +102,6 @@
 	<xsl:template as="empty-sequence()" name="on-post-task">
 		<xsl:context-item as="attribute()" use="required" />
 
-		<xsl:param as="element(reports)" name="reports" />
+		<xsl:param as="element(reports)" name="reports" required="yes" />
 	</xsl:template>
 </xsl:stylesheet>

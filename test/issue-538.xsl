@@ -7,17 +7,17 @@
 
   <xsl:mode name="mymode" on-multiple-match="fail" on-no-match="fail" />
   <xsl:template match="myelement" mode="mymode">
-    <xsl:param name="myparam" as="map(*)"/>
+    <xsl:param name="myparam" as="map(*)" required="yes" />
     <xsl:value-of select="$myparam('key')"/>
   </xsl:template>
 
   <xsl:template match="myelement">
-    <xsl:param name="myparam" as="map(*)"/>
+    <xsl:param name="myparam" as="map(*)" required="yes" />
     <xsl:value-of select="$myparam('key')"/>
   </xsl:template>
 
   <xsl:template name="mytemplate">
-    <xsl:param name="myparam" as="map(*)"/>
+    <xsl:param name="myparam" as="map(*)" required="yes" />
     <xsl:value-of select="$myparam('key')"/>
   </xsl:template>
 

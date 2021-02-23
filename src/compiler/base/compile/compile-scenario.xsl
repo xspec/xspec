@@ -13,7 +13,7 @@
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <xsl:param name="level" as="xs:string" select="'ERROR'" />
-      <xsl:param name="message" as="xs:string" />
+      <xsl:param name="message" as="xs:string" required="yes" />
 
       <xsl:message terminate="{$level eq 'ERROR'}"
          select="x:prefix-diag-message($level, ., $message)" />

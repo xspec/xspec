@@ -19,8 +19,8 @@
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
-      <xsl:param name="pending-p" as="xs:boolean" />
-      <xsl:param name="run-sut-now" as="xs:boolean" />
+      <xsl:param name="pending-p" as="xs:boolean" required="yes" />
+      <xsl:param name="run-sut-now" as="xs:boolean" required="yes" />
 
       <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
          select="(x:call | x:context)/preceding-sibling::x:variable" />
@@ -354,7 +354,7 @@
    -->
 
    <xsl:template name="local:set-up-context" as="element(xsl:variable)+">
-      <xsl:param name="context" as="element(x:context)" tunnel="yes"/>
+      <xsl:param name="context" as="element(x:context)" required="yes" tunnel="yes"/>
       <!-- Set up the variable of x:context -->
       <xsl:apply-templates select="$context" mode="x:declare-variable"/>
 

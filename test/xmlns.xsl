@@ -35,7 +35,7 @@
 
 	<xsl:template as="xs:anyURI+" match="attribute() | node()"
 		mode="s1:get-namespaces" name="s1:get-namespaces">
-		<xsl:param name="s1:input" as="element()"/>
+		<xsl:param name="s1:input" as="element()" required="yes" />
 		<xsl:sequence select="distinct-values((namespace-uri(), namespace-uri($s1:input)))" />
 	</xsl:template>
 

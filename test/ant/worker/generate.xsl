@@ -318,6 +318,6 @@
 	<xsl:template as="empty-sequence()" name="on-run-xspec">
 		<xsl:context-item as="attribute()" use="required" />
 
-		<xsl:param as="xs:boolean" name="coverage-enabled" />
+		<xsl:param as="xs:boolean" name="coverage-enabled" required="yes" />
 	</xsl:template>
 </xsl:stylesheet>

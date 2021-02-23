@@ -17,7 +17,7 @@
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <!-- No $context for XQuery -->
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
-      <xsl:param name="pending-p" as="xs:boolean" />
+      <xsl:param name="pending-p" as="xs:boolean" required="yes" />
 
       <!-- URIQualifiedNames of the parameters of the function being generated.
          Their order must be stable, because they are function parameters. -->
