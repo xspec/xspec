@@ -27,6 +27,9 @@ if [ ! -d "${ANT_HOME}" ]; then
     mkdir -p "${ANT_HOME}"
 fi
 
+# curl version for inspection
+curl --version
+
 # --connect-timeout is for curl/curl#4461
 curl \
     --fail \

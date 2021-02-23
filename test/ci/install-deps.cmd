@@ -27,6 +27,9 @@ if not exist "%ANT_HOME%" mkdir "%ANT_HOME%"
 rem Temp downloaded file
 set "ANT_TEMP_ARCHIVE=%TEMP%\ant.tar.gz"
 
+rem curl version for inspection
+"%CURL%" --version
+
 rem --connect-timeout is for curl/curl#4461
 "%CURL%" ^
     --fail ^
