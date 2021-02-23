@@ -6,7 +6,7 @@
 
    <xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
-   <xsl:template match="rule">
+   <xsl:template match="rule" as="element(transformed)">
       <!-- TODO: Test x:apply with $p parameter -->
       <!--<xsl:param name="p" as="xs:integer?" />-->
 
