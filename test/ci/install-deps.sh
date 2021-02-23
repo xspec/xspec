@@ -27,8 +27,10 @@ if [ ! -d "${ANT_HOME}" ]; then
     mkdir -p "${ANT_HOME}"
 fi
 
+# --connect-timeout is for curl/curl#4461
 curl \
     -fsSL \
+    --connect-timeout 20 \
     --retry 5 \
     --retry-connrefused \
     "http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz" \
