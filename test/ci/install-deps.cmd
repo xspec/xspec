@@ -27,11 +27,19 @@ if not exist "%ANT_HOME%" mkdir "%ANT_HOME%"
 rem Temp downloaded file
 set "ANT_TEMP_ARCHIVE=%TEMP%\ant.tar.gz"
 
+rem curl version for inspection
+"%CURL%" --version
+
+rem --connect-timeout is for curl/curl#4461
 "%CURL%" ^
-    -fsSL ^
+    --fail ^
+    --connect-timeout 20 ^
+    --location ^
+    --output "%ANT_TEMP_ARCHIVE%" ^
     --retry 5 ^
     --retry-connrefused ^
-    -o "%ANT_TEMP_ARCHIVE%" ^
+    --silent ^
+    --show-error ^
     "http://archive.apache.org/dist/ant/binaries/apache-ant-%ANT_VERSION%-bin.tar.gz" ^
     || goto :EOF
 
