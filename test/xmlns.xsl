@@ -21,7 +21,7 @@
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		name="s1:param-mirror">
-		<xsl:param as="item()*" name="s1:param-items" />
+		<xsl:param as="item()*" name="s1:param-items" required="yes" />
 		<xsl:sequence select="$s1:param-items" />
 	</xsl:template>
 
