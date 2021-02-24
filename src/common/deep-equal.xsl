@@ -108,9 +108,6 @@
                <xsl:when test="$seq1 instance of xs:decimal">
                   <xsl:sequence select="$seq2-string[. castable as xs:decimal] => xs:decimal()" />
                </xsl:when>
-               <xsl:when test="$seq1 instance of xs:integer">
-                  <xsl:sequence select="$seq2-string[. castable as xs:integer] => xs:integer()" />
-               </xsl:when>
             </xsl:choose>
          </xsl:if>
       </xsl:variable>
