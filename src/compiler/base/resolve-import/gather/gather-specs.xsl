@@ -121,7 +121,7 @@
    </xsl:template>
 
    <xsl:template match="text()" as="element(x:text)?" mode="local:gather-user-content">
-      <xsl:param name="preserve-space" as="xs:QName*" tunnel="yes" />
+      <xsl:param name="preserve-space" as="xs:QName*" required="yes" tunnel="yes" />
 
       <xsl:if test="normalize-space()
          or x:is-ws-only-text-node-significant(., $preserve-space)">

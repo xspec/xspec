@@ -16,9 +16,9 @@
 	<xsl:template as="document-node(element(xsl:stylesheet))" name="xsl:initial-template">
 		<xsl:context-item use="absent" />
 
-		<xsl:param as="xs:string" name="expression" />
+		<xsl:param as="xs:string" name="expression" required="yes" />
 		<xsl:param as="namespace-node()*" name="namespace-nodes" />
-		<xsl:param as="xs:decimal" name="xslt-version" />
+		<xsl:param as="xs:decimal" name="xslt-version" required="yes" />
 
 		<xsl:document>
 			<xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">

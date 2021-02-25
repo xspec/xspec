@@ -13,7 +13,7 @@
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		mode="x:param-mirror" name="x:param-mirror">
-		<xsl:param as="item()*" name="x:param-items" />
+		<xsl:param as="item()*" name="x:param-items" required="yes" />
 
 		<xsl:sequence select="$x:param-items" />
 	</xsl:template>

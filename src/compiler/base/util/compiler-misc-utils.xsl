@@ -22,6 +22,19 @@
       <xsl:attribute name="pending" select="$pending-node" />
    </xsl:function>
 
+   <!-- The name 'pending-p' probably means "is this pending, yes or no?"
+      https://github.com/xspec/xspec/pull/1225#issuecomment-698892926 -->
+   <xsl:function name="x:pending-p" as="xs:boolean">
+      <xsl:param name="context-element" as="element()" />
+
+      <!-- @pending, x:pending or @focus -->
+      <xsl:param name="pending-node" as="node()?" />
+
+      <xsl:sequence select="
+            exists($pending-node)
+            and empty($context-element/ancestor-or-self::x:scenario/@focus)" />
+   </xsl:function>
+
    <!-- Removes duplicate strings from a sequence of strings. (Removes a string if it appears
      in a prior position of the sequence.)
      Unlike fn:distinct-values(), the order of the returned sequence is stable.

@@ -21,7 +21,7 @@
 
 	<xsl:template as="item()*" match="attribute() | node() | document-node()"
 		name="s1:param-mirror">
-		<xsl:param as="item()*" name="s1:param-items" />
+		<xsl:param as="item()*" name="s1:param-items" required="yes" />
 		<xsl:sequence select="$s1:param-items" />
 	</xsl:template>
 
@@ -35,7 +35,7 @@
 
 	<xsl:template as="xs:anyURI+" match="attribute() | node()"
 		mode="s1:get-namespaces" name="s1:get-namespaces">
-		<xsl:param name="s1:input" as="element()"/>
+		<xsl:param name="s1:input" as="element()" required="yes" />
 		<xsl:sequence select="distinct-values((namespace-uri(), namespace-uri($s1:input)))" />
 	</xsl:template>
 

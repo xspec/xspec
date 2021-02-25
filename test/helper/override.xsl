@@ -4,7 +4,7 @@
 
 	<!-- Override an internal worker template in SUT and return a fixed integer -->
 	<xsl:template as="xs:integer" name="myinternal:square-worker">
-		<xsl:param as="xs:integer" name="n" />
+		<xsl:param as="xs:integer" name="n" required="yes" />
 
 		<xsl:sequence select="1234567890" />
 	</xsl:template>
