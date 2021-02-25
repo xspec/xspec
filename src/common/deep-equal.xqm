@@ -39,7 +39,6 @@ declare %private function deq:deep-equal-v1(
           case xs:string  return $seq2-string
           case xs:double  return $seq2-string[. castable as xs:double]  => xs:double()
           case xs:decimal return $seq2-string[. castable as xs:decimal] => xs:decimal()
-          case xs:integer return $seq2-string[. castable as xs:integer] => xs:integer()
           default         return ()
     else
       ()
