@@ -24,7 +24,7 @@
    </xsl:function>
 
    <xsl:template name="myinternal:square-worker" as="xs:integer">
-      <xsl:param name="n" as="xs:integer"/>
+      <xsl:param name="n" as="xs:integer" required="yes" />
 
       <xsl:sequence select="$n * $n" />
    </xsl:template>

@@ -54,13 +54,14 @@
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
 
       <!-- The new $pending. -->
-      <xsl:variable name="new-pending" as="node()?" select="
+      <xsl:variable name="pending" as="node()?" select="
           if ( @focus ) then
             ()
           else if ( @pending ) then
             @pending
           else
             $pending"/>
+      <xsl:variable name="pending-p" as="xs:boolean" select="x:pending-p(., $pending)" />
 
       <!-- The new apply. -->
       <xsl:variable name="new-apply" as="element(x:apply)?">
@@ -171,7 +172,9 @@
          <xsl:with-param name="apply" select="$new-apply" tunnel="yes" />
          <xsl:with-param name="call" select="$new-call" tunnel="yes" />
          <xsl:with-param name="context" select="$new-context" tunnel="yes" />
-         <xsl:with-param name="pending" select="$new-pending" tunnel="yes" />
+         <xsl:with-param name="pending" select="$pending" tunnel="yes" />
+         <xsl:with-param name="pending-p" select="$pending-p" />
+         <xsl:with-param name="run-sut-now" select="not($pending-p) and x:expect" />
       </xsl:call-template>
    </xsl:template>
 
@@ -183,14 +186,18 @@
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
 
+      <xsl:variable name="pending" as="node()?"
+         select="($pending, ancestor::x:scenario/@pending)[1]" />
+      <xsl:variable name="pending-p" as="xs:boolean" select="x:pending-p(., $pending)" />
+
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:compile-expect">
          <xsl:with-param name="call" select="$call" tunnel="yes" />
          <xsl:with-param name="context" select="$context" tunnel="yes" />
-         <xsl:with-param name="pending" select="($pending, ancestor::x:scenario/@pending)[1]"
-            tunnel="yes" />
+         <xsl:with-param name="pending" select="$pending" tunnel="yes" />
+         <xsl:with-param name="pending-p" select="$pending-p" />
          <xsl:with-param name="param-uqnames" as="xs:string*">
-            <xsl:if test="empty($pending|ancestor::x:scenario/@pending) or exists(ancestor::x:scenario/@focus)">
+            <xsl:if test="not($pending-p)">
                <xsl:sequence select="$context ! x:known-UQName('x:context')" />
                <xsl:sequence select="x:known-UQName('x:result')" />
             </xsl:if>

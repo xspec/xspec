@@ -6,8 +6,8 @@
 	<xsl:include href="nested-function-call.xsl" />
 
 	<xsl:template as="document-node(element(table))" name="createTable">
-		<xsl:param as="xs:integer" name="cols" />
-		<xsl:param as="element(value)+" name="nodes" />
+		<xsl:param as="xs:integer" name="cols" required="yes" />
+		<xsl:param as="element(value)+" name="nodes" required="yes" />
 
 		<xsl:sequence select="nested-function-call:createTable($cols, $nodes)" />
 	</xsl:template>

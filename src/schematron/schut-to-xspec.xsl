@@ -218,7 +218,7 @@
                     (@count ! ('count:', .))
                 )
                 => string-join(' ')" />
-        <xsl:param name="test" as="xs:string" />
+        <xsl:param name="test" as="xs:string" required="yes" />
 
         <!-- Use x:xspec-name() for the element name so that the namespace for the name of the
             created element does not pollute the namespaces. -->

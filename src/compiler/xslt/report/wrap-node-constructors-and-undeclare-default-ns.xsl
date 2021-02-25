@@ -6,8 +6,8 @@
                 version="3.0">
 
    <xsl:template name="x:wrap-node-constructors-and-undeclare-default-ns" as="element(xsl:element)">
-      <xsl:param name="wrapper-name" as="xs:string" />
-      <xsl:param name="node-constructors" as="element()" />
+      <xsl:param name="wrapper-name" as="xs:string" required="yes" />
+      <xsl:param name="node-constructors" as="element()" required="yes" />
 
       <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="$wrapper-name" />

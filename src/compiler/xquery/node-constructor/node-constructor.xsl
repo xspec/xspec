@@ -94,7 +94,7 @@
    <xsl:template name="x:zero-or-more-node-constructors" as="node()+">
       <xsl:context-item use="absent" />
 
-      <xsl:param name="nodes" as="node()*" />
+      <xsl:param name="nodes" as="node()*" required="yes" />
 
       <xsl:choose>
          <xsl:when test="$nodes">
