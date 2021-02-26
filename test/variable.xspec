@@ -19,8 +19,13 @@
 
 	<!-- Variables used only in this test file are in a dedicated namespace to prevent conflict with
 	 global parameters or global variables in the file to be tested. -->
+
 	<x:variable name="myv:test-data" href="variable.xml"/>
-	<x:variable name="myv:test-string" select="'global'"/>
+	<x:variable name="myv:test-string" select="
+			if ((:Global variables can use preceding-sibling variables:) $myv:test-data) then
+				'global'
+			else
+				()" />
 
 	<x:scenario label="Variables can be defined in different ways.">
 		<x:scenario label="@select by itself">
