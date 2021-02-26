@@ -147,10 +147,9 @@
                   </xsl:when>
 
                   <xsl:when test=". intersect $local-preceding-vardecls">
-                     <!-- Handle local variable declarations that are preceding-siblings of x:call
-                        or x:context. The other local variable declarations are handled in
-                        mode="local:invoke-compiled-scenarios-or-expects" in
-                        invoke-compiled-child-scenarios-or-expects.xsl. -->
+                     <!-- Handle local preceding variable declarations. The other local variable
+                        declarations are handled in mode="local:invoke-compiled-scenarios-or-expects"
+                        in invoke-compiled-child-scenarios-or-expects.xsl. -->
                      <xsl:apply-templates select="." mode="x:declare-variable" />
                   </xsl:when>
 
