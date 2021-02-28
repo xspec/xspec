@@ -2756,11 +2756,27 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
+@test "x:variable must not override x:param (local variable overriding ancestor scenario param)" {
+    run ../bin/xspec.sh variable-overriding-param/local-variable/ancestor-scenario-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: x:variable (named my:foo) must not override x:param (named my:foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
 @test "x:variable must not override x:param (local variable overriding description param)" {
     run ../bin/xspec.sh variable-overriding-param/local-variable/description-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     [ "${lines[3]}" = "ERROR: x:variable (named my:foo) must not override x:param (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "x:variable must not override x:param (local variable overriding preceding-sibling param)" {
+    run ../bin/xspec.sh variable-overriding-param/local-variable/preceding-sibling-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: x:variable (named my2:foo) must not override x:param (named my1:foo)" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 

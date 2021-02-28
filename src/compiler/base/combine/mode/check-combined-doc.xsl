@@ -84,7 +84,7 @@
       </xsl:if>
    </xsl:template>
 
-   <!-- Reject x:variable if it overrides any x:description/x:param. -->
+   <!-- Reject x:variable if it overrides any (x:description|x:scenario)/x:param. -->
    <xsl:template name="local:detect-variable-overriding-param" as="empty-sequence()">
       <xsl:context-item as="element(x:variable)" use="required" />
 
@@ -94,7 +94,13 @@
       <!-- Cumulative x:param -->
       <xsl:variable name="cumulative-params" as="element(x:param)*" select="
             (: Global x:param :)
-            /x:description/x:param" />
+            /x:description/x:param
+            
+            (: Scenario-level x:param stacked outside the current x:scenario :)
+            | accumulator-before('stacked-vardecls')/self::x:param
+            
+            (: Local x:param preceding this x:variable :)
+            | preceding-sibling::x:param" />
 
       <!-- One of the x:param elements that are overridden by this x:variable -->
       <xsl:variable name="overridden-param" as="element(x:param)?"

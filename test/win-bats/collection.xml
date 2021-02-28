@@ -2380,10 +2380,24 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
+	<case name="x:variable must not override x:param (local variable overriding ancestor scenario param)">
+    call :run ..\bin\xspec.bat variable-overriding-param\local-variable\ancestor-scenario-param.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR: x:variable (named my:foo) must not override x:param (named my:foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
 	<case name="x:variable must not override x:param (local variable overriding description param)">
     call :run ..\bin\xspec.bat variable-overriding-param\local-variable\description-param.xspec
     call :verify_retval 2
     call :verify_line  4 x "ERROR: x:variable (named my:foo) must not override x:param (named Q{http://example.org/ns/my}foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="x:variable must not override x:param (local variable overriding preceding-sibling param)">
+    call :run ..\bin\xspec.bat variable-overriding-param\local-variable\preceding-sibling-param.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR: x:variable (named my2:foo) must not override x:param (named my1:foo)"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 

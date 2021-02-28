@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!--
+		- //x:scenario/x:variable overriding self::x:variable/parent::x:scenario/ancestor::x:scenario/x:param
+		- Lexical QName overriding the same lexical QName
+	-->
+	<x:scenario label="scenario with child::x:param">
+		<x:param name="my:foo" />
+		<x:scenario label="in-between scenario">
+			<x:scenario label="scenario with child::x:variable">
+				<x:variable name="my:foo" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+</x:description>
