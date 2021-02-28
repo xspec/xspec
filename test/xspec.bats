@@ -2745,6 +2745,34 @@ load bats-helper
 }
 
 #
+# Scenario param not allowed
+#
+
+@test "Scenario param not allowed (XSLT without @run-as=external)" {
+    run ../bin/xspec.sh param-disallowed/scenario-param/stylesheet.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: x:scenario has x:param (named p), which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario param not allowed (XQuery)" {
+    run ../bin/xspec.sh -q param-disallowed/scenario-param/query.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR: Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param (named p), which is not supported for XQuery." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario param not allowed (Schematron without @run-as=external)" {
+    run ../bin/xspec.sh -s param-disallowed/scenario-param/schematron.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[5]}" = "ERROR: x:scenario has x:param (named p), which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+#
 # x:variable must not override x:param
 #
 

@@ -186,7 +186,7 @@
       <xsl:context-item as="element()" use="required" />
 
       <!-- Reject x:param if it is analogous to /xsl:stylesheet/xsl:param -->
-      <xsl:if test="self::x:param[parent::x:description]">
+      <xsl:if test="self::x:param[parent::x:description or parent::x:scenario]">
          <xsl:message terminate="yes">
             <!-- x:combine() removes the name prefix from x:description. That's why URIQualifiedName
                is used. -->

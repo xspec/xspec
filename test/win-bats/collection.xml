@@ -2370,6 +2370,31 @@
 	</case>
 
 	<!--
+		Scenario param not allowed
+	-->
+
+	<case name="Scenario param not allowed (XSLT without @run-as=external)">
+    call :run ..\bin\xspec.bat param-disallowed\scenario-param\stylesheet.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR: x:scenario has x:param (named p), which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Scenario param not allowed (XQuery)">
+    call :run ..\bin\xspec.bat -q param-disallowed\scenario-param\query.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR: Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param (named p), which is not supported for XQuery."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Scenario param not allowed (Schematron without @run-as=external)">
+    call :run ..\bin\xspec.bat -s param-disallowed\scenario-param\schematron.xspec
+    call :verify_retval 2
+    call :verify_line  6 x "ERROR: x:scenario has x:param (named p), which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'."
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
 		x:variable must not override x:param
 	-->
 
