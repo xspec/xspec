@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_scenario-param.xsl"
+	xmlns:myp="http://example.org/ns/my/param" xmlns:myp_alt="http://example.org/ns/my/param"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!--
+		Based on variable.xspec
+	-->
+
+	<x:param name="myp:true" select="true()" />
+	<x:param name="myp:description-param" select="
+			if ((:Global params can use preceding-sibling params:) $myp:true) then
+				'description param value'
+			else
+				()" />
+
+	<x:scenario label="Params can be defined in different ways.">
+		<x:scenario label="@select by itself">
+			<x:param name="myp:default" select="'text'" />
+			<x:call function="myp:get" />
+			<x:expect label="uses the selection as the param value." select="'text'" />
+		</x:scenario>
+
+		<x:scenario label="Combination of @select and element content">
+			<x:param name="myp:default" select="//bar">
+				<foo>
+					<bar>text</bar>
+				</foo>
+			</x:param>
+			<x:call function="myp:get" />
+			<x:expect
+				label="uses the selection from the x:param element's content as the param value.">
+				<bar>text</bar>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Combination of @href and @select">
+			<x:param href="external_scenario-param.xml" name="myp:default"
+				select="/top-level-element/*[1]" />
+			<x:call function="myp:get" />
+			<x:expect label="uses the selection in the specified document as the param value.">
+				<child-element />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="Element content in x:param">
+			<x:param name="myp:default">
+				<foo>text</foo>
+			</x:param>
+			<x:call function="myp:get" />
+			<x:expect label="uses the x:param element's content as the param value.">
+				<foo>text</foo>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="@href by itself">
+			<x:param href="external_scenario-param.xml" name="myp:default" />
+			<x:call function="myp:get" />
+			<x:expect label="uses the specified document as the param value."
+				test="$x:result instance of document-node(element(top-level-element))" />
+		</x:scenario>
+
+		<!--See external_node-selection_stylesheet.xspec for a scenario with both @href and element content-->
+	</x:scenario>
+
+	<x:scenario label="Params can appear in different parts of scenario. (call-function invocation)">
+		<x:scenario label="x:param interspersed with x:variable">
+			<x:scenario label="(variable, param, variable)">
+				<x:variable name="myp:variable-before-param" select="'v1'" />
+				<x:param name="myp:param-between-variables"
+					select="$myp:variable-before-param || 'p1'" />
+				<x:variable name="myp:variable-after-param"
+					select="$myp:param-between-variables || 'v2'" />
+
+				<x:call function="myp:get">
+					<x:param select="xs:QName('myp:param-between-variables')" />
+				</x:call>
+				<x:expect label="can use preceding-sibling variables" select="'v1p1'" />
+				<x:expect label="can be used by following-sibling variables" select="'v1p1v2'"
+					test="$myp:variable-after-param" />
+			</x:scenario>
+
+			<x:scenario label="(param, variable, param)">
+				<x:param name="myp:param-before-variable" select="'p1'" />
+				<x:variable name="myp:variable-between-params"
+					select="$myp:param-before-variable || 'v1'" />
+				<x:param name="myp:param-after-variable" select="$myp:param-before-variable || 'p2'" />
+
+				<x:call function="myp:get">
+					<x:param select="xs:QName('myp:param-before-variable')" />
+				</x:call>
+				<x:expect label="can be the 1st child of x:scenario" select="'p1'" />
+				<x:expect label="can be used by following-sibling variables" select="'p1v1'"
+					test="$myp:variable-between-params" />
+
+				<x:scenario label="can">
+					<x:call function="myp:get">
+						<x:param select="xs:QName('myp:param-after-variable')" />
+					</x:call>
+					<x:expect label="use preceding-sibling params" select="'p1p2'" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Param used to store node">
+			<x:param name="myp:default">
+				<foo />
+			</x:param>
+			<x:call function="myp:get" />
+			<x:expect label="can be referenced within Boolean x:expect/@test."
+				test="deep-equal($x:result, $myp:default)" />
+		</x:scenario>
+
+		<x:scenario label="Param used to store atomic value">
+			<x:param name="myp:default" select="'text'" />
+			<x:call function="myp:get" />
+			<x:expect label="can be referenced in x:expect/@select." select="$myp:default" />
+		</x:scenario>
+
+		<x:scenario label="Param with following-sibling x:expect but no sibling x:call">
+			<x:call function="myp:get" />
+
+			<x:scenario label="can be referenced">
+				<x:param name="myp:default" select="'text'" />
+				<x:expect label="in x:expect/@select." select="$myp:default" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario
+		label="Params can be referenced from SUT invocations in different scopes. (call-function invocation)">
+		<x:scenario label="Reference to /x:description/x:param">
+			<x:call function="myp:get">
+				<x:param select="xs:QName('myp:description-param')" />
+			</x:call>
+			<x:expect label="yields correct result." select="'description param value'" />
+		</x:scenario>
+
+		<x:scenario label="Reference to param inherited from outer scenario">
+			<x:param name="myp:outer" select="'outer #1'" />
+
+			<x:scenario label="[inner]">
+				<x:call function="myp:get">
+					<x:param select="xs:QName('myp:outer')" />
+				</x:call>
+				<x:expect label="reflects value defined in outer scenario." select="'outer #1'" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Nonconflicting definition using same param name">
+			<x:scenario label="[outer]">
+				<x:param name="myp:outer" select="'outer #2'" />
+
+				<x:scenario label="[inner]">
+					<x:call function="myp:get">
+						<x:param select="xs:QName('myp:outer')" />
+					</x:call>
+					<x:expect
+						label="inherits value from ancestor scenario, not from another branch of tree."
+						select="'outer #2'" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Params can be redefined locally.">
+		<!-- Note: For x:param elements that are direct children of x:description, expanded QNames must be unique.
+			This test scenario is about *local* redefinitions of x:description or x:scenario params. -->
+		<!-- For now, we assume any prefixes used in param names are defined on x:description. -->
+
+		<x:scenario label="Local redefinition of x:description param">
+			<x:param as="xs:string" name="myp:description-param"
+				select="$myp:description-param || ' (redefined locally using same prefix'" />
+			<x:param as="xs:string" name="myp_alt:description-param"
+				select="$myp:description-param || ' or different prefix)'" />
+
+			<x:call function="myp:get">
+				<x:param select="xs:QName('myp:description-param')" />
+			</x:call>
+			<x:expect label="yields correct redefined result."
+				select="'description param value (redefined locally using same prefix or different prefix)'"
+			 />
+		</x:scenario>
+
+		<x:scenario label="Redefinition of param inherited from outer scenario">
+			<x:param as="xs:string+" name="myp:outer" select="'overwritten', 'data'" />
+			<x:param as="xs:string" name="myp:outer" select="'value #1'" />
+
+			<x:scenario label="[inner]">
+				<x:param as="xs:string" name="myp:outer"
+					select="$myp:outer || ' (redefined locally using same prefix'" />
+				<x:param as="xs:string" name="myp_alt:outer"
+					select="$myp:outer || ' or different prefix)'" />
+
+				<x:call function="myp:get">
+					<x:param select="xs:QName('myp:outer')" />
+				</x:call>
+				<x:expect label="reflects value redefined in inner scenario."
+					select="'value #1 (redefined locally using same prefix or different prefix)'" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Redefinition of param in same scenario">
+			<x:param as="xs:string+" name="myp:local" select="'overwritten', 'data'" />
+			<x:param as="xs:string" name="myp:local" select="'value #2'" />
+			<x:param as="xs:string" name="myp:local"
+				select="$myp:local || ' (redefined using same prefix'" />
+			<x:param as="xs:string" name="myp_alt:local"
+				select="$myp:local || ' or different prefix)'" />
+
+			<x:call function="myp:get">
+				<x:param select="xs:QName('myp:local')" />
+			</x:call>
+			<x:expect label="reflects value redefined within same scenario."
+				select="'value #2 (redefined using same prefix or different prefix)'" />
+		</x:scenario>
+
+		<x:scenario label="Redefinition of param and mixed notations for its name">
+			<x:param as="element(param-child)" name="Q{http://example.org/ns/my/param}default"
+				select="/Q{}param-child">
+				<param-child />
+			</x:param>
+			<x:param as="element(param-child)+" name="Q{http://example.org/ns/my/param}default"
+				select="$myp:default, $Q{http://example.org/ns/my/param}default" />
+
+			<x:call function="myp:get" />
+			<x:expect label="reflects value redefined within same scenario.">
+				<param-child />
+				<param-child />
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="The name 'result' in a non-XSpec namespace">
+			<x:param as="xs:string" name="myp:default" select="'result of function call'" />
+			<x:param as="xs:string" name="myp:result" select="'no conflict'" />
+
+			<x:call function="myp:get" />
+			<x:expect label="has no conflict with $x:result" select="'no conflict'"
+				test="$myp:result" />
+			<x:expect label="while $x:result is preserved for explicit reference"
+				select="'result of function call'" test="$x:result" />
+			<x:expect label="or implicit reference." select="'result of function call'" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Nonsense param definition in pending scenario does not cause build failure.">
+		<x:scenario label="Pending scenario 1" pending="pending by @pending">
+			<x:param as="item()+" name="myp:nonsense1" select="$myp:nonexistent" />
+			<x:call function="myp:nonsense">
+				<x:param select="$myp:nonsense1" />
+			</x:call>
+			<x:expect label="nonsense result" select="0" />
+		</x:scenario>
+
+		<x:pending label="pending by x:pending">
+			<x:scenario label="Pending scenario 2">
+				<x:param href="nonexistent.xml" name="myp:nonsense2" />
+				<x:call function="myp:nonsense">
+					<x:param select="$myp:nonsense2" />
+				</x:call>
+				<x:expect label="nonsense result" select="0" />
+			</x:scenario>
+		</x:pending>
+	</x:scenario>
+
+	<x:scenario label="SHARED params" shared="yes">
+		<!-- When referencing this scenario via x:like, make sure $myp:str is already defined. -->
+		<x:param as="xs:string" name="myp:bracketed" select="'[' || $myp:str || ']'" />
+	</x:scenario>
+
+	<x:scenario label="Shared scenario can use prior definition of param.">
+		<x:scenario label="Scenario 1">
+			<x:param as="xs:string" name="myp:str" select="'cat'" />
+			<x:like label="SHARED params" />
+
+			<x:scenario label="operates">
+				<x:call function="myp:get">
+					<x:param select="xs:QName('myp:bracketed')" />
+				</x:call>
+				<x:expect label="on param value from Scenario 1." select="'[cat]'" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Scenario 2">
+			<x:param as="xs:string" name="myp:str" select="'mouse'" />
+			<x:like label="SHARED params" />
+
+			<x:scenario label="operates">
+				<x:call function="myp:get">
+					<x:param select="xs:QName('myp:bracketed')" />
+				</x:call>
+				<x:expect label="on param value from Scenario 2." select="'[mouse]'" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		Based on call-function invocation scenario (and variable_stylesheet.xspec indirectly)
+	-->
+
+	<!-- call-template invocation -->
+
+	<x:scenario label="Params can appear in different parts of scenario. (call-template invocation)">
+		<x:scenario label="x:param interspersed with x:variable">
+			<x:scenario label="(variable, param, variable)">
+				<x:variable name="myp:variable-before-param" select="'v1'" />
+				<x:param name="myp:param-between-variables"
+					select="$myp:variable-before-param || 'p1'" />
+				<x:variable name="myp:variable-after-param"
+					select="$myp:param-between-variables || 'v2'" />
+
+				<x:call template="myp:get">
+					<x:param name="qname" select="xs:QName('myp:param-between-variables')" />
+				</x:call>
+				<x:expect label="can use preceding-sibling variables" select="'v1p1'" />
+				<x:expect label="can be used by following-sibling variables" select="'v1p1v2'"
+					test="$myp:variable-after-param" />
+			</x:scenario>
+
+			<x:scenario label="(param, variable, param)">
+				<x:param name="myp:param-before-variable" select="'p1'" />
+				<x:variable name="myp:variable-between-params"
+					select="$myp:param-before-variable || 'v1'" />
+				<x:param name="myp:param-after-variable" select="$myp:param-before-variable || 'p2'" />
+
+				<x:call template="myp:get">
+					<x:param name="qname" select="xs:QName('myp:param-before-variable')" />
+				</x:call>
+				<x:expect label="can be the 1st child of x:scenario" select="'p1'" />
+				<x:expect label="can be used by following-sibling variables" select="'p1v1'"
+					test="$myp:variable-between-params" />
+
+				<x:scenario label="can">
+					<x:call template="myp:get">
+						<x:param name="qname" select="xs:QName('myp:param-after-variable')" />
+					</x:call>
+					<x:expect label="use preceding-sibling params" select="'p1p2'" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Param used to store node">
+			<x:param name="myp:default">
+				<foo />
+			</x:param>
+			<x:call template="myp:get" />
+			<x:expect label="can be referenced within Boolean x:expect/@test."
+				test="deep-equal($x:result, $myp:default)" />
+		</x:scenario>
+
+		<x:scenario label="Param used to store atomic value">
+			<x:param name="myp:default" select="'text'" />
+			<x:call template="myp:get" />
+			<x:expect label="can be referenced in x:expect/@select." select="$myp:default" />
+		</x:scenario>
+
+		<x:scenario label="Param with following-sibling x:expect but no sibling x:call or x:context">
+			<x:call template="myp:get" />
+
+			<x:scenario label="can be referenced">
+				<x:param name="myp:default" select="'text'" />
+				<x:expect label="in x:expect/@select." select="$myp:default" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario
+		label="Params can be referenced from SUT invocations in different scopes. (call-template invocation)">
+		<x:scenario label="Reference to /x:description/x:param">
+			<x:call template="myp:get">
+				<x:param name="qname" select="xs:QName('myp:description-param')" />
+			</x:call>
+			<x:expect label="yields correct result." select="'description param value'" />
+		</x:scenario>
+
+		<x:scenario label="Reference to param inherited from outer scenario">
+			<x:param name="myp:outer" select="'outer #1'" />
+
+			<x:scenario label="[inner]">
+				<x:call template="myp:get">
+					<x:param name="qname" select="xs:QName('myp:outer')" />
+				</x:call>
+				<x:expect label="reflects value defined in outer scenario." select="'outer #1'" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Nonconflicting definition using same param name">
+			<x:scenario label="[outer]">
+				<x:param name="myp:outer" select="'outer #2'" />
+
+				<x:scenario label="[inner]">
+					<x:call template="myp:get">
+						<x:param name="qname" select="xs:QName('myp:outer')" />
+					</x:call>
+					<x:expect
+						label="inherits value from ancestor scenario, not from another branch of tree."
+						select="'outer #2'" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<!-- apply-templates invocation -->
+
+	<x:scenario
+		label="Params can appear in different parts of scenario. (apply-templates invocation)">
+		<x:scenario label="x:param interspersed with x:variable">
+			<x:scenario label="(variable, param, variable)">
+				<x:variable name="myp:variable-before-param" select="'v1'" />
+				<x:param name="myp:param-between-variables"
+					select="$myp:variable-before-param || 'p1'" />
+				<x:variable name="myp:variable-after-param"
+					select="$myp:param-between-variables || 'v2'" />
+
+				<x:context mode="myp:get" select="0">
+					<x:param name="qname" select="xs:QName('myp:param-between-variables')" />
+				</x:context>
+				<x:expect label="can use preceding-sibling variables" select="'v1p1'" />
+				<x:expect label="can be used by following-sibling variables" select="'v1p1v2'"
+					test="$myp:variable-after-param" />
+			</x:scenario>
+
+			<x:scenario label="(param, variable, param)">
+				<x:param name="myp:param-before-variable" select="'p1'" />
+				<x:variable name="myp:variable-between-params"
+					select="$myp:param-before-variable || 'v1'" />
+				<x:param name="myp:param-after-variable" select="$myp:param-before-variable || 'p2'" />
+
+				<x:context mode="myp:get" select="0">
+					<x:param name="qname" select="xs:QName('myp:param-before-variable')" />
+				</x:context>
+				<x:expect label="can be the 1st child of x:scenario" select="'p1'" />
+				<x:expect label="can be used by following-sibling variables" select="'p1v1'"
+					test="$myp:variable-between-params" />
+
+				<x:scenario label="can">
+					<x:context mode="myp:get" select="0">
+						<x:param name="qname" select="xs:QName('myp:param-after-variable')" />
+					</x:context>
+					<x:expect label="use preceding-sibling params" select="'p1p2'" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Param used to store node">
+			<x:param name="myp:default">
+				<foo />
+			</x:param>
+			<x:context mode="myp:get" select="0" />
+			<x:expect label="can be referenced within Boolean x:expect/@test."
+				test="deep-equal($x:result, $myp:default)" />
+		</x:scenario>
+
+		<x:scenario label="Param used to store atomic value">
+			<x:param name="myp:default" select="'text'" />
+			<x:context mode="myp:get" select="0" />
+			<x:expect label="can be referenced in x:expect/@select." select="$myp:default" />
+		</x:scenario>
+
+		<x:scenario label="Param with following-sibling x:expect but no sibling x:context">
+			<x:context mode="myp:get" select="0" />
+
+			<x:scenario label="can be referenced">
+				<x:param name="myp:default" select="'text'" />
+				<x:expect label="in x:expect/@select." select="$myp:default" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario
+		label="Params can be referenced from SUT invocations in different scopes. (apply-templates invocation)">
+		<x:scenario label="Reference to /x:description/x:param">
+			<x:context mode="myp:get" select="0">
+				<x:param name="qname" select="xs:QName('myp:description-param')" />
+			</x:context>
+			<x:expect label="yields correct result." select="'description param value'" />
+		</x:scenario>
+
+		<x:scenario label="Reference to param inherited from outer scenario">
+			<x:param name="myp:outer" select="'outer #1'" />
+
+			<x:scenario label="[inner]">
+				<x:context mode="myp:get" select="0">
+					<x:param name="qname" select="xs:QName('myp:outer')" />
+				</x:context>
+				<x:expect label="reflects value defined in outer scenario." select="'outer #1'" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Nonconflicting definition using same param name">
+			<x:scenario label="[outer]">
+				<x:param name="myp:outer" select="'outer #2'" />
+
+				<x:scenario label="[inner]">
+					<x:context mode="myp:get" select="0">
+						<x:param name="qname" select="xs:QName('myp:outer')" />
+					</x:context>
+					<x:expect
+						label="inherits value from ancestor scenario, not from another branch of tree."
+						select="'outer #2'" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
