@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:local="urn:x-xspec:compiler:base:main:local"
-                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+<xsl:stylesheet xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 exclude-result-prefixes="#all"
@@ -29,34 +28,34 @@
       select="x:document-actual-uri($initial-document)" />
 
    <!--
-      Accumulators for local variable declarations (x:variable)
+      Accumulators for local variable declarations (x:param and x:variable)
    -->
 
    <!-- Push and pop variable declaration elements based on node identity -->
-   <xsl:accumulator name="local:stacked-vardecls" as="element(x:variable)*" initial-value="()">
-      <xsl:accumulator-rule match="x:scenario/x:variable"
+   <xsl:accumulator name="stacked-vardecls" as="element()*" initial-value="()">
+      <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable"
          select="
             (: Append this local variable declaration element :)
-            $value, self::x:variable" />
+            $value, (self::x:param | self::x:variable)" />
       <xsl:accumulator-rule match="x:scenario" phase="end"
          select="
             (: Remove child variable declaration elements of this scenario :)
-            $value except child::x:variable" />
+            $value except (child::x:param | child::x:variable)" />
    </xsl:accumulator>
 
-   <!-- Push and pop distinct URIQualifiedName of variable declarations (x:variable) -->
+   <!-- Push and pop distinct URIQualifiedName of variable declarations (x:param and x:variable) -->
    <xsl:accumulator name="stacked-vardecls-distinct-uqnames" as="xs:string*" initial-value="()">
       <!-- Use x:distinct-strings-stable() instead of fn:distinct-values(). The x:compile-scenario
          template for XQuery requires the order to be stable. -->
-      <xsl:accumulator-rule match="x:scenario/x:variable"
+      <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable"
          select="
             x:distinct-strings-stable(
-               accumulator-before('local:stacked-vardecls') ! x:variable-UQName(.)
+               accumulator-before('stacked-vardecls') ! x:variable-UQName(.)
             )" />
       <xsl:accumulator-rule match="x:scenario" phase="end"
          select="
             x:distinct-strings-stable(
-               accumulator-after('local:stacked-vardecls') ! x:variable-UQName(.)
+               accumulator-after('stacked-vardecls') ! x:variable-UQName(.)
             )" />
    </xsl:accumulator>
 

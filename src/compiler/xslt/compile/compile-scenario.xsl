@@ -22,8 +22,10 @@
       <xsl:param name="pending-p" as="xs:boolean" required="yes" />
       <xsl:param name="run-sut-now" as="xs:boolean" required="yes" />
 
-      <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*" select="
-            x:variable[following-sibling::x:call or following-sibling::x:context]" />
+      <xsl:variable name="local-preceding-vardecls" as="element()*" select="
+            (x:param | x:variable)[following-sibling::x:call or following-sibling::x:context]
+            | x:param[$run-sut-now]
+            | x:variable[following-sibling::x:param][$run-sut-now]" />
 
       <!-- We have to create these error messages at this stage because before now
          we didn't have merged versions of the environment -->
