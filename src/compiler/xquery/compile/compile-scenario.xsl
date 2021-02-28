@@ -21,7 +21,7 @@
       <xsl:param name="run-sut-now" as="xs:boolean" required="yes" />
 
       <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
-         select="x:call/preceding-sibling::x:variable" />
+         select="x:variable[following-sibling::x:call]" />
 
       <xsl:if test="$context">
          <xsl:call-template name="x:diag-compiling-scenario">
