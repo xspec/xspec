@@ -152,8 +152,8 @@
 		 This test scenario is about *local* redefinitions of global or local variables. -->
 		<!-- For now, we assume any prefixes used in variable names are defined on x:description. -->
 		<x:scenario label="Local redefinition of global variable">
-			<x:variable name="myv:test-string" select="concat($myv:test-string,' (redefined locally using same prefix')" as="xs:string"/>
-			<x:variable name="myv_alt:test-string" select="concat($myv:test-string,' or different prefix)')" as="xs:string"/>
+			<x:variable name="myv:test-string" select="$myv:test-string || ' (redefined locally using same prefix'" as="xs:string"/>
+			<x:variable name="myv_alt:test-string" select="$myv:test-string || ' or different prefix)'" as="xs:string"/>
 			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:test-string"/>
 			</x:call>
@@ -164,8 +164,8 @@
 			<x:variable name="myv:outer" select="('overwritten','data')" as="xs:string+"/>
 			<x:variable name="myv:outer" select="'value #1'" as="xs:string"/>
 			<x:scenario label="[inner]">
-				<x:variable name="myv:outer" select="concat($myv:outer,' (redefined locally using same prefix')" as="xs:string"/>
-				<x:variable name="myv_alt:outer" select="concat($myv:outer,' or different prefix)')" as="xs:string"/>
+				<x:variable name="myv:outer" select="$myv:outer || ' (redefined locally using same prefix'" as="xs:string"/>
+				<x:variable name="myv_alt:outer" select="$myv:outer || ' or different prefix)'" as="xs:string"/>
 				<x:call function="mirror:param-mirror">
 					<x:param select="$myv:outer"/>
 				</x:call>
@@ -176,8 +176,8 @@
 		<x:scenario label="Redefinition of variable in same scenario">
 			<x:variable name="myv:local" select="('overwritten','data')" as="xs:string+"/>
 			<x:variable name="myv:local" select="'value #2'" as="xs:string"/>
-			<x:variable name="myv:local" select="concat($myv:local,' (redefined using same prefix')" as="xs:string"/>
-			<x:variable name="myv_alt:local" select="concat($myv:local,' or different prefix)')" as="xs:string"/>
+			<x:variable name="myv:local" select="$myv:local || ' (redefined using same prefix'" as="xs:string"/>
+			<x:variable name="myv_alt:local" select="$myv:local || ' or different prefix)'" as="xs:string"/>
 			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:local"/>
 			</x:call>
@@ -233,7 +233,7 @@
 
 	<x:scenario shared="yes" label="SHARED variables">
 		<!-- When referencing this scenario via x:like, make sure $myv:str and $x:result are already defined. -->
-		<x:variable name="myv:bracketed" select="concat('[', $myv:str, ']')" as="xs:string"/>
+		<x:variable name="myv:bracketed" select="'[' || $myv:str || ']'" as="xs:string"/>
 		<x:variable name="myv:result" select="$x:result" as="xs:boolean"/>
 	</x:scenario>
 
