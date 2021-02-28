@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Based on compilation-variables-scope.xspec -->
+<x:description xmlns:my="http://example.org/ns/my"
+               xmlns:myp="http://example.org/ns/my/param"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               stylesheet="../../test/external_square.xsl"
+               run-as="external">
+
+   <!-- Example (embellished a bit to make it runnable) in Compilation.md, under "Scenario-level x:param scope" -->
+   <!-- To facilitate updating that wiki, compile this test without deleting intermediate results. -->
+
+   <x:param name="myp:param-1" select="trace('value-1')" />
+
+   <x:scenario label="outer scenario">
+      <x:param name="myp:param-2" select="trace('value-2')" />
+
+      <x:scenario label="inner scenario">
+         <x:param name="myp:param-3" select="trace('value-3')" />
+         <x:call function="my:square">
+            <x:param select="0" />
+         </x:call>
+         <x:expect label="1st expect"
+            test="$myp:param-1 and $myp:param-2 and $myp:param-3" />
+      </x:scenario>
+   </x:scenario>
+
+</x:description>
