@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	user-content-utils.xspec uses this file for testing x:is-user-content().
+	When modifying this file, check whether user-content-utils.xspec needs any additions or updates.
+-->
+<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in AVT -->
+<x:description run-as="external" stylesheet="external_mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:import href="avt_stylesheet.xspec" />
+
+	<x:scenario label="In scenario-level global-param, only user-content attribute is AVT. So...">
+		<x:param name="scenario-param-no-href">
+			<scenario-param-child attr="}}{myfn:false()}{{">}}{false()}{{</scenario-param-child>
+		</x:param>
+		<x:param href="avt.xml" name="scenario-param-with-href" />
+
+		<x:scenario label="In //x:scenario/x:param/node(),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is AVT." select="'}false{'"
+				test="$scenario-param-no-href/self::scenario-param-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$scenario-param-no-href/self::scenario-param-child/text()/string()" />
+		</x:scenario>
+
+		<x:scenario label="In //x:scenario/x:param/doc(@href),">
+			<x:call function="mirror:false" />
+			<x:expect label="attribute is intact." select="'}}{false()}{{'"
+				test="$scenario-param-with-href/href-doc-child/@attr/string()" />
+			<x:expect label="text node is intact." select="'}}{false()}{{'"
+				test="$scenario-param-with-href/href-doc-child/text()/string()" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

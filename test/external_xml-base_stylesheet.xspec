@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="test.xsl" xml:base="xml-base/"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:import href="../xml-base_stylesheet.xspec" />
+
+	<x:scenario label="In scenario-level global-param (i.e. //x:scenario/x:param),">
+		<x:param href="test.xml" name="scenario-param" xml:base="node-selection/" />
+		<x:context />
+		<x:expect label="@href is resolved with @xml:base"
+			test="$scenario-param instance of document-node(element(testing-xml-base))" />
+	</x:scenario>
+
+</x:description>

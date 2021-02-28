@@ -79,6 +79,44 @@
 			</x:scenario>
 		</x:scenario>
 
+		<x:scenario label="scenario-level global-param">
+			<x:scenario label="user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="external_avt_stylesheet.xspec"
+							select="//x:scenario/x:param/element()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="external_avt_stylesheet.xspec"
+							select="//x:scenario/x:param/element()/attribute()" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="not user-content">
+				<x:scenario label="element">
+					<x:call>
+						<x:param href="external_avt_stylesheet.xspec"
+							select="(//x:scenario/x:param)[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+
+				<x:scenario label="attribute">
+					<x:call>
+						<x:param href="external_avt_stylesheet.xspec"
+							select="(//x:scenario/x:param/attribute())[1]" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+
 		<x:scenario label="global variable">
 			<x:scenario label="user-content">
 				<x:scenario label="element">

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="external_issue-450-451_stylesheet.xspec">
+   <testsuite name="scenario-level global-param containing curly brackets"
+              tests="1"
+              failures="0">
+      <testcase name="should work" status="passed"/>
+   </testsuite>
    <testsuite name="context template-param containing curly brackets"
               tests="1"
               failures="0">
