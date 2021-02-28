@@ -2207,8 +2207,23 @@ load bats-helper
 }
 
 #
-# x:variable should be evaluated only once
+# x:param and x:variable should be evaluated only once
 #
+
+@test "x:param should be evaluated only once" {
+    run ../bin/xspec.sh ../tutorial/under-the-hood/compilation-params-scope.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[ 3]}" = "Running Tests..." ]
+    assert_regex "${lines[4]}" '^Testing with SAXON '
+    [ "${lines[ 5]}" = "outer scenario" ]
+    [ "${lines[ 6]}" = "* [1]: xs:string: value-2" ]
+    [ "${lines[ 7]}" = "..inner scenario" ]
+    [ "${lines[ 8]}" = "* [1]: xs:string: value-3" ]
+    [ "${lines[ 9]}" = "* [1]: xs:string: value-1" ]
+    [ "${lines[10]}" = "1st expect" ]
+    [ "${lines[11]}" = "Formatting Report..." ]
+}
 
 @test "x:variable should be evaluated only once (XSLT)" {
     run ../bin/xspec.sh ../tutorial/under-the-hood/compilation-variables-scope.xspec
