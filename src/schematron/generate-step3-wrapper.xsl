@@ -8,7 +8,6 @@
 		of the Schematron Step 3 preprocessor.
 		While generating the wrapper stylesheet, the following adjustments are made:
 			* Transforms /x:description/x:param into /xsl:stylesheet/xsl:param.
-			* Imports the private patch (only for the built-in preprocessor).
 			* Generates $x:schematron-uri global parameter.
 		See ../../test/generate-step3-wrapper_*.xspec for examples.
 	-->
@@ -45,7 +44,7 @@
 	<xsl:template as="element(xsl:stylesheet)" match="x:description">
 		<!-- Absolute URI of the stylesheet of the built-in Schematron Step 3 preprocessor -->
 		<xsl:variable as="xs:anyURI" name="builtin-preprocessor-uri"
-			select="resolve-uri('../../lib/iso-schematron/iso_svrl_for_xslt2.xsl')" />
+			select="resolve-uri('step3.xsl')" />
 
 		<xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
 			<xsl:attribute name="exclude-result-prefixes" select="'#all'" />
@@ -56,14 +55,6 @@
 				<xsl:attribute name="href"
 					select="($ACTUAL-PREPROCESSOR-URI, $builtin-preprocessor-uri)[1]" />
 			</xsl:element>
-
-			<!-- Import the private patch. This must be after importing the Step 3 preprocessor
-				for the patch to take precedence. -->
-			<xsl:if test="empty($ACTUAL-PREPROCESSOR-URI)">
-				<xsl:element name="xsl:import" namespace="{$x:xsl-namespace}">
-					<xsl:attribute name="href" select="resolve-uri('patch-step3.xsl')" />
-				</xsl:element>
-			</xsl:if>
 
 			<xsl:variable as="element(x:description)" name="pseudo-description">
 				<!--
@@ -76,8 +67,9 @@
 					<!-- Set up a pseudo x:param which holds the fully-resolved Schematron file URI
 						so that $x:schematron-uri holding the URI is generated and made available in
 						the wrapper stylesheet being generated.
-						Do it even when the private patch is not imported, because the preprocessor
-						specified by $ACTUAL-PREPROCESSOR-URI may want to make use of it. -->
+						Do it even when the Schematron Step 3 preprocessor is not the built-in one,
+						because the preprocessor specified by $ACTUAL-PREPROCESSOR-URI may want to
+						make use of it. -->
 					<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
 						<xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
 						<xsl:attribute name="name" select="x:known-UQName('x:schematron-uri')" />
