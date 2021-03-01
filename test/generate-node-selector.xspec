@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="../src/schematron/generate-node-selector.xsl"
 	xmlns:myv="x-urn:test:generate-node-selector:variable"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<x:variable as="xs:string" name="myv:xpath-expression" select="'/xpath/to/my/target/node'" />
 
 	<x:scenario label="Expect stylesheet" shared="yes">
 		<!-- Expected stylesheet.
@@ -12,7 +14,7 @@
 			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0">
 				<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 				<xsl:template as="node()?" match="attribute() | document-node() | node()">
-					<xsl:sequence select="/xpath/to/my/target/node" version="3" />
+					<xsl:sequence select="{$myv:xpath-expression}" version="3" />
 				</xsl:template>
 			</xsl:stylesheet>
 		</x:expect>
@@ -20,7 +22,7 @@
 
 	<x:scenario label="Without namespace nodes">
 		<x:call template="xsl:initial-template">
-			<x:param name="expression">/xpath/to/my/target/node</x:param>
+			<x:param name="expression" select="$myv:xpath-expression" />
 			<x:param name="xslt-version" select="3.0" />
 		</x:call>
 		<x:like label="Expect stylesheet" />
@@ -33,7 +35,7 @@
 			<e xmlns:my-prefix="my-uri" />
 		</x:variable>
 		<x:call template="xsl:initial-template">
-			<x:param name="expression">/xpath/to/my/target/node</x:param>
+			<x:param name="expression" select="$myv:xpath-expression" />
 			<x:param name="namespace-nodes" select="$myv:namespace-node" />
 			<x:param name="xslt-version" select="3.0" />
 		</x:call>
