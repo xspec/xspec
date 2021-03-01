@@ -25,12 +25,10 @@
 		mode="normalizer:normalize">
 		<xsl:analyze-string regex="^(Test Report for) (.+) (\([a-z0-9/: ]+\))$" select=".">
 			<xsl:matching-substring>
-				<xsl:value-of
-					select="
+				<xsl:value-of select="
 						regex-group(1),
 						x:filename-and-extension(regex-group(2)),
-						regex-group(3)"
-				 />
+						regex-group(3)" />
 			</xsl:matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>
@@ -137,18 +135,16 @@
 		mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
-		<xsl:variable name="regex"
+		<xsl:variable as="xs:string" name="regex"
 			><![CDATA[^( +<svrl:active-pattern document=")(.+?)(")$]]></xsl:variable>
 
 		<xsl:value-of>
 			<xsl:analyze-string flags="m" regex="{$regex}" select=".">
 				<xsl:matching-substring>
-					<xsl:sequence
-						select="
+					<xsl:sequence select="
 							regex-group(1),
 							normalizer:relative-uri(regex-group(2), $tunnel_document-uri),
-							regex-group(3)"
-					 />
+							regex-group(3)" />
 				</xsl:matching-substring>
 				<xsl:non-matching-substring>
 					<xsl:copy />
@@ -191,17 +187,16 @@
 	<xsl:template as="text()" match="script/text()" mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
-		<xsl:variable name="regex"><![CDATA[^( +icon\.src = ")(.+?)(" ;)$]]></xsl:variable>
+		<xsl:variable as="xs:string" name="regex"
+			><![CDATA[^( +icon\.src = ")(.+?)(" ;)$]]></xsl:variable>
 
 		<xsl:value-of>
 			<xsl:analyze-string flags="m" regex="{$regex}" select=".">
 				<xsl:matching-substring>
-					<xsl:sequence
-						select="
+					<xsl:sequence select="
 							regex-group(1),
 							normalizer:relative-uri(regex-group(2), $tunnel_document-uri),
-							regex-group(3)"
-					 />
+							regex-group(3)" />
 				</xsl:matching-substring>
 				<xsl:non-matching-substring>
 					<xsl:copy />
