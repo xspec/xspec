@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-saxon-bug-4621-fixed?>
 <x:description stylesheet="issue-1029.xsl" xmlns:issue-1029="x-urn:test:issue-1029"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<x:scenario label="expectations" shared="yes">
 		<x:expect label="should catch err:XTMM9000"
@@ -10,15 +11,23 @@
 			><![CDATA[my error message]]></x:expect>
 	</x:scenario>
 
+	<x:variable as="element(xsl:stylesheet)" name="stylesheet"
+		select="doc($x:xspec-uri)/x:description/document(@stylesheet)/xsl:stylesheet" />
+
 	<x:scenario catch="yes" label="catch=yes with xsl:message[@terminate=yes] in xsl:function">
 		<x:scenario label="[@as=xs:integer]">
 			<x:call function="issue-1029:as-integer" />
 			<x:like label="expectations" />
+			<x:expect label="verify xsl:function" select="'xs:integer'"
+				test="$stylesheet/xsl:function[@name eq 'issue-1029:as-integer']/@as ! string()" />
 		</x:scenario>
 
 		<x:scenario label="[empty(@as)]">
 			<x:call function="issue-1029:no-as" />
 			<x:like label="expectations" />
+			<x:expect label="verify xsl:function" select="'true'"
+				test="$stylesheet/xsl:function[@name eq 'issue-1029:no-as']/empty(@as) ! string()"
+			 />
 		</x:scenario>
 	</x:scenario>
 
@@ -27,11 +36,16 @@
 		<x:scenario label="[@as=xs:integer]">
 			<x:call template="issue-1029:as-integer" />
 			<x:like label="expectations" />
+			<x:expect label="verify xsl:template" select="'xs:integer'"
+				test="$stylesheet/xsl:template[@name eq 'issue-1029:as-integer']/@as ! string()" />
 		</x:scenario>
 
 		<x:scenario label="[empty(@as)]">
 			<x:call template="issue-1029:no-as" />
 			<x:like label="expectations" />
+			<x:expect label="verify xsl:template" select="'true'"
+				test="$stylesheet/xsl:template[@name eq 'issue-1029:no-as']/empty(@as) ! string()"
+			 />
 		</x:scenario>
 	</x:scenario>
 
@@ -42,6 +56,8 @@
 				<context-child />
 			</x:context>
 			<x:like label="expectations" />
+			<x:expect label="verify xsl:template" select="'xs:integer'"
+				test="$stylesheet/xsl:template[@mode eq 'issue-1029:as-integer']/@as ! string()" />
 		</x:scenario>
 
 		<x:scenario label="[empty(@as)]">
@@ -49,6 +65,9 @@
 				<context-child />
 			</x:context>
 			<x:like label="expectations" />
+			<x:expect label="verify xsl:template" select="'true'"
+				test="$stylesheet/xsl:template[@mode eq 'issue-1029:no-as']/empty(@as) ! string()"
+			 />
 		</x:scenario>
 	</x:scenario>
 
