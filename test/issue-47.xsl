@@ -4,7 +4,7 @@
 
 	<xsl:import-schema namespace="x-urn:test" schema-location="issue-47.xsd" />
 
-	<xsl:variable as="document-node()" name="test-doc">
+	<xsl:variable as="document-node(schema-element(Q{x-urn:test}foo))" name="test-doc">
 		<xsl:copy-of select="doc('issue-47.xml')" validation="strict" />
 	</xsl:variable>
 
