@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:my="http://example.org/ns/my" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="../../do-nothing.xsl" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<!--
 		- x:scenario/x:variable overriding /x:description/x:param
 		- Lexical QName overriding URIQualifiedName
