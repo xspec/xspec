@@ -29,6 +29,8 @@
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="document-node()" match="document-node(element(x:description))">
+		<xsl:call-template name="x:perform-initial-check" />
+
 		<xsl:variable as="map(xs:string, item())+" name="common-options-map">
 			<xsl:map-entry key="'cache'" select="$CACHE" />
 		</xsl:variable>
@@ -109,6 +111,16 @@
 		<xsl:variable as="map(*)" name="step3-transformed-map"
 			select="transform($step3-options-map)" />
 		<xsl:sequence select="$step3-transformed-map?output" />
+	</xsl:template>
+
+	<xsl:template as="empty-sequence()" name="x:perform-initial-check">
+		<xsl:context-item as="document-node(element(x:description))" use="required" />
+
+		<xsl:if test="x:description/@schematron => empty()">
+			<xsl:message terminate="yes">
+				<xsl:text expand-text="yes">Missing /{name(x:description)}/@schematron.</xsl:text>
+			</xsl:message>
+		</xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>

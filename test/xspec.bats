@@ -2157,6 +2157,33 @@ load bats-helper
 }
 
 #
+# Missing @stylesheet, @query, @schematron
+#
+#     Use no-prefix*.xspec to test the element name in the error message
+#
+
+@test "Error message when @stylesheet is missing" {
+    run ../bin/xspec.sh no-prefix_schematron.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "Missing /x:description/@stylesheet." ]
+}
+
+@test "Error message when @query is missing" {
+    run ../bin/xspec.sh -q no-prefix_schematron.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "Missing /x:description/@query." ]
+}
+
+@test "Error message when @schematron is missing" {
+    run ../bin/xspec.sh -s no-prefix.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[2]}" = "Missing /description/@schematron." ]
+}
+
+#
 # x:param in XSpec namespace
 #
 

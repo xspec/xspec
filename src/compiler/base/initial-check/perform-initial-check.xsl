@@ -29,6 +29,8 @@
             <xsl:text expand-text="yes">Source document is not XSpec. /{$description-name} is missing. Supplied source has /{element() => name()} instead.</xsl:text>
          </xsl:message>
       </xsl:if>
+
+      <xsl:call-template name="x:perform-initial-check-for-lang" />
    </xsl:template>
 
 </xsl:stylesheet>

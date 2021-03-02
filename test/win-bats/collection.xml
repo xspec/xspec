@@ -1847,6 +1847,30 @@
 	</case>
 
 	<!--
+		Missing @stylesheet, @query, @schematron
+		
+			Use no-prefix*.xspec to test the element name in the error message
+	-->
+
+	<case name="Error message when @stylesheet is missing">
+    call :run ..\bin\xspec.bat no-prefix_schematron.xspec
+    call :verify_retval 2
+    call :verify_line 4 x "Missing /x:description/@stylesheet."
+	</case>
+
+	<case name="Error message when @query is missing">
+    call :run ..\bin\xspec.bat -q no-prefix_schematron.xspec
+    call :verify_retval 2
+    call :verify_line 4 x "Missing /x:description/@query."
+	</case>
+
+	<case name="Error message when @schematron is missing">
+    call :run ..\bin\xspec.bat -s no-prefix.xspec
+    call :verify_retval 2
+    call :verify_line 3 x "Missing /description/@schematron."
+	</case>
+
+	<!--
 		x:param in XSpec namespace
 	-->
 
