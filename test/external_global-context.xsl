@@ -2,6 +2,8 @@
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+	<xsl:global-context-item as="item()" use="required" />
+
 	<xsl:variable as="item()" name="global-context" select="." />
 
 	<!-- Returns the global context item intact -->

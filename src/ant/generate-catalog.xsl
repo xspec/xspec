@@ -4,6 +4,8 @@
 	xmlns:catalog="urn:oasis:names:tc:entity:xmlns:xml:catalog"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+	<xsl:global-context-item use="absent" />
+
 	<!-- URIs separated by semicolons (;) -->
 	<xsl:param as="xs:string" name="CATALOG-URIS" />
 
