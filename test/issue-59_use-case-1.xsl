@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:template name="makeAtt">
+	<xsl:template as="attribute()" name="makeAtt">
 		<xsl:param as="element()" name="e" required="yes" />
 		<xsl:param as="xs:string" name="att" required="yes" />
 		<xsl:param as="xs:string" name="val" required="yes" />

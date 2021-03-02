@@ -4,9 +4,9 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   version="3.0">
 
-  <xsl:template name="template-to-call">
+  <xsl:template name="template-to-call" as="element(output-element)">
     <output-element/>
-  </xsl:template>  
+  </xsl:template>
 
   <xsl:function name="mf:call-some-template">
     <xsl:param name="context" as="element()?"/>
@@ -19,5 +19,5 @@
       })?output
       "/>
   </xsl:function>
-  
+
 </xsl:transform>
