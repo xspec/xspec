@@ -11,7 +11,8 @@
 			]]></x:label>
 			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-				<xsl:import href="{resolve-uri('../src/schematron/step3.xsl', $x:xspec-uri)}" />
+				<xsl:import
+					href="{resolve-uri('../lib/schxslt/2.0/compile-for-svrl.xsl', $x:xspec-uri)}" />
 				<xsl:variable as="document-node()" name="...">
 					<xsl:document>
 						<xsl:text>PhaseA</xsl:text>

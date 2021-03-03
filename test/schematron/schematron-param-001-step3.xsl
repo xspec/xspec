@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0" xmlns:foo="foo"
 	xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+	xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+	xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -9,13 +11,15 @@
 		The source parameters are supposed to be supplied by /x:description/x:param.
 		The injected variables are to be checked by //x:scenario/x:expect. -->
 
-	<xsl:import href="../../src/schematron/step3.xsl" />
+	<xsl:import href="../../lib/schxslt/2.0/compile-for-svrl.xsl" />
 
 	<xsl:include href="../../src/common/common-utils.xsl" />
 	<xsl:include href="../../src/common/namespace-utils.xsl" />
 	<xsl:include href="../../src/common/uqname-utils.xsl" />
 
-	<xsl:template as="element(xsl:variable)+" name="process-prolog">
+	<xsl:template as="element(xsl:variable)+" name="schxslt-api:validation-stylesheet-body-top-hook">
+		<xsl:param as="element(sch:schema)" name="schema" required="yes" />
+
 		<xsl:variable as="map(xs:string, item())" name="vars-map" select="
 				map {
 					'schematron-param-001:phase': $phase,

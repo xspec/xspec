@@ -7,7 +7,7 @@
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
-	<xsl:template as="document-node(element(xsl:stylesheet))"
+	<xsl:template as="document-node(element(xsl:transform))"
 		match="document-node(element(sch:schema))">
 		<!--
 			Include (Step 1) & Expand (Step 2)

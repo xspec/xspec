@@ -2,7 +2,11 @@
 <sch:schema queryBinding="xslt2" xmlns:sch="http://purl.oclc.org/dsdl/schematron"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:param name="phase" required="yes" />
+	<!--
+		SchXslt 1.6.2 discards xsl:param, while it allows xsl:include. (schxslt/schxslt#154)
+		Declare xsl:param indirectly via xsl:include.
+	-->
+	<xsl:include href="external_scenario-param.sch.included.xsl" />
 
 	<sch:phase id="A">
 		<sch:active pattern="pattern-A" />

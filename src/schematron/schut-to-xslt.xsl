@@ -15,9 +15,9 @@
 	<xsl:param as="document-node()?" name="STEP3-PREPROCESSOR-DOC" />
 
 	<xsl:param as="xs:string" name="STEP1-PREPROCESSOR-URI"
-		select="'../../lib/iso-schematron/iso_dsdl_include.xsl'" />
+		select="resolve-uri('../../lib/schxslt/2.0/include.xsl')" />
 	<xsl:param as="xs:string" name="STEP2-PREPROCESSOR-URI"
-		select="'../../lib/iso-schematron/iso_abstract_expand.xsl'" />
+		select="resolve-uri('../../lib/schxslt/2.0/expand.xsl')" />
 	<xsl:param as="xs:string?" name="STEP3-PREPROCESSOR-URI"
 		select="document-uri($STEP3-PREPROCESSOR-DOC)" />
 

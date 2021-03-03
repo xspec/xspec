@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0" xmlns:dct="http://purl.org/dc/terms/"
 	xmlns:local="x-urn:xspec:test:end-to-end:processor:xml:normalizer:local"
 	xmlns:normalizer="x-urn:xspec:test:end-to-end:processor:normalizer"
-	xmlns:svrl="http://purl.oclc.org/dsdl/svrl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!--
 		This stylesheet module helps normalize the test result XML.
@@ -12,7 +14,7 @@
 	<!--
 		Normalizes the link to the files inside the repository
 			Example:
-				in   <x:report xspec="file:/path/to/test.xspec">
+				in:  <x:report xspec="file:/path/to/test.xspec">
 				out: <x:report xspec="../path/to/test.xspec">
 	-->
 	<xsl:template as="attribute()" match="
@@ -34,10 +36,48 @@
 		Normalizes the link to the files outside the repository
 			Only the file name (and extension) is predictable.
 	-->
-	<xsl:template as="attribute(stylesheet)" match="/x:report[@schematron]/@stylesheet"
-		mode="normalizer:normalize">
+	<xsl:template as="attribute()" match="
+			/x:report[@schematron]/@stylesheet
+			|
+			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
+			/svrl:schematron-output/svrl:active-pattern/@documents" mode="normalizer:normalize">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
 			select="x:filename-and-extension(.)" />
+	</xsl:template>
+
+	<!--
+		Normalizes dct:created by copying another element text
+	-->
+	<xsl:template as="element(dct:created)" match="
+			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
+			/svrl:schematron-output/svrl:metadata/dct:source/rdf:Description/dct:created
+			[empty(node() except text())]
+			[. castable as xs:dateTimeStamp]" mode="normalizer:normalize">
+		<xsl:copy>
+			<xsl:apply-templates mode="#current" select="attribute()" />
+			<xsl:value-of
+				select="ancestor::svrl:metadata[1]/dct:created[. castable as xs:dateTimeStamp]" />
+		</xsl:copy>
+	</xsl:template>
+
+	<!--
+		Normalizes skos:prefLabel
+			Example:
+				in:  <skos:prefLabel>SchXslt/1.6.2 SAXON/EE 9.9.1.7</skos:prefLabel>
+				out: <skos:prefLabel>SchXslt/1.6.2 SAXON/product-version</skos:prefLabel>
+				
+				in:  <skos:prefLabel>SAXON/HE 9.9.1.7</skos:prefLabel>
+				out: <skos:prefLabel>SAXON/product-version</skos:prefLabel>
+	-->
+	<xsl:template as="element(skos:prefLabel)" match="
+			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
+			/svrl:schematron-output/svrl:metadata//dct:creator/dct:Agent/skos:prefLabel
+			[empty(node() except text())]" mode="normalizer:normalize">
+		<xsl:copy>
+			<xsl:apply-templates mode="#current" select="attribute()" />
+			<xsl:value-of
+				select="replace(., '^((?:SchXslt/[0-9.]+ )?SAXON/)[^/]+$', '$1product-version')" />
+		</xsl:copy>
 	</xsl:template>
 
 	<!-- Normalizes the link to the files created dynamically by XSpec -->
@@ -64,8 +104,10 @@
 				=> head()" />
 		<xsl:if test="$svrl">
 			<xsl:choose>
-				<!-- TODO: Identify SchXslt -->
-				<xsl:when test="false()">
+				<xsl:when test="
+						$svrl/svrl:metadata/dct:source
+						/rdf:Description/dct:creator/dct:Agent/skos:prefLabel
+						=> starts-with('SchXslt/')">
 					<xsl:sequence select="'schxslt'" />
 				</xsl:when>
 

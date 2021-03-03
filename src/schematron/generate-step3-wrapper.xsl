@@ -42,7 +42,7 @@
 	<xsl:template as="element(xsl:stylesheet)" match="x:description">
 		<!-- Absolute URI of the stylesheet of the built-in Schematron Step 3 preprocessor -->
 		<xsl:variable as="xs:anyURI" name="builtin-preprocessor-uri"
-			select="resolve-uri('step3.xsl')" />
+			select="resolve-uri('../../lib/schxslt/2.0/compile-for-svrl.xsl')" />
 
 		<xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
 			<xsl:attribute name="exclude-result-prefixes" select="'#all'" />
