@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test enable-coverage?>
 <x:description stylesheet="issue-793-lf.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
 	<x:scenario label="input">
 		<x:context>
 			<input />
@@ -11,4 +12,34 @@ test
 ]]></output>
 		</x:expect>
 	</x:scenario>
+
+	<x:scenario label="verify line ending">
+		<x:call function="matches">
+			<x:param select="
+				doc($x:xspec-uri)/x:description/resolve-uri(@stylesheet, base-uri())
+				=> unparsed-text()" />
+		</x:call>
+
+		<x:scenario label="contains any CR">
+			<x:call>
+				<x:param position="2" select="'\r'" />
+			</x:call>
+			<x:expect label="(fail deliberately to see the result)" />
+		</x:scenario>
+
+		<x:scenario label="contains any LF">
+			<x:call>
+				<x:param position="2" select="'\n'" />
+			</x:call>
+			<x:expect label="(fail deliberately to see the result)" />
+		</x:scenario>
+
+		<x:scenario label="contains CR followed by LF">
+			<x:call>
+				<x:param position="2" select="'\r\n'" />
+			</x:call>
+			<x:expect label="(fail deliberately to see the result)" />
+		</x:scenario>
+	</x:scenario>
+
 </x:description>
