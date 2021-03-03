@@ -4,8 +4,8 @@
 	xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<!-- This master stylesheet imports iso_svrl_for_xslt2.xsl and injects some private global
-		variables (strings copied from the known global parameters).
+	<!-- This master stylesheet imports the original Schematron Step 3 preprocessor and injects some
+		private global variables (strings copied from the known global parameters).
 		The source parameters are supposed to be supplied by /x:description/x:param.
 		The injected variables are to be checked by //x:scenario/x:expect. -->
 

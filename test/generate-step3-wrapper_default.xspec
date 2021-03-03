@@ -6,8 +6,8 @@
 		<x:context href="../tutorial/schematron/demo-02-PhaseA.xspec" />
 		<x:expect>
 			<x:label><![CDATA[
-				- The built-in iso_svrl_for_xslt2.xsl should be imported.
-				- patch-step3.xsl should be imported after the built-in iso_svrl_for_xslt2.xsl.
+				- The built-in preprocessor should be imported.
+				- patch-step3.xsl should be imported after the built-in preprocessor.
 				- $x:schematron-uri global parameter should be generated.
 				- /x:description/x:param should be transformed into /xsl:stylesheet/xsl:param.
 			]]></x:label>

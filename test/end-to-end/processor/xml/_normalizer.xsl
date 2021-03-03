@@ -9,13 +9,12 @@
 	-->
 
 	<!--
-		Normalizes the link to the files
+		Normalizes the link to the files inside the repository
 			Example:
 				in   <x:report xspec="file:/path/to/test.xspec">
 				out: <x:report xspec="../path/to/test.xspec">
 	-->
-	<xsl:template as="attribute()"
-		match="
+	<xsl:template as="attribute()" match="
 			/x:report/attribute()[name() = ('query-at', 'schematron', 'xspec')]
 			| /x:report[not(@schematron)]/@stylesheet
 			| x:scenario/@xspec
@@ -40,11 +39,9 @@
 	</xsl:template>
 
 	<!-- Normalizes the link to the files created dynamically by XSpec -->
-	<xsl:template as="attribute(href)"
-		match="
+	<xsl:template as="attribute(href)" match="
 			x:scenario/x:result/@href
-			| x:scenario/x:test/x:expect/@href"
-		mode="normalizer:normalize">
+			| x:scenario/x:test/x:expect/@href" mode="normalizer:normalize">
 		<xsl:call-template name="normalizer:normalize-external-link-attribute" />
 	</xsl:template>
 </xsl:stylesheet>
