@@ -4,6 +4,12 @@
                 version="2.0">
     <xsl:import href="../../lib/iso-schematron/iso_svrl_for_xslt2.xsl" />
 
+    <!-- Check -->
+    <xsl:template match="xsl:variable[@name eq 'verify-me']" as="empty-sequence()" mode="#all">
+        <xsl:message select="name(), 'already exists'" terminate="yes" />
+    </xsl:template>
+
+    <!-- Hook -->
     <xsl:template match="sch:let[@name eq 'hook-me']" as="element(xsl:variable)">
         <xsl:element name="xsl:variable">
             <xsl:attribute name="name">verify-me</xsl:attribute>

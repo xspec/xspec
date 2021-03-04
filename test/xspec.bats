@@ -667,9 +667,9 @@ load bats-helper
         skip "Saxon bug 4696"
     fi
 
-    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
-    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
+    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
+    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_expand.xsl
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
 
     run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
     echo "$output"
@@ -686,9 +686,95 @@ load bats-helper
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dtest.type=s \
-        -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt-include.xsl" \
-        -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt-expand.xsl" \
-        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt-compile.xsl" \
+        -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt_include.xsl" \
+        -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt_expand.xsl" \
+        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt_compile.xsl" \
+        -Dxspec.xml="${PWD}/schematron/schematron-xslt.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+#
+# Skip Schematron Step (CLI)
+#
+
+@test "Skip Schematron Step 1 (CLI)" {
+    export SCHEMATRON_XSLT_INCLUDE="#none"
+    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_include-expand.xsl
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
+
+    run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[10]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "Skip Schematron Step 2 (CLI)" {
+    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
+    export SCHEMATRON_XSLT_EXPAND="#none"
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_expand-compile.xsl
+
+    run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[10]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+@test "Skip Schematron Step 1 and 2 (CLI)" {
+    export SCHEMATRON_XSLT_INCLUDE="#none"
+    export SCHEMATRON_XSLT_EXPAND="#none"
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_include-expand-compile.xsl
+
+    run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[10]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+#
+# Skip Schematron Step (Ant)
+#
+
+@test "Skip Schematron Step 1 (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=s \
+        -Dxspec.schematron.preprocessor.step1="#none" \
+        -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt_include-expand.xsl" \
+        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt_compile.xsl" \
+        -Dxspec.xml="${PWD}/schematron/schematron-xslt.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+@test "Skip Schematron Step 2 (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=s \
+        -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt_include.xsl" \
+        -Dxspec.schematron.preprocessor.step2="#none" \
+        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt_expand-compile.xsl" \
+        -Dxspec.xml="${PWD}/schematron/schematron-xslt.xspec"
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
+}
+
+@test "Skip Schematron Step 1 and 2 (Ant)" {
+    run ant \
+        -buildfile ../build.xml \
+        -lib "${SAXON_JAR}" \
+        -Dtest.type=s \
+        -Dxspec.schematron.preprocessor.step1="#none" \
+        -Dxspec.schematron.preprocessor.step2="#none" \
+        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt_include-expand-compile.xsl" \
         -Dxspec.xml="${PWD}/schematron/schematron-xslt.xspec"
     echo "$output"
     [ "$status" -eq 0 ]

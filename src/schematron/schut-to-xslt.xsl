@@ -49,52 +49,81 @@
 				</xsl:map-entry>
 			</xsl:map>
 		</xsl:variable>
+		<!--<xsl:message select="'Generating Step 3 wrapper XSLT'" />-->
 		<xsl:variable as="document-node()" name="step3-wrapper-doc"
 			select="transform($step3-wrapper-generation-options-map)?output" />
 
 		<!--
-			Step 1
+			Locate the Schematron schema
 		-->
 		<xsl:variable as="xs:anyURI" name="schematron-uri"
 			select="x:locate-schematron-uri(x:description)" />
-		<xsl:variable as="map(xs:string, item())" name="step1-options-map">
-			<xsl:map>
-				<xsl:sequence select="$common-options-map" />
-				<xsl:map-entry key="'source-location'" select="$schematron-uri" />
-				<xsl:choose>
-					<xsl:when test="$STEP1-PREPROCESSOR-DOC">
-						<xsl:map-entry key="'stylesheet-node'" select="$STEP1-PREPROCESSOR-DOC" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:map-entry key="'stylesheet-location'" select="$STEP1-PREPROCESSOR-URI"
-						 />
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:map>
+
+		<!--
+			Step 1
+		-->
+		<xsl:variable as="document-node()" name="step1-transformed-doc">
+			<xsl:choose>
+				<xsl:when test="$STEP1-PREPROCESSOR-URI eq '#none'">
+					<!-- Skip this step. Load the Schematron schema intact. -->
+					<xsl:sequence select="doc($schematron-uri)" />
+				</xsl:when>
+
+				<xsl:otherwise>
+					<xsl:variable as="map(xs:string, item())" name="step1-options-map">
+						<xsl:map>
+							<xsl:sequence select="$common-options-map" />
+							<xsl:map-entry key="'source-location'" select="$schematron-uri" />
+							<xsl:choose>
+								<xsl:when test="$STEP1-PREPROCESSOR-DOC">
+									<xsl:map-entry key="'stylesheet-node'"
+										select="$STEP1-PREPROCESSOR-DOC" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:map-entry key="'stylesheet-location'"
+										select="$STEP1-PREPROCESSOR-URI" />
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:map>
+					</xsl:variable>
+					<!--<xsl:message select="'Performing Step 1'" />-->
+					<xsl:sequence select="transform($step1-options-map)?output" />
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable as="document-node()" name="step1-transformed-doc"
-			select="transform($step1-options-map)?output" />
 
 		<!--
 			Step 2
 		-->
-		<xsl:variable as="map(xs:string, item())" name="step2-options-map">
-			<xsl:map>
-				<xsl:sequence select="$common-options-map" />
-				<xsl:map-entry key="'source-node'" select="$step1-transformed-doc" />
-				<xsl:choose>
-					<xsl:when test="$STEP2-PREPROCESSOR-DOC">
-						<xsl:map-entry key="'stylesheet-node'" select="$STEP2-PREPROCESSOR-DOC" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:map-entry key="'stylesheet-location'" select="$STEP2-PREPROCESSOR-URI"
-						 />
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:map>
+		<xsl:variable as="document-node()" name="step2-transformed-doc">
+			<xsl:choose>
+				<xsl:when test="$STEP2-PREPROCESSOR-URI eq '#none'">
+					<!-- Skip this step. No transformation. -->
+					<xsl:sequence select="$step1-transformed-doc" />
+				</xsl:when>
+
+				<xsl:otherwise>
+					<xsl:variable as="map(xs:string, item())" name="step2-options-map">
+						<xsl:map>
+							<xsl:sequence select="$common-options-map" />
+							<xsl:map-entry key="'source-node'" select="$step1-transformed-doc" />
+							<xsl:choose>
+								<xsl:when test="$STEP2-PREPROCESSOR-DOC">
+									<xsl:map-entry key="'stylesheet-node'"
+										select="$STEP2-PREPROCESSOR-DOC" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:map-entry key="'stylesheet-location'"
+										select="$STEP2-PREPROCESSOR-URI" />
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:map>
+					</xsl:variable>
+					<!--<xsl:message select="'Performing Step 2'" />-->
+					<xsl:sequence select="transform($step2-options-map)?output" />
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable as="document-node()" name="step2-transformed-doc"
-			select="transform($step2-options-map)?output" />
 
 		<!--
 			Step 3
@@ -106,6 +135,7 @@
 				<xsl:map-entry key="'stylesheet-node'" select="$step3-wrapper-doc" />
 			</xsl:map>
 		</xsl:variable>
+		<!--<xsl:message select="'Performing Step 3'" />-->
 		<xsl:variable as="map(*)" name="step3-transformed-map"
 			select="transform($step3-options-map)" />
 		<xsl:sequence select="$step3-transformed-map?output" />
