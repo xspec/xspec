@@ -3,4 +3,18 @@
    <testsuite name="input" tests="1" failures="0">
       <testcase name="output" status="passed"/>
    </testsuite>
+   <testsuite name="verify line ending" tests="3" failures="3">
+      <testcase name="contains any CR (fail deliberately to see the result)"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="contains any LF (fail deliberately to see the result)"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="contains CR followed by LF (fail deliberately to see the result)"
+                status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+   </testsuite>
 </testsuites>
