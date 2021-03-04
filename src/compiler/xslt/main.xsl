@@ -61,6 +61,11 @@
             </xsl:element>
          </xsl:if>
 
+         <!-- Absolute URI of .xsl file to be tested -->
+         <variable name="{x:known-UQName('x:stylesheet-uri')}" as="{x:known-UQName('xs:anyURI')}">
+            <xsl:value-of select="@stylesheet" />
+         </variable>
+
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
             select="(@original-xspec, $initial-document-actual-uri)[1] cast as xs:anyURI" />
