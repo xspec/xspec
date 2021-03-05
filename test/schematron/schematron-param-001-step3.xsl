@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
-	xmlns:axsl="http://www.w3.org/1999/XSL/TransformAlias" xmlns:foo="foo"
-	xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0" xmlns:foo="foo"
+	xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!-- This master stylesheet imports the original Schematron Step 3 preprocessor and injects some
 		private global variables (strings copied from the known global parameters).
@@ -11,33 +10,25 @@
 
 	<xsl:import href="../../lib/iso-schematron/iso_svrl_for_xslt2.xsl" />
 
-	<xsl:template as="node()+" match="sch:schema" mode="stylesheetbody">
-		<axsl:variable as="xs:string" name="schematron-param-001:phase">
-			<xsl:value-of select="$phase" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:selected">
-			<xsl:value-of select="$selected" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:escape1">
-			<xsl:value-of select="$escape1" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:escape2">
-			<xsl:value-of select="$escape2" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:escape3">
-			<xsl:value-of select="$escape3" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:escape4">
-			<xsl:value-of select="$escape4" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:foo-selected">
-			<xsl:value-of select="$foo:selected" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:href-selected">
-			<xsl:value-of select="$href-selected" />
-		</axsl:variable>
+	<xsl:template as="element(xsl:variable)+" name="process-prolog">
+		<xsl:variable as="map(xs:string, item())" name="vars-map" select="
+				map {
+					'schematron-param-001:phase': $phase,
+					'schematron-param-001:selected': $selected,
+					'schematron-param-001:escape1': $escape1,
+					'schematron-param-001:escape2': $escape2,
+					'schematron-param-001:escape3': $escape3,
+					'schematron-param-001:escape4': $escape4,
+					'schematron-param-001:foo-selected': $foo:selected,
+					'schematron-param-001:href-selected': $href-selected
+				}" />
 
-		<!-- Let the other things go -->
-		<xsl:apply-imports />
+		<xsl:for-each select="map:keys($vars-map)">
+			<xsl:element name="xsl:variable" namespace="http://www.w3.org/1999/XSL/Transform">
+				<xsl:attribute name="as" select="'Q{http://www.w3.org/2001/XMLSchema}string'" />
+				<xsl:attribute name="name" select="." />
+				<xsl:value-of select="map:get($vars-map, .)" />
+			</xsl:element>
+		</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>
