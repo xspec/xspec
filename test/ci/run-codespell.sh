@@ -7,4 +7,4 @@ pip3 install \
     --requirement requirements-dev.txt
 
 echo "Run codespell"
-~/.local/bin/codespell
+~/.local/bin/codespell "$@"
