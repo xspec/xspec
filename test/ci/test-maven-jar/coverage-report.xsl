@@ -7,8 +7,7 @@
 
 	<xsl:template as="element(xhtml:html)" match="document-node()">
 		<!-- Check the coverage trace XML -->
-		<xsl:variable as="map(*)" name="check-result-map"
-			select="
+		<xsl:variable as="map(xs:string, item())" name="check-result-map" select="
 				transform(
 				map {
 					'delivery-format': 'raw',
