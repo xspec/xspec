@@ -208,7 +208,7 @@
 
                      <xsl:when test="$call/@template">
                         <!-- Create the template call -->
-                        <xsl:variable name="template-call">
+                        <xsl:variable name="template-call" as="element()">
                            <xsl:call-template name="x:enter-sut">
                               <xsl:with-param name="instruction" as="element(xsl:call-template)">
                                  <call-template
