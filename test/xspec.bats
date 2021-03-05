@@ -1999,7 +1999,7 @@ load bats-helper
     run ../bin/xspec.sh obsolete-space/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''x:space is obsolete\. Use x:text instead\.'$'\n'
+    assert_regex "${output}" $'\n''ERROR: x:space is obsolete\. Use x:text instead\.'$'\n'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2153,7 +2153,7 @@ load bats-helper
     run ../bin/xspec.sh do-nothing.xsl
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead." ]
+    [ "${lines[3]}" = "ERROR: Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead." ]
 }
 
 #
@@ -2166,21 +2166,21 @@ load bats-helper
     run ../bin/xspec.sh no-prefix_schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "Missing /x:description/@stylesheet." ]
+    [ "${lines[3]}" = "ERROR: Missing /x:description/@stylesheet." ]
 }
 
 @test "Error message when @query is missing" {
     run ../bin/xspec.sh -q no-prefix_schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "Missing /x:description/@query." ]
+    [ "${lines[3]}" = "ERROR: Missing /x:description/@query." ]
 }
 
 @test "Error message when @schematron is missing" {
     run ../bin/xspec.sh -s no-prefix.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "Missing /description/@schematron." ]
+    [ "${lines[2]}" = "ERROR: Missing /description/@schematron." ]
 }
 
 #

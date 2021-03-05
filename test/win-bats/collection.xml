@@ -1718,7 +1718,7 @@
 	<case name="Obsolete x:space">
     call :run ..\bin\xspec.bat obsolete-space\test.xspec
     call :verify_retval 2
-    call :verify_line  * x "x:space is obsolete. Use x:text instead."
+    call :verify_line  * x "ERROR: x:space is obsolete. Use x:text instead."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -1843,7 +1843,7 @@
 	<case name="Error message when source is not XSpec #522">
     call :run ..\bin\xspec.bat do-nothing.xsl
     call :verify_retval 2
-    call :verify_line 4 x "Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead."
+    call :verify_line 4 x "ERROR: Source document is not XSpec. /x:description is missing. Supplied source has /xsl:stylesheet instead."
 	</case>
 
 	<!--
@@ -1855,19 +1855,19 @@
 	<case name="Error message when @stylesheet is missing">
     call :run ..\bin\xspec.bat no-prefix_schematron.xspec
     call :verify_retval 2
-    call :verify_line 4 x "Missing /x:description/@stylesheet."
+    call :verify_line 4 x "ERROR: Missing /x:description/@stylesheet."
 	</case>
 
 	<case name="Error message when @query is missing">
     call :run ..\bin\xspec.bat -q no-prefix_schematron.xspec
     call :verify_retval 2
-    call :verify_line 4 x "Missing /x:description/@query."
+    call :verify_line 4 x "ERROR: Missing /x:description/@query."
 	</case>
 
 	<case name="Error message when @schematron is missing">
     call :run ..\bin\xspec.bat -s no-prefix.xspec
     call :verify_retval 2
-    call :verify_line 3 x "Missing /description/@schematron."
+    call :verify_line 3 x "ERROR: Missing /description/@schematron."
 	</case>
 
 	<!--

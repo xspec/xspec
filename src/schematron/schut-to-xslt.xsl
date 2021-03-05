@@ -118,7 +118,7 @@
 
 		<xsl:if test="x:description/@schematron => empty()">
 			<xsl:message terminate="yes">
-				<xsl:text expand-text="yes">Missing /{name(x:description)}/@schematron.</xsl:text>
+				<xsl:text expand-text="yes">ERROR: Missing /{name(x:description)}/@schematron.</xsl:text>
 			</xsl:message>
 		</xsl:if>
 	</xsl:template>

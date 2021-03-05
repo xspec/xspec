@@ -57,7 +57,7 @@
    <xsl:template match="x:scenario/@xspec" as="attribute(original-xspec)">
       <xsl:for-each select="parent::element()/@original-xspec">
          <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">{parent::element() => name()} already has @{name()}</xsl:text>
+            <xsl:text expand-text="yes">ERROR: {parent::element() => name()} already has @{name()}</xsl:text>
          </xsl:message>
       </xsl:for-each>
 
@@ -109,7 +109,7 @@
       <xsl:message terminate="yes">
          <!-- Use x:xspec-name() for displaying the x:text element name with the prefix preferred by
             the user -->
-         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
+         <xsl:text expand-text="yes">ERROR: {name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
       </xsl:message>
    </xsl:template>
 

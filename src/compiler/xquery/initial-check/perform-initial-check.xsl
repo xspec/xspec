@@ -9,7 +9,7 @@
 
       <xsl:if test="x:description/@query => empty()">
          <xsl:message terminate="yes">
-            <xsl:text>Missing /x:description/@query.</xsl:text>
+            <xsl:text>ERROR: Missing /x:description/@query.</xsl:text>
          </xsl:message>
       </xsl:if>
    </xsl:template>

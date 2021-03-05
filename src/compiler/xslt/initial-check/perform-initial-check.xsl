@@ -9,7 +9,7 @@
 
       <xsl:if test="x:description/@stylesheet => empty()">
          <xsl:message terminate="yes">
-            <xsl:text>Missing /x:description/@stylesheet.</xsl:text>
+            <xsl:text>ERROR: Missing /x:description/@stylesheet.</xsl:text>
          </xsl:message>
       </xsl:if>
    </xsl:template>

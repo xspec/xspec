@@ -154,7 +154,7 @@
                   </xsl:when>
 
                   <xsl:otherwise>
-                     <xsl:message select="'Unhandled', name()" terminate="yes" />
+                     <xsl:message select="'ERROR: Unhandled', name()" terminate="yes" />
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:for-each>
@@ -325,7 +325,7 @@
 
                      <xsl:otherwise>
                         <!-- TODO: Adapt to a new error reporting facility (above usages too). -->
-                        <xsl:message terminate="yes">Error: cannot happen.</xsl:message>
+                        <xsl:message terminate="yes">ERROR: cannot happen.</xsl:message>
                      </xsl:otherwise>
                   </xsl:choose>
                </variable>
