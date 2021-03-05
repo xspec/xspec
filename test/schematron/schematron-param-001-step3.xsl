@@ -38,6 +38,6 @@
 		</axsl:variable>
 
 		<!-- Let the other things go -->
-		<xsl:apply-imports />
+		<xsl:next-match />
 	</xsl:template>
 </xsl:stylesheet>

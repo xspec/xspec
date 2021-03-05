@@ -21,8 +21,7 @@
 	<xsl:template as="document-node(element(project))" match="document-node(element(project))">
 		<xsl:variable as="xs:integer+" name="require-ge" select="9, 9, 0, 2" />
 		<xsl:variable as="xs:integer+" name="require-lt" select="10" />
-		<xsl:if
-			test="
+		<xsl:if test="
 				not(
 				($x:saxon-version ge x:pack-version($require-ge))
 				and
@@ -33,7 +32,7 @@
 			</xsl:message>
 		</xsl:if>
 
-		<xsl:apply-imports />
+		<xsl:next-match />
 	</xsl:template>
 
 	<!--
