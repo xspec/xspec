@@ -55,10 +55,12 @@
    </xsl:template>
 
    <xsl:template match="x:scenario/@xspec" as="attribute(original-xspec)">
-      <xsl:for-each select="parent::element()[@original-xspec]">
+      <xsl:for-each select="parent::element()/@original-xspec">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
-               <xsl:with-param name="message" select="'Already has @original-xspec'" />
+               <xsl:with-param name="message">
+                  <xsl:text expand-text="yes">Already has @{name()}</xsl:text>
+               </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
       </xsl:for-each>
