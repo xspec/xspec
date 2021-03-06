@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test schematron-preprocessor-step1=${xspec.project.dir}/test/schematron/schematron-xslt_include.xsl?>
+<?xspec-test schematron-preprocessor-step2=#none?>
+<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schematron/schematron-xslt_expand-compile.xsl?>
+<x:description schematron="schematron/schematron-xslt.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="schematron-xslt.xspec" />
+</x:description>
