@@ -7,6 +7,8 @@
 	<xsl:use-package name="http://example.org/complex-arithmetic.xsl" version="1.0" />
 
 	<xsl:template as="text()" name="xsl:initial-template">
+		<xsl:context-item use="absent" />
+
 		<xsl:variable as="map(xs:integer, xs:double)" name="val1" select="f:complex-number(2, 5)" />
 		<xsl:variable as="map(xs:integer, xs:double)" name="val2" select="f:complex-number(3, 2)" />
 		<xsl:variable as="map(xs:integer, xs:double)" name="sum" select="f:add($val1, $val2)" />

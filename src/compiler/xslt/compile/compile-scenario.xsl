@@ -375,7 +375,10 @@
    -->
 
    <xsl:template name="local:set-up-context" as="element(xsl:variable)+">
+      <xsl:context-item use="absent" />
+
       <xsl:param name="context" as="element(x:context)" required="yes" tunnel="yes"/>
+
       <!-- Set up the variable of x:context -->
       <xsl:apply-templates select="$context" mode="x:declare-variable"/>
 
