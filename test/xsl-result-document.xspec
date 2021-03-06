@@ -20,13 +20,13 @@
 		<x:scenario label="[@href]">
 			<x:call template="has-href" />
 			<x:like label="should be err:XTDE1480 due to outer xsl:variable" />
-			<x:expect label="line-number" select="7" test="?err?line-number" />
+			<x:expect label="line-number" select="9" test="?err?line-number" />
 		</x:scenario>
 
 		<x:scenario label="[empty(@href)]">
 			<x:call template="no-href" />
 			<x:like label="should be err:XTDE1480 due to outer xsl:variable" />
-			<x:expect label="line-number" select="21[$x:saxon-version ge x:pack-version((9, 9))]"
+			<x:expect label="line-number" select="25[$x:saxon-version ge x:pack-version((9, 9))]"
 				test="?err?line-number" />
 		</x:scenario>
 	</x:scenario>
