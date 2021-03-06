@@ -19,8 +19,11 @@
 
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
-         <xsl:message terminate="yes"
-            select="'ERROR: $this must be a description or a scenario, but is: ' || name()" />
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" select="'$this must be a description or a scenario'" />
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
 
       <xsl:apply-templates select="$this/element()" mode="local:compile-scenarios-or-expects">
@@ -154,16 +157,23 @@
                $new-call[@function] ! local:param-dup-position-error-string(.)
             )[1]" />
       <xsl:if test="$dup-param-error-string">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" select="$dup-param-error-string" />
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" select="$dup-param-error-string" />
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
 
       <!-- Check x:apply -->
       <!-- TODO: Remove this after implementing x:apply -->
       <xsl:if test="$new-apply">
          <xsl:message>
-            <xsl:text expand-text="yes">WARNING: The instruction {name($new-apply)} is not supported yet!</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="level" select="'WARNING'" />
+               <xsl:with-param name="message">
+                  <xsl:text expand-text="yes">The instruction {name($new-apply)} is not supported yet!</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
          </xsl:message>
       </xsl:if>
 

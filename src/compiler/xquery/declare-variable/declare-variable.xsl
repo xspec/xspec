@@ -188,16 +188,22 @@
       <!-- Reject x:param if it is analogous to /xsl:stylesheet/xsl:param -->
       <xsl:if test="self::x:param[parent::x:description]">
          <xsl:message terminate="yes">
-            <!-- x:combine() removes the name prefix from x:description. That's why URIQualifiedName
-               is used. -->
-            <xsl:text expand-text="yes">ERROR: {parent::element() => x:node-UQName()} has {name()} (named {@name}), which is not supported for XQuery.</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message">
+                  <!-- x:combine() removes the name prefix from x:description. That's why
+                     URIQualifiedName is used. -->
+                  <xsl:text expand-text="yes">{parent::element() => x:node-UQName()} has {name()}, which is not supported for XQuery.</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
          </xsl:message>
       </xsl:if>
 
       <!-- Reject @static=yes -->
       <xsl:if test="x:yes-no-synonym(@static, false())">
          <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is not supported for XQuery.</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" select="'Enabling @static is not supported for XQuery.'" />
+            </xsl:call-template>
          </xsl:message>
       </xsl:if>
    </xsl:template>

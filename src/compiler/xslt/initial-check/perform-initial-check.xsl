@@ -7,11 +7,13 @@
    <xsl:template name="x:perform-initial-check-for-lang" as="empty-sequence()">
       <xsl:context-item as="document-node(element(x:description))" use="required" />
 
-      <xsl:if test="x:description/@stylesheet => empty()">
+      <xsl:for-each select="x:description[empty(@stylesheet)]">
          <xsl:message terminate="yes">
-            <xsl:text>ERROR: Missing /x:description/@stylesheet.</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" select="'Missing @stylesheet.'" />
+            </xsl:call-template>
          </xsl:message>
-      </xsl:if>
+      </xsl:for-each>
    </xsl:template>
 
 </xsl:stylesheet>

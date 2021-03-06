@@ -1999,7 +1999,7 @@ load bats-helper
     run ../bin/xspec.sh obsolete-space/test.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''ERROR: x:space is obsolete\. Use x:text instead\.'$'\n'
+    assert_regex "${output}" $'\n''ERROR in x:space \(under '\''Using x:space'\''\): x:space is obsolete\. Use x:text instead\.'$'\n'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2166,21 +2166,21 @@ load bats-helper
     run ../bin/xspec.sh no-prefix_schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: Missing /x:description/@stylesheet." ]
+    [ "${lines[3]}" = "ERROR in Q{http://www.jenitennison.com/xslt/xspec}description: Missing @stylesheet." ]
 }
 
 @test "Error message when @query is missing" {
     run ../bin/xspec.sh -q no-prefix_schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: Missing /x:description/@query." ]
+    [ "${lines[3]}" = "ERROR in Q{http://www.jenitennison.com/xslt/xspec}description: Missing @query." ]
 }
 
 @test "Error message when @schematron is missing" {
     run ../bin/xspec.sh -s no-prefix.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "ERROR: Missing /description/@schematron." ]
+    [ "${lines[2]}" = "ERROR in Q{http://www.jenitennison.com/xslt/xspec}description: Missing @schematron." ]
 }
 
 #
@@ -2191,28 +2191,28 @@ load bats-helper
     run ../bin/xspec.sh reserved-vardecl-name/param/context-param_lexical-qname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:param (named u:context-param) must not use the XSpec namespace." ]
+    [ "${lines[3]}" = "ERROR in x:param (named u:context-param) (under 'x:context/x:param/@name has lexical QName in XSpec namespace'): Name u:context-param must not use the XSpec namespace." ]
 }
 
 @test "Error on x:param in XSpec namespace (x:description/x:param with URIQualifiedName)" {
     run ../bin/xspec.sh reserved-vardecl-name/param/description-param_uqname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:param (named Q{http://www.jenitennison.com/xslt/xspec}description-param) must not use the XSpec namespace." ]
+    [ "${lines[3]}" = "ERROR in x:param (named Q{http://www.jenitennison.com/xslt/xspec}description-param): Name Q{http://www.jenitennison.com/xslt/xspec}description-param must not use the XSpec namespace." ]
 }
 
 @test "Error on x:param in XSpec namespace (function x:param with lexical QName)" {
     run ../bin/xspec.sh reserved-vardecl-name/param/function-param_lexical-qname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:param (named u:function-param) must not use the XSpec namespace." ]
+    [ "${lines[3]}" = "ERROR in x:param (named u:function-param) (under 'x:call[@function]/x:param/@name has lexical QName in XSpec namespace'): Name u:function-param must not use the XSpec namespace." ]
 }
 
 @test "Error on x:param in XSpec namespace (template-call x:param with URIQualifiedName)" {
     run ../bin/xspec.sh reserved-vardecl-name/param/template-call-param_uqname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:param (named Q{http://www.jenitennison.com/xslt/xspec}template-call-param) must not use the XSpec namespace." ]
+    [ "${lines[3]}" = "ERROR in x:param (named Q{http://www.jenitennison.com/xslt/xspec}template-call-param) (under 'x:call[@template]/x:param/@name has URIQualifiedName in XSpec namespace'): Name Q{http://www.jenitennison.com/xslt/xspec}template-call-param must not use the XSpec namespace." ]
 }
 
 #
@@ -2223,14 +2223,14 @@ load bats-helper
     run ../bin/xspec.sh reserved-vardecl-name/variable/global-variable_lexical-qname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:variable (named u:global-variable) must not use the XSpec namespace." ]
+    [ "${lines[3]}" = "ERROR in x:variable (named u:global-variable): Name u:global-variable must not use the XSpec namespace." ]
 }
 
 @test "Error on x:variable in XSpec namespace (local x:variable with URIQualifiedName)" {
     run ../bin/xspec.sh reserved-vardecl-name/variable/local-variable_uqname.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:variable (named Q{http://www.jenitennison.com/xslt/xspec}local-variable) must not use the XSpec namespace." ]
+    [ "${lines[3]}" = "ERROR in x:variable (named Q{http://www.jenitennison.com/xslt/xspec}local-variable) (under 'x:scenario/x:variable/@name has URIQualifiedName in XSpec namespace'): Name Q{http://www.jenitennison.com/xslt/xspec}local-variable must not use the XSpec namespace." ]
 }
 
 #
@@ -2496,21 +2496,21 @@ load bats-helper
     run ../bin/xspec.sh like/none.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:like: Scenario not found: 'none'" ]
+    [ "${lines[3]}" = "ERROR in x:like (labeled 'none') (under 'no scenario matched'): Scenario not found." ]
 }
 
 @test "x:like error (multiple scenarios)" {
     run ../bin/xspec.sh like/multiple.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:like: 2 scenarios found with same label: 'shared scenario'" ]
+    [ "${lines[3]}" = "ERROR in x:like (labeled 'shared scenario') (under 'multiple scenarios matched'): 2 scenarios found with same label." ]
 }
 
 @test "x:like error (infinite loop)" {
     run ../bin/xspec.sh like/loop.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:like: Reference to ancestor scenario creates infinite loop: 'parent scenario'" ]
+    [ "${lines[3]}" = "ERROR in x:like (labeled 'parent scenario') (under 'parent scenario this scenario'): Reference to ancestor scenario creates infinite loop." ]
 }
 
 #
@@ -2633,7 +2633,7 @@ load bats-helper
     run ../bin/xspec.sh error-compiling-scenario/apply-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "WARNING: The instruction x:apply is not supported yet!" ]
+    [ "${lines[3]}" = "WARNING in x:scenario ('x:apply with x:context'): The instruction x:apply is not supported yet!" ]
     [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
@@ -2642,7 +2642,7 @@ load bats-helper
     run ../bin/xspec.sh error-compiling-scenario/apply-with-call.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "WARNING: The instruction x:apply is not supported yet!" ]
+    [ "${lines[3]}" = "WARNING in x:scenario ('x:apply with x:call'): The instruction x:apply is not supported yet!" ]
     [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
@@ -2747,7 +2747,7 @@ load bats-helper
     run ../bin/xspec.sh param-disallowed/description-param/static-param/stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: Enabling @static in x:param (named p) is supported only when /x:description has @run-as='external'." ]
+    [ "${lines[3]}" = "ERROR in x:param (named p): Enabling @static is supported only when /x:description has @run-as='external'." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2755,7 +2755,7 @@ load bats-helper
     run ../bin/xspec.sh -s param-disallowed/description-param/static-param/schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[2]}" = "ERROR: Enabling @static in x:param (named p) is not supported for Schematron." ]
+    [ "${lines[2]}" = "ERROR in x:param (named p): Enabling @static is not supported for Schematron." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error converting Schematron into XSLT" ]
 }
 
@@ -2767,7 +2767,7 @@ load bats-helper
     run ../bin/xspec.sh -q param-disallowed/description-param/query.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: Q{http://www.jenitennison.com/xslt/xspec}description has x:param (named p), which is not supported for XQuery." ]
+    [ "${lines[3]}" = "ERROR in x:param (named p): Q{http://www.jenitennison.com/xslt/xspec}description has x:param, which is not supported for XQuery." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2779,7 +2779,7 @@ load bats-helper
     run ../bin/xspec.sh variable-overriding-param/global-variable.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:variable (named Q{http://example.org/ns/my}foo) must not override x:param (named my:foo)" ]
+    [ "${lines[3]}" = "ERROR in x:variable (named Q{http://example.org/ns/my}foo): Must not override x:param (named my:foo)" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2787,7 +2787,7 @@ load bats-helper
     run ../bin/xspec.sh variable-overriding-param/local-variable/description-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:variable (named my:foo) must not override x:param (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[3]}" = "ERROR in x:variable (named my:foo) (under 'x:scenario/x:variable'): Must not override x:param (named Q{http://example.org/ns/my}foo)" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2819,7 +2819,7 @@ load bats-helper
     run ../bin/xspec.sh bad-position/too-large_first.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '.+: Too large parameter position, 5, used in x:call\.'$'\n'
+    assert_regex "${output}" $'\n''ERROR in x:scenario \('\''.+'\''\): Too large parameter position, 5, used in x:call\.'$'\n'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2827,7 +2827,7 @@ load bats-helper
     run ../bin/xspec.sh -q bad-position/too-large_first.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '.+: Too large parameter position, 5, used in x:call\.'$'\n'
+    assert_regex "${output}" $'\n''ERROR in x:scenario \('\''.+'\''\): Too large parameter position, 5, used in x:call\.'$'\n'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2835,7 +2835,7 @@ load bats-helper
     run ../bin/xspec.sh bad-position/too-large_last.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '.+: Too large parameter position, 5, used in x:call\.'$'\n'
+    assert_regex "${output}" $'\n''ERROR in x:scenario \('\''.+'\''\): Too large parameter position, 5, used in x:call\.'$'\n'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2843,7 +2843,7 @@ load bats-helper
     run ../bin/xspec.sh -q bad-position/too-large_last.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" '.+: Too large parameter position, 5, used in x:call\.'$'\n'
+    assert_regex "${output}" $'\n''ERROR in x:scenario \('\''.+'\''\): Too large parameter position, 5, used in x:call\.'$'\n'
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
