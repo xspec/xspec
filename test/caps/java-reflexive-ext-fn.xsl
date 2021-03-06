@@ -4,6 +4,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:global-context-item use="absent" />
 	<xsl:template as="jt:java.lang.Runtime" name="xsl:initial-template">
+		<xsl:context-item use="absent" />
 		<xsl:sequence select="Q{java:java.lang.Runtime}getRuntime()" />
 	</xsl:template>
 </xsl:stylesheet>

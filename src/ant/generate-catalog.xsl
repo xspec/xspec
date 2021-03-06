@@ -7,9 +7,9 @@
 	<xsl:global-context-item use="absent" />
 
 	<!-- URIs separated by semicolons (;) -->
-	<xsl:param as="xs:string" name="CATALOG-URIS" />
+	<xsl:param as="xs:string" name="CATALOG-URIS" required="yes" />
 
-	<xsl:param as="xs:string" name="BASE-URI" />
+	<xsl:param as="xs:string" name="BASE-URI" required="yes" />
 
 	<xsl:output indent="yes" />
 

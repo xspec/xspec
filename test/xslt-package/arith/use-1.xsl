@@ -9,9 +9,11 @@
 	<xsl:global-context-item use="absent" />
 
 	<xsl:template as="text()" name="xsl:initial-template">
-		<xsl:variable name="val1" select="f:complex-number(2, 5)" />
-		<xsl:variable name="val2" select="f:complex-number(3, 2)" />
-		<xsl:variable name="sum" select="f:add($val1, $val2)" />
+		<xsl:context-item use="absent" />
+
+		<xsl:variable as="map(xs:integer, xs:double)" name="val1" select="f:complex-number(2, 5)" />
+		<xsl:variable as="map(xs:integer, xs:double)" name="val2" select="f:complex-number(3, 2)" />
+		<xsl:variable as="map(xs:integer, xs:double)" name="sum" select="f:add($val1, $val2)" />
 		<xsl:value-of expand-text="yes" xml:space="preserve">The sum of the two numbers is {f:real($sum)} + {f:imag($sum)}i</xsl:value-of>
 	</xsl:template>
 

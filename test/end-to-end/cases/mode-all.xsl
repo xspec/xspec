@@ -9,6 +9,7 @@
 	</xsl:template>
 
 	<xsl:template as="xs:string" name="named-template">
+		<xsl:context-item use="absent" />
 		<xsl:sequence select="'Returned from named template'" />
 	</xsl:template>
 
