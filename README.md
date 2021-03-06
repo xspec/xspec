@@ -3,9 +3,9 @@
 [![GitHub Actions Test Workflow Status](https://github.com/xspec/xspec/workflows/Test/badge.svg?branch=master&event=push)](https://github.com/xspec/xspec/actions?query=branch%3Amaster+event%3Apush+workflow%3ATest)
 [![GitHub Actions Lint Workflow Status](https://github.com/xspec/xspec/workflows/Lint/badge.svg?branch=master&event=push)](https://github.com/xspec/xspec/actions?query=branch%3Amaster+event%3Apush+workflow%3ALint)
 
-## XSpec [![Release](https://img.shields.io/github/release/xspec/xspec.svg)](https://github.com/xspec/xspec/releases/latest)
+## XSpec [![Release](https://img.shields.io/github/v/release/xspec/xspec.svg)](https://github.com/xspec/xspec/releases/latest)
 
-XSpec is a unit test and [behaviour-driven development](http://en.wikipedia.org/wiki/Behavior_Driven_Development) (BDD) framework for XSLT, XQuery, and Schematron. It is based on the Spec framework of [RSpec](http://rspec.info/), which is a BDD framework for Ruby.
+XSpec is a unit test and [behaviour-driven development](https://en.wikipedia.org/wiki/Behavior_Driven_Development) (BDD) framework for XSLT, XQuery, and Schematron. It is based on the Spec framework of [RSpec](https://rspec.info/), which is a BDD framework for Ruby.
 
 XSpec consists of a syntax for describing the behaviour of XSLT, XQuery, or Schematron code, and some code that enables you to test the code against those descriptions.
 
@@ -15,7 +15,7 @@ To get started, check out the installation instructions for [MacOS/Linux](https:
 
 ## Support
 
-Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/wiki) before raising an issue or ask a question. If you have any question which is not answered in the wiki, feel free to [raise an issue](https://github.com/xspec/xspec/issues) or post it in the [XSpec discussion list](http://groups.google.com/group/xspec-users).
+Check out the XSpec documentation in the [wiki](https://github.com/xspec/xspec/wiki) before raising an issue or ask a question. If you have any question which is not answered in the wiki, feel free to [raise an issue](https://github.com/xspec/xspec/issues) or post it in the [XSpec discussion list](https://groups.google.com/d/forum/xspec-users).
 
 ## Contribute
 
@@ -25,4 +25,4 @@ If you wish to contribute to XSpec, please read the [contributing guidelines](ht
 
 ## License
 
-XSpec is released under the [MIT License](LICENSE). [Few parts of the codebase](https://github.com/xspec/xspec/blob/master/java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java) are released under the [Mozilla Public License](http://www.mozilla.org/MPL/).
+XSpec is released under the [MIT License](LICENSE). [Few parts of the codebase](https://github.com/xspec/xspec/blob/master/java/com/jenitennison/xslt/tests/XSLTCoverageTraceListener.java) are released under the [Mozilla Public License](https://www.mozilla.org/en-US/MPL/).

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for issue-793-lf.xsl (passed: 1 / pending: 0 / failed: 0 / total: 1)</title>
+      <title>Test Report for issue-793-lf.xsl (passed: 1 / pending: 0 / failed: 3 / total: 4)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -23,8 +23,8 @@
                <th></th>
                <th class="totals">passed: 1</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 0</th>
-               <th class="totals">total: 1</th>
+               <th class="totals">failed: 3</th>
+               <th class="totals">total: 4</th>
             </tr>
          </thead>
          <tbody>
@@ -34,6 +34,13 @@
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario2">verify line ending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">3</th>
+               <th class="totals">3</th>
             </tr>
          </tbody>
       </table>
@@ -55,6 +62,120 @@
                </tr>
             </tbody>
          </table>
+      </div>
+      <div id="top_scenario2">
+         <h2 class="successful">verify line ending<span class="scenario-totals">passed: 0 / pending: 0 / failed: 3 / total: 3</span></h2>
+         <table class="xspec" id="table_scenario2">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>verify line ending</th>
+                  <th>passed: 0 / pending: 0 / failed: 3 / total: 3</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario2-scenario1">contains any CR</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario2-scenario1-expect1">(fail deliberately to see the result)</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario2-scenario2">contains any LF</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario2-scenario2-expect1">(fail deliberately to see the result)</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario2-scenario3">contains CR followed by LF</a></th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario2-scenario3-expect1">(fail deliberately to see the result)</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario2-scenario1">
+            <h3>verify line ending contains any CR</h3>
+            <div id="scenario2-scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">(fail deliberately to see the result)</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}boolean('false')</pre>
+                        </td>
+                        <td>
+                           <pre>()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario2-scenario2">
+            <h3>verify line ending contains any LF</h3>
+            <div id="scenario2-scenario2-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">(fail deliberately to see the result)</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}boolean('true')</pre>
+                        </td>
+                        <td>
+                           <pre>()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario2-scenario3">
+            <h3>verify line ending contains CR followed by LF</h3>
+            <div id="scenario2-scenario3-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">(fail deliberately to see the result)</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>Q{http://www.w3.org/2001/XMLSchema}boolean('false')</pre>
+                        </td>
+                        <td>
+                           <pre>()</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
    </body>
 </html>
