@@ -35,6 +35,8 @@
 	</xsl:template>
 
 	<xsl:template as="item()*" name="local:get-tunnel-param">
+		<xsl:context-item use="absent" />
+
 		<xsl:param as="item()*" name="tunnel-param-items" required="yes" tunnel="yes" />
 
 		<xsl:sequence select="$tunnel-param-items" />

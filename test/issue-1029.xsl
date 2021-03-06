@@ -24,12 +24,14 @@
 
 	<!-- xsl:template[@name][@as] -->
 	<xsl:template as="xs:integer" name="issue-1029:as-integer">
+		<xsl:context-item use="absent" />
 		<xsl:message select="'my error message'" terminate="yes" />
 		<xsl:sequence select="1" />
 	</xsl:template>
 
 	<!-- xsl:template[@name][empty(@as)] -->
 	<xsl:template name="issue-1029:no-as">
+		<xsl:context-item use="absent" />
 		<xsl:message select="'my error message'" terminate="yes" />
 	</xsl:template>
 
