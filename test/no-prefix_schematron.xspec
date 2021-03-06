@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copy of schematron-01.xspec with x: prefix removed -->
-<description xmlns="http://www.jenitennison.com/xslt/xspec" schematron="schematron-01.sch">
+<description xmlns="http://www.jenitennison.com/xslt/xspec" schematron="schematron-01.sch" xml:base="schematron/">
     <scenario label="schematron-01">
         <context href="schematron-01.xml"/>
         <scenario label="article should have a title">

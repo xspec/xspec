@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schematron-param-001-step3.xsl?>
+<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schematron/schematron-param-001-step3.xsl?>
 <x:description xmlns:bar="bar"
                xmlns:foo="foo"
                xmlns:qux="qux"
                xmlns:schematron-param-001="schematron-param-001.xspec"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               schematron="schematron-param-001.sch">
+               schematron="schematron/schematron-param-001.sch">
     <x:param name="phase">P1</x:param>
     <x:param name="selected" select="codepoints-to-string((80,49))" /><!-- = (U+0050, U+0031) = "P1" -->
     <x:param name="escape1">AAA BBB CCC</x:param>
@@ -16,7 +16,7 @@
     <x:param name="foo:selected" select="bar:baz/@qux:quux" as="attribute(qux:quux)">
         <bar:baz qux:quux="corge" />
     </x:param>
-    <x:param name="href-selected" href="schematron-param-001.xml" select="test/comment()" as="comment()" />
+    <x:param name="href-selected" href="schematron/schematron-param-001.xml" select="test/comment()" as="comment()" />
 
     <x:scenario label="Schematron phase/parameters are passed to Schematron compile">
         <x:context>

@@ -1281,7 +1281,7 @@ load bats-helper
         -lib "${SAXON_JAR}" \
         -Dclean.output.dir=true \
         -Dxspec.project.dir="${PWD}/.." \
-        -Dxspec.properties="${PWD}/schematron.properties" \
+        -Dxspec.properties="${PWD}/schematron/schematron.properties" \
         -Dxspec.xml="${tutorial_copy}/demo-03.xspec"
     echo "$output"
     [ "$status" -eq 0 ]
