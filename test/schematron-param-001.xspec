@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schematron-param-001-step3.xsl?>
 <x:description xmlns:bar="bar"
                xmlns:foo="foo"
                xmlns:qux="qux"

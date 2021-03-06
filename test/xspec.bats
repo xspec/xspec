@@ -634,31 +634,6 @@ load bats-helper
 }
 
 #
-# Schematron phase/parameters
-#
-
-@test "Schematron phase/parameters are passed to Schematron compile (CLI)" {
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-param-001-step3.xsl
-    run ../bin/xspec.sh -s schematron/schematron-param-001.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[18]}" = "passed: 9 / pending: 0 / failed: 0 / total: 9" ]
-}
-
-@test "Schematron phase/parameters are passed to Schematron compile (Ant)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dtest.type=s \
-        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-param-001-step3.xsl" \
-        -Dxspec.xml="${PWD}/schematron/schematron-param-001.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 9 / pending: 0 / failed: 0 / total: 9'$'\n'
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
-}
-
-#
 # Schematron XSLTs provided externally
 #
 
