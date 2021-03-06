@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0" xmlns:foo="foo"
 	xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!-- This master stylesheet imports the original Schematron Step 3 preprocessor and injects some
 		private global variables (strings copied from the known global parameters).
@@ -9,6 +10,10 @@
 		The injected variables are to be checked by //x:scenario/x:expect. -->
 
 	<xsl:import href="../../lib/iso-schematron/iso_svrl_for_xslt2.xsl" />
+
+	<xsl:include href="../../src/common/common-utils.xsl" />
+	<xsl:include href="../../src/common/namespace-utils.xsl" />
+	<xsl:include href="../../src/common/uqname-utils.xsl" />
 
 	<xsl:template as="element(xsl:variable)+" name="process-prolog">
 		<xsl:variable as="map(xs:string, item())" name="vars-map" select="
@@ -24,9 +29,10 @@
 				}" />
 
 		<xsl:for-each select="map:keys($vars-map)">
-			<xsl:element name="xsl:variable" namespace="http://www.w3.org/1999/XSL/Transform">
-				<xsl:attribute name="as" select="'Q{http://www.w3.org/2001/XMLSchema}string'" />
+			<xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
+				<xsl:attribute name="as" select="x:known-UQName('xs:string')" />
 				<xsl:attribute name="name" select="." />
+
 				<xsl:value-of select="map:get($vars-map, .)" />
 			</xsl:element>
 		</xsl:for-each>
