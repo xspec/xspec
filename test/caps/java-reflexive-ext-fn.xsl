@@ -3,6 +3,7 @@
 <xsl:stylesheet version="3.0" xmlns:jt="http://saxon.sf.net/java-type"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template as="jt:java.lang.Runtime" name="xsl:initial-template">
+		<xsl:context-item use="absent" />
 		<xsl:sequence select="Q{java:java.lang.Runtime}getRuntime()" />
 	</xsl:template>
 </xsl:stylesheet>

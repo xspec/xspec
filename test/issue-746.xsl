@@ -5,6 +5,8 @@
   version="3.0">
 
   <xsl:template name="template-to-call" as="element(output-element)">
+    <xsl:context-item use="absent" />
+
     <output-element/>
   </xsl:template>
 

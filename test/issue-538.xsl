@@ -17,7 +17,10 @@
   </xsl:template>
 
   <xsl:template name="mytemplate" as="text()">
+    <xsl:context-item use="absent" />
+
     <xsl:param name="myparam" as="map(xs:string, xs:string)" required="yes" />
+
     <xsl:value-of select="$myparam('key')"/>
   </xsl:template>
 
