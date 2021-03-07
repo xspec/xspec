@@ -17,6 +17,7 @@
 	<xsl:variable as="element(bar)" name="my-global-var" select="$global-context-item/foo/bar" />
 
 	<xsl:template as="element(bar)" name="test-me">
+		<xsl:context-item use="absent" />
 		<xsl:sequence select="$my-global-var" />
 	</xsl:template>
 
