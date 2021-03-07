@@ -67,9 +67,9 @@
 					<!-- Set up a pseudo x:param which holds the fully-resolved Schematron file URI
 						so that $x:schematron-uri holding the URI is generated and made available in
 						the wrapper stylesheet being generated.
-						Do it even when the Schematron Step 3 preprocessor is not the built-in one,
-						because the preprocessor specified by $ACTUAL-PREPROCESSOR-URI may want to
-						make use of it. -->
+						Do it even when the Schematron Step 3 preprocessor being imported is not the
+						built-in step3.xsl, because the preprocessor specified by
+						$ACTUAL-PREPROCESSOR-URI may want to make use of $x:schematron-uri. -->
 					<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
 						<xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
 						<xsl:attribute name="name" select="x:known-UQName('x:schematron-uri')" />
