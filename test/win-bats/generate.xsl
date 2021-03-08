@@ -5,7 +5,7 @@
 
 	<xsl:output method="text" />
 
-	<xsl:param as="xs:string" name="filter" />
+	<xsl:param as="xs:string" name="filter" required="yes" />
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 

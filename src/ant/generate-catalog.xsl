@@ -5,9 +5,9 @@
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!-- URIs separated by semicolons (;) -->
-	<xsl:param as="xs:string" name="CATALOG-URIS" />
+	<xsl:param as="xs:string" name="CATALOG-URIS" required="yes" />
 
-	<xsl:param as="xs:string" name="BASE-URI" />
+	<xsl:param as="xs:string" name="BASE-URI" required="yes" />
 
 	<xsl:output indent="yes" />
 

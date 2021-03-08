@@ -210,7 +210,7 @@
 
                      <xsl:when test="$call/@template">
                         <!-- Create the template call -->
-                        <xsl:variable name="template-call">
+                        <xsl:variable name="template-call" as="element()">
                            <xsl:call-template name="x:enter-sut">
                               <xsl:with-param name="instruction" as="element(xsl:call-template)">
                                  <call-template
@@ -355,7 +355,10 @@
    -->
 
    <xsl:template name="local:set-up-context" as="element(xsl:variable)+">
+      <xsl:context-item use="absent" />
+
       <xsl:param name="context" as="element(x:context)" required="yes" tunnel="yes"/>
+
       <!-- Set up the variable of x:context -->
       <xsl:apply-templates select="$context" mode="x:declare-variable"/>
 
