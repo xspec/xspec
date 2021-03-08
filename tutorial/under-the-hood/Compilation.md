@@ -1280,7 +1280,7 @@ Scenario-level `x:param` is compiled in almost the same way as `x:variable`.
 By `trace()` in `x:param/@select`, you see that each `x:param` is evaluated only once:
 
 ```console
-C:xspec>bin\xspec.bat tutorial\under-the-hood\compilation-params-scope.xspec
+C:\xspec>bin\xspec.bat tutorial\under-the-hood\compilation-params-scope.xspec
 ...
 Running Tests...
 Testing with SAXON EE 9.9.1.8
