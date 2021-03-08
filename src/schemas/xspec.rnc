@@ -221,7 +221,7 @@ template-call =
 
 global-param = 
 	## Global parameters as direct children of x:description are set globally, for the entire unit test suite.
-	## Setting global parameters within a particular scenario is supported only when /x:description/@run-as is "external".
+	## Setting global parameters within a particular scenario is supported only when /x:description/@run-as is "external" (EXPERIMENTAL, subject to change).
 	## Global parameters within a particular Schematron scenario take effect only in the compiled XSLT. They are ignored while compiling Schematron into XSLT.
 	## Global parameters are not supported at all for XQuery.
 	element param { common-attributes, name, static?, selection }
