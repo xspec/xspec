@@ -57,6 +57,9 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    ...
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri"
                  as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xspec</xsl:variable>
+   <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}is-external"
+                 as="Q{http://www.w3.org/2001/XMLSchema}boolean"
+                 select="false()"/>
    <!-- the main template to run the suite -->
    <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}main"
                  as="empty-sequence()">

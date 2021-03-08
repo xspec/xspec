@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_global-override.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Checks to see if (/x:description|//x:scenario)/(x:param|x:variable) in XSpec overrides
+		/xsl:*/(xsl:param|xsl:variable) in SUT.
+	-->
+
+	<!--
+		Scenario-level x:param
+	-->
+
+	<x:scenario label="With scenario-level x:param and">
+		<x:scenario label="global xsl:param,">
+			<x:param name="scenario-x-param_vs_xsl-param"
+				select="'scenario-level x:param overriding xsl:param'" />
+			<x:context select="'scenario-x-param_vs_xsl-param'" />
+			<x:expect label="x:param should always override xsl:param"
+				select="'scenario-level x:param overriding xsl:param'" />
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:param name="scenario-x-param_vs_xsl-variable"
+				select="'scenario-level x:param overriding xsl:variable'" />
+			<x:context select="'scenario-x-param_vs_xsl-variable'" />
+			<x:expect label="scenario-level x:param should never override xsl:variable"
+				select="'xsl:variable not affected by scenario-level x:param'" />
+		</x:scenario>
+
+		<x:scenario label="no corresponding xsl:param,">
+			<x:param name="scenario-x-param_vs_none"
+				select="'scenario-level x:param without corresponding xsl:param'" />
+			<x:context />
+			<x:expect label="the declared param takes effect only in XSpec"
+				select="'scenario-level x:param without corresponding xsl:param'"
+				test="$scenario-x-param_vs_none" />
+		</x:scenario>
+	</x:scenario>
+
+	<!-- Empty x:param -->
+	<x:scenario label="With empty scenario-level x:param and">
+		<x:scenario label="global xsl:param,">
+			<x:param as="empty-sequence()" name="scenario-x-param-empty_vs_xsl-param" />
+			<x:context select="'scenario-x-param-empty_vs_xsl-param'" />
+			<x:expect as="empty-sequence()" label="x:param should always override xsl:param" />
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:param as="empty-sequence()" name="scenario-x-param-empty_vs_xsl-variable" />
+			<x:context select="'scenario-x-param-empty_vs_xsl-variable'" />
+			<x:expect label="scenario-level x:param should never override xsl:variable"
+				select="'xsl:variable not affected by empty scenario-level x:param'" />
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		The other test cases shared with @run-as=import
+	-->
+	<x:import href="global-override.xspec" />
+
+</x:description>

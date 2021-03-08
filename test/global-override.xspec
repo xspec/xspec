@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="global-override.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!--
+		Checks to see if /x:description/x:param and (/x:description | //x:scenario)/x:variable in
+		XSpec override /xsl:*/(xsl:param | xsl:variable) in SUT.
+	-->
+
+	<!--
+		Global x:param
+	-->
+	<x:param name="global-x-param_vs_xsl-param" select="'global x:param overriding xsl:param'" />
+	<x:param name="global-x-param_vs_xsl-variable" select="'global x:param overriding xsl:variable'" />
+	<x:param name="global-x-param_vs_none" select="'global x:param without corresponding xsl:param'" />
+
+	<x:scenario label="With global x:param and">
+		<x:scenario label="global xsl:param,">
+			<x:context select="'global-x-param_vs_xsl-param'" />
+			<x:expect label="x:param should always override xsl:param"
+				select="'global x:param overriding xsl:param'" />
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:context select="'global-x-param_vs_xsl-variable'" />
+			<x:expect label="x:param should override xsl:variable unless run-as=external" select="
+					if ($x:is-external) then
+						'xsl:variable not affected by global x:param'
+					else
+						'global x:param overriding xsl:variable'" />
+		</x:scenario>
+
+		<x:scenario label="no corresponding xsl:param,">
+			<x:context />
+			<x:expect label="the declared param takes effect only in XSpec"
+				select="'global x:param without corresponding xsl:param'"
+				test="$global-x-param_vs_none" />
+		</x:scenario>
+	</x:scenario>
+
+	<!-- Empty x:param -->
+	<x:param as="empty-sequence()" name="global-x-param-empty_vs_xsl-param" />
+	<x:param as="empty-sequence()" name="global-x-param-empty_vs_xsl-variable" />
+
+	<x:scenario label="With empty global x:param and">
+		<x:scenario label="global xsl:param,">
+			<x:context select="'global-x-param-empty_vs_xsl-param'" />
+			<x:expect as="empty-sequence()" label="x:param should always override xsl:param" />
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:context select="'global-x-param-empty_vs_xsl-variable'" />
+			<x:expect label="x:param should override xsl:variable unless run-as=external" select="
+					if ($x:is-external) then
+						'xsl:variable not affected by empty global x:param'
+					else
+						()" />
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		Global x:variable
+	-->
+	<x:variable name="global-x-variable_vs_xsl-param"
+		select="'global x:variable overriding xsl:param'" />
+	<x:variable name="global-x-variable_vs_xsl-variable"
+		select="'global x:variable overriding xsl:variable'" />
+
+	<x:scenario label="With global x:variable and">
+		<x:scenario label="global xsl:param,">
+			<x:context select="'global-x-variable_vs_xsl-param'" />
+			<x:expect select="
+					if ($x:is-external) then
+						'xsl:param not affected by global x:variable'
+					else
+						'global x:variable overriding xsl:param'">
+				<x:label>run-as=import allows x:variable to override xsl:param, although not an
+					official recommended usage of x:variable. run-as=export should never allow
+					it.</x:label>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:context select="'global-x-variable_vs_xsl-variable'" />
+			<x:expect select="
+					if ($x:is-external) then
+						'xsl:variable not affected by global x:variable'
+					else
+						'global x:variable overriding xsl:variable'">
+				<x:label>run-as=import allows x:variable to override xsl:variable, although not an
+					official recommended usage of x:variable. run-as=export should never allow
+					it.</x:label>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<!-- Empty x:variable -->
+	<x:variable as="empty-sequence()" name="global-x-variable-empty_vs_xsl-param" />
+	<x:variable as="empty-sequence()" name="global-x-variable-empty_vs_xsl-variable" />
+
+	<x:scenario label="With empty global x:variable and">
+		<x:scenario label="global xsl:param,">
+			<x:context select="'global-x-variable-empty_vs_xsl-param'" />
+			<x:expect select="
+					if ($x:is-external) then
+						'xsl:param not affected by empty global x:variable'
+					else
+						()">
+				<x:label>run-as=import allows x:variable to override xsl:param, although not an
+					official recommended usage of x:variable. run-as=external should never allow
+					it.</x:label>
+			</x:expect>
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:context select="'global-x-variable-empty_vs_xsl-variable'" />
+			<x:expect select="
+					if ($x:is-external) then
+						'xsl:variable not affected by empty global x:variable'
+					else
+						()">
+				<x:label>run-as=import allows x:variable to override xsl:variable, although not an
+					official recommended usage of x:variable. run-as=external should never allow
+					it.</x:label>
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+	<!--
+		Scenario-level x:variable
+	-->
+
+	<x:scenario label="With scenario-level x:variable and">
+		<x:scenario label="global xsl:param,">
+			<x:variable name="scenario-x-variable_vs_xsl-param"
+				select="'scenario-level x:variable overriding xsl:param'" />
+			<x:context select="'scenario-x-variable_vs_xsl-param'" />
+			<x:expect label="scenario-level x:variable should never override xsl:param"
+				select="'xsl:param not affected by scenario-level x:variable'" />
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:variable name="scenario-x-variable_vs_xsl-variable"
+				select="'scenario-level x:variable overriding xsl:variable'" />
+			<x:context select="'scenario-x-variable_vs_xsl-variable'" />
+			<x:expect label="scenario-level x:variable should never override xsl:variable"
+				select="'xsl:variable not affected by scenario-level x:variable'" />
+		</x:scenario>
+	</x:scenario>
+
+	<!-- Empty x:variable -->
+	<x:scenario label="With empty scenario-level x:variable and">
+		<x:scenario label="global xsl:param,">
+			<x:variable as="empty-sequence()" name="scenario-x-variable-empty_vs_xsl-param" />
+			<x:context select="'scenario-x-variable-empty_vs_xsl-param'" />
+			<x:expect label="scenario-level x:variable should never override xsl:param"
+				select="'xsl:param not affected by empty scenario-level x:variable'" />
+		</x:scenario>
+
+		<x:scenario label="global xsl:variable,">
+			<x:variable as="empty-sequence()" name="scenario-x-variable-empty_vs_xsl-variable" />
+			<x:context select="'scenario-x-variable-empty_vs_xsl-variable'" />
+			<x:expect label="scenario-level x:variable should never override xsl:variable"
+				select="'xsl:variable not affected by empty scenario-level x:variable'" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

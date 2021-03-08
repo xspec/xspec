@@ -68,6 +68,10 @@
             <xsl:value-of select="$xspec-master-uri" />
          </variable>
 
+         <!-- Let the compiled stylesheet know whether external or not -->
+         <variable name="{x:known-UQName('x:is-external')}" as="{x:known-UQName('xs:boolean')}"
+            select="{$is-external}()" />
+
          <!-- Compile global params and global variables. -->
          <xsl:variable name="global-vardecls" as="element()*" select="x:param | x:variable" />
          <xsl:apply-templates select="$global-vardecls" mode="x:declare-variable" />

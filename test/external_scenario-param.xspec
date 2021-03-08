@@ -3,6 +3,9 @@
 	xmlns:myp="http://example.org/ns/my/param" xmlns:myp_alt="http://example.org/ns/my/param"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+	<!-- Overriding /xsl:*/(xsl:param|xsl:variable) in SUT is tested by
+		external_global-override.xspec -->
+
 	<!--
 		Based on variable.xspec
 	-->
