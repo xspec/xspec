@@ -9,7 +9,7 @@
 		The source parameters are supposed to be supplied by /x:description/x:param.
 		The injected variables are to be checked by //x:scenario/x:expect. -->
 
-	<xsl:import href="../../lib/iso-schematron/iso_svrl_for_xslt2.xsl" />
+	<xsl:import href="../../src/schematron/step3.xsl" />
 
 	<xsl:include href="../../src/common/common-utils.xsl" />
 	<xsl:include href="../../src/common/namespace-utils.xsl" />
