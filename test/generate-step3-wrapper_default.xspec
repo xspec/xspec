@@ -6,16 +6,13 @@
 		<x:context href="../tutorial/schematron/demo-02-PhaseA.xspec" />
 		<x:expect>
 			<x:label><![CDATA[
-				- The built-in iso_svrl_for_xslt2.xsl should be imported.
-				- patch-step3.xsl should be imported after the built-in iso_svrl_for_xslt2.xsl.
+				- The built-in step3.xsl should be imported.
 				- $x:schematron-uri global parameter should be generated.
 				- /x:description/x:param should be transformed into /xsl:stylesheet/xsl:param.
 			]]></x:label>
 			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-				<xsl:import
-					href="{resolve-uri('../lib/iso-schematron/iso_svrl_for_xslt2.xsl', $x:xspec-uri)}" />
-				<xsl:import href="{resolve-uri('../src/schematron/patch-step3.xsl', $x:xspec-uri)}" />
+				<xsl:import href="{resolve-uri('../src/schematron/step3.xsl', $x:xspec-uri)}" />
 				<xsl:variable as="document-node()" name="...">
 					<xsl:document>
 						<xsl:text x:expand-text="yes">{resolve-uri('../tutorial/schematron/demo-02.sch', $x:xspec-uri)}</xsl:text>
