@@ -11,7 +11,7 @@
 
 	<xsl:param as="item()+" name="myp:default" />
 
-	<xsl:function as="item()*" name="myp:get" visibility="final">
+	<xsl:function as="item()+" name="myp:get" visibility="final">
 		<xsl:sequence select="$myp:default" />
 	</xsl:function>
 
@@ -25,7 +25,7 @@
 	<xsl:param as="item()+" name="myp:param-between-variables" />
 	<xsl:param as="item()+" name="myp:param-before-variable" />
 
-	<xsl:function as="item()*" name="myp:get" visibility="final">
+	<xsl:function as="item()+" name="myp:get" visibility="final">
 		<xsl:param as="xs:QName" name="name" />
 
 		<xsl:choose>
@@ -59,7 +59,7 @@
 	<!--
 		Named template wrapper of myp:get()
 	-->
-	<xsl:template as="item()*" name="myp:get">
+	<xsl:template as="item()+" name="myp:get">
 		<xsl:context-item use="absent" />
 
 		<xsl:param as="xs:QName?" name="qname" />
@@ -77,7 +77,7 @@
 
 	<xsl:mode name="myp:get" on-multiple-match="fail" on-no-match="fail" />
 
-	<xsl:template as="item()*" match="." mode="myp:get">
+	<xsl:template as="item()+" match="." mode="myp:get">
 		<xsl:param as="xs:QName?" name="qname" />
 
 		<xsl:sequence select="
