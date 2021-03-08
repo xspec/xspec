@@ -1167,7 +1167,7 @@ Scenario-level `x:param` follows the same scope rule as [`x:variable`](#variable
 
 ### Test suite
 
-Using `x:param` as direct children of `x:scenario` requires [`@run-as="external"`](#run-asexternal).
+Using `x:param` as direct children of `x:scenario` requires [`@run-as="external"`](#run-asexternal) on `x:description`.
 
 [`compilation-params-scope.xspec`](compilation-params-scope.xspec)
 
