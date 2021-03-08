@@ -28,7 +28,7 @@
       select="x:document-actual-uri($initial-document)" />
 
    <!--
-      Accumulators for local variable declarations (x:param and x:variable)
+      Accumulators for scenario-level variable declarations (x:param and x:variable)
    -->
 
    <!-- Push and pop variable declaration elements based on node identity -->
