@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
-	xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+	xmlns:local="urn:x-xspec:schematron:schut-to-xslt:local"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
@@ -24,7 +24,6 @@
 	<xsl:param as="xs:boolean" name="CACHE" select="false()" />
 
 	<xsl:include href="../common/uri-utils.xsl" />
-	<xsl:include href="locate-schematron-uri.xsl" />
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
@@ -57,7 +56,7 @@
 			Locate the Schematron schema
 		-->
 		<xsl:variable as="xs:anyURI" name="schematron-uri"
-			select="x:locate-schematron-uri(x:description)" />
+			select="local:locate-schematron-uri(x:description)" />
 
 		<!--
 			Step 1
@@ -133,6 +132,17 @@
 				<xsl:sequence select="$common-options-map" />
 				<xsl:map-entry key="'source-node'" select="$step2-transformed-doc" />
 				<xsl:map-entry key="'stylesheet-node'" select="$step3-wrapper-doc" />
+				<xsl:map-entry key="'stylesheet-params'">
+					<xsl:map>
+						<!-- Supply the wrapper stylesheet being generated with a parameter which
+							holds the fully-resolved Schematron file URI.
+							Do it even when the Schematron Step 3 preprocessor imported by the
+							wrapper stylesheet is not the built-in step3.xsl, because the
+							imported preprocessor may want to make use of $x:schematron-uri. -->
+						<xsl:map-entry key="xs:QName('x:schematron-uri')" select="$schematron-uri"
+						 />
+					</xsl:map>
+				</xsl:map-entry>
 			</xsl:map>
 		</xsl:variable>
 		<!--<xsl:message select="'Performing Step 3'" />-->
@@ -140,5 +150,19 @@
 			select="transform($step3-options-map)" />
 		<xsl:sequence select="$step3-transformed-map?output" />
 	</xsl:template>
+
+	<!--
+		Makes absolute URI from x:description/@schematron and resolves it with catalog
+	-->
+	<xsl:function as="xs:anyURI" name="local:locate-schematron-uri">
+		<xsl:param as="element(x:description)" name="description" />
+
+		<!-- Resolve with node base URI -->
+		<xsl:variable as="xs:anyURI" name="schematron-uri"
+			select="$description/@schematron/resolve-uri(., base-uri())" />
+
+		<!-- Resolve with catalog -->
+		<xsl:sequence select="x:resolve-xml-uri-with-catalog($schematron-uri)" />
+	</xsl:function>
 
 </xsl:stylesheet>

@@ -7,19 +7,11 @@
 		<x:expect>
 			<x:label><![CDATA[
 				- The built-in step3.xsl should be imported.
-				- $x:schematron-uri global parameter should be generated.
 				- /x:description/x:param should be transformed into /xsl:stylesheet/xsl:param.
 			]]></x:label>
 			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 				<xsl:import href="{resolve-uri('../src/schematron/step3.xsl', $x:xspec-uri)}" />
-				<xsl:variable as="document-node()" name="...">
-					<xsl:document>
-						<xsl:text x:expand-text="yes">{resolve-uri('../tutorial/schematron/demo-02.sch', $x:xspec-uri)}</xsl:text>
-					</xsl:document>
-				</xsl:variable>
-				<xsl:param as="Q{{http://www.w3.org/2001/XMLSchema}}anyURI"
-					name="Q{{http://www.jenitennison.com/xslt/xspec}}schematron-uri" select="..." />
 				<xsl:variable as="document-node()" name="...">
 					<xsl:document>
 						<xsl:text>PhaseA</xsl:text>

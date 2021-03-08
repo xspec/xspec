@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../src/schematron/locate-schematron-uri.xsl"
+<x:description stylesheet="../src/schematron/schut-to-xslt.xsl"
+	xmlns:local="urn:x-xspec:schematron:schut-to-xslt:local"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Dependency -->
@@ -10,7 +11,7 @@
 
 	<x:scenario label="Scenario for testing function locate-schematron-uri">
 		<!-- TODO: Use catalog -->
-		<x:call function="x:locate-schematron-uri">
+		<x:call function="local:locate-schematron-uri">
 			<x:param href="../tutorial/schematron/demo-01.xspec" select="x:description" />
 		</x:call>
 		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
