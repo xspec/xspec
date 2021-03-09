@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description run-as="external" stylesheet="external_scenario-param.xsl"
 	xmlns:myp="http://example.org/ns/my/param" xmlns:myp_alt="http://example.org/ns/my/param"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<!-- Overriding /xsl:*/(xsl:param|xsl:variable) in SUT is tested by
 		external_global-override.xspec -->
@@ -69,10 +70,10 @@
 	<x:scenario label="Params can appear in different parts of scenario. (call-function invocation)">
 		<x:scenario label="x:param interspersed with x:variable">
 			<x:scenario label="(variable, param, variable)">
-				<x:variable name="myp:variable-before-param" select="'v1'" />
+				<x:variable name="myv:variable-before-param" select="'v1'" />
 				<x:param name="myp:param-between-variables"
-					select="$myp:variable-before-param || 'p1'" />
-				<x:variable name="myp:variable-after-param"
+					select="$myv:variable-before-param || 'p1'" />
+				<x:variable name="myv:variable-after-param"
 					select="$myp:param-between-variables || 'v2'" />
 
 				<x:call function="myp:get">
@@ -80,12 +81,12 @@
 				</x:call>
 				<x:expect label="can use preceding-sibling variables" select="'v1p1'" />
 				<x:expect label="can be used by following-sibling variables" select="'v1p1v2'"
-					test="$myp:variable-after-param" />
+					test="$myv:variable-after-param" />
 			</x:scenario>
 
 			<x:scenario label="(param, variable, param)">
 				<x:param name="myp:param-before-variable" select="'p1'" />
-				<x:variable name="myp:variable-between-params"
+				<x:variable name="myv:variable-between-params"
 					select="$myp:param-before-variable || 'v1'" />
 				<x:param name="myp:param-after-variable" select="$myp:param-before-variable || 'p2'" />
 
@@ -94,7 +95,7 @@
 				</x:call>
 				<x:expect label="can be the 1st child of x:scenario" select="'p1'" />
 				<x:expect label="can be used by following-sibling variables" select="'p1v1'"
-					test="$myp:variable-between-params" />
+					test="$myv:variable-between-params" />
 
 				<x:scenario label="can">
 					<x:call function="myp:get">
@@ -306,10 +307,10 @@
 	<x:scenario label="Params can appear in different parts of scenario. (call-template invocation)">
 		<x:scenario label="x:param interspersed with x:variable">
 			<x:scenario label="(variable, param, variable)">
-				<x:variable name="myp:variable-before-param" select="'v1'" />
+				<x:variable name="myv:variable-before-param" select="'v1'" />
 				<x:param name="myp:param-between-variables"
-					select="$myp:variable-before-param || 'p1'" />
-				<x:variable name="myp:variable-after-param"
+					select="$myv:variable-before-param || 'p1'" />
+				<x:variable name="myv:variable-after-param"
 					select="$myp:param-between-variables || 'v2'" />
 
 				<x:call template="myp:get">
@@ -317,12 +318,12 @@
 				</x:call>
 				<x:expect label="can use preceding-sibling variables" select="'v1p1'" />
 				<x:expect label="can be used by following-sibling variables" select="'v1p1v2'"
-					test="$myp:variable-after-param" />
+					test="$myv:variable-after-param" />
 			</x:scenario>
 
 			<x:scenario label="(param, variable, param)">
 				<x:param name="myp:param-before-variable" select="'p1'" />
-				<x:variable name="myp:variable-between-params"
+				<x:variable name="myv:variable-between-params"
 					select="$myp:param-before-variable || 'v1'" />
 				<x:param name="myp:param-after-variable" select="$myp:param-before-variable || 'p2'" />
 
@@ -331,7 +332,7 @@
 				</x:call>
 				<x:expect label="can be the 1st child of x:scenario" select="'p1'" />
 				<x:expect label="can be used by following-sibling variables" select="'p1v1'"
-					test="$myp:variable-between-params" />
+					test="$myv:variable-between-params" />
 
 				<x:scenario label="can">
 					<x:call template="myp:get">
@@ -409,10 +410,10 @@
 		label="Params can appear in different parts of scenario. (apply-templates invocation)">
 		<x:scenario label="x:param interspersed with x:variable">
 			<x:scenario label="(variable, param, variable)">
-				<x:variable name="myp:variable-before-param" select="'v1'" />
+				<x:variable name="myv:variable-before-param" select="'v1'" />
 				<x:param name="myp:param-between-variables"
-					select="$myp:variable-before-param || 'p1'" />
-				<x:variable name="myp:variable-after-param"
+					select="$myv:variable-before-param || 'p1'" />
+				<x:variable name="myv:variable-after-param"
 					select="$myp:param-between-variables || 'v2'" />
 
 				<x:context mode="myp:get" select="0">
@@ -420,12 +421,12 @@
 				</x:context>
 				<x:expect label="can use preceding-sibling variables" select="'v1p1'" />
 				<x:expect label="can be used by following-sibling variables" select="'v1p1v2'"
-					test="$myp:variable-after-param" />
+					test="$myv:variable-after-param" />
 			</x:scenario>
 
 			<x:scenario label="(param, variable, param)">
 				<x:param name="myp:param-before-variable" select="'p1'" />
-				<x:variable name="myp:variable-between-params"
+				<x:variable name="myv:variable-between-params"
 					select="$myp:param-before-variable || 'v1'" />
 				<x:param name="myp:param-after-variable" select="$myp:param-before-variable || 'p2'" />
 
@@ -434,7 +435,7 @@
 				</x:context>
 				<x:expect label="can be the 1st child of x:scenario" select="'p1'" />
 				<x:expect label="can be used by following-sibling variables" select="'p1v1'"
-					test="$myp:variable-between-params" />
+					test="$myv:variable-between-params" />
 
 				<x:scenario label="can">
 					<x:context mode="myp:get" select="0">
