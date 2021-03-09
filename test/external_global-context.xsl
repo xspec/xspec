@@ -5,6 +5,8 @@
 	<!-- Since this file is included by external_global-context.sch and thus by its Schematron-
 		compiled stylesheet, every name in this file must be in a private namespace (test:). -->
 
+	<xsl:global-context-item as="item()" use="required" />
+
 	<xsl:variable as="item()" name="test:global-context" select="." />
 
 	<!-- Returns the global context item intact -->

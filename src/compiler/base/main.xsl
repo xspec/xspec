@@ -7,6 +7,16 @@
                 version="3.0">
 
    <!--
+      Global context item
+   -->
+   <!-- Actually, xsl:global-context-item/@as is "document-node(element(x:description))".
+      "element(x:description)" is omitted in order to accept any source document and then reject it
+      with a proper error message if it's broken. (xspec/xspec#522) -->
+   <!-- Actually, xsl:global-context-item/@use is "required". It is downgraded to "optional" in
+      order to be compatible with XSPEC_HOME/test/compile-xslt-tests.xspec. -->
+   <xsl:global-context-item as="document-node()" use="optional" />
+
+   <!--
       Global params
    -->
 
@@ -67,7 +77,7 @@
 
    <!-- Actually, xsl:template/@match is "document-node(element(x:description))".
       "element(x:description)" is omitted in order to accept any source document and then reject it
-      with a proper error message if it's broken. -->
+      with a proper error message if it's broken. (xspec/xspec#522) -->
    <xsl:template match="document-node()" as="node()+">
       <xsl:call-template name="x:perform-initial-check" />
 
