@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<xsl:global-context-item use="absent" />
 
 	<xsl:import-schema namespace="x-urn:test" schema-location="issue-23_1.xsd" />
 
