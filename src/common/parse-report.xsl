@@ -89,7 +89,7 @@
 
 		<xsl:if test="$report-element[self::x:expect or self::x:result] => empty()">
 			<xsl:message terminate="yes">
-				<xsl:text expand-text="yes">{name($report-element)} is not a report element</xsl:text>
+				<xsl:text expand-text="yes">ERROR: {name($report-element)} is not a report element</xsl:text>
 			</xsl:message>
 		</xsl:if>
 

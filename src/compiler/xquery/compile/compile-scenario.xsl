@@ -24,30 +24,36 @@
          select="x:variable[following-sibling::x:call]" />
 
       <xsl:if test="$context">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <xsl:text expand-text="yes">{name($context)} not supported for XQuery</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">{name($context)} not supported for XQuery</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
       <xsl:if test="$call/@template">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <xsl:text expand-text="yes">{name($call)}/@template not supported for XQuery</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">{name($call)}/@template not supported for XQuery</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
       <xsl:if test="$run-sut-now">
          <xsl:call-template name="x:check-param-max-position" />
       </xsl:if>
       <xsl:if test="x:expect and empty($call)">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
-                  the user -->
-               <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
+                     the user -->
+                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
 
       <!--

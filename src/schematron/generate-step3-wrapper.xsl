@@ -111,7 +111,9 @@
 		<!-- xsl:for-each is not for iteration but for simplifying XPath -->
 		<xsl:for-each select="$param">
 			<xsl:message terminate="yes">
-				<xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is not supported for Schematron.</xsl:text>
+				<xsl:call-template name="x:prefix-diag-message">
+					<xsl:with-param name="message" select="'Enabling @static is not supported for Schematron.'" />
+				</xsl:call-template>
 			</xsl:message>
 		</xsl:for-each>
 	</xsl:template>
