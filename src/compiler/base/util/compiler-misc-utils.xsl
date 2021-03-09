@@ -53,8 +53,7 @@
    <xsl:function as="xs:decimal" name="x:xslt-version">
       <xsl:param as="element()" name="context" />
 
-      <xsl:sequence
-         select="
+      <xsl:sequence select="
             (
                $context/ancestor-or-self::*[@xslt-version][1]/@xslt-version,
                3.0
@@ -73,8 +72,7 @@
    <xsl:function as="namespace-node()*" name="x:element-additional-namespace-nodes">
       <xsl:param as="element()" name="element" />
 
-      <xsl:variable as="xs:string" name="element-name-prefix"
-         select="
+      <xsl:variable as="xs:string" name="element-name-prefix" select="
             $element
             => node-name()
             => prefix-from-QName()
@@ -107,8 +105,7 @@
             </xsl:when>
 
             <xsl:otherwise>
-               <xsl:variable as="xs:string+" name="xspec-prefixes"
-                  select="
+               <xsl:variable as="xs:string+" name="xspec-prefixes" select="
                      in-scope-prefixes($context-element)
                      [namespace-uri-for-prefix(., $context-element) eq $x:xspec-namespace]" />
                <xsl:sequence select="sort($xspec-prefixes)[1]" />
@@ -149,9 +146,9 @@
             </xsl:for-each>
 
             <xsl:for-each select="
-               .[not(self::x:expect or self::x:scenario)]
-               ! x:label(.)
-               ! normalize-space()[. (: eliminate zero-length string :)]">
+                  .[not(self::x:expect or self::x:scenario)]
+                  ! x:label(.)
+                  ! normalize-space()[. (: eliminate zero-length string :)]">
                <xsl:text expand-text="yes"> (labeled '{.}')</xsl:text>
             </xsl:for-each>
          </xsl:for-each>
