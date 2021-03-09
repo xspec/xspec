@@ -95,7 +95,7 @@
 		<xsl:if
 			test="not($run-as-external eq starts-with($xspec-filename-and-extension, 'external_'))">
 			<xsl:message terminate="yes">
-				<xsl:text expand-text="yes">Filename '{$xspec-filename-and-extension}' and @run-as '{$run-as}' mismatch</xsl:text>
+				<xsl:text expand-text="yes">ERROR: Filename '{$xspec-filename-and-extension}' and @run-as '{$run-as}' mismatch</xsl:text>
 			</xsl:message>
 		</xsl:if>
 
