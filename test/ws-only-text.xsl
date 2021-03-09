@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0" xmlns:ws-only-text="x-urn:test:ws-only-text"
+<xsl:stylesheet version="3.0" xmlns:ws-only-text="x-urn:test:ws-only-text"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<xsl:global-context-item use="absent" />
 
 	<!-- Whitespace-only text node for test -->
 	<xsl:variable as="text()" name="ws-only-text:wsot">

@@ -3,6 +3,8 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:include href="x-urn:test:catalog:02:stylesheets:stylesheet.xsl" />
 
+	<xsl:global-context-item use="absent" />
+
 	<xsl:template as="xs:string" name="main">
 		<xsl:context-item use="absent" />
 		<xsl:call-template name="imported" />
