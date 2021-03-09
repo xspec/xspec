@@ -66,7 +66,11 @@
                <xsl:otherwise>
                   <!-- Reject it -->
                   <xsl:message terminate="yes">
-                     <xsl:text expand-text="yes">ERROR: {name()} (named {@name}) must not use the XSpec namespace.</xsl:text>
+                     <xsl:call-template name="x:prefix-diag-message">
+                        <xsl:with-param name="message">
+                           <xsl:text expand-text="yes">Name {@name} must not use the XSpec namespace.</xsl:text>
+                        </xsl:with-param>
+                     </xsl:call-template>
                   </xsl:message>
                </xsl:otherwise>
             </xsl:choose>
@@ -80,7 +84,11 @@
 
       <xsl:if test="not($is-external) and x:yes-no-synonym(@static, false())">
          <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">ERROR: Enabling @static in {name()} (named {@name}) is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message">
+                  <xsl:text expand-text="yes">Enabling @static is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
          </xsl:message>
       </xsl:if>
    </xsl:template>
@@ -123,7 +131,11 @@
       <!-- Terminate if any -->
       <xsl:if test="$overridden-param">
          <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">ERROR: {name()} (named {@name}) must not override {name($overridden-param)} (named {$overridden-param/@name})</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message">
+                  <xsl:text expand-text="yes">Must not override {name($overridden-param)} (named {$overridden-param/@name})</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
          </xsl:message>
       </xsl:if>
    </xsl:template>

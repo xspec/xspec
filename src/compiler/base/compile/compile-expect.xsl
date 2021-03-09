@@ -20,26 +20,24 @@
    <xsl:function name="x:boolean-with-comparison" as="xs:string">
       <xsl:param name="expect" as="element(x:expect)" />
 
-      <xsl:sequence
-         select="
-            x:prefix-diag-message(
-               'ERROR',
-               $expect,
-               'Boolean @test must not be accompanied by @as, @href, @select, or child node.'
-            )" />
+      <xsl:for-each select="$expect">
+         <xsl:call-template name="x:prefix-diag-message">
+            <xsl:with-param name="message"
+               select="'Boolean @test must not be accompanied by @as, @href, @select, or child node.'" />
+         </xsl:call-template>
+      </xsl:for-each>
    </xsl:function>
 
    <!-- Returns an error string for non-boolean @test with no comparison factors -->
    <xsl:function name="x:non-boolean-without-comparison" as="xs:string">
       <xsl:param name="expect" as="element(x:expect)" />
 
-      <xsl:sequence
-         select="
-            x:prefix-diag-message(
-               'ERROR',
-               $expect,
-               'Non-boolean @test must be accompanied by @as, @href, @select, or child node.'
-            )" />
+      <xsl:for-each select="$expect">
+         <xsl:call-template name="x:prefix-diag-message">
+            <xsl:with-param name="message"
+               select="'Non-boolean @test must be accompanied by @as, @href, @select, or child node.'" />
+         </xsl:call-template>
+      </xsl:for-each>
    </xsl:function>
 
 </xsl:stylesheet>

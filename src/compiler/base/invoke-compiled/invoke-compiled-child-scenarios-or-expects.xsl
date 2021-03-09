@@ -28,8 +28,11 @@
 
       <xsl:variable name="this" select="." as="element()"/>
       <xsl:if test="empty($this[self::x:description|self::x:scenario])">
-         <xsl:message terminate="yes"
-            select="'$this must be a description or a scenario, but is: ' || name()" />
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" select="'$this must be a description or a scenario'" />
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
 
       <xsl:apply-templates select="$this/element() except $handled-child-vardecls"

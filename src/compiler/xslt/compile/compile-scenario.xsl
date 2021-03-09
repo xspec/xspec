@@ -30,59 +30,73 @@
       <!-- We have to create these error messages at this stage because before now
          we didn't have merged versions of the environment -->
       <xsl:if test="$context/@href and ($context/node() except $context/x:param)">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <xsl:text expand-text="yes">Can't set the context document using both the href attribute and the content of the {name($context)} element</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">Can't set the context document using both the href attribute and the content of the {name($context)} element</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
       <xsl:if test="$call/@template and $call/@function">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <xsl:text>Can't call a function and a template at the same time</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text>Can't call a function and a template at the same time</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
       <xsl:if test="$apply and $context">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <xsl:text expand-text="yes">Can't use {name($apply)} and set a context at the same time</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">Can't use {name($apply)} and set a context at the same time</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
       <xsl:if test="$apply and $call">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <xsl:text expand-text="yes">Can't use {name($apply)} and {name($call)} at the same time</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">Can't use {name($apply)} and {name($call)} at the same time</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
       <xsl:if test="$context and $call/@function">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <xsl:text>Can't set a context and call a function at the same time</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text>Can't set a context and call a function at the same time</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
       <xsl:if test="$context/x:param and $call">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="level" select="'WARNING'" />
-            <xsl:with-param name="message" as="xs:string">
-               <xsl:text expand-text="yes">{name($context)}/{name($context/x:param[1])} will have no effect on {name($call)}</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="level" select="'WARNING'" />
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">{name($context)}/{name($context/x:param[1])} will have no effect on {name($call)}</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
       <xsl:if test="$run-sut-now">
          <xsl:call-template name="x:check-param-max-position" />
       </xsl:if>
       <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
-         <xsl:call-template name="x:diag-compiling-scenario">
-            <xsl:with-param name="message" as="xs:string">
-               <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
-                  the user -->
-               <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
-            </xsl:with-param>
-         </xsl:call-template>
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" as="xs:string">
+                  <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
+                     the user -->
+                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
       </xsl:if>
 
       <xsl:element name="xsl:template" namespace="{$x:xsl-namespace}">
@@ -156,7 +170,11 @@
                   </xsl:when>
 
                   <xsl:otherwise>
-                     <xsl:message select="'Unhandled', name()" terminate="yes" />
+                     <xsl:message terminate="yes">
+                        <xsl:call-template name="x:prefix-diag-message">
+                           <xsl:with-param name="message" select="'Unhandled'" />
+                        </xsl:call-template>
+                     </xsl:message>
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:for-each>
@@ -327,7 +345,11 @@
 
                      <xsl:otherwise>
                         <!-- TODO: Adapt to a new error reporting facility (above usages too). -->
-                        <xsl:message terminate="yes">Error: cannot happen.</xsl:message>
+                        <xsl:message terminate="yes">
+                           <xsl:call-template name="x:prefix-diag-message">
+                              <xsl:with-param name="message" select="'cannot happen.'" />
+                           </xsl:call-template>
+                        </xsl:message>
                      </xsl:otherwise>
                   </xsl:choose>
                </variable>
