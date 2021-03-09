@@ -18,7 +18,7 @@
 	<!-- myp:get#1 returns the specified global parameter -->
 
 	<xsl:param as="item()+" name="myp:bracketed" />
-	<xsl:param as="item()+" name="myp:description-param" />
+	<xsl:param as="item()+" name="myp:description-param" required="yes" />
 	<xsl:param as="item()+" name="myp:local" />
 	<xsl:param as="item()+" name="myp:outer" />
 	<xsl:param as="item()+" name="myp:param-after-variable" />

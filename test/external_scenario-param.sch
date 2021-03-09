@@ -2,7 +2,7 @@
 <sch:schema queryBinding="xslt2" xmlns:sch="http://purl.oclc.org/dsdl/schematron"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:param name="phase" />
+	<xsl:param name="phase" required="yes" />
 
 	<sch:phase id="A">
 		<sch:active pattern="pattern-A" />
