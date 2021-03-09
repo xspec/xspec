@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:three-dots="x-urn:test:three-dots" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<xsl:global-context-item use="absent" />
 
 	<!-- Empty document node -->
 	<xsl:variable as="document-node()" name="three-dots:document-node_empty">

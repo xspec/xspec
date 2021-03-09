@@ -6,6 +6,8 @@
 
 	<xsl:use-package name="http://example.org/complex-arithmetic.xsl" version="1.0" />
 
+	<xsl:global-context-item use="absent" />
+
 	<xsl:template as="text()" name="xsl:initial-template">
 		<xsl:context-item use="absent" />
 
