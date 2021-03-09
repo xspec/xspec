@@ -8,14 +8,13 @@
 		<x:context href="../tutorial/schematron/demo-02-PhaseA.xspec" />
 		<x:expect>
 			<x:label><![CDATA[
-				- The given preprocessor should be imported.
-				- patch-step3.xsl should not be imported.
+				- The given preprocessor should be imported instead of the built-in step3.xsl.
 				- $x:schematron-uri global parameter should be generated.
 				- /x:description/x:param should be transformed into /xsl:stylesheet/xsl:param.
 			]]></x:label>
 			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-				<xsl:import href="uri-of-actual-step3-preprocessor" />
+				<xsl:import href="{$ACTUAL-PREPROCESSOR-URI}" />
 				<xsl:variable as="document-node()" name="...">
 					<xsl:document>
 						<xsl:text x:expand-text="yes">{resolve-uri('../tutorial/schematron/demo-02.sch', $x:xspec-uri)}</xsl:text>

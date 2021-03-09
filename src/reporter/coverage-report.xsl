@@ -27,6 +27,8 @@
 
    <pkg:import-uri>http://www.jenitennison.com/xslt/xspec/coverage-report.xsl</pkg:import-uri>
 
+   <xsl:global-context-item as="document-node(element(trace))" use="required" />
+
    <xsl:param name="inline-css" as="xs:string" select="false() cast as xs:string" />
 
    <xsl:param name="report-css-uri" as="xs:string?" />

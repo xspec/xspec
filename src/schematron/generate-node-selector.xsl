@@ -5,6 +5,8 @@
 
 	<xsl:include href="../common/namespace-utils.xsl" />
 
+	<xsl:global-context-item use="absent" />
+
 	<xsl:output indent="yes" />
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
