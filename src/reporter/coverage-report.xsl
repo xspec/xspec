@@ -207,7 +207,7 @@
             </xsl:matching-substring>
             <xsl:non-matching-substring>
                <xsl:message terminate="yes">
-                  <xsl:text expand-text="yes">unmatched string: {.}</xsl:text>
+                  <xsl:text expand-text="yes">ERROR: unmatched string: {.}</xsl:text>
                </xsl:message>
             </xsl:non-matching-substring>
          </xsl:analyze-string>
@@ -377,7 +377,7 @@
       </xsl:variable>
       <xsl:if test="count($coverage) > 1">
          <xsl:message terminate="yes">
-            more than one coverage identified for:
+            <xsl:text>ERROR: more than one coverage identified for:</xsl:text>
             <xsl:sequence select="$node" />
          </xsl:message>
       </xsl:if>

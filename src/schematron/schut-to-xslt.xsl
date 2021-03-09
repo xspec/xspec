@@ -23,12 +23,18 @@
 
 	<xsl:param as="xs:boolean" name="CACHE" select="false()" />
 
+	<xsl:include href="../common/common-utils.xsl" />
+	<xsl:include href="../common/namespace-utils.xsl" />
+	<xsl:include href="../common/uqname-utils.xsl" />
 	<xsl:include href="../common/uri-utils.xsl" />
+	<xsl:include href="../compiler/base/util/compiler-misc-utils.xsl" />
 	<xsl:include href="locate-schematron-uri.xsl" />
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="document-node()" match="document-node(element(x:description))">
+		<xsl:call-template name="x:perform-initial-check-for-schematron" />
+
 		<xsl:variable as="map(xs:string, item())+" name="common-options-map">
 			<xsl:map-entry key="'cache'" select="$CACHE" />
 		</xsl:variable>
@@ -109,6 +115,18 @@
 		<xsl:variable as="map(*)" name="step3-transformed-map"
 			select="transform($step3-options-map)" />
 		<xsl:sequence select="$step3-transformed-map?output" />
+	</xsl:template>
+
+	<xsl:template as="empty-sequence()" name="x:perform-initial-check-for-schematron">
+		<xsl:context-item as="document-node(element(x:description))" use="required" />
+
+		<xsl:for-each select="x:description[empty(@schematron)]">
+			<xsl:message terminate="yes">
+				<xsl:call-template name="x:prefix-diag-message">
+					<xsl:with-param name="message" select="'Missing @schematron.'" />
+				</xsl:call-template>
+			</xsl:message>
+		</xsl:for-each>
 	</xsl:template>
 
 </xsl:stylesheet>
