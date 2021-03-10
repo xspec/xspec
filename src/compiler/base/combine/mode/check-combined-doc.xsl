@@ -99,9 +99,13 @@
 
       <xsl:if test="not($is-external) and parent::x:scenario">
          <xsl:message terminate="yes">
-            <!-- /src/schematron/schut-to-xspec.xsl removes the name prefix from x:description.
-               That's why URIQualifiedName is used. -->
-            <xsl:text expand-text="yes">ERROR: {name(parent::x:scenario)} has {name()} (named {@name}), which is supported only when /{/x:description => x:node-UQName()} has @run-as='external'.</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message">
+                  <!-- /src/schematron/schut-to-xspec.xsl removes the name prefix from x:description.
+                     That's why URIQualifiedName is used. -->
+                  <xsl:text expand-text="yes">{name(parent::x:scenario)} has {name()}, which is supported only when /{/x:description => x:node-UQName()} has @run-as='external'.</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
          </xsl:message>
       </xsl:if>
    </xsl:template>

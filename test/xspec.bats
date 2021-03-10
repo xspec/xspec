@@ -2794,7 +2794,7 @@ load bats-helper
     run ../bin/xspec.sh param-disallowed/scenario-param/stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:scenario has x:param (named p), which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
+    [ "${lines[3]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2802,7 +2802,7 @@ load bats-helper
     run ../bin/xspec.sh -q param-disallowed/scenario-param/query.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param (named p), which is not supported for XQuery." ]
+    [ "${lines[3]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param, which is not supported for XQuery." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2810,7 +2810,7 @@ load bats-helper
     run ../bin/xspec.sh -s param-disallowed/scenario-param/schematron.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[5]}" = "ERROR: x:scenario has x:param (named p), which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
+    [ "${lines[5]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2830,7 +2830,7 @@ load bats-helper
     run ../bin/xspec.sh variable-overriding-param/local-variable/ancestor-scenario-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:variable (named my:foo) must not override x:param (named my:foo)" ]
+    [ "${lines[3]}" = "ERROR in x:variable (named my:foo) (under 'scenario with child::x:param in-between scenario scenario with child::x:variable'): Must not override x:param (named my:foo)" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2846,7 +2846,7 @@ load bats-helper
     run ../bin/xspec.sh variable-overriding-param/local-variable/preceding-sibling-param.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR: x:variable (named my2:foo) must not override x:param (named my1:foo)" ]
+    [ "${lines[3]}" = "ERROR in x:variable (named my2:foo) (under 'x:scenario/x:variable'): Must not override x:param (named my1:foo)" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 

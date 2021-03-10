@@ -2414,21 +2414,21 @@
 	<case name="Scenario param not allowed (XSLT without @run-as=external)">
     call :run ..\bin\xspec.bat param-disallowed\scenario-param\stylesheet.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR: x:scenario has x:param (named p), which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'."
+    call :verify_line  4 x "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Scenario param not allowed (XQuery)">
     call :run ..\bin\xspec.bat -q param-disallowed\scenario-param\query.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR: Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param (named p), which is not supported for XQuery."
+    call :verify_line  4 x "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param, which is not supported for XQuery."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
 	<case name="Scenario param not allowed (Schematron without @run-as=external)">
     call :run ..\bin\xspec.bat -s param-disallowed\scenario-param\schematron.xspec
     call :verify_retval 2
-    call :verify_line  6 x "ERROR: x:scenario has x:param (named p), which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'."
+    call :verify_line  6 x "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -2446,7 +2446,7 @@
 	<case name="x:variable must not override x:param (local variable overriding ancestor scenario param)">
     call :run ..\bin\xspec.bat variable-overriding-param\local-variable\ancestor-scenario-param.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR: x:variable (named my:foo) must not override x:param (named my:foo)"
+    call :verify_line  4 x "ERROR in x:variable (named my:foo) (under 'scenario with child::x:param in-between scenario scenario with child::x:variable'): Must not override x:param (named my:foo)"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -2460,7 +2460,7 @@
 	<case name="x:variable must not override x:param (local variable overriding preceding-sibling param)">
     call :run ..\bin\xspec.bat variable-overriding-param\local-variable\preceding-sibling-param.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR: x:variable (named my2:foo) must not override x:param (named my1:foo)"
+    call :verify_line  4 x "ERROR in x:variable (named my2:foo) (under 'x:scenario/x:variable'): Must not override x:param (named my1:foo)"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
