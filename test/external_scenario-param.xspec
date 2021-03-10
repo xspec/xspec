@@ -12,7 +12,7 @@
 	-->
 
 	<x:param name="myp:true" select="true()" />
-	<x:param name="myp:description-param" select="
+	<x:param name="myp:description-level" select="
 			if ((:Global params can use preceding-sibling params:) $myp:true) then
 				'description param value'
 			else
@@ -135,7 +135,7 @@
 		label="Params can be referenced from SUT invocations in different scopes. (call-function invocation)">
 		<x:scenario label="Reference to /x:description/x:param">
 			<x:call function="myp:get">
-				<x:param select="xs:QName('myp:description-param')" />
+				<x:param select="xs:QName('myp:description-level')" />
 			</x:call>
 			<x:expect label="yields correct result." select="'description param value'" />
 		</x:scenario>
@@ -173,13 +173,13 @@
 		<!-- For now, we assume any prefixes used in param names are defined on x:description. -->
 
 		<x:scenario label="Scenario-level redefinition of x:description param">
-			<x:param as="xs:string" name="myp:description-param"
-				select="$myp:description-param || ' (redefined in scenario using same prefix'" />
-			<x:param as="xs:string" name="myp_alt:description-param"
-				select="$myp:description-param || ' or different prefix)'" />
+			<x:param as="xs:string" name="myp:description-level"
+				select="$myp:description-level || ' (redefined in scenario using same prefix'" />
+			<x:param as="xs:string" name="myp_alt:description-level"
+				select="$myp:description-level || ' or different prefix)'" />
 
 			<x:call function="myp:get">
-				<x:param select="xs:QName('myp:description-param')" />
+				<x:param select="xs:QName('myp:description-level')" />
 			</x:call>
 			<x:expect label="yields correct redefined result."
 				select="'description param value (redefined in scenario using same prefix or different prefix)'"
@@ -373,7 +373,7 @@
 		label="Params can be referenced from SUT invocations in different scopes. (call-template invocation)">
 		<x:scenario label="Reference to /x:description/x:param">
 			<x:call template="myp:get">
-				<x:param name="qname" select="xs:QName('myp:description-param')" />
+				<x:param name="qname" select="xs:QName('myp:description-level')" />
 			</x:call>
 			<x:expect label="yields correct result." select="'description param value'" />
 		</x:scenario>
@@ -476,7 +476,7 @@
 		label="Params can be referenced from SUT invocations in different scopes. (apply-templates invocation)">
 		<x:scenario label="Reference to /x:description/x:param">
 			<x:context mode="myp:get" select="0">
-				<x:param name="qname" select="xs:QName('myp:description-param')" />
+				<x:param name="qname" select="xs:QName('myp:description-level')" />
 			</x:context>
 			<x:expect label="yields correct result." select="'description param value'" />
 		</x:scenario>

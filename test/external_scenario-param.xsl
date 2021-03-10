@@ -18,7 +18,7 @@
 	<!-- myp:get#1 returns the specified global parameter -->
 
 	<xsl:param as="item()+" name="myp:bracketed" />
-	<xsl:param as="item()+" name="myp:description-param" required="yes" />
+	<xsl:param as="item()+" name="myp:description-level" required="yes" />
 	<xsl:param as="item()+" name="myp:outer" />
 	<xsl:param as="item()+" name="myp:param-after-variable" />
 	<xsl:param as="item()+" name="myp:param-between-variables" />
@@ -32,8 +32,8 @@
 			<xsl:when test="$name eq xs:QName('myp:bracketed')">
 				<xsl:sequence select="$myp:bracketed" />
 			</xsl:when>
-			<xsl:when test="$name eq xs:QName('myp:description-param')">
-				<xsl:sequence select="$myp:description-param" />
+			<xsl:when test="$name eq xs:QName('myp:description-level')">
+				<xsl:sequence select="$myp:description-level" />
 			</xsl:when>
 			<xsl:when test="$name eq xs:QName('myp:outer')">
 				<xsl:sequence select="$myp:outer" />
