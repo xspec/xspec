@@ -13,7 +13,8 @@
 
 	<x:param name="myp:true" select="true()" />
 	<x:param name="myp:description-level" select="
-			if ((:Global params can use preceding-sibling params:) $myp:true) then
+			(: This 'if' clause just verifies that global x:param can use preceding-sibling x:param. :)
+			if ($myp:true) then
 				'description param value'
 			else
 				()" />

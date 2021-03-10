@@ -27,7 +27,8 @@
 
 	<x:variable name="myv:test-data" href="variable.xml"/>
 	<x:variable name="myv:test-string" select="
-			if ((:Global variables can use preceding-sibling variables:) $myv:test-data) then
+			(: This 'if' clause just verifies that global variables can use preceding-sibling variables. :)
+			if ($myv:test-data) then
 				'global'
 			else
 				()" />
