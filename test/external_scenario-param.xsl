@@ -19,11 +19,11 @@
 
 	<xsl:param as="item()+" name="myp:bracketed" />
 	<xsl:param as="item()+" name="myp:description-param" required="yes" />
-	<xsl:param as="item()+" name="myp:local" />
 	<xsl:param as="item()+" name="myp:outer" />
 	<xsl:param as="item()+" name="myp:param-after-variable" />
 	<xsl:param as="item()+" name="myp:param-between-variables" />
 	<xsl:param as="item()+" name="myp:param-before-variable" />
+	<xsl:param as="item()+" name="myp:scenario-level" />
 
 	<xsl:function as="item()+" name="myp:get" visibility="final">
 		<xsl:param as="xs:QName" name="name" />
@@ -34,9 +34,6 @@
 			</xsl:when>
 			<xsl:when test="$name eq xs:QName('myp:description-param')">
 				<xsl:sequence select="$myp:description-param" />
-			</xsl:when>
-			<xsl:when test="$name eq xs:QName('myp:local')">
-				<xsl:sequence select="$myp:local" />
 			</xsl:when>
 			<xsl:when test="$name eq xs:QName('myp:outer')">
 				<xsl:sequence select="$myp:outer" />
@@ -49,6 +46,9 @@
 			</xsl:when>
 			<xsl:when test="$name eq xs:QName('myp:param-between-variables')">
 				<xsl:sequence select="$myp:param-between-variables" />
+			</xsl:when>
+			<xsl:when test="$name eq xs:QName('myp:scenario-level')">
+				<xsl:sequence select="$myp:scenario-level" />
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:message select="'Unknown QName:', $name" terminate="yes" />

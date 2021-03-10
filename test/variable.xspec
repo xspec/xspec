@@ -154,9 +154,9 @@
 
 	<x:scenario label="Variables can be redefined locally.">
 		<!-- Note: For x:variable elements that are direct children of x:description, expanded QNames must be unique.
-		 This test scenario is about *local* redefinitions of global or local variables. -->
+		 This test scenario is about *scenario-level* redefinitions of global or scenario-level variables. -->
 		<!-- For now, we assume any prefixes used in variable names are defined on x:description. -->
-		<x:scenario label="Local redefinition of global variable">
+		<x:scenario label="Scenario-level redefinition of global variable">
 			<x:variable name="myv:test-string" select="$myv:test-string || ' (redefined locally using same prefix'" as="xs:string"/>
 			<x:variable name="myv_alt:test-string" select="$myv:test-string || ' or different prefix)'" as="xs:string"/>
 			<x:call function="mirror:param-mirror">
@@ -179,12 +179,12 @@
 			</x:scenario>
 		</x:scenario>
 		<x:scenario label="Redefinition of variable in same scenario">
-			<x:variable name="myv:local" select="('overwritten','data')" as="xs:string+"/>
-			<x:variable name="myv:local" select="'value #2'" as="xs:string"/>
-			<x:variable name="myv:local" select="$myv:local || ' (redefined using same prefix'" as="xs:string"/>
-			<x:variable name="myv_alt:local" select="$myv:local || ' or different prefix)'" as="xs:string"/>
+			<x:variable name="myv:scenario-level" select="('overwritten','data')" as="xs:string+"/>
+			<x:variable name="myv:scenario-level" select="'value #2'" as="xs:string"/>
+			<x:variable name="myv:scenario-level" select="$myv:scenario-level || ' (redefined using same prefix'" as="xs:string"/>
+			<x:variable name="myv_alt:scenario-level" select="$myv:scenario-level || ' or different prefix)'" as="xs:string"/>
 			<x:call function="mirror:param-mirror">
-				<x:param select="$myv:local"/>
+				<x:param select="$myv:scenario-level"/>
 			</x:call>
 			<x:expect label="reflects value redefined within same scenario."
 				select="'value #2 (redefined using same prefix or different prefix)'"/>

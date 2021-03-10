@@ -169,10 +169,10 @@
 
 	<x:scenario label="Params can be redefined locally.">
 		<!-- Note: For x:param elements that are direct children of x:description, expanded QNames must be unique.
-			This test scenario is about *local* redefinitions of x:description or x:scenario params. -->
+			This test scenario is about *scenario-level* redefinitions of x:description or x:scenario params. -->
 		<!-- For now, we assume any prefixes used in param names are defined on x:description. -->
 
-		<x:scenario label="Local redefinition of x:description param">
+		<x:scenario label="Scenario-level redefinition of x:description param">
 			<x:param as="xs:string" name="myp:description-param"
 				select="$myp:description-param || ' (redefined locally using same prefix'" />
 			<x:param as="xs:string" name="myp_alt:description-param"
@@ -205,15 +205,15 @@
 		</x:scenario>
 
 		<x:scenario label="Redefinition of param in same scenario">
-			<x:param as="xs:string+" name="myp:local" select="'overwritten', 'data'" />
-			<x:param as="xs:string" name="myp:local" select="'value #2'" />
-			<x:param as="xs:string" name="myp:local"
-				select="$myp:local || ' (redefined using same prefix'" />
-			<x:param as="xs:string" name="myp_alt:local"
-				select="$myp:local || ' or different prefix)'" />
+			<x:param as="xs:string+" name="myp:scenario-level" select="'overwritten', 'data'" />
+			<x:param as="xs:string" name="myp:scenario-level" select="'value #2'" />
+			<x:param as="xs:string" name="myp:scenario-level"
+				select="$myp:scenario-level || ' (redefined using same prefix'" />
+			<x:param as="xs:string" name="myp_alt:scenario-level"
+				select="$myp:scenario-level || ' or different prefix)'" />
 
 			<x:call function="myp:get">
-				<x:param select="xs:QName('myp:local')" />
+				<x:param select="xs:QName('myp:scenario-level')" />
 			</x:call>
 			<x:expect label="reflects value redefined within same scenario."
 				select="'value #2 (redefined using same prefix or different prefix)'" />
