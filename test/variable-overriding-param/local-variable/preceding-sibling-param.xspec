@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description run-as="external" xmlns:my1="http://example.org/ns/my"
-	xmlns:my2="http://example.org/ns/my" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description run-as="external" stylesheet="../../do-nothing.xsl"
+	xmlns:my1="http://example.org/ns/my" xmlns:my2="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<!--
 		- //x:scenario/x:variable overriding self::x:variable/preceding-sibling::x:param
 		- Lexical QName overriding another lexical QName (different prefix)

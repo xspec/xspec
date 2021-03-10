@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description run-as="external" xmlns:my="http://example.org/ns/my"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description run-as="external" stylesheet="../../do-nothing.xsl"
+	xmlns:my="http://example.org/ns/my" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<!--
 		- //x:scenario/x:variable overriding self::x:variable/parent::x:scenario/ancestor::x:scenario/x:param
 		- Lexical QName overriding the same lexical QName
