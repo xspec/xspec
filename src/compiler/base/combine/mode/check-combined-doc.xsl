@@ -145,7 +145,9 @@
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message">
-                  <xsl:text expand-text="yes">Must not override {name($overridden-param)} (named {$overridden-param/@name})</xsl:text>
+                  <xsl:for-each select="$overridden-param">
+                     <xsl:text expand-text="yes">Must not override {name()} (named {@name})</xsl:text>
+                  </xsl:for-each>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
