@@ -17,8 +17,14 @@
 
       <!-- mode="x:declare-variable" is not aware of $is-external. That's why checking x:param
          against $is-external is performed here rather than in mode="x:declare-variable". -->
-      <xsl:call-template name="local:detect-static-param-run-as-import" />
-      <xsl:call-template name="local:detect-scenario-param-run-as-import" />
+      <xsl:choose>
+         <xsl:when test="parent::x:description">
+            <xsl:call-template name="local:detect-static-description-param-run-as-import" />
+         </xsl:when>
+         <xsl:when test="parent::x:scenario">
+            <xsl:call-template name="local:detect-scenario-param-run-as-import" />
+         </xsl:when>
+      </xsl:choose>
    </xsl:template>
 
    <xsl:template match="x:variable" as="empty-sequence()" mode="x:check-combined-doc">
@@ -32,7 +38,7 @@
 
    <!-- Reject user-defined variable declaration with names in XSpec namespace. -->
    <xsl:template name="local:detect-reserved-vardecl-name" as="empty-sequence()">
-      <!-- Context item is x:param or x:variable -->
+      <!-- Context item must be x:param or x:variable -->
       <xsl:context-item as="element()" use="required" />
 
       <xsl:if test="@name">
@@ -78,8 +84,9 @@
       </xsl:if>
    </xsl:template>
 
-   <!-- Reject static x:param if not @run-as=external. -->
-   <xsl:template name="local:detect-static-param-run-as-import" as="empty-sequence()">
+   <!-- Reject static /x:description/x:param if not @run-as=external. -->
+   <xsl:template name="local:detect-static-description-param-run-as-import" as="empty-sequence()">
+      <!-- Context item must be x:param[parent::x:description] -->
       <xsl:context-item as="element(x:param)" use="required" />
 
       <xsl:if test="not($is-external) and x:yes-no-synonym(@static, false())">
@@ -95,9 +102,10 @@
 
    <!-- Reject //x:scenario/x:param if not @run-as=external. -->
    <xsl:template name="local:detect-scenario-param-run-as-import" as="empty-sequence()">
+      <!-- Context item must be x:param[parent::x:scenario] -->
       <xsl:context-item as="element(x:param)" use="required" />
 
-      <xsl:if test="not($is-external) and parent::x:scenario">
+      <xsl:if test="not($is-external)">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message">
