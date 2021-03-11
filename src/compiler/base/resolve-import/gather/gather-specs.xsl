@@ -29,7 +29,7 @@
    </xsl:template>
 
    <!-- This mode always starts from this template -->
-   <xsl:template match="x:description" mode="x:gather-specs">
+   <xsl:template match="x:description" as="node()*" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />
@@ -57,7 +57,11 @@
    <xsl:template match="x:scenario/@xspec" as="attribute(original-xspec)">
       <xsl:for-each select="parent::element()/@original-xspec">
          <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">{parent::element() => name()} already has @{name()}</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message">
+                  <xsl:text expand-text="yes">Already has @{name()}</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
          </xsl:message>
       </xsl:for-each>
 
@@ -107,9 +111,13 @@
    <!-- x:space has been replaced with x:text -->
    <xsl:template match="x:space" as="empty-sequence()" mode="local:gather-user-content">
       <xsl:message terminate="yes">
-         <!-- Use x:xspec-name() for displaying the x:text element name with the prefix preferred by
-            the user -->
-         <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
+         <xsl:call-template name="x:prefix-diag-message">
+            <xsl:with-param name="message">
+               <!-- Use x:xspec-name() for displaying the x:text element name with the prefix preferred by
+                  the user -->
+               <xsl:text expand-text="yes">{name()} is obsolete. Use {x:xspec-name('text', .)} instead.</xsl:text>
+            </xsl:with-param>
+         </xsl:call-template>
       </xsl:message>
    </xsl:template>
 

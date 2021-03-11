@@ -4,11 +4,11 @@
 
 	<xsl:import-schema namespace="x-urn:test" schema-location="issue-23_2.xsd" />
 
-	<xsl:variable name="expect">
+	<xsl:variable as="document-node(schema-element(Q{x-urn:test}foo))" name="expect">
 		<xsl:copy-of select="doc('issue-23_2_expect.xml')" validation="strict" />
 	</xsl:variable>
 
-	<xsl:template match="/">
+	<xsl:template as="document-node(element(Q{x-urn:test}foo))" match="/">
 		<xsl:sequence select="." />
 	</xsl:template>
 </xsl:stylesheet>
