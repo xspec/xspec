@@ -45,7 +45,7 @@
    <xsl:accumulator name="stacked-vardecls" as="element()*" initial-value="()">
       <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable"
          select="
-            (: Append this local variable declaration element :)
+            (: Append this scenario-level variable declaration element :)
             $value, (self::x:param | self::x:variable)" />
       <xsl:accumulator-rule match="x:scenario" phase="end"
          select="
