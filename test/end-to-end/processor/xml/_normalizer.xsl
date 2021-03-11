@@ -29,8 +29,8 @@
 	</xsl:template>
 
 	<!--
-		Normalizes Schematron @stylesheet
-			Schematron XSLT is created in the output dir. Only the file name (and extension) is predictable.
+		Normalizes the link to the files outside the repository
+			Only the file name (and extension) is predictable.
 	-->
 	<xsl:template as="attribute(stylesheet)" match="/x:report[@schematron]/@stylesheet"
 		mode="normalizer:normalize">
