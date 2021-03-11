@@ -21,7 +21,9 @@
       <!-- Some ID generators may depend on @xspec, although this default generator doesn't. -->
       <xsl:if test="empty(@xspec)">
          <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">@xspec not exist when generating ID for {name()}.</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message" select="'@xspec not exist when generating ID.'" />
+            </xsl:call-template>
          </xsl:message>
       </xsl:if>
 

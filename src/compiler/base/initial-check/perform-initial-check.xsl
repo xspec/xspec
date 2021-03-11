@@ -18,17 +18,33 @@
             </xsl:when>
          </xsl:choose>
       </xsl:variable>
-      <xsl:message select="
-         if ($deprecation-warning)
-         then ('WARNING:', $deprecation-warning)
-         else ' ' (: Always write a single non-empty line to help Bats tests to predict line numbers. :)" />
+      <xsl:message>
+         <xsl:choose>
+            <xsl:when test="$deprecation-warning">
+               <xsl:call-template name="x:prefix-diag-message">
+                  <xsl:with-param name="level" select="'WARNING'" />
+                  <xsl:with-param name="message" select="$deprecation-warning" />
+               </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+               <!-- Always write a single non-empty line to help Bats tests to predict line numbers. -->
+               <xsl:text> </xsl:text>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:message>
 
       <xsl:variable name="description-name" as="xs:QName" select="xs:QName('x:description')" />
       <xsl:if test="not(node-name(element()) eq $description-name)">
          <xsl:message terminate="yes">
-            <xsl:text expand-text="yes">Source document is not XSpec. /{$description-name} is missing. Supplied source has /{element() => name()} instead.</xsl:text>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message">
+                  <xsl:text expand-text="yes">Source document is not XSpec. /{$description-name} is missing. Supplied source has /{element() => name()} instead.</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
          </xsl:message>
       </xsl:if>
+
+      <xsl:call-template name="x:perform-initial-check-for-lang" />
    </xsl:template>
 
 </xsl:stylesheet>
