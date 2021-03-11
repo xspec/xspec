@@ -2433,34 +2433,80 @@
 	</case>
 
 	<!--
-		x:variable must not override x:param
+		x:param conflicting with another variable declaration
 	-->
 
-	<case name="x:variable must not override x:param (global variable overriding description param)">
-    call :run ..\bin\xspec.bat variable-overriding-param\global-variable.xspec
+	<case name="Description x:param conflicting with x:param">
+    call :run ..\bin\xspec.bat conflicting-vardecl\description-param\param.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR in x:variable (named Q{http://example.org/ns/my}foo): Must not override x:param (named my:foo)"
+    call :verify_line  4 x "ERROR in x:param (named Q{http://example.org/ns/my}foo): Name conflicts with x:param (named my:foo)"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
-	<case name="x:variable must not override x:param (local variable overriding ancestor scenario param)">
-    call :run ..\bin\xspec.bat variable-overriding-param\local-variable\ancestor-scenario-param.xspec
+	<case name="Description x:param conflicting with x:variable">
+    call :run ..\bin\xspec.bat conflicting-vardecl\description-param\variable.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR in x:variable (named my:foo) (under 'scenario with child::x:param in-between scenario scenario with child::x:variable'): Must not override x:param (named my:foo)"
+    call :verify_line  4 x "ERROR in x:param (named my:foo): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
-	<case name="x:variable must not override x:param (local variable overriding description param)">
-    call :run ..\bin\xspec.bat variable-overriding-param\local-variable\description-param.xspec
+	<case name="Scenario x:param conflicting with ancestor scenario x:variable">
+    call :run ..\bin\xspec.bat conflicting-vardecl\scenario-param\ancestor-scenario-variable.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR in x:variable (named my:foo) (under 'x:scenario/x:variable'): Must not override x:param (named Q{http://example.org/ns/my}foo)"
+    call :verify_line  4 x "ERROR in x:param (named my:foo) (under 'scenario with child::x:variable in-between scenario scenario with child::x:param'): Name conflicts with x:variable (named my:foo)"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
-	<case name="x:variable must not override x:param (local variable overriding preceding-sibling param)">
-    call :run ..\bin\xspec.bat variable-overriding-param\local-variable\preceding-sibling-param.xspec
+	<case name="Scenario x:param conflicting with description x:variable">
+    call :run ..\bin\xspec.bat conflicting-vardecl\scenario-param\description-variable.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR in x:variable (named my2:foo) (under 'x:scenario/x:variable'): Must not override x:param (named my1:foo)"
+    call :verify_line  4 x "ERROR in x:param (named my:foo) (under 'x:scenario/x:param'): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Scenario x:param conflicting with preceding-sibling x:variable">
+    call :run ..\bin\xspec.bat conflicting-vardecl\scenario-param\preceding-sibling-variable.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR in x:param (named my2:foo) (under 'x:scenario/x:param'): Name conflicts with x:variable (named my1:foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<!--
+		x:variable conflicting with another variable declaration
+	-->
+
+	<case name="Description x:variable conflicting with x:param">
+    call :run ..\bin\xspec.bat conflicting-vardecl\description-variable\param.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR in x:variable (named Q{http://example.org/ns/my}foo): Name conflicts with x:param (named my:foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Description x:variable conflicting with x:variable">
+    call :run ..\bin\xspec.bat conflicting-vardecl\description-variable\variable.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR in x:variable (named my:foo): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Scenario x:variable conflicting with ancestor scenario x:param">
+    call :run ..\bin\xspec.bat conflicting-vardecl\scenario-variable\ancestor-scenario-param.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR in x:variable (named my:foo) (under 'scenario with child::x:param in-between scenario scenario with child::x:variable'): Name conflicts with x:param (named my:foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Scenario x:variable conflicting with description x:param">
+    call :run ..\bin\xspec.bat conflicting-vardecl\scenario-variable\description-param.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR in x:variable (named my:foo) (under 'x:scenario/x:variable'): Name conflicts with x:param (named Q{http://example.org/ns/my}foo)"
+    call :verify_line -1 x "*** Error compiling the test suite"
+	</case>
+
+	<case name="Scenario x:variable conflicting with preceding-sibling x:param">
+    call :run ..\bin\xspec.bat conflicting-vardecl\scenario-variable\preceding-sibling-param.xspec
+    call :verify_retval 2
+    call :verify_line  4 x "ERROR in x:variable (named my2:foo) (under 'x:scenario/x:variable'): Name conflicts with x:param (named my1:foo)"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 

@@ -15,6 +15,12 @@
    <xsl:template match="x:param" as="empty-sequence()" mode="x:check-combined-doc">
       <xsl:call-template name="local:detect-reserved-vardecl-name" />
 
+      <xsl:if test="
+            parent::x:description or parent::x:scenario
+            (: For now, do not check function-param and template-param. :)">
+         <xsl:call-template name="local:detect-conflicting-vardecl" />
+      </xsl:if>
+
       <!-- mode="x:declare-variable" is not aware of $is-external. That's why checking x:param
          against $is-external is performed here rather than in mode="x:declare-variable". -->
       <xsl:choose>
@@ -29,7 +35,7 @@
 
    <xsl:template match="x:variable" as="empty-sequence()" mode="x:check-combined-doc">
       <xsl:call-template name="local:detect-reserved-vardecl-name" />
-      <xsl:call-template name="local:detect-variable-overriding-param" />
+      <xsl:call-template name="local:detect-conflicting-vardecl" />
    </xsl:template>
 
    <!--
@@ -118,35 +124,45 @@
       </xsl:if>
    </xsl:template>
 
-   <!-- Reject x:variable if it overrides any (/x:description|//x:scenario)/x:param. -->
-   <xsl:template name="local:detect-variable-overriding-param" as="empty-sequence()">
-      <xsl:context-item as="element(x:variable)" use="required" />
+   <!-- Reject variable declarations (x:param and x:variable) conflicting with another one. -->
+   <xsl:template name="local:detect-conflicting-vardecl" as="empty-sequence()">
+      <!-- Context item must be x:param[parent::x:description or parent::x:scenario] or x:variable -->
+      <xsl:context-item as="element()" use="required" />
 
-      <!-- URIQualifiedName of the current x:variable -->
+      <!-- URIQualifiedName of the current variable declaration -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
-      <!-- Cumulative x:param -->
-      <xsl:variable name="cumulative-params" as="element(x:param)*" select="
-            (: Global x:param :)
-            /x:description/x:param
-            
-            (: Scenario-level x:param stacked outside the nearest ancestor x:scenario :)
-            | accumulator-before('stacked-vardecls')/self::x:param
-            
-            (: Preceding-sibling x:param of the current x:variable :)
-            | preceding-sibling::x:param" />
+      <!-- Description-level variable declarations that are visible from the current variable
+         declaration element -->
+      <xsl:variable name="visible-description-vardecls" as="element()*"
+         select="/x:description/(x:param | x:variable) except ." />
 
-      <!-- One of the x:param elements that are overridden by the current x:variable -->
-      <xsl:variable name="overridden-param" as="element(x:param)?"
-         select="$cumulative-params[x:variable-UQName(.) eq $uqname][1]" />
+      <!-- All the visible variable declarations (description-level + scenario level) -->
+      <xsl:variable name="visible-vardecls" as="element()*" select="
+            $visible-description-vardecls
+            | accumulator-before('stacked-vardecls')
+            | (preceding-sibling::x:param | preceding-sibling::x:variable)" />
+
+      <!-- Variable declarations that the current one is allowed to override -->
+      <xsl:variable name="overridable-vardecls" as="element()*" select="
+            $visible-vardecls[node-name() eq node-name(current())]
+            
+            (: Description-level variable declaration are not allowed to override another
+               description-level one :)
+            except $visible-description-vardecls[current()[parent::x:description]]" />
+
+      <!-- One of the variable declarations with which the current one conflicts -->
+      <xsl:variable name="conflicts-with" as="element()?" select="
+            ($visible-vardecls except $overridable-vardecls)
+            [x:variable-UQName(.) eq $uqname][1]" />
 
       <!-- Terminate if any -->
-      <xsl:if test="$overridden-param">
+      <xsl:if test="$conflicts-with">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message">
-                  <xsl:for-each select="$overridden-param">
-                     <xsl:text expand-text="yes">Must not override {name()} (named {@name})</xsl:text>
+                  <xsl:for-each select="$conflicts-with">
+                     <xsl:text expand-text="yes">Name conflicts with {name()} (named {@name})</xsl:text>
                   </xsl:for-each>
                </xsl:with-param>
             </xsl:call-template>
