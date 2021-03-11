@@ -125,7 +125,7 @@
 	</xsl:template>
 
 	<!--
-		Normalizes svrl:active-pattern/@document in Schematron Result
+		Normalizes SVRL in Schematron Result
 			Example:
 				in:  <svrl:active-pattern document="file:/.../tutorial/schematron/demo-02.xml"
 				out: <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
@@ -135,11 +135,18 @@
 		mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
-		<xsl:variable as="xs:string" name="regex"
-			><![CDATA[^( +<svrl:active-pattern document=")(.+?)(")$]]></xsl:variable>
+		<xsl:variable as="xs:string" name="regex">
+			<xsl:text>
+				^
+				([ ]+&lt;svrl:active-pattern[ ]document=")	<!-- group 1 -->
+				(\S+?)										<!-- group 2 -->
+				(")											<!-- group 3 -->
+				$
+			</xsl:text>
+		</xsl:variable>
 
 		<xsl:value-of>
-			<xsl:analyze-string flags="m" regex="{$regex}" select=".">
+			<xsl:analyze-string flags="mx" regex="{$regex}" select=".">
 				<xsl:matching-substring>
 					<xsl:sequence select="
 							regex-group(1),
