@@ -21,7 +21,7 @@
 				in:  <title>Test Report for /path/to/tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
 				out: <title>Test Report for tested.xsl (passed: 2 / pending: 0 / failed: 1 / total: 3)</title>
 	-->
-	<xsl:template as="text()" match="/html[not(local:is-xquery-report(.))]/head/title/text()"
+	<xsl:template as="text()" match="/html[local:is-xquery-report(.) => not()]/head/title/text()"
 		mode="normalizer:normalize">
 		<xsl:analyze-string regex="^(Test Report for) (.+) (\([a-z0-9/: ]+\))$" select=".">
 			<xsl:matching-substring>
@@ -37,7 +37,7 @@
 		Replaces the embedded CSS with the link to its source
 			For brevity. The details of style are not critical anyway.
 	-->
-	<xsl:template as="element(link)" match="/html/head/style" mode="normalizer:normalize">
+	<xsl:template as="element(link)" match="style" mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
 		<!-- Absolute URI of CSS -->
@@ -56,7 +56,7 @@
 				in:  href="file:/path/to/test-report.css"
 				out: href="../path/to/test-report.css"
 	-->
-	<xsl:template as="attribute(href)" match="/html/head/link[@rel eq 'stylesheet']/@href"
+	<xsl:template as="attribute(href)" match="link[@rel eq 'stylesheet']/@href"
 		mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 
@@ -130,8 +130,7 @@
 				in:  <svrl:active-pattern document="file:/.../tutorial/schematron/demo-02.xml"
 				out: <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
 	-->
-	<xsl:template as="text()"
-		match="table[contains-token(@class, 'xspecResult')][local:is-schematron-report(.)]/tbody/tr/td[1]/pre/text()"
+	<xsl:template as="text()" match="pre[contains-token(@class, 'svrl')]/text()"
 		mode="normalizer:normalize">
 		<xsl:param as="xs:anyURI" name="tunnel_document-uri" required="yes" tunnel="yes" />
 

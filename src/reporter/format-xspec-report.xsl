@@ -11,6 +11,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:fmt="urn:x-xspec:reporter:format-utils"
                 xmlns:pkg="http://expath.org/ns/pkg"
+                xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
                 xmlns:xhtml="http://www.w3.org/1999/xhtml"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -449,6 +450,17 @@
                         => substring-after('&#xA;')
                         => string-length()" />
                   <pre>
+                     <xsl:if test="
+                           /x:report/@schematron
+                           and not($expected)
+                           and empty($result-to-compare-with)
+                           and (@select eq '/element()')
+                           and (count(x:reported-content(.)/element()) eq 1)
+                           and x:reported-content(.)/svrl:schematron-output">
+                        <!-- Schematron result SVRL -->
+                        <xsl:attribute name="class" select="'svrl'" />
+                     </xsl:if>
+
                      <xsl:choose>
                         <!-- Serialize the result while performing comparison -->
                         <xsl:when test="exists($result-to-compare-with)">
