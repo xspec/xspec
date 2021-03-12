@@ -106,7 +106,7 @@
          </xsl:element>
 
          <xsl:for-each select="accumulator-before('stacked-vardecls-distinct-uqnames')">
-            <param name="{.}" required="yes" />
+            <param name="{.}" as="item()*" required="yes" />
          </xsl:for-each>
 
          <message>
