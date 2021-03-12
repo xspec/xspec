@@ -4,7 +4,7 @@
 	<x:param name="only-child-elements">false</x:param>
 	<x:param name="visit-text">true</x:param>
 
-	<!-- Private parameter to enable text node @location in the skeleton implementation -->
+	<!-- Private parameter to enable text node @location in the "skeleton" Schematron implementation -->
 	<x:param name="x:enable-schematron-text-location" select="true()" />
 
 	<x:scenario label="Testing text node location">

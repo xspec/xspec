@@ -46,7 +46,7 @@
                      [local-name-from-QName($qname) eq 'enable-schematron-text-location']">
                   <!-- Allow it -->
                   <!-- This global x:param is a private parameter to enable text node @location
-                     in the skeleton implementation. -->
+                     in the "skeleton" Schematron implementation. -->
                </xsl:when>
 
                <xsl:when test="
