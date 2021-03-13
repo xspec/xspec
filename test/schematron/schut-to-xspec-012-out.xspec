@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <description xmlns="http://www.jenitennison.com/xslt/xspec"
-             schematron="%TEST_BASE%/schut-to-xspec-012.sch"
+             schematron="%TEST_BASE%/schematron/schut-to-xspec-012.sch"
              original-xspec="%TEST_BASE%/schematron-012.xspec"
              stylesheet="schut-to-xspec-test.sch.xsl">
    <x:scenario xmlns:x="http://www.jenitennison.com/xslt/xspec"

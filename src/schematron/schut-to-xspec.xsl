@@ -79,7 +79,7 @@
         Adds some templates to the included mode
     -->
 
-    <!-- Schematron skeleton implementation requires a document node -->
+    <!-- The "skeleton" Schematron implementation requires a document node -->
     <xsl:template match="x:context[not(@href)][
         parent::*/x:expect-assert | parent::*/x:expect-not-assert |
         parent::*/x:expect-report | parent::*/x:expect-not-report |

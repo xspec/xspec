@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet exclude-result-prefixes="#all" version="2.0"
-	xmlns:axsl="http://www.w3.org/1999/XSL/TransformAlias" xmlns:foo="foo"
-	xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet exclude-result-prefixes="#all" version="3.0" xmlns:foo="foo"
+	xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!-- This master stylesheet imports the original Schematron Step 3 preprocessor and injects some
@@ -11,33 +11,30 @@
 
 	<xsl:import href="../../src/schematron/step3.xsl" />
 
-	<xsl:template as="node()+" match="sch:schema" mode="stylesheetbody">
-		<axsl:variable as="xs:string" name="schematron-param-001:phase">
-			<xsl:value-of select="$phase" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:selected">
-			<xsl:value-of select="$selected" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:escape1">
-			<xsl:value-of select="$escape1" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:escape2">
-			<xsl:value-of select="$escape2" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:escape3">
-			<xsl:value-of select="$escape3" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:escape4">
-			<xsl:value-of select="$escape4" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:foo-selected">
-			<xsl:value-of select="$foo:selected" />
-		</axsl:variable>
-		<axsl:variable as="xs:string" name="schematron-param-001:href-selected">
-			<xsl:value-of select="$href-selected" />
-		</axsl:variable>
+	<xsl:include href="../../src/common/common-utils.xsl" />
+	<xsl:include href="../../src/common/namespace-utils.xsl" />
+	<xsl:include href="../../src/common/uqname-utils.xsl" />
 
-		<!-- Let the other things go -->
-		<xsl:apply-imports />
+	<xsl:template as="element(xsl:variable)+" name="process-prolog">
+		<xsl:variable as="map(xs:string, item())" name="vars-map" select="
+				map {
+					'schematron-param-001:phase': $phase,
+					'schematron-param-001:selected': $selected,
+					'schematron-param-001:escape1': $escape1,
+					'schematron-param-001:escape2': $escape2,
+					'schematron-param-001:escape3': $escape3,
+					'schematron-param-001:escape4': $escape4,
+					'schematron-param-001:foo-selected': $foo:selected,
+					'schematron-param-001:href-selected': $href-selected
+				}" />
+
+		<xsl:for-each select="map:keys($vars-map)">
+			<xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
+				<xsl:attribute name="as" select="x:known-UQName('xs:string')" />
+				<xsl:attribute name="name" select="." />
+
+				<xsl:value-of select="map:get($vars-map, .)" />
+			</xsl:element>
+		</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>
