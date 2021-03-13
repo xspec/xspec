@@ -49,7 +49,7 @@
 			select="deserializer:xml-version($EXPECTED-DOC-URI)" />
 		<xsl:if test="$input-doc-xml-version ne $expected-doc-xml-version">
 			<xsl:message terminate="yes">
-				<xsl:text>XML version not match&#x0A;</xsl:text>
+				<xsl:text>ERROR: XML version not match&#x0A;</xsl:text>
 				<xsl:text expand-text="yes">  Actual: {$input-doc-xml-version}&#x0A;</xsl:text>
 				<xsl:text expand-text="yes">Expected: {$expected-doc-xml-version}</xsl:text>
 			</xsl:message>
@@ -77,8 +77,7 @@
 		<!-- Diagnostic output -->
 		<xsl:if test="not($comparison-result) or $DEBUG">
 			<!-- Save the normalized input document -->
-			<xsl:variable as="xs:anyURI" name="save-normalized-input-uri"
-				select="
+			<xsl:variable as="xs:anyURI" name="save-normalized-input-uri" select="
 					(x:filename-without-extension($input-doc-uri) || '-norm' || x:extension-without-filename($input-doc-uri))
 					=> resolve-uri($input-doc-uri)" />
 			<xsl:result-document format="serializer:output" href="{$save-normalized-input-uri}">
@@ -98,11 +97,9 @@
 			* Double-check the result with its 'NFCP' flags.
 			* Print the diff by '?' flag.
 		-->
-		<xsl:if
-			test="
+		<xsl:if test="
 				saxon:deep-equal($normalized-input-doc, $expected-doc, (), 'NFCP?')
-				ne $comparison-result"
-			use-when="function-available('saxon:deep-equal')">
+				ne $comparison-result" use-when="function-available('saxon:deep-equal')">
 			<!-- Terminate if saxon:deep-equal() contradicts the comparison result -->
 			<xsl:message terminate="yes" />
 		</xsl:if>
@@ -112,8 +109,7 @@
 				if ($comparison-result) then
 					'OK'
 				else
-					'FAILED'"
-			terminate="{not($comparison-result)}" />
+					'FAILED'" terminate="{not($comparison-result)}" />
 	</xsl:template>
 
 	<!--
@@ -133,15 +129,13 @@
 		<xsl:param as="node()" name="node2" />
 
 		<xsl:choose>
-			<xsl:when
-				test="
+			<xsl:when test="
 					$node1 instance of document-node()
 					and $node2 instance of document-node()">
 				<xsl:sequence select="local:nodes-deep-equal($node1/node(), $node2/node())" />
 			</xsl:when>
 
-			<xsl:when
-				test="
+			<xsl:when test="
 					$node1 instance of element()
 					and $node2 instance of element()">
 				<xsl:variable as="attribute()*" name="attrs1">
@@ -155,24 +149,19 @@
 					</xsl:perform-sort>
 				</xsl:variable>
 
-				<xsl:sequence
-					select="
+				<xsl:sequence select="
 						local:node-name-equal($node1, $node2)
 						and local:in-scope-ns-equal($node1, $node2)
 						and local:nodes-deep-equal($attrs1, $attrs2)
-						and local:nodes-deep-equal($node1/node(), $node2/node())"
-				 />
+						and local:nodes-deep-equal($node1/node(), $node2/node())" />
 			</xsl:when>
 
-			<xsl:when
-				test="
+			<xsl:when test="
 					$node1 instance of attribute()
 					and $node2 instance of attribute()">
-				<xsl:sequence
-					select="
+				<xsl:sequence select="
 						local:node-name-equal($node1, $node2)
-						and ($node1 eq $node2)"
-				 />
+						and ($node1 eq $node2)" />
 			</xsl:when>
 
 			<xsl:otherwise>
@@ -194,8 +183,7 @@
 			</xsl:when>
 
 			<xsl:when test="count($nodes1) eq count($nodes2)">
-				<xsl:sequence
-					select="
+				<xsl:sequence select="
 						every $position in (1 to count($nodes1))
 							satisfies local:single-node-deep-equal($nodes1[$position], $nodes2[$position])"
 				 />
@@ -228,14 +216,12 @@
 		<xsl:variable as="xs:string*" name="prefixes1" select="in-scope-prefixes($elem1) => sort()" />
 		<xsl:variable as="xs:string*" name="prefixes2" select="in-scope-prefixes($elem2) => sort()" />
 
-		<xsl:sequence
-			select="
+		<xsl:sequence select="
 				(count($prefixes1) eq count($prefixes2))
 				and (every $prefix in $prefixes1
 					satisfies
 					namespace-uri-for-prefix($prefix, $elem1)
-					eq namespace-uri-for-prefix($prefix, $elem2))"
-		 />
+					eq namespace-uri-for-prefix($prefix, $elem2))" />
 	</xsl:function>
 
 </xsl:stylesheet>

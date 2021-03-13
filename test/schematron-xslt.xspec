@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test schematron-preprocessor-step1=${xspec.project.dir}/test/schematron/schematron-xslt_include.xsl?>
+<?xspec-test schematron-preprocessor-step2=${xspec.project.dir}/test/schematron/schematron-xslt_expand.xsl?>
+<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schematron/schematron-xslt_compile.xsl?>
+<x:description schematron="schematron/schematron-xslt.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Scenario for verifying the hook chain">
+		<x:context>
+			<e />
+		</x:context>
+		<x:expect-report id="hook-chain-verified" />
+	</x:scenario>
+</x:description>

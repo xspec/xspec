@@ -7,7 +7,7 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xpath-default-namespace="http://www.w3.org/1999/xhtml"
 >
-    <xsl:template match="/">
+    <xsl:template match="/" as="empty-sequence()">
         <xsl:for-each select="//abbr[not(@title)]">
             <xsl:choose>
                 <xsl:when test="//abbr[@title]/. = current()/."/>

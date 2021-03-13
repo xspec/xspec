@@ -273,20 +273,20 @@
                               <xsl:value-of select="'&#x2423;'" />
                            </xsl:when>
                            <xsl:otherwise>
-                              <xsl:message select="'Unexpected whitespace'" terminate="yes" />
+                              <xsl:message select="'ERROR: Unexpected whitespace'" terminate="yes" />
                            </xsl:otherwise>
                         </xsl:choose>
                      </xsl:matching-substring>
 
                      <xsl:non-matching-substring>
-                        <xsl:message select="'Unexpected character'" terminate="yes" />
+                        <xsl:message select="'ERROR: Unexpected character'" terminate="yes" />
                      </xsl:non-matching-substring>
                   </xsl:analyze-string>
                </xsl:value-of>
             </xsl:when>
 
             <xsl:otherwise>
-               <xsl:message select="'Node not serialized'" terminate="yes" />
+               <xsl:message select="'ERROR: Node not serialized'" terminate="yes" />
             </xsl:otherwise>
          </xsl:choose>
       </xsl:variable>

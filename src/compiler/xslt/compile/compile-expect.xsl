@@ -32,7 +32,7 @@
          </xsl:element>
 
          <xsl:for-each select="$param-uqnames">
-            <param name="{.}" required="yes" />
+            <param name="{.}" as="item()*" required="yes" />
          </xsl:for-each>
 
          <message>
