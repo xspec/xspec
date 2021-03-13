@@ -140,11 +140,11 @@
 				<xsl:map-entry key="'stylesheet-node'" select="$step3-wrapper-doc" />
 				<xsl:map-entry key="'stylesheet-params'">
 					<xsl:map>
-						<!-- Supply the wrapper stylesheet being generated with a parameter which
-							holds the fully-resolved Schematron file URI.
-							Do it even when the Schematron Step 3 preprocessor imported by the
-							wrapper stylesheet is not the built-in step3.xsl, because the
-							imported preprocessor may want to make use of $x:schematron-uri. -->
+						<!-- Supply the Schematron Step 3 preprocessor with a parameter holding the
+							fully-resolved Schematron file URI.
+							Supply it even when the Schematron Step 3 preprocessor is not the built-
+							in one, because some user-provided preprocessors may want to make use of
+							the Schematron file URI. -->
 						<xsl:map-entry key="xs:QName('x:schematron-uri')" select="$schematron-uri"
 						 />
 					</xsl:map>
