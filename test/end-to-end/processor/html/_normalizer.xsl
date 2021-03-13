@@ -126,6 +126,7 @@
 
 	<!--
 		Normalizes SVRL in Schematron Result
+
 			Example (the "skeleton" Schematron implementation):
 				in:  <svrl:active-pattern document="file:/.../tutorial/schematron/demo-02.xml"
 				out: <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"

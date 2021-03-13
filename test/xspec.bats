@@ -634,7 +634,9 @@ load bats-helper
 }
 
 #
-# Schematron XSLTs provided externally
+# Schematron XSLTs provided externally (CLI)
+#
+#     Ant is tested by run-xspec-tests-ant.sh
 #
 
 @test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (CLI)" {
@@ -642,33 +644,14 @@ load bats-helper
         skip "Saxon bug 4696"
     fi
 
-    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt-include.xsl
-    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt-expand.xsl
-    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt-compile.xsl
+    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
+    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_expand.xsl
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
 
-    run ../bin/xspec.sh -s schematron/schematron-xslt.xspec
+    run ../bin/xspec.sh -s schematron-xslt.xspec
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${lines[10]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-}
-
-@test "invoking xspec with Schematron XSLTs provided externally uses provided XSLTs for Schematron compile (Ant)" {
-    if [ -z "${SAXON_BUG_4696_FIXED}" ]; then
-        skip "Saxon bug 4696"
-    fi
-
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dtest.type=s \
-        -Dxspec.schematron.preprocessor.step1="${PWD}/schematron/schematron-xslt-include.xsl" \
-        -Dxspec.schematron.preprocessor.step2="${PWD}/schematron/schematron-xslt-expand.xsl" \
-        -Dxspec.schematron.preprocessor.step3="${PWD}/schematron/schematron-xslt-compile.xsl" \
-        -Dxspec.xml="${PWD}/schematron/schematron-xslt.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    [ "${lines[${#lines[@]}-10]}" = "     [xslt] passed: 1 / pending: 0 / failed: 0 / total: 1" ]
-    [ "${lines[${#lines[@]}-2]}"  = "BUILD SUCCESSFUL" ]
 }
 
 #
