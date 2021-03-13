@@ -5,7 +5,7 @@
 	<sch:ns prefix="schematron-025" uri="x-urn:test:schematron-025" />
 
 	<!-- Using a foreign (non Schematron) element, include a resource specified by a relative URI -->
-	<xsl:include href="schematron/schematron-025.xsl" />
+	<xsl:include href="schematron-025.xsl" />
 
 	<sch:pattern>
 		<sch:rule context="element()">

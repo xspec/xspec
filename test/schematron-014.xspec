@@ -2,7 +2,8 @@
 <x:description xmlns:ex1="http://example.com/ns1"
                xmlns:ex2="http://example.com/ns2"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               schematron="schematron-014.sch">
+               schematron="schematron-014.sch"
+               xml:base="schematron/">
 
     <x:scenario label="01">
         <x:context href="schematron-014-01.xml"/>

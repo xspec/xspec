@@ -30,7 +30,7 @@
       <xsl:text>&#10;(: generated from the x:expect element :)</xsl:text>
       <xsl:text expand-text="yes">&#10;declare function local:{@id}(&#x0A;</xsl:text>
       <xsl:for-each select="$param-uqnames">
-         <xsl:text expand-text="yes">${.}</xsl:text>
+         <xsl:text expand-text="yes">${.} as item()*</xsl:text>
          <xsl:if test="position() ne last()">
             <xsl:text>,</xsl:text>
          </xsl:if>

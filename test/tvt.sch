@@ -6,7 +6,7 @@
 	<sch:pattern>
 		<sch:rule context="context-child | href-doc-child">
 
-			<!-- Writing the curly braces directly in sch:report/@test seems to break the skeleton
+			<!-- Writing the curly braces directly in sch:report/@test seems to break the "skeleton"
 				Schematron implementation. That's why the strings are used via sch:let. -->
 			<sch:let name="tvt-enabled" value="'}false{'" />
 			<sch:let name="tvt-disabled" value="'}}{false()}{{'" />

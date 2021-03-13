@@ -1,5 +1,9 @@
 # Third party
-/lib/
+/lib/*
+
+# Negate /lib/README.md
+# https://github.com/prettier/prettier/issues/3328#issuecomment-350732773
+!/lib/README.md
 
 # End-to-end test Actual and Expected
 /test/end-to-end/cases/actual__/

@@ -3,7 +3,7 @@
     no-prefix_schematron.xspec copies this file for testing no-prefix cases.
     When modifying this file, check whether no-prefix_schematron.xspec needs any additions or updates.
 -->
-<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron-01.sch">
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron-01.sch" xml:base="schematron/">
     <x:scenario label="schematron-01">
         <x:context href="schematron-01.xml"/>
         <x:scenario label="article should have a title">

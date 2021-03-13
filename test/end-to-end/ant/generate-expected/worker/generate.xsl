@@ -28,7 +28,7 @@
 				($x:saxon-version lt x:pack-version($require-lt))
 				)">
 			<xsl:message terminate="yes">
-				<xsl:text expand-text="yes">Saxon version is {system-property('xsl:product-version')}. To generate the expected files, Saxon version must be ge {string-join($require-ge, '.')} and lt {string-join($require-lt, '.')}. Other versions will produce unrelated changes.</xsl:text>
+				<xsl:text expand-text="yes">ERROR: Saxon version is {system-property('xsl:product-version')}. To generate the expected files, Saxon version must be ge {string-join($require-ge, '.')} and lt {string-join($require-lt, '.')}. Other versions will produce unrelated changes.</xsl:text>
 			</xsl:message>
 		</xsl:if>
 

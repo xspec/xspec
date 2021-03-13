@@ -3,17 +3,17 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   exclude-result-prefixes="xs"
   version="2.0">
-  
-  <xsl:template match="document">
+
+  <xsl:template as="element(container)" match="document">
     <container>
       <xsl:apply-templates/>
     </container>
   </xsl:template>
-  
-  <xsl:template match="heading">
+
+  <xsl:template as="element(child)" match="heading">
     <child>
       <xsl:apply-templates/>
     </child>
   </xsl:template>
-  
+
 </xsl:stylesheet>
