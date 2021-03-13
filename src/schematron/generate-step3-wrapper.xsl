@@ -96,7 +96,8 @@
 		<xsl:for-each select="$param">
 			<xsl:message terminate="yes">
 				<xsl:call-template name="x:prefix-diag-message">
-					<xsl:with-param name="message" select="'Enabling @static is not supported for Schematron.'" />
+					<xsl:with-param name="message"
+						select="'Enabling @static is not supported for Schematron.'" />
 				</xsl:call-template>
 			</xsl:message>
 		</xsl:for-each>

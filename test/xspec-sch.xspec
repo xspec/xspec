@@ -5,6 +5,8 @@
 	<x:param name="allow-foreign">true</x:param>
 	<x:param name="only-child-elements">false</x:param>
 	<x:param name="visit-text">true</x:param>
+
+	<!-- Private parameter to enable text node @location in the "skeleton" Schematron implementation -->
 	<x:param name="x:enable-schematron-text-location" select="true()" />
 
 	<x:scenario label="Whitespace-only text node">

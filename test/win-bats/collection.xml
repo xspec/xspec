@@ -513,29 +513,6 @@
 	</case>
 
 	<!--
-		Schematron phase/parameters
-	-->
-
-	<case name="Schematron phase/parameters are passed to Schematron compile (CLI)">
-    set SCHEMATRON_XSLT_COMPILE=schematron\schematron-param-001-step3.xsl
-    call :run ..\bin\xspec.bat -s schematron\schematron-param-001.xspec
-    call :verify_retval 0
-    call :verify_line 19 x "passed: 9 / pending: 0 / failed: 0 / total: 9"
-	</case>
-
-	<case name="Schematron phase/parameters are passed to Schematron compile (Ant)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dtest.type=s ^
-        -Dxspec.schematron.preprocessor.step3="%CD%\schematron\schematron-param-001-step3.xsl" ^
-        -Dxspec.xml="%CD%\schematron\schematron-param-001.xspec"
-    call :verify_retval 0
-    call :verify_line  * x "     [xslt] passed: 9 / pending: 0 / failed: 0 / total: 9"
-    call :verify_line -2 x "BUILD SUCCESSFUL"
-	</case>
-
-	<!--
 		Schematron XSLTs provided externally (CLI)
 		
 			Ant is tested by run-xspec-tests-ant.cmd
@@ -1117,7 +1094,7 @@
         -lib "%SAXON_JAR%" ^
         -Dclean.output.dir=true ^
         -Dxspec.project.dir="%CD%\.." ^
-        -Dxspec.properties="%CD%\schematron.properties" ^
+        -Dxspec.properties="%CD%\schematron\schematron.properties" ^
         -Dxspec.xml="%TUTORIAL_COPY%\demo-03.xspec"
     call :verify_retval 0
     call :verify_line  * x "     [xslt] passed: 10 / pending: 1 / failed: 0 / total: 11"
