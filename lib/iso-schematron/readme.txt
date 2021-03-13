@@ -23,7 +23,7 @@ stage.
 3) Third, compile the Schematron schema into an XSLT script. 
 This will typically use iso_svrl_for_xslt1.xsl or iso_svrl_for_xslt2.xsl 
 (which in turn invoke iso_schematron_skeleton_for_xslt1.xsl or iso_schematron_skeleton_for_saxon.xsl)
-However, other "meta-styleseets" are also in common use; the principle of operation is the same.
+However, other "meta-stylesheets" are also in common use; the principle of operation is the same.
 If your schema uses Schematron phases, supply these as command line/invocation parameters
 to this process.
 
