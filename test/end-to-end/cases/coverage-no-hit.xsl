@@ -4,7 +4,7 @@
 
 	<xsl:include href="coverage-no-hit_included.xsl" />
 
-	<xsl:template match="never">
+	<xsl:template as="element(ever)" match="never">
 		<ever />
 	</xsl:template>
 

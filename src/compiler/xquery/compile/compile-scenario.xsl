@@ -65,7 +65,7 @@
 
       <!-- Function parameters. Their order must be stable, because this is a function. -->
       <xsl:for-each select="accumulator-before('stacked-vardecls-distinct-uqnames')">
-         <xsl:text expand-text="yes">${.}</xsl:text>
+         <xsl:text expand-text="yes">${.} as item()*</xsl:text>
          <xsl:if test="position() ne last()">
             <xsl:text>,</xsl:text>
          </xsl:if>
@@ -129,7 +129,7 @@
             <!-- Set up variables containing the parameter values -->
             <xsl:apply-templates select="$call/x:param" mode="x:declare-variable" />
 
-            <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} := (&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">let ${x:known-UQName('x:result')} as item()* := (&#x0A;</xsl:text>
             <xsl:call-template name="x:enter-sut">
                <xsl:with-param name="instruction" as="text()+">
                   <xsl:sequence select="x:function-call-text($call)" />

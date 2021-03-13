@@ -137,7 +137,7 @@ $local:returned-from-scenario1-expect1
 
 (: generated from the x:expect element :)
 declare function local:scenario1-expect1(
-$Q{http://www.jenitennison.com/xslt/xspec}result
+$Q{http://www.jenitennison.com/xslt/xspec}result as item()*
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}test)
 {
 ...
@@ -217,7 +217,9 @@ result as parameter.
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    <xsl:context-item use="absent"/>
-   <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
+   <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result"
+              as="item()*"
+              required="yes"/>
    <xsl:message>expectations</xsl:message>
    <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-..." select="()"><!--expected result--></xsl:variable>
    <!-- wrap $x:result into a document node if possible -->
@@ -278,7 +280,7 @@ declare function local:scenario1(
 {
 ... generate scenario data in the report ...
 
-let $Q{http://www.jenitennison.com/xslt/xspec}result := (
+let $Q{http://www.jenitennison.com/xslt/xspec}result as item()* := (
 Q{http://example.org/ns/my}f()
 )
 let $local:actual-result-report := Q{urn:x-xspec:common:report-sequence}report-sequence($Q{http://www.jenitennison.com/xslt/xspec}result, 'result')
@@ -296,7 +298,7 @@ $local:returned-from-scenario1-expect1
 
 (: generated from the x:expect element :)
 declare function local:scenario1-expect1(
-$Q{http://www.jenitennison.com/xslt/xspec}result
+$Q{http://www.jenitennison.com/xslt/xspec}result as item()*
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}test)
 {
 let $Q{urn:x-xspec:compile:impl}expect-... (: expected result :) := (
@@ -504,7 +506,7 @@ namespace { "x" } { 'http://www.jenitennison.com/xslt/xspec' }
 let $p2 as element() := (
 $Q{urn:x-xspec:compile:impl}param-...-doc ! ( node() )
 )
-let $Q{http://www.jenitennison.com/xslt/xspec}result := (
+let $Q{http://www.jenitennison.com/xslt/xspec}result as item()* := (
 Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)
 )
 ```
@@ -558,8 +560,12 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    ...
-   <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
-   <xsl:param name="Q{http://example.org/ns/my/variable}var" required="yes"/>
+   <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result"
+              as="item()*"
+              required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var"
+              as="item()*"
+              required="yes"/>
    ...
    <xsl:variable name="Q{urn:x-xspec:compile:impl}expect-..." select="..."><!--expected result--></xsl:variable>
    ...
@@ -584,7 +590,7 @@ let $Q{http://example.org/ns/my/variable}var := (
 'value'
 )
 ...
-let $Q{http://www.jenitennison.com/xslt/xspec}result := (
+let $Q{http://www.jenitennison.com/xslt/xspec}result as item()* := (
 ... exercise the SUT ...
 )
 let $local:returned-from-scenario1-expect1 := local:scenario1-expect1(
@@ -600,8 +606,8 @@ $local:returned-from-scenario1-expect1
 
 (: generated from the x:expect element :)
 declare function local:scenario1-expect1(
-$Q{http://www.jenitennison.com/xslt/xspec}result,
-$Q{http://example.org/ns/my/variable}var
+$Q{http://www.jenitennison.com/xslt/xspec}result as item()*,
+$Q{http://example.org/ns/my/variable}var as item()*
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}test)
 {
 let $Q{urn:x-xspec:compile:impl}expect-... (: expected result :) := (
@@ -804,7 +810,9 @@ and functions in XQuery).
               as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
    ...
    <!-- the variable is passed as param -->
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-2" required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-2"
+              as="item()*"
+              required="yes"/>
    ...
    <!-- the generated variable -->
    <xsl:variable xmlns:my="http://example.org/ns/my"
@@ -861,11 +869,19 @@ and functions in XQuery).
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    ...
-   <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
+   <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result"
+              as="item()*"
+              required="yes"/>
    <!-- the variables are passed as param -->
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-2" required="yes"/>
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-3" required="yes"/>
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-4" required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-2"
+              as="item()*"
+              required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-3"
+              as="item()*"
+              required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-4"
+              as="item()*"
+              required="yes"/>
    ... evaluate the expectations ...
 </xsl:template>
 
@@ -873,12 +889,22 @@ and functions in XQuery).
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect2"
               as="element(Q{http://www.jenitennison.com/xslt/xspec}test)">
    ...
-   <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result" required="yes"/>
+   <xsl:param name="Q{http://www.jenitennison.com/xslt/xspec}result"
+              as="item()*"
+              required="yes"/>
    <!-- the variables are passed as param -->
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-2" required="yes"/>
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-3" required="yes"/>
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-4" required="yes"/>
-   <xsl:param name="Q{http://example.org/ns/my/variable}var-5" required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-2"
+              as="item()*"
+              required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-3"
+              as="item()*"
+              required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-4"
+              as="item()*"
+              required="yes"/>
+   <xsl:param name="Q{http://example.org/ns/my/variable}var-5"
+              as="item()*"
+              required="yes"/>
    ... evaluate the expectations ...
 </xsl:template>
 ```
@@ -913,7 +939,7 @@ $local:returned-from-scenario1-scenario1
 (: generated from the inner scenario :)
 declare function local:scenario1-scenario1(
 (: the variable is passed as param :)
-$Q{http://example.org/ns/my/variable}var-2
+$Q{http://example.org/ns/my/variable}var-2 as item()*
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}scenario)
 {
 (: the generated variable :)
@@ -922,7 +948,7 @@ trace('value-3')
 )
 return
 ...
-let $Q{http://www.jenitennison.com/xslt/xspec}result := (
+let $Q{http://www.jenitennison.com/xslt/xspec}result as item()* := (
 Q{http://example.org/ns/my}square(...)
 )
 ...
@@ -957,11 +983,11 @@ $local:returned-from-scenario1-scenario1-expect2
 
 (: generated from the 1st expect :)
 declare function local:scenario1-scenario1-expect1(
-$Q{http://www.jenitennison.com/xslt/xspec}result,
+$Q{http://www.jenitennison.com/xslt/xspec}result as item()*,
 (: the variables are passed as param :)
-$Q{http://example.org/ns/my/variable}var-2,
-$Q{http://example.org/ns/my/variable}var-3,
-$Q{http://example.org/ns/my/variable}var-4
+$Q{http://example.org/ns/my/variable}var-2 as item()*,
+$Q{http://example.org/ns/my/variable}var-3 as item()*,
+$Q{http://example.org/ns/my/variable}var-4 as item()*
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}test)
 {
 ...evaluate the expectations ...
@@ -969,12 +995,12 @@ $Q{http://example.org/ns/my/variable}var-4
 
 (: generated from the 2nd expect :)
 declare function local:scenario1-scenario1-expect2(
-$Q{http://www.jenitennison.com/xslt/xspec}result,
+$Q{http://www.jenitennison.com/xslt/xspec}result as item()*,
 (: the variables are passed as param :)
-$Q{http://example.org/ns/my/variable}var-2,
-$Q{http://example.org/ns/my/variable}var-3,
-$Q{http://example.org/ns/my/variable}var-4,
-$Q{http://example.org/ns/my/variable}var-5
+$Q{http://example.org/ns/my/variable}var-2 as item()*,
+$Q{http://example.org/ns/my/variable}var-3 as item()*,
+$Q{http://example.org/ns/my/variable}var-4 as item()*,
+$Q{http://example.org/ns/my/variable}var-5 as item()*
 ) as element(Q{http://www.jenitennison.com/xslt/xspec}test)
 {
 ...evaluate the expectations ...

@@ -8,7 +8,7 @@
 		<xsl:copy-of select="doc('issue-23_2_expect.xml')" validation="strict" />
 	</xsl:variable>
 
-	<xsl:template match="/">
+	<xsl:template as="document-node(element(Q{x-urn:test}foo))" match="/">
 		<xsl:sequence select="." />
 	</xsl:template>
 </xsl:stylesheet>

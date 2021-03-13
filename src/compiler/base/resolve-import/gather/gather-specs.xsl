@@ -29,7 +29,7 @@
    </xsl:template>
 
    <!-- This mode always starts from this template -->
-   <xsl:template match="x:description" mode="x:gather-specs">
+   <xsl:template match="x:description" as="node()*" mode="x:gather-specs">
       <xsl:apply-templates mode="#current">
          <xsl:with-param name="xslt-version"   tunnel="yes" select="x:xslt-version(.)"/>
          <xsl:with-param name="preserve-space" tunnel="yes" select="x:parse-preserve-space(.)" />

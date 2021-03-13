@@ -4,13 +4,13 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   version="3.0">
 
-  <xsl:template name="template-to-call">
+  <xsl:template name="template-to-call" as="element(output-element)">
     <xsl:context-item use="absent" />
 
     <output-element/>
-  </xsl:template>  
+  </xsl:template>
 
-  <xsl:function name="mf:call-some-template">
+  <xsl:function name="mf:call-some-template" as="document-node(element(output-element))">
     <xsl:param name="context" as="element()?"/>
 
     <xsl:sequence select="
@@ -21,5 +21,5 @@
       })?output
       "/>
   </xsl:function>
-  
+
 </xsl:transform>
