@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description schematron="schematron-026.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description schematron="schematron/schematron-026.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Based on https://github.com/xspec/xspec/issues/1277#issue-720058240 -->
 
 	<x:scenario>
-		<x:label>Advanced (i.e. not a known expression pattern of 'skeleton' implementation) boolean
-			predicate in @location</x:label>
+		<x:label>Advanced (i.e. not a known expression pattern of the "skeleton" Schematron
+			implementation) boolean predicate in @location</x:label>
 		<x:context>
 			<article>
 				<front>

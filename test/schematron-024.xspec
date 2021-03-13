@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-saxon-bug-4696-fixed?>
-<x:description schematron="schematron-024.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description schematron="schematron/schematron-024.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:param name="only-child-elements">false</x:param>
 	<x:param name="visit-text">true</x:param>
 
-	<!-- Private parameter to enable text node @location -->
+	<!-- Private parameter to enable text node @location in the "skeleton" Schematron implementation -->
 	<x:param name="x:enable-schematron-text-location" select="true()" />
 
 	<x:scenario label="Testing text node location">

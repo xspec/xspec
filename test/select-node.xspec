@@ -95,8 +95,8 @@
 		</x:scenario>
 	</x:scenario>
 
-	<!-- Note: Outside of oXygen, the Schematron skeleton implementation does not appear to fire on
-		rules that have an attribute node as context -->
+	<!-- Note: Outside of oXygen, the "skeleton" Schematron implementation does not appear to fire
+		on rules that have an attribute node as context -->
 	<x:scenario label="Select attribute">
 		<x:scenario label="Not in namespace">
 			<x:variable as="element(article)" name="myv:source">

@@ -8,7 +8,7 @@
 		<x:context href="../tutorial/schematron/demo-02-PhaseA.xspec" />
 		<x:expect>
 			<x:label><![CDATA[
-				- The given preprocessor should be imported instead of the built-in step3.xsl.
+				- $ACTUAL-PREPROCESSOR-URI should be imported in place of the built-in one.
 				- $x:schematron-uri global parameter should be generated.
 				- /x:description/x:param should be transformed into /xsl:stylesheet/xsl:param.
 			]]></x:label>
