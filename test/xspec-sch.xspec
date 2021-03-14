@@ -13,7 +13,7 @@
 		<x:scenario label="XSLT and XQuery">
 			<x:context href="ws-only-text.xspec" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="function-param"
-				location="/x:description/x:scenario[1]/x:scenario[1]/x:call/x:param/span/text()" />
+				location="/x:description/x:scenario[starts-with(@label, 'In function-param,')]/x:scenario[1]/x:call/x:param/span/text()" />
 			<x:expect-assert id="text-node-should-be-non-ignorable"
 				label="$myv:global-var-span-element"
 				location="/x:description/x:variable[@name eq 'myv:global-var-span-element']/span/text()" />
@@ -35,12 +35,12 @@
 		<x:scenario label="XSLT">
 			<x:context href="ws-only-text_stylesheet.xspec" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="context template-param"
-				location="/x:description/x:scenario[1]/x:scenario[1]/x:context/x:param/span/text()" />
+				location="/x:description/x:scenario[starts-with(@label, 'In context template-param,')]/x:scenario[1]/x:context/x:param/span/text()" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="context"
-				location="/x:description/x:scenario[2]/x:scenario[1]/x:context/span/text()" />
+				location="/x:description/x:scenario[starts-with(@label, 'In context,')]/x:scenario[1]/x:context/span/text()" />
 			<x:expect-assert id="text-node-should-be-non-ignorable"
 				label="template-call template-param"
-				location="/x:description/x:scenario[3]/x:scenario[1]/x:call/x:param/span/text()" />
+				location="/x:description/x:scenario[starts-with(@label, 'In template-call template-param,')]/x:scenario[1]/x:call/x:param/span/text()" />
 			<x:expect-assert id="text-node-should-be-non-ignorable"
 				label="$global-param-span-element"
 				location="/x:description/x:param[@name eq 'global-param-span-element']/span/text()" />
