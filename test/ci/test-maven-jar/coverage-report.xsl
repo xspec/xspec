@@ -21,7 +21,7 @@
 		</xsl:if>
 
 		<!-- Transfer control to the original reporter -->
-		<xsl:apply-imports />
+		<xsl:next-match />
 	</xsl:template>
 
 </xsl:stylesheet>

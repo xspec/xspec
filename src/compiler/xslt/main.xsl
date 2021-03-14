@@ -61,12 +61,21 @@
             </xsl:element>
          </xsl:if>
 
+         <!-- Absolute URI of .xsl file to be tested -->
+         <variable name="{x:known-UQName('x:stylesheet-uri')}" as="{x:known-UQName('xs:anyURI')}">
+            <xsl:value-of select="@stylesheet" />
+         </variable>
+
          <!-- Absolute URI of the master .xspec file (Original one if specified i.e. Schematron) -->
          <xsl:variable name="xspec-master-uri" as="xs:anyURI"
             select="(@original-xspec, $initial-document-actual-uri)[1] cast as xs:anyURI" />
          <variable name="{x:known-UQName('x:xspec-uri')}" as="{x:known-UQName('xs:anyURI')}">
             <xsl:value-of select="$xspec-master-uri" />
          </variable>
+
+         <!-- Let the compiled stylesheet know whether external or not -->
+         <variable name="{x:known-UQName('x:is-external')}" as="{x:known-UQName('xs:boolean')}"
+            select="{$is-external}()" />
 
          <!-- Compile global params and global variables. -->
          <xsl:variable name="global-vardecls" as="element()*" select="x:param | x:variable" />

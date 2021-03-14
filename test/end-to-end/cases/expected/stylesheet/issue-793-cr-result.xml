@@ -32,7 +32,7 @@ test
       <label>verify line ending</label>
       <input-wrap xmlns="">
          <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="matches">
-            <x:param select="     doc($x:xspec-uri)/x:description/resolve-uri(@stylesheet, base-uri())     =&gt; unparsed-text()"/>
+            <x:param select="unparsed-text($x:stylesheet-uri)"/>
          </x:call>
       </input-wrap>
       <scenario id="scenario2-scenario1" xspec="../../issue-793-lf.xspec">

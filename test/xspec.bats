@@ -2232,8 +2232,23 @@ load bats-helper
 }
 
 #
-# x:variable should be evaluated only once
+# x:param and x:variable should be evaluated only once
 #
+
+@test "x:param should be evaluated only once" {
+    run ../bin/xspec.sh ../tutorial/under-the-hood/compilation-params-scope.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[ 3]}" = "Running Tests..." ]
+    assert_regex "${lines[4]}" '^Testing with SAXON '
+    [ "${lines[ 5]}" = "outer scenario" ]
+    [ "${lines[ 6]}" = "* [1]: xs:string: value-2" ]
+    [ "${lines[ 7]}" = "..inner scenario" ]
+    [ "${lines[ 8]}" = "* [1]: xs:string: value-3" ]
+    [ "${lines[ 9]}" = "* [1]: xs:string: value-1" ]
+    [ "${lines[10]}" = "1st expect" ]
+    [ "${lines[11]}" = "Formatting Report..." ]
+}
 
 @test "x:variable should be evaluated only once (XSLT)" {
     run ../bin/xspec.sh ../tutorial/under-the-hood/compilation-variables-scope.xspec
@@ -2770,22 +2785,118 @@ load bats-helper
 }
 
 #
-# x:variable must not override x:param
+# Scenario param not allowed
 #
 
-@test "x:variable must not override x:param (global variable overriding description param)" {
-    run ../bin/xspec.sh variable-overriding-param/global-variable.xspec
+@test "Scenario param not allowed (XSLT without @run-as=external)" {
+    run ../bin/xspec.sh param-disallowed/scenario-param/stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:variable (named Q{http://example.org/ns/my}foo): Must not override x:param (named my:foo)" ]
+    [ "${lines[3]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "x:variable must not override x:param (local variable overriding description param)" {
-    run ../bin/xspec.sh variable-overriding-param/local-variable/description-param.xspec
+@test "Scenario param not allowed (XQuery)" {
+    run ../bin/xspec.sh -q param-disallowed/scenario-param/query.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:variable (named my:foo) (under 'x:scenario/x:variable'): Must not override x:param (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[3]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): Q{http://www.jenitennison.com/xslt/xspec}scenario has x:param, which is not supported for XQuery." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario param not allowed (Schematron without @run-as=external)" {
+    run ../bin/xspec.sh -s param-disallowed/scenario-param/schematron.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[5]}" = "ERROR in x:param (named p) (under 'x:scenario/child::x:param'): x:scenario has x:param, which is supported only when /Q{http://www.jenitennison.com/xslt/xspec}description has @run-as='external'." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+#
+# x:param conflicting with another variable declaration
+#
+
+@test "Description x:param conflicting with x:param" {
+    run ../bin/xspec.sh conflicting-vardecl/description-param/param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:param (named Q{http://example.org/ns/my}foo): Name conflicts with x:param (named my:foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Description x:param conflicting with x:variable" {
+    run ../bin/xspec.sh conflicting-vardecl/description-param/variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:param (named my:foo): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario x:param conflicting with ancestor scenario x:variable" {
+    run ../bin/xspec.sh conflicting-vardecl/scenario-param/ancestor-scenario-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:param (named my:foo) (under 'scenario with child::x:variable in-between scenario scenario with child::x:param'): Name conflicts with x:variable (named my:foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario x:param conflicting with description x:variable" {
+    run ../bin/xspec.sh conflicting-vardecl/scenario-param/description-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:param (named my:foo) (under 'x:scenario/x:param'): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario x:param conflicting with preceding-sibling x:variable" {
+    run ../bin/xspec.sh conflicting-vardecl/scenario-param/preceding-sibling-variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:param (named my2:foo) (under 'x:scenario/x:param'): Name conflicts with x:variable (named my1:foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+#
+# x:variable conflicting with another variable declaration
+#
+
+@test "Description x:variable conflicting with x:param" {
+    run ../bin/xspec.sh conflicting-vardecl/description-variable/param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:variable (named Q{http://example.org/ns/my}foo): Name conflicts with x:param (named my:foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Description x:variable conflicting with x:variable" {
+    run ../bin/xspec.sh conflicting-vardecl/description-variable/variable.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:variable (named my:foo): Name conflicts with x:variable (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario x:variable conflicting with ancestor scenario x:param" {
+    run ../bin/xspec.sh conflicting-vardecl/scenario-variable/ancestor-scenario-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:variable (named my:foo) (under 'scenario with child::x:param in-between scenario scenario with child::x:variable'): Name conflicts with x:param (named my:foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario x:variable conflicting with description x:param" {
+    run ../bin/xspec.sh conflicting-vardecl/scenario-variable/description-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:variable (named my:foo) (under 'x:scenario/x:variable'): Name conflicts with x:param (named Q{http://example.org/ns/my}foo)" ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
+}
+
+@test "Scenario x:variable conflicting with preceding-sibling x:param" {
+    run ../bin/xspec.sh conflicting-vardecl/scenario-variable/preceding-sibling-param.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[3]}" = "ERROR in x:variable (named my2:foo) (under 'x:scenario/x:variable'): Name conflicts with x:param (named my1:foo)" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 

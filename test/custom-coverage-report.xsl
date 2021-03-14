@@ -8,7 +8,7 @@
 		<!-- Just insert a comment into the document -->
 		<xsl:comment>Customized coverage report</xsl:comment>
 
-		<xsl:apply-imports />
+		<xsl:next-match />
 	</xsl:template>
 
 </xsl:stylesheet>

@@ -158,7 +158,7 @@ like =
 ## Child scenarios can override the parameters in the context, and can provide
 ## any missing values in the <context> (for example, if the context on the parent
 ## scenario doesn't provide a mode, that could be provided by the child scenario).
-matching-scenario = (variable*, context?, variable*),
+matching-scenario = ((global-param | variable)*, context?, variable*),
                     like*,
                     (pending | assertion | variable)*,
                     (pending | 
@@ -169,7 +169,7 @@ matching-scenario = (variable*, context?, variable*),
 ## <call> element defines the function call and the parameters passed to it
 ## and the <assertion> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
-function-scenario = (variable*, function-call?, variable*),
+function-scenario = ((global-param | variable)*, function-call?, variable*),
                     like*,
                     (pending | assertion | variable)*,
                     (pending | 
@@ -180,7 +180,7 @@ function-scenario = (variable*, function-call?, variable*),
 ## element defines the template call and the parameters passed to it and the
 ## <assertion> elements test the result of the template call. Child scenarios
 ## can override the parameters in the template call.
-named-scenario = (variable*, context?),
+named-scenario = ((global-param | variable)*, context?),
                  (variable*, template-call?, variable*),
                  like*,
                  (pending | assertion | variable)*,
@@ -220,10 +220,10 @@ template-call =
 	}
 
 global-param = 
-	## Global parameters are set globally, for the entire unit test suite. There's
-	## no way to set global parameters within a particular scenario (due to
-	## constraints on implementation).
-	## Not supported for XQuery.
+	## Global parameters as children of x:description apply to entire test suite.
+	## Global parameters within a scenario require /x:description/@run-as="external" (EXPERIMENTAL, subject to change).
+	## Global parameters within a Schematron scenario take effect only in the compiled XSLT, not while compiling Schematron to XSLT.
+	## XQuery tests do not support global parameters.
 	element param { common-attributes, name, static?, selection }
 
 static = 
@@ -283,7 +283,7 @@ text-element =
 	## Text in this element is not ignored even when it's whitespace-only.
 	element text { common-attributes, text }
 
-schematron-scenario = context?,
+schematron-scenario = (global-param*, context?),
                     like*,
                     (pending | schematron-assertion | assertion)*, 
                     (pending | 

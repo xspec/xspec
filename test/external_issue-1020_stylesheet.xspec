@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:import href="issue-1020_stylesheet.xspec" />
+
+	<x:scenario label="scenario-level global-param">
+		<x:param name="myv:scenario-param-only-select"
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+		<x:param href="issue-1020/dummy.xml" name="myv:scenario-param-with-href"
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]" />
+		<x:param name="myv:scenario-param-with-child-node"
+			select="'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]">
+			<scenario-param-child />
+		</x:param>
+		<x:param name="myv:scenario-param-avt" select="scenario-param-child/@avt/string()">
+			<scenario-param-child
+				avt="{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}"
+			 />
+		</x:param>
+		<x:param expand-text="yes" name="myv:scenario-param-tvt" select="string()"
+			>{'&amp;&apos;&apos;&gt;&lt;&quot;}{'[1 &gt; 0][0 &lt; 1][map{'a':true()}?a]}</x:param>
+
+		<x:scenario label="Only @select">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:scenario-param-only-select" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With @href">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:scenario-param-with-href" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="With child::node()">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:scenario-param-with-child-node" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="AVT">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:scenario-param-avt" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+
+		<x:scenario label="TVT">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$myv:scenario-param-tvt" />
+			</x:call>
+			<x:like label="&amp;&apos;&gt;&lt;&quot;}{" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

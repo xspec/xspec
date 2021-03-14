@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description run-as="external" stylesheet="../../mirror.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
 	<x:import href="issue-450-451_stylesheet.xspec" />
+
+	<x:scenario label="scenario-level global-param containing curly brackets">
+		<x:param name="scenario-param">}{<elem attr="}}{{">}{</elem></x:param>
+		<x:context />
+		<x:expect as="node()+" href="issue-450-451.xml" label="should work" select="wrap/node()"
+			test="$scenario-param" />
+	</x:scenario>
+
 </x:description>

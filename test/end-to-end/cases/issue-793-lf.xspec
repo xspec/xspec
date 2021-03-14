@@ -15,9 +15,7 @@ test
 
 	<x:scenario label="verify line ending">
 		<x:call function="matches">
-			<x:param select="
-				doc($x:xspec-uri)/x:description/resolve-uri(@stylesheet, base-uri())
-				=> unparsed-text()" />
+			<x:param select="unparsed-text($x:stylesheet-uri)" />
 		</x:call>
 
 		<x:scenario label="contains any CR">

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="../../do-nothing.xsl"
+	xmlns:my1="http://example.org/ns/my" xmlns:my2="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!--
+		- //x:scenario/x:variable conflicting with self::x:variable/preceding-sibling::x:param
+		- Lexical QName conflicting with another lexical QName (different prefix)
+	-->
+	<x:scenario label="x:scenario/x:variable">
+		<x:param name="my1:foo" />
+
+		<x:variable name="in-between-variable" />
+		<x:param name="in-between-param" />
+
+		<x:variable name="my2:foo" />
+	</x:scenario>
+</x:description>
