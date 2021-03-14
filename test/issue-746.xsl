@@ -4,7 +4,7 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   version="3.0">
 
-  <xsl:template name="template-to-call">
+  <xsl:template name="template-to-call" as="element(output-element)">
     <xsl:context-item use="absent" />
 
     <output-element/>

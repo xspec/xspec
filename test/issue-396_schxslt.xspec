@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-saxon-bug-4696-fixed?>
-<?xspec-test schematron-preprocessor-step1=${xspec.project.dir}/test/schxslt/include.xsl?>
-<?xspec-test schematron-preprocessor-step2=${xspec.project.dir}/test/schxslt/expand.xsl?>
-<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schxslt/compile-for-svrl.xsl?>
+<?xspec-test schematron-preprocessor-step1=${xspec.project.dir}/test/schematron/schxslt/include.xsl?>
+<?xspec-test schematron-preprocessor-step2=${xspec.project.dir}/test/schematron/schxslt/expand.xsl?>
+<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schematron/schxslt/compile-for-svrl.xsl?>
 <x:description schematron="issue-396.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 	<x:scenario focus="test this framework" label="above-mentioned">
 		<x:context>

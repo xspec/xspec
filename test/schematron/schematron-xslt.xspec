@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description schematron="schematron-xslt.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:scenario label="Scenario for verifying the hook chain">
-		<x:context>
-			<e />
-		</x:context>
-		<x:expect-report id="hook-chain-verified" />
-	</x:scenario>
-</x:description>

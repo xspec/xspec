@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This file must be saved with CR LF line ending -->
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:template match="input">
+	<xsl:template as="element(output)" match="input">
 		<output><![CDATA[
 test
 ]]></output>

@@ -6,7 +6,7 @@
 
     <x:param name="stylesheet-uri" select="'schut-to-xspec-test.sch.xsl'"/>
 
-    <x:helper stylesheet="schut-to-xspec_helper.xsl" />
+    <x:helper stylesheet="schematron/schut-to-xspec_helper.xsl" />
 
     <x:scenario label="templates">
         <x:scenario label="identity">

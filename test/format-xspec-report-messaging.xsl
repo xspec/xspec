@@ -15,7 +15,7 @@
 			Capture the original HTML report and output it
 		-->
 		<xsl:variable as="element(xhtml:div)" name="html-report">
-			<xsl:apply-imports />
+			<xsl:next-match />
 		</xsl:variable>
 		<xsl:sequence select="$html-report" />
 

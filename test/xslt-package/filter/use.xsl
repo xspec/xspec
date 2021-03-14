@@ -6,7 +6,7 @@
 
 	<xsl:strip-space elements="*" />
 
-	<xsl:template match="data">
+	<xsl:template as="element(report)" match="data">
 		<report>
 			<xsl:sequence select="employee[f:filter(.)]" />
 		</report>

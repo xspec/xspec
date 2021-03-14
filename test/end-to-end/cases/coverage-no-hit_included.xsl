@@ -2,7 +2,7 @@
 <xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:template match="never-never">
+	<xsl:template as="element(ever-ever)" match="never-never">
 		<ever-ever />
 	</xsl:template>
 

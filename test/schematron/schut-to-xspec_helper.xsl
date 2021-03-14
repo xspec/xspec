@@ -45,7 +45,7 @@
 			x:scenario/@xspec"
 		mode="worker:expect">
 		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
-			select="replace(., '%TEST_BASE%/', resolve-uri('.'))" />
+			select="replace(., '%TEST_BASE%/', resolve-uri('../'))" />
 	</xsl:template>
 
 </xsl:stylesheet>
