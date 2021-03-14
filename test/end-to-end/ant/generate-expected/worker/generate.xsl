@@ -32,7 +32,7 @@
 			</xsl:message>
 		</xsl:if>
 
-		<xsl:apply-imports />
+		<xsl:next-match />
 	</xsl:template>
 
 	<!--
