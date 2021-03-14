@@ -8,6 +8,7 @@
 - [Variable value](#variable-value)
 - [Variables scope](#variables-scope)
 - [run-as=external](#run-asexternal)
+- [Scenario-level x:param scope](#scenario-level-xparam-scope)
 
 ## Introduction
 
@@ -25,7 +26,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 
 ### Test suite
 
-[compilation-simple-suite.xspec](compilation-simple-suite.xspec)
+[`compilation-simple-suite.xspec`](compilation-simple-suite.xspec)
 
 ```xml
 <x:description
@@ -43,7 +44,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 </x:description>
 ```
 
-### Stylesheet
+### Compiled stylesheet
 
 ```xml
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -58,6 +59,9 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
                  as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xsl</xsl:variable>
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}xspec-uri"
                  as="Q{http://www.w3.org/2001/XMLSchema}anyURI">.../compilation-simple-suite.xspec</xsl:variable>
+   <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}is-external"
+                 as="Q{http://www.w3.org/2001/XMLSchema}boolean"
+                 select="false()"/>
    <!-- the main template to run the suite -->
    <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}main"
                  as="empty-sequence()">
@@ -100,7 +104,7 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
 </xsl:stylesheet>
 ```
 
-### Query
+### Compiled query
 
 ```xquery
 xquery version "3.1";
@@ -175,7 +179,7 @@ result as parameter.
 
 ### Test suite
 
-[compilation-simple-suite.xspec](compilation-simple-suite.xspec)
+[`compilation-simple-suite.xspec`](compilation-simple-suite.xspec)
 
 ```xml
 <x:scenario label="scenario">
@@ -184,7 +188,7 @@ result as parameter.
 </x:scenario>
 ```
 
-### Stylesheet
+### Compiled stylesheet
 
 ```xml
 <!-- generated from the x:scenario element -->
@@ -273,7 +277,7 @@ result as parameter.
 </xsl:template>
 ```
 
-### Query
+### Compiled query
 
 ```xquery
 (: generated from the x:scenario element :)
@@ -349,8 +353,8 @@ section "[Simple scenario](#simple-scenario)").
 
 ### Test suite
 
-- For function (XSLT and XQuery): [compilation-sut_function.xspec](compilation-sut_function.xspec)
-- For template (only XSLT) [compilation-sut_template.xspec](compilation-sut_template.xspec)
+- For function (XSLT and XQuery): [`compilation-sut_function.xspec`](compilation-sut_function.xspec)
+- For template (only XSLT) [`compilation-sut_template.xspec`](compilation-sut_template.xspec)
 
 ```xml
 <x:scenario label="call a function">
@@ -405,7 +409,7 @@ section "[Simple scenario](#simple-scenario)").
 </x:scenario>
 ```
 
-### Stylesheet
+### Compiled stylesheet
 
 ```xml
 <!-- "call a function" scenario -->
@@ -491,7 +495,7 @@ section "[Simple scenario](#simple-scenario)").
 </xsl:variable>
 ```
 
-### Query
+### Compiled query
 
 ```xquery
 let $Q{urn:x-xspec:compile:impl}param-... := (
@@ -521,7 +525,7 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
 
 ### Test suite
 
-[compilation-variables.xspec](compilation-variables.xspec)
+[`compilation-variables.xspec`](compilation-variables.xspec)
 
 ```xml
 <x:scenario label="scenario">
@@ -531,7 +535,7 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
 </x:scenario>
 ```
 
-### Stylesheet
+### Compiled stylesheet
 
 ```xml
 <!-- generated from the x:scenario element -->
@@ -580,7 +584,7 @@ The first example shows how an XSpec variable maps to an `xsl:variable` element 
 </xsl:template>
 ```
 
-### Query
+### Compiled query
 
 ```xquery
 (: generated from the x:scenario element :)
@@ -639,7 +643,7 @@ this accessibility.
 
 ### Test suite
 
-[compilation-variable-value.xspec](compilation-variable-value.xspec)
+[`compilation-variable-value.xspec`](compilation-variable-value.xspec)
 
 ```xml
 <x:scenario label="scenario">
@@ -652,7 +656,7 @@ this accessibility.
 </x:scenario>
 ```
 
-### Stylesheet
+### Compiled stylesheet
 
 ```xml
 <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
@@ -697,7 +701,7 @@ this accessibility.
 </xsl:template>
 ```
 
-### Query
+### Compiled query
 
 ```xquery
 declare function local:scenario1(
@@ -757,7 +761,7 @@ and functions in XQuery).
 
 ### Test suite
 
-[compilation-variables-scope.xspec](compilation-variables-scope.xspec)
+[`compilation-variables-scope.xspec`](compilation-variables-scope.xspec)
 
 ```xml
 <x:variable name="myv:var-1" select="trace('value-1')" />
@@ -780,7 +784,7 @@ and functions in XQuery).
 </x:scenario>
 ```
 
-### Stylesheet
+### Compiled stylesheet
 
 ```xml
 <!-- the generated global variable -->
@@ -911,7 +915,7 @@ and functions in XQuery).
 </xsl:template>
 ```
 
-### Query
+### Compiled query
 
 ```xquery
 (: the generated global variable :)
@@ -1043,7 +1047,7 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
 
 ### Test suite
 
-[compilation-sut_template_external.xspec](compilation-sut_template_external.xspec)
+[`compilation-sut_template_external.xspec`](compilation-sut_template_external.xspec)
 
 ```xml
 <x:description
@@ -1081,7 +1085,7 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
 </x:description>
 ```
 
-### Stylesheet
+### Compiled stylesheet
 
 ```xml
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -1186,4 +1190,138 @@ Before invoking the SUT, the compiled stylesheet creates a map (`$impl:transform
    </xsl:template>
    ...
 </xsl:stylesheet>
+```
+
+## Scenario-level `x:param` scope
+
+Scenario-level `x:param` follows the same scope rule as [`x:variable`](#variables-scope).
+
+### Test suite
+
+Using `x:param` as direct children of `x:scenario` requires [`@run-as="external"`](#run-asexternal) on `x:description`.
+
+[`compilation-params-scope.xspec`](compilation-params-scope.xspec)
+
+```xml
+<x:description run-as="external">
+   <x:param name="myp:param-1" select="trace('value-1')" />
+
+   <x:scenario label="outer scenario">
+      <x:param name="myp:param-2" select="trace('value-2')" />
+
+      <x:scenario label="inner scenario">
+         <x:param name="myp:param-3" select="trace('value-3')" />
+         <x:call function="my:square">
+            <x:param select="0" />
+         </x:call>
+         <x:expect label="1st expect" .../>
+      </x:scenario>
+   </x:scenario>
+</x:description>
+```
+
+### Compiled stylesheet
+
+Scenario-level `x:param` is compiled in almost the same way as `x:variable`.
+
+```xml
+<!-- generated from global x:param -->
+<xsl:param xmlns:my="http://example.org/ns/my"
+           xmlns:myp="http://example.org/ns/my/param"
+           xmlns:x="http://www.jenitennison.com/xslt/xspec"
+           name="Q{http://example.org/ns/my/param}param-1"
+           select="trace('value-1')"/>
+...
+<!-- generated from the outer scenario -->
+<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"
+              as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
+   ...
+   <xsl:element name="scenario" namespace="http://www.jenitennison.com/xslt/xspec">
+      ...
+      <!-- generated from scenario-level x:param -->
+      <xsl:variable xmlns:my="http://example.org/ns/my"
+                    xmlns:myp="http://example.org/ns/my/param"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    name="Q{http://example.org/ns/my/param}param-2"
+                    select="trace('value-2')"/>
+      <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1">
+         <!-- pass the compiled x:param to inner context -->
+         <xsl:with-param name="Q{http://example.org/ns/my/param}param-2"
+                         select="$Q{http://example.org/ns/my/param}param-2"/>
+      </xsl:call-template>
+   </xsl:element>
+</xsl:template>
+
+<!-- generated from the inner scenario -->
+<xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1"
+              as="element(Q{http://www.jenitennison.com/xslt/xspec}scenario)">
+   ...
+   <!-- the compiled x:param in the outer scenario is passed as xsl:param -->
+   <xsl:param name="Q{http://example.org/ns/my/param}param-2" required="yes"/>
+   ...
+   <xsl:element name="scenario" namespace="http://www.jenitennison.com/xslt/xspec">
+      ...
+      <!-- generated from x:param in the inner scenario -->
+      <xsl:variable xmlns:my="http://example.org/ns/my"
+                    xmlns:myp="http://example.org/ns/my/param"
+                    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    name="Q{http://example.org/ns/my/param}param-3"
+                    select="trace('value-3')"/>
+      ...
+      <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
+         ...
+         <xsl:variable name="Q{urn:x-xspec:compile:impl}transform-options"
+                       as="map(Q{http://www.w3.org/2001/XMLSchema}string, item()*)">
+            <xsl:map>
+               ...
+               <!-- all the effective instances of x:param are collected
+                  into the 'stylesheet-params' option of $impl:transform-options -->
+               <xsl:map-entry key="'stylesheet-params'">
+                  <xsl:map>
+                     <xsl:map-entry key="QName('http://example.org/ns/my/param', 'myp:param-1')"
+                                    select="$Q{http://example.org/ns/my/param}param-1"/>
+                     <xsl:map-entry key="QName('http://example.org/ns/my/param', 'myp:param-2')"
+                                    select="$Q{http://example.org/ns/my/param}param-2"/>
+                     <xsl:map-entry key="QName('http://example.org/ns/my/param', 'myp:param-3')"
+                                    select="$Q{http://example.org/ns/my/param}param-3"/>
+                  </xsl:map>
+               </xsl:map-entry>
+               ...
+            </xsl:map>
+         </xsl:variable>
+         <xsl:sequence select="transform($Q{urn:x-xspec:compile:impl}transform-options)?output"/>
+      </xsl:variable>
+      ...
+      <!-- invoke each compiled x:expect -->
+      <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1-expect1">
+         <xsl:with-param name="Q{http://www.jenitennison.com/xslt/xspec}result"
+                         select="$Q{http://www.jenitennison.com/xslt/xspec}result"/>
+         <!-- pass the compiled x:param -->
+         <xsl:with-param name="Q{http://example.org/ns/my/param}param-2"
+                         select="$Q{http://example.org/ns/my/param}param-2"/>
+         <xsl:with-param name="Q{http://example.org/ns/my/param}param-3"
+                         select="$Q{http://example.org/ns/my/param}param-3"/>
+      </xsl:call-template>
+   </xsl:element>
+</xsl:template>
+```
+
+### Output at run time
+
+By `trace()` in `x:param/@select`, you see that each `x:param` is evaluated only once:
+
+```console
+C:\xspec>bin\xspec.bat tutorial\under-the-hood\compilation-params-scope.xspec
+...
+Running Tests...
+Testing with SAXON EE 9.9.1.8
+outer scenario
+* [1]: xs:string: value-2
+..inner scenario
+* [1]: xs:string: value-3
+* [1]: xs:string: value-1
+1st expect
+
+Formatting Report...
+...
 ```

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<x:description run-as="external" stylesheet="global-override.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="global-override.xspec" />
-</x:description>

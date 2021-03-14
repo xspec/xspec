@@ -31,22 +31,46 @@
             </map-entry>
 
             <xsl:where-populated>
+               <!-- Cumulative x:param elements for stylesheet. In document order. -->
+               <xsl:variable name="stylesheet-cumulative-params" as="element(x:param)*" select="
+                     (: Global x:param :)
+                     /x:description/x:param
+                     
+                     (: Scenario-level x:param stacked outside the current x:scenario :)
+                     | accumulator-before('stacked-vardecls')/self::x:param
+                     
+                     (: Local x:param. We can take all child::x:param, because the XSpec schema
+                        forces x:param to be placed before x:call, x:context and x:expect. :)
+                     | child::x:param" />
+
+               <!-- Remove overridden ones -->
+               <xsl:variable name="stylesheet-effective-params" as="element(x:param)*" select="
+                     $stylesheet-cumulative-params
+                     [not(
+                        (
+                           subsequence($stylesheet-cumulative-params, position() + 1)
+                           ! x:variable-UQName(.)
+                        )
+                        = x:variable-UQName(.)
+                     )]" />
+
                <map-entry key="'static-params'">
                   <xsl:where-populated>
                      <map>
                         <xsl:sequence
                            select="
-                              /x:description/x:param[x:yes-no-synonym(@static, false())]
+                              $stylesheet-effective-params[x:yes-no-synonym(@static, false())]
                               ! local:param-to-map-entry(.)" />
                      </map>
                   </xsl:where-populated>
                </map-entry>
+
                <map-entry key="'stylesheet-params'">
                   <xsl:where-populated>
                      <map>
                         <xsl:sequence
                            select="
-                              /x:description/x:param[x:yes-no-synonym(@static, false()) => not()]
+                              $stylesheet-effective-params[x:yes-no-synonym(@static, false()) => not()]
                               ! local:param-to-map-entry(.)" />
                      </map>
                   </xsl:where-populated>

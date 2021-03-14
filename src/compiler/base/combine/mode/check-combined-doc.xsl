@@ -15,14 +15,27 @@
    <xsl:template match="x:param" as="empty-sequence()" mode="x:check-combined-doc">
       <xsl:call-template name="local:detect-reserved-vardecl-name" />
 
+      <xsl:if test="
+            parent::x:description or parent::x:scenario
+            (: For now, do not check function-param and template-param. :)">
+         <xsl:call-template name="local:detect-conflicting-vardecl" />
+      </xsl:if>
+
       <!-- mode="x:declare-variable" is not aware of $is-external. That's why checking x:param
          against $is-external is performed here rather than in mode="x:declare-variable". -->
-      <xsl:call-template name="local:detect-static-param-run-as-import" />
+      <xsl:choose>
+         <xsl:when test="parent::x:description">
+            <xsl:call-template name="local:detect-static-description-param-run-as-import" />
+         </xsl:when>
+         <xsl:when test="parent::x:scenario">
+            <xsl:call-template name="local:detect-scenario-param-run-as-import" />
+         </xsl:when>
+      </xsl:choose>
    </xsl:template>
 
    <xsl:template match="x:variable" as="empty-sequence()" mode="x:check-combined-doc">
       <xsl:call-template name="local:detect-reserved-vardecl-name" />
-      <xsl:call-template name="local:detect-variable-overriding-param" />
+      <xsl:call-template name="local:detect-conflicting-vardecl" />
    </xsl:template>
 
    <!--
@@ -31,7 +44,7 @@
 
    <!-- Reject user-defined variable declaration with names in XSpec namespace. -->
    <xsl:template name="local:detect-reserved-vardecl-name" as="empty-sequence()">
-      <!-- Context item is x:param or x:variable -->
+      <!-- Context item must be x:param or x:variable -->
       <xsl:context-item as="element()" use="required" />
 
       <xsl:if test="@name">
@@ -78,8 +91,9 @@
       </xsl:if>
    </xsl:template>
 
-   <!-- Reject static x:param if not @run-as=external. -->
-   <xsl:template name="local:detect-static-param-run-as-import" as="empty-sequence()">
+   <!-- Reject static /x:description/x:param if not @run-as=external. -->
+   <xsl:template name="local:detect-static-description-param-run-as-import" as="empty-sequence()">
+      <!-- Context item must be x:param[parent::x:description] -->
       <xsl:context-item as="element(x:param)" use="required" />
 
       <xsl:if test="not($is-external) and x:yes-no-synonym(@static, false())">
@@ -93,28 +107,64 @@
       </xsl:if>
    </xsl:template>
 
-   <!-- Reject x:variable if it overrides any x:description/x:param. -->
-   <xsl:template name="local:detect-variable-overriding-param" as="empty-sequence()">
-      <xsl:context-item as="element(x:variable)" use="required" />
+   <!-- Reject //x:scenario/x:param if not @run-as=external. -->
+   <xsl:template name="local:detect-scenario-param-run-as-import" as="empty-sequence()">
+      <!-- Context item must be x:param[parent::x:scenario] -->
+      <xsl:context-item as="element(x:param)" use="required" />
 
-      <!-- URIQualifiedName of the current x:variable -->
-      <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
-
-      <!-- Cumulative x:param -->
-      <xsl:variable name="cumulative-params" as="element(x:param)*" select="
-            (: Global x:param :)
-            /x:description/x:param" />
-
-      <!-- One of the x:param elements that are overridden by this x:variable -->
-      <xsl:variable name="overridden-param" as="element(x:param)?"
-         select="$cumulative-params[x:variable-UQName(.) eq $uqname][1]" />
-
-      <!-- Terminate if any -->
-      <xsl:if test="$overridden-param">
+      <xsl:if test="not($is-external)">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message">
-                  <xsl:text expand-text="yes">Must not override {name($overridden-param)} (named {$overridden-param/@name})</xsl:text>
+                  <!-- /src/schematron/schut-to-xspec.xsl removes the name prefix from x:description.
+                     That's why URIQualifiedName is used. -->
+                  <xsl:text expand-text="yes">{name(parent::x:scenario)} has {name()}, which is supported only when /{/x:description => x:node-UQName()} has @run-as='external'.</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
+      </xsl:if>
+   </xsl:template>
+
+   <!-- Reject variable declarations (x:param and x:variable) conflicting with another one. -->
+   <xsl:template name="local:detect-conflicting-vardecl" as="empty-sequence()">
+      <!-- Context item must be x:param[parent::x:description or parent::x:scenario] or x:variable -->
+      <xsl:context-item as="element()" use="required" />
+
+      <!-- URIQualifiedName of the current variable declaration -->
+      <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
+
+      <!-- Description-level variable declarations that are visible from the current variable
+         declaration element -->
+      <xsl:variable name="visible-description-vardecls" as="element()*"
+         select="/x:description/(x:param | x:variable) except ." />
+
+      <!-- All the visible variable declarations (description-level + scenario level) -->
+      <xsl:variable name="visible-vardecls" as="element()*" select="
+            $visible-description-vardecls
+            | accumulator-before('stacked-vardecls')
+            | (preceding-sibling::x:param | preceding-sibling::x:variable)" />
+
+      <!-- Variable declarations that the current one is allowed to override -->
+      <xsl:variable name="overridable-vardecls" as="element()*" select="
+            $visible-vardecls[node-name() eq node-name(current())]
+            
+            (: Description-level variable declaration are not allowed to override another
+               description-level one :)
+            except $visible-description-vardecls[current()[parent::x:description]]" />
+
+      <!-- One of the variable declarations with which the current one conflicts -->
+      <xsl:variable name="conflicts-with" as="element()?" select="
+            ($visible-vardecls except $overridable-vardecls)
+            [x:variable-UQName(.) eq $uqname][1]" />
+
+      <!-- Terminate if any -->
+      <xsl:if test="$conflicts-with">
+         <xsl:message terminate="yes">
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="message">
+                  <xsl:for-each select="$conflicts-with">
+                     <xsl:text expand-text="yes">Name conflicts with {name()} (named {@name})</xsl:text>
+                  </xsl:for-each>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>

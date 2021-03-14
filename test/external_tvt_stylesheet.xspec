@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- xmlns:myfn is for ensuring that namespace prefixes take effect in TVT -->
+<x:description run-as="external" stylesheet="external_mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myfn="http://www.w3.org/2005/xpath-functions"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:import href="tvt_stylesheet.xspec" />
+
+	<x:scenario label="scenario-level global-param">
+		<x:param name="scenario-param-user-content">
+			<scenario-param-child x:expand-text="yes">}}{myfn:false()}{{</scenario-param-child>
+			<scenario-param-child expand-text="yes">}}{false()}{{</scenario-param-child>
+		</x:param>
+		<x:param expand-text="yes" name="scenario-param-user-content-indirect"
+				>}}{myfn:false()}{{<scenario-param-child>}}{myfn:false()}{{</scenario-param-child></x:param>
+		<x:param expand-text="yes" href="tvt.xml" name="scenario-param-href" />
+
+		<x:scenario label="user-content">
+			<x:scenario label="@*:expand-text=yes within user-content">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$scenario-param-user-content" />
+				</x:call>
+				<x:like label="user-content expect" />
+			</x:scenario>
+
+			<x:scenario label="@expand-text=yes on x:param">
+				<x:call function="mirror:param-mirror">
+					<x:param select="$scenario-param-user-content-indirect" />
+				</x:call>
+				<x:like label="user-content expect (indirect)" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="@href">
+			<x:call function="mirror:param-mirror">
+				<x:param select="$scenario-param-href" />
+			</x:call>
+			<x:like label="href expect" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

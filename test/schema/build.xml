@@ -23,6 +23,7 @@
 
 			<!-- Tests user-content when it's not allowed
 				https://github.com/xspec/xspec/pull/307 -->
+			<exclude name="test/external_node-selection_stylesheet.xspec" />
 			<exclude name="test/node-selection.xspec" />
 			<exclude name="test/node-selection_stylesheet.xspec" />
 

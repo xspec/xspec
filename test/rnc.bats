@@ -34,18 +34,20 @@ load bats-helper
 @test "Schema detects errors in node-selection test" {
     # '-t' for identifying the last line
     run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
+        external_node-selection_stylesheet.xspec \
         node-selection.xspec \
         node-selection_stylesheet.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[0]}" '.+: error: element "function-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[1]}" '.+: error: element "global-variable-child-not-allowed" not allowed here;'
-    assert_regex "${lines[2]}" '.+: error: element "assertion-child-not-allowed" not allowed here;'
-    assert_regex "${lines[3]}" '.+: error: element "variable-child-not-allowed" not allowed here;'
-    assert_regex "${lines[4]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[0]}" '.+: error: element "scenario-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[1]}" '.+: error: element "function-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[2]}" '.+: error: element "global-variable-child-not-allowed" not allowed here;'
+    assert_regex "${lines[3]}" '.+: error: element "assertion-child-not-allowed" not allowed here;'
+    assert_regex "${lines[4]}" '.+: error: element "variable-child-not-allowed" not allowed here;'
     assert_regex "${lines[5]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[6]}" '.+: error: element "global-param-child-not-allowed" not allowed here;'
-    assert_regex "${lines[7]}" '^Elapsed time '
+    assert_regex "${lines[6]}" '.+: error: element "template-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[7]}" '.+: error: element "global-param-child-not-allowed" not allowed here;'
+    assert_regex "${lines[8]}" '^Elapsed time '
 }
 
 @test "Schema detects missing @href in x:import" {

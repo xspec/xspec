@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:description run-as="external" stylesheet="prefix-conflict.xsl"
+	xmlns:t="http://www.jenitennison.com/xslt/xspec" xmlns:x="x-urn:test:prefix-conflict">
+
+	<t:import href="prefix-conflict_stylesheet.xspec" />
+
+	<t:scenario
+		label="Using x: prefix in scenario-level global-param @name, @select, @as, and child node">
+		<t:param as="element(x:scenario-param-child)" name="x:scenario-param"
+			select="element(x:scenario-param-child)">
+			<x:scenario-param-child />
+		</t:param>
+		<t:context />
+		<t:expect label="should work" select="'x:scenario-param-child'"
+			test="name($x:scenario-param)" />
+	</t:scenario>
+
+</t:description>
