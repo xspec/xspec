@@ -16,10 +16,10 @@
 				location="/x:description[1]/x:scenario[1]/x:scenario[1]/x:call[1]/x:param[1]/span[1]/text()[1]" />
 			<x:expect-assert id="text-node-should-be-non-ignorable"
 				label="$myv:global-var-span-element"
-				location="/x:description[1]/x:variable[1]/span[1]/text()[1]" />
+				location="/x:description[1]/x:variable[@name eq 'myv:global-var-span-element']/span[1]/text()[1]" />
 			<x:expect-assert id="text-node-should-be-non-ignorable"
-				label="myv:local-var-span-element"
-				location="/x:description[1]/x:scenario[starts-with(@label, 'In scenario-level variable,')]/x:variable[1]/span[1]/text()[1]" />
+				label="$myv:local-var-span-element"
+				location="//x:scenario/x:variable[@name eq 'myv:local-var-span-element']/span[1]/text()[1]" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="assertion"
 				location="/x:description[1]/x:scenario[starts-with(@label, 'In assertion,')]/x:scenario[1]/x:expect[1]/span[1]/text()[1]" />
 			<x:expect-assert id="text-node-should-be-non-ignorable" label="grandchild"
@@ -43,7 +43,7 @@
 				location="/x:description[1]/x:scenario[3]/x:scenario[1]/x:call[1]/x:param[1]/span[1]/text()[1]" />
 			<x:expect-assert id="text-node-should-be-non-ignorable"
 				label="$global-param-span-element"
-				location="/x:description[1]/x:param[1]/span[1]/text()[1]" />
+				location="/x:description[1]/x:param[@name eq 'global-param-span-element']/span[1]/text()[1]" />
 			<x:expect-assert count="4" />
 		</x:scenario>
 
@@ -51,7 +51,7 @@
 			<x:context href="external_ws-only-text_stylesheet.xspec" />
 			<x:expect-assert id="text-node-should-be-non-ignorable"
 				label="$scenario-param-span-element"
-				location="//x:param[@name eq 'scenario-param-span-element']/span/text()" />
+				location="//x:scenario/x:param[@name eq 'scenario-param-span-element']/span/text()" />
 			<x:expect-assert count="1" />
 		</x:scenario>
 	</x:scenario>
