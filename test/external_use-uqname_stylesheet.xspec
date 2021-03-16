@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description run-as="external" stylesheet="mirror.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description run-as="external" stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:use-uqname="x-urn:test:use-uqname" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
 	<x:import href="use-uqname_stylesheet.xspec" />
+
+	<!--
+		external_no-prefix_stylesheet.xspec copies this scenario for testing no-prefix cases.
+		When modifying this scenario, check whether external_no-prefix_stylesheet.xspec needs any
+		additions or updates.
+	-->
+	<x:scenario label="Using URIQualifiedName in scenario-level global-param (@as | @name | @select)">
+
+		<!-- Leading and trailing whitespace strings ('&#x09;&#x0A;&#x0D;&#x20;') are inserted to
+			the tested attributes deliberately. -->
+		<x:param
+			as="
+				&#x09;&#x0A;&#x0D;&#x20;
+				element(Q{x-urn:test:use-uqname}scenario-param-child)
+				&#x09;&#x0A;&#x0D;&#x20;"
+			name="
+				&#x09;&#x0A;&#x0D;&#x20;
+				Q{x-urn:test:use-uqname}scenario-param
+				&#x09;&#x0A;&#x0D;&#x20;"
+			select="
+				&#x09;&#x0A;&#x20;
+				element(Q{x-urn:test:use-uqname}scenario-param-child)
+				&#x09;&#x0A;&#x20;">
+			<use-uqname:scenario-param-child />
+		</x:param>
+
+		<x:call template="mirror:param-mirror">
+			<x:param name="param-items" select="$use-uqname:scenario-param" />
+		</x:call>
+		<x:expect label="should be possible">
+			<use-uqname:scenario-param-child />
+		</x:expect>
+	</x:scenario>
+
 </x:description>

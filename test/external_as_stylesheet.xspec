@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description run-as="external" stylesheet="external_mirror.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
 	<x:import href="as_stylesheet.xspec" />
+
+	<x:scenario
+		label="In scenario-level global-param (i.e. //x:scenario/x:param), when @as uses a prefix defined in x:param,">
+		<x:param as="local-xs:double" name="scenario-param" select="xs:integer(0)"
+			xmlns:local-xs="http://www.w3.org/2001/XMLSchema" />
+		<x:context />
+		<x:expect label="@as takes effect" test="$scenario-param instance of xs:double" />
+	</x:scenario>
+
 </x:description>

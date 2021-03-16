@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <description run-as="external" stylesheet="mirror.xsl"
 	xmlns="http://www.jenitennison.com/xslt/xspec">
+
 	<import href="no-prefix_stylesheet.xspec" />
+
+	<!-- Copy of a scenario in external_use-uqname_stylesheet.xspec with x: prefix removed -->
+	<scenario label="Using URIQualifiedName in scenario-level global-param (@as | @name | @select)"
+		xmlns:mirror="x-urn:test:mirror" xmlns:use-uqname="x-urn:test:use-uqname">
+
+		<!-- Leading and trailing whitespace strings ('&#x09;&#x0A;&#x0D;&#x20;') are inserted to
+			the tested attributes deliberately. -->
+		<param
+			as="
+				&#x09;&#x0A;&#x0D;&#x20;
+				element(Q{x-urn:test:use-uqname}scenario-param-child)
+				&#x09;&#x0A;&#x0D;&#x20;"
+			name="
+				&#x09;&#x0A;&#x0D;&#x20;
+				Q{x-urn:test:use-uqname}scenario-param
+				&#x09;&#x0A;&#x0D;&#x20;"
+			select="
+				&#x09;&#x0A;&#x20;
+				element(Q{x-urn:test:use-uqname}scenario-param-child)
+				&#x09;&#x0A;&#x20;">
+			<use-uqname:scenario-param-child />
+		</param>
+
+		<call template="mirror:param-mirror">
+			<param name="param-items" select="$use-uqname:scenario-param" />
+		</call>
+		<expect label="should be possible">
+			<use-uqname:scenario-param-child />
+		</expect>
+	</scenario>
+
 </description>

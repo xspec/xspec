@@ -301,6 +301,15 @@
   <!-- Converts Schematron into XSLT -->
   <target name="preprocess-schematron-xslt"
           if="${xspec.is.schematron}">
+
+    <!-- Mark URI of preprocessors to be skipped -->
+    <condition property="xspec.schematron.preprocessor.step1.url" value="#none">
+      <equals arg1="${xspec.schematron.preprocessor.step1}" arg2="#none" />
+    </condition>
+    <condition property="xspec.schematron.preprocessor.step2.url" value="#none">
+      <equals arg1="${xspec.schematron.preprocessor.step2}" arg2="#none" />
+    </condition>
+
     <!-- URI of preprocessors -->
     <makeurl property="xspec.schematron.preprocessor.step1.url"
              file="${xspec.schematron.preprocessor.step1}"

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	xspec-sch.xspec uses this file for testing ../src/schemas/xspec.sch.
+	When modifying this file, check whether xspec-sch.xspec needs any additions or updates.
+-->
+<x:description preserve-space="pre" run-as="external" stylesheet="mirror.xsl"
+	xmlns:ws-only-text="x-urn:test:ws-only-text" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:import href="ws-only-text_stylesheet.xspec" />
+
+	<x:scenario
+		label="In scenario-level global-param, whitespace-only text nodes in user-content are removed by default.">
+
+		<x:param name="scenario-param-span-element">
+			<span>&#x09;&#x0A;&#x0D;&#x20;</span>
+		</x:param>
+		<x:param name="scenario-param-span-element-preserve" xml:space="preserve"><span>&#x09;&#x0A;&#x0D;&#x20;</span></x:param>
+		<x:param href="ws-only-text.xml" name="scenario-param-href" />
+		<x:param name="scenario-param-pre-element">
+			<pre>&#x09;&#x0A;&#x0D;&#x20;</pre>
+		</x:param>
+		<x:param name="scenario-param-x-text">
+			<x:text>&#x09;&#x0A;&#x0D;&#x20;</x:text>
+		</x:param>
+
+		<x:context />
+
+		<x:scenario>
+			<x:label>So, in
+				//x:scenario/x:param/element()[not(ancestor-or-self::element()/@xml:space)],</x:label>
+			<x:expect label="whitespace-only text nodes are removed."
+				test="deep-equal($scenario-param-span-element, $ws-only-text:span-element-empty)" />
+		</x:scenario>
+
+		<x:scenario label="But...">
+			<x:scenario>
+				<x:label>@xml:space overrides the default. So, in
+					//x:scenario/x:param/element()[ancestor-or-self::element()[@xml:space][1]/@xml:space
+					= "preserve"],</x:label>
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($scenario-param-span-element-preserve, $ws-only-text:span-element-wsot)"
+				 />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>node-selection @href is always intact. So, in
+					//x:scenario/x:param/@href[not(ancestor::element()/@xml:space)]/doc(.)[not(descendant::element()/@xml:space)],</x:label>
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($scenario-param-href/node(), $ws-only-text:span-element-wsot)"
+				 />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Elements specified by @preserve-space are intact. So, in
+					//x:scenario/x:param/element()[not(ancestor-or-self::element()/@xml:space)][node-name(.)
+					= (for $qname in tokenize(/x:description/@preserve-space, '\s+') return
+					resolve-QName($qname, /x:description))],</x:label>
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($scenario-param-pre-element, $ws-only-text:pre-element-wsot)"
+				 />
+			</x:scenario>
+
+			<x:scenario>
+				<x:label>Text nodes created by x:text are intact. So, in
+					//x:scenario/x:param/x:text[not(ancestor-or-self::element()/@xml:space)],</x:label>
+				<x:expect label="whitespace-only text nodes are kept."
+					test="deep-equal($scenario-param-x-text, $ws-only-text:wsot)" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

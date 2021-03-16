@@ -8,7 +8,6 @@
 		of the Schematron Step 3 preprocessor.
 		While generating the wrapper stylesheet, the following adjustments are made:
 			* Transforms /x:description/x:param into /xsl:stylesheet/xsl:param.
-			* Generates $x:schematron-uri global parameter.
 		See ../../test/generate-step3-wrapper_*.xspec for examples.
 	-->
 
@@ -31,7 +30,6 @@
 	<xsl:include href="../compiler/base/util/compiler-yes-no-utils.xsl" />
 	<xsl:include href="../compiler/xslt/declare-variable/declare-variable.xsl" />
 	<xsl:include href="../compiler/xslt/node-constructor/node-constructor.xsl" />
-	<xsl:include href="locate-schematron-uri.xsl" />
 
 	<xsl:output indent="yes" />
 
@@ -64,20 +62,6 @@
 				-->
 				<xsl:element name="{x:xspec-name('description', .)}"
 					namespace="{$x:xspec-namespace}">
-					<!-- Set up a pseudo x:param which holds the fully-resolved Schematron file URI
-						so that $x:schematron-uri holding the URI is generated and made available in
-						the wrapper stylesheet being generated.
-						Do it even when the Schematron Step 3 preprocessor being imported is not the
-						built-in one, because the preprocessor specified by $ACTUAL-PREPROCESSOR-URI
-						may want to make use of $x:schematron-uri. -->
-					<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
-						<xsl:attribute name="as" select="x:known-UQName('xs:anyURI')" />
-						<xsl:attribute name="name" select="x:known-UQName('x:schematron-uri')" />
-
-						<!-- Output as a text node so that we don't need to take care of escaping -->
-						<xsl:value-of select="x:locate-schematron-uri(.)" />
-					</xsl:element>
-
 					<!-- Resolve x:import and gather only the user-provided global params and
 						variables -->
 					<xsl:sequence select="x:resolve-import(.)" />

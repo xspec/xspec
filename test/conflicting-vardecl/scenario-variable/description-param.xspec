@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../../do-nothing.xsl" xmlns:my="http://example.org/ns/my"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<!--
+		- //x:scenario/x:variable conflicting with /x:description/x:param
+		- Lexical QName conflicting with URIQualifiedName
+	-->
+	<x:param name="Q{http://example.org/ns/my}foo" />
+	<x:scenario label="x:scenario/x:variable">
+		<x:variable name="my:foo" />
+	</x:scenario>
+</x:description>

@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+	compilation-params-scope.xspec is based on this file.
+	When modifying this file, check whether compilation-params-scope.xspec needs any additions or
+	updates.
+-->
 <x:description xmlns:my="http://example.org/ns/my"
                xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test /x:description[@stylesheet][not(@run-as = 'external')]//x:scenario/x:param -->
+<x:description stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="x:scenario/child::x:param">
+		<!-- Leading and trailing &#x09;&#x0A;&#x0D;&#x20; inserted deliberately -->
+		<x:param name="
+			&#x09;&#x0A;&#x0D;&#x20;
+			p
+			&#x09;&#x0A;&#x0D;&#x20;" />
+	</x:scenario>
+</x:description>

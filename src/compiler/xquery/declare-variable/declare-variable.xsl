@@ -186,7 +186,7 @@
       <xsl:context-item as="element()" use="required" />
 
       <!-- Reject x:param if it is analogous to /xsl:stylesheet/xsl:param -->
-      <xsl:if test="self::x:param[parent::x:description]">
+      <xsl:if test="self::x:param[parent::x:description or parent::x:scenario]">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message">

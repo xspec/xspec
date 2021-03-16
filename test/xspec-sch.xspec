@@ -46,6 +46,14 @@
 				location="/x:description[1]/x:param[1]/span[1]/text()[1]" />
 			<x:expect-assert count="4" />
 		</x:scenario>
+
+		<x:scenario label="XSLT with @run-as=external">
+			<x:context href="external_ws-only-text_stylesheet.xspec" />
+			<x:expect-assert id="text-node-should-be-non-ignorable"
+				label="$scenario-param-span-element"
+				location="//x:param[@name eq 'scenario-param-span-element']/span/text()" />
+			<x:expect-assert count="1" />
+		</x:scenario>
 	</x:scenario>
 
 </x:description>

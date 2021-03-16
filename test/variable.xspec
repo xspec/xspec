@@ -7,6 +7,11 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
+<!--
+	external_scenario-param.xspec is based on this file.
+	When modifying this file, check whether external_scenario-param.xspec needs any additions or
+	updates.
+-->
 <x:description
 	xmlns:mirror="x-urn:test:mirror"
 	xmlns:myv="http://example.org/ns/my/variable"
@@ -22,7 +27,8 @@
 
 	<x:variable name="myv:test-data" href="variable.xml"/>
 	<x:variable name="myv:test-string" select="
-			if ((:Global variables can use preceding-sibling variables:) $myv:test-data) then
+			(: This 'if' clause just verifies that global variables can use preceding-sibling variables. :)
+			if ($myv:test-data) then
 				'global'
 			else
 				()" />
@@ -147,39 +153,39 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="Variables can be redefined locally.">
+	<x:scenario label="Variables can be redefined in scenario.">
 		<!-- Note: For x:variable elements that are direct children of x:description, expanded QNames must be unique.
-		 This test scenario is about *local* redefinitions of global or local variables. -->
+		 This test scenario is about *scenario-level* redefinitions of global or scenario-level variables. -->
 		<!-- For now, we assume any prefixes used in variable names are defined on x:description. -->
-		<x:scenario label="Local redefinition of global variable">
-			<x:variable name="myv:test-string" select="$myv:test-string || ' (redefined locally using same prefix'" as="xs:string"/>
+		<x:scenario label="Scenario-level redefinition of global variable">
+			<x:variable name="myv:test-string" select="$myv:test-string || ' (redefined in scenario using same prefix'" as="xs:string"/>
 			<x:variable name="myv_alt:test-string" select="$myv:test-string || ' or different prefix)'" as="xs:string"/>
 			<x:call function="mirror:param-mirror">
 				<x:param select="$myv:test-string"/>
 			</x:call>
 			<x:expect label="yields correct redefined result."
-				select="'global (redefined locally using same prefix or different prefix)'"/>
+				select="'global (redefined in scenario using same prefix or different prefix)'"/>
 		</x:scenario>
 		<x:scenario label="Redefinition of variable inherited from outer scenario">
 			<x:variable name="myv:outer" select="('overwritten','data')" as="xs:string+"/>
 			<x:variable name="myv:outer" select="'value #1'" as="xs:string"/>
 			<x:scenario label="[inner]">
-				<x:variable name="myv:outer" select="$myv:outer || ' (redefined locally using same prefix'" as="xs:string"/>
+				<x:variable name="myv:outer" select="$myv:outer || ' (redefined in scenario using same prefix'" as="xs:string"/>
 				<x:variable name="myv_alt:outer" select="$myv:outer || ' or different prefix)'" as="xs:string"/>
 				<x:call function="mirror:param-mirror">
 					<x:param select="$myv:outer"/>
 				</x:call>
 				<x:expect label="reflects value redefined in inner scenario."
-					select="'value #1 (redefined locally using same prefix or different prefix)'"/>
+					select="'value #1 (redefined in scenario using same prefix or different prefix)'"/>
 			</x:scenario>
 		</x:scenario>
 		<x:scenario label="Redefinition of variable in same scenario">
-			<x:variable name="myv:local" select="('overwritten','data')" as="xs:string+"/>
-			<x:variable name="myv:local" select="'value #2'" as="xs:string"/>
-			<x:variable name="myv:local" select="$myv:local || ' (redefined using same prefix'" as="xs:string"/>
-			<x:variable name="myv_alt:local" select="$myv:local || ' or different prefix)'" as="xs:string"/>
+			<x:variable name="myv:scenario-level" select="('overwritten','data')" as="xs:string+"/>
+			<x:variable name="myv:scenario-level" select="'value #2'" as="xs:string"/>
+			<x:variable name="myv:scenario-level" select="$myv:scenario-level || ' (redefined using same prefix'" as="xs:string"/>
+			<x:variable name="myv_alt:scenario-level" select="$myv:scenario-level || ' or different prefix)'" as="xs:string"/>
 			<x:call function="mirror:param-mirror">
-				<x:param select="$myv:local"/>
+				<x:param select="$myv:scenario-level"/>
 			</x:call>
 			<x:expect label="reflects value redefined within same scenario."
 				select="'value #2 (redefined using same prefix or different prefix)'"/>

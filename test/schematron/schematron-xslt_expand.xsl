@@ -5,6 +5,12 @@
                 version="2.0">
     <xsl:import href="../../lib/iso-schematron/iso_abstract_expand.xsl" />
 
+    <!-- Check -->
+    <xsl:template match="sch:let[@name eq 'hook-me']" as="empty-sequence()" mode="#all">
+        <xsl:message select="name(), 'already exists'" terminate="yes" />
+    </xsl:template>
+
+    <!-- Hook -->
     <xsl:template match="sch:pattern[@is-a eq 'hook-me']" as="element(sch:let)" mode="iae:go">
         <sch:let name="hook-me" />
     </xsl:template>

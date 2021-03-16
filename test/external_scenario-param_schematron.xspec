@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" schematron="external_scenario-param.sch"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<!-- Enable /sch:schema/xsl:param -->
+	<x:param name="allow-foreign">true</x:param>
+
+	<!-- This $phase (/x:description/x:param) takes effect at both compile time and run time -->
+	<x:param name="phase">A</x:param>
+
+	<x:scenario label="Base context">
+		<x:context>
+			<context-child />
+		</x:context>
+
+		<x:scenario label="Scenario-level $phase">
+			<!-- No scenario-level $phase -->
+
+			<!-- No x:context[preceding-sibling::x:param] -->
+
+			<x:expect-report id="compile-time-phase-param-is-A" />
+			<x:expect-report id="run-time-phase-param-is-A" />
+			<x:expect-report count="2" />
+		</x:scenario>
+
+		<x:scenario label="Scenario-level $phase">
+			<!-- This $phase (//x:scenario/x:param) takes effect only at run time -->
+			<x:param name="phase">B</x:param>
+
+			<!-- No x:context[preceding-sibling::x:param] -->
+
+			<x:expect-report id="compile-time-phase-param-is-A" />
+			<x:expect-report id="run-time-phase-param-is-B" />
+			<x:expect-report count="2" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario-level $phase">
+		<!-- This $phase (//x:scenario/x:param) takes effect only at run time -->
+		<x:param name="phase">C</x:param>
+
+		<!-- x:context[preceding-sibling::x:param] -->
+		<x:context>
+			<context-child />
+		</x:context>
+
+		<x:expect-report id="compile-time-phase-param-is-A" />
+		<x:expect-report id="run-time-phase-param-is-C" />
+		<x:expect-report count="2" />
+	</x:scenario>
+
+</x:description>

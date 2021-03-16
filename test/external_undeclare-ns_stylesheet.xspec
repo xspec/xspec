@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<description run-as="external" stylesheet="do-nothing.xsl"
+	xmlns="http://www.jenitennison.com/xslt/xspec">
+
+	<scenario label="scenario-level global-param">
+		<param name="Q{http://example.org/ns/my/variable}scenario-param">
+			<scenario-param-child xmlns="" xmlns:scenario-param-child_prefix="scenario-param-child_ns">
+				<scenario-param-grandchild xmlns="scenario-param-grandchild_default-ns"
+					xmlns:scenario-param-grandchild_prefix="scenario-param-grandchild_ns">
+					<scenario-param-great-grandchild xmlns=""
+						xmlns:scenario-param-great-grandchild_prefix="scenario-param-great-grandchild_ns" />
+				</scenario-param-grandchild>
+			</scenario-param-child>
+		</param>
+		<context />
+		<expect label="scenario-param-child"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}scenario-param-child
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}scenario-param
+				/self::Q{}scenario-param-child
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="scenario-param-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{scenario-param-grandchild_default-ns}scenario-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}scenario-param
+				/Q{scenario-param-grandchild_default-ns}scenario-param-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+		<expect label="scenario-param-great-grandchild"
+			select="
+				doc($Q{http://www.jenitennison.com/xslt/xspec}xspec-uri)
+				//Q{}scenario-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()"
+			test="
+				$Q{http://example.org/ns/my/variable}scenario-param
+				//Q{}scenario-param-great-grandchild
+				=> in-scope-prefixes()
+				=> sort()" />
+	</scenario>
+
+</description>
