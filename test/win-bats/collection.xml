@@ -529,6 +529,43 @@
 	</case>
 
 	<!--
+		Skip Schematron Step (CLI)
+	-->
+
+	<!-- Ant is tested by schematron-xslt_skip-1.xspec -->
+	<case name="Skip Schematron Step 1 (CLI)">
+    set SCHEMATRON_XSLT_INCLUDE=#none
+    set SCHEMATRON_XSLT_EXPAND=schematron\schematron-xslt_include-expand.xsl
+    set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_compile.xsl
+
+    call :run ..\bin\xspec.bat -s schematron-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 11 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+	</case>
+
+	<!-- Ant is tested by schematron-xslt_skip-2.xspec -->
+	<case name="Skip Schematron Step 2 (CLI)">
+    set SCHEMATRON_XSLT_INCLUDE=schematron\schematron-xslt_include.xsl
+    set SCHEMATRON_XSLT_EXPAND=#none
+    set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_expand-compile.xsl
+
+    call :run ..\bin\xspec.bat -s schematron-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 11 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+	</case>
+
+	<!-- Ant is tested by schematron-xslt_skip-1-2.xspec -->
+	<case name="Skip Schematron Step 1 and 2 (CLI)">
+    set SCHEMATRON_XSLT_INCLUDE=#none
+    set SCHEMATRON_XSLT_EXPAND=#none
+    set SCHEMATRON_XSLT_COMPILE=schematron\schematron-xslt_include-expand-compile.xsl
+
+    call :run ..\bin\xspec.bat -s schematron-xslt.xspec
+    call :verify_retval 0
+    call :verify_line 11 x "passed: 1 / pending: 0 / failed: 0 / total: 1"
+	</case>
+
+	<!--
 		CLI with TEST_DIR
 	-->
 

@@ -655,6 +655,46 @@ load bats-helper
 }
 
 #
+# Skip Schematron Step (CLI)
+#
+
+# Ant is tested by schematron-xslt_skip-1.xspec
+@test "Skip Schematron Step 1 (CLI)" {
+    export SCHEMATRON_XSLT_INCLUDE="#none"
+    export SCHEMATRON_XSLT_EXPAND=schematron/schematron-xslt_include-expand.xsl
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_compile.xsl
+
+    run ../bin/xspec.sh -s schematron-xslt.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[10]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+# Ant is tested by schematron-xslt_skip-2.xspec
+@test "Skip Schematron Step 2 (CLI)" {
+    export SCHEMATRON_XSLT_INCLUDE=schematron/schematron-xslt_include.xsl
+    export SCHEMATRON_XSLT_EXPAND="#none"
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_expand-compile.xsl
+
+    run ../bin/xspec.sh -s schematron-xslt.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[10]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+# Ant is tested by schematron-xslt_skip-1-2.xspec
+@test "Skip Schematron Step 1 and 2 (CLI)" {
+    export SCHEMATRON_XSLT_INCLUDE="#none"
+    export SCHEMATRON_XSLT_EXPAND="#none"
+    export SCHEMATRON_XSLT_COMPILE=schematron/schematron-xslt_include-expand-compile.xsl
+
+    run ../bin/xspec.sh -s schematron-xslt.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[10]}" = "passed: 1 / pending: 0 / failed: 0 / total: 1" ]
+}
+
+#
 # CLI with TEST_DIR
 #
 
