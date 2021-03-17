@@ -3,8 +3,7 @@ name: Rebase schxslt branch
 on:
   push:
     branches:
-      # TODO: Change this to `master`
-      - gha-rebase-schxslt
+      - master
 
 jobs:
   rebase-schxslt:
