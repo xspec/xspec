@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 10 # greater than the number of commits made specifically on schxslt branch
+          fetch-depth: 0
           ref: schxslt
 
       - run: |
