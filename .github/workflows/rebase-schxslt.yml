@@ -19,6 +19,7 @@ jobs:
           fetch-depth: 10 # greater than the number of commits made specifically on schxslt branch
           ref: schxslt
 
-      - uses: imba-tjd/rebase-upstream-action@d5dc619947399c040b31fe6c0bff1b072dc6ad92
-        with:
-          upstream: ${{ github.repository }}
+      - run: |
+          set -ex
+          git rebase master
+          git push --force-with-lease
