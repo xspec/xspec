@@ -1,0 +1,26 @@
+name: Rebase schxslt branch
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  rebase-schxslt:
+    runs-on: ubuntu-latest
+
+    # Do not disturb forks
+    if: github.repository == 'xspec/xspec'
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: schxslt
+
+      - run: |
+          set -ex
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name  "github-actions[bot]"
+          git rebase origin/master
+          git push --force-with-lease
