@@ -14,54 +14,45 @@
       <result select="/element()">
          <content-wrap xmlns="">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
                                     xmlns:local="local"
-                                    title=""
-                                    schemaVersion=""
-                                    phase="PhaseB"><!--   
-		   
-		   
-		 -->
-               <svrl:ns-prefix-in-attribute-values uri="local" prefix="local"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern2"
-                                    name="Pattern2"/>
+                                    phase="PhaseB">
+               <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
+               <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="@sec-type"
-                                   id="t2-1"
+               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
                                    role="error"
-                                   location="/article[1]/body[1]/sec[2]">
+                                   id="t2-1"
+                                   test="@sec-type">
                   <svrl:text>
                 sec element should have a sec-type attribute.
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern3"
-                                    name="Pattern3"/>
+               <svrl:active-pattern id="Pattern3" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="title" id="t3-1" location="/article[1]/body[1]/sec[2]">
+               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+                                   id="t3-1"
+                                   test="title">
                   <svrl:text>
                 section should have a title
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern4"
-                                    name="Pattern4"/>
+               <svrl:active-pattern id="Pattern4" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:successful-report test="count(p) = 1"
-                                       id="t4-1"
+               <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
                                        role="warn"
-                                       location="/article[1]/body[1]/sec[2]">
+                                       id="t4-1"
+                                       test="count(p) = 1">
                   <svrl:text>
                 Short section has only one paragraph.
             </svrl:text>
@@ -97,54 +88,45 @@
       <result select="/element()">
          <content-wrap xmlns="">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
                                     xmlns:local="local"
-                                    title=""
-                                    schemaVersion=""
-                                    phase="PhaseB"><!--   
-		   
-		   
-		 -->
-               <svrl:ns-prefix-in-attribute-values uri="local" prefix="local"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern2"
-                                    name="Pattern2"/>
+                                    phase="PhaseB">
+               <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
+               <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="@sec-type"
-                                   id="t2-1"
+               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
                                    role="error"
-                                   location="/article[1]/body[1]/sec[2]">
+                                   id="t2-1"
+                                   test="@sec-type">
                   <svrl:text>
                 sec element should have a sec-type attribute.
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern3"
-                                    name="Pattern3"/>
+               <svrl:active-pattern id="Pattern3" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="title" id="t3-1" location="/article[1]/body[1]/sec[2]">
+               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+                                   id="t3-1"
+                                   test="title">
                   <svrl:text>
                 section should have a title
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern4"
-                                    name="Pattern4"/>
+               <svrl:active-pattern id="Pattern4" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:successful-report test="count(p) = 1"
-                                       id="t4-1"
+               <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
                                        role="warn"
-                                       location="/article[1]/body[1]/sec[2]">
+                                       id="t4-1"
+                                       test="count(p) = 1">
                   <svrl:text>
                 Short section has only one paragraph.
             </svrl:text>
@@ -190,54 +172,45 @@
       <result select="/element()">
          <content-wrap xmlns="">
             <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                    xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                    xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                    xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                    xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
                                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                    xmlns:saxon="http://saxon.sf.net/"
-                                    xmlns:schold="http://www.ascc.net/xml/schematron"
-                                    xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                    xmlns:xhtml="http://www.w3.org/1999/xhtml"
                                     xmlns:local="local"
-                                    title=""
-                                    schemaVersion=""
-                                    phase="PhaseB"><!--   
-		   
-		   
-		 -->
-               <svrl:ns-prefix-in-attribute-values uri="local" prefix="local"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern2"
-                                    name="Pattern2"/>
+                                    phase="PhaseB">
+               <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
+               <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="@sec-type"
-                                   id="t2-1"
+               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
                                    role="error"
-                                   location="/article[1]/body[1]/sec[2]">
+                                   id="t2-1"
+                                   test="@sec-type">
                   <svrl:text>
                 sec element should have a sec-type attribute.
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern3"
-                                    name="Pattern3"/>
+               <svrl:active-pattern id="Pattern3" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:failed-assert test="title" id="t3-1" location="/article[1]/body[1]/sec[2]">
+               <svrl:failed-assert location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
+                                   id="t3-1"
+                                   test="title">
                   <svrl:text>
                 section should have a title
             </svrl:text>
                </svrl:failed-assert>
                <svrl:fired-rule context="sec"/>
-               <svrl:active-pattern document="../../../../../tutorial/schematron/demo-02.xml"
-                                    id="Pattern4"
-                                    name="Pattern4"/>
+               <svrl:active-pattern id="Pattern4" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
-               <svrl:successful-report test="count(p) = 1"
-                                       id="t4-1"
+               <svrl:successful-report location="/Q{}article[1]/Q{}body[1]/Q{}sec[2]"
                                        role="warn"
-                                       location="/article[1]/body[1]/sec[2]">
+                                       id="t4-1"
+                                       test="count(p) = 1">
                   <svrl:text>
                 Short section has only one paragraph.
             </svrl:text>
