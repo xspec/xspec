@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-saxon-bug-4696-fixed?>
 <x:description schematron="issue-396.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:param name="only-child-elements">false</x:param>
-	<x:param name="visit-text">true</x:param>
-
 	<x:scenario focus="test this framework" label="above-mentioned">
 		<x:context>
 			<conbody>
 				<p>above-mentioned</p>
 			</conbody>
 		</x:context>
-
-		<!-- The "skeleton" Schematron implementation should be able to handle text nodes as long as
-			all the following conditions are met:
-			- $only-child-elements global parameter is false.
-			- $visit-text global parameter is true.
-			- @location is not involved. -->
-		<x:expect-report id="above-mentioned" role="info" />
+		<x:expect-report id="above-mentioned" location="//text()[. eq 'above-mentioned']" role="info" />
 	</x:scenario>
 </x:description>
