@@ -2975,13 +2975,6 @@ load bats-helper
     [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
 }
 
-@test "SVRL @location fails to select text node #396" {
-    myrun ../bin/xspec.sh -s schematron/bad-location/issue-396.xspec
-    [ "$status" -eq 1 ]
-    [ "${lines[${#lines[@]} - 3]}" = "ERROR in svrl:successful-report/@location: Expression above-mentioned should point to one node." ]
-    [ "${lines[${#lines[@]} - 1]}" = "*** Error running the test suite" ]
-}
-
 #
 # Bad x:context when calling named template
 #
