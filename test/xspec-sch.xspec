@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test schematron-preprocessor-step3=${xspec.project.dir}/test/schematron/enable-text-location.xsl?>
 <x:description schematron="../src/schemas/xspec.sch"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-
-	<x:param name="allow-foreign">true</x:param>
-	<x:param name="only-child-elements">false</x:param>
-	<x:param name="visit-text">true</x:param>
 
 	<x:scenario label="Whitespace-only text node">
 		<x:scenario label="XSLT and XQuery">
