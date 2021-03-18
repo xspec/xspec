@@ -77,23 +77,38 @@
                      <tr>
                         <td>
                            <p>XPath <code>/element()</code> from:</p>
-                           <pre class="svrl">&lt;svrl:schematron-output <span class="xmlns">xmlns:iso="http://purl.oclc.org/dsdl/schematron"</span>
-                        <span class="xmlns">xmlns:saxon="http://saxon.sf.net/"</span>
-                        <span class="xmlns">xmlns:schold="http://www.ascc.net/xml/schematron"</span>
+                           <pre class="svrl">&lt;svrl:schematron-output <span class="xmlns">xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"</span>
+                        <span class="xmlns">xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"</span>
+                        <span class="xmlns">xmlns:sch="http://purl.oclc.org/dsdl/schematron"</span>
+                        <span class="xmlns">xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"</span>
+                        <span class="xmlns">xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"</span>
                         <span class="xmlns">xmlns:svrl="http://purl.oclc.org/dsdl/svrl"</span>
-                        <span class="xmlns">xmlns:xhtml="http://www.w3.org/1999/xhtml"</span>
-                        <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>
-                        <span class="xmlns trivial">xmlns:xsd="http://www.w3.org/2001/XMLSchema"</span>
-                        title=""
-                        schemaVersion=""&gt;&lt;!--   
-		   
-		   
-		 --&gt;
-   &lt;svrl:active-pattern document="" /&gt;
+                        <span class="xmlns trivial">xmlns:xs="http://www.w3.org/2001/XMLSchema"</span>&gt;
+   &lt;svrl:metadata <span class="xmlns">xmlns:dct="http://purl.org/dc/terms/"</span>
+                  <span class="xmlns">xmlns:skos="http://www.w3.org/2004/02/skos/core#"</span>&gt;
+      &lt;dct:creator&gt;
+         &lt;dct:Agent&gt;
+            &lt;skos:prefLabel&gt;Unknown&lt;/skos:prefLabel&gt;
+         &lt;/dct:Agent&gt;
+      &lt;/dct:creator&gt;
+      &lt;dct:created&gt;2000-01-01T00:00:00Z&lt;/dct:created&gt;
+      &lt;dct:source&gt;
+         &lt;rdf:Description <span class="xmlns">xmlns:dc="http://purl.org/dc/elements/1.1/"</span>&gt;
+            &lt;dct:creator&gt;
+               &lt;dct:Agent&gt;
+                  &lt;skos:prefLabel&gt;SchXslt/1.7.1 SAXON/product-version&lt;/skos:prefLabel&gt;
+                  &lt;schxslt.compile.typed-variables <span class="xmlns">xmlns="https://doi.org/10.5281/zenodo.1495494#"</span>&gt;true&lt;/schxslt.compile.typed-variables&gt;
+               &lt;/dct:Agent&gt;
+            &lt;/dct:creator&gt;
+            &lt;dct:created&gt;2000-01-01T00:00:00Z&lt;/dct:created&gt;
+         &lt;/rdf:Description&gt;
+      &lt;/dct:source&gt;
+   &lt;/svrl:metadata&gt;
+   &lt;svrl:active-pattern documents="issue-693-compiled.xsl" /&gt;
    &lt;svrl:fired-rule context="foo" /&gt;
-   &lt;svrl:successful-report test="bar"
+   &lt;svrl:successful-report location="/Q{}foo[1]"
                            id="bar-exists"
-                           location="/foo[1]"&gt;
+                           test="bar"&gt;
       &lt;svrl:text&gt;Found bar&lt;/svrl:text&gt;
    &lt;/svrl:successful-report&gt;
 &lt;/svrl:schematron-output&gt;</pre>

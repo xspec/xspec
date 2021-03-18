@@ -17,18 +17,33 @@
          <result select="/element()">
             <content-wrap xmlns="">
                <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
+                                 xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+                     <dct:creator>
+                        <dct:Agent>
+                           <skos:prefLabel>Unknown</skos:prefLabel>
+                        </dct:Agent>
+                     </dct:creator>
+                     <dct:created>2000-01-01T00:00:00Z</dct:created>
+                     <dct:source>
+                        <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
+                           <dct:creator>
+                              <dct:Agent>
+                                 <skos:prefLabel>SchXslt/1.7.1 SAXON/product-version</skos:prefLabel>
+                                 <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
+                              </dct:Agent>
+                           </dct:creator>
+                           <dct:created>2000-01-01T00:00:00Z</dct:created>
+                        </rdf:Description>
+                     </dct:source>
+                  </svrl:metadata>
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -53,18 +68,33 @@
          <result select="/element()">
             <content-wrap xmlns="">
                <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
+                                 xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+                     <dct:creator>
+                        <dct:Agent>
+                           <skos:prefLabel>Unknown</skos:prefLabel>
+                        </dct:Agent>
+                     </dct:creator>
+                     <dct:created>2000-01-01T00:00:00Z</dct:created>
+                     <dct:source>
+                        <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
+                           <dct:creator>
+                              <dct:Agent>
+                                 <skos:prefLabel>SchXslt/1.7.1 SAXON/product-version</skos:prefLabel>
+                                 <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
+                              </dct:Agent>
+                           </dct:creator>
+                           <dct:created>2000-01-01T00:00:00Z</dct:created>
+                        </rdf:Description>
+                     </dct:source>
+                  </svrl:metadata>
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -89,18 +119,33 @@
          <result select="/element()">
             <content-wrap xmlns="">
                <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
+                                 xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+                     <dct:creator>
+                        <dct:Agent>
+                           <skos:prefLabel>Unknown</skos:prefLabel>
+                        </dct:Agent>
+                     </dct:creator>
+                     <dct:created>2000-01-01T00:00:00Z</dct:created>
+                     <dct:source>
+                        <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
+                           <dct:creator>
+                              <dct:Agent>
+                                 <skos:prefLabel>SchXslt/1.7.1 SAXON/product-version</skos:prefLabel>
+                                 <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
+                              </dct:Agent>
+                           </dct:creator>
+                           <dct:created>2000-01-01T00:00:00Z</dct:created>
+                        </rdf:Description>
+                     </dct:source>
+                  </svrl:metadata>
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -128,18 +173,33 @@
          <result select="/element()">
             <content-wrap xmlns="">
                <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
+                                 xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+                     <dct:creator>
+                        <dct:Agent>
+                           <skos:prefLabel>Unknown</skos:prefLabel>
+                        </dct:Agent>
+                     </dct:creator>
+                     <dct:created>2000-01-01T00:00:00Z</dct:created>
+                     <dct:source>
+                        <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
+                           <dct:creator>
+                              <dct:Agent>
+                                 <skos:prefLabel>SchXslt/1.7.1 SAXON/product-version</skos:prefLabel>
+                                 <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
+                              </dct:Agent>
+                           </dct:creator>
+                           <dct:created>2000-01-01T00:00:00Z</dct:created>
+                        </rdf:Description>
+                     </dct:source>
+                  </svrl:metadata>
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
@@ -164,18 +224,33 @@
          <result select="/element()">
             <content-wrap xmlns="">
                <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""/>
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
+                                 xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+                     <dct:creator>
+                        <dct:Agent>
+                           <skos:prefLabel>Unknown</skos:prefLabel>
+                        </dct:Agent>
+                     </dct:creator>
+                     <dct:created>2000-01-01T00:00:00Z</dct:created>
+                     <dct:source>
+                        <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
+                           <dct:creator>
+                              <dct:Agent>
+                                 <skos:prefLabel>SchXslt/1.7.1 SAXON/product-version</skos:prefLabel>
+                                 <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
+                              </dct:Agent>
+                           </dct:creator>
+                           <dct:created>2000-01-01T00:00:00Z</dct:created>
+                        </rdf:Description>
+                     </dct:source>
+                  </svrl:metadata>
+                  <svrl:active-pattern documents="tvt_label_schematron-compiled.xsl"/>
                   <svrl:fired-rule context="context-child"/>
                </svrl:schematron-output>
             </content-wrap>
