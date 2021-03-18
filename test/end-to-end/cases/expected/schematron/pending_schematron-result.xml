@@ -17,20 +17,14 @@
          <result select="/element()">
             <content-wrap xmlns="">
                <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""
-                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                                       documents="pending_schematron-compiled.xsl"/>
                </svrl:schematron-output>
             </content-wrap>
          </result>
@@ -88,20 +82,14 @@
          <result select="/element()">
             <content-wrap xmlns="">
                <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""
-                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                                       documents="pending_schematron-compiled.xsl"/>
                </svrl:schematron-output>
             </content-wrap>
          </result>
@@ -135,20 +123,14 @@
          <result select="/element()">
             <content-wrap xmlns="">
                <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
-                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                                       xmlns:saxon="http://saxon.sf.net/"
-                                       xmlns:schold="http://www.ascc.net/xml/schematron"
-                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
-                                       title=""
-                                       schemaVersion=""><!--   
-		   
-		   
-		 -->
-                  <svrl:active-pattern document=""
-                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
-                                       name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
+                                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:error="https://doi.org/10.5281/zenodo.1495494#error"
+                                       xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                                       xmlns:schxslt-api="https://doi.org/10.5281/zenodo.1495494#api"
+                                       xmlns:schxslt="https://doi.org/10.5281/zenodo.1495494"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                  <svrl:active-pattern id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                                       documents="pending_schematron-compiled.xsl"/>
                </svrl:schematron-output>
             </content-wrap>
          </result>
