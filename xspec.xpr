@@ -83,7 +83,6 @@
             <file name="test/schematron/schematron-xslt_include.xsl"/>
             <file name="src/schematron/schut-to-xslt.xsl"/>
             <file name="src/schematron/schut-to-xspec.xsl"/>
-            <file name="src/schematron/step3.xsl"/>
             <file name="src/cli/terminate-on-test-failure.xsl"/>
         </folder>
         <folder path="."/>
