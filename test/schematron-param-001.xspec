@@ -3,7 +3,7 @@
 <x:description xmlns:bar="bar"
                xmlns:foo="foo"
                xmlns:qux="qux"
-               xmlns:schematron-param-001="schematron-param-001.xspec"
+               xmlns:schematron-param-001="x-urn:xspec:test:schematron-param-001"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                schematron="schematron-param-001.sch"

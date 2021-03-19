@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="../src/schematron/generate-step3-wrapper.xsl"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario label="Without $ACTUAL-PREPROCESSOR-URI">
 		<x:context href="../tutorial/schematron/demo-02-PhaseA.xspec" />
@@ -11,7 +11,7 @@
 			]]></x:label>
 			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-				<xsl:import href="{resolve-uri('../src/schematron/step3.xsl', $x:xspec-uri)}" />
+				<xsl:import href="{$x:schematron-preprocessor?stylesheets?3 treat as xs:anyURI}" />
 				<xsl:variable as="document-node()" name="...">
 					<xsl:document>
 						<xsl:text>PhaseA</xsl:text>
