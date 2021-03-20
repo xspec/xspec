@@ -3,8 +3,6 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:param as="xs:anyURI" name="x:schematron-uri" required="yes" />
-
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
 	<xsl:template as="document-node(element(xsl:stylesheet))"
@@ -26,8 +24,7 @@
 		<xsl:variable as="map(xs:string, item())" name="options-map" select="
 				map {
 					'source-node': $step2-transformed-doc,
-					'stylesheet-location': 'schematron-xslt_compile.xsl',
-					'stylesheet-params': map {xs:QName('x:schematron-uri'): $x:schematron-uri}
+					'stylesheet-location': 'schematron-xslt_compile.xsl'
 				}" />
 		<xsl:sequence select="transform($options-map)?output" />
 	</xsl:template>
