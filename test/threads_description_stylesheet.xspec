@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test /x:description[@stylesheet]/@threads when it is not ignored
+-->
+<?xspec-test require-xslt-to-support-threads?>
+<?xspec-test html-reporter=${xspec.project.dir}/test/threads/check-xml-report.xsl?>
+<x:description measure-time="yes" stylesheet="sleeper.xsl" threads="#child-scenario-count"
+	xml:base="threads/" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="sleeper_stylesheet.xspec" />
+	<x:import href="test_description-threads.xspec" />
+</x:description>

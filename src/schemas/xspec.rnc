@@ -43,6 +43,7 @@ description =
 		[ a:defaultValue = "no" ]
 		attribute measure-time { boolean.datatype }?,
 		
+		threads?,
 		(helper | global-param | import | scenario | pending-element | variable)+ }
 
 helper =
@@ -133,11 +134,27 @@ common-scenario-attributes = common-attributes,
                             ## on that particular scenario.
                              attribute focus { text }?,
 
+                            threads?,
+
                             ## Controls whether to catch errors. Not useful in Schematron scenario.
                             ## The standard $err:* variables are collected in $x:result?err map. For example,
                             ## $x:result?err?code stores $err:code.
                             ## Details are subject to change. Any feedback is welcome.
                              attribute catch { boolean.datatype }?
+
+threads =
+	## Specify the number of threads with which XSpec runs the child scenarios.
+	## Requires Saxon-EE XSLT processor. Ignored on the other processors.
+	## A special value, #child-scenario-count, runs the child scenarios in parallel, using as many
+	## threads as the number of child scenarios, regardless of the number of Java VM logical
+	## processors.
+	## Another special value, #logical-processor-count, runs the child scenarios in parallel, using
+	## at most as many threads as the number of Java VM logical processors.
+	attribute threads {
+		xpath
+		| "#child-scenario-count"
+		| "#logical-processor-count"
+	}
 
 label = 
 	## A scenario's label should describe the context that the scenario sets. Top-

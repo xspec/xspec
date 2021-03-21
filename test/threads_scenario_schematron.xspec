@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test /x:description[@schematron]//x:scenario/@threads when it is not ignored
+-->
+<?xspec-test require-xslt-to-support-threads?>
+<?xspec-test html-reporter=${xspec.project.dir}/test/threads/check-xml-report.xsl?>
+<x:description measure-time="yes" schematron="sleeper.sch" xml:base="threads/"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="sleeper_schematron.xspec" />
+	<x:import href="test_scenario-threads.xspec" />
+</x:description>
