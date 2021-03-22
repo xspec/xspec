@@ -16,6 +16,11 @@
 		select="xs:anyURI('urn:x-xspec:common:report-sequence')" />
 
 	<!--
+		Saxon 'saxon' namespace URI
+	-->
+	<xsl:variable as="xs:anyURI" name="x:saxon-namespace" select="xs:anyURI('http://saxon.sf.net/')" />
+
+	<!--
 		Standard 'xs' namespace URI
 	-->
 	<xsl:variable as="xs:anyURI" name="x:xs-namespace"
