@@ -9,52 +9,45 @@
 
 	<x:scenario label="Scenario for testing variable deq-namespace">
 		<x:context />
-		<x:expect label="xs:anyURI of 'deq' namespace URI"
-			select="
+		<x:expect label="xs:anyURI of 'deq' namespace URI" select="
 				namespace-uri-for-prefix(
 					'deq',
 					doc(resolve-uri('../src/common/deep-equal.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:deq-namespace treat as xs:anyURI" />
+				)" test="$x:deq-namespace treat as xs:anyURI" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable rep-namespace">
 		<x:context />
-		<x:expect label="xs:anyURI of 'rep' namespace URI"
-			select="
+		<x:expect label="xs:anyURI of 'rep' namespace URI" select="
 				namespace-uri-for-prefix(
 					'rep',
 					doc(resolve-uri('../src/common/report-sequence.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:rep-namespace treat as xs:anyURI" />
+				)" test="$x:rep-namespace treat as xs:anyURI" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable saxon-namespace">
 		<x:context />
-		<x:expect label="xs:anyURI of 'saxon' namespace URI"
-			select="
+		<x:expect label="xs:anyURI of 'saxon' namespace URI" select="
 				namespace-uri-for-prefix(
 					'saxon',
 					doc(resolve-uri('../src/common/report-sequence.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:saxon-namespace treat as xs:anyURI" />
+				)" test="$x:saxon-namespace treat as xs:anyURI" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable xs-namespace">
 		<x:context />
-		<x:expect label="xs:anyURI of 'xs' namespace URI"
-			select="
+		<x:expect label="xs:anyURI of 'xs' namespace URI" select="
 				namespace-uri-for-prefix(
 					'xs',
 					doc(resolve-uri('../src/common/namespace-utils.xsl', $x:xspec-uri))/element()
-				)"
-			test="$x:xs-namespace treat as xs:anyURI" />
+				)" test="$x:xs-namespace treat as xs:anyURI" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing variable xsl-namespace">
 		<x:context />
-		<x:expect label="xs:anyURI of 'xsl' namespace URI" select="doc('')/element() => namespace-uri()"
-			test="$x:xsl-namespace treat as xs:anyURI" />
+		<x:expect label="xs:anyURI of 'xsl' namespace URI"
+			select="doc('')/element() => namespace-uri()" test="$x:xsl-namespace treat as xs:anyURI"
+		 />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function copy-of-namespaces">
@@ -72,11 +65,9 @@
 			test="$x:result[name() eq 'prefix']/string()" />
 		<x:expect label="Inherited prefixed namespace is copied" select="'wrapper-prefixed-ns'"
 			test="$x:result[name() eq 'wrapper-prefix']/string()" />
-		<x:expect label="'xml' namespace is not copied"
-			test="
+		<x:expect label="'xml' namespace is not copied" test="
 				$x:result[(name() eq 'xml') or (string() eq 'http://www.w3.org/XML/1998/namespace')]
-				=> empty()"
-		 />
+				=> empty()" />
 	</x:scenario>
 
 </x:description>
