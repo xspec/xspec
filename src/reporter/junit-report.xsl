@@ -37,7 +37,7 @@
         </testsuite>
     </xsl:template>
 
-    <xsl:template match="x:scenario[ancestor::x:scenario]" as="element(testcase)+">
+    <xsl:template match="x:scenario[ancestor::x:scenario]" as="element(testcase)*">
         <xsl:param name="prefix" as="xs:string?" />
 
         <xsl:apply-templates select="x:test, x:scenario">
