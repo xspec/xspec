@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../empty-scenario.xspec"
+        stylesheet="empty-scenario-sch-preprocessed.xsl"
+        schematron="../../../../do-nothing.sch"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../empty-scenario.xspec">
+      <label>Outer x:scenario</label>
+      <scenario id="scenario1-scenario1" xspec="../../empty-scenario.xspec">
+         <label>x:scenario[empty(node())][ancestor::x:scenario][empty(@pending | ancestor::x:pending)]</label>
+      </scenario>
+      <scenario id="scenario1-scenario2"
+                xspec="../../empty-scenario.xspec"
+                pending="pending">
+         <label>x:scenario[empty(node())][ancestor::x:scenario][@pending]</label>
+      </scenario>
+      <scenario id="scenario1-scenario3"
+                xspec="../../empty-scenario.xspec"
+                pending="">
+         <label>x:scenario[empty(node())][ancestor::x:scenario][parent::x:pending]</label>
+      </scenario>
+   </scenario>
+   <scenario id="scenario2" xspec="../../empty-scenario.xspec">
+      <label>x:scenario[empty(node())][empty(ancestor::x:scenario)][empty(@pending | ancestor::x:pending)]</label>
+   </scenario>
+   <scenario id="scenario3" xspec="../../empty-scenario.xspec" pending="pending">
+      <label>x:scenario[empty(node())][empty(ancestor::x:scenario)][@pending]</label>
+   </scenario>
+   <scenario id="scenario4" xspec="../../empty-scenario.xspec" pending="">
+      <label>x:scenario[empty(node())][empty(ancestor::x:scenario)][parent::x:pending]</label>
+   </scenario>
+</report>
