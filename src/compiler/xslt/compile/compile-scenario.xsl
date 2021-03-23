@@ -140,6 +140,10 @@
 
             <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
 
+            <xsl:call-template name="x:timestamp">
+               <xsl:with-param name="event" select="'start'" />
+            </xsl:call-template>
+
             <!-- Handle local preceding variable declarations and apply/call/context in document
                order, instead of apply/call/context first and variable declarations second. -->
             <xsl:for-each select="$local-preceding-vardecls | x:apply | x:call | x:context">
@@ -363,6 +367,10 @@
 
             <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
                <xsl:with-param name="handled-child-vardecls" select="$local-preceding-vardecls" />
+            </xsl:call-template>
+
+            <xsl:call-template name="x:timestamp">
+               <xsl:with-param name="event" select="'end'" />
             </xsl:call-template>
 
          <!-- </x:scenario> -->

@@ -103,6 +103,13 @@
          </xsl:with-param>
       </xsl:call-template>
 
+      <xsl:if test="$timing">
+         <xsl:text>,&#x0A;</xsl:text>
+         <xsl:call-template name="x:timestamp">
+            <xsl:with-param name="event" select="'start'" />
+         </xsl:call-template>
+      </xsl:if>
+
       <!-- Copy the input to the test result report XML -->
       <xsl:for-each select="x:call">
          <xsl:text>,&#x0A;</xsl:text>
@@ -150,6 +157,13 @@
                select="$variable-name-of-actual-result-report" tunnel="yes" />
          </xsl:call-template>
       </xsl:sequence>
+
+      <xsl:if test="$timing">
+         <xsl:text>,&#x0A;</xsl:text>
+         <xsl:call-template name="x:timestamp">
+            <xsl:with-param name="event" select="'end'" />
+         </xsl:call-template>
+      </xsl:if>
 
       <!-- </x:scenario> -->
       <xsl:text>}&#x0A;</xsl:text>

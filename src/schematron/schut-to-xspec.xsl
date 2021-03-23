@@ -21,9 +21,9 @@
     <xsl:include href="../common/uqname-utils.xsl" />
     <xsl:include href="../common/uri-utils.xsl" />
     <xsl:include href="../common/user-content-utils.xsl" />
+    <xsl:include href="../common/yes-no-utils.xsl" />
     <xsl:include href="../compiler/base/resolve-import/resolve-import.xsl" />
     <xsl:include href="../compiler/base/util/compiler-misc-utils.xsl" />
-    <xsl:include href="../compiler/base/util/compiler-yes-no-utils.xsl" />
 
     <xsl:output indent="yes" />
 
@@ -56,7 +56,7 @@
                         documents. -->
 
                     <!-- Global XSpec attributes -->
-                    <xsl:sequence select="@run-as" />
+                    <xsl:sequence select="@run-as | @timing" />
 
                     <!-- Global Schematron attributes -->
                     <xsl:attribute name="original-xspec" select="x:document-actual-uri(/)" />

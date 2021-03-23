@@ -10,6 +10,7 @@
 	-->
 
 	<xsl:include href="../../../src/common/version-utils.xsl" />
+	<xsl:include href="../../../src/common/yes-no-utils.xsl" />
 	<xsl:include href="../../test-utils.xsl" />
 
 	<xsl:output indent="yes" />
@@ -24,11 +25,13 @@
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-JREF" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-JREF" required="yes" />
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
@@ -102,6 +105,8 @@
 		<xsl:variable as="processing-instruction(xspec-test)*" name="pis"
 			select="processing-instruction(xspec-test)" />
 		<xsl:variable as="xs:boolean" name="enable-coverage" select="$pis = 'enable-coverage'" />
+		<xsl:variable as="xs:boolean" name="require-timestamp"
+			select="x:yes-no-synonym(x:description/@timing, false())" />
 
 		<!-- Version of SchXslt. Empty sequence if not SchXslt.
 			This implementation is ad-hoc, because it depends on SchXslt internal structure. -->
@@ -160,6 +165,13 @@
 					</xsl:when>
 
 					<xsl:when test="
+							($test-type = ('s', 't'))
+							and $require-timestamp
+							and not($XSLT-SUPPORTS-TIMESTAMP)">
+						<xsl:text>Requires XSLT processor to support timestamp</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
@@ -178,6 +190,13 @@
 							and ($pis = 'require-xquery-to-support-jref')
 							and not($XQUERY-SUPPORTS-JREF)">
 						<xsl:text>Requires XQuery processor to support Java reflexive extension functions</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+							($test-type eq 'q')
+							and $require-timestamp
+							and not($XQUERY-SUPPORTS-TIMESTAMP)">
+						<xsl:text>Requires XQuery processor to support timestamp</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="

@@ -168,10 +168,18 @@
                      <xsl:attribute name="select" select="'current-dateTime()'" />
                   </xsl:element>
 
+                  <xsl:call-template name="x:timestamp">
+                     <xsl:with-param name="event" select="'start'" />
+                  </xsl:call-template>
+
                   <!-- Generate invocations of the compiled top-level scenarios. -->
                   <xsl:text>&#10;            </xsl:text><xsl:comment> invoke each compiled top-level x:scenario </xsl:comment>
                   <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
                      <xsl:with-param name="handled-child-vardecls" select="$global-vardecls" />
+                  </xsl:call-template>
+
+                  <xsl:call-template name="x:timestamp">
+                     <xsl:with-param name="event" select="'end'" />
                   </xsl:call-template>
                </xsl:element>
             </xsl:element>
@@ -195,5 +203,6 @@
    <xsl:include href="invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
    <xsl:include href="node-constructor/node-constructor.xsl" />
    <xsl:include href="report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
+   <xsl:include href="timing/timestamp.xsl" />
 
 </xsl:stylesheet>
