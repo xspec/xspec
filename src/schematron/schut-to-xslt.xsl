@@ -15,9 +15,9 @@
 	<xsl:param as="document-node()?" name="STEP3-PREPROCESSOR-DOC" />
 
 	<xsl:param as="xs:string" name="STEP1-PREPROCESSOR-URI"
-		select="'../../lib/iso-schematron/iso_dsdl_include.xsl'" />
+		select="$x:schematron-preprocessor?stylesheets?1" />
 	<xsl:param as="xs:string" name="STEP2-PREPROCESSOR-URI"
-		select="'../../lib/iso-schematron/iso_abstract_expand.xsl'" />
+		select="$x:schematron-preprocessor?stylesheets?2" />
 	<xsl:param as="xs:string?" name="STEP3-PREPROCESSOR-URI"
 		select="document-uri($STEP3-PREPROCESSOR-DOC)" />
 
@@ -28,6 +28,7 @@
 	<xsl:include href="../common/uqname-utils.xsl" />
 	<xsl:include href="../common/uri-utils.xsl" />
 	<xsl:include href="../compiler/base/util/compiler-misc-utils.xsl" />
+	<xsl:include href="preprocessor.xsl" />
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
