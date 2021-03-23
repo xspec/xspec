@@ -30,6 +30,7 @@
 	<xsl:include href="../compiler/base/util/compiler-yes-no-utils.xsl" />
 	<xsl:include href="../compiler/xslt/declare-variable/declare-variable.xsl" />
 	<xsl:include href="../compiler/xslt/node-constructor/node-constructor.xsl" />
+	<xsl:include href="preprocessor.xsl" />
 
 	<xsl:output indent="yes" />
 
@@ -42,7 +43,7 @@
 	<xsl:template as="element(xsl:stylesheet)" match="x:description">
 		<!-- Absolute URI of the stylesheet of the built-in Schematron Step 3 preprocessor -->
 		<xsl:variable as="xs:anyURI" name="builtin-preprocessor-uri"
-			select="resolve-uri('step3.xsl')" />
+			select="$x:schematron-preprocessor?stylesheets?3" />
 
 		<xsl:element name="xsl:stylesheet" namespace="{$x:xsl-namespace}">
 			<xsl:attribute name="exclude-result-prefixes" select="'#all'" />
