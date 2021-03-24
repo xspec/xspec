@@ -118,7 +118,7 @@ common-scenario-attributes = common-attributes,
                              attribute pending { text }?,
 
                             ## If any scenario has a focus attribute, any scenarios without a focus 
-	                        ## attribute will be classed as pending.
+                            ## attribute will be classed as pending.
                             ##
                             ## The attribute value can be used to describe why you're focusing
                             ## on that particular scenario.
