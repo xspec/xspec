@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-saxon-bug-4696-fixed?>
+<?xspec-test require-schxslt-issue-178-fixed?>
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
     schematron="schematron/schematron-020.sch">
     
