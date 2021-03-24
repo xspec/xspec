@@ -19,17 +19,12 @@
    <xsl:mode name="x:declare-variable" on-multiple-match="fail" on-no-match="fail" />
 
    <xsl:template match="element()" as="element()+" mode="x:declare-variable">
-      <!-- Reflects @pending, x:pending or @focus -->
-      <xsl:param name="reason-for-pending" as="xs:string?" tunnel="yes" />
-
       <xsl:param name="comment" as="xs:string?" />
 
       <!-- URIQualifiedName of the variable being declared -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
-      <xsl:variable name="reason-for-pending" as="xs:string?"
-         select="($reason-for-pending, ancestor::x:scenario/@pending)[1]" />
-      <xsl:variable name="is-pending" as="xs:boolean" select="x:is-pending(., $reason-for-pending)" />
+      <xsl:variable name="reason-for-pending" as="xs:string?" select="x:reason-for-pending(.)" />
 
       <!-- Child nodes to be excluded -->
       <xsl:variable name="exclude" as="element()*"
@@ -44,7 +39,7 @@
       <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
       <xsl:variable name="temp-doc-uqname" as="xs:string?">
-         <xsl:if test="not($is-pending) and (node() or @href)">
+         <xsl:if test="empty($reason-for-pending) and (node() or @href)">
             <xsl:sequence
                select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-doc')" />
          </xsl:if>
@@ -83,7 +78,7 @@
          <xsl:sequence select="@as" />
 
          <xsl:choose>
-            <xsl:when test="$is-pending">
+            <xsl:when test="exists($reason-for-pending)">
                <!-- Do not give variable a value, because the value specified
                   in test file might not be executable. Override data type, because
                   an empty sequence might not be valid for the type specified in test file. -->

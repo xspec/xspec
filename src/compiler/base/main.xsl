@@ -111,6 +111,7 @@
    <xsl:include href="../base/resolve-import/resolve-import.xsl" />
    <xsl:include href="../base/util/compiler-eqname-utils.xsl" />
    <xsl:include href="../base/util/compiler-misc-utils.xsl" />
+   <xsl:include href="../base/util/compiler-pending-utils.xsl" />
    <xsl:include href="../base/util/compiler-yes-no-utils.xsl" />
 
 </xsl:stylesheet>
