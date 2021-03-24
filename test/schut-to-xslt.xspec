@@ -20,4 +20,12 @@
 		<x:expect label="reachable" test="doc-available($x:result)" />
 	</x:scenario>
 
+	<x:scenario label="@xml:base">
+		<x:context href="../tutorial/schematron/demo-01.xspec" />
+		<x:expect label="Absolute Schematron file URI set on outermost element"
+			select="$x:context/x:description/resolve-uri(@schematron, base-uri())"
+			test="/element()/@xml:base/data()" />
+		<x:expect label="No other" select="1" test="count(//@xml:base)" />
+	</x:scenario>
+
 </x:description>
