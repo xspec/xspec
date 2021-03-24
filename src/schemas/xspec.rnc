@@ -73,8 +73,8 @@ import =
 	## Importing is recursive and may be circular (although only one copy of a given
 	## imported document will actually be imported).
 	element import { common-attributes,
-	   ## The document URI (location) of the imported document.
-	   attribute href { xsd:anyURI } }
+	## The document URI (location) of the imported document.
+	attribute href { xsd:anyURI } }
 
 pending-element = 
 	## Anything that is within a <pending> element will remain untested, but will be
@@ -120,7 +120,7 @@ scenario =
 common-scenario-attributes = common-attributes,
                              pending-attribute?,
                             ## If any scenario has a focus attribute, any scenarios without a focus 
-	                        ## attribute will be classed as pending.
+                            ## attribute will be classed as pending.
                              attribute focus { text }?,
                             ## Controls whether to catch errors. Not useful in Schematron scenario.
                             ## The standard $err:* variables are collected in $x:result?err map. For example,
@@ -178,7 +178,7 @@ function-scenario = ((global-param | variable)*, function-call?, variable*),
                     (pending-element | 
                      element scenario { common-scenario-attributes,
                                         label, function-scenario })*
-                      
+
 ## A named scenario is one based on a call to a named template. The <call>
 ## element defines the template call and the parameters passed to it and the
 ## <assertion> elements test the result of the template call. Child scenarios
@@ -190,7 +190,7 @@ named-scenario = ((global-param | variable)*, context?),
                  (pending-element | 
                   element scenario { common-scenario-attributes,
                                      label, named-scenario })*
-                   
+
 context = 
 	## The <context> element defines a context item, the mode in which templates
 	## are applied to it, and any parameters included in the apply templates.
