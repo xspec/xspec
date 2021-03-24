@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../focus-vs-pending-element.xspec"
+        stylesheet="focus-vs-pending-element-sch-preprocessed.xsl"
+        schematron="../../../../do-nothing.sch"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1"
+             xspec="../../focus-vs-pending-element.xspec"
+             pending="Focus #1">
+      <label>/Neutral</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      </input-wrap>
+      <test id="scenario1-expect1" pending="Focus #1">
+         <label>Always Success</label>
+      </test>
+   </scenario>
+   <scenario id="scenario2"
+             xspec="../../focus-vs-pending-element.xspec"
+             pending="Focus #1">
+      <label>/Neutral</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
+      </input-wrap>
+      <test id="scenario2-expect1" pending="Focus #1">
+         <label>Always Success</label>
+      </test>
+      <scenario id="scenario2-scenario1"
+                xspec="../../focus-vs-pending-element.xspec"
+                pending="Focus #1">
+         <label>/Neutral</label>
+         <test id="scenario2-scenario1-expect1" pending="Focus #1">
+            <label>Always Success</label>
+         </test>
+      </scenario>
+      <scenario id="scenario2-scenario2" xspec="../../focus-vs-pending-element.xspec">
+         <label>/Focued #1</label>
+         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+         <test id="scenario2-scenario2-expect1" successful="true">
+            <label>Always Success</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+         <scenario id="scenario2-scenario2-scenario1"
+                   xspec="../../focus-vs-pending-element.xspec">
+            <label>/Neutral</label>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+            <test id="scenario2-scenario2-scenario1-expect1" successful="true">
+               <label>Always Success</label>
+               <expect-test-wrap xmlns="">
+                  <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+               </expect-test-wrap>
+               <expect select="()"/>
+            </test>
+         </scenario>
+         <scenario id="scenario2-scenario2-scenario2"
+                   xspec="../../focus-vs-pending-element.xspec">
+            <label>/Neutral</label>
+            <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+            <test id="scenario2-scenario2-scenario2-expect1" successful="true">
+               <label>Always Success</label>
+               <expect-test-wrap xmlns="">
+                  <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+               </expect-test-wrap>
+               <expect select="()"/>
+            </test>
+            <scenario id="scenario2-scenario2-scenario2-scenario1"
+                      xspec="../../focus-vs-pending-element.xspec">
+               <label>/Neutral</label>
+               <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+               <test id="scenario2-scenario2-scenario2-scenario1-expect1" successful="true">
+                  <label>Always Success</label>
+                  <expect-test-wrap xmlns="">
+                     <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                  </expect-test-wrap>
+                  <expect select="()"/>
+               </test>
+            </scenario>
+            <scenario id="scenario2-scenario2-scenario2-scenario2"
+                      xspec="../../focus-vs-pending-element.xspec">
+               <label>/Pending #1</label>
+               <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+               <test id="scenario2-scenario2-scenario2-scenario2-expect1" successful="true">
+                  <label>Always Success</label>
+                  <expect-test-wrap xmlns="">
+                     <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                  </expect-test-wrap>
+                  <expect select="()"/>
+               </test>
+               <scenario id="scenario2-scenario2-scenario2-scenario2-scenario1"
+                         xspec="../../focus-vs-pending-element.xspec">
+                  <label>/Neutral</label>
+                  <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                  <test id="scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
+                        successful="true">
+                     <label>Always Success</label>
+                     <expect-test-wrap xmlns="">
+                        <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                     </expect-test-wrap>
+                     <expect select="()"/>
+                  </test>
+               </scenario>
+               <scenario id="scenario2-scenario2-scenario2-scenario2-scenario2"
+                         xspec="../../focus-vs-pending-element.xspec">
+                  <label>/Neutral</label>
+                  <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                  <test id="scenario2-scenario2-scenario2-scenario2-scenario2-expect1"
+                        successful="true">
+                     <label>Always Success</label>
+                     <expect-test-wrap xmlns="">
+                        <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                     </expect-test-wrap>
+                     <expect select="()"/>
+                  </test>
+                  <scenario id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario1"
+                            xspec="../../focus-vs-pending-element.xspec">
+                     <label>/Neutral</label>
+                     <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                     <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
+                           successful="true">
+                        <label>Always Success</label>
+                        <expect-test-wrap xmlns="">
+                           <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                        </expect-test-wrap>
+                        <expect select="()"/>
+                     </test>
+                  </scenario>
+                  <scenario id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2"
+                            xspec="../../focus-vs-pending-element.xspec">
+                     <label>/Focused #2</label>
+                     <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                     <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-expect1"
+                           successful="true">
+                        <label>Always Success</label>
+                        <expect-test-wrap xmlns="">
+                           <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                        </expect-test-wrap>
+                        <expect select="()"/>
+                     </test>
+                     <scenario id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1"
+                               xspec="../../focus-vs-pending-element.xspec">
+                        <label>/Neutral</label>
+                        <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                        <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
+                              successful="true">
+                           <label>Always Success</label>
+                           <expect-test-wrap xmlns="">
+                              <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                           </expect-test-wrap>
+                           <expect select="()"/>
+                        </test>
+                     </scenario>
+                     <scenario id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2"
+                               xspec="../../focus-vs-pending-element.xspec">
+                        <label>/Neutral</label>
+                        <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                        <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-expect1"
+                              successful="true">
+                           <label>Always Success</label>
+                           <expect-test-wrap xmlns="">
+                              <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                           </expect-test-wrap>
+                           <expect select="()"/>
+                        </test>
+                        <scenario id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1"
+                                  xspec="../../focus-vs-pending-element.xspec">
+                           <label>/Neutral</label>
+                           <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                           <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
+                                 successful="true">
+                              <label>Always Success</label>
+                              <expect-test-wrap xmlns="">
+                                 <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                              </expect-test-wrap>
+                              <expect select="()"/>
+                           </test>
+                        </scenario>
+                        <scenario id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2"
+                                  xspec="../../focus-vs-pending-element.xspec">
+                           <label>/Pending #2</label>
+                           <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                           <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-expect1"
+                                 successful="true">
+                              <label>Always Success</label>
+                              <expect-test-wrap xmlns="">
+                                 <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                              </expect-test-wrap>
+                              <expect select="()"/>
+                           </test>
+                           <scenario id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1"
+                                     xspec="../../focus-vs-pending-element.xspec">
+                              <label>/Neutral</label>
+                              <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
+                              <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
+                                    successful="true">
+                                 <label>Always Success</label>
+                                 <expect-test-wrap xmlns="">
+                                    <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
+                                 </expect-test-wrap>
+                                 <expect select="()"/>
+                              </test>
+                           </scenario>
+                        </scenario>
+                     </scenario>
+                  </scenario>
+               </scenario>
+            </scenario>
+         </scenario>
+      </scenario>
+   </scenario>
+</report>

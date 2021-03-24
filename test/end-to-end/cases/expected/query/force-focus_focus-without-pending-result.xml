@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
-        xspec="../../format-xspec-report-folding.xspec"
-        stylesheet="../../../../square.xsl"
+        xspec="../../force-focus_focus-without-pending.xspec"
+        query="http://example.org/ns/my"
+        query-at="../../../../square.xqm"
         date="2000-01-01T00:00:00Z">
-   <scenario id="scenario1"
-             xspec="../../focus-without-pending.xspec"
-             pending="testing @focus of a correct scenario">
+   <scenario id="scenario1" xspec="../../focus-without-pending.xspec">
       <label>an unfocused correct scenario must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
@@ -15,13 +14,13 @@
             <t:param select="3"/>
          </t:call>
       </input-wrap>
-      <test id="scenario1-expect1" pending="testing @focus of a correct scenario">
+      <result select="9"/>
+      <test id="scenario1-expect1" successful="true">
          <label>it would return Success if it were not Pending</label>
+         <expect select="9"/>
       </test>
    </scenario>
-   <scenario id="scenario2"
-             xspec="../../focus-without-pending.xspec"
-             pending="testing @focus of a correct scenario">
+   <scenario id="scenario2" xspec="../../focus-without-pending.xspec">
       <label>an unfocused incorrect scenario must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
@@ -31,11 +30,21 @@
             <t:param select="2"/>
          </t:call>
       </input-wrap>
-      <test id="scenario2-expect1" pending="testing @focus of a correct scenario">
+      <result select="4"/>
+      <test id="scenario2-expect1" successful="false">
          <label>it would return Failure if it were not Pending</label>
+         <expect-test-wrap xmlns="">
+            <t:expect xmlns:my="http://example.org/ns/my"
+                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                      xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                      test="$t:result instance of xs:string"/>
+         </expect-test-wrap>
+         <expect select="()"/>
       </test>
    </scenario>
-   <scenario id="scenario3" xspec="../../focus-without-pending.xspec">
+   <scenario id="scenario3"
+             xspec="../../focus-without-pending.xspec"
+             pending="force focus">
       <label>a focused correct scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
@@ -45,13 +54,13 @@
             <t:param select="3"/>
          </t:call>
       </input-wrap>
-      <result select="9"/>
-      <test id="scenario3-expect1" successful="true">
+      <test id="scenario3-expect1" pending="force focus">
          <label>must execute the test and return Success</label>
-         <expect select="9"/>
       </test>
    </scenario>
-   <scenario id="scenario4" xspec="../../focus-without-pending.xspec">
+   <scenario id="scenario4"
+             xspec="../../focus-without-pending.xspec"
+             pending="force focus">
       <label>a focused incorrect scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
@@ -61,16 +70,8 @@
             <t:param select="2"/>
          </t:call>
       </input-wrap>
-      <result select="4"/>
-      <test id="scenario4-expect1" successful="false">
+      <test id="scenario4-expect1" pending="force focus">
          <label>must execute the test and return Failure</label>
-         <expect-test-wrap xmlns="">
-            <t:expect xmlns:my="http://example.org/ns/my"
-                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                      test="$t:result instance of xs:string"/>
-         </expect-test-wrap>
-         <expect select="()"/>
       </test>
    </scenario>
 </report>

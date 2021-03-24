@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copy of focus-vs-pending-attribute.xspec replacing @pending with x:pending -->
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xml:base="../../" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Expect" shared="yes">
+		<x:expect label="Always Success" test="true()" />
+	</x:scenario>
+
+	<x:scenario label="/Neutral">
+		<x:call function="true" />
+		<x:like label="Expect" />
+	</x:scenario>
+
+	<x:scenario label="/Neutral">
+		<x:call function="true" />
+		<x:like label="Expect" />
+
+		<x:scenario label="/Neutral">
+			<x:like label="Expect" />
+		</x:scenario>
+
+		<x:scenario focus="Focus #1" label="/Focued #1">
+			<x:like label="Expect" />
+
+			<x:scenario label="/Neutral">
+				<x:like label="Expect" />
+			</x:scenario>
+
+			<x:scenario label="/Neutral">
+				<x:like label="Expect" />
+
+				<x:scenario label="/Neutral">
+					<x:like label="Expect" />
+				</x:scenario>
+
+				<x:pending label="Pending #1">
+					<x:scenario label="/Pending #1">
+						<x:like label="Expect" />
+
+						<x:scenario label="/Neutral">
+							<x:like label="Expect" />
+						</x:scenario>
+
+						<x:scenario label="/Neutral">
+							<x:like label="Expect" />
+
+							<x:scenario label="/Neutral">
+								<x:like label="Expect" />
+							</x:scenario>
+
+							<x:scenario focus="Focus #2" label="/Focused #2">
+								<x:like label="Expect" />
+
+								<x:scenario label="/Neutral">
+									<x:like label="Expect" />
+								</x:scenario>
+
+								<x:scenario label="/Neutral">
+									<x:like label="Expect" />
+
+									<x:scenario label="/Neutral">
+										<x:like label="Expect" />
+									</x:scenario>
+
+									<x:pending label="Pending #2">
+										<x:scenario label="/Pending #2">
+											<x:like label="Expect" />
+
+											<x:scenario label="/Neutral">
+												<x:like label="Expect" />
+											</x:scenario>
+
+										</x:scenario>
+									</x:pending>
+
+								</x:scenario>
+
+							</x:scenario>
+
+						</x:scenario>
+
+					</x:scenario>
+				</x:pending>
+
+			</x:scenario>
+
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	focus-vs-pending-element.xspec copies this file.
+	When modifying this file, check whether focus-vs-pending-element.xspec needs any additions or
+	updates.
+-->
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xml:base="../../" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Expect" shared="yes">
+		<x:expect label="Always Success" test="true()" />
+	</x:scenario>
+
+	<x:scenario label="/Neutral">
+		<x:call function="true" />
+		<x:like label="Expect" />
+	</x:scenario>
+
+	<x:scenario label="/Neutral">
+		<x:call function="true" />
+		<x:like label="Expect" />
+
+		<x:scenario label="/Neutral">
+			<x:like label="Expect" />
+		</x:scenario>
+
+		<x:scenario focus="Focus #1" label="/Focued #1">
+			<x:like label="Expect" />
+
+			<x:scenario label="/Neutral">
+				<x:like label="Expect" />
+			</x:scenario>
+
+			<x:scenario label="/Neutral">
+				<x:like label="Expect" />
+
+				<x:scenario label="/Neutral">
+					<x:like label="Expect" />
+				</x:scenario>
+
+				<x:scenario label="/Pending #1" pending="Pending #1">
+					<x:like label="Expect" />
+
+					<x:scenario label="/Neutral">
+						<x:like label="Expect" />
+					</x:scenario>
+
+					<x:scenario label="/Neutral">
+						<x:like label="Expect" />
+
+						<x:scenario label="/Neutral">
+							<x:like label="Expect" />
+						</x:scenario>
+
+						<x:scenario focus="Focus #2" label="/Focused #2">
+							<x:like label="Expect" />
+
+							<x:scenario label="/Neutral">
+								<x:like label="Expect" />
+							</x:scenario>
+
+							<x:scenario label="/Neutral">
+								<x:like label="Expect" />
+
+								<x:scenario label="/Neutral">
+									<x:like label="Expect" />
+								</x:scenario>
+
+								<x:scenario label="/Pending #2" pending="Pending #2">
+									<x:like label="Expect" />
+
+									<x:scenario label="/Neutral">
+										<x:like label="Expect" />
+									</x:scenario>
+
+								</x:scenario>
+
+							</x:scenario>
+
+						</x:scenario>
+
+					</x:scenario>
+
+				</x:scenario>
+
+			</x:scenario>
+
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>
