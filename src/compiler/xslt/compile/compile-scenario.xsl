@@ -18,8 +18,8 @@
       <xsl:param name="apply" as="element(x:apply)?" required="yes" tunnel="yes" />
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
-      <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
-      <xsl:param name="pending-p" as="xs:boolean" required="yes" />
+      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" tunnel="yes" />
+      <xsl:param name="is-pending" as="xs:boolean" required="yes" />
       <xsl:param name="run-sut-now" as="xs:boolean" required="yes" />
 
       <xsl:variable name="local-preceding-vardecls" as="element()*" select="
@@ -112,11 +112,11 @@
          </xsl:for-each>
 
          <message>
-            <xsl:if test="$pending-p">
+            <xsl:if test="$is-pending">
                <xsl:text>PENDING: </xsl:text>
-               <xsl:if test="$pending != ''">
-                  <xsl:text expand-text="yes">({normalize-space($pending)}) </xsl:text>
-               </xsl:if>
+               <xsl:for-each select="normalize-space($reason-for-pending)[.]">
+                  <xsl:text expand-text="yes">({.}) </xsl:text>
+               </xsl:for-each>
             </xsl:if>
             <xsl:if test="parent::x:scenario">
                <xsl:text>..</xsl:text>
@@ -132,8 +132,8 @@
             <xsl:variable name="scenario-attributes" as="attribute()+">
                <xsl:sequence select="@id" />
                <xsl:attribute name="xspec" select="(@original-xspec, @xspec)[1]" />
-               <xsl:if test="$pending-p">
-                  <xsl:sequence select="x:pending-attribute-from-pending-node($pending)" />
+               <xsl:if test="$is-pending">
+                  <xsl:attribute name="pending" select="$reason-for-pending" />
                </xsl:if>
             </xsl:variable>
             <xsl:apply-templates select="$scenario-attributes" mode="x:node-constructor" />
