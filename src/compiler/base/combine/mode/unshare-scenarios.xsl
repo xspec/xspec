@@ -11,12 +11,6 @@
    -->
    <xsl:mode name="x:unshare-scenarios" on-multiple-match="fail" on-no-match="shallow-copy" />
 
-   <!-- Leave user-content intact. This must be done in the highest priority. -->
-   <xsl:template match="node()[x:is-user-content(.)]" as="node()" mode="x:unshare-scenarios"
-      priority="1">
-      <xsl:sequence select="." />
-   </xsl:template>
-
    <!-- Discard @shared and shared x:scenario -->
    <xsl:template match="x:scenario/@shared | x:scenario[x:yes-no-synonym(@shared, false())]"
       as="empty-sequence()" mode="x:unshare-scenarios" />

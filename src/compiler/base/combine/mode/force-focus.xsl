@@ -10,12 +10,6 @@
    -->
    <xsl:mode name="x:force-focus" on-multiple-match="fail" on-no-match="shallow-copy" />
 
-   <!-- Leave user-content intact. This must be done in the highest priority. -->
-   <xsl:template match="node()[x:is-user-content(.)]" as="node()" mode="x:force-focus"
-      priority="1">
-      <xsl:sequence select="." />
-   </xsl:template>
-
    <!-- Force or remove focus -->
    <xsl:template match="x:scenario[$force-focus]" as="element(x:scenario)"
       mode="x:force-focus">
