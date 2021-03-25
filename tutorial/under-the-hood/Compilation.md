@@ -80,7 +80,13 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
             <xsl:attribute name="stylesheet" namespace="">.../compilation-simple-suite.xsl</xsl:attribute>
             <xsl:attribute name="date" namespace="" select="current-dateTime()"/>
             <!-- invoke each compiled top-level x:scenario -->
-            <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"/>
+            <xsl:for-each select="1 to 1">
+               <xsl:choose>
+                  <xsl:when test=". eq 1">
+                     <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"/>
+                  </xsl:when>
+               </xsl:choose>
+            </xsl:for-each>
          </xsl:element>
       </xsl:result-document>
    </xsl:template>
@@ -804,11 +810,17 @@ and functions in XQuery).
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  name="Q{http://example.org/ns/my/variable}var-2"
                  select="trace('value-2')"/>
-   <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1">
-      <!-- pass the variable to inner context -->
-      <xsl:with-param name="Q{http://example.org/ns/my/variable}var-2"
-                      select="$Q{http://example.org/ns/my/variable}var-2"/>
-   </xsl:call-template>
+   <xsl:for-each select="1 to 1">
+      <xsl:choose>
+         <xsl:when test=". eq 1">
+            <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1">
+               <!-- pass the variable to inner context -->
+               <xsl:with-param name="Q{http://example.org/ns/my/variable}var-2"
+                               select="$Q{http://example.org/ns/my/variable}var-2"/>
+            </xsl:call-template>
+         </xsl:when>
+      </xsl:choose>
+   </xsl:for-each>
 </xsl:template>
 
 <!-- generated from the inner scenario -->
@@ -1244,11 +1256,17 @@ Scenario-level `x:param` is compiled in almost the same way as `x:variable`.
                     xmlns:x="http://www.jenitennison.com/xslt/xspec"
                     name="Q{http://example.org/ns/my/param}param-2"
                     select="trace('value-2')"/>
-      <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1">
-         <!-- pass the compiled x:param to inner context -->
-         <xsl:with-param name="Q{http://example.org/ns/my/param}param-2"
-                         select="$Q{http://example.org/ns/my/param}param-2"/>
-      </xsl:call-template>
+      <xsl:for-each select="1 to 1">
+         <xsl:choose>
+            <xsl:when test=". eq 1">
+               <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1-scenario1">
+                  <!-- pass the compiled x:param to inner context -->
+                  <xsl:with-param name="Q{http://example.org/ns/my/param}param-2"
+                                  select="$Q{http://example.org/ns/my/param}param-2"/>
+               </xsl:call-template>
+            </xsl:when>
+         </xsl:choose>
+      </xsl:for-each>
    </xsl:element>
 </xsl:template>
 

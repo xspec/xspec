@@ -106,6 +106,7 @@
    <xsl:include href="../base/compile/compile-scenario.xsl" />
    <xsl:include href="../base/declare-variable/variable-uqname.xsl" />
    <xsl:include href="../base/initial-check/perform-initial-check.xsl" />
+   <xsl:include href="../base/invoke-compiled/group-invocation.xsl" />
    <xsl:include href="../base/invoke-compiled/invoke-compiled-child-scenarios-or-expects.xsl" />
    <xsl:include href="../base/report/report-test-attribute.xsl" />
    <xsl:include href="../base/resolve-import/resolve-import.xsl" />
