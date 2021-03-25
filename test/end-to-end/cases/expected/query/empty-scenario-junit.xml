@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="empty-scenario.xspec">
+   <testsuite name="Outer x:scenario" tests="0" failures="0"/>
+   <testsuite name="x:scenario[empty(node())][empty(ancestor::x:scenario)][empty(@pending | ancestor::x:pending)]"
+              tests="0"
+              failures="0"/>
+   <testsuite name="x:scenario[empty(node())][empty(ancestor::x:scenario)][@pending]"
+              tests="0"
+              failures="0"/>
+   <testsuite name="x:scenario[empty(node())][empty(ancestor::x:scenario)][parent::x:pending]"
+              tests="0"
+              failures="0"/>
+</testsuites>
