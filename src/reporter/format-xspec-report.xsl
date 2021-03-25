@@ -502,17 +502,18 @@
       <xsl:param name="tests" as="element(x:test)*" required="yes" />
       <xsl:param name="insert-labels" as="xs:boolean" select="false()" />
 
-      <xsl:if test="$tests">
-         <xsl:variable name="components" as="xs:string+">
-            <xsl:for-each select="x:test-stats($tests)">
-               <xsl:sequence
-                  select="
-                     (@label[$insert-labels], @count)
-                     => string-join(': ')" />
-            </xsl:for-each>
-         </xsl:variable>
-         <xsl:value-of select="$components" separator="{if ($insert-labels) then ' / ' else '/'}" />
-      </xsl:if>
+      <xsl:variable name="full-stats" as="element(stat)+" select="x:test-stats($tests)" />
+
+      <!-- If $tests is empty, take only 'total' stat. (Its count is zero.) -->
+      <xsl:variable name="compressed-stats" as="element(stat)+"
+         select="$full-stats[exists($tests) or (@label eq 'total')]"/>
+
+      <xsl:variable name="components" as="xs:string+">
+         <xsl:for-each select="$compressed-stats">
+            <xsl:sequence select="(@label[$insert-labels], @count) => string-join(': ')" />
+         </xsl:for-each>
+      </xsl:variable>
+      <xsl:value-of select="$components" separator="{if ($insert-labels) then ' / ' else '/'}" />
    </xsl:template>
 
    <xsl:function name="x:test-stats" as="element(stat)+" xmlns="">
