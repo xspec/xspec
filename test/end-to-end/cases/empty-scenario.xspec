@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xml:base="../../" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		This file tests:
+		- x:description[empty(descendant::x:expect)]
+		- x:scenario[empty(node())]
+	-->
+
+	<!--
+		x:scenario[empty(node())][ancestor::x:scenario]
+	-->
+	<x:scenario label="Outer x:scenario">
+		<x:scenario
+			label="x:scenario[empty(node())][ancestor::x:scenario][empty(@pending | ancestor::x:pending)]" />
+		<x:scenario label="x:scenario[empty(node())][ancestor::x:scenario][@pending]"
+			pending="pending" />
+		<x:pending>
+			<x:scenario label="x:scenario[empty(node())][ancestor::x:scenario][parent::x:pending]"
+			 />
+		</x:pending>
+	</x:scenario>
+
+	<!--
+		x:scenario[empty(node())][empty(ancestor::x:scenario)]
+	-->
+	<x:scenario
+		label="x:scenario[empty(node())][empty(ancestor::x:scenario)][empty(@pending | ancestor::x:pending)]" />
+	<x:scenario label="x:scenario[empty(node())][empty(ancestor::x:scenario)][@pending]"
+		pending="pending" />
+	<x:pending>
+		<x:scenario
+			label="x:scenario[empty(node())][empty(ancestor::x:scenario)][parent::x:pending]" />
+	</x:pending>
+
+</x:description>
