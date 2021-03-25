@@ -45,6 +45,9 @@
 				<xsl:when test="$prefix eq 'rep'">
 					<xsl:sequence select="$x:rep-namespace" />
 				</xsl:when>
+				<xsl:when test="$prefix eq 'saxon'">
+					<xsl:sequence select="$x:saxon-namespace" />
+				</xsl:when>
 				<xsl:when test="$prefix eq 'svrl'">
 					<xsl:sequence select="'http://purl.oclc.org/dsdl/svrl'" />
 				</xsl:when>

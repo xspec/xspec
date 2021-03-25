@@ -119,9 +119,14 @@ scenario =
 
 common-scenario-attributes = common-attributes,
                              pending-attribute?,
+
                             ## If any scenario has a focus attribute, any scenarios without a focus 
                             ## attribute will be classed as pending.
+                            ##
+                            ## The attribute value can be used to describe why you're focusing
+                            ## on that particular scenario.
                              attribute focus { text }?,
+
                             ## Controls whether to catch errors. Not useful in Schematron scenario.
                             ## The standard $err:* variables are collected in $x:result?err map. For example,
                             ## $x:result?err?code stores $err:code.

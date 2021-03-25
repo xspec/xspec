@@ -96,7 +96,7 @@
 
                <map-entry key="'vendor-options'">
                   <map>
-                     <map-entry key="QName('http://saxon.sf.net/', 'configuration')"
+                     <map-entry key="QName('{$x:saxon-namespace}', 'configuration')"
                         select="${x:known-UQName('x:saxon-config')}" />
                   </map>
                </map-entry>

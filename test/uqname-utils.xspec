@@ -86,6 +86,14 @@
 				>Q{urn:x-xspec:common:report-sequence}my-local-name</x:expect>
 		</x:scenario>
 
+		<x:scenario label="saxon">
+			<x:call>
+				<x:param select="'saxon:my-local-name'" />
+			</x:call>
+			<x:expect as="xs:string" label="Constructed"
+				>Q{http://saxon.sf.net/}my-local-name</x:expect>
+		</x:scenario>
+
 		<x:scenario label="svrl">
 			<x:call>
 				<x:param select="'svrl:my-local-name'" />
