@@ -15,9 +15,9 @@
 	<xsl:param as="document-node()?" name="STEP3-PREPROCESSOR-DOC" />
 
 	<xsl:param as="xs:string" name="STEP1-PREPROCESSOR-URI"
-		select="'../../lib/iso-schematron/iso_dsdl_include.xsl'" />
+		select="$x:schematron-preprocessor?stylesheets?1" />
 	<xsl:param as="xs:string" name="STEP2-PREPROCESSOR-URI"
-		select="'../../lib/iso-schematron/iso_abstract_expand.xsl'" />
+		select="$x:schematron-preprocessor?stylesheets?2" />
 	<xsl:param as="xs:string?" name="STEP3-PREPROCESSOR-URI"
 		select="document-uri($STEP3-PREPROCESSOR-DOC)" />
 
@@ -28,6 +28,7 @@
 	<xsl:include href="../common/uqname-utils.xsl" />
 	<xsl:include href="../common/uri-utils.xsl" />
 	<xsl:include href="../compiler/base/util/compiler-misc-utils.xsl" />
+	<xsl:include href="preprocessor.xsl" />
 
 	<xsl:mode on-multiple-match="fail" on-no-match="fail" />
 
@@ -138,23 +139,25 @@
 				<xsl:sequence select="$common-options-map" />
 				<xsl:map-entry key="'source-node'" select="$step2-transformed-doc" />
 				<xsl:map-entry key="'stylesheet-node'" select="$step3-wrapper-doc" />
-				<xsl:map-entry key="'stylesheet-params'">
-					<xsl:map>
-						<!-- Supply the Schematron Step 3 preprocessor with a parameter holding the
-							fully-resolved Schematron file URI.
-							Supply it even when the Schematron Step 3 preprocessor is not the built-
-							in one, because some user-provided preprocessors may want to make use of
-							the Schematron file URI. -->
-						<xsl:map-entry key="xs:QName('x:schematron-uri')" select="$schematron-uri"
-						 />
-					</xsl:map>
-				</xsl:map-entry>
 			</xsl:map>
 		</xsl:variable>
 		<!--<xsl:message select="'Performing Step 3'" />-->
-		<xsl:variable as="map(*)" name="step3-transformed-map"
-			select="transform($step3-options-map)" />
-		<xsl:sequence select="$step3-transformed-map?output" />
+		<xsl:variable as="document-node()" name="step3-transformed-doc"
+			select="transform($step3-options-map)?output" />
+
+		<!--
+			Workaround for the original Step 3 preprocessor not setting @xml:base.
+		-->
+		<xsl:copy select="$step3-transformed-doc">
+			<xsl:for-each select="node()">
+				<xsl:copy>
+					<xsl:if test="self::element()">
+						<xsl:attribute name="xml:base" select="$schematron-uri" />
+					</xsl:if>
+					<xsl:sequence select="attribute() | node()" />
+				</xsl:copy>
+			</xsl:for-each>
+		</xsl:copy>
 	</xsl:template>
 
 	<xsl:template as="empty-sequence()" name="x:perform-initial-check-for-schematron">
