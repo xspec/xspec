@@ -20,7 +20,7 @@
 			<x:like label="Expect" />
 		</x:scenario>
 
-		<x:scenario focus="Focus #1" label="/Focued #1">
+		<x:scenario focus="Focus #1" label="/Focused #1">
 			<x:like label="Expect" />
 
 			<x:scenario label="/Neutral">

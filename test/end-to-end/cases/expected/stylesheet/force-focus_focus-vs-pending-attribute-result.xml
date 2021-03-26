@@ -35,7 +35,7 @@
       <scenario id="scenario2-scenario2"
                 xspec="../../focus-vs-pending-attribute.xspec"
                 pending="force focus">
-         <label>/Focued #1</label>
+         <label>/Focused #1</label>
          <test id="scenario2-scenario2-expect1" pending="force focus">
             <label>x:expect</label>
          </test>

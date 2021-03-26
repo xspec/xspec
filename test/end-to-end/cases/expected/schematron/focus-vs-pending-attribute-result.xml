@@ -34,7 +34,7 @@
          </test>
       </scenario>
       <scenario id="scenario2-scenario2" xspec="../../focus-vs-pending-attribute.xspec">
-         <label>/Focued #1</label>
+         <label>/Focused #1</label>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <test id="scenario2-scenario2-expect1" successful="true">
             <label>x:expect</label>
