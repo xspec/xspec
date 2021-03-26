@@ -24,14 +24,14 @@
    -->
    <t:pending label="testing x:pending">
 
-      <t:scenario label="an unfocused correct scenario in x:pending must be Pending">
+      <t:scenario label="an unfocused Success scenario in x:pending must be Pending">
          <t:call function="exactly-one">
             <t:param select="9" />
          </t:call>
          <t:expect label="it would return Success if it were not Pending" select="9"/>
       </t:scenario>
 
-      <t:scenario label="a focused correct scenario in x:pending" focus="testing @focus in x:pending">
+      <t:scenario label="a focused Success scenario in x:pending" focus="testing @focus in x:pending">
          <t:call function="exactly-one">
             <t:param select="9" />
          </t:call>
@@ -43,7 +43,7 @@
    <!--
        Test @pending.
    -->
-   <t:scenario label="a correct scenario with @pending must be Pending"
+   <t:scenario label="a Success scenario with @pending must be Pending"
                pending="testing @pending without @focus">
       <t:call function="exactly-one">
          <t:param select="9" />
@@ -52,7 +52,7 @@
    </t:scenario>
 
    <!-- does not make sense, really, but to see how the implem reacts -->
-   <t:scenario label="a correct scenario with both @pending and @focus (not recommended as ambiguous)"
+   <t:scenario label="a Success scenario with both @pending and @focus (not recommended as ambiguous)"
                pending="testing @pending with @focus"
                focus="testing @focus with @pending">
       <t:call function="exactly-one">
@@ -64,14 +64,14 @@
    <!--
        Non-pending scenarios.
    -->
-   <t:scenario label="a non-pending correct scenario alongside a focused scenario must be Pending">
+   <t:scenario label="a non-pending Success scenario alongside a focused scenario must be Pending">
       <t:call function="exactly-one">
          <t:param select="9" />
       </t:call>
       <t:expect label="it would return Success if it were not Pending" select="9"/>
    </t:scenario>
 
-   <t:scenario label="a focused correct scenario alongside another focused scenario" focus="testing @focus alongside another focused scenario">
+   <t:scenario label="a focused Success scenario alongside another focused scenario" focus="testing @focus alongside another focused scenario">
       <t:call function="exactly-one">
          <t:param select="9" />
       </t:call>

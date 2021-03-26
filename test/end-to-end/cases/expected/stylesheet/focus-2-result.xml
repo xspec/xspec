@@ -6,7 +6,7 @@
    <scenario id="scenario1"
              xspec="../../focus-2.xspec"
              pending="testing x:pending">
-      <label>an unfocused correct scenario in x:pending must be Pending</label>
+      <label>an unfocused Success scenario in x:pending must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -19,7 +19,7 @@
       </test>
    </scenario>
    <scenario id="scenario2" xspec="../../focus-2.xspec">
-      <label>a focused correct scenario in x:pending</label>
+      <label>a focused Success scenario in x:pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -36,7 +36,7 @@
    <scenario id="scenario3"
              xspec="../../focus-2.xspec"
              pending="testing @pending without @focus">
-      <label>a correct scenario with @pending must be Pending</label>
+      <label>a Success scenario with @pending must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -49,7 +49,7 @@
       </test>
    </scenario>
    <scenario id="scenario4" xspec="../../focus-2.xspec">
-      <label>a correct scenario with both @pending and @focus (not recommended as ambiguous)</label>
+      <label>a Success scenario with both @pending and @focus (not recommended as ambiguous)</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -66,7 +66,7 @@
    <scenario id="scenario5"
              xspec="../../focus-2.xspec"
              pending="testing @focus in x:pending">
-      <label>a non-pending correct scenario alongside a focused scenario must be Pending</label>
+      <label>a non-pending Success scenario alongside a focused scenario must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -79,7 +79,7 @@
       </test>
    </scenario>
    <scenario id="scenario6" xspec="../../focus-2.xspec">
-      <label>a focused correct scenario alongside another focused scenario</label>
+      <label>a focused Success scenario alongside another focused scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
