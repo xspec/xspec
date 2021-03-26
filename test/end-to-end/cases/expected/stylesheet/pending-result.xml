@@ -80,7 +80,7 @@
       </test>
    </scenario>
    <scenario id="scenario6" xspec="../../pending.xspec">
-      <label>a non-pending incorrect scenario alongside a pending scenario</label>
+      <label>a non-pending Failure scenario alongside a pending scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
