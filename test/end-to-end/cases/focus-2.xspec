@@ -40,23 +40,6 @@
    </t:pending>
 
    <!--
-       Non-pending scenarios.
-   -->
-   <t:scenario label="a non-pending correct scenario alongside a focused scenario must be Pending">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="it would return Success if it were not Pending" select="9"/>
-   </t:scenario>
-
-   <t:scenario label="a focused correct scenario alongside another focused scenario" focus="testing @focus alongside another focused scenario">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="must execute the test and return Success" select="9"/>
-   </t:scenario>
-
-   <!--
        Test @pending.
    -->
    <t:scenario label="a correct scenario with @pending must be Pending"
@@ -71,6 +54,23 @@
    <t:scenario label="a correct scenario with both @pending and @focus (not recommended as ambiguous)"
                pending="testing @pending with @focus"
                focus="testing @focus with @pending">
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:expect label="must execute the test and return Success" select="9"/>
+   </t:scenario>
+
+   <!--
+       Non-pending scenarios.
+   -->
+   <t:scenario label="a non-pending correct scenario alongside a focused scenario must be Pending">
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:expect label="it would return Success if it were not Pending" select="9"/>
+   </t:scenario>
+
+   <t:scenario label="a focused correct scenario alongside another focused scenario" focus="testing @focus alongside another focused scenario">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
