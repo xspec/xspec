@@ -4,9 +4,9 @@
         stylesheet="../../rule.xsl"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../rule.xspec">
-      <label>x:context with correct x:expect</label>
+      <label>when x:context without x:apply or x:call has a 'rule' element</label>
       <input-wrap xmlns="">
-         <t:context xmlns:t="http://www.jenitennison.com/xslt/xspec">
+         <t:context xmlns:t="http://www.jenitennison.com/xslt/xspec" as="element(rule)">
             <rule/>
          </t:context>
       </input-wrap>
@@ -16,28 +16,15 @@
          </content-wrap>
       </result>
       <test id="scenario1-expect1" successful="true">
-         <label>must return Success</label>
+         <label>it should be transformed into a 'transformed' element</label>
          <expect select="/element()">
             <content-wrap xmlns="">
                <transformed xmlns:t="http://www.jenitennison.com/xslt/xspec"/>
             </content-wrap>
          </expect>
       </test>
-   </scenario>
-   <scenario id="scenario2" xspec="../../rule.xspec">
-      <label>x:context with incorrect x:expect</label>
-      <input-wrap xmlns="">
-         <t:context xmlns:t="http://www.jenitennison.com/xslt/xspec">
-            <rule/>
-         </t:context>
-      </input-wrap>
-      <result select="/element()">
-         <content-wrap xmlns="">
-            <transformed/>
-         </content-wrap>
-      </result>
-      <test id="scenario2-expect1" successful="false">
-         <label>must return Failure</label>
+      <test id="scenario1-expect2" successful="false">
+         <label>expecting an 'erroneous' element should be Failure</label>
          <expect select="/element()">
             <content-wrap xmlns="">
                <erroneous xmlns:t="http://www.jenitennison.com/xslt/xspec"/>
