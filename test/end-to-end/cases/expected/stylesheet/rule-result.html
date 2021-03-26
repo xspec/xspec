@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for rule.xsl (passed: 1 / pending: 0 / failed: 1 / total: 2)</title>
+      <title>Test Report for rule.xsl (passed: 3 / pending: 0 / failed: 3 / total: 6)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -21,10 +21,10 @@
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 1</th>
+               <th class="totals">passed: 3</th>
                <th class="totals">pending: 0</th>
-               <th class="totals">failed: 1</th>
-               <th class="totals">total: 2</th>
+               <th class="totals">failed: 3</th>
+               <th class="totals">total: 6</th>
             </tr>
          </thead>
          <tbody>
@@ -41,6 +41,13 @@
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">1</th>
+            </tr>
+            <tr class="failed">
+               <th><a href="#top_scenario3">when x:apply is invoked with a 'rule' element</a></th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">4</th>
             </tr>
          </tbody>
       </table>
@@ -102,6 +109,100 @@
                         <td>
                            <p>XPath <code class="same">/element()</code> from:</p>
                            <pre>&lt;<span class="diff">erroneous</span> <span class="xmlns trivial">xmlns:t="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+      <div id="top_scenario3">
+         <h2 class="successful">when x:apply is invoked with a 'rule' element<span class="scenario-totals">passed: 2 / pending: 0 / failed: 2 / total: 4</span></h2>
+         <table class="xspec" id="table_scenario3">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>when x:apply is invoked with a 'rule' element</th>
+                  <th>passed: 2 / pending: 0 / failed: 2 / total: 4</th>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario3-scenario1">without x:param in x:apply</a></th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <td>it should be transformed into a 'transformed' element containing nothing</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario3-scenario1-expect2">expecting an 'erroneous' element should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <th><a href="#scenario3-scenario2">with x:param=0 in x:apply by extending the base x:apply</a></th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <td>it should be transformed into a 'transformed' element containing 0</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario3-scenario2-expect2">expecting an 'erroneous' element should be Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario3-scenario1">
+            <h3>when x:apply is invoked with a 'rule' element without x:param in x:apply</h3>
+            <div id="scenario3-scenario1-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting an 'erroneous' element should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">transformed</span> /&gt;</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">erroneous</span> <span class="xmlns trivial">xmlns:t="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div id="scenario3-scenario2">
+            <h3>when x:apply is invoked with a 'rule' element with x:param=0 in x:apply by extending
+               the base x:apply</h3>
+            <div id="scenario3-scenario2-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting an 'erroneous' element should be Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">transformed</span>&gt;<span class="same">0</span>&lt;/transformed&gt;</pre>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="diff">erroneous</span> <span class="xmlns trivial">xmlns:t="http://www.jenitennison.com/xslt/xspec"</span>&gt;<span class="same">0</span>&lt;/erroneous&gt;</pre>
                         </td>
                      </tr>
                   </tbody>
