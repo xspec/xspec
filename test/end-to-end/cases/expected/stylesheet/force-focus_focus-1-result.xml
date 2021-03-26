@@ -4,7 +4,7 @@
         stylesheet="../../../../square.xsl"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../focus-1.xspec">
-      <label>an unfocused correct scenario must be Pending</label>
+      <label>an unfocused Success scenario must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -39,7 +39,7 @@
       </test>
    </scenario>
    <scenario id="scenario3" xspec="../../focus-1.xspec" pending="force focus">
-      <label>a focused correct scenario</label>
+      <label>a focused Success scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"

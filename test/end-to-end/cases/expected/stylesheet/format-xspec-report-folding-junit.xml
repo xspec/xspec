@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="format-xspec-report-folding.xspec">
-   <testsuite name="an unfocused correct scenario must be Pending"
+   <testsuite name="an unfocused Success scenario must be Pending"
               tests="1"
               failures="0">
       <testcase name="it would return Success if it were not Pending" status="skipped">
-         <skipped>testing @focus of a correct scenario</skipped>
+         <skipped>testing @focus of a Success scenario</skipped>
       </testcase>
    </testsuite>
    <testsuite name="an unfocused incorrect scenario must be Pending"
               tests="1"
               failures="0">
       <testcase name="it would return Failure if it were not Pending" status="skipped">
-         <skipped>testing @focus of a correct scenario</skipped>
+         <skipped>testing @focus of a Success scenario</skipped>
       </testcase>
    </testsuite>
-   <testsuite name="a focused correct scenario" tests="1" failures="0">
+   <testsuite name="a focused Success scenario" tests="1" failures="0">
       <testcase name="must execute the test and return Success" status="passed"/>
    </testsuite>
    <testsuite name="a focused incorrect scenario" tests="1" failures="1">

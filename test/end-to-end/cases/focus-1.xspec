@@ -22,7 +22,7 @@
    <!--
        Normal scenarios (must be pending because of the @focus in "Focused on scenarios").
    -->
-   <t:scenario label="an unfocused correct scenario must be Pending">
+   <t:scenario label="an unfocused Success scenario must be Pending">
       <t:call function="exactly-one">
          <t:param select="9" />
       </t:call>
@@ -39,7 +39,7 @@
    <!--
        Focused on scenarios.
    -->
-   <t:scenario label="a focused correct scenario" focus="testing @focus of a correct scenario">
+   <t:scenario label="a focused Success scenario" focus="testing @focus of a Success scenario">
       <t:call function="exactly-one">
          <t:param select="9" />
       </t:call>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="force-focus_focus-1.xspec">
-   <testsuite name="an unfocused correct scenario must be Pending"
+   <testsuite name="an unfocused Success scenario must be Pending"
               tests="1"
               failures="0">
       <testcase name="it would return Success if it were not Pending" status="passed"/>
@@ -12,7 +12,7 @@
          <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
       </testcase>
    </testsuite>
-   <testsuite name="a focused correct scenario" tests="1" failures="0">
+   <testsuite name="a focused Success scenario" tests="1" failures="0">
       <testcase name="must execute the test and return Success" status="skipped">
          <skipped>force focus</skipped>
       </testcase>
