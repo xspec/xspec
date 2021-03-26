@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="focus-2.xspec">
-   <testsuite name="Test @focus and pending together (both @pending and t:pending)"
+   <testsuite name="Test @focus and pending together (both @pending and x:pending)"
               tests="6"
               failures="0">
       <testcase name="an unfocused erroneous scenario in x:pending must be Pending it would throw an error if it were not Pending"

@@ -15,7 +15,7 @@
                stylesheet="do-nothing.xsl"
                xml:base="../../">
 
-   <t:scenario label="Test @focus and pending together (both @pending and t:pending)">
+   <t:scenario label="Test @focus and pending together (both @pending and x:pending)">
 
       <t:call function="exactly-one">
          <t:param select="9" />
