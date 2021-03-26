@@ -31,11 +31,9 @@
          <t:expect label="it would return Success if it were not Pending" select="9"/>
       </t:scenario>
 
-      <t:scenario label="an incorrect scenario in x:pending must be Pending">
-         <t:call function="exactly-one">
-            <t:param select="4" />
-         </t:call>
-         <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"/>
+      <t:scenario label="an erroneous scenario in x:pending must be Pending">
+         <t:call function="error" />
+         <t:expect label="it would throw an error if it were not Pending" test="error()" />
       </t:scenario>
 
    </t:pending>
@@ -50,11 +48,9 @@
       <t:expect label="it would return Success if it were not Pending" select="9"/>
    </t:scenario>
 
-   <t:scenario label="an incorrect scenario with @pending must be Pending" pending="testing @pending of an incorrect scenario">
-      <t:call function="exactly-one">
-         <t:param select="4" />
-      </t:call>
-      <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"/>
+   <t:scenario label="an erroneous scenario with @pending must be Pending" pending="testing @pending of an erroneous scenario">
+      <t:call function="error" />
+      <t:expect label="it would throw an error if it were not Pending" test="error()" />
    </t:scenario>
 
    <!--

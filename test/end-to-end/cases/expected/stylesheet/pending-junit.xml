@@ -7,10 +7,10 @@
          <skipped>testing x:pending</skipped>
       </testcase>
    </testsuite>
-   <testsuite name="an incorrect scenario in x:pending must be Pending"
+   <testsuite name="an erroneous scenario in x:pending must be Pending"
               tests="1"
               failures="0">
-      <testcase name="it would return Failure if it were not Pending" status="skipped">
+      <testcase name="it would throw an error if it were not Pending" status="skipped">
          <skipped>testing x:pending</skipped>
       </testcase>
    </testsuite>
@@ -21,11 +21,11 @@
          <skipped>testing @pending of a Success scenario</skipped>
       </testcase>
    </testsuite>
-   <testsuite name="an incorrect scenario with @pending must be Pending"
+   <testsuite name="an erroneous scenario with @pending must be Pending"
               tests="1"
               failures="0">
-      <testcase name="it would return Failure if it were not Pending" status="skipped">
-         <skipped>testing @pending of an incorrect scenario</skipped>
+      <testcase name="it would throw an error if it were not Pending" status="skipped">
+         <skipped>testing @pending of an erroneous scenario</skipped>
       </testcase>
    </testsuite>
    <testsuite name="a non-pending Success scenario alongside a pending scenario"

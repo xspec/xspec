@@ -22,16 +22,14 @@
    <scenario id="scenario2"
              xspec="../../pending.xspec"
              pending="testing x:pending">
-      <label>an incorrect scenario in x:pending must be Pending</label>
+      <label>an erroneous scenario in x:pending must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="4"/>
-         </t:call>
+                 function="error"/>
       </input-wrap>
       <test id="scenario2-expect1" pending="testing x:pending">
-         <label>it would return Failure if it were not Pending</label>
+         <label>it would throw an error if it were not Pending</label>
       </test>
    </scenario>
    <scenario id="scenario3"
@@ -51,18 +49,16 @@
    </scenario>
    <scenario id="scenario4"
              xspec="../../pending.xspec"
-             pending="testing @pending of an incorrect scenario">
-      <label>an incorrect scenario with @pending must be Pending</label>
+             pending="testing @pending of an erroneous scenario">
+      <label>an erroneous scenario with @pending must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="4"/>
-         </t:call>
+                 function="error"/>
       </input-wrap>
       <test id="scenario4-expect1"
-            pending="testing @pending of an incorrect scenario">
-         <label>it would return Failure if it were not Pending</label>
+            pending="testing @pending of an erroneous scenario">
+         <label>it would throw an error if it were not Pending</label>
       </test>
    </scenario>
    <scenario id="scenario5" xspec="../../pending.xspec">
