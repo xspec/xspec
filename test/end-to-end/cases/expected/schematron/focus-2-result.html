@@ -50,11 +50,11 @@
                   <th>passed: 3 / pending: 3 / failed: 0 / total: 6</th>
                </tr>
                <tr class="pending">
-                  <th>(<strong>testing x:pending</strong>) an unfocused Success scenario in x:pending must be Pending</th>
+                  <th>(<strong>testing x:pending</strong>) an unfocused erroneous scenario in x:pending must be Pending</th>
                   <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
                </tr>
                <tr class="pending">
-                  <td>(<strong>testing x:pending</strong>) it would return Success if it were not Pending</td>
+                  <td>(<strong>testing x:pending</strong>) it would throw an error if it were not Pending</td>
                   <td>Pending</td>
                </tr>
                <tr class="successful">
@@ -66,11 +66,11 @@
                   <td>Success</td>
                </tr>
                <tr class="pending">
-                  <th>(<strong>testing @pending without @focus</strong>) a Success scenario with @pending must be Pending</th>
+                  <th>(<strong>testing @pending without @focus</strong>) an erroneous scenario with @pending must be Pending</th>
                   <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
                </tr>
                <tr class="pending">
-                  <td>(<strong>testing @pending without @focus</strong>) it would return Success if it were not Pending</td>
+                  <td>(<strong>testing @pending without @focus</strong>) it would throw an error if it were not Pending</td>
                   <td>Pending</td>
                </tr>
                <tr class="successful">
@@ -82,11 +82,11 @@
                   <td>Success</td>
                </tr>
                <tr class="pending">
-                  <th>(<strong>testing @focus in x:pending</strong>) a non-pending Success scenario alongside a focused scenario must be Pending</th>
+                  <th>(<strong>testing @focus in x:pending</strong>) a non-pending erroneous scenario alongside a focused scenario must be Pending</th>
                   <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
                </tr>
                <tr class="pending">
-                  <td>(<strong>testing @focus in x:pending</strong>) it would return Success if it were not Pending</td>
+                  <td>(<strong>testing @focus in x:pending</strong>) it would throw an error if it were not Pending</td>
                   <td>Pending</td>
                </tr>
                <tr class="successful">

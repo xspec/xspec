@@ -18,9 +18,9 @@
       <scenario id="scenario1-scenario1"
                 xspec="../../focus-2.xspec"
                 pending="testing x:pending">
-         <label>an unfocused Success scenario in x:pending must be Pending</label>
+         <label>an unfocused erroneous scenario in x:pending must be Pending</label>
          <test id="scenario1-scenario1-expect1" pending="testing x:pending">
-            <label>it would return Success if it were not Pending</label>
+            <label>it would throw an error if it were not Pending</label>
          </test>
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../focus-2.xspec">
@@ -34,10 +34,10 @@
       <scenario id="scenario1-scenario3"
                 xspec="../../focus-2.xspec"
                 pending="testing @pending without @focus">
-         <label>a Success scenario with @pending must be Pending</label>
+         <label>an erroneous scenario with @pending must be Pending</label>
          <test id="scenario1-scenario3-expect1"
                pending="testing @pending without @focus">
-            <label>it would return Success if it were not Pending</label>
+            <label>it would throw an error if it were not Pending</label>
          </test>
       </scenario>
       <scenario id="scenario1-scenario4" xspec="../../focus-2.xspec">
@@ -51,9 +51,9 @@
       <scenario id="scenario1-scenario5"
                 xspec="../../focus-2.xspec"
                 pending="testing @focus in x:pending">
-         <label>a non-pending Success scenario alongside a focused scenario must be Pending</label>
+         <label>a non-pending erroneous scenario alongside a focused scenario must be Pending</label>
          <test id="scenario1-scenario5-expect1" pending="testing @focus in x:pending">
-            <label>it would return Success if it were not Pending</label>
+            <label>it would throw an error if it were not Pending</label>
          </test>
       </scenario>
       <scenario id="scenario1-scenario6" xspec="../../focus-2.xspec">

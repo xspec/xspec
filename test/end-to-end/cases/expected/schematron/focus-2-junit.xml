@@ -3,19 +3,19 @@
    <testsuite name="Test @focus and pending together (both @pending and t:pending)"
               tests="6"
               failures="0">
-      <testcase name="an unfocused Success scenario in x:pending must be Pending it would return Success if it were not Pending"
+      <testcase name="an unfocused erroneous scenario in x:pending must be Pending it would throw an error if it were not Pending"
                 status="skipped">
          <skipped>testing x:pending</skipped>
       </testcase>
       <testcase name="a focused Success scenario in x:pending must execute the test and return Success"
                 status="passed"/>
-      <testcase name="a Success scenario with @pending must be Pending it would return Success if it were not Pending"
+      <testcase name="an erroneous scenario with @pending must be Pending it would throw an error if it were not Pending"
                 status="skipped">
          <skipped>testing @pending without @focus</skipped>
       </testcase>
       <testcase name="a Success scenario with both @pending and @focus (not recommended as ambiguous) must execute the test and return Success"
                 status="passed"/>
-      <testcase name="a non-pending Success scenario alongside a focused scenario must be Pending it would return Success if it were not Pending"
+      <testcase name="a non-pending erroneous scenario alongside a focused scenario must be Pending it would throw an error if it were not Pending"
                 status="skipped">
          <skipped>testing @focus in x:pending</skipped>
       </testcase>

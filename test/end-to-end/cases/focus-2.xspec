@@ -26,9 +26,9 @@
       -->
       <t:pending label="testing x:pending">
 
-         <t:scenario label="an unfocused Success scenario in x:pending must be Pending">
-            <t:expect label="it would return Success if it were not Pending"
-                      select="9" />
+         <t:scenario label="an unfocused erroneous scenario in x:pending must be Pending">
+            <t:expect label="it would throw an error if it were not Pending"
+                      test="error()" />
          </t:scenario>
 
          <t:scenario label="a focused Success scenario in x:pending"
@@ -42,10 +42,10 @@
       <!--
          Test @pending.
       -->
-      <t:scenario label="a Success scenario with @pending must be Pending"
+      <t:scenario label="an erroneous scenario with @pending must be Pending"
                   pending="testing @pending without @focus">
-         <t:expect label="it would return Success if it were not Pending"
-                   select="9" />
+         <t:expect label="it would throw an error if it were not Pending"
+                   test="error()" />
       </t:scenario>
 
       <!-- does not make sense, really, but to see how the implem reacts -->
@@ -59,9 +59,9 @@
       <!--
          Non-pending scenarios.
       -->
-      <t:scenario label="a non-pending Success scenario alongside a focused scenario must be Pending">
-         <t:expect label="it would return Success if it were not Pending"
-                   select="9" />
+      <t:scenario label="a non-pending erroneous scenario alongside a focused scenario must be Pending">
+         <t:expect label="it would throw an error if it were not Pending"
+                   test="error()" />
       </t:scenario>
 
       <t:scenario label="a focused Success scenario alongside another focused scenario"
