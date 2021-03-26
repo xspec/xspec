@@ -16,11 +16,11 @@
                xml:base="../../">
 
    <!--
-       Test @focus.
+      Test @focus
    -->
 
    <!--
-       Normal scenarios (must be pending because of the @focus in "Focused on scenarios").
+      Normal scenarios (must be pending because of the @focus in "Focused scenarios")
    -->
    <t:scenario label="an unfocused Success scenario must be Pending">
       <t:call function="exactly-one">
@@ -37,7 +37,7 @@
    </t:scenario>
 
    <!--
-       Focused on scenarios.
+      Focused scenarios
    -->
    <t:scenario label="a focused Success scenario" focus="testing @focus of a Success scenario">
       <t:call function="exactly-one">
