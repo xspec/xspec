@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="pending.xspec">
-   <testsuite name="a correct scenario in x:pending must be Pending"
+   <testsuite name="a Success scenario in x:pending must be Pending"
               tests="1"
               failures="0">
       <testcase name="it would return Success if it were not Pending" status="skipped">
@@ -14,11 +14,11 @@
          <skipped>testing x:pending</skipped>
       </testcase>
    </testsuite>
-   <testsuite name="a correct scenario with @pending must be Pending"
+   <testsuite name="a Success scenario with @pending must be Pending"
               tests="1"
               failures="0">
       <testcase name="it would return Success if it were not Pending" status="skipped">
-         <skipped>testing @pending of a correct scenario</skipped>
+         <skipped>testing @pending of a Success scenario</skipped>
       </testcase>
    </testsuite>
    <testsuite name="an incorrect scenario with @pending must be Pending"
@@ -28,7 +28,7 @@
          <skipped>testing @pending of an incorrect scenario</skipped>
       </testcase>
    </testsuite>
-   <testsuite name="a non-pending correct scenario alongside a pending scenario"
+   <testsuite name="a non-pending Success scenario alongside a pending scenario"
               tests="1"
               failures="0">
       <testcase name="must execute the test and return Success" status="passed"/>

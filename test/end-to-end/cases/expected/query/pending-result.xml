@@ -7,7 +7,7 @@
    <scenario id="scenario1"
              xspec="../../pending.xspec"
              pending="testing x:pending">
-      <label>a correct scenario in x:pending must be Pending</label>
+      <label>a Success scenario in x:pending must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -36,8 +36,8 @@
    </scenario>
    <scenario id="scenario3"
              xspec="../../pending.xspec"
-             pending="testing @pending of a correct scenario">
-      <label>a correct scenario with @pending must be Pending</label>
+             pending="testing @pending of a Success scenario">
+      <label>a Success scenario with @pending must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -45,7 +45,7 @@
             <t:param select="9"/>
          </t:call>
       </input-wrap>
-      <test id="scenario3-expect1" pending="testing @pending of a correct scenario">
+      <test id="scenario3-expect1" pending="testing @pending of a Success scenario">
          <label>it would return Success if it were not Pending</label>
       </test>
    </scenario>
@@ -66,7 +66,7 @@
       </test>
    </scenario>
    <scenario id="scenario5" xspec="../../pending.xspec">
-      <label>a non-pending correct scenario alongside a pending scenario</label>
+      <label>a non-pending Success scenario alongside a pending scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
