@@ -11,15 +11,16 @@
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                xmlns:my="http://example.org/ns/my"
                query="http://example.org/ns/my"
-               query-at="../../square.xqm"
-               stylesheet="../../square.xsl">
+               query-at="square.xqm"
+               stylesheet="square.xsl"
+               xml:base="../../">
 
    <!--
-       Test pending features (x:pending and @pending).
+      Test pending features (x:pending and @pending).
    -->
 
    <!--
-       Test x:pending.
+      Test x:pending.
    -->
    <t:pending label="testing x:pending">
 
@@ -40,6 +41,23 @@
    </t:pending>
 
    <!--
+      Test @pending.
+   -->
+   <t:scenario label="a correct scenario with @pending must be Pending" pending="testing @pending of a correct scenario">
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:expect label="it would return Success if it were not Pending" select="9"/>
+   </t:scenario>
+
+   <t:scenario label="an incorrect scenario with @pending must be Pending" pending="testing @pending of an incorrect scenario">
+      <t:call function="my:square">
+         <t:param select="2"/>
+      </t:call>
+      <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"/>
+   </t:scenario>
+
+   <!--
        Non-pending scenarios.
    -->
    <t:scenario label="a non-pending correct scenario alongside a pending scenario">
@@ -54,23 +72,6 @@
          <t:param select="2"/>
       </t:call>
       <t:expect label="must execute the test and return Failure" test="$t:result instance of xs:string"/>
-   </t:scenario>
-
-   <!--
-       Test @pending.
-   -->
-   <t:scenario label="a correct scenario with @pending must be Pending" pending="testing @pending of a correct scenario">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="it would return Success if it were not Pending" select="9"/>
-   </t:scenario>
-
-   <t:scenario label="an incorrect scenario with @pending must be Pending" pending="testing @pending of an incorrect scenario">
-      <t:call function="my:square">
-         <t:param select="2"/>
-      </t:call>
-      <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"/>
    </t:scenario>
 
 </t:description>
