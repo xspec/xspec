@@ -56,44 +56,43 @@ function toggle(scenarioID) {
          </thead>
          <tbody>
             <tr class="pending">
-               <th>(<strong>testing @focus of a Success scenario</strong>) <a>an unfocused Success scenario must be Pending</a></th>
-               <th class="totals">0</th>
+               <th>(<strong>testing @focus of a Success scenario</strong>) <a href="#top_scenario1">Test @focus</a></th>
                <th class="totals">1</th>
-               <th class="totals">0</th>
+               <th class="totals">2</th>
                <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th>(<strong>testing @focus of a Success scenario</strong>) <a>an unfocused Failure scenario must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="successful">
-               <th><a href="#top_scenario3">a focused Success scenario</a></th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="failed">
-               <th><a href="#top_scenario4">a focused Failure scenario</a></th>
-               <th class="totals">0</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">1</th>
+               <th class="totals">4</th>
             </tr>
          </tbody>
       </table>
-      <div id="top_scenario3">
-         <h2 class="successful"><a href="javascript:toggle('scenario3')"><img src="../../../../../graphics/3angle-right.gif" alt="expand" id="icon_scenario3" /></a>a focused Success scenario<span class="scenario-totals">1/0/0/1</span></h2>
-         <table class="xspec" id="table_scenario3" style="display: none">
+      <div id="top_scenario1">
+         <h2 class="pending"><a href="javascript:toggle('scenario1')"><img src="../../../../../graphics/3angle-down.gif" alt="collapse" id="icon_scenario1" /></a>(<strong>testing @focus of a Success scenario</strong>) Test @focus<span class="scenario-totals">1/2/1/4</span></h2>
+         <table class="xspec" id="table_scenario1" style="display: table">
             <colgroup>
                <col style="width:85%" />
                <col style="width:15%" />
             </colgroup>
             <tbody>
-               <tr class="successful">
+               <tr class="pending">
+                  <th>(<strong>testing @focus of a Success scenario</strong>) Test @focus</th>
+                  <th>1/2/1/4</th>
+               </tr>
+               <tr id="scenario1-scenario1" class="pending">
+                  <th>(<strong>testing @focus of a Success scenario</strong>) an unfocused Success scenario must be Pending</th>
+                  <th>0/1/0/1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @focus of a Success scenario</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr id="scenario1-scenario2" class="pending">
+                  <th>(<strong>testing @focus of a Success scenario</strong>) an unfocused Failure scenario must be Pending</th>
+                  <th>0/1/0/1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @focus of a Success scenario</strong>) it would return Failure if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr id="scenario1-scenario3" class="successful">
                   <th>a focused Success scenario</th>
                   <th>1/0/0/1</th>
                </tr>
@@ -101,30 +100,19 @@ function toggle(scenarioID) {
                   <td>must execute the test and return Success</td>
                   <td>Success</td>
                </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario4">
-         <h2 class="failed"><a href="javascript:toggle('scenario4')"><img src="../../../../../graphics/3angle-down.gif" alt="collapse" id="icon_scenario4" /></a>a focused Failure scenario<span class="scenario-totals">0/0/1/1</span></h2>
-         <table class="xspec" id="table_scenario4" style="display: table">
-            <colgroup>
-               <col style="width:85%" />
-               <col style="width:15%" />
-            </colgroup>
-            <tbody>
-               <tr class="failed">
-                  <th>a focused Failure scenario</th>
+               <tr id="scenario1-scenario4" class="failed">
+                  <th><a href="#scenario1-scenario4">a focused Failure scenario</a></th>
                   <th>0/0/1/1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario4-expect1">must execute the test and return Failure</a></td>
+                  <td><a href="#scenario1-scenario4-expect1">must execute the test and return Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="scenario4">
-            <h3>a focused Failure scenario</h3>
-            <div id="scenario4-expect1" class="xTestReport">
+         <div id="scenario1-scenario4">
+            <h3>Test @focus a focused Failure scenario</h3>
+            <div id="scenario1-scenario4-expect1" class="xTestReport">
                <h4 class="xTestReportTitle">must execute the test and return Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
