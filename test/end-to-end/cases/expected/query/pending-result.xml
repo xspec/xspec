@@ -4,96 +4,100 @@
         query="x-urn:test:do-nothing"
         query-at="../../../../do-nothing.xqm"
         date="2000-01-01T00:00:00Z">
-   <scenario id="scenario1"
-             xspec="../../pending.xspec"
-             pending="testing x:pending">
-      <label>a Success scenario in x:pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario1-expect1" pending="testing x:pending">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario2"
-             xspec="../../pending.xspec"
-             pending="testing x:pending">
-      <label>an erroneous scenario in x:pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="error"/>
-      </input-wrap>
-      <test id="scenario2-expect1" pending="testing x:pending">
-         <label>it would throw an error if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario3"
-             xspec="../../pending.xspec"
-             pending="testing @pending of a Success scenario">
-      <label>a Success scenario with @pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario3-expect1" pending="testing @pending of a Success scenario">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario4"
-             xspec="../../pending.xspec"
-             pending="testing @pending of an erroneous scenario">
-      <label>an erroneous scenario with @pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="error"/>
-      </input-wrap>
-      <test id="scenario4-expect1"
-            pending="testing @pending of an erroneous scenario">
-         <label>it would throw an error if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario5" xspec="../../pending.xspec">
-      <label>a non-pending Success scenario alongside a pending scenario</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario5-expect1" successful="true">
-         <label>must execute the test and return Success</label>
-         <expect select="9"/>
-      </test>
-   </scenario>
-   <scenario id="scenario6" xspec="../../pending.xspec">
-      <label>a non-pending Failure scenario alongside a pending scenario</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="4"/>
-         </t:call>
-      </input-wrap>
-      <result select="4"/>
-      <test id="scenario6-expect1" successful="false">
-         <label>must execute the test and return Failure</label>
-         <expect-test-wrap xmlns="">
-            <t:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                      test="$t:result instance of xs:string"/>
-         </expect-test-wrap>
-         <expect select="()"/>
-      </test>
+   <scenario id="scenario1" xspec="../../pending.xspec">
+      <label>testing pending features</label>
+      <scenario id="scenario1-scenario1"
+                xspec="../../pending.xspec"
+                pending="testing x:pending">
+         <label>a Success scenario in x:pending must be Pending</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <test id="scenario1-scenario1-expect1" pending="testing x:pending">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2"
+                xspec="../../pending.xspec"
+                pending="testing x:pending">
+         <label>an erroneous scenario in x:pending must be Pending</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="error"/>
+         </input-wrap>
+         <test id="scenario1-scenario2-expect1" pending="testing x:pending">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3"
+                xspec="../../pending.xspec"
+                pending="testing @pending of a Success scenario">
+         <label>a Success scenario with @pending must be Pending</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <test id="scenario1-scenario3-expect1"
+               pending="testing @pending of a Success scenario">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario4"
+                xspec="../../pending.xspec"
+                pending="testing @pending of an erroneous scenario">
+         <label>an erroneous scenario with @pending must be Pending</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="error"/>
+         </input-wrap>
+         <test id="scenario1-scenario4-expect1"
+               pending="testing @pending of an erroneous scenario">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario5" xspec="../../pending.xspec">
+         <label>a non-pending Success scenario alongside a pending scenario</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <result select="9"/>
+         <test id="scenario1-scenario5-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario6" xspec="../../pending.xspec">
+         <label>a non-pending Failure scenario alongside a pending scenario</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="4"/>
+            </t:call>
+         </input-wrap>
+         <result select="4"/>
+         <test id="scenario1-scenario6-expect1" successful="false">
+            <label>must execute the test and return Failure</label>
+            <expect-test-wrap xmlns="">
+               <t:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                         test="$t:result instance of xs:string"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
    </scenario>
 </report>

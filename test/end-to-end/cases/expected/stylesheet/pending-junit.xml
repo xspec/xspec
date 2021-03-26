@@ -1,42 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="pending.xspec">
-   <testsuite name="a Success scenario in x:pending must be Pending"
-              tests="1"
-              failures="0">
-      <testcase name="it would return Success if it were not Pending" status="skipped">
+   <testsuite name="testing pending features" tests="6" failures="1">
+      <testcase name="a Success scenario in x:pending must be Pending it would return Success if it were not Pending"
+                status="skipped">
          <skipped>testing x:pending</skipped>
       </testcase>
-   </testsuite>
-   <testsuite name="an erroneous scenario in x:pending must be Pending"
-              tests="1"
-              failures="0">
-      <testcase name="it would throw an error if it were not Pending" status="skipped">
+      <testcase name="an erroneous scenario in x:pending must be Pending it would throw an error if it were not Pending"
+                status="skipped">
          <skipped>testing x:pending</skipped>
       </testcase>
-   </testsuite>
-   <testsuite name="a Success scenario with @pending must be Pending"
-              tests="1"
-              failures="0">
-      <testcase name="it would return Success if it were not Pending" status="skipped">
+      <testcase name="a Success scenario with @pending must be Pending it would return Success if it were not Pending"
+                status="skipped">
          <skipped>testing @pending of a Success scenario</skipped>
       </testcase>
-   </testsuite>
-   <testsuite name="an erroneous scenario with @pending must be Pending"
-              tests="1"
-              failures="0">
-      <testcase name="it would throw an error if it were not Pending" status="skipped">
+      <testcase name="an erroneous scenario with @pending must be Pending it would throw an error if it were not Pending"
+                status="skipped">
          <skipped>testing @pending of an erroneous scenario</skipped>
       </testcase>
-   </testsuite>
-   <testsuite name="a non-pending Success scenario alongside a pending scenario"
-              tests="1"
-              failures="0">
-      <testcase name="must execute the test and return Success" status="passed"/>
-   </testsuite>
-   <testsuite name="a non-pending Failure scenario alongside a pending scenario"
-              tests="1"
-              failures="1">
-      <testcase name="must execute the test and return Failure" status="failed">
+      <testcase name="a non-pending Success scenario alongside a pending scenario must execute the test and return Success"
+                status="passed"/>
+      <testcase name="a non-pending Failure scenario alongside a pending scenario must execute the test and return Failure"
+                status="failed">
          <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
       </testcase>
    </testsuite>
