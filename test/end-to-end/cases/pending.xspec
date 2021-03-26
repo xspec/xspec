@@ -54,7 +54,7 @@
       </t:scenario>
 
       <!--
-          Non-pending scenarios.
+         Non-pending scenarios.
       -->
       <t:scenario label="a non-pending Success scenario alongside a pending scenario">
          <t:expect label="must execute the test and return Success"
