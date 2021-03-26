@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
         xspec="../../focus-1.xspec"
-        query="http://example.org/ns/my"
-        query-at="../../../../square.xqm"
+        query="x-urn:test:do-nothing"
+        query-at="../../../../do-nothing.xqm"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1"
              xspec="../../focus-1.xspec"
              pending="testing @focus of a correct scenario">
       <label>an unfocused correct scenario must be Pending</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
       <test id="scenario1-expect1" pending="testing @focus of a correct scenario">
@@ -25,11 +24,10 @@
              pending="testing @focus of a correct scenario">
       <label>an unfocused incorrect scenario must be Pending</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
+                 function="exactly-one">
+            <t:param select="4"/>
          </t:call>
       </input-wrap>
       <test id="scenario2-expect1" pending="testing @focus of a correct scenario">
@@ -39,11 +37,10 @@
    <scenario id="scenario3" xspec="../../focus-1.xspec">
       <label>a focused correct scenario</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
       <result select="9"/>
@@ -55,19 +52,17 @@
    <scenario id="scenario4" xspec="../../focus-1.xspec">
       <label>a focused incorrect scenario</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
+                 function="exactly-one">
+            <t:param select="4"/>
          </t:call>
       </input-wrap>
       <result select="4"/>
       <test id="scenario4-expect1" successful="false">
          <label>must execute the test and return Failure</label>
          <expect-test-wrap xmlns="">
-            <t:expect xmlns:my="http://example.org/ns/my"
-                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            <t:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
                       xmlns:t="http://www.jenitennison.com/xslt/xspec"
                       test="$t:result instance of xs:string"/>
          </expect-test-wrap>
