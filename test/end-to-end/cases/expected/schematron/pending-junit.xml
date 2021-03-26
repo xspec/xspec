@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="pending.xspec">
-   <testsuite name="testing pending features" tests="6" failures="1">
+   <testsuite name="Test pending features (x:pending and @pending)"
+              tests="6"
+              failures="1">
       <testcase name="a Success scenario in x:pending must be Pending it would return Success if it were not Pending"
                 status="skipped">
          <skipped>testing x:pending</skipped>

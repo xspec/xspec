@@ -15,11 +15,8 @@
                stylesheet="do-nothing.xsl"
                xml:base="../../">
 
-   <!--
-      Test pending features (x:pending and @pending).
-   -->
+   <t:scenario label="Test pending features (x:pending and @pending)">
 
-   <t:scenario label="testing pending features">
       <t:call function="exactly-one">
          <t:param select="9" />
       </t:call>

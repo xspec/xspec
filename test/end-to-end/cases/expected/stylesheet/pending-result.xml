@@ -4,7 +4,7 @@
         stylesheet="../../../../do-nothing.xsl"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../pending.xspec">
-      <label>testing pending features</label>
+      <label>Test pending features (x:pending and @pending)</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
