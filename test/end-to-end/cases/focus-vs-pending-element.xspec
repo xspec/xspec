@@ -4,7 +4,7 @@
 	stylesheet="do-nothing.xsl" xml:base="../../" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Expect" shared="yes">
-		<x:expect label="Always Success" test="true()" />
+		<x:expect label="x:expect" test="true()" />
 	</x:scenario>
 
 	<x:scenario label="/Neutral">

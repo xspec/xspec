@@ -1,65 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="force-focus_focus-vs-pending-element.xspec">
    <testsuite name="/Neutral" tests="1" failures="0">
-      <testcase name="Always Success" status="skipped">
+      <testcase name="x:expect" status="skipped">
          <skipped>force focus</skipped>
       </testcase>
    </testsuite>
    <testsuite name="/Neutral" tests="16" failures="0">
-      <testcase name="Always Success" status="skipped">
+      <testcase name="x:expect" status="skipped">
          <skipped>force focus</skipped>
       </testcase>
-      <testcase name="/Neutral Always Success" status="skipped">
+      <testcase name="/Neutral x:expect" status="skipped">
          <skipped>force focus</skipped>
       </testcase>
-      <testcase name="/Focued #1 Always Success" status="skipped">
+      <testcase name="/Focued #1 x:expect" status="skipped">
          <skipped>force focus</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral Always Success" status="skipped">
+      <testcase name="/Focued #1 /Neutral x:expect" status="skipped">
          <skipped>force focus</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral Always Success" status="skipped">
+      <testcase name="/Focued #1 /Neutral x:expect" status="skipped">
          <skipped>force focus</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Neutral Always Success" status="skipped">
+      <testcase name="/Focued #1 /Neutral /Neutral x:expect" status="skipped">
          <skipped>force focus</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 Always Success" status="skipped">
+      <testcase name="/Focued #1 /Neutral /Pending #1 x:expect" status="skipped">
          <skipped>Pending #1</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral x:expect"
                 status="skipped">
          <skipped>Pending #1</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral x:expect"
                 status="skipped">
          <skipped>Pending #1</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Neutral Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Neutral x:expect"
                 status="skipped">
          <skipped>Pending #1</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 x:expect"
                 status="skipped">
          <skipped>Pending #1</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral x:expect"
                 status="skipped">
          <skipped>Pending #1</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral x:expect"
                 status="skipped">
          <skipped>Pending #1</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Neutral Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Neutral x:expect"
                 status="skipped">
          <skipped>Pending #1</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 x:expect"
                 status="skipped">
          <skipped>Pending #2</skipped>
       </testcase>
-      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 /Neutral Always Success"
+      <testcase name="/Focued #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 /Neutral x:expect"
                 status="passed"/>
    </testsuite>
 </testsuites>

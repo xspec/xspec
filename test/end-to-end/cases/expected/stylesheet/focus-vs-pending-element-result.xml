@@ -11,7 +11,7 @@
          <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
       </input-wrap>
       <test id="scenario1-expect1" pending="Focus #1">
-         <label>Always Success</label>
+         <label>x:expect</label>
       </test>
    </scenario>
    <scenario id="scenario2"
@@ -22,21 +22,21 @@
          <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="true"/>
       </input-wrap>
       <test id="scenario2-expect1" pending="Focus #1">
-         <label>Always Success</label>
+         <label>x:expect</label>
       </test>
       <scenario id="scenario2-scenario1"
                 xspec="../../focus-vs-pending-element.xspec"
                 pending="Focus #1">
          <label>/Neutral</label>
          <test id="scenario2-scenario1-expect1" pending="Focus #1">
-            <label>Always Success</label>
+            <label>x:expect</label>
          </test>
       </scenario>
       <scenario id="scenario2-scenario2" xspec="../../focus-vs-pending-element.xspec">
          <label>/Focued #1</label>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
          <test id="scenario2-scenario2-expect1" successful="true">
-            <label>Always Success</label>
+            <label>x:expect</label>
             <expect-test-wrap xmlns="">
                <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
             </expect-test-wrap>
@@ -47,7 +47,7 @@
             <label>/Neutral</label>
             <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
             <test id="scenario2-scenario2-scenario1-expect1" successful="true">
-               <label>Always Success</label>
+               <label>x:expect</label>
                <expect-test-wrap xmlns="">
                   <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                </expect-test-wrap>
@@ -59,7 +59,7 @@
             <label>/Neutral</label>
             <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
             <test id="scenario2-scenario2-scenario2-expect1" successful="true">
-               <label>Always Success</label>
+               <label>x:expect</label>
                <expect-test-wrap xmlns="">
                   <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                </expect-test-wrap>
@@ -70,7 +70,7 @@
                <label>/Neutral</label>
                <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                <test id="scenario2-scenario2-scenario2-scenario1-expect1" successful="true">
-                  <label>Always Success</label>
+                  <label>x:expect</label>
                   <expect-test-wrap xmlns="">
                      <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                   </expect-test-wrap>
@@ -82,7 +82,7 @@
                <label>/Pending #1</label>
                <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                <test id="scenario2-scenario2-scenario2-scenario2-expect1" successful="true">
-                  <label>Always Success</label>
+                  <label>x:expect</label>
                   <expect-test-wrap xmlns="">
                      <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                   </expect-test-wrap>
@@ -94,7 +94,7 @@
                   <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                   <test id="scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
                         successful="true">
-                     <label>Always Success</label>
+                     <label>x:expect</label>
                      <expect-test-wrap xmlns="">
                         <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                      </expect-test-wrap>
@@ -107,7 +107,7 @@
                   <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                   <test id="scenario2-scenario2-scenario2-scenario2-scenario2-expect1"
                         successful="true">
-                     <label>Always Success</label>
+                     <label>x:expect</label>
                      <expect-test-wrap xmlns="">
                         <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                      </expect-test-wrap>
@@ -119,7 +119,7 @@
                      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                      <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
                            successful="true">
-                        <label>Always Success</label>
+                        <label>x:expect</label>
                         <expect-test-wrap xmlns="">
                            <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                         </expect-test-wrap>
@@ -132,7 +132,7 @@
                      <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                      <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-expect1"
                            successful="true">
-                        <label>Always Success</label>
+                        <label>x:expect</label>
                         <expect-test-wrap xmlns="">
                            <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                         </expect-test-wrap>
@@ -144,7 +144,7 @@
                         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                         <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
                               successful="true">
-                           <label>Always Success</label>
+                           <label>x:expect</label>
                            <expect-test-wrap xmlns="">
                               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                            </expect-test-wrap>
@@ -157,7 +157,7 @@
                         <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                         <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-expect1"
                               successful="true">
-                           <label>Always Success</label>
+                           <label>x:expect</label>
                            <expect-test-wrap xmlns="">
                               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                            </expect-test-wrap>
@@ -169,7 +169,7 @@
                            <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                            <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
                                  successful="true">
-                              <label>Always Success</label>
+                              <label>x:expect</label>
                               <expect-test-wrap xmlns="">
                                  <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                               </expect-test-wrap>
@@ -182,7 +182,7 @@
                            <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                            <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-expect1"
                                  successful="true">
-                              <label>Always Success</label>
+                              <label>x:expect</label>
                               <expect-test-wrap xmlns="">
                                  <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                               </expect-test-wrap>
@@ -194,7 +194,7 @@
                               <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('true')"/>
                               <test id="scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1-expect1"
                                     successful="true">
-                                 <label>Always Success</label>
+                                 <label>x:expect</label>
                                  <expect-test-wrap xmlns="">
                                     <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec" test="true()"/>
                                  </expect-test-wrap>
