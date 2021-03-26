@@ -25,22 +25,28 @@
          Normal scenarios (must be pending because of the @focus in "Focused scenarios")
       -->
       <t:scenario label="an unfocused Success scenario must be Pending">
-         <t:expect label="it would return Success if it were not Pending" select="9"/>
+         <t:expect label="it would return Success if it were not Pending"
+                   select="9" />
       </t:scenario>
 
       <t:scenario label="an unfocused Failure scenario must be Pending">
-         <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"/>
+         <t:expect label="it would return Failure if it were not Pending"
+                   test="$t:result instance of xs:string" />
       </t:scenario>
 
       <!--
          Focused scenarios
       -->
-      <t:scenario label="a focused Success scenario" focus="testing @focus of a Success scenario">
-         <t:expect label="must execute the test and return Success" select="9"/>
+      <t:scenario label="a focused Success scenario"
+                  focus="testing @focus of a Success scenario">
+         <t:expect label="must execute the test and return Success"
+                   select="9" />
       </t:scenario>
 
-      <t:scenario label="a focused Failure scenario" focus="testing @focus of an Failure scenario">
-         <t:expect label="must execute the test and return Failure" test="$t:result instance of xs:string"/>
+      <t:scenario label="a focused Failure scenario"
+                  focus="testing @focus of an Failure scenario">
+         <t:expect label="must execute the test and return Failure"
+                   test="$t:result instance of xs:string" />
       </t:scenario>
 
    </t:scenario>
