@@ -37,7 +37,7 @@ description =
 		[ a:defaultValue = "import" ]
 		attribute run-as { "import" | "external" }?,
 		
-		(helper | global-param | import | scenario | pending | variable)+ }
+		(helper | global-param | import | scenario | pending-element | variable)+ }
 
 helper =
 	## The test runner will import this stylesheet (XSLT) or query (XQuery) module after importing
@@ -73,10 +73,10 @@ import =
 	## Importing is recursive and may be circular (although only one copy of a given
 	## imported document will actually be imported).
 	element import { common-attributes,
-	   ## The document URI (location) of the imported document.
-	   attribute href { xsd:anyURI } }
+	## The document URI (location) of the imported document.
+	attribute href { xsd:anyURI } }
 
-pending = 
+pending-element = 
 	## Anything that is within a <pending> element will remain untested, but will be
 	## reported as (eventual) desired behaviour. This is a good way of commenting out
 	## a set of behaviours that haven't been implemented yet, or scenarios whose
@@ -86,6 +86,17 @@ pending =
 	## An optional label attribute can be used to describe why the scenario or
 	## assertion should not be tested.
 	element pending { common-attributes, label?, (scenario | assertion | schematron-assertion)* }
+
+pending-attribute =
+	## Anything which has the @pending attribute will remain untested, but will be
+	## reported as (eventual) desired behaviour. This is a good way of commenting out
+	## a set of behaviours that haven't been implemented yet, or scenarios whose
+	## desired behaviour hasn't been determined, or tests for code that you're not
+	## currently working on, to make the testing process faster.
+	##
+	## The attribute value can be used to describe why the scenario or
+	## assertion should not be tested.
+	attribute pending { text }?
 
 scenario = 
 	## A scenario defines the environment in which a piece of processing takes place.
@@ -107,15 +118,7 @@ scenario =
 		  schematron-scenario ) }
 
 common-scenario-attributes = common-attributes,
-                        	## Anything which has the @pending attribute will remain untested, but will be
-                        	## reported as (eventual) desired behaviour. This is a good way of commenting out
-                        	## a set of behaviours that haven't been implemented yet, or scenarios whose
-                        	## desired behaviour hasn't been determined, or tests for code that you're not
-                        	## currently working on, to make the testing process faster.
-                        	##
-                        	## The attribute value can be used to describe why the scenario or
-                        	## assertion should not be tested.
-                             attribute pending { text }?,
+                             pending-attribute?,
 
                             ## If any scenario has a focus attribute, any scenarios without a focus 
                             ## attribute will be classed as pending.
@@ -165,8 +168,8 @@ like =
 ## scenario doesn't provide a mode, that could be provided by the child scenario).
 matching-scenario = ((global-param | variable)*, context?, variable*),
                     like*,
-                    (pending | assertion | variable)*,
-                    (pending | 
+                    (pending-element | assertion | variable)*,
+                    (pending-element | 
                      element scenario { common-scenario-attributes, 
                                         label, matching-scenario })*
 
@@ -176,11 +179,11 @@ matching-scenario = ((global-param | variable)*, context?, variable*),
 ## can override the parameters in the function call.
 function-scenario = ((global-param | variable)*, function-call?, variable*),
                     like*,
-                    (pending | assertion | variable)*,
-                    (pending | 
+                    (pending-element | assertion | variable)*,
+                    (pending-element | 
                      element scenario { common-scenario-attributes,
                                         label, function-scenario })*
-                      
+
 ## A named scenario is one based on a call to a named template. The <call>
 ## element defines the template call and the parameters passed to it and the
 ## <assertion> elements test the result of the template call. Child scenarios
@@ -188,11 +191,11 @@ function-scenario = ((global-param | variable)*, function-call?, variable*),
 named-scenario = ((global-param | variable)*, context?),
                  (variable*, template-call?, variable*),
                  like*,
-                 (pending | assertion | variable)*,
-                 (pending | 
+                 (pending-element | assertion | variable)*,
+                 (pending-element | 
                   element scenario { common-scenario-attributes,
                                      label, named-scenario })*
-                   
+
 context = 
 	## The <context> element defines a context item, the mode in which templates
 	## are applied to it, and any parameters included in the apply templates.
@@ -290,8 +293,8 @@ text-element =
 
 schematron-scenario = (global-param*, context?),
                     like*,
-                    (pending | schematron-assertion | assertion)*, 
-                    (pending | 
+                    (pending-element | schematron-assertion | assertion)*, 
+                    (pending-element | 
                      element scenario { common-scenario-attributes, 
                                         label, schematron-scenario })*
 
