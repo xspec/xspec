@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
         xspec="../../focus-2.xspec"
-        query="http://example.org/ns/my"
-        query-at="../../../../square.xqm"
+        query="x-urn:test:do-nothing"
+        query-at="../../../../do-nothing.xqm"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1"
              xspec="../../focus-2.xspec"
              pending="testing x:pending">
       <label>an unfocused correct scenario in x:pending must be Pending</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
       <test id="scenario1-expect1" pending="testing x:pending">
@@ -23,11 +22,10 @@
    <scenario id="scenario2" xspec="../../focus-2.xspec">
       <label>a focused correct scenario in x:pending</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
       <result select="9"/>
@@ -41,11 +39,10 @@
              pending="testing @pending without @focus">
       <label>a correct scenario with @pending must be Pending</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
       <test id="scenario3-expect1" pending="testing @pending without @focus">
@@ -55,11 +52,10 @@
    <scenario id="scenario4" xspec="../../focus-2.xspec">
       <label>a correct scenario with both @pending and @focus (not recommended as ambiguous)</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
       <result select="9"/>
@@ -73,11 +69,10 @@
              pending="testing @focus in x:pending">
       <label>a non-pending correct scenario alongside a focused scenario must be Pending</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
       <test id="scenario5-expect1" pending="testing @focus in x:pending">
@@ -87,11 +82,10 @@
    <scenario id="scenario6" xspec="../../focus-2.xspec">
       <label>a focused correct scenario alongside another focused scenario</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
       <result select="9"/>
