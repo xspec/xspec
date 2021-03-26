@@ -7,17 +7,17 @@
              xspec="../../focus-1.xspec"
              pending="testing @focus of a Success scenario">
       <label>Test @focus</label>
+      <input-wrap xmlns="">
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="exactly-one">
+            <t:param select="9"/>
+         </t:call>
+      </input-wrap>
       <scenario id="scenario1-scenario1"
                 xspec="../../focus-1.xspec"
                 pending="testing @focus of a Success scenario">
          <label>an unfocused Success scenario must be Pending</label>
-         <input-wrap xmlns="">
-            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                    function="exactly-one">
-               <t:param select="9"/>
-            </t:call>
-         </input-wrap>
          <test id="scenario1-scenario1-expect1"
                pending="testing @focus of a Success scenario">
             <label>it would return Success if it were not Pending</label>
@@ -27,13 +27,6 @@
                 xspec="../../focus-1.xspec"
                 pending="testing @focus of a Success scenario">
          <label>an unfocused Failure scenario must be Pending</label>
-         <input-wrap xmlns="">
-            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                    function="exactly-one">
-               <t:param select="4"/>
-            </t:call>
-         </input-wrap>
          <test id="scenario1-scenario2-expect1"
                pending="testing @focus of a Success scenario">
             <label>it would return Failure if it were not Pending</label>
@@ -41,13 +34,6 @@
       </scenario>
       <scenario id="scenario1-scenario3" xspec="../../focus-1.xspec">
          <label>a focused Success scenario</label>
-         <input-wrap xmlns="">
-            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                    function="exactly-one">
-               <t:param select="9"/>
-            </t:call>
-         </input-wrap>
          <result select="9"/>
          <test id="scenario1-scenario3-expect1" successful="true">
             <label>must execute the test and return Success</label>
@@ -56,14 +42,7 @@
       </scenario>
       <scenario id="scenario1-scenario4" xspec="../../focus-1.xspec">
          <label>a focused Failure scenario</label>
-         <input-wrap xmlns="">
-            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                    function="exactly-one">
-               <t:param select="4"/>
-            </t:call>
-         </input-wrap>
-         <result select="4"/>
+         <result select="9"/>
          <test id="scenario1-scenario4-expect1" successful="false">
             <label>must execute the test and return Failure</label>
             <expect-test-wrap xmlns="">
