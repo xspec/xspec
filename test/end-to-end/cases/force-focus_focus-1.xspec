@@ -4,7 +4,7 @@
 <?xspec-test force-focus=scenario1-scenario1 scenario1-scenario2?>
 
 <!-- Exclude unrelated scenarios from the test result report HTML -->
-<?xspec-test html-reporter=${xspec.project.dir}/test/end-to-end/cases/force-focus-reporter.xsl?>
+<?xspec-test html-reporter=${xspec.project.dir}/test/end-to-end/cases/force-focus_reporter.xsl?>
 
 <x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xqm"
 	schematron="../../do-nothing.sch" stylesheet="../../do-nothing.xsl"
