@@ -6,92 +6,98 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1"
              xspec="../../focus-2.xspec"
-             pending="testing x:pending">
-      <label>an unfocused Success scenario in x:pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario1-expect1" pending="testing x:pending">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario2" xspec="../../focus-2.xspec">
-      <label>a focused Success scenario in x:pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario2-expect1" successful="true">
-         <label>must execute the test and return Success</label>
-         <expect select="9"/>
-      </test>
-   </scenario>
-   <scenario id="scenario3"
-             xspec="../../focus-2.xspec"
-             pending="testing @pending without @focus">
-      <label>a Success scenario with @pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario3-expect1" pending="testing @pending without @focus">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario4" xspec="../../focus-2.xspec">
-      <label>a Success scenario with both @pending and @focus (not recommended as ambiguous)</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario4-expect1" successful="true">
-         <label>must execute the test and return Success</label>
-         <expect select="9"/>
-      </test>
-   </scenario>
-   <scenario id="scenario5"
-             xspec="../../focus-2.xspec"
              pending="testing @focus in x:pending">
-      <label>a non-pending Success scenario alongside a focused scenario must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario5-expect1" pending="testing @focus in x:pending">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario6" xspec="../../focus-2.xspec">
-      <label>a focused Success scenario alongside another focused scenario</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
-            <t:param select="9"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario6-expect1" successful="true">
-         <label>must execute the test and return Success</label>
-         <expect select="9"/>
-      </test>
+      <label>Test @focus and pending together (both @pending and t:pending)</label>
+      <scenario id="scenario1-scenario1"
+                xspec="../../focus-2.xspec"
+                pending="testing x:pending">
+         <label>an unfocused Success scenario in x:pending must be Pending</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <test id="scenario1-scenario1-expect1" pending="testing x:pending">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../focus-2.xspec">
+         <label>a focused Success scenario in x:pending</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <result select="9"/>
+         <test id="scenario1-scenario2-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3"
+                xspec="../../focus-2.xspec"
+                pending="testing @pending without @focus">
+         <label>a Success scenario with @pending must be Pending</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <test id="scenario1-scenario3-expect1"
+               pending="testing @pending without @focus">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario4" xspec="../../focus-2.xspec">
+         <label>a Success scenario with both @pending and @focus (not recommended as ambiguous)</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <result select="9"/>
+         <test id="scenario1-scenario4-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario5"
+                xspec="../../focus-2.xspec"
+                pending="testing @focus in x:pending">
+         <label>a non-pending Success scenario alongside a focused scenario must be Pending</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <test id="scenario1-scenario5-expect1" pending="testing @focus in x:pending">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario6" xspec="../../focus-2.xspec">
+         <label>a focused Success scenario alongside another focused scenario</label>
+         <input-wrap xmlns="">
+            <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                    function="exactly-one">
+               <t:param select="9"/>
+            </t:call>
+         </input-wrap>
+         <result select="9"/>
+         <test id="scenario1-scenario6-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
    </scenario>
 </report>
