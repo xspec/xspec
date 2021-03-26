@@ -22,7 +22,7 @@
    <scenario id="scenario2"
              xspec="../../focus-1.xspec"
              pending="testing @focus of a Success scenario">
-      <label>an unfocused incorrect scenario must be Pending</label>
+      <label>an unfocused Failure scenario must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
@@ -50,7 +50,7 @@
       </test>
    </scenario>
    <scenario id="scenario4" xspec="../../focus-1.xspec">
-      <label>a focused incorrect scenario</label>
+      <label>a focused Failure scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"

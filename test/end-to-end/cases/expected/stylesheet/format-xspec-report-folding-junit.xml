@@ -7,7 +7,7 @@
          <skipped>testing @focus of a Success scenario</skipped>
       </testcase>
    </testsuite>
-   <testsuite name="an unfocused incorrect scenario must be Pending"
+   <testsuite name="an unfocused Failure scenario must be Pending"
               tests="1"
               failures="0">
       <testcase name="it would return Failure if it were not Pending" status="skipped">
@@ -17,7 +17,7 @@
    <testsuite name="a focused Success scenario" tests="1" failures="0">
       <testcase name="must execute the test and return Success" status="passed"/>
    </testsuite>
-   <testsuite name="a focused incorrect scenario" tests="1" failures="1">
+   <testsuite name="a focused Failure scenario" tests="1" failures="1">
       <testcase name="must execute the test and return Failure" status="failed">
          <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
       </testcase>
