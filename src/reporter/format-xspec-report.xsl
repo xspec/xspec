@@ -513,17 +513,19 @@
       <xsl:value-of select="$components" separator="{if ($insert-labels) then ' / ' else '/'}" />
    </xsl:template>
 
-   <xsl:function name="x:test-stats" as="element(stat)+" xmlns="">
+   <xsl:function name="x:test-stats" as="element(stat)+">
       <xsl:param name="tests" as="element(x:test)*" />
 
       <xsl:variable name="passed-tests" as="element(x:test)*" select="$tests[x:is-passed-test(.)]" />
       <xsl:variable name="pending-tests" as="element(x:test)*" select="$tests[x:is-pending-test(.)]" />
       <xsl:variable name="failed-tests" as="element(x:test)*" select="$tests[x:is-failed-test(.)]" />
 
-      <stat label="passed" count="{count($passed-tests)}" />
-      <stat label="pending" count="{count($pending-tests)}" />
-      <stat label="failed" count="{count($failed-tests)}" />
-      <stat label="total" count="{count($tests)}" />
+      <xsl:sequence xmlns="">
+         <stat label="passed" count="{count($passed-tests)}" />
+         <stat label="pending" count="{count($pending-tests)}" />
+         <stat label="failed" count="{count($failed-tests)}" />
+         <stat label="total" count="{count($tests)}" />
+      </xsl:sequence>
    </xsl:function>
 
 </xsl:stylesheet>
