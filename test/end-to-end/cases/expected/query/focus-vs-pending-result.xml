@@ -70,7 +70,7 @@
    </scenario>
    <scenario id="scenario5"
              xspec="../../focus-vs-pending.xspec"
-             pending="testing @pending without @focus">
+             pending="testing x:scenario[empty(@focus)]/@pending">
       <label>a correct scenario with @pending must be Pending</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
@@ -80,7 +80,8 @@
             <t:param select="3"/>
          </t:call>
       </input-wrap>
-      <test id="scenario5-expect1" pending="testing @pending without @focus">
+      <test id="scenario5-expect1"
+            pending="testing x:scenario[empty(@focus)]/@pending">
          <label>it would return Success if it were not Pending</label>
       </test>
    </scenario>
@@ -96,6 +97,39 @@
       </input-wrap>
       <result select="9"/>
       <test id="scenario6-expect1" successful="true">
+         <label>must execute the test and return Success</label>
+         <expect select="9"/>
+      </test>
+   </scenario>
+   <scenario id="scenario7"
+             xspec="../../focus-vs-pending.xspec"
+             pending="testing @focus in x:pending">
+      <label>a correct x:expect with @pending must be Pending</label>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="3"/>
+         </t:call>
+      </input-wrap>
+      <test id="scenario7-expect1"
+            pending="testing x:expect/@pending without ancestor::x:scenario/@focus">
+         <label>it would return Success if it were not Pending</label>
+      </test>
+   </scenario>
+   <scenario id="scenario8" xspec="../../focus-vs-pending.xspec">
+      <label>a correct x:expect with both @pending and ancestor::x:scenario/@focus (not recommended as ambiguous)</label>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="3"/>
+         </t:call>
+      </input-wrap>
+      <result select="9"/>
+      <test id="scenario8-expect1" successful="true">
          <label>must execute the test and return Success</label>
          <expect select="9"/>
       </test>

@@ -28,10 +28,22 @@
               tests="1"
               failures="0">
       <testcase name="it would return Success if it were not Pending" status="skipped">
-         <skipped>testing @pending without @focus</skipped>
+         <skipped>testing x:scenario[empty(@focus)]/@pending</skipped>
       </testcase>
    </testsuite>
    <testsuite name="a correct scenario with both @pending and @focus (not recommended as ambiguous)"
+              tests="1"
+              failures="0">
+      <testcase name="must execute the test and return Success" status="passed"/>
+   </testsuite>
+   <testsuite name="a correct x:expect with @pending must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Success if it were not Pending" status="skipped">
+         <skipped>testing x:expect/@pending without ancestor::x:scenario/@focus</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="a correct x:expect with both @pending and ancestor::x:scenario/@focus (not recommended as ambiguous)"
               tests="1"
               failures="0">
       <testcase name="must execute the test and return Success" status="passed"/>

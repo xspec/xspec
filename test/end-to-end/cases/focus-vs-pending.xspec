@@ -57,10 +57,10 @@
    </t:scenario>
 
    <!--
-       Test @pending.
+       Test x:scenario/@pending.
    -->
    <t:scenario label="a correct scenario with @pending must be Pending"
-               pending="testing @pending without @focus">
+               pending="testing x:scenario[empty(@focus)]/@pending">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
@@ -69,12 +69,32 @@
 
    <!-- does not make sense, really, but to see how the implem reacts -->
    <t:scenario label="a correct scenario with both @pending and @focus (not recommended as ambiguous)"
-               pending="testing @pending with @focus"
-               focus="testing @focus with @pending">
+               pending="testing x:scenario[@focus]/@pending"
+               focus="testing x:scenario[@pending]/@focus">
       <t:call function="my:square">
          <t:param select="3"/>
       </t:call>
       <t:expect label="must execute the test and return Success" select="9"/>
+   </t:scenario>
+
+   <!--
+       Test x:expect/@pending.
+   -->
+   <t:scenario label="a correct x:expect with @pending must be Pending">
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:expect label="it would return Success if it were not Pending" select="9"
+         pending="testing x:expect/@pending without ancestor::x:scenario/@focus" />
+   </t:scenario>
+
+   <t:scenario label="a correct x:expect with both @pending and ancestor::x:scenario/@focus (not recommended as ambiguous)"
+               focus="testing x:scenario[@focus] with child::x:expect/@pending">
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:expect label="must execute the test and return Success" select="9"
+         pending="testing x:expect/@pending with ancestor::x:scenario/@focus" />
    </t:scenario>
 
 </t:description>

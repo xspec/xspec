@@ -58,12 +58,10 @@
 
       <!-- The new $pending. -->
       <xsl:variable name="pending" as="node()?" select="
-          if ( @focus ) then
+         if (@focus) then
             ()
-          else if ( @pending ) then
-            @pending
-          else
-            $pending"/>
+         else
+            (@pending, $pending)[1]" />
       <xsl:variable name="pending-p" as="xs:boolean" select="x:pending-p(., $pending)" />
 
       <!-- The new apply. -->
@@ -197,7 +195,7 @@
       <xsl:param name="pending" as="node()?" required="yes" tunnel="yes" />
 
       <xsl:variable name="pending" as="node()?"
-         select="($pending, ancestor::x:scenario/@pending)[1]" />
+         select="(@pending, $pending, ancestor::x:scenario/@pending)[1]" />
       <xsl:variable name="pending-p" as="xs:boolean" select="x:pending-p(., $pending)" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->

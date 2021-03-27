@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for square.xsl (passed: 3 / pending: 3 / failed: 0 / total: 6)</title>
+      <title>Test Report for square.xsl (passed: 4 / pending: 4 / failed: 0 / total: 8)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -21,10 +21,10 @@
          <thead>
             <tr>
                <th></th>
-               <th class="totals">passed: 3</th>
-               <th class="totals">pending: 3</th>
+               <th class="totals">passed: 4</th>
+               <th class="totals">pending: 4</th>
                <th class="totals">failed: 0</th>
-               <th class="totals">total: 6</th>
+               <th class="totals">total: 8</th>
             </tr>
          </thead>
          <tbody>
@@ -57,7 +57,7 @@
                <th class="totals">1</th>
             </tr>
             <tr class="pending">
-               <th>(<strong>testing @pending without @focus</strong>) <a>a correct scenario with @pending must be Pending</a></th>
+               <th>(<strong>testing x:scenario[empty(@focus)]/@pending</strong>) <a>a correct scenario with @pending must be Pending</a></th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">0</th>
@@ -65,6 +65,21 @@
             </tr>
             <tr class="successful">
                <th><a href="#top_scenario6">a correct scenario with both @pending and @focus (not recommended as ambiguous)</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="pending">
+               <th>(<strong>testing @focus in x:pending</strong>) <a>a correct x:expect with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario8">a correct x:expect with both @pending and ancestor::x:scenario/@focus (not recommended
+                     as ambiguous)</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
@@ -120,6 +135,27 @@
             <tbody>
                <tr class="successful">
                   <th>a correct scenario with both @pending and @focus (not recommended as ambiguous)</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>must execute the test and return Success</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario8">
+         <h2 class="successful">a correct x:expect with both @pending and ancestor::x:scenario/@focus (not recommended
+            as ambiguous)<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario8">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>a correct x:expect with both @pending and ancestor::x:scenario/@focus (not recommended
+                     as ambiguous)</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">

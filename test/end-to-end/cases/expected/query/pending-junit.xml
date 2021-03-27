@@ -40,4 +40,18 @@
          <skipped>testing @pending of an incorrect scenario</skipped>
       </testcase>
    </testsuite>
+   <testsuite name="a correct x:expect with @pending must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Success if it were not Pending" status="skipped">
+         <skipped>testing @pending of a correct x:expect</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="an incorrect x:expect with @pending must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Failure if it were not Pending" status="skipped">
+         <skipped>testing @pending of an incorrect x:expect</skipped>
+      </testcase>
+   </testsuite>
 </testsuites>

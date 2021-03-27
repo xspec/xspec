@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for http://example.org/ns/my (passed: 1 / pending: 4 / failed: 1 / total: 6)</title>
+      <title>Test Report for http://example.org/ns/my (passed: 1 / pending: 6 / failed: 1 / total: 8)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -23,9 +23,9 @@
             <tr>
                <th></th>
                <th class="totals">passed: 1</th>
-               <th class="totals">pending: 4</th>
+               <th class="totals">pending: 6</th>
                <th class="totals">failed: 1</th>
-               <th class="totals">total: 6</th>
+               <th class="totals">total: 8</th>
             </tr>
          </thead>
          <tbody>
@@ -66,6 +66,20 @@
             </tr>
             <tr class="pending">
                <th>(<strong>testing @pending of an incorrect scenario</strong>) <a>an incorrect scenario with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario7">a correct x:expect with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario8">an incorrect x:expect with @pending must be Pending</a></th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">0</th>
@@ -135,6 +149,44 @@
                </table>
             </div>
          </div>
+      </div>
+      <div id="top_scenario7">
+         <h2 class="successful">a correct x:expect with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario7">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>a correct x:expect with @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @pending of a correct x:expect</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario8">
+         <h2 class="successful">an incorrect x:expect with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario8">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>an incorrect x:expect with @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @pending of an incorrect x:expect</strong>) it would return Failure if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+            </tbody>
+         </table>
       </div>
    </body>
 </html>
