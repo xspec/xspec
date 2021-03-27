@@ -318,7 +318,7 @@ expect-assert =
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <assert>. 
     element expect-assert {
-        schematron-common-expect,
+        common-schematron-assert-report-expect-attributes,
         schematron-count-expect
     }
 expect-report = 
@@ -327,7 +327,7 @@ expect-report =
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <report>. 
     element expect-report {
-        schematron-common-expect,
+        common-schematron-assert-report-expect-attributes,
         schematron-count-expect
     }
 
@@ -337,7 +337,7 @@ expect-not-assert =
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <assert>. 
     element expect-not-assert {
-        schematron-common-expect
+        common-schematron-assert-report-expect-attributes
     }
 expect-not-report = 
     ## In a Schematron test, verify that a <report> is not thrown.
@@ -345,7 +345,7 @@ expect-not-report =
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <report>. 
     element expect-not-report {
-        schematron-common-expect
+        common-schematron-assert-report-expect-attributes
     }
 
 expect-rule = 
@@ -363,7 +363,7 @@ expect-rule =
         schematron-count-expect
     }
 
-schematron-common-expect = 
+common-schematron-assert-report-expect-attributes = 
     ## Optional label to describe the expectation.
     attribute label { text }?,
 
