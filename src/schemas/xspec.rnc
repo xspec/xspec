@@ -319,7 +319,7 @@ expect-assert =
     ## identify a specific <assert>. 
     element expect-assert {
         common-schematron-assert-report-expect-attributes,
-        schematron-count-expect
+        schematron-expect-count-attribute
     }
 expect-report = 
     ## In a Schematron test, verify that a <report> is thrown.
@@ -328,7 +328,7 @@ expect-report =
     ## identify a specific <report>. 
     element expect-report {
         common-schematron-assert-report-expect-attributes,
-        schematron-count-expect
+        schematron-expect-count-attribute
     }
 
 expect-not-assert = 
@@ -360,7 +360,7 @@ expect-rule =
         ## Match a specific context attribute value of a <rule>.
         attribute context { text }?,
 
-        schematron-count-expect
+        schematron-expect-count-attribute
     }
 
 common-schematron-assert-report-expect-attributes = 
@@ -381,7 +381,7 @@ common-schematron-assert-report-expect-attributes =
     ## using ns elements can be used.
     attribute location { xpath }?
 
-schematron-count-expect = 
+schematron-expect-count-attribute = 
     ## Number of times an <assert> or <report> is expected to be thrown.
     attribute count { xsd:nonNegativeInteger }?
 
