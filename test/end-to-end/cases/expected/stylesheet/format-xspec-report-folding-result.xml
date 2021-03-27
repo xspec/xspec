@@ -4,7 +4,7 @@
         stylesheet="../../../../square.xsl"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1"
-             xspec="../../focus-1.xspec"
+             xspec="../../focus-without-pending.xspec"
              pending="testing @focus of a correct scenario">
       <label>an unfocused correct scenario must be Pending</label>
       <input-wrap xmlns="">
@@ -20,7 +20,7 @@
       </test>
    </scenario>
    <scenario id="scenario2"
-             xspec="../../focus-1.xspec"
+             xspec="../../focus-without-pending.xspec"
              pending="testing @focus of a correct scenario">
       <label>an unfocused incorrect scenario must be Pending</label>
       <input-wrap xmlns="">
@@ -35,7 +35,7 @@
          <label>it would return Failure if it were not Pending</label>
       </test>
    </scenario>
-   <scenario id="scenario3" xspec="../../focus-1.xspec">
+   <scenario id="scenario3" xspec="../../focus-without-pending.xspec">
       <label>a focused correct scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
@@ -51,7 +51,7 @@
          <expect select="9"/>
       </test>
    </scenario>
-   <scenario id="scenario4" xspec="../../focus-1.xspec">
+   <scenario id="scenario4" xspec="../../focus-without-pending.xspec">
       <label>a focused incorrect scenario</label>
       <input-wrap xmlns="">
          <t:call xmlns:my="http://example.org/ns/my"
