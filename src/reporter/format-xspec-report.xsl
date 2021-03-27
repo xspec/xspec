@@ -183,10 +183,7 @@
    <xsl:function name="x:top-level-scenario-needs-format" as="xs:boolean">
       <xsl:param name="scenario-elem" as="element(x:scenario)" />
 
-      <xsl:sequence select="$scenario-elem/(
-            empty(@pending)
-            or exists(x:descendant-tests(.)[not(x:is-pending-test(.))])
-         )"/>
+      <xsl:sequence select="$scenario-elem ! (empty(@pending) or exists(x:descendant-tests(.)))" />
    </xsl:function>
 
    <!--
