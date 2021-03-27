@@ -21,13 +21,11 @@
    <xsl:template match="element()" as="node()+" mode="x:declare-variable">
       <xsl:param name="comment" as="xs:string?" />
 
-      <xsl:variable name="reason-for-pending" as="xs:string?" select="x:reason-for-pending(.)" />
       <xsl:variable name="current-element-is-global" as="xs:boolean"
          select="exists(parent::x:description)" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:declare-variable">
-         <xsl:with-param name="reason-for-pending" select="$reason-for-pending" />
          <xsl:with-param name="comment" select="$comment" />
 
          <!-- URIQualifiedName of the variable being declared -->
@@ -46,7 +44,7 @@
          <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
             child::node() or @href -->
          <xsl:with-param name="temp-doc-uqname" as="xs:string?">
-            <xsl:if test="empty($reason-for-pending) and (node() or @href)">
+            <xsl:if test="node() or @href">
                <xsl:sequence
                   select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-doc')" />
             </xsl:if>

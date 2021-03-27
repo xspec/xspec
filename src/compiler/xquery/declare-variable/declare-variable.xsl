@@ -14,7 +14,6 @@
    <xsl:template name="x:declare-variable" as="node()+">
       <xsl:context-item as="element()" use="required" />
 
-      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
       <xsl:param name="comment" as="xs:string?" />
       <xsl:param name="uqname" as="xs:string" required="yes" />
       <xsl:param name="exclude" as="element(x:label)?" required="yes" />
@@ -79,14 +78,9 @@
       <xsl:call-template name="x:declare-or-let-variable">
          <xsl:with-param name="as-global" select="$as-global" />
          <xsl:with-param name="uqname" select="$uqname" />
-         <xsl:with-param name="type" select="@as[empty($reason-for-pending)]" />
+         <xsl:with-param name="type" select="@as" />
          <xsl:with-param name="value" as="text()?">
             <xsl:choose>
-               <xsl:when test="exists($reason-for-pending)">
-                  <!-- Do not give variable a value (or type, above) because the value specified
-                    in test file might not be executable. -->
-               </xsl:when>
-
                <xsl:when test="$temp-doc-uqname">
                   <xsl:variable name="selection" as="xs:string"
                      select="(@select, '.'[current()/@href], 'node()')[1]" />
