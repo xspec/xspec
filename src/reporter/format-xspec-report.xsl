@@ -39,13 +39,13 @@
    <xsl:function name="x:pending-callback" as="node()*">
       <xsl:param name="pending-attribute" as="attribute(pending)?"/>
 
-      <xsl:if test="$pending-attribute">
+      <xsl:for-each select="normalize-space($pending-attribute)[.]">
          <xsl:text>(</xsl:text>
          <strong>
-            <xsl:value-of select="$pending-attribute" />
+            <xsl:value-of select="." />
          </strong>
          <xsl:text>) </xsl:text>
-      </xsl:if>
+      </xsl:for-each>
    </xsl:function>
 
    <!-- Returns formatted output for separator between scenarios -->
