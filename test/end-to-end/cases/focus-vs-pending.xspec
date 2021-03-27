@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================== -->
+<!--  File:       focus-vs-pending.xspec                                   -->
+<!--  Author:     Florent Georges                                          -->
+<!--  Tags:                                                                -->
+<!--    Copyright (c) 2010 Jeni Tennison (see end of file.)                -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+
+<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               query="x-urn:test:do-nothing"
+               query-at="do-nothing.xqm"
+               schematron="do-nothing.sch"
+               stylesheet="do-nothing.xsl"
+               xml:base="../../">
+
+   <t:scenario label="Test @focus and pending together (both @pending and x:pending)">
+
+      <t:call function="exactly-one">
+         <t:param select="9" />
+      </t:call>
+
+      <!--
+         Test x:pending.
+      -->
+      <t:pending label="testing x:pending">
+
+         <t:scenario label="an unfocused erroneous scenario in x:pending must be Pending">
+            <t:expect label="it would throw an error if it were not Pending"
+                      test="error()" />
+         </t:scenario>
+
+         <t:scenario label="a focused Success scenario in x:pending"
+                     focus="testing @focus in x:pending">
+            <t:expect label="must execute the test and return Success"
+                      select="9" />
+         </t:scenario>
+
+      </t:pending>
+
+      <!--
+         Test @pending.
+      -->
+      <t:scenario label="an erroneous scenario with @pending must be Pending"
+                  pending="testing @pending without @focus">
+         <t:expect label="it would throw an error if it were not Pending"
+                   test="error()" />
+      </t:scenario>
+
+      <!-- does not make sense, really, but to see how the implem reacts -->
+      <t:scenario label="a Success scenario with both @pending and @focus (not recommended as ambiguous)"
+                  pending="testing @pending with @focus"
+                  focus="testing @focus with @pending">
+         <t:expect label="must execute the test and return Success"
+                   select="9" />
+      </t:scenario>
+
+      <!--
+         Non-pending scenarios.
+      -->
+      <t:scenario label="a non-pending erroneous scenario alongside a focused scenario must be Pending">
+         <t:expect label="it would throw an error if it were not Pending"
+                   test="error()" />
+      </t:scenario>
+
+      <t:scenario label="a focused Success scenario alongside another focused scenario"
+                  focus="testing @focus alongside another focused scenario">
+         <t:expect label="must execute the test and return Success"
+                   select="9" />
+      </t:scenario>
+
+   </t:scenario>
+
+</t:description>
+
+
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS COMMENT.             -->
+<!--                                                                       -->
+<!-- Copyright (c) 2010 Jeni Tennison                                      -->
+<!--                                                                       -->
+<!-- The contents of this file are subject to the MIT License (see the URI -->
+<!-- http://www.opensource.org/licenses/mit-license.php for details).      -->
+<!--                                                                       -->
+<!-- Permission is hereby granted, free of charge, to any person obtaining -->
+<!-- a copy of this software and associated documentation files (the       -->
+<!-- "Software"), to deal in the Software without restriction, including   -->
+<!-- without limitation the rights to use, copy, modify, merge, publish,   -->
+<!-- distribute, sublicense, and/or sell copies of the Software, and to    -->
+<!-- permit persons to whom the Software is furnished to do so, subject to -->
+<!-- the following conditions:                                             -->
+<!--                                                                       -->
+<!-- The above copyright notice and this permission notice shall be        -->
+<!-- included in all copies or substantial portions of the Software.       -->
+<!--                                                                       -->
+<!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       -->
+<!-- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF    -->
+<!-- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.-->
+<!-- IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY  -->
+<!-- CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,  -->
+<!-- TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE     -->
+<!-- SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                -->
+<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

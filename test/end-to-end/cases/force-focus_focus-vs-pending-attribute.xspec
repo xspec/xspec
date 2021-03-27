@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Force focus on the deepest scenario -->
+<?xspec-test force-focus=scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario2-scenario1?>
+
+<!-- Exclude unrelated scenarios from the test result report HTML -->
+<?xspec-test html-reporter=${xspec.project.dir}/test/end-to-end/cases/force-focus-reporter.xsl?>
+
+<x:description query="x-urn:test:do-nothing" query-at="../../do-nothing.xqm"
+	schematron="../../do-nothing.sch" stylesheet="../../do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="focus-vs-pending-attribute.xspec" />
+</x:description>
