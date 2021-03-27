@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
-        xspec="../../format-xspec-report-folding.xspec"
-        stylesheet="../../../../square.xsl"
+        xspec="../../focus-without-pending.xspec"
+        stylesheet="../../../../do-nothing.xsl"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1"
              xspec="../../focus-without-pending.xspec"

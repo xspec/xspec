@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="force-focus_focus-without-pending.xspec">
+   <testsuite name="Test @focus" tests="4" failures="1">
+      <testcase name="an unfocused Success scenario must be Pending it would return Success if it were not Pending"
+                status="passed"/>
+      <testcase name="an unfocused Failure scenario must be Pending it would return Failure if it were not Pending"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
+      </testcase>
+      <testcase name="a focused Success scenario must execute the test and return Success"
+                status="skipped">
+         <skipped>force focus</skipped>
+      </testcase>
+      <testcase name="a focused Failure scenario must execute the test and return Failure"
+                status="skipped">
+         <skipped>force focus</skipped>
+      </testcase>
+   </testsuite>
+</testsuites>
