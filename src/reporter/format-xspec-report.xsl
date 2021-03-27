@@ -63,7 +63,8 @@
       <xsl:context-item as="element(x:scenario)" use="required" />
 
       <div id="top_{@id}">
-         <h2 class="{x:scenario-html-class(., false())}">
+         <h2>
+            <xsl:call-template name="x:scenario-html-class-attribute" />
             <xsl:sequence select="x:pending-callback(@pending)"/>
             <xsl:apply-templates select="x:label" mode="x:html-report" />
             <span class="scenario-totals">
@@ -79,7 +80,8 @@
                <col style="width:25%" />
             </colgroup>
             <tbody>
-               <tr class="{x:scenario-html-class(., false())}">
+               <tr>
+                  <xsl:call-template name="x:scenario-html-class-attribute" />
                   <th>
                      <xsl:sequence select="x:pending-callback(@pending)"/>
                      <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -101,7 +103,8 @@
                         </xsl:if>
                      </xsl:for-each>
                   </xsl:variable>
-                  <tr class="{x:scenario-html-class(., false())}">
+                  <tr>
+                     <xsl:call-template name="x:scenario-html-class-attribute" />
                      <th>
                         <xsl:sequence select="x:pending-callback(@pending)"/>
                         <xsl:choose>
@@ -275,7 +278,10 @@
          </thead>
          <tbody>
             <xsl:for-each select="x:scenario">
-               <tr class="{x:scenario-html-class(., true())}">
+               <tr>
+                  <xsl:call-template name="x:scenario-html-class-attribute">
+                     <xsl:with-param name="look-for-descendant-failed-tests" select="true()" />
+                  </xsl:call-template>
                   <th>
                      <xsl:sequence select="x:pending-callback(@pending)"/>
                      <a>
@@ -516,20 +522,19 @@
       </xsl:sequence>
    </xsl:function>
 
+   <!-- Creates an HTML @class for x:scenario: 'pending', 'failed' or 'successful' -->
+   <xsl:template name="x:scenario-html-class-attribute" as="attribute(class)">
+      <xsl:context-item as="element(x:scenario)" use="required" />
 
-   <!-- Returns an HTML class for x:scenario: 'pending', 'failed' or 'successful'
-      Set $look-for-descendant-failed-tests to true if looking for descendant failure. False if only
-      child failure. -->
-   <xsl:function name="x:scenario-html-class" as="xs:string">
-      <xsl:param name="scenario" as="element(x:scenario)" />
-      <xsl:param name="look-for-descendant-failed-tests" as="xs:boolean" />
+      <xsl:param name="look-for-descendant-failed-tests" as="xs:boolean" select="false()" />
 
-      <xsl:for-each select="$scenario">
-         <xsl:variable name="failed-tests" as="element(x:test)*" select="
-               if ($look-for-descendant-failed-tests) then
-                  x:descendant-failed-tests(.)
-               else
-                  x:test[x:is-failed-test(.)]" />
+      <xsl:variable name="failed-tests" as="element(x:test)*" select="
+            if ($look-for-descendant-failed-tests) then
+               x:descendant-failed-tests(.)
+            else
+               x:test[x:is-failed-test(.)]" />
+
+      <xsl:attribute name="class">
          <xsl:choose>
             <xsl:when test="exists(@pending)">
                <xsl:sequence select="'pending'" />
@@ -541,8 +546,8 @@
                <xsl:sequence select="'successful'" />
             </xsl:otherwise>
          </xsl:choose>
-      </xsl:for-each>
-   </xsl:function>
+      </xsl:attribute>
+   </xsl:template>
 
 </xsl:stylesheet>
 

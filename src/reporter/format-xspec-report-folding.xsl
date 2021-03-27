@@ -62,8 +62,8 @@ function toggle(scenarioID) {
          select="x:descendant-failed-tests(.) => exists()" />
 
       <div id="top_{@id}">
-         <h2
-            class="{x:scenario-html-class(., false())}">
+         <h2>
+            <xsl:call-template name="x:scenario-html-class-attribute" />
             <a href="javascript:toggle('{@id}')">
                <xsl:variable name="graphics-dir" as="xs:anyURI" select="resolve-uri('../../graphics/')" />
                <xsl:variable name="img-file" as="xs:string"
@@ -86,7 +86,8 @@ function toggle(scenarioID) {
                <col style="width:15%" />
             </colgroup>
             <tbody>
-               <tr class="{x:scenario-html-class(., false())}">
+               <tr>
+                  <xsl:call-template name="x:scenario-html-class-attribute" />
                   <th>
                      <xsl:sequence select="x:pending-callback(@pending)"/>
                      <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -107,8 +108,8 @@ function toggle(scenarioID) {
                         </xsl:if>
                      </xsl:for-each>
                   </xsl:variable>
-                  <tr id="{@id}"
-                     class="{x:scenario-html-class(., false())}">
+                  <tr id="{@id}">
+                     <xsl:call-template name="x:scenario-html-class-attribute" />
                      <th>
                         <xsl:sequence select="x:pending-callback(@pending)"/>
                         <xsl:choose>
