@@ -30,7 +30,7 @@
          </thead>
          <tbody>
             <tr class="pending">
-               <th>(<strong>testing x:pending</strong>) <a>an unfocused correct scenario in x:pending must be Pending</a></th>
+               <th>(<strong>testing x:pending</strong>) <a href="#top_scenario1">an unfocused correct scenario in x:pending must be Pending</a></th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">0</th>
@@ -44,7 +44,7 @@
                <th class="totals">1</th>
             </tr>
             <tr class="pending">
-               <th>(<strong>testing @focus in x:pending</strong>) <a>a non-pending correct scenario alongside a focused scenario must be Pending</a></th>
+               <th>(<strong>testing @focus in x:pending</strong>) <a href="#top_scenario3">a non-pending correct scenario alongside a focused scenario must be Pending</a></th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">0</th>
@@ -58,7 +58,7 @@
                <th class="totals">1</th>
             </tr>
             <tr class="pending">
-               <th>(<strong>testing x:scenario[empty(@focus)]/@pending</strong>) <a>a correct scenario with @pending must be Pending</a></th>
+               <th>(<strong>testing x:scenario[empty(@focus)]/@pending</strong>) <a href="#top_scenario5">a correct scenario with @pending must be Pending</a></th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">0</th>
@@ -72,7 +72,7 @@
                <th class="totals">1</th>
             </tr>
             <tr class="pending">
-               <th>(<strong>testing @focus in x:pending</strong>) <a>a correct x:expect with @pending must be Pending</a></th>
+               <th>(<strong>testing @focus in x:pending</strong>) <a href="#top_scenario7">a correct x:expect with @pending must be Pending</a></th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">0</th>
@@ -88,6 +88,25 @@
             </tr>
          </tbody>
       </table>
+      <div id="top_scenario1">
+         <h2 class="pending">(<strong>testing x:pending</strong>) an unfocused correct scenario in x:pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario1">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="pending">
+                  <th>(<strong>testing x:pending</strong>) an unfocused correct scenario in x:pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing x:pending</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
       <div id="top_scenario2">
          <h2 class="successful">a focused correct scenario in x:pending<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
          <table class="xspec" id="table_scenario2">
@@ -103,6 +122,25 @@
                <tr class="successful">
                   <td>must execute the test and return Success</td>
                   <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario3">
+         <h2 class="pending">(<strong>testing @focus in x:pending</strong>) a non-pending correct scenario alongside a focused scenario must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario3">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="pending">
+                  <th>(<strong>testing @focus in x:pending</strong>) a non-pending correct scenario alongside a focused scenario must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @focus in x:pending</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
                </tr>
             </tbody>
          </table>
@@ -126,6 +164,25 @@
             </tbody>
          </table>
       </div>
+      <div id="top_scenario5">
+         <h2 class="pending">(<strong>testing x:scenario[empty(@focus)]/@pending</strong>) a correct scenario with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario5">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="pending">
+                  <th>(<strong>testing x:scenario[empty(@focus)]/@pending</strong>) a correct scenario with @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing x:scenario[empty(@focus)]/@pending</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
       <div id="top_scenario6">
          <h2 class="successful">a correct scenario with both @pending and @focus (not recommended as ambiguous)<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
          <table class="xspec" id="table_scenario6">
@@ -141,6 +198,25 @@
                <tr class="successful">
                   <td>must execute the test and return Success</td>
                   <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario7">
+         <h2 class="pending">(<strong>testing @focus in x:pending</strong>) a correct x:expect with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario7">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="pending">
+                  <th>(<strong>testing @focus in x:pending</strong>) a correct x:expect with @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing x:expect/@pending without ancestor::x:scenario/@focus</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
                </tr>
             </tbody>
          </table>
