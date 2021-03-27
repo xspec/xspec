@@ -64,10 +64,10 @@
 
       <xsl:variable name="is-pending" as="xs:boolean"
          select="exists(@pending)" />
-      <xsl:variable name="any-failure" as="xs:boolean"
-         select="exists(x:test[x:is-failed-test(.)])" />
+      <xsl:variable name="any-child-failure" as="xs:boolean"
+         select="x:test[x:is-failed-test(.)] => exists()" />
       <div id="top_{@id}">
-         <h2 class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+         <h2 class="{if ($is-pending) then 'pending' else if ($any-child-failure) then 'failed' else 'successful'}">
             <xsl:sequence select="x:pending-callback(@pending)"/>
             <xsl:apply-templates select="x:label" mode="x:html-report" />
             <span class="scenario-totals">
@@ -83,7 +83,7 @@
                <col style="width:25%" />
             </colgroup>
             <tbody>
-               <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+               <tr class="{if ($is-pending) then 'pending' else if ($any-child-failure) then 'failed' else 'successful'}">
                   <th>
                      <xsl:sequence select="x:pending-callback(@pending)"/>
                      <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -99,8 +99,8 @@
                <xsl:for-each select=".//x:scenario[x:test]">
                   <xsl:variable name="is-pending" as="xs:boolean"
                      select="exists(@pending)" />
-                  <xsl:variable name="any-failure" as="xs:boolean"
-                     select="exists(x:test[x:is-failed-test(.)])" />
+                  <xsl:variable name="any-child-failure" as="xs:boolean"
+                     select="x:test[x:is-failed-test(.)] => exists()" />
                   <xsl:variable name="label" as="node()+">
                      <xsl:for-each select="ancestor-or-self::x:scenario[position() != last()]">
                         <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -109,11 +109,11 @@
                         </xsl:if>
                      </xsl:for-each>
                   </xsl:variable>
-                  <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+                  <tr class="{if ($is-pending) then 'pending' else if ($any-child-failure) then 'failed' else 'successful'}">
                      <th>
                         <xsl:sequence select="x:pending-callback(@pending)"/>
                         <xsl:choose>
-                           <xsl:when test="$any-failure">
+                           <xsl:when test="$any-child-failure">
                               <a href="#{@id}">
                                  <xsl:sequence select="$label" />
                               </a>
@@ -226,7 +226,7 @@
 
    <xsl:template match="x:report" as="element()+" mode="x:html-report">
       <!-- Write URIs, ignoring @stylesheet when actual test target is Schematron -->
-      <xsl:for-each select="@query, @query-at, @schematron, @stylesheet[empty(current()/@schematron)]">
+      <xsl:for-each select="@query, @query-at, @schematron, @stylesheet[current()/@schematron => empty()]">
          <p>
             <xsl:variable as="xs:string" name="attr-name" select="local-name()" />
 
@@ -285,9 +285,9 @@
             <xsl:for-each select="x:scenario">
                <xsl:variable name="is-pending" as="xs:boolean"
                   select="exists(@pending)" />
-               <xsl:variable name="any-failure" as="xs:boolean"
-                  select="exists(x:descendant-failed-tests(.))" />
-               <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+               <xsl:variable name="any-descendant-failure" as="xs:boolean"
+                  select="x:descendant-failed-tests(.) => exists()" />
+               <tr class="{if ($is-pending) then 'pending' else if ($any-descendant-failure) then 'failed' else 'successful'}">
                   <th>
                      <xsl:sequence select="x:pending-callback(@pending)"/>
                      <a>
