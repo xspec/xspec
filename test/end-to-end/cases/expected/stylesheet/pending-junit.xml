@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="pending.xspec">
    <testsuite name="Test pending features (x:pending and @pending)"
-              tests="6"
+              tests="14"
               failures="1">
       <testcase name="a Success scenario in x:pending must be Pending it would return Success if it were not Pending"
                 status="skipped">
@@ -10,6 +10,30 @@
       <testcase name="an erroneous scenario in x:pending must be Pending it would throw an error if it were not Pending"
                 status="skipped">
          <skipped>testing x:pending</skipped>
+      </testcase>
+      <testcase name="a Success scenario in zero-length x:pending/@label must be Pending it would return Success if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="an erroneous scenario in zero-length x:pending/@label must be Pending it would throw an error if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="a Success scenario in zero-length x:pending/x:label must be Pending it would return Success if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="an erroneous scenario in zero-length x:pending/x:label must be Pending it would throw an error if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="a Success scenario in x:pending[empty(@label | x:label)] must be Pending it would return Success if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="an erroneous scenario in x:pending[empty(@label | x:label)] must be Pending it would throw an error if it were not Pending"
+                status="skipped">
+         <skipped/>
       </testcase>
       <testcase name="a Success scenario with @pending must be Pending it would return Success if it were not Pending"
                 status="skipped">
@@ -24,6 +48,14 @@
       <testcase name="a non-pending Failure scenario alongside a pending scenario must execute the test and return Failure"
                 status="failed">
          <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
+      </testcase>
+      <testcase name="Zero-length @pending a Success scenario in zero-length @pending must be Pending it would return Success if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="Zero-length @pending an erroneous scenario in zero-length @pending must be Pending it would throw an error if it were not Pending"
+                status="skipped">
+         <skipped/>
       </testcase>
    </testsuite>
 </testsuites>
