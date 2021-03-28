@@ -6,30 +6,19 @@
                 version="3.0">
 
    <!--
-      mode="x:declare-variable"
       Generates XSLT variable declaration(s) from the current element.
       
-      This mode itself does not handle whitespace-only text nodes specially. To handle
-      whitespace-only text node in a special manner, the text node should be handled specially
-      before applying this mode and/or mode="x:node-constructor" should be overridden.
-      
-      This mode does not handle @static. It is just ignored. Enabling @static will create a usual
-      non-static parameter or variable.
+      This template does not handle @static. It is just ignored. Enabling @static will create a
+      usual non-static parameter or variable.
    -->
-   <xsl:mode name="x:declare-variable" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:template name="x:declare-variable" as="element()+">
+      <xsl:context-item as="element()" use="required" />
 
-   <xsl:template match="element()" as="element()+" mode="x:declare-variable">
-      <!-- Reflects @pending, x:pending or @focus -->
-      <xsl:param name="reason-for-pending" as="xs:string?" tunnel="yes" />
-
+      <xsl:param name="is-pending" as="xs:boolean" required="yes" />
       <xsl:param name="comment" as="xs:string?" />
 
       <!-- URIQualifiedName of the variable being declared -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
-
-      <xsl:variable name="reason-for-pending" as="xs:string?"
-         select="($reason-for-pending, ancestor::x:scenario/@pending)[1]" />
-      <xsl:variable name="is-pending" as="xs:boolean" select="x:is-pending(., $reason-for-pending)" />
 
       <!-- Child nodes to be excluded -->
       <xsl:variable name="exclude" as="element()*"
