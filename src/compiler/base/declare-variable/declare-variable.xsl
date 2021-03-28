@@ -26,7 +26,8 @@
          select="($reason-for-pending, ancestor::x:scenario/@pending)[1]" />
       <xsl:variable name="is-pending" as="xs:boolean" select="x:is-pending(., $reason-for-pending)" />
 
-      <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
+      <xsl:variable name="current-element-is-global" as="xs:boolean"
+         select="exists(parent::x:description)" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:declare-variable">
@@ -40,11 +41,11 @@
          <xsl:with-param name="exclude" select="self::x:context/x:param | self::x:expect/x:label" />
 
          <!-- True if the variable should be declared as global -->
-         <xsl:with-param name="is-global" select="$is-global" />
+         <xsl:with-param name="as-global" select="$current-element-is-global" />
 
          <!-- XSLT: True if the variable should be declared using xsl:param (not xsl:variable).
             XQuery: True if the variable should be declared as external. -->
-         <xsl:with-param name="is-param" select="self::x:param and $is-global" />
+         <xsl:with-param name="as-param" select="self::x:param and $current-element-is-global" />
 
          <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
             child::node() or @href -->

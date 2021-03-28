@@ -18,11 +18,12 @@
       <xsl:param name="comment" as="xs:string?" />
       <xsl:param name="uqname" as="xs:string" required="yes" />
       <xsl:param name="exclude" as="element(x:label)?" required="yes" />
-      <xsl:param name="is-global" as="xs:boolean" required="yes" />
+      <xsl:param name="as-global" as="xs:boolean" required="yes" />
 
-      <!-- TODO: If true, declare an XQuery external variable. (But it isn't worth implementing.
+      <!-- XQuery does not use this parameter.
+         TODO: If true, declare an XQuery external variable. (But it isn't worth implementing.
          External variables are of no use in XSpec.) -->
-      <xsl:param name="is-param" as="xs:boolean" />
+      <xsl:param name="as-param" as="xs:boolean" />
 
       <xsl:param name="temp-doc-uqname" as="xs:string?" required="yes" />
 
@@ -42,8 +43,8 @@
       -->
       <xsl:if test="$temp-doc-uqname">
          <xsl:call-template name="x:declare-or-let-variable">
-            <xsl:with-param name="is-global" select="$is-global" />
-            <xsl:with-param name="name" select="$temp-doc-uqname" />
+            <xsl:with-param name="as-global" select="$as-global" />
+            <xsl:with-param name="uqname" select="$temp-doc-uqname" />
             <xsl:with-param name="type" select="'document-node()'" />
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
@@ -76,8 +77,8 @@
             ( EXPRESSION )
       -->
       <xsl:call-template name="x:declare-or-let-variable">
-         <xsl:with-param name="is-global" select="$is-global" />
-         <xsl:with-param name="name" select="$uqname" />
+         <xsl:with-param name="as-global" select="$as-global" />
+         <xsl:with-param name="uqname" select="$uqname" />
          <xsl:with-param name="type" select="@as[not($is-pending)]" />
          <xsl:with-param name="value" as="text()?">
             <xsl:choose>
@@ -110,14 +111,14 @@
    <xsl:template name="x:declare-or-let-variable" as="node()+">
       <xsl:context-item use="absent" />
 
-      <xsl:param name="is-global" as="xs:boolean" required="yes" />
-      <xsl:param name="name" as="xs:string" required="yes" />
+      <xsl:param name="as-global" as="xs:boolean" required="yes" />
+      <xsl:param name="uqname" as="xs:string" required="yes" />
       <xsl:param name="type" as="xs:string?" required="yes" />
       <xsl:param name="value" as="node()*" required="yes" />
       <xsl:param name="comment" as="xs:string?" />
 
       <xsl:choose>
-         <xsl:when test="$is-global">
+         <xsl:when test="$as-global">
             <xsl:text>declare variable</xsl:text>
          </xsl:when>
          <xsl:otherwise>
@@ -125,7 +126,7 @@
          </xsl:otherwise>
       </xsl:choose>
 
-      <xsl:text expand-text="yes"> ${$name}</xsl:text>
+      <xsl:text expand-text="yes"> ${$uqname}</xsl:text>
 
       <xsl:if test="$type">
          <xsl:text expand-text="yes"> as {$type}</xsl:text>
@@ -148,7 +149,7 @@
 
       <xsl:text>&#x0A;)</xsl:text>
 
-      <xsl:if test="$is-global">
+      <xsl:if test="$as-global">
          <xsl:text>;</xsl:text>
       </xsl:if>
       <xsl:text>&#10;</xsl:text>

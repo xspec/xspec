@@ -18,8 +18,11 @@
       <xsl:param name="comment" as="xs:string?" />
       <xsl:param name="uqname" as="xs:string" required="yes" />
       <xsl:param name="exclude" as="element()*" required="yes" />
-      <xsl:param name="is-global" as="xs:boolean" required="yes" />
-      <xsl:param name="is-param" as="xs:boolean" required="yes" />
+
+      <!-- XSLT does not use this parameter -->
+      <xsl:param name="as-global" as="xs:boolean" />
+
+      <xsl:param name="as-param" as="xs:boolean" required="yes" />
       <xsl:param name="temp-doc-uqname" as="xs:string?" required="yes" />
 
       <xsl:if test="$temp-doc-uqname">
@@ -43,7 +46,7 @@
          </xsl:element>
       </xsl:if>
 
-      <xsl:element name="xsl:{if ($is-param) then 'param' else 'variable'}"
+      <xsl:element name="xsl:{if ($as-param) then 'param' else 'variable'}"
          namespace="{$x:xsl-namespace}">
          <!-- @as or @select may use namespace prefixes. @select may use the default namespace such
             as xs:QName('foo'). -->
