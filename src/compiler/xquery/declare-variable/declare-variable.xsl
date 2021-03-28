@@ -16,33 +16,18 @@
 
       <xsl:param name="is-pending" as="xs:boolean" required="yes" />
       <xsl:param name="comment" as="xs:string?" />
+      <xsl:param name="uqname" as="xs:string" required="yes" />
+      <xsl:param name="exclude" as="element(x:label)?" required="yes" />
+      <xsl:param name="is-global" as="xs:boolean" required="yes" />
+
+      <!-- TODO: If true, declare an XQuery external variable. (But it isn't worth implementing.
+         External variables are of no use in XSpec.) -->
+      <xsl:param name="is-param" as="xs:boolean" />
+
+      <xsl:param name="temp-doc-uqname" as="xs:string?" required="yes" />
 
       <!-- XQuery-specific checks -->
       <xsl:call-template name="local:check-xquery-vardecl" />
-
-      <!-- URIQualifiedName of the variable being declared -->
-      <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
-
-      <!-- Child nodes to be excluded -->
-      <xsl:variable name="exclude" as="element(x:label)?"
-         select="self::x:expect/x:label" />
-
-      <!-- True if the variable should be declared as global -->
-      <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
-
-      <!-- True if the variable should be declared as external.
-         TODO: If true, declare an XQuery external variable. (But it isn't worth implementing.
-         External variables are of no use in XSpec.) -->
-      <!--<xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />-->
-
-      <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
-         child::node() or @href -->
-      <xsl:variable name="temp-doc-uqname" as="xs:string?">
-         <xsl:if test="not($is-pending) and (node() or @href)">
-            <xsl:sequence
-               select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-doc')" />
-         </xsl:if>
-      </xsl:variable>
 
       <!--
          Output

@@ -26,10 +26,34 @@
          select="($reason-for-pending, ancestor::x:scenario/@pending)[1]" />
       <xsl:variable name="is-pending" as="xs:boolean" select="x:is-pending(., $reason-for-pending)" />
 
+      <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
+
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
       <xsl:call-template name="x:declare-variable">
          <xsl:with-param name="is-pending" select="$is-pending" />
          <xsl:with-param name="comment" select="$comment" />
+
+         <!-- URIQualifiedName of the variable being declared -->
+         <xsl:with-param name="uqname" select="x:variable-UQName(.)" />
+
+         <!-- Child nodes to be excluded -->
+         <xsl:with-param name="exclude" select="self::x:context/x:param | self::x:expect/x:label" />
+
+         <!-- True if the variable should be declared as global -->
+         <xsl:with-param name="is-global" select="$is-global" />
+
+         <!-- XSLT: True if the variable should be declared using xsl:param (not xsl:variable).
+            XQuery: True if the variable should be declared as external. -->
+         <xsl:with-param name="is-param" select="self::x:param and $is-global" />
+
+         <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
+            child::node() or @href -->
+         <xsl:with-param name="temp-doc-uqname" as="xs:string?">
+            <xsl:if test="not($is-pending) and (node() or @href)">
+               <xsl:sequence
+                  select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-doc')" />
+            </xsl:if>
+         </xsl:with-param>
       </xsl:call-template>
    </xsl:template>
 
