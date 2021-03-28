@@ -101,12 +101,12 @@
           </xsl:call-template>
           <xsl:choose>
             <xsl:when test="$effective-phase = '#ALL'">
-              <xsl:for-each select="sch:pattern">
+              <xsl:for-each select="sch:pattern[sch:rule]">
                 <call-template name="{generate-id()}"/>
               </xsl:for-each>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:for-each select="sch:pattern[@id = current()/sch:phase[@id = $effective-phase]/sch:active/@pattern]">
+              <xsl:for-each select="sch:pattern[@id = current()/sch:phase[@id = $effective-phase]/sch:active/@pattern][sch:rule]">
                 <call-template name="{generate-id()}"/>
               </xsl:for-each>
             </xsl:otherwise>
@@ -208,22 +208,39 @@
     </if>
   </xsl:template>
 
-  <xsl:template match="sch:name[@path]" mode="schxslt:compile">
-    <value-of select="{@path}"/>
-  </xsl:template>
-
-  <xsl:template match="sch:name[not(@path)]" mode="schxslt:compile">
-    <value-of select="name()"/>
-  </xsl:template>
-
-  <xsl:template match="sch:value-of" mode="schxslt:compile">
-    <value-of select="{@select}"/>
-  </xsl:template>
-
   <xsl:template match="node() | @*" mode="schxslt:compile">
     <xsl:copy>
       <xsl:apply-templates select="node() | @*" mode="schxslt:compile"/>
     </xsl:copy>
+  </xsl:template>
+
+  <!-- Message templates -->
+  <xsl:template match="comment() | processing-instruction()" mode="schxslt:message-template">
+    <xsl:copy-of select="."/>
+  </xsl:template>
+
+  <xsl:template match="*" mode="schxslt:message-template">
+    <element namespace="{namespace-uri(.)}" name="{local-name(.)}">
+      <xsl:apply-templates select="node() | @*" mode="schxslt:message-template"/>
+    </element>
+  </xsl:template>
+
+  <xsl:template match="@*" mode="schxslt:message-template">
+    <attribute namespace="{namespace-uri(.)}" name="{local-name(.)}">
+      <value-of select="."/>
+    </attribute>
+  </xsl:template>
+
+  <xsl:template match="sch:name[@path]" mode="schxslt:message-template">
+    <value-of select="{@path}"/>
+  </xsl:template>
+
+  <xsl:template match="sch:name[not(@path)]" mode="schxslt:message-template">
+    <value-of select="name()"/>
+  </xsl:template>
+
+  <xsl:template match="sch:value-of" mode="schxslt:message-template">
+    <value-of select="{@select}"/>
   </xsl:template>
 
   <!-- Copy variable content -->

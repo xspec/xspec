@@ -26,7 +26,7 @@
   <xsl:include href="../version.xsl"/>
 
   <xsl:param name="phase" as="xs:string">#DEFAULT</xsl:param>
-  <xsl:param name="schxslt.compile.typed-variables" as="xs:boolean" select="true()"/>
+  <xsl:variable name="schxslt.compile.typed-variables" as="xs:boolean" select="true()"/>
   <xsl:param name="schxslt.compile.streamable" as="xs:boolean" select="false()"/>
 
   <xsl:template match="/sch:schema">
@@ -89,6 +89,7 @@
       <xsl:sequence select="$schematron/xsl:function[not(preceding-sibling::sch:pattern)]"/>
       <xsl:if test="$xslt-version eq '3.0'">
         <xsl:sequence select="$schematron/xsl:accumulator[not(preceding-sibling::sch:pattern)]"/>
+        <xsl:sequence select="$schematron/xsl:use-package[not(preceding-sibling::sch:pattern)]"/>
       </xsl:if>
 
       <!-- See https://github.com/dmj/schxslt/issues/25 -->
@@ -109,11 +110,6 @@
 
       <template match="/">
         <xsl:sequence select="$schematron/sch:phase[@id eq $effective-phase]/@xml:base"/>
-
-        <xsl:call-template name="schxslt:let-variable">
-          <xsl:with-param name="bindings" select="$schematron/sch:phase[@id eq $effective-phase]/sch:let"/>
-          <xsl:with-param name="typed-variables" as="xs:boolean" select="$schxslt.compile.typed-variables"/>
-        </xsl:call-template>
 
         <variable name="metadata" as="element()?">
           <xsl:call-template name="schxslt-api:metadata">
@@ -258,16 +254,18 @@
     <xsl:param name="streamable" as="xs:boolean" required="yes"/>
     <xsl:param name="xslt-version" as="xs:string" tunnel="yes" required="yes"/>
 
+    <xsl:if test="$xslt-version = '3.0'">
+      <mode use-accumulators="#all">
+        <xsl:if test="$streamable">
+          <xsl:attribute name="streamable">yes</xsl:attribute>
+        </xsl:if>
+      </mode>
+    </xsl:if>
+
     <xsl:for-each-group select="$patterns" group-by="string-join((base-uri(.), @documents), '~')">
       <xsl:variable name="mode" as="xs:string" select="generate-id()"/>
-      <xsl:variable name="baseUri" as="xs:anyURI" select="base-uri(.)"/>
 
       <xsl:if test="$xslt-version = '3.0'">
-        <mode use-accumulators="#all">
-          <xsl:if test="$streamable">
-            <xsl:attribute name="streamable">yes</xsl:attribute>
-          </xsl:if>
-        </mode>
         <mode name="{$mode}" use-accumulators="#all">
           <xsl:if test="$streamable">
             <xsl:attribute name="streamable">yes</xsl:attribute>
@@ -283,12 +281,9 @@
             <xsl:choose>
               <xsl:when test="$xslt-version = '3.0'">
                 <for-each select="{@documents}">
-                  <source-document href="{{resolve-uri(., '{$baseUri}')}}">
+                  <source-document href="{{.}}">
                     <xsl:for-each select="current-group()">
                       <schxslt:pattern id="{generate-id()}">
-                        <if test="exists(base-uri(.))">
-                          <attribute name="documents" select="base-uri(.)"/>
-                        </if>
                         <for-each select=".">
                           <xsl:call-template name="schxslt-api:active-pattern">
                             <xsl:with-param name="pattern" as="element(sch:pattern)" select="."/>
@@ -302,7 +297,7 @@
               </xsl:when>
               <xsl:otherwise>
                 <for-each select="{@documents}">
-                  <variable name="document" as="item()" select="document(resolve-uri(., '{$baseUri}'))"/>
+                  <variable name="document" as="item()" select="document(.)"/>
                   <xsl:for-each select="current-group()">
                     <schxslt:pattern id="{generate-id()}">
                       <if test="exists(base-uri($document))">

@@ -51,10 +51,10 @@
 
     <xsl:choose>
       <xsl:when test="$phase eq '#ALL'">
-        <xsl:sequence select="$schema/sch:pattern"/>
+        <xsl:sequence select="$schema/sch:pattern[sch:rule]"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:sequence select="$schema/sch:pattern[@id = $schema/sch:phase[@id eq $phase]/sch:active/@pattern]"/>
+        <xsl:sequence select="$schema/sch:pattern[@id = $schema/sch:phase[@id eq $phase]/sch:active/@pattern][sch:rule]"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>

@@ -7,7 +7,7 @@
                      xmlns:skos="http://www.w3.org/2004/02/skos/core#">
       <dct:creator>
         <dct:Agent>
-          <skos:prefLabel>SchXslt/1.6.2 (XSLT 1.0)</skos:prefLabel>
+          <skos:prefLabel>SchXslt/1.7 (XSLT 1.0)</skos:prefLabel>
         </dct:Agent>
       </dct:creator>
     </rdf:Description>

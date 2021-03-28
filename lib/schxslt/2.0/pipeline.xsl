@@ -5,7 +5,7 @@
 
   <xsl:include href="compile/compile-2.0.xsl"/>
   <xsl:include href="include.xsl"/>
-  <xsl:include href="expand.xsl"/>
+  <xsl:import href="expand.xsl"/>
 
   <xsl:template match="/sch:schema" priority="100">
     <xsl:call-template name="schxslt:compile">
