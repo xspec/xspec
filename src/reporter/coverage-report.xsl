@@ -152,12 +152,11 @@
    <xsl:variable name="group-comment" as="xs:integer" select="3"/>
    <xsl:variable name="group-pi" as="xs:integer" select="4"/>
    <xsl:variable name="group-cdata" as="xs:integer" select="5"/>
-   <xsl:variable name="group-doctype" as="xs:integer" select="6"/>
-   <xsl:variable name="group-close-tag" as="xs:integer" select="7"/>
-   <xsl:variable name="group-close-tag-name" as="xs:integer" select="8"/>
-   <xsl:variable name="group-open-tag" as="xs:integer" select="9"/>
-   <xsl:variable name="group-open-tag-name" as="xs:integer" select="10"/>
-   <xsl:variable name="group-empty-tag" as="xs:integer" select="11"/>
+   <xsl:variable name="group-close-tag" as="xs:integer" select="6"/>
+   <xsl:variable name="group-close-tag-name" as="xs:integer" select="7"/>
+   <xsl:variable name="group-open-tag" as="xs:integer" select="8"/>
+   <xsl:variable name="group-open-tag-name" as="xs:integer" select="9"/>
+   <xsl:variable name="group-empty-tag" as="xs:integer" select="10"/>
 
    <xsl:variable name="construct-regex" as="xs:string">
       <xsl:value-of xml:space="preserve">
@@ -176,7 +175,7 @@
                (?:[^\]]|\][^\]]|\]\][^>])*   <!-- ?: the content of the CDATA section -->
              \]\]>)
             |
-            (&lt;!DOCTYPE                    <!-- 6: a DOCTYPE declaration -->
+            (?:&lt;!DOCTYPE                  <!-- ?: a DOCTYPE declaration -->
                \s+
                (?:[^\[>])*                   <!-- ?: the content of the DOCTYPE -->
                (?:                           <!-- ?: the entity declarations -->
@@ -192,19 +191,19 @@
                &gt;
             )
             |
-            (&lt;/                           <!-- 7: a close tag -->
-               ([^>]+)                       <!-- 8: the name of the element being closed -->
+            (&lt;/                           <!-- 6: a close tag -->
+               ([^>]+)                       <!-- 7: the name of the element being closed -->
              >)
             |
-            (&lt;                            <!-- 9: an open tag -->
-               ([^>/\s]+)                    <!-- 10: the name of the element being opened -->
+            (&lt;                            <!-- 8: an open tag -->
+               ([^>/\s]+)                    <!-- 9: the name of the element being opened -->
                (?:                           <!-- ?: the attributes of the element -->
                   (?:                        <!-- ?: wrapper for the attribute regex -->
                      <xsl:value-of select="$attribute-regex" />
                   )*
                )
                \s*
-               (/?)                          <!-- 11: empty element tag flag -->
+               (/?)                          <!-- 10: empty element tag flag -->
                >
             )
          )
@@ -233,7 +232,9 @@
                </xsl:map>
             </xsl:matching-substring>
             <xsl:non-matching-substring>
-               <xsl:message terminate="yes" expand-text="yes">ERROR: unmatched string: {.}</xsl:message>
+               <xsl:message terminate="yes">
+                  <xsl:text expand-text="yes">ERROR: unmatched string: {.}</xsl:text>
+               </xsl:message>
             </xsl:non-matching-substring>
          </xsl:analyze-string>
       </xsl:variable>
