@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test x:call[@template] when it is unfocused by @focus on an inner scenario.
+	-->
+
+	<x:scenario label="Outer scenario">
+		<x:call template="mirror:param-mirror">
+			<x:param name="param-items" select="'template-call param in outer scenario'" />
+		</x:call>
+
+		<x:scenario focus="focus" label="Focused scenario">
+			<!-- Inherit outer x:call and modify its parameter. Do not set its @template. -->
+			<x:call>
+				<x:param name="param-items" select="'template-call param in foused scenario'" />
+			</x:call>
+			<x:expect label="x:call should be inherited and modified"
+				select="'template-call param in foused scenario'" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
