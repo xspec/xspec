@@ -61,7 +61,7 @@
          if (@focus) then
             ()
          else
-            (@pending, $pending)[1]" />
+            (@pending, $reason-for-pending)[1]" />
       <xsl:variable name="is-pending" as="xs:boolean" select="x:is-pending(., $reason-for-pending)" />
 
       <!-- The new apply. -->
