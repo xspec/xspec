@@ -14,6 +14,48 @@
          <skipped>testing x:pending</skipped>
       </testcase>
    </testsuite>
+   <testsuite name="a correct scenario in zero-length x:pending/@label must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Success if it were not Pending" status="skipped">
+         <skipped/>
+      </testcase>
+   </testsuite>
+   <testsuite name="an incorrect scenario in zero-length x:pending/@label must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Failure if it were not Pending" status="skipped">
+         <skipped/>
+      </testcase>
+   </testsuite>
+   <testsuite name="a correct scenario in zero-length x:pending/x:label must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Success if it were not Pending" status="skipped">
+         <skipped/>
+      </testcase>
+   </testsuite>
+   <testsuite name="an incorrect scenario in zero-length x:pending/x:label must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Failure if it were not Pending" status="skipped">
+         <skipped/>
+      </testcase>
+   </testsuite>
+   <testsuite name="a correct scenario in x:pending[empty(@label | x:label)] must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Success if it were not Pending" status="skipped">
+         <skipped/>
+      </testcase>
+   </testsuite>
+   <testsuite name="an incorrect scenario in x:pending[empty(@label | x:label)] must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Failure if it were not Pending" status="skipped">
+         <skipped/>
+      </testcase>
+   </testsuite>
    <testsuite name="a non-pending correct scenario alongside a pending scenario"
               tests="1"
               failures="0">
@@ -38,6 +80,16 @@
               failures="0">
       <testcase name="it would return Failure if it were not Pending" status="skipped">
          <skipped>testing @pending of an incorrect scenario</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="Zero-length @pending" tests="2" failures="0">
+      <testcase name="a correct scenario in zero-length @pending must be Pending it would return Success if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="an incorrect scenario in zero-length @pending must be Pending it would return Failure if it were not Pending"
+                status="skipped">
+         <skipped/>
       </testcase>
    </testsuite>
 </testsuites>
