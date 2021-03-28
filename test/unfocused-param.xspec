@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="do-nothing.sch" stylesheet="do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test /x:description/x:param when it is unfocused by @focus.
+	-->
+
+	<x:param name="description-param" select="'PARAM'" />
+
+	<x:scenario focus="focus" label="Focused scenario">
+		<x:call function="false" />
+		<x:expect label="Unfocused description-level param should hold its original value"
+			select="'PARAM'" test="$description-param" />
+	</x:scenario>
+
+</x:description>
