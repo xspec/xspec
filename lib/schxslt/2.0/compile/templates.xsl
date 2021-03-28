@@ -27,30 +27,37 @@
     </if>
   </xsl:template>
 
-  <xsl:template match="sch:name" mode="schxslt:compile">
+  <!-- Message templates -->
+  <xsl:template match="node() | @*" mode="schxslt:message-template">
+    <xsl:copy>
+      <xsl:apply-templates mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="sch:name" mode="schxslt:message-template">
     <value-of select="{if (@path) then @path else 'name()'}">
       <xsl:sequence select="@xml:base"/>
     </value-of>
   </xsl:template>
 
-  <xsl:template match="sch:value-of" mode="schxslt:compile">
+  <xsl:template match="sch:value-of" mode="schxslt:message-template">
     <value-of select="{@select}">
       <xsl:sequence select="@xml:base"/>
     </value-of>
   </xsl:template>
 
   <!-- Copy variable content -->
-  <xsl:template match="comment() | processing-instruction()" mode="schxslt:variable-content">
+  <xsl:template match="comment() | processing-instruction()" mode="schxslt:variable-content schxslt:message-template">
     <xsl:sequence select="."/>
   </xsl:template>
 
-  <xsl:template match="*" mode="schxslt:variable-content">
+  <xsl:template match="*" mode="schxslt:variable-content schxslt:message-template">
     <element namespace="{namespace-uri(.)}" name="{local-name(.)}">
       <xsl:apply-templates select="node() | @*" mode="#current"/>
     </element>
   </xsl:template>
 
-  <xsl:template match="@*" mode="schxslt:variable-content">
+  <xsl:template match="@*" mode="schxslt:variable-content schxslt:message-template">
     <attribute namespace="{namespace-uri(.)}" name="{local-name(.)}">
       <value-of select="."/>
     </attribute>

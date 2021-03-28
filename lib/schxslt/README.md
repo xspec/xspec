@@ -7,14 +7,15 @@ license.
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1495494.svg)](https://doi.org/10.5281/zenodo.1495494)
 [![Build Status](https://travis-ci.org/schxslt/schxslt.svg?branch=master)](https://travis-ci.org/schxslt/schxslt)
 
-SchXslt is a Schematron processor implemented entirely in XSLT. It transforms a Schemtron schema document to an XSLT
+SchXslt is a Schematron processor implemented entirely in XSLT. It transforms a Schematron schema document into an XSLT
 stylesheet that you apply to the document(s) to be validated.
 
 Limitations
 --
 
-As of date SchXslt does not properly implement the scoping rules of pattern and phase variables (see
-[#135](https://github.com/schxslt/schxslt/issues/135) and [#136](https://github.com/schxslt/schxslt/issues/136)).
+As of date SchXslt does not properly implement the scoping rules of pattern (see
+[#135](https://github.com/schxslt/schxslt/issues/135)) and phase variables (see
+[#136](https://github.com/schxslt/schxslt/issues/136)).
 
 Schema, pattern, and phase variables are all implemented as global XSLT variables. As a consequence the name of a
 schema, pattern, or phase variable must be unique in the entire schema.
@@ -22,6 +23,48 @@ schema, pattern, or phase variable must be unique in the entire schema.
 Due to the constrains of XSLT 1.0 and the way rules are implemented it is not possible to use a variable inside a rule
 context expression of a Schematron using the XSLT 1.0 query binding (see
 [#138](https://github.com/schxslt/schxslt/issues/138)).
+
+Schematron enhancements
+--
+
+SchXslt implements the following Schematron enhancements:
+
+### Typed variables
+
+[Proposal 1](https://github.com/Schematron/schematron-enhancement-proposals/issues/1)
+
+The Schematron specification does not allow for annotating variables with the expected type of its value. Type
+annotations are helpful to make the most of XSLT 3.0. Using them is current best practice.
+
+This proposal adds support for an ```@as``` attribute on variable declarations.
+
+### Global abstract rules
+
+[Proposal 3](https://github.com/Schematron/schematron-enhancement-proposals/issues/3)
+
+The Schematron specification limits the the reuse of abstract rules to the current pattern element. The ```@href
+attribute``` on ```extends``` was introduced in 2016 to overcome this limitation but requires a schema author to
+externalize abstract rules for them to be used.
+
+This proposal extends Schematron with a top-level ```rules``` element to hold abstract rules that are globally
+referencable by the ```@rule``` attribute of ```extends```.
+
+### Addition XSLT elements
+
+[Proposal 4](https://github.com/Schematron/schematron-enhancement-proposals/issues/4)
+
+The Schematron specification allows the XSLT elements ```function``` and ```key``` to be used in a Schematron
+schema. This makes sense because both are required to set up the query language environment. The ```key``` element
+prepares data structures for the ```key()``` function and the ```function``` element allows the use of user defined
+functions.
+
+This proposal adds support for the following XSLT elements:
+
+* xsl:accumulator (XSLT 3.0)
+* xsl:import (XSLT 1.0, XSLT 2.0, XSLT 3.0)
+* xsl:import-schema (XSLT 2.0, XSLT 3.0)
+* xsl:include (XSLT 1.0, XSLT 2.0, XSLT 3.0)
+* xsl:use-package (XSLT 3.0)
 
 Installation
 --
@@ -45,7 +88,7 @@ Using SchXslt
 ### XSLT Stylesheets
 
 The simplest way to use SchXslt is to download the ZIP file with just the stylesheets from the
-[releaes](https://github.com/schxslt/schxslt/releases) page. To validate documents with your Schematron you first
+[releases](https://github.com/schxslt/schxslt/releases) page. To validate documents with your Schematron you first
 transform it with the ```pipeline-for-svrl.xsl``` stylesheet. This creates the XSL transformation that creates a
 validation report when applied to a document.
 

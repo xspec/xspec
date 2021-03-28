@@ -35,7 +35,7 @@
                         <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
                            <dct:creator>
                               <dct:Agent>
-                                 <skos:prefLabel>SchXslt/1.6.2 SAXON/product-version</skos:prefLabel>
+                                 <skos:prefLabel>SchXslt/1.7 SAXON/product-version</skos:prefLabel>
                                  <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
                               </dct:Agent>
                            </dct:creator>
@@ -86,7 +86,7 @@
                         <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
                            <dct:creator>
                               <dct:Agent>
-                                 <skos:prefLabel>SchXslt/1.6.2 SAXON/product-version</skos:prefLabel>
+                                 <skos:prefLabel>SchXslt/1.7 SAXON/product-version</skos:prefLabel>
                                  <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
                               </dct:Agent>
                            </dct:creator>
@@ -137,7 +137,7 @@
                         <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
                            <dct:creator>
                               <dct:Agent>
-                                 <skos:prefLabel>SchXslt/1.6.2 SAXON/product-version</skos:prefLabel>
+                                 <skos:prefLabel>SchXslt/1.7 SAXON/product-version</skos:prefLabel>
                                  <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
                               </dct:Agent>
                            </dct:creator>
@@ -191,7 +191,7 @@
                         <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
                            <dct:creator>
                               <dct:Agent>
-                                 <skos:prefLabel>SchXslt/1.6.2 SAXON/product-version</skos:prefLabel>
+                                 <skos:prefLabel>SchXslt/1.7 SAXON/product-version</skos:prefLabel>
                                  <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
                               </dct:Agent>
                            </dct:creator>
@@ -242,7 +242,7 @@
                         <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
                            <dct:creator>
                               <dct:Agent>
-                                 <skos:prefLabel>SchXslt/1.6.2 SAXON/product-version</skos:prefLabel>
+                                 <skos:prefLabel>SchXslt/1.7 SAXON/product-version</skos:prefLabel>
                                  <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
                               </dct:Agent>
                            </dct:creator>
