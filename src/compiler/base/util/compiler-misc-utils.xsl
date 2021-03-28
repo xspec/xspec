@@ -15,23 +15,13 @@
       </xsl:element>
    </xsl:function>
 
-   <xsl:function name="x:pending-attribute-from-pending-node" as="attribute(pending)">
-      <!-- @pending, x:pending or @focus -->
-      <xsl:param name="pending-node" as="node()" />
-
-      <xsl:attribute name="pending" select="$pending-node" />
-   </xsl:function>
-
-   <!-- The name 'pending-p' probably means "is this pending, yes or no?"
-      https://github.com/xspec/xspec/pull/1225#issuecomment-698892926 -->
-   <xsl:function name="x:pending-p" as="xs:boolean">
+   <!-- Returns true if the context element is considered as pending -->
+   <xsl:function name="x:is-pending" as="xs:boolean">
       <xsl:param name="context-element" as="element()" />
-
-      <!-- @pending, x:pending or @focus -->
-      <xsl:param name="pending-node" as="node()?" />
+      <xsl:param name="reason" as="xs:string?" />
 
       <xsl:sequence select="
-            exists($pending-node)
+            exists($reason)
             and empty($context-element/ancestor-or-self::x:scenario/@focus)" />
    </xsl:function>
 

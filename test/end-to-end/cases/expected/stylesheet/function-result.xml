@@ -1,53 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
         xspec="../../function.xspec"
-        stylesheet="../../../../square.xsl"
+        stylesheet="../../../../mirror.xsl"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../function.xspec">
-      <label>when calling a function and expecting correctly</label>
+      <label>when a function returns 0</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
+         <t:call xmlns:mirror="x-urn:test:mirror"
                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="mirror:param-mirror">
+            <t:param select="0"/>
          </t:call>
       </input-wrap>
-      <result select="9"/>
+      <result select="0"/>
       <test id="scenario1-expect1" successful="true">
-         <label>expecting the correct value must return Success</label>
-         <expect select="9"/>
+         <label>expecting 0 in @select must be Success</label>
+         <expect select="0"/>
       </test>
       <test id="scenario1-expect2" successful="true">
-         <label>expecting the correct type must return Success</label>
+         <label>expecting xs:integer in @test must be Success</label>
          <expect-test-wrap xmlns="">
-            <t:expect xmlns:my="http://example.org/ns/my"
+            <t:expect xmlns:mirror="x-urn:test:mirror"
                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
                       xmlns:t="http://www.jenitennison.com/xslt/xspec"
                       test="$t:result instance of xs:integer"/>
          </expect-test-wrap>
          <expect select="()"/>
       </test>
-   </scenario>
-   <scenario id="scenario2" xspec="../../function.xspec">
-      <label>when calling a function and expecting incorrectly</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
-         </t:call>
-      </input-wrap>
-      <result select="4"/>
-      <test id="scenario2-expect1" successful="false">
-         <label>expecting an incorrect value must return Failure</label>
-         <expect select="42"/>
+      <test id="scenario1-expect3" successful="false">
+         <label>expecting 1 in @select must be Failure</label>
+         <expect select="1"/>
       </test>
-      <test id="scenario2-expect2" successful="false">
-         <label>expecting an incorrect type must return Failure</label>
+      <test id="scenario1-expect4" successful="false">
+         <label>expecting xs:string in @test must be Failure</label>
          <expect-test-wrap xmlns="">
-            <t:expect xmlns:my="http://example.org/ns/my"
+            <t:expect xmlns:mirror="x-urn:test:mirror"
                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
                       xmlns:t="http://www.jenitennison.com/xslt/xspec"
                       test="$t:result instance of xs:string"/>
