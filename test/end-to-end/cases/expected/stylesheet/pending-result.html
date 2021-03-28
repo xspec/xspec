@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for square.xsl (passed: 1 / pending: 14 / failed: 1 / total: 16)</title>
+      <title>Test Report for square.xsl (passed: 1 / pending: 16 / failed: 1 / total: 18)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -22,9 +22,9 @@
             <tr>
                <th></th>
                <th class="totals">passed: 1</th>
-               <th class="totals">pending: 14</th>
+               <th class="totals">pending: 16</th>
                <th class="totals">failed: 1</th>
-               <th class="totals">total: 16</th>
+               <th class="totals">total: 18</th>
             </tr>
          </thead>
          <tbody>
@@ -113,7 +113,7 @@
                <th class="totals">1</th>
             </tr>
             <tr class="pending">
-               <th><a href="#top_scenario13">Zero-length @pending</a></th>
+               <th><a href="#top_scenario13">Zero-length x:scenario/@pending</a></th>
                <th class="totals">0</th>
                <th class="totals">2</th>
                <th class="totals">0</th>
@@ -128,6 +128,20 @@
             </tr>
             <tr class="successful">
                <th><a href="#top_scenario15">an incorrect x:expect with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario16">a correct x:expect with zero-length @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario17">an incorrect x:expect with zero-length @pending must be Pending</a></th>
                <th class="totals">0</th>
                <th class="totals">1</th>
                <th class="totals">0</th>
@@ -389,7 +403,7 @@
          </table>
       </div>
       <div id="top_scenario13">
-         <h2 class="pending">Zero-length @pending<span class="scenario-totals">passed: 0 / pending: 2 / failed: 0 / total: 2</span></h2>
+         <h2 class="pending">Zero-length x:scenario/@pending<span class="scenario-totals">passed: 0 / pending: 2 / failed: 0 / total: 2</span></h2>
          <table class="xspec" id="table_scenario13">
             <colgroup>
                <col style="width:75%" />
@@ -397,7 +411,7 @@
             </colgroup>
             <tbody>
                <tr class="pending">
-                  <th>Zero-length @pending</th>
+                  <th>Zero-length x:scenario/@pending</th>
                   <th>passed: 0 / pending: 2 / failed: 0 / total: 2</th>
                </tr>
                <tr class="pending">
@@ -452,6 +466,44 @@
                </tr>
                <tr class="pending">
                   <td>(<strong>testing @pending of an incorrect x:expect</strong>) it would return Failure if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario16">
+         <h2 class="successful">a correct x:expect with zero-length @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario16">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>a correct x:expect with zero-length @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario17">
+         <h2 class="successful">an incorrect x:expect with zero-length @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario17">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>an incorrect x:expect with zero-length @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would return Failure if it were not Pending</td>
                   <td>Pending</td>
                </tr>
             </tbody>

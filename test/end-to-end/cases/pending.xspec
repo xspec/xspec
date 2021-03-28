@@ -126,7 +126,7 @@
       <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"/>
    </t:scenario>
 
-   <t:scenario label="Zero-length @pending" pending="">
+   <t:scenario label="Zero-length x:scenario/@pending" pending="">
       <t:scenario label="a correct scenario in zero-length @pending must be Pending">
          <t:call function="my:square">
             <t:param select="3"/>
@@ -159,6 +159,23 @@
       </t:call>
       <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"
          pending="testing @pending of an incorrect x:expect" />
+   </t:scenario>
+
+   <!-- Zero-length x:expect/@pending -->
+   <t:scenario label="a correct x:expect with zero-length @pending must be Pending">
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:expect label="it would return Success if it were not Pending" select="9"
+          pending="" />
+   </t:scenario>
+
+   <t:scenario label="an incorrect x:expect with zero-length @pending must be Pending">
+      <t:call function="my:square">
+         <t:param select="2"/>
+      </t:call>
+      <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"
+         pending="" />
    </t:scenario>
 
 </t:description>

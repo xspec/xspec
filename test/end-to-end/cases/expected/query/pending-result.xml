@@ -193,7 +193,7 @@
       </test>
    </scenario>
    <scenario id="scenario13" xspec="../../pending.xspec" pending="">
-      <label>Zero-length @pending</label>
+      <label>Zero-length x:scenario/@pending</label>
       <scenario id="scenario13-scenario1" xspec="../../pending.xspec" pending="">
          <label>a correct scenario in zero-length @pending must be Pending</label>
          <input-wrap xmlns="">
@@ -252,6 +252,36 @@
       <result select="4"/>
       <test id="scenario15-expect1"
             pending="testing @pending of an incorrect x:expect">
+         <label>it would return Failure if it were not Pending</label>
+      </test>
+   </scenario>
+   <scenario id="scenario16" xspec="../../pending.xspec">
+      <label>a correct x:expect with zero-length @pending must be Pending</label>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="3"/>
+         </t:call>
+      </input-wrap>
+      <result select="9"/>
+      <test id="scenario16-expect1" pending="">
+         <label>it would return Success if it were not Pending</label>
+      </test>
+   </scenario>
+   <scenario id="scenario17" xspec="../../pending.xspec">
+      <label>an incorrect x:expect with zero-length @pending must be Pending</label>
+      <input-wrap xmlns="">
+         <t:call xmlns:my="http://example.org/ns/my"
+                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                 function="my:square">
+            <t:param select="2"/>
+         </t:call>
+      </input-wrap>
+      <result select="4"/>
+      <test id="scenario17-expect1" pending="">
          <label>it would return Failure if it were not Pending</label>
       </test>
    </scenario>
