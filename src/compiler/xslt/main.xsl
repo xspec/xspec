@@ -201,8 +201,8 @@
    <xsl:include href="external/transform-options.xsl" />
    <xsl:include href="initial-check/perform-initial-check.xsl" />
    <xsl:include href="invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
+   <xsl:include href="measure-time/timestamp.xsl" />
    <xsl:include href="node-constructor/node-constructor.xsl" />
    <xsl:include href="report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
-   <xsl:include href="timing/timestamp.xsl" />
 
 </xsl:stylesheet>

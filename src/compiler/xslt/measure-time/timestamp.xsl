@@ -13,7 +13,7 @@
 
       <xsl:param name="event" as="xs:string" required="yes" />
 
-      <xsl:if test="$timing">
+      <xsl:if test="$measure-time">
          <!-- <x:timestamp> -->
          <xsl:element name="xsl:element" namespace="{$x:xsl-namespace}">
             <xsl:attribute name="name" select="'timestamp'" />

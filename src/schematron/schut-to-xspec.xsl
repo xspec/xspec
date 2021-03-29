@@ -56,7 +56,7 @@
                         documents. -->
 
                     <!-- Global XSpec attributes -->
-                    <xsl:sequence select="@run-as | @timing" />
+                    <xsl:sequence select="@measure-time | @run-as" />
 
                     <!-- Global Schematron attributes -->
                     <xsl:attribute name="original-xspec" select="x:document-actual-uri(/)" />

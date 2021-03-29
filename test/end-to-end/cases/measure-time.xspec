@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
-	stylesheet="do-nothing.xsl" timing="yes" xml:base="../../"
+<x:description measure-time="yes" query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
+	schematron="do-nothing.sch" stylesheet="do-nothing.xsl" xml:base="../../"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--

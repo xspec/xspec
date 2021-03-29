@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
-        xspec="../../timing.xspec"
+        xspec="../../measure-time.xspec"
         query="x-urn:test:do-nothing"
         query-at="../../../../do-nothing.xqm"
         date="2000-01-01T00:00:00Z">
    <timestamp at="2000-01-01T00:00:00Z" event="start"/>
-   <scenario id="scenario1" xspec="../../timing.xspec">
+   <scenario id="scenario1" xspec="../../measure-time.xspec">
       <label>x:scenario[x:scenario][empty(x:call)][empty(x:expect)]</label>
       <timestamp at="2000-01-01T00:00:00Z" event="start"/>
-      <scenario id="scenario1-scenario1" xspec="../../timing.xspec">
+      <scenario id="scenario1-scenario1" xspec="../../measure-time.xspec">
          <label>x:scenario[parent::x:scenario][x:call][x:expect][empty(@pending)]</label>
          <timestamp at="2000-01-01T00:00:00Z" event="start"/>
          <input-wrap xmlns="">
@@ -25,7 +25,7 @@
          <timestamp at="2000-01-01T00:00:00Z" event="end"/>
       </scenario>
       <scenario id="scenario1-scenario2"
-                xspec="../../timing.xspec"
+                xspec="../../measure-time.xspec"
                 pending="pending">
          <label>x:scenario[parent::x:scenario][x:call][x:expect][@pending]</label>
          <timestamp at="2000-01-01T00:00:00Z" event="start"/>
@@ -37,13 +37,13 @@
          </test>
          <timestamp at="2000-01-01T00:00:00Z" event="end"/>
       </scenario>
-      <scenario id="scenario1-scenario3" xspec="../../timing.xspec">
+      <scenario id="scenario1-scenario3" xspec="../../measure-time.xspec">
          <label>x:scenario[parent::x:scenario][empty(node())][empty(@pending)]</label>
          <timestamp at="2000-01-01T00:00:00Z" event="start"/>
          <timestamp at="2000-01-01T00:00:00Z" event="end"/>
       </scenario>
       <scenario id="scenario1-scenario4"
-                xspec="../../timing.xspec"
+                xspec="../../measure-time.xspec"
                 pending="pending">
          <label>x:scenario[parent::x:scenario][empty(node())][@pending]</label>
          <timestamp at="2000-01-01T00:00:00Z" event="start"/>
@@ -51,7 +51,7 @@
       </scenario>
       <timestamp at="2000-01-01T00:00:00Z" event="end"/>
    </scenario>
-   <scenario id="scenario2" xspec="../../timing.xspec">
+   <scenario id="scenario2" xspec="../../measure-time.xspec">
       <label>x:scenario[parent::x:description][x:call][x:expect][empty(@pending)]</label>
       <timestamp at="2000-01-01T00:00:00Z" event="start"/>
       <input-wrap xmlns="">
@@ -67,7 +67,7 @@
       </test>
       <timestamp at="2000-01-01T00:00:00Z" event="end"/>
    </scenario>
-   <scenario id="scenario3" xspec="../../timing.xspec" pending="pending">
+   <scenario id="scenario3" xspec="../../measure-time.xspec" pending="pending">
       <label>x:scenario[parent::x:description][x:call][x:expect][@pending]</label>
       <timestamp at="2000-01-01T00:00:00Z" event="start"/>
       <input-wrap xmlns="">
@@ -78,23 +78,23 @@
       </test>
       <timestamp at="2000-01-01T00:00:00Z" event="end"/>
    </scenario>
-   <scenario id="scenario4" xspec="../../timing.xspec">
+   <scenario id="scenario4" xspec="../../measure-time.xspec">
       <label>x:scenario[parent::x:description][empty(node())][empty(@pending)]</label>
       <timestamp at="2000-01-01T00:00:00Z" event="start"/>
       <timestamp at="2000-01-01T00:00:00Z" event="end"/>
    </scenario>
-   <scenario id="scenario5" xspec="../../timing.xspec" pending="pending">
+   <scenario id="scenario5" xspec="../../measure-time.xspec" pending="pending">
       <label>x:scenario[parent::x:description][empty(node())][@pending]</label>
       <timestamp at="2000-01-01T00:00:00Z" event="start"/>
       <timestamp at="2000-01-01T00:00:00Z" event="end"/>
    </scenario>
-   <scenario id="scenario6" xspec="../../timing.xspec">
+   <scenario id="scenario6" xspec="../../measure-time.xspec">
       <label>x:scenario[x:call][empty(x:expect)]</label>
       <timestamp at="2000-01-01T00:00:00Z" event="start"/>
       <input-wrap xmlns="">
          <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec" function="false"/>
       </input-wrap>
-      <scenario id="scenario6-scenario1" xspec="../../timing.xspec">
+      <scenario id="scenario6-scenario1" xspec="../../measure-time.xspec">
          <label>x:scenario[empty(x:call)][x:expect]</label>
          <timestamp at="2000-01-01T00:00:00Z" event="start"/>
          <result select="Q{http://www.w3.org/2001/XMLSchema}boolean('false')"/>

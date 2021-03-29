@@ -124,7 +124,7 @@
       <!-- @date must be evaluated at run time -->
       <xsl:text>attribute { QName('', 'date') } { current-dateTime() },&#x0A;</xsl:text>
 
-      <xsl:if test="$timing">
+      <xsl:if test="$measure-time">
          <xsl:call-template name="x:timestamp">
             <xsl:with-param name="event" select="'start'" />
          </xsl:call-template>
@@ -137,7 +137,7 @@
          <xsl:with-param name="handled-child-vardecls" select="$global-vardecls" />
       </xsl:call-template>
 
-      <xsl:if test="$timing">
+      <xsl:if test="$measure-time">
          <xsl:text>,&#x0A;</xsl:text>
          <xsl:call-template name="x:timestamp">
             <xsl:with-param name="event" select="'end'" />
@@ -161,9 +161,9 @@
    <xsl:include href="declare-variable/declare-variable.xsl" />
    <xsl:include href="initial-check/perform-initial-check.xsl" />
    <xsl:include href="invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
+   <xsl:include href="measure-time/timestamp.xsl" />
    <xsl:include href="node-constructor/node-constructor.xsl" />
    <xsl:include href="report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
    <xsl:include href="serialize/disable-escaping.xsl" />
-   <xsl:include href="timing/timestamp.xsl" />
 
 </xsl:stylesheet>

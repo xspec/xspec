@@ -41,7 +41,7 @@ description =
 		## of XSpec itself.
 		## Requires Saxon-PE or Saxon-EE.
 		[ a:defaultValue = "no" ]
-		attribute timing { boolean.datatype }?,
+		attribute measure-time { boolean.datatype }?,
 		
 		(helper | global-param | import | scenario | pending-element | variable)+ }
 

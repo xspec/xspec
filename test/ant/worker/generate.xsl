@@ -106,7 +106,7 @@
 			select="processing-instruction(xspec-test)" />
 		<xsl:variable as="xs:boolean" name="enable-coverage" select="$pis = 'enable-coverage'" />
 		<xsl:variable as="xs:boolean" name="require-timestamp"
-			select="x:yes-no-synonym(x:description/@timing, false())" />
+			select="x:description/@measure-time => x:yes-no-synonym(false())" />
 
 		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
 			<xsl:sort select="name()" />

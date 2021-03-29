@@ -103,7 +103,7 @@
          </xsl:with-param>
       </xsl:call-template>
 
-      <xsl:if test="$timing">
+      <xsl:if test="$measure-time">
          <xsl:text>,&#x0A;</xsl:text>
          <xsl:call-template name="x:timestamp">
             <xsl:with-param name="event" select="'start'" />
@@ -158,7 +158,7 @@
          </xsl:call-template>
       </xsl:sequence>
 
-      <xsl:if test="$timing">
+      <xsl:if test="$measure-time">
          <xsl:text>,&#x0A;</xsl:text>
          <xsl:call-template name="x:timestamp">
             <xsl:with-param name="event" select="'end'" />
