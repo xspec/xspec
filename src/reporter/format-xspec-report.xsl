@@ -534,7 +534,7 @@
             <span class="elapsed">
                <xsl:value-of select="$elapsed div xs:dayTimeDuration('PT1S')" />
             </span>
-            <xsl:text>s</xsl:text>
+            <xsl:text> s</xsl:text>
             <xsl:if test="self::x:scenario">
                <xsl:text>) </xsl:text>
             </xsl:if>
