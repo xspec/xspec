@@ -37,7 +37,8 @@ description =
 		[ a:defaultValue = "import" ]
 		attribute run-as { "import" | "external" }?,
 		
-		## Set this true to report how long it took XSpec to run scenarios.
+		## Set this true to report how long it took XSpec to run scenarios including some overhead
+		## of XSpec itself.
 		## Requires Saxon-PE or Saxon-EE.
 		[ a:defaultValue = "no" ]
 		attribute timing { boolean.datatype }?,
