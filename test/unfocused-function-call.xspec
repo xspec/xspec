@@ -14,10 +14,10 @@
 		<x:scenario focus="focus" label="Focused scenario">
 			<!-- Inherit outer x:call and modify its parameter. Do not set its @function. -->
 			<x:call>
-				<x:param select="'function-call param in foused scenario'" />
+				<x:param select="'function-call param in focused scenario'" />
 			</x:call>
 			<x:expect label="x:call should be inherited and modified"
-				select="'function-call param in foused scenario'" />
+				select="'function-call param in focused scenario'" />
 		</x:scenario>
 	</x:scenario>
 
