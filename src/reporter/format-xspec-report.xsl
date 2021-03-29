@@ -528,10 +528,10 @@
          <xsl:variable name="elapsed" as="xs:dayTimeDuration" select="
                xs:dateTimeStamp(x:timestamp[@event eq 'end']/@at)
                - xs:dateTimeStamp(x:timestamp[@event eq 'start']/@at)" />
-         <span>
+         <span class="elapsed">
             <xsl:if test="self::x:scenario">(</xsl:if>
             <xsl:text>Elapsed: </xsl:text>
-            <span class="elapsed">
+            <span class="elapsed-num">
                <xsl:value-of select="$elapsed div xs:dayTimeDuration('PT1S')" />
             </span>
             <xsl:text> s</xsl:text>

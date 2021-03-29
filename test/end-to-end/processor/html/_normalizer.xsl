@@ -257,7 +257,7 @@
 		Normalizes elapsed time
 	-->
 	<xsl:template as="text()"
-		match="span[contains-token(@class, 'elapsed')]/text()[. castable as xs:decimal]"
+		match="span[contains-token(@class, 'elapsed-num')]/text()[. castable as xs:decimal]"
 		mode="normalizer:normalize">
 		<xsl:value-of select="xs:decimal(0)" />
 	</xsl:template>
