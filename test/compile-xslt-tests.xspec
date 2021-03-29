@@ -38,8 +38,8 @@
          <t:param name="apply" as="empty-sequence()" tunnel="yes" />
          <t:param name="call" as="empty-sequence()" tunnel="yes" />
          <t:param name="context" as="empty-sequence()" tunnel="yes" />
-         <t:param name="pending" as="empty-sequence()" tunnel="yes" />
-         <t:param name="pending-p" select="false()" />
+         <t:param name="reason-for-pending" as="empty-sequence()" tunnel="yes" />
+         <t:param name="is-pending" select="false()" />
          <t:param name="run-sut-now" select="false()" />
       </t:call>
       <t:expect>
@@ -80,8 +80,8 @@
       <t:call template="t:compile-expect">
          <t:param name="call" as="empty-sequence()" tunnel="yes" />
          <t:param name="context" as="empty-sequence()" tunnel="yes" />
-         <t:param name="pending" as="empty-sequence()" tunnel="yes" />
-         <t:param name="pending-p" select="false()" />
+         <t:param name="reason-for-pending" as="empty-sequence()" tunnel="yes" />
+         <t:param name="is-pending" select="false()" />
          <t:param name="param-uqnames" as="empty-sequence()" />
       </t:call>
       <t:expect label="is a template"
