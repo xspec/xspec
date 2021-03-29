@@ -368,6 +368,10 @@
          <xsl:when test="self::xsl:param">
             <xsl:sequence select="local:coverage(parent::*, $module)" />
          </xsl:when>
+         <xsl:when test="self::xsl:context-item">
+            <!-- Saxon does not seem to call enter() for xsl:context-item (xspec/xspec#1410) -->
+            <xsl:sequence select="local:coverage(parent::xsl:template, $module)" />
+         </xsl:when>
          <xsl:otherwise>missed</xsl:otherwise>
       </xsl:choose>
    </xsl:template>
