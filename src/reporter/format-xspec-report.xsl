@@ -532,9 +532,9 @@
             <xsl:if test="self::x:scenario">(</xsl:if>
             <xsl:text>Elapsed: </xsl:text>
             <span class="elapsed-num">
-               <xsl:value-of select="$elapsed div xs:dayTimeDuration('PT1S')" />
+               <xsl:value-of select="($elapsed div xs:dayTimeDuration('PT1S')) * 1000" />
             </span>
-            <xsl:text> s</xsl:text>
+            <xsl:text> ms</xsl:text>
             <xsl:if test="self::x:scenario">
                <xsl:text>) </xsl:text>
             </xsl:if>
