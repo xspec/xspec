@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../issue-1411_no-entity.xspec"
+        stylesheet="../../issue-1411_no-entity.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../issue-1411_no-entity.xspec">
+      <label>When converting a dummy element</label>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <dummy/>
+         </x:context>
+      </input-wrap>
+      <result select="/element()">
+         <content-wrap xmlns="">
+            <dummy/>
+         </content-wrap>
+      </result>
+      <test id="scenario1-expect1" successful="true">
+         <label>it should return an empty dummy element</label>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <dummy xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+</report>
