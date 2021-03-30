@@ -5,7 +5,7 @@
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1"
              xspec="../../focus-vs-pending.xspec"
-             pending="testing @focus in x:pending">
+             pending="testing @focus alongside another focused scenario">
       <label>Test @focus and pending together (both @pending and x:pending)</label>
       <input-wrap xmlns="">
          <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -16,14 +16,15 @@
       </input-wrap>
       <scenario id="scenario1-scenario1"
                 xspec="../../focus-vs-pending.xspec"
-                pending="testing x:pending">
-         <label>an unfocused erroneous scenario in x:pending must be Pending</label>
-         <test id="scenario1-scenario1-expect1" pending="testing x:pending">
+                pending="testing @focus alongside another focused scenario">
+         <label>a non-pending erroneous scenario alongside a focused scenario must be Pending</label>
+         <test id="scenario1-scenario1-expect1"
+               pending="testing @focus alongside another focused scenario">
             <label>it would throw an error if it were not Pending</label>
          </test>
       </scenario>
       <scenario id="scenario1-scenario2" xspec="../../focus-vs-pending.xspec">
-         <label>a focused Success scenario in x:pending</label>
+         <label>a focused Success scenario alongside another focused scenario</label>
          <result select="9"/>
          <test id="scenario1-scenario2-expect1" successful="true">
             <label>must execute the test and return Success</label>
@@ -32,15 +33,14 @@
       </scenario>
       <scenario id="scenario1-scenario3"
                 xspec="../../focus-vs-pending.xspec"
-                pending="testing @pending without @focus">
-         <label>an erroneous scenario with @pending must be Pending</label>
-         <test id="scenario1-scenario3-expect1"
-               pending="testing @pending without @focus">
+                pending="testing x:pending">
+         <label>an unfocused erroneous scenario in x:pending must be Pending</label>
+         <test id="scenario1-scenario3-expect1" pending="testing x:pending">
             <label>it would throw an error if it were not Pending</label>
          </test>
       </scenario>
       <scenario id="scenario1-scenario4" xspec="../../focus-vs-pending.xspec">
-         <label>a Success scenario with both @pending and @focus (not recommended as ambiguous)</label>
+         <label>a focused Success scenario in x:pending</label>
          <result select="9"/>
          <test id="scenario1-scenario4-expect1" successful="true">
             <label>must execute the test and return Success</label>
@@ -49,14 +49,15 @@
       </scenario>
       <scenario id="scenario1-scenario5"
                 xspec="../../focus-vs-pending.xspec"
-                pending="testing @focus in x:pending">
-         <label>a non-pending erroneous scenario alongside a focused scenario must be Pending</label>
-         <test id="scenario1-scenario5-expect1" pending="testing @focus in x:pending">
+                pending="testing @pending without @focus">
+         <label>an erroneous scenario with @pending must be Pending</label>
+         <test id="scenario1-scenario5-expect1"
+               pending="testing @pending without @focus">
             <label>it would throw an error if it were not Pending</label>
          </test>
       </scenario>
       <scenario id="scenario1-scenario6" xspec="../../focus-vs-pending.xspec">
-         <label>a focused Success scenario alongside another focused scenario</label>
+         <label>a Success scenario with both @pending and @focus (not recommended as ambiguous)</label>
          <result select="9"/>
          <test id="scenario1-scenario6-expect1" successful="true">
             <label>must execute the test and return Success</label>
