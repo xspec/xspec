@@ -32,19 +32,19 @@
          </expect>
       </test>
    </scenario>
-   <scenario id="scenario3" xspec="../../rule.xspec">
+   <scenario id="scenario2" xspec="../../rule.xspec">
       <label>when x:apply is invoked with a 'rule' element</label>
       <input-wrap xmlns="">
          <t:context xmlns:t="http://www.jenitennison.com/xslt/xspec" select="$ctxt"/>
       </input-wrap>
-      <scenario id="scenario3-scenario1" xspec="../../rule.xspec">
+      <scenario id="scenario2-scenario1" xspec="../../rule.xspec">
          <label>without x:param in x:apply</label>
          <result select="/element()">
             <content-wrap xmlns="">
                <transformed/>
             </content-wrap>
          </result>
-         <test id="scenario3-scenario1-expect1" successful="true">
+         <test id="scenario2-scenario1-expect1" successful="true">
             <label>it should be transformed into a 'transformed' element containing nothing</label>
             <expect select="/element()">
                <content-wrap xmlns="">
@@ -52,7 +52,7 @@
                </content-wrap>
             </expect>
          </test>
-         <test id="scenario3-scenario1-expect2" successful="false">
+         <test id="scenario2-scenario1-expect2" successful="false">
             <label>expecting an 'erroneous' element should be Failure</label>
             <expect select="/element()">
                <content-wrap xmlns="">
@@ -61,7 +61,7 @@
             </expect>
          </test>
       </scenario>
-      <scenario id="scenario3-scenario2" xspec="../../rule.xspec">
+      <scenario id="scenario2-scenario2" xspec="../../rule.xspec">
          <label>with x:param=0 in x:apply by extending the base x:apply</label>
          <input-wrap xmlns="">
             <t:context xmlns:t="http://www.jenitennison.com/xslt/xspec">
@@ -73,7 +73,7 @@
                <transformed>0</transformed>
             </content-wrap>
          </result>
-         <test id="scenario3-scenario2-expect1" successful="true">
+         <test id="scenario2-scenario2-expect1" successful="true">
             <label>it should be transformed into a 'transformed' element containing 0</label>
             <expect select="/element()">
                <content-wrap xmlns="">
@@ -81,7 +81,7 @@
                </content-wrap>
             </expect>
          </test>
-         <test id="scenario3-scenario2-expect2" successful="false">
+         <test id="scenario2-scenario2-expect2" successful="false">
             <label>expecting an 'erroneous' element should be Failure</label>
             <expect select="/element()">
                <content-wrap xmlns="">
