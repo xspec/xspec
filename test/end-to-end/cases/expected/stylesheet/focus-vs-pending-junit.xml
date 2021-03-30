@@ -1,51 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="focus-vs-pending.xspec">
-   <testsuite name="a non-pending correct scenario alongside a focused scenario must be Pending"
-              tests="1"
+   <testsuite name="Test @focus and pending together (both @pending and x:pending)"
+              tests="8"
               failures="0">
-      <testcase name="it would return Success if it were not Pending" status="skipped">
+      <testcase name="a non-pending erroneous scenario alongside a focused scenario must be Pending it would throw an error if it were not Pending"
+                status="skipped">
          <skipped>testing @focus alongside another focused scenario</skipped>
       </testcase>
-   </testsuite>
-   <testsuite name="a focused correct scenario alongside another focused scenario"
-              tests="1"
-              failures="0">
-      <testcase name="must execute the test and return Success" status="passed"/>
-   </testsuite>
-   <testsuite name="an unfocused correct scenario in x:pending must be Pending"
-              tests="1"
-              failures="0">
-      <testcase name="it would return Success if it were not Pending" status="skipped">
+      <testcase name="a focused Success scenario alongside another focused scenario must execute the test and return Success"
+                status="passed"/>
+      <testcase name="an unfocused erroneous scenario in x:pending must be Pending it would throw an error if it were not Pending"
+                status="skipped">
          <skipped>testing x:pending</skipped>
       </testcase>
-   </testsuite>
-   <testsuite name="a focused correct scenario in x:pending"
-              tests="1"
-              failures="0">
-      <testcase name="must execute the test and return Success" status="passed"/>
-   </testsuite>
-   <testsuite name="a correct scenario with @pending must be Pending"
-              tests="1"
-              failures="0">
-      <testcase name="it would return Success if it were not Pending" status="skipped">
+      <testcase name="a focused Success scenario in x:pending must execute the test and return Success"
+                status="passed"/>
+      <testcase name="an erroneous scenario with @pending must be Pending it would throw an error if it were not Pending"
+                status="skipped">
          <skipped>testing x:scenario[empty(@focus)]/@pending</skipped>
       </testcase>
-   </testsuite>
-   <testsuite name="a correct scenario with both @pending and @focus (not recommended as ambiguous)"
-              tests="1"
-              failures="0">
-      <testcase name="must execute the test and return Success" status="passed"/>
-   </testsuite>
-   <testsuite name="a correct x:expect with @pending must be Pending"
-              tests="1"
-              failures="0">
-      <testcase name="it would return Success if it were not Pending" status="skipped">
+      <testcase name="a Success scenario with both @pending and @focus (not recommended as ambiguous) must execute the test and return Success"
+                status="passed"/>
+      <testcase name="a Success x:expect with @pending must be Pending it would return Success if it were not Pending"
+                status="skipped">
          <skipped>testing x:expect/@pending without ancestor::x:scenario/@focus</skipped>
       </testcase>
-   </testsuite>
-   <testsuite name="a correct x:expect with both @pending and ancestor::x:scenario/@focus (not recommended as ambiguous)"
-              tests="1"
-              failures="0">
-      <testcase name="must execute the test and return Success" status="passed"/>
+      <testcase name="a Success x:expect with both @pending and ancestor::x:scenario/@focus (not recommended as ambiguous) must execute the test and return Success"
+                status="passed"/>
    </testsuite>
 </testsuites>
