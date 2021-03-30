@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="focus-vs-pending.xspec">
+   <testsuite name="a non-pending correct scenario alongside a focused scenario must be Pending"
+              tests="1"
+              failures="0">
+      <testcase name="it would return Success if it were not Pending" status="skipped">
+         <skipped>testing @focus alongside another focused scenario</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="a focused correct scenario alongside another focused scenario"
+              tests="1"
+              failures="0">
+      <testcase name="must execute the test and return Success" status="passed"/>
+   </testsuite>
    <testsuite name="an unfocused correct scenario in x:pending must be Pending"
               tests="1"
               failures="0">
@@ -8,18 +20,6 @@
       </testcase>
    </testsuite>
    <testsuite name="a focused correct scenario in x:pending"
-              tests="1"
-              failures="0">
-      <testcase name="must execute the test and return Success" status="passed"/>
-   </testsuite>
-   <testsuite name="a non-pending correct scenario alongside a focused scenario must be Pending"
-              tests="1"
-              failures="0">
-      <testcase name="it would return Success if it were not Pending" status="skipped">
-         <skipped>testing @focus in x:pending</skipped>
-      </testcase>
-   </testsuite>
-   <testsuite name="a focused correct scenario alongside another focused scenario"
               tests="1"
               failures="0">
       <testcase name="must execute the test and return Success" status="passed"/>
