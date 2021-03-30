@@ -7,27 +7,28 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:my="http://example.org/ns/my"
+<t:description xmlns:mirror="x-urn:test:mirror"
+               xmlns:t="http://www.jenitennison.com/xslt/xspec"
                xmlns:xs="http://www.w3.org/2001/XMLSchema"
-               query="http://example.org/ns/my"
-               query-at="../../square.xqm"
-               stylesheet="../../square.xsl">
+               query="x-urn:test:mirror"
+               query-at="mirror.xqm"
+               stylesheet="mirror.xsl"
+               xml:base="../../">
 
-   <t:scenario label="when calling a function and expecting correctly">
-      <t:call function="my:square">
-         <t:param select="3"/>
+   <t:scenario label="when a function returns 0">
+      <t:call function="mirror:param-mirror">
+         <t:param select="0" />
       </t:call>
-      <t:expect label="expecting the correct value must return Success" select="9"/>
-      <t:expect label="expecting the correct type must return Success" test="$t:result instance of xs:integer"/>
-   </t:scenario>
 
-   <t:scenario label="when calling a function and expecting incorrectly">
-      <t:call function="my:square">
-         <t:param select="2"/>
-      </t:call>
-      <t:expect label="expecting an incorrect value must return Failure" select="42"/>
-      <t:expect label="expecting an incorrect type must return Failure" test="$t:result instance of xs:string"/>
+      <t:expect label="expecting 0 in @select must be Success"
+                select="0" />
+      <t:expect label="expecting xs:integer in @test must be Success"
+                test="$t:result instance of xs:integer" />
+
+      <t:expect label="expecting 1 in @select must be Failure"
+                select="1" />
+      <t:expect label="expecting xs:string in @test must be Failure"
+                test="$t:result instance of xs:string" />
    </t:scenario>
 
 </t:description>

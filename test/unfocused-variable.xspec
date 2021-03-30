@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test (/x:description|//x:scenario)/x:variable when they are unfocused by @focus on an inner
+		scenario.
+	-->
+
+	<x:variable name="myv:description-variable" select="'VARIABLE'" />
+
+	<x:scenario label="Outer scenario">
+		<x:variable name="myv:outer-scenario-variable" select="'variable'" />
+
+		<x:scenario focus="focus" label="Focused scenario">
+			<x:call function="false" />
+			<x:expect label="Unfocused description-level variable should hold its original value"
+				select="'VARIABLE'" test="$myv:description-variable" />
+			<x:expect label="Unfocused scenario-level variable in an outer scenario should be empty"
+				select="()" test="$myv:outer-scenario-variable" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
