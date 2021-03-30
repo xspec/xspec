@@ -58,7 +58,7 @@ function toggle(scenarioID) {
    <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:variable name="pending" as="xs:boolean"
+      <xsl:variable name="is-pending" as="xs:boolean"
          select="exists(@pending)" />
       <xsl:variable name="any-failure" as="xs:boolean"
          select="exists(x:test[x:is-failed-test(.)])" />
@@ -67,7 +67,7 @@ function toggle(scenarioID) {
 
       <div id="top_{@id}">
          <h2
-            class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+            class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
             <a href="javascript:toggle('{@id}')">
                <xsl:variable name="graphics-dir" as="xs:anyURI" select="resolve-uri('../../graphics/')" />
                <xsl:variable name="img-file" as="xs:string"
@@ -90,7 +90,7 @@ function toggle(scenarioID) {
                <col style="width:15%" />
             </colgroup>
             <tbody>
-               <tr class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+               <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
                   <th>
                      <xsl:sequence select="x:pending-callback(@pending)"/>
                      <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -103,7 +103,7 @@ function toggle(scenarioID) {
                </tr>
                <xsl:apply-templates select="x:test" mode="x:html-summary" />
                <xsl:for-each select=".//x:scenario[x:test]">
-                  <xsl:variable name="pending" as="xs:boolean"
+                  <xsl:variable name="is-pending" as="xs:boolean"
                      select="exists(@pending)" />
                   <xsl:variable name="any-failure" as="xs:boolean"
                      select="exists(x:test[x:is-failed-test(.)])" />
@@ -116,7 +116,7 @@ function toggle(scenarioID) {
                      </xsl:for-each>
                   </xsl:variable>
                   <tr id="{@id}"
-                     class="{if ($pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+                     class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
                      <th>
                         <xsl:sequence select="x:pending-callback(@pending)"/>
                         <xsl:choose>

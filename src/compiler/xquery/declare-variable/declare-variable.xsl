@@ -18,7 +18,7 @@
 
    <xsl:template match="element()" as="node()+" mode="x:declare-variable">
       <!-- Reflects @pending, x:pending or @focus -->
-      <xsl:param name="pending" as="node()?" tunnel="yes" />
+      <xsl:param name="reason-for-pending" as="xs:string?" tunnel="yes" />
 
       <xsl:param name="comment" as="xs:string?" />
 
@@ -28,9 +28,9 @@
       <!-- URIQualifiedName of the variable being declared -->
       <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
 
-      <xsl:variable name="pending" as="node()?"
-         select="($pending, ancestor::x:scenario/@pending)[1]" />
-      <xsl:variable name="pending-p" as="xs:boolean" select="x:pending-p(., $pending)" />
+      <xsl:variable name="reason-for-pending" as="xs:string?"
+         select="($reason-for-pending, ancestor::x:scenario/@pending)[1]" />
+      <xsl:variable name="is-pending" as="xs:boolean" select="x:is-pending(., $reason-for-pending)" />
 
       <!-- Child nodes to be excluded -->
       <xsl:variable name="exclude" as="element(x:label)?"
@@ -47,7 +47,7 @@
       <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
          child::node() or @href -->
       <xsl:variable name="temp-doc-uqname" as="xs:string?">
-         <xsl:if test="not($pending-p) and (node() or @href)">
+         <xsl:if test="not($is-pending) and (node() or @href)">
             <xsl:sequence
                select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-doc')" />
          </xsl:if>
@@ -102,10 +102,10 @@
       <xsl:call-template name="x:declare-or-let-variable">
          <xsl:with-param name="is-global" select="$is-global" />
          <xsl:with-param name="name" select="$uqname" />
-         <xsl:with-param name="type" select="@as[not($pending-p)]" />
+         <xsl:with-param name="type" select="@as[not($is-pending)]" />
          <xsl:with-param name="value" as="text()?">
             <xsl:choose>
-               <xsl:when test="$pending-p">
+               <xsl:when test="$is-pending">
                   <!-- Do not give variable a value (or type, above) because the value specified
                     in test file might not be executable. -->
                </xsl:when>

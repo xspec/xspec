@@ -10,21 +10,19 @@
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
                stylesheet="rule.xsl">
 
-   <t:scenario label="x:context with correct x:expect">
-      <t:context>
-         <rule/>
+   <t:scenario label="when x:context without x:apply or x:call has a 'rule' element">
+      <t:context as="element(rule)">
+         <rule />
       </t:context>
-      <t:expect label="must return Success">
-         <transformed/>
-      </t:expect>
-   </t:scenario>
 
-   <t:scenario label="x:context with incorrect x:expect">
-      <t:context>
-         <rule/>
-      </t:context>
-      <t:expect label="must return Failure">
-         <erroneous/>
+      <t:expect label="it should be transformed into a 'transformed' element"
+                as="element(transformed)">
+         <transformed />
+      </t:expect>
+
+      <t:expect label="expecting an 'erroneous' element should be Failure"
+                as="element(erroneous)">
+         <erroneous />
       </t:expect>
    </t:scenario>
 
