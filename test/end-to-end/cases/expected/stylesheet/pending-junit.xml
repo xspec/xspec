@@ -3,6 +3,12 @@
    <testsuite name="Test pending features (x:pending and @pending)"
               tests="14"
               failures="1">
+      <testcase name="a non-pending Success scenario alongside a pending scenario must execute the test and return Success"
+                status="passed"/>
+      <testcase name="a non-pending Failure scenario alongside a pending scenario must execute the test and return Failure"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
+      </testcase>
       <testcase name="a Success scenario in x:pending must be Pending it would return Success if it were not Pending"
                 status="skipped">
          <skipped>testing x:pending</skipped>
@@ -42,12 +48,6 @@
       <testcase name="an erroneous scenario with @pending must be Pending it would throw an error if it were not Pending"
                 status="skipped">
          <skipped>testing @pending of an erroneous scenario</skipped>
-      </testcase>
-      <testcase name="a non-pending Success scenario alongside a pending scenario must execute the test and return Success"
-                status="passed"/>
-      <testcase name="a non-pending Failure scenario alongside a pending scenario must execute the test and return Failure"
-                status="failed">
-         <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
       </testcase>
       <testcase name="Zero-length @pending a Success scenario in zero-length @pending must be Pending it would return Success if it were not Pending"
                 status="skipped">
