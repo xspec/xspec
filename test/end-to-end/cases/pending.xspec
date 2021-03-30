@@ -22,6 +22,19 @@
       </t:call>
 
       <!--
+         Non-pending scenarios.
+      -->
+      <t:scenario label="a non-pending Success scenario alongside a pending scenario">
+         <t:expect label="must execute the test and return Success"
+                   select="9" />
+      </t:scenario>
+
+      <t:scenario label="a non-pending Failure scenario alongside a pending scenario">
+         <t:expect label="must execute the test and return Failure"
+                   test="$t:result instance of xs:string" />
+      </t:scenario>
+
+      <!--
          Test x:pending.
       -->
       <t:pending label="testing x:pending">
@@ -132,19 +145,6 @@
          <t:expect label="it would throw an error if it were not Pending"
                    test="error()"
                    pending="" />
-      </t:scenario>
-
-      <!--
-         Non-pending scenarios.
-      -->
-      <t:scenario label="a non-pending Success scenario alongside a pending scenario">
-         <t:expect label="must execute the test and return Success"
-                   select="9" />
-      </t:scenario>
-
-      <t:scenario label="a non-pending Failure scenario alongside a pending scenario">
-         <t:expect label="must execute the test and return Failure"
-                   test="$t:result instance of xs:string" />
       </t:scenario>
 
    </t:scenario>
