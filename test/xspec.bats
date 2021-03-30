@@ -2966,3 +2966,48 @@ load bats-helper
     [ "$status" -eq 0 ]
     [ "${lines[3]}" = "WARNING in x:scenario ('When x:context has x:param and another child node, setting up the context excludes x:param from the context nodes. So... When a template is called,'): x:context/x:param will have no effect on x:call" ]
 }
+
+#
+# Message for pending
+#
+
+@test "Message for pending" {
+    run ../bin/xspec.sh end-to-end/cases/pending.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    assert_regex "${lines[4]}" '^Testing with SAXON '
+    [ "${lines[ 5]}" = "Test pending features (x:pending and @pending)" ]
+    [ "${lines[ 6]}" = "PENDING: (testing x:pending) a Success scenario in x:pending must be Pending" ]
+    [ "${lines[ 7]}" = "PENDING: (testing x:pending) it would return Success if it were not Pending" ]
+    [ "${lines[ 8]}" = "PENDING: (testing x:pending) an erroneous scenario in x:pending must be Pending" ]
+    [ "${lines[ 9]}" = "PENDING: (testing x:pending) it would throw an error if it were not Pending" ]
+    [ "${lines[10]}" = "PENDING: a Success scenario in zero-length x:pending/@label must be Pending" ]
+    [ "${lines[11]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[12]}" = "PENDING: an erroneous scenario in zero-length x:pending/@label must be Pending" ]
+    [ "${lines[13]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[14]}" = "PENDING: a Success scenario in zero-length x:pending/x:label must be Pending" ]
+    [ "${lines[15]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[16]}" = "PENDING: an erroneous scenario in zero-length x:pending/x:label must be Pending" ]
+    [ "${lines[17]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[18]}" = "PENDING: a Success scenario in x:pending[empty(@label | x:label)] must be Pending" ]
+    [ "${lines[19]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[20]}" = "PENDING: an erroneous scenario in x:pending[empty(@label | x:label)] must be Pending" ]
+    [ "${lines[21]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[22]}" = "PENDING: (testing @pending of a Success scenario) ..a Success scenario with @pending must be Pending" ]
+    [ "${lines[23]}" = "PENDING: (testing @pending of a Success scenario) it would return Success if it were not Pending" ]
+    [ "${lines[24]}" = "PENDING: (testing @pending of an erroneous scenario) ..an erroneous scenario with @pending must be Pending" ]
+    [ "${lines[25]}" = "PENDING: (testing @pending of an erroneous scenario) it would throw an error if it were not Pending" ]
+    [ "${lines[26]}" = "..a non-pending Success scenario alongside a pending scenario" ]
+    [ "${lines[27]}" = "must execute the test and return Success" ]
+    [ "${lines[28]}" = "..a non-pending Failure scenario alongside a pending scenario" ]
+    [ "${lines[29]}" = "must execute the test and return Failure" ]
+    [ "${lines[30]}" = "      FAILED" ]
+    [ "${lines[31]}" = "PENDING: ..Zero-length @pending" ]
+    [ "${lines[32]}" = "PENDING: ..a Success scenario in zero-length @pending must be Pending" ]
+    [ "${lines[33]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[34]}" = "PENDING: ..an erroneous scenario in zero-length @pending must be Pending" ]
+    [ "${lines[35]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[36]}" = "Formatting Report..." ]
+    [ "${lines[37]}" = "passed: 1 / pending: 12 / failed: 1 / total: 14" ]
+}
+
