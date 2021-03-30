@@ -10,4 +10,20 @@
          <failure message="expect assertion failed"/>
       </testcase>
    </testsuite>
+   <testsuite name="when x:apply is invoked with a 'rule' element"
+              tests="4"
+              failures="2">
+      <testcase name="without x:param in x:apply it should be transformed into a 'transformed' element containing nothing"
+                status="passed"/>
+      <testcase name="without x:param in x:apply expecting an 'erroneous' element should be Failure"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="with x:param=0 in x:apply by extending the base x:apply it should be transformed into a 'transformed' element containing 0"
+                status="passed"/>
+      <testcase name="with x:param=0 in x:apply by extending the base x:apply expecting an 'erroneous' element should be Failure"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+   </testsuite>
 </testsuites>
