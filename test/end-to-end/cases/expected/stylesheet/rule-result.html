@@ -28,63 +28,41 @@
             </tr>
          </thead>
          <tbody>
-            <tr class="successful">
-               <th><a href="#top_scenario1">x:context with correct x:expect</a></th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
             <tr class="failed">
-               <th><a href="#top_scenario2">x:context with incorrect x:expect</a></th>
-               <th class="totals">0</th>
+               <th><a href="#top_scenario1">when x:context without x:apply or x:call has a 'rule' element</a></th>
+               <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
-               <th class="totals">1</th>
+               <th class="totals">2</th>
             </tr>
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="successful">x:context with correct x:expect<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <h2 class="failed">when x:context without x:apply or x:call has a 'rule' element<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
             </colgroup>
             <tbody>
-               <tr class="successful">
-                  <th>x:context with correct x:expect</th>
-                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               <tr class="failed">
+                  <th>when x:context without x:apply or x:call has a 'rule' element</th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
-                  <td>must return Success</td>
+                  <td>it should be transformed into a 'transformed' element</td>
                   <td>Success</td>
                </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario2">
-         <h2 class="failed">x:context with incorrect x:expect<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario2">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
                <tr class="failed">
-                  <th>x:context with incorrect x:expect</th>
-                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
-               </tr>
-               <tr class="failed">
-                  <td><a href="#scenario2-expect1">must return Failure</a></td>
+                  <td><a href="#scenario1-expect2">expecting an 'erroneous' element should be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="scenario2">
-            <h3>x:context with incorrect x:expect</h3>
-            <div id="scenario2-expect1" class="xTestReport">
-               <h4 class="xTestReportTitle">must return Failure</h4>
+         <div id="scenario1">
+            <h3>when x:context without x:apply or x:call has a 'rule' element</h3>
+            <div id="scenario1-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting an 'erroneous' element should be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
