@@ -182,7 +182,7 @@
     <!--
         mode="make-predicate"
     -->
-    <xsl:mode name="make-predicate" on-multiple-match="fail" on-no-match="fail" />
+    <xsl:mode name="make-predicate" on-multiple-match="fail" on-no-match="deep-skip" />
 
     <xsl:template match="@location" as="text()" mode="make-predicate">
         <xsl:text expand-text="yes">[(${x:known-UQName('x:context')}/root()/({.}) treat as node()) is {x:known-UQName('x:select-node')}(${x:known-UQName('x:context')}/root(), @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')}, {parent::element() => x:xslt-version()})]</xsl:text>
@@ -192,18 +192,16 @@
         <xsl:text expand-text="yes">[(@{local-name()}, preceding-sibling::{x:known-UQName('svrl:fired-rule')}[1]/@{local-name()}, preceding-sibling::{x:known-UQName('svrl:active-pattern')}[1]/@{local-name()})[1] = '{.}']</xsl:text>
     </xsl:template>
 
-    <xsl:template match="@id[parent::x:expect-rule] | @context[parent::x:expect-rule]" as="text()"
-        mode="make-predicate">
+    <xsl:template match="(@id | @context)[parent::x:expect-rule]" as="text()" mode="make-predicate">
         <xsl:text expand-text="yes">[@{local-name()} = '{.}']</xsl:text>
     </xsl:template>
-
-    <xsl:template match="@count | @label" as="empty-sequence()" mode="make-predicate" />
 
     <!--
         Named templates
     -->
 
     <xsl:template name="create-expect" as="element(x:expect)">
+        <!-- Context item is a Schematron-specific x:expect-* element -->
         <xsl:context-item as="element()" use="required" />
 
         <xsl:param name="label" as="xs:string"
@@ -227,6 +225,7 @@
                 xs:QName('foo') -->
             <xsl:sequence select="x:copy-of-namespaces(.)" />
 
+            <xsl:sequence select="@pending" />
             <xsl:attribute name="label" select="$label" />
             <xsl:attribute name="test" select="$test" />
         </xsl:element>
