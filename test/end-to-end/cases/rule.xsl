@@ -10,9 +10,7 @@
       <xsl:param name="p" as="xs:integer?" />
 
       <transformed>
-         <xsl:if test="exists($p)">
-            <xsl:value-of select="$p" />
-         </xsl:if>
+         <xsl:value-of select="$p" />
       </transformed>
    </xsl:template>
 
