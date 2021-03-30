@@ -85,67 +85,67 @@
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
+            <tr class="pending">
+               <th>(<strong>testing @pending of a correct scenario</strong>) <a href="#top_scenario9">a correct scenario with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="pending">
+               <th>(<strong>testing @pending of an incorrect scenario</strong>) <a href="#top_scenario10">an incorrect scenario with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="pending">
+               <th><a href="#top_scenario11">Zero-length x:scenario/@pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+            </tr>
             <tr class="successful">
-               <th><a href="#top_scenario9">a non-pending correct scenario alongside a pending scenario</a></th>
+               <th><a href="#top_scenario12">a correct x:expect with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario13">an incorrect x:expect with @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario14">a correct x:expect with zero-length @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario15">an incorrect x:expect with zero-length @pending must be Pending</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><a href="#top_scenario16">a non-pending correct scenario alongside a pending scenario</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#top_scenario10">a non-pending incorrect scenario alongside a pending scenario</a></th>
+               <th><a href="#top_scenario17">a non-pending incorrect scenario alongside a pending scenario</a></th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th>(<strong>testing @pending of a correct scenario</strong>) <a href="#top_scenario11">a correct scenario with @pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th>(<strong>testing @pending of an incorrect scenario</strong>) <a href="#top_scenario12">an incorrect scenario with @pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th><a href="#top_scenario13">Zero-length x:scenario/@pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">2</th>
-               <th class="totals">0</th>
-               <th class="totals">2</th>
-            </tr>
-            <tr class="successful">
-               <th><a href="#top_scenario14">a correct x:expect with @pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="successful">
-               <th><a href="#top_scenario15">an incorrect x:expect with @pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="successful">
-               <th><a href="#top_scenario16">a correct x:expect with zero-length @pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="successful">
-               <th><a href="#top_scenario17">an incorrect x:expect with zero-length @pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
          </tbody>
@@ -303,71 +303,8 @@
          </table>
       </div>
       <div id="top_scenario9">
-         <h2 class="successful">a non-pending correct scenario alongside a pending scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario9">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="successful">
-                  <th>a non-pending correct scenario alongside a pending scenario</th>
-                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="successful">
-                  <td>must execute the test and return Success</td>
-                  <td>Success</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario10">
-         <h2 class="failed">a non-pending incorrect scenario alongside a pending scenario<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario10">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="failed">
-                  <th>a non-pending incorrect scenario alongside a pending scenario</th>
-                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
-               </tr>
-               <tr class="failed">
-                  <td><a href="#scenario10-expect1">must execute the test and return Failure</a></td>
-                  <td>Failure</td>
-               </tr>
-            </tbody>
-         </table>
-         <div id="scenario10">
-            <h3>a non-pending incorrect scenario alongside a pending scenario</h3>
-            <div id="scenario10-expect1" class="xTestReport">
-               <h4 class="xTestReportTitle">must execute the test and return Failure</h4>
-               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
-               <table class="xspecResult">
-                  <thead>
-                     <tr>
-                        <th>Result</th>
-                        <th>Expecting</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <pre>4</pre>
-                        </td>
-                        <td>
-                           <pre>$t:result instance of xs:string</pre>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-         </div>
-      </div>
-      <div id="top_scenario11">
          <h2 class="pending">(<strong>testing @pending of a correct scenario</strong>) a correct scenario with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario11">
+         <table class="xspec" id="table_scenario9">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -384,9 +321,9 @@
             </tbody>
          </table>
       </div>
-      <div id="top_scenario12">
+      <div id="top_scenario10">
          <h2 class="pending">(<strong>testing @pending of an incorrect scenario</strong>) an incorrect scenario with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario12">
+         <table class="xspec" id="table_scenario10">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -403,9 +340,9 @@
             </tbody>
          </table>
       </div>
-      <div id="top_scenario13">
+      <div id="top_scenario11">
          <h2 class="pending">Zero-length x:scenario/@pending<span class="scenario-totals">passed: 0 / pending: 2 / failed: 0 / total: 2</span></h2>
-         <table class="xspec" id="table_scenario13">
+         <table class="xspec" id="table_scenario11">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -434,9 +371,9 @@
             </tbody>
          </table>
       </div>
-      <div id="top_scenario14">
+      <div id="top_scenario12">
          <h2 class="successful">a correct x:expect with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario14">
+         <table class="xspec" id="table_scenario12">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -453,9 +390,9 @@
             </tbody>
          </table>
       </div>
-      <div id="top_scenario15">
+      <div id="top_scenario13">
          <h2 class="successful">an incorrect x:expect with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario15">
+         <table class="xspec" id="table_scenario13">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -472,9 +409,9 @@
             </tbody>
          </table>
       </div>
-      <div id="top_scenario16">
+      <div id="top_scenario14">
          <h2 class="successful">a correct x:expect with zero-length @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario16">
+         <table class="xspec" id="table_scenario14">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -491,9 +428,9 @@
             </tbody>
          </table>
       </div>
-      <div id="top_scenario17">
+      <div id="top_scenario15">
          <h2 class="successful">an incorrect x:expect with zero-length @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario17">
+         <table class="xspec" id="table_scenario15">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
@@ -509,6 +446,69 @@
                </tr>
             </tbody>
          </table>
+      </div>
+      <div id="top_scenario16">
+         <h2 class="successful">a non-pending correct scenario alongside a pending scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario16">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>a non-pending correct scenario alongside a pending scenario</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>must execute the test and return Success</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario17">
+         <h2 class="failed">a non-pending incorrect scenario alongside a pending scenario<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario17">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>a non-pending incorrect scenario alongside a pending scenario</th>
+                  <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario17-expect1">must execute the test and return Failure</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario17">
+            <h3>a non-pending incorrect scenario alongside a pending scenario</h3>
+            <div id="scenario17-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">must execute the test and return Failure</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expecting</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>4</pre>
+                        </td>
+                        <td>
+                           <pre>$t:result instance of xs:string</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
       </div>
    </body>
 </html>

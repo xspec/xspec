@@ -93,23 +93,6 @@
    </t:pending>
 
    <!--
-       Non-pending scenarios.
-   -->
-   <t:scenario label="a non-pending correct scenario alongside a pending scenario">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="must execute the test and return Success" select="9"/>
-   </t:scenario>
-
-   <t:scenario label="a non-pending incorrect scenario alongside a pending scenario">
-      <t:call function="my:square">
-         <t:param select="2"/>
-      </t:call>
-      <t:expect label="must execute the test and return Failure" test="$t:result instance of xs:string"/>
-   </t:scenario>
-
-   <!--
        Test x:scenario/@pending.
    -->
    <t:scenario label="a correct scenario with @pending must be Pending" pending="testing @pending of a correct scenario">
@@ -176,6 +159,23 @@
       </t:call>
       <t:expect label="it would return Failure if it were not Pending" test="$t:result instance of xs:string"
          pending="" />
+   </t:scenario>
+
+   <!--
+       Non-pending scenarios.
+   -->
+   <t:scenario label="a non-pending correct scenario alongside a pending scenario">
+      <t:call function="my:square">
+         <t:param select="3"/>
+      </t:call>
+      <t:expect label="must execute the test and return Success" select="9"/>
+   </t:scenario>
+
+   <t:scenario label="a non-pending incorrect scenario alongside a pending scenario">
+      <t:call function="my:square">
+         <t:param select="2"/>
+      </t:call>
+      <t:expect label="must execute the test and return Failure" test="$t:result instance of xs:string"/>
    </t:scenario>
 
 </t:description>
