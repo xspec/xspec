@@ -1,37 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
         xspec="../../imported.xspec"
-        query="http://example.org/ns/my"
-        query-at="../../../../square.xqm"
+        query="x-urn:test:mirror"
+        query-at="../../../../mirror.xqm"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1" xspec="../../imported.xspec">
-      <label>a correct scenario in an imported file</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario1-expect1" successful="true">
-         <label>must return Success</label>
-         <expect select="9"/>
-      </test>
-   </scenario>
-   <scenario id="scenario2" xspec="../../imported.xspec">
-      <label>an incorrect scenario in an imported file</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
-         </t:call>
-      </input-wrap>
-      <result select="4"/>
-      <test id="scenario2-expect1" successful="false">
-         <label>must return Failure</label>
-         <expect select="42"/>
-      </test>
+      <label>in an imported file</label>
+      <scenario id="scenario1-scenario1" xspec="../../imported.xspec">
+         <label>given a scenario</label>
+         <scenario id="scenario1-scenario1-scenario1" xspec="../../imported.xspec">
+            <label>where a function returns 0</label>
+            <input-wrap xmlns="">
+               <t:call xmlns:mirror="x-urn:test:mirror"
+                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                       xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                       function="mirror:param-mirror">
+                  <t:param select="0"/>
+               </t:call>
+            </input-wrap>
+            <result select="0"/>
+            <test id="scenario1-scenario1-scenario1-expect1" successful="true">
+               <label>expecting 0 in @select must be Success</label>
+               <expect select="0"/>
+            </test>
+            <test id="scenario1-scenario1-scenario1-expect2" successful="true">
+               <label>expecting x:integer in @test must be Success</label>
+               <expect-test-wrap xmlns="">
+                  <t:expect xmlns:mirror="x-urn:test:mirror"
+                            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                            test="$t:result instance of xs:integer"/>
+               </expect-test-wrap>
+               <expect select="()"/>
+            </test>
+            <test id="scenario1-scenario1-scenario1-expect3" successful="false">
+               <label>expecting 1 in @select must be Failure</label>
+               <expect select="1"/>
+            </test>
+            <test id="scenario1-scenario1-scenario1-expect4" successful="false">
+               <label>expecting xs:string in @test must be Failure</label>
+               <expect-test-wrap xmlns="">
+                  <t:expect xmlns:mirror="x-urn:test:mirror"
+                            xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                            xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                            test="$t:result instance of xs:string"/>
+               </expect-test-wrap>
+               <expect select="()"/>
+            </test>
+         </scenario>
+      </scenario>
    </scenario>
 </report>

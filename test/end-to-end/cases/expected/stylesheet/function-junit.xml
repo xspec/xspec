@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="function.xspec">
-   <testsuite name="when calling a function and expecting correctly"
-              tests="2"
-              failures="0">
-      <testcase name="expecting the correct value must return Success" status="passed"/>
-      <testcase name="expecting the correct type must return Success" status="passed"/>
-   </testsuite>
-   <testsuite name="when calling a function and expecting incorrectly"
-              tests="2"
-              failures="2">
-      <testcase name="expecting an incorrect value must return Failure" status="failed">
-         <failure message="expect assertion failed">Expected Result: 42</failure>
+   <testsuite name="when a function returns 0" tests="4" failures="2">
+      <testcase name="expecting 0 in @select must be Success" status="passed"/>
+      <testcase name="expecting xs:integer in @test must be Success" status="passed"/>
+      <testcase name="expecting 1 in @select must be Failure" status="failed">
+         <failure message="expect assertion failed">Expected Result: 1</failure>
       </testcase>
-      <testcase name="expecting an incorrect type must return Failure" status="failed">
+      <testcase name="expecting xs:string in @test must be Failure" status="failed">
          <failure message="expect assertion failed">Expecting: $t:result instance of xs:string</failure>
       </testcase>
    </testsuite>
