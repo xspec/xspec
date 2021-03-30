@@ -1,226 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
         xspec="../../pending.xspec"
-        query="http://example.org/ns/my"
-        query-at="../../../../square.xqm"
+        query="x-urn:test:do-nothing"
+        query-at="../../../../do-nothing.xqm"
         date="2000-01-01T00:00:00Z">
-   <scenario id="scenario1"
-             xspec="../../pending.xspec"
-             pending="testing x:pending">
-      <label>a correct scenario in x:pending must be Pending</label>
+   <scenario id="scenario1" xspec="../../pending.xspec">
+      <label>Test pending features (x:pending and @pending)</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
-      <test id="scenario1-expect1" pending="testing x:pending">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario2"
-             xspec="../../pending.xspec"
-             pending="testing x:pending">
-      <label>an incorrect scenario in x:pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario2-expect1" pending="testing x:pending">
-         <label>it would return Failure if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario3" xspec="../../pending.xspec" pending="">
-      <label>a correct scenario in zero-length x:pending/@label must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario3-expect1" pending="">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario4" xspec="../../pending.xspec" pending="">
-      <label>an incorrect scenario in zero-length x:pending/@label must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario4-expect1" pending="">
-         <label>it would return Failure if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario5" xspec="../../pending.xspec" pending="">
-      <label>a correct scenario in zero-length x:pending/x:label must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario5-expect1" pending="">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario6" xspec="../../pending.xspec" pending="">
-      <label>an incorrect scenario in zero-length x:pending/x:label must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario6-expect1" pending="">
-         <label>it would return Failure if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario7" xspec="../../pending.xspec" pending="">
-      <label>a correct scenario in x:pending[empty(@label | x:label)] must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario7-expect1" pending="">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario8" xspec="../../pending.xspec" pending="">
-      <label>an incorrect scenario in x:pending[empty(@label | x:label)] must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario8-expect1" pending="">
-         <label>it would return Failure if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario9" xspec="../../pending.xspec">
-      <label>a non-pending correct scenario alongside a pending scenario</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario9-expect1" successful="true">
-         <label>must execute the test and return Success</label>
-         <expect select="9"/>
-      </test>
-   </scenario>
-   <scenario id="scenario10" xspec="../../pending.xspec">
-      <label>a non-pending incorrect scenario alongside a pending scenario</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
-         </t:call>
-      </input-wrap>
-      <result select="4"/>
-      <test id="scenario10-expect1" successful="false">
-         <label>must execute the test and return Failure</label>
-         <expect-test-wrap xmlns="">
-            <t:expect xmlns:my="http://example.org/ns/my"
-                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                      xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                      test="$t:result instance of xs:string"/>
-         </expect-test-wrap>
-         <expect select="()"/>
-      </test>
-   </scenario>
-   <scenario id="scenario11"
-             xspec="../../pending.xspec"
-             pending="testing @pending of a correct scenario">
-      <label>a correct scenario with @pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario11-expect1"
-            pending="testing @pending of a correct scenario">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario12"
-             xspec="../../pending.xspec"
-             pending="testing @pending of an incorrect scenario">
-      <label>an incorrect scenario with @pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="2"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario12-expect1"
-            pending="testing @pending of an incorrect scenario">
-         <label>it would return Failure if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario13" xspec="../../pending.xspec" pending="">
-      <label>Zero-length @pending</label>
-      <scenario id="scenario13-scenario1" xspec="../../pending.xspec" pending="">
-         <label>a correct scenario in zero-length @pending must be Pending</label>
-         <input-wrap xmlns="">
-            <t:call xmlns:my="http://example.org/ns/my"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                    function="my:square">
-               <t:param select="3"/>
-            </t:call>
-         </input-wrap>
-         <test id="scenario13-scenario1-expect1" pending="">
+      <scenario id="scenario1-scenario1" xspec="../../pending.xspec">
+         <label>a non-pending Success scenario alongside a pending scenario</label>
+         <result select="9"/>
+         <test id="scenario1-scenario1-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../pending.xspec">
+         <label>a non-pending Failure scenario alongside a pending scenario</label>
+         <result select="9"/>
+         <test id="scenario1-scenario2-expect1" successful="false">
+            <label>must execute the test and return Failure</label>
+            <expect-test-wrap xmlns="">
+               <t:expect xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xmlns:t="http://www.jenitennison.com/xslt/xspec"
+                         test="$t:result instance of xs:string"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3"
+                xspec="../../pending.xspec"
+                pending="testing x:pending">
+         <label>a Success scenario in x:pending must be Pending</label>
+         <test id="scenario1-scenario3-expect1" pending="testing x:pending">
             <label>it would return Success if it were not Pending</label>
          </test>
       </scenario>
-      <scenario id="scenario13-scenario2" xspec="../../pending.xspec" pending="">
-         <label>an incorrect scenario in zero-length @pending must be Pending</label>
-         <input-wrap xmlns="">
-            <t:call xmlns:my="http://example.org/ns/my"
-                    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                    function="my:square">
-               <t:param select="2"/>
-            </t:call>
-         </input-wrap>
-         <test id="scenario13-scenario2-expect1" pending="">
-            <label>it would return Failure if it were not Pending</label>
+      <scenario id="scenario1-scenario4"
+                xspec="../../pending.xspec"
+                pending="testing x:pending">
+         <label>an erroneous scenario in x:pending must be Pending</label>
+         <test id="scenario1-scenario4-expect1" pending="testing x:pending">
+            <label>it would throw an error if it were not Pending</label>
          </test>
+      </scenario>
+      <scenario id="scenario1-scenario5" xspec="../../pending.xspec" pending="">
+         <label>a Success scenario in zero-length x:pending/@label must be Pending</label>
+         <test id="scenario1-scenario5-expect1" pending="">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario6" xspec="../../pending.xspec" pending="">
+         <label>an erroneous scenario in zero-length x:pending/@label must be Pending</label>
+         <test id="scenario1-scenario6-expect1" pending="">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario7" xspec="../../pending.xspec" pending="">
+         <label>a Success scenario in zero-length x:pending/x:label must be Pending</label>
+         <test id="scenario1-scenario7-expect1" pending="">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario8" xspec="../../pending.xspec" pending="">
+         <label>an erroneous scenario in zero-length x:pending/x:label must be Pending</label>
+         <test id="scenario1-scenario8-expect1" pending="">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario9" xspec="../../pending.xspec" pending="">
+         <label>a Success scenario in x:pending[empty(@label | x:label)] must be Pending</label>
+         <test id="scenario1-scenario9-expect1" pending="">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario10" xspec="../../pending.xspec" pending="">
+         <label>an erroneous scenario in x:pending[empty(@label | x:label)] must be Pending</label>
+         <test id="scenario1-scenario10-expect1" pending="">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario11"
+                xspec="../../pending.xspec"
+                pending="testing @pending of a Success scenario">
+         <label>a Success scenario with @pending must be Pending</label>
+         <test id="scenario1-scenario11-expect1"
+               pending="testing @pending of a Success scenario">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario12"
+                xspec="../../pending.xspec"
+                pending="testing @pending of an erroneous scenario">
+         <label>an erroneous scenario with @pending must be Pending</label>
+         <test id="scenario1-scenario12-expect1"
+               pending="testing @pending of an erroneous scenario">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario13" xspec="../../pending.xspec" pending="">
+         <label>Zero-length @pending</label>
+         <scenario id="scenario1-scenario13-scenario1"
+                   xspec="../../pending.xspec"
+                   pending="">
+            <label>a Success scenario in zero-length @pending must be Pending</label>
+            <test id="scenario1-scenario13-scenario1-expect1" pending="">
+               <label>it would return Success if it were not Pending</label>
+            </test>
+         </scenario>
+         <scenario id="scenario1-scenario13-scenario2"
+                   xspec="../../pending.xspec"
+                   pending="">
+            <label>an erroneous scenario in zero-length @pending must be Pending</label>
+            <test id="scenario1-scenario13-scenario2-expect1" pending="">
+               <label>it would throw an error if it were not Pending</label>
+            </test>
+         </scenario>
       </scenario>
    </scenario>
 </report>

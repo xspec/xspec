@@ -11,6 +11,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:fmt="urn:x-xspec:reporter:format-utils"
                 xmlns:local="urn:x-xspec:reporter:coverage-report:local"
+                xmlns:map="http://www.w3.org/2005/xpath-functions/map"
                 xmlns:pkg="http://expath.org/ns/pkg"
                 xmlns:saxon="http://saxon.sf.net/"
                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
@@ -96,7 +97,7 @@
          select="base-uri()" />
       <xsl:variable name="stylesheet-string" as="xs:string"
          select="unparsed-text($stylesheet-uri)" />
-      <xsl:variable name="stylesheet-lines" as="xs:string+" 
+      <xsl:variable name="stylesheet-lines" as="xs:string+"
          select="local:split-lines($stylesheet-string)" />
       <xsl:variable name="number-of-lines" as="xs:integer"
          select="count($stylesheet-lines)" />
@@ -147,6 +148,19 @@
       </xsl:value-of>
    </xsl:variable>
 
+   <xsl:variable name="groups" as="map(xs:string, xs:integer)" select="map{
+      'construct' : 1,
+      'text' : 2,
+      'comment' : 3,
+      'pi' : 4,
+      'cdata' : 5,
+      'close-tag' : 6,
+      'close-tag-name' : 7,
+      'open-tag' : 8,
+      'open-tag-name' : 9,
+      'empty-tag' : 10}"
+   />
+
    <xsl:variable name="construct-regex" as="xs:string">
       <xsl:value-of xml:space="preserve">
          (                                   <!-- 1: the construct -->
@@ -163,6 +177,22 @@
             (&lt;!\[CDATA\[                  <!-- 5: a CDATA section -->
                (?:[^\]]|\][^\]]|\]\][^>])*   <!-- ?: the content of the CDATA section -->
              \]\]>)
+            |
+            (?:&lt;!DOCTYPE                  <!-- ?: a DOCTYPE declaration -->
+               \s+
+               (?:[^\[>])*                   <!-- ?: the content of the DOCTYPE -->
+               (?:                           <!-- ?: the entity declarations -->
+                  \[
+                  (?:
+                     \s*
+                     (?:&lt;!ENTITY\s+[^>]+)&gt;
+                     \s*
+                  )+
+                  \]
+               )?
+               \s*
+               &gt;
+            )
             |
             (&lt;/                           <!-- 6: a close tag -->
                ([^>]+)                       <!-- 7: the name of the element being closed -->
@@ -196,11 +226,10 @@
       <!-- Analyze the entire stylesheet string. For each matching substring, create a map that
          records the kind of match. -->
       <xsl:variable name="regex-groups" as="map(xs:integer, xs:string)+">
-         <xsl:analyze-string select="$stylesheet-string"
-            regex="{$construct-regex}" flags="sx">
+         <xsl:analyze-string select="$stylesheet-string" regex="{$construct-regex}" flags="sx">
             <xsl:matching-substring>
                <xsl:map>
-                  <xsl:for-each select="1 to 10">
+                  <xsl:for-each select="1 to map:size($groups)">
                      <xsl:map-entry key="." select="regex-group(.)" />
                   </xsl:for-each>
                </xsl:map>
@@ -221,23 +250,23 @@
 
          <xsl:variable name="regex-group" as="map(xs:integer, xs:string)" select="." />
 
-         <xsl:variable name="construct" as="xs:string" select="$regex-group(1)" />
+         <xsl:variable name="construct" as="xs:string" select="$regex-group($groups('construct'))" />
          <xsl:variable name="construct-lines" as="xs:string+"
             select="local:split-lines($construct)" />
-         <xsl:variable name="endTag" as="xs:boolean" select="$regex-group(6) ne ''" />
-         <xsl:variable name="emptyTag" as="xs:boolean" select="$regex-group(10) ne ''" />
-         <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and $regex-group(8)" />
+         <xsl:variable name="endTag" as="xs:boolean" select="$regex-group($groups('close-tag')) ne ''" />
+         <xsl:variable name="emptyTag" as="xs:boolean" select="$regex-group($groups('empty-tag')) ne ''" />
+         <xsl:variable name="startTag" as="xs:boolean" select="not($emptyTag) and $regex-group($groups('open-tag'))" />
          <xsl:variable name="matches" as="xs:boolean"
             select="($node instance of text() and
-                     ($regex-group(2) or $regex-group(5))) or
+                     ($regex-group($groups('text')) or $regex-group($groups('cdata')))) or
                     ($node instance of element() and
                      ($startTag or $endTag or $emptyTag) and
-                     name($node) = ($regex-group(7), $regex-group(9))) or
+                     name($node) = ($regex-group($groups('close-tag-name')), $regex-group($groups('open-tag-name')))) or
                     ($node instance of comment() and
-                     $regex-group(3)) or
+                     $regex-group($groups('comment'))) or
                     ($node instance of processing-instruction() and
-                     $regex-group(4))" />
-         <xsl:variable name="coverage" as="xs:string" 
+                     $regex-group($groups('pi')))" />
+         <xsl:variable name="coverage" as="xs:string"
             select="if ($matches) then local:coverage($node, $module) else 'ignored'" />
          <xsl:for-each select="$construct-lines">
             <xsl:if test="position() != 1">
@@ -280,7 +309,7 @@
                      <xsl:sequence select="$node" />
                   </xsl:otherwise>
                </xsl:choose>
-            </xsl:with-param> 
+            </xsl:with-param>
          </xsl:next-iteration>
       </xsl:iterate>
    </xsl:template>

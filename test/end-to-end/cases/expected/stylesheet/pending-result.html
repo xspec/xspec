@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for square.xsl (passed: 1 / pending: 12 / failed: 1 / total: 14)</title>
+      <title>Test Report for do-nothing.xsl (passed: 1 / pending: 12 / failed: 1 / total: 14)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
-      <p>Stylesheet: <a href="../../../../square.xsl">square.xsl</a></p>
+      <p>Stylesheet: <a href="../../../../do-nothing.xsl">do-nothing.xsl</a></p>
       <p>XSpec: <a href="../../pending.xspec">pending.xspec</a></p>
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
@@ -28,291 +28,145 @@
             </tr>
          </thead>
          <tbody>
-            <tr class="pending">
-               <th>(<strong>testing x:pending</strong>) <a href="#top_scenario1">a correct scenario in x:pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th>(<strong>testing x:pending</strong>) <a href="#top_scenario2">an incorrect scenario in x:pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th><a href="#top_scenario3">a correct scenario in zero-length x:pending/@label must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th><a href="#top_scenario4">an incorrect scenario in zero-length x:pending/@label must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th><a href="#top_scenario5">a correct scenario in zero-length x:pending/x:label must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th><a href="#top_scenario6">an incorrect scenario in zero-length x:pending/x:label must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th><a href="#top_scenario7">a correct scenario in x:pending[empty(@label | x:label)] must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th><a href="#top_scenario8">an incorrect scenario in x:pending[empty(@label | x:label)] must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="successful">
-               <th><a href="#top_scenario9">a non-pending correct scenario alongside a pending scenario</a></th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
             <tr class="failed">
-               <th><a href="#top_scenario10">a non-pending incorrect scenario alongside a pending scenario</a></th>
-               <th class="totals">0</th>
-               <th class="totals">0</th>
+               <th><a href="#top_scenario1">Test pending features (x:pending and @pending)</a></th>
                <th class="totals">1</th>
+               <th class="totals">12</th>
                <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th>(<strong>testing @pending of a correct scenario</strong>) <a href="#top_scenario11">a correct scenario with @pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th>(<strong>testing @pending of an incorrect scenario</strong>) <a href="#top_scenario12">an incorrect scenario with @pending must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-            </tr>
-            <tr class="pending">
-               <th><a href="#top_scenario13">Zero-length @pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">2</th>
-               <th class="totals">0</th>
-               <th class="totals">2</th>
+               <th class="totals">14</th>
             </tr>
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="pending">(<strong>testing x:pending</strong>) a correct scenario in x:pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <h2 class="successful">Test pending features (x:pending and @pending)<span class="scenario-totals">passed: 1 / pending: 12 / failed: 1 / total: 14</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
             </colgroup>
             <tbody>
-               <tr class="pending">
-                  <th>(<strong>testing x:pending</strong>) a correct scenario in x:pending must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>(<strong>testing x:pending</strong>) it would return Success if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario2">
-         <h2 class="pending">(<strong>testing x:pending</strong>) an incorrect scenario in x:pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario2">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>(<strong>testing x:pending</strong>) an incorrect scenario in x:pending must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>(<strong>testing x:pending</strong>) it would return Failure if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario3">
-         <h2 class="pending">a correct scenario in zero-length x:pending/@label must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario3">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>a correct scenario in zero-length x:pending/@label must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>it would return Success if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario4">
-         <h2 class="pending">an incorrect scenario in zero-length x:pending/@label must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario4">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>an incorrect scenario in zero-length x:pending/@label must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>it would return Failure if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario5">
-         <h2 class="pending">a correct scenario in zero-length x:pending/x:label must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario5">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>a correct scenario in zero-length x:pending/x:label must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>it would return Success if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario6">
-         <h2 class="pending">an incorrect scenario in zero-length x:pending/x:label must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario6">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>an incorrect scenario in zero-length x:pending/x:label must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>it would return Failure if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario7">
-         <h2 class="pending">a correct scenario in x:pending[empty(@label | x:label)] must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario7">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>a correct scenario in x:pending[empty(@label | x:label)] must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>it would return Success if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario8">
-         <h2 class="pending">an incorrect scenario in x:pending[empty(@label | x:label)] must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario8">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>an incorrect scenario in x:pending[empty(@label | x:label)] must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>it would return Failure if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario9">
-         <h2 class="successful">a non-pending correct scenario alongside a pending scenario<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario9">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
                <tr class="successful">
-                  <th>a non-pending correct scenario alongside a pending scenario</th>
+                  <th>Test pending features (x:pending and @pending)</th>
+                  <th>passed: 1 / pending: 12 / failed: 1 / total: 14</th>
+               </tr>
+               <tr class="successful">
+                  <th>a non-pending Success scenario alongside a pending scenario</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
                   <td>must execute the test and return Success</td>
                   <td>Success</td>
                </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario10">
-         <h2 class="failed">a non-pending incorrect scenario alongside a pending scenario<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario10">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
                <tr class="failed">
-                  <th>a non-pending incorrect scenario alongside a pending scenario</th>
+                  <th><a href="#scenario1-scenario2">a non-pending Failure scenario alongside a pending scenario</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario10-expect1">must execute the test and return Failure</a></td>
+                  <td><a href="#scenario1-scenario2-expect1">must execute the test and return Failure</a></td>
                   <td>Failure</td>
+               </tr>
+               <tr class="pending">
+                  <th>(<strong>testing x:pending</strong>) a Success scenario in x:pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing x:pending</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>(<strong>testing x:pending</strong>) an erroneous scenario in x:pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing x:pending</strong>) it would throw an error if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>a Success scenario in zero-length x:pending/@label must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>an erroneous scenario in zero-length x:pending/@label must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would throw an error if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>a Success scenario in zero-length x:pending/x:label must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>an erroneous scenario in zero-length x:pending/x:label must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would throw an error if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>a Success scenario in x:pending[empty(@label | x:label)] must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>an erroneous scenario in x:pending[empty(@label | x:label)] must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would throw an error if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>(<strong>testing @pending of a Success scenario</strong>) a Success scenario with @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @pending of a Success scenario</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>(<strong>testing @pending of an erroneous scenario</strong>) an erroneous scenario with @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @pending of an erroneous scenario</strong>) it would throw an error if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>Zero-length @pending a Success scenario in zero-length @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="pending">
+                  <th>Zero-length @pending an erroneous scenario in zero-length @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would throw an error if it were not Pending</td>
+                  <td>Pending</td>
                </tr>
             </tbody>
          </table>
-         <div id="scenario10">
-            <h3>a non-pending incorrect scenario alongside a pending scenario</h3>
-            <div id="scenario10-expect1" class="xTestReport">
+         <div id="scenario1-scenario2">
+            <h3>Test pending features (x:pending and @pending) a non-pending Failure scenario alongside
+               a pending scenario</h3>
+            <div id="scenario1-scenario2-expect1" class="xTestReport">
                <h4 class="xTestReportTitle">must execute the test and return Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
@@ -325,7 +179,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <pre>4</pre>
+                           <pre>9</pre>
                         </td>
                         <td>
                            <pre>$t:result instance of xs:string</pre>
@@ -335,75 +189,6 @@
                </table>
             </div>
          </div>
-      </div>
-      <div id="top_scenario11">
-         <h2 class="pending">(<strong>testing @pending of a correct scenario</strong>) a correct scenario with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario11">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>(<strong>testing @pending of a correct scenario</strong>) a correct scenario with @pending must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>(<strong>testing @pending of a correct scenario</strong>) it would return Success if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario12">
-         <h2 class="pending">(<strong>testing @pending of an incorrect scenario</strong>) an incorrect scenario with @pending must be Pending<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario12">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>(<strong>testing @pending of an incorrect scenario</strong>) an incorrect scenario with @pending must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>(<strong>testing @pending of an incorrect scenario</strong>) it would return Failure if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario13">
-         <h2 class="pending">Zero-length @pending<span class="scenario-totals">passed: 0 / pending: 2 / failed: 0 / total: 2</span></h2>
-         <table class="xspec" id="table_scenario13">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
-               <tr class="pending">
-                  <th>Zero-length @pending</th>
-                  <th>passed: 0 / pending: 2 / failed: 0 / total: 2</th>
-               </tr>
-               <tr class="pending">
-                  <th>a correct scenario in zero-length @pending must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>it would return Success if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-               <tr class="pending">
-                  <th>an incorrect scenario in zero-length @pending must be Pending</th>
-                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
-               </tr>
-               <tr class="pending">
-                  <td>it would return Failure if it were not Pending</td>
-                  <td>Pending</td>
-               </tr>
-            </tbody>
-         </table>
       </div>
    </body>
 </html>
