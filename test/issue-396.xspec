@@ -11,15 +11,16 @@
 			</conbody>
 		</x:context>
 
-		<!-- TODO: Add @location="/conbody[1]/p[1]/text()[1]" to this <x:expect-report>, if the
-			"skeleton" Schematron implementation gets fixed and thus makes the following
-			<x:expect-not-report> fail. -->
+		<!-- The "skeleton" Schematron implementation should be able to handle text nodes as long as
+			all the following conditions are met:
+			- $only-child-elements global parameter is false.
+			- $visit-text global parameter is true.
+			- @location is not involved -->
 		<x:expect-report id="above-mentioned" role="info" />
 
-		<!-- TODO: Remove this <x:expect-not-report>.
-			@location with text node doesn't work with the "skeleton" Schematron implementation.
+		<!-- @location with text node doesn't work with the "skeleton" Schematron implementation.
 			This <x:expect-not-report> confirms it. If this <x:expect-not-report> fails, it means
 			that the "skeleton" Schematron implementation gets fixed. -->
-		<x:expect-not-report location="/conbody[1]/p[1]/text()[1]" />
+		<x:expect-not-report location="//text()[. eq 'above-mentioned']" />
 	</x:scenario>
 </x:description>
