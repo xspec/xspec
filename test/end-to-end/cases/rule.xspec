@@ -26,34 +26,45 @@
       </t:expect>
    </t:scenario>
 
-   <!-- TODO: Make two different cases for the base t:apply and with param.
-       TODO: Uncomment these two scenarios, after defining x:apply in the XSpec schema: xspec/xspec#60
-       TODO: Remove pending attributes from these two scenarios, after finishing implementing x:apply. -->
-  <!--
-   <t:scenario label="x:apply with correct x:expect" pending="not implemented yet">
-      <t:variable name="ctxt" as="element()">
-         <rule/>
-      </t:variable>
-      <t:apply select="$ctxt">
-         <t:param name="p" select="0"/>
-      </t:apply>
-      <t:expect label="must return Success">
-         <transformed/>
-      </t:expect>
-   </t:scenario>
+   <t:scenario label="when x:apply is invoked with a 'rule' element">
+         <t:variable name="ctxt"
+                     as="element(rule)">
+            <rule/>
+         </t:variable>
 
-   <t:scenario label="x:apply with incorrect x:expect" pending="not implemented yet">
-      <t:variable name="ctxt" as="element()">
-         <rule/>
-      </t:variable>
-      <t:apply select="$ctxt">
-         <t:param name="p" select="0"/>
-      </t:apply>
-      <t:expect label="must return Failure">
-         <erroneous/>
-      </t:expect>
+         <!-- TODO: Change this t:context to t:apply -->
+         <t:context select="$ctxt" />
+
+         <t:scenario label="without x:param in x:apply">
+            <t:expect label="it should be transformed into a 'transformed' element containing nothing"
+                      as="element(transformed)">
+               <transformed />
+            </t:expect>
+
+            <t:expect label="expecting an 'erroneous' element should be Failure"
+                      as="element(erroneous)">
+               <erroneous />
+            </t:expect>
+         </t:scenario>
+
+         <t:scenario label="with x:param=0 in x:apply by extending the base x:apply">
+            <!-- TODO: Change this t:context to t:apply -->
+            <t:context>
+               <t:param name="p"
+                        select="0" />
+            </t:context>
+
+            <t:expect label="it should be transformed into a 'transformed' element containing 0"
+                      as="element(transformed)">
+               <transformed>0</transformed>
+            </t:expect>
+
+            <t:expect label="expecting an 'erroneous' element should be Failure"
+                      as="element(erroneous)">
+               <erroneous>0</erroneous>
+            </t:expect>
+         </t:scenario>
    </t:scenario>
-   -->
 
 </t:description>
 
