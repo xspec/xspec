@@ -45,11 +45,11 @@
             </xsl:call-template>
          </xsl:message>
       </xsl:if>
-      <xsl:if test="$context and $call/@function">
+      <xsl:if test="$context and $call/@function and not($is-external)">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
-                  <xsl:text>Can't set a context and call a function at the same time</xsl:text>
+                  <xsl:text expand-text="yes">Setting a context and calling a function at the same time is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -217,7 +217,9 @@
 
                         <!-- Invoke transform() -->
                         <xsl:choose>
-                           <xsl:when test="($invocation-type eq 'call-template') and $context">
+                           <xsl:when test="
+                                 ($invocation-type = ('call-function', 'call-template'))
+                                 and $context">
                               <for-each select="${x:variable-UQName($context)}">
                                  <variable name="{x:known-UQName('impl:transform-options')}" as="map({x:known-UQName('xs:string')}, item()*)">
                                     <xsl:attribute name="select">

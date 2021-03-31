@@ -2272,7 +2272,7 @@
 	<case name="x:call[@function] with x:context">
     call :run ..\bin\xspec.bat error-compiling-scenario\function-with-context.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time"
+    call :verify_line  4 x "ERROR in x:scenario ('x:call[@function] with x:context'): Setting a context and calling a function at the same time is supported only when /x:description has @run-as='external'."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 

@@ -26,7 +26,7 @@
 
 			<x:scenario label="apply-templates invocation">
 				<x:context mode="test:get-global-context" />
-				<x:expect label="root document node of tree containing node specified by x:context"
+				<x:expect label="Global context item should be the root node of x:context tree"
 					test="$x:result is (root($x:context) treat as document-node(element(context-child)))"
 				 />
 			</x:scenario>
@@ -60,6 +60,31 @@
 				<x:call template="test:get-global-context" />
 				<x:like label="Global context item should be absent" />
 			</x:scenario>
+		</x:scenario>
+
+	</x:scenario>
+
+	<x:scenario label="call-function invocation">
+		<x:call function="test:get-global-context" />
+
+		<x:scenario label="x:context is a node">
+			<x:context as="element(context-grandchild)" select="//context-grandchild">
+				<context-child>
+					<context-grandchild />
+				</context-child>
+			</x:context>
+			<x:expect label="Global context item should be identical with x:context node"
+				test="$x:result is $x:context" />
+		</x:scenario>
+
+		<x:scenario label="x:context is an atomic value">
+			<x:context select="'context-string'" />
+			<x:expect label="Global context item should be the same as x:context value"
+				select="$x:context" />
+		</x:scenario>
+
+		<x:scenario catch="yes" label="No x:context">
+			<x:like label="Global context item should be absent" />
 		</x:scenario>
 
 	</x:scenario>
