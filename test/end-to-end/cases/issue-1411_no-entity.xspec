@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description stylesheet="issue-1411_no-entity.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+    <x:scenario label="When converting a dummy element">
+        <x:context>
+            <dummy/>
+        </x:context>
+        <x:expect label="it should return an empty dummy element">
+            <dummy/>
+        </x:expect>
+    </x:scenario>
+
+</x:description>
