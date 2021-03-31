@@ -387,6 +387,7 @@
       <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
       <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
+         <xsl:attribute name="as" select="'item()*'" />
          <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
       </xsl:element>
    </xsl:template>
