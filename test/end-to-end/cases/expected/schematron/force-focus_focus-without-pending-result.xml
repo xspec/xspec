@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
         xspec="../../force-focus_focus-without-pending.xspec"
-        stylesheet="../../../../do-nothing.xsl"
+        stylesheet="force-focus_focus-without-pending-sch-preprocessed.xsl"
+        schematron="../../../../do-nothing.sch"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1"
              xspec="../../focus-without-pending.xspec"

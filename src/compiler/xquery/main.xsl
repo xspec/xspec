@@ -85,8 +85,8 @@
 
       <!-- Absolute URI of the master .xspec file -->
       <xsl:call-template name="x:declare-or-let-variable">
-         <xsl:with-param name="is-global" select="true()" />
-         <xsl:with-param name="name" select="x:known-UQName('x:xspec-uri')" />
+         <xsl:with-param name="as-global" select="true()" />
+         <xsl:with-param name="uqname" select="x:known-UQName('x:xspec-uri')" />
          <xsl:with-param name="type" select="'xs:anyURI'" />
          <xsl:with-param name="value" as="text()">
             <xsl:text expand-text="yes">xs:anyURI("{$initial-document-actual-uri}")</xsl:text>
