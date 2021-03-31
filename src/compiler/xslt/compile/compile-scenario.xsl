@@ -74,6 +74,16 @@
             </xsl:call-template>
          </xsl:message>
       </xsl:if>
+      <xsl:if test="$context/@mode and $call">
+         <xsl:message>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="level" select="'WARNING'" />
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">{name($context)}/@{name($context/@mode)} will have no effect on {name($call)}</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
+      </xsl:if>
       <xsl:if test="$context/x:param and $call">
          <xsl:message>
             <xsl:call-template name="x:prefix-diag-message">
