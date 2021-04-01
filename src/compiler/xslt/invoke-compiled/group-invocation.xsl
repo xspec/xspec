@@ -56,7 +56,7 @@
          -->
          <choose>
             <xsl:for-each select="current-group()">
-               <when test=". eq {count(current-group()[current() >> .] | .)}">
+               <when test=". eq {position()}">
                   <!-- Identical copy except the 'origin' processing instruction -->
                   <xsl:copy>
                      <xsl:apply-templates select="attribute()" mode="#current" />
