@@ -65,6 +65,11 @@
                   </xsl:copy>
                </when>
             </xsl:for-each>
+            <otherwise>
+               <message terminate="yes">
+                  <xsl:text>ERROR: Unhandled scenario invocation</xsl:text>
+               </message>
+            </otherwise>
          </choose>
       </for-each>
    </xsl:template>

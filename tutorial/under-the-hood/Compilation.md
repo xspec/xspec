@@ -85,6 +85,9 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
                   <xsl:when test=". eq 1">
                      <xsl:call-template name="Q{http://www.jenitennison.com/xslt/xspec}scenario1"/>
                   </xsl:when>
+                  <xsl:otherwise>
+                     <xsl:message terminate="yes">ERROR: Unhandled scenario invocation</xsl:message>
+                  </xsl:otherwise>
                </xsl:choose>
             </xsl:for-each>
          </xsl:element>
@@ -819,6 +822,9 @@ and functions in XQuery).
                                select="$Q{http://example.org/ns/my/variable}var-2"/>
             </xsl:call-template>
          </xsl:when>
+         <xsl:otherwise>
+            <xsl:message terminate="yes">ERROR: Unhandled scenario invocation</xsl:message>
+         </xsl:otherwise>
       </xsl:choose>
    </xsl:for-each>
 </xsl:template>
@@ -1265,6 +1271,9 @@ Scenario-level `x:param` is compiled in almost the same way as `x:variable`.
                                   select="$Q{http://example.org/ns/my/param}param-2"/>
                </xsl:call-template>
             </xsl:when>
+            <xsl:otherwise>
+               <xsl:message terminate="yes">ERROR: Unhandled scenario invocation</xsl:message>
+            </xsl:otherwise>
          </xsl:choose>
       </xsl:for-each>
    </xsl:element>
