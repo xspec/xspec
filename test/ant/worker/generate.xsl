@@ -10,6 +10,7 @@
 	-->
 
 	<xsl:include href="../../../src/common/version-utils.xsl" />
+	<xsl:include href="../../../src/common/yes-no-utils.xsl" />
 	<xsl:include href="../../test-utils.xsl" />
 
 	<xsl:output indent="yes" />
@@ -24,11 +25,13 @@
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-JREF" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-JREF" required="yes" />
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
@@ -102,21 +105,8 @@
 		<xsl:variable as="processing-instruction(xspec-test)*" name="pis"
 			select="processing-instruction(xspec-test)" />
 		<xsl:variable as="xs:boolean" name="enable-coverage" select="$pis = 'enable-coverage'" />
-
-		<!-- Version of SchXslt. Empty sequence if not SchXslt.
-			This implementation is ad-hoc, because it depends on SchXslt internal structure. -->
-		<xsl:variable as="xs:integer?" name="schxslt-version">
-			<xsl:variable as="document-node(element(xsl:transform))?" name="version-xsl"
-				select="'../../../lib/schxslt/2.0/version.xsl'[doc-available(.)] ! doc(.)" />
-			<xsl:for-each select="$version-xsl">
-				<xsl:variable as="element(xsl:variable)" name="schxslt-ident"
-					select="descendant::xsl:variable[@name eq 'schxslt-ident']" />
-				<xsl:sequence select="
-						($schxslt-ident || '.0')
-						=> x:extract-version()
-						=> x:pack-version()" />
-			</xsl:for-each>
-		</xsl:variable>
+		<xsl:variable as="xs:boolean" name="require-timestamp"
+			select="x:description/@measure-time => x:yes-no-synonym(false())" />
 
 		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
 			<xsl:sort select="name()" />
@@ -160,6 +150,13 @@
 					</xsl:when>
 
 					<xsl:when test="
+							($test-type = ('s', 't'))
+							and $require-timestamp
+							and not($XSLT-SUPPORTS-TIMESTAMP)">
+						<xsl:text>Requires XSLT processor to support timestamp</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
@@ -178,6 +175,13 @@
 							and ($pis = 'require-xquery-to-support-jref')
 							and not($XQUERY-SUPPORTS-JREF)">
 						<xsl:text>Requires XQuery processor to support Java reflexive extension functions</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+							($test-type eq 'q')
+							and $require-timestamp
+							and not($XQUERY-SUPPORTS-TIMESTAMP)">
+						<xsl:text>Requires XQuery processor to support timestamp</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="
@@ -237,12 +241,6 @@
 							($pis = 'require-saxon-bug-4835-fixed')
 							and ($x:saxon-version le x:pack-version((10, 3)))">
 						<xsl:text>Requires Saxon bug #4835 to have been fixed</xsl:text>
-					</xsl:when>
-
-					<xsl:when test="
-							($pis = 'require-schxslt-issue-178-fixed')
-							and ($schxslt-version le x:pack-version((1, 6, 2)))">
-						<xsl:text>Requires schxslt/schxslt#178 to have been fixed</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="

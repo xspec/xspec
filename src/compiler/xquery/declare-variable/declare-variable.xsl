@@ -7,51 +7,28 @@
                 version="3.0">
 
    <!--
-      mode="x:declare-variable"
       Generates XQuery variable declaration(s) from the current element.
       
-      This mode itself does not handle whitespace-only text nodes specially. To handle
-      whitespace-only text node in a special manner, the text node should be handled specially
-      before applying this mode and/or mode="x:node-constructor" should be overridden.
+      This template rejects @static=yes.
    -->
-   <xsl:mode name="x:declare-variable" on-multiple-match="fail" on-no-match="fail" />
+   <xsl:template name="x:declare-variable" as="node()+">
+      <xsl:context-item as="element()" use="required" />
 
-   <xsl:template match="element()" as="node()+" mode="x:declare-variable">
-      <!-- Reflects @pending, x:pending or @focus -->
-      <xsl:param name="pending" as="node()?" tunnel="yes" />
-
+      <xsl:param name="is-pending" as="xs:boolean" required="yes" />
       <xsl:param name="comment" as="xs:string?" />
+      <xsl:param name="uqname" as="xs:string" required="yes" />
+      <xsl:param name="exclude" as="element(x:label)?" required="yes" />
+      <xsl:param name="as-global" as="xs:boolean" required="yes" />
+
+      <!-- XQuery does not use this parameter.
+         TODO: If true, declare an XQuery external variable. (But it isn't worth implementing.
+         External variables are of no use in XSpec.) -->
+      <xsl:param name="as-param" as="xs:boolean" />
+
+      <xsl:param name="temp-doc-uqname" as="xs:string?" required="yes" />
 
       <!-- XQuery-specific checks -->
       <xsl:call-template name="local:check-xquery-vardecl" />
-
-      <!-- URIQualifiedName of the variable being declared -->
-      <xsl:variable name="uqname" as="xs:string" select="x:variable-UQName(.)" />
-
-      <xsl:variable name="pending" as="node()?"
-         select="($pending, ancestor::x:scenario/@pending)[1]" />
-      <xsl:variable name="pending-p" as="xs:boolean" select="x:pending-p(., $pending)" />
-
-      <!-- Child nodes to be excluded -->
-      <xsl:variable name="exclude" as="element(x:label)?"
-         select="self::x:expect/x:label" />
-
-      <!-- True if the variable should be declared as global -->
-      <xsl:variable name="is-global" as="xs:boolean" select="exists(parent::x:description)" />
-
-      <!-- True if the variable should be declared as external.
-         TODO: If true, declare an XQuery external variable. (But it isn't worth implementing.
-         External variables are of no use in XSpec.) -->
-      <!--<xsl:variable name="is-param" as="xs:boolean" select="self::x:param and $is-global" />-->
-
-      <!-- URIQualifiedName of the temporary runtime variable which holds a document specified by
-         child::node() or @href -->
-      <xsl:variable name="temp-doc-uqname" as="xs:string?">
-         <xsl:if test="not($pending-p) and (node() or @href)">
-            <xsl:sequence
-               select="x:known-UQName('impl:' || local-name() || '-' || generate-id() || '-doc')" />
-         </xsl:if>
-      </xsl:variable>
 
       <!--
          Output
@@ -66,8 +43,8 @@
       -->
       <xsl:if test="$temp-doc-uqname">
          <xsl:call-template name="x:declare-or-let-variable">
-            <xsl:with-param name="is-global" select="$is-global" />
-            <xsl:with-param name="name" select="$temp-doc-uqname" />
+            <xsl:with-param name="as-global" select="$as-global" />
+            <xsl:with-param name="uqname" select="$temp-doc-uqname" />
             <xsl:with-param name="type" select="'document-node()'" />
             <xsl:with-param name="value" as="node()+">
                <xsl:choose>
@@ -100,12 +77,12 @@
             ( EXPRESSION )
       -->
       <xsl:call-template name="x:declare-or-let-variable">
-         <xsl:with-param name="is-global" select="$is-global" />
-         <xsl:with-param name="name" select="$uqname" />
-         <xsl:with-param name="type" select="@as[not($pending-p)]" />
+         <xsl:with-param name="as-global" select="$as-global" />
+         <xsl:with-param name="uqname" select="$uqname" />
+         <xsl:with-param name="type" select="@as[not($is-pending)]" />
          <xsl:with-param name="value" as="text()?">
             <xsl:choose>
-               <xsl:when test="$pending-p">
+               <xsl:when test="$is-pending">
                   <!-- Do not give variable a value (or type, above) because the value specified
                     in test file might not be executable. -->
                </xsl:when>
@@ -134,14 +111,14 @@
    <xsl:template name="x:declare-or-let-variable" as="node()+">
       <xsl:context-item use="absent" />
 
-      <xsl:param name="is-global" as="xs:boolean" required="yes" />
-      <xsl:param name="name" as="xs:string" required="yes" />
+      <xsl:param name="as-global" as="xs:boolean" required="yes" />
+      <xsl:param name="uqname" as="xs:string" required="yes" />
       <xsl:param name="type" as="xs:string?" required="yes" />
       <xsl:param name="value" as="node()*" required="yes" />
       <xsl:param name="comment" as="xs:string?" />
 
       <xsl:choose>
-         <xsl:when test="$is-global">
+         <xsl:when test="$as-global">
             <xsl:text>declare variable</xsl:text>
          </xsl:when>
          <xsl:otherwise>
@@ -149,7 +126,7 @@
          </xsl:otherwise>
       </xsl:choose>
 
-      <xsl:text expand-text="yes"> ${$name}</xsl:text>
+      <xsl:text expand-text="yes"> ${$uqname}</xsl:text>
 
       <xsl:if test="$type">
          <xsl:text expand-text="yes"> as {$type}</xsl:text>
@@ -172,7 +149,7 @@
 
       <xsl:text>&#x0A;)</xsl:text>
 
-      <xsl:if test="$is-global">
+      <xsl:if test="$as-global">
          <xsl:text>;</xsl:text>
       </xsl:if>
       <xsl:text>&#10;</xsl:text>
