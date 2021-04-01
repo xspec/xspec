@@ -32,7 +32,7 @@
       </xsl:for-each>
 
       <!-- Group the adjacent xsl:call-template elements originating from x:scenario. The other
-         nodes (actually, xsl:call-template elements (from x:expect) and x:variable elements (from
+         nodes (actually, xsl:call-template elements (from x:expect) and xsl:variable elements (from
          x:param and x:variable)) are grouped individually. -->
       <xsl:for-each-group select="node() treat as element()*" group-adjacent="
             if (. intersect $scenario-invokers) then
