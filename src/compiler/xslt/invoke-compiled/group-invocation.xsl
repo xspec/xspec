@@ -17,7 +17,8 @@
          select="xsl:call-template[processing-instruction(origin) eq 'scenario']" />
 
       <!-- All the invocation instructions originating from x:scenario must be adjacent so that they
-         can be grouped in a single group. -->
+         can be grouped in a single group. This check is to make the implementation more robust or
+         future-resistant as the compiler code evolves. -->
       <xsl:for-each select="
             node()
             [not(. intersect $scenario-invokers)]
