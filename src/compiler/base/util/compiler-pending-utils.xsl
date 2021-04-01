@@ -7,7 +7,7 @@
 
    <!--
       Returns a string that describes why the given element is pending. The string comes from
-      an either explicit reason (@pending or x:pending's label) or an implicit reason (@focus), in
+      either an explicit reason (@pending or x:pending's label) or an implicit reason (@focus), in
       preference of explicit one over implicit one. The reason string may be a zero-length string.
       Returns an empty sequence if the given element is not pending.
    -->
