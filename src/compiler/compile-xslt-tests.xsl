@@ -24,6 +24,7 @@
    <xsl:include href="../common/uri-utils.xsl" />
    <xsl:include href="../common/user-content-utils.xsl" />
    <xsl:include href="../common/version-utils.xsl" />
+   <xsl:include href="../common/yes-no-utils.xsl" />
 
    <!--
       Main modules

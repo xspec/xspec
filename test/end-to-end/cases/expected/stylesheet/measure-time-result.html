@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for do-nothing.xsl (passed: 3 / pending: 2 / failed: 0 / total: 5)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Stylesheet: <a href="../../../../do-nothing.xsl">do-nothing.xsl</a></p>
+      <p>XSpec: <a href="../../measure-time.xspec">measure-time.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <p><span class="elapsed">Elapsed: <span class="elapsed-num">0</span> ms</span></p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 3</th>
+               <th class="totals">pending: 2</th>
+               <th class="totals">failed: 0</th>
+               <th class="totals">total: 5</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="successful">
+               <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span><a href="#top_scenario1">x:scenario[x:scenario][empty(x:call)][empty(x:expect)]</a></th>
+               <th class="totals">1</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">2</th>
+            </tr>
+            <tr class="successful">
+               <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span><a href="#top_scenario2">x:scenario[parent::x:description][x:call][x:expect][empty(@pending)]</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="pending">
+               <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span>(<strong>pending</strong>) <a href="#top_scenario3">x:scenario[parent::x:description][x:call][x:expect][@pending]</a></th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+            <tr class="successful">
+               <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span><a href="#top_scenario4">x:scenario[parent::x:description][empty(node())][empty(@pending)]</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+            </tr>
+            <tr class="pending">
+               <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span>(<strong>pending</strong>) <a>x:scenario[parent::x:description][empty(node())][@pending]</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+            </tr>
+            <tr class="successful">
+               <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span><a href="#top_scenario6">x:scenario[x:call][empty(x:expect)]</a></th>
+               <th class="totals">1</th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">1</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="top_scenario1">
+         <h2 class="successful">x:scenario[x:scenario][empty(x:call)][empty(x:expect)]<span class="scenario-totals">passed: 1 / pending: 1 / failed: 0 / total: 2</span></h2>
+         <table class="xspec" id="table_scenario1">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>x:scenario[x:scenario][empty(x:call)][empty(x:expect)]</th>
+                  <th>passed: 1 / pending: 1 / failed: 0 / total: 2</th>
+               </tr>
+               <tr class="successful">
+                  <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span>x:scenario[parent::x:scenario][x:call][x:expect][empty(@pending)]</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>x:expect[preceding-sibling::x:call]</td>
+                  <td>Success</td>
+               </tr>
+               <tr class="pending">
+                  <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span>(<strong>pending</strong>) x:scenario[parent::x:scenario][x:call][x:expect][@pending]</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>pending</strong>) x:expect[preceding-sibling::x:call]</td>
+                  <td>Pending</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario2">
+         <h2 class="successful">x:scenario[parent::x:description][x:call][x:expect][empty(@pending)]<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario2">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>x:scenario[parent::x:description][x:call][x:expect][empty(@pending)]</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>x:expect[preceding-sibling::x:call]</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario3">
+         <h2 class="pending">(<strong>pending</strong>) x:scenario[parent::x:description][x:call][x:expect][@pending]<span class="scenario-totals">passed: 0 / pending: 1 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario3">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="pending">
+                  <th>(<strong>pending</strong>) x:scenario[parent::x:description][x:call][x:expect][@pending]</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>pending</strong>) x:expect[preceding-sibling::x:call]</td>
+                  <td>Pending</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario4">
+         <h2 class="successful">x:scenario[parent::x:description][empty(node())][empty(@pending)]<span class="scenario-totals">total: 0</span></h2>
+         <table class="xspec" id="table_scenario4">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>x:scenario[parent::x:description][empty(node())][empty(@pending)]</th>
+                  <th>total: 0</th>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div id="top_scenario6">
+         <h2 class="successful">x:scenario[x:call][empty(x:expect)]<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <table class="xspec" id="table_scenario6">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="successful">
+                  <th>x:scenario[x:call][empty(x:expect)]</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <th><span class="elapsed">(Elapsed: <span class="elapsed-num">0</span> ms) </span>x:scenario[empty(x:call)][x:expect]</th>
+                  <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="successful">
+                  <td>x:expect[empty(preceding-sibling::x:call)]</td>
+                  <td>Success</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </body>
+</html>
