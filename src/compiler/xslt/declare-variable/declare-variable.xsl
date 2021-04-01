@@ -14,7 +14,7 @@
    <xsl:template name="x:declare-variable" as="element()+">
       <xsl:context-item as="element()" use="required" />
 
-      <xsl:param name="reason-for-pending" as="xs:string?" />
+      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
       <xsl:param name="comment" as="xs:string?" />
       <xsl:param name="uqname" as="xs:string" required="yes" />
       <xsl:param name="exclude" as="element()*" required="yes" />
