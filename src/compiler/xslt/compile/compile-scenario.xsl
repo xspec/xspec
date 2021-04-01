@@ -102,6 +102,10 @@
          <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
          <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
 
+         <!-- Runtime context item of the template being generated at this compile time must be
+            absent (xspec/xspec#423). Even when the template being generated at this compile time is
+            called with a context item at run time, it must be removed by
+            xsl:context-item[@use="absent"]. -->
          <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
             <xsl:attribute name="use" select="'absent'" />
          </xsl:element>

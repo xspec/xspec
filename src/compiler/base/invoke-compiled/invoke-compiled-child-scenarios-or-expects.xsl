@@ -30,8 +30,17 @@
          </xsl:message>
       </xsl:if>
 
-      <xsl:apply-templates select="$this/element() except $handled-child-vardecls"
-         mode="local:invoke-compiled-scenarios-or-expects" />
+      <!-- Generate invocation instructions. Wrap them in a single document so that they have
+         adjacent relationship. -->
+      <xsl:variable name="invocation-doc" as="document-node()">
+         <xsl:document>
+            <xsl:apply-templates select="$this/element() except $handled-child-vardecls"
+               mode="local:invoke-compiled-scenarios-or-expects" />
+         </xsl:document>
+      </xsl:variable>
+
+      <!-- Group the invocation instructions -->
+      <xsl:apply-templates select="$invocation-doc" mode="x:group-invocation" />
    </xsl:template>
 
    <!--
