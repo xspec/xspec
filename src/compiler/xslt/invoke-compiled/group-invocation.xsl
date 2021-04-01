@@ -45,10 +45,6 @@
 
    <xsl:template match="xsl:call-template[processing-instruction(origin) eq 'scenario']"
       as="element()+" mode="x:group-invocation">
-      <!-- x:description or x:scenario invoking the current xsl:call-template -->
-      <xsl:param name="tunnel_invoker-description-or-scenario" as="element()" required="yes"
-         tunnel="yes" />
-
       <xsl:variable name="child-scenario-count" as="xs:integer" select="current-group() => count()" />
 
       <for-each select="1 to {$child-scenario-count}">
