@@ -22,6 +22,8 @@
    <xsl:param name="force-focus" as="xs:string?" />
    <xsl:param name="is-external" as="xs:boolean"
       select="$initial-document/x:description/@run-as = 'external'" />
+   <xsl:param name="measure-time" as="xs:boolean"
+      select="$initial-document/x:description/@measure-time => x:yes-no-synonym(false())" />
 
    <!--
       Global variables
@@ -112,6 +114,5 @@
    <xsl:include href="../base/resolve-import/resolve-import.xsl" />
    <xsl:include href="../base/util/compiler-eqname-utils.xsl" />
    <xsl:include href="../base/util/compiler-misc-utils.xsl" />
-   <xsl:include href="../base/util/compiler-yes-no-utils.xsl" />
 
 </xsl:stylesheet>
