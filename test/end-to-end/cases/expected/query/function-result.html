@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for http://example.org/ns/my (passed: 2 / pending: 0 / failed: 2 / total: 4)</title>
+      <title>Test Report for x-urn:test:mirror (passed: 2 / pending: 0 / failed: 2 / total: 4)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
-      <p>Query: http://example.org/ns/my</p>
-      <p>Query-at: <a href="../../../../square.xqm">square.xqm</a></p>
+      <p>Query: x-urn:test:mirror</p>
+      <p>Query-at: <a href="../../../../mirror.xqm">mirror.xqm</a></p>
       <p>XSpec: <a href="../../function.xspec">function.xspec</a></p>
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
@@ -29,71 +29,49 @@
             </tr>
          </thead>
          <tbody>
-            <tr class="successful">
-               <th><a href="#top_scenario1">when calling a function and expecting correctly</a></th>
-               <th class="totals">2</th>
-               <th class="totals">0</th>
-               <th class="totals">0</th>
-               <th class="totals">2</th>
-            </tr>
             <tr class="failed">
-               <th><a href="#top_scenario2">when calling a function and expecting incorrectly</a></th>
-               <th class="totals">0</th>
+               <th><a href="#top_scenario1">when a function returns 0</a></th>
+               <th class="totals">2</th>
                <th class="totals">0</th>
                <th class="totals">2</th>
-               <th class="totals">2</th>
+               <th class="totals">4</th>
             </tr>
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="successful">when calling a function and expecting correctly<span class="scenario-totals">passed: 2 / pending: 0 / failed: 0 / total: 2</span></h2>
+         <h2 class="failed">when a function returns 0<span class="scenario-totals">passed: 2 / pending: 0 / failed: 2 / total: 4</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
             </colgroup>
             <tbody>
-               <tr class="successful">
-                  <th>when calling a function and expecting correctly</th>
-                  <th>passed: 2 / pending: 0 / failed: 0 / total: 2</th>
+               <tr class="failed">
+                  <th>when a function returns 0</th>
+                  <th>passed: 2 / pending: 0 / failed: 2 / total: 4</th>
                </tr>
                <tr class="successful">
-                  <td>expecting the correct value must return Success</td>
+                  <td>expecting 0 in @select must be Success</td>
                   <td>Success</td>
                </tr>
                <tr class="successful">
-                  <td>expecting the correct type must return Success</td>
+                  <td>expecting xs:integer in @test must be Success</td>
                   <td>Success</td>
                </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario2">
-         <h2 class="failed">when calling a function and expecting incorrectly<span class="scenario-totals">passed: 0 / pending: 0 / failed: 2 / total: 2</span></h2>
-         <table class="xspec" id="table_scenario2">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
                <tr class="failed">
-                  <th>when calling a function and expecting incorrectly</th>
-                  <th>passed: 0 / pending: 0 / failed: 2 / total: 2</th>
-               </tr>
-               <tr class="failed">
-                  <td><a href="#scenario2-expect1">expecting an incorrect value must return Failure</a></td>
+                  <td><a href="#scenario1-expect3">expecting 1 in @select must be Failure</a></td>
                   <td>Failure</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario2-expect2">expecting an incorrect type must return Failure</a></td>
+                  <td><a href="#scenario1-expect4">expecting xs:string in @test must be Failure</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="scenario2">
-            <h3>when calling a function and expecting incorrectly</h3>
-            <div id="scenario2-expect1" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting an incorrect value must return Failure</h4>
+         <div id="scenario1">
+            <h3>when a function returns 0</h3>
+            <div id="scenario1-expect3" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting 1 in @select must be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -105,17 +83,17 @@
                   <tbody>
                      <tr>
                         <td>
-                           <pre>4</pre>
+                           <pre>0</pre>
                         </td>
                         <td>
-                           <pre>42</pre>
+                           <pre>1</pre>
                         </td>
                      </tr>
                   </tbody>
                </table>
             </div>
-            <div id="scenario2-expect2" class="xTestReport">
-               <h4 class="xTestReportTitle">expecting an incorrect type must return Failure</h4>
+            <div id="scenario1-expect4" class="xTestReport">
+               <h4 class="xTestReportTitle">expecting xs:string in @test must be Failure</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>
@@ -127,7 +105,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <pre>4</pre>
+                           <pre>0</pre>
                         </td>
                         <td>
                            <pre>$t:result instance of xs:string</pre>

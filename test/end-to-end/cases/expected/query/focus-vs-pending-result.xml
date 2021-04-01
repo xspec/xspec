@@ -1,103 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
         xspec="../../focus-vs-pending.xspec"
-        query="http://example.org/ns/my"
-        query-at="../../../../square.xqm"
+        query="x-urn:test:do-nothing"
+        query-at="../../../../do-nothing.xqm"
         date="2000-01-01T00:00:00Z">
    <scenario id="scenario1"
              xspec="../../focus-vs-pending.xspec"
-             pending="testing x:pending">
-      <label>an unfocused correct scenario in x:pending must be Pending</label>
+             pending="testing @focus alongside another focused scenario">
+      <label>Test @focus and pending together (both @pending and x:pending)</label>
       <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
                  xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
+                 function="exactly-one">
+            <t:param select="9"/>
          </t:call>
       </input-wrap>
-      <test id="scenario1-expect1" pending="testing x:pending">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario2" xspec="../../focus-vs-pending.xspec">
-      <label>a focused correct scenario in x:pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario2-expect1" successful="true">
-         <label>must execute the test and return Success</label>
-         <expect select="9"/>
-      </test>
-   </scenario>
-   <scenario id="scenario3"
-             xspec="../../focus-vs-pending.xspec"
-             pending="testing @focus in x:pending">
-      <label>a non-pending correct scenario alongside a focused scenario must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario3-expect1" pending="testing @focus in x:pending">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario4" xspec="../../focus-vs-pending.xspec">
-      <label>a focused correct scenario alongside another focused scenario</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario4-expect1" successful="true">
-         <label>must execute the test and return Success</label>
-         <expect select="9"/>
-      </test>
-   </scenario>
-   <scenario id="scenario5"
-             xspec="../../focus-vs-pending.xspec"
-             pending="testing @pending without @focus">
-      <label>a correct scenario with @pending must be Pending</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <test id="scenario5-expect1" pending="testing @pending without @focus">
-         <label>it would return Success if it were not Pending</label>
-      </test>
-   </scenario>
-   <scenario id="scenario6" xspec="../../focus-vs-pending.xspec">
-      <label>a correct scenario with both @pending and @focus (not recommended as ambiguous)</label>
-      <input-wrap xmlns="">
-         <t:call xmlns:my="http://example.org/ns/my"
-                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="my:square">
-            <t:param select="3"/>
-         </t:call>
-      </input-wrap>
-      <result select="9"/>
-      <test id="scenario6-expect1" successful="true">
-         <label>must execute the test and return Success</label>
-         <expect select="9"/>
-      </test>
+      <scenario id="scenario1-scenario1"
+                xspec="../../focus-vs-pending.xspec"
+                pending="testing @focus alongside another focused scenario">
+         <label>a non-pending erroneous scenario alongside a focused scenario must be Pending</label>
+         <test id="scenario1-scenario1-expect1"
+               pending="testing @focus alongside another focused scenario">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../focus-vs-pending.xspec">
+         <label>a focused Success scenario alongside another focused scenario</label>
+         <result select="9"/>
+         <test id="scenario1-scenario2-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3"
+                xspec="../../focus-vs-pending.xspec"
+                pending="testing x:pending">
+         <label>an unfocused erroneous scenario in x:pending must be Pending</label>
+         <test id="scenario1-scenario3-expect1" pending="testing x:pending">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario4" xspec="../../focus-vs-pending.xspec">
+         <label>a focused Success scenario in x:pending</label>
+         <result select="9"/>
+         <test id="scenario1-scenario4-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario5"
+                xspec="../../focus-vs-pending.xspec"
+                pending="testing @pending without @focus">
+         <label>an erroneous scenario with @pending must be Pending</label>
+         <test id="scenario1-scenario5-expect1"
+               pending="testing @pending without @focus">
+            <label>it would throw an error if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario6" xspec="../../focus-vs-pending.xspec">
+         <label>a Success scenario with both @pending and @focus (not recommended as ambiguous)</label>
+         <result select="9"/>
+         <test id="scenario1-scenario6-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
    </scenario>
 </report>

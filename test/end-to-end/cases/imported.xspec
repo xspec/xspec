@@ -7,24 +7,36 @@
 <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 
-<t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:my="http://example.org/ns/my"
-               query="http://example.org/ns/my"
-               query-at="../../square.xqm"
-               stylesheet="../../square.xsl">
+<t:description xmlns:mirror="x-urn:test:mirror"
+               xmlns:t="http://www.jenitennison.com/xslt/xspec"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               query="x-urn:test:mirror"
+               query-at="mirror.xqm"
+               stylesheet="mirror.xsl"
+               xml:base="../../">
 
-   <t:scenario label="a correct scenario in an imported file">
-      <t:call function="my:square">
-         <t:param select="3"/>
-      </t:call>
-      <t:expect label="must return Success" select="9"/>
-   </t:scenario>
+   <t:scenario label="in an imported file">
 
-   <t:scenario label="an incorrect scenario in an imported file">
-      <t:call function="my:square">
-         <t:param select="2"/>
-      </t:call>
-      <t:expect label="must return Failure" select="42"/>
+      <t:scenario label="given a scenario">
+
+         <t:scenario label="where a function returns 0">
+            <t:call function="mirror:param-mirror">
+               <t:param select="0" />
+            </t:call>
+
+            <t:expect label="expecting 0 in @select must be Success"
+                      select="0" />
+            <t:expect label="expecting x:integer in @test must be Success"
+                      test="$t:result instance of xs:integer" />
+
+            <t:expect label="expecting 1 in @select must be Failure"
+                      select="1" />
+            <t:expect label="expecting xs:string in @test must be Failure"
+                      test="$t:result instance of xs:string" />
+         </t:scenario>
+
+      </t:scenario>
+
    </t:scenario>
 
 </t:description>
