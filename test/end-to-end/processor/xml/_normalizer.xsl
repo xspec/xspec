@@ -68,6 +68,7 @@
 			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
 			/svrl:schematron-output/svrl:metadata//dct:creator/dct:Agent/skos:prefLabel[. ne 'Unknown']/text()"
 		mode="normalizer:normalize">
+		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
 		<xsl:analyze-string regex="^((?:SchXslt/[0-9.]+ )?SAXON/)[^/]+$" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of select="regex-group(1) || 'product-version'" />
@@ -82,6 +83,15 @@
 			x:scenario/x:result/@href
 			| x:scenario/x:test/x:expect/@href" mode="normalizer:normalize">
 		<xsl:call-template name="normalizer:normalize-external-link-attribute" />
+	</xsl:template>
+
+	<!--
+		Normalizes x:timestamp
+	-->
+	<xsl:template as="attribute(at)" match="x:timestamp/@at[. castable as xs:dateTimeStamp]"
+		mode="normalizer:normalize">
+		<xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
+			select="/x:report/@date[. castable as xs:dateTimeStamp] => exactly-one()" />
 	</xsl:template>
 
 	<!--

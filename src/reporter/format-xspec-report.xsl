@@ -111,6 +111,7 @@
                   </xsl:variable>
                   <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
                      <th>
+                        <xsl:call-template name="x:report-elapsed" />
                         <xsl:sequence select="x:pending-callback(@pending)"/>
                         <xsl:choose>
                            <xsl:when test="$any-failure">
@@ -262,6 +263,11 @@
       <p>
          <xsl:text expand-text="yes">Tested: {format-dateTime(@date, '[D] [MNn] [Y] at [H01]:[m01]')}</xsl:text>
       </p>
+      <xsl:where-populated>
+         <p>
+            <xsl:call-template name="x:report-elapsed" />
+         </p>
+      </xsl:where-populated>
       <h2>Contents</h2>
       <table class="xspec">
          <colgroup>
@@ -289,6 +295,7 @@
                   select="exists(x:descendant-failed-tests(.))" />
                <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
                   <th>
+                     <xsl:call-template name="x:report-elapsed" />
                      <xsl:sequence select="x:pending-callback(@pending)"/>
                      <a>
                         <xsl:if test="x:top-level-scenario-needs-format(.)">
@@ -511,6 +518,28 @@
          </xsl:for-each>
       </xsl:variable>
       <xsl:value-of select="$components" separator="{if ($insert-labels) then ' / ' else '/'}" />
+   </xsl:template>
+
+   <xsl:template name="x:report-elapsed" as="element(xhtml:span)?">
+      <!-- Context item is x:report or x:scenario -->
+      <xsl:context-item as="element()" use="required" />
+
+      <xsl:if test="x:timestamp">
+         <xsl:variable name="elapsed" as="xs:dayTimeDuration" select="
+               xs:dateTimeStamp(x:timestamp[@event eq 'end']/@at)
+               - xs:dateTimeStamp(x:timestamp[@event eq 'start']/@at)" />
+         <span class="elapsed">
+            <xsl:if test="self::x:scenario">(</xsl:if>
+            <xsl:text>Elapsed: </xsl:text>
+            <span class="elapsed-num">
+               <xsl:value-of select="($elapsed div xs:dayTimeDuration('PT1S')) * 1000" />
+            </span>
+            <xsl:text> ms</xsl:text>
+            <xsl:if test="self::x:scenario">
+               <xsl:text>) </xsl:text>
+            </xsl:if>
+         </span>
+      </xsl:if>
    </xsl:template>
 
    <xsl:function name="x:test-stats" as="element(stat)+" xmlns="">

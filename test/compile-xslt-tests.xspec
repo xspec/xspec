@@ -19,6 +19,9 @@
        Unless, of course, we use XQueryX (XML representation of XQuery)...
    -->
 
+   <!-- Default $measure-time depends on global context item. Set it false here. -->
+   <t:param name="measure-time" select="false()" />
+
    <!--t:scenario label="FIRST TEST.......">
       <t:variable name="ctxt" as="document-node()">
          <t:description>
