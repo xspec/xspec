@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!--Report filtered by focus--><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for http://example.org/ns/my (passed: 1 / pending: 0 / failed: 1 / total: 2)</title>
+      <title>Test Report for x-urn:test:do-nothing (passed: 1 / pending: 0 / failed: 1 / total: 2)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
       <h1>Test Report</h1>
-      <p>Query: http://example.org/ns/my</p>
-      <p>Query-at: <a href="../../../../square.xqm">square.xqm</a></p>
+      <p>Query: x-urn:test:do-nothing</p>
+      <p>Query-at: <a href="../../../../do-nothing.xqm">do-nothing.xqm</a></p>
       <p>XSpec: <a href="../../force-focus_focus-without-pending.xspec">force-focus_focus-without-pending.xspec</a></p>
       <p>Tested: 1 January 2000 at 00:00</p>
       <h2>Contents</h2>
@@ -29,62 +29,48 @@
             </tr>
          </thead>
          <tbody>
-            <tr class="successful">
-               <th><a href="#top_scenario1">an unfocused correct scenario must be Pending</a></th>
+            <tr class="pending">
+               <th>(<strong>force focus</strong>) <a href="#top_scenario1">Test @focus</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
-               <th class="totals">0</th>
                <th class="totals">1</th>
-            </tr>
-            <tr class="failed">
-               <th><a href="#top_scenario2">an unfocused incorrect scenario must be Pending</a></th>
-               <th class="totals">0</th>
-               <th class="totals">0</th>
-               <th class="totals">1</th>
-               <th class="totals">1</th>
+               <th class="totals">2</th>
             </tr>
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="successful">an unfocused correct scenario must be Pending<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <h2 class="pending">(<strong>force focus</strong>) Test @focus<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
                <col style="width:25%" />
             </colgroup>
             <tbody>
+               <tr class="pending">
+                  <th>(<strong>force focus</strong>) Test @focus</th>
+                  <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
+               </tr>
                <tr class="successful">
-                  <th>an unfocused correct scenario must be Pending</th>
+                  <th>an unfocused Success scenario must be Pending</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
                   <td>it would return Success if it were not Pending</td>
                   <td>Success</td>
                </tr>
-            </tbody>
-         </table>
-      </div>
-      <div id="top_scenario2">
-         <h2 class="failed">an unfocused incorrect scenario must be Pending<span class="scenario-totals">passed: 0 / pending: 0 / failed: 1 / total: 1</span></h2>
-         <table class="xspec" id="table_scenario2">
-            <colgroup>
-               <col style="width:75%" />
-               <col style="width:25%" />
-            </colgroup>
-            <tbody>
                <tr class="failed">
-                  <th>an unfocused incorrect scenario must be Pending</th>
+                  <th><a href="#scenario1-scenario2">an unfocused Failure scenario must be Pending</a></th>
                   <th>passed: 0 / pending: 0 / failed: 1 / total: 1</th>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario2-expect1">it would return Failure if it were not Pending</a></td>
+                  <td><a href="#scenario1-scenario2-expect1">it would return Failure if it were not Pending</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
-         <div id="scenario2">
-            <h3>an unfocused incorrect scenario must be Pending</h3>
-            <div id="scenario2-expect1" class="xTestReport">
+         <div id="scenario1-scenario2">
+            <h3>Test @focus an unfocused Failure scenario must be Pending</h3>
+            <div id="scenario1-scenario2-expect1" class="xTestReport">
                <h4 class="xTestReportTitle">it would return Failure if it were not Pending</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
@@ -97,7 +83,7 @@
                   <tbody>
                      <tr>
                         <td>
-                           <pre>4</pre>
+                           <pre>9</pre>
                         </td>
                         <td>
                            <pre>$t:result instance of xs:string</pre>
