@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="external_issue-1410_invoke-not-empty.xspec">
+   <testsuite name="Template containing xsl:context-item and literal result elements"
+              tests="1"
+              failures="0">
+      <testcase name="Result" status="passed"/>
+   </testsuite>
+</testsuites>
