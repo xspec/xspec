@@ -37,6 +37,12 @@ description =
 		[ a:defaultValue = "import" ]
 		attribute run-as { "import" | "external" }?,
 		
+		## Set this true to report how long it took XSpec to run scenarios including some overhead
+		## of XSpec itself.
+		## Requires Saxon-PE or Saxon-EE.
+		[ a:defaultValue = "no" ]
+		attribute measure-time { boolean.datatype }?,
+		
 		(helper | global-param | import | scenario | pending-element | variable)+ }
 
 helper =
@@ -85,7 +91,7 @@ pending-element =
 	##
 	## An optional label attribute can be used to describe why the scenario or
 	## assertion should not be tested.
-	element pending { common-attributes, label?, (scenario | assertion | schematron-assertion)* }
+	element pending { common-attributes, label?, (scenario | assertion | schematron-expect)* }
 
 pending-attribute =
 	## Anything which has the @pending attribute will remain untested, but will be
@@ -292,12 +298,12 @@ text-element =
 
 schematron-scenario = global-param*, context?,
                     like*,
-                    (pending-element | schematron-assertion | assertion)*, 
+                    (pending-element | schematron-expect | assertion)*, 
                     (pending-element | 
                      element scenario { common-scenario-attributes, 
                                         label, schematron-scenario })*
 
-schematron-assertion =  
+schematron-expect =  
     expect-assert | expect-not-assert | 
     expect-report | expect-not-report | 
     expect-valid | expect-rule
@@ -317,18 +323,18 @@ expect-assert =
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <assert>. 
     element expect-assert {
-    schematron-common-expect,
-    schematron-count-expect
-}
+        common-schematron-assert-report-expect-attributes,
+        schematron-expect-count-attribute
+    }
 expect-report = 
     ## In a Schematron test, verify that a <report> is thrown.
     ## 
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <report>. 
     element expect-report {
-    schematron-common-expect,
-    schematron-count-expect
-}
+        common-schematron-assert-report-expect-attributes,
+        schematron-expect-count-attribute
+    }
 
 expect-not-assert = 
     ## In a Schematron test, verify that an <assert> is not thrown.
@@ -336,45 +342,51 @@ expect-not-assert =
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <assert>. 
     element expect-not-assert {
-    schematron-common-expect
-}
+        common-schematron-assert-report-expect-attributes
+    }
 expect-not-report = 
     ## In a Schematron test, verify that a <report> is not thrown.
     ## 
     ## The attributes id, role, and location can be used in combination to 
     ## identify a specific <report>. 
     element expect-not-report {
-    schematron-common-expect
-}
+        common-schematron-assert-report-expect-attributes
+    }
 
 expect-rule = 
     ## In a Schematron test, verify that a <rule> is fired.
     element expect-rule {
-    ## Optional label to describe the expectation.
-    attribute label { text }?,
-    ## Identify a specific <rule> using its id attribute.
-    attribute id { xsd:NCName }?,
-    ## Match a specific context attribute value of a <rule>.
-    attribute context { text }?,
-    schematron-count-expect
-}
+        ## Optional label to describe the expectation.
+        attribute label { text }?,
 
-schematron-common-expect = 
+        ## Identify a specific <rule> using its id attribute.
+        attribute id { xsd:NCName }?,
+
+        ## Match a specific context attribute value of a <rule>.
+        attribute context { text }?,
+
+        schematron-expect-count-attribute
+    }
+
+common-schematron-assert-report-expect-attributes = 
     ## Optional label to describe the expectation.
     attribute label { text }?,
+
     ## Identify a specific <assert> or <report> using its id attribute or 
     ## the id attribute of the parent <rule>.
     attribute id { xsd:NCName }?,
+
     ## Match a specific role attribute value of an <assert> or <report> or 
     ## the parent <rule>. Role attribute values are often used to specify 
     ## 'error', 'fatal', 'warn', 'warning', 'info', 'information'.
     attribute role { text }?,
+
     ## XPath of a location in the context XML that the <assert> or <report> 
     ## is expected to find. Namespace prefixes that are defined in Schematron 
     ## using ns elements can be used.
     attribute location { xpath }?
 
-schematron-count-expect = 
+schematron-expect-count-attribute = 
     ## Number of times an <assert> or <report> is expected to be thrown.
     attribute count { xsd:nonNegativeInteger }?
 

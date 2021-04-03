@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description measure-time="yes" query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
+	schematron="do-nothing.sch" stylesheet="do-nothing.xsl" xml:base="../../"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		x:scenario[parent::x:scenario]
+	-->
+
+	<x:scenario label="x:scenario[x:scenario][empty(x:call)][empty(x:expect)]">
+		<x:scenario label="x:scenario[parent::x:scenario][x:call][x:expect][empty(@pending)]">
+			<x:call function="false" />
+			<x:expect label="x:expect[preceding-sibling::x:call]" test="true()" />
+		</x:scenario>
+
+		<x:scenario label="x:scenario[parent::x:scenario][x:call][x:expect][@pending]"
+			pending="pending">
+			<x:call function="false" />
+			<x:expect label="x:expect[preceding-sibling::x:call]" test="true()" />
+		</x:scenario>
+
+		<x:scenario label="x:scenario[parent::x:scenario][empty(node())][empty(@pending)]" />
+
+		<x:scenario label="x:scenario[parent::x:scenario][empty(node())][@pending]"
+			pending="pending" />
+	</x:scenario>
+
+	<!--
+		x:scenario[parent::x:description]
+	-->
+
+	<x:scenario label="x:scenario[parent::x:description][x:call][x:expect][empty(@pending)]">
+		<x:call function="false" />
+		<x:expect label="x:expect[preceding-sibling::x:call]" test="true()" />
+	</x:scenario>
+
+	<x:scenario label="x:scenario[parent::x:description][x:call][x:expect][@pending]"
+		pending="pending">
+		<x:call function="false" />
+		<x:expect label="x:expect[preceding-sibling::x:call]" test="true()" />
+	</x:scenario>
+
+	<x:scenario label="x:scenario[parent::x:description][empty(node())][empty(@pending)]" />
+
+	<x:scenario label="x:scenario[parent::x:description][empty(node())][@pending]" pending="pending" />
+
+	<!--
+		x:scenario containing x:call[empty(following-sibling::x:expect)] or
+		x:expect[empty(preceding-sibling::x:call]
+	-->
+
+	<x:scenario label="x:scenario[x:call][empty(x:expect)]">
+		<x:call function="false" />
+
+		<x:scenario label="x:scenario[empty(x:call)][x:expect]">
+			<x:expect label="x:expect[empty(preceding-sibling::x:call)]" test="true()" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>
