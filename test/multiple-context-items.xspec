@@ -8,12 +8,14 @@
 	<x:scenario label="Test" shared="yes">
 		<x:scenario label="Calling a named template">
 			<x:call template="mirror:context-mirror" />
-			<x:expect label="should work" select="$x:context" />
+			<x:expect label="should call the template once for each item in x:context"
+				select="$x:context" />
 		</x:scenario>
 
 		<x:scenario label="Applying templates">
 			<x:context mode="mirror:context-mirror" />
-			<x:expect label="should work" select="$x:context" />
+			<x:expect label="should apply templates to all the items in x:context"
+				select="$x:context" />
 		</x:scenario>
 	</x:scenario>
 
