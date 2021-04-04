@@ -2,6 +2,18 @@
 <x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+	<x:scenario label="Test" shared="yes">
+		<x:scenario label="Calling a named template">
+			<x:call template="mirror:context-mirror" />
+			<x:expect label="should work" select="$x:context" />
+		</x:scenario>
+
+		<x:scenario label="Applying templates">
+			<x:context mode="mirror:context-mirror" />
+			<x:expect label="should work" select="$x:context" />
+		</x:scenario>
+	</x:scenario>
+
 	<!--
 		Mixture of node and atomic value
 	-->
@@ -20,16 +32,7 @@
 
 	<x:scenario label="With multiple context items containing both node and atomic value">
 		<x:context select="$multiple-mixed-items" />
-
-		<x:scenario label="Calling a named template">
-			<x:call template="mirror:context-mirror" />
-			<x:expect label="should work" select="$multiple-mixed-items" />
-		</x:scenario>
-
-		<x:scenario label="Applying templates">
-			<x:context mode="mirror:context-mirror" />
-			<x:expect label="should work" select="$multiple-mixed-items" />
-		</x:scenario>
+		<x:like label="Test" />
 	</x:scenario>
 
 	<!--
@@ -48,16 +51,7 @@
 
 	<x:scenario label="With multiple context nodes">
 		<x:context select="$multiple-nodes" />
-
-		<x:scenario label="Calling a named template">
-			<x:call template="mirror:context-mirror" />
-			<x:expect label="should work" select="$multiple-nodes" />
-		</x:scenario>
-
-		<x:scenario label="Applying templates">
-			<x:context mode="mirror:context-mirror" />
-			<x:expect label="should work" select="$multiple-nodes" />
-		</x:scenario>
+		<x:like label="Test" />
 	</x:scenario>
 
 	<!--
@@ -73,16 +67,7 @@
 
 	<x:scenario label="With multiple context atomic values">
 		<x:context select="$multiple-atomic-values" />
-
-		<x:scenario label="Calling a named template">
-			<x:call template="mirror:context-mirror" />
-			<x:expect label="should work" select="$multiple-atomic-values" />
-		</x:scenario>
-
-		<x:scenario label="Applying templates">
-			<x:context mode="mirror:context-mirror" />
-			<x:expect label="should work" select="$multiple-atomic-values" />
-		</x:scenario>
+		<x:like label="Test" />
 	</x:scenario>
 
 </x:description>
