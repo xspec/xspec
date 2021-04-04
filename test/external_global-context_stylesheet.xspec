@@ -37,6 +37,13 @@
 			</x:scenario>
 		</x:scenario>
 
+		<x:scenario label="No x:context">
+			<!-- No apply-templates invocation -->
+
+			<!-- TODO: call-template invocation
+				Global context item should be absent -->
+		</x:scenario>
+
 	</x:scenario>
 
 </x:description>
