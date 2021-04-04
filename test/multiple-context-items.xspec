@@ -21,17 +21,17 @@
 
 	<x:scenario label="When x:context consists of multiple items">
 		<x:scenario label="both node and atomic value">
-			<x:context select="$items:all-nodes, $items:integer" />
+			<x:context as="item()+" select="$items:all-nodes, $items:integer" />
 			<x:like label="Test" />
 		</x:scenario>
 
 		<x:scenario label="nodes">
-			<x:context select="$items:all-nodes" />
+			<x:context as="node()+" select="$items:all-nodes" />
 			<x:like label="Test" />
 		</x:scenario>
 
 		<x:scenario label="atomic values">
-			<x:context select="$items:integer, $items:integer" />
+			<x:context as="xs:anyAtomicType+" select="$items:integer, $items:integer" />
 			<x:like label="Test" />
 		</x:scenario>
 	</x:scenario>
