@@ -33,7 +33,8 @@
 
 			<x:scenario label="call-template invocation">
 				<x:call template="test:get-global-context" />
-				<x:expect label="node specified by x:context" test="$x:result is $x:context" />
+				<x:expect label="Global context item should be identical with x:context node"
+					test="$x:result is $x:context" />
 			</x:scenario>
 		</x:scenario>
 
