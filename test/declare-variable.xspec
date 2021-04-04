@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../src/compiler/base/declare-variable/variable-uqname.xsl"
+<x:description stylesheet="../src/compiler/base/declare-variable/declare-variable.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Dependency -->
 	<x:helper stylesheet="../src/compiler/base/util/compiler-eqname-utils.xsl" />
+	<x:helper stylesheet="../src/compiler/base/util/compiler-misc-utils.xsl" />
+	<x:helper stylesheet="../src/compiler/xslt/declare-variable/declare-variable.xsl" />
 
 	<x:scenario label="Scenario for testing function variable-UQName"
 		xmlns:my-element-prefix="my-element-namespace">

@@ -470,6 +470,11 @@ div > table > tbody > tr > th:first-child {
 	color: #262626;
 }
 
+.xspec tbody th .elapsed {
+	float: right;
+	font-weight: initial;
+}
+
 .successful {
 	background-color: #cfc;
 }
