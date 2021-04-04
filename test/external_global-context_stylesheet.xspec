@@ -2,24 +2,28 @@
 <x:description run-as="external" stylesheet="external_global-context.xsl"
 	xmlns:test="x-urn:test:external_global-context" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<x:scenario label="Global context">
-		<x:context as="element(context-grandchild)" select="//context-grandchild">
-			<context-child>
-				<context-grandchild />
-			</context-child>
-		</x:context>
+	<x:scenario label="apply-templates invocation and call-template invocation">
 
-		<x:scenario label="apply-templates invocation">
-			<x:context mode="test:get-global-context" />
-			<x:expect label="root document node of tree containing node specified by x:context"
-				test="$x:result is (root($x:context) treat as document-node(element(context-child)))"
-			 />
+		<x:scenario label="Global context">
+			<x:context as="element(context-grandchild)" select="//context-grandchild">
+				<context-child>
+					<context-grandchild />
+				</context-child>
+			</x:context>
+
+			<x:scenario label="apply-templates invocation">
+				<x:context mode="test:get-global-context" />
+				<x:expect label="root document node of tree containing node specified by x:context"
+					test="$x:result is (root($x:context) treat as document-node(element(context-child)))"
+				 />
+			</x:scenario>
+
+			<x:scenario label="call-template invocation">
+				<x:call template="test:get-global-context" />
+				<x:expect label="node specified by x:context" test="$x:result is $x:context" />
+			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="call-template invocation">
-			<x:call template="test:get-global-context" />
-			<x:expect label="node specified by x:context" test="$x:result is $x:context" />
-		</x:scenario>
 	</x:scenario>
 
 </x:description>
