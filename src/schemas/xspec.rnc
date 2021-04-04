@@ -172,7 +172,7 @@ like =
 ## Child scenarios can override the parameters in the context, and can provide
 ## any missing values in the <context> (for example, if the context on the parent
 ## scenario doesn't provide a mode, that could be provided by the child scenario).
-matching-scenario = ((global-param | variable)*, context?, variable*),
+matching-scenario = (global-param | variable)*, context?, variable*,
                     like*,
                     (pending-element | assertion | variable)*,
                     (pending-element | 
@@ -183,7 +183,7 @@ matching-scenario = ((global-param | variable)*, context?, variable*),
 ## <call> element defines the function call and the parameters passed to it
 ## and the <assertion> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
-function-scenario = ((global-param | variable)*, function-call?, variable*),
+function-scenario = (global-param | variable)*, function-call?, variable*,
                     like*,
                     (pending-element | assertion | variable)*,
                     (pending-element | 
@@ -194,8 +194,7 @@ function-scenario = ((global-param | variable)*, function-call?, variable*),
 ## element defines the template call and the parameters passed to it and the
 ## <assertion> elements test the result of the template call. Child scenarios
 ## can override the parameters in the template call.
-named-scenario = ((global-param | variable)*, context?),
-                 (variable*, template-call?, variable*),
+named-scenario = (global-param | variable)*, context?, variable*, template-call?, variable*,
                  like*,
                  (pending-element | assertion | variable)*,
                  (pending-element | 
@@ -297,7 +296,7 @@ text-element =
 	## Text in this element is not ignored even when it's whitespace-only.
 	element text { common-attributes, text }
 
-schematron-scenario = (global-param*, context?),
+schematron-scenario = global-param*, context?,
                     like*,
                     (pending-element | schematron-expect | assertion)*, 
                     (pending-element | 
