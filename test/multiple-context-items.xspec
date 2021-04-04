@@ -19,19 +19,21 @@
 		</x:scenario>
 	</x:scenario>
 
-	<x:scenario label="With multiple context items containing both node and atomic value">
-		<x:context select="$items:all-nodes, $items:integer" />
-		<x:like label="Test" />
-	</x:scenario>
+	<x:scenario label="When x:context consists of multiple items">
+		<x:scenario label="both node and atomic value">
+			<x:context select="$items:all-nodes, $items:integer" />
+			<x:like label="Test" />
+		</x:scenario>
 
-	<x:scenario label="With multiple context nodes">
-		<x:context select="$items:all-nodes" />
-		<x:like label="Test" />
-	</x:scenario>
+		<x:scenario label="nodes">
+			<x:context select="$items:all-nodes" />
+			<x:like label="Test" />
+		</x:scenario>
 
-	<x:scenario label="With multiple context atomic values">
-		<x:context select="$items:integer, $items:integer" />
-		<x:like label="Test" />
+		<x:scenario label="atomic values">
+			<x:context select="$items:integer, $items:integer" />
+			<x:like label="Test" />
+		</x:scenario>
 	</x:scenario>
 
 </x:description>
