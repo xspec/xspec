@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<x:description stylesheet="mirror.xsl" xmlns:items="x-urn:test:xspec-items"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:helper stylesheet="items.xsl" />
 
 	<x:scenario label="Test" shared="yes">
 		<x:scenario label="Calling a named template">
@@ -14,59 +17,18 @@
 		</x:scenario>
 	</x:scenario>
 
-	<!--
-		Mixture of node and atomic value
-	-->
-
-	<x:variable as="item()+" name="multiple-mixed-items" select="node(), 'str', 2">
-		<element />
-		<x:text>text</x:text>
-	</x:variable>
-	<x:scenario label="Make sure">
-		<x:call function="mirror:false" />
-		<x:expect label="the test variable contains a node"
-			test="exists($multiple-mixed-items[. instance of node()])" />
-		<x:expect label="the test variable contains an atomic value"
-			test="exists($multiple-mixed-items[. instance of xs:anyAtomicType])" />
-	</x:scenario>
-
 	<x:scenario label="With multiple context items containing both node and atomic value">
-		<x:context select="$multiple-mixed-items" />
+		<x:context select="$items:all-nodes, $items:integer" />
 		<x:like label="Test" />
-	</x:scenario>
-
-	<!--
-		Nodes
-	-->
-
-	<x:variable as="node()+" name="multiple-nodes">
-		<element />
-		<x:text>text</x:text>
-	</x:variable>
-	<x:scenario label="Make sure">
-		<x:call function="mirror:false" />
-		<x:expect label="the test variable consists of 2+ nodes"
-			test="count($multiple-nodes treat as node()+) ge 2" />
 	</x:scenario>
 
 	<x:scenario label="With multiple context nodes">
-		<x:context select="$multiple-nodes" />
+		<x:context select="$items:all-nodes" />
 		<x:like label="Test" />
 	</x:scenario>
 
-	<!--
-		Atomic values
-	-->
-
-	<x:variable as="xs:anyAtomicType+" name="multiple-atomic-values" select="'str', 2" />
-	<x:scenario label="Make sure">
-		<x:call function="mirror:false" />
-		<x:expect label="the test variable consists of 2+ atomic values"
-			test="count($multiple-atomic-values treat as xs:anyAtomicType+) ge 2" />
-	</x:scenario>
-
 	<x:scenario label="With multiple context atomic values">
-		<x:context select="$multiple-atomic-values" />
+		<x:context select="$items:integer, $items:integer" />
 		<x:like label="Test" />
 	</x:scenario>
 
