@@ -25,7 +25,7 @@
             <xsl:otherwise>
                <!-- The nearest explicit reason (@pending or x:pending's label) -->
                <xsl:variable name="explicit-reason" as="xs:string?" select="
-                     ancestor-or-self::element()[self::x:pending or self::x:scenario[@pending]][1]
+                     ancestor-or-self::element()[self::x:pending or (self::x:expect | self::x:scenario)[@pending]][1]
                      /(if (self::x:pending) then x:label(.) else @pending)
                      /string()" />
 
