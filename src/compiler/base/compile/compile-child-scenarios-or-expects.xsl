@@ -58,12 +58,10 @@
 
       <!-- The new $reason-for-pending. -->
       <xsl:variable name="reason-for-pending" as="xs:string?" select="
-          if ( @focus ) then
+         if (@focus) then
             ()
-          else if ( @pending ) then
-            @pending
-          else
-            $reason-for-pending"/>
+         else
+            (@pending, $reason-for-pending)[1]" />
       <xsl:variable name="is-pending" as="xs:boolean" select="x:is-pending(., $reason-for-pending)" />
 
       <!-- The new apply. -->
@@ -197,7 +195,7 @@
       <xsl:param name="reason-for-pending" as="xs:string?" required="yes" tunnel="yes" />
 
       <xsl:variable name="reason-for-pending" as="xs:string?"
-         select="($reason-for-pending, ancestor::x:scenario/@pending)[1]" />
+         select="(@pending, $reason-for-pending, ancestor::x:scenario/@pending)[1]" />
       <xsl:variable name="is-pending" as="xs:boolean" select="x:is-pending(., $reason-for-pending)" />
 
       <!-- Dispatch to a language-specific (XSLT or XQuery) worker template -->
