@@ -93,7 +93,7 @@
       </t:pending>
 
       <!--
-         Test @pending.
+         Test x:scenario/@pending.
       -->
       <t:scenario label="a Success scenario with @pending must be Pending"
                   pending="testing @pending of a Success scenario">
@@ -107,7 +107,7 @@
                    test="error()" />
       </t:scenario>
 
-      <t:scenario label="Zero-length @pending" pending="">
+      <t:scenario label="Zero-length x:scenario/@pending" pending="">
          <t:scenario label="a Success scenario in zero-length @pending must be Pending">
             <t:expect label="it would return Success if it were not Pending"
                       select="9" />
@@ -117,6 +117,34 @@
             <t:expect label="it would throw an error if it were not Pending"
                       test="error()" />
          </t:scenario>
+      </t:scenario>
+
+      <!--
+         Test x:expect/@pending.
+      -->
+      <t:scenario label="a Success x:expect with @pending must be Pending">
+         <t:expect label="it would return Success if it were not Pending"
+                   select="9"
+                   pending="testing @pending of a Success x:expect" />
+      </t:scenario>
+
+      <t:scenario label="an erroneous x:expect with @pending must be Pending">
+         <t:expect label="it would throw an error if it were not Pending"
+                   test="error()"
+                   pending="testing @pending of an erroneous x:expect" />
+      </t:scenario>
+
+      <!-- Zero-length x:expect/@pending -->
+      <t:scenario label="a Success x:expect with zero-length @pending must be Pending">
+         <t:expect label="it would return Success if it were not Pending"
+                   select="9"
+                   pending="" />
+      </t:scenario>
+
+      <t:scenario label="an erroneous x:expect with zero-length @pending must be Pending">
+         <t:expect label="it would throw an error if it were not Pending"
+                   test="error()"
+                   pending="" />
       </t:scenario>
 
    </t:scenario>
