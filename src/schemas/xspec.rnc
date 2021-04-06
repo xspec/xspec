@@ -280,7 +280,7 @@ assertion =
 	## assertion succeeds only if the item is equal to the one specified with the
 	## href and select attributes or content of the <expect> element.
 	element expect { common-attributes,
-		label, test?, selection }
+		label, pending-attribute?, test?, selection }
 
 test = attribute test { xpath }
 
