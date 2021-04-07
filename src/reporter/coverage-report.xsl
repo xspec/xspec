@@ -272,9 +272,11 @@
             <xsl:if test="position() != 1">
                <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
             </xsl:if>
-            <span class="{$coverage}">
-               <xsl:value-of select="." />
-            </span>
+            <xsl:where-populated>
+               <span class="{$coverage}">
+                  <xsl:value-of select="." />
+               </span>
+            </xsl:where-populated>
          </xsl:for-each>
 
          <xsl:next-iteration>
