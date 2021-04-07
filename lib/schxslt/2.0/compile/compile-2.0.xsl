@@ -327,8 +327,8 @@
                   </xsl:call-template>
                 </for-each>
               </schxslt:pattern>
-              <apply-templates mode="{$mode}" select="/"/>
             </xsl:for-each>
+            <apply-templates mode="{$mode}" select="/"/>
           </xsl:otherwise>
         </xsl:choose>
 
