@@ -6,8 +6,7 @@
 
 	<x:import href="line-number/common.xspec" />
 
-	<x:scenario label="Scenarios for testing x:line-number() with lineNumbering disabled">
-		<x:call function="x:line-number" />
+	<x:scenario label="Test nodes except document node" shared="yes">
 
 		<x:scenario label="processing instruction">
 			<x:call>
@@ -44,6 +43,16 @@
 			<x:expect label="-1" select="-1" />
 		</x:scenario>
 
+	</x:scenario>
+
+	<x:scenario label="Scenarios for testing x:column-number() with lineNumbering disabled">
+		<x:call function="x:column-number" />
+		<x:like label="Test nodes except document node" />
+	</x:scenario>
+
+	<x:scenario label="Scenarios for testing x:line-number() with lineNumbering disabled">
+		<x:call function="x:line-number" />
+		<x:like label="Test nodes except document node" />
 	</x:scenario>
 
 </x:description>

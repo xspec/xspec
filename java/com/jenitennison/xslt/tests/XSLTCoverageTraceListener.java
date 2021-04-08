@@ -175,10 +175,11 @@ public class XSLTCoverageTraceListener implements TraceListener {
 
   public void enter(InstructionInfo info, XPathContext context) {
     int lineNumber = info.getLineNumber();
+    int columnNumber = info.getColumnNumber();
 
     // Get the current file URI
     String systemId = info.getSystemId();
-    debugPrintf("%-17s: %s:%d%n", "enter()", systemId, lineNumber);
+    debugPrintf("%-17s: %s:%d:%d%n", "enter()", systemId, lineNumber, columnNumber);
 
     // Normalize the current file URI
     URI systemIdUri;
@@ -207,9 +208,9 @@ public class XSLTCoverageTraceListener implements TraceListener {
         utils.put(systemId, utilId);
 
         try {
-          writer.writeStartElement("u");
-          writer.writeAttribute("id", String.valueOf(utilId));
-          writer.writeAttribute("u", systemId);
+          writer.writeStartElement("util");
+          writer.writeAttribute("utilId", String.valueOf(utilId));
+          writer.writeAttribute("uri", systemId);
           writer.writeEndElement();
         } catch(XMLStreamException e) {
           throw new RuntimeException(e);
@@ -221,8 +222,8 @@ public class XSLTCoverageTraceListener implements TraceListener {
       debugPrintf("%-17s: %s%n", "xspecStylesheet", xspecStylesheet);
 
       try {
-        writer.writeStartElement("x");
-        writer.writeAttribute("u", systemId);
+        writer.writeStartElement("compiled");
+        writer.writeAttribute("uri", systemId);
         writer.writeEndElement();
       } catch(XMLStreamException e) {
         throw new RuntimeException(e);
@@ -230,18 +231,18 @@ public class XSLTCoverageTraceListener implements TraceListener {
     } 
 
     if (systemId != xspecStylesheet && !isUtil) {
-      Integer module;
+      Integer moduleId;
       if (modules.containsKey(systemId)) {
-        module = (Integer)modules.get(systemId);
+        moduleId = (Integer)modules.get(systemId);
       } else {
-        module = new Integer(moduleCount);
+        moduleId = new Integer(moduleCount);
         moduleCount += 1;
-        modules.put(systemId, module);
+        modules.put(systemId, moduleId);
 
         try {
-          writer.writeStartElement("m");
-          writer.writeAttribute("id", String.valueOf(module));
-          writer.writeAttribute("u", systemId);
+          writer.writeStartElement("module");
+          writer.writeAttribute("moduleId", String.valueOf(moduleId));
+          writer.writeAttribute("uri", systemId);
           writer.writeEndElement();
         } catch(XMLStreamException e) {
           throw new RuntimeException(e);
@@ -296,9 +297,9 @@ public class XSLTCoverageTraceListener implements TraceListener {
         constructs.add(constructType);
 
         try {
-          writer.writeStartElement("c");
-          writer.writeAttribute("id", String.valueOf(constructType));
-          writer.writeAttribute("n", construct);
+          writer.writeStartElement("construct");
+          writer.writeAttribute("constructType", String.valueOf(constructType));
+          writer.writeAttribute("name", construct);
           writer.writeEndElement();
         } catch(XMLStreamException e) {
           throw new RuntimeException(e);
@@ -306,10 +307,11 @@ public class XSLTCoverageTraceListener implements TraceListener {
       }
 
       try {
-        writer.writeStartElement("h");
-        writer.writeAttribute("l", String.valueOf(lineNumber));
-        writer.writeAttribute("m", String.valueOf(module));
-        writer.writeAttribute("c", String.valueOf(constructType));
+        writer.writeStartElement("hit");
+        writer.writeAttribute("lineNumber", String.valueOf(lineNumber));
+        writer.writeAttribute("columnNumber", String.valueOf(columnNumber));
+        writer.writeAttribute("moduleId", String.valueOf(moduleId));
+        writer.writeAttribute("constructType", String.valueOf(constructType));
         writer.writeEndElement();
       } catch(XMLStreamException e) {
         throw new RuntimeException(e);
