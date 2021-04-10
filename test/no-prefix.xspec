@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
-	xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:mirror="x-urn:test:mirror"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns="http://www.jenitennison.com/xslt/xspec" xmlns:mirror="x-urn:test:mirror">
 
 	<scenario label="Describing scenarios using default namespace">
 		<call function="mirror:false" />
@@ -38,21 +37,18 @@
 		<expect label="should be able to be expected in the same way">
 			<function-param-child xmlns="" />
 		</expect>
-		<expect label="should be able to be selected by expression without prefix"
-			test="
+		<expect label="should be able to be selected by expression without prefix" test="
 				$Q{http://www.jenitennison.com/xslt/xspec}result/self::function-param-child
 				=> exists()" />
 	</scenario>
 
 	<scenario label="Variable with unprefixed name">
 		<call function="mirror:false" />
-		<variable name="result" select="'variable not in a namespace'"/>
-		<expect label="does not produce error from detect-reserved-variable-name, has correct value,"
-			test="$result = 'variable not in a namespace'"
-		/>
-		<expect label="and does not conflict with XSpec result"
-			select="false()"
-		/>
+		<variable name="result" select="'variable not in a namespace'" />
+		<expect
+			label="does not produce error from detect-reserved-variable-name, has correct value,"
+			test="$result = 'variable not in a namespace'" />
+		<expect label="and does not conflict with XSpec result" select="false()" />
 	</scenario>
 
 </description>
