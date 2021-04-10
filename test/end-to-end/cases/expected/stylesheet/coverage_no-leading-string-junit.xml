@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="coverage_no-leading-string.xspec">
+   <testsuite name="foo element" tests="1" failures="0">
+      <testcase name="should be transformed into bar element" status="passed"/>
+   </testsuite>
+</testsuites>
