@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="coverage-no-hit.xspec">
+<testsuites name="coverage_no-hit.xspec">
    <testsuite name="Testing a stylesheet without any matching context"
               tests="1"
               failures="0">
