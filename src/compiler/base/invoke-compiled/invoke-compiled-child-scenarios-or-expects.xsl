@@ -50,7 +50,8 @@
       on-no-match="deep-skip" />
 
    <!--
-      Unwrap x:pending.
+      At x:pending elements, just move on to the children. Pending status and reason are accounted
+      for in descendant context.
    -->
    <xsl:template match="x:pending" as="node()+" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:apply-templates select="element()" mode="#current" />
