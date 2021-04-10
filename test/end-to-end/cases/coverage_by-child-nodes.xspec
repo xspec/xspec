@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description stylesheet="coverage_by-child-nodes.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Call template">
+		<x:call template="test" />
+		<x:expect label="Don't care" />
+	</x:scenario>
+</x:description>
