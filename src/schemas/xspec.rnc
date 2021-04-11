@@ -91,7 +91,7 @@ pending-element =
 	##
 	## An optional label attribute can be used to describe why the scenario or
 	## assertion should not be tested.
-	element pending { common-attributes, label?, (scenario | assertion | schematron-expect)* }
+	element pending { common-attributes, label?, (scenario | assertion | schematron-expect)+ }
 
 pending-attribute =
 	## Anything which has the @pending attribute will remain untested, but will be
