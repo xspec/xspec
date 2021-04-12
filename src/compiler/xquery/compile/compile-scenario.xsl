@@ -16,8 +16,7 @@
       <!-- No $apply for XQuery -->
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
-      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" tunnel="yes" />
-      <xsl:param name="is-pending" as="xs:boolean" required="yes" />
+      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
       <xsl:param name="run-sut-now" as="xs:boolean" required="yes" />
 
       <xsl:variable name="local-preceding-vardecls" as="element(x:variable)*"
@@ -94,10 +93,7 @@
       <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="node()+">
             <xsl:sequence select="@id, @xspec" />
-
-            <xsl:if test="$is-pending">
-               <xsl:attribute name="pending" select="$reason-for-pending" />
-            </xsl:if>
+            <xsl:sequence select="x:pending-attribute-from-reason($reason-for-pending)" />
 
             <xsl:sequence select="x:label(.)" />
          </xsl:with-param>
