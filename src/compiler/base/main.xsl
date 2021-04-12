@@ -43,9 +43,11 @@
       Accumulators for scenario-level variable declarations (x:param and x:variable)
    -->
 
-   <!-- Push and pop variable declaration elements based on node identity -->
+   <!-- Push and pop variable declaration elements based on node identity. Pending variable
+      declaration elements are considered as if they did not exist. -->
    <xsl:accumulator name="stacked-vardecls" as="element()*" initial-value="()">
-      <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable"
+      <xsl:accumulator-rule
+         match="(x:scenario/x:param | x:scenario/x:variable)[x:reason-for-pending(.) => empty()]"
          select="
             (: Append this scenario-level variable declaration element :)
             $value, (self::x:param | self::x:variable)" />
