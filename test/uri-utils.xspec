@@ -1,43 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test additional-classpath=${env.XML_RESOLVER_JAR}?>
+<?xspec-test saxon-custom-options=-catalog:"${xspec.project.dir}/test/catalog/01/catalog-public.xml;${xspec.project.dir}/test/catalog/01/catalog-rewriteURI.xml"?>
 <x:description stylesheet="../src/common/uri-utils.xsl"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
+	<x:scenario label="Expect" shared="yes">
+		<x:expect
+			label="Resolved with catalog, working around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
+			select="resolve-uri('catalog/01/example.xml', $x:xspec-uri)" />
+	</x:scenario>
+
 	<x:scenario label="Scenario for testing function resolve-xml-uri-with-catalog">
-		<!-- TODO: Use catalog -->
 		<x:call function="x:resolve-xml-uri-with-catalog">
-			<x:param select="''" />
+			<x:param select="'catalog-01:/example.xml'" />
 		</x:call>
-		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
-		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
-			test="
-				$x:result
-				=> substring-after(':')
-				=> starts-with('/')" />
+		<x:like label="Expect" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function document-actual-uri">
-		<!-- TODO: Use catalog -->
 		<x:call function="x:document-actual-uri">
-			<x:param select="doc('')" />
+			<x:param select="doc('catalog-01:/example.xml')" />
 		</x:call>
-		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
-		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
-			test="
-				$x:result
-				=> substring-after(':')
-				=> starts-with('/')" />
+		<x:like label="Expect" />
 	</x:scenario>
 
 	<x:scenario label="Scenario for testing function base-uri">
-		<!-- TODO: Use catalog -->
 		<x:call function="x:base-uri">
-			<x:param>
-				<test />
-			</x:param>
+			<x:param select="doc('catalog-01:/example.xml')/element()" />
 		</x:call>
-		<x:expect label="'file' scheme" select="'file'" test="substring-before($x:result, ':')" />
-		<x:expect label="Must work around https://issues.apache.org/jira/browse/XMLCOMMONS-24"
-			test="starts-with(substring-after($x:result, ':'), '/')" />
+		<x:like label="Expect" />
 	</x:scenario>
 
 </x:description>

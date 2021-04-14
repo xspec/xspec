@@ -57,6 +57,10 @@
 		<xsl:copy>
 			<xsl:apply-templates select="attribute() | node()" />
 
+			<!-- Make environment variables accessible from 'xspec-test' processing instruction
+				values -->
+			<property environment="env" />
+
 			<xsl:variable as="xs:string" name="collection-uri"
 				select="string-join(($XSPECFILES-DIR-URI, $XSPECFILES-DIR-URI-QUERY), '?')" />
 
