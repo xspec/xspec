@@ -31,7 +31,7 @@
       <!--
          @pending
       -->
-      <x:scenario label="x:scenario[@pending]"
+      <x:scenario label="x:scenario[@pending][x:variable]"
                   pending="x:scenario/@pending">
          <x:variable name="variable-under-pending-attribute" select="9" />
 
