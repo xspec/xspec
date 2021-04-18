@@ -1,7 +1,7 @@
 /****************************************************************************/
 /*  File:       XSLTCoverageTraceListener.java                              */
 /*  Author:     Jeni Tennison                                               */
-/*  URI:        https://github.com/expath/xspec/                            */
+/*  URI:        https://github.com/xspec/xspec/                             */
 /*  Tags:                                                                   */
 /*  Copyright (c) 2008-2016 (see end of file.)                              */
 /* ------------------------------------------------------------------------ */
