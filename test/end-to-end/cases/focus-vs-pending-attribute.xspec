@@ -8,7 +8,8 @@
 	stylesheet="do-nothing.xsl" xml:base="../../" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario label="Expect" shared="yes">
-		<x:expect label="x:expect" test="true()" />
+		<x:expect label="x:expect[empty(@pending)]" test="true()" />
+		<x:expect label="x:expect[@pending]" pending="x:expect/@pending" test="true()" />
 	</x:scenario>
 
 	<x:scenario label="/Neutral">
