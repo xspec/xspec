@@ -197,7 +197,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
       isUtil = true;
 
       if (!utils.containsKey(systemId)) {
-        Integer utilId = new Integer(utilsCount);
+        Integer utilId = Integer.valueOf(utilsCount);
         debugPrintf(
           "%-17s: %s%n",
           "util[" + utilId + "]",
@@ -235,7 +235,7 @@ public class XSLTCoverageTraceListener implements TraceListener {
       if (modules.containsKey(systemId)) {
         moduleId = (Integer)modules.get(systemId);
       } else {
-        moduleId = new Integer(moduleCount);
+        moduleId = Integer.valueOf(moduleCount);
         moduleCount += 1;
         modules.put(systemId, moduleId);
 
