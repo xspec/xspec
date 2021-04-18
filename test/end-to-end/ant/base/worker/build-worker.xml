@@ -34,8 +34,14 @@
 			<local name="style-path" />
 			<makepath property="style-path" url="@{style-url}" />
 
-			<!-- Use a temporary output file, if the macro caller doesn't care about the output.
-				Can't use the Windows NUL device on Ant 1.10: https://bz.apache.org/bugzilla/show_bug.cgi?id=62330 -->
+			<!-- Use the null device or a temporary output file, if the macro caller doesn't care
+				about the output. Can't use the Windows NUL device on Ant 1.10:
+				https://bz.apache.org/bugzilla/show_bug.cgi?id=62330 -->
+			<condition property="out-path" value="/dev/null">
+				<not>
+					<os family="dos" />
+				</not>
+			</condition>
 			<tempfile deleteonexit="true" destdir="${java.io.tmpdir}"
 				prefix="xslt-url_deleteonexit_" property="out-path" suffix=".tmp"
 				unless:set="out-path" />
