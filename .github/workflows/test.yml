@@ -24,6 +24,8 @@ jobs:
           - os: windows-latest
             env: saxon-9-8
           - os: macos-latest
+            env: saxon-9-9
+          - os: macos-latest
             env: saxon-9-8
 
     steps:
