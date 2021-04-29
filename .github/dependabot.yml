@@ -17,10 +17,6 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
-    ignore:
-      - dependency-name: '@commitlint/cli'
-        versions:
-          - 12.1.0
     commit-message:
       prefix: ci
       include: scope
