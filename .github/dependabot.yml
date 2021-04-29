@@ -1,34 +1,34 @@
 version: 2
 updates:
-- package-ecosystem: maven
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: net.sf.saxon:Saxon-HE
-    versions:
-    - ">= 10.a, < 11"
-  commit-message:
-    prefix: build
-    include: scope
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: "@commitlint/cli"
-    versions:
-    - 12.1.0
-  commit-message:
-    prefix: ci
-    include: scope
-- package-ecosystem: pip
-  directory: "/"
-  schedule:
-    interval: daily
-  open-pull-requests-limit: 10
-  commit-message:
-    prefix: ci
-    include: scope
+  - package-ecosystem: maven
+    directory: '/'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: net.sf.saxon:Saxon-HE
+        versions:
+          - '>= 10.a, < 11'
+    commit-message:
+      prefix: build
+      include: scope
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: '@commitlint/cli'
+        versions:
+          - 12.1.0
+    commit-message:
+      prefix: ci
+      include: scope
+  - package-ecosystem: pip
+    directory: '/'
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: ci
+      include: scope
