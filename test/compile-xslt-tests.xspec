@@ -22,16 +22,6 @@
    <!-- Default $measure-time depends on global context item. Set it false here. -->
    <t:param name="measure-time" select="false()" />
 
-   <!--t:scenario label="FIRST TEST.......">
-      <t:variable name="ctxt" as="document-node()">
-         <t:description>
-            <t:scenario/>
-         </t:description>
-      </t:variable>
-      <t:apply select="$ctxt"/>
-      <t:expect label="the result" test="$t:result instance of document-node()"/>
-   </t:scenario-->
-
    <t:scenario label="x:scenario[@label] transformed in x:compile-scenario template">
       <t:context href="compile-xslt-tests/compile-scenario.xspec" select="//t:scenario" />
       <t:call template="t:compile-scenario">

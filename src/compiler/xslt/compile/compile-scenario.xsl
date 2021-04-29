@@ -15,7 +15,6 @@
    <xsl:template name="x:compile-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="apply" as="element(x:apply)?" required="yes" tunnel="yes" />
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
@@ -46,24 +45,6 @@
             </xsl:call-template>
          </xsl:message>
       </xsl:if>
-      <xsl:if test="$apply and $context">
-         <xsl:message terminate="yes">
-            <xsl:call-template name="x:prefix-diag-message">
-               <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">Can't use {name($apply)} and set a context at the same time</xsl:text>
-               </xsl:with-param>
-            </xsl:call-template>
-         </xsl:message>
-      </xsl:if>
-      <xsl:if test="$apply and $call">
-         <xsl:message terminate="yes">
-            <xsl:call-template name="x:prefix-diag-message">
-               <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">Can't use {name($apply)} and {name($call)} at the same time</xsl:text>
-               </xsl:with-param>
-            </xsl:call-template>
-         </xsl:message>
-      </xsl:if>
       <xsl:if test="$context and $call/@function">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
@@ -86,13 +67,13 @@
       <xsl:if test="$run-sut-now">
          <xsl:call-template name="x:check-param-max-position" />
       </xsl:if>
-      <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
+      <xsl:if test="x:expect and empty($call) and empty($context)">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
                   <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
                      the user -->
-                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
+                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -147,9 +128,9 @@
 
             <!-- Handle local preceding variable declarations and apply/call/context in document
                order, instead of apply/call/context first and variable declarations second. -->
-            <xsl:for-each select="$local-preceding-vardecls | x:apply | x:call | x:context">
+            <xsl:for-each select="$local-preceding-vardecls | x:call | x:context">
                <xsl:choose>
-                  <xsl:when test="self::x:apply or self::x:call or self::x:context">
+                  <xsl:when test="self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
                      <!-- Undeclare the default namespace in the wrapper element, because
                         x:param/@select may use the default namespace such as xs:QName('foo'). -->
@@ -194,7 +175,7 @@
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
-                  <xsl:apply-templates select="($call, $apply, $context)[1]/x:param"
+                  <xsl:apply-templates select="($call, $context)[1]/x:param"
                      mode="x:declare-variable" />
 
                   <!-- Enter SUT -->
@@ -284,44 +265,8 @@
                         </xsl:call-template>
                      </xsl:when>
 
-                     <xsl:when test="$apply">
-                        <!-- TODO: x:apply not implemented yet -->
-                        <!-- Create the apply templates instruction -->
-                        <!-- TODO: This code path (including @catch, namespaces and @as) has not been tested. -->
-                        <xsl:call-template name="x:enter-sut">
-                           <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
-                              <apply-templates>
-                                 <!-- $apply/@select may use namespace prefixes and/or the default
-                                    namespace such as xs:QName('foo') -->
-                                 <xsl:sequence select="x:copy-of-namespaces($apply)" />
-
-                                 <xsl:sequence select="$apply/@select" />
-
-                                 <xsl:if test="$apply/@mode => exists()">
-                                    <xsl:attribute name="mode"
-                                       select="$apply ! x:UQName-from-EQName-ignoring-default-ns(@mode, .)" />
-                                 </xsl:if>
-
-                                 <xsl:for-each select="$apply/x:param">
-                                    <with-param>
-                                       <!-- @as may use namespace prefixes -->
-                                       <xsl:sequence select="x:copy-of-namespaces(.)" />
-
-                                       <xsl:attribute name="name"
-                                          select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
-                                       <xsl:attribute name="select"
-                                          select="'$' || x:variable-UQName(.)" />
-
-                                       <xsl:sequence select="@tunnel, @as" />
-                                    </with-param>
-                                 </xsl:for-each>
-                              </apply-templates>
-                           </xsl:with-param>
-                        </xsl:call-template>
-                     </xsl:when>
-
                      <xsl:when test="$context">
-                        <!-- Create the template call -->
+                        <!-- Create the apply templates instruction -->
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                               <apply-templates select="${x:variable-UQName($context)}">
