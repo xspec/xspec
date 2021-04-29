@@ -4,7 +4,6 @@ updates:
     directory: '/'
     schedule:
       interval: daily
-    open-pull-requests-limit: 10
     ignore:
       - dependency-name: net.sf.saxon:Saxon-HE
         versions:
@@ -16,7 +15,6 @@ updates:
     directory: '/'
     schedule:
       interval: daily
-    open-pull-requests-limit: 10
     commit-message:
       prefix: ci
       include: scope
@@ -24,7 +22,6 @@ updates:
     directory: '/'
     schedule:
       interval: daily
-    open-pull-requests-limit: 10
     commit-message:
       prefix: ci
       include: scope
