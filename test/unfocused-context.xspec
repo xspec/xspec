@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test x:context when it is unfocused by @focus on an inner scenario.
+	-->
+
+	<x:scenario label="Outer scenario">
+		<x:context mode="mirror:context-mirror">
+			<context-in-outer-scenario />
+		</x:context>
+
+		<x:scenario focus="focus" label="Focused scenario">
+			<!-- Inherit outer x:context and modify its body. Do not set its @mode. -->
+			<x:context>
+				<context-in-focused-scenario />
+			</x:context>
+			<x:expect label="x:context should be inherited and modified">
+				<context-in-focused-scenario />
+			</x:expect>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

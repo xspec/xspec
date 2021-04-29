@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test additional-classpath=${xspec.project.dir}/java?>
 <?xspec-test saxon-custom-options=-config:"${xspec.project.dir}/test/line-number/disabled-config.xml"?>
-<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm"
-	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" stylesheet="do-nothing.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:import href="line-number/common.xspec" />
 
 	<x:scenario label="Scenarios for testing x:line-number() with lineNumbering disabled">
+		<x:call function="x:line-number" />
 
 		<x:scenario label="processing instruction">
-			<x:call function="x:line-number">
+			<x:call>
 				<x:param select="$doc/processing-instruction()" />
 			</x:call>
 			<x:expect label="-1" select="-1" />
 		</x:scenario>
 
 		<x:scenario label="element">
-			<x:call function="x:line-number">
+			<x:call>
 				<x:param select="$doc/elem" />
 			</x:call>
 			<x:expect label="-1" select="-1" />
 		</x:scenario>
 
 		<x:scenario label="attribute">
-			<x:call function="x:line-number">
+			<x:call>
 				<x:param select="$doc/elem/@attr" />
 			</x:call>
 			<x:expect label="-1" select="-1" />
 		</x:scenario>
 
 		<x:scenario label="child element">
-			<x:call function="x:line-number">
+			<x:call>
 				<x:param select="$doc/elem/child" />
 			</x:call>
 			<x:expect label="-1" select="-1" />
 		</x:scenario>
 
 		<x:scenario label="comment">
-			<x:call function="x:line-number">
+			<x:call>
 				<x:param select="$doc/comment()" />
 			</x:call>
 			<x:expect label="-1" select="-1" />

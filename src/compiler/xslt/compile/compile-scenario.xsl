@@ -18,8 +18,7 @@
       <xsl:param name="apply" as="element(x:apply)?" required="yes" tunnel="yes" />
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
-      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" tunnel="yes" />
-      <xsl:param name="is-pending" as="xs:boolean" required="yes" />
+      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
       <xsl:param name="run-sut-now" as="xs:boolean" required="yes" />
 
       <xsl:variable name="local-preceding-vardecls" as="element()*" select="
@@ -103,6 +102,10 @@
          <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
          <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
 
+         <!-- Runtime context item of the template being generated at this compile time must be
+            absent (xspec/xspec#423). Even when the template being generated at this compile time is
+            called with a context item at run time, it must be removed by
+            xsl:context-item[@use="absent"]. -->
          <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
             <xsl:attribute name="use" select="'absent'" />
          </xsl:element>
@@ -112,7 +115,7 @@
          </xsl:for-each>
 
          <message>
-            <xsl:if test="$is-pending">
+            <xsl:if test="exists($reason-for-pending)">
                <xsl:text>PENDING: </xsl:text>
                <xsl:for-each select="normalize-space($reason-for-pending)[.]">
                   <xsl:text expand-text="yes">({.}) </xsl:text>
@@ -132,13 +135,15 @@
             <xsl:variable name="scenario-attributes" as="attribute()+">
                <xsl:sequence select="@id" />
                <xsl:attribute name="xspec" select="(@original-xspec, @xspec)[1]" />
-               <xsl:if test="$is-pending">
-                  <xsl:attribute name="pending" select="$reason-for-pending" />
-               </xsl:if>
+               <xsl:sequence select="x:pending-attribute-from-reason($reason-for-pending)" />
             </xsl:variable>
             <xsl:apply-templates select="$scenario-attributes" mode="x:node-constructor" />
 
             <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
+
+            <xsl:call-template name="x:timestamp">
+               <xsl:with-param name="event" select="'start'" />
+            </xsl:call-template>
 
             <!-- Handle local preceding variable declarations and apply/call/context in document
                order, instead of apply/call/context first and variable declarations second. -->
@@ -363,6 +368,10 @@
 
             <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
                <xsl:with-param name="handled-child-vardecls" select="$local-preceding-vardecls" />
+            </xsl:call-template>
+
+            <xsl:call-template name="x:timestamp">
+               <xsl:with-param name="event" select="'end'" />
             </xsl:call-template>
 
          <!-- </x:scenario> -->
