@@ -7,7 +7,7 @@ updates:
     ignore:
       - dependency-name: net.sf.saxon:Saxon-HE
         versions:
-          - '>= 10.a, < 11'
+          - '>= 10.a'
     commit-message:
       prefix: build
       include: scope
