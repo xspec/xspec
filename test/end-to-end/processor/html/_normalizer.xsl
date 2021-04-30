@@ -24,6 +24,7 @@
 	-->
 	<xsl:template as="text()" match="/html[local:is-xquery-report(.) => not()]/head/title/text()"
 		mode="normalizer:normalize">
+		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
 		<xsl:analyze-string regex="^(Test Report for) (.+) (\([a-z0-9/: ]+\))$" select=".">
 			<xsl:matching-substring>
 				<xsl:value-of select="
@@ -250,6 +251,15 @@
 				<xsl:message terminate="yes" />
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<!--
+		Normalizes elapsed time
+	-->
+	<xsl:template as="text()"
+		match="span[contains-token(@class, 'elapsed-num')]/text()[. castable as xs:decimal]"
+		mode="normalizer:normalize">
+		<xsl:value-of select="xs:decimal(0)" />
 	</xsl:template>
 
 	<!--

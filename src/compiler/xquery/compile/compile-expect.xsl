@@ -16,8 +16,7 @@
 
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <!-- No $context for XQuery -->
-      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" tunnel="yes" />
-      <xsl:param name="is-pending" as="xs:boolean" required="yes" />
+      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
 
       <!-- URIQualifiedNames of the parameters of the function being generated.
          Their order must be stable, because they are function parameters. -->
@@ -41,7 +40,7 @@
       <!-- Start of the function body -->
       <xsl:text>{&#x0A;</xsl:text>
 
-      <xsl:if test="not($is-pending)">
+      <xsl:if test="empty($reason-for-pending)">
          <!-- Set up the $local:expected variable -->
          <xsl:apply-templates select="." mode="x:declare-variable">
             <xsl:with-param name="comment" select="'expected result'" />
@@ -107,15 +106,12 @@
       <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes" as="node()+">
             <xsl:sequence select="@id" />
-
-            <xsl:if test="$is-pending">
-               <xsl:attribute name="pending" select="$reason-for-pending" />
-            </xsl:if>
+            <xsl:sequence select="x:pending-attribute-from-reason($reason-for-pending)" />
          </xsl:with-param>
       </xsl:call-template>
       <xsl:text>,&#x0A;</xsl:text>
 
-      <xsl:if test="not($is-pending)">
+      <xsl:if test="empty($reason-for-pending)">
          <!-- @successful must be evaluated at run time -->
          <xsl:text>attribute { QName('', 'successful') } { $local:successful },&#x0A;</xsl:text>
       </xsl:if>
@@ -123,7 +119,7 @@
       <xsl:apply-templates select="x:label(.)" mode="x:node-constructor" />
 
       <!-- Report -->
-      <xsl:if test="not($is-pending)">
+      <xsl:if test="empty($reason-for-pending)">
          <xsl:text>,&#x0A;</xsl:text>
 
          <xsl:if test="@test">

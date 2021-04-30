@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="focus-vs-pending.xspec">
    <testsuite name="Test @focus and pending together (both @pending and x:pending)"
-              tests="6"
+              tests="8"
               failures="0">
       <testcase name="a non-pending erroneous scenario alongside a focused scenario must be Pending it would throw an error if it were not Pending"
                 status="skipped">
@@ -17,9 +17,15 @@
                 status="passed"/>
       <testcase name="an erroneous scenario with @pending must be Pending it would throw an error if it were not Pending"
                 status="skipped">
-         <skipped>testing @pending without @focus</skipped>
+         <skipped>testing x:scenario[empty(@focus)]/@pending</skipped>
       </testcase>
       <testcase name="a Success scenario with both @pending and @focus (not recommended as ambiguous) must execute the test and return Success"
+                status="passed"/>
+      <testcase name="a Success x:expect with @pending must be Pending it would return Success if it were not Pending"
+                status="skipped">
+         <skipped>testing x:expect/@pending without ancestor::x:scenario/@focus</skipped>
+      </testcase>
+      <testcase name="a Success x:expect with both @pending and ancestor::x:scenario/@focus (not recommended as ambiguous) must execute the test and return Success"
                 status="passed"/>
    </testsuite>
 </testsuites>

@@ -5,6 +5,7 @@
 	<!-- Dependency -->
 	<x:helper stylesheet="../src/compiler/base/util/compiler-eqname-utils.xsl" />
 	<x:helper stylesheet="../src/compiler/base/util/compiler-misc-utils.xsl" />
+	<x:helper stylesheet="../src/compiler/base/util/compiler-pending-utils.xsl" />
 	<x:helper stylesheet="../src/compiler/xslt/declare-variable/declare-variable.xsl" />
 
 	<x:scenario label="Scenario for testing function variable-UQName"

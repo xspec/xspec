@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for coverage_by-child-nodes.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../coverage_by-child-nodes.xsl">coverage_by-child-nodes.xsl</a></p>
+      <h2>module: coverage_by-child-nodes.xsl; 83 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="3.0"</span>
+03: <span class="ignored">	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
+04: 
+05: <span class="ignored">	</span><span class="hit">&lt;xsl:template as="element(hit)+" name="test"&gt;</span>
+06: 
+07: <span class="ignored">		</span><span class="ignored">&lt;!--</span>
+08: <span class="ignored">			'hit' or 'miss' of these nodes is determined by child nodes.</span>
+09: <span class="ignored">		--&gt;</span>
+10: 
+11: <span class="ignored">		</span><span class="ignored">&lt;!--</span>
+12: <span class="ignored">			xsl:for-each</span>
+13: <span class="ignored">		--&gt;</span>
+14: 
+15: <span class="ignored">		</span><span class="hit">&lt;xsl:for-each select="1"&gt;</span>
+16: <span class="ignored">			</span><span class="hit">&lt;hit /&gt;</span>
+17: <span class="ignored">		</span><span class="hit">&lt;/xsl:for-each&gt;</span>
+18: 
+19: <span class="ignored">		</span><span class="missed">&lt;xsl:for-each select="()"&gt;</span>
+20: <span class="ignored">			</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
+21: <span class="ignored">		</span><span class="missed">&lt;/xsl:for-each&gt;</span>
+22: 
+23: <span class="ignored">		</span><span class="ignored">&lt;!--</span>
+24: <span class="ignored">			xsl:for-each-group</span>
+25: <span class="ignored">		--&gt;</span>
+26: 
+27: <span class="ignored">		</span><span class="hit">&lt;xsl:for-each-group group-by="." select="1"&gt;</span>
+28: <span class="ignored">			</span><span class="hit">&lt;hit /&gt;</span>
+29: <span class="ignored">		</span><span class="hit">&lt;/xsl:for-each-group&gt;</span>
+30: 
+31: <span class="ignored">		</span><span class="missed">&lt;xsl:for-each-group group-by="." select="()"&gt;</span>
+32: <span class="ignored">			</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
+33: <span class="ignored">		</span><span class="missed">&lt;/xsl:for-each-group&gt;</span>
+34: 
+35: <span class="ignored">		</span><span class="ignored">&lt;!--</span>
+36: <span class="ignored">			xsl:matching-substring</span>
+37: <span class="ignored">			xsl:non-matching-substring</span>
+38: <span class="ignored">		--&gt;</span>
+39: 
+40: <span class="ignored">		</span><span class="hit">&lt;xsl:analyze-string regex="a" select="'a'"&gt;</span>
+41: <span class="ignored">			</span><span class="hit">&lt;xsl:matching-substring&gt;</span>
+42: <span class="ignored">				</span><span class="hit">&lt;hit /&gt;</span>
+43: <span class="ignored">			</span><span class="hit">&lt;/xsl:matching-substring&gt;</span>
+44: <span class="ignored">			</span><span class="missed">&lt;xsl:non-matching-substring&gt;</span>
+45: <span class="ignored">				</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
+46: <span class="ignored">			</span><span class="missed">&lt;/xsl:non-matching-substring&gt;</span>
+47: <span class="ignored">		</span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
+48: 
+49: <span class="ignored">		</span><span class="hit">&lt;xsl:analyze-string regex="b" select="'a'"&gt;</span>
+50: <span class="ignored">			</span><span class="missed">&lt;xsl:matching-substring&gt;</span>
+51: <span class="ignored">				</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
+52: <span class="ignored">			</span><span class="missed">&lt;/xsl:matching-substring&gt;</span>
+53: <span class="ignored">			</span><span class="hit">&lt;xsl:non-matching-substring&gt;</span>
+54: <span class="ignored">				</span><span class="hit">&lt;hit /&gt;</span>
+55: <span class="ignored">			</span><span class="hit">&lt;/xsl:non-matching-substring&gt;</span>
+56: <span class="ignored">		</span><span class="hit">&lt;/xsl:analyze-string&gt;</span>
+57: 
+58: <span class="ignored">		</span><span class="ignored">&lt;!--</span>
+59: <span class="ignored">			xsl:otherwise</span>
+60: <span class="ignored">			xsl:when</span>
+61: <span class="ignored">		--&gt;</span>
+62: 
+63: <span class="ignored">		</span><span class="hit">&lt;xsl:choose&gt;</span>
+64: <span class="ignored">			</span><span class="hit">&lt;xsl:when test="1 lt 2"&gt;</span>
+65: <span class="ignored">				</span><span class="hit">&lt;hit /&gt;</span>
+66: <span class="ignored">			</span><span class="hit">&lt;/xsl:when&gt;</span>
+67: <span class="ignored">			</span><span class="missed">&lt;xsl:otherwise&gt;</span>
+68: <span class="ignored">				</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
+69: <span class="ignored">			</span><span class="missed">&lt;/xsl:otherwise&gt;</span>
+70: <span class="ignored">		</span><span class="hit">&lt;/xsl:choose&gt;</span>
+71: 
+72: <span class="ignored">		</span><span class="hit">&lt;xsl:choose&gt;</span>
+73: <span class="ignored">			</span><span class="missed">&lt;xsl:when test="2 lt 1"&gt;</span>
+74: <span class="ignored">				</span><span class="missed">&lt;xsl:message terminate="yes" /&gt;</span>
+75: <span class="ignored">			</span><span class="missed">&lt;/xsl:when&gt;</span>
+76: <span class="ignored">			</span><span class="hit">&lt;xsl:otherwise&gt;</span>
+77: <span class="ignored">				</span><span class="hit">&lt;hit /&gt;</span>
+78: <span class="ignored">			</span><span class="hit">&lt;/xsl:otherwise&gt;</span>
+79: <span class="ignored">		</span><span class="hit">&lt;/xsl:choose&gt;</span>
+80: <span class="ignored">	</span><span class="hit">&lt;/xsl:template&gt;</span>
+81: 
+82: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
+83: </pre>
+   </body>
+</html>
