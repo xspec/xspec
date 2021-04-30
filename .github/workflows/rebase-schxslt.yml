@@ -17,6 +17,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: schxslt
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
           set -ex
