@@ -18,6 +18,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           java-version: 8
+          distribution: zulu
           server-id: xspec-io.ossrh
           server-username: NEXUS_USERNAME
           server-password: NEXUS_PASSWORD

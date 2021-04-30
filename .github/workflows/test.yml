@@ -34,6 +34,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           java-version: ${{ matrix.java }}
+          distribution: zulu
 
       - name: Install Bats for Linux
         if: runner.os == 'Linux'
