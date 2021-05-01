@@ -6,6 +6,7 @@ parameters:
 
 jobs:
   - job: ${{ parameters.jobName }}
+    timeoutInMinutes: 0
 
     pool:
       vmImage: windows-latest
