@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../coverage_no-leading-string.xspec"
+        stylesheet="../../coverage_no-leading-string.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../coverage_no-leading-string.xspec">
+      <label>foo element</label>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec">
+            <foo/>
+         </x:context>
+      </input-wrap>
+      <result select="/element()">
+         <content-wrap xmlns="">
+            <bar/>
+         </content-wrap>
+      </result>
+      <test id="scenario1-expect1" successful="true">
+         <label>should be transformed into bar element</label>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <bar xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+</report>

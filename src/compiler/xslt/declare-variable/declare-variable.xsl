@@ -14,7 +14,7 @@
    <xsl:template name="x:declare-variable" as="element()+">
       <xsl:context-item as="element()" use="required" />
 
-      <xsl:param name="is-pending" as="xs:boolean" required="yes" />
+      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
       <xsl:param name="comment" as="xs:string?" />
       <xsl:param name="uqname" as="xs:string" required="yes" />
       <xsl:param name="exclude" as="element()*" required="yes" />
@@ -58,7 +58,7 @@
          <xsl:sequence select="@as" />
 
          <xsl:choose>
-            <xsl:when test="$is-pending">
+            <xsl:when test="exists($reason-for-pending)">
                <!-- Do not give variable a value, because the value specified
                   in test file might not be executable. Override data type, because
                   an empty sequence might not be valid for the type specified in test file. -->
