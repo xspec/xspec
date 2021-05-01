@@ -1,3 +1,11 @@
+trigger:
+  branches:
+    exclude:
+      - 'dependabot/*'
+  tags:
+    exclude:
+      - '*'
+
 jobs:
   - template: test/ci/azure-pipelines_windows.yml
     parameters:
