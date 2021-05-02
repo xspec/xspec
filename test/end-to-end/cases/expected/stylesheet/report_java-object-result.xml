@@ -6,8 +6,7 @@
    <scenario id="scenario1" xspec="../../report_java-object.xspec">
       <label>Java type</label>
       <input-wrap xmlns="">
-         <x:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+         <x:call xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="Q{java:java.lang.Runtime}getRuntime"/>
       </input-wrap>
       <result select="/*">
