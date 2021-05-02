@@ -19,6 +19,9 @@
        Unless, of course, we use XQueryX (XML representation of XQuery)...
    -->
 
+   <!-- Default $measure-time depends on global context item. Set it false here. -->
+   <t:param name="measure-time" select="false()" />
+
    <!--t:scenario label="FIRST TEST.......">
       <t:variable name="ctxt" as="document-node()">
          <t:description>
@@ -35,8 +38,7 @@
          <t:param name="apply" as="empty-sequence()" tunnel="yes" />
          <t:param name="call" as="empty-sequence()" tunnel="yes" />
          <t:param name="context" as="empty-sequence()" tunnel="yes" />
-         <t:param name="reason-for-pending" as="empty-sequence()" tunnel="yes" />
-         <t:param name="is-pending" select="false()" />
+         <t:param name="reason-for-pending" as="empty-sequence()" />
          <t:param name="run-sut-now" select="false()" />
       </t:call>
       <t:expect>
@@ -77,8 +79,7 @@
       <t:call template="t:compile-expect">
          <t:param name="call" as="empty-sequence()" tunnel="yes" />
          <t:param name="context" as="empty-sequence()" tunnel="yes" />
-         <t:param name="reason-for-pending" as="empty-sequence()" tunnel="yes" />
-         <t:param name="is-pending" select="false()" />
+         <t:param name="reason-for-pending" as="empty-sequence()" />
          <t:param name="param-uqnames" as="empty-sequence()" />
       </t:call>
       <t:expect label="is a template"

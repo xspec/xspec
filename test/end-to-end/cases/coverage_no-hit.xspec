@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description stylesheet="coverage_no-hit.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="Testing a stylesheet without any matching context">
+		<x:context />
+		<x:expect label="should be reported as 'not used' in the coverage report" />
+	</x:scenario>
+</x:description>

@@ -1,39 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="focus-vs-pending-attribute.xspec">
-   <testsuite name="/Neutral" tests="1" failures="0">
-      <testcase name="x:expect" status="skipped">
+   <testsuite name="/Neutral" tests="2" failures="0">
+      <testcase name="x:expect[empty(@pending)]" status="skipped">
          <skipped>Focus #1</skipped>
+      </testcase>
+      <testcase name="x:expect[@pending]" status="skipped">
+         <skipped>x:expect/@pending</skipped>
       </testcase>
    </testsuite>
-   <testsuite name="/Neutral" tests="16" failures="0">
-      <testcase name="x:expect" status="skipped">
+   <testsuite name="/Neutral" tests="32" failures="0">
+      <testcase name="x:expect[empty(@pending)]" status="skipped">
          <skipped>Focus #1</skipped>
       </testcase>
-      <testcase name="/Neutral x:expect" status="skipped">
+      <testcase name="x:expect[@pending]" status="skipped">
+         <skipped>x:expect/@pending</skipped>
+      </testcase>
+      <testcase name="/Neutral x:expect[empty(@pending)]" status="skipped">
          <skipped>Focus #1</skipped>
       </testcase>
-      <testcase name="/Focused #1 x:expect" status="passed"/>
-      <testcase name="/Focused #1 /Neutral x:expect" status="passed"/>
-      <testcase name="/Focused #1 /Neutral x:expect" status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Neutral x:expect" status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 x:expect" status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral x:expect"
+      <testcase name="/Neutral x:expect[@pending]" status="skipped">
+         <skipped>x:expect/@pending</skipped>
+      </testcase>
+      <testcase name="/Focused #1 x:expect[empty(@pending)]" status="passed"/>
+      <testcase name="/Focused #1 x:expect[@pending]" status="passed"/>
+      <testcase name="/Focused #1 /Neutral x:expect[empty(@pending)]" status="passed"/>
+      <testcase name="/Focused #1 /Neutral x:expect[@pending]" status="passed"/>
+      <testcase name="/Focused #1 /Neutral x:expect[empty(@pending)]" status="passed"/>
+      <testcase name="/Focused #1 /Neutral x:expect[@pending]" status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Neutral x:expect[empty(@pending)]"
                 status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral x:expect"
+      <testcase name="/Focused #1 /Neutral /Neutral x:expect[@pending]" status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 x:expect[empty(@pending)]"
                 status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Neutral x:expect"
+      <testcase name="/Focused #1 /Neutral /Pending #1 x:expect[@pending]"
                 status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 x:expect"
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral x:expect[empty(@pending)]"
                 status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral x:expect"
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral x:expect[@pending]"
                 status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral x:expect"
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral x:expect[empty(@pending)]"
                 status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Neutral x:expect"
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral x:expect[@pending]"
                 status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 x:expect"
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Neutral x:expect[empty(@pending)]"
                 status="passed"/>
-      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 /Neutral x:expect"
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Neutral x:expect[@pending]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 x:expect[empty(@pending)]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 x:expect[@pending]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral x:expect[empty(@pending)]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral x:expect[@pending]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral x:expect[empty(@pending)]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral x:expect[@pending]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Neutral x:expect[empty(@pending)]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Neutral x:expect[@pending]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 x:expect[empty(@pending)]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 x:expect[@pending]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 /Neutral x:expect[empty(@pending)]"
+                status="passed"/>
+      <testcase name="/Focused #1 /Neutral /Pending #1 /Neutral /Focused #2 /Neutral /Pending #2 /Neutral x:expect[@pending]"
                 status="passed"/>
    </testsuite>
 </testsuites>
