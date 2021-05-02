@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description
    xmlns:x="http://www.jenitennison.com/xslt/xspec"
-   xmlns:my="http://example.org/ns/my"
    query="http://example.org/ns/my"
    query-at="compilation-sut.xqm"
    stylesheet="compilation-sut.xsl"
