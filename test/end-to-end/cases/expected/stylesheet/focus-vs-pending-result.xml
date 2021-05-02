@@ -8,9 +8,7 @@
              pending="testing @focus alongside another focused scenario">
       <label>Test @focus and pending together (both @pending and x:pending)</label>
       <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
+         <t:call xmlns:t="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
             <t:param select="9"/>
          </t:call>
       </input-wrap>
