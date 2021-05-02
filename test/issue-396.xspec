@@ -15,7 +15,7 @@
 			all the following conditions are met:
 			- $only-child-elements global parameter is false.
 			- $visit-text global parameter is true.
-			- @location is not involved -->
+			- @location is not involved. -->
 		<x:expect-report id="above-mentioned" role="info" />
 
 		<!-- @location with text node doesn't work with the "skeleton" Schematron implementation.
