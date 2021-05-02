@@ -2957,8 +2957,15 @@ load bats-helper
 }
 
 #
-# Warn when a named template scenario has a context parameter
+# Warn when a named template scenario has a context mode or parameter
 #
+
+@test "Warning when x:call[@template] ignores x:context/@mode" {
+    run ../bin/xspec.sh context-mode-ignored.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "WARNING in x:scenario ('With x:context[@mode] and x:call[@template]'): x:context/@mode will have no effect on x:call" ]
+}
 
 @test "Warning when x:call[@template] ignores x:context/x:param" {
     run ../bin/xspec.sh context-param.xspec

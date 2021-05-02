@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description run-as="external" schematron="external_scenario-param.sch"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Enable /sch:schema/xsl:include -->
 	<x:param name="allow-foreign">true</x:param>
