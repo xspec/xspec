@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="../src/common/yes-no-utils.xsl"
+	xmlns:err="http://www.w3.org/2005/xqt-errors" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:scenario label="Scenario for testing function yes-no-synonym#1">
+		<x:scenario label="Valid strings">
+			<x:scenario label="Base (yes or no)">
+				<x:scenario label="'yes'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'yes'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'no'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'no'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="Synonym (true or false)">
+				<x:scenario label="'true'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'true'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'false'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'false'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+
+			<x:scenario label="Synonym (1 or 0)">
+				<x:scenario label="'1'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'1'" />
+					</x:call>
+					<x:expect label="True" select="true()" />
+				</x:scenario>
+
+				<x:scenario label="'0'">
+					<x:call function="x:yes-no-synonym">
+						<x:param select="'0'" />
+					</x:call>
+					<x:expect label="False" select="false()" />
+				</x:scenario>
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="Scenario for testing function yes-no-synonym#2">
+		<x:scenario label="Input true">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'true'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'true'" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Input false">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'false'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'false'" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="Input empty">
+			<x:scenario label="Default true">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="()" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="True" select="true()" />
+			</x:scenario>
+
+			<x:scenario label="Default false">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="()" />
+					<x:param select="false()" />
+				</x:call>
+				<x:expect label="False" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario catch="true" label="Unexpected input">
+			<x:scenario label="Zero-length string">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="''" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="Error without falling back on the default value"
+					select="xs:QName('err:XTTE0780')" test="?err?code" />
+			</x:scenario>
+
+			<x:scenario label="Bogus">
+				<x:call function="x:yes-no-synonym">
+					<x:param select="'bogus'" />
+					<x:param select="true()" />
+				</x:call>
+				<x:expect label="Error without falling back on the default value"
+					select="xs:QName('err:XTTE0780')" test="?err?code" />
+			</x:scenario>
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

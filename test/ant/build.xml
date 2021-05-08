@@ -51,6 +51,17 @@
 		</condition>
 		<echo message="xslt.supports.jref=${xslt.supports.jref}" />
 
+		<!-- Checks to see if XSLT processor supports timestamp -->
+		<java classname="net.sf.saxon.Transform" classpath="${java.class.path}" fork="true"
+			resultproperty="xslt.timestamp.compile.result">
+			<arg value="-nogo" />
+			<arg value="-xsl:${run-xspec-tests.basedir}/../caps/timestamp.xsl" />
+		</java>
+		<condition else="false" property="xslt.supports.timestamp">
+			<equals arg1="${xslt.timestamp.compile.result}" arg2="0" />
+		</condition>
+		<echo message="xslt.supports.timestamp=${xslt.supports.timestamp}" />
+
 		<!-- Checks to see if XQuery processor can be schema-aware ('-sa') -->
 		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
 			resultproperty="xquery.schema-aware.run.result">
@@ -81,27 +92,35 @@
 			<equals arg1="${xquery.jref.run.result}" arg2="0" />
 		</condition>
 		<echo message="xquery.supports.jref=${xquery.supports.jref}" />
+
+		<!-- Checks to see if XQuery processor supports timestamp -->
+		<java classname="net.sf.saxon.Query" classpath="${java.class.path}" fork="true"
+			resultproperty="xquery.timestamp.run.result">
+			<arg value="-q:${run-xspec-tests.basedir}/../caps/timestamp.xq" />
+		</java>
+		<condition else="false" property="xquery.supports.timestamp">
+			<equals arg1="${xquery.timestamp.run.result}" arg2="0" />
+		</condition>
+		<echo message="xquery.supports.timestamp=${xquery.supports.timestamp}" />
 	</target>
 
 	<!-- Generates the worker -->
 	<target depends="get-processor-caps" name="generate-worker">
-		<property location="${run-xspec-tests.basedir}/worker/config.xml" name="saxon.config" />
-
 		<xslt force="true" in="worker/build-worker_template.xml" out="${build.worker}"
 			style="worker/generate.xsl">
-			<factory name="net.sf.saxon.TransformerFactoryImpl">
-				<attribute name="http://saxon.sf.net/feature/configuration-file"
-					value="${saxon.config}" />
-			</factory>
 			<param expression="${xspecfiles.dir.url}" name="XSPECFILES-DIR-URI" />
 			<param expression="${xspecfiles.dir.url.query}" name="XSPECFILES-DIR-URI-QUERY" />
 			<param expression="${xslt.supports.schema}" name="XSLT-SUPPORTS-SCHEMA" type="BOOLEAN" />
 			<param expression="${xslt.supports.hof}" name="XSLT-SUPPORTS-HOF" type="BOOLEAN" />
 			<param expression="${xslt.supports.jref}" name="XSLT-SUPPORTS-JREF" type="BOOLEAN" />
+			<param expression="${xslt.supports.timestamp}" name="XSLT-SUPPORTS-TIMESTAMP"
+				type="BOOLEAN" />
 			<param expression="${xquery.supports.schema}" name="XQUERY-SUPPORTS-SCHEMA"
 				type="BOOLEAN" />
 			<param expression="${xquery.supports.hof}" name="XQUERY-SUPPORTS-HOF" type="BOOLEAN" />
 			<param expression="${xquery.supports.jref}" name="XQUERY-SUPPORTS-JREF" type="BOOLEAN" />
+			<param expression="${xquery.supports.timestamp}" name="XQUERY-SUPPORTS-TIMESTAMP"
+				type="BOOLEAN" />
 			<param expression="${run-xspec-tests.now}" if="run-xspec-tests.now" name="NOW" />
 			<param expression="${thread.count}" if="thread.count" name="THREAD-COUNT" type="INT" />
 		</xslt>

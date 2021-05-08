@@ -15,16 +15,6 @@
       </xsl:element>
    </xsl:function>
 
-   <!-- Returns true if the context element is considered as pending -->
-   <xsl:function name="x:is-pending" as="xs:boolean">
-      <xsl:param name="context-element" as="element()" />
-      <xsl:param name="reason" as="xs:string?" />
-
-      <xsl:sequence select="
-            exists($reason)
-            and empty($context-element/ancestor-or-self::x:scenario/@focus)" />
-   </xsl:function>
-
    <!-- Removes duplicate strings from a sequence of strings. (Removes a string if it appears
      in a prior position of the sequence.)
      Unlike fn:distinct-values(), the order of the returned sequence is stable.

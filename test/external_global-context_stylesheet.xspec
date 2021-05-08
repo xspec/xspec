@@ -2,24 +2,66 @@
 <x:description run-as="external" stylesheet="external_global-context.xsl"
 	xmlns:test="x-urn:test:external_global-context" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
-	<x:scenario label="Global context">
-		<x:context as="element(context-grandchild)" select="//context-grandchild">
-			<context-child>
-				<context-grandchild />
-			</context-child>
-		</x:context>
+	<x:helper stylesheet="test-utils.xsl" />
 
-		<x:scenario label="apply-templates invocation">
-			<x:context mode="test:get-global-context" />
-			<x:expect label="root document node of tree containing node specified by x:context"
-				test="$x:result is (root($x:context) treat as document-node(element(context-child)))"
-			 />
+	<x:scenario label="Global context item should be absent" shared="yes">
+		<x:expect label="err:code" select="QName('http://www.w3.org/2005/xqt-errors', 'XTDE3086')"
+			test="$x:result?err?code" />
+		<x:expect label="err:description"
+			select="'A global context item is required, but none has been supplied'"
+			test="$x:result?err?description" />
+		<x:expect label="err:module"
+			select="x:filename-without-extension($x:xspec-uri) || '-compiled.xsl'"
+			test="$x:result?err?module => x:filename-and-extension()" />
+	</x:scenario>
+
+	<x:scenario label="apply-templates invocation and call-template invocation">
+
+		<x:scenario label="x:context is a node">
+			<x:context as="element(context-grandchild)" select="//context-grandchild">
+				<context-child>
+					<context-grandchild />
+				</context-child>
+			</x:context>
+
+			<x:scenario label="apply-templates invocation">
+				<x:context mode="test:get-global-context" />
+				<x:expect label="root document node of tree containing node specified by x:context"
+					test="$x:result is (root($x:context) treat as document-node(element(context-child)))"
+				 />
+			</x:scenario>
+
+			<x:scenario label="call-template invocation">
+				<x:call template="test:get-global-context" />
+				<x:expect label="Global context item should be identical with x:context node"
+					test="$x:result is $x:context" />
+			</x:scenario>
 		</x:scenario>
 
-		<x:scenario label="call-template invocation">
-			<x:call template="test:get-global-context" />
-			<x:expect label="node specified by x:context" test="$x:result is $x:context" />
+		<x:scenario label="x:context is an atomic value">
+			<x:context select="'context-string'" />
+
+			<x:scenario catch="yes" label="apply-templates invocation">
+				<x:context mode="test:get-global-context" />
+				<x:like label="Global context item should be absent" />
+			</x:scenario>
+
+			<x:scenario label="call-template invocation">
+				<x:call template="test:get-global-context" />
+				<x:expect label="Global context item should be the same as x:context value"
+					select="$x:context" />
+			</x:scenario>
 		</x:scenario>
+
+		<x:scenario label="No x:context">
+			<!-- No apply-templates invocation -->
+
+			<x:scenario catch="yes" label="call-template invocation">
+				<x:call template="test:get-global-context" />
+				<x:like label="Global context item should be absent" />
+			</x:scenario>
+		</x:scenario>
+
 	</x:scenario>
 
 </x:description>

@@ -85,8 +85,8 @@
 
       <!-- Absolute URI of the master .xspec file -->
       <xsl:call-template name="x:declare-or-let-variable">
-         <xsl:with-param name="is-global" select="true()" />
-         <xsl:with-param name="name" select="x:known-UQName('x:xspec-uri')" />
+         <xsl:with-param name="as-global" select="true()" />
+         <xsl:with-param name="uqname" select="x:known-UQName('x:xspec-uri')" />
          <xsl:with-param name="type" select="'xs:anyURI'" />
          <xsl:with-param name="value" as="text()">
             <xsl:text expand-text="yes">xs:anyURI("{$initial-document-actual-uri}")</xsl:text>
@@ -124,11 +124,30 @@
       <!-- @date must be evaluated at run time -->
       <xsl:text>attribute { QName('', 'date') } { current-dateTime() },&#x0A;</xsl:text>
 
+      <xsl:if test="$measure-time">
+         <xsl:call-template name="x:timestamp">
+            <xsl:with-param name="event" select="'start'" />
+         </xsl:call-template>
+         <xsl:text>,&#x0A;</xsl:text>
+      </xsl:if>
+
       <!-- Generate invocations of the compiled top-level scenarios. -->
       <xsl:text>(: invoke each compiled top-level x:scenario :)&#x0A;</xsl:text>
-      <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
-         <xsl:with-param name="handled-child-vardecls" select="$global-vardecls" />
-      </xsl:call-template>
+      <xsl:sequence>
+         <xsl:call-template name="x:invoke-compiled-child-scenarios-or-expects">
+            <xsl:with-param name="handled-child-vardecls" select="$global-vardecls" />
+         </xsl:call-template>
+         <xsl:on-empty>
+            <xsl:text>()&#x0A;</xsl:text>
+         </xsl:on-empty>
+      </xsl:sequence>
+
+      <xsl:if test="$measure-time">
+         <xsl:text>,&#x0A;</xsl:text>
+         <xsl:call-template name="x:timestamp">
+            <xsl:with-param name="event" select="'end'" />
+         </xsl:call-template>
+      </xsl:if>
 
       <!-- </x:report> -->
       <xsl:text>}&#x0A;</xsl:text>
@@ -147,6 +166,7 @@
    <xsl:include href="declare-variable/declare-variable.xsl" />
    <xsl:include href="initial-check/perform-initial-check.xsl" />
    <xsl:include href="invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
+   <xsl:include href="measure-time/timestamp.xsl" />
    <xsl:include href="node-constructor/node-constructor.xsl" />
    <xsl:include href="report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
    <xsl:include href="serialize/disable-escaping.xsl" />

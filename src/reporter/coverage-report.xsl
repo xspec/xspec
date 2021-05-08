@@ -272,9 +272,11 @@
             <xsl:if test="position() != 1">
                <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
             </xsl:if>
-            <span class="{$coverage}">
-               <xsl:value-of select="." />
-            </span>
+            <xsl:where-populated>
+               <span class="{$coverage}">
+                  <xsl:value-of select="." />
+               </span>
+            </xsl:where-populated>
          </xsl:for-each>
 
          <xsl:next-iteration>
@@ -367,6 +369,10 @@
          <xsl:when test="empty(ancestor::xsl:*[parent::xsl:stylesheet or parent::xsl:transform])">ignored</xsl:when>
          <xsl:when test="self::xsl:param">
             <xsl:sequence select="local:coverage(parent::*, $module)" />
+         </xsl:when>
+         <xsl:when test="self::xsl:context-item">
+            <!-- Saxon does not seem to call enter() for xsl:context-item (xspec/xspec#1410) -->
+            <xsl:sequence select="local:coverage(parent::xsl:template, $module)" />
          </xsl:when>
          <xsl:otherwise>missed</xsl:otherwise>
       </xsl:choose>

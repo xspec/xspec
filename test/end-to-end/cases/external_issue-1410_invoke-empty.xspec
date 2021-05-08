@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+
+<!-- @run-as="external" is for xsl:global-context-item[@use = 'required'] -->
+<x:description run-as="external" stylesheet="external_issue-1410.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+	<!--
+		- Test a "hit" case of the mode="empty" template by invoking mode="empty".
+		- Test a "missed" case of the mode="not-empty" template by not invoking mode="not-empty".
+	-->
+	<x:scenario label="Template containing no elements but xsl:context-item">
+		<x:context mode="empty">
+			<foo />
+		</x:context>
+		<x:expect as="empty-sequence()" label="Result" />
+	</x:scenario>
+
+</x:description>

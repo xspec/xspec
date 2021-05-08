@@ -10,6 +10,7 @@
 	-->
 
 	<xsl:include href="../../../src/common/version-utils.xsl" />
+	<xsl:include href="../../../src/common/yes-no-utils.xsl" />
 	<xsl:include href="../../test-utils.xsl" />
 
 	<xsl:output indent="yes" />
@@ -24,11 +25,13 @@
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-JREF" required="yes" />
+	<xsl:param as="xs:boolean" name="XSLT-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- XQuery processor capabilities -->
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-SCHEMA" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-HOF" required="yes" />
 	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-JREF" required="yes" />
+	<xsl:param as="xs:boolean" name="XQUERY-SUPPORTS-TIMESTAMP" required="yes" />
 
 	<!-- Saxon -now option -->
 	<xsl:param as="xs:string?" name="NOW" />
@@ -55,11 +58,17 @@
 			<xsl:apply-templates select="attribute() | node()" />
 
 			<xsl:variable as="xs:string" name="collection-uri"
-				select="string-join(($XSPECFILES-DIR-URI, $XSPECFILES-DIR-URI-QUERY), '?')" />
+				select="($XSPECFILES-DIR-URI, $XSPECFILES-DIR-URI-QUERY) => string-join('?')" />
 
 			<!--<xsl:message select="'Collecting:', $collection-uri" />-->
-			<xsl:variable as="document-node()+" name="xspec-docs"
-				select="collection($collection-uri)" />
+			<!-- collection() does not always work, due to a Saxon design change introduced by
+				https://saxonica.plan.io/issues/4382. Setting <fileExtension> in a Saxon config file
+				makes collection() work, but its /configuration/@edition ties Saxon to a specific
+				edition (HE, PE or EE). A possible workaround, 'content-type' query parameter
+				mentioned in https://saxonica.plan.io/issues/4476#note-14, is not widely available.
+				Use uri-collection() + doc() instead. -->
+			<xsl:variable as="document-node(element(x:description))+" name="xspec-docs"
+				select="uri-collection($collection-uri) ! doc(.)" />
 
 			<parallel failonany="true">
 				<xsl:choose>
@@ -102,6 +111,8 @@
 		<xsl:variable as="processing-instruction(xspec-test)*" name="pis"
 			select="processing-instruction(xspec-test)" />
 		<xsl:variable as="xs:boolean" name="enable-coverage" select="$pis = 'enable-coverage'" />
+		<xsl:variable as="xs:boolean" name="require-timestamp"
+			select="x:description/@measure-time => x:yes-no-synonym(false())" />
 
 		<xsl:for-each select="x:description/(@query | @schematron | @stylesheet)">
 			<xsl:sort select="name()" />
@@ -145,6 +156,13 @@
 					</xsl:when>
 
 					<xsl:when test="
+							($test-type = ('s', 't'))
+							and $require-timestamp
+							and not($XSLT-SUPPORTS-TIMESTAMP)">
+						<xsl:text>Requires XSLT processor to support timestamp</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
 							($test-type eq 'q')
 							and ($pis = 'require-xquery-to-support-schema')
 							and not($XQUERY-SUPPORTS-SCHEMA)">
@@ -163,6 +181,13 @@
 							and ($pis = 'require-xquery-to-support-jref')
 							and not($XQUERY-SUPPORTS-JREF)">
 						<xsl:text>Requires XQuery processor to support Java reflexive extension functions</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+							($test-type eq 'q')
+							and $require-timestamp
+							and not($XQUERY-SUPPORTS-TIMESTAMP)">
+						<xsl:text>Requires XQuery processor to support timestamp</xsl:text>
 					</xsl:when>
 
 					<xsl:when test="

@@ -9,9 +9,7 @@
              pending="testing @focus alongside another focused scenario">
       <label>Test @focus and pending together (both @pending and x:pending)</label>
       <input-wrap xmlns="">
-         <t:call xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                 xmlns:t="http://www.jenitennison.com/xslt/xspec"
-                 function="exactly-one">
+         <t:call xmlns:t="http://www.jenitennison.com/xslt/xspec" function="exactly-one">
             <t:param select="9"/>
          </t:call>
       </input-wrap>
@@ -50,10 +48,10 @@
       </scenario>
       <scenario id="scenario1-scenario5"
                 xspec="../../focus-vs-pending.xspec"
-                pending="testing @pending without @focus">
+                pending="testing x:scenario[empty(@focus)]/@pending">
          <label>an erroneous scenario with @pending must be Pending</label>
          <test id="scenario1-scenario5-expect1"
-               pending="testing @pending without @focus">
+               pending="testing x:scenario[empty(@focus)]/@pending">
             <label>it would throw an error if it were not Pending</label>
          </test>
       </scenario>
@@ -61,6 +59,23 @@
          <label>a Success scenario with both @pending and @focus (not recommended as ambiguous)</label>
          <result select="9"/>
          <test id="scenario1-scenario6-expect1" successful="true">
+            <label>must execute the test and return Success</label>
+            <expect select="9"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario7"
+                xspec="../../focus-vs-pending.xspec"
+                pending="testing @focus alongside another focused scenario">
+         <label>a Success x:expect with @pending must be Pending</label>
+         <test id="scenario1-scenario7-expect1"
+               pending="testing x:expect/@pending without ancestor::x:scenario/@focus">
+            <label>it would return Success if it were not Pending</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario8" xspec="../../focus-vs-pending.xspec">
+         <label>a Success x:expect with both @pending and ancestor::x:scenario/@focus (not recommended as ambiguous)</label>
+         <result select="9"/>
+         <test id="scenario1-scenario8-expect1" successful="true">
             <label>must execute the test and return Success</label>
             <expect select="9"/>
          </test>

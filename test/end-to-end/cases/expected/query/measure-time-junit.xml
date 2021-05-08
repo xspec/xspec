@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="measure-time.xspec">
+   <testsuite name="x:scenario[x:scenario][empty(x:call)][empty(x:expect)]"
+              tests="2"
+              failures="0">
+      <testcase name="x:scenario[parent::x:scenario][x:call][x:expect][empty(@pending)] x:expect[preceding-sibling::x:call]"
+                status="passed"/>
+      <testcase name="x:scenario[parent::x:scenario][x:call][x:expect][@pending] x:expect[preceding-sibling::x:call]"
+                status="skipped">
+         <skipped>pending</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="x:scenario[parent::x:description][x:call][x:expect][empty(@pending)]"
+              tests="1"
+              failures="0">
+      <testcase name="x:expect[preceding-sibling::x:call]" status="passed"/>
+   </testsuite>
+   <testsuite name="x:scenario[parent::x:description][x:call][x:expect][@pending]"
+              tests="1"
+              failures="0">
+      <testcase name="x:expect[preceding-sibling::x:call]" status="skipped">
+         <skipped>pending</skipped>
+      </testcase>
+   </testsuite>
+   <testsuite name="x:scenario[parent::x:description][empty(node())][empty(@pending)]"
+              tests="0"
+              failures="0"/>
+   <testsuite name="x:scenario[parent::x:description][empty(node())][@pending]"
+              tests="0"
+              failures="0"/>
+   <testsuite name="x:scenario[x:call][empty(x:expect)]" tests="1" failures="0">
+      <testcase name="x:scenario[empty(x:call)][x:expect] x:expect[empty(preceding-sibling::x:call)]"
+                status="passed"/>
+   </testsuite>
+</testsuites>
