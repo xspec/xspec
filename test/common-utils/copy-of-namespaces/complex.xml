@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wrapper-element xmlns="wrapper-default-ns" xmlns:wrapper-prefix="wrapper-prefixed-ns">
+	<input-element xmlns="default-ns" xmlns:prefix="prefixed-ns" />
+</wrapper-element>

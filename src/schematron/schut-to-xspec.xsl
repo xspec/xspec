@@ -16,7 +16,7 @@
     <xsl:param name="stylesheet-uri" as="xs:string" select="document-uri($stylesheet-doc)" />
 
     <xsl:include href="../common/common-utils.xsl" />
-    <xsl:include href="../common/namespace-utils.xsl" />
+    <xsl:include href="../common/namespace-vars.xsl" />
     <xsl:include href="../common/trim.xsl" />
     <xsl:include href="../common/uqname-utils.xsl" />
     <xsl:include href="../common/uri-utils.xsl" />

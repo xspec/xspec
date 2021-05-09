@@ -63,3 +63,51 @@ as xs:string
 	return
 		($x:apos || $escaped || $x:apos)
 };
+
+(:
+	Makes copies of namespaces from element.
+	The standard 'xml' namespace is excluded.
+:)
+declare function x:copy-of-namespaces(
+$element as element()
+)
+as namespace-node()*
+{
+	in-scope-prefixes($element)[. ne 'xml']
+	! namespace {.} {namespace-uri-for-prefix(., $element)}
+};
+
+(:
+	Makes copies of namespaces (sorted by their prefixes) from the element.
+	The standard 'xml' and the element name prefix are excluded.
+
+		Example:
+			in:
+				<prefix1:e xmlns="default"
+				           xmlns:prefix3="three"
+				           xmlns:prefix2="two"
+				           xmlns:prefix1="one" />
+			out:
+				xmlns="default"
+				xmlns:prefix2="two"
+				xmlns:prefix3="three"
+:)
+declare function x:copy-of-additional-namespaces(
+$element as element()
+)
+as namespace-node()*
+{
+	let $element-name-prefix as xs:string := (
+	$element
+	=> node-name()
+	=> prefix-from-QName()
+	=> string()
+	)
+	let $additional-namespace-nodes as namespace-node()* :=
+	x:copy-of-namespaces($element)[name() ne $element-name-prefix]
+	return
+		(: Sort for better serialization (hopefully) :)
+		for $prefix in sort($additional-namespace-nodes ! name())
+		return
+			$additional-namespace-nodes[name() eq $prefix]
+};

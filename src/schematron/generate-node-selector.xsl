@@ -3,7 +3,7 @@
 	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:include href="../common/namespace-utils.xsl" />
+	<xsl:include href="../common/namespace-vars.xsl" />
 
 	<xsl:global-context-item use="absent" />
 

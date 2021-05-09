@@ -22,7 +22,7 @@
 
    <xsl:include href="../common/common-utils.xsl" />
    <xsl:include href="../common/deep-equal.xsl" />
-   <xsl:include href="../common/namespace-utils.xsl" />
+   <xsl:include href="../common/namespace-vars.xsl" />
    <xsl:include href="../common/wrap.xsl" />
    <xsl:include href="format-utils.xsl" />
 

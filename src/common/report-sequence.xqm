@@ -169,10 +169,7 @@ declare %private function rep:report-node(
 
   else if ($node instance of element()) then
     element { node-name($node) } {
-      (
-        in-scope-prefixes($node)
-        ! namespace { . } { namespace-uri-for-prefix(., $node) }
-      ),
+      x:copy-of-additional-namespaces($node),
       $node/attribute(),
       ($node/child::node() ! rep:report-node(.))
     }
