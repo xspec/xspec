@@ -13,7 +13,6 @@
    <xsl:template name="x:compile-scenario" as="node()+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <!-- No $apply for XQuery -->
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
       <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
