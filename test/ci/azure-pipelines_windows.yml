@@ -6,6 +6,7 @@ parameters:
 
 jobs:
   - job: ${{ parameters.jobName }}
+    timeoutInMinutes: 0
 
     pool:
       vmImage: windows-latest
@@ -14,6 +15,7 @@ jobs:
       maxParallel: 5
 
       matrix:
+        # saxon-9-8 not included in favor of GitHub Actions
         Saxon-10:
           XSPEC_TEST_ENV: saxon-10
 
@@ -22,9 +24,6 @@ jobs:
 
         Oxygen:
           XSPEC_TEST_ENV: oxygen
-
-        Saxon-9-8:
-          XSPEC_TEST_ENV: saxon-9-8
 
     steps:
       - task: JavaToolInstaller@0

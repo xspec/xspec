@@ -73,6 +73,16 @@
             </xsl:call-template>
          </xsl:message>
       </xsl:if>
+      <xsl:if test="$context/@mode and $call">
+         <xsl:message>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="level" select="'WARNING'" />
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">{name($context)}/@{name($context/@mode)} will have no effect on {name($call)}</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
+      </xsl:if>
       <xsl:if test="$context/x:param and $call">
          <xsl:message>
             <xsl:call-template name="x:prefix-diag-message">
@@ -397,6 +407,7 @@
       <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
       <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
+         <xsl:attribute name="as" select="'item()*'" />
          <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
       </xsl:element>
    </xsl:template>

@@ -90,15 +90,13 @@ declare function deq:node-deep-equal(
     string($node1) eq string($node2)
 
   else if ( ( $node1 instance of attribute() and $node2 instance of attribute() )
+            or ( $node1 instance of comment() and $node2 instance of comment() )
             or ( $node1 instance of processing-instruction()
                  and $node2 instance of processing-instruction())
             or ( $node1 instance of namespace-node()
                  and $node2 instance of namespace-node() ) ) then
     deep-equal(node-name($node1), node-name($node2))
-      and (string($node1) eq string($node2) or string($node1) = '...')
-
-  else if ( $node1 instance of comment() and $node2 instance of comment() ) then
-    string($node1) eq string($node2) or string($node1) = '...'
+      and (string($node1) = (string($node2), '...'))
 
   else
     false()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
 	xmlns:mirror="x-urn:test:mirror" xmlns:use-uqname="x-urn:test:use-uqname"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- Leading and trailing whitespace strings ('&#x09;&#x0A;&#x0D;&#x20;') are inserted to the
 		tested attributes deliberately.

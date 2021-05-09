@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-xslt-to-support-schema?>
-<x:description stylesheet="issue-23_2.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<x:description stylesheet="issue-23_2.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!-- https://github.com/xspec/xspec/issues/23#issuecomment-266236525 -->
 
@@ -9,4 +8,5 @@
 		<x:context href="issue-23_2_context.xml" />
 		<x:expect label="Result" select="$expect" />
 	</x:scenario>
+
 </x:description>
