@@ -789,6 +789,19 @@
     call :verify_retval 0
 	</case>
 
+	<case ifdef="BASEX_JAR XMLCALABASH_JAR" name="BaseX with no-prefix.xspec">
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+        -i source=no-prefix.xspec ^
+        -o result="file:///%WORK_DIR:\=/%/no-prefix-result_%RANDOM%.html" ^
+        -p basex-jar="%BASEX_JAR%" ^
+        -p compiled-file="file:///%WORK_DIR:\=/%/compiled_%RANDOM%.xq" ^
+        -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        ..\src\harnesses\basex\basex-standalone-xquery-harness.xproc
+    call :verify_retval 0
+    call :verify_line_count 2
+    call :verify_line 2 r "..*:passed: 10 / pending: 0 / failed: 0 / total: 10"
+	</case>
+
 	<!--
 		Ant with minimum properties
 	-->
