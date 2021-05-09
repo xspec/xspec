@@ -2547,8 +2547,14 @@
 	</case>
 
 	<!--
-		Warn when a named template scenario has a context parameter
+		Warn when a named template scenario has a context mode or parameter
 	-->
+
+	<case name="Warning when x:call[@template] ignores x:context/@mode">
+    call :run ..\bin\xspec.bat context-mode-ignored.xspec
+    call :verify_retval 0
+    call :verify_line 4 x "WARNING in x:scenario ('With x:context[@mode] and x:call[@template]'): x:context/@mode will have no effect on x:call"
+	</case>
 
 	<case name="Warning when x:call[@template] ignores x:context/x:param">
     call :run ..\bin\xspec.bat context-param.xspec
