@@ -136,8 +136,8 @@
                <xsl:with-param name="event" select="'start'" />
             </xsl:call-template>
 
-            <!-- Handle local preceding variable declarations and apply/call/context in document
-               order, instead of apply/call/context first and variable declarations second. -->
+            <!-- Handle local preceding variable declarations and x:call/x:context in document
+               order, instead of x:call/x:context first and variable declarations second. -->
             <xsl:for-each select="$local-preceding-vardecls | x:call | x:context">
                <xsl:choose>
                   <xsl:when test="self::x:call or self::x:context">
