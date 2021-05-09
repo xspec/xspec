@@ -340,7 +340,7 @@ return
 The SUT (or System Under Test) is the component tested in a
 scenario. In XSpec, this is either an XSLT template (named or
 rule) or an XPath function (written either in XSLT or XQuery).
-Here, we use it to refer to the three ways to refer to the SUT
+Here, we use it to refer to the two ways to refer to the SUT
 itself, as well as parameters to use for the current scenario:
 `x:call` and `x:context` (so that's not strictly speaking
 the SUT itself, but rather the way to "call" it for this
@@ -492,7 +492,7 @@ Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)
 
 ## Variables
 
-The `x:variable` element in the XSpec namespace defines an XSpec variable. Any number of `x:variable` elements can occur as a child of `x:description` or `x:scenario`. In `x:scenario`, an `x:variable` element can occur before or after `x:context`, `x:call`, `x:apply` (not implemented yet), or `x:expect`. XSpec variables can be redefined locally, but names of global XSpec variables must be unique. XSpec variables can be referenced in XPath expressions, such as in `@select` and `@test` attributes.
+The `x:variable` element in the XSpec namespace defines an XSpec variable. Any number of `x:variable` elements can occur as a child of `x:description` or `x:scenario`. In `x:scenario`, an `x:variable` element can occur before or after `x:context`, `x:call`, or `x:expect`. XSpec variables can be redefined locally, but names of global XSpec variables must be unique. XSpec variables can be referenced in XPath expressions, such as in `@select` and `@test` attributes.
 
 The first example shows how an XSpec variable maps to an `xsl:variable` element in generated XSLT code or a `let` statement in generated XQuery code.
 
