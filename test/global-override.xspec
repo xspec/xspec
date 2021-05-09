@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="global-override.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<x:description stylesheet="global-override.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<!--
 		Checks to see if /x:description/x:param and (/x:description | //x:scenario)/x:variable in
