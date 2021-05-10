@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		This test is based on unfocused-variable_not-inherited-by-focus.xspec, except that
+		the variable is referenced via x:like. The structure mentioned next is the structure
+		after resolving x:like.
+
+		Test //x:scenario/x:variable when they are unfocused by @focus on a non-inner scenario.
+	-->
+
+	<x:scenario focus="focus" label="Focused scenario" />
+
+	<x:scenario label="Scenario variable" shared="yes">
+		<x:variable name="myv:unfocused-scenario-variable"
+			select="error() div 0 + $bogus:nonexistent" />
+	</x:scenario>
+
+	<x:scenario label="Unfocused scenario">
+		<x:call function="Q{bogus}nonexistent" />
+		<x:like label="Scenario variable" />
+		<x:expect
+			label="Unfocused scenario-level variable should not be instantiated, unless inherited by a focused scenario"
+			select="$myv:unfocused-scenario-variable" />
+	</x:scenario>
+
+</x:description>
