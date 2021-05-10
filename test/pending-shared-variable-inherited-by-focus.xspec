@@ -14,7 +14,7 @@
 		<x:variable name="scenario-variable-under-x-pending-or-pending-attribute" select="9" />
 	</x:scenario>
 
-	<x:scenario label="Test x:variable under @pending and x:pending when it's inherited by @focus">
+	<x:scenario label="Test x:variable under @pending and x:pending when it's inherited by @focus and referenced by x:like">
 
 		<x:call function="exactly-one">
 			<x:param select="9" />

@@ -13,7 +13,7 @@
 		<x:param name="scenario-param-under-x-pending-or-pending-attribute" select="9" />
 	</x:scenario>
 
-	<x:scenario label="Test scenario-level x:param under @pending and x:pending when it's inherited by @focus and reference by x:like">
+	<x:scenario label="Test scenario-level x:param under @pending and x:pending when it's inherited by @focus and referenced by x:like">
 
 		<x:call function="mirror:param-mirror">
 			<x:param select="9" />
