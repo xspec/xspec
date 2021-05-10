@@ -17,9 +17,13 @@
 			<x:call function="false" />
 			<x:expect label="Unfocused description-level variable should hold its original value"
 				select="'VARIABLE'" test="$myv:description-variable" />
-			<x:expect label="Unfocused scenario-level variable in an outer scenario should be empty"
-				select="()" test="$myv:outer-scenario-variable" />
+			<x:expect
+				label="Unfocused scenario-level variable in an outer scenario should hold its original value, if inherited by a focused scenario"
+				select="'variable'" test="$myv:outer-scenario-variable" />
 		</x:scenario>
 	</x:scenario>
+
+	<x:scenario focus="focus in another scenario tree"
+		label="@focus on this scenario should not make $myv:description-variable and $myv:outer-scenario-variable pending" />
 
 </x:description>
