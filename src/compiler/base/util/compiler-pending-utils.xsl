@@ -22,6 +22,14 @@
                   reasons. -->
             </xsl:when>
 
+            <xsl:when test="
+                  $context-element[self::x:param | self::x:variable]
+                  /following-sibling::element()
+                  /descendant-or-self::x:scenario[@focus]">
+               <!-- No reason for pending. @focus on a scenario who inherits variable declaration
+                  from the context element negates any reasons. -->
+            </xsl:when>
+
             <xsl:otherwise>
                <!-- The nearest explicit reason (@pending or x:pending's label) -->
                <xsl:variable name="explicit-reason" as="xs:string?" select="
