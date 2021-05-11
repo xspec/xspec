@@ -162,7 +162,8 @@
                      <!-- Handle local preceding variable declarations. The other local variable
                         declarations are handled in mode="local:invoke-compiled-scenarios-or-expects"
                         in invoke-compiled-child-scenarios-or-expects.xsl. -->
-                     <xsl:apply-templates select="." mode="x:declare-variable" />
+                     <xsl:apply-templates select=".[x:reason-for-pending(.) => empty()]"
+                        mode="x:declare-variable" />
                   </xsl:when>
 
                   <xsl:otherwise>
