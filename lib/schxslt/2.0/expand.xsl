@@ -33,15 +33,7 @@
 
   <!-- Instantiate an abstract rule -->
   <xsl:template match="sch:extends[@rule]" mode="schxslt:expand">
-    <xsl:variable name="parent" as="element(sch:rule)?"
-                  select="(ancestor::sch:pattern|ancestor::sch:schema/sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]"/>
-    <xsl:if test="empty($parent)">
-      <xsl:variable name="message">
-        The current pattern defines no abstract rule named '<xsl:value-of select="@rule"/>'.
-      </xsl:variable>
-      <xsl:message terminate="yes" select="error(xs:QName('error:E0004'), normalize-space($message))"/>
-    </xsl:if>
-    <xsl:sequence select="$parent/node()"/>
+    <xsl:sequence select="ancestor::sch:schema/(sch:pattern | sch:rules)/sch:rule[@abstract = 'true'][@id = current()/@rule]/node()"/>
   </xsl:template>
 
   <!-- Instantiate an abstract pattern -->
