@@ -89,8 +89,8 @@
    <!--
       Declare variables
    -->
-   <xsl:template match="x:param | x:variable" as="node()+"
-      mode="local:invoke-compiled-scenarios-or-expects">
+   <xsl:template match="(x:param | x:variable)[x:reason-for-pending(.) => empty()]"
+      as="node()+" mode="local:invoke-compiled-scenarios-or-expects">
       <xsl:apply-templates select="." mode="x:declare-variable" />
    </xsl:template>
 

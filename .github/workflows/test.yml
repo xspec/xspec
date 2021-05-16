@@ -5,6 +5,7 @@ on:
     branches-ignore:
       - 'dependabot/**'
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
@@ -24,14 +25,17 @@ jobs:
           - os: windows-latest
             env: saxon-9-8
           - os: macos-latest
+            env: saxon-9-9
+          - os: macos-latest
             env: saxon-9-8
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2.3.4
 
-      - uses: actions/setup-java@v1
+      - uses: actions/setup-java@v2
         with:
           java-version: ${{ matrix.java }}
+          distribution: zulu
 
       - name: Install Bats for Linux
         if: runner.os == 'Linux'

@@ -11,9 +11,6 @@
 
 	<x:import href="xmlns-imported.xspec"/>
 
-	<!-- TODO: If x:apply is implemented in the future, add tests for its behavior
-		with respect to namespace declarations. -->
-
 	<x:param name="t1:paramElementA" as="element()">
 		<override/>
 	</x:param>

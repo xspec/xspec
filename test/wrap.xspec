@@ -2,7 +2,6 @@
 <t:description xmlns:items="x-urn:test:xspec-items"
                xmlns:local="urn:x-xspec:common:wrap:local"
                xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                stylesheet="items.xsl">
 
    <!--
