@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="../subtract.xsl" xmlns:my="http://example.org/ns/my"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description stylesheet="../subtract.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:scenario
 		label="Multiple instances of context template-param (i.e. //x:context/x:param) of the same name">

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test //x:scenario/x:variable when they are unfocused by @focus on a non-inner scenario.
+	-->
+
+	<x:scenario focus="focus" label="Focused scenario" />
+
+	<x:scenario label="Unfocused scenario">
+		<x:variable name="myv:unfocused-scenario-variable"
+			select="error() div 0 + $bogus:nonexistent" />
+		<x:call function="Q{bogus}nonexistent" />
+		<x:expect
+			label="Unfocused scenario-level variable should not be instantiated, unless inherited by a focused scenario"
+			select="$myv:unfocused-scenario-variable" />
+	</x:scenario>
+
+</x:description>
