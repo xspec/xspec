@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="catalog-01:/example.xml" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="dummy" />
+</x:description>
