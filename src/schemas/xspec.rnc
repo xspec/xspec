@@ -315,7 +315,9 @@ expect-valid =
     ## In the Schematron an <assert> or <report> can have a <role> attribute 
     ## specifying that it is a warning or informational message and these are 
     ## considered to be allowed for a passing validation.
-    element expect-valid { empty }
+    element expect-valid {
+        pending-attribute?
+    }
 
 expect-assert = 
     ## In a Schematron test, verify that an <assert> is thrown.
@@ -356,6 +358,8 @@ expect-not-report =
 expect-rule = 
     ## In a Schematron test, verify that a <rule> is fired.
     element expect-rule {
+        pending-attribute?,
+
         ## Optional label to describe the expectation.
         attribute label { text }?,
 
@@ -369,6 +373,8 @@ expect-rule =
     }
 
 common-schematron-assert-report-expect-attributes = 
+    pending-attribute?,
+
     ## Optional label to describe the expectation.
     attribute label { text }?,
 
