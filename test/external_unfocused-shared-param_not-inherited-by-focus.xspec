@@ -16,12 +16,14 @@
 		<x:param name="unfocused-scenario-param" select="error() div 0 + $bogus:nonexistent" />
 	</x:scenario>
 
-	<x:scenario label="Unfocused scenario">
-		<x:call function="Q{bogus}nonexistent" />
+	<x:scenario label="Unfocused outer scenario">
 		<x:like label="Scenario parameter" />
-		<x:expect
-			label="Unfocused scenario-level param should not be instantiated, unless inherited by a focused scenario"
-			select="$unfocused-scenario-param" />
+		<x:scenario label="Unfocused inner scenario">
+			<x:call function="Q{bogus}nonexistent" />
+			<x:expect
+				label="Unfocused scenario-level param should not be instantiated, unless inherited by a focused scenario"
+				select="$unfocused-scenario-param" />
+		</x:scenario>
 	</x:scenario>
 
 </x:description>
