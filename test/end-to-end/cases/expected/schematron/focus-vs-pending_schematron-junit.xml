@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="focus-vs-pending_schematron.xspec">
+   <testsuite name="Test @focus and @pending on Schematron-specific x:expect-* elements together"
+              tests="24"
+              failures="12">
+      <testcase name="Schematron-specific x:expect-* elements in a non-pending scenario alongside a focused scenario must be Pending assert"
+                status="skipped">
+         <skipped>testing @focus alongside another focused scenario</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a non-pending scenario alongside a focused scenario must be Pending report"
+                status="skipped">
+         <skipped>testing @focus alongside another focused scenario</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a non-pending scenario alongside a focused scenario must be Pending not assert"
+                status="skipped">
+         <skipped>testing @focus alongside another focused scenario</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a non-pending scenario alongside a focused scenario must be Pending not report"
+                status="skipped">
+         <skipped>testing @focus alongside another focused scenario</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a non-pending scenario alongside a focused scenario must be Pending rule"
+                status="skipped">
+         <skipped>testing @focus alongside another focused scenario</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a non-pending scenario alongside a focused scenario must be Pending valid"
+                status="skipped">
+         <skipped>testing @focus alongside another focused scenario</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test assert"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test report"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test not assert"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test not report"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test rule"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}fired-rule)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test valid"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with @pending must be Pending assert"
+                status="skipped">
+         <skipped>testing @pending on x:expect-assert</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with @pending must be Pending report"
+                status="skipped">
+         <skipped>testing @pending on x:expect-report</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with @pending must be Pending not assert"
+                status="skipped">
+         <skipped>testing @pending on x:expect-not-assert</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with @pending must be Pending not report"
+                status="skipped">
+         <skipped>testing @pending on x:expect-not-report</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with @pending must be Pending rule"
+                status="skipped">
+         <skipped>testing @pending on x:expect-rule</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with @pending must be Pending valid"
+                status="skipped">
+         <skipped>testing @pending on x:expect-valid</skipped>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous) assert"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous) report"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous) not assert"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous) not report"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous) rule"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}fired-rule)</failure>
+      </testcase>
+      <testcase name="Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous) valid"
+                status="failed">
+         <failure message="expect assertion failed">Expecting: Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])</failure>
+      </testcase>
+   </testsuite>
+</testsuites>

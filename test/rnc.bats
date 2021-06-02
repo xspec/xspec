@@ -62,19 +62,15 @@ load bats-helper
 @test "Schema detects errors in x:compile-scenario test" {
     # '-t' for identifying the last line
     run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
-        error-compiling-scenario/apply-with-call.xspec \
-        error-compiling-scenario/apply-with-context.xspec \
         error-compiling-scenario/call-both-function-and-template.xspec \
         error-compiling-scenario/context-both-href-and-content.xspec \
         error-compiling-scenario/function-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${lines[0]}" '.+: error: element "x:apply" not allowed anywhere;'
-    assert_regex "${lines[1]}" '.+: error: element "x:apply" not allowed anywhere;'
-    assert_regex "${lines[2]}" '.+: error: attribute "template" not allowed here;'
-    assert_regex "${lines[3]}" '.+: error: element "context-child" not allowed here;'
-    assert_regex "${lines[4]}" '.+: error: attribute "function" not allowed here;'
-    assert_regex "${lines[5]}" '^Elapsed time '
+    assert_regex "${lines[0]}" '.+: error: attribute "template" not allowed here;'
+    assert_regex "${lines[1]}" '.+: error: element "context-child" not allowed here;'
+    assert_regex "${lines[2]}" '.+: error: attribute "function" not allowed here;'
+    assert_regex "${lines[3]}" '^Elapsed time '
 }
 
 @test "Schema detects non-positive @position" {

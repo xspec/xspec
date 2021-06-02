@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+					query="x-urn:test:do-nothing"
+					query-at="do-nothing.xqm"
+					schematron="do-nothing.sch"
+					stylesheet="do-nothing.xsl">
+
+	<!--
+		This test is based on external_pending-scenario-param-inherited-by-focus.xspec, except that
+		the parameter is referenced via x:like.
+	-->
+
+	<x:scenario label="Scenario variable" shared="yes">
+		<x:variable name="scenario-variable-under-x-pending-or-pending-attribute" select="9" />
+	</x:scenario>
+
+	<x:scenario label="Test x:variable under @pending and x:pending when it's inherited by @focus and referenced by x:like">
+
+		<x:call function="exactly-one">
+			<x:param select="9" />
+		</x:call>
+
+		<!--
+			x:pending
+		-->
+		<x:pending label="x:pending">
+
+			<x:scenario label="x:scenario[parent::x:pending][x:variable]">
+				<x:like label="Scenario variable" />
+
+				<x:scenario label="focused scenario inheriting variable"
+								focus="@focus[ancestor::x:pending]">
+					<x:expect label="variable inherited by focused scenario must be available"
+								 select="$scenario-variable-under-x-pending-or-pending-attribute" />
+				</x:scenario>
+			</x:scenario>
+
+		</x:pending>
+
+		<!--
+			@pending
+		-->
+		<x:scenario label="x:scenario[@pending][x:variable]"
+						pending="x:scenario/@pending">
+			<x:like label="Scenario variable" />
+
+			<x:scenario label="focused scenario inheriting variable"
+							focus="@focus[ancestor::x:scenario[@pending]]">
+				<x:expect label="variable inherited by focused scenario must be available"
+							 select="$scenario-variable-under-x-pending-or-pending-attribute" />
+			</x:scenario>
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:mirror="x-urn:test:mirror"
+					xmlns:x="http://www.jenitennison.com/xslt/xspec"
+					run-as="external"
+					stylesheet="external_mirror.xsl">
+
+	<!--
+		This test is based on external_pending-scenario-param-inherited-by-focus.xspec, except that
+		the parameter is referenced via x:like.
+	-->
+
+	<x:scenario label="Scenario parameter" shared="yes">
+		<x:param name="scenario-param-under-x-pending-or-pending-attribute" select="9" />
+	</x:scenario>
+
+	<x:scenario label="Test scenario-level x:param under @pending and x:pending when it's inherited by @focus and referenced by x:like">
+
+		<x:call function="mirror:param-mirror">
+			<x:param select="9" />
+		</x:call>
+
+		<!--
+			x:pending
+		-->
+		<x:pending label="x:pending">
+
+			<x:scenario label="x:scenario[parent::x:pending][x:param]">
+				<x:like label="Scenario parameter" />
+
+				<x:scenario label="focused scenario inheriting scenario-level x:param"
+								focus="@focus[ancestor::x:pending]">
+					<x:expect label="scenario-level x:param inherited by focused scenario must be available"
+								 select="$scenario-param-under-x-pending-or-pending-attribute" />
+				</x:scenario>
+			</x:scenario>
+
+		</x:pending>
+
+		<!--
+			@pending
+		-->
+		<x:scenario label="x:scenario[@pending][x:param]"
+						pending="x:scenario/@pending">
+			<x:like label="Scenario parameter" />
+
+			<x:scenario label="focused scenario inheriting scenario-level x:param"
+							focus="@focus[ancestor::x:scenario[@pending]]">
+				<x:expect label="scenario-level x:param inherited by focused scenario must be available"
+							 select="$scenario-param-under-x-pending-or-pending-attribute" />
+			</x:scenario>
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>

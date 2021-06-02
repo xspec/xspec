@@ -62,12 +62,9 @@
    <xsl:template name="x:format-top-level-scenario" as="element(xhtml:div)">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:variable name="is-pending" as="xs:boolean"
-         select="exists(@pending)" />
-      <xsl:variable name="any-failure" as="xs:boolean"
-         select="exists(x:test[x:is-failed-test(.)])" />
       <div id="top_{@id}">
-         <h2 class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+         <h2>
+            <xsl:call-template name="x:scenario-html-class-attribute" />
             <xsl:sequence select="x:pending-callback(@pending)"/>
             <xsl:apply-templates select="x:label" mode="x:html-report" />
             <span class="scenario-totals">
@@ -83,7 +80,8 @@
                <col style="width:25%" />
             </colgroup>
             <tbody>
-               <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+               <tr>
+                  <xsl:call-template name="x:scenario-html-class-attribute" />
                   <th>
                      <xsl:sequence select="x:pending-callback(@pending)"/>
                      <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -97,10 +95,6 @@
                </tr>
                <xsl:apply-templates select="x:test" mode="x:html-summary" />
                <xsl:for-each select=".//x:scenario[x:test]">
-                  <xsl:variable name="is-pending" as="xs:boolean"
-                     select="exists(@pending)" />
-                  <xsl:variable name="any-failure" as="xs:boolean"
-                     select="exists(x:test[x:is-failed-test(.)])" />
                   <xsl:variable name="label" as="node()+">
                      <xsl:for-each select="ancestor-or-self::x:scenario[position() != last()]">
                         <xsl:apply-templates select="x:label" mode="x:html-report" />
@@ -109,12 +103,13 @@
                         </xsl:if>
                      </xsl:for-each>
                   </xsl:variable>
-                  <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+                  <tr>
+                     <xsl:call-template name="x:scenario-html-class-attribute" />
                      <th>
                         <xsl:call-template name="x:report-elapsed" />
                         <xsl:sequence select="x:pending-callback(@pending)"/>
                         <xsl:choose>
-                           <xsl:when test="$any-failure">
+                           <xsl:when test="x:test[x:is-failed-test(.)]">
                               <a href="#{@id}">
                                  <xsl:sequence select="$label" />
                               </a>
@@ -227,7 +222,7 @@
 
    <xsl:template match="x:report" as="element()+" mode="x:html-report">
       <!-- Write URIs, ignoring @stylesheet when actual test target is Schematron -->
-      <xsl:for-each select="@query, @query-at, @schematron, @stylesheet[empty(current()/@schematron)]">
+      <xsl:for-each select="@query, @query-at, @schematron, @stylesheet[current()/@schematron => empty()]">
          <p>
             <xsl:variable as="xs:string" name="attr-name" select="local-name()" />
 
@@ -289,11 +284,10 @@
          </thead>
          <tbody>
             <xsl:for-each select="x:scenario">
-               <xsl:variable name="is-pending" as="xs:boolean"
-                  select="exists(@pending)" />
-               <xsl:variable name="any-failure" as="xs:boolean"
-                  select="exists(x:descendant-failed-tests(.))" />
-               <tr class="{if ($is-pending) then 'pending' else if ($any-failure) then 'failed' else 'successful'}">
+               <tr>
+                  <xsl:call-template name="x:scenario-html-class-attribute">
+                     <xsl:with-param name="look-for-descendant-failed-tests" select="true()" />
+                  </xsl:call-template>
                   <th>
                      <xsl:call-template name="x:report-elapsed" />
                      <xsl:sequence select="x:pending-callback(@pending)"/>
@@ -542,18 +536,47 @@
       </xsl:if>
    </xsl:template>
 
-   <xsl:function name="x:test-stats" as="element(stat)+" xmlns="">
+   <xsl:function name="x:test-stats" as="element(stat)+">
       <xsl:param name="tests" as="element(x:test)*" />
 
       <xsl:variable name="passed-tests" as="element(x:test)*" select="$tests[x:is-passed-test(.)]" />
       <xsl:variable name="pending-tests" as="element(x:test)*" select="$tests[x:is-pending-test(.)]" />
       <xsl:variable name="failed-tests" as="element(x:test)*" select="$tests[x:is-failed-test(.)]" />
 
-      <stat label="passed" count="{count($passed-tests)}" />
-      <stat label="pending" count="{count($pending-tests)}" />
-      <stat label="failed" count="{count($failed-tests)}" />
-      <stat label="total" count="{count($tests)}" />
+      <xsl:sequence xmlns="">
+         <stat label="passed" count="{count($passed-tests)}" />
+         <stat label="pending" count="{count($pending-tests)}" />
+         <stat label="failed" count="{count($failed-tests)}" />
+         <stat label="total" count="{count($tests)}" />
+      </xsl:sequence>
    </xsl:function>
+
+   <!-- Creates an HTML @class for x:scenario: 'pending', 'failed' or 'successful' -->
+   <xsl:template name="x:scenario-html-class-attribute" as="attribute(class)">
+      <xsl:context-item as="element(x:scenario)" use="required" />
+
+      <xsl:param name="look-for-descendant-failed-tests" as="xs:boolean" select="false()" />
+
+      <xsl:variable name="failed-tests" as="element(x:test)*" select="
+            if ($look-for-descendant-failed-tests) then
+               x:descendant-failed-tests(.)
+            else
+               x:test[x:is-failed-test(.)]" />
+
+      <xsl:attribute name="class">
+         <xsl:choose>
+            <xsl:when test="exists(@pending)">
+               <xsl:sequence select="'pending'" />
+            </xsl:when>
+            <xsl:when test="exists($failed-tests)">
+               <xsl:sequence select="'failed'" />
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:sequence select="'successful'" />
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
+   </xsl:template>
 
 </xsl:stylesheet>
 

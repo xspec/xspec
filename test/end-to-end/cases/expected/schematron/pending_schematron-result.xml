@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../pending_schematron.xspec"
+        stylesheet="pending_schematron-sch-preprocessed.xsl"
+        schematron="../../../../do-nothing.sch"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../pending_schematron.xspec">
+      <label>Test pending features (@pending on Schematron-specific x:expect-* elements)</label>
+      <input-wrap xmlns="">
+         <x:context xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                    select="self::document-node()">
+            <foo/>
+         </x:context>
+      </input-wrap>
+      <scenario id="scenario1-scenario1" xspec="../../pending_schematron.xspec">
+         <label>non-pending Schematron-specific x:expect-* elements alongside pending ones must execute the test</label>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:saxon="http://saxon.sf.net/"
+                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       title=""
+                                       schemaVersion=""><!--   
+		   
+		   
+		 -->
+                  <svrl:active-pattern document=""
+                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                                       name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
+               </svrl:schematron-output>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario1-expect1" successful="false">
+            <label>assert</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+         <test id="scenario1-scenario1-expect2" successful="false">
+            <label>report</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+         <test id="scenario1-scenario1-expect3" successful="false">
+            <label>not assert</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert)"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+         <test id="scenario1-scenario1-expect4" successful="false">
+            <label>not report</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}successful-report)"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+         <test id="scenario1-scenario1-expect5" successful="false">
+            <label>rule</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}fired-rule)"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+         <test id="scenario1-scenario1-expect6" successful="false">
+            <label>valid</label>
+            <expect-test-wrap xmlns="">
+               <x:expect xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                         test="Q{http://purl.oclc.org/dsdl/svrl}schematron-output[Q{http://purl.oclc.org/dsdl/svrl}fired-rule] and empty(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/(Q{http://purl.oclc.org/dsdl/svrl}failed-assert | Q{http://purl.oclc.org/dsdl/svrl}successful-report)[empty(@role) or (lower-case(@role) = ('error', 'fatal'))])"/>
+            </expect-test-wrap>
+            <expect select="()"/>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario2" xspec="../../pending_schematron.xspec">
+         <label>Schematron-specific x:expect-* elements with @pending must be Pending</label>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:saxon="http://saxon.sf.net/"
+                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       title=""
+                                       schemaVersion=""><!--   
+		   
+		   
+		 -->
+                  <svrl:active-pattern document=""
+                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                                       name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
+               </svrl:schematron-output>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario2-expect1"
+               pending="testing @pending on x:expect-assert">
+            <label>assert</label>
+         </test>
+         <test id="scenario1-scenario2-expect2"
+               pending="testing @pending on x:expect-report">
+            <label>report</label>
+         </test>
+         <test id="scenario1-scenario2-expect3"
+               pending="testing @pending on x:expect-not-assert">
+            <label>not assert</label>
+         </test>
+         <test id="scenario1-scenario2-expect4"
+               pending="testing @pending on x:expect-not-report">
+            <label>not report</label>
+         </test>
+         <test id="scenario1-scenario2-expect5"
+               pending="testing @pending on x:expect-rule">
+            <label>rule</label>
+         </test>
+         <test id="scenario1-scenario2-expect6"
+               pending="testing @pending on x:expect-valid">
+            <label>valid</label>
+         </test>
+      </scenario>
+      <scenario id="scenario1-scenario3" xspec="../../pending_schematron.xspec">
+         <label>Schematron-specific x:expect-* elements with zero-length @pending must be Pending</label>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <svrl:schematron-output xmlns:svrl="http://purl.oclc.org/dsdl/svrl"
+                                       xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                                       xmlns:saxon="http://saxon.sf.net/"
+                                       xmlns:schold="http://www.ascc.net/xml/schematron"
+                                       xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+                                       xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                                       title=""
+                                       schemaVersion=""><!--   
+		   
+		   
+		 -->
+                  <svrl:active-pattern document=""
+                                       id="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"
+                                       name="Dummy-pattern-for-SchXslt___DO-NOT-USE-ME"/>
+               </svrl:schematron-output>
+            </content-wrap>
+         </result>
+         <test id="scenario1-scenario3-expect1" pending="">
+            <label>assert</label>
+         </test>
+         <test id="scenario1-scenario3-expect2" pending="">
+            <label>report</label>
+         </test>
+         <test id="scenario1-scenario3-expect3" pending="">
+            <label>not assert</label>
+         </test>
+         <test id="scenario1-scenario3-expect4" pending="">
+            <label>not report</label>
+         </test>
+         <test id="scenario1-scenario3-expect5" pending="">
+            <label>rule</label>
+         </test>
+         <test id="scenario1-scenario3-expect6" pending="">
+            <label>valid</label>
+         </test>
+      </scenario>
+   </scenario>
+</report>
