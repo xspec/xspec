@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test require-xslt-to-support-schema?>
 <x:description stylesheet="issue-47.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<x:scenario label="Set context in *:foo">
 		<x:context select="$test-doc/*:foo" />

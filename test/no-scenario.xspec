@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This file tests x:description[@query|@schematron|@stylesheet][empty(descendant::x:scenario)].
+	Do not add any x:scenario to this file.
+-->
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:variable name="dummy" />
+</x:description>

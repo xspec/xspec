@@ -49,9 +49,9 @@
    <xsl:variable name="stylesheet-trees" as="document-node()+"
       select="$stylesheet-uri => doc() => local:collect-stylesheets()" />
 
-   <xsl:key name="modules" match="m" use="@u" />
-   <xsl:key name="constructs" match="c" use="@id" />
-   <xsl:key name="coverage" match="h" use="@m || ':' || @l" />
+   <xsl:key name="modules" match="module" use="@uri" />
+   <xsl:key name="constructs" match="construct" use="@constructType" />
+   <xsl:key name="hits" match="hit" use="local:hits-key-value(@moduleId, @lineNumber, @columnNumber)" />
 
    <!--
       mode="#default"
@@ -105,18 +105,18 @@
          select="string-length(xs:string($number-of-lines))" />
       <xsl:variable name="number-format" as="xs:string"
          select="string-join(for $i in 1 to $number-width return '0')" />
-      <xsl:variable name="module" as="xs:string?">
+      <xsl:variable name="module-id" as="xs:integer?">
          <xsl:variable name="uri" as="xs:string"
             select="if (starts-with($stylesheet-uri, '/'))
                     then ('file:' || $stylesheet-uri)
                     else $stylesheet-uri" />
-         <xsl:sequence select="key('modules', $uri, $trace)/@id" />
+         <xsl:sequence select="key('modules', $uri, $trace)/@moduleId" />
       </xsl:variable>
       <h2>
          <xsl:text expand-text="yes">module: {fmt:format-uri($stylesheet-uri)}; {$number-of-lines} lines</xsl:text>
       </h2>
       <xsl:choose>
-         <xsl:when test="empty($module)">
+         <xsl:when test="empty($module-id)">
             <p><span class="missed">not used</span></p>
          </xsl:when>
          <xsl:otherwise>
@@ -126,7 +126,7 @@
                <xsl:call-template name="output-lines">
                   <xsl:with-param name="stylesheet-lines" select="$stylesheet-lines" />
                   <xsl:with-param name="number-format" select="$number-format" />
-                  <xsl:with-param name="module" select="$module" />
+                  <xsl:with-param name="module-id" select="$module-id" />
                </xsl:call-template>
             </pre>
          </xsl:otherwise>
@@ -203,7 +203,7 @@
 
       <xsl:param name="stylesheet-lines" as="xs:string+" required="yes" />
       <xsl:param name="number-format" as="xs:string" required="yes" />
-      <xsl:param name="module" as="xs:string" required="yes" />
+      <xsl:param name="module-id" as="xs:integer" required="yes" />
 
       <xsl:variable name="outermost-element" as="element()" select="." />
 
@@ -256,7 +256,7 @@
                     ($node instance of processing-instruction() and
                      $regex-group($groups('pi')))" />
          <xsl:variable name="coverage" as="xs:string"
-            select="if ($matches) then local:coverage($node, $module) else 'ignored'" />
+            select="if ($matches) then local:coverage($node, $module-id) else 'ignored'" />
          <xsl:for-each select="$construct-lines">
             <xsl:if test="position() != 1">
                <xsl:text expand-text="yes">&#x0A;{format-number($line-number + position(), $number-format)}: </xsl:text>
@@ -341,40 +341,40 @@
          | xsl:when"
       as="xs:string"
       mode="coverage">
-      <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
+      <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
 
-      <xsl:variable name="hits-on-content" as="element(h)*"
-         select="local:hit-on-nodes(node(), $module)" />
+      <xsl:variable name="hits-on-child-nodes" as="element(hit)*"
+         select="node() ! local:hits-on-node(., $module-id)" />
       <xsl:choose>
-         <xsl:when test="exists($hits-on-content)">hit</xsl:when>
+         <xsl:when test="exists($hits-on-child-nodes)">hit</xsl:when>
          <xsl:otherwise>missed</xsl:otherwise>
       </xsl:choose>
    </xsl:template>
 
    <xsl:template match="element() | text()" as="xs:string" mode="coverage">
-      <xsl:param name="module" tunnel="yes" as="xs:string" required="yes" />
+      <xsl:param name="module-id" tunnel="yes" as="xs:integer" required="yes" />
 
-      <xsl:variable name="hit" as="element(h)*"
-         select="local:hit-on-nodes(., $module)" />
+      <xsl:variable name="hits" as="element(hit)*"
+         select="local:hits-on-node(., $module-id)" />
       <xsl:choose>
-         <xsl:when test="exists($hit)">hit</xsl:when>
+         <xsl:when test="exists($hits)">hit</xsl:when>
          <xsl:when test="self::text() and normalize-space() = '' and not(parent::xsl:text)">ignored</xsl:when>
          <xsl:when test="self::xsl:variable">
-            <xsl:sequence select="local:coverage(following-sibling::*[not(self::xsl:variable)][1], $module)" />
+            <xsl:sequence select="local:coverage(following-sibling::*[not(self::xsl:variable)][1], $module-id)" />
          </xsl:when>
          <xsl:when test="ancestor::xsl:variable">
-            <xsl:sequence select="local:coverage(ancestor::xsl:variable[1], $module)" />
+            <xsl:sequence select="local:coverage(ancestor::xsl:variable[1], $module-id)" />
          </xsl:when>
          <xsl:when test="self::xsl:stylesheet or self::xsl:transform">ignored</xsl:when>
          <xsl:when test="self::xsl:function or self::xsl:template">missed</xsl:when>
          <!-- A node within a top-level non-XSLT element -->
          <xsl:when test="empty(ancestor::xsl:*[parent::xsl:stylesheet or parent::xsl:transform])">ignored</xsl:when>
          <xsl:when test="self::xsl:param">
-            <xsl:sequence select="local:coverage(parent::*, $module)" />
+            <xsl:sequence select="local:coverage(parent::*, $module-id)" />
          </xsl:when>
          <xsl:when test="self::xsl:context-item">
             <!-- Saxon does not seem to call enter() for xsl:context-item (xspec/xspec#1410) -->
-            <xsl:sequence select="local:coverage(parent::xsl:template, $module)" />
+            <xsl:sequence select="local:coverage(parent::xsl:template, $module-id)" />
          </xsl:when>
          <xsl:otherwise>missed</xsl:otherwise>
       </xsl:choose>
@@ -405,11 +405,11 @@
 
    <xsl:function name="local:coverage" as="xs:string">
       <xsl:param name="node" as="node()" />
-      <xsl:param name="module" as="xs:string" />
+      <xsl:param name="module-id" as="xs:integer" />
 
       <xsl:variable name="coverage" as="xs:string+">
          <xsl:apply-templates select="$node" mode="coverage">
-            <xsl:with-param name="module" tunnel="yes" select="$module" />
+            <xsl:with-param name="module-id" tunnel="yes" select="$module-id" />
          </xsl:apply-templates>
       </xsl:variable>
       <xsl:if test="count($coverage) > 1">
@@ -421,33 +421,42 @@
       <xsl:sequence select="$coverage[1]" />
    </xsl:function>
 
-   <xsl:function name="local:hit-on-nodes" as="element(h)*">
-      <xsl:param name="nodes" as="node()*" />
-      <xsl:param name="module" as="xs:string" />
+   <xsl:function name="local:hits-on-node" as="element(hit)*">
+      <xsl:param name="node" as="node()" />
+      <xsl:param name="module-id" as="xs:integer" />
 
-      <xsl:for-each select="$nodes[not(self::text()[not(normalize-space())])]">
-         <xsl:variable name="hits" as="element(h)*"
-            select="x:line-number(.) => local:hit-on-lines($module)" />
-         <xsl:variable name="name" as="xs:string"
+      <xsl:for-each select="$node">
+         <xsl:variable name="hits" as="element(hit)*"
+            select="local:hits-on-line-column($module-id, x:line-number(.), x:column-number(.))" />
+         <xsl:variable name="node-clark-name" as="xs:string"
             select="'{' || namespace-uri() || '}' || local-name()" />
          <xsl:for-each select="$hits">
-            <xsl:variable name="construct" as="xs:string"
-               select="key('constructs', @c)/@n" />
-            <xsl:if test="$name = $construct or
-                          not(starts-with($construct, '{'))">
+            <xsl:variable name="hit-construct-name" as="xs:string"
+               select="key('constructs', @constructType)/@name" />
+            <xsl:if test="($node-clark-name eq $hit-construct-name) or
+                          not(starts-with($hit-construct-name, '{'))">
                <xsl:sequence select="." />
             </xsl:if>
          </xsl:for-each>
       </xsl:for-each>
    </xsl:function>
 
-   <xsl:function name="local:hit-on-lines" as="element(h)*">
-      <xsl:param name="line-numbers" as="xs:integer*" />
-      <xsl:param name="module" as="xs:string" />
+   <xsl:function name="local:hits-on-line-column" as="element(hit)*">
+      <xsl:param name="module-id" as="xs:integer" />
+      <xsl:param name="line-number" as="xs:integer" />
+      <xsl:param name="column-number" as="xs:integer" />
 
-      <xsl:variable name="keys" as="xs:string*"
-         select="$line-numbers ! ($module || ':' || .)" />
-      <xsl:sequence select="key('coverage', $keys, $trace)" />
+      <xsl:variable name="key-value" as="xs:string"
+         select="local:hits-key-value($module-id, $line-number, $column-number)" />
+      <xsl:sequence select="key('hits', $key-value, $trace)" />
+   </xsl:function>
+
+   <xsl:function name="local:hits-key-value" as="xs:string">
+      <xsl:param name="module-id" as="xs:integer" />
+      <xsl:param name="line-number" as="xs:integer" />
+      <xsl:param name="column-number" as="xs:integer" />
+
+      <xsl:sequence select="($module-id, $line-number, $column-number) => string-join(':')" />
    </xsl:function>
 
    <xsl:function name="local:split-lines" as="xs:string+">

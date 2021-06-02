@@ -2282,22 +2282,6 @@
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
-	<case name="x:apply with x:context">
-    call :run ..\bin\xspec.bat error-compiling-scenario\apply-with-context.xspec
-    call :verify_retval 2
-    call :verify_line  4 x "WARNING in x:scenario ('x:apply with x:context'): The instruction x:apply is not supported yet!"
-    call :verify_line  5 x "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time"
-    call :verify_line -1 x "*** Error compiling the test suite"
-	</case>
-
-	<case name="x:apply with x:call">
-    call :run ..\bin\xspec.bat error-compiling-scenario\apply-with-call.xspec
-    call :verify_retval 2
-    call :verify_line  4 x "WARNING in x:scenario ('x:apply with x:call'): The instruction x:apply is not supported yet!"
-    call :verify_line  5 x "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time"
-    call :verify_line -1 x "*** Error compiling the test suite"
-	</case>
-
 	<case name="x:call[@function] with x:context">
     call :run ..\bin\xspec.bat error-compiling-scenario\function-with-context.xspec
     call :verify_retval 2
@@ -2308,7 +2292,7 @@
 	<case name="x:expect without action">
     call :run ..\bin\xspec.bat error-compiling-scenario\expect-without-action.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call, x:apply or x:context has been given"
+    call :verify_line  4 x "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call or x:context has been given"
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 
@@ -2563,8 +2547,14 @@
 	</case>
 
 	<!--
-		Warn when a named template scenario has a context parameter
+		Warn when a named template scenario has a context mode or parameter
 	-->
+
+	<case name="Warning when x:call[@template] ignores x:context/@mode">
+    call :run ..\bin\xspec.bat context-mode-ignored.xspec
+    call :verify_retval 0
+    call :verify_line 4 x "WARNING in x:scenario ('With x:context[@mode] and x:call[@template]'): x:context/@mode will have no effect on x:call"
+	</case>
 
 	<case name="Warning when x:call[@template] ignores x:context/x:param">
     call :run ..\bin\xspec.bat context-param.xspec

@@ -3,8 +3,16 @@
 
 	<property environment="env" />
 
-	<property name="install-deps.download.retry.count" value="5" />
-	<property name="install-deps.download.retry.delay" value="5000" />
+	<macrodef name="download">
+		<attribute name="src" />
+		<attribute name="dest" />
+
+		<sequential>
+			<retry retrycount="5" retrydelay="5000">
+				<get dest="@{dest}" src="@{src}" />
+			</retry>
+		</sequential>
+	</macrodef>
 
 	<target name="saxon">
 		<echo message="Install Saxon ${env.SAXON_VERSION}" />
@@ -12,12 +20,9 @@
 		<dirname file="${env.SAXON_JAR}" property="saxon.jar.dir" />
 		<mkdir dir="${saxon.jar.dir}" />
 
-		<retry retrycount="${install-deps.download.retry.count}"
-			retrydelay="${install-deps.download.retry.delay}">
-			<get dest="${env.SAXON_JAR}"
-				src="https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${env.SAXON_VERSION}/Saxon-HE-${env.SAXON_VERSION}.jar"
-			 />
-		</retry>
+		<download dest="${env.SAXON_JAR}"
+			src="https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${env.SAXON_VERSION}/Saxon-HE-${env.SAXON_VERSION}.jar"
+		 />
 	</target>
 
 	<target name="xml-resolver">
@@ -26,12 +31,9 @@
 		<dirname file="${env.XML_RESOLVER_JAR}" property="xml-resolver.jar.dir" />
 		<mkdir dir="${xml-resolver.jar.dir}" />
 
-		<retry retrycount="${install-deps.download.retry.count}"
-			retrydelay="${install-deps.download.retry.delay}">
-			<get dest="${env.XML_RESOLVER_JAR}"
-				src="https://repo1.maven.org/maven2/xml-resolver/xml-resolver/${env.XML_RESOLVER_VERSION}/xml-resolver-${env.XML_RESOLVER_VERSION}.jar"
-			 />
-		</retry>
+		<download dest="${env.XML_RESOLVER_JAR}"
+			src="https://repo1.maven.org/maven2/xml-resolver/xml-resolver/${env.XML_RESOLVER_VERSION}/xml-resolver-${env.XML_RESOLVER_VERSION}.jar"
+		 />
 	</target>
 
 	<target if="env.XMLCALABASH_VERSION" name="xml-calabash">
@@ -39,12 +41,8 @@
 
 		<tempfile deleteonexit="true" destdir="${java.io.tmpdir}" prefix="xmlcalabash_deleteonexit_"
 			property="xmlcalabash.zip" suffix=".zip" />
-		<retry retrycount="${install-deps.download.retry.count}"
-			retrydelay="${install-deps.download.retry.delay}">
-			<get dest="${xmlcalabash.zip}"
-				src="https://github.com/ndw/xmlcalabash1/releases/download/${env.XMLCALABASH_VERSION}/xmlcalabash-${env.XMLCALABASH_VERSION}.zip"
-			 />
-		</retry>
+		<download dest="${xmlcalabash.zip}"
+			src="https://github.com/ndw/xmlcalabash1/releases/download/${env.XMLCALABASH_VERSION}/xmlcalabash-${env.XMLCALABASH_VERSION}.zip" />
 
 		<dirname file="${env.XMLCALABASH_JAR}" property="xmlcalabash.jar.dir" />
 		<dirname file="${xmlcalabash.jar.dir}" property="xmlcalabash.unzip.dest" />
@@ -76,12 +74,8 @@
 				</tokenfilter>
 			</filterchain>
 		</loadresource>
-		<retry retrycount="${install-deps.download.retry.count}"
-			retrydelay="${install-deps.download.retry.delay}">
-			<get dest="${basex.zip}"
-				src="https://files.basex.org/releases/${env.BASEX_VERSION}/BaseX${basex.version.without.dot}.zip"
-			 />
-		</retry>
+		<download dest="${basex.zip}"
+			src="https://files.basex.org/releases/${env.BASEX_VERSION}/BaseX${basex.version.without.dot}.zip" />
 
 		<dirname file="${env.BASEX_JAR}" property="basex.jar.dir" />
 		<dirname file="${basex.jar.dir}" property="basex.unzip.dest" />

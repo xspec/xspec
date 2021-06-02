@@ -43,9 +43,11 @@
       Accumulators for scenario-level variable declarations (x:param and x:variable)
    -->
 
-   <!-- Push and pop variable declaration elements based on node identity -->
+   <!-- Push and pop variable declaration elements based on node identity. Pending variable
+      declaration elements are considered as if they did not exist. -->
    <xsl:accumulator name="stacked-vardecls" as="element()*" initial-value="()">
-      <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable"
+      <xsl:accumulator-rule
+         match="(x:scenario/x:param | x:scenario/x:variable)[x:reason-for-pending(.) => empty()]"
          select="
             (: Append this scenario-level variable declaration element :)
             $value, (self::x:param | self::x:variable)" />
@@ -55,10 +57,13 @@
             $value except (child::x:param | child::x:variable)" />
    </xsl:accumulator>
 
-   <!-- Push and pop distinct URIQualifiedName of variable declarations (x:param and x:variable) -->
+   <!-- Push and pop distinct URIQualifiedName of variable declarations (x:param and x:variable).
+      Pending variable declarations are considered as if they did not exist. -->
    <xsl:accumulator name="stacked-vardecls-distinct-uqnames" as="xs:string*" initial-value="()">
       <!-- Use x:distinct-strings-stable() instead of fn:distinct-values(). The x:compile-scenario
          template for XQuery requires the order to be stable. -->
+      <!-- No need to explicitly exclude pending variable declarations. They're already excluded
+         from the 'stacked-vardecls' accumulator. -->
       <xsl:accumulator-rule match="x:scenario/x:param | x:scenario/x:variable"
          select="
             x:distinct-strings-stable(
@@ -114,5 +119,6 @@
    <xsl:include href="../base/resolve-import/resolve-import.xsl" />
    <xsl:include href="../base/util/compiler-eqname-utils.xsl" />
    <xsl:include href="../base/util/compiler-misc-utils.xsl" />
+   <xsl:include href="../base/util/compiler-pending-utils.xsl" />
 
 </xsl:stylesheet>

@@ -340,21 +340,16 @@ return
 The SUT (or System Under Test) is the component tested in a
 scenario. In XSpec, this is either an XSLT template (named or
 rule) or an XPath function (written either in XSLT or XQuery).
-Here, we use it to refer to the three ways to refer to the SUT
+Here, we use it to refer to the two ways to refer to the SUT
 itself, as well as parameters to use for the current scenario:
-`x:apply`, `x:call` and `x:context` (so that's not strictly speaking
+`x:call` and `x:context` (so that's not strictly speaking
 the SUT itself, but rather the way to "call" it for this
 scenario).
 
-`x:apply` represents applying a template rule to a node (this is not
+`x:context` represents applying a template rule to a node (this is not
 possible in XQuery), and corresponds naturally to
 `xsl:apply-templates`. `x:call` represents a call either to a named
-template or an XPath function. `x:context` also represents applying
-a template rule to a node, but in a different way than `x:apply`:
-the former represents more a full transform (e.g., the result is
-always one document node) where `x:apply` is exactly the result of a
-template rule (the result is the exact result sequence of the
-rule).
+template or an XPath function.
 
 Those examples show only what is related to the call of the SUT in
 the template (or function) generated from the scenario (see the
@@ -400,20 +395,6 @@ section "[Simple scenario](#simple-scenario)").
    <x:context>
       <elem/>
    </x:context>
-   <x:expect ... />
-</x:scenario>
-
-<!-- TODO: x:apply not implemented yet -->
- <x:scenario label="apply template rules on a node (with x:apply)">
-   <x:variable name="ctxt">
-      <elem/>
-   </x:variable>
-   <x:apply select="$ctxt" mode="mode">
-      <x:param name="p1" select="'val1'" tunnel="yes"/>
-      <x:param name="p2" as="element()">
-         <val2/>
-      </x:param>
-   </x:apply>
    <x:expect ... />
 </x:scenario>
 ```
@@ -485,23 +466,6 @@ section "[Simple scenario](#simple-scenario)").
 <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}result" as="item()*">
    <xsl:apply-templates select="$Q{urn:x-xspec:compile:impl}context-..."/>
 </xsl:variable>
-
-<!-- "apply template rules on a node (with x:apply)" scenario -->
-<!-- TODO: x:apply not implemented yet -->
-<xsl:variable name="ctxt" as="item()*">
-   <elem/>
-</xsl:variable>
-<xsl:variable name="x:result" as="item()*">
-   <xsl:variable name="p1" select="'val1'"/>
-   <xsl:variable name="p2" as="element()">
-      <val2/>
-   </xsl:variable>
-   ... error if "$ctxt instance of node()" is not true ...
-   <xsl:apply-templates select="$ctxt" mode="mode">
-      <xsl:with-param name="p1" select="$p1" tunnel="yes"/>
-      <xsl:with-param name="p2" select="$p2"/>
-   </xsl:apply-templates>
-</xsl:variable>
 ```
 
 ### Compiled query
@@ -528,7 +492,7 @@ Q{http://example.org/ns/my}f($Q{urn:x-xspec:compile:impl}param-..., $Q{}p2)
 
 ## Variables
 
-The `x:variable` element in the XSpec namespace defines an XSpec variable. Any number of `x:variable` elements can occur as a child of `x:description` or `x:scenario`. In `x:scenario`, an `x:variable` element can occur before or after `x:context`, `x:call`, `x:apply` (not implemented yet), or `x:expect`. XSpec variables can be redefined locally, but names of global XSpec variables must be unique. XSpec variables can be referenced in XPath expressions, such as in `@select` and `@test` attributes.
+The `x:variable` element in the XSpec namespace defines an XSpec variable. Any number of `x:variable` elements can occur as a child of `x:description` or `x:scenario`. In `x:scenario`, an `x:variable` element can occur before or after `x:context`, `x:call`, or `x:expect`. XSpec variables can be redefined locally, but names of global XSpec variables must be unique. XSpec variables can be referenced in XPath expressions, such as in `@select` and `@test` attributes.
 
 The first example shows how an XSpec variable maps to an `xsl:variable` element in generated XSLT code or a `let` statement in generated XQuery code.
 
