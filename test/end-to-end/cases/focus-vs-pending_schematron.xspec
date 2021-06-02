@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               schematron="../../do-nothing.sch">
+
+   <x:scenario label="Test @focus and @pending on Schematron-specific x:expect-* elements together">
+      <x:context>
+         <foo />
+      </x:context>
+
+      <!--
+         Non-pending scenarios.
+      -->
+      <x:scenario label="Schematron-specific x:expect-* elements in a non-pending scenario alongside a focused scenario must be Pending">
+         <x:expect-assert />
+         <x:expect-report />
+         <x:expect-not-assert />
+         <x:expect-not-report />
+         <x:expect-rule />
+         <x:expect-valid />
+      </x:scenario>
+
+      <x:scenario label="Schematron-specific x:expect-* elements in a focused scenario alongside another focused scenario must execute the test"
+                  focus="testing @focus alongside another focused scenario">
+         <x:expect-assert />
+         <x:expect-report />
+         <x:expect-not-assert />
+         <x:expect-not-report />
+         <x:expect-rule />
+         <x:expect-valid />
+      </x:scenario>
+
+      <!--
+         Test @pending on Schematron-specific x:expect-* elements.
+      -->
+      <x:scenario label="Schematron-specific x:expect-* elements with @pending must be Pending">
+         <x:expect-assert     pending="testing @pending on x:expect-assert" />
+         <x:expect-report     pending="testing @pending on x:expect-report" />
+         <x:expect-not-assert pending="testing @pending on x:expect-not-assert" />
+         <x:expect-not-report pending="testing @pending on x:expect-not-report" />
+         <x:expect-rule       pending="testing @pending on x:expect-rule" />
+         <x:expect-valid      pending="testing @pending on x:expect-valid" />
+      </x:scenario>
+
+      <x:scenario label="Schematron-specific x:expect-* elements with both @pending and ancestor::x:scenario/@focus must execute the test (not recommended as ambiguous)"
+                  focus="testing x:scenario[@focus] with Schematron-specific child::x:expect-*/@pending">
+         <x:expect-assert     pending="testing @pending on x:expect-assert with ancestor::x:scenario/@focus" />
+         <x:expect-report     pending="testing @pending on x:expect-report with ancestor::x:scenario/@focus" />
+         <x:expect-not-assert pending="testing @pending on x:expect-not-assert with ancestor::x:scenario/@focus" />
+         <x:expect-not-report pending="testing @pending on x:expect-not-report with ancestor::x:scenario/@focus" />
+         <x:expect-rule       pending="testing @pending on x:expect-rule with ancestor::x:scenario/@focus" />
+         <x:expect-valid      pending="testing @pending on x:expect-valid with ancestor::x:scenario/@focus" />
+      </x:scenario>
+
+   </x:scenario>
+
+</x:description>

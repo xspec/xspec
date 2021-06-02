@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test //x:scenario/x:param when they are unfocused by @focus on a non-inner scenario.
+	-->
+
+	<x:scenario focus="focus" label="Focused scenario" />
+
+	<x:scenario label="Unfocused scenario">
+		<x:param name="unfocused-scenario-param" select="error() div 0 + $bogus:nonexistent" />
+		<x:call function="Q{bogus}nonexistent" />
+		<x:expect
+			label="Unfocused scenario-level param should not be instantiated, unless inherited by a focused scenario"
+			select="$unfocused-scenario-param" />
+	</x:scenario>
+
+</x:description>

@@ -2663,24 +2663,6 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "x:apply with x:context" {
-    run ../bin/xspec.sh error-compiling-scenario/apply-with-context.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "WARNING in x:scenario ('x:apply with x:context'): The instruction x:apply is not supported yet!" ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time" ]
-    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
-}
-
-@test "x:apply with x:call" {
-    run ../bin/xspec.sh error-compiling-scenario/apply-with-call.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "WARNING in x:scenario ('x:apply with x:call'): The instruction x:apply is not supported yet!" ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time" ]
-    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
-}
-
 @test "x:call[@function] with x:context" {
     run ../bin/xspec.sh error-compiling-scenario/function-with-context.xspec
     echo "$output"
@@ -2693,7 +2675,7 @@ load bats-helper
     run ../bin/xspec.sh error-compiling-scenario/expect-without-action.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call, x:apply or x:context has been given" ]
+    [ "${lines[3]}" = "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call or x:context has been given" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
