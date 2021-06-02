@@ -15,11 +15,9 @@
    <xsl:template name="x:compile-scenario" as="element(xsl:template)+">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
-      <xsl:param name="apply" as="element(x:apply)?" required="yes" tunnel="yes" />
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
-      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" tunnel="yes" />
-      <xsl:param name="is-pending" as="xs:boolean" required="yes" />
+      <xsl:param name="reason-for-pending" as="xs:string?" required="yes" />
       <xsl:param name="run-sut-now" as="xs:boolean" required="yes" />
 
       <xsl:variable name="local-preceding-vardecls" as="element()*" select="
@@ -47,29 +45,21 @@
             </xsl:call-template>
          </xsl:message>
       </xsl:if>
-      <xsl:if test="$apply and $context">
-         <xsl:message terminate="yes">
-            <xsl:call-template name="x:prefix-diag-message">
-               <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">Can't use {name($apply)} and set a context at the same time</xsl:text>
-               </xsl:with-param>
-            </xsl:call-template>
-         </xsl:message>
-      </xsl:if>
-      <xsl:if test="$apply and $call">
-         <xsl:message terminate="yes">
-            <xsl:call-template name="x:prefix-diag-message">
-               <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">Can't use {name($apply)} and {name($call)} at the same time</xsl:text>
-               </xsl:with-param>
-            </xsl:call-template>
-         </xsl:message>
-      </xsl:if>
       <xsl:if test="$context and $call/@function">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
                   <xsl:text>Can't set a context and call a function at the same time</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
+         </xsl:message>
+      </xsl:if>
+      <xsl:if test="$context/@mode and $call">
+         <xsl:message>
+            <xsl:call-template name="x:prefix-diag-message">
+               <xsl:with-param name="level" select="'WARNING'" />
+               <xsl:with-param name="message" as="xs:string">
+                  <xsl:text expand-text="yes">{name($context)}/@{name($context/@mode)} will have no effect on {name($call)}</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -87,13 +77,13 @@
       <xsl:if test="$run-sut-now">
          <xsl:call-template name="x:check-param-max-position" />
       </xsl:if>
-      <xsl:if test="x:expect and empty($call) and empty($apply) and empty($context)">
+      <xsl:if test="x:expect and empty($call) and empty($context)">
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
                   <!-- Use x:xspec-name() for displaying the element names with the prefix preferred by
                      the user -->
-                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)}, {x:xspec-name('apply', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
+                  <xsl:text expand-text="yes">There are {x:xspec-name('expect', .)} but no {x:xspec-name('call', .)} or {x:xspec-name('context', .)} has been given</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
@@ -103,6 +93,10 @@
          <xsl:attribute name="name" select="x:known-UQName('x:' || @id)" />
          <xsl:attribute name="as" select="'element(' || x:known-UQName('x:scenario') || ')'" />
 
+         <!-- Runtime context item of the template being generated at this compile time must be
+            absent (xspec/xspec#423). Even when the template being generated at this compile time is
+            called with a context item at run time, it must be removed by
+            xsl:context-item[@use="absent"]. -->
          <xsl:element name="xsl:context-item" namespace="{$x:xsl-namespace}">
             <xsl:attribute name="use" select="'absent'" />
          </xsl:element>
@@ -112,7 +106,7 @@
          </xsl:for-each>
 
          <message>
-            <xsl:if test="$is-pending">
+            <xsl:if test="exists($reason-for-pending)">
                <xsl:text>PENDING: </xsl:text>
                <xsl:for-each select="normalize-space($reason-for-pending)[.]">
                   <xsl:text expand-text="yes">({.}) </xsl:text>
@@ -132,9 +126,7 @@
             <xsl:variable name="scenario-attributes" as="attribute()+">
                <xsl:sequence select="@id" />
                <xsl:attribute name="xspec" select="(@original-xspec, @xspec)[1]" />
-               <xsl:if test="$is-pending">
-                  <xsl:attribute name="pending" select="$reason-for-pending" />
-               </xsl:if>
+               <xsl:sequence select="x:pending-attribute-from-reason($reason-for-pending)" />
             </xsl:variable>
             <xsl:apply-templates select="$scenario-attributes" mode="x:node-constructor" />
 
@@ -144,11 +136,11 @@
                <xsl:with-param name="event" select="'start'" />
             </xsl:call-template>
 
-            <!-- Handle local preceding variable declarations and apply/call/context in document
-               order, instead of apply/call/context first and variable declarations second. -->
-            <xsl:for-each select="$local-preceding-vardecls | x:apply | x:call | x:context">
+            <!-- Handle local preceding variable declarations and x:call/x:context in document
+               order, instead of x:call/x:context first and variable declarations second. -->
+            <xsl:for-each select="$local-preceding-vardecls | x:call | x:context">
                <xsl:choose>
-                  <xsl:when test="self::x:apply or self::x:call or self::x:context">
+                  <xsl:when test="self::x:call or self::x:context">
                      <!-- Copy the input to the test result report XML -->
                      <!-- Undeclare the default namespace in the wrapper element, because
                         x:param/@select may use the default namespace such as xs:QName('foo'). -->
@@ -170,7 +162,8 @@
                      <!-- Handle local preceding variable declarations. The other local variable
                         declarations are handled in mode="local:invoke-compiled-scenarios-or-expects"
                         in invoke-compiled-child-scenarios-or-expects.xsl. -->
-                     <xsl:apply-templates select="." mode="x:declare-variable" />
+                     <xsl:apply-templates select=".[x:reason-for-pending(.) => empty()]"
+                        mode="x:declare-variable" />
                   </xsl:when>
 
                   <xsl:otherwise>
@@ -193,7 +186,7 @@
 
                <variable name="{x:known-UQName('x:result')}" as="item()*">
                   <!-- Set up variables containing the parameter values -->
-                  <xsl:apply-templates select="($call, $apply, $context)[1]/x:param"
+                  <xsl:apply-templates select="($call, $context)[1]/x:param"
                      mode="x:declare-variable" />
 
                   <!-- Enter SUT -->
@@ -283,44 +276,8 @@
                         </xsl:call-template>
                      </xsl:when>
 
-                     <xsl:when test="$apply">
-                        <!-- TODO: x:apply not implemented yet -->
-                        <!-- Create the apply templates instruction -->
-                        <!-- TODO: This code path (including @catch, namespaces and @as) has not been tested. -->
-                        <xsl:call-template name="x:enter-sut">
-                           <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
-                              <apply-templates>
-                                 <!-- $apply/@select may use namespace prefixes and/or the default
-                                    namespace such as xs:QName('foo') -->
-                                 <xsl:sequence select="x:copy-of-namespaces($apply)" />
-
-                                 <xsl:sequence select="$apply/@select" />
-
-                                 <xsl:if test="$apply/@mode => exists()">
-                                    <xsl:attribute name="mode"
-                                       select="$apply ! x:UQName-from-EQName-ignoring-default-ns(@mode, .)" />
-                                 </xsl:if>
-
-                                 <xsl:for-each select="$apply/x:param">
-                                    <with-param>
-                                       <!-- @as may use namespace prefixes -->
-                                       <xsl:sequence select="x:copy-of-namespaces(.)" />
-
-                                       <xsl:attribute name="name"
-                                          select="x:UQName-from-EQName-ignoring-default-ns(@name, .)" />
-                                       <xsl:attribute name="select"
-                                          select="'$' || x:variable-UQName(.)" />
-
-                                       <xsl:sequence select="@tunnel, @as" />
-                                    </with-param>
-                                 </xsl:for-each>
-                              </apply-templates>
-                           </xsl:with-param>
-                        </xsl:call-template>
-                     </xsl:when>
-
                      <xsl:when test="$context">
-                        <!-- Create the template call -->
+                        <!-- Create the apply templates instruction -->
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
                               <apply-templates select="${x:variable-UQName($context)}">
@@ -395,6 +352,7 @@
       <!-- Set up its alias variable ($x:context) for publishing it along with $x:result -->
       <xsl:element name="xsl:variable" namespace="{$x:xsl-namespace}">
          <xsl:attribute name="name" select="x:known-UQName('x:context')"/>
+         <xsl:attribute name="as" select="'item()*'" />
          <xsl:attribute name="select" select="'$' || x:variable-UQName($context)"/>
       </xsl:element>
    </xsl:template>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               schematron="../../do-nothing.sch">
+
+   <x:scenario label="Test pending features (@pending on Schematron-specific x:expect-* elements)">
+      <x:context>
+         <foo />
+      </x:context>
+
+      <x:scenario
+         label="non-pending Schematron-specific x:expect-* elements alongside pending ones must execute the test">
+         <x:expect-assert />
+         <x:expect-report />
+         <x:expect-not-assert />
+         <x:expect-not-report />
+         <x:expect-rule />
+         <x:expect-valid />
+      </x:scenario>
+
+      <x:scenario label="Schematron-specific x:expect-* elements with @pending must be Pending">
+         <x:expect-assert     pending="testing @pending on x:expect-assert" />
+         <x:expect-report     pending="testing @pending on x:expect-report" />
+         <x:expect-not-assert pending="testing @pending on x:expect-not-assert" />
+         <x:expect-not-report pending="testing @pending on x:expect-not-report" />
+         <x:expect-rule       pending="testing @pending on x:expect-rule" />
+         <x:expect-valid      pending="testing @pending on x:expect-valid" />
+      </x:scenario>
+
+      <x:scenario
+         label="Schematron-specific x:expect-* elements with zero-length @pending must be Pending">
+         <x:expect-assert     pending="" />
+         <x:expect-report     pending="" />
+         <x:expect-not-assert pending="" />
+         <x:expect-not-report pending="" />
+         <x:expect-rule       pending="" />
+         <x:expect-valid      pending="" />
+      </x:scenario>
+
+   </x:scenario>
+
+</x:description>

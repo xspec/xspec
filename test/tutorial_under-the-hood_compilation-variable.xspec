@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description xmlns:my="http://example.org/ns/my"
-               xmlns:myv="http://example.org/ns/my/variable"
+<x:description xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                stylesheet="square.xsl"
                query="http://example.org/ns/my"
                query-at="square.xqm">

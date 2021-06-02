@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!--
+		Test (/x:description|//x:scenario)/x:param when they are unfocused by @focus on an inner
+		scenario.
+	-->
+
+	<x:param name="description-param" select="'PARAM'" />
+
+	<x:scenario label="Outer scenario">
+		<x:param name="outer-scenario-param" select="'param'" />
+
+		<x:scenario focus="focus" label="Focused scenario">
+			<x:call function="mirror:false" />
+			<x:expect label="Unfocused description-level param should hold its original value"
+				select="'PARAM'" test="$description-param" />
+			<x:expect
+				label="Unfocused scenario-level param in an outer scenario should hold its original value, if inherited by a focused scenario"
+				select="'param'" test="$outer-scenario-param" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario focus="focus in another scenario tree"
+		label="@focus on this scenario should not make $description-param and $outer-scenario-param pending" />
+
+</x:description>

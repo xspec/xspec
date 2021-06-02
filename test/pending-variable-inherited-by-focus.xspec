@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               query="x-urn:test:do-nothing"
+               query-at="do-nothing.xqm"
+               schematron="do-nothing.sch"
+               stylesheet="do-nothing.xsl">
+
+   <x:scenario label="Test x:variable under @pending and x:pending when it's inherited by @focus">
+
+      <x:call function="exactly-one">
+         <x:param select="9" />
+      </x:call>
+
+      <!--
+         x:pending
+      -->
+      <x:pending label="x:pending">
+
+         <x:scenario label="x:scenario[parent::x:pending][x:variable]">
+            <x:variable name="variable-under-x-pending" select="9" />
+
+            <x:scenario label="focused scenario inheriting variable"
+                        focus="@focus[ancestor::x:pending]">
+               <x:expect label="variable inherited by focused scenario must be available"
+                         select="$variable-under-x-pending" />
+            </x:scenario>
+         </x:scenario>
+
+      </x:pending>
+
+      <!--
+         @pending
+      -->
+      <x:scenario label="x:scenario[@pending][x:variable]"
+                  pending="x:scenario/@pending">
+         <x:variable name="variable-under-pending-attribute" select="9" />
+
+         <x:scenario label="focused scenario inheriting variable"
+                     focus="@focus[ancestor::x:scenario[@pending]]">
+            <x:expect label="variable inherited by focused scenario must be available"
+                      select="$variable-under-pending-attribute" />
+         </x:scenario>
+      </x:scenario>
+
+   </x:scenario>
+
+</x:description>

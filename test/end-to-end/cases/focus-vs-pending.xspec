@@ -8,7 +8,6 @@
 
 
 <t:description xmlns:t="http://www.jenitennison.com/xslt/xspec"
-               xmlns:xs="http://www.w3.org/2001/XMLSchema"
                query="x-urn:test:do-nothing"
                query-at="do-nothing.xqm"
                schematron="do-nothing.sch"
@@ -54,20 +53,36 @@
       </t:pending>
 
       <!--
-         Test @pending.
+         Test x:scenario/@pending.
       -->
       <t:scenario label="an erroneous scenario with @pending must be Pending"
-                  pending="testing @pending without @focus">
+                  pending="testing x:scenario[empty(@focus)]/@pending">
          <t:expect label="it would throw an error if it were not Pending"
                    test="error()" />
       </t:scenario>
 
       <!-- does not make sense, really, but to see how the implem reacts -->
       <t:scenario label="a Success scenario with both @pending and @focus (not recommended as ambiguous)"
-                  pending="testing @pending with @focus"
-                  focus="testing @focus with @pending">
+                  pending="testing x:scenario[@focus]/@pending"
+                  focus="testing x:scenario[@pending]/@focus">
          <t:expect label="must execute the test and return Success"
                    select="9" />
+      </t:scenario>
+
+      <!--
+         Test x:expect/@pending.
+      -->
+      <t:scenario label="a Success x:expect with @pending must be Pending">
+         <t:expect label="it would return Success if it were not Pending"
+                   select="9"
+                   pending="testing x:expect/@pending without ancestor::x:scenario/@focus" />
+      </t:scenario>
+
+      <t:scenario label="a Success x:expect with both @pending and ancestor::x:scenario/@focus (not recommended as ambiguous)"
+                  focus="testing x:scenario[@focus] with child::x:expect/@pending">
+         <t:expect label="must execute the test and return Success"
+                   select="9"
+                   pending="testing x:expect/@pending with ancestor::x:scenario/@focus" />
       </t:scenario>
 
    </t:scenario>

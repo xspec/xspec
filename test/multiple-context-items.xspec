@@ -1,30 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<x:description stylesheet="mirror.xsl" xmlns:items="x-urn:test:xspec-items"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-	<x:variable as="item()+" name="multiple-mixed-items" select="node(), 'str', 2">
-		<element />
-		<x:text>text</x:text>
-	</x:variable>
-	<x:scenario label="Make sure">
-		<x:call function="mirror:false" />
-		<x:expect label="the test variable contains a node"
-			test="exists($multiple-mixed-items[. instance of node()])" />
-		<x:expect label="the test variable contains an atomic value"
-			test="exists($multiple-mixed-items[. instance of xs:anyAtomicType])" />
-	</x:scenario>
+	<x:helper stylesheet="items.xsl" />
 
-	<x:scenario label="With multiple context items containing both node and atomic value">
-		<x:context select="$multiple-mixed-items" />
-
+	<x:scenario label="Test" shared="yes">
 		<x:scenario label="Calling a named template">
 			<x:call template="mirror:context-mirror" />
-			<x:expect label="should work" select="$multiple-mixed-items" />
+			<x:expect label="should call the template once for each item in x:context"
+				select="$x:context" />
 		</x:scenario>
 
 		<x:scenario label="Applying templates">
 			<x:context mode="mirror:context-mirror" />
-			<x:expect label="should work" select="$multiple-mixed-items" />
+			<x:expect label="should apply templates to all the items in x:context"
+				select="$x:context" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="When x:context consists of multiple items">
+		<x:scenario label="both node and atomic value">
+			<x:context as="item()+" select="$items:all-nodes, $items:integer" />
+			<x:like label="Test" />
+		</x:scenario>
+
+		<x:scenario label="nodes">
+			<x:context as="node()+" select="$items:all-nodes" />
+			<x:like label="Test" />
+		</x:scenario>
+
+		<x:scenario label="atomic values">
+			<x:context as="xs:anyAtomicType+" select="$items:integer, $items:integer" />
+			<x:like label="Test" />
 		</x:scenario>
 	</x:scenario>
 

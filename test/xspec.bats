@@ -2642,24 +2642,6 @@ load bats-helper
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
-@test "x:apply with x:context" {
-    run ../bin/xspec.sh error-compiling-scenario/apply-with-context.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "WARNING in x:scenario ('x:apply with x:context'): The instruction x:apply is not supported yet!" ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:context'): Can't use x:apply and set a context at the same time" ]
-    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
-}
-
-@test "x:apply with x:call" {
-    run ../bin/xspec.sh error-compiling-scenario/apply-with-call.xspec
-    echo "$output"
-    [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "WARNING in x:scenario ('x:apply with x:call'): The instruction x:apply is not supported yet!" ]
-    [ "${lines[4]}" = "ERROR in x:scenario ('x:apply with x:call'): Can't use x:apply and x:call at the same time" ]
-    [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
-}
-
 @test "x:call[@function] with x:context" {
     run ../bin/xspec.sh error-compiling-scenario/function-with-context.xspec
     echo "$output"
@@ -2672,7 +2654,7 @@ load bats-helper
     run ../bin/xspec.sh error-compiling-scenario/expect-without-action.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call, x:apply or x:context has been given" ]
+    [ "${lines[3]}" = "ERROR in x:scenario ('x:expect without action'): There are x:expect but no x:call or x:context has been given" ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -2957,8 +2939,15 @@ load bats-helper
 }
 
 #
-# Warn when a named template scenario has a context parameter
+# Warn when a named template scenario has a context mode or parameter
 #
+
+@test "Warning when x:call[@template] ignores x:context/@mode" {
+    run ../bin/xspec.sh context-mode-ignored.xspec
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${lines[3]}" = "WARNING in x:scenario ('With x:context[@mode] and x:call[@template]'): x:context/@mode will have no effect on x:call" ]
+}
 
 @test "Warning when x:call[@template] ignores x:context/x:param" {
     run ../bin/xspec.sh context-param.xspec
@@ -3002,12 +2991,20 @@ load bats-helper
     [ "${lines[28]}" = "PENDING: (testing @pending of a Success scenario) it would return Success if it were not Pending" ]
     [ "${lines[29]}" = "PENDING: (testing @pending of an erroneous scenario) ..an erroneous scenario with @pending must be Pending" ]
     [ "${lines[30]}" = "PENDING: (testing @pending of an erroneous scenario) it would throw an error if it were not Pending" ]
-    [ "${lines[31]}" = "PENDING: ..Zero-length @pending" ]
+    [ "${lines[31]}" = "PENDING: ..Zero-length x:scenario/@pending" ]
     [ "${lines[32]}" = "PENDING: ..a Success scenario in zero-length @pending must be Pending" ]
     [ "${lines[33]}" = "PENDING: it would return Success if it were not Pending" ]
     [ "${lines[34]}" = "PENDING: ..an erroneous scenario in zero-length @pending must be Pending" ]
     [ "${lines[35]}" = "PENDING: it would throw an error if it were not Pending" ]
-    [ "${lines[36]}" = "Formatting Report..." ]
-    [ "${lines[37]}" = "passed: 1 / pending: 12 / failed: 1 / total: 14" ]
+    [ "${lines[36]}" = "..a Success x:expect with @pending must be Pending" ]
+    [ "${lines[37]}" = "PENDING: (testing @pending of a Success x:expect) it would return Success if it were not Pending" ]
+    [ "${lines[38]}" = "..an erroneous x:expect with @pending must be Pending" ]
+    [ "${lines[39]}" = "PENDING: (testing @pending of an erroneous x:expect) it would throw an error if it were not Pending" ]
+    [ "${lines[40]}" = "..a Success x:expect with zero-length @pending must be Pending" ]
+    [ "${lines[41]}" = "PENDING: it would return Success if it were not Pending" ]
+    [ "${lines[42]}" = "..an erroneous x:expect with zero-length @pending must be Pending" ]
+    [ "${lines[43]}" = "PENDING: it would throw an error if it were not Pending" ]
+    [ "${lines[44]}" = "Formatting Report..." ]
+    [ "${lines[45]}" = "passed: 1 / pending: 16 / failed: 1 / total: 18" ]
 }
 

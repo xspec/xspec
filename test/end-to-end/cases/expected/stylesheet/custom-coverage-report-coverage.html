@@ -8,60 +8,60 @@
       <h1>Test Coverage Report</h1>
       <p>Stylesheet:  <a href="../../../../../tutorial/coverage/demo.xsl">demo.xsl</a></p>
       <h2>module: demo.xsl; 29 lines</h2>
-      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><span class="ignored"></span>
-02: <span class="ignored"></span><span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="3.0"</span>
-03: <span class="ignored">	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span><span class="ignored"></span>
-04: <span class="ignored"></span>
-05: <span class="ignored">	</span><span class="ignored">&lt;xsl:import href="demo-imported.xsl" /&gt;</span><span class="ignored"></span>
-06: <span class="ignored"></span>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="3.0"</span>
+03: <span class="ignored">	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
+04: 
+05: <span class="ignored">	</span><span class="ignored">&lt;xsl:import href="demo-imported.xsl" /&gt;</span>
+06: 
 07: <span class="ignored">	</span><span class="ignored">&lt;!--</span>
 08: <span class="ignored">		Makes &lt;iron&gt; into &lt;shield&gt;</span>
 09: <span class="ignored">			This template overrides an imported template.</span>
-10: <span class="ignored">	--&gt;</span><span class="ignored"></span>
-11: <span class="ignored">	</span><span class="hit">&lt;xsl:template as="element(shield)" match="iron"&gt;</span><span class="ignored"></span>
-12: <span class="ignored">		</span><span class="hit">&lt;shield&gt;</span><span class="ignored"></span>
-13: <span class="ignored">			</span><span class="hit">&lt;xsl:apply-templates select="@* | node()" /&gt;</span><span class="ignored"></span>
-14: <span class="ignored">		</span><span class="hit">&lt;/shield&gt;</span><span class="ignored"></span>
-15: <span class="ignored">	</span><span class="hit">&lt;/xsl:template&gt;</span><span class="ignored"></span>
-16: <span class="ignored"></span>
+10: <span class="ignored">	--&gt;</span>
+11: <span class="ignored">	</span><span class="hit">&lt;xsl:template as="element(shield)" match="iron"&gt;</span>
+12: <span class="ignored">		</span><span class="hit">&lt;shield&gt;</span>
+13: <span class="ignored">			</span><span class="hit">&lt;xsl:apply-templates select="@* | node()" /&gt;</span>
+14: <span class="ignored">		</span><span class="hit">&lt;/shield&gt;</span>
+15: <span class="ignored">	</span><span class="hit">&lt;/xsl:template&gt;</span>
+16: 
 17: <span class="ignored">	</span><span class="ignored">&lt;!--</span>
 18: <span class="ignored">		Makes &lt;iron&gt; into &lt;gold&gt;</span>
 19: <span class="ignored">			Only in alchemy mode.</span>
-20: <span class="ignored">	--&gt;</span><span class="ignored"></span>
-21: <span class="ignored">	</span><span class="ignored">&lt;xsl:mode name="alchemy" on-multiple-match="fail" on-no-match="fail" /&gt;</span><span class="ignored"></span>
-22: <span class="ignored">	</span><span class="missed">&lt;xsl:template as="element(gold)" match="iron" mode="alchemy"&gt;</span><span class="ignored"></span>
-23: <span class="ignored">		</span><span class="missed">&lt;gold&gt;</span><span class="ignored"></span>
-24: <span class="ignored">			</span><span class="missed">&lt;xsl:apply-templates select="@* | node()" /&gt;</span><span class="ignored"></span>
-25: <span class="ignored">		</span><span class="missed">&lt;/gold&gt;</span><span class="ignored"></span>
-26: <span class="ignored">	</span><span class="missed">&lt;/xsl:template&gt;</span><span class="ignored"></span>
-27: <span class="ignored"></span>
-28: <span class="ignored"></span><span class="ignored">&lt;/xsl:stylesheet&gt;</span><span class="ignored"></span>
-29: <span class="ignored"></span></pre>
+20: <span class="ignored">	--&gt;</span>
+21: <span class="ignored">	</span><span class="ignored">&lt;xsl:mode name="alchemy" on-multiple-match="fail" on-no-match="fail" /&gt;</span>
+22: <span class="ignored">	</span><span class="missed">&lt;xsl:template as="element(gold)" match="iron" mode="alchemy"&gt;</span>
+23: <span class="ignored">		</span><span class="missed">&lt;gold&gt;</span>
+24: <span class="ignored">			</span><span class="missed">&lt;xsl:apply-templates select="@* | node()" /&gt;</span>
+25: <span class="ignored">		</span><span class="missed">&lt;/gold&gt;</span>
+26: <span class="ignored">	</span><span class="missed">&lt;/xsl:template&gt;</span>
+27: 
+28: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
+29: </pre>
       <h2>module: demo-imported.xsl; 25 lines</h2>
-      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><span class="ignored"></span>
-02: <span class="ignored"></span><span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="2.0"</span>
-03: <span class="ignored">	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span><span class="ignored"></span>
-04: <span class="ignored"></span>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="2.0"</span>
+03: <span class="ignored">	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
+04: 
 05: <span class="ignored">	</span><span class="ignored">&lt;!--</span>
 06: <span class="ignored">		Identity template</span>
-07: <span class="ignored">	--&gt;</span><span class="ignored"></span>
-08: <span class="ignored">	</span><span class="hit">&lt;xsl:template as="node()" match="@* | node()"&gt;</span><span class="ignored"></span>
-09: <span class="ignored">		</span><span class="hit">&lt;xsl:copy&gt;</span><span class="ignored"></span>
-10: <span class="ignored">			</span><span class="missed">&lt;xsl:apply-templates select="@* | node()" /&gt;</span><span class="ignored"></span>
-11: <span class="ignored">		</span><span class="hit">&lt;/xsl:copy&gt;</span><span class="ignored"></span>
-12: <span class="ignored">	</span><span class="hit">&lt;/xsl:template&gt;</span><span class="ignored"></span>
-13: <span class="ignored"></span>
+07: <span class="ignored">	--&gt;</span>
+08: <span class="ignored">	</span><span class="hit">&lt;xsl:template as="node()" match="@* | node()"&gt;</span>
+09: <span class="ignored">		</span><span class="hit">&lt;xsl:copy&gt;</span>
+10: <span class="ignored">			</span><span class="missed">&lt;xsl:apply-templates select="@* | node()" /&gt;</span>
+11: <span class="ignored">		</span><span class="hit">&lt;/xsl:copy&gt;</span>
+12: <span class="ignored">	</span><span class="hit">&lt;/xsl:template&gt;</span>
+13: 
 14: <span class="ignored">	</span><span class="ignored">&lt;!--</span>
 15: <span class="ignored">		Makes &lt;iron&gt; into &lt;sword&gt;</span>
 16: <span class="ignored">			This template will be overridden.</span>
-17: <span class="ignored">	--&gt;</span><span class="ignored"></span>
-18: <span class="ignored">	</span><span class="missed">&lt;xsl:template as="element(sword)" match="iron"&gt;</span><span class="ignored"></span>
-19: <span class="ignored">		</span><span class="missed">&lt;sword&gt;</span><span class="ignored"></span>
-20: <span class="ignored">			</span><span class="missed">&lt;xsl:apply-templates select="@* | node()" /&gt;</span><span class="ignored"></span>
-21: <span class="ignored">		</span><span class="missed">&lt;/sword&gt;</span><span class="ignored"></span>
-22: <span class="ignored">	</span><span class="missed">&lt;/xsl:template&gt;</span><span class="ignored"></span>
-23: <span class="ignored"></span>
-24: <span class="ignored"></span><span class="ignored">&lt;/xsl:stylesheet&gt;</span><span class="ignored"></span>
-25: <span class="ignored"></span></pre>
+17: <span class="ignored">	--&gt;</span>
+18: <span class="ignored">	</span><span class="missed">&lt;xsl:template as="element(sword)" match="iron"&gt;</span>
+19: <span class="ignored">		</span><span class="missed">&lt;sword&gt;</span>
+20: <span class="ignored">			</span><span class="missed">&lt;xsl:apply-templates select="@* | node()" /&gt;</span>
+21: <span class="ignored">		</span><span class="missed">&lt;/sword&gt;</span>
+22: <span class="ignored">	</span><span class="missed">&lt;/xsl:template&gt;</span>
+23: 
+24: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
+25: </pre>
    </body>
 </html>

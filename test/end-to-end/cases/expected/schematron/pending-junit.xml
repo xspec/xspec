@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites name="pending.xspec">
    <testsuite name="Test pending features (x:pending and @pending)"
-              tests="14"
+              tests="18"
               failures="1">
       <testcase name="a non-pending Success scenario alongside a pending scenario must execute the test and return Success"
                 status="passed"/>
@@ -49,11 +49,27 @@
                 status="skipped">
          <skipped>testing @pending of an erroneous scenario</skipped>
       </testcase>
-      <testcase name="Zero-length @pending a Success scenario in zero-length @pending must be Pending it would return Success if it were not Pending"
+      <testcase name="Zero-length x:scenario/@pending a Success scenario in zero-length @pending must be Pending it would return Success if it were not Pending"
                 status="skipped">
          <skipped/>
       </testcase>
-      <testcase name="Zero-length @pending an erroneous scenario in zero-length @pending must be Pending it would throw an error if it were not Pending"
+      <testcase name="Zero-length x:scenario/@pending an erroneous scenario in zero-length @pending must be Pending it would throw an error if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="a Success x:expect with @pending must be Pending it would return Success if it were not Pending"
+                status="skipped">
+         <skipped>testing @pending of a Success x:expect</skipped>
+      </testcase>
+      <testcase name="an erroneous x:expect with @pending must be Pending it would throw an error if it were not Pending"
+                status="skipped">
+         <skipped>testing @pending of an erroneous x:expect</skipped>
+      </testcase>
+      <testcase name="a Success x:expect with zero-length @pending must be Pending it would return Success if it were not Pending"
+                status="skipped">
+         <skipped/>
+      </testcase>
+      <testcase name="an erroneous x:expect with zero-length @pending must be Pending it would throw an error if it were not Pending"
                 status="skipped">
          <skipped/>
       </testcase>

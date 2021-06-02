@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description stylesheet="mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="With x:context[@mode] and x:call[@template]">
+		<x:context mode="mirror:context-mirror">
+			<context-child />
+		</x:context>
+		<x:call template="mirror:param-mirror">
+			<x:param name="param-items">
+				<param-child />
+			</x:param>
+		</x:call>
+		<x:expect label="x:context/@mode should be ignored">
+			<param-child />
+		</x:expect>
+	</x:scenario>
+</x:description>

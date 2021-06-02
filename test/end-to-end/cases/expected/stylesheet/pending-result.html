@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Test Report for do-nothing.xsl (passed: 1 / pending: 12 / failed: 1 / total: 14)</title>
+      <title>Test Report for do-nothing.xsl (passed: 1 / pending: 16 / failed: 1 / total: 18)</title>
       <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
    </head>
    <body>
@@ -22,23 +22,23 @@
             <tr>
                <th></th>
                <th class="totals">passed: 1</th>
-               <th class="totals">pending: 12</th>
+               <th class="totals">pending: 16</th>
                <th class="totals">failed: 1</th>
-               <th class="totals">total: 14</th>
+               <th class="totals">total: 18</th>
             </tr>
          </thead>
          <tbody>
             <tr class="failed">
                <th><a href="#top_scenario1">Test pending features (x:pending and @pending)</a></th>
                <th class="totals">1</th>
-               <th class="totals">12</th>
+               <th class="totals">16</th>
                <th class="totals">1</th>
-               <th class="totals">14</th>
+               <th class="totals">18</th>
             </tr>
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="successful">Test pending features (x:pending and @pending)<span class="scenario-totals">passed: 1 / pending: 12 / failed: 1 / total: 14</span></h2>
+         <h2 class="successful">Test pending features (x:pending and @pending)<span class="scenario-totals">passed: 1 / pending: 16 / failed: 1 / total: 18</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
@@ -47,7 +47,7 @@
             <tbody>
                <tr class="successful">
                   <th>Test pending features (x:pending and @pending)</th>
-                  <th>passed: 1 / pending: 12 / failed: 1 / total: 14</th>
+                  <th>passed: 1 / pending: 16 / failed: 1 / total: 18</th>
                </tr>
                <tr class="successful">
                   <th>a non-pending Success scenario alongside a pending scenario</th>
@@ -146,7 +146,8 @@
                   <td>Pending</td>
                </tr>
                <tr class="pending">
-                  <th>Zero-length @pending a Success scenario in zero-length @pending must be Pending</th>
+                  <th>Zero-length x:scenario/@pending a Success scenario in zero-length @pending must be
+                     Pending</th>
                   <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
                </tr>
                <tr class="pending">
@@ -154,7 +155,40 @@
                   <td>Pending</td>
                </tr>
                <tr class="pending">
-                  <th>Zero-length @pending an erroneous scenario in zero-length @pending must be Pending</th>
+                  <th>Zero-length x:scenario/@pending an erroneous scenario in zero-length @pending must
+                     be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would throw an error if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="successful">
+                  <th>a Success x:expect with @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @pending of a Success x:expect</strong>) it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="successful">
+                  <th>an erroneous x:expect with @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>(<strong>testing @pending of an erroneous x:expect</strong>) it would throw an error if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="successful">
+                  <th>a Success x:expect with zero-length @pending must be Pending</th>
+                  <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
+               </tr>
+               <tr class="pending">
+                  <td>it would return Success if it were not Pending</td>
+                  <td>Pending</td>
+               </tr>
+               <tr class="successful">
+                  <th>an erroneous x:expect with zero-length @pending must be Pending</th>
                   <th>passed: 0 / pending: 1 / failed: 0 / total: 1</th>
                </tr>
                <tr class="pending">

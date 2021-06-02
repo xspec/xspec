@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Coverage Report for external_issue-1410.xsl</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Coverage Report</h1>
+      <p>Stylesheet:  <a href="../../external_issue-1410.xsl">external_issue-1410.xsl</a></p>
+      <h2>module: external_issue-1410.xsl; 24 lines</h2>
+      <pre>01: <span class="ignored">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+02: <span class="ignored">&lt;xsl:stylesheet exclude-result-prefixes="#all" version="3.0"</span>
+03: <span class="ignored">	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"&gt;</span>
+04: 
+05: <span class="ignored">	</span><span class="ignored">&lt;!-- Test Code Coverage with this xsl:global-context-item --&gt;</span>
+06: <span class="ignored">	</span><span class="ignored">&lt;xsl:global-context-item as="document-node(element(foo))" use="required" /&gt;</span>
+07: 
+08: <span class="ignored">	</span><span class="ignored">&lt;!-- Template containing no elements but xsl:context-item --&gt;</span>
+09: <span class="ignored">	</span><span class="ignored">&lt;xsl:mode name="empty" on-multiple-match="fail" on-no-match="fail" /&gt;</span>
+10: <span class="ignored">	</span><span class="hit">&lt;xsl:template as="empty-sequence()" match="foo" mode="empty"&gt;</span>
+11: <span class="ignored">		</span><span class="ignored">&lt;!-- Test Code Coverage with this xsl:context-item --&gt;</span>
+12: <span class="ignored">		</span><span class="hit">&lt;xsl:context-item as="element(foo)" use="required" /&gt;</span>
+13: <span class="ignored">	</span><span class="hit">&lt;/xsl:template&gt;</span>
+14: 
+15: <span class="ignored">	</span><span class="ignored">&lt;!-- Template containing xsl:context-item and literal result elements --&gt;</span>
+16: <span class="ignored">	</span><span class="ignored">&lt;xsl:mode name="not-empty" on-multiple-match="fail" on-no-match="fail" /&gt;</span>
+17: <span class="ignored">	</span><span class="missed">&lt;xsl:template as="element(bar)" match="foo" mode="not-empty"&gt;</span>
+18: <span class="ignored">		</span><span class="ignored">&lt;!-- Test Code Coverage with this xsl:context-item --&gt;</span>
+19: <span class="ignored">		</span><span class="missed">&lt;xsl:context-item as="element(foo)" use="required" /&gt;</span>
+20: <span class="ignored">		</span><span class="missed">&lt;bar /&gt;</span>
+21: <span class="ignored">	</span><span class="missed">&lt;/xsl:template&gt;</span>
+22: 
+23: <span class="ignored">&lt;/xsl:stylesheet&gt;</span>
+24: </pre>
+   </body>
+</html>

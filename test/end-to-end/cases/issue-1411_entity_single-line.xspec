@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xspec-test enable-coverage?>
+<x:description stylesheet="issue-1411_entity_single-line.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<!-- issue-1411_entity_single-line.xsl is an exact copy of issue-1411_entity.xsl with all the
+		line endings removed -->
+
+	<x:import href="issue-1411_entity.xspec" />
+
+</x:description>
