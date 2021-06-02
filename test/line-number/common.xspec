@@ -3,6 +3,17 @@
 
 	<x:variable href="doc.xml" name="doc" />
 
+	<x:scenario label="Common scenarios for testing x:column-number()">
+
+		<x:scenario label="document node">
+			<x:call function="x:column-number">
+				<x:param select="$doc" />
+			</x:call>
+			<x:expect label="-1" select="-1" />
+		</x:scenario>
+
+	</x:scenario>
+
 	<x:scenario label="Common scenarios for testing x:line-number()">
 
 		<x:scenario label="document node">

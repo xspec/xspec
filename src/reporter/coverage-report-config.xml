@@ -4,6 +4,7 @@
 	<global lineNumbering="true" />
 
 	<resources>
+		<extensionFunction>io.xspec.xspec.saxon.funcdefs.ColumnNumber</extensionFunction>
 		<extensionFunction>io.xspec.xspec.saxon.funcdefs.LineNumber</extensionFunction>
 	</resources>
 

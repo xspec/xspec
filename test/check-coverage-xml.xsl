@@ -11,28 +11,28 @@
 	</xsl:template>
 
 	<xsl:template as="text()" match="trace">
-		<xsl:if test="empty(c)">
-			<xsl:message select="'No c!'" terminate="yes" />
+		<xsl:if test="empty(construct)">
+			<xsl:message select="'No construct!'" terminate="yes" />
 		</xsl:if>
 
-		<xsl:if test="empty(h)">
-			<xsl:message select="'No h!'" terminate="yes" />
+		<xsl:if test="empty(hit)">
+			<xsl:message select="'No hit!'" terminate="yes" />
 		</xsl:if>
 
-		<xsl:if test="empty(m)">
-			<xsl:message select="'No m!'" terminate="yes" />
+		<xsl:if test="empty(module)">
+			<xsl:message select="'No module!'" terminate="yes" />
 		</xsl:if>
 
-		<xsl:for-each select="m[contains(@u, '/src/')]">
-			<xsl:message select="'m/@u contains /src/!', ." terminate="yes" />
+		<xsl:for-each select="module[contains(@uri, '/src/')]">
+			<xsl:message select="'module/@uri contains /src/!', ." terminate="yes" />
 		</xsl:for-each>
 
-		<xsl:if test="empty(u)">
-			<xsl:message select="'No u!'" terminate="yes" />
+		<xsl:if test="empty(util)">
+			<xsl:message select="'No util!'" terminate="yes" />
 		</xsl:if>
 
-		<xsl:for-each select="u[contains(@u, '/src/') => not()]">
-			<xsl:message select="'u/@u not contains /src/!', ." terminate="yes" />
+		<xsl:for-each select="util[contains(@uri, '/src/') => not()]">
+			<xsl:message select="'util/@uri not contains /src/!', ." terminate="yes" />
 		</xsl:for-each>
 
 		<xsl:text expand-text="yes">{true()}&#x0A;</xsl:text>
