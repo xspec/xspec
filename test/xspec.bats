@@ -970,6 +970,27 @@ load bats-helper
     "${basex_home}/bin/basexhttpstop"
 }
 
+@test "BaseX with no-prefix.xspec" {
+    if [ -z "${BASEX_JAR}" ]; then
+        skip "BASEX_JAR is not defined"
+    fi
+    if [ -z "${XMLCALABASH_JAR}" ]; then
+        skip "XMLCALABASH_JAR is not defined"
+    fi
+
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+        -i source=no-prefix.xspec \
+        -o result="file:${work_dir}/no-prefix-result_${RANDOM}.html" \
+        -p basex-jar="${BASEX_JAR}" \
+        -p compiled-file="file:${work_dir}/compiled_${RANDOM}.xq" \
+        -p xspec-home="file:${parent_dir_abs}/" \
+        ../src/harnesses/basex/basex-standalone-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
+    [ "${#lines[@]}" = "2" ]
+    assert_regex "${lines[1]}" '.+:passed: 10 / pending: 0 / failed: 0 / total: 10'
+}
+
 #
 # Ant with minimum properties
 #

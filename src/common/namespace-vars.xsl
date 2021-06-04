@@ -32,16 +32,4 @@
 	<xsl:variable as="xs:anyURI" name="x:xsl-namespace"
 		select="xs:anyURI('http://www.w3.org/1999/XSL/Transform')" />
 
-	<!--
-		Makes copies of namespaces from element
-		The standard 'xml' namespace is excluded.
-	-->
-	<xsl:function as="namespace-node()*" name="x:copy-of-namespaces">
-		<xsl:param as="element()" name="element" />
-
-		<xsl:for-each select="in-scope-prefixes($element)[. ne 'xml']">
-			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $element)" />
-		</xsl:for-each>
-	</xsl:function>
-
 </xsl:stylesheet>

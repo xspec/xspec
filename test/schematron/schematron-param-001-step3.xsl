@@ -16,7 +16,7 @@
 	<xsl:import _href="{$x:schematron-preprocessor?stylesheets?3}" />
 
 	<xsl:include href="../../src/common/common-utils.xsl" />
-	<xsl:include href="../../src/common/namespace-utils.xsl" />
+	<xsl:include href="../../src/common/namespace-vars.xsl" />
 	<xsl:include href="../../src/common/uqname-utils.xsl" />
 
 	<xsl:param name="selected" required="yes" />
