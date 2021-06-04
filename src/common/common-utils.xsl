@@ -29,13 +29,11 @@
 		<xsl:param as="xs:decimal" name="decimal" />
 
 		<xsl:variable as="xs:string" name="decimal-string" select="string($decimal)" />
-		<xsl:sequence
-			select="
+		<xsl:sequence select="
 				if (contains($decimal-string, '.')) then
 					$decimal-string
 				else
-					($decimal-string || '.0')"
-		 />
+					($decimal-string || '.0')" />
 	</xsl:function>
 
 	<!--
@@ -44,8 +42,7 @@
 	<xsl:function as="xs:string" name="x:QName-expression">
 		<xsl:param as="xs:QName" name="qname" />
 
-		<xsl:variable as="xs:string" name="quoted-uri"
-			select="
+		<xsl:variable as="xs:string" name="quoted-uri" select="
 				$qname
 				=> namespace-uri-from-QName()
 				=> x:quote-with-apos()" />
@@ -63,6 +60,48 @@
 		<xsl:variable as="xs:string" name="escaped"
 			select="replace($input, $x:apos, ($x:apos || $x:apos))" />
 		<xsl:sequence select="$x:apos || $escaped || $x:apos" />
+	</xsl:function>
+
+	<!--
+		Makes copies of namespaces from element.
+		The standard 'xml' namespace is excluded.
+	-->
+	<xsl:function as="namespace-node()*" name="x:copy-of-namespaces">
+		<xsl:param as="element()" name="element" />
+
+		<xsl:for-each select="in-scope-prefixes($element)[. ne 'xml']">
+			<xsl:namespace name="{.}" select="namespace-uri-for-prefix(., $element)" />
+		</xsl:for-each>
+	</xsl:function>
+
+	<!--
+		Makes copies of namespaces (sorted by their prefixes) from the element.
+		The standard 'xml' and the element name prefix are excluded.
+
+			Example:
+				in:
+					<prefix1:e xmlns="default"
+					           xmlns:prefix3="three"
+					           xmlns:prefix2="two"
+					           xmlns:prefix1="one" />
+				out:
+					xmlns="default"
+					xmlns:prefix2="two"
+					xmlns:prefix3="three"
+	-->
+	<xsl:function as="namespace-node()*" name="x:copy-of-additional-namespaces">
+		<xsl:param as="element()" name="element" />
+
+		<xsl:variable as="xs:string" name="element-name-prefix" select="
+				$element
+				=> node-name()
+				=> prefix-from-QName()
+				=> string()" />
+
+		<!-- Sort for better serialization (hopefully) -->
+		<xsl:perform-sort select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
+			<xsl:sort select="name()" />
+		</xsl:perform-sort>
 	</xsl:function>
 
 </xsl:stylesheet>

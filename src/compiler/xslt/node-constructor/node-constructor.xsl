@@ -17,7 +17,7 @@
 
          <xsl:apply-templates
             select="
-               x:element-additional-namespace-nodes(.),
+               x:copy-of-additional-namespaces(.),
                attribute(),
                node()"
             mode="#current" />

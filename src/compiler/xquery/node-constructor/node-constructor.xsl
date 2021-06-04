@@ -19,7 +19,7 @@
       <xsl:call-template name="x:zero-or-more-node-constructors">
          <xsl:with-param name="nodes"
             select="
-               x:element-additional-namespace-nodes(.),
+               x:copy-of-additional-namespaces(.),
                attribute(),
                node()" />
       </xsl:call-template>

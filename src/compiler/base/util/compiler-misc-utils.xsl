@@ -42,29 +42,6 @@
    </xsl:function>
 
    <!--
-      Returns namespace nodes in the element excluding the same prefix as the element name.
-      'xml' is excluded in the first place.
-
-         Example:
-            in:  <prefix1:e xmlns="default-ns" xmlns:prefix1="ns1" xmlns:prefix2="ns2" />
-            out: xmlns="default-ns" and xmlns:prefix2="ns2"
-   -->
-   <xsl:function as="namespace-node()*" name="x:element-additional-namespace-nodes">
-      <xsl:param as="element()" name="element" />
-
-      <xsl:variable as="xs:string" name="element-name-prefix" select="
-            $element
-            => node-name()
-            => prefix-from-QName()
-            => string()" />
-
-      <!-- Sort for better serialization (hopefully) -->
-      <xsl:perform-sort select="x:copy-of-namespaces($element)[name() ne $element-name-prefix]">
-         <xsl:sort select="name()" />
-      </xsl:perform-sort>
-   </xsl:function>
-
-   <!--
       Returns a lexical QName in the XSpec namespace. Usually 'x:local-name'.
       The prefix is taken from the context element's namespaces.
       If multiple namespace prefixes have the XSpec namespace URI,

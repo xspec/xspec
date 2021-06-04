@@ -19,7 +19,7 @@
 	<xsl:import href="../compiler/base/resolve-import/resolve-import.xsl" />
 
 	<xsl:include href="../common/common-utils.xsl" />
-	<xsl:include href="../common/namespace-utils.xsl" />
+	<xsl:include href="../common/namespace-vars.xsl" />
 	<xsl:include href="../common/trim.xsl" />
 	<xsl:include href="../common/uqname-utils.xsl" />
 	<xsl:include href="../common/uri-utils.xsl" />
