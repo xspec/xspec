@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="issue-1411_complex-2.xspec">
+   <testsuite name="When converting a dummy element" tests="1" failures="0">
+      <testcase name="it should return a dummy element with an entity" status="passed"/>
+   </testsuite>
+</testsuites>

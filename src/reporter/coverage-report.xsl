@@ -124,7 +124,7 @@
                <xsl:value-of select="format-number(1, $number-format)" />
                <xsl:text>: </xsl:text>
                <xsl:call-template name="output-lines">
-                  <xsl:with-param name="stylesheet-string" select="$stylesheet-string" />
+                  <xsl:with-param name="stylesheet-lines" select="$stylesheet-lines" />
                   <xsl:with-param name="number-format" select="$number-format" />
                   <xsl:with-param name="module-id" select="$module-id" />
                </xsl:call-template>
@@ -168,31 +168,15 @@
             |
             (&lt;!--                         <!-- 3: a comment -->
                (?:[^-]|-[^-])*               <!-- ?: the content of the comment -->
-             --&gt;)
+             -->)
             |
             (&lt;\?                          <!-- 4: a PI -->
                (?:[^?]|\?[^>])*              <!-- ?: the content of the PI -->
-             \?&gt;)
+             \?>)
             |
             (&lt;!\[CDATA\[                  <!-- 5: a CDATA section -->
                (?:[^\]]|\][^\]]|\]\][^>])*   <!-- ?: the content of the CDATA section -->
              \]\]>)
-            |
-            (?:&lt;!DOCTYPE                  <!-- ?: a DOCTYPE declaration -->
-               \s+
-               (?:[^\[>])*                   <!-- ?: the content of the DOCTYPE -->
-               (?:                           <!-- ?: the entity declarations -->
-                  \[
-                  (?:
-                     \s*
-                     (?:&lt;!ENTITY\s+[^>]+)&gt;
-                     \s*
-                  )+
-                  \]
-               )?
-               \s*
-               &gt;
-            )
             |
             (&lt;/                           <!-- 6: a close tag -->
                ([^>]+)                       <!-- 7: the name of the element being closed -->
@@ -214,19 +198,24 @@
    </xsl:variable>
 
    <xsl:template name="output-lines" as="node()+">
+      <!-- Context item is xsl:stylesheet or xsl:transform -->
       <xsl:context-item as="element()" use="required" />
 
-      <xsl:param name="stylesheet-string" as="xs:string" required="yes" />
+      <xsl:param name="stylesheet-lines" as="xs:string+" required="yes" />
       <xsl:param name="number-format" as="xs:string" required="yes" />
       <xsl:param name="module-id" as="xs:integer" required="yes" />
 
-      <!-- <xsl:stylesheet> or <xsl:transform> -->
-      <xsl:variable name="stylesheet-element" as="element()" select="." />
+      <xsl:variable name="outermost-element" as="element()" select="." />
+
+      <xsl:variable name="filtered-stylesheet-string" as="xs:string" select="
+            $stylesheet-lines
+            => local:filter-leading-string-in-lines($outermost-element)
+            => string-join('&#x0A;')" />
 
       <!-- Analyze the entire stylesheet string. For each matching substring, create a map that
          records the kind of match. -->
       <xsl:variable name="regex-groups" as="map(xs:integer, xs:string)+">
-         <xsl:analyze-string select="$stylesheet-string" regex="{$construct-regex}" flags="sx">
+         <xsl:analyze-string select="$filtered-stylesheet-string" regex="{$construct-regex}" flags="sx">
             <xsl:matching-substring>
                <xsl:map>
                   <xsl:for-each select="1 to map:size($groups)">
@@ -246,7 +235,7 @@
          number and node. -->
       <xsl:iterate select="$regex-groups">
          <xsl:param name="line-number" as="xs:integer" select="0" />
-         <xsl:param name="node" as="node()" select="$stylesheet-element" />
+         <xsl:param name="node" as="node()" select="$outermost-element" />
 
          <xsl:variable name="regex-group" as="map(xs:integer, xs:string)" select="." />
 
@@ -274,7 +263,20 @@
             </xsl:if>
             <xsl:where-populated>
                <span class="{$coverage}">
-                  <xsl:value-of select="." />
+                  <xsl:choose>
+                     <xsl:when test="
+                           ($line-number eq 0)
+                           and ($node is $outermost-element)
+                           and $regex-group($groups('text'))">
+                        <xsl:variable name="position" as="xs:integer" select="position()" />
+                        <xsl:value-of
+                           select="substring($stylesheet-lines[$position], 1, string-length())" />
+                     </xsl:when>
+
+                     <xsl:otherwise>
+                        <xsl:value-of select="." />
+                     </xsl:otherwise>
+                  </xsl:choose>
                </span>
             </xsl:where-populated>
          </xsl:for-each>
@@ -460,9 +462,91 @@
    <xsl:function name="local:split-lines" as="xs:string+">
       <xsl:param name="input" as="xs:string" />
 
-      <!-- Regular expression is based on
-         http://www.w3.org/TR/xpath-functions-31/#func-unparsed-text-lines -->
-      <xsl:sequence select="tokenize($input, '\r\n|\r|\n')" />
+      <xsl:choose>
+         <xsl:when test="$input">
+            <!-- Regular expression is based on
+               http://www.w3.org/TR/xpath-functions-31/#func-unparsed-text-lines -->
+            <xsl:sequence select="tokenize($input, '\r\n|\r|\n')" />
+         </xsl:when>
+         <xsl:otherwise>
+            <!-- Return the input string intact if it's a zero-length string -->
+            <xsl:sequence select="$input" />
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:function>
+
+   <!-- Returns lines before /element(). The last line is a zero-length string, if no characters in
+      the last line precede /element(). -->
+   <xsl:function name="local:lines-before-outermost-element" as="xs:string+">
+      <xsl:param name="lines" as="xs:string+" />
+      <xsl:param name="outermost-element" as="element()" />
+
+      <xsl:variable name="outermost-element-line-number" as="xs:integer"
+         select="x:line-number($outermost-element)" />
+      <xsl:variable name="outermost-element-column-number" as="xs:integer"
+         select="x:column-number($outermost-element)" />
+
+      <xsl:variable name="lines-up-to-end-of-outermost-element-open-tag" as="xs:string+">
+         <xsl:for-each select="$lines">
+            <xsl:choose>
+               <xsl:when test="position() lt $outermost-element-line-number">
+                  <xsl:sequence select="." />
+               </xsl:when>
+               <xsl:when test="position() eq $outermost-element-line-number">
+                  <xsl:sequence select="substring(., 1, $outermost-element-column-number - 1)" />
+               </xsl:when>
+               <xsl:otherwise>
+                  <!-- Discard -->
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:for-each>
+      </xsl:variable>
+      <xsl:variable name="codepoints-up-to-end-of-outermost-element-open-tag" as="xs:integer+"
+         select="
+            $lines-up-to-end-of-outermost-element-open-tag
+            => string-join('&#x0A;')
+            => string-to-codepoints()" />
+      <xsl:variable name="index-of-start-of-outermost-element-open-tag" as="xs:integer" select="
+            index-of(
+               $codepoints-up-to-end-of-outermost-element-open-tag,
+               string-to-codepoints('&lt;')
+            )
+            [last()]" />
+      <xsl:variable name="string-before-outermost-element" as="xs:string" select="
+            $codepoints-up-to-end-of-outermost-element-open-tag
+            [position() lt $index-of-start-of-outermost-element-open-tag]
+            => codepoints-to-string()" />
+      <xsl:sequence select="local:split-lines($string-before-outermost-element)" />
+   </xsl:function>
+
+   <!-- Replaces characters before /element() with whitespace characters -->
+   <xsl:function name="local:filter-leading-string-in-lines" as="xs:string+">
+      <xsl:param name="lines" as="xs:string+" />
+      <xsl:param name="outermost-element" as="element()" />
+
+      <xsl:variable name="lines-before-outermost-element" as="xs:string+"
+         select="local:lines-before-outermost-element($lines, $outermost-element)" />
+
+      <xsl:for-each select="$lines">
+         <xsl:choose>
+            <xsl:when test="position() lt count($lines-before-outermost-element)">
+               <xsl:sequence select="replace(. , '.', ' ')" />
+            </xsl:when>
+
+            <xsl:when test="position() eq count($lines-before-outermost-element)">
+               <xsl:variable name="leading-string-length" as="xs:integer"
+                  select="$lines-before-outermost-element[last()] => string-length()" />
+               <xsl:value-of>
+                  <xsl:sequence select="(1 to $leading-string-length) ! ' '" />
+                  <xsl:sequence select="substring(., $leading-string-length + 1)" />
+               </xsl:value-of>
+            </xsl:when>
+
+            <xsl:otherwise>
+               <xsl:sequence select="." />
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:for-each>
    </xsl:function>
 
    <!--
