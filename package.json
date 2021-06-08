@@ -5,7 +5,7 @@
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-angular": "^12.1.4",
-    "prettier": "^2.3.0"
+    "prettier": "^2.3.1"
   },
   "scripts": {
     "prettier:check": "prettier --check .",
