@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="separate-results_large.xspec">
+   <testsuite name="Test how the actual result and the expected result are saved"
+              tests="5"
+              failures="5">
+      <testcase name="when the actual result is evaluated without @test"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="when the actual result is evaluated with @test" status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="when the expected result is an empty sequence" status="failed">
+         <failure message="expect assertion failed">Expected Result: ()</failure>
+      </testcase>
+      <testcase name="when the expected result is an atomic value" status="failed">
+         <failure message="expect assertion failed">Expected Result: 0</failure>
+      </testcase>
+      <testcase name="when the expected result is a map" status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+   </testsuite>
+</testsuites>

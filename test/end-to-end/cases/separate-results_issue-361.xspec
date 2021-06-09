@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="separate-results.sch" separate-results="6" stylesheet="../../mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:param name="allow-foreign">true</x:param>
+
+	<x:scenario label="When $x:result consists of two or more elements">
+		<x:call function="mirror:param-mirror">
+			<x:param as="element()+">
+				<entry1 />
+				<entry2 />
+				<entry3 />
+				<entry4 />
+			</x:param>
+		</x:call>
+
+		<x:expect label="$x:result should be two elements" select="2"
+			test="count($x:result treat as element()+)" />
+
+		<!-- In order to test well-formedness mentioned in the issue, x:expect needs to have the
+			reporter XSLT read the separate XML. To realize it, x:expect needs to expect node()+ and
+			fail deliberately. -->
+		<x:variable as="element()+" name="myv:expected-result">
+			<entry1 />
+			<entry0 />
+			<entry3 />
+		</x:variable>
+		<x:expect select="$myv:expected-result">
+			<x:label><![CDATA[
+				- The actual result (reported as [Result]) should be saved successfully in a
+				  separate file which is well-formed
+				- The expected result (reported as [Expected Result]) should not be saved in a
+				  separate file.
+				- [Expected Result] should highlight only <entry0> against <entry2> in the separate
+				  file.
+			]]></x:label>
+		</x:expect>
+		<x:expect label="the same should be true when the actual result is evaluated with @test"
+			select="$myv:expected-result" test="$x:result" />
+	</x:scenario>
+
+</x:description>

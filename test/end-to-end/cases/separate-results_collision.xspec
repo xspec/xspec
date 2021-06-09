@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	https://github.com/expath/xspec/issues/67
+	Test naming collision of separate result files when the actual result and the expected result
+	are the exact same result (based on node identity).
+-->
+<x:description schematron="separate-results.sch" separate-results="1" stylesheet="../../mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:myv="http://example.org/ns/my/variable"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:param name="allow-foreign">true</x:param>
+
+	<x:variable as="node()" name="myv:node">
+		<element />
+	</x:variable>
+
+	<x:scenario label="Scenario 1">
+		<x:call function="mirror:param-mirror">
+			<x:param select="$myv:node" />
+		</x:call>
+		<x:expect
+			label="The actual result and the expected result should be saved in separate files without file name collision"
+			select="$myv:node" />
+		<x:expect label="the same should be true when the actual result is evaluated with @test"
+			select="$myv:node" test="$x:result" />
+	</x:scenario>
+
+	<x:scenario label="Scenario 2">
+		<x:call function="mirror:param-mirror">
+			<x:param select="$myv:node" />
+		</x:call>
+		<x:expect
+			label="The actual result and the expected result should be saved in separate files without file name collision"
+			select="$myv:node" />
+		<x:expect label="the same should be true when the actual result is evaluated with @test"
+			select="$myv:node" test="$x:result" />
+	</x:scenario>
+
+</x:description>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="separate-results_issue-361.xspec">
+   <testsuite name="When $x:result consists of two or more elements"
+              tests="3"
+              failures="3">
+      <testcase name="$x:result should be two elements" status="failed">
+         <failure message="expect assertion failed">Expected Result: 2</failure>
+      </testcase>
+      <testcase name="&#xA;&#x9;&#x9;&#x9;&#x9;- The actual result (reported as [Result]) should be saved successfully in a&#xA;&#x9;&#x9;&#x9;&#x9;  separate file which is well-formed&#xA;&#x9;&#x9;&#x9;&#x9;- The expected result (reported as [Expected Result]) should not be saved in a&#xA;&#x9;&#x9;&#x9;&#x9;  separate file.&#xA;&#x9;&#x9;&#x9;&#x9;- [Expected Result] should highlight only &lt;entry0&gt; against &lt;entry2&gt; in the separate&#xA;&#x9;&#x9;&#x9;&#x9;  file.&#xA;&#x9;&#x9;&#x9;"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="the same should be true when the actual result is evaluated with @test"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+   </testsuite>
+</testsuites>

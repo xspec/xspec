@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../separate-results_large.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../separate-results_default.xspec">
+      <label>Test how the actual result and the expected result are saved</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param>
+               <actual-result/>
+            </x:param>
+         </x:call>
+      </input-wrap>
+      <result select="/element()">
+         <content-wrap xmlns="">
+            <actual-result xmlns:mirror="x-urn:test:mirror"
+                           xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+         </content-wrap>
+      </result>
+      <test id="scenario1-expect1" successful="false">
+         <label>when the actual result is evaluated without @test</label>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <expected-result xmlns:mirror="x-urn:test:mirror"
+                                xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
+         </expect>
+      </test>
+      <test id="scenario1-expect2" successful="false">
+         <label>when the actual result is evaluated with @test</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$x:result"/>
+         </expect-test-wrap>
+         <result select="/element()">
+            <content-wrap xmlns="">
+               <actual-result xmlns:mirror="x-urn:test:mirror"
+                              xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
+         </result>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <expected-result xmlns:mirror="x-urn:test:mirror"
+                                xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
+         </expect>
+      </test>
+      <test id="scenario1-expect3" successful="false">
+         <label>when the expected result is an empty sequence</label>
+         <expect select="()"/>
+      </test>
+      <test id="scenario1-expect4" successful="false">
+         <label>when the expected result is an atomic value</label>
+         <expect select="0"/>
+      </test>
+      <test id="scenario1-expect5" successful="false">
+         <label>when the expected result is a map</label>
+         <expect select="/*">
+            <content-wrap xmlns="">
+               <pseudo-map xmlns="http://www.jenitennison.com/xslt/xspec">map{}</pseudo-map>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+</report>

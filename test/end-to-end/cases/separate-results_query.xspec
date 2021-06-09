@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Verify that /x:description/@separate-results is ignored on XQuery.
+-->
+<?xspec-test compiler-saxon-config=${xspec.project.dir}/test/config-to-enable-xinclude.xml?>
+<x:description query="x-urn:test:mirror" query-at="../../mirror.xqm" separate-results="1"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+	<!-- Use XInclude instead of x:import, in order to exclude x:param which is not supported on
+		XQuery. -->
+	<xi:include href="separate-results_default.xspec" xpointer="element(/1/2)" />
+
+</x:description>

@@ -45,6 +45,9 @@
 			<!-- (x:expect | x:scenario)/@id which is not allowed -->
 			<exclude name="test/compile-xslt-tests/compile-expect.xspec" />
 			<exclude name="test/compile-xslt-tests/compile-scenario.xspec" />
+
+			<!-- Jing task doesn't recognize XInclude -->
+			<exclude name="test/end-to-end/cases/separate-results_query.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.

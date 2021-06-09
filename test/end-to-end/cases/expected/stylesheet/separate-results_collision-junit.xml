@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="separate-results_collision.xspec">
+   <testsuite name="Scenario 1" tests="2" failures="0">
+      <testcase name="The actual result and the expected result should be saved in separate files without file name collision"
+                status="passed"/>
+      <testcase name="the same should be true when the actual result is evaluated with @test"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="Scenario 2" tests="2" failures="0">
+      <testcase name="The actual result and the expected result should be saved in separate files without file name collision"
+                status="passed"/>
+      <testcase name="the same should be true when the actual result is evaluated with @test"
+                status="passed"/>
+   </testsuite>
+</testsuites>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test /x:description/@separate-results large value. It should not generate separate result files.
+-->
+<x:description schematron="separate-results.sch" separate-results="1000"
+	stylesheet="../../mirror.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="separate-results_default.xspec" />
+</x:description>

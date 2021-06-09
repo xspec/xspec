@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../separate-results_collision.xspec"
+        stylesheet="separate-results_collision-sch-preprocessed.xsl"
+        schematron="../../separate-results.sch"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../separate-results_collision.xspec">
+      <label>Scenario 1</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param select="$myv:node"/>
+         </x:call>
+      </input-wrap>
+      <result href="HREF-1"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>The actual result and the expected result should be saved in separate files without file name collision</label>
+         <expect href="HREF-2"/>
+      </test>
+      <test id="scenario1-expect2" successful="true">
+         <label>the same should be true when the actual result is evaluated with @test</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$x:result"/>
+         </expect-test-wrap>
+         <result href="HREF-3"/>
+         <expect href="HREF-4"/>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../separate-results_collision.xspec">
+      <label>Scenario 2</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param select="$myv:node"/>
+         </x:call>
+      </input-wrap>
+      <result href="HREF-5"/>
+      <test id="scenario2-expect1" successful="true">
+         <label>The actual result and the expected result should be saved in separate files without file name collision</label>
+         <expect href="HREF-6"/>
+      </test>
+      <test id="scenario2-expect2" successful="true">
+         <label>the same should be true when the actual result is evaluated with @test</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$x:result"/>
+         </expect-test-wrap>
+         <result href="HREF-7"/>
+         <expect href="HREF-8"/>
+      </test>
+   </scenario>
+</report>
