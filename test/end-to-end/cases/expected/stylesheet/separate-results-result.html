@@ -29,21 +29,21 @@
          </thead>
          <tbody>
             <tr class="successful">
-               <th><a href="#top_scenario1">scenario 1</a></th>
+               <th><a href="#top_scenario1">Scenario 1</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="successful">
-               <th><a href="#top_scenario2">scenario 2</a></th>
+               <th><a href="#top_scenario2">Scenario 2</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
             </tr>
             <tr class="failed">
-               <th><a href="#top_scenario3">When the result consists of multiple elements (xspec/xspec#361)</a></th>
+               <th><a href="#top_scenario3">When $x:result consists of two document nodes, each containing an element</a></th>
                <th class="totals">1</th>
                <th class="totals">0</th>
                <th class="totals">1</th>
@@ -52,7 +52,7 @@
          </tbody>
       </table>
       <div id="top_scenario1">
-         <h2 class="successful">scenario 1<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <h2 class="successful">Scenario 1<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
          <table class="xspec" id="table_scenario1">
             <colgroup>
                <col style="width:75%" />
@@ -60,18 +60,19 @@
             </colgroup>
             <tbody>
                <tr class="successful">
-                  <th>scenario 1</th>
+                  <th>Scenario 1</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
-                  <td>The result should be saved in an external file</td>
+                  <td>The actual result and the expected result should be saved in separate files without
+                     file name collision</td>
                   <td>Success</td>
                </tr>
             </tbody>
          </table>
       </div>
       <div id="top_scenario2">
-         <h2 class="successful">scenario 2<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
+         <h2 class="successful">Scenario 2<span class="scenario-totals">passed: 1 / pending: 0 / failed: 0 / total: 1</span></h2>
          <table class="xspec" id="table_scenario2">
             <colgroup>
                <col style="width:75%" />
@@ -79,18 +80,19 @@
             </colgroup>
             <tbody>
                <tr class="successful">
-                  <th>scenario 2</th>
+                  <th>Scenario 2</th>
                   <th>passed: 1 / pending: 0 / failed: 0 / total: 1</th>
                </tr>
                <tr class="successful">
-                  <td>The result should be saved in another external file</td>
+                  <td>The actual result and the expected result should be saved in separate files without
+                     file name collision</td>
                   <td>Success</td>
                </tr>
             </tbody>
          </table>
       </div>
       <div id="top_scenario3">
-         <h2 class="failed">When the result consists of multiple elements (xspec/xspec#361)<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
+         <h2 class="failed">When $x:result consists of two document nodes, each containing an element<span class="scenario-totals">passed: 1 / pending: 0 / failed: 1 / total: 2</span></h2>
          <table class="xspec" id="table_scenario3">
             <colgroup>
                <col style="width:75%" />
@@ -98,31 +100,33 @@
             </colgroup>
             <tbody>
                <tr class="failed">
-                  <th>When the result consists of multiple elements (xspec/xspec#361)</th>
+                  <th>When $x:result consists of two document nodes, each containing an element</th>
                   <th>passed: 1 / pending: 0 / failed: 1 / total: 2</th>
                </tr>
                <tr class="successful">
-                  <td>x:result should be two document nodes</td>
+                  <td>$x:result should be two document nodes</td>
                   <td>Success</td>
                </tr>
                <tr class="failed">
-                  <td><a href="#scenario3-expect2"> - The result should be saved successfully in yet another external file which is well-formed
-                        - [Expected Result] should highlight only these differences: - "XPath /element() from"
-                        against @select="node()" in the external file - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt;
-                        in the 1st &lt;entries&gt; of the external files (Note that in the test result report XML,
-                        the two document nodes from $x:result are unwrapped and merged by "rep:report-sequence".)</a></td>
+                  <td><a href="#scenario3-expect2"> - The actual result should be saved successfully in yet another separate file which
+                        is well-formed - [Expected Result] should highlight only these differences: - "XPath
+                        /element() from" against @select="node()" in the separate file - &lt;entry&gt;0&lt;/entry&gt;
+                        against &lt;entry&gt;2&lt;/entry&gt; in the 1st &lt;entries&gt; of the separate files (Note that in
+                        the test result report XML, the two document nodes from $x:result are unwrapped and
+                        merged by "rep:report-sequence".)</a></td>
                   <td>Failure</td>
                </tr>
             </tbody>
          </table>
          <div id="scenario3">
-            <h3>When the result consists of multiple elements (xspec/xspec#361)</h3>
+            <h3>When $x:result consists of two document nodes, each containing an element</h3>
             <div id="scenario3-expect2" class="xTestReport">
-               <h4 class="xTestReportTitle"> - The result should be saved successfully in yet another external file which is well-formed
-                  - [Expected Result] should highlight only these differences: - "XPath /element() from"
-                  against @select="node()" in the external file - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt;
-                  in the 1st &lt;entries&gt; of the external files (Note that in the test result report XML,
-                  the two document nodes from $x:result are unwrapped and merged by "rep:report-sequence".)</h4>
+               <h4 class="xTestReportTitle"> - The actual result should be saved successfully in yet another separate file which
+                  is well-formed - [Expected Result] should highlight only these differences: - "XPath
+                  /element() from" against @select="node()" in the separate file - &lt;entry&gt;0&lt;/entry&gt;
+                  against &lt;entry&gt;2&lt;/entry&gt; in the 1st &lt;entries&gt; of the separate files (Note that in
+                  the test result report XML, the two document nodes from $x:result are unwrapped and
+                  merged by "rep:report-sequence".)</h4>
                <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
                <table class="xspecResult">
                   <thead>

@@ -6,43 +6,55 @@
 
   <x:variable name="myv:test-doc" as="document-node(element(entries))" href="separate-results.xml" />
 
-  <!-- https://github.com/expath/xspec/issues/67
-       test naming collision of external result files when a function returns a document containing more than 1000 node -->
+  <!--
+    https://github.com/expath/xspec/issues/67
+    Test naming collision of separate result files when the actual result and the expect result are
+    the exact same result (based on node identity).
+  -->
 
-  <x:scenario label="scenario 1">
+  <x:scenario label="Scenario 1">
     <x:call function="mirror:param-mirror">
       <x:param select="$myv:test-doc" />
     </x:call>
-    <x:expect label="The result should be saved in an external file"
+    <x:expect
+      label="The actual result and the expected result should be saved in separate files without file name collision"
       select="$myv:test-doc" />
   </x:scenario>
 
-  <x:scenario label="scenario 2">
+  <x:scenario label="Scenario 2">
     <x:call function="mirror:param-mirror">
       <x:param select="$myv:test-doc" />
     </x:call>
-    <x:expect label="The result should be saved in another external file"
+    <x:expect
+      label="The actual result and the expected result should be saved in separate files without file name collision"
       select="$myv:test-doc" />
   </x:scenario>
 
-  <x:scenario label="When the result consists of multiple elements (xspec/xspec#361)">
+  <!--
+    https://github.com/xspec/xspec/issues/361
+    Test separate result files with multiple elements
+  -->
+
+  <x:scenario label="When $x:result consists of two document nodes, each containing an element">
     <x:call function="mirror:param-mirror">
       <x:param select="$myv:test-doc, $myv:test-doc" />
     </x:call>
 
-    <x:expect label="x:result should be two document nodes" select="2"
+    <x:expect label="$x:result should be two document nodes" select="2"
       test="count($x:result treat as document-node()+)" />
 
-    <!-- In order to test well-formedness, this x:expect needs to have the reporter XSLT read the external XML.
-      To realize it, x:expect needs to expect node()+ and fail deliberately. -->
+    <!-- In order to test well-formedness mentioned in the issue, x:expect needs to have the
+      reporter XSLT read the separate XML. To realize it, x:expect needs to expect node()+ and fail
+      deliberately. -->
     <x:expect select="wrap/entries">
       <x:label><![CDATA[
-        - The result should be saved successfully in yet another external file which is well-formed
+        - The actual result should be saved successfully in yet another separate file which is
+          well-formed
         - [Expected Result] should highlight only these differences:
-          - "XPath /element() from" against @select="node()" in the external file
-          - <entry>0</entry> against <entry>2</entry> in the 1st <entries> of the external files
-          (Note that in the test result report XML, the two document nodes from $x:result are
-          unwrapped and merged by "rep:report-sequence".)
+          - "XPath /element() from" against @select="node()" in the separate file
+          - <entry>0</entry> against <entry>2</entry> in the 1st <entries> of the separate files
+        (Note that in the test result report XML, the two document nodes from $x:result are
+        unwrapped and merged by "rep:report-sequence".)
       ]]></x:label>
       <wrap xml:space="preserve"><entries>
    <entry>1</entry>
@@ -51,4 +63,5 @@
    </entries></wrap>
     </x:expect>
   </x:scenario>
+
 </x:description>
