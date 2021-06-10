@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="result-naming-collision.xspec">
+<testsuites name="separate-results.xspec">
    <testsuite name="scenario 1" tests="1" failures="0">
       <testcase name="The result should be saved in an external file" status="passed"/>
    </testsuite>

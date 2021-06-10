@@ -7,23 +7,23 @@
 
   <x:scenario label="scenario 1">
     <x:call function="mirror:param-mirror">
-      <x:param href="result-naming-collision.xml" />
+      <x:param href="separate-results.xml" />
     </x:call>
     <x:expect label="The result should be saved in an external file"
-      href="result-naming-collision.xml" />
+      href="separate-results.xml" />
   </x:scenario>
 
   <x:scenario label="scenario 2">
     <x:call function="mirror:param-mirror">
-      <x:param href="result-naming-collision.xml" />
+      <x:param href="separate-results.xml" />
     </x:call>
     <x:expect label="The result should be saved in another external file"
-      href="result-naming-collision.xml" />
+      href="separate-results.xml" />
   </x:scenario>
 
   <x:scenario label="When the result consists of multiple elements (xspec/xspec#361)">
     <x:call function="mirror:param-mirror">
-      <x:param href="result-naming-collision.xml" select="., ." />
+      <x:param href="separate-results.xml" select="., ." />
     </x:call>
 
     <x:expect label="x:result should be two document nodes" select="2"
