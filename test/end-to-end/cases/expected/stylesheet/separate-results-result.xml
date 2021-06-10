@@ -7,46 +7,50 @@
       <label>scenario 1</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
-            <x:param href="../../separate-results.xml"/>
+            <x:param select="$myv:test-doc"/>
          </x:call>
       </input-wrap>
-      <result href="HREF-2"/>
+      <result href="HREF-1"/>
       <test id="scenario1-expect1" successful="true">
          <label>The result should be saved in an external file</label>
-         <expect href="HREF-3"/>
+         <expect href="HREF-2"/>
       </test>
    </scenario>
    <scenario id="scenario2" xspec="../../separate-results.xspec">
       <label>scenario 2</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
-            <x:param href="../../separate-results.xml"/>
+            <x:param select="$myv:test-doc"/>
          </x:call>
       </input-wrap>
-      <result href="HREF-5"/>
+      <result href="HREF-3"/>
       <test id="scenario2-expect1" successful="true">
          <label>The result should be saved in another external file</label>
-         <expect href="HREF-6"/>
+         <expect href="HREF-4"/>
       </test>
    </scenario>
    <scenario id="scenario3" xspec="../../separate-results.xspec">
       <label>When the result consists of multiple elements (xspec/xspec#361)</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
                  xmlns:x="http://www.jenitennison.com/xslt/xspec"
                  function="mirror:param-mirror">
-            <x:param href="../../separate-results.xml" select="., ."/>
+            <x:param select="$myv:test-doc, $myv:test-doc"/>
          </x:call>
       </input-wrap>
-      <result href="HREF-8"/>
+      <result href="HREF-5"/>
       <test id="scenario3-expect1" successful="true">
          <label>x:result should be two document nodes</label>
          <expect-test-wrap xmlns="">
             <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
                       xmlns:x="http://www.jenitennison.com/xslt/xspec"
                       test="count($x:result treat as document-node()+)"/>
          </expect-test-wrap>
@@ -65,6 +69,7 @@
          <expect select="/element()">
             <content-wrap xmlns="">
                <entries xmlns:mirror="x-urn:test:mirror"
+                        xmlns:myv="http://example.org/ns/my/variable"
                         xmlns:x="http://www.jenitennison.com/xslt/xspec">
                   <ws xmlns="http://www.jenitennison.com/xslt/xspec">
    </ws>

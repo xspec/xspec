@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description xmlns:mirror="x-urn:test:mirror"
+               xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
                stylesheet="../../mirror.xsl">
+
+  <x:variable name="myv:test-doc" as="document-node(element(entries))" href="separate-results.xml" />
+
   <!-- https://github.com/expath/xspec/issues/67
        test naming collision of external result files when a function returns a document containing more than 1000 node -->
 
   <x:scenario label="scenario 1">
     <x:call function="mirror:param-mirror">
-      <x:param href="separate-results.xml" />
+      <x:param select="$myv:test-doc" />
     </x:call>
     <x:expect label="The result should be saved in an external file"
-      href="separate-results.xml" />
+      select="$myv:test-doc" />
   </x:scenario>
 
   <x:scenario label="scenario 2">
     <x:call function="mirror:param-mirror">
-      <x:param href="separate-results.xml" />
+      <x:param select="$myv:test-doc" />
     </x:call>
     <x:expect label="The result should be saved in another external file"
-      href="separate-results.xml" />
+      select="$myv:test-doc" />
   </x:scenario>
 
   <x:scenario label="When the result consists of multiple elements (xspec/xspec#361)">
     <x:call function="mirror:param-mirror">
-      <x:param href="separate-results.xml" select="., ." />
+      <x:param select="$myv:test-doc, $myv:test-doc" />
     </x:call>
 
     <x:expect label="x:result should be two document nodes" select="2"
