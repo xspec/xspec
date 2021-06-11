@@ -2,7 +2,10 @@
 <x:description xmlns:mirror="x-urn:test:mirror"
                xmlns:myv="http://example.org/ns/my/variable"
                xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               schematron="separate-results.sch"
                stylesheet="../../mirror.xsl">
+
+  <x:param name="allow-foreign">true</x:param>
 
   <x:variable name="myv:test-doc" as="document-node(element(entries))" href="separate-results.xml" />
 
