@@ -46,7 +46,14 @@
     <!-- In order to test well-formedness mentioned in the issue, x:expect needs to have the
       reporter XSLT read the separate XML. To realize it, x:expect needs to expect node()+ and fail
       deliberately. -->
-    <x:expect select="wrap/entries">
+    <x:variable name="myv:expected-result" as="element(entries)" select="wrap/entries">
+      <wrap xml:space="preserve"><entries>
+   <entry>1</entry>
+   <entry>0</entry>
+   <entry>3</entry>
+   </entries></wrap>
+    </x:variable>
+    <x:expect select="$myv:expected-result">
       <x:label><![CDATA[
         - The actual result should be saved successfully in yet another separate file which is
           well-formed
@@ -56,12 +63,9 @@
         (Note that in the test result report XML, the two document nodes from $x:result are
         unwrapped and merged by "rep:report-sequence".)
       ]]></x:label>
-      <wrap xml:space="preserve"><entries>
-   <entry>1</entry>
-   <entry>0</entry>
-   <entry>3</entry>
-   </entries></wrap>
     </x:expect>
+    <x:expect label="the same should be true when the actual result is evaluated with @test"
+      select="$myv:expected-result" test="$x:result" />
   </x:scenario>
 
 </x:description>

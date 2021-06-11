@@ -87,5 +87,34 @@
             </content-wrap>
          </expect>
       </test>
+      <test id="scenario3-expect3" successful="false">
+         <label>the same should be true when the actual result is evaluated with @test</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$x:result"/>
+         </expect-test-wrap>
+         <result href="HREF-6"/>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <entries xmlns:mirror="x-urn:test:mirror"
+                        xmlns:myv="http://example.org/ns/my/variable"
+                        xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>1</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>0</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>3</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+               </entries>
+            </content-wrap>
+         </expect>
+      </test>
    </scenario>
 </report>

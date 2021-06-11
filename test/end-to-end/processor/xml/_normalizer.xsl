@@ -81,7 +81,8 @@
 	-->
 	<xsl:template as="attribute(href)" match="
 			x:scenario/x:result/@href
-			| x:scenario/x:test/x:expect/@href" mode="normalizer:normalize">
+			| x:scenario/x:test/x:expect/@href
+			| x:scenario/x:test/x:result/@href" mode="normalizer:normalize">
 		<xsl:call-template name="normalizer:normalize-external-link-attribute" />
 	</xsl:template>
 
