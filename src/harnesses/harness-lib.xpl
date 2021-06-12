@@ -322,7 +322,7 @@
    </p:declare-step>
 
    <!-- Escapes markup. Also mimics @use-character-maps="x:disable-escaping" in
-      ../compiler/compile-xquery-tests.xsl. -->
+      ../compiler/xquery/main.xsl. -->
    <p:declare-step type="x:escape-markup" name="escape-markup">
       <p:input  port="source" primary="true"/>
       <p:output port="result" primary="true"/>
