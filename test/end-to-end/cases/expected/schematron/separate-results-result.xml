@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../separate-results.xspec"
+        stylesheet="separate-results-sch-preprocessed.xsl"
+        schematron="../../separate-results.sch"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../separate-results.xspec">
+      <label>Scenario 1</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param select="$myv:test-doc"/>
+         </x:call>
+      </input-wrap>
+      <result href="HREF-1"/>
+      <test id="scenario1-expect1" successful="true">
+         <label>The actual result and the expected result should be saved in separate files without file name collision</label>
+         <expect href="HREF-2"/>
+      </test>
+   </scenario>
+   <scenario id="scenario2" xspec="../../separate-results.xspec">
+      <label>Scenario 2</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param select="$myv:test-doc"/>
+         </x:call>
+      </input-wrap>
+      <result href="HREF-3"/>
+      <test id="scenario2-expect1" successful="true">
+         <label>The actual result and the expected result should be saved in separate files without file name collision</label>
+         <expect href="HREF-4"/>
+      </test>
+   </scenario>
+   <scenario id="scenario3" xspec="../../separate-results.xspec">
+      <label>When $x:result consists of two document nodes, each containing an element</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param select="$myv:test-doc, $myv:test-doc"/>
+         </x:call>
+      </input-wrap>
+      <result href="HREF-5"/>
+      <test id="scenario3-expect1" successful="true">
+         <label>$x:result should be two document nodes</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="count($x:result treat as document-node()+)"/>
+         </expect-test-wrap>
+         <result select="2"/>
+         <expect select="2"/>
+      </test>
+      <test id="scenario3-expect2" successful="false">
+         <label>
+        - The actual result should be saved successfully in yet another separate file which is
+          well-formed
+        - [Expected Result] should highlight only these differences:
+          - "XPath /element() from" against @select="node()" in the separate file
+          - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt; in the 1st &lt;entries&gt; of the separate files
+        (Note that in the test result report XML, the two document nodes from $x:result are
+        unwrapped and merged by "rep:report-sequence".)
+      </label>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <entries xmlns:mirror="x-urn:test:mirror"
+                        xmlns:myv="http://example.org/ns/my/variable"
+                        xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>1</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>0</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>3</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+               </entries>
+            </content-wrap>
+         </expect>
+      </test>
+      <test id="scenario3-expect3" successful="false">
+         <label>the same should be true when the actual result is evaluated with @test</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$x:result"/>
+         </expect-test-wrap>
+         <result href="HREF-6"/>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <entries xmlns:mirror="x-urn:test:mirror"
+                        xmlns:myv="http://example.org/ns/my/variable"
+                        xmlns:x="http://www.jenitennison.com/xslt/xspec">
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>1</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>0</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+                  <entry>3</entry>
+                  <ws xmlns="http://www.jenitennison.com/xslt/xspec">
+   </ws>
+               </entries>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+</report>

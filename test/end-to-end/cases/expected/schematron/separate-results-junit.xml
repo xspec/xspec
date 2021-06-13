@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="separate-results.xspec">
+   <testsuite name="Scenario 1" tests="1" failures="0">
+      <testcase name="The actual result and the expected result should be saved in separate files without file name collision"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="Scenario 2" tests="1" failures="0">
+      <testcase name="The actual result and the expected result should be saved in separate files without file name collision"
+                status="passed"/>
+   </testsuite>
+   <testsuite name="When $x:result consists of two document nodes, each containing an element"
+              tests="3"
+              failures="2">
+      <testcase name="$x:result should be two document nodes" status="passed"/>
+      <testcase name="&#xA;        - The actual result should be saved successfully in yet another separate file which is&#xA;          well-formed&#xA;        - [Expected Result] should highlight only these differences:&#xA;          - &#34;XPath /element() from&#34; against @select=&#34;node()&#34; in the separate file&#xA;          - &lt;entry&gt;0&lt;/entry&gt; against &lt;entry&gt;2&lt;/entry&gt; in the 1st &lt;entries&gt; of the separate files&#xA;        (Note that in the test result report XML, the two document nodes from $x:result are&#xA;        unwrapped and merged by &#34;rep:report-sequence&#34;.)&#xA;      "
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+      <testcase name="the same should be true when the actual result is evaluated with @test"
+                status="failed">
+         <failure message="expect assertion failed"/>
+      </testcase>
+   </testsuite>
+</testsuites>
