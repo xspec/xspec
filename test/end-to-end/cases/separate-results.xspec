@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:mirror="x-urn:test:mirror"
+               xmlns:myv="http://example.org/ns/my/variable"
+               xmlns:x="http://www.jenitennison.com/xslt/xspec"
+               schematron="separate-results.sch"
+               stylesheet="../../mirror.xsl">
+
+  <x:param name="allow-foreign">true</x:param>
+
+  <x:variable name="myv:test-doc" as="document-node(element(entries))" href="separate-results.xml" />
+
+  <!--
+    https://github.com/expath/xspec/issues/67
+    Test naming collision of separate result files when the actual result and the expect result are
+    the exact same result (based on node identity).
+  -->
+
+  <x:scenario label="Scenario 1">
+    <x:call function="mirror:param-mirror">
+      <x:param select="$myv:test-doc" />
+    </x:call>
+    <x:expect
+      label="The actual result and the expected result should be saved in separate files without file name collision"
+      select="$myv:test-doc" />
+  </x:scenario>
+
+  <x:scenario label="Scenario 2">
+    <x:call function="mirror:param-mirror">
+      <x:param select="$myv:test-doc" />
+    </x:call>
+    <x:expect
+      label="The actual result and the expected result should be saved in separate files without file name collision"
+      select="$myv:test-doc" />
+  </x:scenario>
+
+  <!--
+    https://github.com/xspec/xspec/issues/361
+    Test separate result files with multiple elements
+  -->
+
+  <x:scenario label="When $x:result consists of two document nodes, each containing an element">
+    <x:call function="mirror:param-mirror">
+      <x:param select="$myv:test-doc, $myv:test-doc" />
+    </x:call>
+
+    <x:expect label="$x:result should be two document nodes" select="2"
+      test="count($x:result treat as document-node()+)" />
+
+    <!-- In order to test well-formedness mentioned in the issue, x:expect needs to have the
+      reporter XSLT read the separate XML. To realize it, x:expect needs to expect node()+ and fail
+      deliberately. -->
+    <x:variable name="myv:expected-result" as="element(entries)" select="wrap/entries">
+      <wrap xml:space="preserve"><entries>
+   <entry>1</entry>
+   <entry>0</entry>
+   <entry>3</entry>
+   </entries></wrap>
+    </x:variable>
+    <x:expect select="$myv:expected-result">
+      <x:label><![CDATA[
+        - The actual result should be saved successfully in yet another separate file which is
+          well-formed
+        - [Expected Result] should highlight only these differences:
+          - "XPath /element() from" against @select="node()" in the separate file
+          - <entry>0</entry> against <entry>2</entry> in the 1st <entries> of the separate files
+        (Note that in the test result report XML, the two document nodes from $x:result are
+        unwrapped and merged by "rep:report-sequence".)
+      ]]></x:label>
+    </x:expect>
+    <x:expect label="the same should be true when the actual result is evaluated with @test"
+      select="$myv:expected-result" test="$x:result" />
+  </x:scenario>
+
+</x:description>
