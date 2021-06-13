@@ -36,6 +36,9 @@ unset JAVA_TOOL_OPTIONS
 unset ANT_ARGS
 unset ANT_OPTS
 
+# Unset XML Resolver (of XML Calabash) environment variable
+unset XMLRESOLVER_PROPERTIES
+
 # Reset public environment variables
 export SAXON_CP="${SAXON_JAR}"
 unset SAXON_CUSTOM_OPTIONS
