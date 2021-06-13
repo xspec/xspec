@@ -189,11 +189,21 @@
                   <xsl:apply-templates select="($call, $context)[1]/x:param"
                      mode="x:declare-variable" />
 
+                  <xsl:variable name="invocation-type" as="xs:string">
+                     <xsl:choose>
+                        <xsl:when test="empty($call) and $context">apply-templates</xsl:when>
+                        <xsl:when test="$call/@function">call-function</xsl:when>
+                        <xsl:when test="$call/@template">call-template</xsl:when>
+                     </xsl:choose>
+                  </xsl:variable>
+
                   <!-- Enter SUT -->
                   <xsl:choose>
                      <xsl:when test="$is-external">
                         <!-- Set up the $impl:transform-options variable -->
-                        <xsl:call-template name="x:transform-options" />
+                        <xsl:call-template name="x:transform-options">
+                           <xsl:with-param name="invocation-type" select="$invocation-type" />
+                        </xsl:call-template>
 
                         <!-- Generate XSLT elements which perform entering SUT -->
                         <xsl:variable name="enter-sut" as="element()+">
@@ -207,7 +217,7 @@
 
                         <!-- Invoke transform() -->
                         <xsl:choose>
-                           <xsl:when test="$call/@template and $context">
+                           <xsl:when test="($invocation-type eq 'call-template') and $context">
                               <for-each select="${x:variable-UQName($context)}">
                                  <variable name="{x:known-UQName('impl:transform-options')}" as="map({x:known-UQName('xs:string')}, item()*)">
                                     <xsl:attribute name="select">
@@ -223,7 +233,7 @@
                         </xsl:choose>
                      </xsl:when>
 
-                     <xsl:when test="$call/@template">
+                     <xsl:when test="$invocation-type eq 'call-template'">
                         <!-- Create the template call -->
                         <xsl:variable name="template-call" as="element()">
                            <xsl:call-template name="x:enter-sut">
@@ -261,7 +271,7 @@
                         </xsl:choose>
                      </xsl:when>
 
-                     <xsl:when test="$call/@function">
+                     <xsl:when test="$invocation-type eq 'call-function'">
                         <!-- Create the function call -->
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:sequence)">
@@ -276,7 +286,7 @@
                         </xsl:call-template>
                      </xsl:when>
 
-                     <xsl:when test="$context">
+                     <xsl:when test="$invocation-type eq 'apply-templates'">
                         <!-- Create the apply templates instruction -->
                         <xsl:call-template name="x:enter-sut">
                            <xsl:with-param name="instruction" as="element(xsl:apply-templates)">
