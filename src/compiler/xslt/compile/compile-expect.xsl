@@ -186,17 +186,17 @@
                   <xsl:call-template name="x:report-test-attribute" />
 
                   <if test="not(${x:known-UQName('impl:boolean-test')})">
-                     <call-template name="{x:known-UQName('rep:report-sequence')}">
-                        <with-param name="sequence" select="${x:known-UQName('impl:test-result')}" />
-                        <with-param name="report-name" select="'result'" />
-                     </call-template>
+                     <xsl:call-template name="x:call-report-sequence">
+                        <xsl:with-param name="sequence-variable-eqname"
+                           select="x:known-UQName('impl:test-result')" />
+                     </xsl:call-template>
                   </if>
                </xsl:if>
 
-               <call-template name="{x:known-UQName('rep:report-sequence')}">
-                  <with-param name="sequence" select="${x:variable-UQName(.)}" />
-                  <with-param name="report-name" select="'{local-name()}'" />
-               </call-template>
+               <xsl:call-template name="x:call-report-sequence">
+                  <xsl:with-param name="sequence-variable-eqname" select="x:variable-UQName(.)" />
+                  <xsl:with-param name="report-name" select="local-name()" />
+               </xsl:call-template>
             </xsl:if>
 
          <!-- </x:test> -->

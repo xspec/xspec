@@ -315,10 +315,10 @@
                   </xsl:choose>
                </variable>
 
-               <call-template name="{x:known-UQName('rep:report-sequence')}">
-                  <with-param name="sequence" select="${x:known-UQName('x:result')}" />
-                  <with-param name="report-name" select="'result'" />
-               </call-template>
+               <xsl:call-template name="x:call-report-sequence">
+                  <xsl:with-param name="sequence-variable-eqname"
+                     select="x:known-UQName('x:result')" />
+               </xsl:call-template>
                <xsl:comment> invoke each compiled x:expect </xsl:comment>
             </xsl:if>
 
