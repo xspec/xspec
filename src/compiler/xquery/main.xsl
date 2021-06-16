@@ -168,7 +168,7 @@
    <xsl:include href="invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
    <xsl:include href="measure-time/timestamp.xsl" />
    <xsl:include href="node-constructor/node-constructor.xsl" />
-   <xsl:include href="report/wrap-node-constructors-and-undeclare-default-ns.xsl" />
+   <xsl:include href="report/report-utils.xsl" />
    <xsl:include href="serialize/disable-escaping.xsl" />
 
 </xsl:stylesheet>

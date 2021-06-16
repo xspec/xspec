@@ -158,6 +158,13 @@ rem
     set "TEST_DIR=%WORK_DIR%\output_%RANDOM%"
     set ANT_ARGS=-Dxspec.dir="%TEST_DIR%"
 
+    rem
+    rem Invalidate XML Resolver (of XML Calabash) cache
+    rem
+    set "XMLRESOLVER_PROPERTIES=%WORK_DIR%\xmlresolver.properties"
+    echo cache=%WORK_DIR:\=\\%\\xmlcatalog-cache_%RANDOM% > "%XMLRESOLVER_PROPERTIES%"
+    set "XMLRESOLVER_PROPERTIES=file:///%XMLRESOLVER_PROPERTIES:\=/%"
+
     goto :EOF
 
 :teardown

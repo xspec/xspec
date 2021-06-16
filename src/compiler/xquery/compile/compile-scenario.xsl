@@ -143,7 +143,11 @@
             </xsl:call-template>
             <xsl:text>)&#x0A;</xsl:text>
 
-            <xsl:text expand-text="yes">let ${$variable-name-of-actual-result-report} := {x:known-UQName('rep:report-sequence')}(${x:known-UQName('x:result')}, 'result')&#x0A;</xsl:text>
+            <xsl:text expand-text="yes">let ${$variable-name-of-actual-result-report} := </xsl:text>
+            <xsl:call-template name="x:call-report-sequence">
+               <xsl:with-param name="sequence-variable-eqname" select="x:known-UQName('x:result')" />
+            </xsl:call-template>
+            <xsl:text>&#x0A;</xsl:text>
 
             <xsl:text>&#x0A;</xsl:text>
             <xsl:text>(: invoke each compiled x:expect :)&#x0A;</xsl:text>

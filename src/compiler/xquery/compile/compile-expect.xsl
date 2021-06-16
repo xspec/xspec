@@ -129,11 +129,19 @@
             <xsl:text>(&#x0A;</xsl:text>
             <xsl:text>if ( $local:boolean-test )&#x0A;</xsl:text>
             <xsl:text>then ()&#x0A;</xsl:text>
-            <xsl:text expand-text="yes">else {x:known-UQName('rep:report-sequence')}($local:test-result, 'result')&#x0A;</xsl:text>
+            <xsl:text>else </xsl:text>
+            <xsl:call-template name="x:call-report-sequence">
+               <xsl:with-param name="sequence-variable-eqname" select="'local:test-result'" />
+            </xsl:call-template>
+            <xsl:text>&#x0A;</xsl:text>
             <xsl:text>),&#x0A;</xsl:text>
          </xsl:if>
 
-         <xsl:text expand-text="yes">{x:known-UQName('rep:report-sequence')}(${x:variable-UQName(.)}, '{local-name()}')&#x0A;</xsl:text>
+         <xsl:call-template name="x:call-report-sequence">
+            <xsl:with-param name="sequence-variable-eqname" select="x:variable-UQName(.)" />
+            <xsl:with-param name="report-name" select="local-name()" />
+         </xsl:call-template>
+         <xsl:text>&#x0A;</xsl:text>
       </xsl:if>
 
       <!-- </x:test> -->
