@@ -13,6 +13,7 @@
    <xsl:template name="x:transform-options" as="element(xsl:variable)">
       <xsl:context-item as="element(x:scenario)" use="required" />
 
+      <xsl:param name="invocation-type" as="xs:string" required="yes" />
       <xsl:param name="call" as="element(x:call)?" required="yes" tunnel="yes" />
       <xsl:param name="context" as="element(x:context)?" required="yes" tunnel="yes" />
 
@@ -103,9 +104,11 @@
             </if>
 
             <!--
-               Options for call-template invocation and apply-templates invocation
+               Options for template invocation types
             -->
-            <xsl:for-each select="($call[@template], $context)[1]">
+            <xsl:for-each select="
+                  $context[$invocation-type eq 'apply-templates'],
+                  $call[$invocation-type eq 'call-template']">
                <xsl:where-populated>
                   <map-entry key="'template-params'">
                      <xsl:where-populated>
@@ -131,16 +134,16 @@
             </xsl:for-each>
 
             <!--
-               Invocation-specific options
+               Options for a specific invocation type
             -->
             <xsl:choose>
-               <xsl:when test="$call/@template">
+               <xsl:when test="$invocation-type eq 'call-template'">
                   <map-entry key="'initial-template'"
                      select="{x:QName-expression-from-EQName-ignoring-default-ns($call/@template, $call)}" />
                   <!-- 'global-context-item' option is set in x:compile-scenario template -->
                </xsl:when>
 
-               <xsl:when test="$call/@function">
+               <xsl:when test="$invocation-type eq 'call-function'">
                   <map-entry key="'function-params'">
                      <xsl:attribute name="select">
                         <xsl:text>[</xsl:text>
@@ -157,14 +160,14 @@
                      select="{x:QName-expression-from-EQName-ignoring-default-ns($call/@function, $call)}" />
                </xsl:when>
 
-               <xsl:when test="$context">
+               <xsl:when test="$invocation-type eq 'apply-templates'">
                   <map-entry
                      key="if (${x:variable-UQName($context)} instance of node()) then 'source-node' else 'initial-match-selection'"
                      select="${x:variable-UQName($context)}" />
-                  <xsl:if test="$context/@mode">
+                  <xsl:for-each select="$context[@mode]">
                      <map-entry key="'initial-mode'"
-                        select="{x:QName-expression-from-EQName-ignoring-default-ns($context/@mode, $context)}" />
-                  </xsl:if>
+                        select="{x:QName-expression-from-EQName-ignoring-default-ns(@mode, .)}" />
+                  </xsl:for-each>
                </xsl:when>
             </xsl:choose>
          </map>

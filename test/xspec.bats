@@ -34,6 +34,11 @@ setup() {
     # Set TEST_DIR and xspec.dir within the work directory so that it's cleaned up by teardown
     export TEST_DIR="${work_dir}/output_${RANDOM}"
     export ANT_ARGS="-Dxspec.dir=${TEST_DIR}"
+
+    # Invalidate XML Resolver (of XML Calabash) cache
+    XMLRESOLVER_PROPERTIES="${work_dir}/xmlresolver.properties"
+    echo "cache=${work_dir}/xmlcatalog-cache_${RANDOM}" > "${XMLRESOLVER_PROPERTIES}"
+    export XMLRESOLVER_PROPERTIES="file:${XMLRESOLVER_PROPERTIES}"
 }
 
 teardown() {
