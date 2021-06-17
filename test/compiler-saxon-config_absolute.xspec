@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test xspec.compiler.saxon.config Ant property with absolute file path
+-->
+<?xspec-test compiler-saxon-config=${xspec.project.dir}/test/config-to-enable-xinclude.xml?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="compiler-saxon-config_relative.xspec" />
+</x:description>

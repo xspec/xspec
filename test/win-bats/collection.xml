@@ -1409,32 +1409,6 @@
 	</case>
 
 	<!--
-		xspec.compiler.saxon.config
-	-->
-
-	<case name="xspec.compiler.saxon.config (relative path)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dxspec.compiler.saxon.config=test\compiler-saxon-config\config.xml ^
-        -Dxspec.xml=test\compiler-saxon-config\test.xspec
-    call :verify_retval 0
-    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
-    call :verify_line -2 x "BUILD SUCCESSFUL"
-	</case>
-
-	<case name="xspec.compiler.saxon.config (absolute path)">
-    call :run ant ^
-        -buildfile ..\build.xml ^
-        -lib "%SAXON_JAR%" ^
-        -Dxspec.compiler.saxon.config="%CD%\compiler-saxon-config\config.xml" ^
-        -Dxspec.xml="%CD%\compiler-saxon-config\test.xspec"
-    call :verify_retval 0
-    call :verify_line  * x "     [xslt] passed: 2 / pending: 0 / failed: 0 / total: 2"
-    call :verify_line -2 x "BUILD SUCCESSFUL"
-	</case>
-
-	<!--
 		Coverage (Ant)
 	-->
 
