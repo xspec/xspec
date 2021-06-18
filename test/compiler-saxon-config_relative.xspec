@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test xspec.compiler.saxon.config Ant property with relative file path (relative from
+	${xspec.project.dir}/test/ant/worker/build-worker.xml)
+-->
+<?xspec-test compiler-saxon-config=../../config-to-enable-xinclude.xml?>
+<x:description query="x-urn:test:mirror" query-at="mirror.xqm" stylesheet="mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+	<x:scenario label="Using XInclude">
+		<x:call function="mirror:param-mirror">
+			<x:param>
+				<xi:include href="ws-only-text.xml" />
+			</x:param>
+		</x:call>
+		<x:expect label="Expect with the same XInclude">
+			<xi:include href="ws-only-text.xml" />
+		</x:expect>
+		<x:expect label="Expect without XInclude">
+			<span xml:base="ws-only-text.xml" />
+		</x:expect>
+	</x:scenario>
+</x:description>

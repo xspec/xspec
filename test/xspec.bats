@@ -34,6 +34,11 @@ setup() {
     # Set TEST_DIR and xspec.dir within the work directory so that it's cleaned up by teardown
     export TEST_DIR="${work_dir}/output_${RANDOM}"
     export ANT_ARGS="-Dxspec.dir=${TEST_DIR}"
+
+    # Invalidate XML Resolver (of XML Calabash) cache
+    XMLRESOLVER_PROPERTIES="${work_dir}/xmlresolver.properties"
+    echo "cache=${work_dir}/xmlcatalog-cache_${RANDOM}" > "${XMLRESOLVER_PROPERTIES}"
+    export XMLRESOLVER_PROPERTIES="file:${XMLRESOLVER_PROPERTIES}"
 }
 
 teardown() {
@@ -1654,34 +1659,6 @@ load bats-helper
 
     # Verify '-t'
     assert_regex "${output}" $'\n''Memory used:'
-}
-
-#
-# xspec.compiler.saxon.config
-#
-
-@test "xspec.compiler.saxon.config (relative path)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.compiler.saxon.config=test/compiler-saxon-config/config.xml \
-        -Dxspec.xml=test/compiler-saxon-config/test.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
-}
-
-@test "xspec.compiler.saxon.config (absolute path)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.compiler.saxon.config="${PWD}/compiler-saxon-config/config.xml" \
-        -Dxspec.xml="${PWD}/compiler-saxon-config/test.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 #
