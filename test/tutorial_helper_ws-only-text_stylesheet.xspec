@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <x:description stylesheet="test-target.xsl" xml:base="../tutorial/helper/ws-only-text/"
 	xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="href.xspec" />
+	<x:import href="href_stylesheet.xspec" />
 </x:description>

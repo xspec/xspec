@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+   We can't use RECOGNIZE_URI_QUERY_PARAMETERS Saxon configuration option in this file, because
+   this file is used for testing not only Saxon but also BaseX.
+-->
 <x:description query="x-urn:test:xspec-items" query-at="items.xqm" stylesheet="items.xsl"
    xmlns:items="x-urn:test:xspec-items" xmlns:rep="urn:x-xspec:common:report-sequence"
+   xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
    xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
    <!--
@@ -993,6 +998,89 @@
             </x:call>
             <x:expect label="xs:untypedAtomic" select="string()"
                >Q{http://www.w3.org/2001/XMLSchema}untypedAtomic</x:expect>
+         </x:scenario>
+
+      </x:scenario>
+
+   </x:scenario>
+
+   <!--
+      rep:report-sequence template (XSLT) or function (XQuery)
+   -->
+
+   <x:helper query="x-urn:tutorial:helper:ws-only-text:test-helper"
+      query-at="../tutorial/helper/ws-only-text/test-helper.xqm" />
+   <x:helper stylesheet="../tutorial/helper/ws-only-text/test-helper.xsl" />
+
+   <!-- XSLT implementation is a template while XQuery is a function. Wrap the template in a helper
+      function so that we can test both XSLT and XQuery unless xsl:result-document is involved. -->
+   <x:helper stylesheet="report-sequence_helper.xsl" />
+
+   <x:scenario label="rep:report-sequence" xml:base="report-sequence/">
+      <x:call function="rep:report-sequence" />
+
+      <x:scenario label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L486-L550">
+         <x:call>
+            <x:param position="2" select="'x:result'" />
+         </x:call>
+
+         <x:scenario label="Integer">
+            <x:call>
+               <x:param name="sequence" select="1" as="xs:integer" />
+            </x:call>
+            <x:expect label="x:result with @select of integer" href="integer.xml" select="x:result" />
+         </x:scenario>
+
+         <x:scenario label="Empty Sequence">
+            <x:call>
+               <x:param name="sequence" select="()" />
+            </x:call>
+            <x:expect label="x:result with @select of empty sequence" href="empty-sequence.xml"
+               select="x:result" />
+         </x:scenario>
+
+         <x:scenario label="String">
+            <x:call>
+               <x:param name="sequence" select="'test'" as="xs:string" />
+            </x:call>
+            <x:expect label="x:result with @select of string" href="string.xml" select="x:result" />
+         </x:scenario>
+
+         <x:scenario label="URI">
+            <x:call>
+               <x:param name="sequence" select="xs:anyURI('test.xml')" />
+            </x:call>
+            <x:expect label="x:result with @select of xs:anyURI" href="uri.xml" select="x:result" />
+         </x:scenario>
+
+         <x:scenario label="QName">
+            <x:call>
+               <x:param name="sequence" select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
+            </x:call>
+            <x:expect label="x:result with @select of QName" href="qname.xml" select="x:result" />
+         </x:scenario>
+
+         <x:scenario label="Attributes">
+            <x:call>
+               <x:param name="sequence" select="/*/@*" as="attribute()+">
+                  <doc a="1" b="2" />
+               </x:param>
+            </x:call>
+            <x:expect label="x:result containing attributes" href="attributes.xml"
+               select="test-helper:remove-whitespace-only-text(.)/x:result" />
+         </x:scenario>
+
+         <x:scenario label="Attributes and content">
+            <x:call>
+               <x:param name="sequence" select="/*/@*, /*/foo" as="node()+">
+                  <doc a="1" b="2">
+                     <foo />
+                  </doc>
+               </x:param>
+            </x:call>
+            <x:expect label="x:result containing attributes and content"
+               href="attributes-and-content.xml"
+               select="test-helper:remove-whitespace-only-text(.)/x:result" />
          </x:scenario>
 
       </x:scenario>

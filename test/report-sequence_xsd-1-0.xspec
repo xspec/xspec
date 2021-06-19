@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xspec-test saxon-custom-options=--xsd-version:1.0?>
 <x:description query="x-urn:test:xspec-items" query-at="items.xqm" stylesheet="items.xsl"
-	xmlns:items="x-urn:test:xspec-items" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	xmlns:items="x-urn:test:xspec-items"
+	xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario catch="yes"
+		label="Verify that XSD version is 1.0. XSD 1.1 allows year zero. XSD 1.0 does not.">
+		<x:call function="Q{http://www.w3.org/2001/XMLSchema}gYear">
+			<x:param select="'0000'" />
+		</x:call>
+		<x:expect label="code" select="QName('http://www.w3.org/2005/xqt-errors', 'FORG0001')"
+			test="$x:result?err?code" />
+		<x:expect label="description"
+			test="contains($x:result?err?description, '(Year zero is not allowed)')" />
+	</x:scenario>
+
 	<x:import href="report-sequence.xspec" />
+
 </x:description>
