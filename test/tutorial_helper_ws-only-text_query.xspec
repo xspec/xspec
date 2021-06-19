@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description query="x-urn:tutorial:helper:ws-only-text:test-target" query-at="test-target.xqm"
+	xml:base="../tutorial/helper/ws-only-text/"
+	xmlns:test-helper="x-urn:tutorial:helper:ws-only-text:test-helper"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="href_query.xspec" />
+</x:description>
