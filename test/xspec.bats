@@ -551,6 +551,15 @@ load bats-helper
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     echo "$output"
     [ "$status" -eq 0 ]
+
+    # Run again (ndw/xmlcalabash1#322)
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+        -i source=end-to-end/cases/serialize.xspec \
+        -o result="file:${actual_report}" \
+        -p xspec-home="file:${parent_dir_abs}/" \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
 }
 
 @test "XProc harness for Saxon (XQuery with special characters in expression #1020)" {
