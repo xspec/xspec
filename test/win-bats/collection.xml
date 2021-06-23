@@ -438,6 +438,14 @@
         EXPECTED-DOC-URI="file:///%ACTUAL_REPORT_DIR:\=/%/../../expected/query/serialize-result.html" ^
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     call :verify_retval 0
+
+    rem Run again (ndw/xmlcalabash1#322)
+    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+        -i source=end-to-end/cases/serialize.xspec ^
+        -o result="file:///%ACTUAL_REPORT:\=/%" ^
+        -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
+        ..\src\harnesses\saxon\saxon-xquery-harness.xproc
+    call :verify_retval 0
 	</case>
 
 	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XQuery with special characters in expression #1020)">
