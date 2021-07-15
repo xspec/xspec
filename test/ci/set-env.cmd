@@ -61,7 +61,7 @@ rem
 set "XML_RESOLVER_JAR=%XSPEC_TEST_DEPS%\xml-resolver-%XML_RESOLVER_VERSION%\resolver.jar"
 
 rem
-rem XML Calabash
+rem XML Calabash jar
 rem
 if defined XMLCALABASH_VERSION (
     rem Depends on the archive file structure
@@ -69,6 +69,28 @@ if defined XMLCALABASH_VERSION (
 ) else (
     echo XML Calabash will not be installed
     set XMLCALABASH_JAR=
+)
+
+rem
+rem Log4j
+rem
+if defined LOG4J_VERSION (
+    set "LOG4J_DIR=%XSPEC_TEST_DEPS%\log4j-%LOG4J_VERSION%"
+) else (
+    echo Log4j will not be installed
+    set LOG4J_DIR=
+)
+
+rem
+rem XML Calabash classpath
+rem
+if defined XMLCALABASH_JAR (
+    set "XMLCALABASH_CP=%XMLCALABASH_JAR%;%SAXON_JAR%"
+) else (
+    set XMLCALABASH_CP=
+)
+if defined XMLCALABASH_CP if defined LOG4J_DIR (
+    set "XMLCALABASH_CP=%XMLCALABASH_CP%;%LOG4J_DIR%\*"
 )
 
 rem
