@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="schematron-027.xspec">
+   <testsuite name="rule followed" tests="1" failures="0">
+      <testcase name="not assert t01" status="passed"/>
+   </testsuite>
+   <testsuite name="rule violated" tests="1" failures="0">
+      <testcase name="assert t01" status="passed"/>
+   </testsuite>
+   <testsuite name="rule violated, location is simple" tests="1" failures="0">
+      <testcase name="assert t01 contrib/aff" status="passed"/>
+   </testsuite>
+   <testsuite name="rule violated, location is specific" tests="1" failures="0">
+      <testcase name="assert t01 contrib[1]/aff[1]" status="passed"/>
+   </testsuite>
+   <testsuite name="rule violated, location is specific 2" tests="1" failures="0">
+      <testcase name="assert t01 contrib[1]/aff[2]" status="passed"/>
+   </testsuite>
+   <testsuite name="rule violated, location is ambiguous" tests="1" failures="1">
+      <testcase name="assert t01 contrib/aff" status="failed">
+         <failure message="expect assertion failed">Expecting: exists(Q{http://purl.oclc.org/dsdl/svrl}schematron-output/Q{http://purl.oclc.org/dsdl/svrl}failed-assert[(@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}fired-rule[1]/@id, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}active-pattern[1]/@id)[1] = 't01'][if (count($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(contrib/aff)) ne 1) then false() else ($Q{http://www.jenitennison.com/xslt/xspec}context/root()/(contrib/aff) treat as node()) is Q{http://www.jenitennison.com/xslt/xspec}select-node($Q{http://www.jenitennison.com/xslt/xspec}context/root(), @location, preceding-sibling::Q{http://purl.oclc.org/dsdl/svrl}ns-prefix-in-attribute-values, 3)])</failure>
+      </testcase>
+   </testsuite>
+</testsuites>
