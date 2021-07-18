@@ -44,8 +44,8 @@ description =
 		attribute measure-time { boolean.datatype }?,
 		
 		## This attribute determines whether to save results as separate files or not.
-		## If the number of nodes in an actual result or an expected result (after wrapped in a
-		## report element) approximately exceeds this attribute, the result is saved as a separate
+		## If the number of nodes in an actual result or an expected result (after being wrapped in
+		## a report element) approximately exceeds this attribute, the result is saved as a separate
 		## file.
 		## Results are never saved as separate files, if the attribute value is 'never' or when
 		## testing XQuery.
