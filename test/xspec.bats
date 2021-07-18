@@ -34,6 +34,11 @@ setup() {
     # Set TEST_DIR and xspec.dir within the work directory so that it's cleaned up by teardown
     export TEST_DIR="${work_dir}/output_${RANDOM}"
     export ANT_ARGS="-Dxspec.dir=${TEST_DIR}"
+
+    # Invalidate XML Resolver (of XML Calabash) cache
+    XMLRESOLVER_PROPERTIES="${work_dir}/xmlresolver.properties"
+    echo "cache=${work_dir}/xmlcatalog-cache_${RANDOM}" > "${XMLRESOLVER_PROPERTIES}"
+    export XMLRESOLVER_PROPERTIES="file:${XMLRESOLVER_PROPERTIES}"
 }
 
 teardown() {
@@ -546,6 +551,15 @@ load bats-helper
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     echo "$output"
     [ "$status" -eq 0 ]
+
+    # Run again (ndw/xmlcalabash1#322)
+    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+        -i source=end-to-end/cases/serialize.xspec \
+        -o result="file:${actual_report}" \
+        -p xspec-home="file:${parent_dir_abs}/" \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
 }
 
 @test "XProc harness for Saxon (XQuery with special characters in expression #1020)" {
@@ -958,7 +972,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 125 / pending: 0 / failed: 0 / total: 125'
+    assert_regex "${lines[1]}" '.+:passed: 132 / pending: 0 / failed: 0 / total: 132'
 
     # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
@@ -1654,34 +1668,6 @@ load bats-helper
 
     # Verify '-t'
     assert_regex "${output}" $'\n''Memory used:'
-}
-
-#
-# xspec.compiler.saxon.config
-#
-
-@test "xspec.compiler.saxon.config (relative path)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.compiler.saxon.config=test/compiler-saxon-config/config.xml \
-        -Dxspec.xml=test/compiler-saxon-config/test.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
-}
-
-@test "xspec.compiler.saxon.config (absolute path)" {
-    run ant \
-        -buildfile ../build.xml \
-        -lib "${SAXON_JAR}" \
-        -Dxspec.compiler.saxon.config="${PWD}/compiler-saxon-config/config.xml" \
-        -Dxspec.xml="${PWD}/compiler-saxon-config/test.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
-    assert_regex "${output}" $'\n''     \[xslt\] passed: 2 / pending: 0 / failed: 0 / total: 2'$'\n'
-    [ "${lines[${#lines[@]}-2]}" = "BUILD SUCCESSFUL" ]
 }
 
 #

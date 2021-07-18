@@ -29,6 +29,9 @@ rem Unset Ant environment variables
 set ANT_ARGS=
 set ANT_OPTS=
 
+rem Unset XML Resolver (of XML Calabash) environment variable
+set XMLRESOLVER_PROPERTIES=
+
 rem Reset public environment variables
 set "SAXON_CP=%SAXON_JAR%"
 set SAXON_CUSTOM_OPTIONS=
