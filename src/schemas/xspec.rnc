@@ -47,10 +47,10 @@ description =
 		## If the number of nodes in an actual result or an expected result (after being wrapped in
 		## a report element) approximately exceeds this attribute, the result is saved as a separate
 		## file.
-		## Results are never saved as separate files, if the attribute value is 'never' or when
+		## Results are never saved as separate files, if the attribute value is 'inf' or when
 		## testing XQuery.
-		[ a:defaultValue = "never" ]
-		attribute separate-results { "never" | xsd:positiveInteger }?,
+		[ a:defaultValue = "inf" ]
+		attribute result-file-threshold { "inf" | xsd:positiveInteger }?,
 		
 		(helper | global-param | import | scenario | pending-element | variable)+ }
 

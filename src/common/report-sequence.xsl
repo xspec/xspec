@@ -19,7 +19,7 @@
       <xsl:param name="sequence" as="item()*" required="yes" />
       <xsl:param name="report-name" as="xs:string" required="yes" />
       <xsl:param name="report-namespace" as="xs:string" select="$x:xspec-namespace" />
-      <xsl:param name="separate-results" as="xs:integer?" />
+      <xsl:param name="result-file-threshold" as="xs:integer?" />
 
       <xsl:variable name="attribute-nodes" as="attribute()*"      select="$sequence[. instance of attribute()]" />
       <xsl:variable name="document-nodes"  as="document-node()*"  select="$sequence[. instance of document-node()]" />
@@ -137,7 +137,7 @@
       <!-- Output the report element -->
       <xsl:choose>
          <!-- If too many nodes, save the report element as a separate file. -->
-         <xsl:when test="count($report-element/descendant-or-self::node()) ge $separate-results">
+         <xsl:when test="count($report-element/descendant-or-self::node()) ge $result-file-threshold">
             <!-- URI of the separate file.
                Ensure that each report outputs to a unique URI (expath/xspec#67). -->
             <xsl:variable name="href" as="xs:string"
