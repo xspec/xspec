@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
-        xspec="../../separate-results_never-importing-min.xspec"
-        stylesheet="separate-results_never-importing-min-sch-preprocessed.xsl"
-        schematron="../../separate-results.sch"
+        xspec="../../result-file-threshold_inf-importing-min.xspec"
+        stylesheet="result-file-threshold_inf-importing-min-sch-preprocessed.xsl"
+        schematron="../../result-file-threshold.sch"
         date="2000-01-01T00:00:00Z">
-   <scenario id="scenario1" xspec="../../separate-results_default.xspec">
+   <scenario id="scenario1" xspec="../../result-file-threshold_default.xspec">
       <label>Test how the actual result and the expected result are saved</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"

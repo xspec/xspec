@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Test /x:description/@separate-results default value.
+	Test /x:description/@result-file-threshold default value.
 -->
-<x:description schematron="separate-results.sch" stylesheet="../../mirror.xsl"
+<x:description schematron="result-file-threshold.sch" stylesheet="../../mirror.xsl"
 	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:param name="allow-foreign">true</x:param>

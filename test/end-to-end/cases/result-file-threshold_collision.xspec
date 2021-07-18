@@ -4,9 +4,9 @@
 	Test naming collision of separate result files when the actual result and the expected result
 	are the exact same result (based on node identity).
 -->
-<x:description schematron="separate-results.sch" separate-results="1" stylesheet="../../mirror.xsl"
-	xmlns:mirror="x-urn:test:mirror" xmlns:myv="http://example.org/ns/my/variable"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description result-file-threshold="1" schematron="result-file-threshold.sch"
+	stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:param name="allow-foreign">true</x:param>
 

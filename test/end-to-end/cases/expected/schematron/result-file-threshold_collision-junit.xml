@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="separate-results_collision.xspec">
+<testsuites name="result-file-threshold_collision.xspec">
    <testsuite name="Scenario 1" tests="2" failures="0">
       <testcase name="The actual result and the expected result should be saved in separate files without file name collision"
                 status="passed"/>

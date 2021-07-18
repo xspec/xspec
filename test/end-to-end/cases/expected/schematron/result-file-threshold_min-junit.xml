@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="separate-results_min.xspec">
+<testsuites name="result-file-threshold_min.xspec">
    <testsuite name="Test how the actual result and the expected result are saved"
               tests="5"
               failures="5">

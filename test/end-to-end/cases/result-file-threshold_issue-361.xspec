@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<x:description schematron="separate-results.sch" separate-results="6" stylesheet="../../mirror.xsl"
-	xmlns:mirror="x-urn:test:mirror" xmlns:myv="http://example.org/ns/my/variable"
-	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+<x:description result-file-threshold="6" schematron="result-file-threshold.sch"
+	stylesheet="../../mirror.xsl" xmlns:mirror="x-urn:test:mirror"
+	xmlns:myv="http://example.org/ns/my/variable" xmlns:x="http://www.jenitennison.com/xslt/xspec">
 
 	<x:param name="allow-foreign">true</x:param>
 

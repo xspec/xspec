@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="separate-results_issue-361.xspec">
+<testsuites name="result-file-threshold_issue-361.xspec">
    <testsuite name="When $x:result consists of two or more elements"
               tests="3"
               failures="3">

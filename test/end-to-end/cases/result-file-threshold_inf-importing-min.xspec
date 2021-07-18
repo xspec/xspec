@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Test /x:description/@separate-results = 'never', when an imported /x:description has
-	@separate-results = 1.
+	Test /x:description/@result-file-threshold = 'inf', when an imported /x:description has
+	@result-file-threshold = 1.
 -->
-<x:description schematron="separate-results.sch" separate-results="never"
+<x:description result-file-threshold="inf" schematron="result-file-threshold.sch"
 	stylesheet="../../mirror.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
-	<x:import href="separate-results_min.xspec" />
+	<x:import href="result-file-threshold_min.xspec" />
 </x:description>

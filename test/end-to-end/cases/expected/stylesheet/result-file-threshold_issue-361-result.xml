@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.jenitennison.com/xslt/xspec"
-        xspec="../../separate-results_issue-361.xspec"
+        xspec="../../result-file-threshold_issue-361.xspec"
         stylesheet="../../../../mirror.xsl"
         date="2000-01-01T00:00:00Z">
-   <scenario id="scenario1" xspec="../../separate-results_issue-361.xspec">
+   <scenario id="scenario1" xspec="../../result-file-threshold_issue-361.xspec">
       <label>When $x:result consists of two or more elements</label>
       <input-wrap xmlns="">
          <x:call xmlns:mirror="x-urn:test:mirror"
