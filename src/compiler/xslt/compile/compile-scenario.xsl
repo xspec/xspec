@@ -49,7 +49,7 @@
          <xsl:message terminate="yes">
             <xsl:call-template name="x:prefix-diag-message">
                <xsl:with-param name="message" as="xs:string">
-                  <xsl:text expand-text="yes">Setting a context and calling a function at the same time is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
+                  <xsl:text expand-text="yes">Setting a context for calling a function is supported only when /{$initial-document/x:description => name()} has @run-as='external'.</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:message>
