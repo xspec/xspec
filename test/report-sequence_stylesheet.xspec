@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xspec-test saxon-custom-options=--recognize-uri-query-parameters:true?>
 <t:description stylesheet="do-nothing.xsl" xmlns:local="urn:x-xspec:common:report-sequence:local"
    xmlns:rep="urn:x-xspec:common:report-sequence" xmlns:t="http://www.jenitennison.com/xslt/xspec"
    xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -8,81 +7,6 @@
       The test target (../src/common/report-sequence.xsl) is included implicitly by the XSpec
       compiler. You don't need to specify it in /t:description/@stylesheet.
    -->
-
-   <t:scenario label="rep:report-sequence" xml:base="report-sequence/">
-      <t:call template="rep:report-sequence" />
-
-      <t:scenario
-         label="Copy of https://github.com/xspec/xspec/blob/120b3316aef2c1106287dc7c5270f3ed49062c68/src/compiler/generate-tests-utils.xsl#L486-L550">
-         <!-- These scenarios do not run on XQuery. XQuery implements the tested template as a function. -->
-
-         <t:call>
-            <t:param name="report-name" select="'t:result'" />
-         </t:call>
-
-         <t:scenario label="Integer">
-            <t:call>
-               <t:param as="xs:integer" name="sequence" select="1" />
-            </t:call>
-            <t:expect href="integer.xml" label="t:result with @select of integer" select="t:result"
-             />
-         </t:scenario>
-
-         <t:scenario label="Empty Sequence">
-            <t:call>
-               <t:param name="sequence" select="()" />
-            </t:call>
-            <t:expect href="empty-sequence.xml" label="t:result with @select of empty sequence"
-               select="t:result" />
-         </t:scenario>
-
-         <t:scenario label="String">
-            <t:call>
-               <t:param as="xs:string" name="sequence" select="'test'" />
-            </t:call>
-            <t:expect href="string.xml" label="t:result with @select of string" select="t:result" />
-         </t:scenario>
-
-         <t:scenario label="URI">
-            <t:call>
-               <t:param name="sequence" select="xs:anyURI('test.xml')" />
-            </t:call>
-            <t:expect href="uri.xml" label="t:result with @select of xs:anyURI" select="t:result" />
-         </t:scenario>
-
-         <t:scenario label="QName">
-            <t:call>
-               <t:param name="sequence"
-                  select="QName('http://www.jenitennison.com/xslt/unit-test', 'tests')" />
-            </t:call>
-            <t:expect href="qname.xml" label="t:result with @select of QName" select="t:result" />
-         </t:scenario>
-
-         <t:scenario label="Attributes">
-            <t:call>
-               <t:param as="attribute()+" name="sequence" select="/*/@*">
-                  <doc a="1" b="2" />
-               </t:param>
-            </t:call>
-            <t:expect href="attributes.xml?strip-space=yes" label="t:result containing attributes"
-               select="t:result" />
-         </t:scenario>
-
-         <t:scenario label="Attributes and content">
-            <t:call>
-               <t:param as="node()+" name="sequence" select="/*/@*, /*/foo">
-                  <doc a="1" b="2">
-                     <foo />
-                  </doc>
-               </t:param>
-            </t:call>
-            <t:expect href="attributes-and-content.xml?strip-space=yes"
-               label="t:result containing attributes and content" select="t:result" />
-         </t:scenario>
-
-      </t:scenario>
-
-   </t:scenario>
 
    <t:scenario label="rep:report-atomic-value">
       <t:call function="rep:report-atomic-value" />

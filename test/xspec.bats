@@ -496,8 +496,8 @@ load bats-helper
 #
 
 @test "XProc harness for Saxon (XSLT)" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
     # HTML report file
@@ -506,7 +506,7 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -525,8 +525,8 @@ load bats-helper
 }
 
 @test "XProc harness for Saxon (XQuery)" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
     # HTML report file
@@ -535,7 +535,7 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -551,14 +551,23 @@ load bats-helper
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
     echo "$output"
     [ "$status" -eq 0 ]
+
+    # Run again (ndw/xmlcalabash1#322)
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+        -i source=end-to-end/cases/serialize.xspec \
+        -o result="file:${actual_report}" \
+        -p xspec-home="file:${parent_dir_abs}/" \
+        ../src/harnesses/saxon/saxon-xquery-harness.xproc
+    echo "$output"
+    [ "$status" -eq 0 ]
 }
 
 @test "XProc harness for Saxon (XQuery with special characters in expression #1020)" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -903,8 +912,8 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
     # Output files
@@ -912,7 +921,7 @@ load bats-helper
     expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
@@ -937,8 +946,8 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
     # BaseX dir
@@ -951,7 +960,7 @@ load bats-helper
     expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
 
     # Run (also test with various types in report)
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=report-sequence.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
@@ -963,7 +972,7 @@ load bats-helper
     echo "$output"
     [ "$status" -eq 0 ]
     [ "${#lines[@]}" = "2" ]
-    assert_regex "${lines[1]}" '.+:passed: 125 / pending: 0 / failed: 0 / total: 125'
+    assert_regex "${lines[1]}" '.+:passed: 132 / pending: 0 / failed: 0 / total: 132'
 
     # HTML report file should be created and its charset should be UTF-8 #72
     run java -jar "${SAXON_JAR}" -s:"${expected_report}" -xsl:check-html-charset.xsl
@@ -979,11 +988,11 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=no-prefix.xspec \
         -o result="file:${work_dir}/no-prefix-result_${RANDOM}.html" \
         -p basex-jar="${BASEX_JAR}" \
@@ -2004,11 +2013,11 @@ load bats-helper
 #
 
 @test "XSLT selecting nodes without context should be error (XProc) #423" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
@@ -2019,11 +2028,11 @@ load bats-helper
 }
 
 @test "XQuery selecting nodes without context should be error (XProc) #423" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
