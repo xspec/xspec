@@ -12,12 +12,14 @@
 	<xsl:template as="element(xhtml:html)" match="document-node()">
 		<xsl:for-each select="descendant::x:*[x:scenario[empty(x:scenario)]] => one-or-more()">
 			<xsl:variable as="xs:integer" name="child-scenario-count" select="count(x:scenario)" />
+			<xsl:variable as="attribute(threads)?" name="description-threads"
+				select="self::x:report/doc(@xspec)/x:description/@threads" />
 			<xsl:variable as="xs:integer" name="expected-thread-count">
 				<xsl:choose>
-					<xsl:when test="self::x:report or (x:label eq '#child-scenario-count')">
+					<xsl:when test="($description-threads, x:label) eq '#child-scenario-count'">
 						<xsl:sequence select="$child-scenario-count" />
 					</xsl:when>
-					<xsl:when test="x:label eq '#logical-processor-count'">
+					<xsl:when test="($description-threads, x:label) eq '#logical-processor-count'">
 						<xsl:sequence select="
 								Q{java:java.lang.Runtime}getRuntime()
 								=> Q{java:java.lang.Runtime}availableProcessors()" />

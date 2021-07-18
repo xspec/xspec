@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Test /x:description[@schematron]/@threads when it is not ignored
+	Test /x:description[@schematron]/@threads[. eq '#child-scenario-count']
 -->
 <?xspec-test require-xslt-to-support-threads?>
 <?xspec-test html-reporter=${xspec.project.dir}/test/threads/check-xml-report.xsl?>
