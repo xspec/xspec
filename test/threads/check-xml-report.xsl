@@ -59,7 +59,7 @@
 				<xsl:if test="self::x:scenario">
 					<xsl:text expand-text="yes">'{x:label}' scenario containing </xsl:text>
 				</xsl:if>
-				<xsl:text expand-text="yes">{$child-scenario-count} scenarios took {$actual-elapsed}. Expected {$expected-elapsed-min} ~ {$expected-elapsed-max} with {$expected-thread-count} thread(s).</xsl:text>
+				<xsl:text expand-text="yes">{$child-scenario-count} scenarios took {$actual-elapsed}. Expected {$expected-elapsed-min} to {$expected-elapsed-max} with {$expected-thread-count} thread(s).</xsl:text>
 			</xsl:message>
 		</xsl:for-each>
 

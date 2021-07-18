@@ -28,6 +28,10 @@ case "${SAXON_VERSION}" in
         ;;
 esac
 
+if java -cp "${SAXON_JAR}" net.sf.saxon.Version 2>&1 | grep -F "SAXON-EE " > /dev/null; then
+    export XSLT_SUPPORTS_THREADS=1
+fi
+
 # Unset JVM environment variables which make output line numbers unpredictable
 unset _JAVA_OPTIONS
 unset JAVA_TOOL_OPTIONS

@@ -75,7 +75,9 @@
                      <xsl:text expand-text="yes">(${x:known-UQName('impl:logical-processor-count')}, {$child-scenario-count}) => min()</xsl:text>
                   </xsl:when>
                   <xsl:otherwise>
-                     <xsl:text expand-text="yes">({x:known-UQName('xs:positiveInteger')}({$threads-attr}), {$child-scenario-count}) => min()</xsl:text>
+                     <xsl:text expand-text="yes">if (not(({$threads-attr}) instance of {x:known-UQName('xs:integer')})) </xsl:text>
+                     <xsl:text expand-text="yes">then error((), '{path($threads-attr)} is not an integer') </xsl:text>
+                     <xsl:text expand-text="yes">else min((({$threads-attr})[if (. castable as {x:known-UQName('xs:positiveInteger')}) then true() else error((), '{path($threads-attr)} is not positive')], {$child-scenario-count})) </xsl:text>
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:attribute>
