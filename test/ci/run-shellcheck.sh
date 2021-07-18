@@ -9,5 +9,7 @@ shellcheck --version
 find . \
     \( -type d -name .git -prune \) \
     -or \
+    \( -path './misc/archive/*' -prune \) \
+    -or \
     \( -type f \( -name '*.bash' -or -name '*.bats' -or -name '*.sh' \) -print0 \) \
     | xargs -0 -t shellcheck
