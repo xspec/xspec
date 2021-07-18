@@ -45,7 +45,7 @@
 			<exclude name="test/compile-xslt-tests/compile-scenario.xspec" />
 
 			<!-- Jing task doesn't recognize XInclude -->
-			<exclude name="test/end-to-end/cases/separate-results_query.xspec" />
+			<exclude name="test/end-to-end/cases/result-file-threshold_query.xspec" />
 		</fileset>
 
 		<!-- Jing is silent when all files are valid.
