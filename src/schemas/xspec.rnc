@@ -289,7 +289,7 @@ value-selection =
     ## The XPath expression without definitive context.
     attribute select { xpath }
 
-xpath = text
+xpath = xsd:string { minLength = "1" }
 
 assertion = 
 	## An assertion's test XPath can either return a boolean value, in which case the 
