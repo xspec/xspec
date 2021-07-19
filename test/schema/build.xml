@@ -33,7 +33,6 @@
 			<!-- Tests error from x:compile-scenario -->
 			<exclude name="test/error-compiling-scenario/call-both-function-and-template.xspec" />
 			<exclude name="test/error-compiling-scenario/context-both-href-and-content.xspec" />
-			<exclude name="test/error-compiling-scenario/function-with-context.xspec" />
 
 			<!-- Tests invalid @position -->
 			<exclude name="test/bad-position/mixed_explicit-implicit.xspec" />

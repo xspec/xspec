@@ -16,4 +16,8 @@
 		<xsl:sequence select="$test:global-context" />
 	</xsl:template>
 
+	<xsl:function as="item()" name="test:get-global-context" visibility="final">
+		<xsl:sequence select="$test:global-context" />
+	</xsl:function>
+
 </xsl:stylesheet>
