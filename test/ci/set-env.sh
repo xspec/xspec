@@ -78,7 +78,7 @@ fi
 export XML_RESOLVER_JAR="${XSPEC_TEST_DEPS}/xml-resolver-${XML_RESOLVER_VERSION}/resolver.jar"
 
 #
-# XML Calabash
+# XML Calabash jar
 #
 if [ -n "${XMLCALABASH_VERSION}" ]; then
     # Depends on the archive file structure
@@ -86,6 +86,28 @@ if [ -n "${XMLCALABASH_VERSION}" ]; then
 else
     echo "XML Calabash will not be installed"
     unset XMLCALABASH_JAR
+fi
+
+#
+# Log4j
+#
+if [ -n "${LOG4J_VERSION}" ]; then
+    export LOG4J_DIR="${XSPEC_TEST_DEPS}/log4j-${LOG4J_VERSION}"
+else
+    echo "Log4j will not be installed"
+    unset LOG4J_DIR
+fi
+
+#
+# XML Calabash classpath
+#
+if [ -n "${XMLCALABASH_JAR}" ]; then
+    export XMLCALABASH_CP="${XMLCALABASH_JAR}:${SAXON_JAR}"
+else
+    unset XMLCALABASH_CP
+fi
+if [ -n "${XMLCALABASH_CP}" ] && [ -n "${LOG4J_DIR}" ]; then
+    export XMLCALABASH_CP="${XMLCALABASH_CP}:${LOG4J_DIR}/*"
 fi
 
 #

@@ -183,7 +183,7 @@ matching-scenario = (global-param | variable)*, context?, variable*,
 ## <call> element defines the function call and the parameters passed to it
 ## and the <assertion> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
-function-scenario = (global-param | variable)*, function-call?, variable*,
+function-scenario = (global-param | variable)*, context?, variable*, function-call?, variable*,
                     like*,
                     (pending-element | assertion | variable)*,
                     (pending-element | 
