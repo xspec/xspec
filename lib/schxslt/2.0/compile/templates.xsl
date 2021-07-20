@@ -59,7 +59,7 @@
 
   <xsl:template match="@*" mode="schxslt:variable-content schxslt:message-template">
     <attribute namespace="{namespace-uri(.)}" name="{local-name(.)}">
-      <value-of select="."/>
+      <xsl:value-of select="."/>
     </attribute>
   </xsl:template>
 
