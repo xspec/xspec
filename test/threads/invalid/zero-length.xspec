@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Zero-length @threads should be invalid
+-->
+<x:description threads="" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:scenario label="@threads on x:scenario" threads="" />
+</x:description>

@@ -7,11 +7,11 @@
                 version="3.0">
 
    <!--
-      mode="x:group-invocation"
-      This mode groups the invocation instructions of compiled x:scenario into a single xsl:for-each.
+      mode="x:threads"
+      Implements multi-threading.
    -->
 
-   <xsl:template match="document-node()" as="element()*" mode="x:group-invocation">
+   <xsl:template match="document-node()" as="element()*" mode="x:threads">
       <!-- xsl:call-template elements originating from x:scenario -->
       <xsl:variable name="scenario-invokers" as="element(xsl:call-template)*"
          select="xsl:call-template[processing-instruction(origin) eq 'scenario']" />
@@ -45,16 +45,58 @@
    </xsl:template>
 
    <xsl:template match="xsl:call-template[processing-instruction(origin) eq 'scenario']"
-      as="element()+" mode="x:group-invocation">
+      as="element()+" mode="x:threads">
+      <!-- x:description or x:scenario invoking the current xsl:call-template -->
+      <xsl:param name="tunnel_invoker-description-or-scenario" as="element()" required="yes"
+         tunnel="yes" />
+
       <xsl:variable name="child-scenario-count" as="xs:integer" select="current-group() => count()" />
+      <xsl:variable name="invoker-description-or-scenario-wants-to-enable-threads" as="xs:boolean"
+         select="x:wants-to-enable-threads($tunnel_invoker-description-or-scenario)" />
+
+      <xsl:if test="$invoker-description-or-scenario-wants-to-enable-threads">
+         <xsl:variable name="threads-attr" as="attribute(threads)"
+            select="$tunnel_invoker-description-or-scenario/@threads" />
+
+         <variable name="{x:known-UQName('impl:thread-count')}" as="{x:known-UQName('xs:integer')}"
+            use-when="${x:known-UQName('impl:thread-aware')}">
+            <xsl:if test="starts-with($threads-attr, '#') => not()">
+               <!-- @threads may use namespace prefixes and/or the default namespace such as
+                  xs:QName('foo') -->
+               <xsl:sequence select="x:copy-of-namespaces($tunnel_invoker-description-or-scenario)" />
+            </xsl:if>
+
+            <xsl:attribute name="select">
+               <xsl:choose>
+                  <xsl:when test="$threads-attr eq '#child-scenario-count'">
+                     <xsl:sequence select="$child-scenario-count" />
+                  </xsl:when>
+                  <xsl:when test="$threads-attr eq '#logical-processor-count'">
+                     <xsl:text expand-text="yes">(${x:known-UQName('impl:logical-processor-count')}, {$child-scenario-count}) => min()</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                     <xsl:text expand-text="yes">if (not(({$threads-attr}) instance of {x:known-UQName('xs:integer')})) </xsl:text>
+                     <xsl:text expand-text="yes">then error((), '{path($threads-attr)} is not an integer') </xsl:text>
+                     <xsl:text expand-text="yes">else min((({$threads-attr})[if (. castable as {x:known-UQName('xs:positiveInteger')}) then true() else error((), '{path($threads-attr)} is not positive')], {$child-scenario-count})) </xsl:text>
+                  </xsl:otherwise>
+               </xsl:choose>
+            </xsl:attribute>
+         </variable>
+
+         <message use-when="${x:known-UQName('impl:thread-aware')}">
+            <text xsl:expand-text="yes">Invoking {$child-scenario-count} child scenarios using </text>
+            <value-of select="${x:known-UQName('impl:thread-count')}" />
+            <text> thread(s) with </text>
+            <value-of select="${x:known-UQName('impl:logical-processor-count')}" />
+            <text> logical processor(s)</text>
+         </message>
+      </xsl:if>
 
       <for-each select="1 to {$child-scenario-count}">
-         <!-- TODO: multi-threading
-         <xsl:if test="$user-wants-to-enable-threads">
+         <xsl:if test="$invoker-description-or-scenario-wants-to-enable-threads">
             <xsl:attribute name="saxon:threads" namespace="{$x:saxon-namespace}"
-               select="'{$' || $thread-count-variable-uqname || '}'" />
+               select="'{$' || x:known-UQName('impl:thread-count') || '}'" />
          </xsl:if>
-         -->
          <choose>
             <xsl:for-each select="current-group()">
                <when test=". eq {position()}">

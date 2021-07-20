@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Scenarios for testing /x:description/@threads when it is not ignored
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Scenario 1">
+		<x:like label="Sleep for a period" />
+	</x:scenario>
+
+	<x:scenario label="Scenario 2">
+		<x:like label="Sleep for a period" />
+	</x:scenario>
+
+	<x:scenario label="Scenario 3">
+		<x:like label="Sleep for a period" />
+	</x:scenario>
+
+	<x:scenario label="Scenario 4">
+		<x:like label="Sleep for a period" />
+	</x:scenario>
+
+	<x:scenario label="Scenario 5">
+		<x:like label="Sleep for a period" />
+	</x:scenario>
+
+</x:description>

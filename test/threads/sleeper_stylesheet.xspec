@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	A shared XSLT scenario that sleeps for a period
+-->
+<x:description xmlns:sleeper="x-urn:test:threads:sleeper"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Sleep for a period" shared="yes">
+		<x:call function="sleeper:sleep">
+			<x:param href="sleeper.xml" select="sleep/@ms" />
+		</x:call>
+		<x:expect label="Expect" test="$x:result ge 1" />
+	</x:scenario>
+
+</x:description>

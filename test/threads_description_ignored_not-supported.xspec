@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	/x:description/@threads should be ignored on Saxon-HE, PE and XQuery even if there are 2+ child
+	x:scenario
+-->
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" threads="
+		if (system-property('xsl:product-version') => starts-with('EE ')) then
+			2
+		else
+			error()" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Scenario 1">
+		<x:call function="false" />
+		<x:expect label="Expectation" select="false()" />
+	</x:scenario>
+
+	<x:scenario label="Scenario 2">
+		<x:call function="false" />
+		<x:expect label="Expectation" select="false()" />
+	</x:scenario>
+
+</x:description>

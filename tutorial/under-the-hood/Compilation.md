@@ -62,6 +62,19 @@ Show the structure of a compiled test suite, both in XSLT and XQuery.
    <xsl:variable name="Q{http://www.jenitennison.com/xslt/xspec}is-external"
                  as="Q{http://www.w3.org/2001/XMLSchema}boolean"
                  select="false()"/>
+   <xsl:variable xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 name="Q{urn:x-xspec:compile:impl}thread-aware"
+                 as="xs:boolean"
+                 select="(system-property('Q{http://www.w3.org/1999/XSL/Transform}product-name') eq 'SAXON') and starts-with(system-property('Q{http://www.w3.org/1999/XSL/Transform}product-version'), 'EE ')"
+                 static="yes"/>
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}logical-processor-count"
+                 as="Q{http://www.w3.org/2001/XMLSchema}integer"
+                 use-when="$Q{urn:x-xspec:compile:impl}thread-aware"
+                 select="Q{java:java.lang.Runtime}getRuntime() => Q{java:java.lang.Runtime}availableProcessors()"/>
+   <xsl:variable name="Q{urn:x-xspec:compile:impl}thread-count"
+                 as="Q{http://www.w3.org/2001/XMLSchema}integer"
+                 select="1"
+                 use-when="$Q{urn:x-xspec:compile:impl}thread-aware => not()"/>
    <!-- the main template to run the suite -->
    <xsl:template name="Q{http://www.jenitennison.com/xslt/xspec}main"
                  as="empty-sequence()">
