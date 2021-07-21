@@ -2653,7 +2653,7 @@ load bats-helper
     run ../bin/xspec.sh error-compiling-scenario/function-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time" ]
+    [ "${lines[3]}" = "ERROR in x:scenario ('x:call[@function] with x:context'): Setting a context for calling a function is supported only when /x:description has @run-as='external'." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 

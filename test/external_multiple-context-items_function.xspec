@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description run-as="external" stylesheet="external_global-context.xsl"
+	xmlns:items="x-urn:test:xspec-items" xmlns:test="x-urn:test:external_global-context"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:helper stylesheet="items.xsl" />
+
+	<x:scenario label="Test" shared="yes">
+		<x:call function="test:get-global-context" />
+		<x:expect
+			label="Calling a function should call the function once for each item in x:context as the global context item"
+			select="$x:context" />
+	</x:scenario>
+
+	<x:scenario label="When x:context consists of multiple items">
+		<x:scenario label="both node and atomic value">
+			<x:context as="item()+" select="$items:all-nodes, $items:integer" />
+			<x:like label="Test" />
+		</x:scenario>
+
+		<x:scenario label="nodes">
+			<x:context as="node()+" select="$items:all-nodes" />
+			<x:like label="Test" />
+		</x:scenario>
+
+		<x:scenario label="atomic values">
+			<x:context as="xs:anyAtomicType+" select="$items:integer, $items:integer" />
+			<x:like label="Test" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

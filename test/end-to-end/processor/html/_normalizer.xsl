@@ -195,7 +195,7 @@
 					<xsl:text>
 						^
 						(?:
-							([ ]+&lt;svrl:active-pattern[ ]documents=")			<!-- group 1 -->
+							([ ]+(?:&lt;svrl:active-pattern[ ])?documents=")	<!-- group 1 -->
 							(\S+?)												<!-- group 2 -->
 							("[ ]/>)											<!-- group 3 -->
 							|

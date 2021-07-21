@@ -158,6 +158,7 @@
                   </map-entry>
                   <map-entry key="'initial-function'"
                      select="{x:QName-expression-from-EQName-ignoring-default-ns($call/@function, $call)}" />
+                  <!-- 'global-context-item' option is set in x:compile-scenario template -->
                </xsl:when>
 
                <xsl:when test="$invocation-type eq 'apply-templates'">

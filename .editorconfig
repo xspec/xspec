@@ -1,5 +1,11 @@
 root = true
 
+[lib/**]
+ignore = true
+
+[misc/archive/**]
+ignore = true
+
 [*.{bash,bats,sh}]
 # Like shfmt -i=4
 indent_style = space
