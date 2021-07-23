@@ -43,6 +43,15 @@ description =
 		[ a:defaultValue = "no" ]
 		attribute measure-time { boolean.datatype }?,
 		
+		## This attribute determines whether to save results as separate files or not.
+		## If the number of nodes in an actual result or an expected result (after being wrapped in
+		## a report element) approximately exceeds this attribute, the result is saved as a separate
+		## file.
+		## Results are never saved as separate files, if the attribute value is 'inf' or when
+		## testing XQuery.
+		[ a:defaultValue = "inf" ]
+		attribute result-file-threshold { "inf" | xsd:positiveInteger }?,
+		
 		threads?,
 		(helper | global-param | import | scenario | pending-element | variable)+ }
 
@@ -200,7 +209,7 @@ matching-scenario = (global-param | variable)*, context?, variable*,
 ## <call> element defines the function call and the parameters passed to it
 ## and the <assertion> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
-function-scenario = (global-param | variable)*, function-call?, variable*,
+function-scenario = (global-param | variable)*, context?, variable*, function-call?, variable*,
                     like*,
                     (pending-element | assertion | variable)*,
                     (pending-element | 

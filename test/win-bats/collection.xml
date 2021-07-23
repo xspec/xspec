@@ -394,14 +394,14 @@
 		XProc (Saxon)
 	-->
 
-	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XSLT)">
+	<case ifdef="XMLCALABASH_CP" name="XProc harness for Saxon (XSLT)">
     rem HTML report file
     set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\stylesheet"
     call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
     set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
 
     rem Run
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -417,14 +417,14 @@
     call :verify_retval 0
 	</case>
 
-	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XQuery)">
+	<case ifdef="XMLCALABASH_CP" name="XProc harness for Saxon (XQuery)">
     rem HTML report file
     set "ACTUAL_REPORT_DIR=%CD%\end-to-end\cases\actual__\query"
     call :mkdir-if-not-exist "%ACTUAL_REPORT_DIR%"
     set "ACTUAL_REPORT=%ACTUAL_REPORT_DIR%\serialize-result.html"
 
     rem Run
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -440,7 +440,7 @@
     call :verify_retval 0
 
     rem Run again (ndw/xmlcalabash1#322)
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=end-to-end/cases/serialize.xspec ^
         -o result="file:///%ACTUAL_REPORT:\=/%" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -448,8 +448,8 @@
     call :verify_retval 0
 	</case>
 
-	<case ifdef="XMLCALABASH_JAR" name="XProc harness for Saxon (XQuery with special characters in expression #1020)">
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+	<case ifdef="XMLCALABASH_CP" name="XProc harness for Saxon (XQuery with special characters in expression #1020)">
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%WORK_DIR:\=/%/issue-1020-result_%RANDOM%.html" ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
@@ -735,13 +735,13 @@
 		XProc (BaseX)
 	-->
 
-	<case ifdef="BASEX_JAR XMLCALABASH_JAR" name="XProc harness for BaseX (standalone)">
+	<case ifdef="BASEX_JAR XMLCALABASH_CP" name="XProc harness for BaseX (standalone)">
     rem Output files
     set "COMPILED_FILE=%WORK_DIR%\compiled_%RANDOM%.xq"
     set "EXPECTED_REPORT=%WORK_DIR%\issue-1020-result_%RANDOM%.html"
 
     rem Run (also test with special characters in expression #1020)
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=issue-1020.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p basex-jar="%BASEX_JAR%" ^
@@ -760,7 +760,7 @@
     call :verify_line 1 x "true"
 	</case>
 
-	<case ifdef="BASEX_JAR XMLCALABASH_JAR" name="XProc harness for BaseX (server)">
+	<case ifdef="BASEX_JAR XMLCALABASH_CP" name="XProc harness for BaseX (server)">
     rem BaseX dir
     set "BASEX_HOME=%BASEX_JAR%\.."
 
@@ -773,7 +773,7 @@
     set "EXPECTED_REPORT=%WORK_DIR%\report-sequence-result_%RANDOM%.html"
 
     rem Run (also test with various types in report)
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=report-sequence.xspec ^
         -o result="file:///%EXPECTED_REPORT:\=/%" ^
         -p auth-method=Basic ^
@@ -797,8 +797,8 @@
     call :verify_retval 0
 	</case>
 
-	<case ifdef="BASEX_JAR XMLCALABASH_JAR" name="BaseX with no-prefix.xspec">
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+	<case ifdef="BASEX_JAR XMLCALABASH_CP" name="BaseX with no-prefix.xspec">
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=no-prefix.xspec ^
         -o result="file:///%WORK_DIR:\=/%/no-prefix-result_%RANDOM%.html" ^
         -p basex-jar="%BASEX_JAR%" ^
@@ -1723,8 +1723,8 @@
 		#423
 	-->
 
-	<case ifdef="XMLCALABASH_JAR" name="XSLT selecting nodes without context should be error (XProc) #423">
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+	<case ifdef="XMLCALABASH_CP" name="XSLT selecting nodes without context should be error (XProc) #423">
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xslt-harness.xproc
@@ -1733,8 +1733,8 @@
     call :verify_line -1 r "ERROR:"
 	</case>
 
-	<case ifdef="XMLCALABASH_JAR" name="XQuery selecting nodes without context should be error (XProc) #423">
-    call :run java -cp "%XMLCALABASH_JAR%;%SAXON_JAR%" com.xmlcalabash.drivers.Main ^
+	<case ifdef="XMLCALABASH_CP" name="XQuery selecting nodes without context should be error (XProc) #423">
+    call :run java -cp "%XMLCALABASH_CP%" com.xmlcalabash.drivers.Main ^
         -i source=issue-423/test.xspec ^
         -p xspec-home="file:///%PARENT_DIR_ABS:\=/%/" ^
         ..\src\harnesses\saxon\saxon-xquery-harness.xproc
@@ -2280,7 +2280,7 @@
 	<case name="x:call[@function] with x:context">
     call :run ..\bin\xspec.bat error-compiling-scenario\function-with-context.xspec
     call :verify_retval 2
-    call :verify_line  4 x "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time"
+    call :verify_line  4 x "ERROR in x:scenario ('x:call[@function] with x:context'): Setting a context for calling a function is supported only when /x:description has @run-as='external'."
     call :verify_line -1 x "*** Error compiling the test suite"
 	</case>
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test /x:description/@result-file-threshold large value. It should not generate separate result
+	files.
+-->
+<x:description result-file-threshold="1000" schematron="result-file-threshold.sch"
+	stylesheet="../../mirror.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+	<x:import href="result-file-threshold_default.xspec" />
+</x:description>
