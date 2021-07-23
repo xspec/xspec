@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Test Report for result-file-threshold.sch (passed: 0 / pending: 0 / failed: 3 / total: 3)</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../src/reporter/test-report.css" />
+   </head>
+   <body>
+      <h1>Test Report</h1>
+      <p>Schematron: <a href="../../result-file-threshold.sch">result-file-threshold.sch</a></p>
+      <p>XSpec: <a href="../../result-file-threshold_issue-361.xspec">result-file-threshold_issue-361.xspec</a></p>
+      <p>Tested: 1 January 2000 at 00:00</p>
+      <h2>Contents</h2>
+      <table class="xspec">
+         <colgroup>
+            <col style="width:75%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+            <col style="width:6.25%" />
+         </colgroup>
+         <thead>
+            <tr>
+               <th></th>
+               <th class="totals">passed: 0</th>
+               <th class="totals">pending: 0</th>
+               <th class="totals">failed: 3</th>
+               <th class="totals">total: 3</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr class="failed">
+               <th><a href="#top_scenario1">When $x:result consists of two or more elements</a></th>
+               <th class="totals">0</th>
+               <th class="totals">0</th>
+               <th class="totals">3</th>
+               <th class="totals">3</th>
+            </tr>
+         </tbody>
+      </table>
+      <div id="top_scenario1">
+         <h2 class="failed">When $x:result consists of two or more elements<span class="scenario-totals">passed: 0 / pending: 0 / failed: 3 / total: 3</span></h2>
+         <table class="xspec" id="table_scenario1">
+            <colgroup>
+               <col style="width:75%" />
+               <col style="width:25%" />
+            </colgroup>
+            <tbody>
+               <tr class="failed">
+                  <th>When $x:result consists of two or more elements</th>
+                  <th>passed: 0 / pending: 0 / failed: 3 / total: 3</th>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-expect1">$x:result should be two elements</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-expect2"> - The actual result (reported as [Result]) should be saved successfully in a separate
+                        file which is well-formed - The expected result (reported as [Expected Result]) should
+                        not be saved in a separate file. - [Expected Result] should highlight only &lt;entry0&gt;
+                        against &lt;entry2&gt; in the separate file.</a></td>
+                  <td>Failure</td>
+               </tr>
+               <tr class="failed">
+                  <td><a href="#scenario1-expect3">the same should be true when the actual result is evaluated with @test</a></td>
+                  <td>Failure</td>
+               </tr>
+            </tbody>
+         </table>
+         <div id="scenario1">
+            <h3>When $x:result consists of two or more elements</h3>
+            <div id="scenario1-expect1" class="xTestReport">
+               <h4 class="xTestReportTitle">$x:result should be two elements</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <pre>4</pre>
+                        </td>
+                        <td>
+                           <pre>2</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="scenario1-expect2" class="xTestReport">
+               <h4 class="xTestReportTitle"> - The actual result (reported as [Result]) should be saved successfully in a separate
+                  file which is well-formed - The expected result (reported as [Expected Result]) should
+                  not be saved in a separate file. - [Expected Result] should highlight only &lt;entry0&gt;
+                  against &lt;entry2&gt; in the separate file.</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p><a href="HREF-5">HREF-5</a></p>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="same">entry1</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+        <span class="xmlns">xmlns:myv="http://example.org/ns/my/variable"</span>
+        <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;
+&lt;<span class="diff">entry0</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+        <span class="xmlns">xmlns:myv="http://example.org/ns/my/variable"</span>
+        <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;
+&lt;<span class="same">entry3</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+        <span class="xmlns">xmlns:myv="http://example.org/ns/my/variable"</span>
+        <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div id="scenario1-expect3" class="xTestReport">
+               <h4 class="xTestReportTitle">the same should be true when the actual result is evaluated with @test</h4>
+               <div class="xTestReportHint"><a href="https://github.com/xspec/xspec/wiki/Understanding-Test-Results" target="_blank" title="What does this report mean?">[?]</a></div>
+               <table class="xspecResult">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Expected Result</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <p><a href="HREF-7">HREF-7</a></p>
+                        </td>
+                        <td>
+                           <p>XPath <code class="same">/element()</code> from:</p>
+                           <pre>&lt;<span class="same">entry1</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+        <span class="xmlns">xmlns:myv="http://example.org/ns/my/variable"</span>
+        <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;
+&lt;<span class="diff">entry0</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+        <span class="xmlns">xmlns:myv="http://example.org/ns/my/variable"</span>
+        <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;
+&lt;<span class="same">entry3</span> <span class="xmlns">xmlns:mirror="x-urn:test:mirror"</span>
+        <span class="xmlns">xmlns:myv="http://example.org/ns/my/variable"</span>
+        <span class="xmlns trivial">xmlns:x="http://www.jenitennison.com/xslt/xspec"</span> /&gt;</pre>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>

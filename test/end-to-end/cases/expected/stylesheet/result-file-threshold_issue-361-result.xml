@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.jenitennison.com/xslt/xspec"
+        xspec="../../result-file-threshold_issue-361.xspec"
+        stylesheet="../../../../mirror.xsl"
+        date="2000-01-01T00:00:00Z">
+   <scenario id="scenario1" xspec="../../result-file-threshold_issue-361.xspec">
+      <label>When $x:result consists of two or more elements</label>
+      <input-wrap xmlns="">
+         <x:call xmlns:mirror="x-urn:test:mirror"
+                 xmlns:myv="http://example.org/ns/my/variable"
+                 xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                 function="mirror:param-mirror">
+            <x:param as="element()+">
+               <entry1/>
+               <entry2/>
+               <entry3/>
+               <entry4/>
+            </x:param>
+         </x:call>
+      </input-wrap>
+      <result href="HREF-1"/>
+      <test id="scenario1-expect1" successful="false">
+         <label>$x:result should be two elements</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="count($x:result treat as element()+)"/>
+         </expect-test-wrap>
+         <result select="4"/>
+         <expect select="2"/>
+      </test>
+      <test id="scenario1-expect2" successful="false">
+         <label>
+				- The actual result (reported as [Result]) should be saved successfully in a
+				  separate file which is well-formed
+				- The expected result (reported as [Expected Result]) should not be saved in a
+				  separate file.
+				- [Expected Result] should highlight only &lt;entry0&gt; against &lt;entry2&gt; in the separate
+				  file.
+			</label>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <entry1 xmlns:mirror="x-urn:test:mirror"
+                       xmlns:myv="http://example.org/ns/my/variable"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               <entry0 xmlns:mirror="x-urn:test:mirror"
+                       xmlns:myv="http://example.org/ns/my/variable"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               <entry3 xmlns:mirror="x-urn:test:mirror"
+                       xmlns:myv="http://example.org/ns/my/variable"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
+         </expect>
+      </test>
+      <test id="scenario1-expect3" successful="false">
+         <label>the same should be true when the actual result is evaluated with @test</label>
+         <expect-test-wrap xmlns="">
+            <x:expect xmlns:mirror="x-urn:test:mirror"
+                      xmlns:myv="http://example.org/ns/my/variable"
+                      xmlns:x="http://www.jenitennison.com/xslt/xspec"
+                      test="$x:result"/>
+         </expect-test-wrap>
+         <result href="HREF-2"/>
+         <expect select="/element()">
+            <content-wrap xmlns="">
+               <entry1 xmlns:mirror="x-urn:test:mirror"
+                       xmlns:myv="http://example.org/ns/my/variable"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               <entry0 xmlns:mirror="x-urn:test:mirror"
+                       xmlns:myv="http://example.org/ns/my/variable"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+               <entry3 xmlns:mirror="x-urn:test:mirror"
+                       xmlns:myv="http://example.org/ns/my/variable"
+                       xmlns:x="http://www.jenitennison.com/xslt/xspec"/>
+            </content-wrap>
+         </expect>
+      </test>
+   </scenario>
+</report>

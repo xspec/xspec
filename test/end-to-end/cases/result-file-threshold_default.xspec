@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test /x:description/@result-file-threshold default value.
+-->
+<x:description schematron="result-file-threshold.sch" stylesheet="../../mirror.xsl"
+	xmlns:mirror="x-urn:test:mirror" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:param name="allow-foreign">true</x:param>
+
+	<x:scenario label="Test how the actual result and the expected result are saved">
+		<x:call function="mirror:param-mirror">
+			<x:param>
+				<actual-result />
+			</x:param>
+		</x:call>
+
+		<x:expect label="when the actual result is evaluated without @test">
+			<expected-result />
+		</x:expect>
+		<x:expect label="when the actual result is evaluated with @test" test="$x:result">
+			<expected-result />
+		</x:expect>
+
+		<x:expect label="when the expected result is an empty sequence" select="()" />
+		<x:expect label="when the expected result is an atomic value" select="0" />
+		<x:expect label="when the expected result is a map" select="map{}" />
+	</x:scenario>
+
+</x:description>
