@@ -219,25 +219,29 @@
         <xsl:with-param name="typed-variables" as="xs:boolean" select="$typed-variables"/>
       </xsl:call-template>
 
-      <schxslt:rule pattern="{generate-id(..)}">
-        <choose>
-          <when test="$schxslt:patterns-matched[. = '{generate-id(..)}']">
+      <choose>
+        <when test="$schxslt:patterns-matched[. = '{generate-id(..)}']">
+          <schxslt:rule pattern="{generate-id(..)}">
             <xsl:call-template name="schxslt-api:suppressed-rule">
               <xsl:with-param name="rule" as="element(sch:rule)" select="."/>
             </xsl:call-template>
-          </when>
-          <otherwise>
+          </schxslt:rule>
+          <next-match>
+            <with-param name="schxslt:patterns-matched" as="xs:string*" select="$schxslt:patterns-matched"/>
+          </next-match>
+        </when>
+        <otherwise>
+          <schxslt:rule pattern="{generate-id(..)}">
             <xsl:call-template name="schxslt-api:fired-rule">
               <xsl:with-param name="rule" as="element(sch:rule)" select="."/>
             </xsl:call-template>
             <xsl:apply-templates select="sch:assert | sch:report" mode="schxslt:compile"/>
-          </otherwise>
-        </choose>
-      </schxslt:rule>
-
-      <next-match>
-        <with-param name="schxslt:patterns-matched" as="xs:string*" select="($schxslt:patterns-matched, '{generate-id(..)}')"/>
-      </next-match>
+          </schxslt:rule>
+          <next-match>
+            <with-param name="schxslt:patterns-matched" as="xs:string*" select="($schxslt:patterns-matched, '{generate-id(..)}')"/>
+          </next-match>
+        </otherwise>
+      </choose>
     </template>
 
   </xsl:template>
