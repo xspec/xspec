@@ -59,7 +59,7 @@
 		Normalizes skos:prefLabel
 			Example:
 				in:  <skos:prefLabel>SchXslt/1.6.2 SAXON/EE 9.9.1.7</skos:prefLabel>
-				out: <skos:prefLabel>SchXslt/1.6.2 SAXON/product-version</skos:prefLabel>
+				out: <skos:prefLabel>SchXslt/version SAXON/product-version</skos:prefLabel>
 				
 				in:  <skos:prefLabel>SAXON/HE 9.9.1.7</skos:prefLabel>
 				out: <skos:prefLabel>SAXON/product-version</skos:prefLabel>
@@ -68,10 +68,29 @@
 			/x:report[local:svrl-creator(.) eq 'schxslt']//x:scenario/x:result/content-wrap
 			/svrl:schematron-output/svrl:metadata//dct:creator/dct:Agent/skos:prefLabel[. ne 'Unknown']/text()"
 		mode="normalizer:normalize">
+		<xsl:variable as="xs:string" name="regex">
+			<xsl:text>
+				^
+					(?:
+						(SchXslt/)	<!-- group 1 -->
+						[0-9.]+
+						([ ])		<!-- group 2 -->
+					)?
+					(SAXON/)		<!-- group 3 -->
+					[^/]+
+				$
+			</xsl:text>
+		</xsl:variable>
+
 		<!-- Use analyze-string() so that the transformation will fail when nothing matches -->
-		<xsl:analyze-string regex="^((?:SchXslt/[0-9.]+ )?SAXON/)[^/]+$" select=".">
+		<xsl:analyze-string flags="x" regex="{$regex}" select=".">
 			<xsl:matching-substring>
-				<xsl:value-of select="regex-group(1) || 'product-version'" />
+				<xsl:value-of>
+					<xsl:if test="regex-group(1)">
+						<xsl:value-of select="regex-group(1) || 'version' || regex-group(2)" />
+					</xsl:if>
+					<xsl:value-of select="regex-group(3) || 'product-version'" />
+				</xsl:value-of>
 			</xsl:matching-substring>
 		</xsl:analyze-string>
 	</xsl:template>
