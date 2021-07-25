@@ -141,7 +141,7 @@
 				out: <dct:created>2000-01-01T00:00:00Z</dct:created>
 				
 				in:  <skos:prefLabel>SchXslt/1.6.2 SAXON/EE 9.9.1.7</skos:prefLabel>
-				out: <skos:prefLabel>SchXslt/1.6.2 SAXON/product-version</skos:prefLabel>
+				out: <skos:prefLabel>SchXslt/version SAXON/product-version</skos:prefLabel>
 	-->
 	<xsl:template as="text()" match="pre[contains-token(@class, 'svrl')]/text()"
 		mode="normalizer:normalize">
@@ -204,9 +204,11 @@
 							\S+?
 							(&lt;/dct:created>)									<!-- group 5 -->
 							|
-							([ ]+&lt;skos:prefLabel>SchXslt/[0-9.]+[ ]SAXON/)	<!-- group 6 -->
+							([ ]+&lt;skos:prefLabel>SchXslt/)					<!-- group 6 -->
+							[0-9.]+
+							([ ]SAXON/)											<!-- group 7 -->
 							[^/]+?
-							(&lt;/skos:prefLabel>)								<!-- group 7 -->
+							(&lt;/skos:prefLabel>)								<!-- group 8 -->
 						)
 						$
 					</xsl:text>
@@ -231,8 +233,10 @@
 								<xsl:when test="regex-group(6)">
 									<xsl:sequence select="
 											regex-group(6),
+											'version',
+											regex-group(7),
 											'product-version',
-											regex-group(7)" />
+											regex-group(8)" />
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:message terminate="yes" />
