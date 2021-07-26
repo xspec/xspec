@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test //x:scenario/@threads when it should be ignored
+-->
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="@threads on x:scenario should be ignored">
+		<x:call function="false" />
+
+		<x:scenario label="on Saxon-HE, PE and XQuery even if there are 2+ child x:scenario"
+			threads="
+				if (system-property('xsl:product-version') => starts-with('EE ')) then
+					2
+				else
+					error()">
+			<x:scenario label="Scenario 1">
+				<x:expect label="Expectation" select="false()" />
+			</x:scenario>
+			<x:scenario label="Scenario 2">
+				<x:expect label="Expectation" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="when there is only one child x:scenario" threads="error()">
+			<x:scenario label="Only one scenario">
+				<x:expect label="Expectation" select="false()" />
+			</x:scenario>
+		</x:scenario>
+
+		<x:scenario label="when there is no child x:scenario even if there are 2+ child x:expect"
+			threads="error()">
+			<x:expect label="Expectation 1" select="false()" />
+			<x:expect label="Expectation 2" select="false()" />
+		</x:scenario>
+
+	</x:scenario>
+
+</x:description>
