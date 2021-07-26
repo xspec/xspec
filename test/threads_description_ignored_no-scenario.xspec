@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	/x:description/@threads should be ignored when there is no child x:scenario
+-->
+<x:description query="x-urn:test:do-nothing" query-at="do-nothing.xqm" schematron="do-nothing.sch"
+	stylesheet="do-nothing.xsl" threads="error()" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:variable name="dummy" />
+
+</x:description>

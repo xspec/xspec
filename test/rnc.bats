@@ -100,3 +100,14 @@ load bats-helper
     assert_regex "${lines[1]}" '^Elapsed time '
 }
 
+@test "Schema detects zero-length @threads" {
+    # '-t' for identifying the last line
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
+        threads/invalid/zero-length.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[0]}" '.+: error: value of attribute "threads" is invalid; must be a string with length at least 1 \(actual length was 0\) or must be equal to "#child-scenario-count" or "#logical-processor-count"$'
+    assert_regex "${lines[1]}" '.+: error: value of attribute "threads" is invalid; must be a string with length at least 1 \(actual length was 0\) or must be equal to "#child-scenario-count" or "#logical-processor-count"$'
+    assert_regex "${lines[2]}" '^Elapsed time '
+}
+
