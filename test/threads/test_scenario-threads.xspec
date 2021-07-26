@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Scenarios for testing //x:scenario/@threads when it is not ignored
+-->
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<x:scenario label="1 period * 5 scenarios" shared="yes">
+		<x:scenario label="Scenario 1">
+			<x:like label="Sleep for a period" />
+		</x:scenario>
+
+		<x:scenario label="Scenario 2">
+			<x:like label="Sleep for a period" />
+		</x:scenario>
+
+		<x:scenario label="Scenario 3">
+			<x:like label="Sleep for a period" />
+		</x:scenario>
+
+		<x:scenario label="Scenario 4">
+			<x:like label="Sleep for a period" />
+		</x:scenario>
+
+		<x:scenario label="Scenario 5">
+			<x:like label="Sleep for a period" />
+		</x:scenario>
+	</x:scenario>
+
+	<x:scenario label="#child-scenario-count" threads="#child-scenario-count">
+		<x:like label="1 period * 5 scenarios" />
+	</x:scenario>
+
+	<x:scenario label="#logical-processor-count" threads="#logical-processor-count">
+		<x:like label="1 period * 5 scenarios" />
+	</x:scenario>
+
+	<x:scenario label="XPath expression using local namespace declaration"
+		threads="xs:QName('my:b') => string() => string-length() (: should be evaluated to 4 :)"
+		xmlns:my="my">
+		<x:like label="1 period * 5 scenarios" />
+	</x:scenario>
+
+</x:description>

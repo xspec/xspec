@@ -65,7 +65,7 @@
                     <!-- Global XSLT attributes.
                         @xslt-version can be set, because it has already been propagated from each
                         imported x:description to its descendants in mode="x:gather-specs". -->
-                    <xsl:sequence select="@result-file-threshold | @xslt-version" />
+                    <xsl:sequence select="@result-file-threshold | @threads | @xslt-version" />
                     <xsl:attribute name="stylesheet" select="$stylesheet-uri" />
 
                     <xsl:sequence select="$specs" />

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test //x:scenario/@threads when it contains more than one item
+-->
+<x:description stylesheet="../../do-nothing.xsl" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="@threads on x:scenario" threads="1, 1">
+		<x:call function="false" />
+
+		<x:scenario label="Scenario 1">
+			<x:expect label="Expectation" select="false()" />
+		</x:scenario>
+
+		<x:scenario label="Scenario 2">
+			<x:expect label="Expectation" select="false()" />
+		</x:scenario>
+	</x:scenario>
+
+</x:description>

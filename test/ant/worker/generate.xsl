@@ -161,6 +161,13 @@
 
 					<xsl:when test="
 							($test-type = ('s', 't'))
+							and ($pis = 'require-xslt-to-support-threads')
+							and not(system-property('xsl:product-version') => starts-with('EE '))">
+						<xsl:text>Requires XSLT processor to support multi-threaded processing</xsl:text>
+					</xsl:when>
+
+					<xsl:when test="
+							($test-type = ('s', 't'))
 							and $require-timestamp
 							and not($XSLT-SUPPORTS-TIMESTAMP)">
 						<xsl:text>Requires XSLT processor to support timestamp</xsl:text>
