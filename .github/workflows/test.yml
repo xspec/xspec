@@ -41,6 +41,12 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo npm install -g bats
 
+      - name: Install Bats for macOS
+        if: runner.os == 'macOS'
+        run: >
+          brew uninstall bats
+          && brew install bats-core
+
       - name: Run tests for *nix
         if: runner.os != 'Windows'
         run: >

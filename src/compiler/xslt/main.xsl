@@ -77,6 +77,28 @@
          <variable name="{x:known-UQName('x:is-external')}" as="{x:known-UQName('xs:boolean')}"
             select="{$is-external}()" />
 
+         <!-- $impl:thread-aware must be evaluated at run time static analysis -->
+         <variable name="{x:known-UQName('impl:thread-aware')}" as="xs:boolean"
+            select="(system-property('{x:known-UQName('xsl:product-name')}') eq 'SAXON') and starts-with(system-property('{x:known-UQName('xsl:product-version')}'), 'EE ')"
+            static="yes">
+            <!-- Declare 'xs:' namespace for this element, because Saxon 9.8.0.15 does not recognize
+               URIQualifiedName in xsl:variable[@static="yes"]/@as. -->
+            <xsl:namespace name="xs" select="$x:xs-namespace" />
+         </variable>
+
+         <!-- $impl:logical-processor-count must be evaluated at run time -->
+         <variable name="{x:known-UQName('impl:logical-processor-count')}"
+            as="{x:known-UQName('xs:integer')}" use-when="${x:known-UQName('impl:thread-aware')}">
+            <xsl:attribute name="select">
+               <xsl:text>Q{java:java.lang.Runtime}getRuntime() => Q{java:java.lang.Runtime}availableProcessors()</xsl:text>
+            </xsl:attribute>
+         </variable>
+
+         <!-- Default $impl:thread-count. This global variable will be used when x:description or
+            x:scenario has @threads but the XSLT processor at run time is not capable of threads. -->
+         <variable name="{x:known-UQName('impl:thread-count')}" as="{x:known-UQName('xs:integer')}"
+            select="1" use-when="${x:known-UQName('impl:thread-aware')} => not()" />
+
          <!-- Compile global params and global variables. -->
          <xsl:variable name="global-vardecls" as="element()*" select="x:param | x:variable" />
          <xsl:apply-templates select="$global-vardecls" mode="x:declare-variable" />
@@ -200,8 +222,8 @@
    <xsl:include href="declare-variable/declare-variable.xsl" />
    <xsl:include href="external/transform-options.xsl" />
    <xsl:include href="initial-check/perform-initial-check.xsl" />
-   <xsl:include href="invoke-compiled/group-invocation.xsl" />
    <xsl:include href="invoke-compiled/invoke-compiled-current-scenario-or-expect.xsl" />
+   <xsl:include href="invoke-compiled/threads.xsl" />
    <xsl:include href="measure-time/timestamp.xsl" />
    <xsl:include href="node-constructor/node-constructor.xsl" />
    <xsl:include href="report/report-utils.xsl" />

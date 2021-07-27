@@ -39,8 +39,10 @@
          </xsl:document>
       </xsl:variable>
 
-      <!-- Group the invocation instructions -->
-      <xsl:apply-templates select="$invocation-doc" mode="x:group-invocation" />
+      <!-- Adapt the invocation instructions to multi-threading -->
+      <xsl:apply-templates select="$invocation-doc" mode="x:threads">
+         <xsl:with-param name="tunnel_invoker-description-or-scenario" select="." tunnel="yes" />
+      </xsl:apply-templates>
    </xsl:template>
 
    <!--

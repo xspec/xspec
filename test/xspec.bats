@@ -2979,3 +2979,40 @@ load bats-helper
     [ "${lines[45]}" = "passed: 1 / pending: 16 / failed: 1 / total: 18" ]
 }
 
+#
+# @threads is not a positive integer
+#
+
+@test "@threads is zero" {
+    if [ -z "${XSLT_SUPPORTS_THREADS}" ]; then
+        skip "XSLT_SUPPORTS_THREADS is not defined"
+    fi
+
+    run ../bin/xspec.sh threads/dynamic-error/description_zero.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/@threads is not positive$'
+}
+
+@test "@threads contains more than one item" {
+    if [ -z "${XSLT_SUPPORTS_THREADS}" ]; then
+        skip "XSLT_SUPPORTS_THREADS is not defined"
+    fi
+
+    run ../bin/xspec.sh threads/dynamic-error/scenario_multiple.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[7]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
+}
+
+@test "@threads is a string" {
+    if [ -z "${XSLT_SUPPORTS_THREADS}" ]; then
+        skip "XSLT_SUPPORTS_THREADS is not defined"
+    fi
+
+    run ../bin/xspec.sh threads/dynamic-error/scenario_string.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[7]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
+}
+
