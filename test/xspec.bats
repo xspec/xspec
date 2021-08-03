@@ -3016,3 +3016,79 @@ load bats-helper
     assert_regex "${lines[7]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
 }
 
+#
+# Bad Schematron @location
+#
+
+@test "@location selects an atomic value" {
+    cd schematron/bad-location/atomic
+
+    run ../../../../bin/xspec.sh -s expect-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+
+    run ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+
+    run ../../../../bin/xspec.sh -s expect-not-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+
+    run ../../../../bin/xspec.sh -s expect-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+}
+
+@test "@location selects an empty sequence" {
+    cd schematron/bad-location/empty
+
+    run ../../../../bin/xspec.sh -s expect-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-not-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+}
+
+@test "@location selects 2+ nodes" {
+    cd schematron/bad-location/multiple
+
+    run ../../../../bin/xspec.sh -s expect-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-not-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+}
+
