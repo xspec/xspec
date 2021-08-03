@@ -166,9 +166,7 @@ load bats-helper
     export SAXON_HOME="${work_dir}/empty-saxon-home ${RANDOM}"
     mkdir "${SAXON_HOME}"
 
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 }
 
 #
@@ -190,9 +188,7 @@ load bats-helper
     cp ../tutorial/coverage/demo* "${special_chars_dir}"
     unset TEST_DIR
 
-    run ../bin/xspec.sh -c "${special_chars_dir}/demo.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh -c "${special_chars_dir}/demo.xspec"
 
     unset JAVA_TOOL_OPTIONS
 
@@ -506,22 +502,18 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     # Verify HTML report including #72
-    run java -jar "${SAXON_JAR}" \
+    java -jar "${SAXON_JAR}" \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
-    echo "$output"
-    [ "$status" -eq 0 ]
 }
 
 @test "XProc harness for Saxon (XQuery)" {
@@ -535,31 +527,25 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     # Verify HTML report including #72
-    run java -jar "${SAXON_JAR}" \
+    java -jar "${SAXON_JAR}" \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     # Run again (ndw/xmlcalabash1#322)
-    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
-    echo "$output"
-    [ "$status" -eq 0 ]
 }
 
 @test "XProc harness for Saxon (XQuery with special characters in expression #1020)" {
@@ -1775,13 +1761,11 @@ load bats-helper
 @test "Import order #185 (Ant)" {
     ant_log="${work_dir}/ant.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-185/import-1.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run grep -F " Scenario " "${ant_log}"
     echo "$output"
@@ -1824,13 +1808,11 @@ load bats-helper
     #
     ant_log="${work_dir}/ant_child.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-987_child.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run cat "${ant_log}"
     echo "$output"
@@ -1847,13 +1829,11 @@ load bats-helper
     #
     ant_log="${work_dir}/ant_parent.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-987_parent.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run cat "${ant_log}"
     echo "$output"
@@ -2088,9 +2068,7 @@ load bats-helper
 #
 
 @test "Default @xquery-version" {
-    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
 
     run cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
     [ "${lines[0]}" = 'xquery version "3.1";' ]
@@ -2109,14 +2087,12 @@ load bats-helper
 #
 
 @test "report-css-uri for HTML report file" {
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dxspec.fail=false \
         -Dxspec.result.html.css="${PWD}/check-html-css.css" \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run java -jar "${SAXON_JAR}" \
         -s:"${TEST_DIR}/escape-for-regex-result.html" \
@@ -2132,14 +2108,12 @@ load bats-helper
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
     fi
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dxspec.coverage.enabled=true \
         -Dxspec.coverage.html.css="${PWD}/check-html-css.css" \
         -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run java -jar "${SAXON_JAR}" \
         -s:"${TEST_DIR}/demo-coverage.html" \
@@ -2318,15 +2292,13 @@ load bats-helper
 
     ant_log="${work_dir}/ant.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=t \
         -Dxspec.xml="${PWD}/xspec-uri.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
     [ -f "${ant_log}" ]
 
     run grep -F -i "warning" "${ant_log}"
@@ -2341,15 +2313,13 @@ load bats-helper
 
     ant_log="${work_dir}/ant.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=q \
         -Dxspec.xml="${PWD}/xspec-uri.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
     [ -f "${ant_log}" ]
 
     run grep -F -i "warning" "${ant_log}"
@@ -2364,15 +2334,13 @@ load bats-helper
 
     ant_log="${work_dir}/ant.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=s \
         -Dxspec.xml="${PWD}/xspec-uri.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
     [ -f "${ant_log}" ]
 
     run grep -F -i "warning" "${ant_log}"
@@ -2496,9 +2464,7 @@ load bats-helper
     # TEST_DIR should not contain "xspec"
     export "TEST_DIR=/tmp/XSpec-655 ${RANDOM}"
 
-    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
 
     run grep -F "<pre>01:" "${TEST_DIR}/demo-coverage.html"
     echo "$output"
@@ -2600,9 +2566,7 @@ load bats-helper
     fi
 
     export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
-    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
 
     run cat "${TEST_DIR}/demo-coverage.html"
     echo "$output"
