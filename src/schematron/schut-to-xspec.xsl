@@ -185,7 +185,7 @@
     <xsl:mode name="make-predicate" on-multiple-match="fail" on-no-match="fail" />
 
     <xsl:template match="@location" as="text()" mode="make-predicate">
-        <xsl:text expand-text="yes">[if (not(count(${x:known-UQName('x:context')}/root()/({.})) = 1 and count({x:known-UQName('x:select-node')}(${x:known-UQName('x:context')}/root(), @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')}, {parent::element() => x:xslt-version()})) = 1)) then false() else (${x:known-UQName('x:context')}/root()/({.}) treat as node()) is {x:known-UQName('x:select-node')}(${x:known-UQName('x:context')}/root(), @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')}, {parent::element() => x:xslt-version()})]</xsl:text>
+        <xsl:text expand-text="yes">[if (not((${x:known-UQName('x:context')}/root()/({.})) instance of node() and ({x:known-UQName('x:select-node')}(${x:known-UQName('x:context')}/root(), @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')}, {parent::element() => x:xslt-version()})) instance of node())) then error(QName('http://www.w3.org/2005/xqt-errors', 'XPDY0050'), 'ERROR in location (XPath should point to only one node "{.}")') else (${x:known-UQName('x:context')}/root()/({.}) treat as node()) is {x:known-UQName('x:select-node')}(${x:known-UQName('x:context')}/root(), @location, preceding-sibling::{x:known-UQName('svrl:ns-prefix-in-attribute-values')}, {parent::element() => x:xslt-version()})]</xsl:text>
     </xsl:template>
 
     <xsl:template match="@id | @role" as="text()" mode="make-predicate">
