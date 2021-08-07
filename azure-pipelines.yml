@@ -28,6 +28,11 @@ jobs:
 
     steps:
       - script: >
+          brew uninstall bats
+          && brew install bats-core
+        displayName: Install Bats
+
+      - script: >
           source test/ci/install-deps.sh
           && test/ci/print-env.sh
           && test/ci/run-core-tests.sh

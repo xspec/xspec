@@ -9,10 +9,10 @@
 
     <x:scenario label="Scenario for testing a function">
         <x:call function="function-name">
-            <x:param select="" />
+            <x:param select="(: function parameter :)" />
         </x:call>
 
-        <x:expect label="" select="" />
+        <x:expect label="" select="(: expected value :)" />
     </x:scenario>
 
 </x:description>

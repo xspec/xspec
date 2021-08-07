@@ -19,6 +19,7 @@
       <xsl:param name="sequence" as="item()*" required="yes" />
       <xsl:param name="report-name" as="xs:string" required="yes" />
       <xsl:param name="report-namespace" as="xs:string" select="$x:xspec-namespace" />
+      <xsl:param name="result-file-threshold" as="xs:integer?" />
 
       <xsl:variable name="attribute-nodes" as="attribute()*"      select="$sequence[. instance of attribute()]" />
       <xsl:variable name="document-nodes"  as="document-node()*"  select="$sequence[. instance of document-node()]" />
@@ -135,17 +136,18 @@
 
       <!-- Output the report element -->
       <xsl:choose>
-         <!-- If too many nodes, save the report element as an external doc -->
-         <xsl:when test="count($report-element/descendant-or-self::node()) ge 1000">
-            <!-- URI of the external file.
+         <!-- If too many nodes, save the report element as a separate file. -->
+         <xsl:when test="count($report-element/descendant-or-self::node()) ge $result-file-threshold">
+            <!-- URI of the separate file.
                Ensure that each report outputs to a unique URI (expath/xspec#67). -->
             <xsl:variable name="href" as="xs:string"
                select="'result-' || generate-id($report-element) || '.xml'" />
 
-            <!-- Save the report element as the external file.
-               You can't unwrap the report element, because not all nodes can be located in the document root. -->
+            <!-- Save the report element as the separate file.
+               You can't unwrap the report element, because not all nodes can be located in the
+               document root. -->
             <!-- Use @format to avoid clashes with <xsl:output> in another stylesheet which would
-               otherwise govern the output of the external file. -->
+               otherwise govern the output of the separate file. -->
             <xsl:result-document href="{$href}" format="x:xml-report-serialization-parameters">
                <xsl:sequence select="$report-element" />
             </xsl:result-document>

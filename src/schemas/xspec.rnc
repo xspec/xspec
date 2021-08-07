@@ -43,6 +43,16 @@ description =
 		[ a:defaultValue = "no" ]
 		attribute measure-time { boolean.datatype }?,
 		
+		## This attribute determines whether to save results as separate files or not.
+		## If the number of nodes in an actual result or an expected result (after being wrapped in
+		## a report element) approximately exceeds this attribute, the result is saved as a separate
+		## file.
+		## Results are never saved as separate files, if the attribute value is 'inf' or when
+		## testing XQuery.
+		[ a:defaultValue = "inf" ]
+		attribute result-file-threshold { "inf" | xsd:positiveInteger }?,
+		
+		threads?,
 		(helper | global-param | import | scenario | pending-element | variable)+ }
 
 helper =
@@ -133,11 +143,27 @@ common-scenario-attributes = common-attributes,
                             ## on that particular scenario.
                              attribute focus { text }?,
 
+                            threads?,
+
                             ## Controls whether to catch errors. Not useful in Schematron scenario.
                             ## The standard $err:* variables are collected in $x:result?err map. For example,
                             ## $x:result?err?code stores $err:code.
                             ## Details are subject to change. Any feedback is welcome.
                              attribute catch { boolean.datatype }?
+
+threads =
+	## Specify the number of threads with which XSpec runs the child scenarios.
+	## Requires Saxon-EE XSLT processor. Ignored on the other processors.
+	## A special value, #child-scenario-count, runs the child scenarios in parallel, using as many
+	## threads as the number of child scenarios, regardless of the number of Java VM logical
+	## processors.
+	## Another special value, #logical-processor-count, runs the child scenarios in parallel, using
+	## at most as many threads as the number of Java VM logical processors.
+	attribute threads {
+		xpath
+		| "#child-scenario-count"
+		| "#logical-processor-count"
+	}
 
 label = 
 	## A scenario's label should describe the context that the scenario sets. Top-
@@ -183,7 +209,7 @@ matching-scenario = (global-param | variable)*, context?, variable*,
 ## <call> element defines the function call and the parameters passed to it
 ## and the <assertion> elements test the result of the function. Child scenarios
 ## can override the parameters in the function call.
-function-scenario = (global-param | variable)*, function-call?, variable*,
+function-scenario = (global-param | variable)*, context?, variable*, function-call?, variable*,
                     like*,
                     (pending-element | assertion | variable)*,
                     (pending-element | 
@@ -272,7 +298,7 @@ value-selection =
     ## The XPath expression without definitive context.
     attribute select { xpath }
 
-xpath = text
+xpath = xsd:string { minLength = "1" }
 
 assertion = 
 	## An assertion's test XPath can either return a boolean value, in which case the 

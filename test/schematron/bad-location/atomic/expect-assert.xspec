@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="../test.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="When sch:assert is false">
+		<x:context href="../context.xml" />
+		<x:expect-assert
+			label="x:expect-assert/@location selecting an atomic value should be a fatal error."
+			location="1" />
+	</x:scenario>
+
+</x:description>

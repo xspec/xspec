@@ -20,8 +20,8 @@
    </xsl:template>
 
    <xsl:template name="x:call-report-sequence" as="element(xsl:call-template)">
-      <!-- Context item is x:scenario or x:expect, but not used -->
-      <xsl:context-item use="absent" />
+      <!-- Context item is x:scenario or x:expect -->
+      <xsl:context-item as="element()" use="required" />
 
       <xsl:param name="sequence-variable-eqname" as="xs:string" required="yes" />
       <xsl:param name="report-name" as="xs:string" select="'result'" />
@@ -37,6 +37,12 @@
             <xsl:attribute name="name" select="'report-name'" />
             <xsl:attribute name="select" select="x:quote-with-apos($report-name)" />
          </xsl:element>
+         <xsl:for-each select="/x:description/@result-file-threshold[. ne 'inf']">
+            <xsl:element name="xsl:with-param" namespace="{$x:xsl-namespace}">
+               <xsl:attribute name="name" select="local-name()" />
+               <xsl:attribute name="select" select="." />
+            </xsl:element>
+         </xsl:for-each>
       </xsl:element>
    </xsl:template>
 

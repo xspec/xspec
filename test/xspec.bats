@@ -166,9 +166,7 @@ load bats-helper
     export SAXON_HOME="${work_dir}/empty-saxon-home ${RANDOM}"
     mkdir "${SAXON_HOME}"
 
-    run ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh ../tutorial/escape-for-regex.xspec
 }
 
 #
@@ -190,9 +188,7 @@ load bats-helper
     cp ../tutorial/coverage/demo* "${special_chars_dir}"
     unset TEST_DIR
 
-    run ../bin/xspec.sh -c "${special_chars_dir}/demo.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh -c "${special_chars_dir}/demo.xspec"
 
     unset JAVA_TOOL_OPTIONS
 
@@ -496,8 +492,8 @@ load bats-helper
 #
 
 @test "XProc harness for Saxon (XSLT)" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
     # HTML report file
@@ -506,27 +502,23 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     # Verify HTML report including #72
-    run java -jar "${SAXON_JAR}" \
+    java -jar "${SAXON_JAR}" \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/stylesheet/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
-    echo "$output"
-    [ "$status" -eq 0 ]
 }
 
 @test "XProc harness for Saxon (XQuery)" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
     # HTML report file
@@ -535,39 +527,33 @@ load bats-helper
     actual_report="${actual_report_dir}/serialize-result.html"
 
     # Run
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     # Verify HTML report including #72
-    run java -jar "${SAXON_JAR}" \
+    java -jar "${SAXON_JAR}" \
         -s:"${actual_report}" \
         -xsl:end-to-end/processor/html/compare.xsl \
         EXPECTED-DOC-URI="file:${actual_report_dir}/../../expected/query/serialize-result.html" \
         NORMALIZE-HTML-DATETIME="2000-01-01T00:00:00Z"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     # Run again (ndw/xmlcalabash1#322)
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=end-to-end/cases/serialize.xspec \
         -o result="file:${actual_report}" \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
-    echo "$output"
-    [ "$status" -eq 0 ]
 }
 
 @test "XProc harness for Saxon (XQuery with special characters in expression #1020)" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${work_dir}/issue-1020-result_${RANDOM}.html" \
         -p xspec-home="file:${parent_dir_abs}/" \
@@ -912,8 +898,8 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
     # Output files
@@ -921,7 +907,7 @@ load bats-helper
     expected_report="${work_dir}/issue-1020-result_${RANDOM}.html"
 
     # Run (also test with special characters in expression #1020)
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=issue-1020.xspec \
         -o result="file:${expected_report}" \
         -p basex-jar="${BASEX_JAR}" \
@@ -946,8 +932,8 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
     # BaseX dir
@@ -960,7 +946,7 @@ load bats-helper
     expected_report="${work_dir}/report-sequence-result_${RANDOM}.html"
 
     # Run (also test with various types in report)
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=report-sequence.xspec \
         -o result="file:${expected_report}" \
         -p auth-method=Basic \
@@ -988,11 +974,11 @@ load bats-helper
     if [ -z "${BASEX_JAR}" ]; then
         skip "BASEX_JAR is not defined"
     fi
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=no-prefix.xspec \
         -o result="file:${work_dir}/no-prefix-result_${RANDOM}.html" \
         -p basex-jar="${BASEX_JAR}" \
@@ -1775,13 +1761,11 @@ load bats-helper
 @test "Import order #185 (Ant)" {
     ant_log="${work_dir}/ant.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-185/import-1.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run grep -F " Scenario " "${ant_log}"
     echo "$output"
@@ -1824,13 +1808,11 @@ load bats-helper
     #
     ant_log="${work_dir}/ant_child.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-987_child.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run cat "${ant_log}"
     echo "$output"
@@ -1847,13 +1829,11 @@ load bats-helper
     #
     ant_log="${work_dir}/ant_parent.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -Dxspec.xml="${PWD}/issue-987_parent.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run cat "${ant_log}"
     echo "$output"
@@ -2013,11 +1993,11 @@ load bats-helper
 #
 
 @test "XSLT selecting nodes without context should be error (XProc) #423" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xslt-harness.xproc
@@ -2028,11 +2008,11 @@ load bats-helper
 }
 
 @test "XQuery selecting nodes without context should be error (XProc) #423" {
-    if [ -z "${XMLCALABASH_JAR}" ]; then
-        skip "XMLCALABASH_JAR is not defined"
+    if [ -z "${XMLCALABASH_CP}" ]; then
+        skip "XMLCALABASH_CP is not defined"
     fi
 
-    run java -cp "${XMLCALABASH_JAR}:${SAXON_JAR}" com.xmlcalabash.drivers.Main \
+    run java -cp "${XMLCALABASH_CP}" com.xmlcalabash.drivers.Main \
         -i source=issue-423/test.xspec \
         -p xspec-home="file:${parent_dir_abs}/" \
         ../src/harnesses/saxon/saxon-xquery-harness.xproc
@@ -2088,9 +2068,7 @@ load bats-helper
 #
 
 @test "Default @xquery-version" {
-    run ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh -q ../tutorial/xquery-tutorial.xspec
 
     run cat "${TEST_DIR}/xquery-tutorial-compiled.xq"
     [ "${lines[0]}" = 'xquery version "3.1";' ]
@@ -2109,14 +2087,12 @@ load bats-helper
 #
 
 @test "report-css-uri for HTML report file" {
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dxspec.fail=false \
         -Dxspec.result.html.css="${PWD}/check-html-css.css" \
         -Dxspec.xml="${PWD}/../tutorial/escape-for-regex.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run java -jar "${SAXON_JAR}" \
         -s:"${TEST_DIR}/escape-for-regex-result.html" \
@@ -2132,14 +2108,12 @@ load bats-helper
         skip "XSLT_SUPPORTS_COVERAGE is not defined"
     fi
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -Dxspec.coverage.enabled=true \
         -Dxspec.coverage.html.css="${PWD}/check-html-css.css" \
         -Dxspec.xml="${PWD}/../tutorial/coverage/demo.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
 
     run java -jar "${SAXON_JAR}" \
         -s:"${TEST_DIR}/demo-coverage.html" \
@@ -2318,15 +2292,13 @@ load bats-helper
 
     ant_log="${work_dir}/ant.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=t \
         -Dxspec.xml="${PWD}/xspec-uri.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
     [ -f "${ant_log}" ]
 
     run grep -F -i "warning" "${ant_log}"
@@ -2341,15 +2313,13 @@ load bats-helper
 
     ant_log="${work_dir}/ant.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=q \
         -Dxspec.xml="${PWD}/xspec-uri.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
     [ -f "${ant_log}" ]
 
     run grep -F -i "warning" "${ant_log}"
@@ -2364,15 +2334,13 @@ load bats-helper
 
     ant_log="${work_dir}/ant.log"
 
-    run ant \
+    ant \
         -buildfile ../build.xml \
         -lib "${SAXON_JAR}" \
         -logfile "${ant_log}" \
         -verbose \
         -Dtest.type=s \
         -Dxspec.xml="${PWD}/xspec-uri.xspec"
-    echo "$output"
-    [ "$status" -eq 0 ]
     [ -f "${ant_log}" ]
 
     run grep -F -i "warning" "${ant_log}"
@@ -2496,9 +2464,7 @@ load bats-helper
     # TEST_DIR should not contain "xspec"
     export "TEST_DIR=/tmp/XSpec-655 ${RANDOM}"
 
-    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
 
     run grep -F "<pre>01:" "${TEST_DIR}/demo-coverage.html"
     echo "$output"
@@ -2600,9 +2566,7 @@ load bats-helper
     fi
 
     export COVERAGE_REPORTER_XSL=custom-coverage-report.xsl
-    run ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
-    echo "$output"
-    [ "$status" -eq 0 ]
+    ../bin/xspec.sh -c ../tutorial/coverage/demo.xspec
 
     run cat "${TEST_DIR}/demo-coverage.html"
     echo "$output"
@@ -2653,7 +2617,7 @@ load bats-helper
     run ../bin/xspec.sh error-compiling-scenario/function-with-context.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    [ "${lines[3]}" = "ERROR in x:scenario ('x:call[@function] with x:context'): Can't set a context and call a function at the same time" ]
+    [ "${lines[3]}" = "ERROR in x:scenario ('x:call[@function] with x:context'): Setting a context for calling a function is supported only when /x:description has @run-as='external'." ]
     [ "${lines[${#lines[@]}-1]}" = "*** Error compiling the test suite" ]
 }
 
@@ -3013,5 +2977,118 @@ load bats-helper
     [ "${lines[43]}" = "PENDING: it would throw an error if it were not Pending" ]
     [ "${lines[44]}" = "Formatting Report..." ]
     [ "${lines[45]}" = "passed: 1 / pending: 16 / failed: 1 / total: 18" ]
+}
+
+#
+# @threads is not a positive integer
+#
+
+@test "@threads is zero" {
+    if [ -z "${XSLT_SUPPORTS_THREADS}" ]; then
+        skip "XSLT_SUPPORTS_THREADS is not defined"
+    fi
+
+    run ../bin/xspec.sh threads/dynamic-error/description_zero.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[6]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/@threads is not positive$'
+}
+
+@test "@threads contains more than one item" {
+    if [ -z "${XSLT_SUPPORTS_THREADS}" ]; then
+        skip "XSLT_SUPPORTS_THREADS is not defined"
+    fi
+
+    run ../bin/xspec.sh threads/dynamic-error/scenario_multiple.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[7]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
+}
+
+@test "@threads is a string" {
+    if [ -z "${XSLT_SUPPORTS_THREADS}" ]; then
+        skip "XSLT_SUPPORTS_THREADS is not defined"
+    fi
+
+    run ../bin/xspec.sh threads/dynamic-error/scenario_string.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[7]}" '^  FOER0000[: ] /Q\{http://www.jenitennison.com/xslt/xspec\}description\[1\]/Q\{http://www.jenitennison.com/xslt/xspec\}scenario\[1\]/@threads is not an integer'
+}
+
+#
+# Bad Schematron @location
+#
+
+@test "@location selects an atomic value" {
+    cd schematron/bad-location/atomic
+
+    run ../../../../bin/xspec.sh -s expect-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+
+    run ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+
+    run ../../../../bin/xspec.sh -s expect-not-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+
+    run ../../../../bin/xspec.sh -s expect-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+}
+
+@test "@location selects an empty sequence" {
+    cd schematron/bad-location/empty
+
+    run ../../../../bin/xspec.sh -s expect-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-not-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+}
+
+@test "@location selects 2+ nodes" {
+    cd schematron/bad-location/multiple
+
+    run ../../../../bin/xspec.sh -s expect-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-not-assert.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-not-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+
+    run ../../../../bin/xspec.sh -s expect-report.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
 }
 

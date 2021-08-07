@@ -56,7 +56,7 @@
                   <!-- Global XSLT attributes.
                      @xslt-version can be set, because it has already been propagated from each
                      imported x:description to its descendants in mode="x:gather-specs". -->
-                  <xsl:sequence select="@xslt-version" />
+                  <xsl:sequence select="@result-file-threshold | @threads | @xslt-version" />
                   <xsl:for-each select="@stylesheet">
                      <xsl:attribute name="{local-name()}" namespace="{namespace-uri()}"
                         select="resolve-uri(., base-uri())" />

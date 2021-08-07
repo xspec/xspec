@@ -63,14 +63,12 @@ load bats-helper
     # '-t' for identifying the last line
     run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
         error-compiling-scenario/call-both-function-and-template.xspec \
-        error-compiling-scenario/context-both-href-and-content.xspec \
-        error-compiling-scenario/function-with-context.xspec
+        error-compiling-scenario/context-both-href-and-content.xspec
     echo "$output"
     [ "$status" -eq 1 ]
     assert_regex "${lines[0]}" '.+: error: attribute "template" not allowed here;'
     assert_regex "${lines[1]}" '.+: error: element "context-child" not allowed here;'
-    assert_regex "${lines[2]}" '.+: error: attribute "function" not allowed here;'
-    assert_regex "${lines[3]}" '^Elapsed time '
+    assert_regex "${lines[2]}" '^Elapsed time '
 }
 
 @test "Schema detects non-positive @position" {
@@ -100,5 +98,16 @@ load bats-helper
     [ "$status" -eq 1 ]
     assert_regex "${lines[0]}" '.+: error: attribute "position" not allowed here;'
     assert_regex "${lines[1]}" '^Elapsed time '
+}
+
+@test "Schema detects zero-length @threads" {
+    # '-t' for identifying the last line
+    run java -jar "${JING_JAR}" -c -t ../src/schemas/xspec.rnc \
+        threads/invalid/zero-length.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    assert_regex "${lines[0]}" '.+: error: value of attribute "threads" is invalid; must be a string with length at least 1 \(actual length was 0\) or must be equal to "#child-scenario-count" or "#logical-processor-count"$'
+    assert_regex "${lines[1]}" '.+: error: value of attribute "threads" is invalid; must be a string with length at least 1 \(actual length was 0\) or must be equal to "#child-scenario-count" or "#logical-processor-count"$'
+    assert_regex "${lines[2]}" '^Elapsed time '
 }
 

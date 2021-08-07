@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Test /x:description/@threads when it is zero
+-->
+<x:description stylesheet="../../do-nothing.xsl" threads="0"
+	xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="Scenario 1">
+		<x:call function="false" />
+		<x:expect label="Expectation" select="false()" />
+	</x:scenario>
+
+	<x:scenario label="Scenario 2">
+		<x:call function="false" />
+		<x:expect label="Expectation" select="false()" />
+	</x:scenario>
+
+</x:description>
