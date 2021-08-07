@@ -2630,4 +2630,68 @@
     call :verify_line 8 r "  FOER0000[: ] /Q{http://www.jenitennison.com/xslt/xspec}description\[1\]/Q{http://www.jenitennison.com/xslt/xspec}scenario\[1\]/@threads is not an integer"
 	</case>
 
+	<!--
+		Bad Schematron @location
+	-->
+
+	<case name="@location selects an atomic value">
+    cd schematron\bad-location\atomic
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] ..* value in 'treat as' expression is node()"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] ..* value in 'treat as' expression is node()"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] ..* value in 'treat as' expression is node()"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] ..* value in 'treat as' expression is node()"
+	</case>
+
+	<case name="@location selects an empty sequence">
+    cd schematron\bad-location\empty
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] The value in 'treat as' expression does not satisfy the cardinality constraints$"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] The value in 'treat as' expression does not satisfy the cardinality constraints$"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] The value in 'treat as' expression does not satisfy the cardinality constraints$"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] The value in 'treat as' expression does not satisfy the cardinality constraints$"
+	</case>
+
+	<case name="@location selects 2+ nodes">
+    cd schematron\bad-location\multiple
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] A sequence of more than one item is not allowed as the value in 'treat as'$"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] A sequence of more than one item is not allowed as the value in 'treat as'$"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] A sequence of more than one item is not allowed as the value in 'treat as'$"
+
+    call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
+    call :verify_retval 2
+    call :verify_line * r "  XPDY0050[: ] A sequence of more than one item is not allowed as the value in 'treat as'$"
+	</case>
+
 </collection>

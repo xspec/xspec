@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="../test.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="When sch:assert is false">
+		<x:context href="../context.xml" />
+		<x:expect-assert
+			label="x:expect-assert/@location selecting 2+ nodes should be a fatal error."
+			location="/descendant-or-self::node()" />
+	</x:scenario>
+
+</x:description>

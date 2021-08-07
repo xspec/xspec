@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description schematron="../test.sch" xmlns:x="http://www.jenitennison.com/xslt/xspec">
+
+	<x:scenario label="When sch:report is true">
+		<x:context href="../context.xml" />
+		<x:expect-report
+			label="x:expect-report/@location selecting an empty sequence should be a fatal error."
+			location="()" />
+	</x:scenario>
+
+</x:description>
