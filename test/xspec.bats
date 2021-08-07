@@ -3031,17 +3031,17 @@ load bats-helper
     run ../../../../bin/xspec.sh -s expect-not-assert.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] ERROR in location \(XPath should point to only one node "1"\)'$'\n'
+    assert_regex "${output}" $'\n''  XPDY0050[: ] ERROR in location \(XPath should point to only one node "'\''str'\''"\)'$'\n'
 
     run ../../../../bin/xspec.sh -s expect-not-report.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] ERROR in location \(XPath should point to only one node "1"\)'$'\n'
+    assert_regex "${output}" $'\n''  XPDY0050[: ] ERROR in location \(XPath should point to only one node "true()"\)'$'\n'
 
     run ../../../../bin/xspec.sh -s expect-report.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] ERROR in location \(XPath should point to only one node "1"\)'$'\n'
+    assert_regex "${output}" $'\n''  XPDY0050[: ] ERROR in location \(XPath should point to only one node "xs:QName('\''my:foo'\'')"\)'$'\n'
 }
 
 @test "@location selects an empty sequence" {
