@@ -2639,19 +2639,23 @@
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] ..* value in 'treat as' expression is node()"
+    call :verify_line -2 x "ERROR in x:expect-assert/@location: Expression 1 should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] ..* value in 'treat as' expression is node()"
+    call :verify_line -2 x "ERROR in x:expect-not-assert/@location: Expression 'str' should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] ..* value in 'treat as' expression is node()"
+    call :verify_line -2 x "ERROR in x:expect-not-report/@location: Expression true() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] ..* value in 'treat as' expression is node()"
+    call :verify_line -2 x "ERROR in x:expect-report/@location: Expression xs:QName('my:foo') should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="@location selects an empty sequence">
@@ -2659,19 +2663,23 @@
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] The value in 'treat as' expression does not satisfy the cardinality constraints$"
+    call :verify_line -2 x "ERROR in x:expect-assert/@location: Expression () should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] The value in 'treat as' expression does not satisfy the cardinality constraints$"
+    call :verify_line -2 x "ERROR in x:expect-not-assert/@location: Expression () should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] The value in 'treat as' expression does not satisfy the cardinality constraints$"
+    call :verify_line -2 x "ERROR in x:expect-not-report/@location: Expression () should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] The value in 'treat as' expression does not satisfy the cardinality constraints$"
+    call :verify_line -2 x "ERROR in x:expect-report/@location: Expression () should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 	<case name="@location selects 2+ nodes">
@@ -2679,19 +2687,30 @@
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-assert.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] A sequence of more than one item is not allowed as the value in 'treat as'$"
+    call :verify_line -2 x "ERROR in x:expect-assert/@location: Expression /descendant-or-self::node() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-not-assert.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] A sequence of more than one item is not allowed as the value in 'treat as'$"
+    call :verify_line -2 x "ERROR in x:expect-not-assert/@location: Expression /descendant-or-self::node() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-not-report.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] A sequence of more than one item is not allowed as the value in 'treat as'$"
+    call :verify_line -2 x "ERROR in x:expect-not-report/@location: Expression /descendant-or-self::node() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 
     call :run ..\..\..\..\bin\xspec.bat -s expect-report.xspec
     call :verify_retval 2
-    call :verify_line * r "  XPDY0050[: ] A sequence of more than one item is not allowed as the value in 'treat as'$"
+    call :verify_line -2 x "ERROR in x:expect-report/@location: Expression /descendant-or-self::node() should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
+	</case>
+
+	<case name="SVRL @location fails to select text node #396">
+    call :run ..\bin\xspec.bat -s schematron\bad-location\issue-396.xspec
+    call :verify_retval 2
+    call :verify_line -2 x "ERROR in svrl:successful-report/@location: Expression above-mentioned should point to one node."
+    call :verify_line -1 x "*** Error running the test suite"
 	</case>
 
 </collection>

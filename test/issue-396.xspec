@@ -17,10 +17,5 @@
 			- $visit-text global parameter is true.
 			- @location is not involved. -->
 		<x:expect-report id="above-mentioned" role="info" />
-
-		<!-- @location with text node doesn't work with the "skeleton" Schematron implementation.
-			This <x:expect-not-report> confirms it. If this <x:expect-not-report> fails, it means
-			that the "skeleton" Schematron implementation gets fixed. -->
-		<x:expect-not-report location="//text()[. eq 'above-mentioned']" />
 	</x:scenario>
 </x:description>
