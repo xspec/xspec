@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" schematron="schematron/schematron-027.sch">
+    
+    <x:scenario label="rule followed">
+        <x:context>
+            <contrib>
+                <aff type="first"/>
+                <aff type="second"/>
+            </contrib>
+        </x:context>
+        <x:expect-not-assert id="t01"/>
+    </x:scenario>
+    
+    <x:scenario label="rule violated">
+        <x:context>
+            <contrib>
+                <aff/>
+            </contrib>
+        </x:context>
+        <x:expect-assert id="t01"/>
+    </x:scenario>
+    
+    <x:scenario label="rule violated, location is simple">
+        <x:context>
+            <contrib>
+                <aff/>
+            </contrib>
+        </x:context>
+        <x:expect-assert id="t01" location="contrib/aff"/>
+    </x:scenario>
+    
+    <x:scenario label="rule violated, location is specific">
+        <x:context>
+            <contrib>
+                <aff/>
+            </contrib>
+        </x:context>
+        <x:expect-assert id="t01" location="contrib[1]/aff[1]"/>
+    </x:scenario>
+    
+    <x:scenario label="rule violated, location is specific 2">
+        <x:context>
+            <contrib>
+                <aff type="first"/>
+                <aff/>
+            </contrib>
+        </x:context>
+        <x:expect-assert id="t01" location="contrib[1]/aff[2]"/>
+    </x:scenario>
+    
+</x:description>

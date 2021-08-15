@@ -5,7 +5,7 @@
 		<x:context href="../context.xml" />
 		<x:expect-not-assert
 			label="x:expect-not-assert/@location selecting an atomic value should be a fatal error."
-			location="1" />
+			location="'str'" />
 	</x:scenario>
 
 </x:description>

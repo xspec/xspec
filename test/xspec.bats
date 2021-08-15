@@ -3026,22 +3026,26 @@ load bats-helper
     run ../../../../bin/xspec.sh -s expect-assert.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-assert/@location: Expression 1 should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-not-assert.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-not-assert/@location: Expression 'str' should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-not-report.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-not-report/@location: Expression true() should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-report.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] .+ value in '\''treat as'\'' expression is node\(\)'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-report/@location: Expression xs:QName('my:foo') should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
 @test "@location selects an empty sequence" {
@@ -3050,22 +3054,26 @@ load bats-helper
     run ../../../../bin/xspec.sh -s expect-assert.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-assert/@location: Expression () should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-not-assert.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-not-assert/@location: Expression () should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-not-report.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-not-report/@location: Expression () should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-report.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] The value in '\''treat as'\'' expression does not satisfy the cardinality constraints'$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-report/@location: Expression () should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
 @test "@location selects 2+ nodes" {
@@ -3074,21 +3082,32 @@ load bats-helper
     run ../../../../bin/xspec.sh -s expect-assert.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-assert/@location: Expression /descendant-or-self::node() should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-not-assert.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-not-assert/@location: Expression /descendant-or-self::node() should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-not-report.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-not-report/@location: Expression /descendant-or-self::node() should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 
     run ../../../../bin/xspec.sh -s expect-report.xspec
     echo "$output"
     [ "$status" -eq 1 ]
-    assert_regex "${output}" $'\n''  XPDY0050[: ] A sequence of more than one item is not allowed as the value in '\''treat as'\'''$'\n'
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in x:expect-report/@location: Expression /descendant-or-self::node() should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
 }
 
+@test "SVRL @location fails to select text node #396" {
+    run ../bin/xspec.sh -s schematron/bad-location/issue-396.xspec
+    echo "$output"
+    [ "$status" -eq 1 ]
+    [ "${lines[${#lines[@]}-2]}" = "ERROR in svrl:successful-report/@location: Expression above-mentioned should point to one node." ]
+    [ "${lines[${#lines[@]}-1]}" = "*** Error running the test suite" ]
+}

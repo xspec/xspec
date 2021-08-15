@@ -51,4 +51,26 @@
 		<xsl:sequence select="transform($transform-options)?output" />
 	</xsl:function>
 
+	<!--
+		Returns the given sequence if it is one node, otherwise raises an error.
+	-->
+	<xsl:function as="node()" name="x:node-or-error">
+		<xsl:param as="item()*" name="maybe-node" />
+		<xsl:param as="xs:string" name="expression" />
+		<xsl:param as="xs:string" name="error-owner" />
+
+		<xsl:choose>
+			<xsl:when test="$maybe-node instance of node()">
+				<xsl:sequence select="$maybe-node" />
+			</xsl:when>
+
+			<xsl:otherwise>
+				<xsl:variable as="xs:string" name="description">
+					<xsl:text expand-text="yes">ERROR in {$error-owner}: Expression {$expression} should point to one node.</xsl:text>
+				</xsl:variable>
+				<xsl:sequence select="error((), $description)" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+
 </xsl:stylesheet>

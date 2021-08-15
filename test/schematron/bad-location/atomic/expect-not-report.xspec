@@ -5,7 +5,7 @@
 		<x:context href="../context.xml" />
 		<x:expect-not-report
 			label="x:expect-not-report/@location selecting an atomic value should be a fatal error."
-			location="1" />
+			location="true()" />
 	</x:scenario>
 
 </x:description>
