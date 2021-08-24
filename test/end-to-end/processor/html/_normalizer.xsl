@@ -14,7 +14,7 @@
 	<!--
 		When set, datetime is normalized to this value
 	-->
-	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" />
+	<xsl:param as="xs:dateTime?" name="NORMALIZE-HTML-DATETIME" static="yes" />
 
 	<!--
 		Normalizes the title text
@@ -92,9 +92,8 @@
 				in:  <p>Tested: 23 February 2017 at 11:18</p>
 				out: <p>Tested: 1 January 2000 at 00:00</p>
 	-->
-	<xsl:template as="text()"
-		match="/html[exists($NORMALIZE-HTML-DATETIME)]/body/p[starts-with(., 'Tested:')]/text()"
-		mode="normalizer:normalize">
+	<xsl:template as="text()" match="/html/body/p[starts-with(., 'Tested:')]/text()"
+		mode="normalizer:normalize" use-when="exists($NORMALIZE-HTML-DATETIME)">
 		<!-- Format in the same way as XSPEC_HOME/src/reporter/format-xspec-report.xsl -->
 		<xsl:variable as="xs:string" name="now"
 			select="format-dateTime($NORMALIZE-HTML-DATETIME, '[D] [MNn] [Y] at [H01]:[m01]')" />
