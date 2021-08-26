@@ -215,6 +215,9 @@
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>3.3.0</version>
+            <configuration>
+              <notimestamp>true</notimestamp>
+            </configuration>
             <executions>
               <execution>
                 <id>attach-javadoc</id>
