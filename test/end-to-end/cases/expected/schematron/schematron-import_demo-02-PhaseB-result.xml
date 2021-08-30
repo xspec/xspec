@@ -23,26 +23,6 @@
                                     xmlns:local="local"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
-                              xmlns:skos="http://www.w3.org/2004/02/skos/core#">
-                  <dct:creator>
-                     <dct:Agent>
-                        <skos:prefLabel>SAXON/product-version</skos:prefLabel>
-                     </dct:Agent>
-                  </dct:creator>
-                  <dct:created>2000-01-01T00:00:00Z</dct:created>
-                  <dct:source>
-                     <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
-                        <dct:creator>
-                           <dct:Agent>
-                              <skos:prefLabel>SchXslt/version SAXON/product-version</skos:prefLabel>
-                              <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
-                           </dct:Agent>
-                        </dct:creator>
-                        <dct:created>2000-01-01T00:00:00Z</dct:created>
-                     </rdf:Description>
-                  </dct:source>
-               </svrl:metadata>
                <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
@@ -117,26 +97,6 @@
                                     xmlns:local="local"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
-                              xmlns:skos="http://www.w3.org/2004/02/skos/core#">
-                  <dct:creator>
-                     <dct:Agent>
-                        <skos:prefLabel>SAXON/product-version</skos:prefLabel>
-                     </dct:Agent>
-                  </dct:creator>
-                  <dct:created>2000-01-01T00:00:00Z</dct:created>
-                  <dct:source>
-                     <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
-                        <dct:creator>
-                           <dct:Agent>
-                              <skos:prefLabel>SchXslt/version SAXON/product-version</skos:prefLabel>
-                              <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
-                           </dct:Agent>
-                        </dct:creator>
-                        <dct:created>2000-01-01T00:00:00Z</dct:created>
-                     </rdf:Description>
-                  </dct:source>
-               </svrl:metadata>
                <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>
@@ -221,26 +181,6 @@
                                     xmlns:local="local"
                                     phase="PhaseB">
                <svrl:ns-prefix-in-attribute-values prefix="local" uri="local"/>
-               <svrl:metadata xmlns:dct="http://purl.org/dc/terms/"
-                              xmlns:skos="http://www.w3.org/2004/02/skos/core#">
-                  <dct:creator>
-                     <dct:Agent>
-                        <skos:prefLabel>SAXON/product-version</skos:prefLabel>
-                     </dct:Agent>
-                  </dct:creator>
-                  <dct:created>2000-01-01T00:00:00Z</dct:created>
-                  <dct:source>
-                     <rdf:Description xmlns:dc="http://purl.org/dc/elements/1.1/">
-                        <dct:creator>
-                           <dct:Agent>
-                              <skos:prefLabel>SchXslt/version SAXON/product-version</skos:prefLabel>
-                              <schxslt.compile.typed-variables xmlns="https://doi.org/10.5281/zenodo.1495494#">true</schxslt.compile.typed-variables>
-                           </dct:Agent>
-                        </dct:creator>
-                        <dct:created>2000-01-01T00:00:00Z</dct:created>
-                     </rdf:Description>
-                  </dct:source>
-               </svrl:metadata>
                <svrl:active-pattern id="Pattern2" documents="demo-02.xml"/>
                <svrl:fired-rule context="sec"/>
                <svrl:fired-rule context="sec"/>

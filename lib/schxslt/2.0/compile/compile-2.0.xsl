@@ -28,6 +28,7 @@
   <xsl:param name="phase" as="xs:string">#DEFAULT</xsl:param>
   <xsl:variable name="schxslt.compile.typed-variables" as="xs:boolean" select="true()"/>
   <xsl:param name="schxslt.compile.streamable" as="xs:boolean" select="false()"/>
+  <xsl:param name="schxslt.compile.metadata" as="xs:boolean" select="true()"/>
 
   <xsl:template match="/sch:schema">
     <xsl:call-template name="schxslt:compile">
@@ -112,11 +113,13 @@
         <xsl:sequence select="$schematron/sch:phase[@id eq $effective-phase]/@xml:base"/>
 
         <variable name="metadata" as="element()?">
-          <xsl:call-template name="schxslt-api:metadata">
-            <xsl:with-param name="schema" as="element(sch:schema)" select="$schematron"/>
-            <xsl:with-param name="source" as="element(rdf:Description)" select="$version"/>
-            <xsl:with-param name="xslt-version" as="xs:string" tunnel="yes" select="$xslt-version"/>
-          </xsl:call-template>
+          <xsl:if test="$schxslt.compile.metadata">
+            <xsl:call-template name="schxslt-api:metadata">
+              <xsl:with-param name="schema" as="element(sch:schema)" select="$schematron"/>
+              <xsl:with-param name="source" as="element(rdf:Description)" select="$version"/>
+              <xsl:with-param name="xslt-version" as="xs:string" tunnel="yes" select="$xslt-version"/>
+            </xsl:call-template>
+          </xsl:if>
         </variable>
 
         <variable name="report" as="element(schxslt:report)">

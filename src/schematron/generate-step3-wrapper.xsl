@@ -67,6 +67,13 @@
 					<!-- Resolve x:import and gather only the user-provided global params and
 						variables -->
 					<xsl:sequence select="x:resolve-import(.)" />
+
+					<!-- Always disable SchXslt metadata generation in SVRL -->
+					<xsl:element name="{x:xspec-name('param', .)}" namespace="{$x:xspec-namespace}">
+						<xsl:attribute name="as" select="x:known-UQName('xs:boolean')" />
+						<xsl:attribute name="name" select="'schxslt.compile.metadata'" />
+						<xsl:attribute name="select" select="'false()'" />
+					</xsl:element>
 				</xsl:element>
 			</xsl:variable>
 

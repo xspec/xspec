@@ -28,7 +28,7 @@
   </xsl:template>
 
   <!-- Message templates -->
-  <xsl:template match="node() | @*" mode="schxslt:message-template">
+  <xsl:template match="node() | @*" mode="schxslt:message-template" priority="-10">
     <xsl:copy>
       <xsl:apply-templates mode="#current"/>
     </xsl:copy>
