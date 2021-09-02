@@ -391,8 +391,6 @@
 
       <xsl:variable name="imports" as="document-node()*"
          select="document($stylesheets/*/(xsl:import|xsl:include)/@href)" />
-      <xsl:variable name="new-stylesheets" as="document-node()*"
-         select="$stylesheets | $imports" />
       <xsl:choose>
          <xsl:when test="$imports except $stylesheets">
             <xsl:sequence select="local:collect-stylesheets($stylesheets | $imports)" />
