@@ -8,6 +8,7 @@
 			<x:label><![CDATA[
 				- The built-in preprocessor, not $ACTUAL-PREPROCESSOR-URI, should be imported.
 				- /x:description/x:param should be transformed into /xsl:stylesheet/xsl:param.
+				- SchXslt metadata generation in SVRL should be disabled.
 			]]></x:label>
 			<xsl:stylesheet exclude-result-prefixes="#all" version="3.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
@@ -18,6 +19,8 @@
 					</xsl:document>
 				</xsl:variable>
 				<xsl:param name="Q{{}}phase" select="..." />
+				<xsl:param as="Q{{http://www.w3.org/2001/XMLSchema}}boolean"
+					name="Q{{}}schxslt.compile.metadata" select="false()" />
 			</xsl:stylesheet>
 		</x:expect>
 	</x:scenario>
