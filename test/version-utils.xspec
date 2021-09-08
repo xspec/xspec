@@ -9,6 +9,11 @@
 			<x:expect label="Greater than or equal to 9.9.0.0"
 				test="$x:saxon-version ge x:pack-version((9, 9))" />
 			<x:expect label="Less than 11.0" test="$x:saxon-version lt x:pack-version(11)" />
+			<x:expect
+				label="Lower uint32 should be zero on Saxon 10+ (two-part version numbers rather than four-part)"
+				test="
+					($x:saxon-version lt x:pack-version(10))
+					or not($x:saxon-version mod 4294967296 (:0x100000000:))" />
 		</x:scenario>
 	</x:scenario>
 
