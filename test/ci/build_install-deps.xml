@@ -20,9 +20,14 @@
 		<dirname file="${env.SAXON_JAR}" property="saxon.jar.dir" />
 		<mkdir dir="${saxon.jar.dir}" />
 
-		<download dest="${env.SAXON_JAR}"
-			src="https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${env.SAXON_VERSION}/Saxon-HE-${env.SAXON_VERSION}.jar"
-		 />
+		<condition
+			else="https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${env.SAXON_VERSION}/Saxon-HE-${env.SAXON_VERSION}.jar"
+			property="saxon.jar.url"
+			value="https://dev.saxonica.com/maven/net/sf/saxon/Saxon-HE/${env.SAXON_VERSION}/Saxon-HE-${env.SAXON_VERSION}.jar">
+			<equals arg1="${env.SAXON_VERSION}" arg2="10.6" />
+		</condition>
+
+		<download dest="${env.SAXON_JAR}" src="${saxon.jar.url}" />
 	</target>
 
 	<target name="xml-resolver">
