@@ -7,6 +7,8 @@
 		@run-as=import.
 	-->
 
+	<x:helper stylesheet="../src/common/version-utils.xsl" />
+
 	<x:scenario label="should be err:XTDE1480 due to outer xsl:variable" shared="yes">
 		<x:expect label="code" select="xs:QName('err:XTDE1480')" test="?err?code" />
 		<x:expect label="description"
@@ -24,7 +26,11 @@
 		<x:scenario label="[empty(@href)]">
 			<x:call template="no-href" />
 			<x:like label="should be err:XTDE1480 due to outer xsl:variable" />
-			<x:expect label="line-number" select="19" test="?err?line-number" />
+			<x:expect label="line-number" select="
+					if ($x:saxon-version ge x:pack-version((10, 6))) then
+						18
+					else
+						19" test="?err?line-number" />
 		</x:scenario>
 	</x:scenario>
 
